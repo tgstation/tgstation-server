@@ -12,9 +12,9 @@ artifacts:
 install:
   - choco install fciv
 before_build:
-  - nuget restore tools/tgstation-server-3/TGStationServer3.sln
+  - nuget TGStationServer3.sln
 build:
-  project: tools/tgstation-server-3/TGStationServer3.sln
+  project: TGStationServer3.sln
   parallel: true
   verbosity: minimal
 after_build:
