@@ -10,7 +10,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 
 
 ## Install
-1. Either compile from source (requires .NET Framework 4.5.2, Nuget, and WiX toolset 4.0) or download the latest release from github
+1. Either compile from source (requires .NET Framework 4.5.2, Nuget, and WiX toolset 4.0) or download the latest [release from github](https://github.com/tgstation/tgstation-server-tools/releases)
 1. Run the installer
 
 ## Install (GUI):
