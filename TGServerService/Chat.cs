@@ -156,7 +156,7 @@ namespace TGServerService
 						return "Usage: namecheck <target>";
 					return NameCheck(parameters[0], speaker);
 				case "kek":
-					return SendMessage("kek");
+					return "kek";
 			}
 			return "Unknown command: " + command;
 		}
