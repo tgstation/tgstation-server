@@ -26,7 +26,7 @@ deploy:
   description: 'The /tg/station server suite'
   provider: GitHub
   auth_token:
-    secure: 9Yf+FtoE7nf36V3dyVRANkNZ7og4dp/0uojCS51vrvIeNOTIM8Nq24lylgVBOhSL
+    secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
   artifact: TGS3,MD5SHA1
   draft: false
   prerelease: false
