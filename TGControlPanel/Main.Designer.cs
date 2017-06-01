@@ -165,6 +165,7 @@
             this.WorldStatusChecker = new System.ComponentModel.BackgroundWorker();
             this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
             this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
+            this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
             this.Panels.SuspendLayout();
             this.RepoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
@@ -1829,6 +1830,10 @@
             // 
             this.FullUpdateWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FullUpdateWorker_DoWork);
             // 
+            // ServerStartBGW
+            // 
+            this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2003,6 +2008,7 @@
 		private System.Windows.Forms.Label SecurityTitle;
 		private System.Windows.Forms.Label VisibilityTitle;
 		private System.Windows.Forms.ComboBox VisibilitySelector;
-	}
+        private System.ComponentModel.BackgroundWorker ServerStartBGW;
+    }
 }
 
