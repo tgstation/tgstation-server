@@ -9,8 +9,9 @@ del /S /F /Q gamecode\%AB%\ >nul 2>nul
 
 echo Copying files
 xcopy gitrepo gamecode\%AB% /Y /X /K /R /H /I /C /V /E /Q /EXCLUDE:copyexclude.txt >nul
-mkdir gamecode\%AB%\.git\logs
+mkdir gamecode\%AB%\.git\logs\refs\remotes\origin
 copy gitrepo\.git\logs\HEAD gamecode\%AB%\.git\logs\HEAD /D /V /Y >nul
+copy gitrepo\.git\logs\refs\remotes\origin\master gamecode\%AB%\.git\logs\refs\remotes\origin\master /D /V /Y >nul
 
 mklink gamecode\%AB%\nudge.py ..\..\bot\nudge.py >nul
 rmdir /q gamecode\%AB%\data >nul 2>nul
