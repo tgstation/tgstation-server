@@ -155,6 +155,8 @@ namespace TGServerService
 					if (parameters.Count < 1)
 						return "Usage: namecheck <target>";
 					return NameCheck(parameters[0], speaker);
+				case "kek":
+					return "kek";
 			}
 			return "Unknown command: " + command;
 		}
