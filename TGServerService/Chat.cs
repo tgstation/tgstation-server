@@ -304,7 +304,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				return e.ToString()
+				return e.ToString();
 			}
 		}
 
