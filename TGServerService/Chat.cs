@@ -268,36 +268,43 @@ namespace TGServerService
 		//public api
 		public string SetProviderInfo(TGChatSetupInfo info)
 		{
-			lock (ChatLock)
+			try
 			{
-				var Serializer = new JavaScriptSerializer();
-				var rawdata = Serializer.Serialize(info.DataFields);
-				var Config = Properties.Settings.Default;
-				Config.ChatProvider = (int)info.Provider;
-				Config.ChatProviderData = rawdata;
-				
-				byte[] plaintext = Encoding.UTF8.GetBytes(rawdata);
-
-				// Generate additional entropy (will be used as the Initialization vector)
-				byte[] entropy = new byte[20];
-				using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+				lock (ChatLock)
 				{
-					rng.GetBytes(entropy);
-				}
+					var Serializer = new JavaScriptSerializer();
+					var rawdata = Serializer.Serialize(info.DataFields);
+					var Config = Properties.Settings.Default;
+					Config.ChatProvider = (int)info.Provider;
+					Config.ChatProviderData = rawdata;
 
-				byte[] ciphertext = ProtectedData.Protect(plaintext, entropy, DataProtectionScope.CurrentUser);
-				
-				Config.ChatProviderEntropy = Convert.ToBase64String(entropy, 0, entropy.Length);
-				Config.ChatProviderData = Convert.ToBase64String(ciphertext, 0, ciphertext.Length);
-				
-				if (info.Provider == currentProvider)
-					return ChatProvider.SetProviderInfo(info);
-				else
-				{
-					DisposeChat();
-					InitChat(info);
-					return null;
+					byte[] plaintext = Encoding.UTF8.GetBytes(rawdata);
+
+					// Generate additional entropy (will be used as the Initialization vector)
+					byte[] entropy = new byte[20];
+					using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+					{
+						rng.GetBytes(entropy);
+					}
+
+					byte[] ciphertext = ProtectedData.Protect(plaintext, entropy, DataProtectionScope.CurrentUser);
+
+					Config.ChatProviderEntropy = Convert.ToBase64String(entropy, 0, entropy.Length);
+					Config.ChatProviderData = Convert.ToBase64String(ciphertext, 0, ciphertext.Length);
+
+					if (info.Provider == currentProvider)
+						return ChatProvider.SetProviderInfo(info);
+					else
+					{
+						DisposeChat();
+						InitChat(info);
+						return null;
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				return e.ToString()
 			}
 		}
 
