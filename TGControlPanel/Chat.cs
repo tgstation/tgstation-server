@@ -131,10 +131,6 @@ namespace TGControlPanel
 		private void ChatApplyButton_Click(object sender, EventArgs e)
 		{
 			var Chat = Server.GetComponent<ITGChat>();
-			
-			Chat.SetChannels(SplitByLine(ChatChannelsTextBox), AdminChannelText.Text);
-			Chat.SetAdmins(SplitByLine(ChatAdminsTextBox));
-			Chat.SetEnabled(ChatEnabledCheckbox.Checked);
 
 			string res;
 			switch (modifyingProvider)
@@ -158,6 +154,10 @@ namespace TGControlPanel
 
 			if (res != null)
 				MessageBox.Show(res);
+			
+			Chat.SetChannels(SplitByLine(ChatChannelsTextBox), AdminChannelText.Text);
+			Chat.SetAdmins(SplitByLine(ChatAdminsTextBox));
+			Chat.SetEnabled(ChatEnabledCheckbox.Checked);
 
 			LoadChatPage();
 		}
