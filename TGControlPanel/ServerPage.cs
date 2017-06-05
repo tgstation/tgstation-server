@@ -33,16 +33,16 @@ namespace TGControlPanel
 			ServerPathTextbox.KeyDown += ServerPathTextbox_KeyDown;
 			projectNameText.LostFocus += ProjectNameText_LostFocus;
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
-            ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
+			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
 		}
-        
-        private void ServerStartBGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Result != null)
-                MessageBox.Show((string)e.Result);
-        }
+		
+		private void ServerStartBGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Result != null)
+				MessageBox.Show((string)e.Result);
+		}
 
-        private void ProjectNameText_KeyDown(object sender, KeyEventArgs e)
+		private void ProjectNameText_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
 				UpdateProjectName();
@@ -310,23 +310,23 @@ namespace TGControlPanel
 		}
 		private void ServerStartButton_Click(object sender, System.EventArgs e)
 		{
-            if(!ServerStartBGW.IsBusy)
-                ServerStartBGW.RunWorkerAsync();
-        }
+			if(!ServerStartBGW.IsBusy)
+				ServerStartBGW.RunWorkerAsync();
+		}
 
-        private void ServerStartBGW_DoWork(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                e.Result = Server.GetComponent<ITGDreamDaemon>().Start();
-            }
-            catch (Exception ex)
-            {
-                e.Result = ex.ToString();
-            }
-        }
+		private void ServerStartBGW_DoWork(object sender, DoWorkEventArgs e)
+		{
+			try
+			{
+				e.Result = Server.GetComponent<ITGDreamDaemon>().Start();
+			}
+			catch (Exception ex)
+			{
+				e.Result = ex.ToString();
+			}
+		}
 
-        private void ServerStopButton_Click(object sender, System.EventArgs e)
+		private void ServerStopButton_Click(object sender, System.EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will immediately shut down the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
