@@ -115,8 +115,8 @@ namespace TGControlPanel
 				var res = Server.GetComponent<ITGChat>().SetProviderInfo(new TGDiscordSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
-                LoadChatPage();
-            }
+				LoadChatPage();
+			}
 		}
 
 		private void IRCProviderSwitch_CheckedChanged(object sender, EventArgs e)
@@ -126,8 +126,8 @@ namespace TGControlPanel
 				var res = Server.GetComponent<ITGChat>().SetProviderInfo(new TGIRCSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
-                LoadChatPage();
-            }
+				LoadChatPage();
+			}
 		}
 
 		private void ChatApplyButton_Click(object sender, EventArgs e)
