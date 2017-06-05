@@ -147,7 +147,11 @@ namespace TGControlPanel
 				return;
 			}
 
-			AutostartCheckbox.Checked = DD.Autostart();
+            var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
+            ServerGStopButton.Enabled = Online;
+            ServerGRestartButton.Enabled = Online;
+
+            AutostartCheckbox.Checked = DD.Autostart();
 			if (!PortSelector.Focused)
 				PortSelector.Value = DD.Port();
 			if (!projectNameText.Focused)
