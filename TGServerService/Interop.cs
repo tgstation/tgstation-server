@@ -26,8 +26,8 @@ namespace TGServerService
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
 		const string SCIRCCheck = "irc_check";  //returns game stats
 		const string SCIRCStatus = "irc_status";	//returns admin stats
-		const string SCNameCheck = "namecheck";	//returns keywords lookup
-		const string SCAdminPM = "adminmsg";	//pms a target ckey
+		const string SCNameCheck = "namecheck"; //returns keywords lookup
+        const string SCAdminPM = "adminmsg";	//pms a target ckey
 		const string SCAdminWho = "adminwho";	//lists admins
 
 		//raw command string sent here via world.ExportService
@@ -42,8 +42,7 @@ namespace TGServerService
 					SendMessage("GAME: " + String.Join(" ", splits));
 					break;
 				case "killme":
-					//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
-					ThreadPool.QueueUserWorkItem(_ => { Restart(); });
+                    KillMe();
 					break;
 				case "send2irc":
 					splits.RemoveAt(0);
