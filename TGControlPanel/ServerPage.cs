@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using TGServiceInterface;
 
@@ -32,6 +33,13 @@ namespace TGControlPanel
 			ServerPathTextbox.KeyDown += ServerPathTextbox_KeyDown;
 			projectNameText.LostFocus += ProjectNameText_LostFocus;
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
+			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
+		}
+		
+		private void ServerStartBGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Result != null)
+				MessageBox.Show((string)e.Result);
 		}
 
 		private void ProjectNameText_KeyDown(object sender, KeyEventArgs e)
@@ -46,7 +54,7 @@ namespace TGControlPanel
 				UpdateServerPath();
 		}
 
-		private void FullUpdateWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		private void FullUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			if (updateError != null)
 				MessageBox.Show(updateError);
@@ -58,7 +66,7 @@ namespace TGControlPanel
 			ServerTimer.Start();
 		}
 
-		private void WorldStatusChecker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		private void WorldStatusChecker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			if (DDStatusString != "Topic recieve error!" || ServerStatusLabel.Text == "OFFLINE")
 				ServerStatusLabel.Text = DDStatusString;
@@ -274,7 +282,7 @@ namespace TGControlPanel
 			LoadServerPage();
 		}
 		//because of lol byond this can take some time...
-		private void WorldStatusChecker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		private void WorldStatusChecker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			try
 			{
@@ -302,9 +310,20 @@ namespace TGControlPanel
 		}
 		private void ServerStartButton_Click(object sender, System.EventArgs e)
 		{
-			var res = Server.GetComponent<ITGDreamDaemon>().Start();
-			if (res != null)
-				MessageBox.Show(res);
+			if(!ServerStartBGW.IsBusy)
+				ServerStartBGW.RunWorkerAsync();
+		}
+
+		private void ServerStartBGW_DoWork(object sender, DoWorkEventArgs e)
+		{
+			try
+			{
+				e.Result = Server.GetComponent<ITGDreamDaemon>().Start();
+			}
+			catch (Exception ex)
+			{
+				e.Result = ex.ToString();
+			}
 		}
 
 		private void ServerStopButton_Click(object sender, System.EventArgs e)
@@ -342,7 +361,7 @@ namespace TGControlPanel
 				return;
 			Server.GetComponent<ITGDreamDaemon>().RequestRestart();
 		}
-		private void FullUpdateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		private void FullUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var Updater = Server.GetComponent<ITGServerUpdater>();
 			switch (fuAction)
