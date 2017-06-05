@@ -10,12 +10,12 @@ namespace TGServerService
 	//It's not possible to actually click it while starting it in CL mode, so in order to change visibility etc. It restarts the process when the round ends
 	partial class TGStationServer : ITGDreamDaemon
 	{
-        enum ShutdownRequestPhase
-        {
-            None,
-            Requested,
-            Pinged,
-        }
+		enum ShutdownRequestPhase
+		{
+			None,
+			Requested,
+			Pinged,
+		}
 
 		const int DDHangStartTime = 60;
 		const int DDBadStartTime = 10;
@@ -33,7 +33,7 @@ namespace TGServerService
 		TGDreamDaemonSecurity StartingSecurity;
 		TGDreamDaemonVisibility StartingVisiblity;
 
-        ShutdownRequestPhase AwaitingShutdown;
+		ShutdownRequestPhase AwaitingShutdown;
 
 		//Only need 1 proc instance
 		void InitDreamDaemon()
@@ -85,8 +85,8 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
-                if(AwaitingShutdown == ShutdownRequestPhase.None)
-				    AwaitingShutdown = ShutdownRequestPhase.Pinged;
+				if(AwaitingShutdown == ShutdownRequestPhase.None)
+					AwaitingShutdown = ShutdownRequestPhase.Pinged;
 			}
 			SendCommand(SCGracefulShutdown);
 		}
@@ -120,22 +120,22 @@ namespace TGServerService
 			}
 		}
 
-        //handle a kill request from the server
-        public void KillMe()
-        {
-            bool DoRestart;
-            lock (watchdogLock)
-            {
-                DoRestart = AwaitingShutdown == ShutdownRequestPhase.None;
-                if (!DoRestart)
-                    AwaitingShutdown = ShutdownRequestPhase.Pinged;
-            }
-            //Do this is a seperate thread or we'll kill this thread in the middle of rebooting
-            if (DoRestart)
-                ThreadPool.QueueUserWorkItem(_ => { Restart(); });
-            else
-                ThreadPool.QueueUserWorkItem(_ => { Stop(); });
-        }
+		//handle a kill request from the server
+		public void KillMe()
+		{
+			bool DoRestart;
+			lock (watchdogLock)
+			{
+				DoRestart = AwaitingShutdown == ShutdownRequestPhase.None;
+				if (!DoRestart)
+					AwaitingShutdown = ShutdownRequestPhase.Pinged;
+			}
+			//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
+			if (DoRestart)
+				ThreadPool.QueueUserWorkItem(_ => { Restart(); });
+			else
+				ThreadPool.QueueUserWorkItem(_ => { Stop(); });
+		}
 
 		//public api
 		public string Restart()
@@ -176,11 +176,11 @@ namespace TGServerService
 				{
 					var starttime = DateTime.Now;
 
-                    lock (watchdogLock)
-                    {
-                        if (AwaitingShutdown == ShutdownRequestPhase.Requested)
-                            SendCommand(SCGracefulShutdown);
-                    }
+					lock (watchdogLock)
+					{
+						if (AwaitingShutdown == ShutdownRequestPhase.Requested)
+							SendCommand(SCGracefulShutdown);
+					}
 
 					Proc.WaitForExit();
 
@@ -191,8 +191,8 @@ namespace TGServerService
 						Proc.Close();
 						ShutdownInterop();
 
-                        if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
-                            return;
+						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
+							return;
 
 						if ((DateTime.Now - starttime).Seconds < DDBadStartTime)
 						{							
