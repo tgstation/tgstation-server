@@ -217,6 +217,7 @@ namespace TGControlPanel
 			}
 			catch (Exception ex)
 			{
+				ServerTimer.Stop();
 				Program.ServiceDisconnectException(ex);
 			}
 		}
