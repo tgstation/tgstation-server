@@ -130,6 +130,9 @@ namespace TGControlPanel
 			if (!ServerPathTextbox.Focused)
 				ServerPathTextbox.Text = Config.ServerDirectory();
 
+			VisibilitySelector.SelectedIndex = (int)DD.VisibilityLevel();
+			SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
+
 			if (!RepoExists)
 			{
 				updatingFields = false;
@@ -141,9 +144,6 @@ namespace TGControlPanel
 				PortSelector.Value = DD.Port();
 			if (!projectNameText.Focused)
 				projectNameText.Text = DM.ProjectName();
-
-			VisibilitySelector.SelectedIndex = (int)DD.VisibilityLevel();
-			SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
 
 			var val = Config.InteropPort(out string error);
 			if (error != null)
