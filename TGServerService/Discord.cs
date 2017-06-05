@@ -162,14 +162,26 @@ namespace TGServerService
 			//noop
 		}
 
+        void DisconnectAndDispose()
+        {
+            try
+            {
+                client.Disconnect().Wait();
+            }
+            catch (Exception e) {
+                TGServerService.WriteLog("Discord failed DnD: " + e.ToString());
+            }
+            client.Dispose();
+        }
+
 		public string SetProviderInfo(TGChatSetupInfo info)
 		{
 			try
 			{
 				lock (DiscordLock)
-				{
-					client.Dispose();
-					Init(info);
+                {
+                    DisconnectAndDispose();
+                    Init(info);
 					if(Properties.Settings.Default.ChatEnabled)
 						Connect();
 				}
@@ -190,7 +202,7 @@ namespace TGServerService
 			{
 				if (disposing)
 				{
-					client.Dispose();
+                    DisconnectAndDispose();
 					// TODO: dispose managed state (managed objects).
 				}
 
