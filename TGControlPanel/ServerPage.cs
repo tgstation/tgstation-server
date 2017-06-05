@@ -147,6 +147,10 @@ namespace TGControlPanel
 				return;
 			}
 
+            var ShuttingDown = DD.ShutdownInProgress();
+            ServerGStopButton.Checked = ShuttingDown;
+            ServerGStopButton.Enabled = !ShuttingDown;
+                
 			AutostartCheckbox.Checked = DD.Autostart();
 			if (!PortSelector.Focused)
 				PortSelector.Value = DD.Port();
@@ -326,7 +330,7 @@ namespace TGControlPanel
 			}
 		}
 
-		private void ServerStopButton_Click(object sender, System.EventArgs e)
+		private void ServerStopButton_Click(object sender, EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will immediately shut down the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
@@ -336,7 +340,7 @@ namespace TGControlPanel
 				MessageBox.Show(res);
 		}
 
-		private void ServerRestartButton_Click(object sender, System.EventArgs e)
+		private void ServerRestartButton_Click(object sender, EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will immediately restart the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
@@ -346,15 +350,18 @@ namespace TGControlPanel
 				MessageBox.Show(res);
 		}
 
-		private void ServerGStopButton_Click(object sender, System.EventArgs e)
+		private void ServerGStopButton_Checked(object sender, EventArgs e)
 		{
+            if (updatingFields)
+                return;
 			var DialogResult = MessageBox.Show("This will shut down the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
 			Server.GetComponent<ITGDreamDaemon>().RequestStop();
+            LoadServerPage();
 		}
 
-		private void ServerGRestartButton_Click(object sender, System.EventArgs e)
+		private void ServerGRestartButton_Click(object sender, EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will restart the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
