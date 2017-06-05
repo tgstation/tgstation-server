@@ -29,6 +29,6 @@ deploy:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
   artifact: TGS3,MD5SHA1
   draft: false
-  prerelease: false
+  prerelease: true
   on:
     TGSDeploy: "Do it."
