@@ -184,5 +184,12 @@ namespace TGServiceInterface
 		/// <param name="on">true to start the watchdog with the service, false otherwise</param>
 		[OperationContract]
 		void SetAutostart(bool on);
+
+        /// <summary>
+        /// Checks if a server stop has bee requested
+        /// </summary>
+        /// <returns>true if RequestStop has been called since the last server start, false otherwise</returns>
+        [OperationContract]
+        bool ShutdownInProgress();
 	}
 }

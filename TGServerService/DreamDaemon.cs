@@ -429,9 +429,19 @@ namespace TGServerService
 			return res;
 		}
 
+        //public api
 		public ushort Port()
 		{
 			return Properties.Settings.Default.ServerPort;
 		}
+
+        //public api
+        public bool ShutdownInProgress()
+        {
+            lock (watchdogLock)
+            {
+                return AwaitingShutdown;
+            }
+        }
 	}
 }
