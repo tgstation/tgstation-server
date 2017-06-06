@@ -77,6 +77,8 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
+				if (currentStatus != TGDreamDaemonStatus.Online)
+					return;
 				AwaitingShutdown = true;
 			}
 			SendCommand(SCGracefulShutdown);
