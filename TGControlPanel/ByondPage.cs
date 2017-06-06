@@ -116,6 +116,7 @@ namespace TGControlPanel
 			}
 			catch (Exception ex)
 			{
+				BYONDTimer.Stop();
 				Program.ServiceDisconnectException(ex);
 			}
 		}
