@@ -140,8 +140,8 @@ namespace TGServerService
 				{
 					var tasks = new List<Task>();
 					var Config = Properties.Settings.Default;
-                    var channel = Convert.ToUInt32(channelname);
-                    if (SeenPrivateChannels.ContainsKey(channel))
+					var channel = Convert.ToUInt32(channelname);
+					if (SeenPrivateChannels.ContainsKey(channel))
 						SeenPrivateChannels[channel].SendMessage(message).Wait();
 					else
 						foreach (var I in client.Servers)
@@ -171,7 +171,7 @@ namespace TGServerService
 				{
 					client.Dispose();
 					Init(info);
-					if(Properties.Settings.Default.ChatEnabled)
+					if (Properties.Settings.Default.ChatEnabled)
 						Connect();
 				}
 				return null;
