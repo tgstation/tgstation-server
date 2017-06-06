@@ -87,7 +87,7 @@ namespace TGServiceInterface
 		/// <returns>returns the error that would occur, null otherwise</returns>
 		[OperationContract]
 		string CanStart();
-		
+
 		/// <summary>
 		/// Starts the server if it isn't running
 		/// </summary>
@@ -101,7 +101,7 @@ namespace TGServiceInterface
 		/// <returns>null on success or error message on failure</returns>
 		[OperationContract]
 		string Stop();
-		
+
 		/// <summary>
 		/// Immediately kills and restarts the server
 		/// </summary>
@@ -184,5 +184,12 @@ namespace TGServiceInterface
 		/// <param name="on">true to start the watchdog with the service, false otherwise</param>
 		[OperationContract]
 		void SetAutostart(bool on);
+
+		/// <summary>
+		/// Checks if a server stop has bee requested
+		/// </summary>
+		/// <returns>true if RequestStop has been called since the last server start, false otherwise</returns>
+		[OperationContract]
+		bool ShutdownInProgress();
 	}
 }
