@@ -13,7 +13,7 @@ namespace TGServerService
 		TGDiscordSetupInfo DiscordConfig;
 		object DiscordLock = new object();
 
-		IDictionary<string, Channel> SeenPrivateChannels = new Dictionary<string, Channel>();
+		IDictionary<ulong, Channel> SeenPrivateChannels = new Dictionary<ulong, Channel>();
 
 		public TGDiscordChatProvider(TGChatSetupInfo info)
 		{
@@ -33,9 +33,9 @@ namespace TGServerService
 			if (!isValidChannel)
 				return;
 
-			var tagged = e.Channel.IsPrivate && e.User.Name != client.CurrentUser.Name;
-			if (tagged && !SeenPrivateChannels.ContainsKey(e.Channel.Name))
-				SeenPrivateChannels.Add(e.Channel.Name, e.Channel);
+			var tagged = e.Channel.IsPrivate && e.User.Id != client.CurrentUser.Id;
+			if (tagged && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
+				SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
 
 			var splits = new List<string>(e.Message.Text.Trim().Split(' '));
 			if (splits[0] == "@" + client.CurrentUser.Name)
@@ -43,7 +43,7 @@ namespace TGServerService
 				splits.RemoveAt(0);
 				tagged = true;
 			}
-			OnChatMessage(e.User.Name, e.Channel.Name, String.Join(" ", splits), tagged);
+			OnChatMessage(e.User.Id.ToString(), e.Channel.Id.ToString(), String.Join(" ", splits), tagged);
 		}
 
 		public string Connect()
@@ -132,7 +132,7 @@ namespace TGServerService
 			}
 		}
 
-		public string SendMessageDirect(string message, string channel)
+		public string SendMessageDirect(string message, string channelname)
 		{
 			try
 			{
@@ -140,12 +140,13 @@ namespace TGServerService
 				{
 					var tasks = new List<Task>();
 					var Config = Properties.Settings.Default;
-					if (SeenPrivateChannels.ContainsKey(channel))
+                    var channel = Convert.ToUInt32(channelname);
+                    if (SeenPrivateChannels.ContainsKey(channel))
 						SeenPrivateChannels[channel].SendMessage(message).Wait();
 					else
 						foreach (var I in client.Servers)
 							foreach (var J in I.TextChannels)
-								if (J.Name == channel)
+								if (J.Id == channel)
 									J.SendMessage(message).Wait();
 					TGServerService.WriteLog(String.Format("Discord Send ({0}): {1}", channel, message));
 					return null;
@@ -162,13 +163,25 @@ namespace TGServerService
 			//noop
 		}
 
+		void DisconnectAndDispose()
+		{
+			try
+			{
+				client.Disconnect().Wait();
+			}
+			catch (Exception e) {
+				TGServerService.WriteLog("Discord failed DnD: " + e.ToString());
+			}
+			client.Dispose();
+		}
+
 		public string SetProviderInfo(TGChatSetupInfo info)
 		{
 			try
 			{
 				lock (DiscordLock)
 				{
-					client.Dispose();
+					DisconnectAndDispose();
 					Init(info);
 					if(Properties.Settings.Default.ChatEnabled)
 						Connect();
@@ -190,7 +203,7 @@ namespace TGServerService
 			{
 				if (disposing)
 				{
-					client.Dispose();
+					DisconnectAndDispose();
 					// TODO: dispose managed state (managed objects).
 				}
 

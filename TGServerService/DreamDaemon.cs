@@ -10,6 +10,13 @@ namespace TGServerService
 	//It's not possible to actually click it while starting it in CL mode, so in order to change visibility etc. It restarts the process when the round ends
 	partial class TGStationServer : ITGDreamDaemon
 	{
+		enum ShutdownRequestPhase
+		{
+			None,
+			Requested,
+			Pinged,
+		}
+
 		const int DDHangStartTime = 60;
 		const int DDBadStartTime = 10;
 
@@ -22,10 +29,11 @@ namespace TGServerService
 
 		object restartLock = new object();
 		bool RestartInProgress = false;
-		bool AwaitingShutdown = false;
 
 		TGDreamDaemonSecurity StartingSecurity;
 		TGDreamDaemonVisibility StartingVisiblity;
+
+		ShutdownRequestPhase AwaitingShutdown;
 
 		//Only need 1 proc instance
 		void InitDreamDaemon()
@@ -77,7 +85,8 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
-				AwaitingShutdown = true;
+				if(AwaitingShutdown == ShutdownRequestPhase.None)
+					AwaitingShutdown = ShutdownRequestPhase.Pinged;
 			}
 			SendCommand(SCGracefulShutdown);
 		}
@@ -109,6 +118,23 @@ namespace TGServerService
 				Properties.Settings.Default.ServerPort = new_port;
 				RequestRestart();
 			}
+		}
+
+		//handle a kill request from the server
+		public void KillMe()
+		{
+			bool DoRestart;
+			lock (watchdogLock)
+			{
+				DoRestart = AwaitingShutdown == ShutdownRequestPhase.None;
+				if (!DoRestart)
+					AwaitingShutdown = ShutdownRequestPhase.Pinged;
+			}
+			//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
+			if (DoRestart)
+				ThreadPool.QueueUserWorkItem(_ => { Restart(); });
+			else
+				ThreadPool.QueueUserWorkItem(_ => { Stop(); });
 		}
 
 		//public api
@@ -149,6 +175,13 @@ namespace TGServerService
 				while (true)
 				{
 					var starttime = DateTime.Now;
+
+					lock (watchdogLock)
+					{
+						if (AwaitingShutdown == ShutdownRequestPhase.Requested)
+							SendCommand(SCGracefulShutdown);
+					}
+
 					Proc.WaitForExit();
 
 					lock (watchdogLock)
@@ -158,7 +191,7 @@ namespace TGServerService
 						Proc.Close();
 						ShutdownInterop();
 
-						if (AwaitingShutdown)
+						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
 
 						if ((DateTime.Now - starttime).Seconds < DDBadStartTime)
@@ -203,7 +236,7 @@ namespace TGServerService
 				{
 					currentStatus = TGDreamDaemonStatus.Offline;
 					currentPort = 0;
-					AwaitingShutdown = false;
+					AwaitingShutdown = ShutdownRequestPhase.None;
 					if (!RestartInProgress)
 						SendMessage("DD: Server stopped, watchdog exiting...");
 				}
