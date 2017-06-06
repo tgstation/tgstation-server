@@ -35,7 +35,7 @@ namespace TGControlPanel
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
 			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
 		}
-		
+
 		private void ServerStartBGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			if (e.Result != null)
@@ -147,11 +147,11 @@ namespace TGControlPanel
 				return;
 			}
 
-            var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
-            ServerGStopButton.Enabled = Online;
-            ServerGRestartButton.Enabled = Online;
+			var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
+			ServerGStopButton.Enabled = Online;
+			ServerGRestartButton.Enabled = Online;
 
-            AutostartCheckbox.Checked = DD.Autostart();
+			AutostartCheckbox.Checked = DD.Autostart();
 			if (!PortSelector.Focused)
 				PortSelector.Value = DD.Port();
 			if (!projectNameText.Focused)
@@ -228,7 +228,7 @@ namespace TGControlPanel
 		{
 			UpdateProjectName();
 		}
-		
+
 		void UpdateProjectName()
 		{
 			if (!updatingFields)
@@ -237,7 +237,7 @@ namespace TGControlPanel
 
 		private void PortSelector_ValueChanged(object sender, EventArgs e)
 		{
-			if(!updatingFields)
+			if (!updatingFields)
 				Server.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
 		}
 
@@ -281,7 +281,7 @@ namespace TGControlPanel
 		}
 		private void CompileButton_Click(object sender, EventArgs e)
 		{
-			if(!Server.GetComponent<ITGCompiler>().Compile())
+			if (!Server.GetComponent<ITGCompiler>().Compile())
 				MessageBox.Show("Unable to start compilation!");
 			LoadServerPage();
 		}
@@ -309,12 +309,12 @@ namespace TGControlPanel
 
 		private void AutostartCheckbox_CheckedChanged(object sender, System.EventArgs e)
 		{
-			if(!updatingFields)
+			if (!updatingFields)
 				Server.GetComponent<ITGDreamDaemon>().SetAutostart(AutostartCheckbox.Checked);
 		}
 		private void ServerStartButton_Click(object sender, System.EventArgs e)
 		{
-			if(!ServerStartBGW.IsBusy)
+			if (!ServerStartBGW.IsBusy)
 				ServerStartBGW.RunWorkerAsync();
 		}
 
@@ -427,7 +427,7 @@ namespace TGControlPanel
 		private void VisibilitySelector_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if(!Server.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
+				if (!Server.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
 					MessageBox.Show("Visibility change will be applied after next server reboot.");
 		}
 	}
