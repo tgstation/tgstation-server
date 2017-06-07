@@ -56,16 +56,16 @@ namespace TGCommandLine
 			var res = Server.VerifyConnection();
 			if (res != null)
 			{
-				Console.WriteLine("Unable to connect to service!");
+				Console.WriteLine("Unable to connect to service: " + res);
 				return ExitCode.ConnectionError;
 			}
 			try
 			{
 				return new RootCommand().Run(argsAsList);
 			}
-			catch
+			catch (Exception e)
 			{
-				Console.WriteLine("Service connection interrupted!");
+				Console.WriteLine("Error: " + e.ToString());
 				return ExitCode.ConnectionError;
 			};
 		}
