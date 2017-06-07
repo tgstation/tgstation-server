@@ -16,51 +16,55 @@ namespace TGServerService
 			ActiveService.EventLog.WriteEntry(message, type);
 		}
 
+		public static void LocalStop()
+		{
+			ActiveService.Stop();
+		}
+
 		ServiceHost host;	//the WCF host
 		
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
 		{
-			if (Properties.Settings.Default.UpgradeRequired)
+			try
 			{
-				Properties.Settings.Default.Upgrade();
-				Properties.Settings.Default.UpgradeRequired = false;
+				if (Properties.Settings.Default.UpgradeRequired)
+				{
+					Properties.Settings.Default.Upgrade();
+					Properties.Settings.Default.UpgradeRequired = false;
+					Properties.Settings.Default.Save();
+				}
+				InitializeComponent();
+				ActiveService = this;
+				Run(this);
+			}
+			finally
+			{
 				Properties.Settings.Default.Save();
 			}
-			InitializeComponent();
-			Run(this);
 		}
 
 		//when babby is formed
 		protected override void OnStart(string[] args)
 		{
-			ActiveService = this;
-			try
+			var Config = Properties.Settings.Default;
+			if (!Directory.Exists(Config.ServerDirectory))
 			{
-				var Config = Properties.Settings.Default;
-				if (!Directory.Exists(Config.ServerDirectory))
-				{
-					EventLog.WriteEntry("Creating server directory: " + Config.ServerDirectory);
-					Directory.CreateDirectory(Config.ServerDirectory);
-				}
-				Environment.CurrentDirectory = Config.ServerDirectory;
-
-				host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
-				{
-					CloseTimeout = new TimeSpan(0, 0, 5)
-				}; //construction runs here
-
-				foreach (var I in Server.ValidInterfaces)
-					AddEndpoint(I);
-
-				host.Open();	//...or maybe here, doesn't really matter
+				EventLog.WriteEntry("Creating server directory: " + Config.ServerDirectory);
+				Directory.CreateDirectory(Config.ServerDirectory);
 			}
-			catch
+			Environment.CurrentDirectory = Config.ServerDirectory;
+
+			host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
 			{
-				ActiveService = null;
-				throw;
-			}
+				CloseTimeout = new TimeSpan(0, 0, 5)
+			}; //construction runs here
+
+			foreach (var I in Server.ValidInterfaces)
+				AddEndpoint(I);
+
+			host.Open();    //...or maybe here, doesn't really matter
 		}
 
 		//shorthand for adding the WCF endpoint
@@ -78,11 +82,6 @@ namespace TGServerService
 				host = null;
 			}
 			catch { }
-			finally
-			{
-				Properties.Settings.Default.Save();
-				ActiveService = null;
-			}
 		}
 	}
 }
