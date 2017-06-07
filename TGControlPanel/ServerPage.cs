@@ -147,6 +147,10 @@ namespace TGControlPanel
 				return;
 			}
 
+			var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
+			ServerGStopButton.Enabled = Online;
+			ServerGRestartButton.Enabled = Online;
+
 			var ShuttingDown = DD.ShutdownInProgress();
 			ServerGStopButton.Checked = ShuttingDown;
 			ServerGStopButton.Enabled = !ShuttingDown;
