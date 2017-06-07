@@ -266,5 +266,17 @@ namespace TGServerService.Properties {
                 this["ReattachPID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ushort ReattachPort {
+            get {
+                return ((ushort)(this["ReattachPort"]));
+            }
+            set {
+                this["ReattachPort"] = value;
+            }
+        }
     }
 }

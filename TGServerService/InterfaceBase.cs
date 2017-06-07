@@ -86,6 +86,8 @@ namespace TGServerService
 		//public api
 		public void StopForUpdate()
 		{
+			TGServerService.WriteLog("Stopping for update!");
+			SendMessage("Stopping for update!");
 			Properties.Settings.Default.ReattachToDD = true;
 			TGServerService.LocalStop();
 		}

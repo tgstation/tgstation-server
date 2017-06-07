@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
 using System.ServiceProcess;
+using System.Threading;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -18,7 +19,7 @@ namespace TGServerService
 
 		public static void LocalStop()
 		{
-			ActiveService.Stop();
+			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
 		}
 
 		ServiceHost host;	//the WCF host

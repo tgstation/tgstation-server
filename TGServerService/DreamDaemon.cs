@@ -45,6 +45,16 @@ namespace TGServerService
 					Proc = Process.GetProcessById(Properties.Settings.Default.ReattachPID);
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
+					TGServerService.WriteLog("Reattached to running DD process!");
+					SendMessage("Update complete. Watchdog active.");
+
+					//start wd 
+					InitInterop();
+
+					currentPort = Properties.Settings.Default.ReattachPort;
+					currentStatus = TGDreamDaemonStatus.Online;
+					DDWatchdog = new Thread(new ThreadStart(Watchdog));
+					DDWatchdog.Start();
 				}
 				catch (Exception e)
 				{
@@ -246,7 +256,10 @@ namespace TGServerService
 					if (!Properties.Settings.Default.ReattachToDD)
 						Proc.Kill();
 					else
+					{
 						Properties.Settings.Default.ReattachPID = Proc.Id;
+						Properties.Settings.Default.ReattachPort = currentPort;
+					}
 					Proc.Close();
 					ShutdownInterop();
 				}

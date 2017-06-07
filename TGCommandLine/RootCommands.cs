@@ -14,8 +14,8 @@ namespace TGCommandLine
 		}
 		public RootCommand()
 		{
-			if (IsRealRoot())	//stack overflows
-				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new IRCCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new ChatCommand() };
+			if (IsRealRoot())   //stack overflows
+				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new IRCCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new ChatCommand(), new ServiceUpdateCommand() };
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
@@ -149,30 +149,32 @@ namespace TGCommandLine
 	{
 		public ServiceUpdateCommand()
 		{
-			Keyword = "service-update-hook";
+			Keyword = "service-update";
 		}
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			if (parameters.Count == 0 && parameters[0] != "--verify")
-				Console.WriteLine("Please use the --verify option to confirm this command");
+			if (parameters.Count == 0 || parameters[0] != "--verify")
+				Console.WriteLine("This command should only be used by the installer program. Please use the --verify option to confirm this command");
 			else
+			{
 				Server.GetComponent<ITGSService>().StopForUpdate();
-			//clean up open pipes
-			GC.Collect();
-			//give it some time to actually stop
-			Thread.Sleep(5000);
+				//clean up open pipes
+				GC.Collect();
+				//give it some time to actually stop
+				Thread.Sleep(5000);
+			}
 			return ExitCode.Normal;
 		}
 
 		protected override string GetArgumentString()
 		{
-			return "[--confirm]";
+			return "[--verify]";
 		}
 
 		protected override string GetHelpText()
 		{
-			return "Stops the service in preparation of an update operation.";
+			return "Internal. Stops the service in preparation of an update operation.";
 		}
 	}
 }
