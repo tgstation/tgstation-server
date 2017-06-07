@@ -8,7 +8,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGStatusCheck) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -40,7 +40,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				GetComponent<ITGStatusCheck>().VerifyConnection();
+				GetComponent<ITGSService>().VerifyConnection();
 				return null;
 			}
 			catch(Exception e)
@@ -51,16 +51,22 @@ namespace TGServiceInterface
 	}
 
 	/// <summary>
-	/// Interface for checking server status
+	/// Interface for managing the service
 	/// </summary>
 	[ServiceContract]
-	public interface ITGStatusCheck
+	public interface ITGSService
 	{
 		/// <summary>
 		/// Does nothing on the server end, but if the call completes, you can be sure you are connected. WCF won't throw until you try until you actually use the API
 		/// </summary>
 		[OperationContract]
 		void VerifyConnection();
+
+		/// <summary>
+		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
+		/// </summary>
+		[OperationContract]
+		void StopForUpdate();
 	}
 
 	/// <summary>
