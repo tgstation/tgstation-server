@@ -308,6 +308,17 @@ namespace TGServerService
 			}
 		}
 
+		//trims and adds the leading #
+		string SanitizeChannelName(string working)
+		{
+			working = working.Trim();
+			if (working.Length == 0)
+				return null;
+			if (working[0] != '#')
+				return "#" + working;
+			return working;
+		}
+
 		//public api
 		public void SetChannels(string[] channels = null, string adminchannel = null)
 		{
@@ -320,17 +331,15 @@ namespace TGServerService
 					var si = new StringCollection();
 					foreach(var c in channels)
 					{
-						var working = c.Trim();
-						if (working.Length == 0)
-							continue;
-						if (working[0] != '#')
-							working = "#" + working;
-						si.Add(working);
+						var Res = SanitizeChannelName(c);
+						if (Res != null)
+							si.Add(Res);
 					}
 					if (!si.Contains(Config.ChatAdminChannel))
 						si.Add(Config.ChatAdminChannel);
 					Config.ChatChannels = si;
 				}
+				adminchannel = SanitizeChannelName(adminchannel);
 				if (adminchannel != null)
 					Config.ChatAdminChannel = adminchannel;
 				if (channels != null && Connected())
