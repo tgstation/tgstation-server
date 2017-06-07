@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using TGServiceInterface;
 
 namespace TGCommandLine
@@ -141,6 +142,37 @@ namespace TGCommandLine
 		protected override string GetHelpText()
 		{
 			return "Merges the specified pull request and updates the server";
+		}
+	}
+
+	class ServiceUpdateCommand : Command
+	{
+		public ServiceUpdateCommand()
+		{
+			Keyword = "service-update-hook";
+		}
+
+		public override ExitCode Run(IList<string> parameters)
+		{
+			if (parameters.Count == 0 && parameters[0] != "--verify")
+				Console.WriteLine("Please use the --verify option to confirm this command");
+			else
+				Server.GetComponent<ITGSService>().StopForUpdate();
+			//clean up open pipes
+			GC.Collect();
+			//give it some time to actually stop
+			Thread.Sleep(5000);
+			return ExitCode.Normal;
+		}
+
+		protected override string GetArgumentString()
+		{
+			return "[--confirm]";
+		}
+
+		protected override string GetHelpText()
+		{
+			return "Stops the service in preparation of an update operation.";
 		}
 	}
 }
