@@ -91,7 +91,7 @@
 			this.UpdateMergeButton = new System.Windows.Forms.Button();
 			this.UpdateHardButton = new System.Windows.Forms.Button();
 			this.ServerGRestartButton = new System.Windows.Forms.Button();
-			this.ServerGStopButton = new System.Windows.Forms.Button();
+			this.ServerGStopButton = new System.Windows.Forms.CheckBox();
 			this.ServerRestartButton = new System.Windows.Forms.Button();
 			this.ServerStopButton = new System.Windows.Forms.Button();
 			this.ServerStartButton = new System.Windows.Forms.Button();
@@ -1009,13 +1009,15 @@
 			// ServerGStopButton
 			// 
 			this.ServerGStopButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.ServerGStopButton.Appearance = System.Windows.Forms.Appearance.Button;
 			this.ServerGStopButton.Location = new System.Drawing.Point(502, 54);
 			this.ServerGStopButton.Name = "ServerGStopButton";
 			this.ServerGStopButton.Size = new System.Drawing.Size(118, 28);
 			this.ServerGStopButton.TabIndex = 19;
 			this.ServerGStopButton.Text = "Graceful Stop";
+			this.ServerGStopButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.ServerGStopButton.UseVisualStyleBackColor = true;
-			this.ServerGStopButton.Click += new System.EventHandler(this.ServerGStopButton_Click);
+			this.ServerGStopButton.CheckedChanged += new System.EventHandler(this.ServerGStopButton_Checked);
 			// 
 			// ServerRestartButton
 			// 
@@ -1903,7 +1905,7 @@
 		private System.Windows.Forms.Timer WorldStatusTimer;
 		private System.Windows.Forms.CheckBox AutostartCheckbox;
 		private System.Windows.Forms.Button ServerGRestartButton;
-		private System.Windows.Forms.Button ServerGStopButton;
+		private System.Windows.Forms.CheckBox ServerGStopButton;
 		private System.Windows.Forms.Button ServerRestartButton;
 		private System.Windows.Forms.Button ServerStopButton;
 		private System.Windows.Forms.Button ServerStartButton;

@@ -85,8 +85,9 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
-				if(AwaitingShutdown == ShutdownRequestPhase.None)
-					AwaitingShutdown = ShutdownRequestPhase.Pinged;
+				if (currentStatus != TGDreamDaemonStatus.Online || AwaitingShutdown != ShutdownRequestPhase.None)
+					return;
+				AwaitingShutdown = ShutdownRequestPhase.Pinged;
 			}
 			SendCommand(SCGracefulShutdown);
 		}
@@ -195,9 +196,9 @@ namespace TGServerService
 							return;
 
 						if ((DateTime.Now - starttime).Seconds < DDBadStartTime)
-						{							
+						{
 							++retries;
-							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600);	//max of one hour
+							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
 							SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time));
 							Thread.Sleep(sleep_time * 1000);
 						}
@@ -213,7 +214,7 @@ namespace TGServerService
 						throw new Exception("Hard restart failed: " + res);
 				}
 			}
-			catch(ThreadAbortException)
+			catch (ThreadAbortException)
 			{
 				//No Mr bond, I expect you to die
 				try
@@ -462,9 +463,20 @@ namespace TGServerService
 			return res;
 		}
 
+		//public api
 		public ushort Port()
 		{
 			return Properties.Settings.Default.ServerPort;
 		}
+
+		//public api
+		public bool ShutdownInProgress()
+		{
+			lock (watchdogLock)
+			{
+				return AwaitingShutdown != ShutdownRequestPhase.None;
+			}
+		}
 	}
 }
+

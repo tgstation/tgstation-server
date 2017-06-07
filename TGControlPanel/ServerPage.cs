@@ -35,7 +35,7 @@ namespace TGControlPanel
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
 			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
 		}
-		
+
 		private void ServerStartBGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			if (e.Result != null)
@@ -147,6 +147,10 @@ namespace TGControlPanel
 				return;
 			}
 
+			var ShuttingDown = DD.ShutdownInProgress();
+			ServerGStopButton.Checked = ShuttingDown;
+			ServerGStopButton.Enabled = !ShuttingDown;
+
 			AutostartCheckbox.Checked = DD.Autostart();
 			if (!PortSelector.Focused)
 				PortSelector.Value = DD.Port();
@@ -217,6 +221,7 @@ namespace TGControlPanel
 			}
 			catch (Exception ex)
 			{
+				ServerTimer.Stop();
 				Program.ServiceDisconnectException(ex);
 			}
 		}
@@ -224,7 +229,7 @@ namespace TGControlPanel
 		{
 			UpdateProjectName();
 		}
-		
+
 		void UpdateProjectName()
 		{
 			if (!updatingFields)
@@ -233,7 +238,7 @@ namespace TGControlPanel
 
 		private void PortSelector_ValueChanged(object sender, EventArgs e)
 		{
-			if(!updatingFields)
+			if (!updatingFields)
 				Server.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
 		}
 
@@ -277,7 +282,7 @@ namespace TGControlPanel
 		}
 		private void CompileButton_Click(object sender, EventArgs e)
 		{
-			if(!Server.GetComponent<ITGCompiler>().Compile())
+			if (!Server.GetComponent<ITGCompiler>().Compile())
 				MessageBox.Show("Unable to start compilation!");
 			LoadServerPage();
 		}
@@ -305,12 +310,12 @@ namespace TGControlPanel
 
 		private void AutostartCheckbox_CheckedChanged(object sender, System.EventArgs e)
 		{
-			if(!updatingFields)
+			if (!updatingFields)
 				Server.GetComponent<ITGDreamDaemon>().SetAutostart(AutostartCheckbox.Checked);
 		}
 		private void ServerStartButton_Click(object sender, System.EventArgs e)
 		{
-			if(!ServerStartBGW.IsBusy)
+			if (!ServerStartBGW.IsBusy)
 				ServerStartBGW.RunWorkerAsync();
 		}
 
@@ -326,7 +331,7 @@ namespace TGControlPanel
 			}
 		}
 
-		private void ServerStopButton_Click(object sender, System.EventArgs e)
+		private void ServerStopButton_Click(object sender, EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will immediately shut down the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
@@ -336,7 +341,7 @@ namespace TGControlPanel
 				MessageBox.Show(res);
 		}
 
-		private void ServerRestartButton_Click(object sender, System.EventArgs e)
+		private void ServerRestartButton_Click(object sender, EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will immediately restart the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
@@ -346,15 +351,18 @@ namespace TGControlPanel
 				MessageBox.Show(res);
 		}
 
-		private void ServerGStopButton_Click(object sender, System.EventArgs e)
+		private void ServerGStopButton_Checked(object sender, EventArgs e)
 		{
+			if (updatingFields)
+				return;
 			var DialogResult = MessageBox.Show("This will shut down the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
 			Server.GetComponent<ITGDreamDaemon>().RequestStop();
+			LoadServerPage();
 		}
 
-		private void ServerGRestartButton_Click(object sender, System.EventArgs e)
+		private void ServerGRestartButton_Click(object sender, EventArgs e)
 		{
 			var DialogResult = MessageBox.Show("This will restart the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
@@ -423,7 +431,7 @@ namespace TGControlPanel
 		private void VisibilitySelector_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if(!Server.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
+				if (!Server.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
 					MessageBox.Show("Visibility change will be applied after next server reboot.");
 		}
 	}

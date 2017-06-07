@@ -119,7 +119,10 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Console.WriteLine(Server.GetComponent<ITGDreamDaemon>().StatusString(true));
+			var DD = Server.GetComponent<ITGDreamDaemon>();
+			Console.WriteLine(DD.StatusString(true));
+			if (DD.ShutdownInProgress())
+				Console.WriteLine("The server will shutdown once the current round completes.");
 			return ExitCode.Normal;
 		}
 	}

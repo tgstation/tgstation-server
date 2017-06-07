@@ -115,6 +115,7 @@ namespace TGControlPanel
 				var res = Server.GetComponent<ITGChat>().SetProviderInfo(new TGDiscordSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
+				LoadChatPage();
 			}
 		}
 
@@ -125,6 +126,7 @@ namespace TGControlPanel
 				var res = Server.GetComponent<ITGChat>().SetProviderInfo(new TGIRCSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
+				LoadChatPage();
 			}
 		}
 
