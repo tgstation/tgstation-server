@@ -46,11 +46,12 @@ namespace TGServerService
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteLog("Reattached to running DD process!");
-					SendMessage("Update complete. Watchdog active.");
-
+					SendMessage("DD: Update complete. Watchdog reactivated...");
+					
 					//start wd 
 					InitInterop();
 
+					RestartInProgress = true;
 					currentPort = Properties.Settings.Default.ReattachPort;
 					currentStatus = TGDreamDaemonStatus.Online;
 					DDWatchdog = new Thread(new ThreadStart(Watchdog));
@@ -91,6 +92,8 @@ namespace TGServerService
 					WorldAnnounce("Server service stopped");
 					Thread.Sleep(1000);
 				}
+				else
+					SendMessage("DD: Detaching watchdog for update!");
 			}
 			else if (Detach)
 			{
@@ -259,6 +262,7 @@ namespace TGServerService
 					{
 						Properties.Settings.Default.ReattachPID = Proc.Id;
 						Properties.Settings.Default.ReattachPort = currentPort;
+						RestartInProgress = true;
 					}
 					Proc.Close();
 					ShutdownInterop();
