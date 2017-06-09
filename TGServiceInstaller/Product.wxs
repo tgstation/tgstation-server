@@ -111,6 +111,9 @@
       <Component Id="NitoAsyncEnlight">
         <File Source="$(var.TGServerService.TargetDir)/Nito.AsyncEx.Enlightenment.dll" />
       </Component>
+      <Component Id="Octokit">
+        <File Source="$(var.TGServerService.TargetDir)/Octokit.dll" />
+      </Component>
       <Component Id="RestSharp">
         <File Source="$(var.TGServerService.TargetDir)/RestSharp.dll" />
       </Component>

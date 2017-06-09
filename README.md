@@ -139,8 +139,13 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 * The private key must be in `-----BEGIN RSA PRIVATE KEY-----` format and the public key must be in `ssh-rsa` format. See github guidelines for setting this up here: https://help.github.com/articles/connecting-to-github-with-ssh/
 * The service will be able to read these files regardless of their permissions, so the responsibility is on you to set their ACL's so they can't be read by those that shouldn't
 
+### Enabling verbose in game github issue reports
+* You can allow users to report to github issues using an API key. This autmatically includes helpful debugging information and duplication prevention
+* To enable this feature, simply create `api_key.txt` containing your github personal access token a folder called RepoKey in the server directory
+* Tokens can be created here: https://github.com/settings/tokens The minimum scope required is `public_repo` for public repositories or `repo` for private repositories
+* Note that the github user account does not need write access to the repository to post issues
+
 ## CONTRIBUTING
 
-* IF YOU MAKE ANY CHANGES TO THE CODE, BE SURE TO BUMP THE VERSION NUMBERS IN ALL 4 "AssemblyInfo.cs"s AND ON LINE 3 OF TGServiceInstaller/Product.wx
-* My recommendation is bump the revision number per test release, the minor version per PR, and the major version if you rewrite the whole thing.
+* IF YOU MAKE ANY CHANGES TO THE CODE, BE SURE TO BUMP THE VERSION NUMBERS IN ALL 4 "AssemblyInfo.cs"s AND ON LINE 3 OF TGServiceInstaller/Product.wxs
 * To have auto deployment to github releases work, put `[TGSDeploy]` somewhere in your pull request title

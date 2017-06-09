@@ -20,6 +20,7 @@ namespace TGServerService
 		const string SSHPushRemote = "ssh_push_target";
         const string PrivateKeyPath = "RepoKey/private_key.txt";
         const string PublicKeyPath = "RepoKey/public_key.txt";
+		const string GithubAPIKeyPath = "RepoKey/api_key.txt";
 		const string PRJobFile = "prtestjob.json";
 		const string CommitMessage = "Automatic changelog compile, [ci skip]";
 
@@ -845,6 +846,18 @@ namespace TGServerService
 				return false;
 			Properties.Settings.Default.PythonPath = Path.GetFullPath(path);
 			return true;
+		}
+
+		string GetRepoAPIKey()
+		{
+			try
+			{
+				return File.ReadAllText(GithubAPIKeyPath).Trim();
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		public string PythonPath()

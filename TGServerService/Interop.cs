@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Octokit;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using TGServiceInterface;
 
@@ -20,6 +22,8 @@ namespace TGServerService
 		Thread NudgeThread;
 		object NudgeLock = new object();
 
+		const string TransactionIDParam = "transaction_id";
+
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
@@ -28,7 +32,21 @@ namespace TGServerService
 		const string SCIRCStatus = "irc_status";	//returns admin stats
 		const string SCNameCheck = "namecheck"; //returns keywords lookup
 		const string SCAdminPM = "adminmsg";	//pms a target ckey
-		const string SCAdminWho = "adminwho";	//lists admins
+		const string SCAdminWho = "adminwho";   //lists admins
+		const string SCTransactionCallback = "transactioncallback"; //for lockstep operations
+
+		const string DMChatBroadcast = "irc";
+		const string DMAdminChatMessage = "send2irc";
+		const string DMKillProcess = "killme";
+		const string DMCreateGithubIssue = "issuecreate";
+		const string DMPostGithubIssue = "issuepost";
+
+		const string TPErrorMessage = "error_msg";
+		const string TPGIRepoID = "repoid";
+		const string TPGITitle = "issuetitle";
+		const string TPGIID = "issuenumber";
+		const string TPGIBody = "issuebody";
+		const string TPGIURL = "issueurl";
 
 		//raw command string sent here via world.ExportService
 		void HandleCommand(string cmd)
@@ -37,20 +55,120 @@ namespace TGServerService
 
 			switch (splits[0])
 			{
-				case "irc":
+				case DMChatBroadcast:
 					splits.RemoveAt(0);
 					SendMessage("GAME: " + String.Join(" ", splits));
 					break;
-				case "killme":
+				case DMKillProcess:
 					KillMe();
 					break;
-				case "send2irc":
+				case DMAdminChatMessage:
 					splits.RemoveAt(0);
 					SendMessage("RELAY: " + String.Join(" ", splits), true);
 					break;
+				case DMCreateGithubIssue:
+					HandleGithubIssue(splits, false);
+					break;
+				case DMPostGithubIssue:
+					HandleGithubIssue(splits, true);
+					break;
 			}
 		}
-		
+
+		void HandleGithubIssue(IList<string> splits, bool posting)
+		{
+			var decoded = DecodeTransaction(splits);
+			string result, error;
+			if (posting)
+				result = PostToIssueOrPR(decoded[TPGIRepoID], decoded[TPGIID], decoded[TPGIBody], out error);
+			else
+				result = CreateIssue(decoded[TPGIRepoID], decoded[TPGITitle], decoded[TPGIBody], out error);
+			if (result != null)
+				TransactionReturn(decoded, TPGIURL + "=" + result);
+			else
+				TransactionReturn(decoded, TPErrorMessage + "=" + error);
+		}
+
+		IDictionary<string, string> DecodeTransaction(IList<string> splits)
+		{
+			splits.RemoveAt(0);
+			var json = String.Join(" ", splits);
+			var Deserializer = new JavaScriptSerializer();
+			return Deserializer.Deserialize<IDictionary<string, string>>(json);
+		}
+
+		GitHubClient GetGithubClient(out string error)
+		{
+			var apiKey = GetRepoAPIKey();
+			if (apiKey == null)
+			{
+				error = "Failed to read Github API key!";
+				return null;
+			}
+			error = null;
+			return new GitHubClient(new ProductHeaderValue("tgstation-server-tools-v3")) { Credentials = new Credentials(apiKey) }; ;
+		}
+
+		string PostToIssueOrPR(string repoID, string issueID, string message, out string error)
+		{
+			try
+			{
+				var rid = Convert.ToInt32(repoID);
+				var iid = Convert.ToInt32(issueID);
+				var client = GetGithubClient(out error);
+				if (error != null)
+					return null;
+				var task = client.Issue.Comment.Create(rid, iid, message);
+				task.Wait();
+				var issueComment = task.Result;
+				if (issueComment == null)
+				{
+					error = "API returned null issue!";
+					return null;
+				}
+				TGServerService.WriteLog("Issue comment created: " + issueComment.Url.OriginalString);
+				error = null;
+				return issueComment.Url.OriginalString;
+			}
+			catch (Exception e)
+			{
+				error = "Failed to create comment! " + e.Message;
+				return null;
+			}
+		}
+
+		string CreateIssue(string repoID, string title, string body, out string error)
+		{
+			try
+			{
+				var rid = Convert.ToInt32(repoID);
+				var client = GetGithubClient(out error);
+				if (error != null)
+					return null;
+				var task = client.Issue.Create(rid, new NewIssue(title) { Body = body });
+				task.Wait();
+				var issue = task.Result;
+				if (issue == null)
+				{
+					error = "API returned null issue!";
+					return null;
+				}
+				TGServerService.WriteLog("Issue created: " + issue.Url.OriginalString);
+				error = null;
+				return issue.Url.OriginalString;
+			}
+			catch (Exception e)
+			{
+				error = "Failed to create issue! " + e.Message;
+				return null;
+			}
+		}
+
+		void TransactionReturn(IDictionary<string, string> originalTransaction, string returnParams)
+		{
+			var result = SendCommand(String.Format("{0};{1}={2};{3}", SCTransactionCallback, TransactionIDParam, originalTransaction[TransactionIDParam], returnParams));
+		}
+
 		string SendCommand(string cmd)
 		{
 			lock (watchdogLock)
