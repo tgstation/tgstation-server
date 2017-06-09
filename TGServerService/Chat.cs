@@ -311,7 +311,7 @@ namespace TGServerService
 		//trims and adds the leading #
 		string SanitizeChannelName(string working)
 		{
-			if (working.IsNullOrWhiteSpace())
+			if (String.IsNullOrWhiteSpace(working))
 				return null;
 			working = working.Trim();
 			if (working[0] != '#')
