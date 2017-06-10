@@ -36,32 +36,23 @@ namespace TGServerService
 		protected override void OnStart(string[] args)
 		{
 			ActiveService = this;
-			try
+			var Config = Properties.Settings.Default;
+			if (!Directory.Exists(Config.ServerDirectory))
 			{
-				var Config = Properties.Settings.Default;
-				if (!Directory.Exists(Config.ServerDirectory))
-				{
-					EventLog.WriteEntry("Creating server directory: " + Config.ServerDirectory);
-					Directory.CreateDirectory(Config.ServerDirectory);
-				}
-				Environment.CurrentDirectory = Config.ServerDirectory;
-
-				host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
-				{
-					CloseTimeout = new TimeSpan(0, 0, 5)
-				}; //construction runs here
-
-				foreach (var I in Server.ValidInterfaces)
-					AddEndpoint(I);
-
-				host.Open();    //...or maybe here, doesn't really matter
+				EventLog.WriteEntry("Creating server directory: " + Config.ServerDirectory);
+				Directory.CreateDirectory(Config.ServerDirectory);
 			}
-			catch (Exception e)
+			Environment.CurrentDirectory = Config.ServerDirectory;
+
+			host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
 			{
-				WriteLog(e.ToString(), EventLogEntryType.Error);
-				ActiveService = null;
-				throw;
-			}
+				CloseTimeout = new TimeSpan(0, 0, 5)
+			}; //construction runs here
+
+			foreach (var I in Server.ValidInterfaces)
+				AddEndpoint(I);
+
+			host.Open();    //...or maybe here, doesn't really matter
 		}
 
 		//shorthand for adding the WCF endpoint
