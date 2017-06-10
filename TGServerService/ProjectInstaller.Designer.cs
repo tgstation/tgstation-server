@@ -41,7 +41,6 @@
             // 
             this.serviceInstaller1.ServiceName = "TGstation Server";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
-            this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.ServiceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 
