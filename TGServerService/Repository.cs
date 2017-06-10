@@ -656,6 +656,9 @@ namespace TGServerService
 					Commands.Stage(Repo, "html/changelog.html");
 					Commands.Stage(Repo, "html/changelogs");
 
+                    if (Repo.RetrieveStatus().Added.Count() == 0)   //nothing to commit
+                        return null;
+
 					// Create the committer's signature and commit
 					var authorandcommitter = MakeSig();
 
