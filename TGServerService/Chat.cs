@@ -123,7 +123,7 @@ namespace TGServerService
 		//Do stuff with words that were spoken to us
 		string ChatCommand(string command, string speaker, string channel, IList<string> parameters)
 		{
-			TGServerService.WriteLog(String.Format("IRC Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)));
+			TGServerService.WriteLog(String.Format("Chat Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)));
 			switch (command)
 			{
 				case "check":
