@@ -9,20 +9,20 @@ namespace TGServerService
 {
 	public partial class TGServerService : ServiceBase
 	{
-		static TGServerService ActiveService;	//So everyone else can write to our eventlog
+		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
 		public static void WriteLog(string message, EventLogEntryType type = EventLogEntryType.Information)
 		{
 			ActiveService.EventLog.WriteEntry(message, type);
 		}
 
-		ServiceHost host;	//the WCF host
-		
+		ServiceHost host;   //the WCF host
+
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
 		{
-            System.Diagnostics.Debugger.Launch();
+			System.Diagnostics.Debugger.Launch();
 			if (Properties.Settings.Default.UpgradeRequired)
 			{
 				Properties.Settings.Default.Upgrade();
@@ -55,11 +55,11 @@ namespace TGServerService
 				foreach (var I in Server.ValidInterfaces)
 					AddEndpoint(I);
 
-				host.Open();	//...or maybe here, doesn't really matter
+				host.Open();    //...or maybe here, doesn't really matter
 			}
 			catch (Exception e)
 			{
-                WriteLog(e.ToString(), EventLogEntryType.Error);
+				WriteLog(e.ToString(), EventLogEntryType.Error);
 				ActiveService = null;
 				throw;
 			}
@@ -79,10 +79,10 @@ namespace TGServerService
 				host.Close();   //where TGStationServer.Dispose() is called
 				host = null;
 			}
-            catch (Exception e)
-            {
-                WriteLog(e.ToString(), EventLogEntryType.Error);
-            }
+			catch (Exception e)
+			{
+				WriteLog(e.ToString(), EventLogEntryType.Error);
+			}
 			finally
 			{
 				Properties.Settings.Default.Save();
