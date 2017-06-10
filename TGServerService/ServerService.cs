@@ -22,6 +22,7 @@ namespace TGServerService
 		//Use OnStart instead
 		public TGServerService()
 		{
+            System.Diagnostics.Debugger.Launch();
 			if (Properties.Settings.Default.UpgradeRequired)
 			{
 				Properties.Settings.Default.Upgrade();
@@ -56,8 +57,9 @@ namespace TGServerService
 
 				host.Open();	//...or maybe here, doesn't really matter
 			}
-			catch
+			catch (Exception e)
 			{
+                WriteLog(e.ToString(), EventLogEntryType.Error);
 				ActiveService = null;
 				throw;
 			}
@@ -77,7 +79,10 @@ namespace TGServerService
 				host.Close();   //where TGStationServer.Dispose() is called
 				host = null;
 			}
-			catch { }
+            catch (Exception e)
+            {
+                WriteLog(e.ToString(), EventLogEntryType.Error);
+            }
 			finally
 			{
 				Properties.Settings.Default.Save();
