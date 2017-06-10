@@ -72,7 +72,7 @@ namespace TGServiceInterface
 		/// <returns>true if the repository is valid, false otherwise</returns>
 		[OperationContract]
 		bool Exists();
-		
+
 		/// <summary>
 		/// Deletes whatever may be left over and clones the repo at remote and checks out branch master
 		/// Will move config and data dirs to a backup location if they exist
@@ -91,7 +91,7 @@ namespace TGServiceInterface
 		/// <returns>The sha of the current HEAD on success, null on failure</returns>
 		[OperationContract]
 		string GetHead(out string error);
-		
+
 		/// <summary>
 		/// Gets the name of the current branch
 		/// </summary>
@@ -99,7 +99,7 @@ namespace TGServiceInterface
 		/// <returns>The name of the current branch on success, null on failure</returns>
 		[OperationContract]
 		string GetBranch(out string error);
-		
+
 		/// <summary>
 		/// Gets the url of the current origin
 		/// </summary>
@@ -107,7 +107,7 @@ namespace TGServiceInterface
 		/// <returns>The url of the current origin on success, null on failure</returns>
 		[OperationContract]
 		string GetRemote(out string error);
-		
+
 		/// <summary>
 		/// Hard checks out the passed object name
 		/// </summary>
@@ -131,7 +131,7 @@ namespace TGServiceInterface
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string Reset(bool tracked);
-		
+
 		/// <summary>
 		/// Merges the target pull request into the current branch if the remote is a github repository
 		/// </summary>
