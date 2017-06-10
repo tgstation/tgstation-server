@@ -22,7 +22,6 @@ namespace TGServerService
 		//Use OnStart instead
 		public TGServerService()
 		{
-			System.Diagnostics.Debugger.Launch();
 			if (Properties.Settings.Default.UpgradeRequired)
 			{
 				Properties.Settings.Default.Upgrade();
