@@ -22,9 +22,11 @@ namespace TGServerService
 
 			NormalizeAndDelete(di, excludeRoot);
 			if (!ContentsOnly)
+			{
 				if (excludeRoot != null)
 					throw new Exception("Cannot fully delete folder with exclusions specified!");
 				di.Delete(true);
+			}
 		}
 		static void NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot)
 		{
