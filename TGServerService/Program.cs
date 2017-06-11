@@ -23,7 +23,7 @@ namespace TGServerService
 			NormalizeAndDelete(di, excludeRoot);
 			if (!ContentsOnly)
 			{
-				if (excludeRoot != null)
+				if (excludeRoot != null && excludeRoot.Count > 0)
 					throw new Exception("Cannot fully delete folder with exclusions specified!");
 				di.Delete(true);
 			}
