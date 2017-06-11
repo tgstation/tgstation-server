@@ -16,6 +16,10 @@ namespace TGServerService
 			var di = new DirectoryInfo(path);
 			if (!di.Exists)
 				return;
+			if (excludeRoot != null)
+				for (var I = 0; I < excludeRoot.Count; ++I)
+					excludeRoot[I] = excludeRoot[I].ToLower();
+
 			NormalizeAndDelete(di, excludeRoot);
 			if (!ContentsOnly)
 				if (excludeRoot != null)
@@ -26,14 +30,14 @@ namespace TGServerService
 		{
 			foreach (var subDir in dir.GetDirectories())
 			{
-				if (excludeRoot != null && excludeRoot.Contains(subDir.Name))
+				if (excludeRoot != null && excludeRoot.Contains(subDir.Name.ToLower()))
 					continue;
 				NormalizeAndDelete(subDir, null);
 				subDir.Delete(true);
 			}
 			foreach (var file in dir.GetFiles())
 			{
-				if (excludeRoot != null && excludeRoot.Contains(file.Name))
+				if (excludeRoot != null && excludeRoot.Contains(file.Name.ToLower()))
 					continue;
 				file.Attributes = FileAttributes.Normal;
 			}
