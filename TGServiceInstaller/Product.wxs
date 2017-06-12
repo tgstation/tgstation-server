@@ -15,16 +15,6 @@
     </Feature>
 		<Icon Id="tgs.ico" SourceFile="..\tgs.ico"/>
 		<Property Id="ARPPRODUCTICON" Value="tgs.ico" />
-
-    <CustomAction Id="PrepServerForUpgrade"
-            FileKey="TGCommandLine.exe"
-            ExeCommand="service-update --verify"
-            Execute="immediate"
-            Return="ignore" />
-
-    <InstallExecuteSequence>
-      <Custom Action="PrepServerForUpgrade" Before="InstallInitialize">UPGRADINGPRODUCTCODE</Custom>
-    </InstallExecuteSequence>
   </Product>
 
   <Fragment>

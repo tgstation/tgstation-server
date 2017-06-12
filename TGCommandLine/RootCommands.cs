@@ -159,6 +159,7 @@ namespace TGCommandLine
 			else
 			{
 				Server.GetComponent<ITGSService>().StopForUpdate();
+				GC.Collect();
 				Thread.Sleep(10000);
 			}
 			return ExitCode.Normal;
