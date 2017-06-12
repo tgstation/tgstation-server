@@ -18,8 +18,8 @@ namespace TGServerService
 		const string RepoData = RepoPath + "/data";
 		const string RepoErrorUpToDate = "Already up to date!";
 		const string SSHPushRemote = "ssh_push_target";
-        const string PrivateKeyPath = "RepoKey/private_key.txt";
-        const string PublicKeyPath = "RepoKey/public_key.txt";
+		const string PrivateKeyPath = "RepoKey/private_key.txt";
+		const string PublicKeyPath = "RepoKey/public_key.txt";
 		const string PRJobFile = "prtestjob.json";
 		const string CommitMessage = "Automatic changelog compile, [ci skip]";
 
@@ -656,6 +656,9 @@ namespace TGServerService
 					Commands.Stage(Repo, "html/changelog.html");
 					Commands.Stage(Repo, "html/changelogs");
 
+					if (Repo.RetrieveStatus().Added.Count() == 0)   //nothing to commit
+						return null;
+
 					// Create the committer's signature and commit
 					var authorandcommitter = MakeSig();
 
@@ -712,12 +715,12 @@ namespace TGServerService
 				{
 					Username = user,
 				};
-            return new SshUserKeyCredentials()
-            {
-                Username = user,
-                PrivateKey = PrivateKeyPath,
-                PublicKey = PublicKeyPath,
-                Passphrase = "",
+			return new SshUserKeyCredentials()
+			{
+				Username = user,
+				PrivateKey = PrivateKeyPath,
+				PublicKey = PublicKeyPath,
+				Passphrase = "",
 			};
 		}
 
