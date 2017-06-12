@@ -166,6 +166,7 @@
 			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
 			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
+			this.RepoRefreshButton = new System.Windows.Forms.Button();
 			this.Panels.SuspendLayout();
 			this.RepoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
@@ -186,9 +187,9 @@
 			// 
 			// Panels
 			// 
-			this.Panels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.Panels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.Panels.Controls.Add(this.RepoPanel);
 			this.Panels.Controls.Add(this.BYONDPanel);
 			this.Panels.Controls.Add(this.ServerPanel);
@@ -203,6 +204,7 @@
 			// RepoPanel
 			// 
 			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
 			this.RepoPanel.Controls.Add(this.BackupTagsList);
 			this.RepoPanel.Controls.Add(this.ResetRemote);
 			this.RepoPanel.Controls.Add(this.RecloneButton);
@@ -237,7 +239,7 @@
 			// 
 			this.BackupTagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.BackupTagsList.Items.AddRange(new object[] {
-			"None"});
+            "None"});
 			this.BackupTagsList.Location = new System.Drawing.Point(122, 142);
 			this.BackupTagsList.Name = "BackupTagsList";
 			this.BackupTagsList.Size = new System.Drawing.Size(535, 95);
@@ -306,10 +308,10 @@
 			this.TestmergeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.TestmergeSelector.Location = new System.Drawing.Point(722, 151);
 			this.TestmergeSelector.Maximum = new decimal(new int[] {
-			1000000,
-			0,
-			0,
-			0});
+            1000000,
+            0,
+            0,
+            0});
 			this.TestmergeSelector.Name = "TestmergeSelector";
 			this.TestmergeSelector.Size = new System.Drawing.Size(140, 20);
 			this.TestmergeSelector.TabIndex = 22;
@@ -320,7 +322,7 @@
 			this.TestMergeListLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.TestMergeListLabel.HorizontalScrollbar = true;
 			this.TestMergeListLabel.Items.AddRange(new object[] {
-			"None"});
+            "None"});
 			this.TestMergeListLabel.Location = new System.Drawing.Point(122, 260);
 			this.TestMergeListLabel.Name = "TestMergeListLabel";
 			this.TestMergeListLabel.Size = new System.Drawing.Size(535, 95);
@@ -472,9 +474,9 @@
 			// 
 			// CloneRepositoryButton
 			// 
-			this.CloneRepositoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.CloneRepositoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.CloneRepositoryButton.Location = new System.Drawing.Point(311, 191);
 			this.CloneRepositoryButton.Name = "CloneRepositoryButton";
 			this.CloneRepositoryButton.Size = new System.Drawing.Size(229, 34);
@@ -486,9 +488,9 @@
 			// 
 			// RepoProgressBarLabel
 			// 
-			this.RepoProgressBarLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoProgressBarLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.RepoProgressBarLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.RepoProgressBarLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
 			this.RepoProgressBarLabel.Location = new System.Drawing.Point(184, 142);
@@ -500,9 +502,9 @@
 			// 
 			// RepoProgressBar
 			// 
-			this.RepoProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.RepoProgressBar.Location = new System.Drawing.Point(184, 191);
 			this.RepoProgressBar.Name = "RepoProgressBar";
 			this.RepoProgressBar.Size = new System.Drawing.Size(499, 23);
@@ -654,35 +656,35 @@
 			// 
 			this.MinorVersionNumeric.Location = new System.Drawing.Point(490, 210);
 			this.MinorVersionNumeric.Maximum = new decimal(new int[] {
-			10000,
-			0,
-			0,
-			0});
+            10000,
+            0,
+            0,
+            0});
 			this.MinorVersionNumeric.Name = "MinorVersionNumeric";
 			this.MinorVersionNumeric.Size = new System.Drawing.Size(120, 20);
 			this.MinorVersionNumeric.TabIndex = 2;
 			this.MinorVersionNumeric.Value = new decimal(new int[] {
-			1381,
-			0,
-			0,
-			0});
+            1381,
+            0,
+            0,
+            0});
 			// 
 			// MajorVersionNumeric
 			// 
 			this.MajorVersionNumeric.Location = new System.Drawing.Point(245, 210);
 			this.MajorVersionNumeric.Maximum = new decimal(new int[] {
-			1000,
-			0,
-			0,
-			0});
+            1000,
+            0,
+            0,
+            0});
 			this.MajorVersionNumeric.Name = "MajorVersionNumeric";
 			this.MajorVersionNumeric.Size = new System.Drawing.Size(120, 20);
 			this.MajorVersionNumeric.TabIndex = 1;
 			this.MajorVersionNumeric.Value = new decimal(new int[] {
-			511,
-			0,
-			0,
-			0});
+            511,
+            0,
+            0,
+            0});
 			// 
 			// UpdateProgressBar
 			// 
@@ -741,9 +743,9 @@
 			this.VisibilitySelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.VisibilitySelector.FormattingEnabled = true;
 			this.VisibilitySelector.Items.AddRange(new object[] {
-			"Public",
-			"Private",
-			"Invisible"});
+            "Public",
+            "Private",
+            "Invisible"});
 			this.VisibilitySelector.Location = new System.Drawing.Point(566, 136);
 			this.VisibilitySelector.Name = "VisibilitySelector";
 			this.VisibilitySelector.Size = new System.Drawing.Size(121, 21);
@@ -768,9 +770,9 @@
 			this.SecuritySelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.SecuritySelector.FormattingEnabled = true;
 			this.SecuritySelector.Items.AddRange(new object[] {
-			"Trusted",
-			"Safe",
-			"Ultrasafe"});
+            "Trusted",
+            "Safe",
+            "Ultrasafe"});
 			this.SecuritySelector.Location = new System.Drawing.Point(136, 136);
 			this.SecuritySelector.Name = "SecuritySelector";
 			this.SecuritySelector.Size = new System.Drawing.Size(121, 21);
@@ -805,23 +807,23 @@
 			this.NudgePortSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.NudgePortSelector.Location = new System.Drawing.Point(806, 60);
 			this.NudgePortSelector.Maximum = new decimal(new int[] {
-			65535,
-			0,
-			0,
-			0});
+            65535,
+            0,
+            0,
+            0});
 			this.NudgePortSelector.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.NudgePortSelector.Name = "NudgePortSelector";
 			this.NudgePortSelector.Size = new System.Drawing.Size(62, 20);
 			this.NudgePortSelector.TabIndex = 34;
 			this.NudgePortSelector.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.NudgePortSelector.ValueChanged += new System.EventHandler(this.NudgePortSelector_ValueChanged);
 			// 
 			// NudgePortLabel
@@ -906,23 +908,23 @@
 			// 
 			this.PortSelector.Location = new System.Drawing.Point(59, 60);
 			this.PortSelector.Maximum = new decimal(new int[] {
-			65535,
-			0,
-			0,
-			0});
+            65535,
+            0,
+            0,
+            0});
 			this.PortSelector.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.PortSelector.Name = "PortSelector";
 			this.PortSelector.Size = new System.Drawing.Size(60, 20);
 			this.PortSelector.TabIndex = 27;
 			this.PortSelector.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.PortSelector.ValueChanged += new System.EventHandler(this.PortSelector_ValueChanged);
 			// 
 			// ServerPRLabel
@@ -943,10 +945,10 @@
 			this.ServerTestmergeInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.ServerTestmergeInput.Location = new System.Drawing.Point(806, 99);
 			this.ServerTestmergeInput.Maximum = new decimal(new int[] {
-			1000000,
-			0,
-			0,
-			0});
+            1000000,
+            0,
+            0,
+            0});
 			this.ServerTestmergeInput.Name = "ServerTestmergeInput";
 			this.ServerTestmergeInput.Size = new System.Drawing.Size(62, 20);
 			this.ServerTestmergeInput.TabIndex = 25;
@@ -1068,8 +1070,8 @@
 			// 
 			// CompilerStatusLabel
 			// 
-			this.CompilerStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.CompilerStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.CompilerStatusLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.CompilerStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
 			this.CompilerStatusLabel.Location = new System.Drawing.Point(110, 271);
@@ -1081,8 +1083,8 @@
 			// 
 			// CompilerLabel
 			// 
-			this.CompilerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.CompilerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.CompilerLabel.AutoSize = true;
 			this.CompilerLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.CompilerLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
@@ -1119,8 +1121,8 @@
 			// 
 			// compilerProgressBar
 			// 
-			this.compilerProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.compilerProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.compilerProgressBar.Location = new System.Drawing.Point(110, 302);
 			this.compilerProgressBar.MarqueeAnimationSpeed = 50;
 			this.compilerProgressBar.Name = "compilerProgressBar";
@@ -1218,23 +1220,23 @@
 			// 
 			this.ChatPortSelector.Location = new System.Drawing.Point(174, 225);
 			this.ChatPortSelector.Maximum = new decimal(new int[] {
-			65535,
-			0,
-			0,
-			0});
+            65535,
+            0,
+            0,
+            0});
 			this.ChatPortSelector.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.ChatPortSelector.Name = "ChatPortSelector";
 			this.ChatPortSelector.Size = new System.Drawing.Size(151, 20);
 			this.ChatPortSelector.TabIndex = 29;
 			this.ChatPortSelector.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			// 
 			// ChatPortTitle
 			// 
@@ -1546,9 +1548,9 @@
 			// 
 			// ConfigPanels
 			// 
-			this.ConfigPanels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.ConfigPanels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.ConfigPanels.Controls.Add(this.ConfigConfigPanel);
 			this.ConfigPanels.Controls.Add(this.DatabaseConfigPanel);
 			this.ConfigPanels.Controls.Add(this.GameConfigPanel);
@@ -1789,9 +1791,9 @@
 			// 
 			// ConfigDisabledLabel
 			// 
-			this.ConfigDisabledLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.ConfigDisabledLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.ConfigDisabledLabel.AutoSize = true;
 			this.ConfigDisabledLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ConfigDisabledLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
@@ -1835,6 +1837,18 @@
 			// ServerStartBGW
 			// 
 			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
+			// 
+			// RepoRefreshButton
+			// 
+			this.RepoRefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoRefreshButton.Location = new System.Drawing.Point(722, 296);
+			this.RepoRefreshButton.Name = "RepoRefreshButton";
+			this.RepoRefreshButton.Size = new System.Drawing.Size(140, 29);
+			this.RepoRefreshButton.TabIndex = 35;
+			this.RepoRefreshButton.Text = "Refresh";
+			this.RepoRefreshButton.UseVisualStyleBackColor = true;
+			this.RepoRefreshButton.Visible = false;
+			this.RepoRefreshButton.Click += new System.EventHandler(this.RepoRefreshButton_Click);
 			// 
 			// Main
 			// 
@@ -2011,5 +2025,6 @@
 		private System.Windows.Forms.Label VisibilityTitle;
 		private System.Windows.Forms.ComboBox VisibilitySelector;
 		private System.ComponentModel.BackgroundWorker ServerStartBGW;
+		private System.Windows.Forms.Button RepoRefreshButton;
 	}
 }

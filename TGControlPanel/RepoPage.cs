@@ -63,6 +63,11 @@ namespace TGControlPanel
 			PopulateRepoFields();
 		}
 
+		private void RepoRefreshButton_Click(object sender, EventArgs e)
+		{
+			PopulateRepoFields();
+		}
+
 		private void PopulateRepoFields()
 		{
 			if (repoError != null)
@@ -81,6 +86,7 @@ namespace TGControlPanel
 			RepoBranchTextBox.Visible = true;
 			PythonPathLabel.Visible = true;
 			PythonPathText.Visible = true;
+			RepoRefreshButton.Visible = true;
 			PythonPathText.Text = Repo.PythonPath();
 
 			if (!Repo.Exists())
@@ -255,6 +261,7 @@ namespace TGControlPanel
 			RecloneButton.Visible = false;
 			ResetRemote.Visible = false;
 			BackupTagsList.Visible = false;
+			RepoRefreshButton.Visible = false;
 
 			RepoPanel.UseWaitCursor = true;
 
