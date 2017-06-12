@@ -140,7 +140,7 @@ namespace TGServerService
 				{
 					var tasks = new List<Task>();
 					var Config = Properties.Settings.Default;
-					var channel = Convert.ToUInt32(channelname);
+					var channel = Convert.ToUInt64(channelname);
 					if (SeenPrivateChannels.ContainsKey(channel))
 						SeenPrivateChannels[channel].SendMessage(message).Wait();
 					else

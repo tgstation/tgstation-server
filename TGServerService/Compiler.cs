@@ -38,6 +38,7 @@ namespace TGServerService
 		const string LiveDirTest = GameDirLive + LiveFile;
 
 		List<string> copyExcludeList = new List<string> { ".git", "data", "config", "libmysql.dll" };   //shit we handle
+		List<string> deleteExcludeList = new List<string> { "data", "config", "libmysql.dll" };   //shit we handle
 
 		object CompilerLock = new object();
 		TGCompilerStatus compilerCurrentStatus;
@@ -287,23 +288,9 @@ namespace TGServerService
 				SendMessage("DM: Compiling...");
 				var resurrectee = GetStagingDir();
 
-				//clear out the syms first
-				if (Directory.Exists(resurrectee + "/data"))
-					Directory.Delete(resurrectee + "/data");
-
-				if (Directory.Exists(resurrectee + "/config"))
-					Directory.Delete(resurrectee + "/config");
-
-				if (File.Exists(resurrectee + LibMySQLFile))
-					File.Delete(resurrectee + LibMySQLFile);
-
-				Program.DeleteDirectory(resurrectee, true);
+				Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
 
 				Directory.CreateDirectory(resurrectee + "/.git/logs");
-
-				CreateSymlink(resurrectee + "/data", StaticDataDir);
-				CreateSymlink(resurrectee + "/config", StaticConfigDir);
-				CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
 
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))

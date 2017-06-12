@@ -80,14 +80,7 @@
       </Component>
       <Component Id="TGServerService">
         <File Source="$(var.TGServerService.TargetPath)" />
-        <ServiceInstall Id="ServiceInstaller" Type="ownProcess"
-                Name="TG Station Server"
-                DisplayName="TG Station Server"
-                Description="/tg/station Server Service"
-								Start="auto"
-								Account="LocalSystem"
-								ErrorControl="normal"
-								/>
+        <ServiceInstall Id="ServiceInstaller" Name="TG Station Server" Type="ownProcess" EraseDescription="no" ErrorControl="normal" Start="auto" Vital="yes" />
         <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="TG Station Server" Wait="yes" />
       </Component>
       <Component Id="DiscordNet">

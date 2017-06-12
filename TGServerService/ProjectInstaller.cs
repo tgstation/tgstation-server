@@ -10,19 +10,6 @@ namespace ServerService
 		public ProjectInstaller()
 		{
 			InitializeComponent();
-			serviceInstaller1.BeforeUninstall += ServiceInstaller1_BeforeUninstall;
-		}
-
-		private void ServiceInstaller1_BeforeUninstall(object sender, InstallEventArgs e)
-		{
-		}
-
-		private void ServiceInstaller1_AfterInstall(object sender, InstallEventArgs e)
-		{
-			using (ServiceController sc = new ServiceController(serviceInstaller1.ServiceName))
-			{
-				sc.Start();
-			}
 		}
 	}
 }

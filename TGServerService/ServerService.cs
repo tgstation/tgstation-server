@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
 using System.ServiceProcess;
+using System.Threading;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -15,27 +16,39 @@ namespace TGServerService
 		{
 			ActiveService.EventLog.WriteEntry(message, type);
 		}
+    
+		public static void LocalStop()
+		{
+			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
+		}
 
-		ServiceHost host;   //the WCF host
-
+		ServiceHost host;	//the WCF host
+    
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
 		{
-			if (Properties.Settings.Default.UpgradeRequired)
+			try
 			{
-				Properties.Settings.Default.Upgrade();
-				Properties.Settings.Default.UpgradeRequired = false;
+				if (Properties.Settings.Default.UpgradeRequired)
+				{
+					Properties.Settings.Default.Upgrade();
+					Properties.Settings.Default.UpgradeRequired = false;
+					Properties.Settings.Default.Save();
+				}
+				InitializeComponent();
+				ActiveService = this;
+				Run(this);
+			}
+			finally
+			{
 				Properties.Settings.Default.Save();
 			}
-			InitializeComponent();
-			Run(this);
 		}
 
 		//when babby is formed
 		protected override void OnStart(string[] args)
 		{
-			ActiveService = this;
 			var Config = Properties.Settings.Default;
 			if (!Directory.Exists(Config.ServerDirectory))
 			{
@@ -72,11 +85,6 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				WriteLog(e.ToString(), EventLogEntryType.Error);
-			}
-			finally
-			{
-				Properties.Settings.Default.Save();
-				ActiveService = null;
 			}
 		}
 	}
