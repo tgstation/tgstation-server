@@ -242,5 +242,41 @@ namespace TGServerService.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ReattachToDD {
+            get {
+                return ((bool)(this["ReattachToDD"]));
+            }
+            set {
+                this["ReattachToDD"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ReattachPID {
+            get {
+                return ((int)(this["ReattachPID"]));
+            }
+            set {
+                this["ReattachPID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ushort ReattachPort {
+            get {
+                return ((ushort)(this["ReattachPort"]));
+            }
+            set {
+                this["ReattachPort"] = value;
+            }
+        }
     }
 }

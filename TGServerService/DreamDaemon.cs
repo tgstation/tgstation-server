@@ -38,29 +38,66 @@ namespace TGServerService
 		//Only need 1 proc instance
 		void InitDreamDaemon()
 		{
-			Proc = new Process();
+			var Reattach = Properties.Settings.Default.ReattachToDD;
+			if (Reattach)
+				try
+				{
+					Proc = Process.GetProcessById(Properties.Settings.Default.ReattachPID);
+					if (Proc == null)
+						throw new Exception("GetProcessById returned null!");
+					TGServerService.WriteLog("Reattached to running DD process!");
+					SendMessage("DD: Update complete. Watchdog reactivated...");
+					
+					//start wd 
+					InitInterop();
+
+					RestartInProgress = true;
+					currentPort = Properties.Settings.Default.ReattachPort;
+					currentStatus = TGDreamDaemonStatus.Online;
+					DDWatchdog = new Thread(new ThreadStart(Watchdog));
+					DDWatchdog.Start();
+				}
+				catch (Exception e)
+				{
+					TGServerService.WriteLog(String.Format("Failed to reattach to DreamDaemon! PID: {0}. Exception: {1}", Properties.Settings.Default.ReattachPID, e.ToString()), EventLogEntryType.Error);
+				}
+				finally
+				{
+					Properties.Settings.Default.ReattachToDD = false;
+				}
+
+			if (Proc == null)
+				Proc = new Process();
+
 			Proc.StartInfo.FileName = ByondDirectory + "/bin/dreamdaemon.exe";
 			Proc.StartInfo.UseShellExecute = false;
+
+			if (Reattach)
+				return;
 
 			//autostart the server
 			if (Properties.Settings.Default.DDAutoStart)
 				//break this off so we don't hold up starting the service
-				new Thread(new ThreadStart(InitStart));
-		}
-
-		//void wrapper for Start
-		void InitStart()
-		{
-			Start();
+				ThreadPool.QueueUserWorkItem( _ => { Start(); });
 		}
 
 		//die now k thx
 		void DisposeDreamDaemon()
 		{
+			var Detach = Properties.Settings.Default.ReattachToDD;
 			if (DaemonStatus() == TGDreamDaemonStatus.Online)
 			{
-				WorldAnnounce("Server service stopped");
-				Thread.Sleep(1000);
+				if (!Detach)
+				{
+					WorldAnnounce("Server service stopped");
+					Thread.Sleep(1000);
+				}
+				else
+					SendMessage("DD: Detaching watchdog for update!");
+			}
+			else if (Detach)
+			{
+				Properties.Settings.Default.ReattachToDD = false;
 			}
 			Stop();
 		}
@@ -219,7 +256,14 @@ namespace TGServerService
 				//No Mr bond, I expect you to die
 				try
 				{
-					Proc.Kill();
+					if (!Properties.Settings.Default.ReattachToDD)
+						Proc.Kill();
+					else
+					{
+						Properties.Settings.Default.ReattachPID = Proc.Id;
+						Properties.Settings.Default.ReattachPort = currentPort;
+						RestartInProgress = true;
+					}
 					Proc.Close();
 					ShutdownInterop();
 				}
@@ -479,4 +523,3 @@ namespace TGServerService
 		}
 	}
 }
-

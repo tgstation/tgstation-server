@@ -10,7 +10,7 @@ namespace TGServerService
 
 	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	partial class TGStationServer : IDisposable, ITGStatusCheck, ITGServerUpdater
+	partial class TGStationServer : IDisposable, ITGSService, ITGServerUpdater
 	{
 		//call partial constructors/destructors from here
 		//called when the service is started
@@ -79,9 +79,17 @@ namespace TGServerService
 			return null;
 		}
 
-		//just here to test the WCF connection
+		//public api
 		public void VerifyConnection()
 		{}
+
+		//public api
+		public void StopForUpdate()
+		{
+			TGServerService.WriteLog("Stopping for update!");
+			Properties.Settings.Default.ReattachToDD = true;
+			TGServerService.LocalStop();
+		}
 
 		//mostly generated code with a call to RunDisposals()
 		//you don't need to open this
