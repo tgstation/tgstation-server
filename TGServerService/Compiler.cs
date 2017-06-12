@@ -397,20 +397,20 @@ namespace TGServerService
 							try
 							{
 								//gotta go fast
-								if (currentStatus == TGDreamDaemonStatus.Online)
+								var online = currentStatus == TGDreamDaemonStatus.Online;
+								Proc.Suspend();
+								try
 								{
-									Thread.CurrentThread.Priority = ThreadPriority.Highest;
-									Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
-									try
-									{
-										Proc.PriorityClass = ProcessPriorityClass.Idle;
-									}
-									catch { }
+									if (Directory.Exists(GameDirLive))
+										//these two lines should be atomic but this is the best we can do
+										Directory.Delete(GameDirLive);
+									CreateSymlink(GameDirLive, resurrectee);
 								}
-								if (Directory.Exists(GameDirLive))
-									//these two lines should be atomic but this is the best we can do
-									Directory.Delete(GameDirLive);
-								CreateSymlink(GameDirLive, resurrectee);
+								finally
+								{
+									if(online && !Proc.HasExited)
+										Proc.Resume();
+								}
 							}
 							finally
 							{
