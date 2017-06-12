@@ -9,11 +9,11 @@ Requires python 2.7/3.6 to be installed for changelog generation
 * The old cmd script server can be found in the legacy tree
 
 
-## Install
+## Installing
 1. Either compile from source (requires .NET Framework 4.5.2, Nuget, and WiX toolset 4.0) or download the latest [release from github](https://github.com/tgstation/tgstation-server-tools/releases)
 1. Run the installer
 
-## Install (GUI):
+## Installing (GUI):
 1. Launch TGControlPanel.exe. A shortcut can be found on your desktop
 1. Optionally switch to the `Server` tab and change the Server Path location from C:\tgstation-server-3 to wherever you wish
 1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
@@ -26,7 +26,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 1. Optionally tick the Autostart box if you wish to have your server start with Windows
 1. When game folder initialization is complete, click the `Copy from Repo and Compile` option
 
-## Install (CL example):
+## Installing (CL example):
 This process is identical to the above steps in command line mode. You can always learn more about a command using `?` i.e. `repo ?`
 1. Launch TGCommandLine.exe (running with no parameters puts you in interactive mode)
 1. `config move-server D:\tgstation`
@@ -46,6 +46,13 @@ This process is identical to the above steps in command line mode. You can alway
 1. `dm initialize --wait`
 1. `dm compile --wait`
 1. `dd start`
+
+## Updating
+
+The process to update the server while DD is running is a functioning work in progress. Eventually you'll just be able to run the installer without worry but until then there is an extra step you must take
+
+1. Run `service-update --verify` from the command line. This will stop the service without killing DD
+1. Run the installer. The service will restart and reattach to it's old DD process
 
 ### Folders and Files (None of these should be touched):
 * `Game/<A/B>/`
