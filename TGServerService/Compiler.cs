@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using TGServiceInterface;
 
@@ -357,7 +358,16 @@ namespace TGServerService
 				{
 					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
 					DM.StartInfo.Arguments = dmePath;
+					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
+					var OutputList = new StringBuilder();
+					DM.OutputDataReceived += new DataReceivedEventHandler(
+						delegate(object sender, DataReceivedEventArgs e)
+						{
+							OutputList.Append(Environment.NewLine);
+							OutputList.Append(e.Data);
+						}
+					);
 					try
 					{
 						lock (CompilerLock)
@@ -368,7 +378,9 @@ namespace TGServerService
 						}
 						
 						DM.Start();
+						DM.BeginOutputReadLine();
 						DM.WaitForExit();
+						DM.CancelOutputRead();
 
 						lock (CompilerLock)
 						{
@@ -432,11 +444,11 @@ namespace TGServerService
 							lastCompilerError = null;
 							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
 						}
-
 					}
 					else
 					{
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
+						TGServerService.WriteLog("Compile error: " + OutputList.ToString(), EventLogEntryType.Warning);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
