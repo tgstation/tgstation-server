@@ -436,6 +436,7 @@ namespace TGServerService
 					}
 					else
 					{
+						TGServerService.WriteInfo("Compilation failed!", TGServerService.EventID.DMCompileCancel);
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
 						lock (CompilerLock)
 						{
@@ -453,7 +454,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DM: Compiler thread crashed!");
-				TGServerService.WriteLog("Compile manager errror: " + e.ToString(), EventLogEntryType.Error);
+				TGServerService.WriteError("Compile manager errror: " + e.ToString(), TGServerService.EventID.DMCompileCrash);
 				lock (CompilerLock)
 				{
 					lastCompilerError = e.ToString();
@@ -470,6 +471,7 @@ namespace TGServerService
 						compilerCurrentStatus = TGCompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
 						SendMessage("Compile cancelled!");
+						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel);
 					}
 				}
 			}

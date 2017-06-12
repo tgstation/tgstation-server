@@ -122,12 +122,12 @@ namespace TGServerService
 							topicSender.Shutdown(SocketShutdown.Both);
 						}
 
-						TGServerService.WriteLog("Topic: \"" + topicdata + "\" Returned: " + returnedString);
+						TGServerService.WriteInfo("Topic: \"" + topicdata + "\" Returned: " + returnedString, TGServerService.EventID.TopicSent);
 						return returnedString;
 					}
 					catch
 					{
-						TGServerService.WriteLog("Failed to send topic: " + topicdata, EventLogEntryType.Error);
+						TGServerService.WriteWarning("Failed to send topic: " + topicdata, TGServerService.EventID.TopicFailed);
 						return "Topic delivery failed!";
 					}
 				}
@@ -147,7 +147,7 @@ namespace TGServerService
 				serviceCommsKey += tmp;
 			} while (serviceCommsKey.Length < CommsKeyLen);
 			serviceCommsKey = serviceCommsKey.Substring(0, CommsKeyLen);
-			TGServerService.WriteLog("Service Comms Key set to: " + serviceCommsKey);
+			TGServerService.WriteInfo("Service Comms Key set to: " + serviceCommsKey, TGServerService.EventID.CommsKeySet);
 		}
 
 		//Start listening for nudges on the configured port
@@ -185,7 +185,7 @@ namespace TGServerService
 				var np = InteropPort(out string error);
 				if (error != null)
 				{
-					TGServerService.WriteLog("Unable to start nudge handler! Error: " + error, EventLogEntryType.Warning);
+					TGServerService.WriteError("Unable to start nudge handler: " + error, TGServerService.EventID.NudgeStartFail);
 					return;
 				}
 
@@ -230,7 +230,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteLog("Nudge handler thread crashed: " + e.ToString(), EventLogEntryType.Error);
+				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
 			}
 		}
 	}

@@ -122,7 +122,7 @@ namespace TGServerService
 						}
 					foreach (var I in tasks)
 						I.Wait();
-					TGServerService.WriteLog(String.Format("Discord Send ({0}): {1}", adminOnly ? "Broadcast" : "Admin", msg));
+					TGServerService.WriteInfo(String.Format("Discord Send{0}: {1}", adminOnly ? " (ADMIN)" : "", msg), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast);
 					return null;
 				}
 			}
@@ -148,7 +148,7 @@ namespace TGServerService
 							foreach (var J in I.TextChannels)
 								if (J.Id == channel)
 									J.SendMessage(message).Wait();
-					TGServerService.WriteLog(String.Format("Discord Send ({0}): {1}", channel, message));
+					TGServerService.WriteInfo(String.Format("Discord Send ({0}): {1}", channelname, message), TGServerService.EventID.ChatSend);
 					return null;
 				}
 			}
@@ -170,7 +170,7 @@ namespace TGServerService
 				client.Disconnect().Wait();
 			}
 			catch (Exception e) {
-				TGServerService.WriteLog("Discord failed DnD: " + e.ToString());
+				TGServerService.WriteError("Discord failed DnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
 			}
 			client.Dispose();
 		}
