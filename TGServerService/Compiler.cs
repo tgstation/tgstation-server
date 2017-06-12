@@ -398,7 +398,8 @@ namespace TGServerService
 							{
 								//gotta go fast
 								var online = currentStatus == TGDreamDaemonStatus.Online;
-								Proc.Suspend();
+								if(online)
+									Proc.Suspend();
 								try
 								{
 									if (Directory.Exists(GameDirLive))
