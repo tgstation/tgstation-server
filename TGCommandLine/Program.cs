@@ -15,10 +15,19 @@ namespace TGCommandLine
 
 	abstract class Command
 	{
+		public bool RequiresInstance { get; protected set; }
 		public string Keyword { get; protected set; }
 		public Command[] Children { get; protected set; } = { };
 		public int RequiredParameters { get; protected set; }
-		public abstract ExitCode Run(IList<string> parameters);
+		protected abstract ExitCode Run(IList<string> parameters);
+		public virtual ExitCode WrapRun(IList<string> parameters)
+		{
+			return Run(parameters);
+		}
+		public Command()
+		{
+			RequiresInstance = true;
+		}
 		public virtual void PrintHelp()
 		{
 			var Prefixes = new List<string>();
@@ -51,9 +60,10 @@ namespace TGCommandLine
 
 	class Program
 	{
+		public static string Instance;
 		static ExitCode RunCommandLine(IList<string> argsAsList)
 		{
-			var res = Server.VerifyConnection();
+			var res = Service.VerifyConnection();
 			if (res != null)
 			{
 				Console.WriteLine("Unable to connect to service: " + res);
@@ -61,7 +71,7 @@ namespace TGCommandLine
 			}
 			try
 			{
-				return new RootCommand().Run(argsAsList);
+				return new RootCommand().WrapRun(argsAsList);
 			}
 			catch (Exception e)
 			{
@@ -122,6 +132,7 @@ namespace TGCommandLine
 						formattedCommand = formattedCommand.Select(x => x.Trim()).ToList();
 						formattedCommand.Remove("");
 						RunCommandLine(formattedCommand);
+						Program.Instance = null;
 						break;
 				}
 			}

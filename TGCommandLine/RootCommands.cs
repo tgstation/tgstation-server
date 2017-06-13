@@ -44,7 +44,7 @@ namespace TGCommandLine
 									Console.WriteLine("Not enough parameters!");
 									return ExitCode.BadCommand;
 								}
-								return c.Run(parameters);
+								return c.WrapRun(parameters);
 							}
 						parameters.Insert(0, LocalKeyword);
 						break;
@@ -174,5 +174,10 @@ namespace TGCommandLine
 		{
 			return "Internal. Stops the service in preparation of an update operation.";
 		}
+	}
+
+	class SetInstanceCommand : Command
+	{
+
 	}
 }
