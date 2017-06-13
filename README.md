@@ -1,4 +1,4 @@
-# Tgstation Toolkit:
+# Tgstation Toolkit: 
 This is a toolset to manage a production server of /tg/Station13 (and its forks). It includes the ability to update the server without having to stop or shutdown the server (the update will take effect next round) the ability start the server and restart it if it crashes, as well as systems for fixing errors and merging GitHub Pull Requests locally.
   
 Generally, updates force a live tracking of the configured git repo, resetting local modifications. If you plan to make modifications, set up a new git repo to store your version of the code in, and point this script to that in the config (explained below). This can be on github or a local repo using file:/// urls.
