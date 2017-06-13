@@ -222,7 +222,7 @@ namespace TGControlPanel
 				Setting.Values = Setting.DefaultValues;
 			}
 
-			var Result = Server.GetComponent<ITGConfig>().SetItem(type, Setting);
+			var Result = Service.GetComponent<ITGConfig>().SetItem(type, Setting);
 			if (Result != null)
 				MessageBox.Show("Error: " + Result);
 

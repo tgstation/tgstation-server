@@ -32,7 +32,7 @@ namespace TGCommandLine
 					type = TGByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = TGByondVersion.Latest;
-			Console.WriteLine(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+			Console.WriteLine(Service.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		protected override string GetArgumentString()
@@ -55,7 +55,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			switch (Server.GetComponent<ITGByond>().CurrentStatus())
+			switch (Service.GetComponent<ITGByond>().CurrentStatus())
 			{
 				case TGByondStatus.Downloading:
 					Console.WriteLine("Downloading update...");
@@ -108,7 +108,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var BYOND = Server.GetComponent<ITGByond>();
+			var BYOND = Service.GetComponent<ITGByond>();
 			if (!BYOND.UpdateToVersion(Major, Minor))
 
 			{

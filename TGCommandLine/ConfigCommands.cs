@@ -28,7 +28,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGConfig>().MoveServer(parameters[0]);
+			var res = Service.GetComponent<ITGConfig>().MoveServer(parameters[0]);
 			Console.WriteLine(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -53,7 +53,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Console.WriteLine(Server.GetComponent<ITGConfig>().ServerDirectory());
+			Console.WriteLine(Service.GetComponent<ITGConfig>().ServerDirectory());
 			return ExitCode.Normal;
 		}
 		
@@ -73,7 +73,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var bytes = Server.GetComponent<ITGConfig>().ReadRaw(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
+			var bytes = Service.GetComponent<ITGConfig>().ReadRaw(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
 			if(bytes == null)
 			{
 				Console.WriteLine("Error: " + error);
@@ -113,7 +113,7 @@ namespace TGCommandLine
 		{
 			try
 			{
-				var res = Server.GetComponent<ITGConfig>().WriteRaw(parameters[0], File.ReadAllText(parameters[1]));
+				var res = Service.GetComponent<ITGConfig>().WriteRaw(parameters[0], File.ReadAllText(parameters[1]));
 				if (res != null)
 				{
 					Console.WriteLine("Error: " + res);

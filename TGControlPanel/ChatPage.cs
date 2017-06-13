@@ -16,7 +16,7 @@ namespace TGControlPanel
 		void LoadChatPage()
 		{
 			updatingChat = true;
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Service.GetComponent<ITGChat>();
 			var PI = Chat.ProviderInfo();
 			modifyingProvider = PI.Provider;
 			switch (modifyingProvider)
@@ -90,7 +90,7 @@ namespace TGControlPanel
 
 		private void ChatReconnectButton_Click(object sender, EventArgs e)
 		{
-			Server.GetComponent<ITGChat>().Reconnect();
+			Service.GetComponent<ITGChat>().Reconnect();
 			LoadChatPage();
 		}
 
@@ -112,7 +112,7 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && DiscordProviderSwitch.Checked)
 			{
-				var res = Server.GetComponent<ITGChat>().SetProviderInfo(new TGDiscordSetupInfo());
+				var res = Service.GetComponent<ITGChat>().SetProviderInfo(new TGDiscordSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
 				LoadChatPage();
@@ -123,7 +123,7 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && IRCProviderSwitch.Checked)
 			{
-				var res = Server.GetComponent<ITGChat>().SetProviderInfo(new TGIRCSetupInfo());
+				var res = Service.GetComponent<ITGChat>().SetProviderInfo(new TGIRCSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
 				LoadChatPage();
@@ -132,7 +132,7 @@ namespace TGControlPanel
 
 		private void ChatApplyButton_Click(object sender, EventArgs e)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Service.GetComponent<ITGChat>();
 
 			string res;
 			switch (modifyingProvider)

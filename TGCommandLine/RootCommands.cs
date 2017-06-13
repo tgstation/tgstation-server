@@ -92,7 +92,7 @@ namespace TGCommandLine
 					Console.WriteLine("Please specify hard or merge");
 					return ExitCode.BadCommand;
 			}
-			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(method, gen_cl);
+			var result = Service.GetComponent<ITGInstance>().UpdateServer(method, gen_cl);
 			Console.WriteLine(result ?? "Compilation started!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -130,7 +130,7 @@ namespace TGCommandLine
 				Console.WriteLine("Invalid tesmerge #: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
-			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(TGRepoUpdateMethod.None, false, tm);
+			var result = Service.GetComponent<ITGInstance>().UpdateServer(TGRepoUpdateMethod.None, false, tm);
 			Console.WriteLine(result ?? "Compilation started!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -158,7 +158,7 @@ namespace TGCommandLine
 				Console.WriteLine("This command should only be used by the installer program. Please use the --verify option to confirm this command");
 			else
 			{
-				Server.GetComponent<ITGSService>().StopForUpdate();
+				Service.GetComponent<ITGSService>().StopForUpdate();
 				GC.Collect();
 				Thread.Sleep(10000);
 			}

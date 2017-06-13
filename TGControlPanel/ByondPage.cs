@@ -9,7 +9,7 @@ namespace TGControlPanel
 		string lastReadError = null;
 		void InitBYONDPage()
 		{
-			var BYOND = Server.GetComponent<ITGByond>();
+			var BYOND = Service.GetComponent<ITGByond>();
 			var CV = BYOND.GetVersion(TGByondVersion.Installed);
 			if (CV == null)
 				CV = BYOND.GetVersion(TGByondVersion.Staged);
@@ -29,7 +29,7 @@ namespace TGControlPanel
 				}
 			}
 
-			var latestVer = Server.GetComponent<ITGByond>().GetVersion(TGByondVersion.Latest);
+			var latestVer = Service.GetComponent<ITGByond>().GetVersion(TGByondVersion.Latest);
 			LatestVersionLabel.Text = latestVer;
 
 			try
@@ -47,13 +47,13 @@ namespace TGControlPanel
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			UpdateBYONDButtons();
-			if (!Server.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
+			if (!Service.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
 				MessageBox.Show("Unable to begin update, there is another operation in progress.");
 		}
 
 		void UpdateBYONDButtons()
 		{
-			var BYOND = Server.GetComponent<ITGByond>();
+			var BYOND = Service.GetComponent<ITGByond>();
 
 			VersionLabel.Text = BYOND.GetVersion(TGByondVersion.Installed) ?? "Not Installed";
 
@@ -106,7 +106,7 @@ namespace TGControlPanel
 			try
 			{
 				UpdateBYONDButtons();
-				var error = Server.GetComponent<ITGByond>().GetError();
+				var error = Service.GetComponent<ITGByond>().GetError();
 				if (error != lastReadError)
 				{
 					lastReadError = error;

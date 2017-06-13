@@ -71,7 +71,7 @@ namespace TGControlPanel
 			if (RepoBusyCheck())
 				return;
 
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Service.GetComponent<ITGRepository>();
 
 			RepoProgressBar.Style = ProgressBarStyle.Marquee;
 			RepoProgressBar.Visible = false;
@@ -142,7 +142,7 @@ namespace TGControlPanel
 
 		bool RepoBusyCheck()
 		{
-			if (Server.GetComponent<ITGRepository>().OperationInProgress())
+			if (Service.GetComponent<ITGRepository>().OperationInProgress())
 			{
 				DoAsyncOp(RepoAction.Wait, "Waiting for repository to finish another action...");
 				return true;
@@ -164,7 +164,7 @@ namespace TGControlPanel
 		private void RepoBGW_DoWork(object sender, DoWorkEventArgs e)
 		{
 			//Only for clones
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Service.GetComponent<ITGRepository>();
 
 			switch (action) {
 				case RepoAction.Clone:
@@ -205,7 +205,7 @@ namespace TGControlPanel
 		}
 		void UpdatePythonPath()
 		{
-			if (!Server.GetComponent<ITGRepository>().SetPythonPath(PythonPathText.Text))
+			if (!Service.GetComponent<ITGRepository>().SetPythonPath(PythonPathText.Text))
 				MessageBox.Show("Python could not be found in the selected location!");
 		}
 		private void CloneRepositoryButton_Click(object sender, EventArgs e)
@@ -271,7 +271,7 @@ namespace TGControlPanel
 		}
 		private void RepoApplyButton_Click(object sender, EventArgs e)
 		{
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Service.GetComponent<ITGRepository>();
 
 			if (RepoBusyCheck())
 				return;

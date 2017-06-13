@@ -32,7 +32,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Service.GetComponent<ITGChat>();
 			string res;
 			switch (parameters[0].ToLower())
 			{
@@ -64,7 +64,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			if (Server.GetComponent<ITGChat>().ProviderInfo().Provider != TGChatProvider.IRC)
+			if (Service.GetComponent<ITGChat>().ProviderInfo().Provider != TGChatProvider.IRC)
 			{
 				Console.WriteLine("The current provider is not IRC. Please switch providers first!");
 				return ExitCode.ServerError;
@@ -95,7 +95,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Service.GetComponent<ITGChat>();
 			Chat.SetProviderInfo(new TGIRCSetupInfo(Chat.ProviderInfo())
 			{
 				Nickname = parameters[0],
@@ -123,7 +123,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			var channels = IRC.Channels();
 			var lowerParam = parameters[0].ToLower();
 			foreach (var I in channels)
@@ -159,7 +159,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			var channels = IRC.Channels();
 			var lowerParam = parameters[0].ToLower();
 			if (lowerParam[0] != '#')
@@ -198,7 +198,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGChat>().SendMessage("SCP: " + parameters[0]);
+			var res = Service.GetComponent<ITGChat>().SendMessage("SCP: " + parameters[0]);
 			if (res != null)
 			{
 				Console.WriteLine("Error: " + res);
@@ -221,7 +221,7 @@ namespace TGCommandLine
 		
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGChat>().ListAdmins();
+			var res = Service.GetComponent<ITGChat>().ListAdmins();
 			foreach (var I in res)
 				Console.WriteLine(I);
 			return ExitCode.Normal;
@@ -241,7 +241,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGChat>().Reconnect();
+			var res = Service.GetComponent<ITGChat>().Reconnect();
 			if (res != null)
 			{
 				Console.WriteLine("Error: " + res);
@@ -268,7 +268,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			var mins = new List<string>(IRC.ListAdmins());
 			var newmin = parameters[0];
 
@@ -301,7 +301,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			var mins = new List<string>(IRC.ListAdmins());
 			var deadmin = parameters[0];
 
@@ -336,7 +336,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfo())
 			{
 				AuthTarget = parameters[0],
@@ -358,7 +358,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfo())
 			{
 				AuthTarget = null,
@@ -380,7 +380,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Service.GetComponent<ITGChat>();
 			Console.WriteLine("Currently configured broadcast channels:");
 			Console.WriteLine("\tAdmin Channel: " + IRC.AdminChannel());
 			foreach (var I in IRC.Channels())
@@ -420,7 +420,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGChat>().SetChannels(null, parameters[0]);
+			Service.GetComponent<ITGChat>().SetChannels(null, parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
@@ -438,7 +438,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGChat>().SetEnabled(true);
+			Service.GetComponent<ITGChat>().SetEnabled(true);
 			return ExitCode.Normal;
 		}
 	}
@@ -456,7 +456,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGChat>().SetEnabled(true);
+			Service.GetComponent<ITGChat>().SetEnabled(true);
 			return ExitCode.Normal;
 		}
 	}
@@ -485,7 +485,7 @@ namespace TGCommandLine
 				Console.WriteLine("Invalid parameter!");
 				return ExitCode.BadCommand;
 			}
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Service.GetComponent<ITGChat>();
 			var PI = new TGIRCSetupInfo(Chat.ProviderInfo())
 			{
 				URL = splits[0]

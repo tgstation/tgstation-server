@@ -115,30 +115,35 @@ namespace TGServerService
 		protected override void OnStart(string[] args)
 		{
 			foreach (var I in Properties.Service.Default.InstanceConfigs)
-				CreateInstance(I);
+				CreateInstanceImpl(I);
 			Properties.Service.Default.ReattachToDD = false;
 		}
 
-		string CreateInstance(string instanceName) {
+		public string CreateInstance(string instanceName)
+		{
 			try
 			{
-				TGStationServer.NextInstance = instanceName;
-				var host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
-				{
-					CloseTimeout = new TimeSpan(0, 0, 5)
-				}; //construction runs here
-
-				foreach (var I in Service.ValidInterfaces)
-					AddEndpoint(host, I);
-
-				host.Open();    //...or maybe here, doesn't really matter
-				Hosts.Add(instanceName, host);
+				CreateInstanceImpl(instanceName);
 				return null;
 			}
 			catch (Exception e)
 			{
 				return e.ToString();
 			}
+		}
+		void CreateInstanceImpl(string instanceName)
+		{
+			TGStationServer.NextInstance = instanceName;
+			var host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
+			{
+				CloseTimeout = new TimeSpan(0, 0, 5)
+			}; //construction runs here
+
+			foreach (var I in Service.ValidInterfaces)
+				AddEndpoint(host, I);
+
+			host.Open();    //...or maybe here, doesn't really matter
+			Hosts.Add(instanceName, host);
 		}
 
 		//shorthand for adding the WCF endpoint
@@ -158,6 +163,14 @@ namespace TGServerService
 					Hosts.Remove(I);
 				}
 				catch { }
+		}
+
+		public IList<string> ListInstances()
+		{
+			var res = new List<string>(Hosts.Count);
+			foreach (var I in Hosts)
+				res.Add(I.Key);
+			return res;
 		}
 
 		//public api
