@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
@@ -8,7 +8,7 @@ using TGServiceInterface;
 
 namespace TGServerService
 {
-	public partial class TGServerService : ServiceBase
+	partial class TGServerService : ServiceBase, ITGSService
 	{ 
 		//only deprecate events, do not reuse them
 		public enum EventID
@@ -74,25 +74,20 @@ namespace TGServerService
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
-		public static void WriteInfo(string message, EventID id)
+		public static void WriteInfo(string message, EventID id, TGStationServer server)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Information, (int)id);
 		}
-		public static void WriteError(string message, EventID id)
+		public static void WriteError(string message, EventID id, TGStationServer server)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Error, (int)id);
 		}
-		public static void WriteWarning(string message, EventID id)
+		public static void WriteWarning(string message, EventID id, TGStationServer server)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
-		public static void LocalStop()
-		{
-			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
-		}
-
-		ServiceHost host;	//the WCF host
+		IDictionary<string, ServiceHost> Hosts;	//the WCF host
 		
 		//you should seriously not add anything here
 		//Use OnStart instead
@@ -100,11 +95,11 @@ namespace TGServerService
 		{
 			try
 			{
-				if (Properties.Settings.Default.UpgradeRequired)
+				if (Properties.Service.Default.UpgradeRequired)
 				{
-					Properties.Settings.Default.Upgrade();
-					Properties.Settings.Default.UpgradeRequired = false;
-					Properties.Settings.Default.Save();
+					Properties.Service.Default.Upgrade();
+					Properties.Service.Default.UpgradeRequired = false;
+					Properties.Service.Default.Save();
 				}
 				InitializeComponent();
 				ActiveService = this;
@@ -112,47 +107,69 @@ namespace TGServerService
 			}
 			finally
 			{
-				Properties.Settings.Default.Save();
+				Properties.Service.Default.Save();
 			}
 		}
 
 		//when babby is formed
 		protected override void OnStart(string[] args)
 		{
-			var Config = Properties.Settings.Default;
-			if (!Directory.Exists(Config.ServerDirectory))
+			foreach (var I in Properties.Service.Default.InstanceConfigs)
+				CreateInstance(I);
+			Properties.Service.Default.ReattachToDD = false;
+		}
+
+		string CreateInstance(string instanceName) {
+			try
 			{
-				EventLog.WriteEntry("Creating server directory: " + Config.ServerDirectory);
-				Directory.CreateDirectory(Config.ServerDirectory);
+				TGStationServer.NextInstance = instanceName;
+				var host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
+				{
+					CloseTimeout = new TimeSpan(0, 0, 5)
+				}; //construction runs here
+
+				foreach (var I in Service.ValidInterfaces)
+					AddEndpoint(host, I);
+
+				host.Open();    //...or maybe here, doesn't really matter
+				Hosts.Add(instanceName, host);
+				return null;
 			}
-			Environment.CurrentDirectory = Config.ServerDirectory;
-
-			host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
+			catch (Exception e)
 			{
-				CloseTimeout = new TimeSpan(0, 0, 5)
-			}; //construction runs here
-
-			foreach (var I in Server.ValidInterfaces)
-				AddEndpoint(I);
-
-			host.Open();    //...or maybe here, doesn't really matter
+				return e.ToString();
+			}
 		}
 
 		//shorthand for adding the WCF endpoint
-		void AddEndpoint(Type typetype)
+		void AddEndpoint(ServiceHost host, Type typetype)
 		{
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Server.MasterPipeName + "/" + typetype.Name);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Service.MasterPipeName + "/" + typetype.Name);
 		}
 
 		//when we is kill
 		protected override void OnStop()
 		{
-			try
-			{
-				host.Close();   //where TGStationServer.Dispose() is called
-				host = null;
-			}
-			catch { }
+			foreach (var I in Hosts)
+				try
+				{
+					var host = I.Value;
+					host.Close();   //where TGStationServer.Dispose() is called
+					Hosts.Remove(I);
+				}
+				catch { }
+		}
+
+		//public api
+		public void VerifyConnection()
+		{ }
+
+		//public api
+		public void StopForUpdate()
+		{
+			EventLog.WriteEntry("Stopping for update", EventLogEntryType.Information, (int)EventID.UpdateRequest);
+			Properties.Service.Default.ReattachToDD = true;
+			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
 		}
 	}
 }

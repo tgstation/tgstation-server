@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ServiceModel;
 namespace TGServiceInterface
 {
-	public class Server
+	public class Service
 	{
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGInstance) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -16,18 +16,28 @@ namespace TGServiceInterface
 		/// </summary>
 		public static string MasterPipeName = "TGStationServerService";
 
+		public static T CreateChanneledInterface<T>(string PipeName)
+		{
+			return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterPipeName, PipeName))).CreateChannel();
+		}
+
 		/// <summary>
 		/// Returns the requested server component interface. This does not guarantee a successful connection
 		/// </summary>
 		/// <typeparam name="T">The type of the component to retrieve</typeparam>
 		/// <returns></returns>
-		public static T GetComponent<T>()
+		public static T GetComponent<T>(string instanceName)
 		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 
-			return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterPipeName, typeof(T).Name))).CreateChannel();
+			return CreateChanneledInterface<T>(String.Format("Instance-{0}/{1}", instanceName, typeof(T).Name));
+		}
+
+		public static ITGSService Get()
+		{
+			return CreateChanneledInterface<ITGSService>(typeof(ITGSService).Name);
 		}
 		
 		/// <summary>
@@ -40,7 +50,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				GetComponent<ITGSService>().VerifyConnection();
+				Get().VerifyConnection();
 				return null;
 			}
 			catch(Exception e)
@@ -61,6 +71,20 @@ namespace TGServiceInterface
 		/// </summary>
 		[OperationContract]
 		void VerifyConnection();
+
+		/// <summary>
+		/// Lists all instances the service manages
+		/// </summary>
+		/// <returns>A list of instance names</returns>
+		[OperationContract]
+		IList<string> ListInstances();
+
+		/// <summary>
+		/// Creates a new instance at the specified path
+		/// </summary>
+		/// <returns>null on success, error message on failure</returns>
+		[OperationContract]
+		string CreateInstance(string path);
 
 		/// <summary>
 		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
@@ -93,11 +117,18 @@ namespace TGServiceInterface
 	}
 
 	/// <summary>
-	/// One stop shop for server updates
+	/// Manage a server instance
 	/// </summary>
 	[ServiceContract]
-	public interface ITGServerUpdater
+	public interface ITGInstance
 	{
+		/// <summary>
+		/// Gets the instance's name
+		/// </summary>
+		/// <returns>The instance's name</returns>
+		[OperationContract]
+		string InstanceName();
+
 		/// <summary>
 		/// Updates the server fully with various options as a blocking operation
 		/// </summary>
@@ -107,6 +138,12 @@ namespace TGServiceInterface
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr = 0);
+
+		/// <summary>
+		/// Deletes the instance and everything it manages this will stop the server, cancel any pending repo actions and delete the instance's directory
+		/// </summary>
+		[OperationContract]
+		void Delete();
 	}
 
 }

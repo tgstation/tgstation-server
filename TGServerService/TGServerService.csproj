@@ -89,13 +89,18 @@
     <Compile Include="Config.cs" />
     <Compile Include="Discord.cs" />
     <Compile Include="DreamDaemon.cs" />
-    <Compile Include="InterfaceBase.cs" />
+    <Compile Include="Instance.cs" />
     <Compile Include="IRC.cs" />
     <Compile Include="Interop.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
+    <Compile Include="Properties\Instance.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
+      <DependentUpon>Instance.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Service.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Service.settings</DependentUpon>
     </Compile>
     <Compile Include="Repository.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -120,9 +125,13 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\Settings.settings">
+    <None Include="Properties\Instance.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <LastGenOutput>Instance.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Service.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Service.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
