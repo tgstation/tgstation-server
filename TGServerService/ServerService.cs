@@ -86,14 +86,14 @@ namespace TGServerService
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
-
+    
 		public static void LocalStop()
 		{
 			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
 		}
 
 		ServiceHost host;	//the WCF host
-		
+    
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
@@ -152,7 +152,10 @@ namespace TGServerService
 				host.Close();   //where TGStationServer.Dispose() is called
 				host = null;
 			}
-			catch { }
+			catch (Exception e)
+			{
+				WriteLog(e.ToString(), EventLogEntryType.Error);
+			}
 		}
 	}
 }
