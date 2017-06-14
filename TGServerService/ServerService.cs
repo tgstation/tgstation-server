@@ -10,20 +10,20 @@ namespace TGServerService
 {
 	public partial class TGServerService : ServiceBase
 	{
-		static TGServerService ActiveService;	//So everyone else can write to our eventlog
+		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
 		public static void WriteLog(string message, EventLogEntryType type = EventLogEntryType.Information)
 		{
 			ActiveService.EventLog.WriteEntry(message, type);
 		}
-
+    
 		public static void LocalStop()
 		{
 			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
 		}
 
 		ServiceHost host;	//the WCF host
-		
+    
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
@@ -82,7 +82,10 @@ namespace TGServerService
 				host.Close();   //where TGStationServer.Dispose() is called
 				host = null;
 			}
-			catch { }
+			catch (Exception e)
+			{
+				WriteLog(e.ToString(), EventLogEntryType.Error);
+			}
 		}
 	}
 }

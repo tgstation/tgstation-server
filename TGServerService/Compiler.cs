@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using TGServiceInterface;
 
@@ -38,6 +39,7 @@ namespace TGServerService
 		const string LiveDirTest = GameDirLive + LiveFile;
 
 		List<string> copyExcludeList = new List<string> { ".git", "data", "config", "libmysql.dll" };   //shit we handle
+		List<string> deleteExcludeList = new List<string> { "data", "config", "libmysql.dll" };   //shit we handle
 
 		object CompilerLock = new object();
 		TGCompilerStatus compilerCurrentStatus;
@@ -287,23 +289,9 @@ namespace TGServerService
 				SendMessage("DM: Compiling...");
 				var resurrectee = GetStagingDir();
 
-				//clear out the syms first
-				if (Directory.Exists(resurrectee + "/data"))
-					Directory.Delete(resurrectee + "/data");
-
-				if (Directory.Exists(resurrectee + "/config"))
-					Directory.Delete(resurrectee + "/config");
-
-				if (File.Exists(resurrectee + LibMySQLFile))
-					File.Delete(resurrectee + LibMySQLFile);
-
-				Program.DeleteDirectory(resurrectee, true);
+				Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
 
 				Directory.CreateDirectory(resurrectee + "/.git/logs");
-
-				CreateSymlink(resurrectee + "/data", StaticDataDir);
-				CreateSymlink(resurrectee + "/config", StaticConfigDir);
-				CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
 
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))
@@ -370,7 +358,16 @@ namespace TGServerService
 				{
 					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
 					DM.StartInfo.Arguments = dmePath;
+					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
+					var OutputList = new StringBuilder();
+					DM.OutputDataReceived += new DataReceivedEventHandler(
+						delegate(object sender, DataReceivedEventArgs e)
+						{
+							OutputList.Append(Environment.NewLine);
+							OutputList.Append(e.Data);
+						}
+					);
 					try
 					{
 						lock (CompilerLock)
@@ -381,7 +378,9 @@ namespace TGServerService
 						}
 						
 						DM.Start();
+						DM.BeginOutputReadLine();
 						DM.WaitForExit();
+						DM.CancelOutputRead();
 
 						lock (CompilerLock)
 						{
@@ -445,11 +444,11 @@ namespace TGServerService
 							lastCompilerError = null;
 							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
 						}
-
 					}
 					else
 					{
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
+						TGServerService.WriteLog("Compile error: " + OutputList.ToString(), EventLogEntryType.Warning);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";

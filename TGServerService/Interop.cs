@@ -28,25 +28,33 @@ namespace TGServerService
 		const string SCIRCStatus = "irc_status";	//returns admin stats
 		const string SCNameCheck = "namecheck"; //returns keywords lookup
 		const string SCAdminPM = "adminmsg";	//pms a target ckey
-		const string SCAdminWho = "adminwho";	//lists admins
+		const string SCAdminWho = "adminwho";   //lists admins
+
+		const string SRKillProcess = "killme";
+		const string SRIRCBroadcast = "irc";
+		const string SRIRCAdminChannelMessage = "send2irc";
+		const string SRWorldReboot = "worldreboot";
 
 		//raw command string sent here via world.ExportService
 		void HandleCommand(string cmd)
 		{
 			var splits = new List<string>(cmd.Split(' '));
+			cmd = splits[0];
+			splits.RemoveAt(0);
 
-			switch (splits[0])
+			switch (cmd)
 			{
-				case "irc":
-					splits.RemoveAt(0);
+				case SRIRCBroadcast:
 					SendMessage("GAME: " + String.Join(" ", splits));
 					break;
-				case "killme":
+				case SRKillProcess:
 					KillMe();
 					break;
-				case "send2irc":
-					splits.RemoveAt(0);
+				case SRIRCAdminChannelMessage:
 					SendMessage("RELAY: " + String.Join(" ", splits), true);
+					break;
+				case SRWorldReboot:
+					TGServerService.WriteLog("World Rebooted", EventLogEntryType.Information);
 					break;
 			}
 		}

@@ -55,19 +55,27 @@ namespace TGServerService
 		{
 			if (info == null)
 				info = ProviderInfo();
-			switch (info.Provider)
-			{
-				case TGChatProvider.Discord:
-					ChatProvider = new TGDiscordChatProvider(info);
-					break;
-				case TGChatProvider.IRC:
-					ChatProvider = new TGIRCChatProvider(info);
-					break;
-				default:
-					TGServerService.WriteLog(String.Format("Invalid chat provider: {0}", info.Provider), EventLogEntryType.Error);
-					break;
-			}
 			currentProvider = info.Provider;
+			try
+			{
+				switch (info.Provider)
+				{
+					case TGChatProvider.Discord:
+						ChatProvider = new TGDiscordChatProvider(info);
+						break;
+					case TGChatProvider.IRC:
+						ChatProvider = new TGIRCChatProvider(info);
+						break;
+					default:
+						TGServerService.WriteLog(String.Format("Invalid chat provider: {0}", info.Provider), EventLogEntryType.Error);
+						break;
+				}
+			}
+			catch (Exception e)
+			{
+				TGServerService.WriteLog(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), EventLogEntryType.Error);
+				return;
+			}
 			ChatProvider.OnChatMessage += ChatProvider_OnChatMessage;
 			if (Properties.Settings.Default.ChatEnabled)
 			{
@@ -117,7 +125,11 @@ namespace TGServerService
 
 		void DisposeChat()
 		{
-			ChatProvider.Dispose();
+			if (ChatProvider != null)
+			{
+				ChatProvider.Dispose();
+				ChatProvider = null;
+			}
 		}
 
 		//Do stuff with words that were spoken to us
@@ -170,7 +182,7 @@ namespace TGServerService
 				if (!enable && Connected())
 					ChatProvider.Disconnect();
 				else if (enable && !Connected())
-					return ChatProvider.Connect();
+					return ChatProvider != null ? ChatProvider.Connect() : "Null chat provider!";
 				return null;
 			}
 		}
@@ -292,7 +304,7 @@ namespace TGServerService
 					Config.ChatProviderEntropy = Convert.ToBase64String(entropy, 0, entropy.Length);
 					Config.ChatProviderData = Convert.ToBase64String(ciphertext, 0, ciphertext.Length);
 
-					if (info.Provider == currentProvider)
+					if (ChatProvider != null && info.Provider == currentProvider)
 						return ChatProvider.SetProviderInfo(info);
 					else
 					{
@@ -329,7 +341,7 @@ namespace TGServerService
 				{
 					var oldchannels = Config.ChatChannels;
 					var si = new StringCollection();
-					foreach(var c in channels)
+					foreach (var c in channels)
 					{
 						var Res = SanitizeChannelName(c);
 						if (Res != null)
@@ -350,13 +362,13 @@ namespace TGServerService
 					ChatProvider.SetChannels(CollectionToArray(Config.ChatChannels), Config.ChatAdminChannel);
 			}			
 		}
-	
+
 		//public api
 		public bool Connected()
 		{
 			lock (ChatLock)
 			{
-				return ChatProvider.Connected();
+				return ChatProvider != null ? ChatProvider.Connected() : false;
 			}
 		}
 
@@ -367,7 +379,7 @@ namespace TGServerService
 			{
 				if (!Properties.Settings.Default.ChatEnabled)
 					return "Chat is disabled!";
-				return ChatProvider.Reconnect();
+				return ChatProvider != null ? ChatProvider.Reconnect() : "Null chat provider!";
 			}
 		}
 
@@ -376,7 +388,7 @@ namespace TGServerService
 		{
 			lock (ChatLock)
 			{
-				return ChatProvider.SendMessage(msg, adminOnly);
+				return ChatProvider != null ? ChatProvider.SendMessage(msg, adminOnly) : "Null chat provider!";
 			}
 		}
 	}
