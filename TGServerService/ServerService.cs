@@ -70,6 +70,8 @@ namespace TGServerService
 			RepoPushFail = 55000,
 			RepoChangelog = 56000,
 			RepoChangelogFail = 57000,
+			ServiceShutdownFail = 61000,
+			WorldReboot = 62000,	
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
@@ -154,7 +156,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				WriteLog(e.ToString(), EventLogEntryType.Error);
+				WriteError(e.ToString(), EventID.ServiceShutdownFail);
 			}
 		}
 	}

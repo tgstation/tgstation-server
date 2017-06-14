@@ -54,7 +54,7 @@ namespace TGServerService
 					SendMessage("RELAY: " + String.Join(" ", splits), true);
 					break;
 				case SRWorldReboot:
-					TGServerService.WriteLog("World Rebooted", EventLogEntryType.Information);
+					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
 					break;
 			}
 		}

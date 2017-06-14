@@ -447,9 +447,8 @@ namespace TGServerService
 					}
 					else
 					{
-						TGServerService.WriteInfo("Compilation failed!", TGServerService.EventID.DMCompileCancel);
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
-						TGServerService.WriteLog("Compile error: " + OutputList.ToString(), EventLogEntryType.Warning);
+						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileCancel);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
