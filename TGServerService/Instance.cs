@@ -12,11 +12,16 @@ namespace TGServerService
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	partial class TGStationServer : IDisposable, ITGInstance
 	{
+		readonly string instanceName;
+		Properties.Instance Config;
 
 		//call partial constructors/destructors from here
 		//called when the service is started
-		public TGStationServer()
+		public TGStationServer(string name, Properties.Instance cfg)
 		{
+			instanceName = name;
+			Config = cfg;
+
 			InitChat();
 			InitByond();
 			InitCompiler();
@@ -31,6 +36,21 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+		}
+
+		public string InstanceName()
+		{
+			return instanceName;
+		}
+
+		public int InstanceID()
+		{
+			return Config.InstanceID;
+		}
+
+		public void Delete()
+		{
+			ThreadPool.QueueUserWorkItem( _ => { TGServerService.DeleteInstance(Config.InstanceID); });
 		}
 
 		//one stop update

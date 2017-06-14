@@ -26,13 +26,13 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <typeparam name="T">The type of the component to retrieve</typeparam>
 		/// <returns></returns>
-		public static T GetComponent<T>(string instanceName)
+		public static T GetComponent<T>(int instance)
 		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 
-			return CreateChanneledInterface<T>(String.Format("Instance-{0}/{1}", instanceName, typeof(T).Name));
+			return CreateChanneledInterface<T>(String.Format("Instance-{0}/{1}", instance, typeof(T).Name));
 		}
 
 		public static ITGSService Get()
@@ -75,16 +75,18 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Lists all instances the service manages
 		/// </summary>
-		/// <returns>A list of instance names</returns>
+		/// <returns>A list of instance ids -> names</returns>
 		[OperationContract]
-		IList<string> ListInstances();
+		IDictionary<int, string> ListInstances();
 
 		/// <summary>
 		/// Creates a new instance at the specified path
 		/// </summary>
-		/// <returns>null on success, error message on failure</returns>
+		/// <param name="name">The name of the instance</param>
+		/// <param name="path">The path of the instance</param>
+		/// <returns></returns>
 		[OperationContract]
-		string CreateInstance(string path);
+		string CreateInstance(string name, string path);
 
 		/// <summary>
 		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
@@ -92,58 +94,4 @@ namespace TGServiceInterface
 		[OperationContract]
 		void StopForUpdate();
 	}
-
-	/// <summary>
-	/// How to modify the repo during the UpdateServer operation
-	/// </summary>
-	public enum TGRepoUpdateMethod
-	{
-		/// <summary>
-		/// Do not update the repo
-		/// </summary>
-		None,
-		/// <summary>
-		/// Update the repo by merging the origin branch
-		/// </summary>
-		Merge,
-		/// <summary>
-		/// Update the repo by hard resetting to the remote branch
-		/// </summary>
-		Hard,
-		/// <summary>
-		/// Clean the repo by hard resetting to the origin branch
-		/// </summary>
-		Reset,
-	}
-
-	/// <summary>
-	/// Manage a server instance
-	/// </summary>
-	[ServiceContract]
-	public interface ITGInstance
-	{
-		/// <summary>
-		/// Gets the instance's name
-		/// </summary>
-		/// <returns>The instance's name</returns>
-		[OperationContract]
-		string InstanceName();
-
-		/// <summary>
-		/// Updates the server fully with various options as a blocking operation
-		/// </summary>
-		/// <param name="updateType">How to handle the repository during the update</param>
-		/// <param name="push_changelog_if_enabled">true if the changelog should be pushed to git</param>
-		/// <param name="testmerge_pr">If not zero, will testmerge the designated pull request</param>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr = 0);
-
-		/// <summary>
-		/// Deletes the instance and everything it manages this will stop the server, cancel any pending repo actions and delete the instance's directory
-		/// </summary>
-		[OperationContract]
-		void Delete();
-	}
-
 }

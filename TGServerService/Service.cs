@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
@@ -70,24 +71,29 @@ namespace TGServerService
 			RepoPushFail = 55000,
 			RepoChangelog = 56000,
 			RepoChangelogFail = 57000,
+			InstanceDelete = 58000,
+			InstanceDeleteFail = 59000,
+			InstanceShutdownFail = 60000,
+			ServiceShutdownFail = 61000,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
 		public static void WriteInfo(string message, EventID id, TGStationServer server)
 		{
-			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Information, (int)id);
+			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Information, (int)id + server.InstanceID());
 		}
 		public static void WriteError(string message, EventID id, TGStationServer server)
 		{
-			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Error, (int)id);
+			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Error, (int)id + server.InstanceID());
 		}
 		public static void WriteWarning(string message, EventID id, TGStationServer server)
 		{
-			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
+			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id + server.InstanceID());
 		}
 
-		IDictionary<string, ServiceHost> Hosts;	//the WCF host
+		ServiceHost MainHost;
+		IDictionary<int, ServiceHost> Hosts;	//the WCF host
 		
 		//you should seriously not add anything here
 		//Use OnStart instead
@@ -114,16 +120,22 @@ namespace TGServerService
 		//when babby is formed
 		protected override void OnStart(string[] args)
 		{
+			MainHost = new ServiceHost(this, new Uri[] { new Uri("net.pipe://localhost") })
+			{
+				CloseTimeout = new TimeSpan(0, 0, 5)
+			}; //construction runs here
+
+			AddEndpoint(MainHost, typeof(ITGSService), false);
 			foreach (var I in Properties.Service.Default.InstanceConfigs)
-				CreateInstanceImpl(I);
+				CreateInstanceImpl(I, null);
 			Properties.Service.Default.ReattachToDD = false;
 		}
 
-		public string CreateInstance(string instanceName)
+		public string CreateInstance(string instanceName, string instancePath)
 		{
 			try
 			{
-				CreateInstanceImpl(instanceName);
+				CreateInstanceImpl(instanceName, instancePath);
 				return null;
 			}
 			catch (Exception e)
@@ -131,45 +143,85 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
-		void CreateInstanceImpl(string instanceName)
+
+		void ShutdownInstance(int instanceID)
 		{
-			TGStationServer.NextInstance = instanceName;
-			var host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
+			try
+			{
+				var host = Hosts[instanceID];
+				host.Close();
+				((IDisposable)host.SingletonInstance).Dispose();
+				Hosts.Remove(instanceID);
+			}
+			catch (Exception e)
+			{
+				EventLog.WriteEntry("Failed to shutdown instance: " + e.ToString(), EventLogEntryType.Error, (int)EventID.InstanceShutdownFail + instanceID);
+			}
+		}
+
+		public static void DeleteInstance(int instanceID)
+		{
+			ActiveService.DeleteInstanceImpl(instanceID);
+		}
+
+		void DeleteInstanceImpl(int instanceID)
+		{
+			try
+			{
+				var instance = ((TGStationServer)Hosts[instanceID].SingletonInstance);
+				var instancePath = instance.ServerDirectory();
+				var instanceName = instance.InstanceName();
+				ShutdownInstance(instanceID);
+				Properties.Service.Default.InstanceConfigs.Remove(instanceName);
+				Program.DeleteDirectory(instancePath);
+				EventLog.WriteEntry("Instance deleted.", EventLogEntryType.Information, (int)EventID.InstanceDelete + instanceID);
+			}
+			catch (Exception e)
+			{
+				EventLog.WriteEntry("Error deleting instance: " + e.ToString(), EventLogEntryType.Error, (int)EventID.InstanceDeleteFail + instanceID);
+			}
+		}
+		void CreateInstanceImpl(string instanceName, string instancePath)
+		{
+			var Config = new Properties.Instance(instanceName);
+
+			if (instancePath != null)
+				Config.ServerDirectory = instancePath;
+
+			if (!Directory.Exists(Config.ServerDirectory))
+				Directory.CreateDirectory(Config.ServerDirectory);
+
+			var host = new ServiceHost(new TGStationServer(instanceName, Config), new Uri[] { new Uri("net.pipe://localhost") })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
-			}; //construction runs here
+			};
 
 			foreach (var I in Service.ValidInterfaces)
-				AddEndpoint(host, I);
+				AddEndpoint(host, I, true);
 
-			host.Open();    //...or maybe here, doesn't really matter
-			Hosts.Add(instanceName, host);
+			host.Open();
+			Hosts.Add(((TGStationServer)host.SingletonInstance).InstanceID(), host);
 		}
 
 		//shorthand for adding the WCF endpoint
-		void AddEndpoint(ServiceHost host, Type typetype)
+		void AddEndpoint(ServiceHost host, Type typetype, bool instanced)
 		{
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Service.MasterPipeName + "/" + typetype.Name);
+			string Append = instanced ? "/Instance-" + ((TGStationServer)host.SingletonInstance).InstanceID() : "";
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Service.MasterPipeName + Append + "/" + typetype.Name);
 		}
 
 		//when we is kill
 		protected override void OnStop()
 		{
 			foreach (var I in Hosts)
-				try
-				{
-					var host = I.Value;
-					host.Close();   //where TGStationServer.Dispose() is called
-					Hosts.Remove(I);
-				}
-				catch { }
+				ShutdownInstance(I.Key);
 		}
 
-		public IList<string> ListInstances()
+		public IDictionary<int, string> ListInstances()
 		{
-			var res = new List<string>(Hosts.Count);
+			var res = new Dictionary<int, string>(Hosts.Count);
 			foreach (var I in Hosts)
-				res.Add(I.Key);
+				res.Add(I.Key, ((TGStationServer)I.Value.SingletonInstance).InstanceName());
 			return res;
 		}
 
