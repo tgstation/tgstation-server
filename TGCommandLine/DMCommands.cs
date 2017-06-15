@@ -27,7 +27,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Service.GetComponent<ITGCompiler>();
+			var DM = Service.GetComponent<ITGCompiler>(Program.Instance);
 			var stat = DM.GetStatus();
 			if (stat != TGCompilerStatus.Initialized)
 			{
@@ -35,7 +35,7 @@ namespace TGCommandLine
 				return ExitCode.ServerError;
 			}
 
-			if (Service.GetComponent<ITGByond>().GetVersion(TGByondVersion.Installed) == null)
+			if (Service.GetComponent<ITGByond>(Program.Instance).GetVersion(TGByondVersion.Installed) == null)
 			{
 				Console.Write("Error: BYOND is not installed!");
 				return ExitCode.ServerError;
@@ -83,14 +83,14 @@ namespace TGCommandLine
 
 		void ShowError()
 		{
-			var error = Service.GetComponent<ITGCompiler>().CompileError();
+			var error = Service.GetComponent<ITGCompiler>(Program.Instance).CompileError();
 			if (error != null)
 				Console.WriteLine("Last error: " + error);
 		}
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Service.GetComponent<ITGCompiler>();
+			var DM = Service.GetComponent<ITGCompiler>(Program.Instance);
 			Console.WriteLine(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
 			Console.Write("Compilier is currently: ");
 			switch (DM.GetStatus())
@@ -141,7 +141,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Service.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
+			Service.GetComponent<ITGCompiler>(Program.Instance).SetProjectName(parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
@@ -165,7 +165,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Service.GetComponent<ITGCompiler>();
+			var DM = Service.GetComponent<ITGCompiler>(Program.Instance);
 			var stat = DM.GetStatus();
 			if (stat == TGCompilerStatus.Compiling || stat == TGCompilerStatus.Initializing)
 			{
@@ -205,7 +205,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Service.GetComponent<ITGCompiler>().Cancel();
+			var res = Service.GetComponent<ITGCompiler>(Program.Instance).Cancel();
 			Console.WriteLine(res ?? "Success!");
 			return ExitCode.Normal;	//because failing cancellation implys it's already cancelled
 		}

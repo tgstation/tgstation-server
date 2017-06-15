@@ -14,7 +14,8 @@ namespace TGServiceInterface
 		/// Base name of the communication pipe
 		/// they are formatted as MasterPipeName/ComponentName
 		/// </summary>
-		public static string MasterPipeName = "TGStationServerService";
+		public static readonly string MasterPipeName = "TGStationServerService";
+		public static readonly string InstanceFormat = "Instance-{0}";
 
 		public static T CreateChanneledInterface<T>(string PipeName)
 		{
@@ -32,7 +33,10 @@ namespace TGServiceInterface
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 
-			return CreateChanneledInterface<T>(String.Format("Instance-{0}/{1}", instance, typeof(T).Name));
+			if (instance <= 0 || instance >= 1000)
+				throw new Exception("Invalid instance ID");
+
+			return CreateChanneledInterface<T>(String.Format(InstanceFormat + "/{1}", instance, typeof(T).Name));
 		}
 
 		public static ITGSService Get()

@@ -67,7 +67,7 @@ namespace TGCommandLine
 			}
 			try
 			{
-				return new RootCommand().WrapRun(argsAsList);
+				return new RootCommand().Run(argsAsList);
 			}
 			catch (Exception e)
 			{

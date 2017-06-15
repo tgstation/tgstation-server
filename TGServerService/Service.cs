@@ -209,7 +209,7 @@ namespace TGServerService
 		//shorthand for adding the WCF endpoint
 		void AddEndpoint(ServiceHost host, Type typetype, bool instanced)
 		{
-			string Append = instanced ? "/Instance-" + ((TGStationServer)host.SingletonInstance).InstanceID() : "";
+			string Append = instanced ? String.Format(Service.InstanceFormat, ((TGStationServer)host.SingletonInstance).InstanceID()) : "";
 			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Service.MasterPipeName + Append + "/" + typetype.Name);
 		}
 

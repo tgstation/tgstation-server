@@ -55,7 +55,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			switch (Service.GetComponent<ITGByond>().CurrentStatus())
+			switch (Service.GetComponent<ITGByond>(Program.Instance).CurrentStatus())
 			{
 				case TGByondStatus.Downloading:
 					Console.WriteLine("Downloading update...");
@@ -108,7 +108,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var BYOND = Service.GetComponent<ITGByond>();
+			var BYOND = Service.GetComponent<ITGByond>(Program.Instance);
 			if (!BYOND.UpdateToVersion(Major, Minor))
 
 			{
