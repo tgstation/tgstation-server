@@ -31,11 +31,18 @@ namespace TGServerService
 		//called when the service is stopped
 		void RunDisposals()
 		{
-			DisposeDreamDaemon();
-			DisposeCompiler();
-			DisposeByond();
-			DisposeRepo();
-			DisposeChat();
+			try
+			{
+				DisposeDreamDaemon();
+				DisposeCompiler();
+				DisposeByond();
+				DisposeRepo();
+				DisposeChat();
+			}
+			finally
+			{
+				Config.Save();
+			}
 		}
 
 		public string InstanceName()

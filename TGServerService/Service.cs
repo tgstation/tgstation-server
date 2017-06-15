@@ -75,6 +75,7 @@ namespace TGServerService
 			InstanceDeleteFail = 59000,
 			InstanceShutdownFail = 60000,
 			ServiceShutdownFail = 61000,
+			WorldReboot = 62000,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
