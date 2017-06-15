@@ -16,11 +16,13 @@ namespace TGServerService
 		object IRCLock = new object();
 
 		TGIRCSetupInfo IRCConfig;
+		TGStationServer Parent;
 
 		public event OnChatMessage OnChatMessage;
 		
-		public TGIRCChatProvider(TGChatSetupInfo info)
+		public TGIRCChatProvider(TGChatSetupInfo info, TGStationServer parent)
 		{
+			Parent = parent;
 			IRCConfig = new TGIRCSetupInfo(info);
 			irc = new IrcFeatures() { SupportNonRfc = true };
 			irc.OnChannelMessage += Irc_OnChannelMessage;
@@ -41,7 +43,7 @@ namespace TGServerService
 						channel = channel.Replace(PrivateMessageMarker, "");
 					irc.SendMessage(SendType.Message, channel, message);
 				}
-				TGServerService.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), TGServerService.EventID.ChatSend);
+				TGServerService.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), TGServerService.EventID.ChatSend, Parent);
 				return null;
 			}
 			catch (Exception e)
@@ -67,7 +69,6 @@ namespace TGServerService
 		{
 			lock (IRCLock) {
 				var channelsList = new List<string>(channels);
-				var Config = Properties.Settings.Default;
 				foreach (var I in irc.JoinedChannels)
 					if (!channelsList.Contains(I))
 						irc.RfcPart(I);
@@ -104,7 +105,7 @@ namespace TGServerService
 		//Joins configured channels
 		void JoinChannels()
 		{
-			foreach (var I in Properties.Settings.Default.ChatChannels)
+			foreach (var I in Parent.Config.ChatChannels)
 				irc.RfcJoin(I);
 		}
 		//runs the login command
@@ -198,7 +199,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteError("IRC failed QnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
+				TGServerService.WriteError("IRC failed QnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail, Parent);
 			}
 		}
 		//public api
@@ -218,14 +219,13 @@ namespace TGServerService
 					return "Disconnected.";
 				lock (IRCLock)
 				{
-					var Config = Properties.Settings.Default;
 					if (adminOnly)
-						irc.SendMessage(SendType.Message, Config.ChatAdminChannel, message);
+						irc.SendMessage(SendType.Message, Parent.Config.ChatAdminChannel, message);
 					else
-						foreach (var I in Config.ChatChannels)
+						foreach (var I in Parent.Config.ChatChannels)
 							irc.SendMessage(SendType.Message, I, message);
 				}
-				TGServerService.WriteInfo(String.Format("IRC Send{0}: {1}", adminOnly ? " (ADMIN)" : "", message), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast);
+				TGServerService.WriteInfo(String.Format("IRC Send{0}: {1}", adminOnly ? " (ADMIN)" : "", message), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast, Parent);
 				return null;
 			}
 			catch (Exception e)

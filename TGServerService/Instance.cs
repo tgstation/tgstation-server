@@ -13,7 +13,7 @@ namespace TGServerService
 	partial class TGStationServer : IDisposable, ITGInstance
 	{
 		readonly string instanceName;
-		Properties.Instance Config;
+		public Properties.Instance Config;
 
 		//call partial constructors/destructors from here
 		//called when the service is started

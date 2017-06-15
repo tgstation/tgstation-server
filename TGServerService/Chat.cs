@@ -61,10 +61,10 @@ namespace TGServerService
 				switch (info.Provider)
 				{
 					case TGChatProvider.Discord:
-						ChatProvider = new TGDiscordChatProvider(info);
+						ChatProvider = new TGDiscordChatProvider(info, this);
 						break;
 					case TGChatProvider.IRC:
-						ChatProvider = new TGIRCChatProvider(info);
+						ChatProvider = new TGIRCChatProvider(info, this);
 						break;
 					default:
 						TGServerService.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), TGServerService.EventID.InvalidChatProvider, this);

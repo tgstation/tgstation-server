@@ -109,6 +109,8 @@ namespace TGServerService
 					Properties.Service.Default.Save();
 				}
 				InitializeComponent();
+				Hosts = new Dictionary<int, ServiceHost>(Properties.Service.Default.InstanceConfigs.Count);
+
 				ActiveService = this;
 				Run(this);
 			}
@@ -129,7 +131,6 @@ namespace TGServerService
 			AddEndpoint(MainHost, typeof(ITGSService), false);
 			foreach (var I in Properties.Service.Default.InstanceConfigs)
 				CreateInstanceImpl(I, null);
-			Properties.Service.Default.ReattachToDD = false;
 		}
 
 		public string CreateInstance(string instanceName, string instancePath)
@@ -184,7 +185,8 @@ namespace TGServerService
 		}
 		void CreateInstanceImpl(string instanceName, string instancePath)
 		{
-			var Config = new Properties.Instance(instanceName);
+			var Config = new Properties.Instance() { SettingsKey = instanceName };
+			Config.Reload();
 
 			if (instancePath != null)
 				Config.ServerDirectory = instancePath;
@@ -234,7 +236,8 @@ namespace TGServerService
 		public void StopForUpdate()
 		{
 			EventLog.WriteEntry("Stopping for update", EventLogEntryType.Information, (int)EventID.UpdateRequest);
-			Properties.Service.Default.ReattachToDD = true;
+			foreach (var I in Hosts)
+				((TGStationServer)I.Value.SingletonInstance).Config.ReattachToDD = true;
 			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
 		}
 	}

@@ -44,7 +44,12 @@ namespace TGCommandLine
 									Console.WriteLine("Not enough parameters!");
 									return ExitCode.BadCommand;
 								}
-								return c.WrapRun(parameters);
+								if(c.RequiresInstance && Program.Instance == 0)
+								{
+									Console.WriteLine("Please specify an instance with --instance [id]");
+									return ExitCode.BadCommand;
+								}
+								return c.Run(parameters);
 							}
 						parameters.Insert(0, LocalKeyword);
 						break;

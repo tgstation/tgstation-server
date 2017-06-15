@@ -19,11 +19,7 @@ namespace TGCommandLine
 		public string Keyword { get; protected set; }
 		public Command[] Children { get; protected set; } = { };
 		public int RequiredParameters { get; protected set; }
-		protected abstract ExitCode Run(IList<string> parameters);
-		public virtual ExitCode WrapRun(IList<string> parameters)
-		{
-			return Run(parameters);
-		}
+		public abstract ExitCode Run(IList<string> parameters);
 		public Command()
 		{
 			RequiresInstance = true;
@@ -60,7 +56,7 @@ namespace TGCommandLine
 
 	class Program
 	{
-		public static string Instance;
+		public static int Instance;
 		static ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			var res = Service.VerifyConnection();
@@ -132,7 +128,7 @@ namespace TGCommandLine
 						formattedCommand = formattedCommand.Select(x => x.Trim()).ToList();
 						formattedCommand.Remove("");
 						RunCommandLine(formattedCommand);
-						Program.Instance = null;
+						Program.Instance = 0;
 						break;
 				}
 			}

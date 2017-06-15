@@ -32,7 +32,7 @@ namespace TGCommandLine
 					type = TGByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = TGByondVersion.Latest;
-			Console.WriteLine(Service.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+			Console.WriteLine(Service.GetComponent<ITGByond>(Program.Instance).GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		protected override string GetArgumentString()

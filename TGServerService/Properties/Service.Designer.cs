@@ -45,17 +45,5 @@ namespace TGServerService.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ReattachToDD {
-            get {
-                return ((bool)(this["ReattachToDD"]));
-            }
-            set {
-                this["ReattachToDD"] = value;
-            }
-        }
     }
 }

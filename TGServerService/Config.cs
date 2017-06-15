@@ -291,7 +291,6 @@ namespace TGServerService
 		//public api
 		public string MoveServer(string new_location)
 		{
-			var Config = Properties.Settings.Default;
 			try
 			{
 				var di1 = new DirectoryInfo(Config.ServerDirectory);
@@ -353,7 +352,7 @@ namespace TGServerService
 										catch (Exception e)
 										{
 											error = "The move was successful, but the path " + Config.ServerDirectory + " was unable to be deleted fully!";
-											TGServerService.WriteWarning(String.Format("Server move from {0} to {1} partial success: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMovePartial);
+											TGServerService.WriteWarning(String.Format("Server move from {0} to {1} partial success: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMovePartial, this);
 										}
 									}
 									else
@@ -370,7 +369,7 @@ namespace TGServerService
 											throw;
 										}
 									}
-									TGServerService.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), TGServerService.EventID.ServerMoveComplete);
+									TGServerService.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), TGServerService.EventID.ServerMoveComplete, this);
 									Config.ServerDirectory = new_location;
 									return null;
 								}
@@ -397,7 +396,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteError(String.Format("Server move from {0} to {1} failed: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMoveFailed);
+				TGServerService.WriteError(String.Format("Server move from {0} to {1} failed: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMoveFailed, this);
 				return e.ToString();
 			}
 		}
