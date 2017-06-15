@@ -2,7 +2,6 @@
 
 namespace TGServiceInterface
 {
-
 	/// <summary>
 	/// How to modify the repo during the UpdateServer operation
 	/// </summary>
