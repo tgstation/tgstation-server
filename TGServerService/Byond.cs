@@ -198,7 +198,7 @@ namespace TGServerService
 					Directory.CreateDirectory(PrepPath(ByondConfigDir));
 					File.WriteAllText(PrepPath(ByondConfigDir + ByondDDConfig), PrepPath(ByondNoPromptTrustedMode));
 				}
-				File.Delete(RevisionDownloadPath);
+				File.Delete(PrepPath(RevisionDownloadPath));
 
 				lock (ByondLock)
 				{
