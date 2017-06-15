@@ -251,7 +251,7 @@ namespace TGServerService
 			//So TheDir is what the Live folder is NOT pointing to
 			//Now we need to check if DD is running that folder and swap it if necessary
 
-			var rsclock = TheDir + "/" + Properties.Settings.Default.ProjectName + ".rsc.lk";
+			var rsclock = TheDir + "/" + Config.ProjectName + ".rsc.lk";
 			if (File.Exists(rsclock))
 			{
 				try
@@ -346,6 +346,7 @@ namespace TGServerService
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
 					SendMessage("DM: " + errorMsg);
+					TGServerService.WriteError(errorMsg, TGServerService.EventID.DMCompileCrash, this);
 					lock (CompilerLock)
 					{
 						lastCompilerError = errorMsg;
@@ -438,7 +439,9 @@ namespace TGServerService
 								}
 							}
 						}
-						SendMessage(String.Format("DM: Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round."));
+						var msg = String.Format("DM: Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round.");
+						SendMessage(msg);
+						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess, this);
 						lock (CompilerLock)
 						{
 							lastCompilerError = null;
@@ -448,7 +451,7 @@ namespace TGServerService
 					else
 					{
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
-						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileCancel);
+						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileError, this);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
@@ -465,7 +468,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DM: Compiler thread crashed!");
-				TGServerService.WriteError("Compile manager errror: " + e.ToString(), TGServerService.EventID.DMCompileCrash);
+				TGServerService.WriteError("Compile manager errror: " + e.ToString(), TGServerService.EventID.DMCompileCrash, this);
 				lock (CompilerLock)
 				{
 					lastCompilerError = e.ToString();
@@ -482,7 +485,7 @@ namespace TGServerService
 						compilerCurrentStatus = TGCompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
 						SendMessage("Compile cancelled!");
-						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel);
+						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel, this);
 					}
 				}
 			}
@@ -508,7 +511,7 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				return Properties.Settings.Default.ProjectName;
+				return Config.ProjectName;
 			}
 		}
 
@@ -517,7 +520,7 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				Properties.Settings.Default.ProjectName = projectName;
+				Config.ProjectName = projectName;
 			}
 		}
 
