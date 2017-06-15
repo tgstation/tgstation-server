@@ -314,7 +314,7 @@ namespace TGServerService
 		{
 			if (GetVersion(TGByondVersion.Installed) == null)
 				return "Byond is not installed!";
-			var DMB = GameDirLive + "/" + Config.ProjectName + ".dmb";
+			var DMB = PrepPath(GameDirLive + "/" + Config.ProjectName + ".dmb");
 			if (!File.Exists(DMB))
 				return String.Format("Unable to find {0}!", DMB);
 			return null;
