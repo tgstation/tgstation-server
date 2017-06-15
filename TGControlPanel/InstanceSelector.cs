@@ -22,41 +22,37 @@ namespace TGControlPanel
 		public InstanceSelector()
 		{
 			InitializeComponent();
+			InstanceListBox.MouseDoubleClick += InstanceListBox_MouseDoubleClick;
 			DoRefresh();
 		}
 
-		private void SelectInstanceButton_Click(object sender, System.EventArgs e)
+		private void InstanceListBox_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			var test = GetSelectedInstanceID();
-			if (test == 0)
-				return;
-			if (!Service.Get().ListInstances().ContainsKey(test))
-			{
-				MessageBox.Show("Selected instance no longer exists!");
-				DoRefresh();
-			}
-			else
-			{
-				SelectedInstance = test;
-				Close();
-			}
+			if (InstanceListBox.IndexFromPoint(e.Location) != ListBox.NoMatches)
+				DoSelect();
 		}
 
-		private void DeleteInstanceButton_Click(object sender, System.EventArgs e)
+		private void SelectInstanceButton_Click(object sender, EventArgs e)
+		{
+			DoSelect();
+		}
+
+		private void DeleteInstanceButton_Click(object sender, EventArgs e)
 		{
 			var test = GetSelectedInstanceID();
-			var res = MessageBox.Show("Confirm", "WARNING: This will delete the ENTIRE server instance! Absolutely no backup operation will be performed! Continue?", MessageBoxButtons.YesNo);
+			var res = MessageBox.Show("WARNING: This will delete the ENTIRE server instance! Absolutely no backup operation will be performed! Continue?", "Confirm", MessageBoxButtons.YesNo);
 			if (res != DialogResult.Yes)
 				return;
-			res = MessageBox.Show("Verify", "Are you absolutely sure you're sure? There's no turning back after this!", MessageBoxButtons.YesNo);
+			res = MessageBox.Show("Are you absolutely sure you're sure? There's no turning back after this!", "Verify", MessageBoxButtons.YesNo);
 			if (res != DialogResult.Yes)
 				return;
 
 			Service.GetComponent<ITGInstance>(test).Delete();
-			Thread.Sleep(2000);
+			Thread.Sleep(1000);
+			DoRefresh();
 		}
 
-		private void NewInstanceButton_Click(object sender, System.EventArgs e)
+		private void NewInstanceButton_Click(object sender, EventArgs e)
 		{
 			var Instname = InstanceNameBox.Text;
 			if (String.IsNullOrWhiteSpace(Instname)) {
@@ -76,9 +72,14 @@ namespace TGControlPanel
 				return;
 
 			var res = Service.Get().CreateInstance(Instname, ofd.SelectedPath + Path.DirectorySeparatorChar + instpath);
+			if (res != null)
+				MessageBox.Show(res);
+			else
+				DoRefresh();
+			InstanceNameBox.Text = null;
 		}
 
-		private void RefreshButton_Click(object sender, System.EventArgs e)
+		private void RefreshButton_Click(object sender, EventArgs e)
 		{
 			DoRefresh();
 		}
@@ -92,7 +93,24 @@ namespace TGControlPanel
 
 		int GetSelectedInstanceID()
 		{
-			return Convert.ToInt32(((string)InstanceListBox.SelectedItem ?? "0").Split('.'));
+			return Convert.ToInt32(((string)InstanceListBox.SelectedItem ?? "0").Split('.')[0]);
+		}
+		
+		void DoSelect()
+		{
+			var test = GetSelectedInstanceID();
+			if (test == 0)
+				return;
+			if (!Service.Get().ListInstances().ContainsKey(test))
+			{
+				MessageBox.Show("Selected instance no longer exists!");
+				DoRefresh();
+			}
+			else
+			{
+				SelectedInstance = test;
+				Close();
+			}
 		}
 	}
 }

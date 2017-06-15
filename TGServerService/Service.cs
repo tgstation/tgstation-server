@@ -155,11 +155,13 @@ namespace TGServerService
 			}
 		}
 
-		void ShutdownInstance(int instanceID)
+		void ShutdownInstance(int instanceID, bool remove)
 		{
 			try
 			{
 				var host = Hosts[instanceID];
+				if (remove)
+					Hosts.Remove(instanceID);
 				host.Close();
 				((IDisposable)host.SingletonInstance).Dispose();
 			}
@@ -181,8 +183,7 @@ namespace TGServerService
 				var instance = ((TGStationServer)Hosts[instanceID].SingletonInstance);
 				var instancePath = instance.InstanceDirectory();
 				var instanceName = instance.InstanceName();
-				ShutdownInstance(instanceID);
-				Hosts.Remove(instanceID);
+				ShutdownInstance(instanceID, true);
 				Properties.Service.Default.InstanceConfigs.Remove(instanceName);
 				Program.DeleteDirectory(instancePath);
 				EventLog.WriteEntry("Instance deleted", EventLogEntryType.Information, (int)EventID.InstanceDelete + instanceID);
@@ -255,7 +256,7 @@ namespace TGServerService
 		protected override void OnStop()
 		{
 			foreach (var I in Hosts)
-				ShutdownInstance(I.Key);
+				ShutdownInstance(I.Key, false);
 			Hosts.Clear();
 		}
 

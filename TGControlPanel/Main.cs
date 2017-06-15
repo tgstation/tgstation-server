@@ -32,5 +32,11 @@ namespace TGControlPanel
 		{
 			Properties.Settings.Default.LastPageIndex = Panels.SelectedIndex;
 		}
+	
+		private void InstanceSelectButton_Click(object sender, EventArgs e)
+		{
+			Program.ReselectInstance = true;
+			Close();
+		}
 	}
 }

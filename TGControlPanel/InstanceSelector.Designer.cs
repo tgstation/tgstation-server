@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstanceSelector));
 			this.InstanceListBox = new System.Windows.Forms.ListBox();
 			this.NewInstanceButton = new System.Windows.Forms.Button();
 			this.DeleteInstanceButton = new System.Windows.Forms.Button();
@@ -105,9 +106,10 @@
 			this.Controls.Add(this.NewInstanceButton);
 			this.Controls.Add(this.InstanceListBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "InstanceSelector";
-			this.Text = "Select Instance to Administrate";
+			this.Text = "Select Server Instance";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
