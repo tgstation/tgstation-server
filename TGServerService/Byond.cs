@@ -169,7 +169,7 @@ namespace TGServerService
 
 					try
 					{
-						client.DownloadFile(String.Format(ByondRevisionsURL, vi.major, vi.minor), RevisionDownloadPath);
+						client.DownloadFile(String.Format(ByondRevisionsURL, vi.major, vi.minor), PrepPath(RevisionDownloadPath));
 					}
 					catch
 					{
@@ -190,13 +190,13 @@ namespace TGServerService
 
 				//STAGING
 				
-				ZipFile.ExtractToDirectory(RevisionDownloadPath, StagingDirectory);
+				ZipFile.ExtractToDirectory(PrepPath(RevisionDownloadPath), PrepPath(StagingDirectory));
 				lock (ByondLock)
 				{
-					File.WriteAllText(StagingDirectoryInner + VersionFile, String.Format("{0}.{1}", vi.major, vi.minor));
+					File.WriteAllText(PrepPath(StagingDirectoryInner + VersionFile), String.Format("{0}.{1}", vi.major, vi.minor));
 					//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
-					Directory.CreateDirectory(ByondConfigDir);
-					File.WriteAllText(ByondConfigDir + ByondDDConfig, ByondNoPromptTrustedMode);
+					Directory.CreateDirectory(PrepPath(ByondConfigDir));
+					File.WriteAllText(PrepPath(ByondConfigDir + ByondDDConfig), PrepPath(ByondNoPromptTrustedMode));
 				}
 				File.Delete(RevisionDownloadPath);
 
@@ -269,9 +269,9 @@ namespace TGServerService
 				}
 				try
 				{
-					Program.DeleteDirectory(ByondDirectory);
-					Directory.Move(StagingDirectoryInner, ByondDirectory);
-					Program.DeleteDirectory(StagingDirectory);
+					Program.DeleteDirectory(PrepPath(ByondDirectory));
+					Directory.Move(PrepPath(StagingDirectoryInner), PrepPath(ByondDirectory));
+					Program.DeleteDirectory(PrepPath(StagingDirectory));
 					lastError = null;
 					SendMessage("BYOND: Update completed!");
 					TGServerService.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(TGByondVersion.Installed)), TGServerService.EventID.BYONDUpdateComplete, this);

@@ -19,6 +19,14 @@ namespace TGServerService
 			File = 0,
 			Directory = 1
 		}
+
+
+		//translates the win32 api call into an exception if it fails
+		static void CreateSymlink(string link, string target)
+		{
+			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
+				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
+		}
 		#endregion
 
 		const string StaticDirs = "Static";
@@ -52,8 +60,8 @@ namespace TGServerService
 		//deletes leftovers and checks current status
 		void InitCompiler()
 		{
-			if(File.Exists(LiveDirTest))
-				File.Delete(LiveDirTest);
+			if(File.Exists(PrepPath(LiveDirTest)))
+				File.Delete(PrepPath(LiveDirTest));
 			compilerCurrentStatus = IsInitialized();
 		}
 
@@ -89,13 +97,6 @@ namespace TGServerService
 			}
 		}
 
-		//translates the win32 api call into an exception if it fails
-		void CreateSymlink(string link, string target)
-		{
-			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
-				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
-		}
-
 		//requires CompilerLock to be locked
 		bool CompilerIdleNoLock()
 		{
@@ -120,7 +121,7 @@ namespace TGServerService
 		//what is says on the tin
 		TGCompilerStatus IsInitialized()
 		{
-			if (File.Exists(GameDirLive + LibMySQLFile))	//its a good tell, jim
+			if (File.Exists(PrepPath(GameDirLive + LibMySQLFile)))	//its a good tell, jim
 				return TGCompilerStatus.Initialized;
 			return TGCompilerStatus.Uninitialized;
 		}
@@ -128,26 +129,26 @@ namespace TGServerService
 		//we need to remove symlinks before we can recursively delete
 		void CleanGameFolder()
 		{
-			if (Directory.Exists(GameDirB + LibMySQLFile))
-				Directory.Delete(GameDirB + LibMySQLFile);
+			if (Directory.Exists(PrepPath(GameDirB + LibMySQLFile)))
+				Directory.Delete(PrepPath(GameDirB + LibMySQLFile));
 
-			if (Directory.Exists(GameDirA + "/data"))
-				Directory.Delete(GameDirA + "/data");
+			if (Directory.Exists(PrepPath(GameDirA + "/data")))
+				Directory.Delete(PrepPath(GameDirA + "/data"));
 
-			if (Directory.Exists(GameDirA + "/config"))
-				Directory.Delete(GameDirA + "/config");
+			if (Directory.Exists(PrepPath(GameDirA + "/config")))
+				Directory.Delete(PrepPath(GameDirA + "/config"));
 
-			if (Directory.Exists(GameDirA + LibMySQLFile))
-				Directory.Delete(GameDirA + LibMySQLFile);
+			if (Directory.Exists(PrepPath(GameDirA + LibMySQLFile)))
+				Directory.Delete(PrepPath(GameDirA + LibMySQLFile));
 
-			if (Directory.Exists(GameDirB + "/data"))
-				Directory.Delete(GameDirB + "/data");
+			if (Directory.Exists(PrepPath(GameDirB + "/data")))
+				Directory.Delete(PrepPath(GameDirB + "/data"));
 
-			if (Directory.Exists(GameDirB + "/config"))
-				Directory.Delete(GameDirB + "/config");
+			if (Directory.Exists(PrepPath(GameDirB + "/config")))
+				Directory.Delete(PrepPath(GameDirB + "/config"));
 
-			if (Directory.Exists(GameDirLive))
-				Directory.Delete(GameDirLive);
+			if (Directory.Exists(PrepPath(GameDirLive)))
+				Directory.Delete(PrepPath(GameDirLive));
 		}
 
 		//Initializing thread
@@ -178,21 +179,21 @@ namespace TGServerService
 				{
 					SendMessage("DM: Setting up symlinks...");
 					CleanGameFolder();
-					Program.DeleteDirectory(GameDir);
+					Program.DeleteDirectory(PrepPath(GameDir));
 
-					Directory.CreateDirectory(GameDirA);
-					Directory.CreateDirectory(GameDirB);
+					Directory.CreateDirectory(PrepPath(GameDirA));
+					Directory.CreateDirectory(PrepPath(GameDirB));
 
-					CreateSymlink(GameDirA + "/data", StaticDataDir);
-					CreateSymlink(GameDirB + "/data", StaticDataDir);
+					CreateSymlink(PrepPath(GameDirA + "/data"), PrepPath(StaticDataDir));
+					CreateSymlink(PrepPath(GameDirB + "/data"), PrepPath(StaticDataDir));
 
-					CreateSymlink(GameDirA + "/config", StaticConfigDir);
-					CreateSymlink(GameDirB + "/config", StaticConfigDir);
+					CreateSymlink(PrepPath(GameDirA + "/config"), PrepPath(StaticConfigDir));
+					CreateSymlink(PrepPath(GameDirB + "/config"), PrepPath(StaticConfigDir));
 
-					CreateSymlink(GameDirA + LibMySQLFile, StaticDirs + LibMySQLFile);
-					CreateSymlink(GameDirB + LibMySQLFile, StaticDirs + LibMySQLFile);
+					CreateSymlink(PrepPath(GameDirA + LibMySQLFile), PrepPath(StaticDirs + LibMySQLFile));
+					CreateSymlink(PrepPath(GameDirB + LibMySQLFile), PrepPath(StaticDirs + LibMySQLFile));
 
-					CreateSymlink(GameDirLive, GameDirA);
+					CreateSymlink(PrepPath(GameDirLive), PrepPath(GameDirA));
 					
 					lock (CompilerLock)
 					{
@@ -225,23 +226,23 @@ namespace TGServerService
 		string GetStagingDir()
 		{
 			string TheDir;
-			if (!Directory.Exists(GameDirLive))
+			if (!Directory.Exists(PrepPath(GameDirLive)))
 				TheDir = GameDirA;
 			else
 			{
-				File.Create(LiveDirTest).Close();
+				File.Create(PrepPath(LiveDirTest)).Close();
 				try
 				{
-					if (File.Exists(ADirTest))
+					if (File.Exists(PrepPath(ADirTest)))
 						TheDir = GameDirA;
-					else if (File.Exists(BDirTest))
+					else if (File.Exists(PrepPath(BDirTest)))
 						TheDir = GameDirB;
 					else
 						throw new Exception("Unable to determine current live directory!");
 				}
 				finally
 				{
-					File.Delete(LiveDirTest);
+					File.Delete(PrepPath(LiveDirTest));
 				}
 
 
@@ -256,14 +257,14 @@ namespace TGServerService
 			{
 				try
 				{
-					File.Delete(rsclock);
+					File.Delete(PrepPath(rsclock));
 				}
 				catch	//held open by byond
 				{
 					return InvertDirectory(TheDir);
 				}
 			}
-			return TheDir;
+			return PrepPath(TheDir);
 		}
 
 		//I hope you can read this
@@ -318,10 +319,10 @@ namespace TGServerService
 				}
 				try
 				{
-					Program.CopyDirectory(RepoPath, resurrectee, copyExcludeList);
+					Program.CopyDirectory(PrepPath(RepoPath), resurrectee, copyExcludeList);
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
-					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
+					Program.CopyDirectory(PrepPath(RepoPath + GitLogsDir), resurrectee + GitLogsDir);
 				}
 				finally
 				{
@@ -357,7 +358,7 @@ namespace TGServerService
 
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
-					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
+					DM.StartInfo.FileName = PrepPath(ByondDirectory + "/bin/dm.exe");
 					DM.StartInfo.Arguments = dmePath;
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
@@ -420,10 +421,10 @@ namespace TGServerService
 									}
 									catch { }
 								}
-								if (Directory.Exists(GameDirLive))
+								if (Directory.Exists(PrepPath(GameDirLive)))
 									//these two lines should be atomic but this is the best we can do
-									Directory.Delete(GameDirLive);
-								CreateSymlink(GameDirLive, resurrectee);
+									Directory.Delete(PrepPath(GameDirLive));
+								CreateSymlink(PrepPath(GameDirLive), resurrectee);
 							}
 							finally
 							{

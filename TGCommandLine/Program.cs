@@ -74,7 +74,7 @@ namespace TGCommandLine
 						if (argsAsList[I].ToLower() == "--instance")
 						{
 							Instance = Convert.ToInt32(argsAsList[I + 1]);
-							if (Instance == 0)
+							if (Instance == 0 || !Service.Get().ListInstances().ContainsKey(Instance)) 
 								throw new Exception();
 							argsAsList.RemoveAt(I);
 							argsAsList.RemoveAt(I);
@@ -135,6 +135,7 @@ namespace TGCommandLine
 				{
 					case "quit":
 					case "exit":
+					case "q":
 						return (int)ExitCode.Normal;
 					default:
 						//linq voodoo to get quoted strings

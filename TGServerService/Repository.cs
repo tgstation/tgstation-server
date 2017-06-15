@@ -50,11 +50,11 @@ namespace TGServerService
 		{
 			if (Repo != null)
 				return null;
-			if (!Repository.IsValid(RepoPath))
+			if (!Repository.IsValid(PrepPath(RepoPath)))
 				return "Repository does not exist";
 			try
 			{
-				Repo = new Repository(RepoPath);
+				Repo = new Repository(PrepPath(RepoPath));
 			}
 			catch (Exception e)
 			{
@@ -78,7 +78,7 @@ namespace TGServerService
 		{
 			lock (RepoLock)
 			{
-				return !Cloning && Repository.IsValid(RepoPath);
+				return !Cloning && Repository.IsValid(PrepPath(RepoPath));
 			}
 		}
 
@@ -113,20 +113,20 @@ namespace TGServerService
 			var BranchName = ts.b;
 			try
 			{
-				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(RepoPath) ? "Full reset" : "Setup"));
+				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(PrepPath(RepoPath)) ? "Full reset" : "Setup"));
 				try
 				{
 					DisposeRepo();
-					Program.DeleteDirectory(RepoPath);
+					Program.DeleteDirectory(PrepPath(RepoPath));
 					DeletePRList();
 					lock (configLock)
 					{
-						if (Directory.Exists(StaticDirs))
+						if (Directory.Exists(PrepPath(StaticDirs)))
 						{
 							int count = 1;
 							
-							string path = Path.GetDirectoryName(StaticBackupDir);
-							string newFullPath = StaticBackupDir;
+							string path = Path.GetDirectoryName(PrepPath(StaticBackupDir));
+							string newFullPath = PrepPath(StaticBackupDir);
 
 							while (File.Exists(newFullPath) || Directory.Exists(newFullPath))
 							{
@@ -134,9 +134,9 @@ namespace TGServerService
 								newFullPath = Path.Combine(path, tempDirName);
 							}
 
-							Program.CopyDirectory(StaticDirs, newFullPath);
+							Program.CopyDirectory(PrepPath(StaticDirs), newFullPath);
 						}
-						Program.DeleteDirectory(StaticDirs);
+						Program.DeleteDirectory(PrepPath(StaticDirs));
 					}
 
 					var Opts = new CloneOptions()
@@ -148,7 +148,7 @@ namespace TGServerService
 						CredentialsProvider = GenerateGitCredentials,
 					};
 
-					Repository.Clone(RepoURL, RepoPath, Opts);
+					Repository.Clone(RepoURL, PrepPath(RepoPath), Opts);
 					currentProgress = -1;
 					LoadRepo();
 
@@ -157,10 +157,10 @@ namespace TGServerService
 
 					lock (configLock)
 					{
-						Program.CopyDirectory(RepoConfig, StaticConfigDir);
+						Program.CopyDirectory(PrepPath(RepoConfig), PrepPath(StaticConfigDir));
 					}
-					Program.CopyDirectory(RepoData, StaticDataDir, null, true);
-					File.Copy(RepoPath + LibMySQLFile, StaticDirs + LibMySQLFile, true);
+					Program.CopyDirectory(PrepPath(RepoData), PrepPath(StaticDataDir), null, true);
+					File.Copy(PrepPath(RepoPath + LibMySQLFile), PrepPath(StaticDirs + LibMySQLFile), true);
 					SendMessage("REPO: Clone complete!");
 					TGServerService.WriteInfo("Repository {0}:{1} successfully cloned", TGServerService.EventID.RepoClone, this);
 				}
@@ -474,10 +474,10 @@ namespace TGServerService
 		//I wonder...
 		void DeletePRList()
 		{
-			if (File.Exists(PRJobFile))
+			if (File.Exists(PrepPath(PRJobFile)))
 				try
 				{
-					File.Delete(PRJobFile);
+					File.Delete(PrepPath(PRJobFile));
 				}
 				catch (Exception e)
 				{
@@ -490,7 +490,7 @@ namespace TGServerService
 		{
 			if (!File.Exists(PRJobFile))
 				return new Dictionary<string, IDictionary<string, string>>();
-			var rawdata = File.ReadAllText(PRJobFile);
+			var rawdata = File.ReadAllText(PrepPath(PRJobFile));
 			var Deserializer = new JavaScriptSerializer();
 			return Deserializer.Deserialize<IDictionary<string, IDictionary<string, string>>>(rawdata);
 		}
@@ -500,7 +500,7 @@ namespace TGServerService
 		{
 			var Serializer = new JavaScriptSerializer();
 			var rawdata = Serializer.Serialize(list);
-			File.WriteAllText(PRJobFile, rawdata);
+			File.WriteAllText(PrepPath(PRJobFile), rawdata);
 		}
 
 		//public api
@@ -740,8 +740,8 @@ namespace TGServerService
 			return new SshUserKeyCredentials()
 			{
 				Username = user,
-				PrivateKey = PrivateKeyPath,
-				PublicKey = PublicKeyPath,
+				PrivateKey = PrepPath(PrivateKeyPath),
+				PublicKey = PrepPath(PublicKeyPath),
 				Passphrase = "",
 			};
 		}
@@ -755,9 +755,9 @@ namespace TGServerService
 		//impl proc just for single level recursion
 		public string GenerateChangelogImpl(out string error, bool recurse = false)
 		{
-			const string ChangelogPy = RepoPath + "/tools/ss13_genchangelog.py";
-			const string ChangelogHtml = RepoPath + "/html/changelog.html";
-			const string ChangelogDir = RepoPath + "/html/changelogs";
+			string ChangelogPy = PrepPath(RepoPath + "/tools/ss13_genchangelog.py");
+			string ChangelogHtml = PrepPath(RepoPath + "/html/changelog.html");
+			string ChangelogDir = PrepPath(RepoPath + "/html/changelogs");
 			if (!Exists())
 			{
 				error = "Repo does not exist!";

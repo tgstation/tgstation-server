@@ -258,7 +258,28 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Service.GetComponent<ITGInstance>(Program.Instance).Delete();
+			if (parameters.Count > 0 && parameters[0] == "--verify")
+				if (parameters.Count > 1 && parameters[1] == "--confirm")
+				{
+					string instanceName = null;
+					foreach (var I in Service.Get().ListInstances())
+						if (I.Key == Program.Instance) {
+							instanceName = I.Value;
+							break;
+						}
+					Console.WriteLine("Deleting instance " + instanceName + "...");
+					Service.GetComponent<ITGInstance>(Program.Instance).Delete();
+					Thread.Sleep(2000);
+				}
+				else
+				{
+					Console.WriteLine("Are you sure you're sure? There's no turning back after this!");
+					Console.WriteLine("Add an additional --verify parameter if you're sure");
+				}
+			else
+			{
+				Console.WriteLine("WARNING: This will delete the ENTIRE server instance ")
+			}
 			return ExitCode.Normal;
 		}
 	}

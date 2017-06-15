@@ -179,7 +179,7 @@ namespace TGServerService
 			try
 			{
 				var instance = ((TGStationServer)Hosts[instanceID].SingletonInstance);
-				var instancePath = instance.ServerDirectory();
+				var instancePath = instance.InstanceDirectory();
 				var instanceName = instance.InstanceName();
 				ShutdownInstance(instanceID);
 				Hosts.Remove(instanceID);
@@ -197,12 +197,19 @@ namespace TGServerService
 			var Config = new Properties.Instance() { SettingsKey = instanceName };
 			Config.Reload();
 
-			if (instancePath != null)	//new instance
+			if (instancePath != null)   //new instance
 			{
+				if (!Path.IsPathRooted(instancePath))
+					throw new Exception("Cannot use a relative path");
+
 				var info = new DirectoryInfo(instancePath);
 
 				if (info.Exists || File.Exists(instancePath))
 					throw new Exception("Path specified already exists!");
+
+				foreach(var I in Hosts)
+					if (Program.IsDirectoryParentOf(((TGStationServer)I.Value.SingletonInstance).InstanceDirectory(), instancePath))
+						throw new Exception("Cannot create instance in existing instance directory");
 
 				Directory.CreateDirectory(info.Parent.FullName);
 

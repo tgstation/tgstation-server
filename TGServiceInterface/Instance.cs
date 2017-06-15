@@ -61,5 +61,20 @@ namespace TGServiceInterface
 		/// </summary>
 		[OperationContract]
 		void Delete();
+
+		/// <summary>
+		/// Return the directory of the server on the host machine
+		/// </summary>
+		/// <returns>The path to the directory on success, null on failure</returns>
+		[OperationContract]
+		string InstanceDirectory();
+
+		/// <summary>
+		/// Moves the entire server installation, requires no operations to be running
+		/// </summary>
+		/// <param name="new_location">The new path to place the server</param>
+		/// <returns>null on success, error message on failure</returns>
+		[OperationContract]
+		string MoveInstance(string new_location);
 	}
 }

@@ -143,6 +143,104 @@ namespace TGServerService
 		{
 			return Config.ServerDirectory + Path.DirectorySeparatorChar + path;
 		}
+		//public api
+		public string MoveInstance(string new_location)
+		{
+			try
+			{
+				new_location = new DirectoryInfo(new_location).Root.FullName;
+				var copy = new DirectoryInfo(Config.ServerDirectory).Root.FullName != new_location;
+
+				if (copy && File.Exists(PrivateKeyPath))
+					return String.Format("Unable to perform a cross drive server move with the {0}. Copy aborted!", PrivateKeyPath);
+
+				if(Program.IsDirectoryParentOf(Config.ServerDirectory, new_location))
+					return "Cannot move to child of current directory!";
+
+				if (!Monitor.TryEnter(RepoLock))
+					return "Repo locked!";
+				try
+				{
+					if (RepoBusy)
+						return "Repo busy!";
+					DisposeRepo();
+					if (!Monitor.TryEnter(ByondLock))
+						return "BYOND locked";
+					try
+					{
+						if (updateStat != TGByondStatus.Idle)
+							return "BYOND busy!";
+						if (!Monitor.TryEnter(CompilerLock))
+							return "Compiler locked!";
+
+						try
+						{
+							if (compilerCurrentStatus != TGCompilerStatus.Uninitialized && compilerCurrentStatus != TGCompilerStatus.Initialized)
+								return "Compiler busy!";
+							if (!Monitor.TryEnter(watchdogLock))
+								return "Watchdog locked!";
+							try
+							{
+								if (currentStatus != TGDreamDaemonStatus.Offline)
+									return "Watchdog running!";
+								lock (configLock)
+								{
+									CleanGameFolder();
+									Program.DeleteDirectory(GameDir);
+									string error = null;
+									if (copy)
+									{
+										Program.CopyDirectory(Config.ServerDirectory, new_location);
+										Directory.CreateDirectory(new_location);
+										try
+										{
+											Program.DeleteDirectory(Config.ServerDirectory);
+										}
+										catch (Exception e)
+										{
+											error = "The move was successful, but the path " + Config.ServerDirectory + " was unable to be deleted fully!";
+											TGServerService.WriteWarning(String.Format("Server move from {0} to {1} partial success: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMovePartial, this);
+										}
+									}
+									else
+										Directory.Move(Config.ServerDirectory, new_location);
+									TGServerService.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), TGServerService.EventID.ServerMoveComplete, this);
+									Config.ServerDirectory = new_location;
+									return null;
+								}
+							}
+							finally
+							{
+								Monitor.Exit(watchdogLock);
+							}
+						}
+						finally
+						{
+							Monitor.Exit(CompilerLock);
+						}
+					}
+					finally
+					{
+						Monitor.Exit(ByondLock);
+					}
+				}
+				finally
+				{
+					Monitor.Exit(RepoLock);
+				}
+			}
+			catch (Exception e)
+			{
+				TGServerService.WriteError(String.Format("Server move from {0} to {1} failed: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMoveFailed, this);
+				return e.ToString();
+			}
+		}
+
+		//public api
+		public string InstanceDirectory()
+		{
+			return Config.ServerDirectory;
+		}
 
 		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
 		// ~TGStationServer() {
