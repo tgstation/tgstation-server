@@ -28,7 +28,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Service.GetComponent<ITGConfig>(Program.Instance).MoveServer(parameters[0]);
+			var res = Service.GetComponent<ITGInstance>(Program.Instance).MoveInstance(parameters[0]);
 			Console.WriteLine(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -53,7 +53,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Console.WriteLine(Service.GetComponent<ITGConfig>(Program.Instance).ServerDirectory());
+			Console.WriteLine(Service.GetComponent<ITGInstance>(Program.Instance).InstanceDirectory());
 			return ExitCode.Normal;
 		}
 		

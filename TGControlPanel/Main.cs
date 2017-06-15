@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using TGServiceInterface;
 
 namespace TGControlPanel
 {
@@ -16,6 +17,8 @@ namespace TGControlPanel
 			InitServerPage();
 			LoadChatPage();
 			InitConfigPage();
+			var inst = Service.GetComponent<ITGInstance>(Program.Instance);
+			Text += String.Format(" Instance #{0} - {1}", inst.InstanceID(), inst.InstanceName());
 		}
 
 		private void Main_Resize(object sender, EventArgs e)

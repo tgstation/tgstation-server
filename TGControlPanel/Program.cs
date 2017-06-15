@@ -33,10 +33,11 @@ namespace TGControlPanel
 				{
 					ReselectInstance = false;
 					Instance = InstanceSelector.Execute();
-					using (var m = new Main())
-					{
-						Application.Run(m);
-					}
+					if(Instance > 0)
+						using (var m = new Main())
+						{
+							Application.Run(m);
+						}
 				}
 				return;
 			}

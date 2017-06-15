@@ -273,7 +273,7 @@ namespace TGCommandLine
 				}
 				else
 				{
-					Console.WriteLine("Are you sure you're sure? There's no turning back after this!");
+					Console.WriteLine("Are you absolutely sure you're sure? There's no turning back after this!");
 					Console.WriteLine("Add an additional --verify parameter if you're sure");
 				}
 			else

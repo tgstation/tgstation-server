@@ -39,10 +39,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByondPage.cs">
@@ -56,6 +58,12 @@
     </Compile>
     <Compile Include="ConfigPage.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.Designer.cs">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -76,6 +84,9 @@
     <Compile Include="ServerPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="InstanceSelector.resx">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
