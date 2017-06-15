@@ -44,6 +44,7 @@
 			this.InstanceListBox.Name = "InstanceListBox";
 			this.InstanceListBox.ScrollAlwaysVisible = true;
 			this.InstanceListBox.Size = new System.Drawing.Size(318, 238);
+			this.InstanceListBox.Sorted = true;
 			this.InstanceListBox.TabIndex = 0;
 			// 
 			// NewInstanceButton
