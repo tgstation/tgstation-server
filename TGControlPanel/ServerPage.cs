@@ -75,7 +75,7 @@ namespace TGControlPanel
 
 		private void CompileCancelButton_Click(object sender, EventArgs e)
 		{
-			var res = Service.GetComponent<ITGCompiler>().Cancel();
+			var res = Service.GetComponent<ITGCompiler>(Program.Instance).Cancel();
 			if (res != null)
 				MessageBox.Show(res);
 			LoadServerPage();
@@ -88,18 +88,18 @@ namespace TGControlPanel
 
 		void UpdateServerPath()
 		{
-			var Config = Service.GetComponent<ITGConfig>();
-			if (updatingFields || ServerPathTextbox.Text.Trim() == Config.ServerDirectory())
+			var Config = Service.GetComponent<ITGInstance>(Program.Instance);
+			if (updatingFields || ServerPathTextbox.Text.Trim() == Config.InstanceDirectory())
 				return;
 			var DialogResult = MessageBox.Show("This will move the entire server installation.", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult != DialogResult.Yes)
 				return;
-			MessageBox.Show(Config.MoveServer(ServerPathTextbox.Text) ?? "Success!");
+			MessageBox.Show(Config.MoveInstance(ServerPathTextbox.Text) ?? "Success!");
 		}
 
 		void LoadServerPage()
 		{
-			var RepoExists = Service.GetComponent<ITGRepository>().Exists();
+			var RepoExists = Service.GetComponent<ITGRepository>(Program.Instance).Exists();
 			compileButton.Visible = RepoExists;
 			initializeButton.Visible = RepoExists;
 			NudgePortSelector.Visible = RepoExists;
@@ -126,9 +126,10 @@ namespace TGControlPanel
 			UpdateTestmergeButton.Visible = RepoExists;
 			ResetTestmerge.Visible = RepoExists;
 
-			var DM = Service.GetComponent<ITGCompiler>();
-			var DD = Service.GetComponent<ITGDreamDaemon>();
-			var Config = Service.GetComponent<ITGConfig>();
+			var DM = Service.GetComponent<ITGCompiler>(Program.Instance);
+			var DD = Service.GetComponent<ITGDreamDaemon>(Program.Instance);
+			var Config = Service.GetComponent<ITGConfig>(Program.Instance);
+			var Inst = Service.GetComponent<ITGInstance>(Program.Instance);
 
 			if (updatingFields)
 				return;
@@ -136,7 +137,7 @@ namespace TGControlPanel
 			updatingFields = true;
 
 			if (!ServerPathTextbox.Focused)
-				ServerPathTextbox.Text = Config.ServerDirectory();
+				ServerPathTextbox.Text = Inst.InstanceDirectory();
 
 			VisibilitySelector.SelectedIndex = (int)DD.VisibilityLevel();
 			SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
@@ -237,13 +238,13 @@ namespace TGControlPanel
 		void UpdateProjectName()
 		{
 			if (!updatingFields)
-				Service.GetComponent<ITGCompiler>().SetProjectName(projectNameText.Text);
+				Service.GetComponent<ITGCompiler>(Program.Instance).SetProjectName(projectNameText.Text);
 		}
 
 		private void PortSelector_ValueChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Service.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
+				Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetPort((ushort)PortSelector.Value);
 		}
 
 		private void RunServerUpdate(FullUpdateAction fua, int tm = 0)
@@ -280,13 +281,13 @@ namespace TGControlPanel
 
 		private void InitializeButton_Click(object sender, EventArgs e)
 		{
-			if (!Service.GetComponent<ITGCompiler>().Initialize())
+			if (!Service.GetComponent<ITGCompiler>(Program.Instance).Initialize())
 				MessageBox.Show("Unable to start initialization!");
 			LoadServerPage();
 		}
 		private void CompileButton_Click(object sender, EventArgs e)
 		{
-			if (!Service.GetComponent<ITGCompiler>().Compile())
+			if (!Service.GetComponent<ITGCompiler>(Program.Instance).Compile())
 				MessageBox.Show("Unable to start compilation!");
 			LoadServerPage();
 		}
@@ -295,10 +296,10 @@ namespace TGControlPanel
 		{
 			try
 			{
-				if (!Service.GetComponent<ITGRepository>().Exists())
+				if (!Service.GetComponent<ITGRepository>(Program.Instance).Exists())
 					DDStatusString = "NOT INSTALLED";
 				else
-					DDStatusString = Service.GetComponent<ITGDreamDaemon>().StatusString(true);
+					DDStatusString = Service.GetComponent<ITGDreamDaemon>(Program.Instance).StatusString(true);
 			}
 			catch
 			{
@@ -315,7 +316,7 @@ namespace TGControlPanel
 		private void AutostartCheckbox_CheckedChanged(object sender, System.EventArgs e)
 		{
 			if (!updatingFields)
-				Service.GetComponent<ITGDreamDaemon>().SetAutostart(AutostartCheckbox.Checked);
+				Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetAutostart(AutostartCheckbox.Checked);
 		}
 		private void ServerStartButton_Click(object sender, System.EventArgs e)
 		{
@@ -327,7 +328,7 @@ namespace TGControlPanel
 		{
 			try
 			{
-				e.Result = Service.GetComponent<ITGDreamDaemon>().Start();
+				e.Result = Service.GetComponent<ITGDreamDaemon>(Program.Instance).Start();
 			}
 			catch (Exception ex)
 			{
@@ -340,7 +341,7 @@ namespace TGControlPanel
 			var DialogResult = MessageBox.Show("This will immediately shut down the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			var res = Service.GetComponent<ITGDreamDaemon>().Stop();
+			var res = Service.GetComponent<ITGDreamDaemon>(Program.Instance).Stop();
 			if (res != null)
 				MessageBox.Show(res);
 		}
@@ -350,7 +351,7 @@ namespace TGControlPanel
 			var DialogResult = MessageBox.Show("This will immediately restart the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			var res = Service.GetComponent<ITGDreamDaemon>().Restart();
+			var res = Service.GetComponent<ITGDreamDaemon>(Program.Instance).Restart();
 			if (res != null)
 				MessageBox.Show(res);
 		}
@@ -362,7 +363,7 @@ namespace TGControlPanel
 			var DialogResult = MessageBox.Show("This will shut down the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			Service.GetComponent<ITGDreamDaemon>().RequestStop();
+			Service.GetComponent<ITGDreamDaemon>(Program.Instance).RequestStop();
 			LoadServerPage();
 		}
 
@@ -371,11 +372,11 @@ namespace TGControlPanel
 			var DialogResult = MessageBox.Show("This will restart the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			Service.GetComponent<ITGDreamDaemon>().RequestRestart();
+			Service.GetComponent<ITGDreamDaemon>(Program.Instance).RequestRestart();
 		}
 		private void FullUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			var Updater = Service.GetComponent<ITGInstance>();
+			var Updater = Service.GetComponent<ITGInstance>(Program.Instance);
 			switch (fuAction)
 			{
 				case FullUpdateAction.Testmerge:
@@ -422,20 +423,20 @@ namespace TGControlPanel
 		private void NudgePortSelector_ValueChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Service.GetComponent<ITGConfig>().SetInteropPort((ushort)NudgePortSelector.Value);
+				Service.GetComponent<ITGConfig>(Program.Instance).SetInteropPort((ushort)NudgePortSelector.Value);
 		}
 
 		private void SecuritySelector_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if (!Service.GetComponent<ITGDreamDaemon>().SetSecurityLevel((TGDreamDaemonSecurity)SecuritySelector.SelectedIndex))
+				if (!Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetSecurityLevel((TGDreamDaemonSecurity)SecuritySelector.SelectedIndex))
 					MessageBox.Show("Security change will be applied after next server reboot.");
 		}
 
 		private void VisibilitySelector_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if (!Service.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
+				if (!Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
 					MessageBox.Show("Visibility change will be applied after next server reboot.");
 		}
 	}

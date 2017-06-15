@@ -7,6 +7,8 @@ namespace TGControlPanel
 {
 	static class Program
 	{
+		public static int Instance;
+		public static bool ReselectInstance = true;
 		[STAThread]
 		static void Main(string [] args)
 		{
@@ -18,7 +20,7 @@ namespace TGControlPanel
 					Properties.Settings.Default.UpgradeRequired = false;
 					Properties.Settings.Default.Save();
 				}
-				var res = Server.VerifyConnection();
+				var res = Service.VerifyConnection();
 				if (res != null)
 				{
 					MessageBox.Show("Unable to connect to service! Error: " + res);
@@ -26,7 +28,16 @@ namespace TGControlPanel
 				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new Main());
+
+				while (ReselectInstance)
+				{
+					ReselectInstance = false;
+					Instance = InstanceSelector.Execute();
+					using (var m = new Main())
+					{
+						Application.Run(m);
+					}
+				}
 				return;
 			}
 			catch (Exception e)

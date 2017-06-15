@@ -278,7 +278,8 @@ namespace TGCommandLine
 				}
 			else
 			{
-				Console.WriteLine("WARNING: This will delete the ENTIRE server instance ")
+				Console.WriteLine("WARNING: This will delete the ENTIRE server instance! Absolutely no backup operation will be performed!");
+				Console.WriteLine("Add a --confirm parameter to continue");
 			}
 			return ExitCode.Normal;
 		}
