@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.ServiceModel;
 using System.Threading;
 using TGServiceInterface;
@@ -21,6 +22,15 @@ namespace TGServerService
 		{
 			instanceName = name;
 			Config = cfg;
+
+			if (Config.UpgradeRequired)
+			{
+				Config.Upgrade();
+				Config.UpgradeRequired = false;
+			}
+
+			if (!Directory.Exists(Config.ServerDirectory))
+				Directory.CreateDirectory(Config.ServerDirectory);
 
 			InitChat();
 			InitByond();
@@ -127,6 +137,11 @@ namespace TGServerService
 
 				disposedValue = true;
 			}
+		}
+
+		public string PrepPath(string path)
+		{
+			return Config.ServerDirectory + Path.DirectorySeparatorChar + path;
 		}
 
 		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.

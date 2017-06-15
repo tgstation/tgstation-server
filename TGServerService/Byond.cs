@@ -39,9 +39,9 @@ namespace TGServerService
 		void CleanByondStaging()
 		{
 			//linger not
-			if (File.Exists(RevisionDownloadPath))
-				File.Delete(RevisionDownloadPath);
-			Program.DeleteDirectory(StagingDirectory);
+			if (File.Exists(PrepPath(RevisionDownloadPath)))
+				File.Delete(PrepPath(RevisionDownloadPath));
+			Program.DeleteDirectory(PrepPath(StagingDirectory));
 		}
 
 		//Kill the thread and cleanup again
@@ -123,7 +123,7 @@ namespace TGServerService
 					}
 					else
 					{
-						string DirToUse = type == TGByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
+						string DirToUse = PrepPath(type == TGByondVersion.Staged ? StagingDirectoryInner : ByondDirectory);
 						if (Directory.Exists(DirToUse))
 						{
 							string file = DirToUse + VersionFile;

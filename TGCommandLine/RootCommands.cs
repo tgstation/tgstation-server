@@ -221,7 +221,7 @@ namespace TGCommandLine
 			var S = Service.Get();
 			var res = S.CreateInstance(parameters[0], parameters[1]);
 			int instanceID = 0;
-			if (res != null)
+			if (res == null)
 			{
 				foreach (var I in S.ListInstances())
 					if (I.Value == parameters[0])

@@ -56,7 +56,7 @@ namespace TGCommandLine
 
 	class Program
 	{
-		public static int Instance;
+		public static int Instance = 0;
 		static ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			var res = Service.VerifyConnection();
@@ -67,6 +67,25 @@ namespace TGCommandLine
 			}
 			try
 			{
+				try
+				{
+					for (var I = 0; I < argsAsList.Count - 1; ++I)
+					{
+						if (argsAsList[I].ToLower() == "--instance")
+						{
+							Instance = Convert.ToInt32(argsAsList[I + 1]);
+							if (Instance == 0)
+								throw new Exception();
+							argsAsList.RemoveAt(I);
+							argsAsList.RemoveAt(I);
+						}
+					}
+				}
+				catch
+				{
+					Console.WriteLine("Invalid instance id!");
+				}
+
 				return new RootCommand().Run(argsAsList);
 			}
 			catch (Exception e)
@@ -128,7 +147,7 @@ namespace TGCommandLine
 						formattedCommand = formattedCommand.Select(x => x.Trim()).ToList();
 						formattedCommand.Remove("");
 						RunCommandLine(formattedCommand);
-						Program.Instance = 0;
+						Instance = 0;
 						break;
 				}
 			}

@@ -9,6 +9,8 @@ using TGServiceInterface;
 
 namespace TGServerService
 {
+	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	partial class TGServerService : ServiceBase, ITGSService
 	{ 
 		//only deprecate events, do not reuse them
@@ -76,6 +78,7 @@ namespace TGServerService
 			InstanceShutdownFail = 60000,
 			ServiceShutdownFail = 61000,
 			WorldReboot = 62000,
+			InstanceCreate = 63000,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
@@ -102,14 +105,19 @@ namespace TGServerService
 		{
 			try
 			{
-				if (Properties.Service.Default.UpgradeRequired)
+				Environment.CurrentDirectory = Directory.CreateDirectory(Path.GetTempPath() + "/TGStationServerService").FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
+				var Config = Properties.Service.Default;
+				if (Config.UpgradeRequired)
 				{
-					Properties.Service.Default.Upgrade();
-					Properties.Service.Default.UpgradeRequired = false;
-					Properties.Service.Default.Save();
+					Config.Upgrade();
+					Config.UpgradeRequired = false;
+					Config.Save();
 				}
 				InitializeComponent();
-				Hosts = new Dictionary<int, ServiceHost>(Properties.Service.Default.InstanceConfigs.Count);
+
+				if (Config.InstanceConfigs == null)
+					Config.InstanceConfigs = new System.Collections.Specialized.StringCollection();
+				Hosts = new Dictionary<int, ServiceHost>(Config.InstanceConfigs.Count);
 
 				ActiveService = this;
 				Run(this);
@@ -126,9 +134,10 @@ namespace TGServerService
 			MainHost = new ServiceHost(this, new Uri[] { new Uri("net.pipe://localhost") })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
-			}; //construction runs here
-
+			};
 			AddEndpoint(MainHost, typeof(ITGSService), false);
+			MainHost.Open();
+
 			foreach (var I in Properties.Service.Default.InstanceConfigs)
 				CreateInstanceImpl(I, null);
 		}
@@ -153,7 +162,6 @@ namespace TGServerService
 				var host = Hosts[instanceID];
 				host.Close();
 				((IDisposable)host.SingletonInstance).Dispose();
-				Hosts.Remove(instanceID);
 			}
 			catch (Exception e)
 			{
@@ -174,9 +182,10 @@ namespace TGServerService
 				var instancePath = instance.ServerDirectory();
 				var instanceName = instance.InstanceName();
 				ShutdownInstance(instanceID);
+				Hosts.Remove(instanceID);
 				Properties.Service.Default.InstanceConfigs.Remove(instanceName);
 				Program.DeleteDirectory(instancePath);
-				EventLog.WriteEntry("Instance deleted.", EventLogEntryType.Information, (int)EventID.InstanceDelete + instanceID);
+				EventLog.WriteEntry("Instance deleted", EventLogEntryType.Information, (int)EventID.InstanceDelete + instanceID);
 			}
 			catch (Exception e)
 			{
@@ -188,13 +197,35 @@ namespace TGServerService
 			var Config = new Properties.Instance() { SettingsKey = instanceName };
 			Config.Reload();
 
-			if (instancePath != null)
+			if (instancePath != null)	//new instance
+			{
+				var info = new DirectoryInfo(instancePath);
+
+				if (info.Exists || File.Exists(instancePath))
+					throw new Exception("Path specified already exists!");
+
+				Directory.CreateDirectory(info.Parent.FullName);
+
+				Config.Reset();
 				Config.ServerDirectory = instancePath;
+				Config.UpgradeRequired = false;
+				for(int I = 1;; ++I)
+					if (!Hosts.ContainsKey(I))
+					{
+						Config.InstanceID = I;
+						break;
+					}
+			}
 
-			if (!Directory.Exists(Config.ServerDirectory))
-				Directory.CreateDirectory(Config.ServerDirectory);
+			var inst = new TGStationServer(instanceName, Config);
 
-			var host = new ServiceHost(new TGStationServer(instanceName, Config), new Uri[] { new Uri("net.pipe://localhost") })
+			if (instancePath != null)
+			{
+				Properties.Service.Default.InstanceConfigs.Add(instanceName);
+				EventLog.WriteEntry("Instance created", EventLogEntryType.Information, (int)EventID.InstanceCreate + inst.InstanceID());
+			}
+
+			var host = new ServiceHost(inst, new Uri[] { new Uri("net.pipe://localhost") })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
@@ -209,7 +240,7 @@ namespace TGServerService
 		//shorthand for adding the WCF endpoint
 		void AddEndpoint(ServiceHost host, Type typetype, bool instanced)
 		{
-			string Append = instanced ? String.Format(Service.InstanceFormat, ((TGStationServer)host.SingletonInstance).InstanceID()) : "";
+			string Append = instanced ? "/" + String.Format(Service.InstanceFormat, ((TGStationServer)host.SingletonInstance).InstanceID()) : "";
 			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Service.MasterPipeName + Append + "/" + typetype.Name);
 		}
 
@@ -218,6 +249,7 @@ namespace TGServerService
 		{
 			foreach (var I in Hosts)
 				ShutdownInstance(I.Key);
+			Hosts.Clear();
 		}
 
 		public IDictionary<int, string> ListInstances()

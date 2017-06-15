@@ -344,7 +344,6 @@ namespace TGServerService
 									{
 										Program.CopyDirectory(Config.ServerDirectory, new_location);
 										Directory.CreateDirectory(new_location);
-										Environment.CurrentDirectory = new_location;
 										try
 										{
 											Program.DeleteDirectory(Config.ServerDirectory);
@@ -356,19 +355,7 @@ namespace TGServerService
 										}
 									}
 									else
-									{
-										try
-										{
-											Environment.CurrentDirectory = di2.Root.FullName;
-											Directory.Move(Config.ServerDirectory, new_location);
-											Environment.CurrentDirectory = new_location;
-										}
-										catch
-										{
-											Environment.CurrentDirectory = Config.ServerDirectory;
-											throw;
-										}
-									}
+										Directory.Move(Config.ServerDirectory, new_location);
 									TGServerService.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), TGServerService.EventID.ServerMoveComplete, this);
 									Config.ServerDirectory = new_location;
 									return null;
@@ -592,7 +579,7 @@ namespace TGServerService
 		//public api
 		public string ServerDirectory()
 		{
-			return Environment.CurrentDirectory;
+			return Config.ServerDirectory;
 		}
 
 		//public api
