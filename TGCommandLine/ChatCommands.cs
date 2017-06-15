@@ -64,16 +64,21 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			if (Service.GetComponent<ITGChat>(Program.Instance).ProviderInfo().Provider != TGChatProvider.IRC)
-			{
-				Console.WriteLine("The current provider is not IRC. Please switch providers first!");
-				return ExitCode.ServerError;
-			}
 			return base.Run(parameters);
 		}
 		protected override string GetHelpText()
 		{
 			return "Manages the IRC bot";
+		}
+
+		public static bool IsInstanceInIRCMode()
+		{
+			if (Service.GetComponent<ITGChat>(Program.Instance).ProviderInfo().Provider != TGChatProvider.IRC)
+			{
+				Console.WriteLine("The current provider is not IRC. Please switch providers first!");
+				return false;
+			}
+			return true;
 		}
 	}
 	class IRCNickCommand : Command
@@ -95,6 +100,8 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
+			if (!IRCCommand.IsInstanceInIRCMode())
+				return ExitCode.ServerError;
 			var Chat = Service.GetComponent<ITGChat>(Program.Instance);
 			Chat.SetProviderInfo(new TGIRCSetupInfo(Chat.ProviderInfo())
 			{
@@ -336,6 +343,8 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
+			if (!IRCCommand.IsInstanceInIRCMode())
+				return ExitCode.ServerError;
 			var IRC = Service.GetComponent<ITGChat>(Program.Instance);
 			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfo())
 			{
@@ -358,6 +367,8 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
+			if (!IRCCommand.IsInstanceInIRCMode())
+				return ExitCode.ServerError;
 			var IRC = Service.GetComponent<ITGChat>(Program.Instance);
 			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfo())
 			{
@@ -479,6 +490,8 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
+			if (!IRCCommand.IsInstanceInIRCMode())
+				return ExitCode.ServerError;
 			var splits = parameters[0].Split(':');
 			if(splits.Length < 2)
 			{

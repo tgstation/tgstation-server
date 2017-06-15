@@ -16,7 +16,9 @@ namespace TGCommandLine
 		{
 			if (IsRealRoot())   //stack overflows
 				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new IRCCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new ChatCommand(), new ServiceUpdateCommand(), new ListInstancesCommand(), new CreateInstanceCommand(), new DeleteInstanceCommand() };
+			RequiresInstance = false;
 		}
+
 		public override ExitCode Run(IList<string> parameters)
 		{
 			if (parameters.Count > 0)
