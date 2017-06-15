@@ -346,6 +346,7 @@ namespace TGServerService
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
 					SendMessage("DM: " + errorMsg);
+					TGServerService.WriteError(errorMsg, TGServerService.EventID.DMCompileCrash);
 					lock (CompilerLock)
 					{
 						lastCompilerError = errorMsg;
@@ -438,7 +439,9 @@ namespace TGServerService
 								}
 							}
 						}
-						SendMessage(String.Format("DM: Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round."));
+						var msg = String.Format("Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round.");
+						SendMessage("DM: " + msg);
+						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess);
 						lock (CompilerLock)
 						{
 							lastCompilerError = null;
@@ -448,7 +451,7 @@ namespace TGServerService
 					else
 					{
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
-						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileCancel);
+						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileError);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
