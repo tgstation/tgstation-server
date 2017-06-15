@@ -185,6 +185,7 @@ namespace TGServerService
 				var instanceName = instance.InstanceName();
 				ShutdownInstance(instanceID, true);
 				Properties.Service.Default.InstanceConfigs.Remove(instanceName);
+				instance.CleanGameFolder();	//fix symlinks
 				Program.DeleteDirectory(instancePath);
 				EventLog.WriteEntry("Instance deleted", EventLogEntryType.Information, (int)EventID.InstanceDelete + instanceID);
 			}

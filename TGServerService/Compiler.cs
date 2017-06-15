@@ -127,7 +127,7 @@ namespace TGServerService
 		}
 
 		//we need to remove symlinks before we can recursively delete
-		void CleanGameFolder()
+		public void CleanGameFolder()
 		{
 			if (Directory.Exists(PrepPath(GameDirB + LibMySQLFile)))
 				Directory.Delete(PrepPath(GameDirB + LibMySQLFile));

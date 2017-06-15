@@ -260,8 +260,8 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			if (parameters.Count > 0 && parameters[0] == "--verify")
-				if (parameters.Count > 1 && parameters[1] == "--confirm")
+			if (parameters.Count > 0 && parameters[0] == "--confirm")
+				if (parameters.Count > 1 && parameters[1] == "--verify")
 				{
 					string instanceName = null;
 					foreach (var I in Service.Get().ListInstances())
