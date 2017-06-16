@@ -359,7 +359,7 @@ namespace TGServerService
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
 					DM.StartInfo.FileName = PrepPath(ByondDirectory + "/bin/dm.exe");
-					DM.StartInfo.Arguments = dmePath;
+					DM.StartInfo.Arguments = '"' + dmePath + '"';
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
@@ -452,7 +452,7 @@ namespace TGServerService
 					else
 					{
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
-						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileError, this);
+						TGServerService.WriteWarning(String.Format("Compile error ({1} {0}: {2}", DM.StartInfo.Arguments, DM.StartInfo.FileName, OutputList.ToString()), TGServerService.EventID.DMCompileError, this);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
