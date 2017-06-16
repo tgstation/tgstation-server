@@ -488,7 +488,7 @@ namespace TGServerService
 		//json_decode(file2text())
 		IDictionary<string, IDictionary<string, string>> GetCurrentPRList()
 		{
-			if (!File.Exists(PRJobFile))
+			if (!File.Exists(PrepPath(PRJobFile)))
 				return new Dictionary<string, IDictionary<string, string>>();
 			var rawdata = File.ReadAllText(PrepPath(PRJobFile));
 			var Deserializer = new JavaScriptSerializer();
