@@ -800,7 +800,7 @@ namespace TGServerService
 					using (var python = new Process())
 					{
 						python.StartInfo.FileName = PythonFile;
-						python.StartInfo.Arguments = String.Format("{0} {1} {2}", ChangelogPy, ChangelogHtml, ChangelogDir);
+						python.StartInfo.Arguments = String.Format("\"{0}\" \"{1}\" \"{2}\"", ChangelogPy, ChangelogHtml, ChangelogDir);
 						python.StartInfo.UseShellExecute = false;
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
