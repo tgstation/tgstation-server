@@ -69,7 +69,6 @@ namespace TGServerService
 			if (Proc == null)
 				Proc = new Process();
 
-			Proc.StartInfo.FileName = PrepPath(ByondDirectory + "/bin/dreamdaemon.exe");
 			Proc.StartInfo.UseShellExecute = false;
 
 			if (Reattach)
@@ -387,11 +386,12 @@ namespace TGServerService
 					if (res != null)
 						return res;
 					
-					var DMB = PrepPath(GameDirLive + "/" + Config.ProjectName + ".dmb");
+					var DMB = '"' + PrepPath(GameDirLive + "/" + Config.ProjectName + ".dmb") + '"';
 
 					GenCommsKey();
 					StartingVisiblity = (TGDreamDaemonVisibility)Config.ServerVisiblity;
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
+					Proc.StartInfo.FileName = PrepPath(ByondDirectory + "/bin/dreamdaemon.exe");
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} -close -verbose -params server_service={4} -{2} -{3}", DMB, Config.ServerPort, SecurityWord(), VisibilityWord(), serviceCommsKey);
 					InitInterop();
 					Proc.Start();
