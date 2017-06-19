@@ -293,6 +293,13 @@ namespace TGServerService
 
 				Directory.CreateDirectory(resurrectee + "/.git/logs");
 
+				if (!Directory.Exists(resurrectee + "/config"))
+					CreateSymlink(resurrectee + "/config", StaticConfigDir);
+				if (!Directory.Exists(resurrectee + "/data"))
+					CreateSymlink(resurrectee + "/data", StaticDataDir);
+				if (!File.Exists(resurrectee + LibMySQLFile))
+					CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
+
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))
 					repobusy_check = true;
