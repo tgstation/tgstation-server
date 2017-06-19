@@ -353,10 +353,14 @@ namespace TGServerService
 				}
 				adminchannel = SanitizeChannelName(adminchannel);
 				if (adminchannel != null)
+				{
 					Config.ChatAdminChannel = adminchannel;
+					if (!Config.ChatChannels.Contains(adminchannel))
+						Config.ChatChannels.Add(adminchannel);
+				}
 				if (channels != null && Connected())
-					ChatProvider.SetChannels(CollectionToArray(Config.ChatChannels), null);
-			}
+					ChatProvider.SetChannels(CollectionToArray(Config.ChatChannels), Config.ChatAdminChannel);
+			}			
 		}
 
 		//public api
