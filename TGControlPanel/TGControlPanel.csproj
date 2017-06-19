@@ -57,6 +57,12 @@
     <Compile Include="ConfigPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="InstanceSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.Designer.cs">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     <Compile Include="ServerPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="InstanceSelector.resx">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

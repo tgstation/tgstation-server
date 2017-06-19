@@ -36,7 +36,7 @@ namespace TGServerService
 			{
 				lock (configLock)
 				{
-					File.WriteAllText(AdminConfig, outText);
+					File.WriteAllText(PrepPath(AdminConfig), outText);
 				}
 				return null;
 			}
@@ -76,7 +76,7 @@ namespace TGServerService
 				List<string> fileLines;
 				lock (configLock)
 				{
-					fileLines = new List<string>(File.ReadAllLines(AdminRanksConfig));
+					fileLines = new List<string>(File.ReadAllLines(PrepPath(AdminRanksConfig)));
 				}
 
 				var result = new Dictionary<string, IDictionary<string, bool>>();
@@ -186,7 +186,7 @@ namespace TGServerService
 				List<string> fileLines;
 				lock (configLock)
 				{
-					fileLines = new List<string>(File.ReadAllLines(AdminConfig));
+					fileLines = new List<string>(File.ReadAllLines(PrepPath(AdminConfig)));
 				}
 
 				var mins = new Dictionary<string, string>();
@@ -239,7 +239,7 @@ namespace TGServerService
 				IList<string> lines;
 				lock (configLock)
 				{
-					lines = File.ReadAllLines(JobsConfig);
+					lines = File.ReadAllLines(PrepPath(JobsConfig));
 				}
 				
 				IList<JobSetting> results = new List<JobSetting>();
@@ -289,123 +289,12 @@ namespace TGServerService
 		}
 
 		//public api
-		public string MoveServer(string new_location)
-		{
-			try
-			{
-				var di1 = new DirectoryInfo(Environment.CurrentDirectory);
-				var di2 = new DirectoryInfo(new_location);
-
-				var copy = di1.Root.FullName != di2.Root.FullName;
-
-				if (copy && File.Exists(PrivateKeyPath))
-					return String.Format("Unable to perform a cross drive server move with the {0}. Copy aborted!", PrivateKeyPath);
-
-				new_location = di2.FullName;
-
-				while (di2.Parent != null)
-					if (di2.Parent.FullName == di1.FullName)
-						return "Cannot move to child of current directory!";
-					else
-						di2 = di2.Parent;
-
-				if (!Monitor.TryEnter(RepoLock))
-					return "Repo locked!";
-				try
-				{
-					if (RepoBusy)
-						return "Repo busy!";
-					DisposeRepo();
-					if (!Monitor.TryEnter(ByondLock))
-						return "BYOND locked";
-					try
-					{
-						if (updateStat != TGByondStatus.Idle)
-							return "BYOND busy!";
-						if (!Monitor.TryEnter(CompilerLock))
-							return "Compiler locked!";
-
-						try
-						{
-							if (compilerCurrentStatus != TGCompilerStatus.Uninitialized && compilerCurrentStatus != TGCompilerStatus.Initialized)
-								return "Compiler busy!";
-							if (!Monitor.TryEnter(watchdogLock))
-								return "Watchdog locked!";
-							try
-							{
-								if (currentStatus != TGDreamDaemonStatus.Offline)
-									return "Watchdog running!";
-								var Config = Properties.Settings.Default;
-								lock (configLock)
-								{
-									CleanGameFolder();
-									Program.DeleteDirectory(GameDir);
-									string error = null;
-									if (copy)
-									{
-										Program.CopyDirectory(Config.ServerDirectory, new_location);
-										Directory.CreateDirectory(new_location);
-										Environment.CurrentDirectory = new_location;
-										try
-										{
-											Program.DeleteDirectory(Config.ServerDirectory);
-										}
-										catch
-										{
-											error = "The move was successful, but the path " + Config.ServerDirectory + " was unable to be deleted fully!";
-										}
-									}
-									else
-									{
-										try
-										{
-											Environment.CurrentDirectory = di2.Root.FullName;
-											Directory.Move(Config.ServerDirectory, new_location);
-											Environment.CurrentDirectory = new_location;
-										}
-										catch (Exception e)
-										{
-											Environment.CurrentDirectory = Config.ServerDirectory;
-											return e.ToString();
-										}
-									}
-									Config.ServerDirectory = new_location;
-									TGServerService.WriteLog("Server moved to: " + new_location);
-									return null;
-								}
-							}
-							finally
-							{
-								Monitor.Exit(watchdogLock);
-							}
-						}
-						finally
-						{
-							Monitor.Exit(CompilerLock);
-						}
-					}
-					finally
-					{
-						Monitor.Exit(ByondLock);
-					}
-				}
-				finally
-				{
-					Monitor.Exit(RepoLock);
-				}
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
-			}
-		}
-		//public api
 		public ushort InteropPort(out string error)
 		{
 			try
 			{
 				error = null;
-				return Convert.ToUInt16(File.ReadAllText(InteropConfig));
+				return Convert.ToUInt16(File.ReadAllText(PrepPath(InteropConfig)));
 			}
 			catch (Exception e)
 			{
@@ -417,7 +306,7 @@ namespace TGServerService
 		//TGConfigType to the right path, Repo or static
 		string ConfigTypeToPath(TGConfigType type, bool repo)
 		{
-			var path = repo ? RepoConfig : StaticConfigDir;
+			var path = PrepPath(repo ? RepoConfig : StaticConfigDir);
 			switch (type)
 			{
 				case TGConfigType.Database:
@@ -589,12 +478,6 @@ namespace TGServerService
 		}
 
 		//public api
-		public string ServerDirectory()
-		{
-			return Environment.CurrentDirectory;
-		}
-
-		//public api
 		public string SetItem(TGConfigType type, ConfigSetting newSetting)
 		{
 			try
@@ -661,7 +544,7 @@ namespace TGServerService
 
 				lock (configLock)
 				{
-					File.WriteAllLines(JobsConfig, lines);
+					File.WriteAllLines(PrepPath(JobsConfig), lines);
 				}
 				return null;
 			}
@@ -678,7 +561,7 @@ namespace TGServerService
             {
                 lock (configLock)
                 {
-                    File.WriteAllText(InteropConfig, port.ToString());
+                    File.WriteAllText(PrepPath(InteropConfig), port.ToString());
                 }
                 InitInterop();
                 return null;
@@ -696,7 +579,7 @@ namespace TGServerService
 				IList<string> lines;
 				lock (configLock)
 				{
-					lines = File.ReadAllLines(MapConfig);
+					lines = File.ReadAllLines(PrepPath(MapConfig));
 				}
 
 				MapSetting currentMap = null, lastDefaultMap = null;
@@ -820,7 +703,7 @@ namespace TGServerService
 
 				lock (configLock)
 				{
-					File.WriteAllLines(MapConfig, asStrings);
+					File.WriteAllLines(PrepPath(MapConfig), asStrings);
 				}
 
 				return null;
@@ -835,7 +718,7 @@ namespace TGServerService
 		{
 			try
 			{
-				var configDir = repo ? RepoConfig : StaticConfigDir;
+				var configDir = PrepPath(repo ? RepoConfig : StaticConfigDir);
 				var path = configDir + "/" + configRelativePath;
 				lock (configLock) {
 					var di1 = new DirectoryInfo(configDir);
@@ -873,10 +756,10 @@ namespace TGServerService
 		{
 			try
 			{
-				var path = StaticConfigDir + "/" + configRelativePath;
+				var path = PrepPath(StaticConfigDir + "/" + configRelativePath);
 				lock (configLock)
 				{
-					var di1 = new DirectoryInfo(StaticConfigDir);
+					var di1 = new DirectoryInfo(PrepPath(StaticConfigDir));
 					var destdir = new FileInfo(path).Directory.FullName;
 					var di2 = new DirectoryInfo(destdir);
 
@@ -910,7 +793,7 @@ namespace TGServerService
 			{
 				lock (configLock)
 				{
-					var path = StaticConfigDir + TitleImagesConfig + "/" + filename;
+					var path = PrepPath(StaticConfigDir + TitleImagesConfig + "/" + filename);
 					File.WriteAllBytes(path, data);
 					return null;
 				}
@@ -928,7 +811,7 @@ namespace TGServerService
 				IList<string> lines;
 				lock (configLock)
 				{
-					lines = new List<string>(File.ReadAllLines(AdminRanksRepo));
+					lines = new List<string>(File.ReadAllLines(PrepPath(AdminRanksRepo)));
 				}
 				IDictionary<string, string> res = new Dictionary<string, string>();
 
@@ -985,7 +868,7 @@ namespace TGServerService
 				}
 				lock (configLock)
 				{
-					File.WriteAllLines(AdminRanksConfig, lines);
+					File.WriteAllLines(PrepPath(AdminRanksConfig), lines);
 				}
 				return null;
 			}

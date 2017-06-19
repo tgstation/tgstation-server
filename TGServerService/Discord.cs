@@ -12,11 +12,13 @@ namespace TGServerService
 		DiscordClient client;
 		TGDiscordSetupInfo DiscordConfig;
 		object DiscordLock = new object();
+		TGStationServer Parent;
 
 		IDictionary<ulong, Channel> SeenPrivateChannels = new Dictionary<ulong, Channel>();
 
-		public TGDiscordChatProvider(TGChatSetupInfo info)
+		public TGDiscordChatProvider(TGChatSetupInfo info, TGStationServer parent)
 		{
+			Parent = parent;
 			Init(info);
 		}
 
@@ -29,7 +31,7 @@ namespace TGServerService
 
 		private void Client_MessageReceived(object sender, MessageEventArgs e)
 		{
-			var isValidChannel = Properties.Settings.Default.ChatChannels.Contains("#" + e.Channel.Name) || e.Channel.IsPrivate;
+			var isValidChannel = Parent.Config.ChatChannels.Contains("#" + e.Channel.Name) || e.Channel.IsPrivate;
 			if (!isValidChannel)
 				return;
 
@@ -112,17 +114,16 @@ namespace TGServerService
 				lock (DiscordLock)
 				{
 					var tasks = new List<Task>();
-					var Config = Properties.Settings.Default;
 					foreach (var I in client.Servers)
 						foreach (var J in I.TextChannels)
 						{
-							var SendToThisChannel = adminOnly ? ("#" + J.Name) == Config.ChatAdminChannel : Config.ChatChannels.Contains("#" + J.Name);
+							var SendToThisChannel = adminOnly ? ("#" + J.Name) == Parent.Config.ChatAdminChannel : Parent.Config.ChatChannels.Contains("#" + J.Name);
 							if (SendToThisChannel)
 								tasks.Add(J.SendMessage(msg));
 						}
 					foreach (var I in tasks)
 						I.Wait();
-					TGServerService.WriteLog(String.Format("Discord Send ({0}): {1}", adminOnly ? "Broadcast" : "Admin", msg));
+					TGServerService.WriteInfo(String.Format("Discord Send{0}: {1}", adminOnly ? " (ADMIN)" : "", msg), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast, Parent);
 					return null;
 				}
 			}
@@ -139,7 +140,6 @@ namespace TGServerService
 				lock (DiscordLock)
 				{
 					var tasks = new List<Task>();
-					var Config = Properties.Settings.Default;
 					var channel = Convert.ToUInt64(channelname);
 					if (SeenPrivateChannels.ContainsKey(channel))
 						SeenPrivateChannels[channel].SendMessage(message).Wait();
@@ -148,7 +148,7 @@ namespace TGServerService
 							foreach (var J in I.TextChannels)
 								if (J.Id == channel)
 									J.SendMessage(message).Wait();
-					TGServerService.WriteLog(String.Format("Discord Send ({0}): {1}", channel, message));
+					TGServerService.WriteInfo(String.Format("Discord Send ({0}): {1}", channelname, message), TGServerService.EventID.ChatSend, Parent);
 					return null;
 				}
 			}
@@ -170,7 +170,7 @@ namespace TGServerService
 				client.Disconnect().Wait();
 			}
 			catch (Exception e) {
-				TGServerService.WriteLog("Discord failed DnD: " + e.ToString());
+				TGServerService.WriteError("Discord failed DnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail, Parent);
 			}
 			client.Dispose();
 		}
@@ -183,7 +183,7 @@ namespace TGServerService
 				{
 					DisconnectAndDispose();
 					Init(info);
-					if (Properties.Settings.Default.ChatEnabled)
+					if (Parent.Config.ChatEnabled)
 						Connect();
 				}
 				return null;

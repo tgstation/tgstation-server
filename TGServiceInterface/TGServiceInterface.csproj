@@ -43,9 +43,10 @@
     <Compile Include="Config.cs" />
     <Compile Include="DreamDaemon.cs" />
     <Compile Include="Chat.cs" />
+    <Compile Include="Instance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />

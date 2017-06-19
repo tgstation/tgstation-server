@@ -38,45 +38,44 @@ namespace TGServerService
 		//Only need 1 proc instance
 		void InitDreamDaemon()
 		{
-			var Reattach = Properties.Settings.Default.ReattachToDD;
+			var Reattach = Config.ReattachToDD;
 			if (Reattach)
 				try
 				{
-					Proc = Process.GetProcessById(Properties.Settings.Default.ReattachPID);
+					Proc = Process.GetProcessById(Config.ReattachPID);
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
-					TGServerService.WriteLog("Reattached to running DD process!");
+					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess, this);
 					SendMessage("DD: Update complete. Watchdog reactivated...");
 					
 					//start wd 
 					InitInterop();
 
 					RestartInProgress = true;
-					currentPort = Properties.Settings.Default.ReattachPort;
+					currentPort = Config.ReattachPort;
 					currentStatus = TGDreamDaemonStatus.Online;
 					DDWatchdog = new Thread(new ThreadStart(Watchdog));
 					DDWatchdog.Start();
 				}
 				catch (Exception e)
 				{
-					TGServerService.WriteLog(String.Format("Failed to reattach to DreamDaemon! PID: {0}. Exception: {1}", Properties.Settings.Default.ReattachPID, e.ToString()), EventLogEntryType.Error);
+					TGServerService.WriteError(String.Format("Failed to reattach to DreamDaemon! PID: {0}. Exception: {1}", Config.ReattachPID, e.ToString()), TGServerService.EventID.DDReattachFail, this);
 				}
 				finally
 				{
-					Properties.Settings.Default.ReattachToDD = false;
+					Config.ReattachToDD = false;
 				}
 
 			if (Proc == null)
 				Proc = new Process();
 
-			Proc.StartInfo.FileName = ByondDirectory + "/bin/dreamdaemon.exe";
 			Proc.StartInfo.UseShellExecute = false;
 
 			if (Reattach)
 				return;
 
 			//autostart the server
-			if (Properties.Settings.Default.DDAutoStart)
+			if (Config.DDAutoStart)
 				//break this off so we don't hold up starting the service
 				ThreadPool.QueueUserWorkItem( _ => { Start(); });
 		}
@@ -84,7 +83,7 @@ namespace TGServerService
 		//die now k thx
 		void DisposeDreamDaemon()
 		{
-			var Detach = Properties.Settings.Default.ReattachToDD;
+			var Detach = Config.ReattachToDD;
 			if (DaemonStatus() == TGDreamDaemonStatus.Online)
 			{
 				if (!Detach)
@@ -97,7 +96,7 @@ namespace TGServerService
 			}
 			else if (Detach)
 			{
-				Properties.Settings.Default.ReattachToDD = false;
+				Config.ReattachToDD = false;
 			}
 			Stop();
 		}
@@ -153,7 +152,7 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
-				Properties.Settings.Default.ServerPort = new_port;
+				Config.ServerPort = new_port;
 				RequestRestart();
 			}
 		}
@@ -205,9 +204,15 @@ namespace TGServerService
 				lock (restartLock)
 				{
 					if (!RestartInProgress)
+					{
 						SendMessage("DD: Server started, watchdog active...");
+						TGServerService.WriteInfo("Watchdog started", TGServerService.EventID.DDWatchdogStarted, this);
+					}
 					else
+					{
 						RestartInProgress = false;
+						TGServerService.WriteInfo("Watchdog started", TGServerService.EventID.DDWatchdogRestarted, this);
+					}
 				}
 				var retries = 0;
 				while (true)
@@ -242,7 +247,9 @@ namespace TGServerService
 						else
 						{
 							retries = 0;
-							SendMessage("DD: DreamDaemon crashed or exited! Rebooting...");
+							var msg = "DD: DreamDaemon crashed! Rebooting...";
+							SendMessage(msg);
+							TGServerService.WriteWarning(msg, TGServerService.EventID.DDWatchdogRebootingServer, this);
 						}
 					}
 
@@ -256,12 +263,12 @@ namespace TGServerService
 				//No Mr bond, I expect you to die
 				try
 				{
-					if (!Properties.Settings.Default.ReattachToDD)
+					if (!Config.ReattachToDD)
 						Proc.Kill();
 					else
 					{
-						Properties.Settings.Default.ReattachPID = Proc.Id;
-						Properties.Settings.Default.ReattachPort = currentPort;
+						Config.ReattachPID = Proc.Id;
+						Config.ReattachPort = currentPort;
 						RestartInProgress = true;
 					}
 					Proc.Close();
@@ -273,7 +280,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DD: Watchdog thread crashed!");
-				TGServerService.WriteLog("Watch dog thread crashed! Exception: " + e.ToString(), EventLogEntryType.Error);
+				TGServerService.WriteError("Watch dog thread crashed: " + e.ToString(), TGServerService.EventID.DDWatchdogCrash, this);
 			}
 			finally
 			{
@@ -283,7 +290,12 @@ namespace TGServerService
 					currentPort = 0;
 					AwaitingShutdown = ShutdownRequestPhase.None;
 					if (!RestartInProgress)
+					{
 						SendMessage("DD: Server stopped, watchdog exiting...");
+						TGServerService.WriteInfo("Watch dog exited", TGServerService.EventID.DDWatchdogExit, this);
+					}
+					else
+						TGServerService.WriteInfo("Watch dog restarting...", TGServerService.EventID.DDWatchdogRestart, this);
 				}
 			}
 		}
@@ -301,7 +313,7 @@ namespace TGServerService
 		{
 			if (GetVersion(TGByondVersion.Installed) == null)
 				return "Byond is not installed!";
-			var DMB = GameDirLive + "/" + Properties.Settings.Default.ProjectName + ".dmb";
+			var DMB = PrepPath(GameDirLive + "/" + Config.ProjectName + ".dmb");
 			if (!File.Exists(DMB))
 				return String.Format("Unable to find {0}!", DMB);
 			return null;
@@ -332,7 +344,7 @@ namespace TGServerService
 		//translate the configured security level into a byond param
 		string SecurityWord(bool starting = false)
 		{
-			var level = starting ? StartingSecurity : (TGDreamDaemonSecurity)Properties.Settings.Default.ServerSecurity;
+			var level = starting ? StartingSecurity : (TGDreamDaemonSecurity)Config.ServerSecurity;
 			switch (level)
 			{
 				case TGDreamDaemonSecurity.Safe:
@@ -349,7 +361,7 @@ namespace TGServerService
 		//same thing with visibility
 		string VisibilityWord(bool starting = false)
 		{
-			var level = starting ? StartingVisiblity : (TGDreamDaemonVisibility)Properties.Settings.Default.ServerVisiblity;
+			var level = starting ? StartingVisiblity : (TGDreamDaemonVisibility)Config.ServerVisiblity;
 			switch (level)
 			{
 				case TGDreamDaemonVisibility.Invisible:
@@ -373,13 +385,13 @@ namespace TGServerService
 					var res = CanStartImpl();
 					if (res != null)
 						return res;
-
-					var Config = Properties.Settings.Default;
-					var DMB = GameDirLive + "/" + Config.ProjectName + ".dmb";
+					
+					var DMB = '"' + PrepPath(GameDirLive + "/" + Config.ProjectName + ".dmb") + '"';
 
 					GenCommsKey();
 					StartingVisiblity = (TGDreamDaemonVisibility)Config.ServerVisiblity;
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
+					Proc.StartInfo.FileName = PrepPath(ByondDirectory + "/bin/dreamdaemon.exe");
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} -close -verbose -params server_service={4} -{2} -{3}", DMB, Config.ServerPort, SecurityWord(), VisibilityWord(), serviceCommsKey);
 					InitInterop();
 					Proc.Start();
@@ -415,14 +427,13 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
-				return (TGDreamDaemonVisibility)Properties.Settings.Default.ServerVisiblity;
+				return (TGDreamDaemonVisibility)Config.ServerVisiblity;
 			}
 		}
 
 		//public api
 		public bool SetVisibility(TGDreamDaemonVisibility NewVis)
 		{
-			var Config = Properties.Settings.Default;
 			var visInt = (int)NewVis;
 			bool needReboot;
 			lock (watchdogLock)
@@ -440,14 +451,13 @@ namespace TGServerService
 		{
 			lock (watchdogLock)
 			{
-				return (TGDreamDaemonSecurity)Properties.Settings.Default.ServerSecurity;
+				return (TGDreamDaemonSecurity)Config.ServerSecurity;
 			}
 		}
 
 		//public api
 		public bool SetSecurityLevel(TGDreamDaemonSecurity level)
 		{
-			var Config = Properties.Settings.Default;
 			var secInt = (int)level;
 			bool needReboot;
 			lock (watchdogLock)
@@ -463,13 +473,13 @@ namespace TGServerService
 		//public api
 		public bool Autostart()
 		{
-			return Properties.Settings.Default.DDAutoStart;
+			return Config.DDAutoStart;
 		}
 
 		//public api
 		public void SetAutostart(bool on)
 		{
-			Properties.Settings.Default.DDAutoStart = on;
+			Config.DDAutoStart = on;
 		}
 
 		//public api
@@ -510,7 +520,7 @@ namespace TGServerService
 		//public api
 		public ushort Port()
 		{
-			return Properties.Settings.Default.ServerPort;
+			return Config.ServerPort;
 		}
 
 		//public api

@@ -74,7 +74,7 @@ namespace TGControlPanel
 		}
 		void LoadConfig()
 		{
-			var RepoReady = Server.GetComponent<ITGRepository>().Exists();
+			var RepoReady = Service.GetComponent<ITGRepository>(Program.Instance).Exists();
 			ConfigPanels.Visible = RepoReady;
 			ConfigApply.Visible = RepoReady;
 			ConfigDownload.Visible = RepoReady;
@@ -93,7 +93,7 @@ namespace TGControlPanel
 		private void RemoveRankButton_Click(object sender, EventArgs e)
 		{
 			var rank = (string)AdminRanksListBox.SelectedItem;
-			var result = Server.GetComponent<ITGConfig>().RemoveAdminRank(rank);
+			var result = Service.GetComponent<ITGConfig>(Program.Instance).RemoveAdminRank(rank);
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			LoadRanksList();
@@ -101,7 +101,7 @@ namespace TGControlPanel
 
 		private void AddRankButton_Click(object sender, EventArgs e)
 		{
-			var result = Server.GetComponent<ITGConfig>().SetAdminRank(AddRankTextBox.Text, new Dictionary<string, bool>());
+			var result = Service.GetComponent<ITGConfig>(Program.Instance).SetAdminRank(AddRankTextBox.Text, new Dictionary<string, bool>());
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			else
@@ -119,7 +119,7 @@ namespace TGControlPanel
 				return;
 			}
 			admin = admin.Split(' ')[0];
-			var result = Server.GetComponent<ITGConfig>().Addmin(admin, rank);
+			var result = Service.GetComponent<ITGConfig>(Program.Instance).Addmin(admin, rank);
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			LoadAdminsList();
@@ -133,7 +133,7 @@ namespace TGControlPanel
 				MessageBox.Show("You must select an admin first!");
 				return;
 			}
-			var result = Server.GetComponent<ITGConfig>().Deadmin(selectedAdmin.Split(' ')[0]);
+			var result = Service.GetComponent<ITGConfig>(Program.Instance).Deadmin(selectedAdmin.Split(' ')[0]);
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			LoadAdminsList();
@@ -147,7 +147,7 @@ namespace TGControlPanel
 				MessageBox.Show("You must select a rank first!");
 				return;
 			}
-			var result = Server.GetComponent<ITGConfig>().Addmin(AddminTextBox.Text, rank);
+			var result = Service.GetComponent<ITGConfig>(Program.Instance).Addmin(AddminTextBox.Text, rank);
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			else
@@ -173,7 +173,7 @@ namespace TGControlPanel
 					perms.Add(perm, posChecked);
 			}
 
-			var result = Server.GetComponent<ITGConfig>().SetAdminRank((string)AdminRanksListBox.SelectedItem, perms);
+			var result = Service.GetComponent<ITGConfig>(Program.Instance).SetAdminRank((string)AdminRanksListBox.SelectedItem, perms);
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			UpdatePermissionsDisplay();
@@ -185,7 +185,7 @@ namespace TGControlPanel
 		}
 		void UpdatePermissionsDisplay() { 
 			var rank = (string)AdminRanksListBox.SelectedItem;
-			var ranks = Server.GetComponent<ITGConfig>().AdminRanks(out string error);
+			var ranks = Service.GetComponent<ITGConfig>(Program.Instance).AdminRanks(out string error);
 			if (ranks != null && !ranks.ContainsKey(rank))
 				error = "Could not find rank: " + rank + "!";
 			if (error != null)
@@ -254,7 +254,7 @@ namespace TGControlPanel
 			flow.Controls.Clear();
 			flow.SuspendLayout();
 
-			var Entries = Server.GetComponent<ITGConfig>().Retrieve(type, out string error);
+			var Entries = Service.GetComponent<ITGConfig>(Program.Instance).Retrieve(type, out string error);
 			if (Entries != null)
 				foreach (var I in Entries)
 					HandleConfigEntry(I, flow, changeList, type);
@@ -302,7 +302,7 @@ namespace TGControlPanel
 
 		void LoadRanksList()
 		{
-			var ranks = Server.GetComponent<ITGConfig>().AdminRanks(out string error);
+			var ranks = Service.GetComponent<ITGConfig>(Program.Instance).AdminRanks(out string error);
 			AdminRanksListBox.Items.Clear();
 			if (ranks == null)
 				MessageBox.Show("Error: " + error);
@@ -320,7 +320,7 @@ namespace TGControlPanel
 
 		void LoadAdminsList()
 		{
-			var admins = Server.GetComponent<ITGConfig>().Admins(out string error);
+			var admins = Service.GetComponent<ITGConfig>(Program.Instance).Admins(out string error);
 			AdminsListBox.Items.Clear();
 			if (admins == null)
 				MessageBox.Show("Error: " + error);
@@ -337,7 +337,7 @@ namespace TGControlPanel
 
 		void LoadAdminsConfig()
 		{
-			var perms = Server.GetComponent<ITGConfig>().ListPermissions(out string error);
+			var perms = Service.GetComponent<ITGConfig>(Program.Instance).ListPermissions(out string error);
 			PermissionsListBox.Items.Clear();
 			if (perms == null)
 				MessageBox.Show("Error: " + error);
@@ -354,7 +354,7 @@ namespace TGControlPanel
 
 		void ApplyGenericConfig(IList<ConfigSetting> changelist, TGConfigType type)
 		{
-			var Config = Server.GetComponent<ITGConfig>();
+			var Config = Service.GetComponent<ITGConfig>(Program.Instance);
 			foreach (var I in changelist)
 			{
 				var error = Config.SetItem(type, I);
@@ -380,12 +380,12 @@ namespace TGControlPanel
 					ApplyGenericConfig(GameChangelist, TGConfigType.Game);
 					break;
 				case ConfigIndex.Jobs:
-					var Config = Server.GetComponent<ITGConfig>();
+					var Config = Service.GetComponent<ITGConfig>(Program.Instance);
 					foreach (var I in JobsChangelist)
 						Config.SetJob(I);
 					break;
 				case ConfigIndex.Maps:
-					Config = Server.GetComponent<ITGConfig>();
+					Config = Service.GetComponent<ITGConfig>(Program.Instance);
 					foreach (var I in MapsChangelist)
 						Config.SetMapSettings(I);
 					break;
@@ -399,7 +399,7 @@ namespace TGControlPanel
 		void LoadMapsConfig()
 		{
 			MapsConfigFlow.Controls.Clear();
-			var Maps = Server.GetComponent<ITGConfig>().MapSettings(out string error);
+			var Maps = Service.GetComponent<ITGConfig>(Program.Instance).MapSettings(out string error);
 			if (Maps == null)
 			{
 				MapsConfigFlow.Controls.Add(new Label()
@@ -469,7 +469,7 @@ namespace TGControlPanel
 		void LoadJobsConfig()
 		{
 			JobsConfigFlow.Controls.Clear();
-			var Jobs = Server.GetComponent<ITGConfig>().Jobs(out string error);
+			var Jobs = Service.GetComponent<ITGConfig>(Program.Instance).Jobs(out string error);
 
 			if(Jobs == null)
 			{
@@ -556,7 +556,7 @@ namespace TGControlPanel
 				error = e.ToString();
 			}
 			if (error == null)
-				error = Server.GetComponent<ITGConfig>().WriteRaw(originalFileName, fileContents);
+				error = Service.GetComponent<ITGConfig>(Program.Instance).WriteRaw(originalFileName, fileContents);
 			if (error != null)
 				MessageBox.Show("An error occurred: " + error);
 		}
@@ -565,7 +565,7 @@ namespace TGControlPanel
 		{
 			if (remotePath == null)
 				return;
-			var text = Server.GetComponent<ITGConfig>().ReadRaw(remotePath, repo, out string error);
+			var text = Service.GetComponent<ITGConfig>(Program.Instance).ReadRaw(remotePath, repo, out string error);
 			if (text != null)
 			{
 

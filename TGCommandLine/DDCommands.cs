@@ -31,7 +31,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGDreamDaemon>().Start();
+			var res = Service.GetComponent<ITGDreamDaemon>(Program.Instance).Start();
 			Console.WriteLine(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -55,7 +55,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Service.GetComponent<ITGDreamDaemon>(Program.Instance);
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
 				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
@@ -84,7 +84,7 @@ namespace TGCommandLine
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Service.GetComponent<ITGDreamDaemon>(Program.Instance);
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
 				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
@@ -119,7 +119,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Service.GetComponent<ITGDreamDaemon>(Program.Instance);
 			Console.WriteLine(DD.StatusString(true));
 			if (DD.ShutdownInProgress())
 				Console.WriteLine("The server will shutdown once the current round completes.");
@@ -137,7 +137,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Service.GetComponent<ITGDreamDaemon>(Program.Instance);
 			switch (parameters[0].ToLower())
 			{
 				case "on":
@@ -186,7 +186,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			Server.GetComponent<ITGDreamDaemon>().SetPort(port);
+			Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetPort(port);
 			return ExitCode.Normal;
 		}
 
@@ -230,7 +230,7 @@ namespace TGCommandLine
 					Console.WriteLine("Invalid visiblity word!");
 					return ExitCode.BadCommand;
 			}
-			Server.GetComponent<ITGDreamDaemon>().SetVisibility(vis);
+			Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetVisibility(vis);
 			return ExitCode.Normal;
 		}
 
@@ -273,7 +273,7 @@ namespace TGCommandLine
 					Console.WriteLine("Invalid security word!");
 					return ExitCode.BadCommand;
 			}
-			Server.GetComponent<ITGDreamDaemon>().SetSecurityLevel(sec);
+			Service.GetComponent<ITGDreamDaemon>(Program.Instance).SetSecurityLevel(sec);
 			return ExitCode.Normal;
 		}
 
