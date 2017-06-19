@@ -805,10 +805,7 @@ namespace TGServerService
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
 						using (StreamReader reader = python.StandardOutput)
-						{
 							result = reader.ReadToEnd();
-
-						}
 						python.WaitForExit();
 						exitCode = python.ExitCode;
 					}
