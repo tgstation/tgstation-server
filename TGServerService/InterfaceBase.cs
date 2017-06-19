@@ -12,6 +12,7 @@ namespace TGServerService
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	partial class TGStationServer : IDisposable, ITGSService, ITGServerUpdater
 	{
+
 		//call partial constructors/destructors from here
 		//called when the service is started
 		public TGStationServer()
@@ -86,7 +87,7 @@ namespace TGServerService
 		//public api
 		public void StopForUpdate()
 		{
-			TGServerService.WriteLog("Stopping for update!");
+			TGServerService.WriteInfo("Stopping for update!", TGServerService.EventID.UpdateRequest);
 			Properties.Settings.Default.ReattachToDD = true;
 			TGServerService.LocalStop();
 		}

@@ -67,13 +67,13 @@ namespace TGServerService
 						ChatProvider = new TGIRCChatProvider(info);
 						break;
 					default:
-						TGServerService.WriteLog(String.Format("Invalid chat provider: {0}", info.Provider), EventLogEntryType.Error);
+						TGServerService.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), TGServerService.EventID.InvalidChatProvider);
 						break;
 				}
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteLog(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), EventLogEntryType.Error);
+				TGServerService.WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), TGServerService.EventID.ChatProviderStartFail);
 				return;
 			}
 			ChatProvider.OnChatMessage += ChatProvider_OnChatMessage;
@@ -81,7 +81,7 @@ namespace TGServerService
 			{
 				var res = ChatProvider.Connect();
 				if (res != null)
-					TGServerService.WriteLog(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", ChatProvider.GetType().ToString(), res));
+					TGServerService.WriteWarning(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", ChatProvider.GetType().ToString(), res), TGServerService.EventID.ChatConnectFail);
 			}
 		}
 
@@ -135,7 +135,7 @@ namespace TGServerService
 		//Do stuff with words that were spoken to us
 		string ChatCommand(string command, string speaker, string channel, IList<string> parameters)
 		{
-			TGServerService.WriteLog(String.Format("Chat Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)));
+			TGServerService.WriteInfo(String.Format("Chat Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)), TGServerService.EventID.ChatCommand);
 			switch (command)
 			{
 				case "check":
@@ -256,7 +256,7 @@ namespace TGServerService
 						case TGChatProvider.IRC:
 							return new TGIRCSetupInfo();
 						default:
-							TGServerService.WriteLog("Invalid chat provider: " + Config.ChatProvider.ToString());
+							TGServerService.WriteError("Invalid chat provider: " + Config.ChatProvider.ToString(), TGServerService.EventID.InvalidChatProvider);
 							return null;
 					}
 

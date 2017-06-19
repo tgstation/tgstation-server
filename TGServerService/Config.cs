@@ -291,9 +291,10 @@ namespace TGServerService
 		//public api
 		public string MoveServer(string new_location)
 		{
+			var Config = Properties.Settings.Default;
 			try
 			{
-				var di1 = new DirectoryInfo(Environment.CurrentDirectory);
+				var di1 = new DirectoryInfo(Config.ServerDirectory);
 				var di2 = new DirectoryInfo(new_location);
 
 				var copy = di1.Root.FullName != di2.Root.FullName;
@@ -335,7 +336,6 @@ namespace TGServerService
 							{
 								if (currentStatus != TGDreamDaemonStatus.Offline)
 									return "Watchdog running!";
-								var Config = Properties.Settings.Default;
 								lock (configLock)
 								{
 									CleanGameFolder();
@@ -350,9 +350,10 @@ namespace TGServerService
 										{
 											Program.DeleteDirectory(Config.ServerDirectory);
 										}
-										catch
+										catch (Exception e)
 										{
 											error = "The move was successful, but the path " + Config.ServerDirectory + " was unable to be deleted fully!";
+											TGServerService.WriteWarning(String.Format("Server move from {0} to {1} partial success: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMovePartial);
 										}
 									}
 									else
@@ -363,14 +364,14 @@ namespace TGServerService
 											Directory.Move(Config.ServerDirectory, new_location);
 											Environment.CurrentDirectory = new_location;
 										}
-										catch (Exception e)
+										catch
 										{
 											Environment.CurrentDirectory = Config.ServerDirectory;
-											return e.ToString();
+											throw;
 										}
 									}
+									TGServerService.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), TGServerService.EventID.ServerMoveComplete);
 									Config.ServerDirectory = new_location;
-									TGServerService.WriteLog("Server moved to: " + new_location);
 									return null;
 								}
 							}
@@ -396,6 +397,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
+				TGServerService.WriteError(String.Format("Server move from {0} to {1} failed: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMoveFailed);
 				return e.ToString();
 			}
 		}

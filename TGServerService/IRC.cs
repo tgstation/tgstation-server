@@ -41,7 +41,7 @@ namespace TGServerService
 						channel = channel.Replace(PrivateMessageMarker, "");
 					irc.SendMessage(SendType.Message, channel, message);
 				}
-				TGServerService.WriteLog(String.Format("IRC Send ({0}): {1}", channel, message));
+				TGServerService.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), TGServerService.EventID.ChatSend);
 				return null;
 			}
 			catch (Exception e)
@@ -196,8 +196,10 @@ namespace TGServerService
 					}
 				}
 			}
-			catch
-			{ }
+			catch (Exception e)
+			{
+				TGServerService.WriteError("IRC failed QnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
+			}
 		}
 		//public api
 		public bool Connected()
@@ -223,7 +225,7 @@ namespace TGServerService
 						foreach (var I in Config.ChatChannels)
 							irc.SendMessage(SendType.Message, I, message);
 				}
-				TGServerService.WriteLog(String.Format("IRC Send{0}: {1}", adminOnly ? " (ADMIN)" : "", message));
+				TGServerService.WriteInfo(String.Format("IRC Send{0}: {1}", adminOnly ? " (ADMIN)" : "", message), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast);
 				return null;
 			}
 			catch (Exception e)

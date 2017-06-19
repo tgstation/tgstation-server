@@ -346,6 +346,7 @@ namespace TGServerService
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
 					SendMessage("DM: " + errorMsg);
+					TGServerService.WriteError(errorMsg, TGServerService.EventID.DMCompileCrash);
 					lock (CompilerLock)
 					{
 						lastCompilerError = errorMsg;
@@ -438,7 +439,9 @@ namespace TGServerService
 								}
 							}
 						}
-						SendMessage(String.Format("DM: Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round."));
+						var msg = String.Format("Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round.");
+						SendMessage("DM: " + msg);
+						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess);
 						lock (CompilerLock)
 						{
 							lastCompilerError = null;
@@ -448,7 +451,7 @@ namespace TGServerService
 					else
 					{
 						SendMessage("DM: Compile failed!"); //Also happens for warnings
-						TGServerService.WriteLog("Compile error: " + OutputList.ToString(), EventLogEntryType.Warning);
+						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileError);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
@@ -465,7 +468,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DM: Compiler thread crashed!");
-				TGServerService.WriteLog("Compile manager errror: " + e.ToString(), EventLogEntryType.Error);
+				TGServerService.WriteError("Compile manager errror: " + e.ToString(), TGServerService.EventID.DMCompileCrash);
 				lock (CompilerLock)
 				{
 					lastCompilerError = e.ToString();
@@ -482,6 +485,7 @@ namespace TGServerService
 						compilerCurrentStatus = TGCompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
 						SendMessage("Compile cancelled!");
+						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel);
 					}
 				}
 			}
