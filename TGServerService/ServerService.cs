@@ -71,7 +71,8 @@ namespace TGServerService
 			RepoChangelog = 56000,
 			RepoChangelogFail = 57000,
 			ServiceShutdownFail = 61000,
-			WorldReboot = 62000,	
+			WorldReboot = 62000,
+			ServerUpdateApplied = 63000,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
