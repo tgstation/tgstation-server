@@ -40,7 +40,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				GetComponent<ITGSService>().VerifyConnection();
+				GetComponent<ITGSService>().Version();
 				return null;
 			}
 			catch(Exception e)
@@ -57,16 +57,17 @@ namespace TGServiceInterface
 	public interface ITGSService
 	{
 		/// <summary>
-		/// Does nothing on the server end, but if the call completes, you can be sure you are connected. WCF won't throw until you try until you actually use the API
-		/// </summary>
-		[OperationContract]
-		void VerifyConnection();
-
-		/// <summary>
 		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
 		/// </summary>
 		[OperationContract]
 		void StopForUpdate();
+
+		/// <summary>
+		/// Retrieve's the service's version
+		/// </summary>
+		/// <returns>The service's version</returns>
+		[OperationContract]
+		string Version();
 	}
 
 	/// <summary>

@@ -33,6 +33,11 @@ namespace TGServerService
 			DisposeChat();
 		}
 
+		public string Version()
+		{
+			return TGServerService.Version;
+		}
+
 		//one stop update
 		public string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr)
 		{
@@ -79,10 +84,6 @@ namespace TGServerService
 				return "Compilation could not be started!";
 			return null;
 		}
-
-		//public api
-		public void VerifyConnection()
-		{}
 
 		//public api
 		public void StopForUpdate()
