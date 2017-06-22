@@ -122,7 +122,8 @@ namespace TGServerService
 				return "Use this command in the admin channel!";
 			return null;
 		}
-
+		
+		//cleanup
 		void DisposeChat()
 		{
 			if (ChatProvider != null)
