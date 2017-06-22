@@ -86,11 +86,9 @@ namespace TGServerService
 		}
 
 		//public api
-		public void StopForUpdate()
+		public void PrepareForUpdate()
 		{
-			TGServerService.WriteInfo("Stopping for update!", TGServerService.EventID.UpdateRequest);
 			Properties.Settings.Default.ReattachToDD = true;
-			TGServerService.LocalStop();
 		}
 
 		//mostly generated code with a call to RunDisposals()

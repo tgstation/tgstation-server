@@ -91,11 +91,6 @@ namespace TGServerService
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
-    
-		public static void LocalStop()
-		{
-			ThreadPool.QueueUserWorkItem(_ => { ActiveService.Stop(); });
-		}
 
 		ServiceHost host;	//the WCF host
     

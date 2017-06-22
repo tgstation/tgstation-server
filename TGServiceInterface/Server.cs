@@ -57,10 +57,10 @@ namespace TGServiceInterface
 	public interface ITGSService
 	{
 		/// <summary>
-		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
+		/// Next stop of the service will not close DD and sets a flag for it to reattach once it restarts
 		/// </summary>
 		[OperationContract]
-		void StopForUpdate();
+		void PrepareForUpdate();
 
 		/// <summary>
 		/// Retrieve's the service's version

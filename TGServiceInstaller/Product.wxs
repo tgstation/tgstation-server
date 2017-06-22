@@ -15,7 +15,8 @@
     </Feature>
 		<Icon Id="tgs.ico" SourceFile="..\tgs.ico"/>
 		<Property Id="ARPPRODUCTICON" Value="tgs.ico" />
-    <Property Id="INSTALLSHORTCUTDESK" />
+    <Property Id="INSTALLSHORTCUTDESK" Value="0" />
+    <Property Id="INSTALLSHORTCUTSTART" Value="0" />
   </Product>
 
   <Fragment>
@@ -40,6 +41,7 @@
   <Fragment>
     <ComponentGroup Id="StartMenuShortcuts" Directory="ApplicationProgramsFolder">
       <Component Id="StartMenuShortcut" Guid="685790d5-24ae-431b-8c5a-c71125e389d5">
+        <Condition>INSTALLSHORTCUTSTART = 1</Condition>
         <Shortcut Id="StartMenuShortcutCL"
                   Name="TG Command Line"
                   Target="[#TGCommandLine.exe]"
@@ -60,6 +62,7 @@
     
     <ComponentGroup Id="DesktopShortcuts" Directory="DesktopFolder">
       <Component Id="DesktopShortcut" Guid="08950533-8264-4824-b7a5-8424c48375df">
+        <Condition>INSTALLSHORTCUTDESK = 1</Condition>
         <Shortcut Id="DesktopShortcutCL"
                   Name="TG Command Line"
                   Target="[#TGCommandLine.exe]"
