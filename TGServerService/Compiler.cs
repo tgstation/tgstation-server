@@ -365,7 +365,7 @@ namespace TGServerService
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
 					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
-					DM.StartInfo.Arguments = dmePath;
+					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
