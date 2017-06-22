@@ -39,13 +39,14 @@
 			this.VersionLabel = new System.Windows.Forms.Label();
 			this.InstallButton = new System.Windows.Forms.Button();
 			this.ShowLogCheckbox = new System.Windows.Forms.CheckBox();
+			this.TargetVersionLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// ProgressBar
 			// 
-			this.ProgressBar.Location = new System.Drawing.Point(11, 131);
+			this.ProgressBar.Location = new System.Drawing.Point(11, 119);
 			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(513, 24);
+			this.ProgressBar.Size = new System.Drawing.Size(513, 22);
 			this.ProgressBar.TabIndex = 0;
 			// 
 			// DeskShortcutsCheckbox
@@ -99,7 +100,7 @@
 			// 
 			this.SelectPathButton.Location = new System.Drawing.Point(485, 35);
 			this.SelectPathButton.Name = "SelectPathButton";
-			this.SelectPathButton.Size = new System.Drawing.Size(35, 20);
+			this.SelectPathButton.Size = new System.Drawing.Size(40, 20);
 			this.SelectPathButton.TabIndex = 6;
 			this.SelectPathButton.Text = "...";
 			this.SelectPathButton.UseVisualStyleBackColor = true;
@@ -129,9 +130,9 @@
 			// 
 			// InstallButton
 			// 
-			this.InstallButton.Location = new System.Drawing.Point(140, 89);
+			this.InstallButton.Location = new System.Drawing.Point(400, 89);
 			this.InstallButton.Name = "InstallButton";
-			this.InstallButton.Size = new System.Drawing.Size(127, 23);
+			this.InstallButton.Size = new System.Drawing.Size(125, 24);
 			this.InstallButton.TabIndex = 9;
 			this.InstallButton.Text = "Install";
 			this.InstallButton.UseVisualStyleBackColor = true;
@@ -149,12 +150,24 @@
 			this.ShowLogCheckbox.Text = "Show Log";
 			this.ShowLogCheckbox.UseVisualStyleBackColor = true;
 			// 
+			// TargetVersionLabel
+			// 
+			this.TargetVersionLabel.AutoSize = true;
+			this.TargetVersionLabel.Font = new System.Drawing.Font("Verdana", 12F);
+			this.TargetVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.TargetVersionLabel.Location = new System.Drawing.Point(8, 90);
+			this.TargetVersionLabel.Name = "TargetVersionLabel";
+			this.TargetVersionLabel.Size = new System.Drawing.Size(132, 18);
+			this.TargetVersionLabel.TabIndex = 11;
+			this.TargetVersionLabel.Text = "Target Version:";
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.ClientSize = new System.Drawing.Size(537, 167);
+			this.ClientSize = new System.Drawing.Size(537, 153);
+			this.Controls.Add(this.TargetVersionLabel);
 			this.Controls.Add(this.ShowLogCheckbox);
 			this.Controls.Add(this.InstallButton);
 			this.Controls.Add(this.VersionLabel);
@@ -188,6 +201,7 @@
 		private System.Windows.Forms.Label VersionLabel;
 		private System.Windows.Forms.Button InstallButton;
 		private System.Windows.Forms.CheckBox ShowLogCheckbox;
+		private System.Windows.Forms.Label TargetVersionLabel;
 	}
 }
 

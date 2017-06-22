@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Threading;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -84,6 +83,9 @@ namespace TGServerService
 				return "Compilation could not be started!";
 			return null;
 		}
+
+		//public api
+		public void VerifyConnection() { }
 
 		//public api
 		public void PrepareForUpdate()

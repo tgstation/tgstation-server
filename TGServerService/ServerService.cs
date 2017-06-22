@@ -77,7 +77,7 @@ namespace TGServerService
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
-		public static readonly string Version = "/tg/station 13 Server Service " + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
+		public static readonly string Version = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		public static void WriteInfo(string message, EventID id)
 		{

@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TGStation Server Install Utility")]
-[assembly: AssemblyDescription("Installation manager for TGStation Server v3")]
+[assembly: AssemblyTitle("TGStation Server Installer")]
+[assembly: AssemblyDescription("Installation manager for /tg/station Server")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
