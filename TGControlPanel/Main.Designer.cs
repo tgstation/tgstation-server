@@ -32,6 +32,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
 			this.Panels = new System.Windows.Forms.TabControl();
 			this.RepoPanel = new System.Windows.Forms.TabPage();
+			this.RepoRefreshButton = new System.Windows.Forms.Button();
 			this.BackupTagsList = new System.Windows.Forms.ListBox();
 			this.ResetRemote = new System.Windows.Forms.Button();
 			this.RecloneButton = new System.Windows.Forms.Button();
@@ -166,7 +167,6 @@
 			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
 			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
-			this.RepoRefreshButton = new System.Windows.Forms.Button();
 			this.Panels.SuspendLayout();
 			this.RepoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
@@ -235,6 +235,18 @@
 			this.RepoPanel.TabIndex = 0;
 			this.RepoPanel.Text = "Repository";
 			// 
+			// RepoRefreshButton
+			// 
+			this.RepoRefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoRefreshButton.Location = new System.Drawing.Point(722, 296);
+			this.RepoRefreshButton.Name = "RepoRefreshButton";
+			this.RepoRefreshButton.Size = new System.Drawing.Size(140, 29);
+			this.RepoRefreshButton.TabIndex = 35;
+			this.RepoRefreshButton.Text = "Refresh";
+			this.RepoRefreshButton.UseVisualStyleBackColor = true;
+			this.RepoRefreshButton.Visible = false;
+			this.RepoRefreshButton.Click += new System.EventHandler(this.RepoRefreshButton_Click);
+			// 
 			// BackupTagsList
 			// 
 			this.BackupTagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -242,6 +254,7 @@
             "None"});
 			this.BackupTagsList.Location = new System.Drawing.Point(122, 142);
 			this.BackupTagsList.Name = "BackupTagsList";
+			this.BackupTagsList.ScrollAlwaysVisible = true;
 			this.BackupTagsList.Size = new System.Drawing.Size(535, 95);
 			this.BackupTagsList.TabIndex = 34;
 			this.BackupTagsList.Visible = false;
@@ -325,6 +338,7 @@
             "None"});
 			this.TestMergeListLabel.Location = new System.Drawing.Point(122, 260);
 			this.TestMergeListLabel.Name = "TestMergeListLabel";
+			this.TestMergeListLabel.ScrollAlwaysVisible = true;
 			this.TestMergeListLabel.Size = new System.Drawing.Size(535, 95);
 			this.TestMergeListLabel.TabIndex = 21;
 			this.TestMergeListLabel.Visible = false;
@@ -1837,18 +1851,6 @@
 			// ServerStartBGW
 			// 
 			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
-			// 
-			// RepoRefreshButton
-			// 
-			this.RepoRefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.RepoRefreshButton.Location = new System.Drawing.Point(722, 296);
-			this.RepoRefreshButton.Name = "RepoRefreshButton";
-			this.RepoRefreshButton.Size = new System.Drawing.Size(140, 29);
-			this.RepoRefreshButton.TabIndex = 35;
-			this.RepoRefreshButton.Text = "Refresh";
-			this.RepoRefreshButton.UseVisualStyleBackColor = true;
-			this.RepoRefreshButton.Visible = false;
-			this.RepoRefreshButton.Click += new System.EventHandler(this.RepoRefreshButton_Click);
 			// 
 			// Main
 			// 
