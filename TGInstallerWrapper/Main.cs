@@ -13,6 +13,7 @@ namespace TGInstallerWrapper
 	{
 		const string InstallDir = "TG Station Server";  //keep this in sync with the msi installer
 		bool installing = false;
+		bool cancelled = false;
 		bool pathIsDefault = true;
 		public Main()
 		{
@@ -26,7 +27,7 @@ namespace TGInstallerWrapper
 				}
 				catch
 				{
-					VersionLabel.Text = "< 3.0.85.0 (Does not implement ITGService.Version())";
+					VersionLabel.Text = "< v3.0.85.0 (Does not implement ITGService.Version())";
 				}
 			TargetVersionLabel.Text += " v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 		}
@@ -54,10 +55,9 @@ namespace TGInstallerWrapper
 				PathTextBox.Enabled = false;
 				DeskShortcutsCheckbox.Enabled = false;
 				StartShortcutsCheckbox.Enabled = false;
-				InstallButton.Enabled = false;
+				InstallButton.Enabled = true;
 				ShowLogCheckbox.Enabled = false;
 				InstallButton.Text = "Installing...";
-				UseWaitCursor = true;
 
 				path = Path.GetTempFileName();
 				File.Delete(path);  //we want a dir not a file
@@ -76,6 +76,7 @@ namespace TGInstallerWrapper
 						if (MessageBox.Show("ITGSService.PrepareForUpdate() threw an exception! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
 							return;
 					}
+				InstallCancelButton.Enabled = true;
 
 				ProgressBar.Style = ProgressBarStyle.Marquee;
 
@@ -85,11 +86,10 @@ namespace TGInstallerWrapper
 					Installer.EnableLog(InstallLogModes.Verbose | InstallLogModes.PropertyDump, logfile);
 				}
 				var cl = args.Count > 0 ? String.Join(" ", args) : "";
-
 				Installer.SetInternalUI(InstallUIOptions.Silent);
-				installing = true;
+				Installer.SetExternalUI(OnUIUpdate, InstallLogModes.Progress);
+
 				await Task.Factory.StartNew(() => Installer.InstallProduct(msipath, cl));
-				installing = false;
 			}
 			catch (Exception ex)
 			{
@@ -98,6 +98,7 @@ namespace TGInstallerWrapper
 			}
 			finally
 			{
+				InstallCancelButton.Enabled = false;
 				ShowLogCheckbox.Enabled = true;
 				SelectPathButton.Enabled = true;
 				PathTextBox.Enabled = true;
@@ -106,7 +107,6 @@ namespace TGInstallerWrapper
 				ProgressBar.Style = ProgressBarStyle.Blocks;
 				InstallButton.Enabled = true;
 				InstallButton.Text = "Install";
-				UseWaitCursor = false;
 				installing = false;
 				if (ShowLogCheckbox.Checked && logfile != null)
 					try
@@ -125,6 +125,16 @@ namespace TGInstallerWrapper
 			Application.Exit();
 		}
 
+		MessageResult OnUIUpdate(InstallMessage messageType, string message, MessageButtons buttons, MessageIcon icon, MessageDefaultButton defaultButton)
+		{
+			if (cancelled && installing)
+			{
+				installing = false;
+				return MessageResult.Cancel;
+			}
+			return MessageResult.OK;
+		}
+
 		private void InstallButton_Click(object sender, EventArgs e)
 		{
 			DoInstall();
@@ -141,6 +151,12 @@ namespace TGInstallerWrapper
 				return;
 			pathIsDefault = false;
 			PathTextBox.Text = fbd.SelectedPath + Path.DirectorySeparatorChar + InstallDir;
+		}
+
+		private void CancelButton_Click(object sender, EventArgs e)
+		{
+			cancelled = true;
+			InstallCancelButton.Enabled = false;
 		}
 	}
 }

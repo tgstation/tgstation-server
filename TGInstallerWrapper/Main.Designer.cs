@@ -40,13 +40,14 @@
 			this.InstallButton = new System.Windows.Forms.Button();
 			this.ShowLogCheckbox = new System.Windows.Forms.CheckBox();
 			this.TargetVersionLabel = new System.Windows.Forms.Label();
+			this.InstallCancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// ProgressBar
 			// 
 			this.ProgressBar.Location = new System.Drawing.Point(11, 119);
 			this.ProgressBar.Name = "ProgressBar";
-			this.ProgressBar.Size = new System.Drawing.Size(513, 22);
+			this.ProgressBar.Size = new System.Drawing.Size(386, 22);
 			this.ProgressBar.TabIndex = 0;
 			// 
 			// DeskShortcutsCheckbox
@@ -132,7 +133,7 @@
 			// 
 			this.InstallButton.Location = new System.Drawing.Point(400, 89);
 			this.InstallButton.Name = "InstallButton";
-			this.InstallButton.Size = new System.Drawing.Size(125, 24);
+			this.InstallButton.Size = new System.Drawing.Size(125, 22);
 			this.InstallButton.TabIndex = 9;
 			this.InstallButton.Text = "Install";
 			this.InstallButton.UseVisualStyleBackColor = true;
@@ -161,12 +162,24 @@
 			this.TargetVersionLabel.TabIndex = 11;
 			this.TargetVersionLabel.Text = "Target Version:";
 			// 
+			// InstallCancelButton
+			// 
+			this.InstallCancelButton.Enabled = false;
+			this.InstallCancelButton.Location = new System.Drawing.Point(400, 119);
+			this.InstallCancelButton.Name = "InstallCancelButton";
+			this.InstallCancelButton.Size = new System.Drawing.Size(125, 22);
+			this.InstallCancelButton.TabIndex = 12;
+			this.InstallCancelButton.Text = "Cancel";
+			this.InstallCancelButton.UseVisualStyleBackColor = true;
+			this.InstallCancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(537, 153);
+			this.Controls.Add(this.InstallCancelButton);
 			this.Controls.Add(this.TargetVersionLabel);
 			this.Controls.Add(this.ShowLogCheckbox);
 			this.Controls.Add(this.InstallButton);
@@ -202,6 +215,7 @@
 		private System.Windows.Forms.Button InstallButton;
 		private System.Windows.Forms.CheckBox ShowLogCheckbox;
 		private System.Windows.Forms.Label TargetVersionLabel;
+		private System.Windows.Forms.Button InstallCancelButton;
 	}
 }
 
