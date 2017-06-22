@@ -122,7 +122,8 @@ namespace TGServerService
 				return "Use this command in the admin channel!";
 			return null;
 		}
-
+		
+		//cleanup
 		void DisposeChat()
 		{
 			if (ChatProvider != null)
@@ -167,6 +168,8 @@ namespace TGServerService
 					if (parameters.Count < 1)
 						return "Usage: namecheck <target>";
 					return NameCheck(parameters[0], speaker);
+				case "version":
+					return TGServerService.Version;
 				case "kek":
 					return "kek";
 			}

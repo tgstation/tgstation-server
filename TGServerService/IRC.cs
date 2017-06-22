@@ -25,7 +25,7 @@ namespace TGServerService
 			irc = new IrcFeatures() { SupportNonRfc = true };
 			irc.OnChannelMessage += Irc_OnChannelMessage;
 			irc.OnQueryMessage += Irc_OnQueryMessage;
-			irc.CtcpUserInfo = "/tg/station 13 Server Service " + System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
+			irc.CtcpUserInfo = TGServerService.Version;
 		}
 
 		//public api
