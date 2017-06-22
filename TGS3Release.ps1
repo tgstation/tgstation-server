@@ -1,9 +1,9 @@
 $src = $Env:APPVEYOR_BUILD_FOLDER + "\TGInstallerWrapper\bin\Release"
 
-Remove-Item $src + "\Microsoft.Deployment.WindowsInstaller.xml"
-Remove-Item $src + "\TGInstallerWrapper.exe.config"
-Remove-Item $src + "\TGInstallerWrapper.pdb"
-Remove-Item $src + "\TGServiceInterface.pdb"
+Remove-Item "$src\Microsoft.Deployment.WindowsInstaller.xml"
+Remove-Item "$src\TGInstallerWrapper.exe.config"
+Remove-Item "$src\TGInstallerWrapper.pdb"
+Remove-Item "$src\TGServiceInterface.pdb"
 
 $destination = $Env:APPVEYOR_BUILD_FOLDER + "\TGS3.zip"
 
