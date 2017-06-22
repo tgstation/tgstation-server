@@ -49,6 +49,8 @@ namespace TGServerService
 		bool compilationCancellationRequestation = false;
 		bool canCancelCompilation = false;
 
+		bool UpdateStaged = false;
+
 		//deletes leftovers and checks current status
 		void InitCompiler()
 		{
@@ -365,7 +367,7 @@ namespace TGServerService
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
 					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
-					DM.StartInfo.Arguments = dmePath;
+					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
@@ -446,11 +448,14 @@ namespace TGServerService
 								}
 							}
 						}
-						var msg = String.Format("Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round.");
+						var staged = DaemonStatus() != TGDreamDaemonStatus.Offline;
+						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
 						SendMessage("DM: " + msg);
 						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess);
 						lock (CompilerLock)
 						{
+							if (staged)
+								UpdateStaged = true;
 							lastCompilerError = null;
 							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
 						}

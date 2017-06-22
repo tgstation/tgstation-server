@@ -55,6 +55,14 @@ namespace TGServerService
 					break;
 				case SRWorldReboot:
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
+					lock (CompilerLock)
+					{
+						if (UpdateStaged)
+						{
+							UpdateStaged = false;
+							TGServerService.WriteInfo("Staged update applied", TGServerService.EventID.ServerUpdateApplied);
+						}
+					}
 					break;
 			}
 		}

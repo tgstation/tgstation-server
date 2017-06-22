@@ -122,7 +122,8 @@ namespace TGServerService
 				return "Use this command in the admin channel!";
 			return null;
 		}
-
+		
+		//cleanup
 		void DisposeChat()
 		{
 			if (ChatProvider != null)
@@ -177,6 +178,8 @@ namespace TGServerService
 					foreach(var I in PRs)
 						res += I.Number + " ";
 					return res;
+				case "version":
+					return TGServerService.Version;
 				case "kek":
 					return "kek";
 			}
