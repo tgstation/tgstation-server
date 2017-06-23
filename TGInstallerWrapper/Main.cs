@@ -56,7 +56,7 @@ namespace TGInstallerWrapper
 				PathTextBox.Enabled = false;
 				DeskShortcutsCheckbox.Enabled = false;
 				StartShortcutsCheckbox.Enabled = false;
-				InstallButton.Enabled = true;
+				InstallButton.Enabled = false;
 				ShowLogCheckbox.Enabled = false;
 				InstallButton.Text = "Installing...";
 
@@ -68,7 +68,6 @@ namespace TGInstallerWrapper
 				File.WriteAllBytes(path + Path.DirectorySeparatorChar + "cab1.cab", Properties.Resources.cab1);
 
 				ProgressBar.Style = ProgressBarStyle.Marquee;
-				InstallCancelButton.Enabled = true;
 
 				if (Server.VerifyConnection() == null)
 					try
@@ -88,6 +87,8 @@ namespace TGInstallerWrapper
 								return;
 						}
 					}
+
+				InstallCancelButton.Enabled = true;
 
 				if (ShowLogCheckbox.Checked)
 				{
