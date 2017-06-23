@@ -118,6 +118,7 @@ namespace TGInstallerWrapper
 				InstallButton.Enabled = true;
 				InstallButton.Text = "Install";
 				installing = false;
+				cancelled = false;
 				if (ShowLogCheckbox.Checked && logfile != null)
 					try
 					{
@@ -130,6 +131,11 @@ namespace TGInstallerWrapper
 						Directory.Delete(path, true);
 					}
 					catch { }
+			}
+			if (cancelled)
+			{
+				MessageBox.Show("Operation cancelled!");
+				return;
 			}
 			MessageBox.Show("Success!");
 			Application.Exit();
