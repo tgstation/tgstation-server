@@ -336,7 +336,6 @@ namespace TGServerService
 					SendMessage("REPO: Merge conflicted, aborted.");
 					return "Merge conflict occurred.";
 				case MergeStatus.UpToDate:
-					SendMessage("REPO: Merge already up to date!");
 					return RepoErrorUpToDate;
 			}
 			return null;
@@ -455,10 +454,13 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
-				if (trackedBranch && res == null)
+				if (res == null)
 				{
-					DeletePRList();
+					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""));
+					if (trackedBranch)
+						DeletePRList();
 					TGServerService.WriteInfo(String.Format("Repo branch reset{0}", trackedBranch ? " to tracked branch" : ""), trackedBranch ? TGServerService.EventID.RepoResetTracked : TGServerService.EventID.RepoReset);
+					return null;
 				}
 				TGServerService.WriteWarning(String.Format("Failed to reset{0}: {1}", trackedBranch ? " to tracked branch" : "", res), trackedBranch ? TGServerService.EventID.RepoResetTrackedFail : TGServerService.EventID.RepoResetFail);
 				return res;
