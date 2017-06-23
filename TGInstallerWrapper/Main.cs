@@ -100,6 +100,12 @@ namespace TGInstallerWrapper
 				Installer.SetExternalUI(OnUIUpdate, InstallLogModes.Progress);
 
 				await Task.Factory.StartNew(() => Installer.InstallProduct(msipath, cl));
+
+				if (cancelled)
+				{
+					MessageBox.Show("Operation cancelled!");
+					return;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -131,11 +137,6 @@ namespace TGInstallerWrapper
 						Directory.Delete(path, true);
 					}
 					catch { }
-			}
-			if (cancelled)
-			{
-				MessageBox.Show("Operation cancelled!");
-				return;
 			}
 			MessageBox.Show("Success!");
 			Application.Exit();
