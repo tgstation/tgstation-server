@@ -68,6 +68,10 @@ namespace TGServiceInterface
 		[OperationContract]
 		void PrepareForUpdate();
 
+		[OperationContract]
+		[Obsolete("StopForUpdate is deprecated, please use PrepareForUpdate instead", true)]
+		void StopForUpdate();
+
 		/// <summary>
 		/// Retrieve's the service's version
 		/// </summary>
