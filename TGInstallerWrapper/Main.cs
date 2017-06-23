@@ -68,6 +68,7 @@ namespace TGInstallerWrapper
 				File.WriteAllBytes(path + Path.DirectorySeparatorChar + "cab1.cab", Properties.Resources.cab1);
 
 				ProgressBar.Style = ProgressBarStyle.Marquee;
+				InstallCancelButton.Enabled = true;
 
 				if (Server.VerifyConnection() == null)
 					try
@@ -87,7 +88,6 @@ namespace TGInstallerWrapper
 								return;
 						}
 					}
-				InstallCancelButton.Enabled = true;
 
 				if (ShowLogCheckbox.Checked)
 				{
