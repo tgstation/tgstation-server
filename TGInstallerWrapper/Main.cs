@@ -52,6 +52,8 @@ namespace TGInstallerWrapper
 				if (DeskShortcutsCheckbox.Checked)
 					args.Add("INSTALLSHORTCUTDESK=1");
 
+				args.Add("REBOOT=R");
+
 				SelectPathButton.Enabled = false;
 				PathTextBox.Enabled = false;
 				DeskShortcutsCheckbox.Enabled = false;
@@ -95,7 +97,7 @@ namespace TGInstallerWrapper
 					logfile = path + Path.DirectorySeparatorChar + "tgsinstall.log";
 					Installer.EnableLog(InstallLogModes.Verbose | InstallLogModes.PropertyDump, logfile);
 				}
-				var cl = args.Count > 0 ? String.Join(" ", args) : "";
+				var cl = String.Join(" ", args);
 				Installer.SetInternalUI(InstallUIOptions.Silent);
 				Installer.SetExternalUI(OnUIUpdate, InstallLogModes.Progress);
 
