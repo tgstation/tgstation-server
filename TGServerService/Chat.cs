@@ -168,6 +168,16 @@ namespace TGServerService
 					if (parameters.Count < 1)
 						return "Usage: namecheck <target>";
 					return NameCheck(parameters[0], speaker);
+				case "prs":
+					var PRs = MergedPullRequests(out res);
+					if (PRs == null)
+						return res;
+					if (PRs.Count == 0)
+						return "None!";
+					res = "";
+					foreach(var I in PRs)
+						res += I.Number + " ";
+					return res;
 				case "version":
 					return TGServerService.Version;
 				case "kek":
