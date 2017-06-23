@@ -1,7 +1,13 @@
-$src = $Env:APPVEYOR_BUILD_FOLDER + "\TGServiceInstaller\bin\Release"
+$src = $Env:APPVEYOR_BUILD_FOLDER + "\TGInstallerWrapper\bin\Release"
+
+Remove-Item "$src\Microsoft.Deployment.WindowsInstaller.xml"
+Remove-Item "$src\TG Station Server Installer.exe.config"
+Remove-Item "$src\TG Station Server Installer.pdb"
+Remove-Item "$src\TGServiceInterface.pdb"
+
 $destination = $Env:APPVEYOR_BUILD_FOLDER + "\TGS3.zip"
 
- If(Test-path $destination) {Remove-item $destination}
+If(Test-path $destination) {Remove-item $destination}
 
 Add-Type -assembly "system.io.compression.filesystem"
 

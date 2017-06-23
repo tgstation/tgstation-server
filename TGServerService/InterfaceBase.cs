@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Threading;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -31,6 +30,11 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+		}
+
+		public string Version()
+		{
+			return TGServerService.Version;
 		}
 
 		//one stop update
@@ -81,15 +85,18 @@ namespace TGServerService
 		}
 
 		//public api
-		public void VerifyConnection()
-		{}
+		public void VerifyConnection() { }
 
 		//public api
 		public void StopForUpdate()
 		{
-			TGServerService.WriteInfo("Stopping for update!", TGServerService.EventID.UpdateRequest);
+			PrepareForUpdate();
+		}
+
+		//public api
+		public void PrepareForUpdate()
+		{
 			Properties.Settings.Default.ReattachToDD = true;
-			TGServerService.LocalStop();
 		}
 
 		//mostly generated code with a call to RunDisposals()
