@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGServiceInterface;
@@ -27,7 +28,7 @@ namespace TGInstallerWrapper
 				}
 				catch
 				{
-					VersionLabel.Text = "< v3.0.85.0 (Does not implement ITGService.Version())";
+					VersionLabel.Text = "< v3.0.85.0 (Missing ITGService.Version())";
 				}
 			TargetVersionLabel.Text += " v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 		}
@@ -65,7 +66,9 @@ namespace TGInstallerWrapper
 				var msipath = path + Path.DirectorySeparatorChar + "TGServiceInstaller.msi";
 				File.WriteAllBytes(msipath, Properties.Resources.TGServiceInstaller);
 				File.WriteAllBytes(path + Path.DirectorySeparatorChar + "cab1.cab", Properties.Resources.cab1);
-				
+
+				ProgressBar.Style = ProgressBarStyle.Marquee;
+
 				if (Server.VerifyConnection() == null)
 					try
 					{
@@ -75,7 +78,8 @@ namespace TGInstallerWrapper
 					{
 						try //maybe older version
 						{
-							Server.GetComponent<ITGSService>().StopForUpdate();
+							Server.GetComponent<ITGSService>().StopForUpdate();	//this version tries to stop the service itself
+							await Task.Factory.StartNew(() => Thread.Sleep(15000)); //so let's just let that happen first
 						}
 						catch
 						{
@@ -84,8 +88,6 @@ namespace TGInstallerWrapper
 						}
 					}
 				InstallCancelButton.Enabled = true;
-
-				ProgressBar.Style = ProgressBarStyle.Marquee;
 
 				if (ShowLogCheckbox.Checked)
 				{
