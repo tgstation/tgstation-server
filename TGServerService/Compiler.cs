@@ -264,6 +264,9 @@ namespace TGServerService
 				}
 				catch	//held open by byond
 				{
+					//This means there is a staged update waiting to be applied, we have to unstage it before we can work
+					Directory.Delete(GameDirLive);
+					CreateSymlink(GameDirLive, TheDir);
 					return InvertDirectory(TheDir);
 				}
 			}
