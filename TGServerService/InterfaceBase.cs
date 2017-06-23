@@ -56,7 +56,7 @@ namespace TGServerService
 
 			if (testmerge_pr != 0)
 			{
-				res = MergePullRequest(testmerge_pr);
+				res = MergePullRequestImpl(testmerge_pr, true);
 				if (res != null && res != RepoErrorUpToDate)
 					return res;
 			}
@@ -75,7 +75,7 @@ namespace TGServerService
 					return res;
 			}
 
-			if (!Compile())
+			if (!Compile(true))
 				return "Compilation could not be started!";
 			return null;
 		}

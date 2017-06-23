@@ -42,16 +42,17 @@ namespace TGServiceInterface
 		/// <returns>true if the operation began, false if it could not start</returns>
 		[OperationContract]
 		bool Initialize();
-		
+
 		/// <summary>
 		/// Does all the necessary actions to take the revision currently in the repository
 		/// and compile it to be run on the next server reboot
 		/// requires byond to be set up and the compiler to be initialized
 		/// runs asyncronously
 		/// </summary>
+		/// <param name="silent">If true no message for compilation start will be printed</param>
 		/// <returns>true if the operation began, false if it could not start</returns>
 		[OperationContract]
-		bool Compile();
+		bool Compile(bool silent = false);
 
 		/// <summary>
 		/// Cancels the current compilation

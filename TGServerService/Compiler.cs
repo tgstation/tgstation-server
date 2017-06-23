@@ -48,6 +48,7 @@ namespace TGServerService
 		Thread CompilerThread;
 		bool compilationCancellationRequestation = false;
 		bool canCancelCompilation = false;
+		bool silentCompile = false;
 
 		bool UpdateStaged = false;
 
@@ -199,6 +200,7 @@ namespace TGServerService
 					lock (CompilerLock)
 					{
 						compilerCurrentStatus = TGCompilerStatus.Compiling;
+						silentCompile = true;
 					}
 				}
 				catch (ThreadAbortException)
@@ -288,7 +290,16 @@ namespace TGServerService
 					compilerCurrentStatus = TGCompilerStatus.Initialized;
 					return;
 				}
-				SendMessage("DM: Compiling...");
+				bool silent;
+				lock (CompilerLock)
+				{
+					silent = silentCompile;
+					silentCompile = false;
+				}
+
+				if(!silent)
+					SendMessage("DM: Compiling...");
+
 				var resurrectee = GetStagingDir();
 
 				Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
@@ -496,7 +507,7 @@ namespace TGServerService
 					{
 						compilerCurrentStatus = TGCompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
-						SendMessage("Compile cancelled!");
+						SendMessage("DM: Compile cancelled!");
 						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel);
 					}
 				}
@@ -504,12 +515,13 @@ namespace TGServerService
 		}
 		//kicks off the compiler thread
 		//public api
-		public bool Compile()
+		public bool Compile(bool silent = false)
 		{
 			lock (CompilerLock)
 			{
 				if (compilerCurrentStatus != TGCompilerStatus.Initialized)
 					return false;
+				silentCompile = silent;
 				lastCompilerError = null;
 				compilerCurrentStatus = TGCompilerStatus.Compiling;
 				CompilerThread = new Thread(new ThreadStart(CompileImpl));

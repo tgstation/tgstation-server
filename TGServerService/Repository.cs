@@ -509,12 +509,16 @@ namespace TGServerService
 		//public api
 		public string MergePullRequest(int PRNumber)
 		{
+			return MergePullRequestImpl(PRNumber, false);
+		}
+		string MergePullRequestImpl(int PRNumber, bool impliedUpdate)
+		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Merging PR #{0}...", PRNumber));
+				SendMessage(String.Format("REPO: {2}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"));
 				try
 				{
 					//only supported with github
