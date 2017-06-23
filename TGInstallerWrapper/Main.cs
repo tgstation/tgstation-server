@@ -73,8 +73,15 @@ namespace TGInstallerWrapper
 					}
 					catch
 					{
-						if (MessageBox.Show("ITGSService.PrepareForUpdate() threw an exception! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
-							return;
+						try //maybe older version
+						{
+							Server.GetComponent<ITGSService>().StopForUpdate();
+						}
+						catch
+						{
+							if (MessageBox.Show("ITGSService.PrepareForUpdate() threw an exception! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
+								return;
+						}
 					}
 				InstallCancelButton.Enabled = true;
 
