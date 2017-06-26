@@ -46,7 +46,7 @@ namespace TGServerService
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
-					SendMessage("DD: Update complete. Watchdog reactivated...");
+					SendMessage("DD: Update complete. Watch dog reactivated...");
 					
 					//start wd 
 					InitInterop();
