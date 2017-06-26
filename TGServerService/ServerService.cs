@@ -74,6 +74,7 @@ namespace TGServerService
 			WorldReboot = 6200,
 			ServerUpdateApplied = 6300,
 			ChatBroadcastFail = 6400,
+			IRCLogModes = 6500,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog

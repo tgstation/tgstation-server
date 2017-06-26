@@ -11,7 +11,6 @@ namespace TGServerService
 	{
 		const string PrivateMessageMarker = "---PRIVATE-MSG---";
 		IrcFeatures irc;
-		int reconnectAttempt = 0;
 
 		object IRCLock = new object();
 
@@ -27,10 +26,28 @@ namespace TGServerService
 		public TGIRCChatProvider(TGChatSetupInfo info)
 		{
 			IRCConfig = new TGIRCSetupInfo(info);
-			irc = new IrcFeatures() { SupportNonRfc = true };
+			irc = new IrcFeatures()
+			{
+				SupportNonRfc = true,
+				CtcpUserInfo = TGServerService.Version,
+				AutoRejoin = true,
+				AutoRejoinOnKick = true,
+				AutoRelogin = true,
+				AutoRetry = true,
+				AutoRetryLimit = 5,
+				AutoRetryDelay = 5
+			};
 			irc.OnChannelMessage += Irc_OnChannelMessage;
 			irc.OnQueryMessage += Irc_OnQueryMessage;
-			irc.CtcpUserInfo = TGServerService.Version;
+		}
+
+		public void SetFlags()
+		{
+			var test = irc.ServerProperties.ChannelPrivilegeModesPrefixes;
+			string ServerModes = "";
+			foreach(var I in test)
+				ServerModes += I.Key + ":" + I.Value + ";";
+			TGServerService.WriteInfo(ServerModes, TGServerService.EventID.IRCLogModes);
 		}
 
 		//public api
@@ -144,20 +161,10 @@ namespace TGServerService
 					try
 					{
 						irc.Connect(IRCConfig.URL, IRCConfig.Port);
-						reconnectAttempt = 0;
 					}
 					catch (Exception e)
 					{
-						reconnectAttempt++;
-						if (reconnectAttempt <= 5)
-						{
-							Thread.Sleep(5000); //Reconnecting after 5 seconds.
-							return Connect();
-						}
-						else
-						{
-							return "IRC server unreachable: " + e.ToString();
-						}
+						return "IRC server unreachable: " + e.ToString();
 					}
 
 					try
@@ -170,6 +177,9 @@ namespace TGServerService
 					}
 					Login();
 					JoinChannels();
+
+					SetFlags();
+
 					new Thread(new ThreadStart(IRCListen)) { IsBackground = true }.Start();
 					return null;
 				}
