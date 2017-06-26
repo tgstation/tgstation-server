@@ -1441,9 +1441,9 @@
 			this.ChatProviderTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
 			this.ChatProviderTitle.Location = new System.Drawing.Point(20, 15);
 			this.ChatProviderTitle.Name = "ChatProviderTitle";
-			this.ChatProviderTitle.Size = new System.Drawing.Size(125, 18);
+			this.ChatProviderTitle.Size = new System.Drawing.Size(188, 18);
 			this.ChatProviderTitle.TabIndex = 13;
-			this.ChatProviderTitle.Text = "Chat Provider:";
+			this.ChatProviderTitle.Text = "Currently Configuring:";
 			this.ChatProviderTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ChannelsTitle

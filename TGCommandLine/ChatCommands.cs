@@ -4,76 +4,28 @@ using TGServiceInterface;
 
 namespace TGCommandLine
 {
-	class ChatCommand : RootCommand
-	{
-		public ChatCommand()
-		{
-			Keyword = "chat";
-			Children = new Command[] { new ChatAnnounceCommand(), new ChatStatusCommand(), new ChatSetAdminChannelCommand(), new ChatEnableCommand(), new ChatDisableCommand(), new ChatReconnectCommand(), new ChatListAdminsCommand(), new ChatAddminCommand(), new ChatDeadminCommand(), new ChatSetProviderCommand(), new ChatJoinCommand(), new ChatPartCommand() };
-		}
-		protected override string GetHelpText()
-		{
-			return "Manages general chat settings";
-		}
-	}
-	class ChatSetProviderCommand : Command {
-		public ChatSetProviderCommand()
-		{
-			Keyword = "set-provider";
-			RequiredParameters = 1;
-		}
-		protected override string GetHelpText()
-		{
-			return "Set the chat provider";
-		}
-		protected override string GetArgumentString()
-		{
-			return "<irc|discord> [if discord, add the bot token]";
-		}
-		public override ExitCode Run(IList<string> parameters)
-		{
-			var Chat = Server.GetComponent<ITGChat>();
-			string res;
-			switch (parameters[0].ToLower())
-			{
-				case "irc":
-					res = Chat.SetProviderInfo(new TGIRCSetupInfo());
-					break;
-				case "discord":
-					if(parameters.Count < 2)
-					{
-						Console.WriteLine("Missing discord bot token!");
-						return ExitCode.BadCommand;
-					}
-					res = Chat.SetProviderInfo(new TGDiscordSetupInfo() { BotToken = parameters[1] });
-					break;
-				default:
-					Console.WriteLine("Invalid provider!");
-					return ExitCode.BadCommand;
-			}
-			Console.WriteLine(res ?? "Success!");
-			return res == null ? ExitCode.Normal : ExitCode.ServerError;
-		}
-	}
 	class IRCCommand : RootCommand
 	{
 		public IRCCommand()
 		{
 			Keyword = "irc";
-			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand() };
-		}
-		public override ExitCode Run(IList<string> parameters)
-		{
-			if (Server.GetComponent<ITGChat>().ProviderInfo().Provider != TGChatProvider.IRC)
-			{
-				Console.WriteLine("The current provider is not IRC. Please switch providers first!");
-				return ExitCode.ServerError;
-			}
-			return base.Run(parameters);
+			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand(), new ChatJoinCommand(TGChatProvider.IRC), new ChatPartCommand(TGChatProvider.IRC), new ChatListAdminsCommand(TGChatProvider.IRC), new ChatReconnectCommand(TGChatProvider.IRC), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.IRC), new ChatEnableCommand(TGChatProvider.IRC), new ChatDisableCommand(TGChatProvider.IRC), new ChatStatusCommand(TGChatProvider.Discord) };
 		}
 		protected override string GetHelpText()
 		{
 			return "Manages the IRC bot";
+		}
+	}
+	class DiscordCommand : RootCommand
+	{
+		public DiscordCommand()
+		{
+			Keyword = "discord";
+			Children = new Command[] { new DiscordSetTokenCommand(), new ChatJoinCommand(TGChatProvider.Discord), new ChatPartCommand(TGChatProvider.Discord), new ChatListAdminsCommand(TGChatProvider.Discord), new ChatReconnectCommand(TGChatProvider.Discord), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.Discord), new ChatEnableCommand(TGChatProvider.Discord), new ChatDisableCommand(TGChatProvider.Discord), new ChatStatusCommand(TGChatProvider.Discord) };
+		}
+		protected override string GetHelpText()
+		{
+			return "Manages the Discord bot";
 		}
 	}
 	class IRCNickCommand : Command
@@ -96,7 +48,7 @@ namespace TGCommandLine
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var Chat = Server.GetComponent<ITGChat>();
-			Chat.SetProviderInfo(new TGIRCSetupInfo(Chat.ProviderInfo())
+			Chat.SetProviderInfo(new TGIRCSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.IRC])
 			{
 				Nickname = parameters[0],
 			});
@@ -106,25 +58,48 @@ namespace TGCommandLine
 
 	class ChatJoinCommand : Command
 	{
-		public ChatJoinCommand()
+		readonly int providerIndex;
+		public ChatJoinCommand(TGChatProvider pI)
 		{
 			Keyword = "join";
-			RequiredParameters = 1;
+			RequiredParameters = 2;
+			providerIndex = (int)pI;
 		}
 
 		protected override string GetArgumentString()
 		{
-			return "<channel>";
+			return "<channel> <dev|wd|game|admin>";
 		}
 		protected override string GetHelpText()
 		{
-			return "Joins a channel for listening and broadcasting";
+			return "Joins a channel for listening and broadcasting of the specified message type (Developer, Watchdog, Game, Admin)";
 		}
 
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			var channels = IRC.Channels();
+			var info = IRC.ProviderInfos()[providerIndex];
+			IList<string> channels;
+
+			switch (parameters[1].ToLower())
+			{
+				case "dev":
+					channels = info.DevChannels;
+					break;
+				case "wd":
+					channels = info.WatchdogChannels;
+					break;
+				case "game":
+					channels = info.GameChannels;
+					break;
+				case "admin":
+					channels = info.AdminChannels;
+					break;
+				default:
+					Console.WriteLine("Invalid parameter: " + parameters[1]);
+					return ExitCode.BadCommand;
+			}
+
 			var lowerParam = parameters[0].ToLower();
 			foreach (var I in channels)
 			{
@@ -134,74 +109,67 @@ namespace TGCommandLine
 					return ExitCode.BadCommand;
 				}
 			}
-			Array.Resize(ref channels, channels.Length + 1);
-			channels[channels.Length - 1] = parameters[0];
-			IRC.SetChannels(channels, null);
+			channels.Add(parameters[0]);
+			var res = IRC.SetProviderInfo(info);
+			if(res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
 			return ExitCode.Normal;
 		}
 	}
 
 	class ChatPartCommand : Command
 	{
-		public ChatPartCommand()
+		readonly int providerIndex;
+		public ChatPartCommand(TGChatProvider pI)
 		{
 			Keyword = "part";
-			RequiredParameters = 1;
+			RequiredParameters = 2;
+			providerIndex = (int)pI;
 		}
 		
 		protected override string GetArgumentString()
 		{
-			return "<channel>";
+			return "<channel> <dev|wd|game|admin>";
 		}
 		protected override string GetHelpText()
 		{
-			return "Stops listening and broadcasting on a channel";
+			return "Stops listening and broadcasting on a channel for the specified message type (Developer, Watchdog, Game, Admin)";
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			var channels = IRC.Channels();
+			var info = IRC.ProviderInfos()[providerIndex];
+			IList<string> channels;
+
+			switch (parameters[1].ToLower())
+			{
+				case "dev":
+					channels = info.DevChannels;
+					break;
+				case "wd":
+					channels = info.WatchdogChannels;
+					break;
+				case "game":
+					channels = info.GameChannels;
+					break;
+				case "admin":
+					channels = info.AdminChannels;
+					break;
+				default:
+					Console.WriteLine("Invalid parameter: " + parameters[1]);
+					return ExitCode.BadCommand;
+			}
 			var lowerParam = parameters[0].ToLower();
 			if (lowerParam[0] != '#')
 				lowerParam = "#" + lowerParam;
-			var new_channels = new List<string>();
-			foreach (var I in channels)
-			{
-				if (I.ToLower() == lowerParam)
-					continue;
-				new_channels.Add(I);
-			}
-			if (new_channels.Count == 0)
-			{
-				Console.WriteLine("Error: Cannot part from the last channel!");
-				return ExitCode.BadCommand;
-			}
-			IRC.SetChannels(new_channels.ToArray(), null);
-			return ExitCode.Normal;
-		}
-	}
-	class ChatAnnounceCommand : Command
-	{
-		public ChatAnnounceCommand()
-		{
-			Keyword = "announce";
-			RequiredParameters = 1;
-		}
-		protected override string GetArgumentString()
-		{
-			return "<message>";
-		}
-		protected override string GetHelpText()
-		{
-			return "Sends a message to all connected channels";
-		}
-
-		public override ExitCode Run(IList<string> parameters)
-		{
-			var res = Server.GetComponent<ITGChat>().SendMessage("SCP: " + parameters[0]);
+			channels.Remove(lowerParam);
+			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine("Error: " + res);
+				Console.WriteLine(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -209,9 +177,11 @@ namespace TGCommandLine
 	}
 	class ChatListAdminsCommand : Command
 	{
-		public ChatListAdminsCommand()
+		readonly int providerIndex;
+		public ChatListAdminsCommand(TGChatProvider pI)
 		{
 			Keyword = "list-admins";
+			providerIndex = (int)pI;
 		}
 		
 		protected override string GetHelpText()
@@ -221,17 +191,38 @@ namespace TGCommandLine
 		
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGChat>().ListAdmins();
-			foreach (var I in res)
+			var info = Server.GetComponent<ITGChat>().ProviderInfos()[providerIndex];
+			string authType;
+			switch ((TGChatProvider)providerIndex)
+			{
+				case TGChatProvider.IRC:
+					if (info.AdminsAreSpecial)
+						authType = "Flags:";
+					else
+						authType = "Nicknames:";
+					break;
+				case TGChatProvider.Discord:
+					if (info.AdminsAreSpecial)
+						authType = "Role IDs:";
+					else
+						authType = "User IDs:";
+					break;
+				default:
+					Console.WriteLine(String.Format("Invalid provider: {0}!", providerIndex));
+					return ExitCode.ServerError;
+			}
+			foreach (var I in info.AdminList)
 				Console.WriteLine(I);
 			return ExitCode.Normal;
 		}
 	}
 	class ChatReconnectCommand : Command
 	{
-		public ChatReconnectCommand()
+		readonly TGChatProvider providerIndex;
+		public ChatReconnectCommand(TGChatProvider pI)
 		{
 			Keyword = "reconnect";
+			providerIndex = pI;
 		}
 		
 		protected override string GetHelpText()
@@ -241,7 +232,7 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGChat>().Reconnect();
+			var res = Server.GetComponent<ITGChat>().Reconnect(providerIndex);
 			if (res != null)
 			{
 				Console.WriteLine("Error: " + res);
@@ -252,68 +243,79 @@ namespace TGCommandLine
 	}
 	class ChatAddminCommand : Command
 	{
-		public ChatAddminCommand()
+		readonly int providerIndex;
+		public ChatAddminCommand(TGChatProvider pI)
 		{
 			Keyword = "addmin";
 			RequiredParameters = 1;
+			providerIndex = (int)pI;
 		}
-		
+
 		protected override string GetArgumentString()
 		{
 			return "[nick]";
 		}
 		protected override string GetHelpText()
 		{
-			return "Add a user which can use restricted commands in the admin channel";
+			return "Add a user which can use restricted commands in the admin channels";
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			var mins = new List<string>(IRC.ListAdmins());
-			var newmin = parameters[0];
+			var info = IRC.ProviderInfos()[providerIndex];
+			var newmin = parameters[0].ToLower();
 
-			foreach (var I in mins)
-				if (I.ToLower() == newmin.ToLower())
-				{
-					Console.WriteLine(newmin + " is already an admin!");
-					return ExitCode.Normal;
-				}
+			if (info.AdminList.Contains(newmin))
+			{
+				Console.WriteLine(parameters[0] + " is already an admin!");
+				return ExitCode.BadCommand;
+			}
 
-			mins.Add(newmin);
-			IRC.SetAdmins(mins.ToArray());
+			info.AdminList.Add(newmin);
+			var res = IRC.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
 			return ExitCode.Normal;
 		}
 	}
 	class ChatDeadminCommand : Command
 	{
-		public ChatDeadminCommand()
+		readonly int providerIndex;
+		public ChatDeadminCommand(TGChatProvider pI)
 		{
 			Keyword = "deadmin";
 			RequiredParameters = 1;
+			providerIndex = (int)pI;
 		}
 		protected override string GetArgumentString()
 		{
-			return "[nick]";
+			return "<nick>";
 		}
 		protected override string GetHelpText()
 		{
-			return "Remove a user which can use restricted commands in the admin channel";
+			return "Remove a user which can use restricted commands in the admin channels";
 		}
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			var mins = new List<string>(IRC.ListAdmins());
-			var deadmin = parameters[0];
+			var info = IRC.ProviderInfos()[providerIndex];
+			var newmin = parameters[0].ToLower();
 
-			foreach (var I in mins)
-				if (I.ToLower() == deadmin.ToLower())
-				{
-					mins.Remove(I);
-					IRC.SetAdmins(mins.ToArray());
-					return ExitCode.Normal;
-				}
+			if (!info.AdminList.Remove(newmin))
+			{
+				Console.WriteLine(parameters[0] + " is not an admin!");
+				return ExitCode.BadCommand;
+			}
 
-			Console.WriteLine(deadmin + " is not an admin!");
+			var res = IRC.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
 			return ExitCode.Normal;
 		}
 	}
@@ -337,7 +339,7 @@ namespace TGCommandLine
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfo())
+			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC])
 			{
 				AuthTarget = parameters[0],
 				AuthMessage = parameters[1]
@@ -359,7 +361,7 @@ namespace TGCommandLine
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfo())
+			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC])
 			{
 				AuthTarget = null,
 				AuthMessage = null,
@@ -370,9 +372,11 @@ namespace TGCommandLine
 
 	class ChatStatusCommand : Command
 	{
-		public ChatStatusCommand()
+		readonly int providerIndex;
+		public ChatStatusCommand(TGChatProvider pI)
 		{
 			Keyword = "status";
+			providerIndex = (int)pI;
 		}
 		protected override string GetHelpText()
 		{
@@ -381,56 +385,33 @@ namespace TGCommandLine
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
-			Console.WriteLine("Currently configured broadcast channels:");
-			Console.WriteLine("\tAdmin Channel: " + IRC.AdminChannel());
-			foreach (var I in IRC.Channels())
+			var info = IRC.ProviderInfos()[providerIndex];
+			Console.WriteLine("Currently configured channels:");
+			Console.WriteLine("Admin:");
+			foreach (var I in info.AdminChannels)
 				Console.WriteLine("\t" + I);
-			string provider;
-			switch (IRC.ProviderInfo().Provider)
-			{
-				case TGChatProvider.Discord:
-					provider = "Discord";
-					break;
-				case TGChatProvider.IRC:
-					provider = "IRC";
-					break;
-				default:
-					provider = "Unknown";
-					break;
-			}
-			Console.WriteLine("Provider: " + provider);
-			Console.WriteLine("Chat bot is: " + (!IRC.Enabled() ? "Disabled" : IRC.Connected() ? "Connected" : "Disconnected"));
-			return ExitCode.Normal;
-		}
-	}
-	class ChatSetAdminChannelCommand : Command
-	{
-		public ChatSetAdminChannelCommand()
-		{
-			Keyword = "set-admin-channel";
-			RequiredParameters = 1;
-		}
-		protected override string GetArgumentString()
-		{
-			return "<channel>";
-		}
-		protected override string GetHelpText()
-		{
-			return "Sets the admin chat channel";
-		}
-		public override ExitCode Run(IList<string> parameters)
-		{
-			Server.GetComponent<ITGChat>().SetChannels(null, parameters[0]);
+			Console.WriteLine("Watchdog:");
+			foreach (var I in info.WatchdogChannels)
+				Console.WriteLine("\t" + I);
+			Console.WriteLine("Game:");
+			foreach (var I in info.GameChannels)
+				Console.WriteLine("\t" + I);
+			Console.WriteLine("Developer:");
+			foreach (var I in info.DevChannels)
+				Console.WriteLine("\t" + I);
+			Console.WriteLine("Chat bot is: " + (!info.Enabled ? "Disabled" : IRC.Connected(info.Provider) ? "Connected" : "Disconnected"));
 			return ExitCode.Normal;
 		}
 	}
 	class ChatEnableCommand : Command
 	{
-		public ChatEnableCommand()
+		readonly int providerIndex;
+		public ChatEnableCommand(TGChatProvider pI)
 		{
 			Keyword = "enable";
+			providerIndex = (int)pI;
 		}
-		
+
 		protected override string GetHelpText()
 		{
 			return "Enables the chat bot";
@@ -438,17 +419,27 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGChat>().SetEnabled(true);
+			var Chat = Server.GetComponent<ITGChat>();
+			var info = Chat.ProviderInfos()[providerIndex];
+			info.Enabled = true;
+			var res = Chat.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
 			return ExitCode.Normal;
 		}
 	}
 	class ChatDisableCommand : Command
 	{
-		public ChatDisableCommand()
+		readonly int providerIndex;
+		public ChatDisableCommand(TGChatProvider pI)
 		{
 			Keyword = "disable";
+			providerIndex = (int)pI;
 		}
-	
+
 		protected override string GetHelpText()
 		{
 			return "Disables the chat bot";
@@ -456,7 +447,15 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGChat>().SetEnabled(true);
+			var Chat = Server.GetComponent<ITGChat>();
+			var info = Chat.ProviderInfos()[providerIndex];
+			info.Enabled = false;
+			var res = Chat.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
 			return ExitCode.Normal;
 		}
 	}
@@ -486,7 +485,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 			var Chat = Server.GetComponent<ITGChat>();
-			var PI = new TGIRCSetupInfo(Chat.ProviderInfo())
+			var PI = new TGIRCSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.IRC])
 			{
 				URL = splits[0]
 			};
@@ -504,6 +503,29 @@ namespace TGCommandLine
 			Console.WriteLine(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
+	}
 
+	class DiscordSetTokenCommand : Command
+	{
+		public DiscordSetTokenCommand()
+		{
+			Keyword = "set-token";
+			RequiredParameters = 1;
+		}
+		protected override string GetArgumentString()
+		{
+			return "<bot-token>";
+		}
+		protected override string GetHelpText()
+		{
+			return "Sets the discord API bot token";
+		}
+		public override ExitCode Run(IList<string> parameters)
+		{
+			var Chat = Server.GetComponent<ITGChat>();
+			var res = Chat.SetProviderInfo(new TGDiscordSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.Discord]) { BotToken = parameters[0] });
+			Console.WriteLine(res ?? "Success");
+			return res == null ? ExitCode.Normal : ExitCode.ServerError;
+		}
 	}
 }

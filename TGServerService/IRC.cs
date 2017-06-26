@@ -60,26 +60,19 @@ namespace TGServerService
 			var convertedInfo = (TGIRCSetupInfo)info;
 			var serverChange = convertedInfo.URL != IRCConfig.URL || convertedInfo.Port != IRCConfig.Port;
 			IRCConfig = convertedInfo;
-			if (serverChange)
+			if (!IRCConfig.Enabled)
+			{
+				Disconnect();
+				return null;
+			}
+			else if (serverChange || !Connected())
 				return Reconnect();
-			else if (convertedInfo.Nickname != irc.Nickname)
+
+			if (IRCConfig.Nickname != irc.Nickname)
 				irc.RfcNick(convertedInfo.Nickname);
 			Login();
+			JoinChannels();
 			return null;
-		}
-
-		public void SetChannels(string[] channels = null, string adminchannel = null)
-		{
-			lock (IRCLock) {
-				var channelsList = new List<string>(channels);
-				var Config = Properties.Settings.Default;
-				foreach (var I in irc.JoinedChannels)
-					if (!channelsList.Contains(I))
-						irc.RfcPart(I);
-				foreach (var I in channelsList)
-					if (!irc.JoinedChannels.Contains(I))
-						irc.RfcJoin(I);
-			}
 		}
 
 		private bool CheckAdmin(IrcMessageData e)
@@ -121,6 +114,12 @@ namespace TGServerService
 				hs.Add(I);
 			foreach (var I in IRCConfig.WatchdogChannels)
 				hs.Add(I);
+			var ToPart = new List<string>();
+			foreach (var I in irc.JoinedChannels)
+				if (!hs.Remove(I))
+					ToPart.Add(I);
+			foreach (var I in ToPart)
+				irc.RfcPart(I);
 			foreach (var I in hs)
 				irc.RfcJoin(I);
 		}

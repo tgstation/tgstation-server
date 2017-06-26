@@ -173,12 +173,6 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
-
-		public void SetChannels(string[] channels = null, string adminchannel = null)
-		{
-			//noop
-		}
-
 		void DisconnectAndDispose()
 		{
 			try
@@ -197,10 +191,20 @@ namespace TGServerService
 			{
 				lock (DiscordLock)
 				{
-					DisconnectAndDispose();
-					Init(info);
+					var odc = DiscordConfig;
+					DiscordConfig = new TGDiscordSetupInfo(info);
+					if (DiscordConfig.BotToken != odc.BotToken)
+					{
+						DisconnectAndDispose();
+						Init(info);
+					}
 					if (DiscordConfig.Enabled)
-						Connect();
+					{
+						if (!Connected())
+							return Reconnect();
+					}
+					else
+						Disconnect();
 				}
 				return null;
 			}
