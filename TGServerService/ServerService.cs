@@ -40,7 +40,7 @@ namespace TGServerService
 			DDWatchdogStarted = 2500,
 			ChatSend = 2600,
 			ChatBroadcast = 2700,
-			ChatAdminBroadcast = 2800,
+			//ChatAdminBroadcast = 2800,
 			ChatDisconnectFail = 2900,
 			TopicSent = 3000,
 			TopicFailed = 3100,
@@ -73,6 +73,7 @@ namespace TGServerService
 			ServiceShutdownFail = 6100,
 			WorldReboot = 6200,
 			ServerUpdateApplied = 6300,
+			ChatBroadcastFail = 6400,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog

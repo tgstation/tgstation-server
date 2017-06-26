@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.Web.Script.Serialization;
 
 namespace TGServiceInterface
 {
 	/// <summary>
 	/// The type of chat provider
 	/// </summary>
-	public enum TGChatProvider
+	public enum TGChatProvider : int
 	{
 		/// <summary>
 		/// IRC chat provider
@@ -17,7 +18,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Discord chat provider
 		/// </summary>
-		Discord,
+		Discord = 1,
 	}
 
 	/// <summary>
@@ -28,6 +29,16 @@ namespace TGServiceInterface
 	[KnownType(typeof(TGDiscordSetupInfo))]
 	public class TGChatSetupInfo
 	{
+		const int AdminListIndex = 0;
+		const int AdminModeIndex = 1;
+		const int AdminChannelIndex = 2;
+		const int DevChannelIndex = 3;
+		const int WDChannelIndex = 4;
+		const int GameChannelIndex = 5;
+		const int ProviderIndex = 6;
+		const int EnabledIndex = 7;
+		protected const int BaseIndex = 8;
+		protected readonly bool InitializeFields;
 		/// <summary>
 		/// Constructs a TGChatSetupInfo from optional past data
 		/// </summary>
@@ -35,10 +46,25 @@ namespace TGServiceInterface
 		/// <param name="numFields">The number of fields in this chat provider</param>
 		protected TGChatSetupInfo(TGChatSetupInfo baseInfo, int numFields)
 		{
-			DataFields = baseInfo != null ? baseInfo.DataFields : new List<string>(numFields);
-			if (baseInfo == null)
+			numFields += BaseIndex;
+			InitializeFields = baseInfo == null || baseInfo.DataFields.Count != numFields;
+
+			if (InitializeFields)
+			{
+				DataFields = new List<string>(numFields);
 				for (var I = 0; I < numFields; ++I)
 					DataFields.Add(null);
+
+				AdminList = new List<string>();
+				AdminChannels = new List<string>();
+				DevChannels = new List<string>();
+				GameChannels = new List<string>();
+				WatchdogChannels = new List<string>();
+				AdminsAreSpecial = false;
+				Enabled = false;
+			}
+			else
+				DataFields = baseInfo.DataFields;
 		}
 
 		/// <summary>
@@ -46,17 +72,75 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <param name="DeserializedData">The data</param>
 		/// <param name="provider">The chat provider</param>
-		public TGChatSetupInfo(IList<string> DeserializedData, TGChatProvider provider)
+		public TGChatSetupInfo(IList<string> DeserializedData)
 		{
 			DataFields = DeserializedData;
-			Provider = provider;
+		}
+		/// <summary>
+		/// The list of admin entries
+		/// </summary>
+		public IList<string> AdminList
+		{
+			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[AdminListIndex]); }
+			set { DataFields[AdminListIndex] = new JavaScriptSerializer().Serialize(value); }
+		}
+		/// <summary>
+		/// If AdminList corresponds to a Provider specific recognization method
+		/// </summary>
+		public bool AdminsAreSpecial
+		{
+			get { return Convert.ToBoolean(DataFields[AdminModeIndex]); }
+			set { DataFields[AdminModeIndex] = Convert.ToString(value); }
+		}
+		/// <summary>
+		/// The channels from which admin commands/messages can be sent/received
+		/// </summary>
+		public IList<string> AdminChannels
+		{
+			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[AdminChannelIndex]); }
+			set { DataFields[AdminChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+		}
+		/// <summary>
+		/// The channels to which repo and compile messages are sent
+		/// </summary>
+		public IList<string> DevChannels
+		{
+			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[DevChannelIndex]); }
+			set { DataFields[DevChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+		}
+		/// <summary>
+		/// The channels to which watchdog messages are sent
+		/// </summary>
+		public IList<string> WatchdogChannels
+		{
+			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[WDChannelIndex]); }
+			set { DataFields[WDChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+		}
+		/// <summary>
+		/// The channels to which game messages are sent
+		/// </summary>
+		public IList<string> GameChannels
+		{
+			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[GameChannelIndex]); }
+			set { DataFields[GameChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+		}
+		/// <summary>
+		/// If this chat provider is enabled
+		/// </summary>
+		public bool Enabled
+		{
+			get { return Convert.ToBoolean(DataFields[EnabledIndex]); }
+			set { DataFields[EnabledIndex] = Convert.ToString(value); }
 		}
 
 		/// <summary>
 		/// The type of provider
 		/// </summary>
-		[DataMember]
-		public TGChatProvider Provider { get; protected set; }
+		public TGChatProvider Provider
+		{
+			get { return (TGChatProvider)Convert.ToInt32(DataFields[EnabledIndex]); }
+			set { DataFields[EnabledIndex] = Convert.ToString(value); }
+		}
 
 		/// <summary>
 		/// Raw access to the underlying data
@@ -67,6 +151,7 @@ namespace TGServiceInterface
 
 	/// <summary>
 	/// Chat provider for IRC
+	/// Admin entries should be user nicknames in normal mode or required flags in special mode
 	/// </summary>
 	[DataContract]
 	public class TGIRCSetupInfo : TGChatSetupInfo
@@ -85,54 +170,60 @@ namespace TGServiceInterface
 		public TGIRCSetupInfo(TGChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
 		{
 			Provider = TGChatProvider.IRC;
-			if (baseInfo == null)
+			if (InitializeFields)
 			{
 				Nickname = "TGS3";
 				URL = "irc.rizon.net";
 				Port = 6667;
+				AuthTarget = "";
+				AuthMessage = "";
 			}
 		}
 		/// <summary>
 		/// The port of the IRC server
 		/// </summary>
 		public ushort Port {
-			get { return Convert.ToUInt16(DataFields[PortIndex]); }
-			set { DataFields[PortIndex] = value.ToString();  }
+			get { return Convert.ToUInt16(DataFields[BaseIndex + PortIndex]); }
+			set { DataFields[BaseIndex + PortIndex] = value.ToString();  }
 		}
 		/// <summary>
 		/// The URL of the IRC server
 		/// </summary>
 		public string URL
 		{
-			get { return DataFields[URLIndex]; }
-			set { DataFields[URLIndex] = value; }
+			get { return DataFields[BaseIndex + URLIndex]; }
+			set { DataFields[BaseIndex + URLIndex] = value; }
 		}
 		/// <summary>
 		/// The nickname of the IRC bot
 		/// </summary>
 		public string Nickname
 		{
-			get { return DataFields[NickIndex]; }
-			set { DataFields[NickIndex] = value; }
+			get { return DataFields[BaseIndex + NickIndex]; }
+			set { DataFields[BaseIndex + NickIndex] = value; }
 		}
 		/// <summary>
 		/// The target for sending authentication messages
 		/// </summary>
 		public string AuthTarget
 		{
-			get { return DataFields[AuthTargetIndex]; }
-			set { DataFields[AuthTargetIndex] = value; }
+			get { return DataFields[BaseIndex + AuthTargetIndex]; }
+			set { DataFields[BaseIndex + AuthTargetIndex] = value; }
 		}
 		/// <summary>
 		/// The authentication message
 		/// </summary>
 		public string AuthMessage
 		{
-			get { return DataFields[AuthMessageIndex]; }
-			set { DataFields[AuthMessageIndex] = value; }
+			get { return DataFields[BaseIndex + AuthMessageIndex]; }
+			set { DataFields[BaseIndex + AuthMessageIndex] = value; }
 		}
 	}
 
+	/// <summary>
+	/// Chat provider for Discord
+	/// Admin entires should be user ids in normal mode or group ids in special mode
+	/// </summary>
 	[DataContract]
 	public class TGDiscordSetupInfo : TGChatSetupInfo
 	{
@@ -145,118 +236,53 @@ namespace TGServiceInterface
 		public TGDiscordSetupInfo(TGChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
 		{
 			Provider = TGChatProvider.Discord;
-			if (baseInfo == null)
-				BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+			if (InitializeFields)
+				BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";	//needless to say, this is fake
 		}
-
 		/// <summary>
 		/// The Discord bot token to use. See https://discordapp.com/developers/applications/me for registering bot accounts
 		/// </summary>
 		public string BotToken
 		{
-			get { return DataFields[BotTokenIndex]; }
-			set { DataFields[BotTokenIndex] = value; }
+			get { return DataFields[BaseIndex + BotTokenIndex]; }
+			set { DataFields[BaseIndex + BotTokenIndex] = value; }
 		}
-	}
-
-	/// <summary>
-	/// Used internally
-	/// </summary>
-	[ServiceContract]
-	public interface ITGChatBase
-	{
-		/// <summary>
-		/// Set the chat provider info
-		/// </summary>
-		/// <param name="info"></param>
-		[OperationContract]
-		string SetProviderInfo(TGChatSetupInfo info);
-
-		/// <summary>
-		/// Set the channels to join
-		/// </summary>
-		/// <param name="channels">The names of the channels to join and broadcast to</param>
-		/// <param name="adminchannel">The name of the channel which accepts admin commands. Need not be in the channels parameter</param>
-		[OperationContract]
-		void SetChannels(string[] channels = null, string adminchannel = null);
-
-		/// <summary>
-		/// Checks connection status
-		/// </summary>
-		/// <returns>true if connected, false otherwise</returns>
-		[OperationContract]
-		bool Connected();
-
-		/// <summary>
-		/// Reconnect to the chat service
-		/// </summary>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string Reconnect();
-
-		/// <summary>
-		/// Send a message to the chat service
-		/// </summary>
-		/// <param name="msg">The message to send</param>
-		/// <param name="adminOnly">true if the message should only be sent to the admin channel, false otherwise</param>
-		/// <returns></returns>
-		[OperationContract]
-		string SendMessage(string msg, bool adminOnly = false);
 	}
 
 	/// <summary>
 	/// Interface for handling chat bot
 	/// </summary>
 	[ServiceContract]
-	public interface ITGChat : ITGChatBase
+	public interface ITGChat
 	{
+		/// <summary>
+		/// Set the chat provider info
+		/// </summary>
+		/// <param name="info">The info to set</param>
+		[OperationContract]
+		string SetProviderInfo(TGChatSetupInfo info);
 		/// <summary>
 		/// Returns the chat provider info
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="providerType">The type of provider to get info for</param>
+		/// <returns>The chat provider info for the selected provider</returns>
 		[OperationContract]
-		TGChatSetupInfo ProviderInfo();
-		/// <summary>
-		/// Get channels we are set to connect to, includes the admin channel
-		/// </summary>
-		/// <returns>An array of channels</returns>
-		[OperationContract]
-		string[] Channels();
+		IList<TGChatSetupInfo> ProviderInfos();
 
 		/// <summary>
-		/// Get the channel from which secure commands can be sent
+		/// Checks connection status
 		/// </summary>
-		/// <returns>The name of the channel</returns>
+		/// <param name="providerType">The type of provider to check if connected</param>
+		/// <returns>true if connected, false otherwise</returns>
 		[OperationContract]
-		string AdminChannel();
+		bool Connected(TGChatProvider providerType);
 
 		/// <summary>
-		/// Check if the configuration allows the IRC bot
+		/// Reconnect to the chat service
 		/// </summary>
-		/// <returns>true if the bot is enabled, false otherwise</returns>
+		/// <param name="providerType">The type of provider to reconnect</param>
+		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
-		bool Enabled();
-
-		/// <summary>
-		/// Enable or disable the chat provider
-		/// </summary>
-		/// <param name="enable">true to enable, false to disable</param>
-		/// <returns>null on success, connection error message on failure</returns>
-		[OperationContract]
-		string SetEnabled(bool enable);
-
-		/// <summary>
-		/// Print out the users who can use admin restricted commands over IRC from the admin channel
-		/// </summary>
-		/// <returns>A list of irc nicknames</returns>
-		[OperationContract]
-		string[] ListAdmins();
-
-		/// <summary>
-		/// Set the users who can use admin restricted commands over IRC from the admin channel
-		/// </summary>
-		/// <param name="nicknames">The list of irc admin nicknames</param>
-		[OperationContract]
-		void SetAdmins(string[] nicknames);
+		string Reconnect(TGChatProvider providerType);
 	}
 }

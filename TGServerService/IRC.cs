@@ -19,6 +19,11 @@ namespace TGServerService
 
 		public event OnChatMessage OnChatMessage;
 		
+		public TGChatSetupInfo ProviderInfo()
+		{
+			return IRCConfig;
+		}
+
 		public TGIRCChatProvider(TGChatSetupInfo info)
 		{
 			IRCConfig = new TGIRCSetupInfo(info);
@@ -77,10 +82,15 @@ namespace TGServerService
 			}
 		}
 
+		private bool CheckAdmin(IrcMessageData e)
+		{
+			return false;	//TODO
+		}
+
 		//private message
 		private void Irc_OnQueryMessage(object sender, IrcEventArgs e)
 		{
-			OnChatMessage(e.Data.Nick, e.Data.Nick + PrivateMessageMarker, e.Data.Message, true);
+			OnChatMessage(this, e.Data.Nick, e.Data.Nick + PrivateMessageMarker, e.Data.Message, CheckAdmin(e.Data), true);
 		}
 
 		private void Irc_OnChannelMessage(object sender, IrcEventArgs e)
@@ -91,20 +101,27 @@ namespace TGServerService
 			var test = splits[0];
 			if (test.Length > 1 && test[test.Length - 1] == ':')
 				test = test.Substring(0, test.Length - 1);
-			var tagged = test.ToLower() == irc.Nickname.ToLower();
+			if (test.ToLower() != irc.Nickname.ToLower())
+				return;
 
-			if (tagged)
-			{
-				splits.RemoveAt(0);
-				formattedMessage = String.Join(" ", splits);
-			}
+			splits.RemoveAt(0);
+			formattedMessage = String.Join(" ", splits);
 
-			OnChatMessage(e.Data.Nick, e.Data.Channel, formattedMessage, tagged);
+			OnChatMessage(this, e.Data.Nick, e.Data.Channel, formattedMessage, CheckAdmin(e.Data), IRCConfig.AdminChannels.Contains(e.Data.Channel.ToLower()));
 		}
 		//Joins configured channels
 		void JoinChannels()
 		{
-			foreach (var I in Properties.Settings.Default.ChatChannels)
+			var hs = new HashSet<string>();	//for unique inserts
+			foreach (var I in IRCConfig.AdminChannels)
+				hs.Add(I);
+			foreach (var I in IRCConfig.DevChannels)
+				hs.Add(I);
+			foreach (var I in IRCConfig.GameChannels)
+				hs.Add(I);
+			foreach (var I in IRCConfig.WatchdogChannels)
+				hs.Add(I);
+			foreach (var I in hs)
 				irc.RfcJoin(I);
 		}
 		//runs the login command
@@ -210,27 +227,20 @@ namespace TGServerService
 			}
 		}
 		//public api
-		public string SendMessage(string message, bool adminOnly)
+		public void SendMessage(string message, ChatMessageType mt)
 		{
-			try
+			if (!Connected())
+				return;
+			lock (IRCLock)
 			{
-				if (!Connected())
-					return "Disconnected.";
-				lock (IRCLock)
+				foreach (var cid in irc.JoinedChannels)
 				{
-					var Config = Properties.Settings.Default;
-					if (adminOnly)
-						irc.SendMessage(SendType.Message, Config.ChatAdminChannel, message);
-					else
-						foreach (var I in Config.ChatChannels)
-							irc.SendMessage(SendType.Message, I, message);
+
+					bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
+						|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
+						|| (mt.HasFlag(ChatMessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
+						|| (mt.HasFlag(ChatMessageType.WatchdogInfo) && IRCConfig.WatchdogChannels.Contains(cid));
 				}
-				TGServerService.WriteInfo(String.Format("IRC Send{0}: {1}", adminOnly ? " (ADMIN)" : "", message), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast);
-				return null;
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
 			}
 		}
 

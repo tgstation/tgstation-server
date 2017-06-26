@@ -1,26 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Text;
 using System.Web.Script.Serialization;
 using TGServiceInterface;
 
 namespace TGServerService
 {
-	interface ITGChatProvider : ITGChatBase, IDisposable
+	/// <summary>
+	/// Type of chat message, these may be OR'd together
+	/// </summary>
+	[Flags]
+	enum ChatMessageType
 	{
+		AdminInfo = 1,
+		GameInfo = 2,
+		WatchdogInfo = 4,
+		DeveloperInfo = 8,
+	}
+	interface ITGChatProvider : IDisposable
+	{
+		/// <summary>
+		/// Sets info for the provider
+		/// </summary>
+		/// <param name="info">The info to set</param>
+		/// <returns>null on success, error message on failure</returns>
+		string SetProviderInfo(TGChatSetupInfo info);
+
+		/// <summary>
+		/// Gets the info of the provider
+		/// </summary>
+		/// <returns>The info for the chat provider</returns>
+		TGChatSetupInfo ProviderInfo();
+
 		/// <summary>
 		/// Called with chat message info
 		/// </summary>
 		event OnChatMessage OnChatMessage;
 
 		/// <summary>
-		/// Connects the chat provider
+		/// Connects the chat provider if it's enabled
 		/// </summary>
 		/// <returns>null on success, error message on failure</returns>
 		string Connect();
+		/// <summary>
+		/// Forces a reconnection of the chat provider if it's enabled
+		/// </summary>
+		/// <returns>null on success, error message on failure</returns>
+		string Reconnect();
+
+		/// <summary>
+		/// Checks if the chat provider is connected
+		/// </summary>
+		/// <returns>true if the provider is connected, false otherwise</returns>
+		bool Connected();
 
 		/// <summary>
 		/// Disconnects the chat provider
@@ -34,72 +66,71 @@ namespace TGServerService
 		/// <param name="channel">The channel to send to</param>
 		/// <returns>null on success, error message on failure</returns>
 		string SendMessageDirect(string message, string channel);
+
+		/// <summary>
+		/// Broadcast a message to appropriate channels based on the message type
+		/// </summary>
+		/// <param name="msg">The message to send</param>
+		/// <param name="mt">The message type</param>
+		void SendMessage(string msg, ChatMessageType mt);
 	}
 
 	/// <summary>
 	/// Callback for the chat provider recieving a message
 	/// </summary>
+	/// <param name="ChatProvider">The chat provider the message came from</param>
 	/// <param name="speaker">The username of the speaker</param>
 	/// <param name="channel">The name of the channel</param>
 	/// <param name="message">The message text</param>
 	/// <param name="tagged">true if the bot was mentioned in the first word, false otherwise</param>
-	public delegate void OnChatMessage(string speaker, string channel, string message, bool tagged);
+	delegate void OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel);
 
 	partial class TGStationServer : ITGChat
 	{
-		ITGChatProvider ChatProvider;
-		TGChatProvider currentProvider;
+
+		IList<ITGChatProvider> ChatProviders;
 		object ChatLock = new object();
 
-		public void InitChat(TGChatSetupInfo info = null)
+		public void InitChat(IList<TGChatSetupInfo> infos = null)
 		{
-			if (info == null)
-				info = ProviderInfo();
-			currentProvider = info.Provider;
-			try
+			if (infos == null)
+				infos = ProviderInfos();
+			ChatProviders = new List<ITGChatProvider>(infos.Count);
+			foreach (var info in infos)
 			{
-				switch (info.Provider)
+				ITGChatProvider ChatProvider;
+				try
 				{
-					case TGChatProvider.Discord:
-						ChatProvider = new TGDiscordChatProvider(info);
-						break;
-					case TGChatProvider.IRC:
-						ChatProvider = new TGIRCChatProvider(info);
-						break;
-					default:
-						TGServerService.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), TGServerService.EventID.InvalidChatProvider);
-						break;
+					switch (info.Provider)
+					{
+						case TGChatProvider.Discord:
+							ChatProvider = new TGDiscordChatProvider(info);
+							break;
+						case TGChatProvider.IRC:
+							ChatProvider = new TGIRCChatProvider(info);
+							break;
+						default:
+							TGServerService.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), TGServerService.EventID.InvalidChatProvider);
+							continue;
+					}
 				}
-			}
-			catch (Exception e)
-			{
-				TGServerService.WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), TGServerService.EventID.ChatProviderStartFail);
-				return;
-			}
-			ChatProvider.OnChatMessage += ChatProvider_OnChatMessage;
-			if (Properties.Settings.Default.ChatEnabled)
-			{
+				catch (Exception e)
+				{
+					TGServerService.WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), TGServerService.EventID.ChatProviderStartFail);
+					continue;
+				}
+				ChatProvider.OnChatMessage += ChatProvider_OnChatMessage;
 				var res = ChatProvider.Connect();
 				if (res != null)
 					TGServerService.WriteWarning(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", ChatProvider.GetType().ToString(), res), TGServerService.EventID.ChatConnectFail);
+				ChatProviders.Add(ChatProvider);
 			}
 		}
 
-		private void ChatProvider_OnChatMessage(string speaker, string channel, string message, bool tagged)
+		private void ChatProvider_OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
-
-			var s0l = splits[0].ToLower();
-
-			if (s0l == "!check")
-			{
-				ChatProvider.SendMessageDirect(StatusString(HasChatAdmin(speaker, channel) == null), channel);
-				return;
-			}
-
-			if (!tagged)
-				return;
-
+			
 			if (splits.Length == 1 && splits[0] == "")
 			{
 				ChatProvider.SendMessageDirect("Hi!", channel);
@@ -110,15 +141,14 @@ namespace TGServerService
 			var command = asList[0].ToLower();
 			asList.RemoveAt(0);
 
-			ChatProvider.SendMessageDirect(ChatCommand(command, speaker, channel, asList), channel);
+			ChatProvider.SendMessageDirect(ChatCommand(command, speaker, channel, asList, isAdmin, isAdminChannel), channel);
 		}
 
-		string HasChatAdmin(string speaker, string channel)
+		string HasChatAdmin(bool isAdmin, bool isAdminChannel)
 		{
-			var Config = Properties.Settings.Default;
-			if (!Config.ChatAdmins.Contains(speaker.ToLower()))
+			if (!isAdmin)
 				return "You are not authorized to use that command!";
-			if (channel.ToLower() != Config.ChatAdminChannel.ToLower())
+			if (!isAdminChannel)
 				return "Use this command in the admin channel!";
 			return null;
 		}
@@ -126,21 +156,20 @@ namespace TGServerService
 		//cleanup
 		void DisposeChat()
 		{
-			if (ChatProvider != null)
-			{
+			foreach(var ChatProvider in ChatProviders)
 				ChatProvider.Dispose();
-				ChatProvider = null;
-			}
+			ChatProviders = null;
 		}
 
 		//Do stuff with words that were spoken to us
-		string ChatCommand(string command, string speaker, string channel, IList<string> parameters)
+		string ChatCommand(string command, string speaker, string channel, IList<string> parameters, bool isAdmin, bool isAdminChannel)
 		{
 			TGServerService.WriteInfo(String.Format("Chat Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)), TGServerService.EventID.ChatCommand);
+			var adminmessage = HasChatAdmin(isAdmin, isAdminChannel);
 			switch (command)
 			{
 				case "check":
-					return StatusString(HasChatAdmin(speaker, channel) == null);
+					return StatusString(adminmessage == null);
 				case "byond":
 					if (parameters.Count > 0)
 						if (parameters[0].ToLower() == "--staged")
@@ -149,27 +178,25 @@ namespace TGServerService
 							return GetVersion(TGByondVersion.Latest) ?? "Unknown";
 					return GetVersion(TGByondVersion.Staged) ?? "Uninstalled";
 				case "status":
-					return HasChatAdmin(speaker, channel) ?? SendCommand(SCIRCStatus);
+					return adminmessage ?? SendCommand(SCIRCStatus);
 				case "adminwho":
-					return HasChatAdmin(speaker, channel) ?? SendCommand(SCAdminWho);
+					return adminmessage ?? SendCommand(SCAdminWho);
 				case "ahelp":
-					var res = HasChatAdmin(speaker, channel);
-					if (res != null)
-						return res;
+					if (adminmessage != null)
+						return adminmessage;
 					if (parameters.Count < 2)
 						return "Usage: ahelp <ckey> <message>";
 					var ckey = parameters[0];
 					parameters.RemoveAt(0);
 					return SendPM(ckey, speaker, String.Join(" ", parameters));
 				case "namecheck":
-					res = HasChatAdmin(speaker, channel);
-					if (res != null)
-						return res;
+					if (adminmessage != null)
+						return adminmessage;
 					if (parameters.Count < 1)
 						return "Usage: namecheck <target>";
 					return NameCheck(parameters[0], speaker);
 				case "prs":
-					var PRs = MergedPullRequests(out res);
+					var PRs = MergedPullRequests(out string res);
 					if (PRs == null)
 						return res;
 					if (PRs.Count == 0)
@@ -187,99 +214,24 @@ namespace TGServerService
 		}
 
 		//public api
-		public string SetEnabled(bool enable)
-		{
-			lock (ChatLock)
-			{
-				Properties.Settings.Default.ChatEnabled = enable;
-				if (!enable && Connected())
-					ChatProvider.Disconnect();
-				else if (enable && !Connected())
-					return ChatProvider != null ? ChatProvider.Connect() : "Null chat provider!";
-				return null;
-			}
-		}
-
-		//public api
-		public string[] Channels()
-		{
-			lock (ChatLock)
-			{
-				return CollectionToArray(Properties.Settings.Default.ChatChannels);
-			}
-		}
-
-		//what it says on the tin
-		string[] CollectionToArray(StringCollection sc)
-		{
-			string[] strArray = new string[sc.Count];
-			sc.CopyTo(strArray, 0);
-			return strArray;
-		}
-		//public api
-		public string AdminChannel()
-		{
-			lock (ChatLock)
-			{
-				return Properties.Settings.Default.ChatAdminChannel;
-			}
-		}
-		//public api
-		public bool Enabled()
-		{
-			lock (ChatLock)
-			{
-				return Properties.Settings.Default.ChatEnabled;
-			}
-		}
-
-		//public api
-		public string[] ListAdmins()
-		{
-			lock (ChatLock)
-			{
-				return CollectionToArray(Properties.Settings.Default.ChatAdmins);
-			}
-		}
-
-		//public api
-		public void SetAdmins(string[] admins)
-		{
-			var si = new StringCollection();
-			foreach (var I in admins)
-				si.Add(I.Trim().ToLower());
-			lock (ChatLock)
-			{
-				Properties.Settings.Default.ChatAdmins = si;
-			}
-		}
-
-		//public api
-		public TGChatSetupInfo ProviderInfo()
+		public IList<TGChatSetupInfo> ProviderInfos()
 		{
 			lock (ChatLock)
 			{
 				var Config = Properties.Settings.Default;
 				var rawdata = Config.ChatProviderData;
 				if (rawdata == "NEEDS INITIALIZING")
-					switch ((TGChatProvider)Config.ChatProvider)
-					{
-						case TGChatProvider.Discord:
-							return new TGDiscordSetupInfo();
-						case TGChatProvider.IRC:
-							return new TGIRCSetupInfo();
-						default:
-							TGServerService.WriteError("Invalid chat provider: " + Config.ChatProvider.ToString(), TGServerService.EventID.InvalidChatProvider);
-							return null;
-					}
+					return new List<TGChatSetupInfo>() { new TGIRCSetupInfo(), new TGDiscordSetupInfo() };
 
 				byte[] plaintext;
 				try
 				{
-					plaintext = ProtectedData.Unprotect(Convert.FromBase64String(Config.ChatProviderData), Convert.FromBase64String(Config.ChatProviderEntropy), DataProtectionScope.CurrentUser);
-
-					var Deserializer = new JavaScriptSerializer();
-					return new TGChatSetupInfo(Deserializer.Deserialize<List<string>>(Encoding.UTF8.GetString(plaintext)), (TGChatProvider)Config.ChatProvider);
+					plaintext = Program.DecryptData(rawdata, Config.ChatProviderEntropy);
+					
+					var lists = new JavaScriptSerializer().Deserialize<List<List<string>>>(Encoding.UTF8.GetString(plaintext));
+					var output = new List<TGChatSetupInfo>(lists.Count);
+					foreach (var l in lists)
+						output.Add(new TGChatSetupInfo(l));
 				}
 				catch
 				{
@@ -287,7 +239,7 @@ namespace TGServerService
 				}
 			}
 			//if we get here we want to retry
-			return ProviderInfo();
+			return ProviderInfos();
 		}
 
 		//public api
@@ -297,34 +249,22 @@ namespace TGServerService
 			{
 				lock (ChatLock)
 				{
-					var Serializer = new JavaScriptSerializer();
-					var rawdata = Serializer.Serialize(info.DataFields);
+					foreach (var ChatProvider in ChatProviders)
+						if (info.Provider == ChatProvider.ProviderInfo().Provider) {
+							var res = ChatProvider.SetProviderInfo(info);
+							if (res != null)
+								return res;
+							break;
+						}
+
+					var rawdata = new JavaScriptSerializer().Serialize(ChatProviders);
 					var Config = Properties.Settings.Default;
-					Config.ChatProvider = (int)info.Provider;
-					Config.ChatProviderData = rawdata;
 
 					byte[] plaintext = Encoding.UTF8.GetBytes(rawdata);
 
-					// Generate additional entropy (will be used as the Initialization vector)
-					byte[] entropy = new byte[20];
-					using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-					{
-						rng.GetBytes(entropy);
-					}
-
-					byte[] ciphertext = ProtectedData.Protect(plaintext, entropy, DataProtectionScope.CurrentUser);
-
-					Config.ChatProviderEntropy = Convert.ToBase64String(entropy, 0, entropy.Length);
-					Config.ChatProviderData = Convert.ToBase64String(ciphertext, 0, ciphertext.Length);
-
-					if (ChatProvider != null && info.Provider == currentProvider)
-						return ChatProvider.SetProviderInfo(info);
-					else
-					{
-						DisposeChat();
-						InitChat(info);
-						return null;
-					}
+					Config.ChatProviderData = Program.EncryptData(plaintext, out string entrp);
+					Config.ChatProviderEntropy = entrp;
+					return null;
 				}
 			}
 			catch (Exception e)
@@ -334,7 +274,7 @@ namespace TGServerService
 		}
 
 		//trims and adds the leading #
-		string SanitizeChannelName(string working)
+		public static string SanitizeChannelName(string working)
 		{
 			if (String.IsNullOrWhiteSpace(working))
 				return null;
@@ -345,63 +285,40 @@ namespace TGServerService
 		}
 
 		//public api
-		public void SetChannels(string[] channels = null, string adminchannel = null)
+		public bool Connected(TGChatProvider providerType)
 		{
-			var Config = Properties.Settings.Default;
+			foreach (var I in ChatProviders)
+				if (I.ProviderInfo().Provider == providerType)
+					return I.Connected();
+			return false;
+		}
+
+		//public api
+		public string Reconnect(TGChatProvider providerType)
+		{
+			foreach (var I in ChatProviders)
+				if (I.ProviderInfo().Provider == providerType)
+					return I.Reconnect();
+			return "Could not find specified provider!";
+		}
+		
+		/// <summary>
+		/// Broadcast a message to appropriate channels based on the message type
+		/// </summary>
+		/// <param name="msg">The message to send</param>
+		/// <param name="mt">The message type</param>
+		public void SendMessage(string msg, ChatMessageType mt)
+		{
 			lock (ChatLock)
 			{
-				if (channels != null)
-				{
-					var oldchannels = Config.ChatChannels;
-					var si = new StringCollection();
-					foreach (var c in channels)
+				foreach (var ChatProvider in ChatProviders)
+					try
 					{
-						var Res = SanitizeChannelName(c);
-						if (Res != null)
-							si.Add(Res);
+						ChatProvider.SendMessage(msg, mt);
+					}catch(Exception e)
+					{
+						TGServerService.WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), ChatProvider.ProviderInfo().Provider), TGServerService.EventID.ChatBroadcastFail);
 					}
-					if (!si.Contains(Config.ChatAdminChannel))
-						si.Add(Config.ChatAdminChannel);
-					Config.ChatChannels = si;
-				}
-				adminchannel = SanitizeChannelName(adminchannel);
-				if (adminchannel != null)
-				{
-					Config.ChatAdminChannel = adminchannel;
-					if (!Config.ChatChannels.Contains(adminchannel))
-						Config.ChatChannels.Add(adminchannel);
-				}
-				if (channels != null && Connected())
-					ChatProvider.SetChannels(CollectionToArray(Config.ChatChannels), Config.ChatAdminChannel);
-			}			
-		}
-
-		//public api
-		public bool Connected()
-		{
-			lock (ChatLock)
-			{
-				return ChatProvider != null ? ChatProvider.Connected() : false;
-			}
-		}
-
-		//public api
-		public string Reconnect()
-		{
-			lock (ChatLock)
-			{
-				if (!Properties.Settings.Default.ChatEnabled)
-					return "Chat is disabled!";
-				return ChatProvider != null ? ChatProvider.Reconnect() : "Null chat provider!";
-			}
-		}
-
-		//public api
-		public string SendMessage(string msg, bool adminOnly = false)
-		{
-			lock (ChatLock)
-			{
-				return ChatProvider != null ? ChatProvider.SendMessage(msg, adminOnly) : "Null chat provider!";
 			}
 		}
 	}
