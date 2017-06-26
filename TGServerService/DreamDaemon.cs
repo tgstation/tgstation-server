@@ -93,7 +93,7 @@ namespace TGServerService
 					Thread.Sleep(1000);
 				}
 				else
-					SendMessage("DD: Detaching watchdog for update!");
+					SendMessage("DD: Detaching watch dog for update!");
 			}
 			else if (Detach)
 			{
@@ -248,7 +248,7 @@ namespace TGServerService
 						else
 						{
 							retries = 0;
-							var msg = "DD: DreamDaemon crashed! Rebooting...";
+							var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
 							SendMessage(msg);
 							TGServerService.WriteWarning(msg, TGServerService.EventID.DDWatchdogRebootingServer);
 						}
