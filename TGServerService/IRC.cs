@@ -40,16 +40,7 @@ namespace TGServerService
 			irc.OnChannelMessage += Irc_OnChannelMessage;
 			irc.OnQueryMessage += Irc_OnQueryMessage;
 		}
-
-		public void SetFlags()
-		{
-			var test = irc.ServerProperties.ChannelPrivilegeModesPrefixes;
-			string ServerModes = "";
-			foreach(var I in test)
-				ServerModes += I.Key + ":" + I.Value + ";";
-			TGServerService.WriteInfo(ServerModes, TGServerService.EventID.IRCLogModes);
-		}
-
+		
 		//public api
 		public string SendMessageDirect(string message, string channel)
 		{
@@ -94,7 +85,39 @@ namespace TGServerService
 
 		private bool CheckAdmin(IrcMessageData e)
 		{
-			return false;	//TODO
+			if (IRCConfig.AdminsAreSpecial)
+			{
+				var Chan = irc.GetChannel(e.Channel);
+				var user = (NonRfcChannelUser)irc.GetChannelUser(e.Channel, e.Nick);
+				if (user != null)
+					switch (IRCConfig.AuthLevel)
+					{
+						case IRCMode.Voice:
+							if (user.IsVoice)
+								return true;
+							goto case IRCMode.Halfop;
+						case IRCMode.Halfop:
+							if (user.IsHalfop)
+								return true;
+							goto case IRCMode.Op;
+						case IRCMode.Op:
+							if (user.IsOp)
+								return true;
+							goto case IRCMode.Owner;
+						case IRCMode.Owner:
+							if (user.IsOwner)
+								return true;
+							break;
+					}
+			}
+			else
+			{
+				var lowerNick = e.Nick.ToLower();
+				foreach (var I in IRCConfig.AdminList)
+					if (lowerNick == I.ToLower())
+						return true;
+			}
+			return false;
 		}
 
 		//private message
@@ -152,7 +175,7 @@ namespace TGServerService
 		//public api
 		public string Connect()
 		{
-			if (Connected())
+			if (Connected() || !IRCConfig.Enabled)
 				return null;
 			lock (IRCLock)
 			{
@@ -177,9 +200,7 @@ namespace TGServerService
 					}
 					Login();
 					JoinChannels();
-
-					SetFlags();
-
+					
 					new Thread(new ThreadStart(IRCListen)) { IsBackground = true }.Start();
 					return null;
 				}

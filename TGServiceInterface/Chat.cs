@@ -22,6 +22,29 @@ namespace TGServiceInterface
 	}
 
 	/// <summary>
+	/// Supported irc permission modes
+	/// </summary>
+	public enum IRCMode : int
+	{
+		/// <summary>
+		/// +
+		/// </summary>
+		Voice,
+		/// <summary>
+		/// %
+		/// </summary>
+		Halfop,
+		/// <summary>
+		/// @
+		/// </summary>
+		Op,
+		/// <summary>
+		/// ~
+		/// </summary>
+		Owner,
+	}
+
+	/// <summary>
 	/// For setting up authentication no matter the chat provider
 	/// </summary>
 	[DataContract]
@@ -67,6 +90,22 @@ namespace TGServiceInterface
 				DataFields = baseInfo.DataFields;
 		}
 
+		//trims and adds the leading #
+		static string SanitizeChannelName(string working)
+		{
+			if (String.IsNullOrWhiteSpace(working))
+				return null;
+			working = working.Trim();
+			if (working[0] != '#')
+				return "#" + working;
+			return working;
+		}
+		static void SanitizeChannelNames(IList<string> working)
+		{
+			for (var I = 0; I < working.Count; ++I)
+				working[I] = SanitizeChannelName(working[I]);
+		}
+
 		/// <summary>
 		/// Constructs a TGChatSetupInfo from a data list
 		/// </summary>
@@ -98,7 +137,11 @@ namespace TGServiceInterface
 		public IList<string> AdminChannels
 		{
 			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[AdminChannelIndex]); }
-			set { DataFields[AdminChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+			set
+			{
+				SanitizeChannelNames(value);
+				DataFields[AdminChannelIndex] = new JavaScriptSerializer().Serialize(value);
+			}
 		}
 		/// <summary>
 		/// The channels to which repo and compile messages are sent
@@ -106,7 +149,11 @@ namespace TGServiceInterface
 		public IList<string> DevChannels
 		{
 			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[DevChannelIndex]); }
-			set { DataFields[DevChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+			set
+			{
+				SanitizeChannelNames(value);
+				DataFields[DevChannelIndex] = new JavaScriptSerializer().Serialize(value);
+			}
 		}
 		/// <summary>
 		/// The channels to which watchdog messages are sent
@@ -114,7 +161,11 @@ namespace TGServiceInterface
 		public IList<string> WatchdogChannels
 		{
 			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[WDChannelIndex]); }
-			set { DataFields[WDChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+			set
+			{
+				SanitizeChannelNames(value);
+				DataFields[WDChannelIndex] = new JavaScriptSerializer().Serialize(value);
+			}
 		}
 		/// <summary>
 		/// The channels to which game messages are sent
@@ -122,7 +173,11 @@ namespace TGServiceInterface
 		public IList<string> GameChannels
 		{
 			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[GameChannelIndex]); }
-			set { DataFields[GameChannelIndex] = new JavaScriptSerializer().Serialize(value); }
+			set
+			{
+				SanitizeChannelNames(value);
+				DataFields[GameChannelIndex] = new JavaScriptSerializer().Serialize(value);
+			}
 		}
 		/// <summary>
 		/// If this chat provider is enabled
@@ -138,8 +193,8 @@ namespace TGServiceInterface
 		/// </summary>
 		public TGChatProvider Provider
 		{
-			get { return (TGChatProvider)Convert.ToInt32(DataFields[EnabledIndex]); }
-			set { DataFields[EnabledIndex] = Convert.ToString(value); }
+			get { return (TGChatProvider)Convert.ToInt32(DataFields[ProviderIndex]); }
+			set { DataFields[ProviderIndex] = Convert.ToString((int)value); }
 		}
 
 		/// <summary>
@@ -161,7 +216,8 @@ namespace TGServiceInterface
 		const int NickIndex = 2;
 		const int AuthTargetIndex = 3;
 		const int AuthMessageIndex = 4;
-		const int FieldsLen = 5;
+		const int AuthLevelIndex = 5;
+		const int FieldsLen = 6;
 
 		/// <summary>
 		/// Construct IRC setup info from optional generic info. Defaults to TGS3 on rizons IRC server
@@ -177,6 +233,8 @@ namespace TGServiceInterface
 				Port = 6667;
 				AuthTarget = "";
 				AuthMessage = "";
+				AdminsAreSpecial = true;
+				AuthLevel = IRCMode.Op;
 			}
 		}
 		/// <summary>
@@ -217,6 +275,14 @@ namespace TGServiceInterface
 		{
 			get { return DataFields[BaseIndex + AuthMessageIndex]; }
 			set { DataFields[BaseIndex + AuthMessageIndex] = value; }
+		}
+		/// <summary>
+		/// The minimum mode required to use admin bot commands when in special auth mode
+		/// </summary>
+		public IRCMode AuthLevel
+		{
+			get { return (IRCMode)Convert.ToInt32(DataFields[BaseIndex + AuthLevelIndex]); }
+			set { DataFields[BaseIndex + AuthLevelIndex] = Convert.ToString((int)value); }
 		}
 	}
 

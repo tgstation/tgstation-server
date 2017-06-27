@@ -1,7 +1,6 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TGServiceInterface;
 
@@ -65,6 +64,8 @@ namespace TGServerService
 		{
 			try
 			{
+				if (Connected() || !DiscordConfig.Enabled)
+					return null;
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();

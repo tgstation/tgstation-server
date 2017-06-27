@@ -91,10 +91,9 @@ namespace TGServerService
 		IList<ITGChatProvider> ChatProviders;
 		object ChatLock = new object();
 
-		public void InitChat(IList<TGChatSetupInfo> infos = null)
+		public void InitChat()
 		{
-			if (infos == null)
-				infos = ProviderInfos();
+			var infos = InitProviderInfos();
 			ChatProviders = new List<ITGChatProvider>(infos.Count);
 			foreach (var info in infos)
 			{
@@ -153,12 +152,25 @@ namespace TGServerService
 			return null;
 		}
 		
-		//cleanup
+		//cleanup and save
 		void DisposeChat()
 		{
-			foreach(var ChatProvider in ChatProviders)
+			var infosList = new List<IList<string>>();
+
+			foreach (var ChatProvider in ChatProviders)
+			{
+				infosList.Add(ChatProvider.ProviderInfo().DataFields);
 				ChatProvider.Dispose();
+			}
 			ChatProviders = null;
+
+			var rawdata = new JavaScriptSerializer().Serialize(infosList);
+			var Config = Properties.Settings.Default;
+
+			byte[] plaintext = Encoding.UTF8.GetBytes(rawdata);
+
+			Config.ChatProviderData = Program.EncryptData(plaintext, out string entrp);
+			Config.ChatProviderEntropy = entrp;
 		}
 
 		//Do stuff with words that were spoken to us
@@ -213,8 +225,16 @@ namespace TGServerService
 			return "Unknown command: " + command;
 		}
 
-		//public api
 		public IList<TGChatSetupInfo> ProviderInfos()
+		{
+			var infosList = new List<TGChatSetupInfo>();
+			foreach (var ChatProvider in ChatProviders)
+				infosList.Add(ChatProvider.ProviderInfo());
+			return infosList;
+		}
+
+		//public api
+		IList<TGChatSetupInfo> InitProviderInfos()
 		{
 			lock (ChatLock)
 			{
@@ -232,6 +252,7 @@ namespace TGServerService
 					var output = new List<TGChatSetupInfo>(lists.Count);
 					foreach (var l in lists)
 						output.Add(new TGChatSetupInfo(l));
+					return output;
 				}
 				catch
 				{
@@ -239,7 +260,7 @@ namespace TGServerService
 				}
 			}
 			//if we get here we want to retry
-			return ProviderInfos();
+			return InitProviderInfos();
 		}
 
 		//public api
@@ -250,38 +271,15 @@ namespace TGServerService
 				lock (ChatLock)
 				{
 					foreach (var ChatProvider in ChatProviders)
-						if (info.Provider == ChatProvider.ProviderInfo().Provider) {
-							var res = ChatProvider.SetProviderInfo(info);
-							if (res != null)
-								return res;
-							break;
-						}
-
-					var rawdata = new JavaScriptSerializer().Serialize(ChatProviders);
-					var Config = Properties.Settings.Default;
-
-					byte[] plaintext = Encoding.UTF8.GetBytes(rawdata);
-
-					Config.ChatProviderData = Program.EncryptData(plaintext, out string entrp);
-					Config.ChatProviderEntropy = entrp;
-					return null;
+						if (info.Provider == ChatProvider.ProviderInfo().Provider)
+							return ChatProvider.SetProviderInfo(info);
+					return "Error: Invalid provider: " + info.Provider.ToString();
 				}
 			}
 			catch (Exception e)
 			{
 				return e.ToString();
 			}
-		}
-
-		//trims and adds the leading #
-		public static string SanitizeChannelName(string working)
-		{
-			if (String.IsNullOrWhiteSpace(working))
-				return null;
-			working = working.Trim();
-			if (working[0] != '#')
-				return "#" + working;
-			return working;
 		}
 
 		//public api

@@ -9,7 +9,7 @@ namespace TGCommandLine
 		public IRCCommand()
 		{
 			Keyword = "irc";
-			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand(), new ChatJoinCommand(TGChatProvider.IRC), new ChatPartCommand(TGChatProvider.IRC), new ChatListAdminsCommand(TGChatProvider.IRC), new ChatReconnectCommand(TGChatProvider.IRC), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.IRC), new ChatEnableCommand(TGChatProvider.IRC), new ChatDisableCommand(TGChatProvider.IRC), new ChatStatusCommand(TGChatProvider.Discord) };
+			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand(), new ChatJoinCommand(TGChatProvider.IRC), new ChatPartCommand(TGChatProvider.IRC), new ChatListAdminsCommand(TGChatProvider.IRC), new ChatReconnectCommand(TGChatProvider.IRC), new ChatAddminCommand(TGChatProvider.IRC), new ChatDeadminCommand(TGChatProvider.IRC), new ChatEnableCommand(TGChatProvider.IRC), new ChatDisableCommand(TGChatProvider.IRC), new ChatStatusCommand(TGChatProvider.IRC), new IRCAuthModeCommand(), new IRCAuthLevelCommand() };
 		}
 		protected override string GetHelpText()
 		{
@@ -110,6 +110,21 @@ namespace TGCommandLine
 				}
 			}
 			channels.Add(parameters[0]);
+			switch (parameters[1].ToLower())
+			{
+				case "dev":
+					info.DevChannels = channels;
+					break;
+				case "wd":
+					info.WatchdogChannels = channels;
+					break;
+				case "game":
+					info.GameChannels = channels;
+					break;
+				case "admin":
+					info.AdminChannels = channels;
+					break;
+			}
 			var res = IRC.SetProviderInfo(info);
 			if(res != null)
 			{
@@ -166,6 +181,21 @@ namespace TGCommandLine
 			if (lowerParam[0] != '#')
 				lowerParam = "#" + lowerParam;
 			channels.Remove(lowerParam);
+			switch (parameters[1].ToLower())
+			{
+				case "dev":
+					info.DevChannels = channels;
+					break;
+				case "wd":
+					info.WatchdogChannels = channels;
+					break;
+				case "game":
+					info.GameChannels = channels;
+					break;
+				case "admin":
+					info.AdminChannels = channels;
+					break;
+			}
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
@@ -197,7 +227,7 @@ namespace TGCommandLine
 			{
 				case TGChatProvider.IRC:
 					if (info.AdminsAreSpecial)
-						authType = "Flags:";
+						authType = "Mode:";
 					else
 						authType = "Nicknames:";
 					break;
@@ -211,8 +241,26 @@ namespace TGCommandLine
 					Console.WriteLine(String.Format("Invalid provider: {0}!", providerIndex));
 					return ExitCode.ServerError;
 			}
-			foreach (var I in info.AdminList)
-				Console.WriteLine(I);
+			Console.WriteLine("Authorized " + authType);
+			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
+				switch(new TGIRCSetupInfo(info).AuthLevel)
+				{
+					case IRCMode.Voice:
+						Console.WriteLine("+");
+						break;
+					case IRCMode.Halfop:
+						Console.WriteLine("%");
+						break;
+					case IRCMode.Op:
+						Console.WriteLine("@");
+						break;
+					case IRCMode.Owner:
+						Console.WriteLine("~");
+						break;
+				}
+			else
+				foreach (var I in info.AdminList)
+					Console.WriteLine(I);
 			return ExitCode.Normal;
 		}
 	}
@@ -265,6 +313,12 @@ namespace TGCommandLine
 			var info = IRC.ProviderInfos()[providerIndex];
 			var newmin = parameters[0].ToLower();
 
+			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
+			{
+				Console.WriteLine("Invalid auth mode for this command!");
+				return ExitCode.BadCommand;
+			}
+
 			if (info.AdminList.Contains(newmin))
 			{
 				Console.WriteLine(parameters[0] + " is already an admin!");
@@ -272,6 +326,93 @@ namespace TGCommandLine
 			}
 
 			info.AdminList.Add(newmin);
+			var res = IRC.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
+			return ExitCode.Normal;
+		}
+	}
+	class IRCAuthModeCommand : Command
+	{
+		public IRCAuthModeCommand()
+		{
+			Keyword = "set-auth-mode";
+			RequiredParameters = 1;
+		}
+
+		protected override string GetArgumentString()
+		{
+			return "<channel-mode|nickname>";
+		}
+		protected override string GetHelpText()
+		{
+			return "Switch between admin command authorization via user channel mode or nicknames";
+		}
+		public override ExitCode Run(IList<string> parameters)
+		{
+			var IRC = Server.GetComponent<ITGChat>();
+			var info = IRC.ProviderInfos()[(int)TGChatProvider.IRC];
+			var lowerparam = parameters[0].ToLower();
+			if (lowerparam == "channel-mode")
+				info.AdminsAreSpecial = true;
+			else if (lowerparam == "nickname")
+				info.AdminsAreSpecial = false;
+			else
+			{
+				Console.WriteLine("Invalid parameter: " + parameters[0]);
+				return ExitCode.BadCommand;
+			}
+			var res = IRC.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
+			return ExitCode.Normal;
+		}
+	}
+	class IRCAuthLevelCommand : Command
+	{
+		public IRCAuthLevelCommand()
+		{
+			Keyword = "set-auth-level";
+			RequiredParameters = 1;
+		}
+
+		protected override string GetArgumentString()
+		{
+			return "<+|%|@|~>";
+		}
+		protected override string GetHelpText()
+		{
+			return "Set the required channel mode for users to use admin commands";
+		}
+		public override ExitCode Run(IList<string> parameters)
+		{
+			var IRC = Server.GetComponent<ITGChat>();
+			var info = new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC]);
+			switch (parameters[0])
+			{
+				case "+":
+					info.AuthLevel = IRCMode.Voice;
+					break;
+				case "%":
+					info.AuthLevel = IRCMode.Halfop;
+					break;
+				case "@":
+					info.AuthLevel = IRCMode.Op;
+					break;
+				case "~":
+					info.AuthLevel = IRCMode.Owner;
+					break;
+				default:
+					Console.WriteLine("Invalid parameter: " + parameters[0]);
+					return ExitCode.BadCommand;
+			}
+
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
@@ -303,7 +444,13 @@ namespace TGCommandLine
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
 			var newmin = parameters[0].ToLower();
-
+			
+			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
+			{
+				Console.WriteLine("Invalid auth mode for this command!");
+				return ExitCode.BadCommand;
+			}
+			
 			if (!info.AdminList.Remove(newmin))
 			{
 				Console.WriteLine(parameters[0] + " is not an admin!");
