@@ -178,7 +178,7 @@ namespace TGCommandLine
 					return ExitCode.BadCommand;
 			}
 			var lowerParam = parameters[0].ToLower();
-			if (lowerParam[0] != '#')
+			if ((TGChatProvider)providerIndex == TGChatProvider.IRC && lowerParam[0] != '#')
 				lowerParam = "#" + lowerParam;
 			channels.Remove(lowerParam);
 			switch (parameters[1].ToLower())

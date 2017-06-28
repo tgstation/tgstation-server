@@ -133,7 +133,7 @@ namespace TGServerService
 					foreach (var J in I.TextChannels)
 					{
 						var cid = J.Id.ToString();
-
+						var wdc = DiscordConfig.WatchdogChannels;
 						bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && DiscordConfig.AdminChannels.Contains(cid))
 							|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && DiscordConfig.DevChannels.Contains(cid))
 							|| (mt.HasFlag(ChatMessageType.GameInfo) && DiscordConfig.GameChannels.Contains(cid))

@@ -266,11 +266,12 @@ namespace TGServerService
 			{
 				foreach (var cid in irc.JoinedChannels)
 				{
-
 					bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.WatchdogInfo) && IRCConfig.WatchdogChannels.Contains(cid));
+					if (SendToThisChannel)
+						irc.SendMessage(SendType.Message, cid, message);
 				}
 			}
 		}

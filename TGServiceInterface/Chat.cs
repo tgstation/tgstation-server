@@ -90,20 +90,35 @@ namespace TGServiceInterface
 				DataFields = baseInfo.DataFields;
 		}
 
-		//trims and adds the leading #
-		static string SanitizeChannelName(string working)
+		TGChatSetupInfo Specialize()
 		{
-			if (String.IsNullOrWhiteSpace(working))
-				return null;
-			working = working.Trim();
-			if (working[0] != '#')
-				return "#" + working;
-			return working;
+			switch (Provider)
+			{
+				case TGChatProvider.IRC:
+					return new TGIRCSetupInfo(this);
+				case TGChatProvider.Discord:
+					return new TGDiscordSetupInfo(this);
+				default:
+					throw new Exception("Invalid provider!");
+			}
 		}
-		static void SanitizeChannelNames(IList<string> working)
+
+		//trims and adds the leading #
+		protected virtual string SanitizeChannelName(string working)
+		{
+			return Specialize().SanitizeChannelName(working);
+		}
+		void SanitizeChannelNames(IList<string> working)
 		{
 			for (var I = 0; I < working.Count; ++I)
-				working[I] = SanitizeChannelName(working[I]);
+
+				if (String.IsNullOrWhiteSpace(working[I]))
+				{
+					working.RemoveAt(I);
+					--I;
+				}
+				else
+					working[I] = SanitizeChannelName(working[I].Trim());
 		}
 
 		/// <summary>
@@ -237,6 +252,14 @@ namespace TGServiceInterface
 				AuthLevel = IRCMode.Op;
 			}
 		}
+		
+		protected override string SanitizeChannelName(string working)
+		{
+			if (working[0] != '#')
+				return "#" + working;
+			return working;
+		}
+
 		/// <summary>
 		/// The port of the IRC server
 		/// </summary>
@@ -303,8 +326,21 @@ namespace TGServiceInterface
 		{
 			Provider = TGChatProvider.Discord;
 			if (InitializeFields)
-				BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";	//needless to say, this is fake
+				BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; //needless to say, this is fake
 		}
+		protected override string SanitizeChannelName(string working)
+		{
+			try
+			{
+				Convert.ToUInt64(working);
+			}
+			catch
+			{
+				throw new Exception("Invalid Discord channel ID!");
+			}
+			return working;
+		}
+
 		/// <summary>
 		/// The Discord bot token to use. See https://discordapp.com/developers/applications/me for registering bot accounts
 		/// </summary>
