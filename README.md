@@ -51,7 +51,7 @@ This process is identical to the above steps in command line mode. You can alway
 1. `discord join 23452362574456 wd`
 1. `discord join 53457345736788 game`
 1. `discord enable`
-1. `repo set-name tgstation-server` These two lines specify the changelog's committer identity
+1. `repo set-name tgstation-server` These two lines specify the changelog's committer identity. They are not mirrored in the GUI
 1. `repo set-email tgstation-server@tgstation13.org`
 1. `repo set-credentials` And follow the prompts
 1. `dm project-name tgstation`
