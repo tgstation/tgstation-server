@@ -324,8 +324,9 @@ namespace TGCommandLine
 				Console.WriteLine(parameters[0] + " is already an admin!");
 				return ExitCode.BadCommand;
 			}
-
-			info.AdminList.Add(newmin);
+			var al = info.AdminList;
+			al.Add(newmin);
+			info.AdminList = al;
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
@@ -490,12 +491,15 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 			
-			if (!info.AdminList.Remove(newmin))
+			if (!info.AdminList.Contains(newmin))
 			{
 				Console.WriteLine(parameters[0] + " is not an admin!");
 				return ExitCode.BadCommand;
 			}
 
+			var al = info.AdminList;
+			al.Remove(newmin);
+			info.AdminList = al;
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{

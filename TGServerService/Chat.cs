@@ -148,7 +148,7 @@ namespace TGServerService
 			if (!isAdmin)
 				return "You are not authorized to use that command!";
 			if (!isAdminChannel)
-				return "Use this command in the admin channel!";
+				return "Use this command in an admin channel!";
 			return null;
 		}
 		

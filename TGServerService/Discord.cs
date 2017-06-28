@@ -68,7 +68,7 @@ namespace TGServerService
 			
 			var cid = e.Channel.Id.ToString();
 
-			OnChatMessage(this, e.User.Id.ToString(), cid, formattedMessage, CheckAdmin(e.User), DiscordConfig.AdminChannels.Contains(cid));
+			OnChatMessage(this, e.User.Id.ToString(), cid, formattedMessage, CheckAdmin(e.User), pm || DiscordConfig.AdminChannels.Contains(cid));
 		}
 
 		public string Connect()
