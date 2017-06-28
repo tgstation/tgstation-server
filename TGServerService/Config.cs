@@ -407,7 +407,10 @@ namespace TGServerService
 			try
 			{
 				error = null;
-				return Convert.ToUInt16(File.ReadAllText(InteropConfig));
+				lock (configLock)
+				{
+					return Convert.ToUInt16(File.ReadAllText(InteropConfig));
+				}
 			}
 			catch (Exception e)
 			{
