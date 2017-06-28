@@ -53,6 +53,7 @@ namespace TGServerService
 
 					RestartInProgress = true;
 					currentPort = Properties.Settings.Default.ReattachPort;
+					serviceCommsKey = Properties.Settings.Default.ReattachCommsKey;
 					currentStatus = TGDreamDaemonStatus.Online;
 					DDWatchdog = new Thread(new ThreadStart(Watchdog));
 					DDWatchdog.Start();
@@ -270,6 +271,7 @@ namespace TGServerService
 					{
 						Properties.Settings.Default.ReattachPID = Proc.Id;
 						Properties.Settings.Default.ReattachPort = currentPort;
+						Properties.Settings.Default.ReattachCommsKey = serviceCommsKey;
 						RestartInProgress = true;
 					}
 					Proc.Close();
