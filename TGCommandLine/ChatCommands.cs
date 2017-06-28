@@ -21,7 +21,7 @@ namespace TGCommandLine
 		public DiscordCommand()
 		{
 			Keyword = "discord";
-			Children = new Command[] { new DiscordSetTokenCommand(), new ChatJoinCommand(TGChatProvider.Discord), new ChatPartCommand(TGChatProvider.Discord), new ChatListAdminsCommand(TGChatProvider.Discord), new ChatReconnectCommand(TGChatProvider.Discord), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.Discord), new ChatEnableCommand(TGChatProvider.Discord), new ChatDisableCommand(TGChatProvider.Discord), new ChatStatusCommand(TGChatProvider.Discord) };
+			Children = new Command[] { new DiscordSetTokenCommand(), new ChatJoinCommand(TGChatProvider.Discord), new ChatPartCommand(TGChatProvider.Discord), new ChatListAdminsCommand(TGChatProvider.Discord), new ChatReconnectCommand(TGChatProvider.Discord), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.Discord), new ChatEnableCommand(TGChatProvider.Discord), new ChatDisableCommand(TGChatProvider.Discord), new ChatStatusCommand(TGChatProvider.Discord) , new DiscordAuthModeCommand() };
 		}
 		protected override string GetHelpText()
 		{
@@ -359,6 +359,45 @@ namespace TGCommandLine
 			if (lowerparam == "channel-mode")
 				info.AdminsAreSpecial = true;
 			else if (lowerparam == "nickname")
+				info.AdminsAreSpecial = false;
+			else
+			{
+				Console.WriteLine("Invalid parameter: " + parameters[0]);
+				return ExitCode.BadCommand;
+			}
+			var res = IRC.SetProviderInfo(info);
+			if (res != null)
+			{
+				Console.WriteLine(res);
+				return ExitCode.ServerError;
+			}
+			return ExitCode.Normal;
+		}
+	}
+	class DiscordAuthModeCommand : Command
+	{
+		public DiscordAuthModeCommand()
+		{
+			Keyword = "set-auth-mode";
+			RequiredParameters = 1;
+		}
+
+		protected override string GetArgumentString()
+		{
+			return "<role-id|user-id>";
+		}
+		protected override string GetHelpText()
+		{
+			return "Switch between admin command authorization via user roles or individual users";
+		}
+		public override ExitCode Run(IList<string> parameters)
+		{
+			var IRC = Server.GetComponent<ITGChat>();
+			var info = IRC.ProviderInfos()[(int)TGChatProvider.Discord];
+			var lowerparam = parameters[0].ToLower();
+			if (lowerparam == "role-id")
+				info.AdminsAreSpecial = true;
+			else if (lowerparam == "user-id")
 				info.AdminsAreSpecial = false;
 			else
 			{
