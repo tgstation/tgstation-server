@@ -105,10 +105,12 @@
 			this.ServerStatusLabel = new System.Windows.Forms.Label();
 			this.ServerStatusTitle = new System.Windows.Forms.Label();
 			this.ChatPanel = new System.Windows.Forms.TabPage();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
-			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.IRCModesComboBox = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.AdminChannelsTextbox = new System.Windows.Forms.TextBox();
 			this.WDChannelsTextbox = new System.Windows.Forms.TextBox();
 			this.GameChannelsTextbox = new System.Windows.Forms.TextBox();
@@ -136,6 +138,9 @@
 			this.ChannelsTitle = new System.Windows.Forms.Label();
 			this.ChatAdminsTextBox = new System.Windows.Forms.TextBox();
 			this.ChatAdminsTitle = new System.Windows.Forms.Label();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
+			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
 			this.ConfigPanel = new System.Windows.Forms.TabPage();
 			this.ConfigApply = new System.Windows.Forms.Button();
 			this.ConfigDownloadRepo = new System.Windows.Forms.Button();
@@ -172,11 +177,6 @@
 			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
 			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
 			this.Panels.SuspendLayout();
 			this.RepoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
@@ -188,9 +188,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).BeginInit();
 			this.ChatPanel.SuspendLayout();
-			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.ConfigPanel.SuspendLayout();
 			this.ConfigPanels.SuspendLayout();
 			this.AdminsPanel.SuspendLayout();
@@ -1220,43 +1220,57 @@
 			this.ChatPanel.TabIndex = 4;
 			this.ChatPanel.Text = "Chat";
 			// 
-			// panel1
+			// label5
 			// 
-			this.panel1.Controls.Add(this.AdminModeSpecial);
-			this.panel1.Controls.Add(this.AdminModeNormal);
-			this.panel1.Location = new System.Drawing.Point(174, 168);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(202, 25);
-			this.panel1.TabIndex = 15;
+			this.label5.AutoSize = true;
+			this.label5.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label5.Location = new System.Drawing.Point(686, 219);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(148, 18);
+			this.label5.TabIndex = 43;
+			this.label5.Text = "Game Messages:";
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// AdminModeSpecial
+			// label4
 			// 
-			this.AdminModeSpecial.AutoSize = true;
-			this.AdminModeSpecial.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AdminModeSpecial.Location = new System.Drawing.Point(87, 8);
-			this.AdminModeSpecial.Name = "AdminModeSpecial";
-			this.AdminModeSpecial.Size = new System.Drawing.Size(94, 17);
-			this.AdminModeSpecial.TabIndex = 13;
-			this.AdminModeSpecial.TabStop = true;
-			this.AdminModeSpecial.Text = "Channel Mode";
-			this.AdminModeSpecial.UseVisualStyleBackColor = true;
-			this.AdminModeSpecial.CheckedChanged += new System.EventHandler(this.AdminModeSpecial_CheckedChanged);
+			this.label4.AutoSize = true;
+			this.label4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label4.Location = new System.Drawing.Point(516, 219);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(136, 18);
+			this.label4.TabIndex = 42;
+			this.label4.Text = "Developer Info:";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// AdminModeNormal
+			// label3
 			// 
-			this.AdminModeNormal.AutoSize = true;
-			this.AdminModeNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AdminModeNormal.Location = new System.Drawing.Point(3, 8);
-			this.AdminModeNormal.Name = "AdminModeNormal";
-			this.AdminModeNormal.Size = new System.Drawing.Size(78, 17);
-			this.AdminModeNormal.TabIndex = 12;
-			this.AdminModeNormal.TabStop = true;
-			this.AdminModeNormal.Text = "Nicknames";
-			this.AdminModeNormal.UseVisualStyleBackColor = true;
-			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeNormal_CheckedChanged);
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label3.Location = new System.Drawing.Point(686, 61);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(135, 18);
+			this.label3.TabIndex = 41;
+			this.label3.Text = "Administration:";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label2.Location = new System.Drawing.Point(516, 61);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(153, 18);
+			this.label2.TabIndex = 40;
+			this.label2.Text = "Server Watchdog:";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// IRCModesComboBox
 			// 
+			this.IRCModesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.IRCModesComboBox.FormattingEnabled = true;
 			this.IRCModesComboBox.Items.AddRange(new object[] {
             "Voice - +",
@@ -1268,6 +1282,18 @@
 			this.IRCModesComboBox.Size = new System.Drawing.Size(141, 21);
 			this.IRCModesComboBox.TabIndex = 38;
 			this.IRCModesComboBox.Visible = false;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label1.Location = new System.Drawing.Point(30, 174);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(110, 18);
+			this.label1.TabIndex = 39;
+			this.label1.Text = "Admin Auth:";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// AdminChannelsTextbox
 			// 
@@ -1561,6 +1587,41 @@
 			this.ChatAdminsTitle.TabIndex = 9;
 			this.ChatAdminsTitle.Text = "Admins:";
 			this.ChatAdminsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.AdminModeSpecial);
+			this.panel1.Controls.Add(this.AdminModeNormal);
+			this.panel1.Location = new System.Drawing.Point(174, 168);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(202, 25);
+			this.panel1.TabIndex = 15;
+			// 
+			// AdminModeSpecial
+			// 
+			this.AdminModeSpecial.AutoSize = true;
+			this.AdminModeSpecial.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AdminModeSpecial.Location = new System.Drawing.Point(87, 8);
+			this.AdminModeSpecial.Name = "AdminModeSpecial";
+			this.AdminModeSpecial.Size = new System.Drawing.Size(94, 17);
+			this.AdminModeSpecial.TabIndex = 13;
+			this.AdminModeSpecial.TabStop = true;
+			this.AdminModeSpecial.Text = "Channel Mode";
+			this.AdminModeSpecial.UseVisualStyleBackColor = true;
+			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeSpecial_CheckedChanged);
+			// 
+			// AdminModeNormal
+			// 
+			this.AdminModeNormal.AutoSize = true;
+			this.AdminModeNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AdminModeNormal.Location = new System.Drawing.Point(3, 8);
+			this.AdminModeNormal.Name = "AdminModeNormal";
+			this.AdminModeNormal.Size = new System.Drawing.Size(78, 17);
+			this.AdminModeNormal.TabIndex = 12;
+			this.AdminModeNormal.TabStop = true;
+			this.AdminModeNormal.Text = "Nicknames";
+			this.AdminModeNormal.UseVisualStyleBackColor = true;
+			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeNormal_CheckedChanged);
 			// 
 			// ConfigPanel
 			// 
@@ -1926,66 +1987,6 @@
 			// 
 			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label1.Location = new System.Drawing.Point(30, 174);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(110, 18);
-			this.label1.TabIndex = 39;
-			this.label1.Text = "Admin Auth:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label2.Location = new System.Drawing.Point(516, 61);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(153, 18);
-			this.label2.TabIndex = 40;
-			this.label2.Text = "Server Watchdog:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label3.Location = new System.Drawing.Point(686, 61);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(135, 18);
-			this.label3.TabIndex = 41;
-			this.label3.Text = "Administration:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label4.Location = new System.Drawing.Point(516, 219);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(136, 18);
-			this.label4.TabIndex = 42;
-			this.label4.Text = "Developer Info:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label5.Location = new System.Drawing.Point(686, 219);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(148, 18);
-			this.label5.TabIndex = 43;
-			this.label5.Text = "Game Messages:";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2012,11 +2013,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).EndInit();
 			this.ChatPanel.ResumeLayout(false);
 			this.ChatPanel.PerformLayout();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).EndInit();
 			this.ChatProviderSelectorPanel.ResumeLayout(false);
 			this.ChatProviderSelectorPanel.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ConfigPanel.ResumeLayout(false);
 			this.ConfigPanel.PerformLayout();
 			this.ConfigPanels.ResumeLayout(false);

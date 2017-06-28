@@ -38,8 +38,10 @@ namespace TGControlPanel
 					ChatNicknameText.Visible = false;
 					ChatNicknameTitle.Visible = false;
 
-					AdminsTitle.Text = String.Format("Admin {0} IDs:", DPI.AdminsAreSpecial ? "Role" : "User");
+					ChatAdminsTitle.Text = String.Format("Admin {0} IDs:", DPI.AdminsAreSpecial ? "Role" : "User");
 					ChannelsTitle.Text = "Broadcast/Listening Channel IDs:";
+					AdminModeNormal.Text = "User IDs";
+					AdminModeSpecial.Text = "Role IDs";
 					break;
 				case TGChatProvider.IRC:
 					var IRC = new TGIRCSetupInfo(PI);
@@ -59,12 +61,15 @@ namespace TGControlPanel
 					ChatNicknameText.Visible = true;
 					ChatNicknameTitle.Visible = true;
 					ChatNicknameText.Text = IRC.Nickname;
-					AdminsTitle.Text = String.Format("Admin {0}:", IRC.AdminsAreSpecial ? "Channel Mode:" : "Nicknames:");
+					ChatAdminsTitle.Text = String.Format("Admin {0}:", IRC.AdminsAreSpecial ? "Req Mode" : "Nicknames");
 					ChannelsTitle.Text = "Broadcast/Listening Channels:";
+					AdminModeNormal.Text = "Nicknames";
+					AdminModeSpecial.Text = "Channel Mode";
 					if (IRC.AdminsAreSpecial)
 					{
 						ChatAdminsTextBox.Visible = false;
 						IRCModesComboBox.Visible = true;
+						IRCModesComboBox.SelectedIndex = (int)IRC.AuthLevel;
 					}
 					break;
 				default:
@@ -72,7 +77,9 @@ namespace TGControlPanel
 					LoadChatPage();
 					return;
 			}
-			
+
+			AdminModeNormal.Checked = !PI.AdminsAreSpecial;
+			AdminModeSpecial.Checked = PI.AdminsAreSpecial;
 			ChatEnabledCheckbox.Checked = PI.Enabled;
 			if (!PI.Enabled)
 				ChatStatusLabel.Text = "Disabled";
@@ -80,7 +87,7 @@ namespace TGControlPanel
 				ChatStatusLabel.Text = "Connected";
 			else
 				ChatStatusLabel.Text = "Disconnected";
-			ChatReconnectButton.Enabled = Enabled;
+			ChatReconnectButton.Enabled = PI.Enabled;
 
 			AssignListToTextbox(PI.AdminList, ChatAdminsTextBox);
 			AssignListToTextbox(PI.WatchdogChannels, WDChannelsTextbox);
@@ -152,20 +159,18 @@ namespace TGControlPanel
 
 		private void AdminModeNormal_CheckedChanged(object sender, EventArgs e)
 		{
-			if (!updatingChat && AdminModeSpecial.Checked)
+			if (!updatingChat && AdminModeNormal.Checked)
 				SetAdminsAreSpecial(false);
 		}
 
 		private void AdminModeSpecial_CheckedChanged(object sender, EventArgs e)
 		{
-			if (!updatingChat && AdminModeNormal.Checked)
-				SetAdminsAreSpecial(false);
+			if (!updatingChat && AdminModeSpecial.Checked)
+				SetAdminsAreSpecial(true);
 		}
 
 		private void ChatApplyButton_Click(object sender, EventArgs e)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
-
 			string res = null;
 			TGChatSetupInfo wip = null;
 			switch (ModifyingProvider)
@@ -184,6 +189,7 @@ namespace TGControlPanel
 						Nickname = ChatNicknameText.Text,
 						URL = ChatServerText.Text,
 						Port = (ushort)ChatPortSelector.Value,
+						AuthLevel = (IRCMode)IRCModesComboBox.SelectedIndex,
 					};
 					break;
 				default:
@@ -191,13 +197,13 @@ namespace TGControlPanel
 					break;
 			}
 
-			if (res != null)
+			if (res == null)
 			{
 				wip.AdminChannels = new List<string>(AdminChannelsTextbox.Text.Split('\n'));
 				wip.WatchdogChannels = new List<string>(WDChannelsTextbox.Text.Split('\n'));
 				wip.DevChannels = new List<string>(DevChannelsTextbox.Text.Split('\n'));
 				wip.GameChannels = new List<string>(GameChannelsTextbox.Text.Split('\n'));
-
+				wip.Enabled = ChatEnabledCheckbox.Checked;
 
 				res = Server.GetComponent<ITGChat>().SetProviderInfo(wip);
 			}
