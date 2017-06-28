@@ -46,7 +46,7 @@ namespace TGServerService
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
-					SendMessage("DD: Update complete. Watchdog reactivated...");
+					SendMessage("DD: Update complete. Watch dog reactivated...");
 					
 					//start wd 
 					InitInterop();
@@ -93,7 +93,7 @@ namespace TGServerService
 					Thread.Sleep(1000);
 				}
 				else
-					SendMessage("DD: Detaching watchdog for update!");
+					SendMessage("DD: Detaching watch dog for update!");
 			}
 			else if (Detach)
 			{
@@ -248,7 +248,7 @@ namespace TGServerService
 						else
 						{
 							retries = 0;
-							var msg = "DD: DreamDaemon crashed! Rebooting...";
+							var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
 							SendMessage(msg);
 							TGServerService.WriteWarning(msg, TGServerService.EventID.DDWatchdogRebootingServer);
 						}
