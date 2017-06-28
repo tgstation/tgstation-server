@@ -1,6 +1,7 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TGServiceInterface;
 
@@ -44,20 +45,30 @@ namespace TGServerService
 
 		private void Client_MessageReceived(object sender, MessageEventArgs e)
 		{
-			if (!e.Channel.IsPrivate && e.User.Id != client.CurrentUser.Id)
-				return;
+			var pm = e.Channel.IsPrivate && e.User.Id != client.CurrentUser.Id;
 	
-			if (!SeenPrivateChannels.ContainsKey(e.Channel.Id))
+			if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
 				SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
 
-			var splits = new List<string>(e.Message.Text.Trim().Split(' '));
-			if (!(splits[0] == "@" + client.CurrentUser.Name))
+			bool found = false;
+
+			var formattedMessage = e.Message.RawText;
+			foreach (var u in e.Message.MentionedUsers)
+				if(u.Id == client.CurrentUser.Id)
+				{
+					found = true;
+					formattedMessage = formattedMessage.Replace(u.Mention, "");
+					break;
+				}
+
+			if (!found && !pm)
 				return;
-			splits.RemoveAt(0);
+
+			formattedMessage = formattedMessage.Trim();
 			
 			var cid = e.Channel.Id.ToString();
 
-			OnChatMessage(this, e.User.Id.ToString(), cid, String.Join(" ", splits), CheckAdmin(e.User), DiscordConfig.AdminChannels.Contains(cid));
+			OnChatMessage(this, e.User.Id.ToString(), cid, formattedMessage, CheckAdmin(e.User), DiscordConfig.AdminChannels.Contains(cid));
 		}
 
 		public string Connect()
