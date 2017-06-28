@@ -40,7 +40,7 @@ namespace TGServerService
 			DDWatchdogStarted = 2500,
 			ChatSend = 2600,
 			ChatBroadcast = 2700,
-			ChatAdminBroadcast = 2800,
+			//ChatAdminBroadcast = 2800,
 			ChatDisconnectFail = 2900,
 			TopicSent = 3000,
 			TopicFailed = 3100,
@@ -73,6 +73,8 @@ namespace TGServerService
 			ServiceShutdownFail = 6100,
 			WorldReboot = 6200,
 			ServerUpdateApplied = 6300,
+			ChatBroadcastFail = 6400,
+			IRCLogModes = 6500,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
@@ -92,7 +94,13 @@ namespace TGServerService
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
-		ServiceHost host;	//the WCF host
+		ServiceHost host;   //the WCF host
+
+		void MigrateSettings(int oldVersion, int newVersion)
+		{
+			if (oldVersion == newVersion && newVersion == 0)	//chat refactor
+				Properties.Settings.Default.ChatProviderData = "NEEDS INITIALIZING";	//reset chat settings to be safe
+		}
     
 		//you should seriously not add anything here
 		//Use OnStart instead
@@ -102,7 +110,12 @@ namespace TGServerService
 			{
 				if (Properties.Settings.Default.UpgradeRequired)
 				{
+					var newVersion = Properties.Settings.Default.SettingsVersion;
 					Properties.Settings.Default.Upgrade();
+					var oldVersion = Properties.Settings.Default.SettingsVersion;
+
+					MigrateSettings(oldVersion, newVersion);
+
 					Properties.Settings.Default.UpgradeRequired = false;
 					Properties.Settings.Default.Save();
 				}

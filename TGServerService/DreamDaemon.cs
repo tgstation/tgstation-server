@@ -46,7 +46,7 @@ namespace TGServerService
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
-					SendMessage("DD: Update complete. Watch dog reactivated...");
+					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
 					
 					//start wd 
 					InitInterop();
@@ -93,7 +93,7 @@ namespace TGServerService
 					Thread.Sleep(1000);
 				}
 				else
-					SendMessage("DD: Detaching watch dog for update!");
+					SendMessage("DD: Detaching watch dog for update!", ChatMessageType.WatchdogInfo);
 			}
 			else if (Detach)
 			{
@@ -184,7 +184,7 @@ namespace TGServerService
 				return "Restart already in progress";
 			try
 			{
-				SendMessage("DD: Hard restart triggered");
+				SendMessage("DD: Hard restart triggered", ChatMessageType.WatchdogInfo);
 				RestartInProgress = true;
 				Stop();
 				var res = Start();
@@ -206,7 +206,7 @@ namespace TGServerService
 				{
 					if (!RestartInProgress)
 					{
-						SendMessage("DD: Server started, watchdog active...");
+						SendMessage("DD: Server started, watchdog active...", ChatMessageType.WatchdogInfo);
 						TGServerService.WriteInfo("Watchdog started", TGServerService.EventID.DDWatchdogStarted);
 					}
 					else
@@ -242,14 +242,14 @@ namespace TGServerService
 						{
 							++retries;
 							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
-							SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time));
+							SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time), ChatMessageType.WatchdogInfo);
 							Thread.Sleep(sleep_time * 1000);
 						}
 						else
 						{
 							retries = 0;
 							var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
-							SendMessage(msg);
+							SendMessage(msg, ChatMessageType.WatchdogInfo);
 							TGServerService.WriteWarning(msg, TGServerService.EventID.DDWatchdogRebootingServer);
 						}
 					}
@@ -280,7 +280,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				SendMessage("DD: Watchdog thread crashed!");
+				SendMessage("DD: Watchdog thread crashed!", ChatMessageType.WatchdogInfo);
 				TGServerService.WriteError("Watch dog thread crashed: " + e.ToString(), TGServerService.EventID.DDWatchdogCrash);
 			}
 			finally
@@ -292,7 +292,7 @@ namespace TGServerService
 					AwaitingShutdown = ShutdownRequestPhase.None;
 					if (!RestartInProgress)
 					{
-						SendMessage("DD: Server stopped, watchdog exiting...");
+						SendMessage("DD: Server stopped, watchdog exiting...", ChatMessageType.WatchdogInfo);
 						TGServerService.WriteInfo("Watch dog exited", TGServerService.EventID.DDWatchdogExit);
 					}
 					else

@@ -105,6 +105,16 @@
 			this.ServerStatusLabel = new System.Windows.Forms.Label();
 			this.ServerStatusTitle = new System.Windows.Forms.Label();
 			this.ChatPanel = new System.Windows.Forms.TabPage();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.IRCModesComboBox = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.AdminChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.WDChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.GameChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.DevChannelsTextbox = new System.Windows.Forms.TextBox();
 			this.ChatRefreshButton = new System.Windows.Forms.Button();
 			this.ChatNicknameText = new System.Windows.Forms.TextBox();
 			this.ChatNicknameTitle = new System.Windows.Forms.Label();
@@ -117,8 +127,6 @@
 			this.AuthField1Title = new System.Windows.Forms.Label();
 			this.AuthField2 = new System.Windows.Forms.TextBox();
 			this.AuthField1 = new System.Windows.Forms.TextBox();
-			this.AdminChannelTitle = new System.Windows.Forms.Label();
-			this.AdminChannelText = new System.Windows.Forms.TextBox();
 			this.ChatReconnectButton = new System.Windows.Forms.Button();
 			this.ChatStatusLabel = new System.Windows.Forms.Label();
 			this.ChatStatusTitle = new System.Windows.Forms.Label();
@@ -130,7 +138,9 @@
 			this.ChannelsTitle = new System.Windows.Forms.Label();
 			this.ChatAdminsTextBox = new System.Windows.Forms.TextBox();
 			this.ChatAdminsTitle = new System.Windows.Forms.Label();
-			this.ChatChannelsTextBox = new System.Windows.Forms.TextBox();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
+			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
 			this.ConfigPanel = new System.Windows.Forms.TabPage();
 			this.ConfigApply = new System.Windows.Forms.Button();
 			this.ConfigDownloadRepo = new System.Windows.Forms.Button();
@@ -180,6 +190,7 @@
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.ConfigPanel.SuspendLayout();
 			this.ConfigPanels.SuspendLayout();
 			this.AdminsPanel.SuspendLayout();
@@ -1170,6 +1181,16 @@
 			// ChatPanel
 			// 
 			this.ChatPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.ChatPanel.Controls.Add(this.label5);
+			this.ChatPanel.Controls.Add(this.label4);
+			this.ChatPanel.Controls.Add(this.label3);
+			this.ChatPanel.Controls.Add(this.label2);
+			this.ChatPanel.Controls.Add(this.IRCModesComboBox);
+			this.ChatPanel.Controls.Add(this.label1);
+			this.ChatPanel.Controls.Add(this.AdminChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.WDChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.GameChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.DevChannelsTextbox);
 			this.ChatPanel.Controls.Add(this.ChatRefreshButton);
 			this.ChatPanel.Controls.Add(this.ChatNicknameText);
 			this.ChatPanel.Controls.Add(this.ChatNicknameTitle);
@@ -1182,8 +1203,6 @@
 			this.ChatPanel.Controls.Add(this.AuthField1Title);
 			this.ChatPanel.Controls.Add(this.AuthField2);
 			this.ChatPanel.Controls.Add(this.AuthField1);
-			this.ChatPanel.Controls.Add(this.AdminChannelTitle);
-			this.ChatPanel.Controls.Add(this.AdminChannelText);
 			this.ChatPanel.Controls.Add(this.ChatReconnectButton);
 			this.ChatPanel.Controls.Add(this.ChatStatusLabel);
 			this.ChatPanel.Controls.Add(this.ChatStatusTitle);
@@ -1193,13 +1212,124 @@
 			this.ChatPanel.Controls.Add(this.ChannelsTitle);
 			this.ChatPanel.Controls.Add(this.ChatAdminsTextBox);
 			this.ChatPanel.Controls.Add(this.ChatAdminsTitle);
-			this.ChatPanel.Controls.Add(this.ChatChannelsTextBox);
+			this.ChatPanel.Controls.Add(this.panel1);
 			this.ChatPanel.Location = new System.Drawing.Point(4, 22);
 			this.ChatPanel.Name = "ChatPanel";
 			this.ChatPanel.Padding = new System.Windows.Forms.Padding(3);
 			this.ChatPanel.Size = new System.Drawing.Size(868, 366);
 			this.ChatPanel.TabIndex = 4;
 			this.ChatPanel.Text = "Chat";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label5.Location = new System.Drawing.Point(686, 219);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(148, 18);
+			this.label5.TabIndex = 43;
+			this.label5.Text = "Game Messages:";
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label4.Location = new System.Drawing.Point(516, 219);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(136, 18);
+			this.label4.TabIndex = 42;
+			this.label4.Text = "Developer Info:";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label3.Location = new System.Drawing.Point(686, 61);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(135, 18);
+			this.label3.TabIndex = 41;
+			this.label3.Text = "Administration:";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label2.Location = new System.Drawing.Point(516, 61);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(153, 18);
+			this.label2.TabIndex = 40;
+			this.label2.Text = "Server Watchdog:";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// IRCModesComboBox
+			// 
+			this.IRCModesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.IRCModesComboBox.FormattingEnabled = true;
+			this.IRCModesComboBox.Items.AddRange(new object[] {
+            "Voice - +",
+            "Halfop - %",
+            "Op - @",
+            "Owner - ~"});
+			this.IRCModesComboBox.Location = new System.Drawing.Point(369, 170);
+			this.IRCModesComboBox.Name = "IRCModesComboBox";
+			this.IRCModesComboBox.Size = new System.Drawing.Size(141, 21);
+			this.IRCModesComboBox.TabIndex = 38;
+			this.IRCModesComboBox.Visible = false;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label1.Location = new System.Drawing.Point(30, 174);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(110, 18);
+			this.label1.TabIndex = 39;
+			this.label1.Text = "Admin Auth:";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// AdminChannelsTextbox
+			// 
+			this.AdminChannelsTextbox.Location = new System.Drawing.Point(689, 82);
+			this.AdminChannelsTextbox.Multiline = true;
+			this.AdminChannelsTextbox.Name = "AdminChannelsTextbox";
+			this.AdminChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.AdminChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.AdminChannelsTextbox.TabIndex = 37;
+			// 
+			// WDChannelsTextbox
+			// 
+			this.WDChannelsTextbox.Location = new System.Drawing.Point(516, 82);
+			this.WDChannelsTextbox.Multiline = true;
+			this.WDChannelsTextbox.Name = "WDChannelsTextbox";
+			this.WDChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.WDChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.WDChannelsTextbox.TabIndex = 36;
+			// 
+			// GameChannelsTextbox
+			// 
+			this.GameChannelsTextbox.Location = new System.Drawing.Point(689, 240);
+			this.GameChannelsTextbox.Multiline = true;
+			this.GameChannelsTextbox.Name = "GameChannelsTextbox";
+			this.GameChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.GameChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.GameChannelsTextbox.TabIndex = 35;
+			// 
+			// DevChannelsTextbox
+			// 
+			this.DevChannelsTextbox.Location = new System.Drawing.Point(516, 240);
+			this.DevChannelsTextbox.Multiline = true;
+			this.DevChannelsTextbox.Name = "DevChannelsTextbox";
+			this.DevChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.DevChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.DevChannelsTextbox.TabIndex = 34;
 			// 
 			// ChatRefreshButton
 			// 
@@ -1323,7 +1453,6 @@
 			this.AuthField2.Name = "AuthField2";
 			this.AuthField2.Size = new System.Drawing.Size(151, 20);
 			this.AuthField2.TabIndex = 22;
-			this.AuthField2.UseSystemPasswordChar = true;
 			// 
 			// AuthField1
 			// 
@@ -1331,26 +1460,6 @@
 			this.AuthField1.Name = "AuthField1";
 			this.AuthField1.Size = new System.Drawing.Size(151, 20);
 			this.AuthField1.TabIndex = 21;
-			this.AuthField1.UseSystemPasswordChar = true;
-			// 
-			// AdminChannelTitle
-			// 
-			this.AdminChannelTitle.AutoSize = true;
-			this.AdminChannelTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AdminChannelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AdminChannelTitle.Location = new System.Drawing.Point(30, 174);
-			this.AdminChannelTitle.Name = "AdminChannelTitle";
-			this.AdminChannelTitle.Size = new System.Drawing.Size(138, 18);
-			this.AdminChannelTitle.TabIndex = 20;
-			this.AdminChannelTitle.Text = "Admin Channel:";
-			this.AdminChannelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// AdminChannelText
-			// 
-			this.AdminChannelText.Location = new System.Drawing.Point(174, 172);
-			this.AdminChannelText.Name = "AdminChannelText";
-			this.AdminChannelText.Size = new System.Drawing.Size(149, 20);
-			this.AdminChannelText.TabIndex = 19;
 			// 
 			// ChatReconnectButton
 			// 
@@ -1441,9 +1550,9 @@
 			this.ChatProviderTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
 			this.ChatProviderTitle.Location = new System.Drawing.Point(20, 15);
 			this.ChatProviderTitle.Name = "ChatProviderTitle";
-			this.ChatProviderTitle.Size = new System.Drawing.Size(125, 18);
+			this.ChatProviderTitle.Size = new System.Drawing.Size(144, 18);
 			this.ChatProviderTitle.TabIndex = 13;
-			this.ChatProviderTitle.Text = "Chat Provider:";
+			this.ChatProviderTitle.Text = "Editing Provider:";
 			this.ChatProviderTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ChannelsTitle
@@ -1451,7 +1560,7 @@
 			this.ChannelsTitle.AutoSize = true;
 			this.ChannelsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ChannelsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChannelsTitle.Location = new System.Drawing.Point(628, 15);
+			this.ChannelsTitle.Location = new System.Drawing.Point(565, 15);
 			this.ChannelsTitle.Name = "ChannelsTitle";
 			this.ChannelsTitle.Size = new System.Drawing.Size(234, 18);
 			this.ChannelsTitle.TabIndex = 11;
@@ -1464,7 +1573,7 @@
 			this.ChatAdminsTextBox.Multiline = true;
 			this.ChatAdminsTextBox.Name = "ChatAdminsTextBox";
 			this.ChatAdminsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.ChatAdminsTextBox.Size = new System.Drawing.Size(231, 311);
+			this.ChatAdminsTextBox.Size = new System.Drawing.Size(141, 311);
 			this.ChatAdminsTextBox.TabIndex = 10;
 			// 
 			// ChatAdminsTitle
@@ -1479,14 +1588,40 @@
 			this.ChatAdminsTitle.Text = "Admins:";
 			this.ChatAdminsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// ChatChannelsTextBox
+			// panel1
 			// 
-			this.ChatChannelsTextBox.Location = new System.Drawing.Point(631, 49);
-			this.ChatChannelsTextBox.Multiline = true;
-			this.ChatChannelsTextBox.Name = "ChatChannelsTextBox";
-			this.ChatChannelsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.ChatChannelsTextBox.Size = new System.Drawing.Size(231, 311);
-			this.ChatChannelsTextBox.TabIndex = 0;
+			this.panel1.Controls.Add(this.AdminModeSpecial);
+			this.panel1.Controls.Add(this.AdminModeNormal);
+			this.panel1.Location = new System.Drawing.Point(174, 168);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(202, 25);
+			this.panel1.TabIndex = 15;
+			// 
+			// AdminModeSpecial
+			// 
+			this.AdminModeSpecial.AutoSize = true;
+			this.AdminModeSpecial.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AdminModeSpecial.Location = new System.Drawing.Point(87, 8);
+			this.AdminModeSpecial.Name = "AdminModeSpecial";
+			this.AdminModeSpecial.Size = new System.Drawing.Size(94, 17);
+			this.AdminModeSpecial.TabIndex = 13;
+			this.AdminModeSpecial.TabStop = true;
+			this.AdminModeSpecial.Text = "Channel Mode";
+			this.AdminModeSpecial.UseVisualStyleBackColor = true;
+			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeSpecial_CheckedChanged);
+			// 
+			// AdminModeNormal
+			// 
+			this.AdminModeNormal.AutoSize = true;
+			this.AdminModeNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AdminModeNormal.Location = new System.Drawing.Point(3, 8);
+			this.AdminModeNormal.Name = "AdminModeNormal";
+			this.AdminModeNormal.Size = new System.Drawing.Size(78, 17);
+			this.AdminModeNormal.TabIndex = 12;
+			this.AdminModeNormal.TabStop = true;
+			this.AdminModeNormal.Text = "Nicknames";
+			this.AdminModeNormal.UseVisualStyleBackColor = true;
+			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeNormal_CheckedChanged);
 			// 
 			// ConfigPanel
 			// 
@@ -1881,6 +2016,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).EndInit();
 			this.ChatProviderSelectorPanel.ResumeLayout(false);
 			this.ChatProviderSelectorPanel.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ConfigPanel.ResumeLayout(false);
 			this.ConfigPanel.PerformLayout();
 			this.ConfigPanels.ResumeLayout(false);
@@ -1950,7 +2087,6 @@
 		private System.Windows.Forms.TextBox ServerPathTextbox;
 		private System.Windows.Forms.Label LatestVersionLabel;
 		private System.Windows.Forms.Label LatestVersionTitle;
-		private System.Windows.Forms.TextBox ChatChannelsTextBox;
 		private System.Windows.Forms.Label ChannelsTitle;
 		private System.Windows.Forms.TextBox ChatAdminsTextBox;
 		private System.Windows.Forms.Label ChatAdminsTitle;
@@ -1962,8 +2098,6 @@
 		private System.Windows.Forms.RadioButton IRCProviderSwitch;
 		private System.Windows.Forms.Label ChatProviderTitle;
 		private System.Windows.Forms.Button ChatReconnectButton;
-		private System.Windows.Forms.Label AdminChannelTitle;
-		private System.Windows.Forms.TextBox AdminChannelText;
 		private System.Windows.Forms.Label AuthField2Title;
 		private System.Windows.Forms.Label AuthField1Title;
 		private System.Windows.Forms.TextBox AuthField2;
@@ -2028,5 +2162,18 @@
 		private System.Windows.Forms.ComboBox VisibilitySelector;
 		private System.ComponentModel.BackgroundWorker ServerStartBGW;
 		private System.Windows.Forms.Button RepoRefreshButton;
+		private System.Windows.Forms.ComboBox IRCModesComboBox;
+		private System.Windows.Forms.TextBox AdminChannelsTextbox;
+		private System.Windows.Forms.TextBox WDChannelsTextbox;
+		private System.Windows.Forms.TextBox GameChannelsTextbox;
+		private System.Windows.Forms.TextBox DevChannelsTextbox;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.RadioButton AdminModeSpecial;
+		private System.Windows.Forms.RadioButton AdminModeNormal;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TGServiceInterface;
 
@@ -20,6 +21,11 @@ namespace TGServerService
 			Init(info);
 		}
 
+		public TGChatSetupInfo ProviderInfo()
+		{
+			return DiscordConfig;
+		}
+
 		void Init(TGChatSetupInfo info)
 		{
 			DiscordConfig = new TGDiscordSetupInfo(info);
@@ -27,29 +33,50 @@ namespace TGServerService
 			client.MessageReceived += Client_MessageReceived;
 		}
 
+		private bool CheckAdmin(User u)
+		{
+			if (!DiscordConfig.AdminsAreSpecial)
+				return DiscordConfig.AdminList.Contains(u.Id.ToString());
+			foreach (var I in u.Roles)
+				if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
+					return true;
+			return false;
+		}
+
 		private void Client_MessageReceived(object sender, MessageEventArgs e)
 		{
-			var isValidChannel = Properties.Settings.Default.ChatChannels.Contains("#" + e.Channel.Name) || e.Channel.IsPrivate;
-			if (!isValidChannel)
-				return;
-
-			var tagged = e.Channel.IsPrivate && e.User.Id != client.CurrentUser.Id;
-			if (tagged && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
+			var pm = e.Channel.IsPrivate && e.User.Id != client.CurrentUser.Id;
+	
+			if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
 				SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
 
-			var splits = new List<string>(e.Message.Text.Trim().Split(' '));
-			if (splits[0] == "@" + client.CurrentUser.Name)
-			{
-				splits.RemoveAt(0);
-				tagged = true;
-			}
-			OnChatMessage(e.User.Id.ToString(), e.Channel.Id.ToString(), String.Join(" ", splits), tagged);
+			bool found = false;
+
+			var formattedMessage = e.Message.RawText;
+			foreach (var u in e.Message.MentionedUsers)
+				if(u.Id == client.CurrentUser.Id)
+				{
+					found = true;
+					formattedMessage = formattedMessage.Replace(u.Mention, "");
+					break;
+				}
+
+			if (!found && !pm)
+				return;
+
+			formattedMessage = formattedMessage.Trim();
+			
+			var cid = e.Channel.Id.ToString();
+
+			OnChatMessage(this, e.User.Id.ToString(), cid, formattedMessage, CheckAdmin(e.User), pm || DiscordConfig.AdminChannels.Contains(cid));
 		}
 
 		public string Connect()
 		{
 			try
 			{
+				if (Connected() || !DiscordConfig.Enabled)
+					return null;
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
@@ -105,35 +132,36 @@ namespace TGServerService
 			}
 		}
 
-		public string SendMessage(string msg, bool adminOnly = false)
+		public void SendMessage(string msg, ChatMessageType mt)
 		{
-			try
+			if (!Connected())
+				return;
+			lock (DiscordLock)
 			{
-				lock (DiscordLock)
-				{
-					var tasks = new List<Task>();
-					var Config = Properties.Settings.Default;
-					foreach (var I in client.Servers)
-						foreach (var J in I.TextChannels)
-						{
-							var SendToThisChannel = adminOnly ? ("#" + J.Name) == Config.ChatAdminChannel : Config.ChatChannels.Contains("#" + J.Name);
-							if (SendToThisChannel)
-								tasks.Add(J.SendMessage(msg));
-						}
-					foreach (var I in tasks)
-						I.Wait();
-					TGServerService.WriteInfo(String.Format("Discord Send{0}: {1}", adminOnly ? " (ADMIN)" : "", msg), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast);
-					return null;
-				}
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
+				var tasks = new List<Task>();
+				var Config = Properties.Settings.Default;
+				foreach (var I in client.Servers)
+					foreach (var J in I.TextChannels)
+					{
+						var cid = J.Id.ToString();
+						var wdc = DiscordConfig.WatchdogChannels;
+						bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && DiscordConfig.AdminChannels.Contains(cid))
+							|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && DiscordConfig.DevChannels.Contains(cid))
+							|| (mt.HasFlag(ChatMessageType.GameInfo) && DiscordConfig.GameChannels.Contains(cid))
+							|| (mt.HasFlag(ChatMessageType.WatchdogInfo) && DiscordConfig.WatchdogChannels.Contains(cid));
+
+						if (SendToThisChannel)
+							tasks.Add(J.SendMessage(msg));
+					}
+				foreach (var I in tasks)
+					I.Wait();
 			}
 		}
 
 		public string SendMessageDirect(string message, string channelname)
 		{
+			if (!Connected())
+				return "Disconnected.";
 			try
 			{
 				lock (DiscordLock)
@@ -157,12 +185,6 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
-
-		public void SetChannels(string[] channels = null, string adminchannel = null)
-		{
-			//noop
-		}
-
 		void DisconnectAndDispose()
 		{
 			try
@@ -181,10 +203,20 @@ namespace TGServerService
 			{
 				lock (DiscordLock)
 				{
-					DisconnectAndDispose();
-					Init(info);
-					if (Properties.Settings.Default.ChatEnabled)
-						Connect();
+					var odc = DiscordConfig;
+					DiscordConfig = new TGDiscordSetupInfo(info);
+					if (DiscordConfig.BotToken != odc.BotToken)
+					{
+						DisconnectAndDispose();
+						Init(info);
+					}
+					if (DiscordConfig.Enabled)
+					{
+						if (!Connected())
+							return Reconnect();
+					}
+					else
+						Disconnect();
 				}
 				return null;
 			}

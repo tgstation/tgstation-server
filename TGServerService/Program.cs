@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TGServerService
 {
@@ -43,6 +45,24 @@ namespace TGServerService
 					continue;
 				file.Attributes = FileAttributes.Normal;
 			}
+		}
+
+		public static string EncryptData(byte[] data, out string sentropy)
+		{
+			// Generate additional entropy (will be used as the Initialization vector)
+			byte[] entropy = new byte[20];
+			using (var rng = new RNGCryptoServiceProvider())
+				rng.GetBytes(entropy);
+
+			byte[] ciphertext = ProtectedData.Protect(data, entropy, DataProtectionScope.CurrentUser);
+
+			sentropy = Convert.ToBase64String(entropy, 0, entropy.Length);
+			return Convert.ToBase64String(ciphertext, 0, ciphertext.Length);
+		}
+
+		public static byte[] DecryptData(string data, string entropy)
+		{
+			return ProtectedData.Unprotect(Convert.FromBase64String(data), Convert.FromBase64String(entropy), DataProtectionScope.CurrentUser);
 		}
 
 		public static void CopyDirectory(string sourceDirName, string destDirName, IList<string> ignore = null, bool ignoreIfNotExists = false)

@@ -113,7 +113,7 @@ namespace TGServerService
 			var BranchName = ts.b;
 			try
 			{
-				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(RepoPath) ? "Full reset" : "Setup"));
+				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(RepoPath) ? "Full reset" : "Setup"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					DisposeRepo();
@@ -161,7 +161,7 @@ namespace TGServerService
 					}
 					Program.CopyDirectory(RepoData, StaticDataDir, null, true);
 					File.Copy(RepoPath + LibMySQLFile, StaticDirs + LibMySQLFile, true);
-					SendMessage("REPO: Clone complete!");
+					SendMessage("REPO: Clone complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repository {0}:{1} successfully cloned", TGServerService.EventID.RepoClone);
 				}
 				finally
@@ -172,7 +172,7 @@ namespace TGServerService
 			catch(Exception e)
 
 			{
-				SendMessage("REPO: Setup failed!");
+				SendMessage("REPO: Setup failed!", ChatMessageType.DeveloperInfo);
 				TGServerService.WriteWarning(String.Format("Failed to clone {2}:{0}: {1}", BranchName, e.ToString(), RepoURL), TGServerService.EventID.RepoCloneFail);
 			}
 			finally
@@ -297,7 +297,7 @@ namespace TGServerService
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage("REPO: Checking out object: " + sha);
+				SendMessage("REPO: Checking out object: " + sha, ChatMessageType.DeveloperInfo);
 				try
 				{
 					var Opts = new CheckoutOptions()
@@ -307,13 +307,13 @@ namespace TGServerService
 					};
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
-					SendMessage("REPO: Checkout complete!");
+					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
 					return res;
 				}
 				catch (Exception e)
 				{
-					SendMessage("REPO: Checkout failed!");
+					SendMessage("REPO: Checkout failed!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), TGServerService.EventID.RepoCheckoutFail);
 					return e.ToString();
 				}
@@ -333,7 +333,7 @@ namespace TGServerService
 			{
 				case MergeStatus.Conflicts:
 					ResetNoLock(null);
-					SendMessage("REPO: Merge conflicted, aborted.");
+					SendMessage("REPO: Merge conflicted, aborted.", ChatMessageType.DeveloperInfo);
 					return "Merge conflict occurred.";
 				case MergeStatus.UpToDate:
 					return RepoErrorUpToDate;
@@ -349,7 +349,7 @@ namespace TGServerService
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"));
+				SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					if (Repo.Head == null || !Repo.Head.IsTracking)
@@ -383,7 +383,7 @@ namespace TGServerService
 				}
 				catch (Exception E)
 				{
-					SendMessage("REPO: Update failed!");
+					SendMessage("REPO: Update failed!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteWarning(String.Format("Repo{0} update failed", reset ? " hard" : ""), reset ? TGServerService.EventID.RepoHardUpdateFail : TGServerService.EventID.RepoMergeUpdateFail);
 					return E.ToString();
 				}
@@ -456,7 +456,7 @@ namespace TGServerService
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
 				if (res == null)
 				{
-					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""));
+					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""), ChatMessageType.DeveloperInfo);
 					if (trackedBranch)
 						DeletePRList();
 					TGServerService.WriteInfo(String.Format("Repo branch reset{0}", trackedBranch ? " to tracked branch" : ""), trackedBranch ? TGServerService.EventID.RepoResetTracked : TGServerService.EventID.RepoReset);
@@ -518,7 +518,7 @@ namespace TGServerService
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: {2}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"));
+				SendMessage(String.Format("REPO: {2}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					//only supported with github
@@ -550,7 +550,7 @@ namespace TGServerService
 					branch = Repo.Branches[LocalBranchName];
 					if (branch == null)
 					{
-						SendMessage("REPO: PR could not be fetched. Does it exist?");
+						SendMessage("REPO: PR could not be fetched. Does it exist?", ChatMessageType.DeveloperInfo);
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRNumber);
 					}
 
@@ -600,7 +600,7 @@ namespace TGServerService
 				}
 				catch (Exception E)
 				{
-					SendMessage("REPO: PR merge failed!");
+					SendMessage("REPO: PR merge failed!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteWarning(String.Format("Failed to merge pull request #{0}: {1}", PRNumber, E.ToString()), TGServerService.EventID.RepoPRMergeFail);
 					return E.ToString();
 				}

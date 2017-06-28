@@ -45,13 +45,13 @@ namespace TGServerService
 			switch (cmd)
 			{
 				case SRIRCBroadcast:
-					SendMessage("GAME: " + String.Join(" ", splits));
+					SendMessage("GAME: " + String.Join(" ", splits), ChatMessageType.GameInfo);
 					break;
 				case SRKillProcess:
 					KillMe();
 					break;
 				case SRIRCAdminChannelMessage:
-					SendMessage("RELAY: " + String.Join(" ", splits), true);
+					SendMessage("RELAY: " + String.Join(" ", splits), ChatMessageType.AdminInfo);
 					break;
 				case SRWorldReboot:
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
