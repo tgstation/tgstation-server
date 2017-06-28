@@ -35,7 +35,8 @@ namespace TGServerService
 				AutoRelogin = true,
 				AutoRetry = true,
 				AutoRetryLimit = 5,
-				AutoRetryDelay = 5
+				AutoRetryDelay = 5,
+				ActiveChannelSyncing = true,
 			};
 			irc.OnChannelMessage += Irc_OnChannelMessage;
 			irc.OnQueryMessage += Irc_OnQueryMessage;
