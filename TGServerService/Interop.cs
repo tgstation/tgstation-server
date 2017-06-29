@@ -24,11 +24,11 @@ namespace TGServerService
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
-		const string SCIRCCheck = "irc_check";  //returns game stats
-		const string SCIRCStatus = "irc_status";	//returns admin stats
-		const string SCNameCheck = "namecheck"; //returns keywords lookup
-		const string SCAdminPM = "adminmsg";	//pms a target ckey
-		const string SCAdminWho = "adminwho";   //lists admins
+		public const string SCIRCCheck = "irc_check";  //returns game stats
+		public const string SCIRCStatus = "irc_status"; //returns admin stats
+		public const string SCNameCheck = "namecheck"; //returns keywords lookup
+		const string SCAdminPM = "adminmsg"; //pms a target ckey
+		public const string SCAdminWho = "adminwho";   //lists admins
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
@@ -66,8 +66,8 @@ namespace TGServerService
 					break;
 			}
 		}
-		
-		string SendCommand(string cmd)
+
+		public string SendCommand(string cmd)
 		{
 			lock (watchdogLock)
 			{
@@ -82,12 +82,12 @@ namespace TGServerService
 			return SendCommand(SCWorldAnnounce + ";message=" + message) == "SUCCESS" ;
 		}
 
-		string SendPM(string targetCkey, string sender, string message)
+		public string SendPM(string targetCkey, string sender, string message)
 		{
 			return SendCommand(String.Format("{3};target={0};sender={1};message={2}", targetCkey, sender, message, SCAdminPM));
 		}
 
-		string NameCheck(string targetCkey, string sender)
+		public string NameCheck(string targetCkey, string sender)
 		{
 			return SendCommand(String.Format("{2};target={0};sender={1}", targetCkey, sender, SCNameCheck));
 		}

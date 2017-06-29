@@ -186,8 +186,6 @@ namespace TGServerService
 			var adminmessage = HasChatAdmin(isAdmin, isAdminChannel);
 			switch (command)
 			{
-				case "check":
-					return StatusString(adminmessage == null);
 				case "byond":
 					if (parameters.Count > 0)
 						if (parameters[0].ToLower() == "--staged")

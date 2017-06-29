@@ -8,7 +8,6 @@ namespace TGCommandLine
 	{
 		public CLICommand()
 		{
-			RealRoot = true;
 			Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
 		}
 

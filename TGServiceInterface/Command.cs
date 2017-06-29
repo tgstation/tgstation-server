@@ -40,7 +40,6 @@ namespace TGServiceInterface
 
 	public class RootCommand : Command
 	{
-		protected bool RealRoot { get; set; }
 		protected override ExitCode Run(IList<string> parameters)
 		{
 			if (parameters.Count > 0)
