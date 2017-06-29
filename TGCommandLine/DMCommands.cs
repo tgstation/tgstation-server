@@ -25,7 +25,7 @@ namespace TGCommandLine
 			Keyword = "compile";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DM = Server.GetComponent<ITGCompiler>();
 			var stat = DM.GetStatus();
@@ -88,7 +88,7 @@ namespace TGCommandLine
 				OutputProc("Last error: " + error);
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DM = Server.GetComponent<ITGCompiler>();
 			OutputProc(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
@@ -139,7 +139,7 @@ namespace TGCommandLine
 			return "Set the relative path of the .dme/.dmb to compile/run";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			Server.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
 			return ExitCode.Normal;
@@ -163,7 +163,7 @@ namespace TGCommandLine
 			return "Starts an initialization job optionally waiting for completion";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DM = Server.GetComponent<ITGCompiler>();
 			var stat = DM.GetStatus();
@@ -203,7 +203,7 @@ namespace TGCommandLine
 			Keyword = "cancel";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGCompiler>().Cancel();
 			OutputProc(res ?? "Success!");

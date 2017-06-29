@@ -24,7 +24,7 @@ namespace TGCommandLine
 			Keyword = "setup";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGRepository>().Setup(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
 			if (res != null)
@@ -51,7 +51,7 @@ namespace TGCommandLine
 		{
 			Keyword = "status";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var Repo = Server.GetComponent<ITGRepository>();
 			var busy = Repo.OperationInProgress();
@@ -100,7 +100,7 @@ namespace TGCommandLine
 		{
 			Keyword = "reset";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var result = Server.GetComponent<ITGRepository>().Reset(parameters.Count > 0 && parameters[0].ToLower() == "--origin");
 			OutputProc(result ?? "Success!");
@@ -123,7 +123,7 @@ namespace TGCommandLine
 			Keyword = "update";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			bool hard;
 			switch (parameters[0].ToLower())
@@ -157,7 +157,7 @@ namespace TGCommandLine
 		{
 			Keyword = "gen-changelog";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var result = Server.GetComponent<ITGRepository>().GenerateChangelog(out string error);
 			OutputProc(error ?? "Success!");
@@ -178,7 +178,7 @@ namespace TGCommandLine
 			Keyword = "set-email";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			Server.GetComponent<ITGRepository>().SetCommitterEmail(parameters[0]);
 			return ExitCode.Normal;
@@ -200,7 +200,7 @@ namespace TGCommandLine
 			Keyword = "set-name";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			Server.GetComponent<ITGRepository>().SetCommitterName(parameters[0]);
 			return ExitCode.Normal;
@@ -221,7 +221,7 @@ namespace TGCommandLine
 			Keyword = "python-path";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			Server.GetComponent<ITGRepository>().SetPythonPath(parameters[0]);
 			return ExitCode.Normal;
@@ -244,7 +244,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			ushort PR;
 			try
@@ -281,7 +281,7 @@ namespace TGCommandLine
 		{
 			return "Lists currently merge pull requests";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var data = Server.GetComponent<ITGRepository>().MergedPullRequests(out string error);
 			if (data == null)
@@ -308,7 +308,7 @@ namespace TGCommandLine
 		{
 			return "Lists backup tags created by compilation";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var data = Server.GetComponent<ITGRepository>().ListBackups(out string error);
 			if (data == null)
@@ -335,7 +335,7 @@ namespace TGCommandLine
 		{
 			return "Checks out the targeted object";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGRepository>().Checkout(parameters[0]);
 			OutputProc(res ?? "Success");

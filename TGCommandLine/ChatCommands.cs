@@ -45,7 +45,7 @@ namespace TGCommandLine
 			return "Sets the IRC nickname";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var Chat = Server.GetComponent<ITGChat>();
 			Chat.SetProviderInfo(new TGIRCSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.IRC])
@@ -75,7 +75,7 @@ namespace TGCommandLine
 			return "Joins a channel for listening and broadcasting of the specified message type (Developer, Watchdog, Game, Admin)";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
@@ -153,7 +153,7 @@ namespace TGCommandLine
 		{
 			return "Stops listening and broadcasting on a channel for the specified message type (Developer, Watchdog, Game, Admin)";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
@@ -219,7 +219,7 @@ namespace TGCommandLine
 			return "List users which can use restricted commands in the admin channel";
 		}
 		
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var info = Server.GetComponent<ITGChat>().ProviderInfos()[providerIndex];
 			string authType;
@@ -278,7 +278,7 @@ namespace TGCommandLine
 			return "Restablish the chat connection";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGChat>().Reconnect(providerIndex);
 			if (res != null)
@@ -307,7 +307,7 @@ namespace TGCommandLine
 		{
 			return "Add a user which can use restricted commands in the admin channels";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
@@ -352,7 +352,7 @@ namespace TGCommandLine
 		{
 			return "Switch between admin command authorization via user channel mode or nicknames";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[(int)TGChatProvider.IRC];
@@ -391,7 +391,7 @@ namespace TGCommandLine
 		{
 			return "Switch between admin command authorization via user roles or individual users";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[(int)TGChatProvider.Discord];
@@ -430,7 +430,7 @@ namespace TGCommandLine
 		{
 			return "Set the required channel mode for users to use admin commands";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC]);
@@ -479,7 +479,7 @@ namespace TGCommandLine
 		{
 			return "Remove a user which can use restricted commands in the admin channels";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
@@ -526,7 +526,7 @@ namespace TGCommandLine
 		{
 			return "Set the authentication message to send to target for identification. e.g. NickServ \"identify hunter2\"";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC])
@@ -548,7 +548,7 @@ namespace TGCommandLine
 		{
 			return "Turns off IRC authentication";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC])
@@ -572,7 +572,7 @@ namespace TGCommandLine
 		{
 			return "Lists channels and connections status";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
@@ -607,7 +607,7 @@ namespace TGCommandLine
 			return "Enables the chat bot";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var Chat = Server.GetComponent<ITGChat>();
 			var info = Chat.ProviderInfos()[providerIndex];
@@ -635,7 +635,7 @@ namespace TGCommandLine
 			return "Disables the chat bot";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var Chat = Server.GetComponent<ITGChat>();
 			var info = Chat.ProviderInfos()[providerIndex];
@@ -666,7 +666,7 @@ namespace TGCommandLine
 			return "Sets the IRC server";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var splits = parameters[0].Split(':');
 			if(splits.Length < 2)
@@ -710,7 +710,7 @@ namespace TGCommandLine
 		{
 			return "Sets the discord API bot token";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var Chat = Server.GetComponent<ITGChat>();
 			var res = Chat.SetProviderInfo(new TGDiscordSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.Discord]) { BotToken = parameters[0] });

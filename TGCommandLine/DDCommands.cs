@@ -29,7 +29,7 @@ namespace TGCommandLine
 			return "Starts the server and watchdog";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGDreamDaemon>().Start();
 			OutputProc(res ?? "Success!");
@@ -53,7 +53,7 @@ namespace TGCommandLine
 			return "Stops the server and watchdog optionally waiting for the current round to end";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
@@ -82,7 +82,7 @@ namespace TGCommandLine
 		{
 			return "[--graceful]";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
@@ -117,7 +117,7 @@ namespace TGCommandLine
 			return "Gets the current status of the watchdog and server";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			OutputProc(DD.StatusString(true));
@@ -135,7 +135,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			switch (parameters[0].ToLower())
@@ -173,7 +173,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			ushort port;
 			try
@@ -209,7 +209,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			TGDreamDaemonVisibility vis;
 			switch (parameters[0].ToLower())
@@ -253,7 +253,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			TGDreamDaemonSecurity sec;
 			switch (parameters[0].ToLower())

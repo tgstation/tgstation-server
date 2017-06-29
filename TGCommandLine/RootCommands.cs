@@ -25,7 +25,7 @@ namespace TGCommandLine
 			Keyword = "update";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var gen_cl = parameters.Count > 1 && parameters[1].ToLower() == "--cl";
 			TGRepoUpdateMethod method;
@@ -65,7 +65,7 @@ namespace TGCommandLine
 			Keyword = "testmerge";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			ushort tm;
 			try

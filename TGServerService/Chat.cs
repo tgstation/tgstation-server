@@ -129,7 +129,7 @@ namespace TGServerService
 		private void ChatProvider_OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
-			
+
 			if (splits.Length == 1 && splits[0] == "")
 			{
 				ChatProvider.SendMessageDirect("Hi!", channel);
@@ -140,7 +140,14 @@ namespace TGServerService
 			var command = asList[0].ToLower();
 			asList.RemoveAt(0);
 
-			ChatProvider.SendMessageDirect(ChatCommand(command, speaker, channel, asList, isAdmin, isAdminChannel), channel);
+			Command.OutputProcVar.Value = (m) => ChatProvider.SendMessageDirect(m, channel);
+			ChatCommand.CommandInfo.Value = new CommandInfo()
+			{
+				IsAdmin = isAdmin,
+				IsAdminChannel = isAdminChannel
+			};
+			TGServerService.WriteInfo(String.Format("Chat Command from {0} ({3}): {1} {2}", speaker, command, String.Join(" ", asList), channel), TGServerService.EventID.ChatCommand);
+			new RootChatCommand().DoRun(asList);
 		}
 
 		string HasChatAdmin(bool isAdmin, bool isAdminChannel)
@@ -174,9 +181,8 @@ namespace TGServerService
 		}
 
 		//Do stuff with words that were spoken to us
-		string ChatCommand(string command, string speaker, string channel, IList<string> parameters, bool isAdmin, bool isAdminChannel)
+		string ChatCommand2(string command, string speaker, string channel, IList<string> parameters, bool isAdmin, bool isAdminChannel)
 		{
-			TGServerService.WriteInfo(String.Format("Chat Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)), TGServerService.EventID.ChatCommand);
 			var adminmessage = HasChatAdmin(isAdmin, isAdminChannel);
 			switch (command)
 			{

@@ -26,7 +26,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGConfig>().MoveServer(parameters[0]);
 			OutputProc(res ?? "Success");
@@ -51,7 +51,7 @@ namespace TGCommandLine
 			Keyword = "server-dir";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			OutputProc(Server.GetComponent<ITGConfig>().ServerDirectory());
 			return ExitCode.Normal;
@@ -71,7 +71,7 @@ namespace TGCommandLine
 			RequiredParameters = 2;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var bytes = Server.GetComponent<ITGConfig>().ReadRaw(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
 			if(bytes == null)
@@ -109,7 +109,7 @@ namespace TGCommandLine
 			RequiredParameters = 2;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			try
 			{

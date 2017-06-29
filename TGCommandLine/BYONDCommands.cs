@@ -24,7 +24,7 @@ namespace TGCommandLine
 		{
 			Keyword = "version";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var type = TGByondVersion.Installed;
 			if (parameters.Count > 0)
@@ -53,7 +53,7 @@ namespace TGCommandLine
 		{
 			Keyword = "status";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			switch (Server.GetComponent<ITGByond>().CurrentStatus())
 			{
@@ -94,7 +94,7 @@ namespace TGCommandLine
 			Keyword = "update";
 			RequiredParameters = 2;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			int Major = 0, Minor = 0;
 			try

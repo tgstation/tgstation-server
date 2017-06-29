@@ -18,7 +18,7 @@ namespace TGCommandLine
 			}
 			try
 			{
-				return new CLICommand().Run(argsAsList);
+				return new CLICommand().DoRun(argsAsList);
 			}
 			catch (Exception e)
 			{
@@ -55,7 +55,7 @@ namespace TGCommandLine
 
 		static int Main(string[] args)
 		{
-			Command.OutputProc = Console.WriteLine;
+			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 				return (int)RunCommandLine(new List<string>(args));
 

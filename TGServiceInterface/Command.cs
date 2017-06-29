@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace TGServiceInterface
 {
@@ -12,11 +13,19 @@ namespace TGServiceInterface
 	}
 	public abstract class Command
 	{
-		public static Action<string> OutputProc;
+		public static ThreadLocal<Action<string>> OutputProcVar = new ThreadLocal<Action<string>>();
+		protected static void OutputProc(string message)
+		{
+			OutputProcVar.Value(message);
+		}
 		public string Keyword { get; protected set; }
 		public Command[] Children { get; protected set; } = { };
 		public int RequiredParameters { get; protected set; }
-		public abstract ExitCode Run(IList<string> parameters);
+		public virtual ExitCode DoRun(IList<string> parameters)
+		{
+			return Run(parameters);
+		}
+		protected abstract ExitCode Run(IList<string> parameters);
 		public virtual void PrintHelp()
 		{
 			var argstr = GetArgumentString();
@@ -32,7 +41,7 @@ namespace TGServiceInterface
 	public class RootCommand : Command
 	{
 		protected bool RealRoot { get; set; }
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			if (parameters.Count > 0)
 			{
@@ -63,7 +72,7 @@ namespace TGServiceInterface
 									OutputProc("Not enough parameters!");
 									return ExitCode.BadCommand;
 								}
-								return c.Run(parameters);
+								return c.DoRun(parameters);
 							}
 						parameters.Insert(0, LocalKeyword);
 						break;
