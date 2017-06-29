@@ -127,7 +127,7 @@ namespace TGServerService
 							topicSender.Receive(returnedData);
 							var raw_string = Encoding.ASCII.GetString(returnedData).TrimEnd(new char[] { (char)0 }).Trim();
 							if (raw_string.Length > 6)
-								returnedString = raw_string.Substring(5, raw_string.Length - 6).Trim();
+								returnedString = raw_string.Substring(5, raw_string.Length - 5).Trim();
 						}
 						catch
 						{
