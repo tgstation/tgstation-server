@@ -77,15 +77,9 @@ namespace TGServiceInterface
 		void VerifyConnection();
 
 		/// <summary>
-<<<<<<< HEAD:TGServiceInterface/Server.cs
 		/// Next stop of the service will not close DD and sets a flag for it to reattach once it restarts
-=======
-		/// Lists all instances the service manages
->>>>>>> Instances:TGServiceInterface/Service.cs
 		/// </summary>
-		/// <returns>A list of instance ids -> names</returns>
 		[OperationContract]
-<<<<<<< HEAD:TGServiceInterface/Server.cs
 		void PrepareForUpdate();
 
 		[OperationContract]
@@ -98,10 +92,14 @@ namespace TGServiceInterface
 		/// <returns>The service's version</returns>
 		[OperationContract]
 		string Version();
-	}
-=======
+
+		/// <summary>
+		/// Lists all instances the service manages
+		/// </summary>
+		/// <returns>A list of instance ids -> names</returns> of the instance</param>
+		/// <returns></returns>
+		[OperationContract]
 		IDictionary<int, string> ListInstances();
->>>>>>> Instances:TGServiceInterface/Service.cs
 
 		/// <summary>
 		/// Creates a new instance at the specified path
@@ -111,11 +109,5 @@ namespace TGServiceInterface
 		/// <returns></returns>
 		[OperationContract]
 		string CreateInstance(string name, string path);
-
-		/// <summary>
-		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
-		/// </summary>
-		[OperationContract]
-		void StopForUpdate();
 	}
 }
