@@ -188,7 +188,7 @@ namespace TGServerService
 							return GetVersion(TGByondVersion.Staged) ?? "None";
 						else if (parameters[0].ToLower() == "--latest")
 							return GetVersion(TGByondVersion.Latest) ?? "Unknown";
-					return GetVersion(TGByondVersion.Staged) ?? "Uninstalled";
+					return GetVersion(TGByondVersion.Installed) ?? "Uninstalled";
 				case "status":
 					return adminmessage ?? SendCommand(SCIRCStatus);
 				case "adminwho":
