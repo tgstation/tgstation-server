@@ -12,7 +12,7 @@ namespace TGCommandLine
 			Keyword = "config";
 			Children = new Command[] { new ConfigMoveServerCommand(), new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manage settings";
 		}
@@ -29,16 +29,16 @@ namespace TGCommandLine
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGConfig>().MoveServer(parameters[0]);
-			Console.WriteLine(res ?? "Success");
+			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<new path>";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Move the server installation (BYOND, Repo, Game) to a new location. Nothing else may be running for this task to complete";
 		}
@@ -53,11 +53,11 @@ namespace TGCommandLine
 
 		public override ExitCode Run(IList<string> parameters)
 		{
-			Console.WriteLine(Server.GetComponent<ITGConfig>().ServerDirectory());
+			OutputProc(Server.GetComponent<ITGConfig>().ServerDirectory());
 			return ExitCode.Normal;
 		}
 		
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Print the directory the server is installed in";
 		}
@@ -76,7 +76,7 @@ namespace TGCommandLine
 			var bytes = Server.GetComponent<ITGConfig>().ReadRaw(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
 			if(bytes == null)
 			{
-				Console.WriteLine("Error: " + error);
+				OutputProc("Error: " + error);
 				return ExitCode.ServerError;
 			}
 
@@ -86,16 +86,16 @@ namespace TGCommandLine
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("Error: " + e.ToString());
+				OutputProc("Error: " + e.ToString());
 			}
 
 			return ExitCode.Normal;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<source config file> <out file> [--repo]";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Downloads the specified file from the config tree and writes it to out file. --repo will fetch it from the repository instead of the game config";
 		}
@@ -116,23 +116,23 @@ namespace TGCommandLine
 				var res = Server.GetComponent<ITGConfig>().WriteRaw(parameters[0], File.ReadAllText(parameters[1]));
 				if (res != null)
 				{
-					Console.WriteLine("Error: " + res);
+					OutputProc("Error: " + res);
 					return ExitCode.ServerError;
 				}
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("Error: " + e.ToString());
+				OutputProc("Error: " + e.ToString());
 			}
 			return ExitCode.Normal;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<destination config file> <source file> [--repo]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Uploads the specified file to the config tree from source file";
 		}

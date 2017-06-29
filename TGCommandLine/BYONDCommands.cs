@@ -12,7 +12,7 @@ namespace TGCommandLine
 			Keyword = "byond";
 			Children = new Command[] { new BYONDUpdateCommand(), new BYONDVersionCommand(), new BYONDStatusCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manage BYOND installation";
 		}
@@ -35,12 +35,12 @@ namespace TGCommandLine
 			Console.WriteLine(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[--staged|--latest]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Print the currently installed BYOND version";
 		}
@@ -81,7 +81,7 @@ namespace TGCommandLine
 			}
 			return ExitCode.Normal;
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Print the current status of the BYOND updater";
 		}
@@ -126,11 +126,11 @@ namespace TGCommandLine
 			Console.WriteLine(res ?? (stat == TGByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<Major> <Minor>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Updates the BYOND installation to the specified version";
 		}

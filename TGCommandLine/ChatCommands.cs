@@ -11,7 +11,7 @@ namespace TGCommandLine
 			Keyword = "irc";
 			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand(), new ChatJoinCommand(TGChatProvider.IRC), new ChatPartCommand(TGChatProvider.IRC), new ChatListAdminsCommand(TGChatProvider.IRC), new ChatReconnectCommand(TGChatProvider.IRC), new ChatAddminCommand(TGChatProvider.IRC), new ChatDeadminCommand(TGChatProvider.IRC), new ChatEnableCommand(TGChatProvider.IRC), new ChatDisableCommand(TGChatProvider.IRC), new ChatStatusCommand(TGChatProvider.IRC), new IRCAuthModeCommand(), new IRCAuthLevelCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manages the IRC bot";
 		}
@@ -23,7 +23,7 @@ namespace TGCommandLine
 			Keyword = "discord";
 			Children = new Command[] { new DiscordSetTokenCommand(), new ChatJoinCommand(TGChatProvider.Discord), new ChatPartCommand(TGChatProvider.Discord), new ChatListAdminsCommand(TGChatProvider.Discord), new ChatReconnectCommand(TGChatProvider.Discord), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.Discord), new ChatEnableCommand(TGChatProvider.Discord), new ChatDisableCommand(TGChatProvider.Discord), new ChatStatusCommand(TGChatProvider.Discord) , new DiscordAuthModeCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manages the Discord bot";
 		}
@@ -36,11 +36,11 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 		
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<name>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Sets the IRC nickname";
 		}
@@ -66,11 +66,11 @@ namespace TGCommandLine
 			providerIndex = (int)pI;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<channel> <dev|wd|game|admin>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Joins a channel for listening and broadcasting of the specified message type (Developer, Watchdog, Game, Admin)";
 		}
@@ -96,7 +96,7 @@ namespace TGCommandLine
 					channels = info.AdminChannels;
 					break;
 				default:
-					Console.WriteLine("Invalid parameter: " + parameters[1]);
+					OutputProc("Invalid parameter: " + parameters[1]);
 					return ExitCode.BadCommand;
 			}
 
@@ -105,7 +105,7 @@ namespace TGCommandLine
 			{
 				if (I.ToLower() == lowerParam)
 				{
-					Console.WriteLine("Already in this channel!");
+					OutputProc("Already in this channel!");
 					return ExitCode.BadCommand;
 				}
 			}
@@ -128,7 +128,7 @@ namespace TGCommandLine
 			var res = IRC.SetProviderInfo(info);
 			if(res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -145,11 +145,11 @@ namespace TGCommandLine
 			providerIndex = (int)pI;
 		}
 		
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<channel> <dev|wd|game|admin>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Stops listening and broadcasting on a channel for the specified message type (Developer, Watchdog, Game, Admin)";
 		}
@@ -174,7 +174,7 @@ namespace TGCommandLine
 					channels = info.AdminChannels;
 					break;
 				default:
-					Console.WriteLine("Invalid parameter: " + parameters[1]);
+					OutputProc("Invalid parameter: " + parameters[1]);
 					return ExitCode.BadCommand;
 			}
 			var lowerParam = parameters[0].ToLower();
@@ -199,7 +199,7 @@ namespace TGCommandLine
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -214,7 +214,7 @@ namespace TGCommandLine
 			providerIndex = (int)pI;
 		}
 		
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "List users which can use restricted commands in the admin channel";
 		}
@@ -238,29 +238,29 @@ namespace TGCommandLine
 						authType = "User IDs:";
 					break;
 				default:
-					Console.WriteLine(String.Format("Invalid provider: {0}!", providerIndex));
+					OutputProc(String.Format("Invalid provider: {0}!", providerIndex));
 					return ExitCode.ServerError;
 			}
-			Console.WriteLine("Authorized " + authType);
+			OutputProc("Authorized " + authType);
 			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
 				switch(new TGIRCSetupInfo(info).AuthLevel)
 				{
 					case IRCMode.Voice:
-						Console.WriteLine("+");
+						OutputProc("+");
 						break;
 					case IRCMode.Halfop:
-						Console.WriteLine("%");
+						OutputProc("%");
 						break;
 					case IRCMode.Op:
-						Console.WriteLine("@");
+						OutputProc("@");
 						break;
 					case IRCMode.Owner:
-						Console.WriteLine("~");
+						OutputProc("~");
 						break;
 				}
 			else
 				foreach (var I in info.AdminList)
-					Console.WriteLine(I);
+					OutputProc(I);
 			return ExitCode.Normal;
 		}
 	}
@@ -273,7 +273,7 @@ namespace TGCommandLine
 			providerIndex = pI;
 		}
 		
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Restablish the chat connection";
 		}
@@ -283,7 +283,7 @@ namespace TGCommandLine
 			var res = Server.GetComponent<ITGChat>().Reconnect(providerIndex);
 			if (res != null)
 			{
-				Console.WriteLine("Error: " + res);
+				OutputProc("Error: " + res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -299,11 +299,11 @@ namespace TGCommandLine
 			providerIndex = (int)pI;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[nick]";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Add a user which can use restricted commands in the admin channels";
 		}
@@ -315,13 +315,13 @@ namespace TGCommandLine
 
 			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
 			{
-				Console.WriteLine("Invalid auth mode for this command!");
+				OutputProc("Invalid auth mode for this command!");
 				return ExitCode.BadCommand;
 			}
 
 			if (info.AdminList.Contains(newmin))
 			{
-				Console.WriteLine(parameters[0] + " is already an admin!");
+				OutputProc(parameters[0] + " is already an admin!");
 				return ExitCode.BadCommand;
 			}
 			var al = info.AdminList;
@@ -330,7 +330,7 @@ namespace TGCommandLine
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -344,11 +344,11 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<channel-mode|nickname>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Switch between admin command authorization via user channel mode or nicknames";
 		}
@@ -363,13 +363,13 @@ namespace TGCommandLine
 				info.AdminsAreSpecial = false;
 			else
 			{
-				Console.WriteLine("Invalid parameter: " + parameters[0]);
+				OutputProc("Invalid parameter: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -383,11 +383,11 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<role-id|user-id>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Switch between admin command authorization via user roles or individual users";
 		}
@@ -402,13 +402,13 @@ namespace TGCommandLine
 				info.AdminsAreSpecial = false;
 			else
 			{
-				Console.WriteLine("Invalid parameter: " + parameters[0]);
+				OutputProc("Invalid parameter: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -422,11 +422,11 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<+|%|@|~>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Set the required channel mode for users to use admin commands";
 		}
@@ -449,14 +449,14 @@ namespace TGCommandLine
 					info.AuthLevel = IRCMode.Owner;
 					break;
 				default:
-					Console.WriteLine("Invalid parameter: " + parameters[0]);
+					OutputProc("Invalid parameter: " + parameters[0]);
 					return ExitCode.BadCommand;
 			}
 
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -471,11 +471,11 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 			providerIndex = (int)pI;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<nick>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Remove a user which can use restricted commands in the admin channels";
 		}
@@ -487,13 +487,13 @@ namespace TGCommandLine
 			
 			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
 			{
-				Console.WriteLine("Invalid auth mode for this command!");
+				OutputProc("Invalid auth mode for this command!");
 				return ExitCode.BadCommand;
 			}
 			
 			if (!info.AdminList.Contains(newmin))
 			{
-				Console.WriteLine(parameters[0] + " is not an admin!");
+				OutputProc(parameters[0] + " is not an admin!");
 				return ExitCode.BadCommand;
 			}
 
@@ -503,7 +503,7 @@ namespace TGCommandLine
 			var res = IRC.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -518,11 +518,11 @@ namespace TGCommandLine
 			RequiredParameters = 2;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<target> <message>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Set the authentication message to send to target for identification. e.g. NickServ \"identify hunter2\"";
 		}
@@ -544,7 +544,7 @@ namespace TGCommandLine
 		{
 			Keyword = "disable-auth";
 		}		
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Turns off IRC authentication";
 		}
@@ -568,7 +568,7 @@ namespace TGCommandLine
 			Keyword = "status";
 			providerIndex = (int)pI;
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Lists channels and connections status";
 		}
@@ -576,20 +576,20 @@ namespace TGCommandLine
 		{
 			var IRC = Server.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
-			Console.WriteLine("Currently configured channels:");
-			Console.WriteLine("Admin:");
+			OutputProc("Currently configured channels:");
+			OutputProc("Admin:");
 			foreach (var I in info.AdminChannels)
-				Console.WriteLine("\t" + I);
-			Console.WriteLine("Watchdog:");
+				OutputProc("\t" + I);
+			OutputProc("Watchdog:");
 			foreach (var I in info.WatchdogChannels)
-				Console.WriteLine("\t" + I);
-			Console.WriteLine("Game:");
+				OutputProc("\t" + I);
+			OutputProc("Game:");
 			foreach (var I in info.GameChannels)
-				Console.WriteLine("\t" + I);
-			Console.WriteLine("Developer:");
+				OutputProc("\t" + I);
+			OutputProc("Developer:");
 			foreach (var I in info.DevChannels)
-				Console.WriteLine("\t" + I);
-			Console.WriteLine("Chat bot is: " + (!info.Enabled ? "Disabled" : IRC.Connected(info.Provider) ? "Connected" : "Disconnected"));
+				OutputProc("\t" + I);
+			OutputProc("Chat bot is: " + (!info.Enabled ? "Disabled" : IRC.Connected(info.Provider) ? "Connected" : "Disconnected"));
 			return ExitCode.Normal;
 		}
 	}
@@ -602,7 +602,7 @@ namespace TGCommandLine
 			providerIndex = (int)pI;
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Enables the chat bot";
 		}
@@ -615,7 +615,7 @@ namespace TGCommandLine
 			var res = Chat.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -630,7 +630,7 @@ namespace TGCommandLine
 			providerIndex = (int)pI;
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Disables the chat bot";
 		}
@@ -643,7 +643,7 @@ namespace TGCommandLine
 			var res = Chat.SetProviderInfo(info);
 			if (res != null)
 			{
-				Console.WriteLine(res);
+				OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -657,11 +657,11 @@ namespace TGCommandLine
 			Keyword = "set-server";
 			RequiredParameters = 1;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<url>:<port>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Sets the IRC server";
 		}
@@ -671,7 +671,7 @@ namespace TGCommandLine
 			var splits = parameters[0].Split(':');
 			if(splits.Length < 2)
 			{
-				Console.WriteLine("Invalid parameter!");
+				OutputProc("Invalid parameter!");
 				return ExitCode.BadCommand;
 			}
 			var Chat = Server.GetComponent<ITGChat>();
@@ -685,12 +685,12 @@ namespace TGCommandLine
 			}
 			catch
 			{
-				Console.WriteLine("Invalid port number!");
+				OutputProc("Invalid port number!");
 				return ExitCode.BadCommand;
 			}
 
 			var res = Chat.SetProviderInfo(PI);
-			Console.WriteLine(res ?? "Success");
+			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 	}
@@ -702,11 +702,11 @@ namespace TGCommandLine
 			Keyword = "set-token";
 			RequiredParameters = 1;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<bot-token>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Sets the discord API bot token";
 		}
@@ -714,7 +714,7 @@ namespace TGCommandLine
 		{
 			var Chat = Server.GetComponent<ITGChat>();
 			var res = Chat.SetProviderInfo(new TGDiscordSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.Discord]) { BotToken = parameters[0] });
-			Console.WriteLine(res ?? "Success");
+			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 	}

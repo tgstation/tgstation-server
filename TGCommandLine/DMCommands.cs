@@ -12,7 +12,7 @@ namespace TGCommandLine
 			Keyword = "dm";
 			Children = new Command[] { new DMCompileCommand(), new DMInitializeCommand(), new DMStatusCommand(), new DMSetProjectNameCommand(), new DMCancelCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manage compiling the server";
 		}
@@ -31,7 +31,7 @@ namespace TGCommandLine
 			var stat = DM.GetStatus();
 			if (stat != TGCompilerStatus.Initialized)
 			{
-				Console.WriteLine("Error: Compiler is " + ((stat == TGCompilerStatus.Uninitialized) ? "unintialized!" : "busy with another task!"));
+				OutputProc("Error: Compiler is " + ((stat == TGCompilerStatus.Uninitialized) ? "unintialized!" : "busy with another task!"));
 				return ExitCode.ServerError;
 			}
 
@@ -43,13 +43,13 @@ namespace TGCommandLine
 
 			if (!DM.Compile())
 			{
-				Console.WriteLine("Error: Unable to start compilation!");
+				OutputProc("Error: Unable to start compilation!");
 				var err = DM.CompileError();
 				if (err != null)
-					Console.WriteLine(err);
+					OutputProc(err);
 				return ExitCode.ServerError;
 			}
-			Console.WriteLine("Compile job started");
+			OutputProc("Compile job started");
 			if (parameters.Count > 0 && parameters[0] == "--wait")
 			{
 				do
@@ -57,19 +57,19 @@ namespace TGCommandLine
 					Thread.Sleep(1000);
 				} while (DM.GetStatus() == TGCompilerStatus.Compiling);
 				var res = DM.CompileError();
-				Console.WriteLine(res ?? "Compilation successful");
+				OutputProc(res ?? "Compilation successful");
 				if (res != null)
 					return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[--wait]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Starts a compile/update job optionally waiting for completion";
 		}
@@ -85,38 +85,38 @@ namespace TGCommandLine
 		{
 			var error = Server.GetComponent<ITGCompiler>().CompileError();
 			if (error != null)
-				Console.WriteLine("Last error: " + error);
+				OutputProc("Last error: " + error);
 		}
 
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var DM = Server.GetComponent<ITGCompiler>();
-			Console.WriteLine(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
+			OutputProc(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
 			Console.Write("Compilier is currently: ");
 			switch (DM.GetStatus())
 			{
 				case TGCompilerStatus.Compiling:
-					Console.WriteLine("Compiling...");
+					OutputProc("Compiling...");
 					break;
 				case TGCompilerStatus.Initialized:
-					Console.WriteLine("Idle");
+					OutputProc("Idle");
 					ShowError();
 					break;
 				case TGCompilerStatus.Initializing:
-					Console.WriteLine("Setting up...");
+					OutputProc("Setting up...");
 					break;
 				case TGCompilerStatus.Uninitialized:
-					Console.WriteLine("Uninitialized");
+					OutputProc("Uninitialized");
 					ShowError();
 					break;
 				default:
-					Console.WriteLine("Seizing the means of production (This is an error).");
+					OutputProc("Seizing the means of production (This is an error).");
 					return ExitCode.ServerError;
 			}		
 			return ExitCode.Normal;
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Get the current status of the compiler";
 		}
@@ -129,12 +129,12 @@ namespace TGCommandLine
 			Keyword = "project-name";
 			RequiredParameters = 1;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<path>";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Set the relative path of the .dme/.dmb to compile/run";
 		}
@@ -153,12 +153,12 @@ namespace TGCommandLine
 			Keyword = "initialize";
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[--wait]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Starts an initialization job optionally waiting for completion";
 		}
@@ -169,18 +169,18 @@ namespace TGCommandLine
 			var stat = DM.GetStatus();
 			if (stat == TGCompilerStatus.Compiling || stat == TGCompilerStatus.Initializing)
 			{
-				Console.WriteLine("Error: Compiler is " + ((stat == TGCompilerStatus.Initializing) ? "already initialized!" : " already running!"));
+				OutputProc("Error: Compiler is " + ((stat == TGCompilerStatus.Initializing) ? "already initialized!" : " already running!"));
 				return ExitCode.ServerError;
 			}
 			if (!DM.Initialize())
 			{
-				Console.WriteLine("Error: Unable to start initialization!");
+				OutputProc("Error: Unable to start initialization!");
 				var err = DM.CompileError();
 				if (err != null)
-					Console.WriteLine(err);
+					OutputProc(err);
 				return ExitCode.ServerError;
 			}
-			Console.WriteLine("Initialize job started");
+			OutputProc("Initialize job started");
 			if (parameters.Count > 0 && parameters[0] == "--wait")
 			{
 				do
@@ -188,7 +188,7 @@ namespace TGCommandLine
 					Thread.Sleep(1000);
 				} while (DM.GetStatus() == TGCompilerStatus.Initializing);
 				var res = DM.CompileError();
-				Console.WriteLine(res ?? "Initialization successful");
+				OutputProc(res ?? "Initialization successful");
 				if (res != null)
 					return ExitCode.ServerError;
 			}
@@ -206,11 +206,11 @@ namespace TGCommandLine
 		public override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGCompiler>().Cancel();
-			Console.WriteLine(res ?? "Success!");
+			OutputProc(res ?? "Success!");
 			return ExitCode.Normal;	//because failing cancellation implys it's already cancelled
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Cancels the current compilation job";
 		}
