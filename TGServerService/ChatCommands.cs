@@ -40,6 +40,7 @@ namespace TGServerService
 	{
 		public RootChatCommand()
 		{
+			PrintHelpList = true;
 			Children = new Command[] { new CheckCommand(), new StatusCommand(), new PRsCommand(), new VersionCommand(), new AHelpCommand(), new NameCheckCommand(), new RevisionCommand(), new AdminWhoCommand(), new ByondCommand(), new KekCommand() };
 		}
 	}

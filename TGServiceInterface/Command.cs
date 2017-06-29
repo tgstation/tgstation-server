@@ -40,13 +40,13 @@ namespace TGServiceInterface
 
 	public class RootCommand : Command
 	{
+		public static bool PrintHelpList = false;
 		protected override ExitCode Run(IList<string> parameters)
 		{
 			if (parameters.Count > 0)
 			{
 				var LocalKeyword = parameters[0].Trim().ToLower();
 				parameters.RemoveAt(0);
-
 				switch (LocalKeyword)
 				{
 					case "help":
@@ -83,27 +83,35 @@ namespace TGServiceInterface
 		}
 		public override void PrintHelp()
 		{
-			OutputProc("Available commands (type '?' or 'help' after command for more info):");
-			var Prefixes = new List<string>();
-			var Postfixes = new List<string>();
-			int MaxPrefixLen = 0;
-			foreach (var c in Children)
-			{
-				var ns = c.Keyword + " " + c.GetArgumentString();
-				MaxPrefixLen = Math.Max(MaxPrefixLen, ns.Length);
-				Prefixes.Add(ns);
-				Postfixes.Add(c.GetHelpText());
-			}
-
 			var Final = new List<string>();
-			for (var I = 0; I < Prefixes.Count; ++I)
+			if (PrintHelpList)
 			{
-				var lp = Prefixes[I];
-				for (; lp.Length < MaxPrefixLen + 1; lp += " ") ;
-				Final.Add(lp + "- " + Postfixes[I]);
+				foreach (var c in Children)
+					Final.Add(c.Keyword);
+				OutputProc("Available commands (type '?' or 'help' after command for more info): " + String.Join(", ", Final));
 			}
-			Final.Sort();
-			Final.ForEach(Console.WriteLine);
+			else
+			{
+				var Prefixes = new List<string>();
+				var Postfixes = new List<string>();
+				int MaxPrefixLen = 0;
+				foreach (var c in Children)
+				{
+					var ns = c.Keyword + " " + c.GetArgumentString();
+					MaxPrefixLen = Math.Max(MaxPrefixLen, ns.Length);
+					Prefixes.Add(ns);
+					Postfixes.Add(c.GetHelpText());
+				}
+
+				for (var I = 0; I < Prefixes.Count; ++I)
+				{
+					var lp = Prefixes[I];
+					for (; lp.Length < MaxPrefixLen + 1; lp += " ") ;
+					Final.Add(lp + "- " + Postfixes[I]);
+				}
+				Final.Sort();
+				Final.ForEach(OutputProc);
+			}
 		}
 
 		public override string GetHelpText()

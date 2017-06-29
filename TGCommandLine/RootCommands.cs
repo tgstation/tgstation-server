@@ -54,7 +54,6 @@ namespace TGCommandLine
 		{
 			return "Updates the server fully, optionally generating and pushing a changelog. Runs asynchronously once compilation starts";
 		}
-
 	}
 
 	class TestmergeCommand : Command
