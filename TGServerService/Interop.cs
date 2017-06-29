@@ -54,6 +54,7 @@ namespace TGServerService
 					SendMessage("RELAY: " + String.Join(" ", splits), ChatMessageType.AdminInfo);
 					break;
 				case SRWorldReboot:
+<<<<<<< HEAD
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
 					lock (CompilerLock)
 					{
@@ -63,6 +64,9 @@ namespace TGServerService
 							TGServerService.WriteInfo("Staged update applied", TGServerService.EventID.ServerUpdateApplied);
 						}
 					}
+=======
+					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot, this);
+>>>>>>> Instances
 					break;
 			}
 		}
@@ -138,12 +142,20 @@ namespace TGServerService
 							topicSender.Shutdown(SocketShutdown.Both);
 						}
 
+<<<<<<< HEAD
 						TGServerService.WriteInfo("Topic: \"" + topicdata + "\" Returned: " + returnedString, TGServerService.EventID.TopicSent);
+=======
+						TGServerService.WriteInfo("Topic: \"" + topicdata + "\" Returned: " + returnedString, TGServerService.EventID.TopicSent, this);
+>>>>>>> Instances
 						return returnedString;
 					}
 					catch
 					{
+<<<<<<< HEAD
 						TGServerService.WriteWarning("Failed to send topic: " + topicdata, TGServerService.EventID.TopicFailed);
+=======
+						TGServerService.WriteWarning("Failed to send topic: " + topicdata, TGServerService.EventID.TopicFailed, this);
+>>>>>>> Instances
 						return "Topic delivery failed!";
 					}
 				}
@@ -163,7 +175,11 @@ namespace TGServerService
 				serviceCommsKey += tmp;
 			} while (serviceCommsKey.Length < CommsKeyLen);
 			serviceCommsKey = serviceCommsKey.Substring(0, CommsKeyLen);
+<<<<<<< HEAD
 			TGServerService.WriteInfo("Service Comms Key set to: " + serviceCommsKey, TGServerService.EventID.CommsKeySet);
+=======
+			TGServerService.WriteInfo("Service Comms Key set to: " + serviceCommsKey, TGServerService.EventID.CommsKeySet, this);
+>>>>>>> Instances
 		}
 
 		//Start listening for nudges on the configured port
@@ -201,7 +217,11 @@ namespace TGServerService
 				var np = InteropPort(out string error);
 				if (error != null)
 				{
+<<<<<<< HEAD
 					TGServerService.WriteError("Unable to start nudge handler: " + error, TGServerService.EventID.NudgeStartFail);
+=======
+					TGServerService.WriteError("Unable to start nudge handler: " + error, TGServerService.EventID.NudgeStartFail, this);
+>>>>>>> Instances
 					return;
 				}
 
@@ -246,7 +266,11 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
+<<<<<<< HEAD
 				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
+=======
+				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash, this);
+>>>>>>> Instances
 			}
 		}
 	}

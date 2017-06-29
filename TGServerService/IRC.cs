@@ -15,16 +15,22 @@ namespace TGServerService
 		object IRCLock = new object();
 
 		TGIRCSetupInfo IRCConfig;
+		TGStationServer Parent;
 
 		public event OnChatMessage OnChatMessage;
 		
+<<<<<<< HEAD
 		public TGChatSetupInfo ProviderInfo()
 		{
 			return IRCConfig;
 		}
 
 		public TGIRCChatProvider(TGChatSetupInfo info)
+=======
+		public TGIRCChatProvider(TGChatSetupInfo info, TGStationServer parent)
+>>>>>>> Instances
 		{
+			Parent = parent;
 			IRCConfig = new TGIRCSetupInfo(info);
 			irc = new IrcFeatures()
 			{
@@ -55,7 +61,11 @@ namespace TGServerService
 						channel = channel.Replace(PrivateMessageMarker, "");
 					irc.SendMessage(SendType.Message, channel, message);
 				}
+<<<<<<< HEAD
 				TGServerService.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), TGServerService.EventID.ChatSend);
+=======
+				TGServerService.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), TGServerService.EventID.ChatSend, Parent);
+>>>>>>> Instances
 				return null;
 			}
 			catch (Exception e)
@@ -86,6 +96,7 @@ namespace TGServerService
 
 		private bool CheckAdmin(IrcMessageData e)
 		{
+<<<<<<< HEAD
 			if (IRCConfig.AdminsAreSpecial)
 			{
 				var Chan = irc.GetChannel(e.Channel);
@@ -117,6 +128,16 @@ namespace TGServerService
 				foreach (var I in IRCConfig.AdminList)
 					if (lowerNick == I.ToLower())
 						return true;
+=======
+			lock (IRCLock) {
+				var channelsList = new List<string>(channels);
+				foreach (var I in irc.JoinedChannels)
+					if (!channelsList.Contains(I))
+						irc.RfcPart(I);
+				foreach (var I in channelsList)
+					if (!irc.JoinedChannels.Contains(I))
+						irc.RfcJoin(I);
+>>>>>>> Instances
 			}
 			return false;
 		}
@@ -146,6 +167,7 @@ namespace TGServerService
 		//Joins configured channels
 		void JoinChannels()
 		{
+<<<<<<< HEAD
 			var hs = new HashSet<string>();	//for unique inserts
 			foreach (var I in IRCConfig.AdminChannels)
 				hs.Add(I);
@@ -162,6 +184,9 @@ namespace TGServerService
 			foreach (var I in ToPart)
 				irc.RfcPart(I);
 			foreach (var I in hs)
+=======
+			foreach (var I in Parent.Config.ChatChannels)
+>>>>>>> Instances
 				irc.RfcJoin(I);
 		}
 		//runs the login command
@@ -246,7 +271,11 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
+<<<<<<< HEAD
 				TGServerService.WriteError("IRC failed QnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
+=======
+				TGServerService.WriteError("IRC failed QnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail, Parent);
+>>>>>>> Instances
 			}
 		}
 		//public api
@@ -266,6 +295,7 @@ namespace TGServerService
 			{
 				foreach (var cid in irc.JoinedChannels)
 				{
+<<<<<<< HEAD
 					bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
@@ -273,6 +303,20 @@ namespace TGServerService
 					if (SendToThisChannel)
 						irc.SendMessage(SendType.Message, cid, message);
 				}
+=======
+					if (adminOnly)
+						irc.SendMessage(SendType.Message, Parent.Config.ChatAdminChannel, message);
+					else
+						foreach (var I in Parent.Config.ChatChannels)
+							irc.SendMessage(SendType.Message, I, message);
+				}
+				TGServerService.WriteInfo(String.Format("IRC Send{0}: {1}", adminOnly ? " (ADMIN)" : "", message), adminOnly ? TGServerService.EventID.ChatAdminBroadcast : TGServerService.EventID.ChatBroadcast, Parent);
+				return null;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+>>>>>>> Instances
 			}
 		}
 

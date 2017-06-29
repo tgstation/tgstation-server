@@ -3,31 +3,45 @@ using System.Collections.Generic;
 using System.ServiceModel;
 namespace TGServiceInterface
 {
-	public class Server
+	public class Service
 	{
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGInstance) };
 
 		/// <summary>
 		/// Base name of the communication pipe
 		/// they are formatted as MasterPipeName/ComponentName
 		/// </summary>
-		public static string MasterPipeName = "TGStationServerService";
+		public static readonly string MasterPipeName = "TGStationServerService";
+		public static readonly string InstanceFormat = "Instance-{0}";
+
+		public static T CreateChanneledInterface<T>(string PipeName)
+		{
+			return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterPipeName, PipeName))).CreateChannel();
+		}
 
 		/// <summary>
 		/// Returns the requested server component interface. This does not guarantee a successful connection
 		/// </summary>
 		/// <typeparam name="T">The type of the component to retrieve</typeparam>
 		/// <returns></returns>
-		public static T GetComponent<T>()
+		public static T GetComponent<T>(int instance)
 		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 
-			return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterPipeName, typeof(T).Name))).CreateChannel();
+			if (instance <= 0 || instance >= 1000)
+				throw new Exception("Invalid instance ID");
+
+			return CreateChanneledInterface<T>(String.Format(InstanceFormat + "/{1}", instance, typeof(T).Name));
+		}
+
+		public static ITGSService Get()
+		{
+			return CreateChanneledInterface<ITGSService>(typeof(ITGSService).Name);
 		}
 		
 		/// <summary>
@@ -40,7 +54,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				GetComponent<ITGSService>().VerifyConnection();
+				Get().VerifyConnection();
 				return null;
 			}
 			catch(Exception e)
@@ -63,9 +77,15 @@ namespace TGServiceInterface
 		void VerifyConnection();
 
 		/// <summary>
+<<<<<<< HEAD:TGServiceInterface/Server.cs
 		/// Next stop of the service will not close DD and sets a flag for it to reattach once it restarts
+=======
+		/// Lists all instances the service manages
+>>>>>>> Instances:TGServiceInterface/Service.cs
 		/// </summary>
+		/// <returns>A list of instance ids -> names</returns>
 		[OperationContract]
+<<<<<<< HEAD:TGServiceInterface/Server.cs
 		void PrepareForUpdate();
 
 		[OperationContract]
@@ -79,45 +99,23 @@ namespace TGServiceInterface
 		[OperationContract]
 		string Version();
 	}
+=======
+		IDictionary<int, string> ListInstances();
+>>>>>>> Instances:TGServiceInterface/Service.cs
 
-	/// <summary>
-	/// How to modify the repo during the UpdateServer operation
-	/// </summary>
-	public enum TGRepoUpdateMethod
-	{
 		/// <summary>
-		/// Do not update the repo
+		/// Creates a new instance at the specified path
 		/// </summary>
-		None,
-		/// <summary>
-		/// Update the repo by merging the origin branch
-		/// </summary>
-		Merge,
-		/// <summary>
-		/// Update the repo by hard resetting to the remote branch
-		/// </summary>
-		Hard,
-		/// <summary>
-		/// Clean the repo by hard resetting to the origin branch
-		/// </summary>
-		Reset,
-	}
-
-	/// <summary>
-	/// One stop shop for server updates
-	/// </summary>
-	[ServiceContract]
-	public interface ITGServerUpdater
-	{
-		/// <summary>
-		/// Updates the server fully with various options as a blocking operation
-		/// </summary>
-		/// <param name="updateType">How to handle the repository during the update</param>
-		/// <param name="push_changelog_if_enabled">true if the changelog should be pushed to git</param>
-		/// <param name="testmerge_pr">If not zero, will testmerge the designated pull request</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <param name="name">The name of the instance</param>
+		/// <param name="path">The path of the instance</param>
+		/// <returns></returns>
 		[OperationContract]
-		string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr = 0);
-	}
+		string CreateInstance(string name, string path);
 
+		/// <summary>
+		/// Stops the service without closing DD and sets a flag for it to reattach once it restarts
+		/// </summary>
+		[OperationContract]
+		void StopForUpdate();
+	}
 }

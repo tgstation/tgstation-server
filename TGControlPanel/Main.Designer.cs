@@ -177,6 +177,7 @@
 			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
 			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
+			this.InstanceSelectButton = new System.Windows.Forms.Button();
 			this.Panels.SuspendLayout();
 			this.RepoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
@@ -1987,12 +1988,24 @@
 			// 
 			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
 			// 
+			// InstanceSelectButton
+			// 
+			this.InstanceSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.InstanceSelectButton.Location = new System.Drawing.Point(796, 7);
+			this.InstanceSelectButton.Name = "InstanceSelectButton";
+			this.InstanceSelectButton.Size = new System.Drawing.Size(92, 21);
+			this.InstanceSelectButton.TabIndex = 35;
+			this.InstanceSelectButton.Text = "Select Instance";
+			this.InstanceSelectButton.UseVisualStyleBackColor = true;
+			this.InstanceSelectButton.Click += new System.EventHandler(this.InstanceSelectButton_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(900, 415);
+			this.Controls.Add(this.InstanceSelectButton);
 			this.Controls.Add(this.Panels);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Main";
@@ -2161,6 +2174,7 @@
 		private System.Windows.Forms.Label VisibilityTitle;
 		private System.Windows.Forms.ComboBox VisibilitySelector;
 		private System.ComponentModel.BackgroundWorker ServerStartBGW;
+<<<<<<< HEAD
 		private System.Windows.Forms.Button RepoRefreshButton;
 		private System.Windows.Forms.ComboBox IRCModesComboBox;
 		private System.Windows.Forms.TextBox AdminChannelsTextbox;
@@ -2175,5 +2189,8 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
+=======
+		private System.Windows.Forms.Button InstanceSelectButton;
+>>>>>>> Instances
 	}
 }

@@ -19,6 +19,14 @@ namespace TGServerService
 			File = 0,
 			Directory = 1
 		}
+
+
+		//translates the win32 api call into an exception if it fails
+		static void CreateSymlink(string link, string target)
+		{
+			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
+				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
+		}
 		#endregion
 
 		const string StaticDirs = "Static";
@@ -55,8 +63,8 @@ namespace TGServerService
 		//deletes leftovers and checks current status
 		void InitCompiler()
 		{
-			if(File.Exists(LiveDirTest))
-				File.Delete(LiveDirTest);
+			if(File.Exists(PrepPath(LiveDirTest)))
+				File.Delete(PrepPath(LiveDirTest));
 			compilerCurrentStatus = IsInitialized();
 		}
 
@@ -92,13 +100,6 @@ namespace TGServerService
 			}
 		}
 
-		//translates the win32 api call into an exception if it fails
-		void CreateSymlink(string link, string target)
-		{
-			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
-				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
-		}
-
 		//requires CompilerLock to be locked
 		bool CompilerIdleNoLock()
 		{
@@ -123,34 +124,34 @@ namespace TGServerService
 		//what is says on the tin
 		TGCompilerStatus IsInitialized()
 		{
-			if (File.Exists(GameDirLive + LibMySQLFile))	//its a good tell, jim
+			if (File.Exists(PrepPath(GameDirLive + LibMySQLFile)))	//its a good tell, jim
 				return TGCompilerStatus.Initialized;
 			return TGCompilerStatus.Uninitialized;
 		}
 
 		//we need to remove symlinks before we can recursively delete
-		void CleanGameFolder()
+		public void CleanGameFolder()
 		{
-			if (Directory.Exists(GameDirB + LibMySQLFile))
-				Directory.Delete(GameDirB + LibMySQLFile);
+			if (Directory.Exists(PrepPath(GameDirB + LibMySQLFile)))
+				Directory.Delete(PrepPath(GameDirB + LibMySQLFile));
 
-			if (Directory.Exists(GameDirA + "/data"))
-				Directory.Delete(GameDirA + "/data");
+			if (Directory.Exists(PrepPath(GameDirA + "/data")))
+				Directory.Delete(PrepPath(GameDirA + "/data"));
 
-			if (Directory.Exists(GameDirA + "/config"))
-				Directory.Delete(GameDirA + "/config");
+			if (Directory.Exists(PrepPath(GameDirA + "/config")))
+				Directory.Delete(PrepPath(GameDirA + "/config"));
 
-			if (Directory.Exists(GameDirA + LibMySQLFile))
-				Directory.Delete(GameDirA + LibMySQLFile);
+			if (Directory.Exists(PrepPath(GameDirA + LibMySQLFile)))
+				Directory.Delete(PrepPath(GameDirA + LibMySQLFile));
 
-			if (Directory.Exists(GameDirB + "/data"))
-				Directory.Delete(GameDirB + "/data");
+			if (Directory.Exists(PrepPath(GameDirB + "/data")))
+				Directory.Delete(PrepPath(GameDirB + "/data"));
 
-			if (Directory.Exists(GameDirB + "/config"))
-				Directory.Delete(GameDirB + "/config");
+			if (Directory.Exists(PrepPath(GameDirB + "/config")))
+				Directory.Delete(PrepPath(GameDirB + "/config"));
 
-			if (Directory.Exists(GameDirLive))
-				Directory.Delete(GameDirLive);
+			if (Directory.Exists(PrepPath(GameDirLive)))
+				Directory.Delete(PrepPath(GameDirLive));
 		}
 
 		//Initializing thread
@@ -181,21 +182,21 @@ namespace TGServerService
 				{
 					SendMessage("DM: Setting up symlinks...", ChatMessageType.DeveloperInfo);
 					CleanGameFolder();
-					Program.DeleteDirectory(GameDir);
+					Program.DeleteDirectory(PrepPath(GameDir));
 
-					Directory.CreateDirectory(GameDirA);
-					Directory.CreateDirectory(GameDirB);
+					Directory.CreateDirectory(PrepPath(GameDirA));
+					Directory.CreateDirectory(PrepPath(GameDirB));
 
-					CreateSymlink(GameDirA + "/data", StaticDataDir);
-					CreateSymlink(GameDirB + "/data", StaticDataDir);
+					CreateSymlink(PrepPath(GameDirA + "/data"), PrepPath(StaticDataDir));
+					CreateSymlink(PrepPath(GameDirB + "/data"), PrepPath(StaticDataDir));
 
-					CreateSymlink(GameDirA + "/config", StaticConfigDir);
-					CreateSymlink(GameDirB + "/config", StaticConfigDir);
+					CreateSymlink(PrepPath(GameDirA + "/config"), PrepPath(StaticConfigDir));
+					CreateSymlink(PrepPath(GameDirB + "/config"), PrepPath(StaticConfigDir));
 
-					CreateSymlink(GameDirA + LibMySQLFile, StaticDirs + LibMySQLFile);
-					CreateSymlink(GameDirB + LibMySQLFile, StaticDirs + LibMySQLFile);
+					CreateSymlink(PrepPath(GameDirA + LibMySQLFile), PrepPath(StaticDirs + LibMySQLFile));
+					CreateSymlink(PrepPath(GameDirB + LibMySQLFile), PrepPath(StaticDirs + LibMySQLFile));
 
-					CreateSymlink(GameDirLive, GameDirA);
+					CreateSymlink(PrepPath(GameDirLive), PrepPath(GameDirA));
 					
 					lock (CompilerLock)
 					{
@@ -229,23 +230,23 @@ namespace TGServerService
 		string GetStagingDir()
 		{
 			string TheDir;
-			if (!Directory.Exists(GameDirLive))
+			if (!Directory.Exists(PrepPath(GameDirLive)))
 				TheDir = GameDirA;
 			else
 			{
-				File.Create(LiveDirTest).Close();
+				File.Create(PrepPath(LiveDirTest)).Close();
 				try
 				{
-					if (File.Exists(ADirTest))
+					if (File.Exists(PrepPath(ADirTest)))
 						TheDir = GameDirA;
-					else if (File.Exists(BDirTest))
+					else if (File.Exists(PrepPath(BDirTest)))
 						TheDir = GameDirB;
 					else
 						throw new Exception("Unable to determine current live directory!");
 				}
 				finally
 				{
-					File.Delete(LiveDirTest);
+					File.Delete(PrepPath(LiveDirTest));
 				}
 
 
@@ -255,12 +256,12 @@ namespace TGServerService
 			//So TheDir is what the Live folder is NOT pointing to
 			//Now we need to check if DD is running that folder and swap it if necessary
 
-			var rsclock = TheDir + "/" + Properties.Settings.Default.ProjectName + ".rsc.lk";
+			var rsclock = TheDir + "/" + Config.ProjectName + ".rsc.lk";
 			if (File.Exists(rsclock))
 			{
 				try
 				{
-					File.Delete(rsclock);
+					File.Delete(PrepPath(rsclock));
 				}
 				catch	//held open by byond
 				{
@@ -270,7 +271,7 @@ namespace TGServerService
 					return InvertDirectory(TheDir);
 				}
 			}
-			return TheDir;
+			return PrepPath(TheDir);
 		}
 
 		//I hope you can read this
@@ -341,10 +342,10 @@ namespace TGServerService
 				}
 				try
 				{
-					Program.CopyDirectory(RepoPath, resurrectee, copyExcludeList);
+					Program.CopyDirectory(PrepPath(RepoPath), resurrectee, copyExcludeList);
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
-					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
+					Program.CopyDirectory(PrepPath(RepoPath + GitLogsDir), resurrectee + GitLogsDir);
 				}
 				finally
 				{
@@ -368,8 +369,13 @@ namespace TGServerService
 				if (!File.Exists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
+<<<<<<< HEAD
 					SendMessage("DM: " + errorMsg, ChatMessageType.DeveloperInfo);
 					TGServerService.WriteError(errorMsg, TGServerService.EventID.DMCompileCrash);
+=======
+					SendMessage("DM: " + errorMsg);
+					TGServerService.WriteError(errorMsg, TGServerService.EventID.DMCompileCrash, this);
+>>>>>>> Instances
 					lock (CompilerLock)
 					{
 						lastCompilerError = errorMsg;
@@ -380,8 +386,13 @@ namespace TGServerService
 
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
+<<<<<<< HEAD
 					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
 					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
+=======
+					DM.StartInfo.FileName = PrepPath(ByondDirectory + "/bin/dm.exe");
+					DM.StartInfo.Arguments = '"' + dmePath + '"';
+>>>>>>> Instances
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
@@ -448,6 +459,13 @@ namespace TGServerService
 									if(online && !Proc.HasExited)
 										Proc.Resume();
 								}
+<<<<<<< HEAD
+=======
+								if (Directory.Exists(PrepPath(GameDirLive)))
+									//these two lines should be atomic but this is the best we can do
+									Directory.Delete(PrepPath(GameDirLive));
+								CreateSymlink(PrepPath(GameDirLive), resurrectee);
+>>>>>>> Instances
 							}
 							finally
 							{
@@ -463,10 +481,16 @@ namespace TGServerService
 								}
 							}
 						}
+<<<<<<< HEAD
 						var staged = DaemonStatus() != TGDreamDaemonStatus.Offline;
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
 						SendMessage("DM: " + msg, ChatMessageType.DeveloperInfo);
 						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess);
+=======
+						var msg = String.Format("DM: Compile complete!{0}", DaemonStatus() == TGDreamDaemonStatus.Offline ? "" : " Server will update next round.");
+						SendMessage(msg);
+						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess, this);
+>>>>>>> Instances
 						lock (CompilerLock)
 						{
 							if (staged)
@@ -477,8 +501,13 @@ namespace TGServerService
 					}
 					else
 					{
+<<<<<<< HEAD
 						SendMessage("DM: Compile failed!", ChatMessageType.DeveloperInfo); //Also happens for warnings
 						TGServerService.WriteWarning("Compile error: " + OutputList.ToString(), TGServerService.EventID.DMCompileError);
+=======
+						SendMessage("DM: Compile failed!"); //Also happens for warnings
+						TGServerService.WriteWarning(String.Format("Compile error ({1} {0}: {2}", DM.StartInfo.Arguments, DM.StartInfo.FileName, OutputList.ToString()), TGServerService.EventID.DMCompileError, this);
+>>>>>>> Instances
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
@@ -494,8 +523,13 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
+<<<<<<< HEAD
 				SendMessage("DM: Compiler thread crashed!", ChatMessageType.DeveloperInfo);
 				TGServerService.WriteError("Compile manager errror: " + e.ToString(), TGServerService.EventID.DMCompileCrash);
+=======
+				SendMessage("DM: Compiler thread crashed!");
+				TGServerService.WriteError("Compile manager errror: " + e.ToString(), TGServerService.EventID.DMCompileCrash, this);
+>>>>>>> Instances
 				lock (CompilerLock)
 				{
 					lastCompilerError = e.ToString();
@@ -511,8 +545,13 @@ namespace TGServerService
 					{
 						compilerCurrentStatus = TGCompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
+<<<<<<< HEAD
 						SendMessage("DM: Compile cancelled!", ChatMessageType.DeveloperInfo);
 						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel);
+=======
+						SendMessage("Compile cancelled!");
+						TGServerService.WriteInfo("Compilation cancelled", TGServerService.EventID.DMCompileCancel, this);
+>>>>>>> Instances
 					}
 				}
 			}
@@ -539,7 +578,7 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				return Properties.Settings.Default.ProjectName;
+				return Config.ProjectName;
 			}
 		}
 
@@ -548,7 +587,7 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				Properties.Settings.Default.ProjectName = projectName;
+				Config.ProjectName = projectName;
 			}
 		}
 

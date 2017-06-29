@@ -18,11 +18,18 @@ namespace TGControlPanel
 		void LoadChatPage()
 		{
 			updatingChat = true;
+<<<<<<< HEAD
 			var Chat = Server.GetComponent<ITGChat>();
 			var PI = Chat.ProviderInfos()[(int)ModifyingProvider];
 			ChatAdminsTextBox.Visible = true;
 			IRCModesComboBox.Visible = false;
 			switch (ModifyingProvider)
+=======
+			var Chat = Service.GetComponent<ITGChat>(Program.Instance);
+			var PI = Chat.ProviderInfo();
+			modifyingProvider = PI.Provider;
+			switch (modifyingProvider)
+>>>>>>> Instances
 			{
 				case TGChatProvider.Discord:
 					var DPI = new TGDiscordSetupInfo(PI);
@@ -111,7 +118,11 @@ namespace TGControlPanel
 
 		private void ChatReconnectButton_Click(object sender, EventArgs e)
 		{
+<<<<<<< HEAD
 			Server.GetComponent<ITGChat>().Reconnect(ModifyingProvider);
+=======
+			Service.GetComponent<ITGChat>(Program.Instance).Reconnect();
+>>>>>>> Instances
 			LoadChatPage();
 		}
 
@@ -133,7 +144,13 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && DiscordProviderSwitch.Checked)
 			{
+<<<<<<< HEAD
 				ModifyingProvider = TGChatProvider.Discord;
+=======
+				var res = Service.GetComponent<ITGChat>(Program.Instance).SetProviderInfo(new TGDiscordSetupInfo());
+				if (res != null)
+					MessageBox.Show(res);
+>>>>>>> Instances
 				LoadChatPage();
 			}
 		}
@@ -142,12 +159,19 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && IRCProviderSwitch.Checked)
 			{
+<<<<<<< HEAD
 				ModifyingProvider = TGChatProvider.IRC;
+=======
+				var res = Service.GetComponent<ITGChat>(Program.Instance).SetProviderInfo(new TGIRCSetupInfo());
+				if (res != null)
+					MessageBox.Show(res);
+>>>>>>> Instances
 				LoadChatPage();
 			}
 		}
 		void SetAdminsAreSpecial(bool value)
 		{
+<<<<<<< HEAD
 			var Chat = Server.GetComponent<ITGChat>();
 			var PI = Chat.ProviderInfos()[(int)ModifyingProvider];
 			PI.AdminsAreSpecial = value;
@@ -168,6 +192,9 @@ namespace TGControlPanel
 			if (!updatingChat && AdminModeSpecial.Checked)
 				SetAdminsAreSpecial(true);
 		}
+=======
+			var Chat = Service.GetComponent<ITGChat>(Program.Instance);
+>>>>>>> Instances
 
 		private void ChatApplyButton_Click(object sender, EventArgs e)
 		{

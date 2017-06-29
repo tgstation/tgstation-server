@@ -13,11 +13,11 @@ namespace TGServerService.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Instance : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Instance defaultInstance = ((Instance)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Instance())));
         
-        public static Settings Default {
+        public static Instance Default {
             get {
                 return defaultInstance;
             }
@@ -181,18 +181,6 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ReattachToDD {
-            get {
-                return ((bool)(this["ReattachToDD"]));
-            }
-            set {
-                this["ReattachToDD"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ReattachPID {
             get {
@@ -212,6 +200,30 @@ namespace TGServerService.Properties {
             }
             set {
                 this["ReattachPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int InstanceID {
+            get {
+                return ((int)(this["InstanceID"]));
+            }
+            set {
+                this["InstanceID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ReattachToDD {
+            get {
+                return ((bool)(this["ReattachToDD"]));
+            }
+            set {
+                this["ReattachToDD"] = value;
             }
         }
         

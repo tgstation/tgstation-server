@@ -30,6 +30,23 @@ namespace TGServerService
 				di.Delete(true);
 			}
 		}
+
+		public static bool IsDirectoryParentOf(string parent, string child)
+		{
+			var D1 = new DirectoryInfo(parent);
+			var D2 = new DirectoryInfo(child);
+			if (!D1.Exists || !D2.Exists)
+				return false;
+
+
+			while (D2.Parent != null)
+				if (D2.Parent.FullName == D1.FullName)
+					return true;
+				else
+					D2 = D2.Parent;
+			return false;
+		}
+
 		static void NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot)
 		{
 			foreach (var subDir in dir.GetDirectories())

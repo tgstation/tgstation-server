@@ -36,7 +36,7 @@ namespace TGServerService
 			{
 				lock (configLock)
 				{
-					File.WriteAllText(AdminConfig, outText);
+					File.WriteAllText(PrepPath(AdminConfig), outText);
 				}
 				return null;
 			}
@@ -76,7 +76,7 @@ namespace TGServerService
 				List<string> fileLines;
 				lock (configLock)
 				{
-					fileLines = new List<string>(File.ReadAllLines(AdminRanksConfig));
+					fileLines = new List<string>(File.ReadAllLines(PrepPath(AdminRanksConfig)));
 				}
 
 				var result = new Dictionary<string, IDictionary<string, bool>>();
@@ -186,7 +186,7 @@ namespace TGServerService
 				List<string> fileLines;
 				lock (configLock)
 				{
-					fileLines = new List<string>(File.ReadAllLines(AdminConfig));
+					fileLines = new List<string>(File.ReadAllLines(PrepPath(AdminConfig)));
 				}
 
 				var mins = new Dictionary<string, string>();
@@ -239,7 +239,7 @@ namespace TGServerService
 				IList<string> lines;
 				lock (configLock)
 				{
-					lines = File.ReadAllLines(JobsConfig);
+					lines = File.ReadAllLines(PrepPath(JobsConfig));
 				}
 				
 				IList<JobSetting> results = new List<JobSetting>();
@@ -289,6 +289,7 @@ namespace TGServerService
 		}
 
 		//public api
+<<<<<<< HEAD
 		public string MoveServer(string new_location)
 		{
 			var Config = Properties.Settings.Default;
@@ -402,12 +403,14 @@ namespace TGServerService
 			}
 		}
 		//public api
+=======
+>>>>>>> Instances
 		public ushort InteropPort(out string error)
 		{
 			try
 			{
 				error = null;
-				return Convert.ToUInt16(File.ReadAllText(InteropConfig));
+				return Convert.ToUInt16(File.ReadAllText(PrepPath(InteropConfig)));
 			}
 			catch (Exception e)
 			{
@@ -419,7 +422,7 @@ namespace TGServerService
 		//TGConfigType to the right path, Repo or static
 		string ConfigTypeToPath(TGConfigType type, bool repo)
 		{
-			var path = repo ? RepoConfig : StaticConfigDir;
+			var path = PrepPath(repo ? RepoConfig : StaticConfigDir);
 			switch (type)
 			{
 				case TGConfigType.Database:
@@ -591,12 +594,6 @@ namespace TGServerService
 		}
 
 		//public api
-		public string ServerDirectory()
-		{
-			return Environment.CurrentDirectory;
-		}
-
-		//public api
 		public string SetItem(TGConfigType type, ConfigSetting newSetting)
 		{
 			try
@@ -663,7 +660,7 @@ namespace TGServerService
 
 				lock (configLock)
 				{
-					File.WriteAllLines(JobsConfig, lines);
+					File.WriteAllLines(PrepPath(JobsConfig), lines);
 				}
 				return null;
 			}
@@ -680,7 +677,7 @@ namespace TGServerService
             {
                 lock (configLock)
                 {
-                    File.WriteAllText(InteropConfig, port.ToString());
+                    File.WriteAllText(PrepPath(InteropConfig), port.ToString());
                 }
                 InitInterop();
                 return null;
@@ -698,7 +695,7 @@ namespace TGServerService
 				IList<string> lines;
 				lock (configLock)
 				{
-					lines = File.ReadAllLines(MapConfig);
+					lines = File.ReadAllLines(PrepPath(MapConfig));
 				}
 
 				MapSetting currentMap = null, lastDefaultMap = null;
@@ -822,7 +819,7 @@ namespace TGServerService
 
 				lock (configLock)
 				{
-					File.WriteAllLines(MapConfig, asStrings);
+					File.WriteAllLines(PrepPath(MapConfig), asStrings);
 				}
 
 				return null;
@@ -837,7 +834,7 @@ namespace TGServerService
 		{
 			try
 			{
-				var configDir = repo ? RepoConfig : StaticConfigDir;
+				var configDir = PrepPath(repo ? RepoConfig : StaticConfigDir);
 				var path = configDir + "/" + configRelativePath;
 				lock (configLock) {
 					var di1 = new DirectoryInfo(configDir);
@@ -875,10 +872,10 @@ namespace TGServerService
 		{
 			try
 			{
-				var path = StaticConfigDir + "/" + configRelativePath;
+				var path = PrepPath(StaticConfigDir + "/" + configRelativePath);
 				lock (configLock)
 				{
-					var di1 = new DirectoryInfo(StaticConfigDir);
+					var di1 = new DirectoryInfo(PrepPath(StaticConfigDir));
 					var destdir = new FileInfo(path).Directory.FullName;
 					var di2 = new DirectoryInfo(destdir);
 
@@ -912,7 +909,7 @@ namespace TGServerService
 			{
 				lock (configLock)
 				{
-					var path = StaticConfigDir + TitleImagesConfig + "/" + filename;
+					var path = PrepPath(StaticConfigDir + TitleImagesConfig + "/" + filename);
 					File.WriteAllBytes(path, data);
 					return null;
 				}
@@ -930,7 +927,7 @@ namespace TGServerService
 				IList<string> lines;
 				lock (configLock)
 				{
-					lines = new List<string>(File.ReadAllLines(AdminRanksRepo));
+					lines = new List<string>(File.ReadAllLines(PrepPath(AdminRanksRepo)));
 				}
 				IDictionary<string, string> res = new Dictionary<string, string>();
 
@@ -987,7 +984,7 @@ namespace TGServerService
 				}
 				lock (configLock)
 				{
-					File.WriteAllLines(AdminRanksConfig, lines);
+					File.WriteAllLines(PrepPath(AdminRanksConfig), lines);
 				}
 				return null;
 			}

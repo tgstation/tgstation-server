@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TGServerService.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TGServerService.Properties" GeneratedClassName="Instance">
   <Profiles />
   <Settings>
     <Setting Name="ProjectName" Type="System.String" Scope="User">
@@ -41,20 +41,25 @@
     <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="ReattachToDD" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="ReattachPID" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ReattachPort" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+<<<<<<< HEAD:TGServerService/Properties/Settings.settings
     <Setting Name="SettingsVersion" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ReattachCommsKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+=======
+    <Setting Name="InstanceID" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ReattachToDD" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+>>>>>>> Instances:TGServerService/Properties/Instance.settings
     </Setting>
   </Settings>
 </SettingsFile>
