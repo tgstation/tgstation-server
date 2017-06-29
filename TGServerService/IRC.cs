@@ -133,7 +133,7 @@ namespace TGServerService
 
 			var splits = new List<string>(formattedMessage.Split(' '));
 			var test = splits[0];
-			if (test.Length > 1 && test[test.Length - 1] == ':')
+			if (test.Length > 1 && (test[test.Length - 1] == ':' || test[test.Length - 1] == ','))
 				test = test.Substring(0, test.Length - 1);
 			if (test.ToLower() != irc.Nickname.ToLower())
 				return;
