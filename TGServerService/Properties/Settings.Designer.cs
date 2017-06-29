@@ -226,5 +226,17 @@ namespace TGServerService.Properties {
                 this["SettingsVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReattachCommsKey {
+            get {
+                return ((string)(this["ReattachCommsKey"]));
+            }
+            set {
+                this["ReattachCommsKey"] = value;
+            }
+        }
     }
 }
