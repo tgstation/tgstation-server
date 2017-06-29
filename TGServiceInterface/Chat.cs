@@ -330,6 +330,7 @@ namespace TGServiceInterface
 		}
 		protected override string SanitizeChannelName(string working)
 		{
+			working = working.Replace("<", "").Replace(">", "").Replace("&", "");	//filter out some stuff that can come in the copypasta
 			try
 			{
 				Convert.ToUInt64(working);
