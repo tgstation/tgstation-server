@@ -17,7 +17,7 @@ namespace TGServiceInterface
 		public static readonly string MasterPipeName = "TGStationServerService";
 		public static readonly string InstanceFormat = "Instance-{0}";
 
-		public static T CreateChanneledInterface<T>(string PipeName)
+		private static T CreateChanneledInterface<T>(string PipeName)
 		{
 			return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterPipeName, PipeName))).CreateChannel();
 		}
