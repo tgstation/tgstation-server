@@ -15,12 +15,7 @@ namespace TGCommandLine
 		public RootCommand()
 		{
 			if (IsRealRoot())   //stack overflows
-<<<<<<< HEAD
-				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
-=======
-				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new IRCCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new ChatCommand(), new ServiceUpdateCommand(), new ListInstancesCommand(), new CreateInstanceCommand(), new DeleteInstanceCommand() };
-			RequiresInstance = false;
->>>>>>> Instances
+				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new ListInstancesCommand(), new CreateInstanceCommand(), new DeleteInstanceCommand() };
 		}
 
 		public override ExitCode Run(IList<string> parameters)
@@ -155,41 +150,7 @@ namespace TGCommandLine
 			return "Merges the specified pull request and updates the server";
 		}
 	}
-<<<<<<< HEAD
-=======
-
-	class ServiceUpdateCommand : Command
-	{
-		public ServiceUpdateCommand()
-		{
-			Keyword = "service-update";
-			RequiresInstance = false;
-		}
-
-		public override ExitCode Run(IList<string> parameters)
-		{
-			if (parameters.Count == 0 || parameters[0] != "--verify")
-				Console.WriteLine("This command should only be used by the installer program. Please use the --verify option to confirm this command");
-			else
-			{
-				Service.Get().StopForUpdate();
-				GC.Collect();
-				Thread.Sleep(10000);
-			}
-			return ExitCode.Normal;
-		}
-
-		protected override string GetArgumentString()
-		{
-			return "[--verify]";
-		}
-
-		protected override string GetHelpText()
-		{
-			return "Internal. Stops the service in preparation of an update operation.";
-		}
-	}
-
+	
 	class ListInstancesCommand : Command
 	{
 		public ListInstancesCommand()
@@ -292,5 +253,4 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
->>>>>>> Instances
 }
