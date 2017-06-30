@@ -12,7 +12,7 @@ namespace TGCommandLine
 			Keyword = "byond";
 			Children = new Command[] { new BYONDUpdateCommand(), new BYONDVersionCommand(), new BYONDStatusCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manage BYOND installation";
 		}
@@ -24,7 +24,7 @@ namespace TGCommandLine
 		{
 			Keyword = "version";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var type = TGByondVersion.Installed;
 			if (parameters.Count > 0)
@@ -35,12 +35,12 @@ namespace TGCommandLine
 			Console.WriteLine(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[--staged|--latest]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Print the currently installed BYOND version";
 		}
@@ -53,7 +53,7 @@ namespace TGCommandLine
 		{
 			Keyword = "status";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			switch (Server.GetComponent<ITGByond>().CurrentStatus())
 			{
@@ -81,7 +81,7 @@ namespace TGCommandLine
 			}
 			return ExitCode.Normal;
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Print the current status of the BYOND updater";
 		}
@@ -94,7 +94,7 @@ namespace TGCommandLine
 			Keyword = "update";
 			RequiredParameters = 2;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			int Major = 0, Minor = 0;
 			try
@@ -126,11 +126,11 @@ namespace TGCommandLine
 			Console.WriteLine(res ?? (stat == TGByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<Major> <Minor>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Updates the BYOND installation to the specified version";
 		}

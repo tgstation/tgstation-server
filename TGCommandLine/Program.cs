@@ -5,49 +5,6 @@ using TGServiceInterface;
 
 namespace TGCommandLine
 {
-	enum ExitCode
-	{
-		Normal = 0,
-		ConnectionError = 1,
-		BadCommand = 2,
-		ServerError = 3,
-	}
-
-	abstract class Command
-	{
-		public string Keyword { get; protected set; }
-		public Command[] Children { get; protected set; } = { };
-		public int RequiredParameters { get; protected set; }
-		public abstract ExitCode Run(IList<string> parameters);
-		public virtual void PrintHelp()
-		{
-			var Prefixes = new List<string>();
-			var Postfixes = new List<string>();
-			int MaxPrefixLen = 0;
-			foreach (var c in Children)
-			{
-				var ns = c.Keyword + " " + c.GetArgumentString();
-				MaxPrefixLen = Math.Max(MaxPrefixLen, ns.Length);
-				Prefixes.Add(ns);
-				Postfixes.Add(c.GetHelpText());
-			}
-
-			var Final = new List<string>();
-			for(var I = 0; I < Prefixes.Count; ++I)
-			{
-				var lp = Prefixes[I];
-				for (; lp.Length < MaxPrefixLen + 1; lp += " ") ;
-				Final.Add(lp + "- " + Postfixes[I]);
-			}
-			Final.Sort();
-			Final.ForEach(Console.WriteLine);
-		}
-		protected virtual string GetArgumentString()
-		{
-			return "";
-		}
-		protected abstract string GetHelpText();
-	}
 
 	class Program
 	{
@@ -61,7 +18,7 @@ namespace TGCommandLine
 			}
 			try
 			{
-				return new RootCommand().Run(argsAsList);
+				return new CLICommand().DoRun(argsAsList);
 			}
 			catch (Exception e)
 			{
@@ -98,6 +55,7 @@ namespace TGCommandLine
 
 		static int Main(string[] args)
 		{
+			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 				return (int)RunCommandLine(new List<string>(args));
 

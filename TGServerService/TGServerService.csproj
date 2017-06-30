@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Byond.cs" />
     <Compile Include="Chat.cs" />
+    <Compile Include="ChatCommands.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Discord.cs" />

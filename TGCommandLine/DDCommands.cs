@@ -11,7 +11,7 @@ namespace TGCommandLine
 			Keyword = "dd";
 			Children = new Command[] { new DDStartCommand(), new DDStopCommand(), new DDRestartCommand(), new DDStatusCommand(), new DDAutostartCommand(), new DDPortCommand(), new DDVisibilityCommand(), new DDSecurityCommand() };
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Manage DreamDaemon";
 		}
@@ -24,15 +24,15 @@ namespace TGCommandLine
 			Keyword = "start";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Starts the server and watchdog";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var res = Server.GetComponent<ITGDreamDaemon>().Start();
-			Console.WriteLine(res ?? "Success!");
+			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 	}
@@ -43,31 +43,31 @@ namespace TGCommandLine
 		{
 			Keyword = "stop";
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[--graceful]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Stops the server and watchdog optionally waiting for the current round to end";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
 				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
 				{
-					Console.WriteLine("Error: The game is not currently running!");
+					OutputProc("Error: The game is not currently running!");
 					return ExitCode.ServerError;
 				}
 				DD.RequestStop();
 				return ExitCode.Normal;
 			}
 			var res = DD.Stop();
-			Console.WriteLine(res ?? "Success!");
+			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 	}
@@ -78,29 +78,29 @@ namespace TGCommandLine
 			Keyword = "restart";
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "[--graceful]";
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
 				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
 				{
-					Console.WriteLine("Error: The game is not currently running!");
+					OutputProc("Error: The game is not currently running!");
 					return ExitCode.ServerError;
 				}
 				DD.RequestRestart();
 				return ExitCode.Normal;
 			}
 			var res = DD.Restart();
-			Console.WriteLine(res ?? "Success!");
+			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Restarts the server and watchdog optionally waiting for the current round to end";
 		}
@@ -112,17 +112,17 @@ namespace TGCommandLine
 			Keyword = "status";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Gets the current status of the watchdog and server";
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
-			Console.WriteLine(DD.StatusString(true));
+			OutputProc(DD.StatusString(true));
 			if (DD.ShutdownInProgress())
-				Console.WriteLine("The server will shutdown once the current round completes.");
+				OutputProc("The server will shutdown once the current round completes.");
 			return ExitCode.Normal;
 		}
 	}
@@ -135,7 +135,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			switch (parameters[0].ToLower())
@@ -147,20 +147,20 @@ namespace TGCommandLine
 					DD.SetAutostart(false);
 					break;
 				case "check":
-					Console.WriteLine("Autostart is: " + (DD.Autostart() ? "On" : "Off"));
+					OutputProc("Autostart is: " + (DD.Autostart() ? "On" : "Off"));
 					break;
 				default:
-					Console.WriteLine("Invalid parameter: " + parameters[0]);
+					OutputProc("Invalid parameter: " + parameters[0]);
 					return ExitCode.BadCommand;
 			}
 			return ExitCode.Normal;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<on|off|check>";
 		}
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Change or check autostarting of the game server with the service";
 		}
@@ -173,7 +173,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			ushort port;
 			try
@@ -182,7 +182,7 @@ namespace TGCommandLine
 			}
 			catch
 			{
-				Console.WriteLine("Invalid port number!");
+				OutputProc("Invalid port number!");
 				return ExitCode.BadCommand;
 			}
 
@@ -190,12 +190,12 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<number>";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Sets the port DreamDaemon will open the server on. Requires a server restart to apply and queues a graceful one up";
 		}
@@ -209,7 +209,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			TGDreamDaemonVisibility vis;
 			switch (parameters[0].ToLower())
@@ -227,19 +227,19 @@ namespace TGCommandLine
 					vis = TGDreamDaemonVisibility.Public;
 					break;
 				default:
-					Console.WriteLine("Invalid visiblity word!");
+					OutputProc("Invalid visiblity word!");
 					return ExitCode.BadCommand;
 			}
 			Server.GetComponent<ITGDreamDaemon>().SetVisibility(vis);
 			return ExitCode.Normal;
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Sets the visibility option for the DreamDaemon world. Requires a server restart to apply and queues a graceful one up";
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<public|private|invisible>";
 		}
@@ -253,7 +253,7 @@ namespace TGCommandLine
 			RequiredParameters = 1;
 		}
 
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			TGDreamDaemonSecurity sec;
 			switch (parameters[0].ToLower())
@@ -270,19 +270,19 @@ namespace TGCommandLine
 					sec = TGDreamDaemonSecurity.Trusted;
 					break;
 				default:
-					Console.WriteLine("Invalid security word!");
+					OutputProc("Invalid security word!");
 					return ExitCode.BadCommand;
 			}
 			Server.GetComponent<ITGDreamDaemon>().SetSecurityLevel(sec);
 			return ExitCode.Normal;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<safe|ultrasafe|trusted>";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Sets the visibility option for the DreamDaemon world";
 		}

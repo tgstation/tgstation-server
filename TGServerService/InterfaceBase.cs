@@ -97,6 +97,7 @@ namespace TGServerService
 		public void PrepareForUpdate()
 		{
 			Properties.Settings.Default.ReattachToDD = true;
+			SendMessage("SERVICE: Update started...", ChatMessageType.DeveloperInfo);
 		}
 
 		//mostly generated code with a call to RunDisposals()

@@ -129,7 +129,7 @@ namespace TGServerService
 		private void ChatProvider_OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
-			
+
 			if (splits.Length == 1 && splits[0] == "")
 			{
 				ChatProvider.SendMessageDirect("Hi!", channel);
@@ -137,21 +137,19 @@ namespace TGServerService
 			}
 
 			var asList = new List<string>(splits);
-			var command = asList[0].ToLower();
-			asList.RemoveAt(0);
 
-			ChatProvider.SendMessageDirect(ChatCommand(command, speaker, channel, asList, isAdmin, isAdminChannel), channel);
+			Command.OutputProcVar.Value = (m) => ChatProvider.SendMessageDirect(m, channel);
+			ChatCommand.CommandInfo.Value = new CommandInfo()
+			{
+				IsAdmin = isAdmin,
+				IsAdminChannel = isAdminChannel,
+				Speaker = speaker,
+				Server = this,
+			};
+			TGServerService.WriteInfo(String.Format("Chat Command from {0} ({2}): {1}", speaker, String.Join(" ", asList), channel), TGServerService.EventID.ChatCommand);
+			new RootChatCommand().DoRun(asList);
 		}
 
-		string HasChatAdmin(bool isAdmin, bool isAdminChannel)
-		{
-			if (!isAdmin)
-				return "You are not authorized to use that command!";
-			if (!isAdminChannel)
-				return "Use this command in an admin channel!";
-			return null;
-		}
-		
 		//cleanup and save
 		void DisposeChat()
 		{
@@ -171,58 +169,6 @@ namespace TGServerService
 
 			Config.ChatProviderData = Program.EncryptData(plaintext, out string entrp);
 			Config.ChatProviderEntropy = entrp;
-		}
-
-		//Do stuff with words that were spoken to us
-		string ChatCommand(string command, string speaker, string channel, IList<string> parameters, bool isAdmin, bool isAdminChannel)
-		{
-			TGServerService.WriteInfo(String.Format("Chat Command from {0}: {1} {2}", speaker, command, String.Join(" ", parameters)), TGServerService.EventID.ChatCommand);
-			var adminmessage = HasChatAdmin(isAdmin, isAdminChannel);
-			switch (command)
-			{
-				case "check":
-					return StatusString(adminmessage == null);
-				case "byond":
-					if (parameters.Count > 0)
-						if (parameters[0].ToLower() == "--staged")
-							return GetVersion(TGByondVersion.Staged) ?? "None";
-						else if (parameters[0].ToLower() == "--latest")
-							return GetVersion(TGByondVersion.Latest) ?? "Unknown";
-					return GetVersion(TGByondVersion.Installed) ?? "Uninstalled";
-				case "status":
-					return adminmessage ?? SendCommand(SCIRCStatus);
-				case "adminwho":
-					return adminmessage ?? SendCommand(SCAdminWho);
-				case "ahelp":
-					if (adminmessage != null)
-						return adminmessage;
-					if (parameters.Count < 2)
-						return "Usage: ahelp <ckey> <message>";
-					var ckey = parameters[0];
-					parameters.RemoveAt(0);
-					return SendPM(ckey, speaker, String.Join(" ", parameters));
-				case "namecheck":
-					if (adminmessage != null)
-						return adminmessage;
-					if (parameters.Count < 1)
-						return "Usage: namecheck <target>";
-					return NameCheck(parameters[0], speaker);
-				case "prs":
-					var PRs = MergedPullRequests(out string res);
-					if (PRs == null)
-						return res;
-					if (PRs.Count == 0)
-						return "None!";
-					res = "";
-					foreach(var I in PRs)
-						res += I.Number + " ";
-					return res;
-				case "version":
-					return TGServerService.Version;
-				case "kek":
-					return "kek";
-			}
-			return "Unknown command: " + command;
 		}
 
 		public IList<TGChatSetupInfo> ProviderInfos()

@@ -1,74 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using TGServiceInterface;
 
 namespace TGCommandLine
 {
-
-	class RootCommand : Command
+	class CLICommand : RootCommand
 	{
-		bool IsRealRoot()
+		public CLICommand()
 		{
-			return !GetType().IsSubclassOf(typeof(RootCommand));
-		}
-		public RootCommand()
-		{
-			if (IsRealRoot())   //stack overflows
-				Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
-		}
-		public override ExitCode Run(IList<string> parameters)
-		{
-			if (parameters.Count > 0)
-			{
-				var LocalKeyword = parameters[0].Trim().ToLower();
-				parameters.RemoveAt(0);
-
-				switch (LocalKeyword)
-				{
-					case "help":
-					case "?":
-						if (!IsRealRoot())
-						{
-							Console.WriteLine(Keyword + " commands:");
-							Console.WriteLine();
-						}
-						PrintHelp();
-						return ExitCode.Normal;
-					default:
-						foreach (var c in Children)
-							if (c.Keyword == LocalKeyword)
-							{
-								if (parameters.Count < c.RequiredParameters)
-								{
-									Console.WriteLine("Not enough parameters!");
-									return ExitCode.BadCommand;
-								}
-								return c.Run(parameters);
-							}
-						parameters.Insert(0, LocalKeyword);
-						break;
-				}
-			}
-			Console.WriteLine(String.Format("Invalid command: {0} {1}", Keyword, String.Join(" ", parameters)));
-			Console.WriteLine(String.Format("Type '{0}?' or '{0}help' for available commands.", Keyword != null ? Keyword + " " : ""));
-			return ExitCode.BadCommand;
+			Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
 		}
 
 		public override void PrintHelp()
 		{
-			Console.WriteLine("/tg/station 13 Server Command Line");
-			Console.WriteLine("Available commands (type '?' or 'help' after command for more info):");
-			Console.WriteLine();
+			OutputProc("/tg/station 13 Server Command Line");
 			base.PrintHelp();
 		}
-
-		protected override string GetHelpText()
-		{
-			throw new NotImplementedException();
-		}
 	}
-
 	class UpdateCommand : Command
 	{
 		public UpdateCommand()
@@ -76,7 +24,7 @@ namespace TGCommandLine
 			Keyword = "update";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			var gen_cl = parameters.Count > 1 && parameters[1].ToLower() == "--cl";
 			TGRepoUpdateMethod method;
@@ -89,24 +37,23 @@ namespace TGCommandLine
 					method = TGRepoUpdateMethod.Merge;
 					break;
 				default:
-					Console.WriteLine("Please specify hard or merge");
+					OutputProc("Please specify hard or merge");
 					return ExitCode.BadCommand;
 			}
 			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(method, gen_cl);
-			Console.WriteLine(result ?? "Compilation started!");
+			OutputProc(result ?? "Compilation started!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<merge|hard> [--cl]";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Updates the server fully, optionally generating and pushing a changelog. Runs asynchronously once compilation starts";
 		}
-
 	}
 
 	class TestmergeCommand : Command
@@ -116,7 +63,7 @@ namespace TGCommandLine
 			Keyword = "testmerge";
 			RequiredParameters = 1;
 		}
-		public override ExitCode Run(IList<string> parameters)
+		protected override ExitCode Run(IList<string> parameters)
 		{
 			ushort tm;
 			try
@@ -127,19 +74,19 @@ namespace TGCommandLine
 			}
 			catch
 			{
-				Console.WriteLine("Invalid tesmerge #: " + parameters[0]);
+				OutputProc("Invalid tesmerge #: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
 			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(TGRepoUpdateMethod.None, false, tm);
-			Console.WriteLine(result ?? "Compilation started!");
+			OutputProc(result ?? "Compilation started!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
-		protected override string GetArgumentString()
+		public override string GetArgumentString()
 		{
 			return "<pull request #>";
 		}
 
-		protected override string GetHelpText()
+		public override string GetHelpText()
 		{
 			return "Merges the specified pull request and updates the server";
 		}
