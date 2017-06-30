@@ -221,16 +221,17 @@ namespace TGServerService
 							{
 								try
 								{
-									var handler = listener.EndAccept(asyncResult);
+									using (var handler = listener.EndAccept(asyncResult))
+									{
 
-									var bytes = new byte[1024];
-									int bytesRec = handler.Receive(bytes);
-									// Show the data on the console.  
-									HandleCommand(Encoding.ASCII.GetString(bytes, 0, bytesRec));
-
-									handler.Shutdown(SocketShutdown.Both);
-									handler.Close();
-									clientConnected.Set();
+										var bytes = new byte[1024];
+										int bytesRec = handler.Receive(bytes);
+										// Show the data on the console.  
+										HandleCommand(Encoding.ASCII.GetString(bytes, 0, bytesRec));
+										
+										handler.Close();
+										clientConnected.Set();
+									}
 								}
 								catch (ObjectDisposedException)
 								{ }
