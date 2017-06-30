@@ -866,7 +866,7 @@ namespace TGServerService
 						return GenerateChangelogImpl(out error, true);
 					}
 					error = null;
-					TGServerService.WriteWarning("Changelog generated" + error, TGServerService.EventID.RepoChangelog);
+					TGServerService.WriteInfo("Changelog generated" + error, TGServerService.EventID.RepoChangelog);
 					return result;
 				}
 				catch (Exception e)
