@@ -266,7 +266,10 @@ namespace TGServerService
 				try
 				{
 					if (!Properties.Settings.Default.ReattachToDD)
+					{
 						Proc.Kill();
+						Proc.WaitForExit();
+					}
 					else
 					{
 						Properties.Settings.Default.ReattachPID = Proc.Id;
@@ -402,6 +405,7 @@ namespace TGServerService
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
 					{
 						Proc.Kill();
+						Proc.WaitForExit();
 						Proc.Close();
 						ShutdownInterop();
 						currentStatus = TGDreamDaemonStatus.Offline;

@@ -415,7 +415,10 @@ namespace TGServerService
 					catch
 					{
 						if (!DM.HasExited)
+						{
 							DM.Kill();
+							DM.WaitForExit();
+						}
 						throw;
 					}
 					finally
