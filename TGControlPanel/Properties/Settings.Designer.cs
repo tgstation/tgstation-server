@@ -58,5 +58,17 @@ namespace TGControlPanel.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LastChatProvider {
+            get {
+                return ((int)(this["LastChatProvider"]));
+            }
+            set {
+                this["LastChatProvider"] = value;
+            }
+        }
     }
 }

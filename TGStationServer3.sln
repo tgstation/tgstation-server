@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServerService", "TGServerService\TGServerService.csproj", "{F32EDA25-0855-411C-AF5E-F0D042917E2D}"
 EndProject
@@ -21,6 +21,44 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		tgs.ico = tgs.ico
 		TGS3Release.ps1 = TGS3Release.ps1
 		View TGS3 Logs.xml = View TGS3 Logs.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGInstallerWrapper", "TGInstallerWrapper\TGInstallerWrapper.csproj", "{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{154435F6-0890-42D4-9AEC-B743D4FBC1CB} = {154435F6-0890-42D4-9AEC-B743D4FBC1CB}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TGS2", "TGS2", "{0DDF886A-7ABB-4DCA-96A3-349B2DA00016}"
+	ProjectSection(SolutionItems) = preProject
+		legacy\config.bat = legacy\config.bat
+		legacy\copyexclude.txt = legacy\copyexclude.txt
+		legacy\disable crash dialog.reg = legacy\disable crash dialog.reg
+		legacy\Fix Errors.bat = legacy\Fix Errors.bat
+		legacy\install.bat = legacy\install.bat
+		legacy\Merge pr without updating.bat = legacy\Merge pr without updating.bat
+		legacy\OnServerBoot.bat = legacy\OnServerBoot.bat
+		legacy\README.md = legacy\README.md
+		legacy\Recompile.bat = legacy\Recompile.bat
+		legacy\Reset and Recompile.bat = legacy\Reset and Recompile.bat
+		legacy\Start Bot.bat = legacy\Start Bot.bat
+		legacy\Start Server.bat = legacy\Start Server.bat
+		legacy\Update Server.bat = legacy\Update Server.bat
+		legacy\Update to PR.bat = legacy\Update to PR.bat
+		legacy\Update without resetting.bat = legacy\Update without resetting.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{3BB3DA66-970C-4AAE-A77C-9E40F5E7E56A}"
+	ProjectSection(SolutionItems) = preProject
+		legacy\bin\activepr.bat = legacy\bin\activepr.bat
+		legacy\bin\build.bat = legacy\bin\build.bat
+		legacy\bin\copyfromgit.bat = legacy\bin\copyfromgit.bat
+		legacy\bin\findab.bat = legacy\bin\findab.bat
+		legacy\bin\findbyond.bat = legacy\bin\findbyond.bat
+		legacy\bin\findgit.bat = legacy\bin\findgit.bat
+		legacy\bin\getcurdate.bat = legacy\bin\getcurdate.bat
+		legacy\bin\getunixtime.bat = legacy\bin\getunixtime.bat
+		legacy\bin\unixtime.vbs = legacy\bin\unixtime.vbs
+		legacy\bin\updategit.bat = legacy\bin\updategit.bat
 	EndProjectSection
 EndProject
 Global
@@ -70,8 +108,18 @@ Global
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|Any CPU.Build.0 = Release|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|x86.ActiveCfg = Release|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|x86.Build.0 = Release|x86
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|x86.Build.0 = Debug|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|x86.ActiveCfg = Release|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3BB3DA66-970C-4AAE-A77C-9E40F5E7E56A} = {0DDF886A-7ABB-4DCA-96A3-349B2DA00016}
 	EndGlobalSection
 EndGlobal

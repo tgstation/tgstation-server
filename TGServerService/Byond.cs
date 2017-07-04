@@ -163,7 +163,7 @@ namespace TGServerService
 				var vi = (VersionInfo)param;
 				using (var client = new WebClient())
 				{
-					SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", vi.major, vi.minor));
+					SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", vi.major, vi.minor), ChatMessageType.DeveloperInfo);
 
 					//DOWNLOADING
 
@@ -173,9 +173,13 @@ namespace TGServerService
 					}
 					catch
 					{
-						SendMessage("BYOND: Update download failed. Does the specified version exist?");
+						SendMessage("BYOND: Update download failed. Does the specified version exist?", ChatMessageType.DeveloperInfo);
 						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", vi.major, vi.minor);
+<<<<<<< HEAD
+						TGServerService.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", vi.major, vi.minor), TGServerService.EventID.BYONDUpdateFail);
+=======
 						TGServerService.WriteWarning(lastError, TGServerService.EventID.BYONDUpdateFail, this);
+>>>>>>> Instances
 						lock (ByondLock)
 						{
 							updateStat = TGByondStatus.Idle;
@@ -216,8 +220,13 @@ namespace TGServerService
 					default:
 						RequestRestart();
 						lastError = "Update staged. Awaiting server restart...";
+<<<<<<< HEAD
+						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", vi.major, vi.minor), ChatMessageType.DeveloperInfo);
+						TGServerService.WriteInfo(String.Format("BYOND update {0}.{1} staged", vi.major, vi.minor), TGServerService.EventID.BYONDUpdateStaged);
+=======
 						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", vi.major, vi.minor));
 						TGServerService.WriteInfo(String.Format("BYOND update {0}.{1} staged", vi.major, vi.minor), TGServerService.EventID.BYONDUpdateStaged, this);
+>>>>>>> Instances
 						break;
 				}
 			}
@@ -227,7 +236,11 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
+<<<<<<< HEAD
+				TGServerService.WriteError("Revision staging errror: " + e.ToString(), TGServerService.EventID.BYONDUpdateFail);
+=======
 				TGServerService.WriteError("Revision staging errror: " + e.ToString(), TGServerService.EventID.BYONDUpdateFail, this);
+>>>>>>> Instances
 				lock (ByondLock)
 				{
 					updateStat = TGByondStatus.Idle;
@@ -273,15 +286,25 @@ namespace TGServerService
 					Directory.Move(PrepPath(StagingDirectoryInner), PrepPath(ByondDirectory));
 					Program.DeleteDirectory(PrepPath(StagingDirectory));
 					lastError = null;
+<<<<<<< HEAD
+					SendMessage("BYOND: Update completed!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(TGByondVersion.Installed)), TGServerService.EventID.BYONDUpdateComplete);
+=======
 					SendMessage("BYOND: Update completed!");
 					TGServerService.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(TGByondVersion.Installed)), TGServerService.EventID.BYONDUpdateComplete, this);
+>>>>>>> Instances
 					return true;
 				}
 				catch (Exception e)
 				{
 					lastError = e.ToString();
+<<<<<<< HEAD
+					SendMessage("BYOND: Update failed!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteError("BYOND update failed!", TGServerService.EventID.BYONDUpdateFail);
+=======
 					SendMessage("BYOND: Update failed!");
 					TGServerService.WriteError("BYOND update failed!", TGServerService.EventID.BYONDUpdateFail, this);
+>>>>>>> Instances
 					return false;
 				}
 				finally

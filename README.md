@@ -19,7 +19,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
 1. Hit the clone button
 1. While waiting go to the BYOND tab and install the BYOND version you wish
-1. You may also configure an IRC or discord bot for the server on the chat tab
+1. You may also configure an IRC and/or discord bot for the server on the chat tab
 1. Once the clone is complete you may set up a committer identity, user name, and password on the `Repository` tab for pushing changelog updates
 1. Go to the `Server` tab and click the `Initialize Game Folders` button
 1. Optionally change the `Project Path` Setting from tgstation to wherever the dme/dmb pair are in your repository
@@ -31,20 +31,34 @@ This process is identical to the above steps in command line mode. You can alway
 1. Launch TGCommandLine.exe (running with no parameters puts you in interactive mode)
 1. `config move-server D:\tgstation`
 1. `repo setup https://github.com/tgstation/tgstation master`
-1. `byond update 511.1382`
-1. `chat set-provider irc`
+1. `byond update 511.1385`
 1. `irc nick TGS3Test`
+1. `irc set-auth-mode channel-mode`
+1. `irc set-auth-level %`
 1. `irc setup-auth NickServ "id hunter2"` Yes this is the real password, please use it only for testing
-1. `chat enable`
+1. `irc join coderbus dev`
+1. `irc join devbus dev`
+1. `irc join adminbus admin`
+1. `irc join adminbus wd`
+1. `irc join tgstation13 game`
+1. `irc enable`
+1. `discord set-token Rjfa93jlksjfj934jlkjasf8a08wfl.asdjfj08e44` See https://discordapp.com/developers/docs/topics/oauth2#bots
+1. `discord set-auth-mode role-id`
+1. `discord addmin 192837419273409` See how to get a role id: https://www.reddit.com/r/discordapp/comments/5bezg2/role_id/. Note that if you `discord set-auth-mode user-id` you'll need to use user ids (Enable developer mode, right click user, `Copy ID`)
+1. `discord join 12341234453235 dev` This is a channel id (Enable developer mode, right click channel, `Copy ID`)
+1. `discord join 34563456344245 dev`
+1. `discord join 23452362574456 admin`
+1. `discord join 23452362574456 wd`
+1. `discord join 53457345736788 game`
+1. `discord enable`
 1. `repo set-name tgstation-server` These two lines specify the changelog's committer identity. They are not mirrored in the GUI
 1. `repo set-email tgstation-server@tgstation13.org`
 1. `repo set-credentials` And follow the prompts
 1. `dm project-name tgstation`
 1. `repo python-path C:\Python27`
 1. `dd autostart on`
-1. Use `repo status` To check the clone job status
+1. `repo status` To check the clone job status
 1. `dm initialize --wait`
-1. `dm compile --wait`
 1. `dd start`
 
 ## Updating
@@ -148,6 +162,6 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 
 ## CONTRIBUTING
 
-* IF YOU MAKE ANY CHANGES TO THE CODE, BE SURE TO BUMP THE VERSION NUMBERS IN ALL 4 "AssemblyInfo.cs"s AND ON LINE 3 OF TGServiceInstaller/Product.wx
+* IF YOU MAKE ANY CHANGES TO THE CODE, BE SURE TO BUMP THE VERSION NUMBERS IN ALL 5 "AssemblyInfo.cs"s AND ON LINE 3 OF TGServiceInstaller/Product.wx
 * My recommendation is bump the revision number per test release, the minor version per PR, and the major version if you rewrite the whole thing.
 * To have auto deployment to github releases work, put `[TGSDeploy]` somewhere in your pull request title

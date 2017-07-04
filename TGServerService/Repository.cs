@@ -113,7 +113,11 @@ namespace TGServerService
 			var BranchName = ts.b;
 			try
 			{
+<<<<<<< HEAD
+				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(RepoPath) ? "Full reset" : "Setup"), ChatMessageType.DeveloperInfo);
+=======
 				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(PrepPath(RepoPath)) ? "Full reset" : "Setup"));
+>>>>>>> Instances
 				try
 				{
 					DisposeRepo();
@@ -159,10 +163,17 @@ namespace TGServerService
 					{
 						Program.CopyDirectory(PrepPath(RepoConfig), PrepPath(StaticConfigDir));
 					}
+<<<<<<< HEAD
+					Program.CopyDirectory(RepoData, StaticDataDir, null, true);
+					File.Copy(RepoPath + LibMySQLFile, StaticDirs + LibMySQLFile, true);
+					SendMessage("REPO: Clone complete!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteInfo("Repository {0}:{1} successfully cloned", TGServerService.EventID.RepoClone);
+=======
 					Program.CopyDirectory(PrepPath(RepoData), PrepPath(StaticDataDir), null, true);
 					File.Copy(PrepPath(RepoPath + LibMySQLFile), PrepPath(StaticDirs + LibMySQLFile), true);
 					SendMessage("REPO: Clone complete!");
 					TGServerService.WriteInfo("Repository {0}:{1} successfully cloned", TGServerService.EventID.RepoClone, this);
+>>>>>>> Instances
 				}
 				finally
 				{
@@ -172,8 +183,13 @@ namespace TGServerService
 			catch(Exception e)
 
 			{
+<<<<<<< HEAD
+				SendMessage("REPO: Setup failed!", ChatMessageType.DeveloperInfo);
+				TGServerService.WriteWarning(String.Format("Failed to clone {2}:{0}: {1}", BranchName, e.ToString(), RepoURL), TGServerService.EventID.RepoCloneFail);
+=======
 				SendMessage("REPO: Setup failed!");
 				TGServerService.WriteWarning(String.Format("Failed to clone {2}:{0}: {1}", BranchName, e.ToString(), RepoURL), TGServerService.EventID.RepoCloneFail, this);
+>>>>>>> Instances
 			}
 			finally
 			{
@@ -297,7 +313,7 @@ namespace TGServerService
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage("REPO: Checking out object: " + sha);
+				SendMessage("REPO: Checking out object: " + sha, ChatMessageType.DeveloperInfo);
 				try
 				{
 					var Opts = new CheckoutOptions()
@@ -307,14 +323,24 @@ namespace TGServerService
 					};
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
+<<<<<<< HEAD
+					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
+=======
 					SendMessage("REPO: Checkout complete!");
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout, this);
+>>>>>>> Instances
 					return res;
 				}
 				catch (Exception e)
 				{
+<<<<<<< HEAD
+					SendMessage("REPO: Checkout failed!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), TGServerService.EventID.RepoCheckoutFail);
+=======
 					SendMessage("REPO: Checkout failed!");
 					TGServerService.WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), TGServerService.EventID.RepoCheckoutFail, this);
+>>>>>>> Instances
 					return e.ToString();
 				}
 			}
@@ -333,10 +359,9 @@ namespace TGServerService
 			{
 				case MergeStatus.Conflicts:
 					ResetNoLock(null);
-					SendMessage("REPO: Merge conflicted, aborted.");
+					SendMessage("REPO: Merge conflicted, aborted.", ChatMessageType.DeveloperInfo);
 					return "Merge conflict occurred.";
 				case MergeStatus.UpToDate:
-					SendMessage("REPO: Merge already up to date!");
 					return RepoErrorUpToDate;
 			}
 			return null;
@@ -350,7 +375,7 @@ namespace TGServerService
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"));
+				SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					if (Repo.Head == null || !Repo.Head.IsTracking)
@@ -373,19 +398,32 @@ namespace TGServerService
 						if (error != null)
 							throw new Exception(error);
 						DeletePRList();
+<<<<<<< HEAD
+						TGServerService.WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoHardUpdate);
+=======
 						TGServerService.WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoHardUpdate, this);
+>>>>>>> Instances
 						return error;
 					}
 					var res = MergeBranch(originBranch.FriendlyName);
 					if (res != null)
 						throw new Exception(res);
+<<<<<<< HEAD
+					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
+=======
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate, this);
+>>>>>>> Instances
 					return null;
 				}
 				catch (Exception E)
 				{
+<<<<<<< HEAD
+					SendMessage("REPO: Update failed!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteWarning(String.Format("Repo{0} update failed", reset ? " hard" : ""), reset ? TGServerService.EventID.RepoHardUpdateFail : TGServerService.EventID.RepoMergeUpdateFail);
+=======
 					SendMessage("REPO: Update failed!");
 					TGServerService.WriteWarning(String.Format("Repo{0} update failed", reset ? " hard" : ""), reset ? TGServerService.EventID.RepoHardUpdateFail : TGServerService.EventID.RepoMergeUpdateFail, this);
+>>>>>>> Instances
 					return E.ToString();
 				}
 			}
@@ -412,7 +450,11 @@ namespace TGServerService
 
 					if (tag != null)
 					{
+<<<<<<< HEAD
+						TGServerService.WriteInfo("Repo backup created at tag: " + tagName + " commit: " + HEAD, TGServerService.EventID.RepoBackupTag);
+=======
 						TGServerService.WriteInfo("Repo backup created at tag: " + tagName + " commit: " + HEAD, TGServerService.EventID.RepoBackupTag, this);
+>>>>>>> Instances
 						return null;
 					}
 					throw new Exception("Tag creation failed!");
@@ -420,7 +462,11 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
+<<<<<<< HEAD
+				TGServerService.WriteWarning(String.Format("Failed backup tag creation at commit {0}!", Repo.Head.Tip.Sha), TGServerService.EventID.RepoBackupTagFail);
+=======
 				TGServerService.WriteWarning(String.Format("Failed backup tag creation at commit {0}!", Repo.Head.Tip.Sha), TGServerService.EventID.RepoBackupTagFail, this);
+>>>>>>> Instances
 				return e.ToString();
 			}
 		}
@@ -455,12 +501,24 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
+<<<<<<< HEAD
+				if (res == null)
+				{
+					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""), ChatMessageType.DeveloperInfo);
+					if (trackedBranch)
+						DeletePRList();
+					TGServerService.WriteInfo(String.Format("Repo branch reset{0}", trackedBranch ? " to tracked branch" : ""), trackedBranch ? TGServerService.EventID.RepoResetTracked : TGServerService.EventID.RepoReset);
+					return null;
+				}
+				TGServerService.WriteWarning(String.Format("Failed to reset{0}: {1}", trackedBranch ? " to tracked branch" : "", res), trackedBranch ? TGServerService.EventID.RepoResetTrackedFail : TGServerService.EventID.RepoResetFail);
+=======
 				if (trackedBranch && res == null)
 				{
 					DeletePRList();
 					TGServerService.WriteInfo(String.Format("Repo branch reset{0}", trackedBranch ? " to tracked branch" : ""), trackedBranch ? TGServerService.EventID.RepoResetTracked : TGServerService.EventID.RepoReset, this);
 				}
 				TGServerService.WriteWarning(String.Format("Failed to reset{0}: {1}", trackedBranch ? " to tracked branch" : "", res), trackedBranch ? TGServerService.EventID.RepoResetTrackedFail : TGServerService.EventID.RepoResetFail, this);
+>>>>>>> Instances
 				return res;
 			}
 		}
@@ -474,6 +532,16 @@ namespace TGServerService
 		//I wonder...
 		void DeletePRList()
 		{
+<<<<<<< HEAD
+			if (File.Exists(PRJobFile))
+				try
+				{
+					File.Delete(PRJobFile);
+				}
+				catch (Exception e)
+				{
+					TGServerService.WriteError("Failed to delete PR list: " + e.ToString(), TGServerService.EventID.RepoPRListError);
+=======
 			if (File.Exists(PrepPath(PRJobFile)))
 				try
 				{
@@ -482,6 +550,7 @@ namespace TGServerService
 				catch (Exception e)
 				{
 					TGServerService.WriteError("Failed to delete PR list: " + e.ToString(), TGServerService.EventID.RepoPRListError, this);
+>>>>>>> Instances
 				}
 		}
 
@@ -506,12 +575,16 @@ namespace TGServerService
 		//public api
 		public string MergePullRequest(int PRNumber)
 		{
+			return MergePullRequestImpl(PRNumber, false);
+		}
+		string MergePullRequestImpl(int PRNumber, bool impliedUpdate)
+		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Merging PR #{0}...", PRNumber));
+				SendMessage(String.Format("REPO: {2}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					//only supported with github
@@ -540,7 +613,7 @@ namespace TGServerService
 					branch = Repo.Branches[LocalBranchName];
 					if (branch == null)
 					{
-						SendMessage("REPO: PR could not be fetched. Does it exist?");
+						SendMessage("REPO: PR could not be fetched. Does it exist?", ChatMessageType.DeveloperInfo);
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRNumber);
 					}
 
@@ -549,7 +622,11 @@ namespace TGServerService
 
 					if (Result == null)
 					{
+<<<<<<< HEAD
+						TGServerService.WriteInfo(String.Format("Merged pull request #{0}", PRNumber), TGServerService.EventID.RepoPRMerge);
+=======
 						TGServerService.WriteInfo(String.Format("Merged pull request #{0}", PRNumber), TGServerService.EventID.RepoPRMerge, this);
+>>>>>>> Instances
 						try
 						{
 							var CurrentPRs = GetCurrentPRList();
@@ -582,7 +659,11 @@ namespace TGServerService
 						}
 						catch(Exception e)
 						{
+<<<<<<< HEAD
+							TGServerService.WriteError("Failed to update PR list", TGServerService.EventID.RepoPRListError);
+=======
 							TGServerService.WriteError("Failed to update PR list", TGServerService.EventID.RepoPRListError, this);
+>>>>>>> Instances
 							return "PR Merged, JSON update failed: " + e.ToString();
 						}
 					}
@@ -590,8 +671,13 @@ namespace TGServerService
 				}
 				catch (Exception E)
 				{
+<<<<<<< HEAD
+					SendMessage("REPO: PR merge failed!", ChatMessageType.DeveloperInfo);
+					TGServerService.WriteWarning(String.Format("Failed to merge pull request #{0}: {1}", PRNumber, E.ToString()), TGServerService.EventID.RepoPRMergeFail);
+=======
 					SendMessage("REPO: PR merge failed!");
 					TGServerService.WriteWarning(String.Format("Failed to merge pull request #{0}: {1}", PRNumber, E.ToString()), TGServerService.EventID.RepoPRMergeFail, this);
+>>>>>>> Instances
 					return E.ToString();
 				}
 			}
@@ -673,22 +759,33 @@ namespace TGServerService
 				{
 					// Stage the file
 					Commands.Stage(Repo, "html/changelog.html");
-					Commands.Stage(Repo, "html/changelogs");
+					Commands.Stage(Repo, "html/changelogs/*");
 
-					if (Repo.RetrieveStatus().Added.Count() == 0)   //nothing to commit
+					var status = Repo.RetrieveStatus();
+					var sum = status.Added.Count() + status.Removed.Count() + status.Modified.Count();
+
+					if (sum == 0)   //nothing to commit
 						return null;
 
 					// Create the committer's signature and commit
 					var authorandcommitter = MakeSig();
 
 					// Commit to the repository
+<<<<<<< HEAD
+					TGServerService.WriteInfo(String.Format("Commit {0} created from changelogs", Repo.Commit(CommitMessage, authorandcommitter, authorandcommitter)), TGServerService.EventID.RepoCommit);
+=======
 					TGServerService.WriteInfo(String.Format("Commit {0} created from changelogs", Repo.Commit(CommitMessage, authorandcommitter, authorandcommitter)), TGServerService.EventID.RepoCommit, this);
+>>>>>>> Instances
 					DeletePRList();
 					return null;
 				}
 				catch (Exception e)
 				{
+<<<<<<< HEAD
+					TGServerService.WriteError("Repo commit failed: " + e.ToString(), TGServerService.EventID.RepoCommitFail);
+=======
 					TGServerService.WriteError("Repo commit failed: " + e.ToString(), TGServerService.EventID.RepoCommitFail, this);
+>>>>>>> Instances
 					return e.ToString();
 				}
 			}
@@ -713,12 +810,20 @@ namespace TGServerService
 						CredentialsProvider = GenerateGitCredentials,
 					};
 					Repo.Network.Push(Repo.Network.Remotes[SSHPushRemote], Repo.Head.CanonicalName, options);
+<<<<<<< HEAD
+					TGServerService.WriteError("Repo pushed up to commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.RepoPush);
+=======
 					TGServerService.WriteError("Repo pushed up to commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.RepoPush, this);
+>>>>>>> Instances
 					return null;
 				}
 				catch (Exception e)
 				{
+<<<<<<< HEAD
+					TGServerService.WriteError("Repo push failed: " + e.ToString(), TGServerService.EventID.RepoPushFail);
+=======
 					TGServerService.WriteError("Repo push failed: " + e.ToString(), TGServerService.EventID.RepoPushFail, this);
+>>>>>>> Instances
 					return e.ToString();
 				}
 			}
@@ -848,13 +953,21 @@ namespace TGServerService
 						return GenerateChangelogImpl(out error, true);
 					}
 					error = null;
+<<<<<<< HEAD
+					TGServerService.WriteWarning("Changelog generated" + error, TGServerService.EventID.RepoChangelog);
+=======
 					TGServerService.WriteWarning("Changelog generated" + error, TGServerService.EventID.RepoChangelog, this);
+>>>>>>> Instances
 					return result;
 				}
 				catch (Exception e)
 				{
 					error = e.ToString();
+<<<<<<< HEAD
+					TGServerService.WriteWarning("Changelog generation failed: " + error, TGServerService.EventID.RepoChangelogFail);
+=======
 					TGServerService.WriteWarning("Changelog generation failed: " + error, TGServerService.EventID.RepoChangelogFail, this);
+>>>>>>> Instances
 					return null;
 				}
 			}

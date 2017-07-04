@@ -122,18 +122,6 @@ namespace TGServerService.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ChatEnabled {
-            get {
-                return ((bool)(this["ChatEnabled"]));
-            }
-            set {
-                this["ChatEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DDAutoStart {
             get {
                 return ((bool)(this["DDAutoStart"]));
@@ -157,18 +145,6 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ChatProvider {
-            get {
-                return ((int)(this["ChatProvider"]));
-            }
-            set {
-                this["ChatProvider"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("NEEDS INITIALIZING")]
         public string ChatProviderData {
             get {
@@ -181,47 +157,7 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>theghostofwhibyl1</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection ChatAdmins {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ChatAdmins"]));
-            }
-            set {
-                this["ChatAdmins"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>#botbus</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection ChatChannels {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ChatChannels"]));
-            }
-            set {
-                this["ChatChannels"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#botbus")]
-        public string ChatAdminChannel {
-            get {
-                return ((string)(this["ChatAdminChannel"]));
-            }
-            set {
-                this["ChatAdminChannel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("John Madden")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ChatProviderEntropy {
             get {
                 return ((string)(this["ChatProviderEntropy"]));
@@ -288,6 +224,30 @@ namespace TGServerService.Properties {
             }
             set {
                 this["ReattachToDD"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SettingsVersion {
+            get {
+                return ((int)(this["SettingsVersion"]));
+            }
+            set {
+                this["SettingsVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReattachCommsKey {
+            get {
+                return ((string)(this["ReattachCommsKey"]));
+            }
+            set {
+                this["ReattachCommsKey"] = value;
             }
         }
     }

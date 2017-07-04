@@ -92,7 +92,12 @@
     <Compile Include="Instance.cs" />
     <Compile Include="IRC.cs" />
     <Compile Include="Interop.cs" />
+<<<<<<< HEAD
+    <Compile Include="ProcessExtension.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+=======
     <Compile Include="Properties\Instance.Designer.cs">
+>>>>>>> Instances
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Instance.settings</DependentUpon>

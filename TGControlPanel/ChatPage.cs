@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGServiceInterface;
 
@@ -10,16 +7,29 @@ namespace TGControlPanel
 {
 	partial class Main
 	{
-		TGChatProvider modifyingProvider;
 		bool updatingChat = false;
 		
+		TGChatProvider ModifyingProvider
+		{
+			get { return (TGChatProvider)Properties.Settings.Default.LastChatProvider; }
+			set { Properties.Settings.Default.LastChatProvider = (int)value; }
+		}
+
 		void LoadChatPage()
 		{
 			updatingChat = true;
+<<<<<<< HEAD
+			var Chat = Server.GetComponent<ITGChat>();
+			var PI = Chat.ProviderInfos()[(int)ModifyingProvider];
+			ChatAdminsTextBox.Visible = true;
+			IRCModesComboBox.Visible = false;
+			switch (ModifyingProvider)
+=======
 			var Chat = Service.GetComponent<ITGChat>(Program.Instance);
 			var PI = Chat.ProviderInfo();
 			modifyingProvider = PI.Provider;
 			switch (modifyingProvider)
+>>>>>>> Instances
 			{
 				case TGChatProvider.Discord:
 					var DPI = new TGDiscordSetupInfo(PI);
@@ -34,6 +44,11 @@ namespace TGControlPanel
 					ChatPortTitle.Visible = false;
 					ChatNicknameText.Visible = false;
 					ChatNicknameTitle.Visible = false;
+
+					ChatAdminsTitle.Text = String.Format("Admin {0} IDs:", DPI.AdminsAreSpecial ? "Role" : "User");
+					ChannelsTitle.Text = "Broadcast/Listening Channel IDs:";
+					AdminModeNormal.Text = "User IDs";
+					AdminModeSpecial.Text = "Role IDs";
 					break;
 				case TGChatProvider.IRC:
 					var IRC = new TGIRCSetupInfo(PI);
@@ -53,34 +68,47 @@ namespace TGControlPanel
 					ChatNicknameText.Visible = true;
 					ChatNicknameTitle.Visible = true;
 					ChatNicknameText.Text = IRC.Nickname;
+					ChatAdminsTitle.Text = String.Format("Admin {0}:", IRC.AdminsAreSpecial ? "Req Mode" : "Nicknames");
+					ChannelsTitle.Text = "Broadcast/Listening Channels:";
+					AdminModeNormal.Text = "Nicknames";
+					AdminModeSpecial.Text = "Channel Mode";
+					if (IRC.AdminsAreSpecial)
+					{
+						ChatAdminsTextBox.Visible = false;
+						IRCModesComboBox.Visible = true;
+						IRCModesComboBox.SelectedIndex = (int)IRC.AuthLevel;
+					}
 					break;
 				default:
-					MessageBox.Show("This is a bug, I'll try and recover. Provider was " + modifyingProvider.ToString());
-					MessageBox.Show(Chat.SetProviderInfo(new TGIRCSetupInfo()) ?? "Success!");
+					Properties.Settings.Default.LastChatProvider = (int)TGChatProvider.IRC;
 					LoadChatPage();
 					return;
 			}
 
-			var Enabled = Chat.Enabled();
-			ChatEnabledCheckbox.Checked = Enabled;
-			if (!Enabled)
+			AdminModeNormal.Checked = !PI.AdminsAreSpecial;
+			AdminModeSpecial.Checked = PI.AdminsAreSpecial;
+			ChatEnabledCheckbox.Checked = PI.Enabled;
+			if (!PI.Enabled)
 				ChatStatusLabel.Text = "Disabled";
-			else if (Chat.Connected())
+			else if (Chat.Connected(ModifyingProvider))
 				ChatStatusLabel.Text = "Connected";
 			else
 				ChatStatusLabel.Text = "Disconnected";
-			ChatReconnectButton.Enabled = Enabled;
+			ChatReconnectButton.Enabled = PI.Enabled;
 
-			AdminChannelText.Text = Chat.AdminChannel();
-
-			ChatAdminsTextBox.Text = "";
-			foreach (var I in Chat.ListAdmins())
-				ChatAdminsTextBox.Text += I + "\r\n";
-
-			ChatChannelsTextBox.Text = "";
-			foreach (var I in Chat.Channels())
-				ChatChannelsTextBox.Text += I + "\r\n";
+			AssignListToTextbox(PI.AdminList, ChatAdminsTextBox);
+			AssignListToTextbox(PI.WatchdogChannels, WDChannelsTextbox);
+			AssignListToTextbox(PI.AdminChannels, AdminChannelsTextbox);
+			AssignListToTextbox(PI.DevChannels, DevChannelsTextbox);
+			AssignListToTextbox(PI.GameChannels, GameChannelsTextbox);
 			updatingChat = false;
+		}
+
+		static void AssignListToTextbox(IList<string> a, TextBox b)
+		{
+			b.Text = "";
+			foreach (var I in a)
+				b.Text += I + Environment.NewLine;
 		}
 
 		private void ChatRefreshButton_Click(object sender, EventArgs e)
@@ -90,7 +118,11 @@ namespace TGControlPanel
 
 		private void ChatReconnectButton_Click(object sender, EventArgs e)
 		{
+<<<<<<< HEAD
+			Server.GetComponent<ITGChat>().Reconnect(ModifyingProvider);
+=======
 			Service.GetComponent<ITGChat>(Program.Instance).Reconnect();
+>>>>>>> Instances
 			LoadChatPage();
 		}
 
@@ -112,9 +144,13 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && DiscordProviderSwitch.Checked)
 			{
+<<<<<<< HEAD
+				ModifyingProvider = TGChatProvider.Discord;
+=======
 				var res = Service.GetComponent<ITGChat>(Program.Instance).SetProviderInfo(new TGDiscordSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
+>>>>>>> Instances
 				LoadChatPage();
 			}
 		}
@@ -123,44 +159,83 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && IRCProviderSwitch.Checked)
 			{
+<<<<<<< HEAD
+				ModifyingProvider = TGChatProvider.IRC;
+=======
 				var res = Service.GetComponent<ITGChat>(Program.Instance).SetProviderInfo(new TGIRCSetupInfo());
 				if (res != null)
 					MessageBox.Show(res);
+>>>>>>> Instances
 				LoadChatPage();
 			}
 		}
+		void SetAdminsAreSpecial(bool value)
+		{
+<<<<<<< HEAD
+			var Chat = Server.GetComponent<ITGChat>();
+			var PI = Chat.ProviderInfos()[(int)ModifyingProvider];
+			PI.AdminsAreSpecial = value;
+			var res = Chat.SetProviderInfo(PI);
+			if (res != null)
+				MessageBox.Show(res);
+			LoadChatPage();
+		}
+
+		private void AdminModeNormal_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!updatingChat && AdminModeNormal.Checked)
+				SetAdminsAreSpecial(false);
+		}
+
+		private void AdminModeSpecial_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!updatingChat && AdminModeSpecial.Checked)
+				SetAdminsAreSpecial(true);
+		}
+=======
+			var Chat = Service.GetComponent<ITGChat>(Program.Instance);
+>>>>>>> Instances
 
 		private void ChatApplyButton_Click(object sender, EventArgs e)
 		{
-			var Chat = Service.GetComponent<ITGChat>(Program.Instance);
-
-			string res;
-			switch (modifyingProvider)
+			string res = null;
+			TGChatSetupInfo wip = null;
+			switch (ModifyingProvider)
 			{
 				case TGChatProvider.Discord:
-					res = Chat.SetProviderInfo(new TGDiscordSetupInfo() { BotToken = AuthField1.Text });
+					wip = new TGDiscordSetupInfo()
+					{
+						BotToken = AuthField1.Text
+					};
 					break;
 				case TGChatProvider.IRC:
-					res = Chat.SetProviderInfo(new TGIRCSetupInfo() {
+					wip = new TGIRCSetupInfo()
+					{
 						AuthMessage = AuthField2.Text,
 						AuthTarget = AuthField1.Text,
 						Nickname = ChatNicknameText.Text,
 						URL = ChatServerText.Text,
 						Port = (ushort)ChatPortSelector.Value,
-					});
+						AuthLevel = (IRCMode)IRCModesComboBox.SelectedIndex,
+					};
 					break;
 				default:
 					res = "You really shouldn't be able to read this.";
 					break;
 			}
 
+			if (res == null)
+			{
+				wip.AdminChannels = new List<string>(AdminChannelsTextbox.Text.Split('\n'));
+				wip.WatchdogChannels = new List<string>(WDChannelsTextbox.Text.Split('\n'));
+				wip.DevChannels = new List<string>(DevChannelsTextbox.Text.Split('\n'));
+				wip.GameChannels = new List<string>(GameChannelsTextbox.Text.Split('\n'));
+				wip.Enabled = ChatEnabledCheckbox.Checked;
+
+				res = Server.GetComponent<ITGChat>().SetProviderInfo(wip);
+			}
 			if (res != null)
 				MessageBox.Show(res);
-			
-			Chat.SetChannels(SplitByLine(ChatChannelsTextBox), AdminChannelText.Text);
-			Chat.SetAdmins(SplitByLine(ChatAdminsTextBox));
-			Chat.SetEnabled(ChatEnabledCheckbox.Checked);
-
 			LoadChatPage();
 		}
 	}
