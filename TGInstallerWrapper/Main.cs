@@ -35,7 +35,31 @@ namespace TGInstallerWrapper
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			e.Cancel = installing;	//not allowed, nununu
+			e.Cancel = installing;  //not allowed, nununu
+		}
+
+		enum PKillType
+		{
+			Killed,
+			Aborted,
+			NoneFound,
+		}
+
+		PKillType PromptKillProcess(string name)
+		{
+			foreach (var P in Process.GetProcessesByName(name))
+			{
+				if (!P.HasExited && MessageBox.Show(String.Format("Found running {0}.exe! Shall I terminate it?", name), "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
+					return PKillType.Aborted;
+				if (!P.HasExited)
+				{
+					P.Kill();
+					P.WaitForExit();
+				}
+				P.Dispose();
+				return PKillType.Killed;
+			}
+			return PKillType.NoneFound;
 		}
 
 		async void DoInstall()
@@ -89,6 +113,21 @@ namespace TGInstallerWrapper
 								return;
 						}
 					}
+
+				while (true)
+				{
+					var res = PromptKillProcess("TGCommandLine");
+					if (res == PKillType.Aborted)
+						return;
+					else if (res == PKillType.Killed)
+						continue;
+					res = PromptKillProcess("TGControlPanel");
+					if (res == PKillType.Aborted)
+						return;
+					else if (res == PKillType.Killed)
+						continue;
+					break;
+				}
 
 				InstallCancelButton.Enabled = true;
 
