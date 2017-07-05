@@ -32,7 +32,7 @@ namespace TGCommandLine
 					type = TGByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = TGByondVersion.Latest;
-			Console.WriteLine(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+			OutputProc(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -58,25 +58,25 @@ namespace TGCommandLine
 			switch (Server.GetComponent<ITGByond>().CurrentStatus())
 			{
 				case TGByondStatus.Downloading:
-					Console.WriteLine("Downloading update...");
+					OutputProc("Downloading update...");
 					break;
 				case TGByondStatus.Idle:
-					Console.WriteLine("Updater Idle");
+					OutputProc("Updater Idle");
 					break;
 				case TGByondStatus.Staged:
-					Console.WriteLine("Update staged and awaiting server restart");
+					OutputProc("Update staged and awaiting server restart");
 					break;
 				case TGByondStatus.Staging:
-					Console.WriteLine("Staging update...");
+					OutputProc("Staging update...");
 					break;
 				case TGByondStatus.Starting:
-					Console.WriteLine("Starting update...");
+					OutputProc("Starting update...");
 					break;
 				case TGByondStatus.Updating:
-					Console.WriteLine("Applying update...");
+					OutputProc("Applying update...");
 					break;
 				default:
-					Console.WriteLine("Limmexing (This is an error).");
+					OutputProc("Limmexing (This is an error).");
 					return ExitCode.ServerError;
 			}
 			return ExitCode.Normal;
@@ -104,7 +104,7 @@ namespace TGCommandLine
 			}
 			catch
 			{
-				Console.WriteLine("Please enter version as <Major>.<Minor>");
+				OutputProc("Please enter version as <Major>.<Minor>");
 				return ExitCode.BadCommand;
 			}
 
@@ -112,7 +112,7 @@ namespace TGCommandLine
 			if (!BYOND.UpdateToVersion(Major, Minor))
 
 			{
-				Console.WriteLine("Failed to begin update!");
+				OutputProc("Failed to begin update!");
 				return ExitCode.ServerError;
 			}
 			
@@ -123,7 +123,7 @@ namespace TGCommandLine
 				stat = BYOND.CurrentStatus();
 			}
 			var res = BYOND.GetError();
-			Console.WriteLine(res ?? (stat == TGByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
+			OutputProc(res ?? (stat == TGByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 		public override string GetArgumentString()

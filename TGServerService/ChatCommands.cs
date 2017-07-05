@@ -115,13 +115,13 @@ namespace TGServerService
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
+			var type = TGByondVersion.Installed;
 			if (parameters.Count > 0)
 				if (parameters[0].ToLower() == "--staged")
-					OutputProc(Instance.GetVersion(TGByondVersion.Staged) ?? "None");
+					type = TGByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
-					OutputProc(Instance.GetVersion(TGByondVersion.Latest) ?? "Unknown");
-			else
-				OutputProc(Instance.GetVersion(TGByondVersion.Installed) ?? "Uninstalled");
+					type = TGByondVersion.Latest;
+			OutputProc(Instance.GetVersion(type) ?? "None");
 			return ExitCode.Normal;
 		}
 
