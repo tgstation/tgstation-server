@@ -113,6 +113,7 @@ namespace TGServerService
 					var newVersion = Properties.Settings.Default.SettingsVersion;
 					Properties.Settings.Default.Upgrade();
 					var oldVersion = Properties.Settings.Default.SettingsVersion;
+					Properties.Settings.Default.SettingsVersion = newVersion;
 
 					MigrateSettings(oldVersion, newVersion);
 
