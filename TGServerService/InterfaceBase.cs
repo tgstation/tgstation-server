@@ -40,42 +40,49 @@ namespace TGServerService
 		//one stop update
 		public string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr)
 		{
-			string res;
-			switch (updateType)
+			try
 			{
-				case TGRepoUpdateMethod.Hard:
-				case TGRepoUpdateMethod.Merge:
-					res = Update(updateType == TGRepoUpdateMethod.Hard);
+				string res;
+				switch (updateType)
+				{
+					case TGRepoUpdateMethod.Hard:
+					case TGRepoUpdateMethod.Merge:
+						res = Update(updateType == TGRepoUpdateMethod.Hard);
+						if (res != null && res != RepoErrorUpToDate)
+							return res;
+						break;
+					case TGRepoUpdateMethod.Reset:
+						res = Reset(true);
+						if (res != null)
+							return res;
+						break;
+					case TGRepoUpdateMethod.None:
+						break;
+				}
+
+				if (testmerge_pr != 0)
+				{
+					res = MergePullRequestImpl(testmerge_pr, true);
 					if (res != null && res != RepoErrorUpToDate)
 						return res;
-					break;
-				case TGRepoUpdateMethod.Reset:
-					res = Reset(true);
-					if (res != null)
-						return res;
-					break;
-				case TGRepoUpdateMethod.None:
-					break;
-			}
-
-			if (testmerge_pr != 0)
-			{
-				res = MergePullRequestImpl(testmerge_pr, true);
-				if (res != null && res != RepoErrorUpToDate)
-					return res;
-			}
+				}
 			
-			GenerateChangelog(out res);
-			if (res == null && push_changelog_if_enabled && SSHAuth())
-			{
-				res = Commit();
-				if (res == null)
-					res = Push();
-			}
+        GenerateChangelog(out res);
+        if (res == null && push_changelog_if_enabled && SSHAuth())
+        {
+          res = Commit();
+          if (res == null)
+            res = Push();
+        }
 
-			if (!Compile(true))
-				return "Compilation could not be started!";
-			return res;
+        if (!Compile(true))
+          return "Compilation could not be started!";
+        return res;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
 		}
 
 		//public api
