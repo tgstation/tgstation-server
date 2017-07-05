@@ -239,7 +239,7 @@ namespace TGServerService
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
 
-						if ((DateTime.Now - starttime).Seconds < DDBadStartTime)
+						if ((DateTime.Now - starttime).TotalSeconds < DDBadStartTime)
 						{
 							++retries;
 							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
