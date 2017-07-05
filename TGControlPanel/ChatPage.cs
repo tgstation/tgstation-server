@@ -203,6 +203,7 @@ namespace TGControlPanel
 				wip.WatchdogChannels = new List<string>(WDChannelsTextbox.Text.Split('\n'));
 				wip.DevChannels = new List<string>(DevChannelsTextbox.Text.Split('\n'));
 				wip.GameChannels = new List<string>(GameChannelsTextbox.Text.Split('\n'));
+				wip.AdminList = new List<string>(ChatAdminsTextBox.Text.Split('\n'));
 				wip.Enabled = ChatEnabledCheckbox.Checked;
 
 				res = Server.GetComponent<ITGChat>().SetProviderInfo(wip);
