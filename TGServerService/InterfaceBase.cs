@@ -40,48 +40,55 @@ namespace TGServerService
 		//one stop update
 		public string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr)
 		{
-			string res;
-			switch (updateType)
+			try
 			{
-				case TGRepoUpdateMethod.Hard:
-				case TGRepoUpdateMethod.Merge:
-					res = Update(updateType == TGRepoUpdateMethod.Hard);
+				string res;
+				switch (updateType)
+				{
+					case TGRepoUpdateMethod.Hard:
+					case TGRepoUpdateMethod.Merge:
+						res = Update(updateType == TGRepoUpdateMethod.Hard);
+						if (res != null && res != RepoErrorUpToDate)
+							return res;
+						break;
+					case TGRepoUpdateMethod.Reset:
+						res = Reset(true);
+						if (res != null)
+							return res;
+						break;
+					case TGRepoUpdateMethod.None:
+						break;
+				}
+
+				if (testmerge_pr != 0)
+				{
+					res = MergePullRequestImpl(testmerge_pr, true);
 					if (res != null && res != RepoErrorUpToDate)
 						return res;
-					break;
-				case TGRepoUpdateMethod.Reset:
-					res = Reset(true);
+				}
+
+				GenerateChangelog(out res);
+				if (res != null)
+					return res;
+
+				if (push_changelog_if_enabled && SSHAuth())
+				{
+					res = Commit();
 					if (res != null)
 						return res;
-					break;
-				case TGRepoUpdateMethod.None:
-					break;
-			}
+					res = Push();
+					if (res != null)
+						return res;
+				}
 
-			if (testmerge_pr != 0)
+				if (!Compile(true))
+					return "Compilation could not be started!";
+				return null;
+			}
+			catch (Exception e)
 			{
-				res = MergePullRequestImpl(testmerge_pr, true);
-				if (res != null && res != RepoErrorUpToDate)
-					return res;
+				return e.ToString();
 			}
-
-			GenerateChangelog(out res);
-			if (res != null)
-				return res;
-
-			if (push_changelog_if_enabled && SSHAuth())
-			{
-				res = Commit();
-				if (res != null)
-					return res;
-				res = Push();
-				if (res != null)
-					return res;
-			}
-
-			if (!Compile(true))
-				return "Compilation could not be started!";
-			return null;
 		}
 
 		//public api
