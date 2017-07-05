@@ -88,7 +88,6 @@ namespace TGServerService
 		{
 			if (IRCConfig.AdminsAreSpecial)
 			{
-				var Chan = irc.GetChannel(e.Channel);
 				var user = (NonRfcChannelUser)irc.GetChannelUser(e.Channel, e.Nick);
 				if (user != null)
 					switch (IRCConfig.AuthLevel)
