@@ -17,6 +17,9 @@
 		<Property Id="ARPPRODUCTICON" Value="tgs.ico" />
     <Property Id="INSTALLSHORTCUTDESK" Value="0" />
     <Property Id="INSTALLSHORTCUTSTART" Value="0" />
+    <InstallExecuteSequence>
+      <RemoveShortcuts>Installed AND NOT UPGRADINGPRODUCTCODE</RemoveShortcuts>
+    </InstallExecuteSequence>
   </Product>
 
   <Fragment>
