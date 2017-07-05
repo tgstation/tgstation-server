@@ -66,7 +66,7 @@ namespace TGServerService
 					if (res != null && res != RepoErrorUpToDate)
 						return res;
 				}
-			
+				
 				GenerateChangelog(out res);
 				if (res == null && push_changelog_if_enabled && SSHAuth())
 				{
@@ -76,7 +76,7 @@ namespace TGServerService
 				}
 
 				if (!Compile(true))
-				  return "Compilation could not be started!";
+					return "Compilation could not be started!";
 				return res;
 			}
 			catch (Exception e)
