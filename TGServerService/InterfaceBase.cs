@@ -67,17 +67,17 @@ namespace TGServerService
 						return res;
 				}
 			
-        GenerateChangelog(out res);
-        if (res == null && push_changelog_if_enabled && SSHAuth())
-        {
-          res = Commit();
-          if (res == null)
-            res = Push();
-        }
+				GenerateChangelog(out res);
+				if (res == null && push_changelog_if_enabled && SSHAuth())
+				{
+				  res = Commit();
+				  if (res == null)
+				    res = Push();
+				}
 
-        if (!Compile(true))
-          return "Compilation could not be started!";
-        return res;
+				if (!Compile(true))
+				  return "Compilation could not be started!";
+				return res;
 			}
 			catch (Exception e)
 			{
