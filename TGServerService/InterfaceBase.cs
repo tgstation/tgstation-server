@@ -66,13 +66,13 @@ namespace TGServerService
 					if (res != null && res != RepoErrorUpToDate)
 						return res;
 				}
-				
+
 				GenerateChangelog(out res);
 				if (res == null && push_changelog_if_enabled && SSHAuth())
 				{
-				  res = Commit();
-				  if (res == null)
-				    res = Push();
+					res = Commit();
+					if (res == null)
+						res = Push();
 				}
 
 				if (!Compile(true))
