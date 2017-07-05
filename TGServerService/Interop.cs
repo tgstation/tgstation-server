@@ -18,6 +18,7 @@ namespace TGServerService
 		string serviceCommsKey; //regenerated every DD restart
 
 		Thread NudgeThread;
+		Socket listener;
 		object NudgeLock = new object();
 
 		//See code/modules/server_tools/server_tools.dm for command switch
@@ -190,6 +191,8 @@ namespace TGServerService
 			if (NudgeThread != null)
 			{
 				NudgeThread.Abort();
+				if(listener != null)
+					listener.Shutdown(SocketShutdown.Both);
 				NudgeThread.Join();
 			}
 		}
@@ -205,40 +208,27 @@ namespace TGServerService
 					return;
 				}
 
-				using (var listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+				using (listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
 				{
 					listener.Bind(new IPEndPoint(IPAddress.Any, np));
 					listener.Listen(5);
 
-					// Start listening for connections.  
-					using (var clientConnected = new ManualResetEvent(false))
-					{
-						while (true)
+					while (true)
+						using (var handler = listener.Accept())
 						{
-							// Program is suspended while waiting for an incoming connection.  
-							clientConnected.Reset();
-							listener.BeginAccept(delegate (IAsyncResult asyncResult)
+							var bytes = new byte[1024];
+							int bytesRec = handler.Receive(bytes);
+							string cmd = null;
+							try
 							{
-								try
-								{
-									using (var handler = listener.EndAccept(asyncResult))
-									{
-
-										var bytes = new byte[1024];
-										int bytesRec = handler.Receive(bytes);
-										// Show the data on the console.  
-										HandleCommand(Encoding.ASCII.GetString(bytes, 0, bytesRec));
-										
-										handler.Close();
-										clientConnected.Set();
-									}
-								}
-								catch (ObjectDisposedException)
-								{ }
-							}, null);
-							clientConnected.WaitOne();
+								cmd = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+								HandleCommand(cmd);
+							}
+							catch (Exception e)
+							{
+								TGServerService.WriteError("Error handling nudge command: " + cmd + ": " + e.ToString(), TGServerService.EventID.NudgeError);
+							}
 						}
-					}
 				}
 			}
 			catch (ThreadAbortException)
@@ -249,6 +239,10 @@ namespace TGServerService
 			{
 				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
 				SendMessage("SERVICE: The relay handler crashed, use relayrestart to restore it! Error: " + e.Message, ChatMessageType.AdminInfo);
+			}
+			finally
+			{
+				listener = null;
 			}
 		}
 	}
