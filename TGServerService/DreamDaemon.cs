@@ -43,8 +43,6 @@ namespace TGServerService
 				try
 				{
 					Proc = Process.GetProcessById(Properties.Settings.Default.ReattachPID);
-					if (Proc == null)
-						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
 					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
 					
