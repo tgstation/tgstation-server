@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,9 +45,7 @@ namespace TGServerService
 
 		private void Client_MessageReceived(object sender, MessageEventArgs e)
 		{
-			if (e.User.Id == client.CurrentUser.Id)
-				return
-			var pm = e.Channel.IsPrivate;
+			var pm = e.Channel.IsPrivate && e.User.Id != client.CurrentUser.Id;
 	
 			if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
 				SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
