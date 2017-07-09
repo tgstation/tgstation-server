@@ -46,7 +46,8 @@ namespace TGServerService
 		private void Client_MessageReceived(object sender, MessageEventArgs e)
 		{
 			if (e.User.Id == client.CurrentUser.Id)
-				return
+				return;
+
 			var pm = e.Channel.IsPrivate;
 	
 			if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
