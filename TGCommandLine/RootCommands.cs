@@ -26,7 +26,6 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var gen_cl = parameters.Count > 1 && parameters[1].ToLower() == "--cl";
 			TGRepoUpdateMethod method;
 			switch (parameters[0].ToLower())
 			{
@@ -40,14 +39,14 @@ namespace TGCommandLine
 					OutputProc("Please specify hard or merge");
 					return ExitCode.BadCommand;
 			}
-			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(method, gen_cl);
+			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(method);
 			OutputProc(result ?? "Compilation started!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 
 		public override string GetArgumentString()
 		{
-			return "<merge|hard> [--cl]";
+			return "<merge|hard>";
 		}
 
 		public override string GetHelpText()
@@ -77,7 +76,7 @@ namespace TGCommandLine
 				OutputProc("Invalid tesmerge #: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
-			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(TGRepoUpdateMethod.None, false, tm);
+			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(TGRepoUpdateMethod.None, tm);
 			OutputProc(result ?? "Compilation started!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}

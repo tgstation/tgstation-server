@@ -38,7 +38,7 @@ namespace TGServerService
 		}
 
 		//one stop update
-		public string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr)
+		public string UpdateServer(TGRepoUpdateMethod updateType, ushort testmerge_pr)
 		{
 			string res;
 			switch (updateType)
@@ -58,18 +58,11 @@ namespace TGServerService
 					break;
 			}
 
-			if (testmerge_pr != 0)
-			{
-				res = MergePullRequestImpl(testmerge_pr, true);
-				if (res != null && res != RepoErrorUpToDate)
-					return res;
-			}
-
 			GenerateChangelog(out res);
 			if (res != null)
 				return res;
 
-			if (push_changelog_if_enabled && SSHAuth())
+			if (LocalIsOrigin() && SSHAuth())
 			{
 				res = Commit();
 				if (res != null)
@@ -77,9 +70,16 @@ namespace TGServerService
 				res = Push();
 				if (res != null)
 					return res;
-			}
+            }
 
-			if (!Compile(true))
+            if (testmerge_pr != 0)
+            {
+                res = MergePullRequestImpl(testmerge_pr, true);
+                if (res != null && res != RepoErrorUpToDate)
+                    return res;
+            }
+
+            if (!Compile(true))
 				return "Compilation could not be started!";
 			return null;
 		}
