@@ -40,23 +40,25 @@ namespace TGServerService
 		//one stop update
 		public string UpdateServer(TGRepoUpdateMethod updateType, ushort testmerge_pr)
 		{
-			string res;
-			switch (updateType)
+			try
 			{
-				case TGRepoUpdateMethod.Hard:
-				case TGRepoUpdateMethod.Merge:
-					res = Update(updateType == TGRepoUpdateMethod.Hard);
-					if (res != null && res != RepoErrorUpToDate)
-						return res;
-					break;
-				case TGRepoUpdateMethod.Reset:
-					res = Reset(true);
-					if (res != null)
-						return res;
-					break;
-				case TGRepoUpdateMethod.None:
-					break;
-			}
+				string res;
+				switch (updateType)
+				{
+					case TGRepoUpdateMethod.Hard:
+					case TGRepoUpdateMethod.Merge:
+						res = Update(updateType == TGRepoUpdateMethod.Hard);
+						if (res != null && res != RepoErrorUpToDate)
+							return res;
+						break;
+					case TGRepoUpdateMethod.Reset:
+						res = Reset(true);
+						if (res != null)
+							return res;
+						break;
+					case TGRepoUpdateMethod.None:
+						break;
+				}
 
 			GenerateChangelog(out res);
 			if (res != null)
@@ -72,16 +74,14 @@ namespace TGServerService
 					return res;
             }
 
-            if (testmerge_pr != 0)
-            {
-                res = MergePullRequestImpl(testmerge_pr, true);
-                if (res != null && res != RepoErrorUpToDate)
-                    return res;
-            }
-
-            if (!Compile(true))
-				return "Compilation could not be started!";
-			return null;
+				if (!Compile(true))
+					return "Compilation could not be started!";
+				return res;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
 		}
 
 		//public api

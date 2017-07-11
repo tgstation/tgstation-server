@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		tgs.ico = tgs.ico
 		TGS3Release.ps1 = TGS3Release.ps1
+		Version.cs = Version.cs
 		View TGS3 Logs.xml = View TGS3 Logs.xml
 	EndProjectSection
 EndProject

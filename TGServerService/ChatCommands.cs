@@ -41,7 +41,7 @@ namespace TGServerService
 		public RootChatCommand()
 		{
 			PrintHelpList = true;
-			Children = new Command[] { new CheckCommand(), new StatusCommand(), new PRsCommand(), new VersionCommand(), new AHelpCommand(), new NameCheckCommand(), new RevisionCommand(), new AdminWhoCommand(), new ByondCommand(), new KekCommand() };
+			Children = new Command[] { new CheckCommand(), new StatusCommand(), new PRsCommand(), new VersionCommand(), new AHelpCommand(), new NameCheckCommand(), new RevisionCommand(), new AdminWhoCommand(), new ByondCommand(), new KekCommand(), new RelayRestartCommand() };
 		}
 	}
 	class RevisionCommand : ChatCommand
@@ -115,13 +115,13 @@ namespace TGServerService
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
+			var type = TGByondVersion.Installed;
 			if (parameters.Count > 0)
 				if (parameters[0].ToLower() == "--staged")
-					OutputProc(Instance.GetVersion(TGByondVersion.Staged) ?? "None");
+					type = TGByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
-					OutputProc(Instance.GetVersion(TGByondVersion.Latest) ?? "Unknown");
-			else
-				OutputProc(Instance.GetVersion(TGByondVersion.Installed) ?? "Uninstalled");
+					type = TGByondVersion.Latest;
+			OutputProc(Instance.GetVersion(type) ?? "None");
 			return ExitCode.Normal;
 		}
 
@@ -260,6 +260,24 @@ namespace TGServerService
 		public override string GetArgumentString()
 		{
 			return "<ckey> <message|ticket <close|resolve|icissue|reject|reopen <ticket #>|list>>";
+		}
+	}
+	class RelayRestartCommand : ChatCommand
+	{
+		public RelayRestartCommand()
+		{
+			Keyword = "relayrestart";
+			RequiresAdmin = true;
+		}
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			Instance.InitInterop();
+			return ExitCode.Normal;
+		}
+
+		public override string GetHelpText()
+		{
+			return "Restart the relay listener. This is a massive hack but it'll do for now";
 		}
 	}
 }

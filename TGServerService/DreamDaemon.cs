@@ -239,7 +239,7 @@ namespace TGServerService
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
 
-						if ((DateTime.Now - starttime).Seconds < DDBadStartTime)
+						if ((DateTime.Now - starttime).TotalSeconds < DDBadStartTime)
 						{
 							++retries;
 							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
@@ -266,7 +266,10 @@ namespace TGServerService
 				try
 				{
 					if (!Properties.Settings.Default.ReattachToDD)
+					{
 						Proc.Kill();
+						Proc.WaitForExit();
+					}
 					else
 					{
 						Properties.Settings.Default.ReattachPID = Proc.Id;
@@ -402,6 +405,7 @@ namespace TGServerService
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
 					{
 						Proc.Kill();
+						Proc.WaitForExit();
 						Proc.Close();
 						ShutdownInterop();
 						currentStatus = TGDreamDaemonStatus.Offline;

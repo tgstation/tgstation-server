@@ -403,7 +403,8 @@ namespace TGServerService
 						
 						DM.Start();
 						DM.BeginOutputReadLine();
-						DM.WaitForExit();
+						while (!DM.HasExited)
+							DM.WaitForExit(100);
 						DM.CancelOutputRead();
 
 						lock (CompilerLock)
@@ -415,7 +416,10 @@ namespace TGServerService
 					catch
 					{
 						if (!DM.HasExited)
+						{
 							DM.Kill();
+							DM.WaitForExit();
+						}
 						throw;
 					}
 					finally

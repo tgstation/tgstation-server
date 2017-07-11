@@ -167,7 +167,7 @@ namespace TGServerService
 		}
 
 		//Start listening for nudges on the configured port
-		void InitInterop()
+		public void InitInterop()
 		{
 			lock (NudgeLock)
 			{
@@ -248,6 +248,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
+				SendMessage("SERVICE: The relay handler crashed, use relayrestart to restore it! Error: " + e.Message, ChatMessageType.AdminInfo);
 			}
 		}
 	}
