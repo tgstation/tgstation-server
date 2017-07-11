@@ -73,7 +73,7 @@ namespace TGServerService
 				if (testmerge_pr != 0)
 				{
 					//Regen changelog so test merge changelogs are included on-server
-					GenerateChangelog();
+					GenerateChangelog(out res);
 					res = MergePullRequestImpl(testmerge_pr, true);
 					if (res != null && res != RepoErrorUpToDate)
 						return res;
