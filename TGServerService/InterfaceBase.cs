@@ -59,20 +59,24 @@ namespace TGServerService
 					case TGRepoUpdateMethod.None:
 						break;
 				}
-
-				if (testmerge_pr != 0)
-				{
-					res = MergePullRequestImpl(testmerge_pr, true);
-					if (res != null && res != RepoErrorUpToDate)
-						return res;
-				}
-
+				
+				//Changelogs are done before test merging otherwise pushing the changelog
+				//Would push the testmerge too, which is very bad.
 				GenerateChangelog(out res);
 				if (res == null && push_changelog_if_enabled && SSHAuth())
 				{
 					res = Commit();
 					if (res == null)
 						res = Push();
+				}
+
+				if (testmerge_pr != 0)
+				{
+					//Regen changelog so test merge changelogs are included on-server
+					GenerateChangelog(out res);
+					res = MergePullRequestImpl(testmerge_pr, true);
+					if (res != null && res != RepoErrorUpToDate)
+						return res;
 				}
 
 				if (!Compile(true))
