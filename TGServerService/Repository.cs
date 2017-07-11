@@ -878,15 +878,15 @@ namespace TGServerService
 			}
 		}
 
-        bool LocalIsOrigin()
-        {
-            if (LoadRepo() != null)
-                return false;
-            lock (RepoLock)
-            {
-                return Repo.Head.IsTracking && Repo.Head.TrackedBranch.Tip.Sha == Repo.Head.Tip.Sha;
-            }
-        }
+		bool LocalIsOrigin()
+		{
+			if (LoadRepo() != null)
+				return false;
+			lock (RepoLock)
+			{
+				return Repo.Head.IsTracking && Repo.Head.TrackedBranch.Tip.Sha == Repo.Head.Tip.Sha;
+			}
+		}
 
 		//public api
 		public bool SetPythonPath(string path)
