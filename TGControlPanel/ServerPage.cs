@@ -379,19 +379,19 @@ namespace TGControlPanel
 			switch (fuAction)
 			{
 				case FullUpdateAction.Testmerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.None, false, (ushort)testmergePR);
+					updateError = Updater.UpdateServer(TGRepoUpdateMethod.None, (ushort)testmergePR);
 					break;
 				case FullUpdateAction.UpdateHard:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, true);
+					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard);
 					break;
 				case FullUpdateAction.UpdateHardTestmerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, true, (ushort)testmergePR);
+					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, (ushort)testmergePR);
 					break;
 				case FullUpdateAction.UpdateMerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Merge, true, (ushort)testmergePR);
+					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Merge, (ushort)testmergePR);
 					break;
 				case FullUpdateAction.Reset:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Reset, false, 0);
+					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Reset);
 					break;
 			}
 		}

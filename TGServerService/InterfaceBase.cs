@@ -38,7 +38,7 @@ namespace TGServerService
 		}
 
 		//one stop update
-		public string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr)
+		public string UpdateServer(TGRepoUpdateMethod updateType, ushort testmerge_pr)
 		{
 			try
 			{
@@ -60,19 +60,27 @@ namespace TGServerService
 						break;
 				}
 
+				GenerateChangelog(out res);
+				if (res != null)
+					return res;
+
+				if (SSHAuth())
+				{
+					if (LocalIsOrigin())
+						res = "Skipping changelog push, local branch does not match remote";
+					else
+					{
+						res = Commit();
+						if (res == null)
+							res = Push();
+					}
+				}
+
 				if (testmerge_pr != 0)
 				{
 					res = MergePullRequestImpl(testmerge_pr, true);
 					if (res != null && res != RepoErrorUpToDate)
 						return res;
-				}
-
-				GenerateChangelog(out res);
-				if (res == null && push_changelog_if_enabled && SSHAuth())
-				{
-					res = Commit();
-					if (res == null)
-						res = Push();
 				}
 
 				if (!Compile(true))
