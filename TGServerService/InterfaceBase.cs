@@ -9,7 +9,7 @@ namespace TGServerService
 
 	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	partial class TGStationServer : IDisposable, ITGSService, ITGServerUpdater
+	partial class TGStationServer : IDisposable, ITGSService
 	{
 
 		//call partial constructors/destructors from here
@@ -32,57 +32,10 @@ namespace TGServerService
 			DisposeChat();
 		}
 
+		//public api
 		public string Version()
 		{
 			return TGServerService.Version;
-		}
-
-		//one stop update
-		public string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr)
-		{
-			try
-			{
-				string res;
-				switch (updateType)
-				{
-					case TGRepoUpdateMethod.Hard:
-					case TGRepoUpdateMethod.Merge:
-						res = Update(updateType == TGRepoUpdateMethod.Hard);
-						if (res != null && res != RepoErrorUpToDate)
-							return res;
-						break;
-					case TGRepoUpdateMethod.Reset:
-						res = Reset(true);
-						if (res != null)
-							return res;
-						break;
-					case TGRepoUpdateMethod.None:
-						break;
-				}
-
-				if (testmerge_pr != 0)
-				{
-					res = MergePullRequestImpl(testmerge_pr, true);
-					if (res != null && res != RepoErrorUpToDate)
-						return res;
-				}
-
-				GenerateChangelog(out res);
-				if (res == null && push_changelog_if_enabled && SSHAuth())
-				{
-					res = Commit();
-					if (res == null)
-						res = Push();
-				}
-
-				if (!Compile(true))
-					return "Compilation could not be started!";
-				return res;
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
-			}
 		}
 
 		//public api

@@ -27,22 +27,44 @@ namespace TGCommandLine
 		protected override ExitCode Run(IList<string> parameters)
 		{
 			var gen_cl = parameters.Count > 1 && parameters[1].ToLower() == "--cl";
-			TGRepoUpdateMethod method;
+			var Repo = Server.GetComponent<ITGRepository>();
 			switch (parameters[0].ToLower())
 			{
 				case "hard":
-					method = TGRepoUpdateMethod.Hard;
+					var res = Repo.Update(true);
+					if (res != null)
+					{
+						OutputProc(res);
+						return ExitCode.ServerError;
+					}
 					break;
 				case "merge":
-					method = TGRepoUpdateMethod.Merge;
+					res = Repo.Update(false);
+					if (res != null)
+					{
+						OutputProc(res);
+						return ExitCode.ServerError;
+					}
 					break;
 				default:
 					OutputProc("Please specify hard or merge");
 					return ExitCode.BadCommand;
 			}
-			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(method, gen_cl);
-			OutputProc(result ?? "Compilation started!");
-			return result == null ? ExitCode.Normal : ExitCode.ServerError;
+			if (gen_cl)
+			{
+				var res = Repo.GenerateChangelog(out string error2);
+				if(res != null)
+				{
+					OutputProc(res);
+					return ExitCode.ServerError;
+				}
+				res = Repo.PushChangelog();
+				if (res != null)
+					OutputProc(res);
+			}
+			var resu = Server.GetComponent<ITGCompiler>().Compile(true);
+			OutputProc(resu ? "Compilation started!" : "Compilation could not be started!");
+			return resu ? ExitCode.Normal : ExitCode.ServerError;
 		}
 
 		public override string GetArgumentString()
@@ -77,9 +99,22 @@ namespace TGCommandLine
 				OutputProc("Invalid tesmerge #: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
-			var result = Server.GetComponent<ITGServerUpdater>().UpdateServer(TGRepoUpdateMethod.None, false, tm);
-			OutputProc(result ?? "Compilation started!");
-			return result == null ? ExitCode.Normal : ExitCode.ServerError;
+			var Repo = Server.GetComponent<ITGRepository>();
+			var res = Repo.MergePullRequest(tm);
+			if (res != null)
+			{
+				OutputProc(res);
+				return ExitCode.ServerError;
+			}
+			res = Repo.GenerateChangelog(out string error2);
+			if (res != null)
+			{
+				OutputProc(res);
+				return ExitCode.ServerError;
+			}
+			var resu = Server.GetComponent<ITGCompiler>().Compile(true);
+			OutputProc(resu ? "Compilation started!" : "Compilation could not be started!");
+			return resu ? ExitCode.Normal : ExitCode.ServerError;
 		}
 		public override string GetArgumentString()
 		{

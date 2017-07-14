@@ -8,7 +8,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -79,45 +79,4 @@ namespace TGServiceInterface
 		[OperationContract]
 		string Version();
 	}
-
-	/// <summary>
-	/// How to modify the repo during the UpdateServer operation
-	/// </summary>
-	public enum TGRepoUpdateMethod
-	{
-		/// <summary>
-		/// Do not update the repo
-		/// </summary>
-		None,
-		/// <summary>
-		/// Update the repo by merging the origin branch
-		/// </summary>
-		Merge,
-		/// <summary>
-		/// Update the repo by hard resetting to the remote branch
-		/// </summary>
-		Hard,
-		/// <summary>
-		/// Clean the repo by hard resetting to the origin branch
-		/// </summary>
-		Reset,
-	}
-
-	/// <summary>
-	/// One stop shop for server updates
-	/// </summary>
-	[ServiceContract]
-	public interface ITGServerUpdater
-	{
-		/// <summary>
-		/// Updates the server fully with various options as a blocking operation
-		/// </summary>
-		/// <param name="updateType">How to handle the repository during the update</param>
-		/// <param name="push_changelog_if_enabled">true if the changelog should be pushed to git</param>
-		/// <param name="testmerge_pr">If not zero, will testmerge the designated pull request</param>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr = 0);
-	}
-
 }

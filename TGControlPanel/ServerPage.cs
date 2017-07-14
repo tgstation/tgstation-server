@@ -17,7 +17,7 @@ namespace TGControlPanel
 		}
 
 		FullUpdateAction fuAction;
-		int testmergePR;
+		ushort testmergePR;
 		string updateError;
 		bool updatingFields = false;
 
@@ -246,7 +246,7 @@ namespace TGControlPanel
 				Server.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
 		}
 
-		private void RunServerUpdate(FullUpdateAction fua, int tm = 0)
+		private void RunServerUpdate(FullUpdateAction fua, ushort tm = 0)
 		{
 			if (FullUpdateWorker.IsBusy)
 				return;
@@ -373,25 +373,68 @@ namespace TGControlPanel
 				return;
 			Server.GetComponent<ITGDreamDaemon>().RequestRestart();
 		}
+
+
 		private void FullUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			var Updater = Server.GetComponent<ITGServerUpdater>();
+			var Repo = Server.GetComponent<ITGRepository>();
+			var DM = Server.GetComponent<ITGCompiler>();
 			switch (fuAction)
 			{
 				case FullUpdateAction.Testmerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.None, false, (ushort)testmergePR);
+					updateError = Repo.MergePullRequest(testmergePR);
+					updateError = Repo.GenerateChangelog(out string error2);
+					if (updateError == null)
+						updateError = DM.Compile(true) ? null : "Compilation failed!";
 					break;
 				case FullUpdateAction.UpdateHard:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, true);
+					updateError = Repo.Update(true);
+					updateError = Repo.GenerateChangelog(out error2);
+					if (updateError == null)
+					{
+						updateError = Repo.PushChangelog();
+						error2 = DM.Compile(true) ? null : "Compilation failed!";
+						if(error2 != null)
+							updateError = error2;
+					}
 					break;
 				case FullUpdateAction.UpdateHardTestmerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, true, (ushort)testmergePR);
+					updateError = Repo.Update(true);
+					updateError = Repo.GenerateChangelog(out error2);
+					if (updateError == null)
+					{
+						updateError = Repo.PushChangelog();
+						error2 = Repo.MergePullRequest(testmergePR);
+						if (error2 == null)
+						{
+							error2 = Repo.GenerateChangelog(out error2);
+							if (error2 == null)
+								error2 = DM.Compile(true) ? null : "Compilation failed!";
+						}
+						updateError = error2 ?? updateError;
+					}
 					break;
 				case FullUpdateAction.UpdateMerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Merge, true, (ushort)testmergePR);
+					updateError = Repo.Update(false);
+					updateError = Repo.GenerateChangelog(out error2);
+					if (updateError == null)
+					{
+						updateError = Repo.PushChangelog();
+						error2 = DM.Compile(true) ? null : "Compilation failed!";
+						if (error2 != null)
+							updateError = error2;
+					}
 					break;
 				case FullUpdateAction.Reset:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Reset, false, 0);
+					updateError = Repo.Reset(true);
+					updateError = Repo.GenerateChangelog(out error2);
+					if (updateError == null)
+					{
+						updateError = Repo.PushChangelog();
+						error2 = DM.Compile(true) ? null : "Compilation failed!";
+						if (error2 != null)
+							updateError = error2;
+					}
 					break;
 			}
 		}
@@ -407,7 +450,7 @@ namespace TGControlPanel
 
 		private void UpdateTestmergeButton_Click(object sender, System.EventArgs e)
 		{
-			RunServerUpdate(FullUpdateAction.UpdateHardTestmerge, (int)ServerTestmergeInput.Value);
+			RunServerUpdate(FullUpdateAction.UpdateHardTestmerge, (ushort)ServerTestmergeInput.Value);
 		}
 
 		private void UpdateMergeButton_Click(object sender, System.EventArgs e)
@@ -416,7 +459,7 @@ namespace TGControlPanel
 		}
 		private void TestmergeButton_Click(object sender, System.EventArgs e)
 		{
-			RunServerUpdate(FullUpdateAction.Testmerge, (int)ServerTestmergeInput.Value);
+			RunServerUpdate(FullUpdateAction.Testmerge, (ushort)ServerTestmergeInput.Value);
 		}
 
 		private void NudgePortSelector_ValueChanged(object sender, EventArgs e)

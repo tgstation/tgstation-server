@@ -188,6 +188,12 @@ namespace TGServiceInterface
 		string GenerateChangelog(out string error);
 
 		/// <summary>
+		/// Pushes the changelog to the currently git, this operation will only run if the changelog is the only difference to be pushed (i.e. no PRs merged)
+		/// </summary>
+		/// <returns>null on success, error on failure</returns>
+		string PushChangelog();
+
+		/// <summary>
 		/// Sets the path to the python 2.7 installation
 		/// </summary>
 		/// <param name="path">The new path</param>
