@@ -180,10 +180,10 @@ namespace TGServerService
 			{
 				try
 				{
-					listener.Disconnect(false);
+					listener.Disconnect(true);
 				}
 				catch { }
-				listener.Dispose();
+				listener.Close();
 				listener = null;
 			}
 		}
@@ -201,6 +201,8 @@ namespace TGServerService
 					return;
 				}
 				listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+				listener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, false); //DON'T LET BYOND DRAG YOU DOWN MAN
+				listener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 500);
 				listener.Bind(new IPEndPoint(IPAddress.Any, np));
 				listener.Listen(5);
 				listener.BeginAccept(Nudge, null);

@@ -202,7 +202,6 @@ namespace TGServerService
 					JoinChannels();
 					
 					new Thread(new ThreadStart(IRCListen)) { IsBackground = true }.Start();
-					Thread.Sleep(1000);
 					return null;
 				}
 				catch (Exception e)
