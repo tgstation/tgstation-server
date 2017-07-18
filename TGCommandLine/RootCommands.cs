@@ -53,14 +53,14 @@ namespace TGCommandLine
 			if (gen_cl)
 			{
 				var res = Repo.GenerateChangelog(out string error2);
-				if(res != null)
-				{
-					OutputProc(res);
-					return ExitCode.ServerError;
-				}
-				res = Repo.PushChangelog();
 				if (res != null)
 					OutputProc(res);
+				else
+				{
+					res = Repo.PushChangelog();
+					if (res != null)
+						OutputProc(res);
+				}
 			}
 			var resu = Server.GetComponent<ITGCompiler>().Compile(true);
 			OutputProc(resu ? "Compilation started!" : "Compilation could not be started!");
