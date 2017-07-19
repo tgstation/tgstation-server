@@ -447,8 +447,7 @@ namespace TGServerService
 				.Replace("Comment this out", "Deactivate")
 				.Replace("uncommenting", "activating")
 				.Replace("Uncommenting", "Activating")
-				.Replace("uncommented", "activated")
-				.Replace("Uncomment", "Activate");
+				.Replace("uncommented", "activated");
 		}
 
 		//public api
@@ -506,7 +505,7 @@ namespace TGServerService
 							if (currentSetting.Comment == null)
 								currentSetting.Comment = TranslateConfigComment(trimmed.Substring(2).Trim());
 							else
-								currentSetting.Comment += "\r\n" + trimmed.Substring(2).Trim();
+								currentSetting.Comment += "\r\n" + TranslateConfigComment(trimmed.Substring(2).Trim());
 							continue;
 						}
 						if (trimmed.Length == 2)
