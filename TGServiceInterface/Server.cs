@@ -140,7 +140,7 @@ namespace TGServiceInterface
 	/// <summary>
 	/// Holds the proc that DD calls to access <see cref="ITGServiceBridge"/>
 	/// </summary>
-	class DDInteropCallHolder
+	public class DDInteropCallHolder
 	{
 		/// <summary>
 		/// The proc that DD calls to access <see cref="ITGServiceBridge"/>
