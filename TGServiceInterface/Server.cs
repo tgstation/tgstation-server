@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RGiesecke.DllExport;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.ServiceModel;
 namespace TGServiceInterface
 {
@@ -8,7 +10,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService), typeof(ITGServiceBridge) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -29,7 +31,7 @@ namespace TGServiceInterface
 
 			return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterPipeName, typeof(T).Name))).CreateChannel();
 		}
-		
+
 		/// <summary>
 		/// Used to test if the service is avaiable on the machine
 		/// Note that state can technically change at any time
@@ -43,7 +45,7 @@ namespace TGServiceInterface
 				GetComponent<ITGSService>().VerifyConnection();
 				return null;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return e.ToString();
 			}
@@ -120,4 +122,42 @@ namespace TGServiceInterface
 		string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr = 0);
 	}
 
+	/// <summary>
+	/// Used by DD to access the interop API with call()()
+	/// </summary>
+	[ServiceContract]
+	public interface ITGServiceBridge
+	{
+		/// <summary>
+		/// Called from /world/ExportService(command)
+		/// </summary>
+		/// <param name="command">The command to run</param>
+		/// <returns></returns>
+		[OperationContract]
+		string InteropMessage(string command);
+	}
+
+	/// <summary>
+	/// Holds the proc that DD calls to access <see cref="ITGServiceBridge"/>
+	/// </summary>
+	class DDInteropCallHolder
+	{
+		/// <summary>
+		/// The proc that DD calls to access <see cref="ITGServiceBridge"/>
+		/// </summary>
+		/// <param name="args">The arguments passed</param>
+		/// <returns>The result of the command</returns>
+		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
+		public static string DDEntryPoint(string[] args)
+		{
+			try
+			{
+				return Server.GetComponent<ITGServiceBridge>().InteropMessage(String.Join(" ", args));
+			}
+			catch (Exception e)
+			{
+				return "Service Error: " + e.Message;
+			}
+		}
+	}
 }
