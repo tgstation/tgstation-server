@@ -132,9 +132,9 @@ namespace TGServiceInterface
 		/// Called from /world/ExportService(command)
 		/// </summary>
 		/// <param name="command">The command to run</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns>true on success, false on failure</returns>
 		[OperationContract]
-		string InteropMessage(string command);
+		bool InteropMessage(string command);
 	}
 
 	/// <summary>
@@ -146,17 +146,17 @@ namespace TGServiceInterface
 		/// The proc that DD calls to access <see cref="ITGServiceBridge"/>
 		/// </summary>
 		/// <param name="args">The arguments passed</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns>0 success, -1 on a WCF, error, 1 on an operation error</returns>
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
-		public static string DDEntryPoint(string[] args)
+		public static int DDEntryPoint(int argc, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 0)]string[] args)
 		{
 			try
 			{
-				return Server.GetComponent<ITGServiceBridge>().InteropMessage(String.Join(" ", args));
+				return Server.GetComponent<ITGServiceBridge>().InteropMessage(String.Join(" ", args)) ? 0 : 1;
 			}
-			catch (Exception e)
+			catch 
 			{
-				return "Service Error: " + e.Message;
+				return -1;
 			}
 		}
 	}

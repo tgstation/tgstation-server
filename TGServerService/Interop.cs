@@ -252,16 +252,17 @@ namespace TGServerService
 		}
 
 		/// <inheritdoc />
-		public string InteropMessage(string command)
+		public bool InteropMessage(string command)
 		{
 			try
 			{
 				HandleCommand(command);
-				return null;
+				return true;
 			}
 			catch(Exception e)
 			{
-				return "Error: " + e.Message;
+				TGServerService.WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), TGServerService.EventID.InteropCallException);
+				return false;
 			}
 		}
 	}
