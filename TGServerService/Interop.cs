@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -11,7 +10,7 @@ using TGServiceInterface;
 namespace TGServerService
 {
 	//handles talking between the world and us
-	partial class TGStationServer
+	partial class TGStationServer : ITGServiceBridge
 	{
 		object topicLock = new object();
 		const int CommsKeyLen = 64;
@@ -249,6 +248,20 @@ namespace TGServerService
 			{
 				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
 				SendMessage("SERVICE: The relay handler crashed, use relayrestart to restore it! Error: " + e.Message, ChatMessageType.AdminInfo);
+			}
+		}
+
+		/// <inheritdoc />
+		public string InteropMessage(string command)
+		{
+			try
+			{
+				HandleCommand(command);
+				return null;
+			}
+			catch(Exception e)
+			{
+				return "Error: " + e.Message;
 			}
 		}
 	}

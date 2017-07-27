@@ -132,7 +132,7 @@ namespace TGServiceInterface
 		/// Called from /world/ExportService(command)
 		/// </summary>
 		/// <param name="command">The command to run</param>
-		/// <returns></returns>
+		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string InteropMessage(string command);
 	}
@@ -146,7 +146,7 @@ namespace TGServiceInterface
 		/// The proc that DD calls to access <see cref="ITGServiceBridge"/>
 		/// </summary>
 		/// <param name="args">The arguments passed</param>
-		/// <returns>The result of the command</returns>
+		/// <returns>null on success, error message on failure</returns>
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
 		public static string DDEntryPoint(string[] args)
 		{
