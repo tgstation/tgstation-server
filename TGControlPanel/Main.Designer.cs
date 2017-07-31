@@ -71,7 +71,6 @@
 			this.MajorVersionNumeric = new System.Windows.Forms.NumericUpDown();
 			this.UpdateProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ServerPanel = new System.Windows.Forms.TabPage();
-			this.VisibilitySelector = new System.Windows.Forms.ComboBox();
 			this.VisibilityTitle = new System.Windows.Forms.Label();
 			this.SecuritySelector = new System.Windows.Forms.ComboBox();
 			this.SecurityTitle = new System.Windows.Forms.Label();
@@ -80,7 +79,6 @@
 			this.NudgePortLabel = new System.Windows.Forms.Label();
 			this.ServerPathLabel = new System.Windows.Forms.Label();
 			this.ServerPathTextbox = new System.Windows.Forms.TextBox();
-			this.CompileCancelButton = new System.Windows.Forms.Button();
 			this.ProjectPathLabel = new System.Windows.Forms.Label();
 			this.projectNameText = new System.Windows.Forms.TextBox();
 			this.PortLabel = new System.Windows.Forms.Label();
@@ -177,6 +175,9 @@
 			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
 			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
+			this.WorldAnnounceField = new System.Windows.Forms.TextBox();
+			this.CompileCancelButton = new System.Windows.Forms.Button();
+			this.WorldAnnounceButton = new System.Windows.Forms.Button();
 			this.Panels.SuspendLayout();
 			this.RepoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
@@ -722,7 +723,8 @@
 			// ServerPanel
 			// 
 			this.ServerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.ServerPanel.Controls.Add(this.VisibilitySelector);
+			this.ServerPanel.Controls.Add(this.WorldAnnounceButton);
+			this.ServerPanel.Controls.Add(this.WorldAnnounceField);
 			this.ServerPanel.Controls.Add(this.VisibilityTitle);
 			this.ServerPanel.Controls.Add(this.SecuritySelector);
 			this.ServerPanel.Controls.Add(this.SecurityTitle);
@@ -762,32 +764,17 @@
 			this.ServerPanel.TabIndex = 2;
 			this.ServerPanel.Text = "Server";
 			// 
-			// VisibilitySelector
-			// 
-			this.VisibilitySelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.VisibilitySelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.VisibilitySelector.FormattingEnabled = true;
-			this.VisibilitySelector.Items.AddRange(new object[] {
-            "Public",
-            "Private",
-            "Invisible"});
-			this.VisibilitySelector.Location = new System.Drawing.Point(566, 136);
-			this.VisibilitySelector.Name = "VisibilitySelector";
-			this.VisibilitySelector.Size = new System.Drawing.Size(121, 21);
-			this.VisibilitySelector.TabIndex = 40;
-			this.VisibilitySelector.SelectedIndexChanged += new System.EventHandler(this.VisibilitySelector_SelectedIndexChanged);
-			// 
 			// VisibilityTitle
 			// 
 			this.VisibilityTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.VisibilityTitle.AutoSize = true;
 			this.VisibilityTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.VisibilityTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.VisibilityTitle.Location = new System.Drawing.Point(474, 139);
+			this.VisibilityTitle.Location = new System.Drawing.Point(466, 139);
 			this.VisibilityTitle.Name = "VisibilityTitle";
-			this.VisibilityTitle.Size = new System.Drawing.Size(86, 18);
+			this.VisibilityTitle.Size = new System.Drawing.Size(94, 18);
 			this.VisibilityTitle.TabIndex = 39;
-			this.VisibilityTitle.Text = "Visibility:";
+			this.VisibilityTitle.Text = "Announce:";
 			this.VisibilityTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// SecuritySelector
@@ -883,18 +870,6 @@
 			this.ServerPathTextbox.Name = "ServerPathTextbox";
 			this.ServerPathTextbox.Size = new System.Drawing.Size(296, 20);
 			this.ServerPathTextbox.TabIndex = 32;
-			// 
-			// CompileCancelButton
-			// 
-			this.CompileCancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.CompileCancelButton.Enabled = false;
-			this.CompileCancelButton.Location = new System.Drawing.Point(737, 302);
-			this.CompileCancelButton.Name = "CompileCancelButton";
-			this.CompileCancelButton.Size = new System.Drawing.Size(69, 31);
-			this.CompileCancelButton.TabIndex = 31;
-			this.CompileCancelButton.Text = "Cancel";
-			this.CompileCancelButton.UseVisualStyleBackColor = true;
-			this.CompileCancelButton.Click += new System.EventHandler(this.CompileCancelButton_Click);
 			// 
 			// ProjectPathLabel
 			// 
@@ -1608,7 +1583,6 @@
 			this.AdminModeSpecial.TabStop = true;
 			this.AdminModeSpecial.Text = "Channel Mode";
 			this.AdminModeSpecial.UseVisualStyleBackColor = true;
-			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeSpecial_CheckedChanged);
 			// 
 			// AdminModeNormal
 			// 
@@ -1987,6 +1961,38 @@
 			// 
 			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
 			// 
+			// WorldAnnounceField
+			// 
+			this.WorldAnnounceField.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.WorldAnnounceField.Location = new System.Drawing.Point(566, 136);
+			this.WorldAnnounceField.Name = "WorldAnnounceField";
+			this.WorldAnnounceField.Size = new System.Drawing.Size(213, 20);
+			this.WorldAnnounceField.TabIndex = 40;
+			// 
+			// CompileCancelButton
+			// 
+			this.CompileCancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.CompileCancelButton.Enabled = false;
+			this.CompileCancelButton.Location = new System.Drawing.Point(737, 302);
+			this.CompileCancelButton.Name = "CompileCancelButton";
+			this.CompileCancelButton.Size = new System.Drawing.Size(69, 31);
+			this.CompileCancelButton.TabIndex = 31;
+			this.CompileCancelButton.Text = "Cancel";
+			this.CompileCancelButton.UseVisualStyleBackColor = true;
+			this.CompileCancelButton.Click += new System.EventHandler(this.CompileCancelButton_Click);
+			// 
+			// WorldAnnounceButton
+			// 
+			this.WorldAnnounceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.WorldAnnounceButton.Enabled = false;
+			this.WorldAnnounceButton.Location = new System.Drawing.Point(785, 136);
+			this.WorldAnnounceButton.Name = "WorldAnnounceButton";
+			this.WorldAnnounceButton.Size = new System.Drawing.Size(77, 20);
+			this.WorldAnnounceButton.TabIndex = 41;
+			this.WorldAnnounceButton.Text = "Send";
+			this.WorldAnnounceButton.UseVisualStyleBackColor = true;
+			this.WorldAnnounceButton.Click += new System.EventHandler(this.WorldAnnounceButton_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2082,7 +2088,6 @@
 		private System.Windows.Forms.NumericUpDown PortSelector;
 		private System.Windows.Forms.Label ProjectPathLabel;
 		private System.Windows.Forms.TextBox projectNameText;
-		private System.Windows.Forms.Button CompileCancelButton;
 		private System.Windows.Forms.Label ServerPathLabel;
 		private System.Windows.Forms.TextBox ServerPathTextbox;
 		private System.Windows.Forms.Label LatestVersionLabel;
@@ -2159,7 +2164,6 @@
 		private System.Windows.Forms.ComboBox SecuritySelector;
 		private System.Windows.Forms.Label SecurityTitle;
 		private System.Windows.Forms.Label VisibilityTitle;
-		private System.Windows.Forms.ComboBox VisibilitySelector;
 		private System.ComponentModel.BackgroundWorker ServerStartBGW;
 		private System.Windows.Forms.Button RepoRefreshButton;
 		private System.Windows.Forms.ComboBox IRCModesComboBox;
@@ -2175,5 +2179,8 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button WorldAnnounceButton;
+		private System.Windows.Forms.TextBox WorldAnnounceField;
+		private System.Windows.Forms.Button CompileCancelButton;
 	}
 }

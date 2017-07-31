@@ -125,6 +125,8 @@ namespace TGControlPanel
 			UpdateMergeButton.Visible = RepoExists;
 			UpdateTestmergeButton.Visible = RepoExists;
 			ResetTestmerge.Visible = RepoExists;
+			WorldAnnounceField.Visible = RepoExists;
+			WorldAnnounceButton.Visible = RepoExists;
 
 			var DM = Server.GetComponent<ITGCompiler>();
 			var DD = Server.GetComponent<ITGDreamDaemon>();
@@ -137,8 +139,7 @@ namespace TGControlPanel
 
 			if (!ServerPathTextbox.Focused)
 				ServerPathTextbox.Text = Config.ServerDirectory();
-
-			VisibilitySelector.SelectedIndex = (int)DD.VisibilityLevel();
+			
 			SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
 
 			if (!RepoExists)
@@ -432,11 +433,18 @@ namespace TGControlPanel
 					MessageBox.Show("Security change will be applied after next server reboot.");
 		}
 
-		private void VisibilitySelector_SelectedIndexChanged(object sender, EventArgs e)
+		private void WorldAnnounceButton_Click(object sender, EventArgs e)
 		{
-			if (!updatingFields)
-				if (!Server.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
-					MessageBox.Show("Visibility change will be applied after next server reboot.");
+			var msg = WorldAnnounceField.Text;
+			if (!String.IsNullOrWhiteSpace(msg)) {
+				var res = Server.GetComponent<ITGDreamDaemon>().WorldAnnounce(msg);
+				if(res != null)
+				{
+					MessageBox.Show(res);
+					return;
+				}
+			}
+			WorldAnnounceField.Text = "";
 		}
 	}
 }
