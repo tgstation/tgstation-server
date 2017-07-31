@@ -152,12 +152,10 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				return Server.GetComponent<ITGServiceBridge>().InteropMessage(String.Join(" ", args)) ? 0 : 1;
+				Server.GetComponent<ITGServiceBridge>().InteropMessage(String.Join(" ", args));
 			}
-			catch 
-			{
-				return -1;
-			}
+			catch { }
+			return 0;
 		}
 	}
 }
