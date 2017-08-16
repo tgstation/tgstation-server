@@ -52,7 +52,7 @@ namespace TGCommandLine
 			}
 			if (gen_cl)
 			{
-				var res = Repo.GenerateChangelog(out string error2);
+				Repo.GenerateChangelog(out string res);
 				if (res != null)
 					OutputProc(res);
 				else
@@ -106,7 +106,7 @@ namespace TGCommandLine
 				OutputProc(res);
 				return ExitCode.ServerError;
 			}
-			res = Repo.GenerateChangelog(out string error2);
+			Repo.GenerateChangelog(out res);
 			if (res != null)
 			{
 				OutputProc(res);

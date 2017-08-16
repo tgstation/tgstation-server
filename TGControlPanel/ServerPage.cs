@@ -386,7 +386,7 @@ namespace TGControlPanel
 					updateError = Repo.MergePullRequest(testmergePR);
 					if (updateError == null)
 					{
-						updateError = Repo.GenerateChangelog(out string error2);
+						Repo.GenerateChangelog(out updateError);
 						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 					}
 					break;
@@ -394,46 +394,43 @@ namespace TGControlPanel
 					updateError = Repo.Update(true);
 					if (updateError == null)
 					{
-						updateError = Repo.GenerateChangelog(out string error2) ?? Repo.PushChangelog();
-						error2 = DM.Compile(true) ? null : "Compilation failed!";
-						if(error2 != null)
-							updateError = error2;
+						Repo.GenerateChangelog(out updateError);
+						if(updateError == null)
+							updateError = Repo.PushChangelog();
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 					}
 					break;
 				case FullUpdateAction.UpdateHardTestmerge:
 					updateError = Repo.Update(true);
 					if (updateError == null)
 					{
-						updateError = Repo.GenerateChangelog(out string error2) ?? Repo.PushChangelog();
-						error2 = Repo.MergePullRequest(testmergePR);
-						if (error2 == null)
+						Repo.GenerateChangelog(out updateError);
+						if (updateError == null)
+							updateError = Repo.PushChangelog();
+						updateError = Repo.MergePullRequest(testmergePR);
+						if (updateError == null)
 						{
-							error2 = Repo.GenerateChangelog(out error2);
-							error2 = DM.Compile(true) ? error2 : "Compilation failed!";
+							Repo.GenerateChangelog(out updateError);
+							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 						}
-						updateError = error2 ?? updateError;
 					}
 					break;
 				case FullUpdateAction.UpdateMerge:
 					updateError = Repo.Update(false);
 					if (updateError == null)
 					{
-						updateError = Repo.GenerateChangelog(out string error2);
-						if(updateError == null)
-							Repo.PushChangelog();	//not an error 99% of the time if this fails, just a dirty tree
-						error2 = DM.Compile(true) ? null : "Compilation failed!";
-						if (error2 != null)
-							updateError = error2;
+						Repo.GenerateChangelog(out updateError);
+						if (updateError == null)
+							Repo.PushChangelog();   //not an error 99% of the time if this fails, just a dirty tree
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 					}
 					break;
 				case FullUpdateAction.Reset:
 					updateError = Repo.Reset(true);
 					if (updateError == null)
 					{
-						updateError = Repo.GenerateChangelog(out string error2);
-						error2 = DM.Compile(true) ? null : "Compilation failed!";
-						if (error2 != null)
-							updateError = error2;
+						Repo.GenerateChangelog(out updateError);
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 					}
 					break;
 			}
