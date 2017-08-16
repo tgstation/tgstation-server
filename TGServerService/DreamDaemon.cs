@@ -449,7 +449,7 @@ namespace TGServerService
 		//public api
 		public string StatusString(bool includeMetaInfo)
 		{
-			const string visSecStr = " (Sec: {1})";
+			const string visSecStr = " (Sec: {0})";
 			string res;
 			var ds = DaemonStatus();
 			switch (ds)
