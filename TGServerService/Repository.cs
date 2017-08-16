@@ -671,7 +671,30 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		public string PushChangelog()
+		{
+			return LocalIsRemote() ? Commit() ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
+		}
+
+		bool LocalIsRemote()
+		{
+			lock (RepoLock)
+			{
+				if (LoadRepo() != null)
+					return false;
+				var R = Repo.Network.Remotes["origin"];
+				try
+				{
+					Commands.Fetch(Repo, R.Name, R.FetchRefSpecs.Select(X => X.Specification), null, null);
+					return Repo.Head.IsTracking && Repo.Head.TrackedBranch.Tip.Sha == Repo.Head.Tip.Sha;
+				}
+				catch
+				{
+					return false;
+				}
+			}
+		}
+
 		string Commit()
 		{
 			lock (RepoLock)
