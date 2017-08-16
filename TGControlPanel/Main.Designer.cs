@@ -1984,7 +1984,6 @@
 			// WorldAnnounceButton
 			// 
 			this.WorldAnnounceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.WorldAnnounceButton.Enabled = false;
 			this.WorldAnnounceButton.Location = new System.Drawing.Point(785, 136);
 			this.WorldAnnounceButton.Name = "WorldAnnounceButton";
 			this.WorldAnnounceButton.Size = new System.Drawing.Size(77, 20);
