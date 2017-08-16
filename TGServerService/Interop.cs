@@ -77,11 +77,6 @@ namespace TGServerService
 			}
 		}
 
-		bool WorldAnnounce(string message)
-		{
-			return SendCommand(SCWorldAnnounce + ";message=" + message) == "SUCCESS" ;
-		}
-
 		public string SendPM(string targetCkey, string sender, string message)
 		{
 			return SendCommand(String.Format("{3};target={0};sender={1};message={2}", targetCkey, sender, message, SCAdminPM));

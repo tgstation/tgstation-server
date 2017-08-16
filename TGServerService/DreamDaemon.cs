@@ -31,7 +31,6 @@ namespace TGServerService
 		bool RestartInProgress = false;
 
 		TGDreamDaemonSecurity StartingSecurity;
-		TGDreamDaemonVisibility StartingVisiblity;
 
 		ShutdownRequestPhase AwaitingShutdown;
 
@@ -364,23 +363,6 @@ namespace TGServerService
 			}
 		}
 
-		//same thing with visibility
-		string VisibilityWord(bool starting = false)
-		{
-			var level = starting ? StartingVisiblity : (TGDreamDaemonVisibility)Properties.Settings.Default.ServerVisiblity;
-			switch (level)
-			{
-				case TGDreamDaemonVisibility.Invisible:
-					return "invisible";
-				case TGDreamDaemonVisibility.Private:
-					return "private";
-				case TGDreamDaemonVisibility.Public:
-					return "public";
-				default:
-					throw new Exception(String.Format("Bad DreamDaemon visibility level: {0}", level));
-			}
-		}
-
 		//used by Start and Watchdog to start a DD instance
 		string StartImpl(bool watchdog)
 		{
@@ -394,11 +376,9 @@ namespace TGServerService
 
 					var Config = Properties.Settings.Default;
 					var DMB = GameDirLive + "/" + Config.ProjectName + ".dmb";
-
-					GenCommsKey();
-					StartingVisiblity = (TGDreamDaemonVisibility)Config.ServerVisiblity;
+					
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
-					Proc.StartInfo.Arguments = String.Format("{0} -port {1} -close -verbose -params server_service={4} -{2} -{3}", DMB, Config.ServerPort, SecurityWord(), VisibilityWord(), serviceCommsKey);
+					Proc.StartInfo.Arguments = String.Format("{0} -port {1} -close -verbose -params server_service={3} -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey);
 					InitInterop();
 					Proc.Start();
 
@@ -427,31 +407,6 @@ namespace TGServerService
 				currentStatus = TGDreamDaemonStatus.Offline;
 				return e.ToString();
 			}
-		}
-
-		//public api
-		public TGDreamDaemonVisibility VisibilityLevel()
-		{
-			lock (watchdogLock)
-			{
-				return (TGDreamDaemonVisibility)Properties.Settings.Default.ServerVisiblity;
-			}
-		}
-
-		//public api
-		public bool SetVisibility(TGDreamDaemonVisibility NewVis)
-		{
-			var Config = Properties.Settings.Default;
-			var visInt = (int)NewVis;
-			bool needReboot;
-			lock (watchdogLock)
-			{
-				needReboot = Config.ServerVisiblity != visInt;
-				Config.ServerVisiblity = visInt;
-			}
-			if (needReboot)
-				RequestRestart();
-			return DaemonStatus() != TGDreamDaemonStatus.Online;
 		}
 
 		//public api
@@ -494,7 +449,7 @@ namespace TGServerService
 		//public api
 		public string StatusString(bool includeMetaInfo)
 		{
-			const string visSecStr = " (Vis: {0}, Sec: {1})";
+			const string visSecStr = " (Sec: {1})";
 			string res;
 			var ds = DaemonStatus();
 			switch (ds)
@@ -512,7 +467,7 @@ namespace TGServerService
 						string secandvis;
 						lock (watchdogLock)
 						{
-							secandvis = String.Format(visSecStr, VisibilityWord(true), SecurityWord(true));
+							secandvis = String.Format(visSecStr, SecurityWord(true));
 						}
 						res += secandvis;
 					}
@@ -522,7 +477,7 @@ namespace TGServerService
 					break;
 			}
 			if (includeMetaInfo && ds != TGDreamDaemonStatus.Online)
-				res += String.Format(visSecStr, VisibilityWord(), SecurityWord());
+				res += String.Format(visSecStr, SecurityWord());
 			return res;
 		}
 
@@ -539,6 +494,15 @@ namespace TGServerService
 			{
 				return AwaitingShutdown != ShutdownRequestPhase.None;
 			}
+		}
+
+		/// <inheritdoc />
+		public string WorldAnnounce(string message)
+		{
+			var res = SendCommand(SCWorldAnnounce + ";message=" + message);
+			if (res == "SUCCESS")
+				return null;
+			return res;
 		}
 	}
 }
