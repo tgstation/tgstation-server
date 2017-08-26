@@ -68,6 +68,21 @@ namespace TGInstallerWrapper
 			string logfile = null;
 			try
 			{
+				while (true)
+				{
+					var res = PromptKillProcess("TGCommandLine");
+					if (res == PKillType.Aborted)
+						return;
+					else if (res == PKillType.Killed)
+						continue;
+					res = PromptKillProcess("TGControlPanel");
+					if (res == PKillType.Aborted)
+						return;
+					else if (res == PKillType.Killed)
+						continue;
+					break;
+				}
+				
 				var args = new List<string>();
 				if (!pathIsDefault)
 					args.Add(String.Format("INSTALLFOLDER=\"{0}\"", PathTextBox.Text));
@@ -113,21 +128,6 @@ namespace TGInstallerWrapper
 								return;
 						}
 					}
-
-				while (true)
-				{
-					var res = PromptKillProcess("TGCommandLine");
-					if (res == PKillType.Aborted)
-						return;
-					else if (res == PKillType.Killed)
-						continue;
-					res = PromptKillProcess("TGControlPanel");
-					if (res == PKillType.Aborted)
-						return;
-					else if (res == PKillType.Killed)
-						continue;
-					break;
-				}
 
 				InstallCancelButton.Enabled = true;
 
