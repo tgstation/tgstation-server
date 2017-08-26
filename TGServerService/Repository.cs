@@ -673,6 +673,8 @@ namespace TGServerService
 
 		public string PushChangelog()
 		{
+			if (!SSHAuth())
+				return null;
 			return LocalIsRemote() ? Commit() ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
