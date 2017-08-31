@@ -30,6 +30,7 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+			ShutdownInterop();
 		}
 
 		//public api
