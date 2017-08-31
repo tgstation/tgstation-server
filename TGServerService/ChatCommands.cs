@@ -41,7 +41,20 @@ namespace TGServerService
 		public RootChatCommand()
 		{
 			PrintHelpList = true;
-			Children = new Command[] { new CheckCommand(), new StatusCommand(), new PRsCommand(), new VersionCommand(), new AHelpCommand(), new NameCheckCommand(), new RevisionCommand(), new AdminWhoCommand(), new ByondCommand(), new KekCommand(), new RelayRestartCommand() };
+			Children = new Command[] { new CheckCommand(),
+                new StatusCommand(),
+                new PRsCommand(),
+                new VersionCommand(),
+                new AHelpCommand(),
+                new NameCheckCommand(),
+                new RevisionCommand(),
+                new AdminWhoCommand(),
+                new ByondCommand(),
+                new KekCommand(),
+                new RelayRestartCommand(),
+                new UpdateCommand(),
+                new DDRestartCommand()
+            };
 		}
 	}
 	class RevisionCommand : ChatCommand
@@ -280,4 +293,119 @@ namespace TGServerService
 			return "Restart the relay listener. This is a massive hack but it'll do for now";
 		}
 	}
+
+    class UpdateCommand : ChatCommand
+    {
+        public UpdateCommand()
+        {
+            Keyword = "update";
+            RequiresAdmin = true;
+            RequiredParameters = 1;
+        }
+        protected override ExitCode Run(IList<string> parameters)
+        {
+
+            bool hard;
+            switch (parameters[0].ToLower())
+            {
+                case "hard":
+                    hard = true;
+                    break;
+                case "merge":
+                    hard = false;
+                    break;
+                default:
+                    OutputProc("Invalid parameter: " + parameters[0]);
+                    return ExitCode.BadCommand;
+            }
+            var res = Server.GetComponent<ITGRepository>().Update(hard);
+            OutputProc(res ?? "Success");
+
+            var exitcode = res == null ? ExitCode.Normal : ExitCode.ServerError;
+            if (exitcode != ExitCode.Normal)
+            {
+                return exitcode;
+            }
+
+            var DM = Server.GetComponent<ITGCompiler>();
+            var stat = DM.GetStatus();
+            if (stat != TGCompilerStatus.Initialized)
+            {
+                OutputProc("Error: Compiler is " + ((stat == TGCompilerStatus.Uninitialized) ? "unintialized!" : "busy with another task!"));
+                return ExitCode.ServerError;
+            }
+
+            if (Server.GetComponent<ITGByond>().GetVersion(TGByondVersion.Installed) == null)
+            {
+                OutputProc("Error: BYOND is not installed!");
+                return ExitCode.ServerError;
+            }
+
+            if (!DM.Compile())
+            {
+                OutputProc("Error: Unable to start compilation!");
+                var err = DM.CompileError();
+                if (err != null)
+                    OutputProc(err);
+                return ExitCode.ServerError;
+            }
+            OutputProc("Compile job started");
+            do
+            {
+                Thread.Sleep(1000);
+            } while (DM.GetStatus() == TGCompilerStatus.Compiling);
+            res = DM.CompileError();
+            OutputProc(res ?? "Compilation successful");
+            if (res != null)
+                return ExitCode.ServerError;
+
+            return ExitCode.Normal;
+        }
+
+        public override string GetHelpText()
+        {
+            return "Trigger an update of the server";
+        }
+
+        public override string GetArgumentString()
+        {
+            return "<hard|merge>";
+        }
+    }
+
+    class DDRestartCommand : ChatCommand
+    {
+        public DDRestartCommand()
+        {
+            Keyword = "restart";
+            RequiresAdmin = true;
+        }
+
+        public override string GetArgumentString()
+        {
+            return "[--graceful]";
+        }
+        protected override ExitCode Run(IList<string> parameters)
+        {
+            var DD = Server.GetComponent<ITGDreamDaemon>();
+            if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
+            {
+                if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
+                {
+                    OutputProc("Error: The game is not currently running!");
+                    return ExitCode.ServerError;
+                }
+                DD.RequestRestart();
+                return ExitCode.Normal;
+            }
+            var res = DD.Restart();
+            OutputProc(res ?? "Success!");
+            return res == null ? ExitCode.Normal : ExitCode.ServerError;
+        }
+
+        public override string GetHelpText()
+        {
+            return "Restarts the server and watchdog optionally waiting for the current round to end";
+        }
+    }
 }
