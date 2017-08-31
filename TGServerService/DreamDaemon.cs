@@ -56,6 +56,7 @@ namespace TGServerService
 					currentStatus = TGDreamDaemonStatus.Online;
 					DDWatchdog = new Thread(new ThreadStart(Watchdog));
 					DDWatchdog.Start();
+					RequestRestart();   //TODO: Remove this when DD -> Service communication is more 
 				}
 				catch (Exception e)
 				{
