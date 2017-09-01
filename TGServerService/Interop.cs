@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using TGServiceInterface;
 
@@ -24,16 +24,31 @@ namespace TGServerService
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
-		public const string SCIRCCheck = "irc_check";  //returns game stats
-		public const string SCIRCStatus = "irc_status"; //returns admin stats
-		public const string SCNameCheck = "namecheck"; //returns keywords lookup
-		const string SCAdminPM = "adminmsg"; //pms a target ckey
-		public const string SCAdminWho = "adminwho";   //lists admins
+		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
 		const string SRIRCAdminChannelMessage = "send2irc";
 		const string SRWorldReboot = "worldreboot";
+
+		List<Command> ServerChatCommands;
+
+		void LoadServerChatCommands()
+		{
+			if (DaemonStatus() != TGDreamDaemonStatus.Online)
+				return;
+			var json = SendCommand(SCListCustomCommands);
+			if (String.IsNullOrWhiteSpace(json))
+				return;
+			List<Command> tmp = new List<Command>();
+			try
+			{
+				foreach(var I in new JavaScriptSerializer().Deserialize<IDictionary<string, IDictionary<string, object>>>(json))
+					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value["help_text"], (bool)I.Value["adminOnly"]));
+				ServerChatCommands = tmp;
+			}
+			catch { }
+		}
 
 		//raw command string sent here via world.ExportService
 		void HandleCommand(string cmd)
@@ -75,16 +90,6 @@ namespace TGServerService
 					return "Error: Server Offline!";
 				return SendTopic(String.Format("serviceCommsKey={0};command={1}", serviceCommsKey, cmd), currentPort);
 			}
-		}
-
-		public string SendPM(string targetCkey, string sender, string message)
-		{
-			return SendCommand(String.Format("{3};target={0};sender={1};message={2}", targetCkey, sender, message, SCAdminPM));
-		}
-
-		public string NameCheck(string targetCkey, string sender)
-		{
-			return SendCommand(String.Format("{2};target={0};sender={1}", targetCkey, sender, SCNameCheck));
 		}
 
 		//Fuckery to diddle byond with the right packet to accept our girth

@@ -463,7 +463,7 @@ namespace TGServerService
 					res = "REBOOTING";
 					break;
 				case TGDreamDaemonStatus.Online:
-					res = SendCommand(SCIRCCheck);
+					res = "ONLINE";
 					if (includeMetaInfo)
 					{
 						string secandvis;
