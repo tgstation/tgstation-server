@@ -44,7 +44,7 @@ namespace TGServerService
 			try
 			{
 				foreach(var I in new JavaScriptSerializer().Deserialize<IDictionary<string, IDictionary<string, object>>>(json))
-					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value["help_text"], (bool)I.Value["adminOnly"]));
+					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value["help_text"], (bool)I.Value["adminOnly"], (int)I.Value["required_parameters"]));
 				ServerChatCommands = tmp;
 			}
 			catch { }

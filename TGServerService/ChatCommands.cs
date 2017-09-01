@@ -40,11 +40,12 @@ namespace TGServerService
 	class ServerChatCommand : ChatCommand
 	{
 		readonly string HelpText;
-		public ServerChatCommand(string name, string helpText, bool adminOnly)
+		public ServerChatCommand(string name, string helpText, bool adminOnly, int requiredParameters)
 		{
 			Keyword = name;
 			RequiresAdmin = adminOnly;
 			HelpText = helpText;
+			RequiredParameters = requiredParameters;
 		}
 
 		public override string GetHelpText()
