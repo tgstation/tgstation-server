@@ -243,7 +243,8 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
-				SendMessage("SERVICE: The relay handler crashed, use relayrestart to restore it! Error: " + e.Message, ChatMessageType.AdminInfo);
+				SendMessage("SERVICE: The relay handler crashed, I will attempt to restore it when the server reboots! Error: " + e.Message, ChatMessageType.AdminInfo);
+				RequestRestart();
 			}
 		}
 	}
