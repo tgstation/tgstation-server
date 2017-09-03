@@ -147,7 +147,9 @@ namespace TGServerService
 				Server = this,
 			};
 			TGServerService.WriteInfo(String.Format("Chat Command from {0} ({2}): {1}", speaker, String.Join(" ", asList), channel), TGServerService.EventID.ChatCommand);
-			new RootChatCommand().DoRun(asList);
+			if (ServerChatCommands == null)
+				LoadServerChatCommands();
+			new RootChatCommand(ServerChatCommands).DoRun(asList);
 		}
 
 		//cleanup and save
