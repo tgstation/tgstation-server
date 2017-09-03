@@ -65,12 +65,12 @@ namespace TGServerService
 	class RootChatCommand : RootCommand
 	{
 		public RootChatCommand(List<Command> serverCommands)
-		{
-			if (serverCommands == null)
-				serverCommands = new List<Command>();
+        {
+            Children = new Command[] { new PRsCommand(), new VersionCommand(), new RevisionCommand(), new ByondCommand(), new KekCommand() };
+            if (serverCommands != null)
+                serverCommands.CopyTo(Children);
+            serverCommands = new List<Command>();
 			PrintHelpList = true;
-			serverCommands.AddRange(new Command[] { new PRsCommand(), new VersionCommand(), new RevisionCommand(), new ByondCommand(), new KekCommand() });
-			Children = serverCommands.ToArray();
 		}
 	}
 	class RevisionCommand : ChatCommand
