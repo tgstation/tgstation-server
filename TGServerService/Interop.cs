@@ -124,7 +124,7 @@ namespace TGServerService
 						string returnedString = "NULL";
 						try
 						{
-							var returnedData = new byte[512];
+							var returnedData = new byte[UInt16.MaxValue];
 							topicSender.Receive(returnedData);
 							var raw_string = Encoding.ASCII.GetString(returnedData).TrimEnd(new char[] { (char)0 }).Trim();
 							if (raw_string.Length > 6)
