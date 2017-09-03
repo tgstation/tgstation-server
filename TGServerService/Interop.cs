@@ -29,11 +29,11 @@ namespace TGServerService
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
 		const string SRIRCAdminChannelMessage = "send2irc";
-        const string SRWorldReboot = "worldreboot";
+		const string SRWorldReboot = "worldreboot";
 
-        const string CCPHelpText = "help_text";
-        const string CCPAdminOnly = "admin_only";
-        const string CCPRequiredParameters = "required_parameters";
+		const string CCPHelpText = "help_text";
+		const string CCPAdminOnly = "admin_only";
+		const string CCPRequiredParameters = "required_parameters";
 
 		List<Command> ServerChatCommands;
 
