@@ -29,7 +29,11 @@ namespace TGServerService
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
 		const string SRIRCAdminChannelMessage = "send2irc";
-		const string SRWorldReboot = "worldreboot";
+        const string SRWorldReboot = "worldreboot";
+
+        const string CCPHelpText = "help_text";
+        const string CCPAdminOnly = "admin_only";
+        const string CCPRequiredParameters = "required_parameters";
 
 		List<Command> ServerChatCommands;
 
@@ -44,7 +48,7 @@ namespace TGServerService
 			try
 			{
 				foreach(var I in new JavaScriptSerializer().Deserialize<IDictionary<string, IDictionary<string, object>>>(json))
-					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value["help_text"], (bool)I.Value["adminOnly"], (int)I.Value["required_parameters"]));
+					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], (bool)I.Value[CCPAdminOnly], (int)I.Value[CCPRequiredParameters]));
 				ServerChatCommands = tmp;
 			}
 			catch { }
