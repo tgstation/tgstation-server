@@ -377,9 +377,9 @@ namespace TGServerService
 						return error;
 					}
 					var res = MergeBranch(originBranch.FriendlyName);
-					UpdateSubmodules();
 					if (res != null)
 						throw new Exception(res);
+					UpdateSubmodules();
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
 					return null;
 				}
@@ -568,6 +568,16 @@ namespace TGServerService
 
 					//so we'll know if this fails
 					var Result = MergeBranch(LocalBranchName);
+
+					if (Result == null)
+						try
+						{
+							UpdateSubmodules();
+						}
+						catch (Exception e)
+						{
+							Result = e.ToString();
+						}
 
 					if (Result == null)
 					{
