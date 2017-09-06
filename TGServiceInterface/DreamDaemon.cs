@@ -151,6 +151,20 @@ namespace TGServiceInterface
 		void SetAutostart(bool on);
 
 		/// <summary>
+		/// Check if the byond webclient is currently enabled for the server
+		/// </summary>
+		/// <returns>true if the webclient is enabled, false otherwise</returns>
+		[OperationContract]
+		bool Webclient();
+
+		/// <summary>
+		/// Set the webclient config. Calls <see cref="RequestRestart"/>
+		/// </summary>
+		/// <param name="on">true to enable the byond webclient for the server, false otherwise</param>
+		[OperationContract]
+		void SetWebclient(bool on);
+
+		/// <summary>
 		/// Checks if a server stop has bee requested
 		/// </summary>
 		/// <returns>true if RequestStop has been called since the last server start, false otherwise</returns>

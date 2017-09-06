@@ -506,5 +506,25 @@ namespace TGServerService
 				return null;
 			return res;
 		}
+
+		/// <inheritdoc />
+		public bool Webclient()
+		{
+			return Properties.Settings.Default.Webclient;
+		}
+
+		/// <inheritdoc />
+		public void SetWebclient(bool on)
+		{
+			var Config = Properties.Settings.Default;
+			lock (watchdogLock) {
+				var diff = on != Config.Webclient;
+				if (diff)
+				{
+					Config.Webclient = on;
+					RequestRestart();
+				}
+			}
+		}
 	}
 }
