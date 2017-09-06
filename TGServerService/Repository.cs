@@ -300,6 +300,17 @@ namespace TGServerService
 				SendMessage("REPO: Checking out object: " + sha, ChatMessageType.DeveloperInfo);
 				try
 				{
+					if(Repo.Branches[sha] == null)
+					{
+						//see if origin has the branch
+						var trackedBranch = Repo.Branches[String.Format("origin/{0}", sha)];
+						if(trackedBranch != null)
+						{
+							var newBranch = Repo.CreateBranch(sha, trackedBranch.Tip);
+							//track it
+							Repo.Branches.Update(newBranch, b => b.TrackedBranch = trackedBranch.CanonicalName);
+						}
+					}
 					var Opts = new CheckoutOptions()
 					{
 						CheckoutModifiers = CheckoutModifiers.Force,
