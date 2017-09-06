@@ -380,7 +380,7 @@ namespace TGServerService
 
 					GenCommsKey();
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
-					Proc.StartInfo.Arguments = String.Format("{0} -port {1} -close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version());
+					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient" : "");
 					InitInterop();
 					Proc.Start();
 
