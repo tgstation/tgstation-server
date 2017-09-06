@@ -88,7 +88,7 @@ namespace TGServerService
 
 		public override string GetHelpText()
 		{
-			return "Returns mob info of the specified target";
+			return "Prints the current code revision of the repository (not the server)";
 		}
 	}
 
