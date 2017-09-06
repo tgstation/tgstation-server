@@ -364,11 +364,12 @@ namespace TGServerService
 					};
 					fos.OnTransferProgress += HandleTransferProgress;
 					Commands.Fetch(Repo, R.Name, refSpecs, fos, logMessage);
-
+					
 					var originBranch = Repo.Head.TrackedBranch;
 					if (reset)
 					{
 						var error = ResetNoLock(Repo.Head.TrackedBranch);
+						UpdateSubmodules();
 						if (error != null)
 							throw new Exception(error);
 						DeletePRList();
@@ -376,6 +377,7 @@ namespace TGServerService
 						return error;
 					}
 					var res = MergeBranch(originBranch.FriendlyName);
+					UpdateSubmodules();
 					if (res != null)
 						throw new Exception(res);
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
@@ -388,6 +390,16 @@ namespace TGServerService
 					return E.ToString();
 				}
 			}
+		}
+
+		private void UpdateSubmodules()
+		{
+			var suo = new SubmoduleUpdateOptions
+			{
+				Init = true
+			};
+			foreach (var I in Repo.Submodules)
+				Repo.Submodules.Update(I.Name, suo);
 		}
 
 		string CreateBackup()
