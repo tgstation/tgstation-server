@@ -307,6 +307,7 @@ namespace TGServerService
 					};
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
+					UpdateSubmodules();
 					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
 					return res;
