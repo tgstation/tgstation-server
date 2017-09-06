@@ -75,6 +75,7 @@ namespace TGServerService
 			ServerUpdateApplied = 6300,
 			ChatBroadcastFail = 6400,
 			IRCLogModes = 6500,
+			SubmoduleReclone = 6600,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
