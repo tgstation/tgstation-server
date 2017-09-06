@@ -9,7 +9,7 @@ namespace TGCommandLine
 		public DDCommand()
 		{
 			Keyword = "dd";
-			Children = new Command[] { new DDStartCommand(), new DDStopCommand(), new DDRestartCommand(), new DDStatusCommand(), new DDAutostartCommand(), new DDPortCommand(), new DDSecurityCommand(), new DDWorldAnnounceCommand() };
+			Children = new Command[] { new DDStartCommand(), new DDStopCommand(), new DDRestartCommand(), new DDStatusCommand(), new DDAutostartCommand(), new DDPortCommand(), new DDSecurityCommand(), new DDWorldAnnounceCommand(), new DDWebclientCommand() };
 		}
 		public override string GetHelpText()
 		{
@@ -191,6 +191,45 @@ namespace TGCommandLine
 			return "Change or check autostarting of the game server with the service";
 		}
 	}
+	class DDWebclientCommand : Command
+	{
+		public DDWebclientCommand()
+		{
+			Keyword = "webclient";
+			RequiredParameters = 1;
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var DD = Server.GetComponent<ITGDreamDaemon>();
+			switch (parameters[0].ToLower())
+			{
+				case "on":
+					DD.SetWebclient(true);
+					break;
+				case "off":
+					DD.SetWebclient(false);
+					break;
+				case "check":
+					OutputProc("Webclient is: " + (DD.Webclient() ? "Enabled" : "Disabled"));
+					break;
+				default:
+					OutputProc("Invalid parameter: " + parameters[0]);
+					return ExitCode.BadCommand;
+			}
+			return ExitCode.Normal;
+		}
+
+		public override string GetArgumentString()
+		{
+			return "<on|off|check>";
+		}
+		public override string GetHelpText()
+		{
+			return "Change or check if the BYOND webclient is enabled for the game server";
+		}
+	}
+
 	class DDPortCommand : Command
 	{
 		public DDPortCommand()
