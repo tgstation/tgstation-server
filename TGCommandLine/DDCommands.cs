@@ -9,11 +9,37 @@ namespace TGCommandLine
 		public DDCommand()
 		{
 			Keyword = "dd";
-			Children = new Command[] { new DDStartCommand(), new DDStopCommand(), new DDRestartCommand(), new DDStatusCommand(), new DDAutostartCommand(), new DDPortCommand(), new DDVisibilityCommand(), new DDSecurityCommand() };
+			Children = new Command[] { new DDStartCommand(), new DDStopCommand(), new DDRestartCommand(), new DDStatusCommand(), new DDAutostartCommand(), new DDPortCommand(), new DDSecurityCommand(), new DDWorldAnnounceCommand(), new DDWebclientCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage DreamDaemon";
+		}
+	}
+
+	class DDWorldAnnounceCommand : Command
+	{
+		public DDWorldAnnounceCommand()
+		{
+			Keyword = "announce";
+			RequiredParameters = 1;
+		}
+
+		public override string GetHelpText()
+		{
+			return "Sends a message all players on the server";
+		}
+
+		public override string GetArgumentString()
+		{
+			return "<message>";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var res = Server.GetComponent<ITGDreamDaemon>().WorldAnnounce(String.Join(" ", parameters));
+			OutputProc(res ?? "Success!");
+			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 	}
 
@@ -165,6 +191,45 @@ namespace TGCommandLine
 			return "Change or check autostarting of the game server with the service";
 		}
 	}
+	class DDWebclientCommand : Command
+	{
+		public DDWebclientCommand()
+		{
+			Keyword = "webclient";
+			RequiredParameters = 1;
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var DD = Server.GetComponent<ITGDreamDaemon>();
+			switch (parameters[0].ToLower())
+			{
+				case "on":
+					DD.SetWebclient(true);
+					break;
+				case "off":
+					DD.SetWebclient(false);
+					break;
+				case "check":
+					OutputProc("Webclient is: " + (DD.Webclient() ? "Enabled" : "Disabled"));
+					break;
+				default:
+					OutputProc("Invalid parameter: " + parameters[0]);
+					return ExitCode.BadCommand;
+			}
+			return ExitCode.Normal;
+		}
+
+		public override string GetArgumentString()
+		{
+			return "<on|off|check>";
+		}
+		public override string GetHelpText()
+		{
+			return "Change or check if the BYOND webclient is enabled for the game server";
+		}
+	}
+
 	class DDPortCommand : Command
 	{
 		public DDPortCommand()
@@ -198,50 +263,6 @@ namespace TGCommandLine
 		public override string GetHelpText()
 		{
 			return "Sets the port DreamDaemon will open the server on. Requires a server restart to apply and queues a graceful one up";
-		}
-	}
-
-	class DDVisibilityCommand : Command
-	{
-		public DDVisibilityCommand()
-		{
-			Keyword = "set-visibility";
-			RequiredParameters = 1;
-		}
-
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			TGDreamDaemonVisibility vis;
-			switch (parameters[0].ToLower())
-			{
-				case "invisible":
-				case "invis":
-					vis = TGDreamDaemonVisibility.Invisible;
-					break;
-				case "private":
-				case "priv":
-					vis = TGDreamDaemonVisibility.Private;
-					break;
-				case "public":
-				case "pub":
-					vis = TGDreamDaemonVisibility.Public;
-					break;
-				default:
-					OutputProc("Invalid visiblity word!");
-					return ExitCode.BadCommand;
-			}
-			Server.GetComponent<ITGDreamDaemon>().SetVisibility(vis);
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Sets the visibility option for the DreamDaemon world. Requires a server restart to apply and queues a graceful one up";
-		}
-
-		public override string GetArgumentString()
-		{
-			return "<public|private|invisible>";
 		}
 	}
 

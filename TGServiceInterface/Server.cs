@@ -10,7 +10,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGServerUpdater), typeof(ITGSService), typeof(ITGServiceBridge) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGServiceBridge) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -81,6 +81,7 @@ namespace TGServiceInterface
 		[OperationContract]
 		string Version();
 	}
+<<<<<<< HEAD
 
 	/// <summary>
 	/// How to modify the repo during the UpdateServer operation
@@ -158,4 +159,6 @@ namespace TGServiceInterface
 			return 0;
 		}
 	}
+=======
+>>>>>>> bb1f31822a7e3adcdb8441fa765cfe8916a83adc
 }

@@ -71,7 +71,10 @@
 			this.MajorVersionNumeric = new System.Windows.Forms.NumericUpDown();
 			this.UpdateProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ServerPanel = new System.Windows.Forms.TabPage();
-			this.VisibilitySelector = new System.Windows.Forms.ComboBox();
+			this.AutostartCheckbox = new System.Windows.Forms.CheckBox();
+			this.WebclientCheckBox = new System.Windows.Forms.CheckBox();
+			this.WorldAnnounceButton = new System.Windows.Forms.Button();
+			this.WorldAnnounceField = new System.Windows.Forms.TextBox();
 			this.VisibilityTitle = new System.Windows.Forms.Label();
 			this.SecuritySelector = new System.Windows.Forms.ComboBox();
 			this.SecurityTitle = new System.Windows.Forms.Label();
@@ -96,7 +99,6 @@
 			this.ServerRestartButton = new System.Windows.Forms.Button();
 			this.ServerStopButton = new System.Windows.Forms.Button();
 			this.ServerStartButton = new System.Windows.Forms.Button();
-			this.AutostartCheckbox = new System.Windows.Forms.CheckBox();
 			this.CompilerStatusLabel = new System.Windows.Forms.Label();
 			this.CompilerLabel = new System.Windows.Forms.Label();
 			this.compileButton = new System.Windows.Forms.Button();
@@ -722,7 +724,10 @@
 			// ServerPanel
 			// 
 			this.ServerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.ServerPanel.Controls.Add(this.VisibilitySelector);
+			this.ServerPanel.Controls.Add(this.AutostartCheckbox);
+			this.ServerPanel.Controls.Add(this.WebclientCheckBox);
+			this.ServerPanel.Controls.Add(this.WorldAnnounceButton);
+			this.ServerPanel.Controls.Add(this.WorldAnnounceField);
 			this.ServerPanel.Controls.Add(this.VisibilityTitle);
 			this.ServerPanel.Controls.Add(this.SecuritySelector);
 			this.ServerPanel.Controls.Add(this.SecurityTitle);
@@ -747,7 +752,6 @@
 			this.ServerPanel.Controls.Add(this.ServerRestartButton);
 			this.ServerPanel.Controls.Add(this.ServerStopButton);
 			this.ServerPanel.Controls.Add(this.ServerStartButton);
-			this.ServerPanel.Controls.Add(this.AutostartCheckbox);
 			this.ServerPanel.Controls.Add(this.CompilerStatusLabel);
 			this.ServerPanel.Controls.Add(this.CompilerLabel);
 			this.ServerPanel.Controls.Add(this.compileButton);
@@ -762,20 +766,52 @@
 			this.ServerPanel.TabIndex = 2;
 			this.ServerPanel.Text = "Server";
 			// 
-			// VisibilitySelector
+			// AutostartCheckbox
 			// 
-			this.VisibilitySelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.VisibilitySelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.VisibilitySelector.FormattingEnabled = true;
-			this.VisibilitySelector.Items.AddRange(new object[] {
-            "Public",
-            "Private",
-            "Invisible"});
-			this.VisibilitySelector.Location = new System.Drawing.Point(566, 136);
-			this.VisibilitySelector.Name = "VisibilitySelector";
-			this.VisibilitySelector.Size = new System.Drawing.Size(121, 21);
-			this.VisibilitySelector.TabIndex = 40;
-			this.VisibilitySelector.SelectedIndexChanged += new System.EventHandler(this.VisibilitySelector_SelectedIndexChanged);
+			this.AutostartCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.AutostartCheckbox.AutoSize = true;
+			this.AutostartCheckbox.Font = new System.Drawing.Font("Verdana", 12F);
+			this.AutostartCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AutostartCheckbox.Location = new System.Drawing.Point(758, 0);
+			this.AutostartCheckbox.Name = "AutostartCheckbox";
+			this.AutostartCheckbox.Size = new System.Drawing.Size(104, 22);
+			this.AutostartCheckbox.TabIndex = 15;
+			this.AutostartCheckbox.Text = "Autostart";
+			this.AutostartCheckbox.UseVisualStyleBackColor = true;
+			this.AutostartCheckbox.CheckedChanged += new System.EventHandler(this.AutostartCheckbox_CheckedChanged);
+			// 
+			// WebclientCheckBox
+			// 
+			this.WebclientCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.WebclientCheckBox.AutoSize = true;
+			this.WebclientCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
+			this.WebclientCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.WebclientCheckBox.Location = new System.Drawing.Point(758, 28);
+			this.WebclientCheckBox.Name = "WebclientCheckBox";
+			this.WebclientCheckBox.Size = new System.Drawing.Size(108, 22);
+			this.WebclientCheckBox.TabIndex = 42;
+			this.WebclientCheckBox.Text = "Webclient";
+			this.WebclientCheckBox.UseVisualStyleBackColor = true;
+			this.WebclientCheckBox.CheckedChanged += new System.EventHandler(this.WebclientCheckBox_CheckedChanged);
+			// 
+			// WorldAnnounceButton
+			// 
+			this.WorldAnnounceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.WorldAnnounceButton.Location = new System.Drawing.Point(785, 136);
+			this.WorldAnnounceButton.Name = "WorldAnnounceButton";
+			this.WorldAnnounceButton.Size = new System.Drawing.Size(77, 20);
+			this.WorldAnnounceButton.TabIndex = 41;
+			this.WorldAnnounceButton.Text = "Send";
+			this.WorldAnnounceButton.UseVisualStyleBackColor = true;
+			this.WorldAnnounceButton.Click += new System.EventHandler(this.WorldAnnounceButton_Click);
+			// 
+			// WorldAnnounceField
+			// 
+			this.WorldAnnounceField.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.WorldAnnounceField.Location = new System.Drawing.Point(566, 136);
+			this.WorldAnnounceField.Name = "WorldAnnounceField";
+			this.WorldAnnounceField.Size = new System.Drawing.Size(213, 20);
+			this.WorldAnnounceField.TabIndex = 40;
 			// 
 			// VisibilityTitle
 			// 
@@ -783,11 +819,11 @@
 			this.VisibilityTitle.AutoSize = true;
 			this.VisibilityTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.VisibilityTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.VisibilityTitle.Location = new System.Drawing.Point(474, 139);
+			this.VisibilityTitle.Location = new System.Drawing.Point(466, 139);
 			this.VisibilityTitle.Name = "VisibilityTitle";
-			this.VisibilityTitle.Size = new System.Drawing.Size(86, 18);
+			this.VisibilityTitle.Size = new System.Drawing.Size(94, 18);
 			this.VisibilityTitle.TabIndex = 39;
-			this.VisibilityTitle.Text = "Visibility:";
+			this.VisibilityTitle.Text = "Announce:";
 			this.VisibilityTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// SecuritySelector
@@ -1078,20 +1114,6 @@
 			this.ServerStartButton.Text = "Start";
 			this.ServerStartButton.UseVisualStyleBackColor = true;
 			this.ServerStartButton.Click += new System.EventHandler(this.ServerStartButton_Click);
-			// 
-			// AutostartCheckbox
-			// 
-			this.AutostartCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.AutostartCheckbox.AutoSize = true;
-			this.AutostartCheckbox.Font = new System.Drawing.Font("Verdana", 12F);
-			this.AutostartCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AutostartCheckbox.Location = new System.Drawing.Point(758, 17);
-			this.AutostartCheckbox.Name = "AutostartCheckbox";
-			this.AutostartCheckbox.Size = new System.Drawing.Size(104, 22);
-			this.AutostartCheckbox.TabIndex = 15;
-			this.AutostartCheckbox.Text = "Autostart";
-			this.AutostartCheckbox.UseVisualStyleBackColor = true;
-			this.AutostartCheckbox.CheckedChanged += new System.EventHandler(this.AutostartCheckbox_CheckedChanged);
 			// 
 			// CompilerStatusLabel
 			// 
@@ -1608,7 +1630,6 @@
 			this.AdminModeSpecial.TabStop = true;
 			this.AdminModeSpecial.Text = "Channel Mode";
 			this.AdminModeSpecial.UseVisualStyleBackColor = true;
-			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeSpecial_CheckedChanged);
 			// 
 			// AdminModeNormal
 			// 
@@ -2082,7 +2103,6 @@
 		private System.Windows.Forms.NumericUpDown PortSelector;
 		private System.Windows.Forms.Label ProjectPathLabel;
 		private System.Windows.Forms.TextBox projectNameText;
-		private System.Windows.Forms.Button CompileCancelButton;
 		private System.Windows.Forms.Label ServerPathLabel;
 		private System.Windows.Forms.TextBox ServerPathTextbox;
 		private System.Windows.Forms.Label LatestVersionLabel;
@@ -2159,7 +2179,6 @@
 		private System.Windows.Forms.ComboBox SecuritySelector;
 		private System.Windows.Forms.Label SecurityTitle;
 		private System.Windows.Forms.Label VisibilityTitle;
-		private System.Windows.Forms.ComboBox VisibilitySelector;
 		private System.ComponentModel.BackgroundWorker ServerStartBGW;
 		private System.Windows.Forms.Button RepoRefreshButton;
 		private System.Windows.Forms.ComboBox IRCModesComboBox;
@@ -2175,5 +2194,9 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button WorldAnnounceButton;
+		private System.Windows.Forms.TextBox WorldAnnounceField;
+		private System.Windows.Forms.Button CompileCancelButton;
+		private System.Windows.Forms.CheckBox WebclientCheckBox;
 	}
 }

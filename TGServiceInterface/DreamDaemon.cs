@@ -39,26 +39,7 @@ namespace TGServiceInterface
 		/// </summary>
 		Ultrasafe
 	}
-
-	/// <summary>
-	/// DreamDaemon's hub visibility
-	/// </summary>
-	public enum TGDreamDaemonVisibility
-	{
-		/// <summary>
-		/// Server will be visible on the hub
-		/// </summary>
-		Public,
-		/// <summary>
-		/// Server will not be visible on the hub to anyone but the host's friends. Since the service does not have a BYOND account, this is effectively the same as Invisible
-		/// </summary>
-		Private,
-		/// <summary>
-		/// Server will not be visible on the hub
-		/// </summary>
-		Invisible = 2,  //default config
-	}
-
+	
 	/// <summary>
 	/// Interface for managing the actual BYOND game server
 	/// </summary>
@@ -141,22 +122,6 @@ namespace TGServiceInterface
 		bool SetSecurityLevel(TGDreamDaemonSecurity level);
 
 		/// <summary>
-		/// Get the configured (not running) visibility level
-		/// </summary>
-		/// <returns>The configured (not running) visibility level</returns>
-		[OperationContract]
-		TGDreamDaemonVisibility VisibilityLevel();
-
-		/// <summary>
-		/// Sets the visiblity level of the server. Requires reboot to apply
-		/// Implies a call to RequestRestart()
-		/// </summary>
-		/// <param name="vis">The new visibility level</param>
-		/// <returns>True if the change was immediately applied, false if a graceful restart was queued</returns>
-		[OperationContract]
-		bool SetVisibility(TGDreamDaemonVisibility vis);
-
-		/// <summary>
 		/// Get the configured port. Not necessarily the running port if it has since changed
 		/// </summary>
 		/// <returns>The configured port</returns>
@@ -186,10 +151,32 @@ namespace TGServiceInterface
 		void SetAutostart(bool on);
 
 		/// <summary>
+		/// Check if the byond webclient is currently enabled for the server
+		/// </summary>
+		/// <returns>true if the webclient is enabled, false otherwise</returns>
+		[OperationContract]
+		bool Webclient();
+
+		/// <summary>
+		/// Set the webclient config. Calls <see cref="RequestRestart"/>
+		/// </summary>
+		/// <param name="on">true to enable the byond webclient for the server, false otherwise</param>
+		[OperationContract]
+		void SetWebclient(bool on);
+
+		/// <summary>
 		/// Checks if a server stop has bee requested
 		/// </summary>
 		/// <returns>true if RequestStop has been called since the last server start, false otherwise</returns>
 		[OperationContract]
 		bool ShutdownInProgress();
+
+		/// <summary>
+		/// Sends a message to everyone on the server
+		/// </summary>
+		/// <param name="msg">The message to send</param>
+		/// <returns>null on success, error message on failure</returns>
+		[OperationContract]
+		string WorldAnnounce(string msg);
 	}
 }

@@ -352,6 +352,11 @@ namespace TGServerService
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
 					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
+					try
+					{
+						File.Copy(PRJobFile, resurrectee + Path.DirectorySeparatorChar + PRJobFile);
+					}
+					catch { }
 				}
 				finally
 				{

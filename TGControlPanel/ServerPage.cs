@@ -17,7 +17,7 @@ namespace TGControlPanel
 		}
 
 		FullUpdateAction fuAction;
-		int testmergePR;
+		ushort testmergePR;
 		string updateError;
 		bool updatingFields = false;
 
@@ -104,6 +104,7 @@ namespace TGControlPanel
 			initializeButton.Visible = RepoExists;
 			NudgePortSelector.Visible = RepoExists;
 			AutostartCheckbox.Visible = RepoExists;
+			WebclientCheckBox.Visible = RepoExists;
 			PortSelector.Visible = RepoExists;
 			projectNameText.Visible = RepoExists;
 			compilerProgressBar.Visible = RepoExists;
@@ -125,6 +126,8 @@ namespace TGControlPanel
 			UpdateMergeButton.Visible = RepoExists;
 			UpdateTestmergeButton.Visible = RepoExists;
 			ResetTestmerge.Visible = RepoExists;
+			WorldAnnounceField.Visible = RepoExists;
+			WorldAnnounceButton.Visible = RepoExists;
 
 			var DM = Server.GetComponent<ITGCompiler>();
 			var DD = Server.GetComponent<ITGDreamDaemon>();
@@ -137,8 +140,7 @@ namespace TGControlPanel
 
 			if (!ServerPathTextbox.Focused)
 				ServerPathTextbox.Text = Config.ServerDirectory();
-
-			VisibilitySelector.SelectedIndex = (int)DD.VisibilityLevel();
+			
 			SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
 
 			if (!RepoExists)
@@ -156,6 +158,7 @@ namespace TGControlPanel
 			ServerGStopButton.Enabled = !ShuttingDown;
 
 			AutostartCheckbox.Checked = DD.Autostart();
+			WebclientCheckBox.Checked = DD.Webclient();
 			if (!PortSelector.Focused)
 				PortSelector.Value = DD.Port();
 			if (!projectNameText.Focused)
@@ -246,7 +249,7 @@ namespace TGControlPanel
 				Server.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
 		}
 
-		private void RunServerUpdate(FullUpdateAction fua, int tm = 0)
+		private void RunServerUpdate(FullUpdateAction fua, ushort tm = 0)
 		{
 			if (FullUpdateWorker.IsBusy)
 				return;
@@ -373,25 +376,64 @@ namespace TGControlPanel
 				return;
 			Server.GetComponent<ITGDreamDaemon>().RequestRestart();
 		}
+
+
 		private void FullUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			var Updater = Server.GetComponent<ITGServerUpdater>();
+			var Repo = Server.GetComponent<ITGRepository>();
+			var DM = Server.GetComponent<ITGCompiler>();
 			switch (fuAction)
 			{
 				case FullUpdateAction.Testmerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.None, false, (ushort)testmergePR);
+					updateError = Repo.MergePullRequest(testmergePR);
+					if (updateError == null)
+					{
+						Repo.GenerateChangelog(out updateError);
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+					}
 					break;
 				case FullUpdateAction.UpdateHard:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, true);
+					updateError = Repo.Update(true);
+					if (updateError == null)
+					{
+						Repo.GenerateChangelog(out updateError);
+						if(updateError == null)
+							updateError = Repo.PushChangelog();
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+					}
 					break;
 				case FullUpdateAction.UpdateHardTestmerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Hard, true, (ushort)testmergePR);
+					updateError = Repo.Update(true);
+					if (updateError == null)
+					{
+						Repo.GenerateChangelog(out updateError);
+						if (updateError == null)
+							updateError = Repo.PushChangelog();
+						updateError = Repo.MergePullRequest(testmergePR);
+						if (updateError == null)
+						{
+							Repo.GenerateChangelog(out updateError);
+							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+						}
+					}
 					break;
 				case FullUpdateAction.UpdateMerge:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Merge, true, (ushort)testmergePR);
+					updateError = Repo.Update(false);
+					if (updateError == null)
+					{
+						Repo.GenerateChangelog(out updateError);
+						if (updateError == null)
+							Repo.PushChangelog();   //not an error 99% of the time if this fails, just a dirty tree
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+					}
 					break;
 				case FullUpdateAction.Reset:
-					updateError = Updater.UpdateServer(TGRepoUpdateMethod.Reset, false, 0);
+					updateError = Repo.Reset(true);
+					if (updateError == null)
+					{
+						Repo.GenerateChangelog(out updateError);
+						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+					}
 					break;
 			}
 		}
@@ -407,7 +449,7 @@ namespace TGControlPanel
 
 		private void UpdateTestmergeButton_Click(object sender, System.EventArgs e)
 		{
-			RunServerUpdate(FullUpdateAction.UpdateHardTestmerge, (int)ServerTestmergeInput.Value);
+			RunServerUpdate(FullUpdateAction.UpdateHardTestmerge, (ushort)ServerTestmergeInput.Value);
 		}
 
 		private void UpdateMergeButton_Click(object sender, System.EventArgs e)
@@ -416,7 +458,7 @@ namespace TGControlPanel
 		}
 		private void TestmergeButton_Click(object sender, System.EventArgs e)
 		{
-			RunServerUpdate(FullUpdateAction.Testmerge, (int)ServerTestmergeInput.Value);
+			RunServerUpdate(FullUpdateAction.Testmerge, (ushort)ServerTestmergeInput.Value);
 		}
 
 		private void NudgePortSelector_ValueChanged(object sender, EventArgs e)
@@ -432,11 +474,24 @@ namespace TGControlPanel
 					MessageBox.Show("Security change will be applied after next server reboot.");
 		}
 
-		private void VisibilitySelector_SelectedIndexChanged(object sender, EventArgs e)
+		private void WorldAnnounceButton_Click(object sender, EventArgs e)
+		{
+			var msg = WorldAnnounceField.Text;
+			if (!String.IsNullOrWhiteSpace(msg)) {
+				var res = Server.GetComponent<ITGDreamDaemon>().WorldAnnounce(msg);
+				if(res != null)
+				{
+					MessageBox.Show(res);
+					return;
+				}
+			}
+			WorldAnnounceField.Text = "";
+		}
+
+		private void WebclientCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if (!Server.GetComponent<ITGDreamDaemon>().SetVisibility((TGDreamDaemonVisibility)VisibilitySelector.SelectedIndex))
-					MessageBox.Show("Visibility change will be applied after next server reboot.");
+				Server.GetComponent<ITGDreamDaemon>().SetWebclient(WebclientCheckBox.Checked);
 		}
 	}
 }
