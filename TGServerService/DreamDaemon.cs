@@ -37,8 +37,9 @@ namespace TGServerService
 
 		//Only need 1 proc instance
 		void InitDreamDaemon()
-		{
-			var Reattach = Properties.Settings.Default.ReattachToDD;
+        {
+            UpdateInterfaceDll(false);
+            var Reattach = Properties.Settings.Default.ReattachToDD;
 			if (Reattach)
 				try
 				{
@@ -49,7 +50,6 @@ namespace TGServerService
 					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
 
 					//start wd 
-					UpdateInterfaceDll(false);
 					InitInterop();
 
 					RestartInProgress = true;
