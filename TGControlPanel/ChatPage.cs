@@ -199,12 +199,13 @@ namespace TGControlPanel
 
 			if (res == null)
 			{
-				wip.AdminChannels = new List<string>(AdminChannelsTextbox.Text.Split('\n'));
-				wip.WatchdogChannels = new List<string>(WDChannelsTextbox.Text.Split('\n'));
-				wip.DevChannels = new List<string>(DevChannelsTextbox.Text.Split('\n'));
-				wip.GameChannels = new List<string>(GameChannelsTextbox.Text.Split('\n'));
-				wip.AdminList = new List<string>(ChatAdminsTextBox.Text.Split('\n'));
+				wip.AdminChannels = new List<string>(AdminChannelsTextbox.Text.Split(Environment.NewLine.ToCharArray()));
+				wip.WatchdogChannels = new List<string>(WDChannelsTextbox.Text.Split(Environment.NewLine.ToCharArray()));
+				wip.DevChannels = new List<string>(DevChannelsTextbox.Text.Split(Environment.NewLine.ToCharArray()));
+				wip.GameChannels = new List<string>(GameChannelsTextbox.Text.Split(Environment.NewLine.ToCharArray()));
+				wip.AdminList = new List<string>(ChatAdminsTextBox.Text.Split(Environment.NewLine.ToCharArray()));
 				wip.Enabled = ChatEnabledCheckbox.Checked;
+				wip.AdminsAreSpecial = AdminModeSpecial.Checked;
 
 				res = Server.GetComponent<ITGChat>().SetProviderInfo(wip);
 			}
