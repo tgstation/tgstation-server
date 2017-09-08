@@ -50,8 +50,6 @@ namespace TGServerService
 					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
 
 					//start wd 
-					InitInterop();
-
 					RestartInProgress = true;
 					currentPort = Properties.Settings.Default.ReattachPort;
 					serviceCommsKey = Properties.Settings.Default.ReattachCommsKey;
@@ -236,7 +234,6 @@ namespace TGServerService
 						currentStatus = TGDreamDaemonStatus.HardRebooting;
 						currentPort = 0;
 						Proc.Close();
-						ShutdownInterop();
 
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
@@ -280,7 +277,6 @@ namespace TGServerService
 						RestartInProgress = true;
 					}
 					Proc.Close();
-					ShutdownInterop();
 				}
 				catch
 				{ }
@@ -394,7 +390,6 @@ namespace TGServerService
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient" : "");
 					UpdateInterfaceDll(true);
-					InitInterop();
 					Proc.Start();
 
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
@@ -402,7 +397,6 @@ namespace TGServerService
 						Proc.Kill();
 						Proc.WaitForExit();
 						Proc.Close();
-						ShutdownInterop();
 						currentStatus = TGDreamDaemonStatus.Offline;
 						currentPort = 0;
 						return String.Format("Server start is taking more than {0}s! Aborting!", DDHangStartTime);

@@ -274,22 +274,6 @@ namespace TGServiceInterface
 		string SetMapSettings(MapSetting newSetting);
 
 		/// <summary>
-		/// Gets the port DD uses to talk to the service
-		/// </summary>
-		/// <param name="error">null on success, error message on failure</param>
-		/// <returns>The port DD uses to talk to the service or 0 on failure</returns>
-		[OperationContract]
-		ushort InteropPort(out string error);
-
-		/// <summary>
-		/// Sets the  port DD uses to talk to the service
-		/// </summary>
-		/// <param name="port">The port DD uses to talk to the service</param>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string SetInteropPort(ushort port);
-
-		/// <summary>
 		/// Return the directory of the server on the host machine
 		/// </summary>
 		/// <returns>The path to the directory on success, null on failure</returns>

@@ -17,9 +17,6 @@ namespace TGServerService
 		const int CommsKeyLen = 64;
 		string serviceCommsKey; //regenerated every DD restart
 
-		Thread NudgeThread;
-		object NudgeLock = new object();
-
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
@@ -169,93 +166,6 @@ namespace TGServerService
 			} while (serviceCommsKey.Length < CommsKeyLen);
 			serviceCommsKey = serviceCommsKey.Substring(0, CommsKeyLen);
 			TGServerService.WriteInfo("Service Comms Key set to: " + serviceCommsKey, TGServerService.EventID.CommsKeySet);
-		}
-
-		//Start listening for nudges on the configured port
-		public void InitInterop()
-		{
-			lock (NudgeLock)
-			{
-				ShutdownInteropNoLock();
-				NudgeThread = new Thread(new ThreadStart(NudgeHandler)) { IsBackground = true };
-				NudgeThread.Start();
-			}
-		}
-
-		void ShutdownInterop()
-		{
-			lock (NudgeLock)
-			{
-				ShutdownInteropNoLock();
-			}
-		}
-
-		void ShutdownInteropNoLock()
-		{
-			if (NudgeThread != null)
-			{
-				NudgeThread.Abort();
-				NudgeThread.Join();
-			}
-		}
-		
-		void NudgeHandler()
-		{
-			try
-			{
-				var np = InteropPort(out string error);
-				if (error != null)
-				{
-					TGServerService.WriteError("Unable to start nudge handler: " + error, TGServerService.EventID.NudgeStartFail);
-					return;
-				}
-
-				using (var listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-				{
-					listener.Bind(new IPEndPoint(IPAddress.Any, np));
-					listener.Listen(5);
-
-					// Start listening for connections.  
-					using (var clientConnected = new ManualResetEvent(false))
-					{
-						while (true)
-						{
-							// Program is suspended while waiting for an incoming connection.  
-							clientConnected.Reset();
-							listener.BeginAccept(delegate (IAsyncResult asyncResult)
-							{
-								try
-								{
-									using (var handler = listener.EndAccept(asyncResult))
-									{
-
-										var bytes = new byte[1024];
-										int bytesRec = handler.Receive(bytes);
-										// Show the data on the console.  
-										HandleCommand(Encoding.ASCII.GetString(bytes, 0, bytesRec));
-										
-										handler.Close();
-										clientConnected.Set();
-									}
-								}
-								catch (ObjectDisposedException)
-								{ }
-							}, null);
-							clientConnected.WaitOne();
-						}
-					}
-				}
-			}
-			catch (ThreadAbortException)
-			{
-				return;
-			}
-			catch (Exception e)
-			{
-				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
-				SendMessage("SERVICE: The relay handler crashed, I will attempt to restore it when the server reboots! Error: " + e.Message, ChatMessageType.AdminInfo);
-				RequestRestart();
-			}
 		}
 
 		/// <inheritdoc />

@@ -102,7 +102,6 @@ namespace TGControlPanel
 			var RepoExists = Server.GetComponent<ITGRepository>().Exists();
 			compileButton.Visible = RepoExists;
 			initializeButton.Visible = RepoExists;
-			NudgePortSelector.Visible = RepoExists;
 			AutostartCheckbox.Visible = RepoExists;
 			WebclientCheckBox.Visible = RepoExists;
 			PortSelector.Visible = RepoExists;
@@ -110,7 +109,6 @@ namespace TGControlPanel
 			compilerProgressBar.Visible = RepoExists;
 			CompilerStatusLabel.Visible = RepoExists;
 			CompileCancelButton.Visible = RepoExists;
-			NudgePortLabel.Visible = RepoExists;
 			CompilerLabel.Visible = RepoExists;
 			ProjectPathLabel.Visible = RepoExists;
 			ServerPRLabel.Visible = RepoExists;
@@ -163,20 +161,7 @@ namespace TGControlPanel
 				PortSelector.Value = DD.Port();
 			if (!projectNameText.Focused)
 				projectNameText.Text = DM.ProjectName();
-
-			var val = Config.InteropPort(out string error);
-			if (error != null)
-			{
-				updatingFields = false;
-				NudgePortSelector.Value = 4567;
-				MessageBox.Show("Error (I will try and recover): " + error);
-			}
-			else
-			{
-				updatingFields = false;
-				NudgePortSelector.Value = val;
-			}
-
+			
 			switch (DM.GetStatus())
 			{
 				case TGCompilerStatus.Compiling:
@@ -215,7 +200,7 @@ namespace TGControlPanel
 					CompileCancelButton.Enabled = true;
 					break;
 			}
-			error = DM.CompileError();
+			var error = DM.CompileError();
 			if (error != null)
 				MessageBox.Show("Error: " + error);
 		}
@@ -459,12 +444,6 @@ namespace TGControlPanel
 		private void TestmergeButton_Click(object sender, System.EventArgs e)
 		{
 			RunServerUpdate(FullUpdateAction.Testmerge, (ushort)ServerTestmergeInput.Value);
-		}
-
-		private void NudgePortSelector_ValueChanged(object sender, EventArgs e)
-		{
-			if (!updatingFields)
-				Server.GetComponent<ITGConfig>().SetInteropPort((ushort)NudgePortSelector.Value);
 		}
 
 		private void SecuritySelector_SelectedIndexChanged(object sender, EventArgs e)
