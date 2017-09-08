@@ -118,21 +118,13 @@ namespace TGServerService
 
 		public string Reconnect()
 		{
-			try
+			TGDiscordSetupInfo tmp;
+			lock (DiscordLock)
 			{
-				lock (DiscordLock)
-				{
-					SeenPrivateChannels.Clear();
-					if (client.State == ConnectionState.Connected)
-						client.Disconnect().Wait();
-					client.Connect(DiscordConfig.BotToken, TokenType.Bot).Wait();
-				}
-				return !Connected() ? "Connection failed!" : null;
+				tmp = new TGDiscordSetupInfo(DiscordConfig);
+				DiscordConfig.BotToken = "THIS_IS_NOT_A_BOT_TOKEN";
 			}
-			catch (Exception e)
-			{
-				return e.ToString();
-			}
+			return SetProviderInfo(tmp);
 		}
 
 		public void SendMessage(string msg, ChatMessageType mt)
