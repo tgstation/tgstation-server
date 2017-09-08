@@ -75,6 +75,7 @@ namespace TGServerService
 				case SRWorldReboot:
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
 					ServerChatCommands = null;
+					ChatConnectivityCheck();
 					lock (CompilerLock)
 					{
 						if (UpdateStaged)

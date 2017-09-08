@@ -239,6 +239,16 @@ namespace TGServerService
 			return false;
 		}
 
+		/// <summary>
+		/// Reconnect servers that are enabled and disconnected
+		/// </summary>
+		void ChatConnectivityCheck()
+		{
+			foreach (TGChatProvider I in Enum.GetValues(typeof(TGChatProvider)))
+				if(!Connected(I))
+					Reconnect(I);
+		}
+
 		//public api
 		public string Reconnect(TGChatProvider providerType)
 		{
