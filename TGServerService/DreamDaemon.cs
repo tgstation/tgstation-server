@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using TGServiceInterface;
 
@@ -46,8 +47,9 @@ namespace TGServerService
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
 					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
-					
-					//start wd 
+
+                    //start wd 
+                    UpdateInterfaceDll(false);
 					InitInterop();
 
 					RestartInProgress = true;
@@ -364,6 +366,16 @@ namespace TGServerService
 			}
 		}
 
+        void UpdateInterfaceDll(bool overwrite)
+        {
+            var targetPath = Path.Combine(StaticConfigDir, InterfaceDLLName);
+            if (File.Exists(targetPath) && !overwrite)
+                return;
+            //Copy the interface dll to the static dir
+            var InterfacePath = Assembly.GetAssembly(typeof(DDInteropCallHolder)).Location;
+            File.Copy(InterfacePath, targetPath, true);
+        }
+
 		//used by Start and Watchdog to start a DD instance
 		string StartImpl(bool watchdog)
 		{
@@ -381,6 +393,7 @@ namespace TGServerService
 					GenCommsKey();
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient" : "");
+                    UpdateInterfaceDll(true);
 					InitInterop();
 					Proc.Start();
 

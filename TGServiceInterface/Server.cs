@@ -80,49 +80,7 @@ namespace TGServiceInterface
 		/// <returns>The service's version</returns>
 		[OperationContract]
 		string Version();
-	}
-<<<<<<< HEAD
-
-	/// <summary>
-	/// How to modify the repo during the UpdateServer operation
-	/// </summary>
-	public enum TGRepoUpdateMethod
-	{
-		/// <summary>
-		/// Do not update the repo
-		/// </summary>
-		None,
-		/// <summary>
-		/// Update the repo by merging the origin branch
-		/// </summary>
-		Merge,
-		/// <summary>
-		/// Update the repo by hard resetting to the remote branch
-		/// </summary>
-		Hard,
-		/// <summary>
-		/// Clean the repo by hard resetting to the origin branch
-		/// </summary>
-		Reset,
-	}
-
-	/// <summary>
-	/// One stop shop for server updates
-	/// </summary>
-	[ServiceContract]
-	public interface ITGServerUpdater
-	{
-		/// <summary>
-		/// Updates the server fully with various options as a blocking operation
-		/// </summary>
-		/// <param name="updateType">How to handle the repository during the update</param>
-		/// <param name="push_changelog_if_enabled">true if the changelog should be pushed to git</param>
-		/// <param name="testmerge_pr">If not zero, will testmerge the designated pull request</param>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string UpdateServer(TGRepoUpdateMethod updateType, bool push_changelog_if_enabled, ushort testmerge_pr = 0);
-	}
-
+	} 
 	/// <summary>
 	/// Used by DD to access the interop API with call()()
 	/// </summary>
@@ -159,6 +117,4 @@ namespace TGServiceInterface
 			return 0;
 		}
 	}
-=======
->>>>>>> bb1f31822a7e3adcdb8441fa765cfe8916a83adc
 }

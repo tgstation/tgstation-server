@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -318,10 +317,6 @@ namespace TGServerService
 					CreateSymlink(resurrectee + "/data", StaticDataDir);
 				if (!File.Exists(resurrectee + LibMySQLFile))
 					CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
-
-				//Copy the interface dll to the game dir
-				var InterfacePath = Assembly.GetAssembly(typeof(DDInteropCallHolder)).Location;
-				File.Copy(InterfacePath, Path.Combine(resurrectee, InterfaceDLLName), true);
 
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))
