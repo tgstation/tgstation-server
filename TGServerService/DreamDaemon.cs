@@ -37,9 +37,9 @@ namespace TGServerService
 
 		//Only need 1 proc instance
 		void InitDreamDaemon()
-        {
-            UpdateInterfaceDll(false);
-            var Reattach = Properties.Settings.Default.ReattachToDD;
+		{
+			UpdateInterfaceDll(false);
+			var Reattach = Properties.Settings.Default.ReattachToDD;
 			if (Reattach)
 				try
 				{

@@ -132,11 +132,11 @@ namespace TGServerService
 
 		//we need to remove symlinks before we can recursively delete
 		void CleanGameFolder()
-        {
-            if (Directory.Exists(GameDirA + InterfaceDLLName))
-                Directory.Delete(GameDirA + InterfaceDLLName);
+		{
+			if (Directory.Exists(GameDirA + InterfaceDLLName))
+				Directory.Delete(GameDirA + InterfaceDLLName);
 
-            if (Directory.Exists(GameDirA + LibMySQLFile))
+			if (Directory.Exists(GameDirA + LibMySQLFile))
 				Directory.Delete(GameDirA + LibMySQLFile);
 
 			if (Directory.Exists(GameDirA + "/data"))
@@ -145,13 +145,13 @@ namespace TGServerService
 			if (Directory.Exists(GameDirA + "/config"))
 				Directory.Delete(GameDirA + "/config");
 
-            if (Directory.Exists(GameDirB + InterfaceDLLName))
-                Directory.Delete(GameDirB + InterfaceDLLName);
+			if (Directory.Exists(GameDirB + InterfaceDLLName))
+				Directory.Delete(GameDirB + InterfaceDLLName);
 
-            if (Directory.Exists(GameDirB + LibMySQLFile))
-                Directory.Delete(GameDirB + LibMySQLFile);
+			if (Directory.Exists(GameDirB + LibMySQLFile))
+				Directory.Delete(GameDirB + LibMySQLFile);
 
-            if (Directory.Exists(GameDirB + "/data"))
+			if (Directory.Exists(GameDirB + "/data"))
 				Directory.Delete(GameDirB + "/data");
 
 			if (Directory.Exists(GameDirB + "/config"))
@@ -200,13 +200,13 @@ namespace TGServerService
 					CreateSymlink(GameDirA + "/config", StaticConfigDir);
 					CreateSymlink(GameDirB + "/config", StaticConfigDir);
 
-                    CreateSymlink(GameDirA + LibMySQLFile, StaticDirs + LibMySQLFile);
-                    CreateSymlink(GameDirB + LibMySQLFile, StaticDirs + LibMySQLFile);
+					CreateSymlink(GameDirA + LibMySQLFile, StaticDirs + LibMySQLFile);
+					CreateSymlink(GameDirB + LibMySQLFile, StaticDirs + LibMySQLFile);
 
-                    CreateSymlink(GameDirA + InterfaceDLLName, StaticDirs + InterfaceDLLName);
-                    CreateSymlink(GameDirB + InterfaceDLLName, StaticDirs + InterfaceDLLName);
+					CreateSymlink(GameDirA + InterfaceDLLName, StaticDirs + InterfaceDLLName);
+					CreateSymlink(GameDirB + InterfaceDLLName, StaticDirs + InterfaceDLLName);
 
-                    CreateSymlink(GameDirLive, GameDirA);
+					CreateSymlink(GameDirLive, GameDirA);
 					
 					lock (CompilerLock)
 					{
@@ -324,12 +324,12 @@ namespace TGServerService
 					CreateSymlink(resurrectee + "/config", StaticConfigDir);
 				if (!Directory.Exists(resurrectee + "/data"))
 					CreateSymlink(resurrectee + "/data", StaticDataDir);
-                if (!File.Exists(resurrectee + LibMySQLFile))
-                    CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
-                if (!File.Exists(resurrectee + InterfaceDLLName))
-                    CreateSymlink(resurrectee + InterfaceDLLName, StaticDirs + InterfaceDLLName);
+				if (!File.Exists(resurrectee + LibMySQLFile))
+					CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
+				if (!File.Exists(resurrectee + InterfaceDLLName))
+					CreateSymlink(resurrectee + InterfaceDLLName, StaticDirs + InterfaceDLLName);
 
-                bool repobusy_check = false;
+				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))
 					repobusy_check = true;
 
