@@ -42,12 +42,6 @@ namespace TGServerService
 		public void VerifyConnection() { }
 
 		//public api
-		public void StopForUpdate()
-		{
-			PrepareForUpdate();
-		}
-
-		//public api
 		public void PrepareForUpdate()
 		{
 			Properties.Settings.Default.ReattachToDD = true;
