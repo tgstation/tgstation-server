@@ -89,6 +89,9 @@ The process to update the server while DD is running is a functioning work in pr
 * `RepoKey/`
 	* This contains ssh key information for automatic changelog pushing. 
 
+* `EventHandlers/`
+	* This contains batch files that run after certain events, currently only precompile and postcompile events are implemented. 
+
 * `BYOND/`
 	* This contains the actual BYOND installation the server uses
 

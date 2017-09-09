@@ -93,6 +93,7 @@
     <Compile Include="InterfaceBase.cs" />
     <Compile Include="IRC.cs" />
     <Compile Include="Interop.cs" />
+    <Compile Include="PreactionHandler.cs" />
     <Compile Include="ProcessExtension.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
