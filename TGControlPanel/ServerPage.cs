@@ -104,6 +104,7 @@ namespace TGControlPanel
 			initializeButton.Visible = RepoExists;
 			NudgePortSelector.Visible = RepoExists;
 			AutostartCheckbox.Visible = RepoExists;
+			WebclientCheckBox.Visible = RepoExists;
 			PortSelector.Visible = RepoExists;
 			projectNameText.Visible = RepoExists;
 			compilerProgressBar.Visible = RepoExists;
@@ -157,6 +158,7 @@ namespace TGControlPanel
 			ServerGStopButton.Enabled = !ShuttingDown;
 
 			AutostartCheckbox.Checked = DD.Autostart();
+			WebclientCheckBox.Checked = DD.Webclient();
 			if (!PortSelector.Focused)
 				PortSelector.Value = DD.Port();
 			if (!projectNameText.Focused)
@@ -484,6 +486,12 @@ namespace TGControlPanel
 				}
 			}
 			WorldAnnounceField.Text = "";
+		}
+
+		private void WebclientCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!updatingFields)
+				Server.GetComponent<ITGDreamDaemon>().SetWebclient(WebclientCheckBox.Checked);
 		}
 	}
 }

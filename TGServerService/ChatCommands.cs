@@ -1,7 +1,7 @@
 ﻿using TGServiceInterface;
-using System.Threading;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace TGServerService
 {
@@ -36,12 +36,42 @@ namespace TGServerService
 			return base.DoRun(parameters);
 		}
 	}
+
+	class ServerChatCommand : ChatCommand
+	{
+		readonly string HelpText;
+		public ServerChatCommand(string name, string helpText, bool adminOnly, int requiredParameters)
+		{
+			Keyword = name;
+			RequiresAdmin = adminOnly;
+			HelpText = helpText;
+			RequiredParameters = requiredParameters;
+		}
+
+		public override string GetHelpText()
+		{
+			return HelpText;
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var res = Instance.SendCommand(String.Format("{0};sender={1};custom=\"{2}\"", Keyword, CommandInfo.Value.Speaker, String.Join(" ", parameters)));
+			if (res != "SUCESS" && !String.IsNullOrWhiteSpace(res))
+				OutputProc(res);
+			return ExitCode.Normal;
+		}
+	}
+
 	class RootChatCommand : RootCommand
 	{
-		public RootChatCommand()
+		public RootChatCommand(List<Command> serverCommands)
 		{
+			var tmp = new List<Command> { new PRsCommand(), new VersionCommand(), new RevisionCommand(), new ByondCommand(), new KekCommand() };
+			if (serverCommands != null)
+				tmp.AddRange(serverCommands);
+			Children = tmp.ToArray();
+			serverCommands = new List<Command>();
 			PrintHelpList = true;
-			Children = new Command[] { new CheckCommand(), new StatusCommand(), new PRsCommand(), new VersionCommand(), new AHelpCommand(), new NameCheckCommand(), new RevisionCommand(), new AdminWhoCommand(), new ByondCommand(), new KekCommand(), new RelayRestartCommand() };
 		}
 	}
 	class RevisionCommand : ChatCommand
@@ -52,58 +82,13 @@ namespace TGServerService
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Instance.GetHead(out string error) ?? error);
+			OutputProc(String.Format("^{0}", Instance.GetHead(out string error)) ?? error);
 			return error == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 
 		public override string GetHelpText()
 		{
-			return "Returns mob info of the specified target";
-		}
-	}
-	class NameCheckCommand : ChatCommand
-	{
-		public NameCheckCommand()
-		{
-			Keyword = "namecheck";
-			RequiredParameters = 1;
-			RequiresAdmin = true;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			OutputProc(Instance.NameCheck(parameters[0], CommandInfo.Value.Speaker));
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Returns mob info of the specified target";
-		}
-		public override string GetArgumentString()
-		{
-			return "<target>";
-		}
-	}
-	class AdminWhoCommand : ChatCommand
-	{
-		public AdminWhoCommand()
-		{
-			Keyword = "adminwho";
-			RequiresAdmin = true;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			OutputProc(Instance.SendCommand(TGStationServer.SCAdminWho));
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Returns mob info of the specified target";
-		}
-		public override string GetArgumentString()
-		{
-			return "<target>";
+			return "Prints the current code revision of the repository (not the server)";
 		}
 	}
 
@@ -132,42 +117,6 @@ namespace TGServerService
 		public override string GetArgumentString()
 		{
 			return "[--staged|--latest]";
-		}
-	}
-	class CheckCommand : ChatCommand
-	{
-		public CheckCommand()
-		{
-			Keyword = "check";
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			OutputProc(Instance.StatusString(CommandInfo.Value.IsAdmin && CommandInfo.Value.IsAdminChannel));
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Gets the playercount, gamemode, and address of the server";
-		}
-	}
-
-	class StatusCommand : ChatCommand
-	{
-		public StatusCommand()
-		{
-			Keyword = "status";
-			RequiresAdmin = true;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			OutputProc(Instance.SendCommand(TGStationServer.SCIRCStatus));
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Gets the admincount, playercount, gamemode, and true game mode of the server";
 		}
 	}
 	class VersionCommand : ChatCommand
@@ -224,7 +173,7 @@ namespace TGServerService
 			{
 				res = "";
 				foreach (var I in PRs)
-					res += I.Number + " ";
+					res += "#" + I.Number + " ";
 				OutputProc(res);
 			}
 			return ExitCode.Normal;
@@ -235,49 +184,5 @@ namespace TGServerService
 			return "Gets the currently merged pull requests in the repository";
 		}
 	}
-
-	class AHelpCommand : ChatCommand
-	{
-		public AHelpCommand()
-		{
-			Keyword = "ahelp";
-			RequiresAdmin = true;
-			RequiredParameters = 2;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			var ckey = parameters[0];
-			parameters.RemoveAt(0);
-			OutputProc(Instance.SendPM(ckey, CommandInfo.Value.Speaker, String.Join(" ", parameters)));
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Respond to a relayed admin help request";
-		}
-
-		public override string GetArgumentString()
-		{
-			return "<ckey> <message|ticket <close|resolve|icissue|reject|reopen <ticket #>|list>>";
-		}
-	}
-	class RelayRestartCommand : ChatCommand
-	{
-		public RelayRestartCommand()
-		{
-			Keyword = "relayrestart";
-			RequiresAdmin = true;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			Instance.InitInterop();
-			return ExitCode.Normal;
-		}
-
-		public override string GetHelpText()
-		{
-			return "Restart the relay listener. This is a massive hack but it'll do for now";
-		}
-	}
+	
 }

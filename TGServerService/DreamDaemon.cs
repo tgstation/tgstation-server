@@ -56,6 +56,7 @@ namespace TGServerService
 					currentStatus = TGDreamDaemonStatus.Online;
 					DDWatchdog = new Thread(new ThreadStart(Watchdog));
 					DDWatchdog.Start();
+					RequestRestart();   //TODO: Remove this when DD -> Service communication is more 
 				}
 				catch (Exception e)
 				{
@@ -379,7 +380,7 @@ namespace TGServerService
 
 					GenCommsKey();
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
-					Proc.StartInfo.Arguments = String.Format("{0} -port {1} -close -verbose -params server_service={3} -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey);
+					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient" : "");
 					InitInterop();
 					Proc.Start();
 
@@ -462,7 +463,7 @@ namespace TGServerService
 					res = "REBOOTING";
 					break;
 				case TGDreamDaemonStatus.Online:
-					res = SendCommand(SCIRCCheck);
+					res = "ONLINE";
 					if (includeMetaInfo)
 					{
 						string secandvis;
@@ -504,6 +505,26 @@ namespace TGServerService
 			if (res == "SUCCESS")
 				return null;
 			return res;
+		}
+
+		/// <inheritdoc />
+		public bool Webclient()
+		{
+			return Properties.Settings.Default.Webclient;
+		}
+
+		/// <inheritdoc />
+		public void SetWebclient(bool on)
+		{
+			var Config = Properties.Settings.Default;
+			lock (watchdogLock) {
+				var diff = on != Config.Webclient;
+				if (diff)
+				{
+					Config.Webclient = on;
+					RequestRestart();
+				}
+			}
 		}
 	}
 }

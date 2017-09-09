@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using TGServiceInterface;
 
@@ -24,16 +24,35 @@ namespace TGServerService
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
-		public const string SCIRCCheck = "irc_check";  //returns game stats
-		public const string SCIRCStatus = "irc_status"; //returns admin stats
-		public const string SCNameCheck = "namecheck"; //returns keywords lookup
-		const string SCAdminPM = "adminmsg"; //pms a target ckey
-		public const string SCAdminWho = "adminwho";   //lists admins
+		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
 		const string SRIRCAdminChannelMessage = "send2irc";
 		const string SRWorldReboot = "worldreboot";
+
+		const string CCPHelpText = "help_text";
+		const string CCPAdminOnly = "admin_only";
+		const string CCPRequiredParameters = "required_parameters";
+
+		List<Command> ServerChatCommands;
+
+		void LoadServerChatCommands()
+		{
+			if (DaemonStatus() != TGDreamDaemonStatus.Online)
+				return;
+			var json = SendCommand(SCListCustomCommands);
+			if (String.IsNullOrWhiteSpace(json))
+				return;
+			List<Command> tmp = new List<Command>();
+			try
+			{
+				foreach(var I in new JavaScriptSerializer().Deserialize<IDictionary<string, IDictionary<string, object>>>(json))
+					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], ((int)I.Value[CCPAdminOnly]) == 1, (int)I.Value[CCPRequiredParameters]));
+				ServerChatCommands = tmp;
+			}
+			catch { }
+		}
 
 		//raw command string sent here via world.ExportService
 		void HandleCommand(string cmd)
@@ -55,6 +74,8 @@ namespace TGServerService
 					break;
 				case SRWorldReboot:
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
+					ServerChatCommands = null;
+					ChatConnectivityCheck();
 					lock (CompilerLock)
 					{
 						if (UpdateStaged)
@@ -75,16 +96,6 @@ namespace TGServerService
 					return "Error: Server Offline!";
 				return SendTopic(String.Format("serviceCommsKey={0};command={1}", serviceCommsKey, cmd), currentPort);
 			}
-		}
-
-		public string SendPM(string targetCkey, string sender, string message)
-		{
-			return SendCommand(String.Format("{3};target={0};sender={1};message={2}", targetCkey, sender, message, SCAdminPM));
-		}
-
-		public string NameCheck(string targetCkey, string sender)
-		{
-			return SendCommand(String.Format("{2};target={0};sender={1}", targetCkey, sender, SCNameCheck));
 		}
 
 		//Fuckery to diddle byond with the right packet to accept our girth
@@ -118,7 +129,7 @@ namespace TGServerService
 						string returnedString = "NULL";
 						try
 						{
-							var returnedData = new byte[512];
+							var returnedData = new byte[UInt16.MaxValue];
 							topicSender.Receive(returnedData);
 							var raw_string = Encoding.ASCII.GetString(returnedData).TrimEnd(new char[] { (char)0 }).Trim();
 							if (raw_string.Length > 6)
@@ -243,7 +254,8 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				TGServerService.WriteError("Nudge handler thread crashed: " + e.ToString(), TGServerService.EventID.NudgeCrash);
-				SendMessage("SERVICE: The relay handler crashed, use relayrestart to restore it! Error: " + e.Message, ChatMessageType.AdminInfo);
+				SendMessage("SERVICE: The relay handler crashed, I will attempt to restore it when the server reboots! Error: " + e.Message, ChatMessageType.AdminInfo);
+				RequestRestart();
 			}
 		}
 	}

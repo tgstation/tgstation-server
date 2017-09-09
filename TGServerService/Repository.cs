@@ -300,6 +300,17 @@ namespace TGServerService
 				SendMessage("REPO: Checking out object: " + sha, ChatMessageType.DeveloperInfo);
 				try
 				{
+					if(Repo.Branches[sha] == null)
+					{
+						//see if origin has the branch
+						var trackedBranch = Repo.Branches[String.Format("origin/{0}", sha)];
+						if(trackedBranch != null)
+						{
+							var newBranch = Repo.CreateBranch(sha, trackedBranch.Tip);
+							//track it
+							Repo.Branches.Update(newBranch, b => b.TrackedBranch = trackedBranch.CanonicalName);
+						}
+					}
 					var Opts = new CheckoutOptions()
 					{
 						CheckoutModifiers = CheckoutModifiers.Force,
@@ -307,6 +318,7 @@ namespace TGServerService
 					};
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
+					UpdateSubmodules();
 					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
 					return res;
@@ -364,11 +376,12 @@ namespace TGServerService
 					};
 					fos.OnTransferProgress += HandleTransferProgress;
 					Commands.Fetch(Repo, R.Name, refSpecs, fos, logMessage);
-
+					
 					var originBranch = Repo.Head.TrackedBranch;
 					if (reset)
 					{
 						var error = ResetNoLock(Repo.Head.TrackedBranch);
+						UpdateSubmodules();
 						if (error != null)
 							throw new Exception(error);
 						DeletePRList();
@@ -378,6 +391,7 @@ namespace TGServerService
 					var res = MergeBranch(originBranch.FriendlyName);
 					if (res != null)
 						throw new Exception(res);
+					UpdateSubmodules();
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
 					return null;
 				}
@@ -388,6 +402,35 @@ namespace TGServerService
 					return E.ToString();
 				}
 			}
+		}
+
+		private void UpdateSubmodules()
+		{
+			var suo = new SubmoduleUpdateOptions
+			{
+				Init = true
+			};
+			foreach (var I in Repo.Submodules)
+				try
+				{
+					Repo.Submodules.Update(I.Name, suo);
+				}
+				catch(Exception e)
+				{
+					//workaround for https://github.com/libgit2/libgit2/issues/3820
+					//kill off the modules/ folder in .git and try again
+					try
+					{
+						Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
+					}
+					catch {
+						throw e;
+					}
+					Repo.Submodules.Update(I.Name, suo);
+					var msg = String.Format("I had to reclone submodule {0}. If this is happening a lot find a better hack or fix https://github.com/libgit2/libgit2/issues/3820!", I.Name);
+					SendMessage(String.Format("REPO: {0}", msg), ChatMessageType.DeveloperInfo);
+					TGServerService.WriteWarning(msg, TGServerService.EventID.SubmoduleReclone);
+				}
 		}
 
 		string CreateBackup()
@@ -556,6 +599,16 @@ namespace TGServerService
 
 					//so we'll know if this fails
 					var Result = MergeBranch(LocalBranchName);
+
+					if (Result == null)
+						try
+						{
+							UpdateSubmodules();
+						}
+						catch (Exception e)
+						{
+							Result = e.ToString();
+						}
 
 					if (Result == null)
 					{
