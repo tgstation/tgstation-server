@@ -383,12 +383,12 @@ namespace TGServerService
 					}
 				}
 
-                if (!PrecompileHook())
-                {
-                    lastCompilerError = "The precompile hook failed";
-                    compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
-                    return;
-                }
+				if (!PrecompileHook())
+				{
+					lastCompilerError = "The precompile hook failed";
+					compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+					return;
+				}
 
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
