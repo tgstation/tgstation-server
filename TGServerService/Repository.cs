@@ -788,12 +788,13 @@ namespace TGServerService
 		//public api
 		string Push()
 		{
+			if (LocalIsRemote())    //nothing to push
+				return null;
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-
 				try
 				{
 					if (!SSHAuth())
