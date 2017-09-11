@@ -770,7 +770,7 @@ namespace TGServerService
 					var sum = status.Added.Count() + status.Removed.Count() + status.Modified.Count();
 
 					if (sum == 0)   //nothing to commit
-						return null;
+						return "No changes";
 
 					// Create the committer's signature and commit
 					var authorandcommitter = MakeSig();
