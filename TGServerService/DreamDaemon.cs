@@ -65,6 +65,7 @@ namespace TGServerService
 				finally
 				{
 					Properties.Settings.Default.ReattachToDD = false;
+					Properties.Settings.Default.Save();
 				}
 
 			if (Proc == null)
