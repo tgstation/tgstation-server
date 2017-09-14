@@ -10,10 +10,46 @@ namespace TGCommandLine
 	{
 		static ExitCode RunCommandLine(IList<string> argsAsList)
 		{
+			//first lookup the connection string
+			bool badConnectionString = false;
+			for (var I = 0; I < argsAsList.Count - 1; ++I) {
+				var lowerarg = argsAsList[I].ToLower();
+				if (lowerarg == "-c" || lowerarg == "--connect")
+				{
+					var connectionString = argsAsList[I + 1];
+					var splits = connectionString.Split('@');
+					var userpass = splits[0].Split(':');
+					if (splits.Length != 2 || userpass.Length != 2)
+					{
+						badConnectionString = true;
+						break;
+					}
+					var username = userpass[0];
+					var password = userpass[1];
+					var address = splits[1];
+					if(String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password) || String.IsNullOrWhiteSpace(address))
+					{
+						badConnectionString = true;
+						break;
+					}
+					argsAsList.RemoveAt(I);
+					argsAsList.RemoveAt(I);
+					Server.SetRemoteLoginInformation(address, username, password);
+					break;
+				}
+			}
+
+			if (badConnectionString)
+			{
+				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address");
+				return ExitCode.BadCommand;
+			}
+
 			var res = Server.VerifyConnection();
 			if (res != null)
 			{
 				Console.WriteLine("Unable to connect to service: " + res);
+				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address");
 				return ExitCode.ConnectionError;
 			}
 
