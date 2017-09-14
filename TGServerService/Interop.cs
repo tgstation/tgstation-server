@@ -143,13 +143,11 @@ namespace TGServerService
 						{
 							topicSender.Shutdown(SocketShutdown.Both);
 						}
-
-						TGServerService.WriteInfo("Topic: \"" + topicdata + "\" Returned: " + returnedString, TGServerService.EventID.TopicSent);
+						
 						return returnedString;
 					}
 					catch
 					{
-						TGServerService.WriteWarning("Failed to send topic: " + topicdata, TGServerService.EventID.TopicFailed);
 						return "Topic delivery failed!";
 					}
 				}
