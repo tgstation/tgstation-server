@@ -39,6 +39,7 @@
     <ApplicationIcon>tgs.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdminCommands.cs" />
     <Compile Include="BYONDCommands.cs" />
     <Compile Include="ConfigCommands.cs" />
     <Compile Include="DDCommands.cs" />
