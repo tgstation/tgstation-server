@@ -97,9 +97,9 @@ namespace TGServerService
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
-		public static void WriteAccess(string username, IList<string> actions, bool authSuccess)
+		public static void WriteAccess(string username, bool authSuccess)
 		{
-			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}. Actions: {1}", username, String.Join(", ", actions)), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
+			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}", username), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
 		}
 
 		ServiceHost host;   //the WCF host

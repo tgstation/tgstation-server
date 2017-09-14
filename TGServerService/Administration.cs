@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.ServiceModel;
-using System.ServiceModel.Dispatcher;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -106,20 +105,8 @@ namespace TGServerService
 					}
 				}
 			}
-
-			var actions = new List<string>();
-			try
-			{
-				var realfilter = (ActionMessageFilter)operationContext.EndpointDispatcher.ContractFilter;
-				var cnamespace = operationContext.EndpointDispatcher.ContractNamespace;
-				foreach (var I in realfilter.Actions)
-					actions.Add(I.Replace(cnamespace, "")); //filter out some garbage
-			}
-			catch (Exception e)
-			{
-				TGServerService.WriteError("IF YOU SEE THIS CALL CYBERBOSS: " + e.ToString(), TGServerService.EventID.Authentication);
-			}
-			TGServerService.WriteAccess(operationContext.ServiceSecurityContext.WindowsIdentity.Name, actions, authSuccess);
+			
+			TGServerService.WriteAccess(operationContext.ServiceSecurityContext.WindowsIdentity.Name, authSuccess);
 			return authSuccess;
 		}
 	}
