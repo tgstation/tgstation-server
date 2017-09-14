@@ -151,6 +151,7 @@ namespace TGServerService
 				AddEndpoint(I);
 
 			host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
+			host.Credentials.UserNameAuthentication.IncludeWindowsGroups = true;
 
 			host.Open();    //...or maybe here, doesn't really matter
 		}
