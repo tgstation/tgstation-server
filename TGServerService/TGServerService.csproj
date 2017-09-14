@@ -84,7 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizationManager.cs" />
+    <Compile Include="Administration.cs" />
     <Compile Include="Byond.cs" />
     <Compile Include="Chat.cs" />
     <Compile Include="ChatCommands.cs" />
