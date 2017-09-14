@@ -213,7 +213,7 @@ namespace TGServerService
 		}
 
 		//Gets what HEAD is pointing to
-		string GetShaOrBranch(out string error, bool branch)
+		string GetShaOrBranch(out string error, bool branch, bool tracked)
 		{
 			lock (RepoLock)
 			{
@@ -227,6 +227,8 @@ namespace TGServerService
 				try
 				{
 					error = null;
+					if (tracked && Repo.Head.TrackedBranch != null)
+						return Repo.Head.TrackedBranch.Tip.Sha;
 					return branch ? Repo.Head.FriendlyName : Repo.Head.Tip.Sha;
 				}
 				catch (Exception e)
@@ -239,15 +241,15 @@ namespace TGServerService
 
 		//moist shleppy noises
 		//public api
-		public string GetHead(out string error)
+		public string GetHead(bool useTracked, out string error)
 		{
-			return GetShaOrBranch(out error, false);
+			return GetShaOrBranch(out error, false, useTracked);
 		}
 
 		//public api
 		public string GetBranch(out string error)
 		{
-			return GetShaOrBranch(out error, true);
+			return GetShaOrBranch(out error, true, false);
 		}
 
 		//public api
@@ -562,6 +564,9 @@ namespace TGServerService
 				if (result != null)
 					return result;
 				SendMessage(String.Format("REPO: {1}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"), ChatMessageType.DeveloperInfo);
+				result = ResetNoLock(null);
+				if (result != null)
+					return result;
 				try
 				{
 					//only supported with github
@@ -788,12 +793,13 @@ namespace TGServerService
 		//public api
 		string Push()
 		{
+			if (LocalIsRemote())    //nothing to push
+				return null;
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-
 				try
 				{
 					if (!SSHAuth())
