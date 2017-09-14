@@ -55,7 +55,7 @@ namespace TGCommandLine
 
 			if (!Server.Authenticate())
 			{
-				Console.WriteLine("Authentication error! Username/password/windows identity is not authorized!");
+				Console.WriteLine("Authentication error: Username/password/windows identity is not authorized!");
 				return ExitCode.ConnectionError;
 			}
 
@@ -127,7 +127,7 @@ namespace TGCommandLine
 						}
 						else if (!Server.Authenticate())
 						{
-							Console.WriteLine("Authentication error! Username/password/windows identity is not authorized! Returning to local mode.");
+							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
 							Server.SetRemoteLoginInformation(null, null, null);
 						}
 						else

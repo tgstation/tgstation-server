@@ -18,21 +18,9 @@ namespace TGControlPanel
 					Properties.Settings.Default.UpgradeRequired = false;
 					Properties.Settings.Default.Save();
 				}
-				var res = Server.VerifyConnection();
-				if (res != null)
-				{
-					MessageBox.Show("Unable to connect to service! Error: " + res);
-					return;
-				}
-				if (!Server.Authenticate())
-				{
-					MessageBox.Show("Authentication error! Username/password/windows identity is not authorized!");
-					return;
-				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new Main());
-				return;
+				Application.Run(new Login());
 			}
 			catch (Exception e)
 			{
