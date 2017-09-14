@@ -16,6 +16,13 @@ namespace TGCommandLine
 				Console.WriteLine("Unable to connect to service: " + res);
 				return ExitCode.ConnectionError;
 			}
+
+			if (!Server.Authenticate())
+			{
+				Console.WriteLine("Authentication error! Username/password/windows identity is not authorized!");
+				return ExitCode.ConnectionError;
+			}
+
 			try
 			{
 				return new CLICommand().DoRun(argsAsList);

@@ -45,7 +45,7 @@ namespace TGCommandLine
 
 		public override string GetHelpText()
 		{
-			return "Search for and set the windows group allowed to use the service";
+			return "Set the windows group allowed to use the service";
 		}
 
 		public override string GetArgumentString()
@@ -62,7 +62,7 @@ namespace TGCommandLine
 			}
 			else
 			{
-				OutputProc("Search failed to find a group named: " + parameters[0]);
+				OutputProc("Failed to find a group named: " + parameters[0]);
 				return ExitCode.ServerError;
 			}
 		}

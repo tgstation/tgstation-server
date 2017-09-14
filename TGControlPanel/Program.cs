@@ -24,6 +24,11 @@ namespace TGControlPanel
 					MessageBox.Show("Unable to connect to service! Error: " + res);
 					return;
 				}
+				if (!Server.Authenticate())
+				{
+					MessageBox.Show("Authentication error! Username/password/windows identity is not authorized!");
+					return;
+				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new Main());

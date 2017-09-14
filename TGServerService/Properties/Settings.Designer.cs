@@ -254,12 +254,12 @@ namespace TGServerService.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AuthorizedGroupName {
+        public string AuthorizedGroupSID {
             get {
-                return ((string)(this["AuthorizedGroupName"]));
+                return ((string)(this["AuthorizedGroupSID"]));
             }
             set {
-                this["AuthorizedGroupName"] = value;
+                this["AuthorizedGroupSID"] = value;
             }
         }
     }
