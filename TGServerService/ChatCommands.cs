@@ -82,7 +82,7 @@ namespace TGServerService
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(String.Format("^{0}", Instance.GetHead(out string error)) ?? error);
+			OutputProc(String.Format("^{0}", Instance.GetHead(true, out string error)) ?? error);
 			return error == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 

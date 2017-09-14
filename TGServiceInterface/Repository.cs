@@ -87,10 +87,11 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Gets the sha of the current HEAD
 		/// </summary>
+		/// <param name="useTracked">If set to true and HEAD is currently a branch, will instead return the sha of the tracked remote branch if it exists</param>
 		/// <param name="error">null on success, error message on failure</param>
 		/// <returns>The sha of the current HEAD on success, null on failure</returns>
 		[OperationContract]
-		string GetHead(out string error);
+		string GetHead(bool useTracked, out string error);
 
 		/// <summary>
 		/// Gets the name of the current branch
