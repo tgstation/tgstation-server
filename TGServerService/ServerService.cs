@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
@@ -13,6 +14,7 @@ namespace TGServerService
 		//only deprecate events, do not reuse them
 		public enum EventID
 		{
+			Authentication = 1,
 			ChatCommand = 100,
 			ChatConnectFail = 200,
 			ChatProviderStartFail = 300,
@@ -95,6 +97,11 @@ namespace TGServerService
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
+		public static void WriteAccess(string username, IList<string> actions, bool authSuccess)
+		{
+			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}. Actions: {1}", username, String.Join(", ", actions)), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
+		}
+
 		ServiceHost host;   //the WCF host
 
 		void MigrateSettings(int oldVersion, int newVersion)
@@ -142,16 +149,18 @@ namespace TGServerService
 			}
 			Environment.CurrentDirectory = Config.ServerDirectory;
 
-			host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Server.HTTPSPort)) })
+			var instance = new TGStationServer();
+
+			host = new ServiceHost(instance, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Server.HTTPSPort)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
-			}; //construction runs here
+			};
 
 			foreach (var I in Server.ValidInterfaces)
 				AddEndpoint(I);
 
 			host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
-			host.Credentials.UserNameAuthentication.IncludeWindowsGroups = true;
+			host.Authorization.ServiceAuthorizationManager = instance;
 
 			host.Open();    //...or maybe here, doesn't really matter
 		}

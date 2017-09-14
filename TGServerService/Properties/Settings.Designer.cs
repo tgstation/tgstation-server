@@ -250,5 +250,17 @@ namespace TGServerService.Properties {
                 this["CertificateURL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AuthorizedGroupName {
+            get {
+                return ((string)(this["AuthorizedGroupName"]));
+            }
+            set {
+                this["AuthorizedGroupName"] = value;
+            }
+        }
     }
 }

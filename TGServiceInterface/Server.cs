@@ -9,7 +9,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -111,6 +111,7 @@ namespace TGServiceInterface
 
 		/// <summary>
 		/// As opposed to VerifyConnection(), this check user credentials
+		/// Requires a prior call to <see cref="VerifyConnection"/>
 		/// </summary>
 		/// <returns>true if credentials are valid, false otherwise</returns>
 		public static bool Authenticate()
@@ -125,8 +126,29 @@ namespace TGServiceInterface
 				return false;
 			}
 		}
+
+		/// <summary>
+		/// As opposed to Authentication() this returns true if the current login can use the <see cref="ITGAdministration"/> interface.
+		/// Requires a prior call to <see cref="Authenticate"/>
+		/// </summary>
+		/// <returns>true if the connection may use the <see cref="ITGAdministration"/> interface, false otherwise</returns>
+		public static bool AuthenticateAdmin()
+		{
+			try
+			{
+				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 	}
 
+	/// <summary>
+	/// Used for testing connections to the service without authentication
+	/// </summary>
 	[ServiceContract]
 	public interface ITGConnectivity
 	{
@@ -135,6 +157,28 @@ namespace TGServiceInterface
 		/// </summary>
 		[OperationContract]
 		void VerifyConnection();
+	}
+
+	/// <summary>
+	/// Manage the group that is used to access the service, can only be used by an administrator
+	/// </summary>
+	[ServiceContract]
+	public interface ITGAdministration
+	{
+		/// <summary>
+		/// Returns the name of the windows group allowed to use the service other than administrator
+		/// </summary>
+		/// <returns>The name of the windows group allowed to use the service other than administrator, "ADMIN" if it's unset, null on failure</returns>
+		[OperationContract]
+		string GetCurrentAuthorizedGroup();
+
+		/// <summary>
+		/// Searches the windows machine for the group named <paramref name="groupName"/>, sets it as the authorized group if it's found
+		/// </summary>
+		/// <param name="groupName">The name of the group to search for or null to clear the setting</param>
+		/// <returns>The full name of the group that is now authorized on success, null on failure, "ADMIN" on clearing</returns>
+		[OperationContract]
+		string SetAuthorizedGroup(string groupName);
 	}
 
 	/// <summary>

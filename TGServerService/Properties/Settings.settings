@@ -59,5 +59,8 @@
     <Setting Name="CertificateURL" Type="System.String" Scope="User">
       <Value Profile="(Default)">localhost</Value>
     </Setting>
+    <Setting Name="AuthorizedGroupName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

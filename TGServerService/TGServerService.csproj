@@ -67,6 +67,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
@@ -83,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationManager.cs" />
     <Compile Include="Byond.cs" />
     <Compile Include="Chat.cs" />
     <Compile Include="ChatCommands.cs" />

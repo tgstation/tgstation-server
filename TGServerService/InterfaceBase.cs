@@ -16,6 +16,7 @@ namespace TGServerService
 		//called when the service is started
 		public TGStationServer()
 		{
+			FindTheDroidsWereLookingFor();
 			InitChat();
 			InitByond();
 			InitCompiler();
