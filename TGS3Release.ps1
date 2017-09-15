@@ -6,7 +6,7 @@ Remove-Item "$src\TG Station Server Installer.exe.config"
 Remove-Item "$src\TG Station Server Installer.pdb"
 Remove-Item "$src\TGServiceInterface.pdb"
 
-$destination = "bf\TGS3-Server.zip"
+$destination = "$bf\TGS3-Server.zip"
 
 If(Test-path $destination) {Remove-item $destination}
 
