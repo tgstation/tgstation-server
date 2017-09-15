@@ -14,7 +14,6 @@ namespace TGServerService
 		//only deprecate events, do not reuse them
 		public enum EventID
 		{
-			Authentication = 1,
 			ChatCommand = 100,
 			ChatConnectFail = 200,
 			ChatProviderStartFail = 300,
@@ -78,6 +77,7 @@ namespace TGServerService
 			ChatBroadcastFail = 6400,
 			IRCLogModes = 6500,
 			SubmoduleReclone = 6600,
+			Authentication = 6700,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
