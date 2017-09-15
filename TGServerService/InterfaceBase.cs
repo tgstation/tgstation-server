@@ -9,13 +9,14 @@ namespace TGServerService
 
 	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	partial class TGStationServer : IDisposable, ITGSService
+	partial class TGStationServer : IDisposable, ITGSService, ITGConnectivity
 	{
 
 		//call partial constructors/destructors from here
 		//called when the service is started
 		public TGStationServer()
 		{
+			FindTheDroidsWereLookingFor();
 			InitChat();
 			InitByond();
 			InitCompiler();

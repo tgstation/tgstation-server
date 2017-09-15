@@ -8,7 +8,10 @@ namespace TGCommandLine
 	{
 		public CLICommand()
 		{
-			Children = new Command[] { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
+			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
+			if (Server.VerifyConnection() == null && Server.Authenticate() && Server.AuthenticateAdmin())
+				tmp.Add(new AdminCommand());
+			Children = tmp.ToArray();
 		}
 
 		public override void PrintHelp()

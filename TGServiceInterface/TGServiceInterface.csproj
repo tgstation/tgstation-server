@@ -34,21 +34,25 @@
     <ApplicationIcon>tgs.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administration.cs" />
     <Compile Include="Byond.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Connectivity.cs" />
     <Compile Include="DreamDaemon.cs" />
     <Compile Include="Chat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="..\Version.cs" />
+    <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />
