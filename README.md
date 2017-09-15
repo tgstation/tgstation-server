@@ -11,10 +11,11 @@ Requires python 2.7/3.6 to be installed for changelog generation
 
 ## Installing
 1. Either compile from source (requires .NET Framework 4.5.2, Nuget, and WiX toolset 4.0) or download the latest [release from github](https://github.com/tgstation/tgstation-server-tools/releases)
+1. Unzip setup files
 1. Run the installer
 
 ## Installing (GUI):
-1. Launch TGControlPanel.exe. A shortcut can be found on your desktop
+1. Launch TGControlPanel.exe as an administrator. A shortcut can be found on your desktop
 1. Optionally switch to the `Server` tab and change the Server Path location from C:\tgstation-server-3 to wherever you wish
 1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
 1. Hit the clone button
@@ -28,7 +29,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 
 ## Installing (CL example):
 This process is identical to the above steps in command line mode. You can always learn more about a command using `?` i.e. `repo ?`
-1. Launch TGCommandLine.exe (running with no parameters puts you in interactive mode)
+1. Launch TGCommandLine.exe as an administrator (running with no parameters puts you in interactive mode)
 1. `config move-server D:\tgstation`
 1. `repo setup https://github.com/tgstation/tgstation master`
 1. `byond update 511.1385`
@@ -61,12 +62,25 @@ This process is identical to the above steps in command line mode. You can alway
 1. `dm initialize --wait`
 1. `dd start`
 
+## Setting up Multi-User
+
+1. Create windows accounts for those you wish to have access to the service
+1. Join them in a common windows group
+1. Run TGCommandLine.exe as an administrator
+1. `admin set-group <Name of the group you created>`
+
+## Setting up Remote access
+
+1. Obtain an SSL certificate to secure the connection (this is beyond the scope of this guide)
+1. [Bind the SSL certificate to port 38607](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate)
+	- e.g. `netsh http add sslcert ipport=0.0.0.0:38607 certhash=<certificate hash> appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}`
+	- The `appid` GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above
+1. Ensure port 38607 can be acccessed from the internet
+1. Log in from any computer using a username and password from the service computer in either the CLI or GUI
+
 ## Updating
 
-The process to update the server while DD is running is a functioning work in progress. Eventually you'll just be able to run the installer without worry but until then there is an extra step you must take
-
-1. Run `service-update --verify` from the command line. This will stop the service without killing DD
-1. Run the installer. The service will restart and reattach to it's old DD process
+The service supports updates while running a DreamDaemon instance. Simply install an updated version as you normally would and process ownership will transfer smoothly to the new service.
 
 ### Folders and Files (None of these should be touched):
 * `Game/<A/B>/`
@@ -75,6 +89,7 @@ The process to update the server while DD is running is a functioning work in pr
 * `Static/`
 	* This contains the `data/` and `config/` folders from the code. They are stored here and a symbolic link is created in the `gamecode/` folders pointing to here.
 	* This also makes backing them up easy. (you may copy and paste your existing `data/` and `config/` folders here after the install script has ran.)
+	* This folder also contains several .dlls, these are symlinked to from here for BYOND compatibility reasons and should not be tampered with
 	* Resetting the repository will create a backup of this and reinitalize it
 
 * `Game/Live/`
@@ -82,9 +97,7 @@ The process to update the server while DD is running is a functioning work in pr
 	* When the server is updated, we just point this to the updating folder so that the update takes place next round.
 
 * `Repository/`
-	* This contains the actual git repository, all changes in here will be overwritten during update operations, the configured branch will always be forced to track from live.
-	* On the first update of the day, the current code state is saved to a branch called `backup-YYYY-MM-DD` before updating, to make local reverts easy.
-	* Following update operations on the same day do not make branches because I was too lazy to detect such edge cases.
+	* This contains the actual git repository, all changes in here will be overwritten during update operations.
 
 * `RepoKey/`
 	* This contains ssh key information for automatic changelog pushing. 
@@ -114,7 +127,7 @@ To update the server, open the `Server` tab of the control panel. Optionally tic
 
 Updates do not require the server to be shutdown, changes will apply next round if the server is currently running.  
 
-All DM compilation will log to the server what commit they happened at
+All DM compilation will log to the server what commit they happened at and create a backup tag in the local repository.
 
 There is also a `Update (Keep Testmerge)` option that does the same without resetting the code, used to update without clearing test merges or local changes. Prone to merge conflicts.
 
@@ -151,6 +164,7 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 
 ### Viewing Server Logs
 * Logs are stored in the Windows event viewer under `Windows Logs` -> `Application`. You'll need to filter this list for `TG Station Server`
+* Every event type is keyed with an ID. A complete listing of these IDs can be found [here](https://github.com/tgstation/tgstation-server/blob/master/TGServerService/ServerService.cs#L15).
 * You can also import the custom view `View TGS3 Logs.xml` in this folder to have them automatically filtered
 
 ### Enabling upstream changelog generation
@@ -162,6 +176,4 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 
 ## CONTRIBUTING
 
-* IF YOU MAKE ANY CHANGES TO THE CODE, BE SURE TO BUMP THE VERSION NUMBERS IN VERSION.CS
-* My recommendation is bump the revision number per test release, the minor version per PR, and the major version if you rewrite the whole thing.
-* To have auto deployment to github releases work, put `[TGSDeploy]` somewhere in your pull request title
+* Version numbers and releases will be handled by maintainers, do not modify these in your PR
