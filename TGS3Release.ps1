@@ -20,7 +20,7 @@ $src2 = $Env:APPVEYOR_BUILD_FOLDER + "\ClientApps"
 [system.io.directory]::CreateDirectory($src2)
 Copy-Item "$bf\TGCommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
 Copy-Item "$bf\TGControlPanel\bin\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
-Copy-Item "$bf\TGServiceInterface\bin\Release\TGServiceInterface.exe" "$src2\TGServiceInterface.exe"
+Copy-Item "$bf\TGServiceInterface\bin\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
 
 $dest2 = "$bf\TGS3-Client.zip"
 
