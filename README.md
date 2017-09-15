@@ -90,7 +90,7 @@ The process to update the server while DD is running is a functioning work in pr
 	* This contains ssh key information for automatic changelog pushing. 
 
 * `EventHandlers/`
-	* This contains batch files that run after certain events, currently only precompile and postcompile events are implemented. 
+	* This contains batch files that run after certain events, currently only precompile and postcompile events are implemented. If you'd like an event handler you should create a file in this folder with the following name: `{event_name}.bat` for example: if I want an event handler for precompile, I would name it `precompile.bat`.
 
 * `BYOND/`
 	* This contains the actual BYOND installation the server uses
