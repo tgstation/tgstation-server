@@ -5,10 +5,14 @@ image: Visual Studio 2017
 configuration: Release
 shallow_clone: true
 artifacts:
-- path: TGS3.zip
-  name: TGS3
-- path: MD5-SHA1.txt
-  name: MD5SHA1
+- path: TGS3-Server.zip
+  name: TGS3Server
+- path: MD5-SHA1-Server.txt
+  name: MD5SHA1Server
+- path: TGS3-Client.zip
+  name: TGS3Client
+- path: MD5-SHA1-Client.txt
+  name: MD5SHA1Client
 install:
   - choco install fciv
 before_build:
@@ -27,7 +31,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
-  artifact: TGS3,MD5SHA1
+  artifact: TGS3Server,MD5SHA1Server,TGS3Client,MD5SHA1Client
   draft: false
   prerelease: true
   on:

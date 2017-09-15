@@ -205,7 +205,7 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int SettingsVersion {
             get {
                 return ((int)(this["SettingsVersion"]));
@@ -236,6 +236,30 @@ namespace TGServerService.Properties {
             }
             set {
                 this["Webclient"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        public string CertificateURL {
+            get {
+                return ((string)(this["CertificateURL"]));
+            }
+            set {
+                this["CertificateURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AuthorizedGroupSID {
+            get {
+                return ((string)(this["AuthorizedGroupSID"]));
+            }
+            set {
+                this["AuthorizedGroupSID"] = value;
             }
         }
     }
