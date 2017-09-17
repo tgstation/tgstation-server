@@ -78,6 +78,8 @@ namespace TGServerService
 			IRCLogModes = 6500,
 			SubmoduleReclone = 6600,
 			Authentication = 6700,
+			PreactionEvent = 6800,
+			PreactionFail = 6900
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog

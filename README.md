@@ -102,6 +102,9 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 * `RepoKey/`
 	* This contains ssh key information for automatic changelog pushing. 
 
+* `EventHandlers/`
+	* This contains batch files that run after certain events, currently only precompile and postcompile events are implemented. If you'd like an event handler you should create a file in this folder with the following name: `{event_name}.bat` for example: if I want an event handler for precompile, I would name it `precompile.bat`.
+
 * `BYOND/`
 	* This contains the actual BYOND installation the server uses
 

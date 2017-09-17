@@ -383,6 +383,14 @@ namespace TGServerService
 					}
 				}
 
+				if (!PrecompileHook())
+				{
+					lastCompilerError = "The precompile hook failed";
+					compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+					TGServerService.WriteWarning("Precompile hook failed!", TGServerService.EventID.DMCompileError);
+					return;
+				}
+
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
 					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
@@ -473,6 +481,13 @@ namespace TGServerService
 							}
 						}
 						var staged = DaemonStatus() != TGDreamDaemonStatus.Offline;
+						if (!PostcompileHook())
+						{
+							lastCompilerError = "The postcompile hook failed";
+							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+							TGServerService.WriteWarning("Postcompile hook failed!", TGServerService.EventID.DMCompileError);
+							return;
+						}
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
 						SendMessage("DM: " + msg, ChatMessageType.DeveloperInfo);
 						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess);
