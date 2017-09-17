@@ -24,7 +24,7 @@ namespace TGServerService
 			if (!EventHandlerExists(eventName))
 			{
 				// We don't need a handler, so let's just fail semi-silently.
-				TGServerService.WriteWarning(String.Format("Preaction Event not running due to missing event handler: {0}", GetPath(eventName)), TGServerService.EventID.PreactionFail);
+				TGServerService.WriteWarning(String.Format("Preaction Event: {0} not running due to missing event handler: {1}", eventName, GetPath(eventName)), TGServerService.EventID.PreactionFail);
 				return true;
 			}
 
@@ -46,7 +46,7 @@ namespace TGServerService
 			var stderr = process.StandardError.ReadToEnd();
 
 			TGServerService.WriteInfo(
-				String.Format("Preaction Event ran. Stdout:\n{0}\nStderr:\n{1}", stdout, stderr),
+				String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetPath(eventName), stdout, stderr),
 				process.ExitCode == 0 ? TGServerService.EventID.PreactionEvent : TGServerService.EventID.PreactionFail
 		   );
 
