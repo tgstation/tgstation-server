@@ -78,7 +78,7 @@ namespace TGServerService
 			IRCLogModes = 6500,
 			SubmoduleReclone = 6600,
 			Authentication = 6700,
-      PreactionEvent = 6800,
+			PreactionEvent = 6800,
 			PreactionFail = 6900
 		}
 
