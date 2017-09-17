@@ -387,6 +387,7 @@ namespace TGServerService
 				{
 					lastCompilerError = "The precompile hook failed";
 					compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+					TGServerService.WriteWarning("Precompile hook failed!", TGServerService.EventID.DMCompileError);
 					return;
 				}
 
@@ -484,6 +485,7 @@ namespace TGServerService
 						{
 							lastCompilerError = "The postcompile hook failed";
 							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+							TGServerService.WriteWarning("Postcompile hook failed!", TGServerService.EventID.DMCompileError);
 							return;
 						}
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
