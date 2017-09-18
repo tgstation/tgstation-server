@@ -580,8 +580,7 @@ namespace TGServerService
 						//Need to delete the branch first in case of rebase
 						Repo.Branches.Remove(branch);
 
-
-					Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
+          Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
 
 					currentProgress = -1;
 
