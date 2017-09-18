@@ -13,13 +13,13 @@ namespace TGControlPanel
 		public ConfigTextBox(ConfigSetting c, IList<ConfigSetting> cl)
 		{
 			Setting = c;
-			TextChanged += ConfigTextbox_TextChanged;
 			ChangeList = cl;
 			Text = Setting.Value;
 			Multiline = true;
 			Width = 560;
 			Height *= 3;
 			ScrollBars = ScrollBars.Both;
+			TextChanged += ConfigTextbox_TextChanged;
 		}
 
 		private void ConfigTextbox_TextChanged(object sender, EventArgs e)
@@ -115,12 +115,12 @@ namespace TGControlPanel
 		public ConfigCheckBox(ConfigSetting c, IList<ConfigSetting> cl)
 		{
 			Setting = c;
-			CheckStateChanged += ConfigCheckBox_CheckStateChanged;
 			ChangeList = cl;
 			Text = "Enabled";
 			Font = new Font("Verdana", 8.0f);
 			ForeColor = Color.FromArgb(248, 248, 242);
 			Checked = Setting.Value != null;
+			CheckStateChanged += ConfigCheckBox_CheckStateChanged;
 		}
 
 		private void ConfigCheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -176,12 +176,12 @@ namespace TGControlPanel
 		public MapCheckBox(MapSetting c, IList<MapSetting> cl)
 		{
 			Setting = c;
-			CheckStateChanged += ConfigCheckBox_CheckStateChanged;
 			ChangeList = cl;
 			Text = "Enabled";
 			Font = new Font("Verdana", 8.0f);
 			ForeColor = Color.FromArgb(248, 248, 242);
 			Checked = Setting.Enabled;
+			CheckStateChanged += ConfigCheckBox_CheckStateChanged;
 		}
 
 		private void ConfigCheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -203,10 +203,10 @@ namespace TGControlPanel
 			Setting = c;
 			main = m;
 			type = t;
-			Click += ConfigAddRemoveButton_Click;
 			UseVisualStyleBackColor = true;
 			remove = Setting.ExistsInStatic || !Setting.ExistsInRepo;
 			Text = remove ? "Remove" : "Add";
+			Click += ConfigAddRemoveButton_Click;
 		}
 
 		private void ConfigAddRemoveButton_Click(object sender, EventArgs e)
