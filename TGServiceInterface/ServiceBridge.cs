@@ -30,7 +30,7 @@ namespace TGServiceInterface
 		/// The proc that DD calls to access <see cref="ITGServiceBridge"/>
 		/// </summary>
 		/// <param name="args">The arguments passed</param>
-		/// <returns>0 success, -1 on a WCF, error, 1 on an operation error</returns>
+		/// <returns>0</returns>
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
 		public static int DDEntryPoint(int argc, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 0)]string[] args)
 		{
