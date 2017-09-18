@@ -39,32 +39,32 @@ namespace TGServiceInterface
 		static string HTTPSPassword;
 
 
-        public static void SetBadCertificateHandler(Func<string, bool> handler)
-        {
-            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
-            {
-                string ErrorMessage;
-                switch (error)
-                {
-                    case SslPolicyErrors.None:
-                        return true;
-                    case SslPolicyErrors.RemoteCertificateChainErrors:
-                        ErrorMessage = "There are certificate chain errors.";
-                        break;
-                    case SslPolicyErrors.RemoteCertificateNameMismatch:
-                        ErrorMessage = "The certificate name does not match.";
-                        break;
-                    case SslPolicyErrors.RemoteCertificateNotAvailable:
-                        ErrorMessage = "The certificate doesn't exist in the trust store.";
-                        break;
-                    default:
-                        ErrorMessage = "An unknown error occurred.";
-                        break;
-                }
-                ErrorMessage = String.Format("The certificate failed to verify for {0}:{1}. {2} {3}", HTTPSURL, HTTPSPort, ErrorMessage, cert.ToString());
-                return handler(ErrorMessage);
-            };
-        }
+		public static void SetBadCertificateHandler(Func<string, bool> handler)
+		{
+			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
+			{
+				string ErrorMessage;
+				switch (error)
+				{
+					case SslPolicyErrors.None:
+						return true;
+					case SslPolicyErrors.RemoteCertificateChainErrors:
+						ErrorMessage = "There are certificate chain errors.";
+						break;
+					case SslPolicyErrors.RemoteCertificateNameMismatch:
+						ErrorMessage = "The certificate name does not match.";
+						break;
+					case SslPolicyErrors.RemoteCertificateNotAvailable:
+						ErrorMessage = "The certificate doesn't exist in the trust store.";
+						break;
+					default:
+						ErrorMessage = "An unknown error occurred.";
+						break;
+				}
+				ErrorMessage = String.Format("The certificate failed to verify for {0}:{1}. {2} {3}", HTTPSURL, HTTPSPort, ErrorMessage, cert.ToString());
+				return handler(ErrorMessage);
+			};
+		}
 
 		/// <summary>
 		/// Set the interface to look for services on the current computer
@@ -72,8 +72,8 @@ namespace TGServiceInterface
 		public static void MakeLocalConnection()
 		{
 			HTTPSURL = null;
-            HTTPSPassword = null;
-        }
+			HTTPSPassword = null;
+		}
 
 		/// <summary>
 		/// Set the interface to look for services on a remote computer
@@ -86,7 +86,7 @@ namespace TGServiceInterface
 			HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
-        }
+		}
 
 		/// <summary>
 		/// Returns the requested server component interface. This does not guarantee a successful connection
@@ -121,8 +121,8 @@ namespace TGServiceInterface
 			{
 				outChannel.Credentials.UserName.UserName = HTTPSUsername;
 				outChannel.Credentials.UserName.Password = HTTPSPassword;
-            }
-            return outChannel.CreateChannel();
+			}
+			return outChannel.CreateChannel();
 		}
 
 		/// <summary>

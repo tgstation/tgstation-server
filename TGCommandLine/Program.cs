@@ -56,9 +56,9 @@ namespace TGCommandLine
 			}
 
 			if (badConnectionString)
-            {
-                Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address:port");
-                return ExitCode.BadCommand;
+			{
+				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address:port");
+				return ExitCode.BadCommand;
 			}
 
 			var res = Server.VerifyConnection();
@@ -113,30 +113,30 @@ namespace TGCommandLine
 			return result;
 		}
 
-        static bool BadCertificateInteractive(string message)
-        {
-            Console.WriteLine(message);
-            Console.Write("Do you wish to continue? NOT RECCOMENDED! (y/N): ");
-            var result = Console.ReadLine().Trim().ToLower();
-            return result == "y" || result == "yes";
-        }
+		static bool BadCertificateInteractive(string message)
+		{
+			Console.WriteLine(message);
+			Console.Write("Do you wish to continue? NOT RECCOMENDED! (y/N): ");
+			var result = Console.ReadLine().Trim().ToLower();
+			return result == "y" || result == "yes";
+		}
 
 		static int Main(string[] args)
 		{
 			Command.OutputProcVar.Value = Console.WriteLine;
-            if (args.Length != 0)
-            {
-                Server.SetBadCertificateHandler((message) => {
-                    foreach (var I in args)
-                        if (I.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
-                            return true;
-                    return false;
-                });
-                //allow self signed certs in debug mode
-                return (int)RunCommandLine(new List<string>(args));
-            }
+			if (args.Length != 0)
+			{
+				Server.SetBadCertificateHandler((message) => {
+					foreach (var I in args)
+						if (I.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
+							return true;
+					return false;
+				});
+				//allow self signed certs in debug mode
+				return (int)RunCommandLine(new List<string>(args));
+			}
 
-            Server.SetBadCertificateHandler(BadCertificateInteractive);
+			Server.SetBadCertificateHandler(BadCertificateInteractive);
 
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			//interactive mode
