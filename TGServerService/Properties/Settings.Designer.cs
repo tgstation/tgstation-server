@@ -12,7 +12,7 @@ namespace TGServerService.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -205,7 +205,7 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int SettingsVersion {
             get {
                 return ((int)(this["SettingsVersion"]));
@@ -236,6 +236,42 @@ namespace TGServerService.Properties {
             }
             set {
                 this["Webclient"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        public string CertificateURL {
+            get {
+                return ((string)(this["CertificateURL"]));
+            }
+            set {
+                this["CertificateURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AuthorizedGroupSID {
+            get {
+                return ((string)(this["AuthorizedGroupSID"]));
+            }
+            set {
+                this["AuthorizedGroupSID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("38607")]
+        public ushort RemoteAccessPort {
+            get {
+                return ((ushort)(this["RemoteAccessPort"]));
+            }
+            set {
+                this["RemoteAccessPort"] = value;
             }
         }
     }

@@ -58,16 +58,19 @@ namespace TGCommandLine
 			if (!busy)
 			{
 				OutputProc("Repo: Idle");
-				var head = Repo.GetHead(out string error);
+				var head = Repo.GetHead(false, out string error);
 				if (head == null)
 					head = "Error: " + error;
+				var remotehead = Repo.GetHead(true, out error);
+				if (remotehead == null)
+					remotehead = "Error: " + error;
 				var branch = Repo.GetBranch(out error);
 				if (branch == null)
 					branch = "Error: " + error;
 				var remote = Repo.GetRemote(out error);
 				if (remote == null)
 					remote = "Error: " + error;
-				OutputProc("Remote: " + remote);
+				OutputProc("Remote: " + remote + " (" + remotehead + ")");
 				OutputProc("Branch: " + branch);
 				OutputProc("HEAD: " + head);
 			}

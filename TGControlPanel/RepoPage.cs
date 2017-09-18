@@ -116,7 +116,7 @@ namespace TGControlPanel
 				RecloneButton.Visible = true;
 				ResetRemote.Visible = true;
 
-				CurrentRevisionLabel.Text = Repo.GetHead(out string error) ?? "Unknown";
+				CurrentRevisionLabel.Text = Repo.GetHead(false, out string error) ?? "Unknown";
 				RepoRemoteTextBox.Text = Repo.GetRemote(out error) ?? "Unknown";
 				RepoBranchTextBox.Text = Repo.GetBranch(out error) ?? "Unknown";
 

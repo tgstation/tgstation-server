@@ -70,5 +70,41 @@ namespace TGControlPanel.Properties {
                 this["LastChatProvider"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RemoteIP {
+            get {
+                return ((string)(this["RemoteIP"]));
+            }
+            set {
+                this["RemoteIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RemoteUsername {
+            get {
+                return ((string)(this["RemoteUsername"]));
+            }
+            set {
+                this["RemoteUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("38607")]
+        public ushort RemotePort {
+            get {
+                return ((ushort)(this["RemotePort"]));
+            }
+            set {
+                this["RemotePort"] = value;
+            }
+        }
     }
 }

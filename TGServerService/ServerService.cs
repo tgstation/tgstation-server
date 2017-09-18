@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceProcess;
-using System.Threading;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -42,8 +43,8 @@ namespace TGServerService
 			ChatBroadcast = 2700,
 			//ChatAdminBroadcast = 2800,
 			ChatDisconnectFail = 2900,
-			TopicSent = 3000,
-			TopicFailed = 3100,
+			//TopicSent = 3000,
+			//TopicFailed = 3100,
 			CommsKeySet = 3200,
 			NudgeStartFail = 3300,
 			NudgeCrash = 3400,
@@ -76,7 +77,10 @@ namespace TGServerService
 			ChatBroadcastFail = 6400,
 			IRCLogModes = 6500,
 			SubmoduleReclone = 6600,
-			InteropCallException = 6700,
+			Authentication = 6700,
+			PreactionEvent = 6800,
+			PreactionFail = 6900,
+			InteropCallException = 7000,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
@@ -96,6 +100,11 @@ namespace TGServerService
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
+		public static void WriteAccess(string username, bool authSuccess)
+		{
+			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}", username), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
+		}
+
 		ServiceHost host;   //the WCF host
 
 		void MigrateSettings(int oldVersion, int newVersion)
@@ -103,7 +112,7 @@ namespace TGServerService
 			if (oldVersion == newVersion && newVersion == 0)	//chat refactor
 				Properties.Settings.Default.ChatProviderData = "NEEDS INITIALIZING";	//reset chat settings to be safe
 		}
-    
+	
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
@@ -143,21 +152,47 @@ namespace TGServerService
 			}
 			Environment.CurrentDirectory = Config.ServerDirectory;
 
-			host = new ServiceHost(typeof(TGStationServer), new Uri[] { new Uri("net.pipe://localhost") })
+			var instance = new TGStationServer();
+
+			for (var I = 0; I < args.Length - 1; ++I)
+				if (args[I].ToLower() == "-port")
+				{
+					Config.RemoteAccessPort = Convert.ToUInt16(args[I + 1]);
+					Config.Save();
+					break;
+				}
+
+			host = new ServiceHost(instance, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Config.RemoteAccessPort)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
-			}; //construction runs here
+			};
 
 			foreach (var I in Server.ValidInterfaces)
 				AddEndpoint(I);
 
-			host.Open();    //...or maybe here, doesn't really matter
+			host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
+			host.Authorization.ServiceAuthorizationManager = instance;
+
+			try
+			{
+				host.Open();
+			}
+			catch (AddressAlreadyInUseException e)
+			{
+				throw new Exception("Can't start the service due to the configured remote access port being in use. To fix this change it by starting the service with the \"-port <port>\" argument.", e);
+			}
 		}
 
 		//shorthand for adding the WCF endpoint
 		void AddEndpoint(Type typetype)
 		{
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), Server.MasterPipeName + "/" + typetype.Name);
+			var bindingName = Server.MasterInterfaceName + "/" + typetype.Name;
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), bindingName);
+			var httpsBinding = new WSHttpBinding();
+			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
+			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
+			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
+			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 
 		//when we is kill
@@ -165,8 +200,9 @@ namespace TGServerService
 		{
 			try
 			{
-				host.Close();   //where TGStationServer.Dispose() is called
-				host = null;
+				TGStationServer instance = (TGStationServer)host.SingletonInstance;
+				host.Close();
+				instance.Dispose();
 			}
 			catch (Exception e)
 			{

@@ -72,6 +72,7 @@ namespace TGServerService
 				case SRWorldReboot:
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
 					ServerChatCommands = null;
+					ChatConnectivityCheck();
 					lock (CompilerLock)
 					{
 						if (UpdateStaged)
@@ -139,13 +140,11 @@ namespace TGServerService
 						{
 							topicSender.Shutdown(SocketShutdown.Both);
 						}
-
-						TGServerService.WriteInfo("Topic: \"" + topicdata + "\" Returned: " + returnedString, TGServerService.EventID.TopicSent);
+						
 						return returnedString;
 					}
 					catch
 					{
-						TGServerService.WriteWarning("Failed to send topic: " + topicdata, TGServerService.EventID.TopicFailed);
 						return "Topic delivery failed!";
 					}
 				}
