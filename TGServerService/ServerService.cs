@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceProcess;
 using TGServiceInterface;
@@ -157,7 +155,17 @@ namespace TGServerService
 			for (var I = 0; I < args.Length - 1; ++I)
 				if (args[I].ToLower() == "-port")
 				{
-					Config.RemoteAccessPort = Convert.ToUInt16(args[I + 1]);
+					try
+					{
+						var res = Convert.ToUInt16(args[I + 1]);
+						if (res == 0)
+							throw new Exception("Cannot bind to port 0");
+						Config.RemoteAccessPort = res;
+					}
+					catch(Exception e)
+					{
+						throw new Exception("Invalid argument for \"-port\"", e);
+					}
 					Config.Save();
 					break;
 				}

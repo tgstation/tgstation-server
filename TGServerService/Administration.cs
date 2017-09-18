@@ -11,6 +11,8 @@ namespace TGServerService
 	partial class TGStationServer : ServiceAuthorizationManager, ITGAdministration
 	{
 		SecurityIdentifier TheDroidsWereLookingFor;
+		object authLock = new object();
+		string LastSeenUser = null;
 
 		/// <inheritdoc />
 		public string GetCurrentAuthorizedGroup()
@@ -73,7 +75,7 @@ namespace TGServerService
 		//This does NOT validate the windows account, that is done when the user connects internally
 		protected override bool CheckAccessCore(OperationContext operationContext)
 		{
-			if (operationContext.EndpointDispatcher.ContractName == typeof(ITGConnectivity).Name)	//always allow connectivity checks
+			if (operationContext.EndpointDispatcher.ContractName == typeof(ITGConnectivity).Name)   //always allow connectivity checks
 				return true;
 
 			var windowsIdent = operationContext.ServiceSecurityContext.WindowsIdentity;
@@ -104,8 +106,14 @@ namespace TGServerService
 					}
 				}
 			}
-			
-			TGServerService.WriteAccess(operationContext.ServiceSecurityContext.WindowsIdentity.Name, authSuccess);
+			lock (authLock)
+			{
+				var user = operationContext.ServiceSecurityContext.WindowsIdentity.Name;
+				if (LastSeenUser != user) {
+					LastSeenUser = user;
+					TGServerService.WriteAccess(user, authSuccess);
+				}
+			}
 			return authSuccess;
 		}
 
