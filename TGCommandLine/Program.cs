@@ -149,12 +149,12 @@ namespace TGCommandLine
 						if (res != null)
 						{
 							Console.WriteLine("Unable to connect: " + res);
-							Server.SetRemoteLoginInformation(null, 0, null, null);
+							Server.MakeLocalConnection();
 						}
 						else if (!Server.Authenticate())
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							Server.SetRemoteLoginInformation(null, 0, null, null);
+							Server.MakeLocalConnection();
 						}
 						else
 						{
@@ -163,7 +163,7 @@ namespace TGCommandLine
 						}
 						break;
 					case "disconnect":
-						Server.SetRemoteLoginInformation(null, 0, null, null);
+						Server.MakeLocalConnection();
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":

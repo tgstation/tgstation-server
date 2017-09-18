@@ -28,7 +28,7 @@ namespace TGControlPanel
 
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
-			Server.SetRemoteLoginInformation(null, 0, null, null);
+            Server.MakeLocalConnection();
 			VerifyAndConnect();
 		}
 

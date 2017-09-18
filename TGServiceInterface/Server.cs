@@ -43,7 +43,8 @@ namespace TGServiceInterface
 		public static void MakeLocalConnection()
 		{
 			HTTPSURL = null;
-		}
+            HTTPSPassword = null;
+        }
 
 		/// <summary>
 		/// Set the interface to look for services on a remote computer
@@ -56,7 +57,7 @@ namespace TGServiceInterface
 			HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
-		}
+        }
 
 		/// <summary>
 		/// Returns the requested server component interface. This does not guarantee a successful connection
@@ -91,12 +92,12 @@ namespace TGServiceInterface
 			{
 				outChannel.Credentials.UserName.UserName = HTTPSUsername;
 				outChannel.Credentials.UserName.Password = HTTPSPassword;
-			}
+            }
 #if DEBUG
-			//allow self signed certs in debug mode
-			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) => true;
+            //allow self signed certs in debug mode
+            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) => true;
 #endif
-			return outChannel.CreateChannel();
+            return outChannel.CreateChannel();
 		}
 
 		/// <summary>
