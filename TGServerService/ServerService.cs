@@ -184,8 +184,9 @@ namespace TGServerService
 		{
 			try
 			{
-				host.Close();   //where TGStationServer.Dispose() is called
-				host = null;
+				TGStationServer instance = (TGStationServer)host.SingletonInstance;
+				host.Close();
+				instance.Dispose();
 			}
 			catch (Exception e)
 			{
