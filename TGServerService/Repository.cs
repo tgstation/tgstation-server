@@ -305,6 +305,7 @@ namespace TGServerService
 					if (Repo.Branches[sha] == null)
 					{
 						//see if origin has the branch
+						result = Fetch();
 						var trackedBranch = Repo.Branches[String.Format("origin/{0}", sha)];
 						if (trackedBranch != null)
 						{
@@ -312,6 +313,8 @@ namespace TGServerService
 							//track it
 							Repo.Branches.Update(newBranch, b => b.TrackedBranch = trackedBranch.CanonicalName);
 						}
+						else if (result != null)
+							return result;
 					}
 					var Opts = new CheckoutOptions()
 					{
