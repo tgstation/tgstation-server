@@ -8,21 +8,21 @@ namespace TGServiceInterface
 	[ServiceContract]
 	public interface ITGAdministration
 	{
-        /// <summary>
-        /// Check and see which URL is being used to load the remote access certificate
-        /// e.g. a value of localhost will load the IIS Development Certificate
-        /// </summary>
-        /// <returns>The URL indicating which URL is being used to find the certificate</returns>
-        [OperationContract]
-        string RemoteURL();
+		/// <summary>
+		/// Check and see which URL is being used to load the remote access certificate
+		/// e.g. a value of localhost will load the IIS Development Certificate
+		/// </summary>
+		/// <returns>The URL indicating which URL is being used to find the certificate</returns>
+		[OperationContract]
+		string RemoteURL();
 
-        /// <summary>
-        /// Set the URL used to find and load the remote access certificate
-        /// Requires a service restart to take effect
-        /// </summary>
-        /// <param name="URL">The URL to use for lookup</param>
-        [OperationContract]
-        void SetRemoteURL(string URL);
+		/// <summary>
+		/// Set the URL used to find and load the remote access certificate
+		/// Requires a service restart to take effect
+		/// </summary>
+		/// <param name="URL">The URL to use for lookup</param>
+		[OperationContract]
+		void SetRemoteURL(string URL);
 
 		/// <summary>
 		/// Get the port used for remote operation

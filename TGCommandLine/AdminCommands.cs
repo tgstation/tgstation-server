@@ -19,50 +19,50 @@ namespace TGCommandLine
 
 
 
-    class AdminViewURLCommand : Command
-    {
-        public AdminViewURLCommand()
-        {
-            Keyword = "view-url";
-        }
-        public override string GetHelpText()
-        {
-            return "Print the URL used to remotely access the service and to find a certificate";
-        }
+	class AdminViewURLCommand : Command
+	{
+		public AdminViewURLCommand()
+		{
+			Keyword = "view-url";
+		}
+		public override string GetHelpText()
+		{
+			return "Print the URL used to remotely access the service and to find a certificate";
+		}
 
-        protected override ExitCode Run(IList<string> parameters)
-        {
-            var group = Server.GetComponent<ITGAdministration>().RemoteURL();
-            OutputProc(group ?? "ERROR");
-            return group != null ? ExitCode.Normal : ExitCode.ServerError;
-        }
-    }
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var group = Server.GetComponent<ITGAdministration>().RemoteURL();
+			OutputProc(group ?? "ERROR");
+			return group != null ? ExitCode.Normal : ExitCode.ServerError;
+		}
+	}
 
-    class AdminSetURLCommand : Command
-    {
-        public AdminSetURLCommand()
-        {
-            Keyword = "set-url";
-            RequiredParameters = 1;
-        }
+	class AdminSetURLCommand : Command
+	{
+		public AdminSetURLCommand()
+		{
+			Keyword = "set-url";
+			RequiredParameters = 1;
+		}
 
-        public override string GetHelpText()
-        {
-            return "Set the URL used to remotely access the service and to find a certificate";
-        }
+		public override string GetHelpText()
+		{
+			return "Set the URL used to remotely access the service and to find a certificate";
+		}
 
-        public override string GetArgumentString()
-        {
-            return "<url>";
-        }
-        protected override ExitCode Run(IList<string> parameters)
-        {
-            Server.GetComponent<ITGAdministration>().SetRemoteURL(parameters[0]);
-            return ExitCode.Normal;
-        }
-    }
+		public override string GetArgumentString()
+		{
+			return "<url>";
+		}
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			Server.GetComponent<ITGAdministration>().SetRemoteURL(parameters[0]);
+			return ExitCode.Normal;
+		}
+	}
 
-    class AdminSetPortCommand : Command
+	class AdminSetPortCommand : Command
 	{
 		public AdminSetPortCommand()
 		{

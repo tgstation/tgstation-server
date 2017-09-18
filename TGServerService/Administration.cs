@@ -125,15 +125,15 @@ namespace TGServerService
 			Config.Save();
 			return null;
 		}
-        
-        public void SetRemoteURL(string URL)
-        {
-            Properties.Settings.Default.CertificateURL = URL;
-        }
+		
+		public void SetRemoteURL(string URL)
+		{
+			Properties.Settings.Default.CertificateURL = URL;
+		}
 
-        public string RemoteURL()
-        {
-            return Properties.Settings.Default.CertificateURL;
-        }
-    }
+		public string RemoteURL()
+		{
+			return Properties.Settings.Default.CertificateURL;
+		}
+	}
 }
