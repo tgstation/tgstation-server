@@ -111,7 +111,10 @@ namespace TGServiceInterface
 			}
 
 			//okay we're going over
-			var binding = new WSHttpBinding();
+			var binding = new WSHttpBinding()
+			{
+				SendTimeout = new TimeSpan(0, 10, 0)
+			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
 			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
 			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
