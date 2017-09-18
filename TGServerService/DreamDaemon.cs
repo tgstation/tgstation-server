@@ -365,7 +365,7 @@ namespace TGServerService
 
 		void UpdateInterfaceDll(bool overwrite)
 		{
-			var targetPath = Path.Combine(StaticConfigDir, InterfaceDLLName);
+			var targetPath = Path.Combine(StaticDirs, InterfaceDLLName);
 			if (File.Exists(targetPath) && !overwrite)
 				return;
 			//Copy the interface dll to the static dir
