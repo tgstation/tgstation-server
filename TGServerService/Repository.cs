@@ -368,16 +368,10 @@ namespace TGServerService
 				{
 					if (Repo.Head == null || !Repo.Head.IsTracking)
 						return "Cannot update while not on a tracked branch";
-					string logMessage = "";
 
-					var R = Repo.Network.Remotes["origin"];
-					IEnumerable<string> refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
-					var fos = new FetchOptions()
-					{
-						CredentialsProvider = GenerateGitCredentials,
-					};
-					fos.OnTransferProgress += HandleTransferProgress;
-					Commands.Fetch(Repo, R.Name, refSpecs, fos, logMessage);
+					var res = Fetch();
+					if (res != null)
+						return res;
 					
 					var originBranch = Repo.Head.TrackedBranch;
 					if (reset)
@@ -390,7 +384,7 @@ namespace TGServerService
 						TGServerService.WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoHardUpdate);
 						return error;
 					}
-					var res = MergeBranch(originBranch.FriendlyName);
+					res = MergeBranch(originBranch.FriendlyName);
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
@@ -580,7 +574,6 @@ namespace TGServerService
 					var LocalBranchName = String.Format("pull/{0}/headrefs/heads/{1}", PRNumber, PRBranchName);
 					Refspec.Add(String.Format("pull/{0}/head:{1}", PRNumber, PRBranchName));
 					var logMessage = "";
-					var fo = new FetchOptions() { OnTransferProgress = HandleTransferProgress, Prune = true };
 
 					var branch = Repo.Branches[LocalBranchName];
 					if(branch != null)
@@ -588,7 +581,7 @@ namespace TGServerService
 						Repo.Branches.Remove(branch);
 
 
-					Commands.Fetch(Repo, "origin", Refspec, fo, logMessage);  //shitty api has no failure state for this
+					Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
 
 					currentProgress = -1;
 
@@ -736,16 +729,46 @@ namespace TGServerService
 			return LocalIsRemote() ? Commit() ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
+		FetchOptions GenerateFetchOptions()
+		{
+			return new FetchOptions()
+			{
+				CredentialsProvider = GenerateGitCredentials,
+				OnTransferProgress = HandleTransferProgress,
+				Prune = true,
+			};
+		}
+
+		/// <summary>
+		/// Fetches origin
+		/// </summary>
+		/// <returns>null on success, error message on failure</returns>
+		string Fetch()
+		{
+			try
+			{
+				string logMessage = "";
+				var R = Repo.Network.Remotes["origin"];
+				IEnumerable<string> refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
+				Commands.Fetch(Repo, R.Name, refSpecs, GenerateFetchOptions(), logMessage);
+				return null;
+			}
+			catch(Exception e)
+			{
+				return e.ToString();
+			}
+		}
+
 		bool LocalIsRemote()
 		{
 			lock (RepoLock)
 			{
 				if (LoadRepo() != null)
 					return false;
-				var R = Repo.Network.Remotes["origin"];
+				if (Fetch() != null)
+					return false;
 				try
 				{
-					Commands.Fetch(Repo, R.Name, R.FetchRefSpecs.Select(X => X.Specification), null, null);
 					return Repo.Head.IsTracking && Repo.Head.TrackedBranch.Tip.Sha == Repo.Head.Tip.Sha;
 				}
 				catch
