@@ -56,9 +56,6 @@
     <Setting Name="Webclient" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="CertificateURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">localhost</Value>
-    </Setting>
     <Setting Name="AuthorizedGroupSID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

@@ -169,8 +169,7 @@ namespace TGServerService
 
 			foreach (var I in Server.ValidInterfaces)
 				AddEndpoint(I);
-
-			host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
+			
 			host.Authorization.ServiceAuthorizationManager = instance;
 
 			try
