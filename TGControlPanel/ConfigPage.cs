@@ -133,7 +133,7 @@ namespace TGControlPanel
 				MessageBox.Show("You must select an admin first!");
 				return;
 			}
-			var result = Server.GetComponent<ITGConfig>().Deadmin(selectedAdmin.Split(' ')[0]);
+			var result = Server.GetComponent<ITGConfig>().Deadmin(selectedAdmin.Split('(')[0].Trim());
 			if (result != null)
 				MessageBox.Show("Error: " + result);
 			LoadAdminsList();
