@@ -57,6 +57,7 @@
     <Compile Include="Server.cs" />
     <Compile Include="..\Version.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="ServiceBridge.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />
