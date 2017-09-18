@@ -33,7 +33,7 @@ namespace TGServerService
 		//public api
 		public bool OperationInProgress()
 		{
-			lock(RepoLock)
+			lock (RepoLock)
 			{
 				return RepoBusy;
 			}
@@ -124,7 +124,7 @@ namespace TGServerService
 						if (Directory.Exists(StaticDirs))
 						{
 							int count = 1;
-							
+
 							string path = Path.GetDirectoryName(StaticBackupDir);
 							string newFullPath = StaticBackupDir;
 
@@ -169,7 +169,7 @@ namespace TGServerService
 					currentProgress = -1;
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 
 			{
 				SendMessage("REPO: Setup failed!", ChatMessageType.DeveloperInfo);
@@ -302,11 +302,11 @@ namespace TGServerService
 				SendMessage("REPO: Checking out object: " + sha, ChatMessageType.DeveloperInfo);
 				try
 				{
-					if(Repo.Branches[sha] == null)
+					if (Repo.Branches[sha] == null)
 					{
 						//see if origin has the branch
 						var trackedBranch = Repo.Branches[String.Format("origin/{0}", sha)];
-						if(trackedBranch != null)
+						if (trackedBranch != null)
 						{
 							var newBranch = Repo.CreateBranch(sha, trackedBranch.Tip);
 							//track it
@@ -372,7 +372,7 @@ namespace TGServerService
 					var res = Fetch();
 					if (res != null)
 						return res;
-					
+
 					var originBranch = Repo.Head.TrackedBranch;
 					if (reset)
 					{
@@ -411,7 +411,7 @@ namespace TGServerService
 				{
 					Repo.Submodules.Update(I.Name, suo);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					//workaround for https://github.com/libgit2/libgit2/issues/3820
 					//kill off the modules/ folder in .git and try again
@@ -419,7 +419,8 @@ namespace TGServerService
 					{
 						Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
 					}
-					catch {
+					catch
+					{
 						throw e;
 					}
 					Repo.Submodules.Update(I.Name, suo);
@@ -444,7 +445,7 @@ namespace TGServerService
 					foreach (var T in Repo.Tags)
 						if (T.Target.Sha == HEAD)
 							return null;
-	
+
 					var tagName = "TGS-Compile-Backup-" + DateTime.Now.ToString("yyyy-MM-dd--HH.mm.ss");
 					var tag = Repo.ApplyTag(tagName);
 
@@ -576,11 +577,11 @@ namespace TGServerService
 					var logMessage = "";
 
 					var branch = Repo.Branches[LocalBranchName];
-					if(branch != null)
+					if (branch != null)
 						//Need to delete the branch first in case of rebase
 						Repo.Branches.Remove(branch);
 
-          Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
+					Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
 
 					currentProgress = -1;
 
@@ -640,7 +641,7 @@ namespace TGServerService
 							CurrentPRs.Add(PRNumberString, newPR);
 							SetCurrentPRList(CurrentPRs);
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							TGServerService.WriteError("Failed to update PR list", TGServerService.EventID.RepoPRListError);
 							return "PR Merged, JSON update failed: " + e.ToString();
@@ -752,7 +753,7 @@ namespace TGServerService
 				Commands.Fetch(Repo, R.Name, refSpecs, GenerateFetchOptions(), logMessage);
 				return null;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return e.ToString();
 			}
