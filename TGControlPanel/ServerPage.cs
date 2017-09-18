@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using TGServiceInterface;
@@ -134,75 +134,79 @@ namespace TGControlPanel
 			if (updatingFields)
 				return;
 
-			updatingFields = true;
+			try
+			{
+				updatingFields = true;
 
-			if (!ServerPathTextbox.Focused)
-				ServerPathTextbox.Text = Config.ServerDirectory();
-			
-			SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
+				if (!ServerPathTextbox.Focused)
+					ServerPathTextbox.Text = Config.ServerDirectory();
 
-			if (!RepoExists)
+				SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
+
+				if (!RepoExists)
+					return;
+
+				var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
+				ServerGStopButton.Enabled = Online;
+				ServerGRestartButton.Enabled = Online;
+
+				var ShuttingDown = DD.ShutdownInProgress();
+				ServerGStopButton.Checked = ShuttingDown;
+				ServerGStopButton.Enabled = !ShuttingDown;
+
+				AutostartCheckbox.Checked = DD.Autostart();
+				WebclientCheckBox.Checked = DD.Webclient();
+				if (!PortSelector.Focused)
+					PortSelector.Value = DD.Port();
+				if (!projectNameText.Focused)
+					projectNameText.Text = DM.ProjectName();
+
+				switch (DM.GetStatus())
+				{
+					case TGCompilerStatus.Compiling:
+						CompilerStatusLabel.Text = "Compiling...";
+						compilerProgressBar.Style = ProgressBarStyle.Marquee;
+						compileButton.Enabled = false;
+						initializeButton.Enabled = false;
+						CompileCancelButton.Enabled = true;
+						break;
+					case TGCompilerStatus.Initializing:
+						CompilerStatusLabel.Text = "Initializing...";
+						compilerProgressBar.Style = ProgressBarStyle.Marquee;
+						compileButton.Enabled = false;
+						initializeButton.Enabled = false;
+						CompileCancelButton.Enabled = false;
+						break;
+					case TGCompilerStatus.Initialized:
+						CompilerStatusLabel.Text = "Idle";
+						compilerProgressBar.Style = ProgressBarStyle.Blocks;
+						initializeButton.Enabled = true;
+						compileButton.Enabled = true;
+						CompileCancelButton.Enabled = false;
+						break;
+					case TGCompilerStatus.Uninitialized:
+						CompilerStatusLabel.Text = "Uninitialized";
+						compilerProgressBar.Style = ProgressBarStyle.Blocks;
+						compileButton.Enabled = false;
+						initializeButton.Enabled = true;
+						CompileCancelButton.Enabled = false;
+						break;
+					default:
+						CompilerStatusLabel.Text = "Unknown!";
+						compilerProgressBar.Style = ProgressBarStyle.Blocks;
+						initializeButton.Enabled = true;
+						compileButton.Enabled = true;
+						CompileCancelButton.Enabled = true;
+						break;
+				}
+				var error = DM.CompileError();
+				if (error != null)
+					MessageBox.Show("Error: " + error);
+			}
+			finally
 			{
 				updatingFields = false;
-				return;
 			}
-
-			var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
-			ServerGStopButton.Enabled = Online;
-			ServerGRestartButton.Enabled = Online;
-
-			var ShuttingDown = DD.ShutdownInProgress();
-			ServerGStopButton.Checked = ShuttingDown;
-			ServerGStopButton.Enabled = !ShuttingDown;
-
-			AutostartCheckbox.Checked = DD.Autostart();
-			WebclientCheckBox.Checked = DD.Webclient();
-			if (!PortSelector.Focused)
-				PortSelector.Value = DD.Port();
-			if (!projectNameText.Focused)
-				projectNameText.Text = DM.ProjectName();
-			
-			switch (DM.GetStatus())
-			{
-				case TGCompilerStatus.Compiling:
-					CompilerStatusLabel.Text = "Compiling...";
-					compilerProgressBar.Style = ProgressBarStyle.Marquee;
-					compileButton.Enabled = false;
-					initializeButton.Enabled = false;
-					CompileCancelButton.Enabled = true;
-					break;
-				case TGCompilerStatus.Initializing:
-					CompilerStatusLabel.Text = "Initializing...";
-					compilerProgressBar.Style = ProgressBarStyle.Marquee;
-					compileButton.Enabled = false;
-					initializeButton.Enabled = false;
-					CompileCancelButton.Enabled = false;
-					break;
-				case TGCompilerStatus.Initialized:
-					CompilerStatusLabel.Text = "Idle";
-					compilerProgressBar.Style = ProgressBarStyle.Blocks;
-					initializeButton.Enabled = true;
-					compileButton.Enabled = true;
-					CompileCancelButton.Enabled = false;
-					break;
-				case TGCompilerStatus.Uninitialized:
-					CompilerStatusLabel.Text = "Uninitialized";
-					compilerProgressBar.Style = ProgressBarStyle.Blocks;
-					compileButton.Enabled = false;
-					initializeButton.Enabled = true;
-					CompileCancelButton.Enabled = false;
-					break;
-				default:
-					CompilerStatusLabel.Text = "Unknown!";
-					compilerProgressBar.Style = ProgressBarStyle.Blocks;
-					initializeButton.Enabled = true;
-					compileButton.Enabled = true;
-					CompileCancelButton.Enabled = true;
-					break;
-			}
-			var error = DM.CompileError();
-			if (error != null)
-				MessageBox.Show("Error: " + error);
 		}
 
 		private void ServerTimer_Tick(object sender, System.EventArgs e)
@@ -382,7 +386,7 @@ namespace TGControlPanel
 					if (updateError == null)
 					{
 						Repo.GenerateChangelog(out updateError);
-						if(updateError == null)
+						if (updateError == null)
 							updateError = Repo.PushChangelog();
 						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 					}
@@ -456,9 +460,10 @@ namespace TGControlPanel
 		private void WorldAnnounceButton_Click(object sender, EventArgs e)
 		{
 			var msg = WorldAnnounceField.Text;
-			if (!String.IsNullOrWhiteSpace(msg)) {
+			if (!String.IsNullOrWhiteSpace(msg))
+			{
 				var res = Server.GetComponent<ITGDreamDaemon>().WorldAnnounce(msg);
-				if(res != null)
+				if (res != null)
 				{
 					MessageBox.Show(res);
 					return;
