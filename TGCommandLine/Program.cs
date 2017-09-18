@@ -113,11 +113,34 @@ namespace TGCommandLine
 			return result;
 		}
 
+		static bool AcceptedBadCert = false;
+		static bool BadCertificateInteractive(string message)
+		{
+			if (AcceptedBadCert)
+				return true;
+			Console.WriteLine(message);
+			Console.Write("Do you wish to continue? NOT RECCOMENDED! (y/N): ");
+			var result = Console.ReadLine().Trim().ToLower();
+			AcceptedBadCert = result == "y" || result == "yes";
+			return AcceptedBadCert;
+		}
+
 		static int Main(string[] args)
 		{
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
+			{
+				Server.SetBadCertificateHandler((message) => {
+					foreach (var I in args)
+						if (I.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
+							return true;
+					return false;
+				});
+				//allow self signed certs in debug mode
 				return (int)RunCommandLine(new List<string>(args));
+			}
+
+			Server.SetBadCertificateHandler(BadCertificateInteractive);
 
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			//interactive mode
@@ -149,12 +172,14 @@ namespace TGCommandLine
 						if (res != null)
 						{
 							Console.WriteLine("Unable to connect: " + res);
-							Server.SetRemoteLoginInformation(null, 0, null, null);
+							Server.MakeLocalConnection();
+							AcceptedBadCert = false;
 						}
 						else if (!Server.Authenticate())
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							Server.SetRemoteLoginInformation(null, 0, null, null);
+							Server.MakeLocalConnection();
+							AcceptedBadCert = false;
 						}
 						else
 						{
@@ -163,7 +188,7 @@ namespace TGCommandLine
 						}
 						break;
 					case "disconnect":
-						Server.SetRemoteLoginInformation(null, 0, null, null);
+						Server.MakeLocalConnection();
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":

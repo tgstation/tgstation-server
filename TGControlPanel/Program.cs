@@ -8,8 +8,9 @@ namespace TGControlPanel
 	static class Program
 	{
 		[STAThread]
-		static void Main(string [] args)
+		static void Main(string[] args)
 		{
+			Server.SetBadCertificateHandler(BadCertificateHandler);
 			try
 			{
 				if (Properties.Settings.Default.UpgradeRequired)
@@ -30,6 +31,17 @@ namespace TGControlPanel
 			{
 				Properties.Settings.Default.Save();
 			}
+		}
+		static bool SSLErrorPromptResult = false;
+		static bool BadCertificateHandler(string message)
+		{
+			if (!SSLErrorPromptResult)
+			{
+				var result = MessageBox.Show(message + " IT IS HIGHLY RECCOMENDED YOU DO NOT PROCEED! Continue?", "SSL Error", MessageBoxButtons.YesNo) == DialogResult.Yes;
+				SSLErrorPromptResult = result;
+				return result;
+			}
+			return true;
 		}
 
 		public static void ServiceDisconnectException(Exception e)
