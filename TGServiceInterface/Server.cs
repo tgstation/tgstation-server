@@ -171,7 +171,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+				GetComponent<ITGAdministration>().AuthorizedGroup();
 				return true;
 			}
 			catch
