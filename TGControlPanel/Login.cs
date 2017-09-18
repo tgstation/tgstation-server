@@ -10,9 +10,9 @@ namespace TGControlPanel
 		{
 			InitializeComponent();
 			IPTextBox.Text = Properties.Settings.Default.RemoteIP;
-            var Config = Properties.Settings.Default;
-            UsernameTextBox.Text = Config.RemoteUsername;
-            PortSelector.Value = Config.RemotePort;
+			var Config = Properties.Settings.Default;
+			UsernameTextBox.Text = Config.RemoteUsername;
+			PortSelector.Value = Config.RemotePort;
 			AcceptButton = RemoteLoginButton;
 		}
 

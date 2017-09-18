@@ -109,7 +109,7 @@ namespace TGServerService
 			if (oldVersion == newVersion && newVersion == 0)	//chat refactor
 				Properties.Settings.Default.ChatProviderData = "NEEDS INITIALIZING";	//reset chat settings to be safe
 		}
-    
+	
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()

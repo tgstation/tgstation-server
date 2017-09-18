@@ -115,15 +115,15 @@ namespace TGServerService
 			return Properties.Settings.Default.RemoteAccessPort;
 		}
 
-        /// <inheritdoc />
-        public string SetRemoteAccessPort(ushort port)
-        {
-            if (port == 0)
-                return "Cannot bind to port 0";
-            var Config = Properties.Settings.Default;
-            Config.RemoteAccessPort = port;
-            Config.Save();
-            return null;
-        }
+		/// <inheritdoc />
+		public string SetRemoteAccessPort(ushort port)
+		{
+			if (port == 0)
+				return "Cannot bind to port 0";
+			var Config = Properties.Settings.Default;
+			Config.RemoteAccessPort = port;
+			Config.Save();
+			return null;
+		}
 	}
 }

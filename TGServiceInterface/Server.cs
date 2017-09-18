@@ -53,7 +53,7 @@ namespace TGServiceInterface
 		public static void SetRemoteLoginInformation(string address, ushort port, string username, string password)
 		{
 			HTTPSURL = address;
-            HTTPSPort = port;
+			HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
 		}
@@ -63,14 +63,14 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <typeparam name="T">The type of the component to retrieve</typeparam>
 		/// <returns></returns>
-        public static T GetComponent<T>()
-        {
+		public static T GetComponent<T>()
+		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 			var InterfaceName = typeof(T).Name;
-            if (HTTPSURL == null)
-                return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName))).CreateChannel();
+			if (HTTPSURL == null)
+				return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName))).CreateChannel();
 
 			//okay we're going over
 			var binding = new WSHttpBinding();

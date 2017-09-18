@@ -23,26 +23,26 @@ namespace TGCommandLine
 					{
 						badConnectionString = true;
 						break;
-                    }
-                    var addrport = splits[1].Split(':');
-                    if (addrport.Length != 2)
-                    {
-                        badConnectionString = true;
-                        break;
-                    }
-                    var username = userpass[0];
+					}
+					var addrport = splits[1].Split(':');
+					if (addrport.Length != 2)
+					{
+						badConnectionString = true;
+						break;
+					}
+					var username = userpass[0];
 					var password = userpass[1];
 					var address = addrport[0];
-                    ushort port;
-                    try
-                    {
-                        port = Convert.ToUInt16(addrport[1]);
-                    }
-                    catch
-                    {
-                        badConnectionString = true;
-                        break;
-                    }
+					ushort port;
+					try
+					{
+						port = Convert.ToUInt16(addrport[1]);
+					}
+					catch
+					{
+						badConnectionString = true;
+						break;
+					}
 					if(String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password) || String.IsNullOrWhiteSpace(address))
 					{
 						badConnectionString = true;
@@ -128,19 +128,19 @@ namespace TGCommandLine
 				switch (NextCommand.ToLower())
 				{
 					case "remote":
-                        Console.Write("Enter server address: ");
-                        var address = Console.ReadLine();
-                        Console.Write("Enter server port: ");
-                        ushort port;
-                        try{
-                            port = Convert.ToUInt16(Console.ReadLine());
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Error: Bad port!");
-                            break;
-                        }
-                        Console.Write("Enter username: ");
+						Console.Write("Enter server address: ");
+						var address = Console.ReadLine();
+						Console.Write("Enter server port: ");
+						ushort port;
+						try{
+							port = Convert.ToUInt16(Console.ReadLine());
+						}
+						catch
+						{
+							Console.WriteLine("Error: Bad port!");
+							break;
+						}
+						Console.Write("Enter username: ");
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
