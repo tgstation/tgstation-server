@@ -13,15 +13,21 @@ namespace TGServerService
 	//handles talking between the world and us
 	partial class TGStationServer : ITGServiceBridge
 	{
+
 		object topicLock = new object();
 		const int CommsKeyLen = 64;
 		string serviceCommsKey; //regenerated every DD restart
+
+		//range of supported api versions
+		const string MinAPIVersion = "3.1.0.0";
+		const string MaxAPIVersion = "3.1.0.0";
 
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
 		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
+		const string SCGetAPIVer = "api_ver";	//Returns the server's API version
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";

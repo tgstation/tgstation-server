@@ -1,15 +1,23 @@
 // /tg/station 13 server tools API v3.1
 
-//Required interfaces:
+//CONFIGURATION
+//Comment this out once you've filled the below
+#error /tg/station server tools interface unconfigured
 
-//#error /tg/station server tools interface defines missing
-#define SERVER_TOOLS_INSTALLATION_PATH "code/modules/server_tools"	//path from the .dmb of your project to the `server_tools` folder. No leading `/`
-#define SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(Name, Value) GLOBAL_VAR_INIT(##Name, ##Value); GLOBAL_PROTECT(##Name) //create a global variable named `Name` and set it to `Value`
-#define SERVER_TOOLS_READ_GLOBAL(Name) GLOB.##Name //Read the value in the global variable `Name`
-#define SERVER_TOOLS_WRITE_GLOBAL(Name, Value) GLOB.##Name = ##Value //Set the value in the global variable `Name` to `Value`
-#define SERVER_TOOLS_WORLD_ANNOUNCE(message) to_chat(world, "<span class='boldannounce'>[html_encode(##message)]</span>")	//display an announcement `message` from the server to all players
-#define SERVER_TOOLS_LOG(message) log_world("SERVICE: [##message]")	//Write a `message` to a server log
-#define SERVER_TOOLS_NOTIFY_ADMINS(event) message_admins(##event)	//Notify current in-game administrators of an `event`
+//Required interfaces (fill in with your codebase equivalent):
+
+//create a global variable named `Name` and set it to `Value`
+#define SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(Name, Value)
+//Read the value in the global variable `Name`
+#define SERVER_TOOLS_READ_GLOBAL(Name)
+//Set the value in the global variable `Name` to `Value`
+#define SERVER_TOOLS_WRITE_GLOBAL(Name, Value)
+//display an announcement `message` from the server to all players
+#define SERVER_TOOLS_WORLD_ANNOUNCE(message)
+//Write a string `message` to a server log
+#define SERVER_TOOLS_LOG(message)
+//Notify current in-game administrators of a string `event`
+#define SERVER_TOOLS_NOTIFY_ADMINS(event)
 
 //Required hooks:
 
@@ -20,11 +28,10 @@
 //Put at the beginning of world/Reboot(reason)
 #define SERVER_TOOLS_ON_REBOOT ServiceReboot()
 
+//Optional callable functions:
 
-//Optional functions:
-
-//Returns TRUE if the world was launched under the server tools, FALSE otherwise
-//No other function in this list will suceed if this is FALSE
+//Returns TRUE if the world was launched under the server tools and the API matches, FALSE otherwise
+//No other function in this list will succeed if this is FALSE
 #define SERVER_TOOLS_PRESENT (world.RunningService() != null)
 //Gets the current version of the server tools, only supported in versions >= 3.0.91.0
 #define SERVER_TOOLS_VERSION world.ServiceVersion()
@@ -45,14 +52,14 @@
 //Sends a message to connected admin chats
 #define SERVER_TOOLS_RELAY_BROADCAST(message) world.AdminBroadcast(message)
 
+//IMPLEMENTATION
 
-//Implementation defines
+#define SERVICE_API_VERSION "3.1.0.0"
 
 #define REBOOT_MODE_NORMAL 0
 #define REBOOT_MODE_HARD 1
 #define REBOOT_MODE_SHUTDOWN 2
 
-//keep these in sync with TGS3
 #define SERVICE_WORLD_PARAM "server_service"
 #define SERVICE_VERSION_PARAM "server_service_version"
 #define SERVICE_PR_TEST_JSON "prtestjob.json"
@@ -63,6 +70,7 @@
 #define SERVICE_CMD_GRACEFUL_SHUTDOWN "graceful_shutdown"
 #define SERVICE_CMD_WORLD_ANNOUNCE "world_announce"
 #define SERVICE_CMD_LIST_CUSTOM "list_custom_commands"
+#define SERVICE_CMD_API_VERSION "api_ver"
 
 #define SERVICE_CMD_PARAM_KEY "serviceCommsKey"
 #define SERVICE_CMD_PARAM_COMMAND "command"
@@ -77,3 +85,30 @@
 #define SERVICE_REQUEST_IRC_BROADCAST "irc"
 #define SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE "send2irc"
 #define SERVICE_REQUEST_WORLD_REBOOT "worldreboot"
+
+/*
+The MIT License
+
+Copyright (c) 2011 Dominic Tarr
+
+Permission is hereby granted, free of charge, 
+to any person obtaining a copy of this software and 
+associated documentation files (the "Software"), to 
+deal in the Software without restriction, including 
+without limitation the rights to use, copy, modify, 
+merge, publish, distribute, sublicense, and/or sell 
+copies of the Software, and to permit persons to whom 
+the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice 
+shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

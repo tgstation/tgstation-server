@@ -187,4 +187,4 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 * The /tg/station 13 icon is licensed under [Creative Commons 3.0 BY-SA](http://creativecommons.org/licenses/by-sa/3.0/).
 * The remainder of the project is licensed under [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html)
 
-See DMAPI/LICENSE for the MIT license
+See the bottom of each file in the /DMAPI tree for the MIT license
