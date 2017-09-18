@@ -151,6 +151,14 @@ namespace TGServerService
 
 			var instance = new TGStationServer();
 
+			for (var I = 0; I < args.Length - 1; ++I)
+				if (args[I].ToLower() == "-port")
+				{
+					Config.RemoteAccessPort = Convert.ToUInt16(args[I + 1]);
+					Config.Save();
+					break;
+				}
+
 			host = new ServiceHost(instance, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Config.RemoteAccessPort)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
@@ -162,7 +170,14 @@ namespace TGServerService
 			host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
 			host.Authorization.ServiceAuthorizationManager = instance;
 
-			host.Open();    //...or maybe here, doesn't really matter
+			try
+			{
+				host.Open();
+			}
+			catch (AddressAlreadyInUseException e)
+			{
+				throw new Exception("Can't start the service due to the configured remote access port being in use. To fix this change it by starting the service with the \"-port <port>\" argument.", e);
+			}
 		}
 
 		//shorthand for adding the WCF endpoint
