@@ -33,7 +33,7 @@ namespace TGServerService
 		//public api
 		public bool OperationInProgress()
 		{
-			lock(RepoLock)
+			lock (RepoLock)
 			{
 				return RepoBusy;
 			}
@@ -124,7 +124,7 @@ namespace TGServerService
 						if (Directory.Exists(StaticDirs))
 						{
 							int count = 1;
-							
+
 							string path = Path.GetDirectoryName(StaticBackupDir);
 							string newFullPath = StaticBackupDir;
 
@@ -169,7 +169,7 @@ namespace TGServerService
 					currentProgress = -1;
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 
 			{
 				SendMessage("REPO: Setup failed!", ChatMessageType.DeveloperInfo);
@@ -302,11 +302,11 @@ namespace TGServerService
 				SendMessage("REPO: Checking out object: " + sha, ChatMessageType.DeveloperInfo);
 				try
 				{
-					if(Repo.Branches[sha] == null)
+					if (Repo.Branches[sha] == null)
 					{
 						//see if origin has the branch
 						var trackedBranch = Repo.Branches[String.Format("origin/{0}", sha)];
-						if(trackedBranch != null)
+						if (trackedBranch != null)
 						{
 							var newBranch = Repo.CreateBranch(sha, trackedBranch.Tip);
 							//track it
@@ -368,17 +368,11 @@ namespace TGServerService
 				{
 					if (Repo.Head == null || !Repo.Head.IsTracking)
 						return "Cannot update while not on a tracked branch";
-					string logMessage = "";
 
-					var R = Repo.Network.Remotes["origin"];
-					IEnumerable<string> refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
-					var fos = new FetchOptions()
-					{
-						CredentialsProvider = GenerateGitCredentials,
-					};
-					fos.OnTransferProgress += HandleTransferProgress;
-					Commands.Fetch(Repo, R.Name, refSpecs, fos, logMessage);
-					
+					var res = Fetch();
+					if (res != null)
+						return res;
+
 					var originBranch = Repo.Head.TrackedBranch;
 					if (reset)
 					{
@@ -390,7 +384,7 @@ namespace TGServerService
 						TGServerService.WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoHardUpdate);
 						return error;
 					}
-					var res = MergeBranch(originBranch.FriendlyName);
+					res = MergeBranch(originBranch.FriendlyName);
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
@@ -417,7 +411,7 @@ namespace TGServerService
 				{
 					Repo.Submodules.Update(I.Name, suo);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					//workaround for https://github.com/libgit2/libgit2/issues/3820
 					//kill off the modules/ folder in .git and try again
@@ -425,7 +419,8 @@ namespace TGServerService
 					{
 						Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
 					}
-					catch {
+					catch
+					{
 						throw e;
 					}
 					Repo.Submodules.Update(I.Name, suo);
@@ -450,7 +445,7 @@ namespace TGServerService
 					foreach (var T in Repo.Tags)
 						if (T.Target.Sha == HEAD)
 							return null;
-	
+
 					var tagName = "TGS-Compile-Backup-" + DateTime.Now.ToString("yyyy-MM-dd--HH.mm.ss");
 					var tag = Repo.ApplyTag(tagName);
 
@@ -580,15 +575,13 @@ namespace TGServerService
 					var LocalBranchName = String.Format("pull/{0}/headrefs/heads/{1}", PRNumber, PRBranchName);
 					Refspec.Add(String.Format("pull/{0}/head:{1}", PRNumber, PRBranchName));
 					var logMessage = "";
-					var fo = new FetchOptions() { OnTransferProgress = HandleTransferProgress, Prune = true };
 
 					var branch = Repo.Branches[LocalBranchName];
-					if(branch != null)
+					if (branch != null)
 						//Need to delete the branch first in case of rebase
 						Repo.Branches.Remove(branch);
 
-
-					Commands.Fetch(Repo, "origin", Refspec, fo, logMessage);  //shitty api has no failure state for this
+					Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
 
 					currentProgress = -1;
 
@@ -648,7 +641,7 @@ namespace TGServerService
 							CurrentPRs.Add(PRNumberString, newPR);
 							SetCurrentPRList(CurrentPRs);
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							TGServerService.WriteError("Failed to update PR list", TGServerService.EventID.RepoPRListError);
 							return "PR Merged, JSON update failed: " + e.ToString();
@@ -736,16 +729,46 @@ namespace TGServerService
 			return LocalIsRemote() ? Commit() ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
+		FetchOptions GenerateFetchOptions()
+		{
+			return new FetchOptions()
+			{
+				CredentialsProvider = GenerateGitCredentials,
+				OnTransferProgress = HandleTransferProgress,
+				Prune = true,
+			};
+		}
+
+		/// <summary>
+		/// Fetches origin
+		/// </summary>
+		/// <returns>null on success, error message on failure</returns>
+		string Fetch()
+		{
+			try
+			{
+				string logMessage = "";
+				var R = Repo.Network.Remotes["origin"];
+				IEnumerable<string> refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
+				Commands.Fetch(Repo, R.Name, refSpecs, GenerateFetchOptions(), logMessage);
+				return null;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
+		}
+
 		bool LocalIsRemote()
 		{
 			lock (RepoLock)
 			{
 				if (LoadRepo() != null)
 					return false;
-				var R = Repo.Network.Remotes["origin"];
+				if (Fetch() != null)
+					return false;
 				try
 				{
-					Commands.Fetch(Repo, R.Name, R.FetchRefSpecs.Select(X => X.Specification), null, null);
 					return Repo.Head.IsTracking && Repo.Head.TrackedBranch.Tip.Sha == Repo.Head.Tip.Sha;
 				}
 				catch
