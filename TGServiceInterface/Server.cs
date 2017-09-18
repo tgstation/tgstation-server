@@ -25,7 +25,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The port used by the service
 		/// </summary>
-		public const ushort HTTPSPort = 38607;
+		static ushort HTTPSPort = 38607;
 
 		/// <summary>
 		/// Username for remote operations
@@ -50,9 +50,10 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <param name="address"></param>
 		/// <param name="port"></param>
-		public static void SetRemoteLoginInformation(string address,  string username, string password)
+		public static void SetRemoteLoginInformation(string address, ushort port, string username, string password)
 		{
 			HTTPSURL = address;
+			HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
 		}

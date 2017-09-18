@@ -20,5 +20,8 @@
     <Setting Name="RemoteUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="RemotePort" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">38607</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

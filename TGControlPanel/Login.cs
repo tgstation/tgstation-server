@@ -10,7 +10,9 @@ namespace TGControlPanel
 		{
 			InitializeComponent();
 			IPTextBox.Text = Properties.Settings.Default.RemoteIP;
-			UsernameTextBox.Text = Properties.Settings.Default.RemoteUsername;
+			var Config = Properties.Settings.Default;
+			UsernameTextBox.Text = Config.RemoteUsername;
+			PortSelector.Value = Config.RemotePort;
 			AcceptButton = RemoteLoginButton;
 		}
 
@@ -18,7 +20,7 @@ namespace TGControlPanel
 		{
 			IPTextBox.Text = IPTextBox.Text.Trim();
 			UsernameTextBox.Text = UsernameTextBox.Text.Trim();
-			Server.SetRemoteLoginInformation(IPTextBox.Text, UsernameTextBox.Text, PasswordTextBox.Text);
+			Server.SetRemoteLoginInformation(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text);
 			Properties.Settings.Default.RemoteIP = IPTextBox.Text;
 			Properties.Settings.Default.RemoteUsername = UsernameTextBox.Text;
 			VerifyAndConnect();
@@ -26,7 +28,7 @@ namespace TGControlPanel
 
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
-			Server.SetRemoteLoginInformation(null, null, null);
+			Server.SetRemoteLoginInformation(null, 0, null, null);
 			VerifyAndConnect();
 		}
 

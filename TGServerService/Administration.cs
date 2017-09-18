@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.ServiceModel;
@@ -108,6 +107,23 @@ namespace TGServerService
 			
 			TGServerService.WriteAccess(operationContext.ServiceSecurityContext.WindowsIdentity.Name, authSuccess);
 			return authSuccess;
+		}
+
+		/// <inheritdoc />
+		public ushort RemoteAccessPort()
+		{
+			return Properties.Settings.Default.RemoteAccessPort;
+		}
+
+		/// <inheritdoc />
+		public string SetRemoteAccessPort(ushort port)
+		{
+			if (port == 0)
+				return "Cannot bind to port 0";
+			var Config = Properties.Settings.Default;
+			Config.RemoteAccessPort = port;
+			Config.Save();
+			return null;
 		}
 	}
 }
