@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using TGServiceInterface;
@@ -149,10 +149,11 @@ namespace TGControlPanel
 				var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
 				ServerGStopButton.Enabled = Online;
 				ServerGRestartButton.Enabled = Online;
+				ServerStopButton.Enabled = Online;
+				ServerRestartButton.Enabled = Online;
 
 				var ShuttingDown = DD.ShutdownInProgress();
 				ServerGStopButton.Checked = ShuttingDown;
-				ServerGStopButton.Enabled = !ShuttingDown;
 
 				AutostartCheckbox.Checked = DD.Autostart();
 				WebclientCheckBox.Checked = DD.Webclient();
