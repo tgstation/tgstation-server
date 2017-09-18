@@ -169,7 +169,14 @@ namespace TGServerService
 			foreach (var I in Server.ValidInterfaces)
 				AddEndpoint(I);
 
-			host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
+			try
+			{
+				host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindBySubjectName, Config.CertificateURL);
+			}
+			catch (Exception e)
+			{
+				WriteWarning("Failed to find certificate for address " + Config.CertificateURL + ". " + e.ToString(), EventID.Authentication);
+			}
 			host.Authorization.ServiceAuthorizationManager = instance;
 
 			try

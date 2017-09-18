@@ -13,7 +13,7 @@ namespace TGServerService
 		SecurityIdentifier TheDroidsWereLookingFor;
 
 		/// <inheritdoc />
-		public string GetCurrentAuthorizedGroup()
+		public string AuthorizedGroup()
 		{
 			try
 			{
@@ -125,5 +125,15 @@ namespace TGServerService
 			Config.Save();
 			return null;
 		}
-	}
+        
+        public void SetRemoteURL(string URL)
+        {
+            Properties.Settings.Default.CertificateURL = URL;
+        }
+
+        public string RemoteURL()
+        {
+            return Properties.Settings.Default.CertificateURL;
+        }
+    }
 }
