@@ -9,7 +9,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration), typeof(ITGServiceBridge) };
 
 		/// <summary>
 		/// Base name of the communication pipe
@@ -62,15 +62,23 @@ namespace TGServiceInterface
 		/// Returns the requested server component interface. This does not guarantee a successful connection
 		/// </summary>
 		/// <typeparam name="T">The type of the component to retrieve</typeparam>
-		/// <returns></returns>
+		/// <returns>The correct component</returns>
 		public static T GetComponent<T>()
+		{
+			return GetComponentAndChannel<T>(out ChannelFactory<T> ignored);
+		}
+
+		public static T GetComponentAndChannel<T>(out ChannelFactory<T> outChannel)
 		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 			var InterfaceName = typeof(T).Name;
 			if (HTTPSURL == null)
-				return new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName))).CreateChannel();
+			{
+				outChannel = new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));
+				return outChannel.CreateChannel();
+			}
 
 			//okay we're going over
 			var binding = new WSHttpBinding();
@@ -78,19 +86,19 @@ namespace TGServiceInterface
 			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
 			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", HTTPSURL, HTTPSPort, MasterInterfaceName, InterfaceName));
-			var cf = new ChannelFactory<T>(binding, address);
+			outChannel = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
 			{
-				cf.Credentials.UserName.UserName = HTTPSUsername;
-				cf.Credentials.UserName.Password = HTTPSPassword;
+				outChannel.Credentials.UserName.UserName = HTTPSUsername;
+				outChannel.Credentials.UserName.Password = HTTPSPassword;
 			}
 #if DEBUG
 			//allow self signed certs in debug mode
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) => true;
 #endif
-			return cf.CreateChannel();
+			return outChannel.CreateChannel();
 		}
-		
+
 		/// <summary>
 		/// Used to test if the service is avaiable on the machine
 		/// Note that state can technically change at any time
@@ -104,7 +112,7 @@ namespace TGServiceInterface
 				GetComponent<ITGConnectivity>().VerifyConnection();
 				return null;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return e.ToString();
 			}

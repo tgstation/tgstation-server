@@ -79,7 +79,8 @@ namespace TGServerService
 			SubmoduleReclone = 6600,
 			Authentication = 6700,
 			PreactionEvent = 6800,
-			PreactionFail = 6900
+			PreactionFail = 6900,
+			InteropCallException = 7000,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog

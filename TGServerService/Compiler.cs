@@ -38,6 +38,8 @@ namespace TGServerService
 		const string BDirTest = GameDirB + LiveFile;
 		const string LiveDirTest = GameDirLive + LiveFile;
 
+		const string InterfaceDLLName = "TGServiceInterface.dll";
+
 		List<string> copyExcludeList = new List<string> { ".git", "data", "config", "libmysql.dll" };   //shit we handle
 		List<string> deleteExcludeList = new List<string> { "data", "config", "libmysql.dll" };   //shit we handle
 
@@ -131,8 +133,11 @@ namespace TGServerService
 		//we need to remove symlinks before we can recursively delete
 		void CleanGameFolder()
 		{
-			if (Directory.Exists(GameDirB + LibMySQLFile))
-				Directory.Delete(GameDirB + LibMySQLFile);
+			if (Directory.Exists(Path.Combine(GameDirA, InterfaceDLLName)))
+				Directory.Delete(Path.Combine(GameDirA, InterfaceDLLName));
+
+			if (Directory.Exists(GameDirA + LibMySQLFile))
+				Directory.Delete(GameDirA + LibMySQLFile);
 
 			if (Directory.Exists(GameDirA + "/data"))
 				Directory.Delete(GameDirA + "/data");
@@ -140,8 +145,11 @@ namespace TGServerService
 			if (Directory.Exists(GameDirA + "/config"))
 				Directory.Delete(GameDirA + "/config");
 
-			if (Directory.Exists(GameDirA + LibMySQLFile))
-				Directory.Delete(GameDirA + LibMySQLFile);
+			if (Directory.Exists(Path.Combine(GameDirB, InterfaceDLLName)))
+				Directory.Delete(Path.Combine(GameDirB, InterfaceDLLName));
+
+			if (Directory.Exists(GameDirB + LibMySQLFile))
+				Directory.Delete(GameDirB + LibMySQLFile);
 
 			if (Directory.Exists(GameDirB + "/data"))
 				Directory.Delete(GameDirB + "/data");
@@ -194,6 +202,9 @@ namespace TGServerService
 
 					CreateSymlink(GameDirA + LibMySQLFile, StaticDirs + LibMySQLFile);
 					CreateSymlink(GameDirB + LibMySQLFile, StaticDirs + LibMySQLFile);
+
+					CreateSymlink(Path.Combine(GameDirA, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
+					CreateSymlink(Path.Combine(GameDirB, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
 
 					CreateSymlink(GameDirLive, GameDirA);
 					
@@ -315,6 +326,8 @@ namespace TGServerService
 					CreateSymlink(resurrectee + "/data", StaticDataDir);
 				if (!File.Exists(resurrectee + LibMySQLFile))
 					CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
+				if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
+					CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
 
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))

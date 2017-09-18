@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using TGServiceInterface;
 
@@ -37,6 +38,7 @@ namespace TGServerService
 		//Only need 1 proc instance
 		void InitDreamDaemon()
 		{
+			UpdateInterfaceDll(false);
 			var Reattach = Properties.Settings.Default.ReattachToDD;
 			if (Reattach)
 				try
@@ -46,10 +48,8 @@ namespace TGServerService
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
 					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
-					
-					//start wd 
-					InitInterop();
 
+					//start wd 
 					RestartInProgress = true;
 					currentPort = Properties.Settings.Default.ReattachPort;
 					serviceCommsKey = Properties.Settings.Default.ReattachCommsKey;
@@ -235,7 +235,6 @@ namespace TGServerService
 						currentStatus = TGDreamDaemonStatus.HardRebooting;
 						currentPort = 0;
 						Proc.Close();
-						ShutdownInterop();
 
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
@@ -279,7 +278,6 @@ namespace TGServerService
 						RestartInProgress = true;
 					}
 					Proc.Close();
-					ShutdownInterop();
 				}
 				catch
 				{ }
@@ -365,6 +363,16 @@ namespace TGServerService
 			}
 		}
 
+		void UpdateInterfaceDll(bool overwrite)
+		{
+			var targetPath = Path.Combine(StaticDirs, InterfaceDLLName);
+			if (File.Exists(targetPath) && !overwrite)
+				return;
+			//Copy the interface dll to the static dir
+			var InterfacePath = Assembly.GetAssembly(typeof(DDInteropCallHolder)).Location;
+			File.Copy(InterfacePath, targetPath, true);
+		}
+
 		//used by Start and Watchdog to start a DD instance
 		string StartImpl(bool watchdog)
 		{
@@ -382,7 +390,7 @@ namespace TGServerService
 					GenCommsKey();
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient" : "");
-					InitInterop();
+					UpdateInterfaceDll(true);
 					Proc.Start();
 
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
@@ -390,7 +398,6 @@ namespace TGServerService
 						Proc.Kill();
 						Proc.WaitForExit();
 						Proc.Close();
-						ShutdownInterop();
 						currentStatus = TGDreamDaemonStatus.Offline;
 						currentPort = 0;
 						return String.Format("Server start is taking more than {0}s! Aborting!", DDHangStartTime);
