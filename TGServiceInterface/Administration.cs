@@ -8,6 +8,22 @@ namespace TGServiceInterface
 	[ServiceContract]
 	public interface ITGAdministration
 	{
+        /// <summary>
+        /// Get the port used for remote operation
+        /// </summary>
+        /// <returns>The port used for remote operation</returns>
+		[OperationContract]
+        ushort RemoteAccessPort();
+
+        /// <summary>
+        /// Set the port used for remote operation
+        /// Requires a service restart to take effect
+        /// </summary>
+        /// <param name="port">The new port to use for remote operation</param>
+        /// <returns>null on success, error message on failure</returns>
+		[OperationContract]
+        string SetRemoteAccessPort(ushort port);
+
 		/// <summary>
 		/// Returns the name of the windows group allowed to use the service other than administrator
 		/// </summary>

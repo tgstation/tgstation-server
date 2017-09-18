@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TGServiceInterface;
 
 namespace TGCommandLine
@@ -8,11 +9,65 @@ namespace TGCommandLine
 		public AdminCommand()
 		{
 			Keyword = "admin";
-			Children = new Command[] { new AdminViewGroupCommand(), new AdminSetGroupCommand(), new AdminClearGroupCommand() };
+			Children = new Command[] { new AdminViewGroupCommand(), new AdminSetGroupCommand(), new AdminClearGroupCommand(), new AdminViewPortCommand(), new AdminSetPortCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage server service authentication";
+		}
+	}
+
+
+	class AdminSetPortCommand : Command
+	{
+		public AdminSetPortCommand()
+		{
+			Keyword = "set-port";
+			RequiredParameters = 1;
+		}
+		public override string GetHelpText()
+		{
+			return "Set the port used for remote access. Requires a service restart to take effect";
+		}
+
+		public override string GetArgumentString()
+		{
+			return "<port>";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			ushort port;
+			try
+			{
+				port = Convert.ToUInt16(parameters[0]);
+			}
+			catch
+			{
+				OutputProc("Invalid port number!");
+				return ExitCode.BadCommand;
+			}
+			var res = Server.GetComponent<ITGAdministration>().SetRemoteAccessPort(port);
+			OutputProc(res ?? "Success!");
+			return ExitCode.Normal;
+		}
+	}
+
+	class AdminViewPortCommand : Command {
+		public AdminViewPortCommand()
+		{
+			Keyword = "view-port";
+		}
+		public override string GetHelpText()
+		{
+			return "Print the port currently designated for remote access";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var port = Server.GetComponent<ITGAdministration>().RemoteAccessPort();
+			OutputProc(String.Format("{0}", port));
+			return ExitCode.Normal;
 		}
 	}
 

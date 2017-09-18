@@ -151,7 +151,7 @@ namespace TGServerService
 
 			var instance = new TGStationServer();
 
-			host = new ServiceHost(instance, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Server.HTTPSPort)) })
+			host = new ServiceHost(instance, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Config.RemoteAccessPort)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};

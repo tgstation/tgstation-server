@@ -62,5 +62,8 @@
     <Setting Name="AuthorizedGroupSID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="RemoteAccessPort" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">38607</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
