@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Security;
 using System.ServiceModel;
 namespace TGServiceInterface
 {
@@ -36,6 +37,34 @@ namespace TGServiceInterface
 		/// Password for remote operations
 		/// </summary>
 		static string HTTPSPassword;
+
+
+        public static void SetBadCertificateHandler(Func<string, bool> handler)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
+            {
+                string ErrorMessage;
+                switch (error)
+                {
+                    case SslPolicyErrors.None:
+                        return true;
+                    case SslPolicyErrors.RemoteCertificateChainErrors:
+                        ErrorMessage = "There are certificate chain errors.";
+                        break;
+                    case SslPolicyErrors.RemoteCertificateNameMismatch:
+                        ErrorMessage = "The certificate name does not match.";
+                        break;
+                    case SslPolicyErrors.RemoteCertificateNotAvailable:
+                        ErrorMessage = "The certificate doesn't exist in the trust store.";
+                        break;
+                    default:
+                        ErrorMessage = "An unknown error occurred.";
+                        break;
+                }
+                ErrorMessage = String.Format("The certificate failed to verify for {0}:{1}. {2} {3}", HTTPSURL, HTTPSPort, ErrorMessage, cert.ToString());
+                return handler(ErrorMessage);
+            };
+        }
 
 		/// <summary>
 		/// Set the interface to look for services on the current computer
@@ -93,10 +122,6 @@ namespace TGServiceInterface
 				outChannel.Credentials.UserName.UserName = HTTPSUsername;
 				outChannel.Credentials.UserName.Password = HTTPSPassword;
             }
-#if DEBUG
-            //allow self signed certs in debug mode
-            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) => true;
-#endif
             return outChannel.CreateChannel();
 		}
 
