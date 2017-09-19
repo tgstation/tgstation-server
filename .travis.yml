@@ -5,13 +5,13 @@ env:
     global:
     - BYOND_MAJOR="511"
     - BYOND_MINOR="1385"
-	
+    
 cache:
   directories:
     - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
 
 install:
-	- install_byond.sh
+    - install_byond.sh
 
-build:
-	- build_byond.sh
+script:
+    - build_byond.sh
