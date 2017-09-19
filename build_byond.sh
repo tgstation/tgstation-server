@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#nb: must be bash to support shopt globstar
 set -e
 source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
 if hash DreamMaker 2>/dev/null
