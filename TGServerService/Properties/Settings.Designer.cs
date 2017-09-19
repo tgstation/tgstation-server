@@ -205,7 +205,7 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
         public int SettingsVersion {
             get {
                 return ((int)(this["SettingsVersion"]));
@@ -260,6 +260,18 @@ namespace TGServerService.Properties {
             }
             set {
                 this["RemoteAccessPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReattachAPIVersion {
+            get {
+                return ((string)(this["ReattachAPIVersion"]));
+            }
+            set {
+                this["ReattachAPIVersion"] = value;
             }
         }
     }
