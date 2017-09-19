@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Web.Script.Serialization;
 using System.Web.Security;
 using TGServiceInterface;
@@ -118,7 +119,8 @@ namespace TGServerService
 							break;
 						}
 					}
-					SendCommand(SCAPICompat);
+					//This needs to be done asyncronously otherwise DD won't be able to process it, because it's waiting for THIS THREAD to return
+					ThreadPool.QueueUserWorkItem(_ => SendCommand(SCAPICompat));
 					break;
 			}
 		}
