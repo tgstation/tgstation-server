@@ -11,3 +11,5 @@
 
 packages/*
 *.user
+*.dmb
+*.int

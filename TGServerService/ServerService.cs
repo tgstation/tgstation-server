@@ -79,6 +79,7 @@ namespace TGServerService
 			PreactionEvent = 6800,
 			PreactionFail = 6900,
 			InteropCallException = 7000,
+			APIVersionMismatch = 7100,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog

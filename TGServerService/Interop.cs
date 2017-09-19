@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using System.Web.Script.Serialization;
 using System.Web.Security;
 using TGServiceInterface;
@@ -13,20 +12,27 @@ namespace TGServerService
 	//handles talking between the world and us
 	partial class TGStationServer : ITGServiceBridge
 	{
+
 		object topicLock = new object();
 		const int CommsKeyLen = 64;
 		string serviceCommsKey; //regenerated every DD restart
+
+		//range of supported api versions
+		const string MinAPIVersion = "3.1.0.0";
+		const string MaxAPIVersion = "3.1.0.99";
 
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
 		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
+		const string SCAPICompat = "api_compat";	//Tells the server we understand each other
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
 		const string SRIRCAdminChannelMessage = "send2irc";
 		const string SRWorldReboot = "worldreboot";
+		const string SRAPIVersion = "api_ver";
 
 		const string CCPHelpText = "help_text";
 		const string CCPAdminOnly = "admin_only";
@@ -80,6 +86,21 @@ namespace TGServerService
 							UpdateStaged = false;
 							TGServerService.WriteInfo("Staged update applied", TGServerService.EventID.ServerUpdateApplied);
 						}
+					}
+					break;
+				case SRAPIVersion:
+					try
+					{
+						var theirs = new Version(splits[1]);
+						var minimum = new Version(MinAPIVersion);
+						var maximum = new Version(MaxAPIVersion);
+						if (theirs < minimum || theirs > maximum)
+							throw new Exception();
+						SendCommand(SCAPICompat);
+					}
+					catch
+					{
+						TGServerService.WriteWarning("API version of the game ({0}) is incompatible with the current supported API versions (Min: {1}. Max: {2})", TGServerService.EventID.APIVersionMismatch);
 					}
 					break;
 			}
