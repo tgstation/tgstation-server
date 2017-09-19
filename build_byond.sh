@@ -4,11 +4,12 @@ set -e
 retval=1
 source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
 
-file DreamMaker
+ls $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin
+file $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/DreamMaker
 
-if hash DreamMaker 2>/dev/null
+if hash $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/DreamMaker 2>/dev/null
 then
-	DreamMaker $DMEName 2>&1 | tee result.log
+	$HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/DreamMaker $DMEName 2>&1 | tee result.log
 	retval=$?
 	if ! grep '\- 0 errors, 0 warnings' result.log
 	then
