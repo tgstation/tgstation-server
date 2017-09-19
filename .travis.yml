@@ -15,6 +15,7 @@ addons:
   apt:
     packages:
       - libc6-i386
+      - libstdc++6:i386
 
 install:
     - ./install_byond.sh
