@@ -4,7 +4,7 @@ set -e
 source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
 if hash DreamMaker 2>/dev/null
 then
-	DreamMaker $dmepath.mdme 2>&1 | tee result.log
+	DreamMaker $DMEName 2>&1 | tee result.log
 	retval=$?
 	if ! grep '\- 0 errors, 0 warnings' result.log
 	then

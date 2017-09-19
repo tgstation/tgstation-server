@@ -5,6 +5,7 @@ env:
     global:
     - BYOND_MAJOR="511"
     - BYOND_MINOR="1385"
+    - DMEName="DMAPITravisTester.dme"
 
 install:
     - ./install_byond.sh
