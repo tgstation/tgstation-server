@@ -7,7 +7,11 @@ env:
     - BYOND_MINOR="1385"
     - DMEName="DMAPITravisTester.dme"
 
-before_script:
+cache:
+  directories:
+    - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
+
+install:
     - ./install_byond.sh
 
 script:
