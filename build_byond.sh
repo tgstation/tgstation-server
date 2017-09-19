@@ -4,7 +4,7 @@ set -e
 retval=1
 source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
 
-ls $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin
+ls -l $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin
 
 if hash DreamMaker 2>/dev/null
 then
