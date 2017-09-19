@@ -38,7 +38,7 @@
 #define SERVER_TOOLS_API_VERSION ServiceAPIVersion()
 //Returns TRUE if the world was launched under the server tools and the API matches, FALSE otherwise
 //No function below this succeed if this is FALSE
-#define SERVER_TOOLS_PRESENT (RunningService() != null)
+#define SERVER_TOOLS_PRESENT RunningService()
 //Gets the current version of the service running the server
 #define SERVER_TOOLS_VERSION ServiceVersion()
 //Forces a hard reboot of BYOND by ending the process

@@ -16,8 +16,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D8FC6AA-1D33-44B6-81C2-35ED7A87EDBC}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
+		build_byond.sh = build_byond.sh
+		Config.dm = Config.dm
+		DMAPITravisTester.dme = DMAPITravisTester.dme
+		install_byond.sh = install_byond.sh
 		README.md = README.md
+		Test.dm = Test.dm
 		tgs.ico = tgs.ico
 		TGS3Release.ps1 = TGS3Release.ps1
 		Version.cs = Version.cs

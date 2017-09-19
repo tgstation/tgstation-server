@@ -11,11 +11,11 @@ SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(server_tools_api_compatible, FALSE)
 /world/proc/ServiceInit()
 	if(!RunningService(TRUE))
 		return
-	ListCustomCommands()
-	ExportService("[SERVICE_REQUEST_API_VERSION] [SERVICE_API_VERSION]", TRUE)
+	ListServiceCustomCommands(TRUE)
+	ExportService("[SERVICE_REQUEST_API_VERSION] [SERVER_TOOLS_API_VERSION]", TRUE)
 
 /proc/RunningService(skip_compat_check = FALSE)
-	return (skip_compat_check || SERVER_TOOLS_READ_GLOBAL(server_tools_api_compatible)) && world.params[SERVICE_WORLD_PARAM]
+	return (skip_compat_check || SERVER_TOOLS_READ_GLOBAL(server_tools_api_compatible)) && world.params[SERVICE_WORLD_PARAM] != null
 
 /proc/ServiceVersion()
 	if(RunningService(TRUE))

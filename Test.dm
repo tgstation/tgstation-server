@@ -1,10 +1,6 @@
-#define SERVER_TOOLS_EXTERNAL_CONFIGURATION
-#define SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(Name, Value) var/##Name = ##Value
-#define SERVER_TOOLS_READ_GLOBAL(Name) global.##Name
-#define SERVER_TOOLS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value
-#define SERVER_TOOLS_WORLD_ANNOUNCE(message) world << ##message
-#define SERVER_TOOLS_LOG(message) world.log << ##message
-#define SERVER_TOOLS_NOTIFY_ADMINS(event) message_admins(event)
+#ifndef SERVER_TOOLS_ON_NEW
+#error DreamMaker rearranges the intentionally weird file layout of this project. Compile using dm.exe instead
+#endif
 
 /world/New()
 	SERVER_TOOLS_ON_NEW
@@ -27,6 +23,7 @@
 	sleep(50)
 	if(!SERVER_TOOLS_PRESENT)
 		world.log << "No running service detected"
+		del(world)
 		return
 	world.log << "Running service version: [SERVER_TOOLS_VERSION]"
 	var/list/prs = SERVER_TOOLS_PR_LIST

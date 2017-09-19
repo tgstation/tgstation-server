@@ -13,8 +13,9 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "DMAPITravisTester.dm"
+#include "Config.dm"
 #include "DMAPI\server_tools.dm"
 #include "DMAPI\st_commands.dm"
 #include "DMAPI\st_interface.dm"
+#include "Test.dm"
 // END_INCLUDE
