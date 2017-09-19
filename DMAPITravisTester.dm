@@ -1,4 +1,4 @@
-//Fill out a dummy API
+#define SERVER_TOOLS_EXTERNAL_CONFIGURATION
 #define SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(Name, Value) var/##Name = ##Value
 #define SERVER_TOOLS_READ_GLOBAL(Name) global.##Name
 #define SERVER_TOOLS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value

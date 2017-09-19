@@ -1,6 +1,8 @@
 // /tg/station 13 server tools API v3.1
 
 //CONFIGURATION
+//use this define if you want to do configuration outside of this file
+#ifndef SERVER_TOOLS_EXTERNAL_CONFIGURATION
 //Comment this out once you've filled in the below
 #error /tg/station server tools interface unconfigured
 
@@ -19,6 +21,7 @@
 #define SERVER_TOOLS_LOG(message)
 //Notify current in-game administrators of a string `event`
 #define SERVER_TOOLS_NOTIFY_ADMINS(event)
+#endif
 
 //Required hooks:
 
@@ -39,7 +42,7 @@
 //Gets the current version of the service running the server
 #define SERVER_TOOLS_VERSION ServiceVersion()
 //Forces a hard reboot of BYOND by ending the process
-//unlike del(world) this will release any open .dll handles, purge all memory leaks, and clients will try to reconnect
+//unlike del(world) clients will try to reconnect
 //If the service has not requested a shutdown, the world will reboot shortly after
 #define SERVER_TOOLS_REBOOT_BYOND world.ServiceEndProcess()
 /*
