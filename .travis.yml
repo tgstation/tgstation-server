@@ -11,7 +11,7 @@ cache:
     - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
 
 install:
-    - install_byond.sh
+    - ./install_byond.sh
 
 script:
-    - build_byond.sh
+    - ./build_byond.sh
