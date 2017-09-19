@@ -53,10 +53,14 @@ namespace TGServerService
 					RestartInProgress = true;
 					currentPort = Properties.Settings.Default.ReattachPort;
 					serviceCommsKey = Properties.Settings.Default.ReattachCommsKey;
+					try
+					{
+						GameAPIVersion = new Version(Properties.Settings.Default.ReattachAPIVersion);
+					}
+					catch { }
 					currentStatus = TGDreamDaemonStatus.Online;
 					DDWatchdog = new Thread(new ThreadStart(Watchdog));
 					DDWatchdog.Start();
-					RequestRestart();   //TODO: Remove this when DD -> Service communication is more 
 				}
 				catch (Exception e)
 				{
@@ -391,6 +395,10 @@ namespace TGServerService
 					StartingSecurity = (TGDreamDaemonSecurity)Config.ServerSecurity;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient" : "");
 					UpdateInterfaceDll(true);
+					lock (topicLock)
+					{
+						GameAPIVersion = null;  //needs updating
+					}
 					Proc.Start();
 
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))

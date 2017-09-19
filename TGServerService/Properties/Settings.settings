@@ -48,7 +48,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="SettingsVersion" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="ReattachCommsKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -61,6 +61,9 @@
     </Setting>
     <Setting Name="RemoteAccessPort" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">38607</Value>
+    </Setting>
+    <Setting Name="ReattachAPIVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -18,8 +18,9 @@ namespace TGServerService
 		string serviceCommsKey; //regenerated every DD restart
 
 		//range of supported api versions
-		const string MinAPIVersion = "3.1.0.0";
-		const string MaxAPIVersion = "3.1.0.99";
+		readonly Version MinAPIVersion = new Version("3.1.0.0");
+		readonly Version MaxAPIVersion = new Version("3.1.0.99");
+		Version GameAPIVersion;
 
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
@@ -64,6 +65,15 @@ namespace TGServerService
 			cmd = splits[0];
 			splits.RemoveAt(0);
 
+			bool APIValid;
+			lock (topicLock)
+			{
+				APIValid = CheckAPIVersionConstraints();
+			}
+
+			if (!APIValid && cmd != SRAPIVersion)
+				return;	//SPEAK THE LANGUAGE!!!
+
 			switch (cmd)
 			{
 				case SRIRCBroadcast:
@@ -84,24 +94,31 @@ namespace TGServerService
 						if (UpdateStaged)
 						{
 							UpdateStaged = false;
+							lock (topicLock)
+							{
+								GameAPIVersion = null;  //needs updating
+							}
 							TGServerService.WriteInfo("Staged update applied", TGServerService.EventID.ServerUpdateApplied);
 						}
 					}
 					break;
 				case SRAPIVersion:
-					try
+					lock (topicLock)
 					{
-						var theirs = new Version(splits[1]);
-						var minimum = new Version(MinAPIVersion);
-						var maximum = new Version(MaxAPIVersion);
-						if (theirs < minimum || theirs > maximum)
-							throw new Exception();
-						SendCommand(SCAPICompat);
+						try
+						{
+							GameAPIVersion = new Version(splits[0]);
+							if (!CheckAPIVersionConstraints())
+								throw new Exception();
+						}
+						catch
+						{
+							TGServerService.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (Min: {1}. Max: {2}). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", MinAPIVersion, MaxAPIVersion), TGServerService.EventID.APIVersionMismatch);
+							GameAPIVersion = null;
+							break;
+						}
 					}
-					catch
-					{
-						TGServerService.WriteWarning("API version of the game ({0}) is incompatible with the current supported API versions (Min: {1}. Max: {2})", TGServerService.EventID.APIVersionMismatch);
-					}
+					SendCommand(SCAPICompat);
 					break;
 			}
 		}
@@ -116,10 +133,18 @@ namespace TGServerService
 			}
 		}
 
+		//requires topiclock
+		bool CheckAPIVersionConstraints()
+		{
+			return !(GameAPIVersion == null || GameAPIVersion < MinAPIVersion || GameAPIVersion > MaxAPIVersion);
+		}
+
 		//Fuckery to diddle byond with the right packet to accept our girth
 		string SendTopic(string topicdata, ushort port)
 		{
 			lock (topicLock) {
+				if (!CheckAPIVersionConstraints())
+					return "Incompatible API!";
 				using (var topicSender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = 5000, ReceiveTimeout = 5000 })
 				{
 					try
