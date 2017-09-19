@@ -1,21 +1,35 @@
 SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(reboot_mode, REBOOT_MODE_NORMAL)
+SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(server_tools_api_compatible, FALSE)
 
 /proc/GetTestMerges()
-	if(world.RunningService() && fexists(SERVICE_PR_TEST_JSON))
+	if(RunningService() && fexists(SERVICE_PR_TEST_JSON))
 		. = json_decode(file2text(SERVICE_PR_TEST_JSON))
 		if(.)
 			return
 	return list()
 
-/world/proc/RunningService()
-	return params[SERVICE_WORLD_PARAM]
+/world/proc/ServiceInit()
+	if(!RunningService(TRUE))
+		return
+	ListCustomCommands()
+	ExportService("[SERVICE_REQUEST_API_VERSION] [SERVICE_API_VERSION]", TRUE)
+
+/proc/RunningService(skip_compat_check = FALSE)
+	return (skip_compat_check || SERVER_TOOLS_READ_GLOBAL(server_tools_api_compatible)) && world.params[SERVICE_WORLD_PARAM]
 
 /proc/ServiceVersion()
-	if(world.RunningService())
+	if(RunningService(TRUE))
 		return world.params[SERVICE_VERSION_PARAM]
 
-/world/proc/ExportService(command)
+/proc/ServiceAPIVersion()
+	return SERVICE_API_VERSION_STRING
+
+/world/proc/ExportService(command, skip_compat_check = FALSE)
 	. = FALSE
+	if(!RunningService(skip_compat_check))
+		return
+	if(skip_compat_check && !fexists(SERVICE_INTERFACE_DLL))
+		CRASH("Service parameter present but no interface DLL detected. This is symptomatic of running a service less than version 3.1! Please upgrade.")
 	call(SERVICE_INTERFACE_DLL, SERVICE_INTERFACE_FUNCTION)(command)	//trust no retval
 	return TRUE
 
@@ -57,6 +71,9 @@ SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(reboot_mode, REBOOT_MODE_NORMAL)
 		return "No command!"
 
 	switch(command)
+		if(SERVICE_CMD_API_COMPATIBLE)
+			SERVER_TOOLS_WRITE_GLOBAL(server_tools_api_compatible, TRUE)
+			return "SUCCESS"
 		if(SERVICE_CMD_HARD_REBOOT)
 			if(SERVER_TOOLS_READ_GLOBAL(reboot_mode) != REBOOT_MODE_HARD)
 				SERVER_TOOLS_WRITE_GLOBAL(reboot_mode, REBOOT_MODE_HARD)
@@ -73,8 +90,6 @@ SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(reboot_mode, REBOOT_MODE_NORMAL)
 				return "No message set!"
 			SERVER_TOOLS_WORLD_ANNOUNCE(msg)
 			return "SUCCESS"
-		if(SERVICE_CMD_API_VERSION)
-			return SERVICE_API_VERSION
 		if(SERVICE_CMD_LIST_CUSTOM)
 			return json_encode(ListServiceCustomCommands(FALSE))
 		else

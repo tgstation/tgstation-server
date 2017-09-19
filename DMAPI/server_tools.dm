@@ -1,12 +1,13 @@
 // /tg/station 13 server tools API v3.1
 
 //CONFIGURATION
-//Comment this out once you've filled the below
+//Comment this out once you've filled in the below
 #error /tg/station server tools interface unconfigured
 
 //Required interfaces (fill in with your codebase equivalent):
 
 //create a global variable named `Name` and set it to `Value`
+//These globals must not be modifiable from anywhere outside of the server tools
 #define SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(Name, Value)
 //Read the value in the global variable `Name`
 #define SERVER_TOOLS_READ_GLOBAL(Name)
@@ -22,7 +23,7 @@
 //Required hooks:
 
 //Put this somewhere in /world/New() that is always run
-#define SERVER_TOOLS_ON_NEW ListServiceCustomCommands(TRUE)
+#define SERVER_TOOLS_ON_NEW ServiceInit()
 //Put this somewhere in /world/Topic(T, Addr, Master, Keys) that is always run before T is modified
 #define SERVER_TOOLS_ON_TOPIC var/service_topic_return = ServiceCommand(params2list(T)); if(service_topic_return) return service_topic_return
 //Put at the beginning of world/Reboot(reason)
@@ -30,12 +31,16 @@
 
 //Optional callable functions:
 
+//Returns the string version of the API
+#define SERVER_TOOLS_API_VERSION ServiceAPIVersion()
 //Returns TRUE if the world was launched under the server tools and the API matches, FALSE otherwise
-//No other function in this list will succeed if this is FALSE
-#define SERVER_TOOLS_PRESENT (world.RunningService() != null)
-//Gets the current version of the server tools, only supported in versions >= 3.0.91.0
-#define SERVER_TOOLS_VERSION world.ServiceVersion()
+//No function below this succeed if this is FALSE
+#define SERVER_TOOLS_PRESENT (RunningService() != null)
+//Gets the current version of the service running the server
+#define SERVER_TOOLS_VERSION ServiceVersion()
 //Forces a hard reboot of BYOND by ending the process
+//unlike del(world) this will release any open .dll handles, purge all memory leaks, and clients will try to reconnect
+//If the service has not requested a shutdown, the world will reboot shortly after
 #define SERVER_TOOLS_REBOOT_BYOND world.ServiceEndProcess()
 /*
 	Gets the list of any testmerged github pull requests
@@ -54,7 +59,7 @@
 
 //IMPLEMENTATION
 
-#define SERVICE_API_VERSION "3.1.0.0"
+#define SERVICE_API_VERSION_STRING "3.1.0.0"
 
 #define REBOOT_MODE_NORMAL 0
 #define REBOOT_MODE_HARD 1
@@ -70,12 +75,12 @@
 #define SERVICE_CMD_GRACEFUL_SHUTDOWN "graceful_shutdown"
 #define SERVICE_CMD_WORLD_ANNOUNCE "world_announce"
 #define SERVICE_CMD_LIST_CUSTOM "list_custom_commands"
-#define SERVICE_CMD_API_VERSION "api_ver"
 
 #define SERVICE_CMD_PARAM_KEY "serviceCommsKey"
 #define SERVICE_CMD_PARAM_COMMAND "command"
 #define SERVICE_CMD_PARAM_SENDER "sender"
 #define SERVICE_CMD_PARAM_CUSTOM "custom"
+#define SERVICE_CMD_API_COMPATIBLE "api_compat"
 
 #define SERVICE_JSON_PARAM_HELPTEXT "help_text"
 #define SERVICE_JSON_PARAM_ADMINONLY "admin_only"
@@ -85,6 +90,7 @@
 #define SERVICE_REQUEST_IRC_BROADCAST "irc"
 #define SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE "send2irc"
 #define SERVICE_REQUEST_WORLD_REBOOT "worldreboot"
+#define SERVICE_REQUEST_API_VERSION "api_ver"
 
 /*
 The MIT License
