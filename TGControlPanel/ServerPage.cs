@@ -126,6 +126,7 @@ namespace TGControlPanel
 			ResetTestmerge.Visible = RepoExists;
 			WorldAnnounceField.Visible = RepoExists;
 			WorldAnnounceButton.Visible = RepoExists;
+			WorldAnnounceLabel.Visible = RepoExists;
 
 			var DM = Server.GetComponent<ITGCompiler>();
 			var DD = Server.GetComponent<ITGDreamDaemon>();
