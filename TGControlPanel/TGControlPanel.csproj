@@ -53,12 +53,6 @@
     <Compile Include="ChatPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigHelperControls.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ConfigPage.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>

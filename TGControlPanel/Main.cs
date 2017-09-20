@@ -10,12 +10,11 @@ namespace TGControlPanel
 		{
 			InitializeComponent();
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
-			Panels.SelectedIndex += Properties.Settings.Default.LastPageIndex;
+			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
 			InitRepoPage();
 			InitBYONDPage();
 			InitServerPage();
 			LoadChatPage();
-			InitConfigPage();
 		}
 
 		private void Main_Resize(object sender, EventArgs e)
