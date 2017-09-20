@@ -10,7 +10,7 @@ namespace TGServiceInterface
 	/// Used by DD to access the interop API with call()()
 	/// </summary>
 	[ServiceContract]
-	public interface ITGServiceBridge
+	public interface ITGInterop
 	{
 		/// <summary>
 		/// Called from /world/ExportService(command)
@@ -36,7 +36,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				ChannelFactory<ITGServiceBridge> channel = null;
+				ChannelFactory<ITGInterop> channel = null;
 				try
 				{
 					Server.GetComponentAndChannel(out channel).InteropMessage(String.Join(" ", args));
