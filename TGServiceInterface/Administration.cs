@@ -38,5 +38,13 @@ namespace TGServiceInterface
 		/// <returns>The name of the windows group that is now authorized to use the service on success, null on failure, "ADMIN" on clearing</returns>
 		[OperationContract]
 		string SetAuthorizedGroup(string groupName);
+
+		/// <summary>
+		/// Moves the entire server installation, requires no operations to be running
+		/// </summary>
+		/// <param name="new_location">The new path to place the server</param>
+		/// <returns>null on success, error message on failure</returns>
+		[OperationContract]
+		string MoveServer(string new_location);
 	}
 }

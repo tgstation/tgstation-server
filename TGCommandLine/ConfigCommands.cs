@@ -10,37 +10,11 @@ namespace TGCommandLine
 		public ConfigCommand()
 		{
 			Keyword = "config";
-			Children = new Command[] { new ConfigMoveServerCommand(), new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand() };
+			Children = new Command[] { new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage settings";
-		}
-	}
-
-	class ConfigMoveServerCommand : Command
-	{
-		public ConfigMoveServerCommand()
-		{
-			Keyword = "move-server";
-			RequiredParameters = 1;
-		}
-
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			var res = Server.GetComponent<ITGConfig>().MoveServer(parameters[0]);
-			OutputProc(res ?? "Success");
-			return res == null ? ExitCode.Normal : ExitCode.ServerError;
-		}
-
-		public override string GetArgumentString()
-		{
-			return "<new path>";
-		}
-
-		public override string GetHelpText()
-		{
-			return "Move the server installation (BYOND, Repo, Game) to a new location. Nothing else may be running for this task to complete";
 		}
 	}
 

@@ -88,13 +88,17 @@ namespace TGControlPanel
 
 		void UpdateServerPath()
 		{
-			var Config = Server.GetComponent<ITGConfig>();
-			if (updatingFields || ServerPathTextbox.Text.Trim() == Config.ServerDirectory())
+			if (!Server.AuthenticateAdmin())
+			{
+				MessageBox.Show("Only system administrators may move the server installation");
+				return;
+			}
+			if (updatingFields || ServerPathTextbox.Text.Trim() == Server.GetComponent<ITGConfig>().ServerDirectory())
 				return;
 			var DialogResult = MessageBox.Show("This will move the entire server installation.", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult != DialogResult.Yes)
 				return;
-			MessageBox.Show(Config.MoveServer(ServerPathTextbox.Text) ?? "Success!");
+			MessageBox.Show(Server.GetComponent<ITGAdministration>().MoveServer(ServerPathTextbox.Text) ?? "Success!");
 		}
 
 		void LoadServerPage()

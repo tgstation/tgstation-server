@@ -281,14 +281,6 @@ namespace TGServiceInterface
 		string ServerDirectory();
 
 		/// <summary>
-		/// Moves the entire server installation, requires no operations to be running
-		/// </summary>
-		/// <param name="new_location">The new path to place the server</param>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string MoveServer(string new_location);
-
-		/// <summary>
 		/// Upload a titlescreen image
 		/// </summary>
 		/// <param name="filename">The name of the file saved in config/title_screens/images</param>
