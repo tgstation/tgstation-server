@@ -23,8 +23,7 @@ namespace TGServerService
 		{
 			if (!EventHandlerExists(eventName))
 			{
-				// We don't need a handler, so let's just fail semi-silently.
-				TGServerService.WriteWarning(String.Format("Preaction Event: {0} not running due to missing event handler: {1}", eventName, GetPath(eventName)), TGServerService.EventID.PreactionFail);
+				// We don't need a handler, so let's just fail silently.
 				return true;
 			}
 
