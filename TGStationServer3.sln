@@ -73,6 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{9032B448
 		DMAPI\server_tools.dm = DMAPI\server_tools.dm
 		DMAPI\st_commands.dm = DMAPI\st_commands.dm
 		DMAPI\st_interface.dm = DMAPI\st_interface.dm
+		TGS3.json = TGS3.json
 	EndProjectSection
 EndProject
 Global
