@@ -11,7 +11,7 @@ using TGServiceInterface;
 namespace TGServerService
 {
 	//handles talking between the world and us
-	partial class TGStationServer : ITGServiceBridge
+	partial class TGStationServer : ITGInterop
 	{
 
 		object topicLock = new object();

@@ -10,7 +10,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration), typeof(ITGServiceBridge) };
+		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration), typeof(ITGInterop) };
 
 		/// <summary>
 		/// Base name of the communication pipe

@@ -14,6 +14,8 @@ namespace TGServerService
 		object authLock = new object();
 		string LastSeenUser = null;
 
+		readonly SecurityIdentifier ServiceSID = WindowsIdentity.GetCurrent().User;
+
 		/// <inheritdoc />
 		public string GetCurrentAuthorizedGroup()
 		{
@@ -34,7 +36,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string SetAuthorizedGroup(string groupName)
 		{
-			if(groupName == null)
+			if (groupName == null)
 			{
 				TheDroidsWereLookingFor = null;
 				var config = Properties.Settings.Default;
@@ -75,41 +77,29 @@ namespace TGServerService
 		//This does NOT validate the windows account, that is done when the user connects internally
 		protected override bool CheckAccessCore(OperationContext operationContext)
 		{
-			if (operationContext.EndpointDispatcher.ContractName == typeof(ITGConnectivity).Name)   //always allow connectivity checks
+			var contract = operationContext.EndpointDispatcher.ContractName;
+
+			if (contract == typeof(ITGConnectivity).Name)   //always allow connectivity checks
 				return true;
 
 			var windowsIdent = operationContext.ServiceSecurityContext.WindowsIdentity;
+
+			if (contract == typeof(ITGInterop).Name)	//only allow the same user the service is running as to use interop, because that's what DD is running as
+				return windowsIdent.User == ServiceSID;
+
 			var wp = new WindowsPrincipal(windowsIdent);
 			//first allow admins
 			var authSuccess = wp.IsInRole(WindowsBuiltInRole.Administrator);
 
 			//if we're not an admin, check that we aren't trying to access the admin interface
 			if (!authSuccess && operationContext.EndpointDispatcher.ContractName != typeof(ITGAdministration).Name && TheDroidsWereLookingFor != null)
-			{
-				var pc = new PrincipalContext(ContextType.Machine);
-				var up = UserPrincipal.FindByIdentity(pc, IdentityType.Sid, windowsIdent.User.Value);
-				//tiny bit of ad support here just cause i was debugging at work
-				//if up is null check it on a domain
-				if (up == null)
-					try
-					{
-						up = UserPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain), IdentityType.Sid, windowsIdent.User.Value);
-					}
-					catch { }
-				if (up != null)
-				{
-					var gp = GroupPrincipal.FindByIdentity(pc, IdentityType.Sid, TheDroidsWereLookingFor.Value);
-					if (gp != null)
-					{
-						//and allow those in the authorized group
-						authSuccess = up.IsMemberOf(gp);
-					}
-				}
-			}
+				authSuccess = wp.IsInRole(new SecurityIdentifier(Properties.Settings.Default.AuthorizedGroupSID));
+
 			lock (authLock)
 			{
-				var user = operationContext.ServiceSecurityContext.WindowsIdentity.Name;
-				if (LastSeenUser != user) {
+				var user = windowsIdent.Name;
+				if (LastSeenUser != user)
+				{
 					LastSeenUser = user;
 					TGServerService.WriteAccess(user, authSuccess);
 				}
