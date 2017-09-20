@@ -6,72 +6,72 @@ using TGServiceInterface;
 
 namespace TGServerService
 {
-    //note this only works with MACHINE LOCAL groups and admins for now
-    //if someone wants AD shit, code it yourself
-    partial class TGStationServer : ServiceAuthorizationManager, ITGAdministration
-    {
-        SecurityIdentifier TheDroidsWereLookingFor;
-        object authLock = new object();
-        string LastSeenUser = null;
+	//note this only works with MACHINE LOCAL groups and admins for now
+	//if someone wants AD shit, code it yourself
+	partial class TGStationServer : ServiceAuthorizationManager, ITGAdministration
+	{
+		SecurityIdentifier TheDroidsWereLookingFor;
+		object authLock = new object();
+		string LastSeenUser = null;
 
-        readonly SecurityIdentifier ServiceSID = WindowsIdentity.GetCurrent().User;
+		readonly SecurityIdentifier ServiceSID = WindowsIdentity.GetCurrent().User;
 
-        /// <inheritdoc />
-        public string GetCurrentAuthorizedGroup()
-        {
-            try
-            {
-                if (TheDroidsWereLookingFor == null)
-                    return "ADMIN";
+		/// <inheritdoc />
+		public string GetCurrentAuthorizedGroup()
+		{
+			try
+			{
+				if (TheDroidsWereLookingFor == null)
+					return "ADMIN";
 
-                var pc = new PrincipalContext(ContextType.Machine);
-                return GroupPrincipal.FindByIdentity(pc, IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+				var pc = new PrincipalContext(ContextType.Machine);
+				return GroupPrincipal.FindByIdentity(pc, IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        /// <inheritdoc />
-        public string SetAuthorizedGroup(string groupName)
-        {
-            if (groupName == null)
-            {
-                TheDroidsWereLookingFor = null;
-                var config = Properties.Settings.Default;
-                config.AuthorizedGroupSID = null;
-                config.Save();
-                return "ADMIN";
-            }
-            return FindTheDroidsWereLookingFor(groupName);
-        }
+		/// <inheritdoc />
+		public string SetAuthorizedGroup(string groupName)
+		{
+			if (groupName == null)
+			{
+				TheDroidsWereLookingFor = null;
+				var config = Properties.Settings.Default;
+				config.AuthorizedGroupSID = null;
+				config.Save();
+				return "ADMIN";
+			}
+			return FindTheDroidsWereLookingFor(groupName);
+		}
 
-        string FindTheDroidsWereLookingFor(string search = null)
-        {
-            //find the group that is authorized to use the tools
-            var pc = new PrincipalContext(ContextType.Machine);
-            var config = Properties.Settings.Default;
-            var groupName = search ?? config.AuthorizedGroupSID;
-            if (String.IsNullOrWhiteSpace(groupName))
-                return null;
-            var gp = GroupPrincipal.FindByIdentity(pc, search != null ? IdentityType.Name : IdentityType.Sid, groupName);
-            if (gp == null)
-            {
-                if (search != null)
-                    //try again with all types
-                    gp = GroupPrincipal.FindByIdentity(pc, search);
-                if (gp == null)
-                    return null;
-            }
-            TheDroidsWereLookingFor = gp.Sid;
-            if (search != null)
-            {
-                config.AuthorizedGroupSID = TheDroidsWereLookingFor.Value;
-                config.Save();
-            }
-            return gp.Name;
-        }
+		string FindTheDroidsWereLookingFor(string search = null)
+		{
+			//find the group that is authorized to use the tools
+			var pc = new PrincipalContext(ContextType.Machine);
+			var config = Properties.Settings.Default;
+			var groupName = search ?? config.AuthorizedGroupSID;
+			if (String.IsNullOrWhiteSpace(groupName))
+				return null;
+			var gp = GroupPrincipal.FindByIdentity(pc, search != null ? IdentityType.Name : IdentityType.Sid, groupName);
+			if (gp == null)
+			{
+				if (search != null)
+					//try again with all types
+					gp = GroupPrincipal.FindByIdentity(pc, search);
+				if (gp == null)
+					return null;
+			}
+			TheDroidsWereLookingFor = gp.Sid;
+			if (search != null)
+			{
+				config.AuthorizedGroupSID = TheDroidsWereLookingFor.Value;
+				config.Save();
+			}
+			return gp.Name;
+		}
 
 		//This function checks for authorization whenever an API call is made
 		//This does NOT validate the windows account, that is done when the user connects internally
@@ -107,21 +107,21 @@ namespace TGServerService
 			return authSuccess;
 		}
 
-        /// <inheritdoc />
-        public ushort RemoteAccessPort()
-        {
-            return Properties.Settings.Default.RemoteAccessPort;
-        }
+		/// <inheritdoc />
+		public ushort RemoteAccessPort()
+		{
+			return Properties.Settings.Default.RemoteAccessPort;
+		}
 
-        /// <inheritdoc />
-        public string SetRemoteAccessPort(ushort port)
-        {
-            if (port == 0)
-                return "Cannot bind to port 0";
-            var Config = Properties.Settings.Default;
-            Config.RemoteAccessPort = port;
-            Config.Save();
-            return null;
-        }
-    }
+		/// <inheritdoc />
+		public string SetRemoteAccessPort(ushort port)
+		{
+			if (port == 0)
+				return "Cannot bind to port 0";
+			var Config = Properties.Settings.Default;
+			Config.RemoteAccessPort = port;
+			Config.Save();
+			return null;
+		}
+	}
 }
