@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Security;
+using System.Security.Principal;
 using System.ServiceModel;
 namespace TGServiceInterface
 {
@@ -107,6 +108,7 @@ namespace TGServiceInterface
 			if (HTTPSURL == null)
 			{
 				outChannel = new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));
+				outChannel.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 				return outChannel.CreateChannel();
 			}
 

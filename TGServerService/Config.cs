@@ -119,5 +119,26 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
+
+		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
+		public IList<string> ListStaticDirectory(string subDir, out string error)
+		{
+			try
+			{
+				DirectoryInfo dirToEnum = new DirectoryInfo(Path.Combine(StaticDirs, subDir ?? ""));
+				var result = new List<string>();
+				foreach (var I in dirToEnum.GetFiles())
+					result.Add(I.Name);
+				foreach (var I in dirToEnum.GetDirectories())
+					result.Add('/' + I.Name);
+				error = null;
+				return result;
+			}
+			catch (Exception e)
+			{
+				error = e.ToString();
+				return null;
+			}
+		}
 	}
 }
