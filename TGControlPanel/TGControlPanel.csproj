@@ -79,6 +79,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\Version.cs" />
+    <Compile Include="StaticPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

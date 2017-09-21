@@ -148,6 +148,16 @@
 			this.RepoProgressBarLabel = new System.Windows.Forms.Label();
 			this.RepoProgressBar = new System.Windows.Forms.ProgressBar();
 			this.Panels = new System.Windows.Forms.TabControl();
+			this.StaticPanel = new System.Windows.Forms.TabPage();
+			this.StaticFileDownloadButton = new System.Windows.Forms.Button();
+			this.StaticFilesRefreshButton = new System.Windows.Forms.Button();
+			this.StaticFileUploadButton = new System.Windows.Forms.Button();
+			this.StaticFileEditTextbox = new System.Windows.Forms.TextBox();
+			this.StaticFileDeleteButton = new System.Windows.Forms.Button();
+			this.StaticFileSaveButton = new System.Windows.Forms.Button();
+			this.StaticFileCreateButton = new System.Windows.Forms.Button();
+			this.label6 = new System.Windows.Forms.Label();
+			this.StaticFileListBox = new System.Windows.Forms.ListBox();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -161,6 +171,7 @@
 			this.RepoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
 			this.Panels.SuspendLayout();
+			this.StaticPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// RepoBGW
@@ -1598,11 +1609,130 @@
 			this.Panels.Controls.Add(this.BYONDPanel);
 			this.Panels.Controls.Add(this.ServerPanel);
 			this.Panels.Controls.Add(this.ChatPanel);
+			this.Panels.Controls.Add(this.StaticPanel);
+			this.Panels.Cursor = System.Windows.Forms.Cursors.Default;
 			this.Panels.Location = new System.Drawing.Point(12, 12);
 			this.Panels.Name = "Panels";
 			this.Panels.SelectedIndex = 0;
 			this.Panels.Size = new System.Drawing.Size(876, 392);
 			this.Panels.TabIndex = 3;
+			// 
+			// StaticPanel
+			// 
+			this.StaticPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.StaticPanel.Controls.Add(this.StaticFileDownloadButton);
+			this.StaticPanel.Controls.Add(this.StaticFilesRefreshButton);
+			this.StaticPanel.Controls.Add(this.StaticFileUploadButton);
+			this.StaticPanel.Controls.Add(this.StaticFileEditTextbox);
+			this.StaticPanel.Controls.Add(this.StaticFileDeleteButton);
+			this.StaticPanel.Controls.Add(this.StaticFileSaveButton);
+			this.StaticPanel.Controls.Add(this.StaticFileCreateButton);
+			this.StaticPanel.Controls.Add(this.label6);
+			this.StaticPanel.Controls.Add(this.StaticFileListBox);
+			this.StaticPanel.Location = new System.Drawing.Point(4, 22);
+			this.StaticPanel.Name = "StaticPanel";
+			this.StaticPanel.Padding = new System.Windows.Forms.Padding(3);
+			this.StaticPanel.Size = new System.Drawing.Size(868, 366);
+			this.StaticPanel.TabIndex = 5;
+			this.StaticPanel.Text = "Static Files";
+			// 
+			// StaticFileDownloadButton
+			// 
+			this.StaticFileDownloadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.StaticFileDownloadButton.Location = new System.Drawing.Point(296, 6);
+			this.StaticFileDownloadButton.Name = "StaticFileDownloadButton";
+			this.StaticFileDownloadButton.Size = new System.Drawing.Size(71, 22);
+			this.StaticFileDownloadButton.TabIndex = 32;
+			this.StaticFileDownloadButton.Text = "Download";
+			this.StaticFileDownloadButton.UseVisualStyleBackColor = true;
+			this.StaticFileDownloadButton.Click += new System.EventHandler(this.StaticFileDownloadButton_Click);
+			// 
+			// StaticFilesRefreshButton
+			// 
+			this.StaticFilesRefreshButton.Location = new System.Drawing.Point(65, 6);
+			this.StaticFilesRefreshButton.Name = "StaticFilesRefreshButton";
+			this.StaticFilesRefreshButton.Size = new System.Drawing.Size(71, 22);
+			this.StaticFilesRefreshButton.TabIndex = 31;
+			this.StaticFilesRefreshButton.Text = "Refresh";
+			this.StaticFilesRefreshButton.UseVisualStyleBackColor = true;
+			this.StaticFilesRefreshButton.Click += new System.EventHandler(this.StaticFilesRefreshButton_Click);
+			// 
+			// StaticFileUploadButton
+			// 
+			this.StaticFileUploadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.StaticFileUploadButton.Location = new System.Drawing.Point(219, 6);
+			this.StaticFileUploadButton.Name = "StaticFileUploadButton";
+			this.StaticFileUploadButton.Size = new System.Drawing.Size(71, 22);
+			this.StaticFileUploadButton.TabIndex = 30;
+			this.StaticFileUploadButton.Text = "Upload";
+			this.StaticFileUploadButton.UseVisualStyleBackColor = true;
+			this.StaticFileUploadButton.Click += new System.EventHandler(this.StaticFileUploadButton_Click);
+			// 
+			// StaticFileEditTextbox
+			// 
+			this.StaticFileEditTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.StaticFileEditTextbox.Location = new System.Drawing.Point(219, 31);
+			this.StaticFileEditTextbox.Multiline = true;
+			this.StaticFileEditTextbox.Name = "StaticFileEditTextbox";
+			this.StaticFileEditTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.StaticFileEditTextbox.Size = new System.Drawing.Size(643, 329);
+			this.StaticFileEditTextbox.TabIndex = 29;
+			// 
+			// StaticFileDeleteButton
+			// 
+			this.StaticFileDeleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.StaticFileDeleteButton.Location = new System.Drawing.Point(714, 6);
+			this.StaticFileDeleteButton.Name = "StaticFileDeleteButton";
+			this.StaticFileDeleteButton.Size = new System.Drawing.Size(71, 22);
+			this.StaticFileDeleteButton.TabIndex = 28;
+			this.StaticFileDeleteButton.Text = "Delete";
+			this.StaticFileDeleteButton.UseVisualStyleBackColor = true;
+			this.StaticFileDeleteButton.Click += new System.EventHandler(this.StaticFileDeleteButton_Click);
+			// 
+			// StaticFileSaveButton
+			// 
+			this.StaticFileSaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.StaticFileSaveButton.Location = new System.Drawing.Point(791, 6);
+			this.StaticFileSaveButton.Name = "StaticFileSaveButton";
+			this.StaticFileSaveButton.Size = new System.Drawing.Size(71, 22);
+			this.StaticFileSaveButton.TabIndex = 27;
+			this.StaticFileSaveButton.Text = "Save";
+			this.StaticFileSaveButton.UseVisualStyleBackColor = true;
+			this.StaticFileSaveButton.Click += new System.EventHandler(this.StaticFileSaveButton_Click);
+			// 
+			// StaticFileCreateButton
+			// 
+			this.StaticFileCreateButton.Location = new System.Drawing.Point(142, 6);
+			this.StaticFileCreateButton.Name = "StaticFileCreateButton";
+			this.StaticFileCreateButton.Size = new System.Drawing.Size(71, 22);
+			this.StaticFileCreateButton.TabIndex = 26;
+			this.StaticFileCreateButton.Text = "Add";
+			this.StaticFileCreateButton.UseVisualStyleBackColor = true;
+			this.StaticFileCreateButton.Click += new System.EventHandler(this.StaticFileCreateButton_Click);
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label6.Location = new System.Drawing.Point(6, 10);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(53, 18);
+			this.label6.TabIndex = 14;
+			this.label6.Text = "Files:";
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// StaticFileListBox
+			// 
+			this.StaticFileListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.StaticFileListBox.FormattingEnabled = true;
+			this.StaticFileListBox.HorizontalScrollbar = true;
+			this.StaticFileListBox.Location = new System.Drawing.Point(6, 31);
+			this.StaticFileListBox.Name = "StaticFileListBox";
+			this.StaticFileListBox.Size = new System.Drawing.Size(207, 329);
+			this.StaticFileListBox.TabIndex = 0;
+			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
 			// Main
 			// 
@@ -1634,6 +1764,8 @@
 			this.RepoPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).EndInit();
 			this.Panels.ResumeLayout(false);
+			this.StaticPanel.ResumeLayout(false);
+			this.StaticPanel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1757,5 +1889,15 @@
 		private System.Windows.Forms.Label RepoProgressBarLabel;
 		private System.Windows.Forms.ProgressBar RepoProgressBar;
 		private System.Windows.Forms.TabControl Panels;
+		private System.Windows.Forms.TabPage StaticPanel;
+		private System.Windows.Forms.Button StaticFileCreateButton;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.ListBox StaticFileListBox;
+		private System.Windows.Forms.Button StaticFileUploadButton;
+		private System.Windows.Forms.TextBox StaticFileEditTextbox;
+		private System.Windows.Forms.Button StaticFileDeleteButton;
+		private System.Windows.Forms.Button StaticFileSaveButton;
+		private System.Windows.Forms.Button StaticFilesRefreshButton;
+		private System.Windows.Forms.Button StaticFileDownloadButton;
 	}
 }

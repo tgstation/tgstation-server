@@ -26,7 +26,7 @@ namespace TGServerService
 			{
 				var configDir = repo ? RepoPath : StaticDirs;
 
-				var path = Path.Combine(configDir, staticRelativePath);
+				var path = configDir + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(configDir);
@@ -101,7 +101,7 @@ namespace TGServerService
 		{
 			try
 			{
-				var path = Path.Combine(StaticDirs, staticRelativePath);
+				var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(StaticDirs);
@@ -143,13 +143,75 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
+		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
+		public string DeleteFile(string staticRelativePath, out bool unauthorized)
+		{
+			try
+			{
+				var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+				lock (configLock)
+				{
+					var di1 = new DirectoryInfo(StaticDirs);
+					var fi = new FileInfo(path);
+					var di2 = new DirectoryInfo(fi.Directory.FullName);
+
+					var good = false;
+					while (di2 != null)
+					{
+						if (di2.FullName == di1.FullName)
+						{
+							good = true;
+							break;
+						}
+						else di2 = di2.Parent;
+					}
+
+					if (!good)
+					{
+						unauthorized = false;
+						return "Cannot delete above static directories!";
+					}
+
+					if (fi.Exists)
+					{
+						if (fi.Name == InterfaceDLLName)
+						{
+							unauthorized = false;
+							return "Cannot delete the interface DLL!";
+						}
+						File.Delete(path);
+					}
+					else if (Directory.Exists(path))
+						Program.DeleteDirectory(path);
+					unauthorized = false;
+					return null;
+				}
+			}
+			catch (UnauthorizedAccessException e)
+			{
+				//no need for the full stacktrace
+				unauthorized = true;
+				return e.Message;
+			}
+			catch (Exception e)
+			{
+				unauthorized = false;
+				return e.ToString();
+			}
+		}
 
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public IList<string> ListStaticDirectory(string subDir, out string error, out bool unauthorized)
 		{
 			try
 			{
-				DirectoryInfo dirToEnum = new DirectoryInfo(Path.Combine(StaticDirs, subDir ?? ""));
+				if (!Directory.Exists(StaticDirs))
+				{
+					error = null;
+					unauthorized = false;
+					return new List<string>();
+				}
+				DirectoryInfo dirToEnum = new DirectoryInfo(StaticDirs + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
 				var result = new List<string>();
 				foreach (var I in dirToEnum.GetFiles())
 					result.Add(I.Name);
