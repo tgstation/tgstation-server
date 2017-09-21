@@ -19,14 +19,6 @@ namespace TGServiceInterface
 		string ServerDirectory();
 
 		/// <summary>
-		/// Moves the entire server installation, requires no operations to be running
-		/// </summary>
-		/// <param name="new_location">The new path to place the server</param>
-		/// <returns>null on success, error message on failure</returns>
-		[OperationContract]
-		string MoveServer(string new_location);
-
-		/// <summary>
 		/// For when you really just need to see the raw data of the config
 		/// </summary>
 		/// <param name="staticRelativePath">The path from the Static dir. E.g. config/config.txt</param>
