@@ -35,6 +35,13 @@ namespace TGServerService
 		/// </summary>
 		class RepoConfig
 		{
+			IList<string> LoadArray(object o) {
+				var array = (object[])o;
+				var res = new List<string>();
+				foreach (var I in array)
+					res.Add((string)I);
+				return res;
+			}
 			public RepoConfig()
 			{
 				if (!File.Exists(RepoTGS3SettingsPath))
@@ -50,12 +57,12 @@ namespace TGServerService
 					ChangelogSupport = true;
 					try
 					{
-						PipDependancies = (string[])details["pip_dependancies"];
+						PipDependancies = LoadArray(details["pip_dependancies"]);
 					}
 					catch { }
 					try
 					{
-						ChangelogPathsToStage = (string[])details["synchronize_paths"];
+						ChangelogPathsToStage = LoadArray(details["synchronize_paths"]);
 					}
 					catch { }
 				}
@@ -64,22 +71,22 @@ namespace TGServerService
 				}
 				try
 				{
-					StaticDirectoryPaths = (string[])json["static_directories"];
+					StaticDirectoryPaths = LoadArray(json["static_directories"]);
 				}
 				catch { }
 				try
 				{
-					DLLPaths = (string[])json["dlls"];
+					DLLPaths = LoadArray(json["dlls"]);
 				}
 				catch { }
 			}
 			public readonly bool ChangelogSupport;
 			public readonly string PathToChangelogPy;
 			public readonly string ChangelogPyArguments;
-			public readonly string[] PipDependancies = { };
-			public readonly string[]ChangelogPathsToStage = { };
-			public readonly string[] StaticDirectoryPaths = { };
-			public readonly string[] DLLPaths = { };
+			public readonly IList<string> PipDependancies = new List<string>();
+			public readonly IList<string> ChangelogPathsToStage = new List<string>();
+			public readonly IList<string> StaticDirectoryPaths = new List<string>();
+			public readonly IList<string> DLLPaths = new List<string>();
 		}
 
 		RepoConfig _CurrentRepoConfig;
@@ -1057,7 +1064,7 @@ namespace TGServerService
 					}
 					if (exitCode != 0)
 					{
-						if (recurse || RConfig.PipDependancies.Length == 0)
+						if (recurse || RConfig.PipDependancies.Count == 0)
 						{
 							error = "Script failed!";
 							return result;
