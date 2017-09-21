@@ -10,11 +10,44 @@ namespace TGCommandLine
 		public ConfigCommand()
 		{
 			Keyword = "config";
-			Children = new Command[] { new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand() };
+			Children = new Command[] { new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand(), new ConfigListCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage settings";
+		}
+	}
+
+	class ConfigListCommand : Command
+	{
+		public ConfigListCommand()
+		{
+			Keyword = "list";
+		}
+
+		public override string GetHelpText()
+		{
+			return "Lists the contents of the server's static directory, optionally specifying a subdirectory";
+		}
+
+		public override string GetArgumentString()
+		{
+			return "[path to subdirectory]";
+		}
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var list = Server.GetComponent<ITGConfig>().ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error);
+			if(list == null)
+			{
+				OutputProc(error);
+				return ExitCode.ServerError;
+			}
+			if (list.Count == 0)
+				OutputProc("The static directory is empty!");
+			else
+				foreach (var I in list)
+					OutputProc(I);
+			return ExitCode.Normal;
 		}
 	}
 
