@@ -20,7 +20,7 @@ namespace TGServerService
 
 		//public api
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
-		public string ReadText(string staticRelativePath, bool repo, out string error)
+		public string ReadText(string staticRelativePath, bool repo, out string error, out bool unauthorized)
 		{
 			try
 			{
@@ -37,6 +37,7 @@ namespace TGServerService
 						if (Config == null)
 						{
 							error = "Unable to load static directory configuration";
+							unauthorized = false;
 							return null;
 						}
 						var Found = false;
@@ -51,6 +52,7 @@ namespace TGServerService
 						if (!Found)
 						{
 							error = "File is not in a configured static directory!";
+							unauthorized = false;
 							return null;
 						}
 					}
@@ -71,10 +73,12 @@ namespace TGServerService
 					if (!good)
 					{
 						error = "Cannot read above static directories!";
+						unauthorized = false;
 						return null;
 					}
 
 					error = null;
+					unauthorized = false;
 					return File.ReadAllText(path);
 				}
 			}
@@ -82,16 +86,18 @@ namespace TGServerService
 			{
 				//no need for the full stacktrace
 				error = e.Message;
+				unauthorized = true;
 				return null;
 			}
 			catch (Exception e)
 			{
 				error = e.ToString();
+				unauthorized = false;
 				return null;
 			}
 		}
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
-		public string WriteText(string staticRelativePath, string data)
+		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
 			try
 			{
@@ -114,25 +120,32 @@ namespace TGServerService
 					}
 
 					if (!good)
+					{
+						unauthorized = false;
 						return "Cannot write above static directories!";
+					}
+
 					Directory.CreateDirectory(destdir);
 					File.WriteAllText(path, data);
+					unauthorized = false;
 					return null;
 				}
 			}
 			catch (UnauthorizedAccessException e)
 			{
 				//no need for the full stacktrace
+				unauthorized = true;
 				return e.Message;
 			}
 			catch (Exception e)
 			{
+				unauthorized = false;
 				return e.ToString();
 			}
 		}
 
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
-		public IList<string> ListStaticDirectory(string subDir, out string error)
+		public IList<string> ListStaticDirectory(string subDir, out string error, out bool unauthorized)
 		{
 			try
 			{
@@ -143,17 +156,20 @@ namespace TGServerService
 				foreach (var I in dirToEnum.GetDirectories())
 					result.Add('/' + I.Name);
 				error = null;
+				unauthorized = false;
 				return result;
 			}
 			catch (UnauthorizedAccessException e)
 			{
 				//no need for the full stacktrace
 				error = e.Message;
+				unauthorized = true;
 				return null;
 			}
 			catch (Exception e)
 			{
 				error = e.ToString();
+				unauthorized = false;
 				return null;
 			}
 		}

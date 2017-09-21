@@ -36,7 +36,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var list = Server.GetComponent<ITGConfig>().ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error);
+			var list = Server.GetComponent<ITGConfig>().ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error, out bool unauthorized);
 			if(list == null)
 			{
 				OutputProc(error);
@@ -80,7 +80,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var bytes = Server.GetComponent<ITGConfig>().ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
+			var bytes = Server.GetComponent<ITGConfig>().ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error, out bool unauthorized);
 			if(bytes == null)
 			{
 				OutputProc("Error: " + error);
@@ -120,7 +120,7 @@ namespace TGCommandLine
 		{
 			try
 			{
-				var res = Server.GetComponent<ITGConfig>().WriteText(parameters[0], File.ReadAllText(parameters[1]));
+				var res = Server.GetComponent<ITGConfig>().WriteText(parameters[0], File.ReadAllText(parameters[1]), out bool unauthorized);
 				if (res != null)
 				{
 					OutputProc("Error: " + res);
