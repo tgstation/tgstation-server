@@ -30,60 +30,64 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-			this.Panels = new System.Windows.Forms.TabControl();
-			this.RepoPanel = new System.Windows.Forms.TabPage();
-			this.RepoRefreshButton = new System.Windows.Forms.Button();
-			this.BackupTagsList = new System.Windows.Forms.ListBox();
-			this.ResetRemote = new System.Windows.Forms.Button();
-			this.RecloneButton = new System.Windows.Forms.Button();
-			this.PythonPathText = new System.Windows.Forms.TextBox();
-			this.PythonPathLabel = new System.Windows.Forms.Label();
-			this.RepoGenChangelogButton = new System.Windows.Forms.Button();
-			this.TestmergeSelector = new System.Windows.Forms.NumericUpDown();
-			this.TestMergeListLabel = new System.Windows.Forms.ListBox();
-			this.CurrentRevisionLabel = new System.Windows.Forms.Label();
-			this.RepoApplyButton = new System.Windows.Forms.Button();
-			this.RepoBranchTextBox = new System.Windows.Forms.TextBox();
-			this.RepoRemoteTextBox = new System.Windows.Forms.TextBox();
-			this.HardReset = new System.Windows.Forms.Button();
-			this.UpdateRepoButton = new System.Windows.Forms.Button();
-			this.MergePRButton = new System.Windows.Forms.Button();
-			this.IdentityLabel = new System.Windows.Forms.Label();
-			this.TestMergeListTitle = new System.Windows.Forms.Label();
-			this.RemoteNameTitle = new System.Windows.Forms.Label();
-			this.BranchNameTitle = new System.Windows.Forms.Label();
-			this.CurrentRevisionTitle = new System.Windows.Forms.Label();
-			this.CloneRepositoryButton = new System.Windows.Forms.Button();
-			this.RepoProgressBarLabel = new System.Windows.Forms.Label();
-			this.RepoProgressBar = new System.Windows.Forms.ProgressBar();
-			this.BYONDPanel = new System.Windows.Forms.TabPage();
-			this.LatestVersionLabel = new System.Windows.Forms.Label();
-			this.LatestVersionTitle = new System.Windows.Forms.Label();
-			this.StagedVersionLabel = new System.Windows.Forms.Label();
-			this.StagedVersionTitle = new System.Windows.Forms.Label();
-			this.StatusLabel = new System.Windows.Forms.Label();
-			this.VersionLabel = new System.Windows.Forms.Label();
-			this.VersionTitle = new System.Windows.Forms.Label();
-			this.MinorVersionLabel = new System.Windows.Forms.Label();
-			this.MajorVersionLabel = new System.Windows.Forms.Label();
-			this.UpdateButton = new System.Windows.Forms.Button();
-			this.MinorVersionNumeric = new System.Windows.Forms.NumericUpDown();
-			this.MajorVersionNumeric = new System.Windows.Forms.NumericUpDown();
-			this.UpdateProgressBar = new System.Windows.Forms.ProgressBar();
+			this.RepoBGW = new System.ComponentModel.BackgroundWorker();
+			this.BYONDTimer = new System.Windows.Forms.Timer(this.components);
+			this.ServerTimer = new System.Windows.Forms.Timer(this.components);
+			this.WorldStatusChecker = new System.ComponentModel.BackgroundWorker();
+			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
+			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
+			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
+			this.ChatPanel = new System.Windows.Forms.TabPage();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.IRCModesComboBox = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.AdminChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.WDChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.GameChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.DevChannelsTextbox = new System.Windows.Forms.TextBox();
+			this.ChatNicknameText = new System.Windows.Forms.TextBox();
+			this.ChatServerText = new System.Windows.Forms.TextBox();
+			this.AuthField2 = new System.Windows.Forms.TextBox();
+			this.AuthField1 = new System.Windows.Forms.TextBox();
+			this.ChatAdminsTextBox = new System.Windows.Forms.TextBox();
+			this.ChatRefreshButton = new System.Windows.Forms.Button();
+			this.ChatNicknameTitle = new System.Windows.Forms.Label();
+			this.ChatPortSelector = new System.Windows.Forms.NumericUpDown();
+			this.ChatPortTitle = new System.Windows.Forms.Label();
+			this.ChatServerTitle = new System.Windows.Forms.Label();
+			this.ChatApplyButton = new System.Windows.Forms.Button();
+			this.AuthField2Title = new System.Windows.Forms.Label();
+			this.AuthField1Title = new System.Windows.Forms.Label();
+			this.ChatReconnectButton = new System.Windows.Forms.Button();
+			this.ChatStatusLabel = new System.Windows.Forms.Label();
+			this.ChatStatusTitle = new System.Windows.Forms.Label();
+			this.ChatEnabledCheckbox = new System.Windows.Forms.CheckBox();
+			this.ChatProviderSelectorPanel = new System.Windows.Forms.Panel();
+			this.DiscordProviderSwitch = new System.Windows.Forms.RadioButton();
+			this.IRCProviderSwitch = new System.Windows.Forms.RadioButton();
+			this.ChatProviderTitle = new System.Windows.Forms.Label();
+			this.ChannelsTitle = new System.Windows.Forms.Label();
+			this.ChatAdminsTitle = new System.Windows.Forms.Label();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
+			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
 			this.ServerPanel = new System.Windows.Forms.TabPage();
 			this.AutostartCheckbox = new System.Windows.Forms.CheckBox();
 			this.WebclientCheckBox = new System.Windows.Forms.CheckBox();
 			this.WorldAnnounceButton = new System.Windows.Forms.Button();
 			this.WorldAnnounceField = new System.Windows.Forms.TextBox();
+			this.ServerPathTextbox = new System.Windows.Forms.TextBox();
+			this.projectNameText = new System.Windows.Forms.TextBox();
 			this.WorldAnnounceLabel = new System.Windows.Forms.Label();
 			this.SecuritySelector = new System.Windows.Forms.ComboBox();
 			this.SecurityTitle = new System.Windows.Forms.Label();
 			this.ResetTestmerge = new System.Windows.Forms.Button();
 			this.ServerPathLabel = new System.Windows.Forms.Label();
-			this.ServerPathTextbox = new System.Windows.Forms.TextBox();
 			this.CompileCancelButton = new System.Windows.Forms.Button();
 			this.ProjectPathLabel = new System.Windows.Forms.Label();
-			this.projectNameText = new System.Windows.Forms.TextBox();
 			this.PortLabel = new System.Windows.Forms.Label();
 			this.PortSelector = new System.Windows.Forms.NumericUpDown();
 			this.ServerPRLabel = new System.Windows.Forms.Label();
@@ -104,619 +108,538 @@
 			this.compilerProgressBar = new System.Windows.Forms.ProgressBar();
 			this.ServerStatusLabel = new System.Windows.Forms.Label();
 			this.ServerStatusTitle = new System.Windows.Forms.Label();
-			this.ChatPanel = new System.Windows.Forms.TabPage();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.IRCModesComboBox = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.AdminChannelsTextbox = new System.Windows.Forms.TextBox();
-			this.WDChannelsTextbox = new System.Windows.Forms.TextBox();
-			this.GameChannelsTextbox = new System.Windows.Forms.TextBox();
-			this.DevChannelsTextbox = new System.Windows.Forms.TextBox();
-			this.ChatRefreshButton = new System.Windows.Forms.Button();
-			this.ChatNicknameText = new System.Windows.Forms.TextBox();
-			this.ChatNicknameTitle = new System.Windows.Forms.Label();
-			this.ChatPortSelector = new System.Windows.Forms.NumericUpDown();
-			this.ChatPortTitle = new System.Windows.Forms.Label();
-			this.ChatServerText = new System.Windows.Forms.TextBox();
-			this.ChatServerTitle = new System.Windows.Forms.Label();
-			this.ChatApplyButton = new System.Windows.Forms.Button();
-			this.AuthField2Title = new System.Windows.Forms.Label();
-			this.AuthField1Title = new System.Windows.Forms.Label();
-			this.AuthField2 = new System.Windows.Forms.TextBox();
-			this.AuthField1 = new System.Windows.Forms.TextBox();
-			this.ChatReconnectButton = new System.Windows.Forms.Button();
-			this.ChatStatusLabel = new System.Windows.Forms.Label();
-			this.ChatStatusTitle = new System.Windows.Forms.Label();
-			this.ChatEnabledCheckbox = new System.Windows.Forms.CheckBox();
-			this.ChatProviderSelectorPanel = new System.Windows.Forms.Panel();
-			this.DiscordProviderSwitch = new System.Windows.Forms.RadioButton();
-			this.IRCProviderSwitch = new System.Windows.Forms.RadioButton();
-			this.ChatProviderTitle = new System.Windows.Forms.Label();
-			this.ChannelsTitle = new System.Windows.Forms.Label();
-			this.ChatAdminsTextBox = new System.Windows.Forms.TextBox();
-			this.ChatAdminsTitle = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
-			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
-			this.ConfigPanel = new System.Windows.Forms.TabPage();
-			this.ConfigApply = new System.Windows.Forms.Button();
-			this.ConfigDownloadRepo = new System.Windows.Forms.Button();
-			this.ConfigUpload = new System.Windows.Forms.Button();
-			this.ConfigDownload = new System.Windows.Forms.Button();
-			this.ConfigRefresh = new System.Windows.Forms.Button();
-			this.ConfigPanels = new System.Windows.Forms.TabControl();
-			this.ConfigConfigPanel = new System.Windows.Forms.TabPage();
-			this.DatabaseConfigPanel = new System.Windows.Forms.TabPage();
-			this.GameConfigPanel = new System.Windows.Forms.TabPage();
-			this.JobsConfigPanel = new System.Windows.Forms.TabPage();
-			this.MapsConfigPanel = new System.Windows.Forms.TabPage();
-			this.AdminsPanel = new System.Windows.Forms.TabPage();
-			this.NegativePermissionsTitle = new System.Windows.Forms.Label();
-			this.NegativePermissions = new System.Windows.Forms.CheckedListBox();
-			this.ApplyAdminRankButton = new System.Windows.Forms.Button();
-			this.PermissionsListBox = new System.Windows.Forms.CheckedListBox();
-			this.PermissionsTItle = new System.Windows.Forms.Label();
-			this.RemoveRankButton = new System.Windows.Forms.Button();
-			this.AddRankTextBox = new System.Windows.Forms.TextBox();
-			this.AddRankButton = new System.Windows.Forms.Button();
-			this.AdminRanksListBox = new System.Windows.Forms.ListBox();
-			this.RanksTitle = new System.Windows.Forms.Label();
-			this.DeadminButton = new System.Windows.Forms.Button();
-			this.AddminTextBox = new System.Windows.Forms.TextBox();
-			this.AddminButton = new System.Windows.Forms.Button();
-			this.AdminsListBox = new System.Windows.Forms.ListBox();
-			this.AdminsTitle = new System.Windows.Forms.Label();
-			this.ConfigDisabledLabel = new System.Windows.Forms.Label();
-			this.RepoBGW = new System.ComponentModel.BackgroundWorker();
-			this.BYONDTimer = new System.Windows.Forms.Timer(this.components);
-			this.ServerTimer = new System.Windows.Forms.Timer(this.components);
-			this.WorldStatusChecker = new System.ComponentModel.BackgroundWorker();
-			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
-			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
-			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
-			this.Panels.SuspendLayout();
-			this.RepoPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
-			this.BYONDPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.MinorVersionNumeric)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.MajorVersionNumeric)).BeginInit();
-			this.ServerPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).BeginInit();
+			this.BYONDPanel = new System.Windows.Forms.TabPage();
+			this.LatestVersionLabel = new System.Windows.Forms.Label();
+			this.LatestVersionTitle = new System.Windows.Forms.Label();
+			this.StagedVersionLabel = new System.Windows.Forms.Label();
+			this.StagedVersionTitle = new System.Windows.Forms.Label();
+			this.StatusLabel = new System.Windows.Forms.Label();
+			this.VersionLabel = new System.Windows.Forms.Label();
+			this.VersionTitle = new System.Windows.Forms.Label();
+			this.MinorVersionLabel = new System.Windows.Forms.Label();
+			this.MajorVersionLabel = new System.Windows.Forms.Label();
+			this.UpdateButton = new System.Windows.Forms.Button();
+			this.MinorVersionNumeric = new System.Windows.Forms.NumericUpDown();
+			this.MajorVersionNumeric = new System.Windows.Forms.NumericUpDown();
+			this.UpdateProgressBar = new System.Windows.Forms.ProgressBar();
+			this.RepoPanel = new System.Windows.Forms.TabPage();
+			this.RepoRefreshButton = new System.Windows.Forms.Button();
+			this.BackupTagsList = new System.Windows.Forms.ListBox();
+			this.ResetRemote = new System.Windows.Forms.Button();
+			this.RecloneButton = new System.Windows.Forms.Button();
+			this.PythonPathText = new System.Windows.Forms.TextBox();
+			this.RepoBranchTextBox = new System.Windows.Forms.TextBox();
+			this.RepoRemoteTextBox = new System.Windows.Forms.TextBox();
+			this.PythonPathLabel = new System.Windows.Forms.Label();
+			this.RepoGenChangelogButton = new System.Windows.Forms.Button();
+			this.TestmergeSelector = new System.Windows.Forms.NumericUpDown();
+			this.TestMergeListLabel = new System.Windows.Forms.ListBox();
+			this.CurrentRevisionLabel = new System.Windows.Forms.Label();
+			this.RepoApplyButton = new System.Windows.Forms.Button();
+			this.HardReset = new System.Windows.Forms.Button();
+			this.UpdateRepoButton = new System.Windows.Forms.Button();
+			this.MergePRButton = new System.Windows.Forms.Button();
+			this.IdentityLabel = new System.Windows.Forms.Label();
+			this.TestMergeListTitle = new System.Windows.Forms.Label();
+			this.RemoteNameTitle = new System.Windows.Forms.Label();
+			this.BranchNameTitle = new System.Windows.Forms.Label();
+			this.CurrentRevisionTitle = new System.Windows.Forms.Label();
+			this.CloneRepositoryButton = new System.Windows.Forms.Button();
+			this.RepoProgressBarLabel = new System.Windows.Forms.Label();
+			this.RepoProgressBar = new System.Windows.Forms.ProgressBar();
+			this.Panels = new System.Windows.Forms.TabControl();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
-			this.ConfigPanel.SuspendLayout();
-			this.ConfigPanels.SuspendLayout();
-			this.AdminsPanel.SuspendLayout();
+			this.ServerPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).BeginInit();
+			this.BYONDPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.MinorVersionNumeric)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.MajorVersionNumeric)).BeginInit();
+			this.RepoPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).BeginInit();
+			this.Panels.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// Panels
+			// RepoBGW
 			// 
-			this.Panels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Panels.Controls.Add(this.RepoPanel);
-			this.Panels.Controls.Add(this.BYONDPanel);
-			this.Panels.Controls.Add(this.ServerPanel);
-			this.Panels.Controls.Add(this.ChatPanel);
-			this.Panels.Controls.Add(this.ConfigPanel);
-			this.Panels.Location = new System.Drawing.Point(12, 12);
-			this.Panels.Name = "Panels";
-			this.Panels.SelectedIndex = 0;
-			this.Panels.Size = new System.Drawing.Size(876, 392);
-			this.Panels.TabIndex = 3;
+			this.RepoBGW.WorkerReportsProgress = true;
+			this.RepoBGW.WorkerSupportsCancellation = true;
 			// 
-			// RepoPanel
+			// BYONDTimer
 			// 
-			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
-			this.RepoPanel.Controls.Add(this.BackupTagsList);
-			this.RepoPanel.Controls.Add(this.ResetRemote);
-			this.RepoPanel.Controls.Add(this.RecloneButton);
-			this.RepoPanel.Controls.Add(this.PythonPathText);
-			this.RepoPanel.Controls.Add(this.PythonPathLabel);
-			this.RepoPanel.Controls.Add(this.RepoGenChangelogButton);
-			this.RepoPanel.Controls.Add(this.TestmergeSelector);
-			this.RepoPanel.Controls.Add(this.TestMergeListLabel);
-			this.RepoPanel.Controls.Add(this.CurrentRevisionLabel);
-			this.RepoPanel.Controls.Add(this.RepoApplyButton);
-			this.RepoPanel.Controls.Add(this.RepoBranchTextBox);
-			this.RepoPanel.Controls.Add(this.RepoRemoteTextBox);
-			this.RepoPanel.Controls.Add(this.HardReset);
-			this.RepoPanel.Controls.Add(this.UpdateRepoButton);
-			this.RepoPanel.Controls.Add(this.MergePRButton);
-			this.RepoPanel.Controls.Add(this.IdentityLabel);
-			this.RepoPanel.Controls.Add(this.TestMergeListTitle);
-			this.RepoPanel.Controls.Add(this.RemoteNameTitle);
-			this.RepoPanel.Controls.Add(this.BranchNameTitle);
-			this.RepoPanel.Controls.Add(this.CurrentRevisionTitle);
-			this.RepoPanel.Controls.Add(this.CloneRepositoryButton);
-			this.RepoPanel.Controls.Add(this.RepoProgressBarLabel);
-			this.RepoPanel.Controls.Add(this.RepoProgressBar);
-			this.RepoPanel.Location = new System.Drawing.Point(4, 22);
-			this.RepoPanel.Name = "RepoPanel";
-			this.RepoPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.RepoPanel.Size = new System.Drawing.Size(868, 366);
-			this.RepoPanel.TabIndex = 0;
-			this.RepoPanel.Text = "Repository";
+			this.BYONDTimer.Interval = 1000;
+			this.BYONDTimer.Tick += new System.EventHandler(this.BYONDTimer_Tick);
 			// 
-			// RepoRefreshButton
+			// ServerTimer
 			// 
-			this.RepoRefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.RepoRefreshButton.Location = new System.Drawing.Point(722, 296);
-			this.RepoRefreshButton.Name = "RepoRefreshButton";
-			this.RepoRefreshButton.Size = new System.Drawing.Size(140, 29);
-			this.RepoRefreshButton.TabIndex = 35;
-			this.RepoRefreshButton.Text = "Refresh";
-			this.RepoRefreshButton.UseVisualStyleBackColor = true;
-			this.RepoRefreshButton.Visible = false;
-			this.RepoRefreshButton.Click += new System.EventHandler(this.RepoRefreshButton_Click);
+			this.ServerTimer.Interval = 10000;
+			this.ServerTimer.Tick += new System.EventHandler(this.ServerTimer_Tick);
 			// 
-			// BackupTagsList
+			// WorldStatusChecker
 			// 
-			this.BackupTagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.BackupTagsList.Items.AddRange(new object[] {
-            "None"});
-			this.BackupTagsList.Location = new System.Drawing.Point(122, 142);
-			this.BackupTagsList.Name = "BackupTagsList";
-			this.BackupTagsList.ScrollAlwaysVisible = true;
-			this.BackupTagsList.Size = new System.Drawing.Size(535, 95);
-			this.BackupTagsList.TabIndex = 34;
-			this.BackupTagsList.Visible = false;
+			this.WorldStatusChecker.WorkerReportsProgress = true;
+			this.WorldStatusChecker.WorkerSupportsCancellation = true;
+			this.WorldStatusChecker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.WorldStatusChecker_DoWork);
 			// 
-			// ResetRemote
+			// WorldStatusTimer
 			// 
-			this.ResetRemote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ResetRemote.Location = new System.Drawing.Point(722, 81);
-			this.ResetRemote.Name = "ResetRemote";
-			this.ResetRemote.Size = new System.Drawing.Size(140, 29);
-			this.ResetRemote.TabIndex = 33;
-			this.ResetRemote.Text = "Reset To Remote";
-			this.ResetRemote.UseVisualStyleBackColor = true;
-			this.ResetRemote.Visible = false;
-			this.ResetRemote.Click += new System.EventHandler(this.ResetRemote_Click);
+			this.WorldStatusTimer.Interval = 10000;
+			this.WorldStatusTimer.Tick += new System.EventHandler(this.WorldStatusTimer_Tick);
 			// 
-			// RecloneButton
+			// FullUpdateWorker
 			// 
-			this.RecloneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.RecloneButton.Location = new System.Drawing.Point(722, 212);
-			this.RecloneButton.Name = "RecloneButton";
-			this.RecloneButton.Size = new System.Drawing.Size(140, 29);
-			this.RecloneButton.TabIndex = 32;
-			this.RecloneButton.Text = "Reclone";
-			this.RecloneButton.UseVisualStyleBackColor = true;
-			this.RecloneButton.Visible = false;
-			this.RecloneButton.Click += new System.EventHandler(this.RecloneButton_Click);
+			this.FullUpdateWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FullUpdateWorker_DoWork);
 			// 
-			// PythonPathText
+			// ServerStartBGW
 			// 
-			this.PythonPathText.Location = new System.Drawing.Point(122, 112);
-			this.PythonPathText.Name = "PythonPathText";
-			this.PythonPathText.Size = new System.Drawing.Size(535, 20);
-			this.PythonPathText.TabIndex = 31;
-			this.PythonPathText.Visible = false;
+			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
 			// 
-			// PythonPathLabel
+			// ChatPanel
 			// 
-			this.PythonPathLabel.AutoSize = true;
-			this.PythonPathLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.PythonPathLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.PythonPathLabel.Location = new System.Drawing.Point(6, 112);
-			this.PythonPathLabel.Name = "PythonPathLabel";
-			this.PythonPathLabel.Size = new System.Drawing.Size(114, 18);
-			this.PythonPathLabel.TabIndex = 30;
-			this.PythonPathLabel.Text = "Python Path:";
-			this.PythonPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.PythonPathLabel.Visible = false;
+			this.ChatPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.ChatPanel.Controls.Add(this.label5);
+			this.ChatPanel.Controls.Add(this.label4);
+			this.ChatPanel.Controls.Add(this.label3);
+			this.ChatPanel.Controls.Add(this.label2);
+			this.ChatPanel.Controls.Add(this.IRCModesComboBox);
+			this.ChatPanel.Controls.Add(this.label1);
+			this.ChatPanel.Controls.Add(this.AdminChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.WDChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.GameChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.DevChannelsTextbox);
+			this.ChatPanel.Controls.Add(this.ChatNicknameText);
+			this.ChatPanel.Controls.Add(this.ChatServerText);
+			this.ChatPanel.Controls.Add(this.AuthField2);
+			this.ChatPanel.Controls.Add(this.AuthField1);
+			this.ChatPanel.Controls.Add(this.ChatAdminsTextBox);
+			this.ChatPanel.Controls.Add(this.ChatRefreshButton);
+			this.ChatPanel.Controls.Add(this.ChatNicknameTitle);
+			this.ChatPanel.Controls.Add(this.ChatPortSelector);
+			this.ChatPanel.Controls.Add(this.ChatPortTitle);
+			this.ChatPanel.Controls.Add(this.ChatServerTitle);
+			this.ChatPanel.Controls.Add(this.ChatApplyButton);
+			this.ChatPanel.Controls.Add(this.AuthField2Title);
+			this.ChatPanel.Controls.Add(this.AuthField1Title);
+			this.ChatPanel.Controls.Add(this.ChatReconnectButton);
+			this.ChatPanel.Controls.Add(this.ChatStatusLabel);
+			this.ChatPanel.Controls.Add(this.ChatStatusTitle);
+			this.ChatPanel.Controls.Add(this.ChatEnabledCheckbox);
+			this.ChatPanel.Controls.Add(this.ChatProviderSelectorPanel);
+			this.ChatPanel.Controls.Add(this.ChatProviderTitle);
+			this.ChatPanel.Controls.Add(this.ChannelsTitle);
+			this.ChatPanel.Controls.Add(this.ChatAdminsTitle);
+			this.ChatPanel.Controls.Add(this.panel1);
+			this.ChatPanel.Location = new System.Drawing.Point(4, 22);
+			this.ChatPanel.Name = "ChatPanel";
+			this.ChatPanel.Padding = new System.Windows.Forms.Padding(3);
+			this.ChatPanel.Size = new System.Drawing.Size(868, 366);
+			this.ChatPanel.TabIndex = 4;
+			this.ChatPanel.Text = "Chat";
 			// 
-			// RepoGenChangelogButton
+			// label5
 			// 
-			this.RepoGenChangelogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.RepoGenChangelogButton.Location = new System.Drawing.Point(722, 177);
-			this.RepoGenChangelogButton.Name = "RepoGenChangelogButton";
-			this.RepoGenChangelogButton.Size = new System.Drawing.Size(140, 29);
-			this.RepoGenChangelogButton.TabIndex = 27;
-			this.RepoGenChangelogButton.Text = "Generate Changelog";
-			this.RepoGenChangelogButton.UseVisualStyleBackColor = true;
-			this.RepoGenChangelogButton.Visible = false;
-			this.RepoGenChangelogButton.Click += new System.EventHandler(this.RepoGenChangelogButton_Click);
+			this.label5.AutoSize = true;
+			this.label5.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label5.Location = new System.Drawing.Point(686, 219);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(148, 18);
+			this.label5.TabIndex = 43;
+			this.label5.Text = "Game Messages:";
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// TestmergeSelector
+			// label4
 			// 
-			this.TestmergeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.TestmergeSelector.Location = new System.Drawing.Point(722, 151);
-			this.TestmergeSelector.Maximum = new decimal(new int[] {
-            1000000,
+			this.label4.AutoSize = true;
+			this.label4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label4.Location = new System.Drawing.Point(516, 219);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(136, 18);
+			this.label4.TabIndex = 42;
+			this.label4.Text = "Developer Info:";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label3.Location = new System.Drawing.Point(686, 61);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(135, 18);
+			this.label3.TabIndex = 41;
+			this.label3.Text = "Administration:";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label2.Location = new System.Drawing.Point(516, 61);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(153, 18);
+			this.label2.TabIndex = 40;
+			this.label2.Text = "Server Watchdog:";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// IRCModesComboBox
+			// 
+			this.IRCModesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.IRCModesComboBox.FormattingEnabled = true;
+			this.IRCModesComboBox.Items.AddRange(new object[] {
+            "Voice - +",
+            "Halfop - %",
+            "Op - @",
+            "Owner - ~"});
+			this.IRCModesComboBox.Location = new System.Drawing.Point(369, 170);
+			this.IRCModesComboBox.Name = "IRCModesComboBox";
+			this.IRCModesComboBox.Size = new System.Drawing.Size(141, 21);
+			this.IRCModesComboBox.TabIndex = 38;
+			this.IRCModesComboBox.Visible = false;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.label1.Location = new System.Drawing.Point(30, 174);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(110, 18);
+			this.label1.TabIndex = 39;
+			this.label1.Text = "Admin Auth:";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// AdminChannelsTextbox
+			// 
+			this.AdminChannelsTextbox.Location = new System.Drawing.Point(689, 82);
+			this.AdminChannelsTextbox.Multiline = true;
+			this.AdminChannelsTextbox.Name = "AdminChannelsTextbox";
+			this.AdminChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.AdminChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.AdminChannelsTextbox.TabIndex = 37;
+			// 
+			// WDChannelsTextbox
+			// 
+			this.WDChannelsTextbox.Location = new System.Drawing.Point(516, 82);
+			this.WDChannelsTextbox.Multiline = true;
+			this.WDChannelsTextbox.Name = "WDChannelsTextbox";
+			this.WDChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.WDChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.WDChannelsTextbox.TabIndex = 36;
+			// 
+			// GameChannelsTextbox
+			// 
+			this.GameChannelsTextbox.Location = new System.Drawing.Point(689, 240);
+			this.GameChannelsTextbox.Multiline = true;
+			this.GameChannelsTextbox.Name = "GameChannelsTextbox";
+			this.GameChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.GameChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.GameChannelsTextbox.TabIndex = 35;
+			// 
+			// DevChannelsTextbox
+			// 
+			this.DevChannelsTextbox.Location = new System.Drawing.Point(516, 240);
+			this.DevChannelsTextbox.Multiline = true;
+			this.DevChannelsTextbox.Name = "DevChannelsTextbox";
+			this.DevChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.DevChannelsTextbox.Size = new System.Drawing.Size(167, 120);
+			this.DevChannelsTextbox.TabIndex = 34;
+			// 
+			// ChatNicknameText
+			// 
+			this.ChatNicknameText.Location = new System.Drawing.Point(174, 251);
+			this.ChatNicknameText.Name = "ChatNicknameText";
+			this.ChatNicknameText.Size = new System.Drawing.Size(151, 20);
+			this.ChatNicknameText.TabIndex = 31;
+			// 
+			// ChatServerText
+			// 
+			this.ChatServerText.Location = new System.Drawing.Point(174, 199);
+			this.ChatServerText.Name = "ChatServerText";
+			this.ChatServerText.Size = new System.Drawing.Size(151, 20);
+			this.ChatServerText.TabIndex = 27;
+			// 
+			// AuthField2
+			// 
+			this.AuthField2.Location = new System.Drawing.Point(174, 309);
+			this.AuthField2.Name = "AuthField2";
+			this.AuthField2.Size = new System.Drawing.Size(151, 20);
+			this.AuthField2.TabIndex = 22;
+			// 
+			// AuthField1
+			// 
+			this.AuthField1.Location = new System.Drawing.Point(174, 283);
+			this.AuthField1.Name = "AuthField1";
+			this.AuthField1.Size = new System.Drawing.Size(151, 20);
+			this.AuthField1.TabIndex = 21;
+			// 
+			// ChatAdminsTextBox
+			// 
+			this.ChatAdminsTextBox.Location = new System.Drawing.Point(369, 49);
+			this.ChatAdminsTextBox.Multiline = true;
+			this.ChatAdminsTextBox.Name = "ChatAdminsTextBox";
+			this.ChatAdminsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.ChatAdminsTextBox.Size = new System.Drawing.Size(141, 311);
+			this.ChatAdminsTextBox.TabIndex = 10;
+			// 
+			// ChatRefreshButton
+			// 
+			this.ChatRefreshButton.Location = new System.Drawing.Point(174, 335);
+			this.ChatRefreshButton.Name = "ChatRefreshButton";
+			this.ChatRefreshButton.Size = new System.Drawing.Size(112, 25);
+			this.ChatRefreshButton.TabIndex = 32;
+			this.ChatRefreshButton.Text = "Refresh";
+			this.ChatRefreshButton.UseVisualStyleBackColor = true;
+			this.ChatRefreshButton.Click += new System.EventHandler(this.ChatRefreshButton_Click);
+			// 
+			// ChatNicknameTitle
+			// 
+			this.ChatNicknameTitle.AutoSize = true;
+			this.ChatNicknameTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatNicknameTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatNicknameTitle.Location = new System.Drawing.Point(30, 250);
+			this.ChatNicknameTitle.Name = "ChatNicknameTitle";
+			this.ChatNicknameTitle.Size = new System.Drawing.Size(94, 18);
+			this.ChatNicknameTitle.TabIndex = 30;
+			this.ChatNicknameTitle.Text = "Nickname:";
+			this.ChatNicknameTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChatPortSelector
+			// 
+			this.ChatPortSelector.Location = new System.Drawing.Point(174, 225);
+			this.ChatPortSelector.Maximum = new decimal(new int[] {
+            65535,
             0,
             0,
             0});
-			this.TestmergeSelector.Name = "TestmergeSelector";
-			this.TestmergeSelector.Size = new System.Drawing.Size(140, 20);
-			this.TestmergeSelector.TabIndex = 22;
-			this.TestmergeSelector.Visible = false;
-			// 
-			// TestMergeListLabel
-			// 
-			this.TestMergeListLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.TestMergeListLabel.HorizontalScrollbar = true;
-			this.TestMergeListLabel.Items.AddRange(new object[] {
-            "None"});
-			this.TestMergeListLabel.Location = new System.Drawing.Point(122, 260);
-			this.TestMergeListLabel.Name = "TestMergeListLabel";
-			this.TestMergeListLabel.ScrollAlwaysVisible = true;
-			this.TestMergeListLabel.Size = new System.Drawing.Size(535, 95);
-			this.TestMergeListLabel.TabIndex = 21;
-			this.TestMergeListLabel.Visible = false;
-			// 
-			// CurrentRevisionLabel
-			// 
-			this.CurrentRevisionLabel.AutoSize = true;
-			this.CurrentRevisionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.CurrentRevisionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.CurrentRevisionLabel.Location = new System.Drawing.Point(162, 14);
-			this.CurrentRevisionLabel.Name = "CurrentRevisionLabel";
-			this.CurrentRevisionLabel.Size = new System.Drawing.Size(82, 18);
-			this.CurrentRevisionLabel.TabIndex = 20;
-			this.CurrentRevisionLabel.Text = "Unknown";
-			this.CurrentRevisionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.CurrentRevisionLabel.Visible = false;
-			// 
-			// RepoApplyButton
-			// 
-			this.RepoApplyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.RepoApplyButton.Location = new System.Drawing.Point(722, 331);
-			this.RepoApplyButton.Name = "RepoApplyButton";
-			this.RepoApplyButton.Size = new System.Drawing.Size(140, 29);
-			this.RepoApplyButton.TabIndex = 17;
-			this.RepoApplyButton.Text = "Apply Changes";
-			this.RepoApplyButton.UseVisualStyleBackColor = true;
-			this.RepoApplyButton.Visible = false;
-			this.RepoApplyButton.Click += new System.EventHandler(this.RepoApplyButton_Click);
-			// 
-			// RepoBranchTextBox
-			// 
-			this.RepoBranchTextBox.Location = new System.Drawing.Point(122, 70);
-			this.RepoBranchTextBox.Name = "RepoBranchTextBox";
-			this.RepoBranchTextBox.Size = new System.Drawing.Size(535, 20);
-			this.RepoBranchTextBox.TabIndex = 15;
-			this.RepoBranchTextBox.Visible = false;
-			// 
-			// RepoRemoteTextBox
-			// 
-			this.RepoRemoteTextBox.Location = new System.Drawing.Point(122, 44);
-			this.RepoRemoteTextBox.Name = "RepoRemoteTextBox";
-			this.RepoRemoteTextBox.Size = new System.Drawing.Size(535, 20);
-			this.RepoRemoteTextBox.TabIndex = 14;
-			this.RepoRemoteTextBox.Visible = false;
-			// 
-			// HardReset
-			// 
-			this.HardReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.HardReset.Location = new System.Drawing.Point(722, 46);
-			this.HardReset.Name = "HardReset";
-			this.HardReset.Size = new System.Drawing.Size(140, 29);
-			this.HardReset.TabIndex = 13;
-			this.HardReset.Text = "Reset To Origin Branch";
-			this.HardReset.UseVisualStyleBackColor = true;
-			this.HardReset.Visible = false;
-			this.HardReset.Click += new System.EventHandler(this.HardReset_Click);
-			// 
-			// UpdateRepoButton
-			// 
-			this.UpdateRepoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.UpdateRepoButton.Location = new System.Drawing.Point(722, 11);
-			this.UpdateRepoButton.Name = "UpdateRepoButton";
-			this.UpdateRepoButton.Size = new System.Drawing.Size(140, 29);
-			this.UpdateRepoButton.TabIndex = 12;
-			this.UpdateRepoButton.Text = "Merge from Remote";
-			this.UpdateRepoButton.UseVisualStyleBackColor = true;
-			this.UpdateRepoButton.Visible = false;
-			this.UpdateRepoButton.Click += new System.EventHandler(this.UpdateRepoButton_Click);
-			// 
-			// MergePRButton
-			// 
-			this.MergePRButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.MergePRButton.Location = new System.Drawing.Point(722, 116);
-			this.MergePRButton.Name = "MergePRButton";
-			this.MergePRButton.Size = new System.Drawing.Size(140, 29);
-			this.MergePRButton.TabIndex = 11;
-			this.MergePRButton.Text = "Merge Pull Request";
-			this.MergePRButton.UseVisualStyleBackColor = true;
-			this.MergePRButton.Visible = false;
-			this.MergePRButton.Click += new System.EventHandler(this.TestMergeButton_Click);
-			// 
-			// IdentityLabel
-			// 
-			this.IdentityLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.IdentityLabel.AutoSize = true;
-			this.IdentityLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.IdentityLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.IdentityLabel.Location = new System.Drawing.Point(6, 142);
-			this.IdentityLabel.Name = "IdentityLabel";
-			this.IdentityLabel.Size = new System.Drawing.Size(116, 18);
-			this.IdentityLabel.TabIndex = 8;
-			this.IdentityLabel.Text = "Backup Tags:";
-			this.IdentityLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.IdentityLabel.Visible = false;
-			// 
-			// TestMergeListTitle
-			// 
-			this.TestMergeListTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.TestMergeListTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TestMergeListTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.TestMergeListTitle.Location = new System.Drawing.Point(6, 260);
-			this.TestMergeListTitle.Name = "TestMergeListTitle";
-			this.TestMergeListTitle.Size = new System.Drawing.Size(110, 41);
-			this.TestMergeListTitle.TabIndex = 6;
-			this.TestMergeListTitle.Text = "Active Test Merges:";
-			this.TestMergeListTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.TestMergeListTitle.Visible = false;
-			// 
-			// RemoteNameTitle
-			// 
-			this.RemoteNameTitle.AutoSize = true;
-			this.RemoteNameTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.RemoteNameTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.RemoteNameTitle.Location = new System.Drawing.Point(6, 46);
-			this.RemoteNameTitle.Name = "RemoteNameTitle";
-			this.RemoteNameTitle.Size = new System.Drawing.Size(78, 18);
-			this.RemoteNameTitle.TabIndex = 5;
-			this.RemoteNameTitle.Text = "Remote:";
-			this.RemoteNameTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.RemoteNameTitle.Visible = false;
-			// 
-			// BranchNameTitle
-			// 
-			this.BranchNameTitle.AutoSize = true;
-			this.BranchNameTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BranchNameTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.BranchNameTitle.Location = new System.Drawing.Point(6, 72);
-			this.BranchNameTitle.Name = "BranchNameTitle";
-			this.BranchNameTitle.Size = new System.Drawing.Size(70, 18);
-			this.BranchNameTitle.TabIndex = 4;
-			this.BranchNameTitle.Text = "Branch:";
-			this.BranchNameTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.BranchNameTitle.Visible = false;
-			// 
-			// CurrentRevisionTitle
-			// 
-			this.CurrentRevisionTitle.AutoSize = true;
-			this.CurrentRevisionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.CurrentRevisionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.CurrentRevisionTitle.Location = new System.Drawing.Point(6, 14);
-			this.CurrentRevisionTitle.Name = "CurrentRevisionTitle";
-			this.CurrentRevisionTitle.Size = new System.Drawing.Size(150, 18);
-			this.CurrentRevisionTitle.TabIndex = 3;
-			this.CurrentRevisionTitle.Text = "Current Revision:";
-			this.CurrentRevisionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.CurrentRevisionTitle.Visible = false;
-			// 
-			// CloneRepositoryButton
-			// 
-			this.CloneRepositoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.CloneRepositoryButton.Location = new System.Drawing.Point(311, 191);
-			this.CloneRepositoryButton.Name = "CloneRepositoryButton";
-			this.CloneRepositoryButton.Size = new System.Drawing.Size(229, 34);
-			this.CloneRepositoryButton.TabIndex = 2;
-			this.CloneRepositoryButton.Text = "Clone Repository";
-			this.CloneRepositoryButton.UseVisualStyleBackColor = true;
-			this.CloneRepositoryButton.Visible = false;
-			this.CloneRepositoryButton.Click += new System.EventHandler(this.CloneRepositoryButton_Click);
-			// 
-			// RepoProgressBarLabel
-			// 
-			this.RepoProgressBarLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.RepoProgressBarLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.RepoProgressBarLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.RepoProgressBarLabel.Location = new System.Drawing.Point(184, 142);
-			this.RepoProgressBarLabel.Name = "RepoProgressBarLabel";
-			this.RepoProgressBarLabel.Size = new System.Drawing.Size(499, 46);
-			this.RepoProgressBarLabel.TabIndex = 1;
-			this.RepoProgressBarLabel.Text = "Searching for Repository...";
-			this.RepoProgressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// RepoProgressBar
-			// 
-			this.RepoProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.RepoProgressBar.Location = new System.Drawing.Point(184, 191);
-			this.RepoProgressBar.Name = "RepoProgressBar";
-			this.RepoProgressBar.Size = new System.Drawing.Size(499, 23);
-			this.RepoProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-			this.RepoProgressBar.TabIndex = 0;
-			// 
-			// BYONDPanel
-			// 
-			this.BYONDPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.BYONDPanel.Controls.Add(this.LatestVersionLabel);
-			this.BYONDPanel.Controls.Add(this.LatestVersionTitle);
-			this.BYONDPanel.Controls.Add(this.StagedVersionLabel);
-			this.BYONDPanel.Controls.Add(this.StagedVersionTitle);
-			this.BYONDPanel.Controls.Add(this.StatusLabel);
-			this.BYONDPanel.Controls.Add(this.VersionLabel);
-			this.BYONDPanel.Controls.Add(this.VersionTitle);
-			this.BYONDPanel.Controls.Add(this.MinorVersionLabel);
-			this.BYONDPanel.Controls.Add(this.MajorVersionLabel);
-			this.BYONDPanel.Controls.Add(this.UpdateButton);
-			this.BYONDPanel.Controls.Add(this.MinorVersionNumeric);
-			this.BYONDPanel.Controls.Add(this.MajorVersionNumeric);
-			this.BYONDPanel.Controls.Add(this.UpdateProgressBar);
-			this.BYONDPanel.Location = new System.Drawing.Point(4, 22);
-			this.BYONDPanel.Name = "BYONDPanel";
-			this.BYONDPanel.Size = new System.Drawing.Size(868, 366);
-			this.BYONDPanel.TabIndex = 1;
-			this.BYONDPanel.Text = "BYOND";
-			// 
-			// LatestVersionLabel
-			// 
-			this.LatestVersionLabel.AutoSize = true;
-			this.LatestVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.LatestVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.LatestVersionLabel.Location = new System.Drawing.Point(425, 93);
-			this.LatestVersionLabel.Name = "LatestVersionLabel";
-			this.LatestVersionLabel.Size = new System.Drawing.Size(82, 18);
-			this.LatestVersionLabel.TabIndex = 13;
-			this.LatestVersionLabel.Text = "Unknown";
-			this.LatestVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// LatestVersionTitle
-			// 
-			this.LatestVersionTitle.AutoSize = true;
-			this.LatestVersionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.LatestVersionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.LatestVersionTitle.Location = new System.Drawing.Point(286, 93);
-			this.LatestVersionTitle.Name = "LatestVersionTitle";
-			this.LatestVersionTitle.Size = new System.Drawing.Size(133, 18);
-			this.LatestVersionTitle.TabIndex = 12;
-			this.LatestVersionTitle.Text = "Latest Version:";
-			this.LatestVersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// StagedVersionLabel
-			// 
-			this.StagedVersionLabel.AutoSize = true;
-			this.StagedVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.StagedVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.StagedVersionLabel.Location = new System.Drawing.Point(425, 131);
-			this.StagedVersionLabel.Name = "StagedVersionLabel";
-			this.StagedVersionLabel.Size = new System.Drawing.Size(82, 18);
-			this.StagedVersionLabel.TabIndex = 11;
-			this.StagedVersionLabel.Text = "Unknown";
-			this.StagedVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.StagedVersionLabel.Visible = false;
-			// 
-			// StagedVersionTitle
-			// 
-			this.StagedVersionTitle.AutoSize = true;
-			this.StagedVersionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.StagedVersionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.StagedVersionTitle.Location = new System.Drawing.Point(282, 131);
-			this.StagedVersionTitle.Name = "StagedVersionTitle";
-			this.StagedVersionTitle.Size = new System.Drawing.Size(137, 18);
-			this.StagedVersionTitle.TabIndex = 10;
-			this.StagedVersionTitle.Text = "Staged version:";
-			this.StagedVersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.StagedVersionTitle.Visible = false;
-			// 
-			// StatusLabel
-			// 
-			this.StatusLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.StatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.StatusLabel.Location = new System.Drawing.Point(303, 320);
-			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size(253, 37);
-			this.StatusLabel.TabIndex = 9;
-			this.StatusLabel.Text = "Idle";
-			this.StatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// VersionLabel
-			// 
-			this.VersionLabel.AutoSize = true;
-			this.VersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.VersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.VersionLabel.Location = new System.Drawing.Point(425, 56);
-			this.VersionLabel.Name = "VersionLabel";
-			this.VersionLabel.Size = new System.Drawing.Size(82, 18);
-			this.VersionLabel.TabIndex = 8;
-			this.VersionLabel.Text = "Unknown";
-			this.VersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// VersionTitle
-			// 
-			this.VersionTitle.AutoSize = true;
-			this.VersionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.VersionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.VersionTitle.Location = new System.Drawing.Point(265, 56);
-			this.VersionTitle.Name = "VersionTitle";
-			this.VersionTitle.Size = new System.Drawing.Size(154, 18);
-			this.VersionTitle.TabIndex = 7;
-			this.VersionTitle.Text = "Installed Version:";
-			this.VersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// MinorVersionLabel
-			// 
-			this.MinorVersionLabel.AutoSize = true;
-			this.MinorVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.MinorVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.MinorVersionLabel.Location = new System.Drawing.Point(521, 180);
-			this.MinorVersionLabel.Name = "MinorVersionLabel";
-			this.MinorVersionLabel.Size = new System.Drawing.Size(59, 18);
-			this.MinorVersionLabel.TabIndex = 6;
-			this.MinorVersionLabel.Text = "Minor:";
-			this.MinorVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// MajorVersionLabel
-			// 
-			this.MajorVersionLabel.AutoSize = true;
-			this.MajorVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.MajorVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.MajorVersionLabel.Location = new System.Drawing.Point(276, 180);
-			this.MajorVersionLabel.Name = "MajorVersionLabel";
-			this.MajorVersionLabel.Size = new System.Drawing.Size(60, 18);
-			this.MajorVersionLabel.TabIndex = 5;
-			this.MajorVersionLabel.Text = "Major:";
-			this.MajorVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// UpdateButton
-			// 
-			this.UpdateButton.Location = new System.Drawing.Point(372, 252);
-			this.UpdateButton.Name = "UpdateButton";
-			this.UpdateButton.Size = new System.Drawing.Size(118, 28);
-			this.UpdateButton.TabIndex = 3;
-			this.UpdateButton.Text = "Update";
-			this.UpdateButton.UseVisualStyleBackColor = true;
-			this.UpdateButton.Click += new System.EventHandler(this.UpdateButton_Click);
-			// 
-			// MinorVersionNumeric
-			// 
-			this.MinorVersionNumeric.Location = new System.Drawing.Point(490, 210);
-			this.MinorVersionNumeric.Maximum = new decimal(new int[] {
-            10000,
+			this.ChatPortSelector.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
-			this.MinorVersionNumeric.Name = "MinorVersionNumeric";
-			this.MinorVersionNumeric.Size = new System.Drawing.Size(120, 20);
-			this.MinorVersionNumeric.TabIndex = 2;
-			this.MinorVersionNumeric.Value = new decimal(new int[] {
-            1381,
+			this.ChatPortSelector.Name = "ChatPortSelector";
+			this.ChatPortSelector.Size = new System.Drawing.Size(151, 20);
+			this.ChatPortSelector.TabIndex = 29;
+			this.ChatPortSelector.Value = new decimal(new int[] {
+            1,
             0,
             0,
             0});
 			// 
-			// MajorVersionNumeric
+			// ChatPortTitle
 			// 
-			this.MajorVersionNumeric.Location = new System.Drawing.Point(245, 210);
-			this.MajorVersionNumeric.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.MajorVersionNumeric.Name = "MajorVersionNumeric";
-			this.MajorVersionNumeric.Size = new System.Drawing.Size(120, 20);
-			this.MajorVersionNumeric.TabIndex = 1;
-			this.MajorVersionNumeric.Value = new decimal(new int[] {
-            511,
-            0,
-            0,
-            0});
+			this.ChatPortTitle.AutoSize = true;
+			this.ChatPortTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatPortTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatPortTitle.Location = new System.Drawing.Point(30, 227);
+			this.ChatPortTitle.Name = "ChatPortTitle";
+			this.ChatPortTitle.Size = new System.Drawing.Size(48, 18);
+			this.ChatPortTitle.TabIndex = 28;
+			this.ChatPortTitle.Text = "Port:";
+			this.ChatPortTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// UpdateProgressBar
+			// ChatServerTitle
 			// 
-			this.UpdateProgressBar.Location = new System.Drawing.Point(107, 286);
-			this.UpdateProgressBar.MarqueeAnimationSpeed = 50;
-			this.UpdateProgressBar.Name = "UpdateProgressBar";
-			this.UpdateProgressBar.Size = new System.Drawing.Size(650, 31);
-			this.UpdateProgressBar.TabIndex = 0;
+			this.ChatServerTitle.AutoSize = true;
+			this.ChatServerTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatServerTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatServerTitle.Location = new System.Drawing.Point(30, 201);
+			this.ChatServerTitle.Name = "ChatServerTitle";
+			this.ChatServerTitle.Size = new System.Drawing.Size(66, 18);
+			this.ChatServerTitle.TabIndex = 26;
+			this.ChatServerTitle.Text = "Server:";
+			this.ChatServerTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChatApplyButton
+			// 
+			this.ChatApplyButton.Location = new System.Drawing.Point(56, 335);
+			this.ChatApplyButton.Name = "ChatApplyButton";
+			this.ChatApplyButton.Size = new System.Drawing.Size(112, 25);
+			this.ChatApplyButton.TabIndex = 25;
+			this.ChatApplyButton.Text = "Apply";
+			this.ChatApplyButton.UseVisualStyleBackColor = true;
+			this.ChatApplyButton.Click += new System.EventHandler(this.ChatApplyButton_Click);
+			// 
+			// AuthField2Title
+			// 
+			this.AuthField2Title.AutoSize = true;
+			this.AuthField2Title.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AuthField2Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AuthField2Title.Location = new System.Drawing.Point(30, 311);
+			this.AuthField2Title.Name = "AuthField2Title";
+			this.AuthField2Title.Size = new System.Drawing.Size(45, 18);
+			this.AuthField2Title.TabIndex = 24;
+			this.AuthField2Title.Text = "AF2:";
+			this.AuthField2Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// AuthField1Title
+			// 
+			this.AuthField1Title.AutoSize = true;
+			this.AuthField1Title.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AuthField1Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AuthField1Title.Location = new System.Drawing.Point(30, 285);
+			this.AuthField1Title.Name = "AuthField1Title";
+			this.AuthField1Title.Size = new System.Drawing.Size(45, 18);
+			this.AuthField1Title.TabIndex = 23;
+			this.AuthField1Title.Text = "AF1:";
+			this.AuthField1Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChatReconnectButton
+			// 
+			this.ChatReconnectButton.Enabled = false;
+			this.ChatReconnectButton.Location = new System.Drawing.Point(174, 141);
+			this.ChatReconnectButton.Name = "ChatReconnectButton";
+			this.ChatReconnectButton.Size = new System.Drawing.Size(112, 25);
+			this.ChatReconnectButton.TabIndex = 18;
+			this.ChatReconnectButton.Text = "Reconnect";
+			this.ChatReconnectButton.UseVisualStyleBackColor = true;
+			this.ChatReconnectButton.Click += new System.EventHandler(this.ChatReconnectButton_Click);
+			// 
+			// ChatStatusLabel
+			// 
+			this.ChatStatusLabel.AutoSize = true;
+			this.ChatStatusLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatStatusLabel.Location = new System.Drawing.Point(171, 113);
+			this.ChatStatusLabel.Name = "ChatStatusLabel";
+			this.ChatStatusLabel.Size = new System.Drawing.Size(82, 18);
+			this.ChatStatusLabel.TabIndex = 17;
+			this.ChatStatusLabel.Text = "Unknown";
+			this.ChatStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChatStatusTitle
+			// 
+			this.ChatStatusTitle.AutoSize = true;
+			this.ChatStatusTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatStatusTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatStatusTitle.Location = new System.Drawing.Point(30, 113);
+			this.ChatStatusTitle.Name = "ChatStatusTitle";
+			this.ChatStatusTitle.Size = new System.Drawing.Size(112, 18);
+			this.ChatStatusTitle.TabIndex = 16;
+			this.ChatStatusTitle.Text = "Chat Status:";
+			this.ChatStatusTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChatEnabledCheckbox
+			// 
+			this.ChatEnabledCheckbox.AutoSize = true;
+			this.ChatEnabledCheckbox.Font = new System.Drawing.Font("Verdana", 12F);
+			this.ChatEnabledCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatEnabledCheckbox.Location = new System.Drawing.Point(32, 142);
+			this.ChatEnabledCheckbox.Name = "ChatEnabledCheckbox";
+			this.ChatEnabledCheckbox.Size = new System.Drawing.Size(136, 22);
+			this.ChatEnabledCheckbox.TabIndex = 15;
+			this.ChatEnabledCheckbox.Text = "Chat Enabled";
+			this.ChatEnabledCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// ChatProviderSelectorPanel
+			// 
+			this.ChatProviderSelectorPanel.Controls.Add(this.DiscordProviderSwitch);
+			this.ChatProviderSelectorPanel.Controls.Add(this.IRCProviderSwitch);
+			this.ChatProviderSelectorPanel.Location = new System.Drawing.Point(23, 49);
+			this.ChatProviderSelectorPanel.Name = "ChatProviderSelectorPanel";
+			this.ChatProviderSelectorPanel.Size = new System.Drawing.Size(302, 50);
+			this.ChatProviderSelectorPanel.TabIndex = 14;
+			// 
+			// DiscordProviderSwitch
+			// 
+			this.DiscordProviderSwitch.AutoSize = true;
+			this.DiscordProviderSwitch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.DiscordProviderSwitch.Location = new System.Drawing.Point(220, 17);
+			this.DiscordProviderSwitch.Name = "DiscordProviderSwitch";
+			this.DiscordProviderSwitch.Size = new System.Drawing.Size(61, 17);
+			this.DiscordProviderSwitch.TabIndex = 13;
+			this.DiscordProviderSwitch.TabStop = true;
+			this.DiscordProviderSwitch.Text = "Discord";
+			this.DiscordProviderSwitch.UseVisualStyleBackColor = true;
+			this.DiscordProviderSwitch.CheckedChanged += new System.EventHandler(this.DiscordProviderSwitch_CheckedChanged);
+			// 
+			// IRCProviderSwitch
+			// 
+			this.IRCProviderSwitch.AutoSize = true;
+			this.IRCProviderSwitch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.IRCProviderSwitch.Location = new System.Drawing.Point(14, 17);
+			this.IRCProviderSwitch.Name = "IRCProviderSwitch";
+			this.IRCProviderSwitch.Size = new System.Drawing.Size(116, 17);
+			this.IRCProviderSwitch.TabIndex = 12;
+			this.IRCProviderSwitch.TabStop = true;
+			this.IRCProviderSwitch.Text = "Internet Relay Chat";
+			this.IRCProviderSwitch.UseVisualStyleBackColor = true;
+			this.IRCProviderSwitch.CheckedChanged += new System.EventHandler(this.IRCProviderSwitch_CheckedChanged);
+			// 
+			// ChatProviderTitle
+			// 
+			this.ChatProviderTitle.AutoSize = true;
+			this.ChatProviderTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatProviderTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatProviderTitle.Location = new System.Drawing.Point(20, 15);
+			this.ChatProviderTitle.Name = "ChatProviderTitle";
+			this.ChatProviderTitle.Size = new System.Drawing.Size(144, 18);
+			this.ChatProviderTitle.TabIndex = 13;
+			this.ChatProviderTitle.Text = "Editing Provider:";
+			this.ChatProviderTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChannelsTitle
+			// 
+			this.ChannelsTitle.AutoSize = true;
+			this.ChannelsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChannelsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChannelsTitle.Location = new System.Drawing.Point(565, 15);
+			this.ChannelsTitle.Name = "ChannelsTitle";
+			this.ChannelsTitle.Size = new System.Drawing.Size(234, 18);
+			this.ChannelsTitle.TabIndex = 11;
+			this.ChannelsTitle.Text = "Listen/Broadcast Channels:";
+			this.ChannelsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// ChatAdminsTitle
+			// 
+			this.ChatAdminsTitle.AutoSize = true;
+			this.ChatAdminsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ChatAdminsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ChatAdminsTitle.Location = new System.Drawing.Point(366, 15);
+			this.ChatAdminsTitle.Name = "ChatAdminsTitle";
+			this.ChatAdminsTitle.Size = new System.Drawing.Size(75, 18);
+			this.ChatAdminsTitle.TabIndex = 9;
+			this.ChatAdminsTitle.Text = "Admins:";
+			this.ChatAdminsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.AdminModeSpecial);
+			this.panel1.Controls.Add(this.AdminModeNormal);
+			this.panel1.Location = new System.Drawing.Point(174, 168);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(202, 25);
+			this.panel1.TabIndex = 15;
+			// 
+			// AdminModeSpecial
+			// 
+			this.AdminModeSpecial.AutoSize = true;
+			this.AdminModeSpecial.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AdminModeSpecial.Location = new System.Drawing.Point(87, 8);
+			this.AdminModeSpecial.Name = "AdminModeSpecial";
+			this.AdminModeSpecial.Size = new System.Drawing.Size(94, 17);
+			this.AdminModeSpecial.TabIndex = 13;
+			this.AdminModeSpecial.TabStop = true;
+			this.AdminModeSpecial.Text = "Channel Mode";
+			this.AdminModeSpecial.UseVisualStyleBackColor = true;
+			// 
+			// AdminModeNormal
+			// 
+			this.AdminModeNormal.AutoSize = true;
+			this.AdminModeNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AdminModeNormal.Location = new System.Drawing.Point(3, 8);
+			this.AdminModeNormal.Name = "AdminModeNormal";
+			this.AdminModeNormal.Size = new System.Drawing.Size(78, 17);
+			this.AdminModeNormal.TabIndex = 12;
+			this.AdminModeNormal.TabStop = true;
+			this.AdminModeNormal.Text = "Nicknames";
+			this.AdminModeNormal.UseVisualStyleBackColor = true;
+			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeNormal_CheckedChanged);
 			// 
 			// ServerPanel
 			// 
@@ -725,15 +648,15 @@
 			this.ServerPanel.Controls.Add(this.WebclientCheckBox);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceButton);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceField);
+			this.ServerPanel.Controls.Add(this.ServerPathTextbox);
+			this.ServerPanel.Controls.Add(this.projectNameText);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceLabel);
 			this.ServerPanel.Controls.Add(this.SecuritySelector);
 			this.ServerPanel.Controls.Add(this.SecurityTitle);
 			this.ServerPanel.Controls.Add(this.ResetTestmerge);
 			this.ServerPanel.Controls.Add(this.ServerPathLabel);
-			this.ServerPanel.Controls.Add(this.ServerPathTextbox);
 			this.ServerPanel.Controls.Add(this.CompileCancelButton);
 			this.ServerPanel.Controls.Add(this.ProjectPathLabel);
-			this.ServerPanel.Controls.Add(this.projectNameText);
 			this.ServerPanel.Controls.Add(this.PortLabel);
 			this.ServerPanel.Controls.Add(this.PortSelector);
 			this.ServerPanel.Controls.Add(this.ServerPRLabel);
@@ -808,6 +731,22 @@
 			this.WorldAnnounceField.Size = new System.Drawing.Size(213, 20);
 			this.WorldAnnounceField.TabIndex = 40;
 			// 
+			// ServerPathTextbox
+			// 
+			this.ServerPathTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ServerPathTextbox.Location = new System.Drawing.Point(136, 163);
+			this.ServerPathTextbox.Name = "ServerPathTextbox";
+			this.ServerPathTextbox.Size = new System.Drawing.Size(296, 20);
+			this.ServerPathTextbox.TabIndex = 32;
+			// 
+			// projectNameText
+			// 
+			this.projectNameText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.projectNameText.Location = new System.Drawing.Point(566, 163);
+			this.projectNameText.Name = "projectNameText";
+			this.projectNameText.Size = new System.Drawing.Size(296, 20);
+			this.projectNameText.TabIndex = 29;
+			// 
 			// WorldAnnounceLabel
 			// 
 			this.WorldAnnounceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -871,14 +810,6 @@
 			this.ServerPathLabel.Text = "Server Path:";
 			this.ServerPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// ServerPathTextbox
-			// 
-			this.ServerPathTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.ServerPathTextbox.Location = new System.Drawing.Point(136, 163);
-			this.ServerPathTextbox.Name = "ServerPathTextbox";
-			this.ServerPathTextbox.Size = new System.Drawing.Size(296, 20);
-			this.ServerPathTextbox.TabIndex = 32;
-			// 
 			// CompileCancelButton
 			// 
 			this.CompileCancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -903,14 +834,6 @@
 			this.ProjectPathLabel.TabIndex = 30;
 			this.ProjectPathLabel.Text = "Project Path:";
 			this.ProjectPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// projectNameText
-			// 
-			this.projectNameText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.projectNameText.Location = new System.Drawing.Point(566, 163);
-			this.projectNameText.Name = "projectNameText";
-			this.projectNameText.Size = new System.Drawing.Size(296, 20);
-			this.projectNameText.TabIndex = 29;
 			// 
 			// PortLabel
 			// 
@@ -1159,813 +1082,527 @@
 			this.ServerStatusTitle.Text = "Server Status:";
 			this.ServerStatusTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// ChatPanel
+			// BYONDPanel
 			// 
-			this.ChatPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.ChatPanel.Controls.Add(this.label5);
-			this.ChatPanel.Controls.Add(this.label4);
-			this.ChatPanel.Controls.Add(this.label3);
-			this.ChatPanel.Controls.Add(this.label2);
-			this.ChatPanel.Controls.Add(this.IRCModesComboBox);
-			this.ChatPanel.Controls.Add(this.label1);
-			this.ChatPanel.Controls.Add(this.AdminChannelsTextbox);
-			this.ChatPanel.Controls.Add(this.WDChannelsTextbox);
-			this.ChatPanel.Controls.Add(this.GameChannelsTextbox);
-			this.ChatPanel.Controls.Add(this.DevChannelsTextbox);
-			this.ChatPanel.Controls.Add(this.ChatRefreshButton);
-			this.ChatPanel.Controls.Add(this.ChatNicknameText);
-			this.ChatPanel.Controls.Add(this.ChatNicknameTitle);
-			this.ChatPanel.Controls.Add(this.ChatPortSelector);
-			this.ChatPanel.Controls.Add(this.ChatPortTitle);
-			this.ChatPanel.Controls.Add(this.ChatServerText);
-			this.ChatPanel.Controls.Add(this.ChatServerTitle);
-			this.ChatPanel.Controls.Add(this.ChatApplyButton);
-			this.ChatPanel.Controls.Add(this.AuthField2Title);
-			this.ChatPanel.Controls.Add(this.AuthField1Title);
-			this.ChatPanel.Controls.Add(this.AuthField2);
-			this.ChatPanel.Controls.Add(this.AuthField1);
-			this.ChatPanel.Controls.Add(this.ChatReconnectButton);
-			this.ChatPanel.Controls.Add(this.ChatStatusLabel);
-			this.ChatPanel.Controls.Add(this.ChatStatusTitle);
-			this.ChatPanel.Controls.Add(this.ChatEnabledCheckbox);
-			this.ChatPanel.Controls.Add(this.ChatProviderSelectorPanel);
-			this.ChatPanel.Controls.Add(this.ChatProviderTitle);
-			this.ChatPanel.Controls.Add(this.ChannelsTitle);
-			this.ChatPanel.Controls.Add(this.ChatAdminsTextBox);
-			this.ChatPanel.Controls.Add(this.ChatAdminsTitle);
-			this.ChatPanel.Controls.Add(this.panel1);
-			this.ChatPanel.Location = new System.Drawing.Point(4, 22);
-			this.ChatPanel.Name = "ChatPanel";
-			this.ChatPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.ChatPanel.Size = new System.Drawing.Size(868, 366);
-			this.ChatPanel.TabIndex = 4;
-			this.ChatPanel.Text = "Chat";
+			this.BYONDPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.BYONDPanel.Controls.Add(this.LatestVersionLabel);
+			this.BYONDPanel.Controls.Add(this.LatestVersionTitle);
+			this.BYONDPanel.Controls.Add(this.StagedVersionLabel);
+			this.BYONDPanel.Controls.Add(this.StagedVersionTitle);
+			this.BYONDPanel.Controls.Add(this.StatusLabel);
+			this.BYONDPanel.Controls.Add(this.VersionLabel);
+			this.BYONDPanel.Controls.Add(this.VersionTitle);
+			this.BYONDPanel.Controls.Add(this.MinorVersionLabel);
+			this.BYONDPanel.Controls.Add(this.MajorVersionLabel);
+			this.BYONDPanel.Controls.Add(this.UpdateButton);
+			this.BYONDPanel.Controls.Add(this.MinorVersionNumeric);
+			this.BYONDPanel.Controls.Add(this.MajorVersionNumeric);
+			this.BYONDPanel.Controls.Add(this.UpdateProgressBar);
+			this.BYONDPanel.Location = new System.Drawing.Point(4, 22);
+			this.BYONDPanel.Name = "BYONDPanel";
+			this.BYONDPanel.Size = new System.Drawing.Size(868, 366);
+			this.BYONDPanel.TabIndex = 1;
+			this.BYONDPanel.Text = "BYOND";
 			// 
-			// label5
+			// LatestVersionLabel
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label5.Location = new System.Drawing.Point(686, 219);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(148, 18);
-			this.label5.TabIndex = 43;
-			this.label5.Text = "Game Messages:";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.LatestVersionLabel.AutoSize = true;
+			this.LatestVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.LatestVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.LatestVersionLabel.Location = new System.Drawing.Point(425, 93);
+			this.LatestVersionLabel.Name = "LatestVersionLabel";
+			this.LatestVersionLabel.Size = new System.Drawing.Size(82, 18);
+			this.LatestVersionLabel.TabIndex = 13;
+			this.LatestVersionLabel.Text = "Unknown";
+			this.LatestVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// label4
+			// LatestVersionTitle
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label4.Location = new System.Drawing.Point(516, 219);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(136, 18);
-			this.label4.TabIndex = 42;
-			this.label4.Text = "Developer Info:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.LatestVersionTitle.AutoSize = true;
+			this.LatestVersionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.LatestVersionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.LatestVersionTitle.Location = new System.Drawing.Point(286, 93);
+			this.LatestVersionTitle.Name = "LatestVersionTitle";
+			this.LatestVersionTitle.Size = new System.Drawing.Size(133, 18);
+			this.LatestVersionTitle.TabIndex = 12;
+			this.LatestVersionTitle.Text = "Latest Version:";
+			this.LatestVersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// label3
+			// StagedVersionLabel
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label3.Location = new System.Drawing.Point(686, 61);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(135, 18);
-			this.label3.TabIndex = 41;
-			this.label3.Text = "Administration:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.StagedVersionLabel.AutoSize = true;
+			this.StagedVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.StagedVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.StagedVersionLabel.Location = new System.Drawing.Point(425, 131);
+			this.StagedVersionLabel.Name = "StagedVersionLabel";
+			this.StagedVersionLabel.Size = new System.Drawing.Size(82, 18);
+			this.StagedVersionLabel.TabIndex = 11;
+			this.StagedVersionLabel.Text = "Unknown";
+			this.StagedVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.StagedVersionLabel.Visible = false;
 			// 
-			// label2
+			// StagedVersionTitle
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label2.Location = new System.Drawing.Point(516, 61);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(153, 18);
-			this.label2.TabIndex = 40;
-			this.label2.Text = "Server Watchdog:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.StagedVersionTitle.AutoSize = true;
+			this.StagedVersionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.StagedVersionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.StagedVersionTitle.Location = new System.Drawing.Point(282, 131);
+			this.StagedVersionTitle.Name = "StagedVersionTitle";
+			this.StagedVersionTitle.Size = new System.Drawing.Size(137, 18);
+			this.StagedVersionTitle.TabIndex = 10;
+			this.StagedVersionTitle.Text = "Staged version:";
+			this.StagedVersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.StagedVersionTitle.Visible = false;
 			// 
-			// IRCModesComboBox
+			// StatusLabel
 			// 
-			this.IRCModesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.IRCModesComboBox.FormattingEnabled = true;
-			this.IRCModesComboBox.Items.AddRange(new object[] {
-            "Voice - +",
-            "Halfop - %",
-            "Op - @",
-            "Owner - ~"});
-			this.IRCModesComboBox.Location = new System.Drawing.Point(369, 170);
-			this.IRCModesComboBox.Name = "IRCModesComboBox";
-			this.IRCModesComboBox.Size = new System.Drawing.Size(141, 21);
-			this.IRCModesComboBox.TabIndex = 38;
-			this.IRCModesComboBox.Visible = false;
+			this.StatusLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.StatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.StatusLabel.Location = new System.Drawing.Point(303, 320);
+			this.StatusLabel.Name = "StatusLabel";
+			this.StatusLabel.Size = new System.Drawing.Size(253, 37);
+			this.StatusLabel.TabIndex = 9;
+			this.StatusLabel.Text = "Idle";
+			this.StatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// label1
+			// VersionLabel
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.label1.Location = new System.Drawing.Point(30, 174);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(110, 18);
-			this.label1.TabIndex = 39;
-			this.label1.Text = "Admin Auth:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.VersionLabel.AutoSize = true;
+			this.VersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.VersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.VersionLabel.Location = new System.Drawing.Point(425, 56);
+			this.VersionLabel.Name = "VersionLabel";
+			this.VersionLabel.Size = new System.Drawing.Size(82, 18);
+			this.VersionLabel.TabIndex = 8;
+			this.VersionLabel.Text = "Unknown";
+			this.VersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// AdminChannelsTextbox
+			// VersionTitle
 			// 
-			this.AdminChannelsTextbox.Location = new System.Drawing.Point(689, 82);
-			this.AdminChannelsTextbox.Multiline = true;
-			this.AdminChannelsTextbox.Name = "AdminChannelsTextbox";
-			this.AdminChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.AdminChannelsTextbox.Size = new System.Drawing.Size(167, 120);
-			this.AdminChannelsTextbox.TabIndex = 37;
+			this.VersionTitle.AutoSize = true;
+			this.VersionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.VersionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.VersionTitle.Location = new System.Drawing.Point(265, 56);
+			this.VersionTitle.Name = "VersionTitle";
+			this.VersionTitle.Size = new System.Drawing.Size(154, 18);
+			this.VersionTitle.TabIndex = 7;
+			this.VersionTitle.Text = "Installed Version:";
+			this.VersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// WDChannelsTextbox
+			// MinorVersionLabel
 			// 
-			this.WDChannelsTextbox.Location = new System.Drawing.Point(516, 82);
-			this.WDChannelsTextbox.Multiline = true;
-			this.WDChannelsTextbox.Name = "WDChannelsTextbox";
-			this.WDChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.WDChannelsTextbox.Size = new System.Drawing.Size(167, 120);
-			this.WDChannelsTextbox.TabIndex = 36;
+			this.MinorVersionLabel.AutoSize = true;
+			this.MinorVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.MinorVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.MinorVersionLabel.Location = new System.Drawing.Point(521, 180);
+			this.MinorVersionLabel.Name = "MinorVersionLabel";
+			this.MinorVersionLabel.Size = new System.Drawing.Size(59, 18);
+			this.MinorVersionLabel.TabIndex = 6;
+			this.MinorVersionLabel.Text = "Minor:";
+			this.MinorVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// GameChannelsTextbox
+			// MajorVersionLabel
 			// 
-			this.GameChannelsTextbox.Location = new System.Drawing.Point(689, 240);
-			this.GameChannelsTextbox.Multiline = true;
-			this.GameChannelsTextbox.Name = "GameChannelsTextbox";
-			this.GameChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.GameChannelsTextbox.Size = new System.Drawing.Size(167, 120);
-			this.GameChannelsTextbox.TabIndex = 35;
+			this.MajorVersionLabel.AutoSize = true;
+			this.MajorVersionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.MajorVersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.MajorVersionLabel.Location = new System.Drawing.Point(276, 180);
+			this.MajorVersionLabel.Name = "MajorVersionLabel";
+			this.MajorVersionLabel.Size = new System.Drawing.Size(60, 18);
+			this.MajorVersionLabel.TabIndex = 5;
+			this.MajorVersionLabel.Text = "Major:";
+			this.MajorVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// DevChannelsTextbox
+			// UpdateButton
 			// 
-			this.DevChannelsTextbox.Location = new System.Drawing.Point(516, 240);
-			this.DevChannelsTextbox.Multiline = true;
-			this.DevChannelsTextbox.Name = "DevChannelsTextbox";
-			this.DevChannelsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.DevChannelsTextbox.Size = new System.Drawing.Size(167, 120);
-			this.DevChannelsTextbox.TabIndex = 34;
+			this.UpdateButton.Location = new System.Drawing.Point(372, 252);
+			this.UpdateButton.Name = "UpdateButton";
+			this.UpdateButton.Size = new System.Drawing.Size(118, 28);
+			this.UpdateButton.TabIndex = 3;
+			this.UpdateButton.Text = "Update";
+			this.UpdateButton.UseVisualStyleBackColor = true;
+			this.UpdateButton.Click += new System.EventHandler(this.UpdateButton_Click);
 			// 
-			// ChatRefreshButton
+			// MinorVersionNumeric
 			// 
-			this.ChatRefreshButton.Location = new System.Drawing.Point(174, 335);
-			this.ChatRefreshButton.Name = "ChatRefreshButton";
-			this.ChatRefreshButton.Size = new System.Drawing.Size(112, 25);
-			this.ChatRefreshButton.TabIndex = 32;
-			this.ChatRefreshButton.Text = "Refresh";
-			this.ChatRefreshButton.UseVisualStyleBackColor = true;
-			this.ChatRefreshButton.Click += new System.EventHandler(this.ChatRefreshButton_Click);
-			// 
-			// ChatNicknameText
-			// 
-			this.ChatNicknameText.Location = new System.Drawing.Point(174, 251);
-			this.ChatNicknameText.Name = "ChatNicknameText";
-			this.ChatNicknameText.Size = new System.Drawing.Size(151, 20);
-			this.ChatNicknameText.TabIndex = 31;
-			// 
-			// ChatNicknameTitle
-			// 
-			this.ChatNicknameTitle.AutoSize = true;
-			this.ChatNicknameTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatNicknameTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatNicknameTitle.Location = new System.Drawing.Point(30, 250);
-			this.ChatNicknameTitle.Name = "ChatNicknameTitle";
-			this.ChatNicknameTitle.Size = new System.Drawing.Size(94, 18);
-			this.ChatNicknameTitle.TabIndex = 30;
-			this.ChatNicknameTitle.Text = "Nickname:";
-			this.ChatNicknameTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// ChatPortSelector
-			// 
-			this.ChatPortSelector.Location = new System.Drawing.Point(174, 225);
-			this.ChatPortSelector.Maximum = new decimal(new int[] {
-            65535,
+			this.MinorVersionNumeric.Location = new System.Drawing.Point(490, 210);
+			this.MinorVersionNumeric.Maximum = new decimal(new int[] {
+            10000,
             0,
             0,
             0});
-			this.ChatPortSelector.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.ChatPortSelector.Name = "ChatPortSelector";
-			this.ChatPortSelector.Size = new System.Drawing.Size(151, 20);
-			this.ChatPortSelector.TabIndex = 29;
-			this.ChatPortSelector.Value = new decimal(new int[] {
-            1,
+			this.MinorVersionNumeric.Name = "MinorVersionNumeric";
+			this.MinorVersionNumeric.Size = new System.Drawing.Size(120, 20);
+			this.MinorVersionNumeric.TabIndex = 2;
+			this.MinorVersionNumeric.Value = new decimal(new int[] {
+            1381,
             0,
             0,
             0});
 			// 
-			// ChatPortTitle
+			// MajorVersionNumeric
 			// 
-			this.ChatPortTitle.AutoSize = true;
-			this.ChatPortTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatPortTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatPortTitle.Location = new System.Drawing.Point(30, 227);
-			this.ChatPortTitle.Name = "ChatPortTitle";
-			this.ChatPortTitle.Size = new System.Drawing.Size(48, 18);
-			this.ChatPortTitle.TabIndex = 28;
-			this.ChatPortTitle.Text = "Port:";
-			this.ChatPortTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.MajorVersionNumeric.Location = new System.Drawing.Point(245, 210);
+			this.MajorVersionNumeric.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.MajorVersionNumeric.Name = "MajorVersionNumeric";
+			this.MajorVersionNumeric.Size = new System.Drawing.Size(120, 20);
+			this.MajorVersionNumeric.TabIndex = 1;
+			this.MajorVersionNumeric.Value = new decimal(new int[] {
+            511,
+            0,
+            0,
+            0});
 			// 
-			// ChatServerText
+			// UpdateProgressBar
 			// 
-			this.ChatServerText.Location = new System.Drawing.Point(174, 199);
-			this.ChatServerText.Name = "ChatServerText";
-			this.ChatServerText.Size = new System.Drawing.Size(151, 20);
-			this.ChatServerText.TabIndex = 27;
+			this.UpdateProgressBar.Location = new System.Drawing.Point(107, 286);
+			this.UpdateProgressBar.MarqueeAnimationSpeed = 50;
+			this.UpdateProgressBar.Name = "UpdateProgressBar";
+			this.UpdateProgressBar.Size = new System.Drawing.Size(650, 31);
+			this.UpdateProgressBar.TabIndex = 0;
 			// 
-			// ChatServerTitle
+			// RepoPanel
 			// 
-			this.ChatServerTitle.AutoSize = true;
-			this.ChatServerTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatServerTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatServerTitle.Location = new System.Drawing.Point(30, 201);
-			this.ChatServerTitle.Name = "ChatServerTitle";
-			this.ChatServerTitle.Size = new System.Drawing.Size(66, 18);
-			this.ChatServerTitle.TabIndex = 26;
-			this.ChatServerTitle.Text = "Server:";
-			this.ChatServerTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
+			this.RepoPanel.Controls.Add(this.BackupTagsList);
+			this.RepoPanel.Controls.Add(this.ResetRemote);
+			this.RepoPanel.Controls.Add(this.RecloneButton);
+			this.RepoPanel.Controls.Add(this.PythonPathText);
+			this.RepoPanel.Controls.Add(this.RepoBranchTextBox);
+			this.RepoPanel.Controls.Add(this.RepoRemoteTextBox);
+			this.RepoPanel.Controls.Add(this.PythonPathLabel);
+			this.RepoPanel.Controls.Add(this.RepoGenChangelogButton);
+			this.RepoPanel.Controls.Add(this.TestmergeSelector);
+			this.RepoPanel.Controls.Add(this.TestMergeListLabel);
+			this.RepoPanel.Controls.Add(this.CurrentRevisionLabel);
+			this.RepoPanel.Controls.Add(this.RepoApplyButton);
+			this.RepoPanel.Controls.Add(this.HardReset);
+			this.RepoPanel.Controls.Add(this.UpdateRepoButton);
+			this.RepoPanel.Controls.Add(this.MergePRButton);
+			this.RepoPanel.Controls.Add(this.IdentityLabel);
+			this.RepoPanel.Controls.Add(this.TestMergeListTitle);
+			this.RepoPanel.Controls.Add(this.RemoteNameTitle);
+			this.RepoPanel.Controls.Add(this.BranchNameTitle);
+			this.RepoPanel.Controls.Add(this.CurrentRevisionTitle);
+			this.RepoPanel.Controls.Add(this.CloneRepositoryButton);
+			this.RepoPanel.Controls.Add(this.RepoProgressBarLabel);
+			this.RepoPanel.Controls.Add(this.RepoProgressBar);
+			this.RepoPanel.Location = new System.Drawing.Point(4, 22);
+			this.RepoPanel.Name = "RepoPanel";
+			this.RepoPanel.Padding = new System.Windows.Forms.Padding(3);
+			this.RepoPanel.Size = new System.Drawing.Size(868, 366);
+			this.RepoPanel.TabIndex = 0;
+			this.RepoPanel.Text = "Repository";
 			// 
-			// ChatApplyButton
+			// RepoRefreshButton
 			// 
-			this.ChatApplyButton.Location = new System.Drawing.Point(56, 335);
-			this.ChatApplyButton.Name = "ChatApplyButton";
-			this.ChatApplyButton.Size = new System.Drawing.Size(112, 25);
-			this.ChatApplyButton.TabIndex = 25;
-			this.ChatApplyButton.Text = "Apply";
-			this.ChatApplyButton.UseVisualStyleBackColor = true;
-			this.ChatApplyButton.Click += new System.EventHandler(this.ChatApplyButton_Click);
+			this.RepoRefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoRefreshButton.Location = new System.Drawing.Point(722, 296);
+			this.RepoRefreshButton.Name = "RepoRefreshButton";
+			this.RepoRefreshButton.Size = new System.Drawing.Size(140, 29);
+			this.RepoRefreshButton.TabIndex = 35;
+			this.RepoRefreshButton.Text = "Refresh";
+			this.RepoRefreshButton.UseVisualStyleBackColor = true;
+			this.RepoRefreshButton.Visible = false;
+			this.RepoRefreshButton.Click += new System.EventHandler(this.RepoRefreshButton_Click);
 			// 
-			// AuthField2Title
+			// BackupTagsList
 			// 
-			this.AuthField2Title.AutoSize = true;
-			this.AuthField2Title.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AuthField2Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AuthField2Title.Location = new System.Drawing.Point(30, 311);
-			this.AuthField2Title.Name = "AuthField2Title";
-			this.AuthField2Title.Size = new System.Drawing.Size(45, 18);
-			this.AuthField2Title.TabIndex = 24;
-			this.AuthField2Title.Text = "AF2:";
-			this.AuthField2Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.BackupTagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.BackupTagsList.Items.AddRange(new object[] {
+            "None"});
+			this.BackupTagsList.Location = new System.Drawing.Point(122, 142);
+			this.BackupTagsList.Name = "BackupTagsList";
+			this.BackupTagsList.ScrollAlwaysVisible = true;
+			this.BackupTagsList.Size = new System.Drawing.Size(535, 95);
+			this.BackupTagsList.TabIndex = 34;
+			this.BackupTagsList.Visible = false;
 			// 
-			// AuthField1Title
+			// ResetRemote
 			// 
-			this.AuthField1Title.AutoSize = true;
-			this.AuthField1Title.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AuthField1Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AuthField1Title.Location = new System.Drawing.Point(30, 285);
-			this.AuthField1Title.Name = "AuthField1Title";
-			this.AuthField1Title.Size = new System.Drawing.Size(45, 18);
-			this.AuthField1Title.TabIndex = 23;
-			this.AuthField1Title.Text = "AF1:";
-			this.AuthField1Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.ResetRemote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ResetRemote.Location = new System.Drawing.Point(722, 81);
+			this.ResetRemote.Name = "ResetRemote";
+			this.ResetRemote.Size = new System.Drawing.Size(140, 29);
+			this.ResetRemote.TabIndex = 33;
+			this.ResetRemote.Text = "Reset To Remote";
+			this.ResetRemote.UseVisualStyleBackColor = true;
+			this.ResetRemote.Visible = false;
+			this.ResetRemote.Click += new System.EventHandler(this.ResetRemote_Click);
 			// 
-			// AuthField2
+			// RecloneButton
 			// 
-			this.AuthField2.Location = new System.Drawing.Point(174, 309);
-			this.AuthField2.Name = "AuthField2";
-			this.AuthField2.Size = new System.Drawing.Size(151, 20);
-			this.AuthField2.TabIndex = 22;
+			this.RecloneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.RecloneButton.Location = new System.Drawing.Point(722, 212);
+			this.RecloneButton.Name = "RecloneButton";
+			this.RecloneButton.Size = new System.Drawing.Size(140, 29);
+			this.RecloneButton.TabIndex = 32;
+			this.RecloneButton.Text = "Reclone";
+			this.RecloneButton.UseVisualStyleBackColor = true;
+			this.RecloneButton.Visible = false;
+			this.RecloneButton.Click += new System.EventHandler(this.RecloneButton_Click);
 			// 
-			// AuthField1
+			// PythonPathText
 			// 
-			this.AuthField1.Location = new System.Drawing.Point(174, 283);
-			this.AuthField1.Name = "AuthField1";
-			this.AuthField1.Size = new System.Drawing.Size(151, 20);
-			this.AuthField1.TabIndex = 21;
+			this.PythonPathText.Location = new System.Drawing.Point(122, 112);
+			this.PythonPathText.Name = "PythonPathText";
+			this.PythonPathText.Size = new System.Drawing.Size(535, 20);
+			this.PythonPathText.TabIndex = 31;
+			this.PythonPathText.Visible = false;
 			// 
-			// ChatReconnectButton
+			// RepoBranchTextBox
 			// 
-			this.ChatReconnectButton.Enabled = false;
-			this.ChatReconnectButton.Location = new System.Drawing.Point(174, 141);
-			this.ChatReconnectButton.Name = "ChatReconnectButton";
-			this.ChatReconnectButton.Size = new System.Drawing.Size(112, 25);
-			this.ChatReconnectButton.TabIndex = 18;
-			this.ChatReconnectButton.Text = "Reconnect";
-			this.ChatReconnectButton.UseVisualStyleBackColor = true;
-			this.ChatReconnectButton.Click += new System.EventHandler(this.ChatReconnectButton_Click);
+			this.RepoBranchTextBox.Location = new System.Drawing.Point(122, 70);
+			this.RepoBranchTextBox.Name = "RepoBranchTextBox";
+			this.RepoBranchTextBox.Size = new System.Drawing.Size(535, 20);
+			this.RepoBranchTextBox.TabIndex = 15;
+			this.RepoBranchTextBox.Visible = false;
 			// 
-			// ChatStatusLabel
+			// RepoRemoteTextBox
 			// 
-			this.ChatStatusLabel.AutoSize = true;
-			this.ChatStatusLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatStatusLabel.Location = new System.Drawing.Point(171, 113);
-			this.ChatStatusLabel.Name = "ChatStatusLabel";
-			this.ChatStatusLabel.Size = new System.Drawing.Size(82, 18);
-			this.ChatStatusLabel.TabIndex = 17;
-			this.ChatStatusLabel.Text = "Unknown";
-			this.ChatStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.RepoRemoteTextBox.Location = new System.Drawing.Point(122, 44);
+			this.RepoRemoteTextBox.Name = "RepoRemoteTextBox";
+			this.RepoRemoteTextBox.Size = new System.Drawing.Size(535, 20);
+			this.RepoRemoteTextBox.TabIndex = 14;
+			this.RepoRemoteTextBox.Visible = false;
 			// 
-			// ChatStatusTitle
+			// PythonPathLabel
 			// 
-			this.ChatStatusTitle.AutoSize = true;
-			this.ChatStatusTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatStatusTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatStatusTitle.Location = new System.Drawing.Point(30, 113);
-			this.ChatStatusTitle.Name = "ChatStatusTitle";
-			this.ChatStatusTitle.Size = new System.Drawing.Size(112, 18);
-			this.ChatStatusTitle.TabIndex = 16;
-			this.ChatStatusTitle.Text = "Chat Status:";
-			this.ChatStatusTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.PythonPathLabel.AutoSize = true;
+			this.PythonPathLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.PythonPathLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.PythonPathLabel.Location = new System.Drawing.Point(6, 112);
+			this.PythonPathLabel.Name = "PythonPathLabel";
+			this.PythonPathLabel.Size = new System.Drawing.Size(114, 18);
+			this.PythonPathLabel.TabIndex = 30;
+			this.PythonPathLabel.Text = "Python Path:";
+			this.PythonPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.PythonPathLabel.Visible = false;
 			// 
-			// ChatEnabledCheckbox
+			// RepoGenChangelogButton
 			// 
-			this.ChatEnabledCheckbox.AutoSize = true;
-			this.ChatEnabledCheckbox.Font = new System.Drawing.Font("Verdana", 12F);
-			this.ChatEnabledCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatEnabledCheckbox.Location = new System.Drawing.Point(32, 142);
-			this.ChatEnabledCheckbox.Name = "ChatEnabledCheckbox";
-			this.ChatEnabledCheckbox.Size = new System.Drawing.Size(136, 22);
-			this.ChatEnabledCheckbox.TabIndex = 15;
-			this.ChatEnabledCheckbox.Text = "Chat Enabled";
-			this.ChatEnabledCheckbox.UseVisualStyleBackColor = true;
+			this.RepoGenChangelogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoGenChangelogButton.Location = new System.Drawing.Point(722, 177);
+			this.RepoGenChangelogButton.Name = "RepoGenChangelogButton";
+			this.RepoGenChangelogButton.Size = new System.Drawing.Size(140, 29);
+			this.RepoGenChangelogButton.TabIndex = 27;
+			this.RepoGenChangelogButton.Text = "Generate Changelog";
+			this.RepoGenChangelogButton.UseVisualStyleBackColor = true;
+			this.RepoGenChangelogButton.Visible = false;
+			this.RepoGenChangelogButton.Click += new System.EventHandler(this.RepoGenChangelogButton_Click);
 			// 
-			// ChatProviderSelectorPanel
+			// TestmergeSelector
 			// 
-			this.ChatProviderSelectorPanel.Controls.Add(this.DiscordProviderSwitch);
-			this.ChatProviderSelectorPanel.Controls.Add(this.IRCProviderSwitch);
-			this.ChatProviderSelectorPanel.Location = new System.Drawing.Point(23, 49);
-			this.ChatProviderSelectorPanel.Name = "ChatProviderSelectorPanel";
-			this.ChatProviderSelectorPanel.Size = new System.Drawing.Size(302, 50);
-			this.ChatProviderSelectorPanel.TabIndex = 14;
+			this.TestmergeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.TestmergeSelector.Location = new System.Drawing.Point(722, 151);
+			this.TestmergeSelector.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+			this.TestmergeSelector.Name = "TestmergeSelector";
+			this.TestmergeSelector.Size = new System.Drawing.Size(140, 20);
+			this.TestmergeSelector.TabIndex = 22;
+			this.TestmergeSelector.Visible = false;
 			// 
-			// DiscordProviderSwitch
+			// TestMergeListLabel
 			// 
-			this.DiscordProviderSwitch.AutoSize = true;
-			this.DiscordProviderSwitch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.DiscordProviderSwitch.Location = new System.Drawing.Point(220, 17);
-			this.DiscordProviderSwitch.Name = "DiscordProviderSwitch";
-			this.DiscordProviderSwitch.Size = new System.Drawing.Size(61, 17);
-			this.DiscordProviderSwitch.TabIndex = 13;
-			this.DiscordProviderSwitch.TabStop = true;
-			this.DiscordProviderSwitch.Text = "Discord";
-			this.DiscordProviderSwitch.UseVisualStyleBackColor = true;
-			this.DiscordProviderSwitch.CheckedChanged += new System.EventHandler(this.DiscordProviderSwitch_CheckedChanged);
+			this.TestMergeListLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.TestMergeListLabel.HorizontalScrollbar = true;
+			this.TestMergeListLabel.Items.AddRange(new object[] {
+            "None"});
+			this.TestMergeListLabel.Location = new System.Drawing.Point(122, 260);
+			this.TestMergeListLabel.Name = "TestMergeListLabel";
+			this.TestMergeListLabel.ScrollAlwaysVisible = true;
+			this.TestMergeListLabel.Size = new System.Drawing.Size(535, 95);
+			this.TestMergeListLabel.TabIndex = 21;
+			this.TestMergeListLabel.Visible = false;
 			// 
-			// IRCProviderSwitch
+			// CurrentRevisionLabel
 			// 
-			this.IRCProviderSwitch.AutoSize = true;
-			this.IRCProviderSwitch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.IRCProviderSwitch.Location = new System.Drawing.Point(14, 17);
-			this.IRCProviderSwitch.Name = "IRCProviderSwitch";
-			this.IRCProviderSwitch.Size = new System.Drawing.Size(116, 17);
-			this.IRCProviderSwitch.TabIndex = 12;
-			this.IRCProviderSwitch.TabStop = true;
-			this.IRCProviderSwitch.Text = "Internet Relay Chat";
-			this.IRCProviderSwitch.UseVisualStyleBackColor = true;
-			this.IRCProviderSwitch.CheckedChanged += new System.EventHandler(this.IRCProviderSwitch_CheckedChanged);
+			this.CurrentRevisionLabel.AutoSize = true;
+			this.CurrentRevisionLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CurrentRevisionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.CurrentRevisionLabel.Location = new System.Drawing.Point(162, 14);
+			this.CurrentRevisionLabel.Name = "CurrentRevisionLabel";
+			this.CurrentRevisionLabel.Size = new System.Drawing.Size(82, 18);
+			this.CurrentRevisionLabel.TabIndex = 20;
+			this.CurrentRevisionLabel.Text = "Unknown";
+			this.CurrentRevisionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.CurrentRevisionLabel.Visible = false;
 			// 
-			// ChatProviderTitle
+			// RepoApplyButton
 			// 
-			this.ChatProviderTitle.AutoSize = true;
-			this.ChatProviderTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatProviderTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatProviderTitle.Location = new System.Drawing.Point(20, 15);
-			this.ChatProviderTitle.Name = "ChatProviderTitle";
-			this.ChatProviderTitle.Size = new System.Drawing.Size(144, 18);
-			this.ChatProviderTitle.TabIndex = 13;
-			this.ChatProviderTitle.Text = "Editing Provider:";
-			this.ChatProviderTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.RepoApplyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoApplyButton.Location = new System.Drawing.Point(722, 331);
+			this.RepoApplyButton.Name = "RepoApplyButton";
+			this.RepoApplyButton.Size = new System.Drawing.Size(140, 29);
+			this.RepoApplyButton.TabIndex = 17;
+			this.RepoApplyButton.Text = "Apply Changes";
+			this.RepoApplyButton.UseVisualStyleBackColor = true;
+			this.RepoApplyButton.Visible = false;
+			this.RepoApplyButton.Click += new System.EventHandler(this.RepoApplyButton_Click);
 			// 
-			// ChannelsTitle
+			// HardReset
 			// 
-			this.ChannelsTitle.AutoSize = true;
-			this.ChannelsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChannelsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChannelsTitle.Location = new System.Drawing.Point(565, 15);
-			this.ChannelsTitle.Name = "ChannelsTitle";
-			this.ChannelsTitle.Size = new System.Drawing.Size(234, 18);
-			this.ChannelsTitle.TabIndex = 11;
-			this.ChannelsTitle.Text = "Listen/Broadcast Channels:";
-			this.ChannelsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.HardReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.HardReset.Location = new System.Drawing.Point(722, 46);
+			this.HardReset.Name = "HardReset";
+			this.HardReset.Size = new System.Drawing.Size(140, 29);
+			this.HardReset.TabIndex = 13;
+			this.HardReset.Text = "Reset To Origin Branch";
+			this.HardReset.UseVisualStyleBackColor = true;
+			this.HardReset.Visible = false;
+			this.HardReset.Click += new System.EventHandler(this.HardReset_Click);
 			// 
-			// ChatAdminsTextBox
+			// UpdateRepoButton
 			// 
-			this.ChatAdminsTextBox.Location = new System.Drawing.Point(369, 49);
-			this.ChatAdminsTextBox.Multiline = true;
-			this.ChatAdminsTextBox.Name = "ChatAdminsTextBox";
-			this.ChatAdminsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.ChatAdminsTextBox.Size = new System.Drawing.Size(141, 311);
-			this.ChatAdminsTextBox.TabIndex = 10;
+			this.UpdateRepoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.UpdateRepoButton.Location = new System.Drawing.Point(722, 11);
+			this.UpdateRepoButton.Name = "UpdateRepoButton";
+			this.UpdateRepoButton.Size = new System.Drawing.Size(140, 29);
+			this.UpdateRepoButton.TabIndex = 12;
+			this.UpdateRepoButton.Text = "Merge from Remote";
+			this.UpdateRepoButton.UseVisualStyleBackColor = true;
+			this.UpdateRepoButton.Visible = false;
+			this.UpdateRepoButton.Click += new System.EventHandler(this.UpdateRepoButton_Click);
 			// 
-			// ChatAdminsTitle
+			// MergePRButton
 			// 
-			this.ChatAdminsTitle.AutoSize = true;
-			this.ChatAdminsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ChatAdminsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ChatAdminsTitle.Location = new System.Drawing.Point(366, 15);
-			this.ChatAdminsTitle.Name = "ChatAdminsTitle";
-			this.ChatAdminsTitle.Size = new System.Drawing.Size(75, 18);
-			this.ChatAdminsTitle.TabIndex = 9;
-			this.ChatAdminsTitle.Text = "Admins:";
-			this.ChatAdminsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.MergePRButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.MergePRButton.Location = new System.Drawing.Point(722, 116);
+			this.MergePRButton.Name = "MergePRButton";
+			this.MergePRButton.Size = new System.Drawing.Size(140, 29);
+			this.MergePRButton.TabIndex = 11;
+			this.MergePRButton.Text = "Merge Pull Request";
+			this.MergePRButton.UseVisualStyleBackColor = true;
+			this.MergePRButton.Visible = false;
+			this.MergePRButton.Click += new System.EventHandler(this.TestMergeButton_Click);
 			// 
-			// panel1
+			// IdentityLabel
 			// 
-			this.panel1.Controls.Add(this.AdminModeSpecial);
-			this.panel1.Controls.Add(this.AdminModeNormal);
-			this.panel1.Location = new System.Drawing.Point(174, 168);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(202, 25);
-			this.panel1.TabIndex = 15;
+			this.IdentityLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.IdentityLabel.AutoSize = true;
+			this.IdentityLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.IdentityLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.IdentityLabel.Location = new System.Drawing.Point(6, 142);
+			this.IdentityLabel.Name = "IdentityLabel";
+			this.IdentityLabel.Size = new System.Drawing.Size(116, 18);
+			this.IdentityLabel.TabIndex = 8;
+			this.IdentityLabel.Text = "Backup Tags:";
+			this.IdentityLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.IdentityLabel.Visible = false;
 			// 
-			// AdminModeSpecial
+			// TestMergeListTitle
 			// 
-			this.AdminModeSpecial.AutoSize = true;
-			this.AdminModeSpecial.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AdminModeSpecial.Location = new System.Drawing.Point(87, 8);
-			this.AdminModeSpecial.Name = "AdminModeSpecial";
-			this.AdminModeSpecial.Size = new System.Drawing.Size(94, 17);
-			this.AdminModeSpecial.TabIndex = 13;
-			this.AdminModeSpecial.TabStop = true;
-			this.AdminModeSpecial.Text = "Channel Mode";
-			this.AdminModeSpecial.UseVisualStyleBackColor = true;
+			this.TestMergeListTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.TestMergeListTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.TestMergeListTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.TestMergeListTitle.Location = new System.Drawing.Point(6, 260);
+			this.TestMergeListTitle.Name = "TestMergeListTitle";
+			this.TestMergeListTitle.Size = new System.Drawing.Size(110, 41);
+			this.TestMergeListTitle.TabIndex = 6;
+			this.TestMergeListTitle.Text = "Active Test Merges:";
+			this.TestMergeListTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.TestMergeListTitle.Visible = false;
 			// 
-			// AdminModeNormal
+			// RemoteNameTitle
 			// 
-			this.AdminModeNormal.AutoSize = true;
-			this.AdminModeNormal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AdminModeNormal.Location = new System.Drawing.Point(3, 8);
-			this.AdminModeNormal.Name = "AdminModeNormal";
-			this.AdminModeNormal.Size = new System.Drawing.Size(78, 17);
-			this.AdminModeNormal.TabIndex = 12;
-			this.AdminModeNormal.TabStop = true;
-			this.AdminModeNormal.Text = "Nicknames";
-			this.AdminModeNormal.UseVisualStyleBackColor = true;
-			this.AdminModeNormal.CheckedChanged += new System.EventHandler(this.AdminModeNormal_CheckedChanged);
+			this.RemoteNameTitle.AutoSize = true;
+			this.RemoteNameTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.RemoteNameTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.RemoteNameTitle.Location = new System.Drawing.Point(6, 46);
+			this.RemoteNameTitle.Name = "RemoteNameTitle";
+			this.RemoteNameTitle.Size = new System.Drawing.Size(78, 18);
+			this.RemoteNameTitle.TabIndex = 5;
+			this.RemoteNameTitle.Text = "Remote:";
+			this.RemoteNameTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.RemoteNameTitle.Visible = false;
 			// 
-			// ConfigPanel
+			// BranchNameTitle
 			// 
-			this.ConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.ConfigPanel.Controls.Add(this.ConfigApply);
-			this.ConfigPanel.Controls.Add(this.ConfigDownloadRepo);
-			this.ConfigPanel.Controls.Add(this.ConfigUpload);
-			this.ConfigPanel.Controls.Add(this.ConfigDownload);
-			this.ConfigPanel.Controls.Add(this.ConfigRefresh);
-			this.ConfigPanel.Controls.Add(this.ConfigPanels);
-			this.ConfigPanel.Controls.Add(this.ConfigDisabledLabel);
-			this.ConfigPanel.Location = new System.Drawing.Point(4, 22);
-			this.ConfigPanel.Name = "ConfigPanel";
-			this.ConfigPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.ConfigPanel.Size = new System.Drawing.Size(868, 366);
-			this.ConfigPanel.TabIndex = 5;
-			this.ConfigPanel.Text = "Config";
+			this.BranchNameTitle.AutoSize = true;
+			this.BranchNameTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BranchNameTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.BranchNameTitle.Location = new System.Drawing.Point(6, 72);
+			this.BranchNameTitle.Name = "BranchNameTitle";
+			this.BranchNameTitle.Size = new System.Drawing.Size(70, 18);
+			this.BranchNameTitle.TabIndex = 4;
+			this.BranchNameTitle.Text = "Branch:";
+			this.BranchNameTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.BranchNameTitle.Visible = false;
 			// 
-			// ConfigApply
+			// CurrentRevisionTitle
 			// 
-			this.ConfigApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigApply.Location = new System.Drawing.Point(782, 26);
-			this.ConfigApply.Name = "ConfigApply";
-			this.ConfigApply.Size = new System.Drawing.Size(63, 22);
-			this.ConfigApply.TabIndex = 4;
-			this.ConfigApply.Text = "Apply";
-			this.ConfigApply.UseVisualStyleBackColor = true;
-			this.ConfigApply.Click += new System.EventHandler(this.ConfigApply_Click);
+			this.CurrentRevisionTitle.AutoSize = true;
+			this.CurrentRevisionTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CurrentRevisionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.CurrentRevisionTitle.Location = new System.Drawing.Point(6, 14);
+			this.CurrentRevisionTitle.Name = "CurrentRevisionTitle";
+			this.CurrentRevisionTitle.Size = new System.Drawing.Size(150, 18);
+			this.CurrentRevisionTitle.TabIndex = 3;
+			this.CurrentRevisionTitle.Text = "Current Revision:";
+			this.CurrentRevisionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.CurrentRevisionTitle.Visible = false;
 			// 
-			// ConfigDownloadRepo
+			// CloneRepositoryButton
 			// 
-			this.ConfigDownloadRepo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigDownloadRepo.Location = new System.Drawing.Point(782, 110);
-			this.ConfigDownloadRepo.Name = "ConfigDownloadRepo";
-			this.ConfigDownloadRepo.Size = new System.Drawing.Size(63, 22);
-			this.ConfigDownloadRepo.TabIndex = 8;
-			this.ConfigDownloadRepo.Text = "DL Repo";
-			this.ConfigDownloadRepo.UseVisualStyleBackColor = true;
-			this.ConfigDownloadRepo.Click += new System.EventHandler(this.ConfigDownloadRepo_Click);
-			// 
-			// ConfigUpload
-			// 
-			this.ConfigUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigUpload.Location = new System.Drawing.Point(782, 138);
-			this.ConfigUpload.Name = "ConfigUpload";
-			this.ConfigUpload.Size = new System.Drawing.Size(63, 22);
-			this.ConfigUpload.TabIndex = 7;
-			this.ConfigUpload.Text = "Upload";
-			this.ConfigUpload.UseVisualStyleBackColor = true;
-			this.ConfigUpload.Click += new System.EventHandler(this.ConfigUpload_Click);
-			// 
-			// ConfigDownload
-			// 
-			this.ConfigDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigDownload.Location = new System.Drawing.Point(782, 82);
-			this.ConfigDownload.Name = "ConfigDownload";
-			this.ConfigDownload.Size = new System.Drawing.Size(63, 22);
-			this.ConfigDownload.TabIndex = 6;
-			this.ConfigDownload.Text = "Download";
-			this.ConfigDownload.UseVisualStyleBackColor = true;
-			this.ConfigDownload.Click += new System.EventHandler(this.ConfigDownload_Click);
-			// 
-			// ConfigRefresh
-			// 
-			this.ConfigRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigRefresh.Location = new System.Drawing.Point(782, 54);
-			this.ConfigRefresh.Name = "ConfigRefresh";
-			this.ConfigRefresh.Size = new System.Drawing.Size(63, 22);
-			this.ConfigRefresh.TabIndex = 5;
-			this.ConfigRefresh.Text = "Refresh";
-			this.ConfigRefresh.UseVisualStyleBackColor = true;
-			this.ConfigRefresh.Click += new System.EventHandler(this.ConfigRefresh_Click);
-			// 
-			// ConfigPanels
-			// 
-			this.ConfigPanels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.CloneRepositoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigPanels.Controls.Add(this.ConfigConfigPanel);
-			this.ConfigPanels.Controls.Add(this.DatabaseConfigPanel);
-			this.ConfigPanels.Controls.Add(this.GameConfigPanel);
-			this.ConfigPanels.Controls.Add(this.JobsConfigPanel);
-			this.ConfigPanels.Controls.Add(this.MapsConfigPanel);
-			this.ConfigPanels.Controls.Add(this.AdminsPanel);
-			this.ConfigPanels.Location = new System.Drawing.Point(-4, 0);
-			this.ConfigPanels.Name = "ConfigPanels";
-			this.ConfigPanels.SelectedIndex = 0;
-			this.ConfigPanels.Size = new System.Drawing.Size(876, 370);
-			this.ConfigPanels.TabIndex = 0;
+			this.CloneRepositoryButton.Location = new System.Drawing.Point(311, 191);
+			this.CloneRepositoryButton.Name = "CloneRepositoryButton";
+			this.CloneRepositoryButton.Size = new System.Drawing.Size(229, 34);
+			this.CloneRepositoryButton.TabIndex = 2;
+			this.CloneRepositoryButton.Text = "Clone Repository";
+			this.CloneRepositoryButton.UseVisualStyleBackColor = true;
+			this.CloneRepositoryButton.Visible = false;
+			this.CloneRepositoryButton.Click += new System.EventHandler(this.CloneRepositoryButton_Click);
 			// 
-			// ConfigConfigPanel
+			// RepoProgressBarLabel
 			// 
-			this.ConfigConfigPanel.AutoScroll = true;
-			this.ConfigConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.ConfigConfigPanel.Location = new System.Drawing.Point(4, 22);
-			this.ConfigConfigPanel.Name = "ConfigConfigPanel";
-			this.ConfigConfigPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.ConfigConfigPanel.Size = new System.Drawing.Size(868, 344);
-			this.ConfigConfigPanel.TabIndex = 0;
-			this.ConfigConfigPanel.Text = "General";
-			// 
-			// DatabaseConfigPanel
-			// 
-			this.DatabaseConfigPanel.AutoScroll = true;
-			this.DatabaseConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.DatabaseConfigPanel.Location = new System.Drawing.Point(4, 22);
-			this.DatabaseConfigPanel.Name = "DatabaseConfigPanel";
-			this.DatabaseConfigPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.DatabaseConfigPanel.Size = new System.Drawing.Size(868, 344);
-			this.DatabaseConfigPanel.TabIndex = 1;
-			this.DatabaseConfigPanel.Text = "Database";
-			// 
-			// GameConfigPanel
-			// 
-			this.GameConfigPanel.AutoScroll = true;
-			this.GameConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.GameConfigPanel.Location = new System.Drawing.Point(4, 22);
-			this.GameConfigPanel.Name = "GameConfigPanel";
-			this.GameConfigPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.GameConfigPanel.Size = new System.Drawing.Size(868, 344);
-			this.GameConfigPanel.TabIndex = 2;
-			this.GameConfigPanel.Text = "Game";
-			// 
-			// JobsConfigPanel
-			// 
-			this.JobsConfigPanel.AutoScroll = true;
-			this.JobsConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.JobsConfigPanel.Location = new System.Drawing.Point(4, 22);
-			this.JobsConfigPanel.Name = "JobsConfigPanel";
-			this.JobsConfigPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.JobsConfigPanel.Size = new System.Drawing.Size(868, 344);
-			this.JobsConfigPanel.TabIndex = 3;
-			this.JobsConfigPanel.Text = "Jobs";
-			// 
-			// MapsConfigPanel
-			// 
-			this.MapsConfigPanel.AutoScroll = true;
-			this.MapsConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.MapsConfigPanel.Location = new System.Drawing.Point(4, 22);
-			this.MapsConfigPanel.Name = "MapsConfigPanel";
-			this.MapsConfigPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.MapsConfigPanel.Size = new System.Drawing.Size(868, 344);
-			this.MapsConfigPanel.TabIndex = 4;
-			this.MapsConfigPanel.Text = "Maps";
-			// 
-			// AdminsPanel
-			// 
-			this.AdminsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
-			this.AdminsPanel.Controls.Add(this.NegativePermissionsTitle);
-			this.AdminsPanel.Controls.Add(this.NegativePermissions);
-			this.AdminsPanel.Controls.Add(this.ApplyAdminRankButton);
-			this.AdminsPanel.Controls.Add(this.PermissionsListBox);
-			this.AdminsPanel.Controls.Add(this.PermissionsTItle);
-			this.AdminsPanel.Controls.Add(this.RemoveRankButton);
-			this.AdminsPanel.Controls.Add(this.AddRankTextBox);
-			this.AdminsPanel.Controls.Add(this.AddRankButton);
-			this.AdminsPanel.Controls.Add(this.AdminRanksListBox);
-			this.AdminsPanel.Controls.Add(this.RanksTitle);
-			this.AdminsPanel.Controls.Add(this.DeadminButton);
-			this.AdminsPanel.Controls.Add(this.AddminTextBox);
-			this.AdminsPanel.Controls.Add(this.AddminButton);
-			this.AdminsPanel.Controls.Add(this.AdminsListBox);
-			this.AdminsPanel.Controls.Add(this.AdminsTitle);
-			this.AdminsPanel.Location = new System.Drawing.Point(4, 22);
-			this.AdminsPanel.Name = "AdminsPanel";
-			this.AdminsPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.AdminsPanel.Size = new System.Drawing.Size(868, 344);
-			this.AdminsPanel.TabIndex = 5;
-			this.AdminsPanel.Text = "Admins";
-			// 
-			// NegativePermissionsTitle
-			// 
-			this.NegativePermissionsTitle.AutoSize = true;
-			this.NegativePermissionsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.NegativePermissionsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.NegativePermissionsTitle.Location = new System.Drawing.Point(269, 151);
-			this.NegativePermissionsTitle.Name = "NegativePermissionsTitle";
-			this.NegativePermissionsTitle.Size = new System.Drawing.Size(192, 18);
-			this.NegativePermissionsTitle.TabIndex = 31;
-			this.NegativePermissionsTitle.Text = "Negative Permissions:";
-			this.NegativePermissionsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// NegativePermissions
-			// 
-			this.NegativePermissions.FormattingEnabled = true;
-			this.NegativePermissions.HorizontalScrollbar = true;
-			this.NegativePermissions.Location = new System.Drawing.Point(272, 172);
-			this.NegativePermissions.Name = "NegativePermissions";
-			this.NegativePermissions.Size = new System.Drawing.Size(240, 109);
-			this.NegativePermissions.TabIndex = 30;
-			// 
-			// ApplyAdminRankButton
-			// 
-			this.ApplyAdminRankButton.Location = new System.Drawing.Point(272, 292);
-			this.ApplyAdminRankButton.Name = "ApplyAdminRankButton";
-			this.ApplyAdminRankButton.Size = new System.Drawing.Size(240, 46);
-			this.ApplyAdminRankButton.TabIndex = 29;
-			this.ApplyAdminRankButton.Text = "Apply Selected Rank to Selected Admin";
-			this.ApplyAdminRankButton.UseVisualStyleBackColor = true;
-			this.ApplyAdminRankButton.Click += new System.EventHandler(this.ApplyAdminRankButton_Click);
-			// 
-			// PermissionsListBox
-			// 
-			this.PermissionsListBox.FormattingEnabled = true;
-			this.PermissionsListBox.HorizontalScrollbar = true;
-			this.PermissionsListBox.Location = new System.Drawing.Point(272, 29);
-			this.PermissionsListBox.Name = "PermissionsListBox";
-			this.PermissionsListBox.Size = new System.Drawing.Size(240, 109);
-			this.PermissionsListBox.TabIndex = 28;
-			// 
-			// PermissionsTItle
-			// 
-			this.PermissionsTItle.AutoSize = true;
-			this.PermissionsTItle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.PermissionsTItle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.PermissionsTItle.Location = new System.Drawing.Point(269, 8);
-			this.PermissionsTItle.Name = "PermissionsTItle";
-			this.PermissionsTItle.Size = new System.Drawing.Size(113, 18);
-			this.PermissionsTItle.TabIndex = 27;
-			this.PermissionsTItle.Text = "Permissions:";
-			this.PermissionsTItle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// RemoveRankButton
-			// 
-			this.RemoveRankButton.Location = new System.Drawing.Point(9, 292);
-			this.RemoveRankButton.Name = "RemoveRankButton";
-			this.RemoveRankButton.Size = new System.Drawing.Size(240, 20);
-			this.RemoveRankButton.TabIndex = 26;
-			this.RemoveRankButton.Text = "Remove Selected";
-			this.RemoveRankButton.UseVisualStyleBackColor = true;
-			this.RemoveRankButton.Click += new System.EventHandler(this.RemoveRankButton_Click);
-			// 
-			// AddRankTextBox
-			// 
-			this.AddRankTextBox.Location = new System.Drawing.Point(9, 318);
-			this.AddRankTextBox.Name = "AddRankTextBox";
-			this.AddRankTextBox.Size = new System.Drawing.Size(184, 20);
-			this.AddRankTextBox.TabIndex = 25;
-			// 
-			// AddRankButton
-			// 
-			this.AddRankButton.Location = new System.Drawing.Point(199, 318);
-			this.AddRankButton.Name = "AddRankButton";
-			this.AddRankButton.Size = new System.Drawing.Size(50, 20);
-			this.AddRankButton.TabIndex = 24;
-			this.AddRankButton.Text = "Add";
-			this.AddRankButton.UseVisualStyleBackColor = true;
-			this.AddRankButton.Click += new System.EventHandler(this.AddRankButton_Click);
-			// 
-			// AdminRanksListBox
-			// 
-			this.AdminRanksListBox.FormattingEnabled = true;
-			this.AdminRanksListBox.Location = new System.Drawing.Point(9, 30);
-			this.AdminRanksListBox.Name = "AdminRanksListBox";
-			this.AdminRanksListBox.Size = new System.Drawing.Size(240, 251);
-			this.AdminRanksListBox.TabIndex = 23;
-			// 
-			// RanksTitle
-			// 
-			this.RanksTitle.AutoSize = true;
-			this.RanksTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.RanksTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.RanksTitle.Location = new System.Drawing.Point(6, 8);
-			this.RanksTitle.Name = "RanksTitle";
-			this.RanksTitle.Size = new System.Drawing.Size(64, 18);
-			this.RanksTitle.TabIndex = 22;
-			this.RanksTitle.Text = "Ranks:";
-			this.RanksTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// DeadminButton
-			// 
-			this.DeadminButton.Location = new System.Drawing.Point(536, 292);
-			this.DeadminButton.Name = "DeadminButton";
-			this.DeadminButton.Size = new System.Drawing.Size(240, 20);
-			this.DeadminButton.TabIndex = 21;
-			this.DeadminButton.Text = "Remove Selected";
-			this.DeadminButton.UseVisualStyleBackColor = true;
-			this.DeadminButton.Click += new System.EventHandler(this.DeadminButton_Click);
-			// 
-			// AddminTextBox
-			// 
-			this.AddminTextBox.Location = new System.Drawing.Point(536, 318);
-			this.AddminTextBox.Name = "AddminTextBox";
-			this.AddminTextBox.Size = new System.Drawing.Size(184, 20);
-			this.AddminTextBox.TabIndex = 20;
-			// 
-			// AddminButton
-			// 
-			this.AddminButton.Location = new System.Drawing.Point(726, 318);
-			this.AddminButton.Name = "AddminButton";
-			this.AddminButton.Size = new System.Drawing.Size(50, 20);
-			this.AddminButton.TabIndex = 19;
-			this.AddminButton.Text = "Add";
-			this.AddminButton.UseVisualStyleBackColor = true;
-			this.AddminButton.Click += new System.EventHandler(this.AddminButton_Click);
-			// 
-			// AdminsListBox
-			// 
-			this.AdminsListBox.FormattingEnabled = true;
-			this.AdminsListBox.Location = new System.Drawing.Point(536, 30);
-			this.AdminsListBox.Name = "AdminsListBox";
-			this.AdminsListBox.Size = new System.Drawing.Size(240, 251);
-			this.AdminsListBox.TabIndex = 13;
-			// 
-			// AdminsTitle
-			// 
-			this.AdminsTitle.AutoSize = true;
-			this.AdminsTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AdminsTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.AdminsTitle.Location = new System.Drawing.Point(533, 8);
-			this.AdminsTitle.Name = "AdminsTitle";
-			this.AdminsTitle.Size = new System.Drawing.Size(75, 18);
-			this.AdminsTitle.TabIndex = 12;
-			this.AdminsTitle.Text = "Admins:";
-			this.AdminsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// ConfigDisabledLabel
-			// 
-			this.ConfigDisabledLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.RepoProgressBarLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConfigDisabledLabel.AutoSize = true;
-			this.ConfigDisabledLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ConfigDisabledLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ConfigDisabledLabel.Location = new System.Drawing.Point(225, 160);
-			this.ConfigDisabledLabel.Name = "ConfigDisabledLabel";
-			this.ConfigDisabledLabel.Size = new System.Drawing.Size(428, 18);
-			this.ConfigDisabledLabel.TabIndex = 14;
-			this.ConfigDisabledLabel.Text = "Configuration is disabled until repository is set up!";
-			this.ConfigDisabledLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.RepoProgressBarLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.RepoProgressBarLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.RepoProgressBarLabel.Location = new System.Drawing.Point(184, 142);
+			this.RepoProgressBarLabel.Name = "RepoProgressBarLabel";
+			this.RepoProgressBarLabel.Size = new System.Drawing.Size(499, 46);
+			this.RepoProgressBarLabel.TabIndex = 1;
+			this.RepoProgressBarLabel.Text = "Searching for Repository...";
+			this.RepoProgressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// RepoBGW
+			// RepoProgressBar
 			// 
-			this.RepoBGW.WorkerReportsProgress = true;
-			this.RepoBGW.WorkerSupportsCancellation = true;
+			this.RepoProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.RepoProgressBar.Location = new System.Drawing.Point(184, 191);
+			this.RepoProgressBar.Name = "RepoProgressBar";
+			this.RepoProgressBar.Size = new System.Drawing.Size(499, 23);
+			this.RepoProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			this.RepoProgressBar.TabIndex = 0;
 			// 
-			// BYONDTimer
+			// Panels
 			// 
-			this.BYONDTimer.Interval = 1000;
-			this.BYONDTimer.Tick += new System.EventHandler(this.BYONDTimer_Tick);
-			// 
-			// ServerTimer
-			// 
-			this.ServerTimer.Interval = 10000;
-			this.ServerTimer.Tick += new System.EventHandler(this.ServerTimer_Tick);
-			// 
-			// WorldStatusChecker
-			// 
-			this.WorldStatusChecker.WorkerReportsProgress = true;
-			this.WorldStatusChecker.WorkerSupportsCancellation = true;
-			this.WorldStatusChecker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.WorldStatusChecker_DoWork);
-			// 
-			// WorldStatusTimer
-			// 
-			this.WorldStatusTimer.Interval = 10000;
-			this.WorldStatusTimer.Tick += new System.EventHandler(this.WorldStatusTimer_Tick);
-			// 
-			// FullUpdateWorker
-			// 
-			this.FullUpdateWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FullUpdateWorker_DoWork);
-			// 
-			// ServerStartBGW
-			// 
-			this.ServerStartBGW.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerStartBGW_DoWork);
+			this.Panels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Panels.Controls.Add(this.RepoPanel);
+			this.Panels.Controls.Add(this.BYONDPanel);
+			this.Panels.Controls.Add(this.ServerPanel);
+			this.Panels.Controls.Add(this.ChatPanel);
+			this.Panels.Location = new System.Drawing.Point(12, 12);
+			this.Panels.Name = "Panels";
+			this.Panels.SelectedIndex = 0;
+			this.Panels.Size = new System.Drawing.Size(876, 392);
+			this.Panels.TabIndex = 3;
 			// 
 			// Main
 			// 
@@ -1978,18 +1615,6 @@
 			this.Name = "Main";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "/tg/station 13 Server Control Panel";
-			this.Panels.ResumeLayout(false);
-			this.RepoPanel.ResumeLayout(false);
-			this.RepoPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).EndInit();
-			this.BYONDPanel.ResumeLayout(false);
-			this.BYONDPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.MinorVersionNumeric)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.MajorVersionNumeric)).EndInit();
-			this.ServerPanel.ResumeLayout(false);
-			this.ServerPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).EndInit();
 			this.ChatPanel.ResumeLayout(false);
 			this.ChatPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).EndInit();
@@ -1997,77 +1622,55 @@
 			this.ChatProviderSelectorPanel.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			this.ConfigPanel.ResumeLayout(false);
-			this.ConfigPanel.PerformLayout();
-			this.ConfigPanels.ResumeLayout(false);
-			this.AdminsPanel.ResumeLayout(false);
-			this.AdminsPanel.PerformLayout();
+			this.ServerPanel.ResumeLayout(false);
+			this.ServerPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).EndInit();
+			this.BYONDPanel.ResumeLayout(false);
+			this.BYONDPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.MinorVersionNumeric)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.MajorVersionNumeric)).EndInit();
+			this.RepoPanel.ResumeLayout(false);
+			this.RepoPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.TestmergeSelector)).EndInit();
+			this.Panels.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
-		private System.Windows.Forms.TabControl Panels;
 		private System.ComponentModel.BackgroundWorker RepoBGW;
-		private System.Windows.Forms.TabPage BYONDPanel;
-		private System.Windows.Forms.TabPage ServerPanel;
-		private System.Windows.Forms.Button UpdateButton;
-		private System.Windows.Forms.NumericUpDown MinorVersionNumeric;
-		private System.Windows.Forms.NumericUpDown MajorVersionNumeric;
-		private System.Windows.Forms.ProgressBar UpdateProgressBar;
-		private System.Windows.Forms.Label MajorVersionLabel;
-		private System.Windows.Forms.Label MinorVersionLabel;
-		private System.Windows.Forms.Label VersionLabel;
-		private System.Windows.Forms.Label VersionTitle;
-		private System.Windows.Forms.Label StatusLabel;
 		private System.Windows.Forms.Timer BYONDTimer;
-		private System.Windows.Forms.Label StagedVersionLabel;
-		private System.Windows.Forms.Label StagedVersionTitle;
-		private System.Windows.Forms.TabPage ChatPanel;
-		private System.Windows.Forms.TabPage ConfigPanel;
-		private System.Windows.Forms.Label ServerStatusTitle;
-		private System.Windows.Forms.Button compileButton;
-		private System.Windows.Forms.Button initializeButton;
-		private System.Windows.Forms.ProgressBar compilerProgressBar;
-		private System.Windows.Forms.Label ServerStatusLabel;
 		private System.Windows.Forms.Timer ServerTimer;
-		private System.Windows.Forms.Label CompilerLabel;
-		private System.Windows.Forms.Label CompilerStatusLabel;
 		private System.ComponentModel.BackgroundWorker WorldStatusChecker;
 		private System.Windows.Forms.Timer WorldStatusTimer;
-		private System.Windows.Forms.CheckBox AutostartCheckbox;
-		private System.Windows.Forms.Button ServerGRestartButton;
-		private System.Windows.Forms.CheckBox ServerGStopButton;
-		private System.Windows.Forms.Button ServerRestartButton;
-		private System.Windows.Forms.Button ServerStopButton;
-		private System.Windows.Forms.Button ServerStartButton;
-		private System.Windows.Forms.Label ServerPRLabel;
-		private System.Windows.Forms.NumericUpDown ServerTestmergeInput;
-		private System.Windows.Forms.Button TestmergeButton;
-		private System.Windows.Forms.Button UpdateTestmergeButton;
-		private System.Windows.Forms.Button UpdateMergeButton;
-		private System.Windows.Forms.Button UpdateHardButton;
 		private System.ComponentModel.BackgroundWorker FullUpdateWorker;
-		private System.Windows.Forms.TabControl ConfigPanels;
-		private System.Windows.Forms.TabPage ConfigConfigPanel;
-		private System.Windows.Forms.Button ConfigRefresh;
-		private System.Windows.Forms.Button ConfigApply;
-		private System.Windows.Forms.Button ConfigDownload;
-		private System.Windows.Forms.Button ConfigUpload;
-		private System.Windows.Forms.Button ConfigDownloadRepo;
-		private System.Windows.Forms.TabPage DatabaseConfigPanel;
-		private System.Windows.Forms.TabPage GameConfigPanel;
-		private System.Windows.Forms.Label PortLabel;
-		private System.Windows.Forms.NumericUpDown PortSelector;
-		private System.Windows.Forms.Label ProjectPathLabel;
-		private System.Windows.Forms.TextBox projectNameText;
-		private System.Windows.Forms.Label ServerPathLabel;
-		private System.Windows.Forms.TextBox ServerPathTextbox;
-		private System.Windows.Forms.Label LatestVersionLabel;
-		private System.Windows.Forms.Label LatestVersionTitle;
-		private System.Windows.Forms.Label ChannelsTitle;
+		private System.ComponentModel.BackgroundWorker ServerStartBGW;
+		private System.Windows.Forms.TabPage ChatPanel;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.ComboBox IRCModesComboBox;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox AdminChannelsTextbox;
+		private System.Windows.Forms.TextBox WDChannelsTextbox;
+		private System.Windows.Forms.TextBox GameChannelsTextbox;
+		private System.Windows.Forms.TextBox DevChannelsTextbox;
+		private System.Windows.Forms.TextBox ChatNicknameText;
+		private System.Windows.Forms.TextBox ChatServerText;
+		private System.Windows.Forms.TextBox AuthField2;
+		private System.Windows.Forms.TextBox AuthField1;
 		private System.Windows.Forms.TextBox ChatAdminsTextBox;
-		private System.Windows.Forms.Label ChatAdminsTitle;
+		private System.Windows.Forms.Button ChatRefreshButton;
+		private System.Windows.Forms.Label ChatNicknameTitle;
+		private System.Windows.Forms.NumericUpDown ChatPortSelector;
+		private System.Windows.Forms.Label ChatPortTitle;
+		private System.Windows.Forms.Label ChatServerTitle;
+		private System.Windows.Forms.Button ChatApplyButton;
+		private System.Windows.Forms.Label AuthField2Title;
+		private System.Windows.Forms.Label AuthField1Title;
+		private System.Windows.Forms.Button ChatReconnectButton;
 		private System.Windows.Forms.Label ChatStatusLabel;
 		private System.Windows.Forms.Label ChatStatusTitle;
 		private System.Windows.Forms.CheckBox ChatEnabledCheckbox;
@@ -2075,51 +1678,73 @@
 		private System.Windows.Forms.RadioButton DiscordProviderSwitch;
 		private System.Windows.Forms.RadioButton IRCProviderSwitch;
 		private System.Windows.Forms.Label ChatProviderTitle;
-		private System.Windows.Forms.Button ChatReconnectButton;
-		private System.Windows.Forms.Label AuthField2Title;
-		private System.Windows.Forms.Label AuthField1Title;
-		private System.Windows.Forms.TextBox AuthField2;
-		private System.Windows.Forms.TextBox AuthField1;
-		private System.Windows.Forms.Button ChatApplyButton;
-		private System.Windows.Forms.NumericUpDown ChatPortSelector;
-		private System.Windows.Forms.Label ChatPortTitle;
-		private System.Windows.Forms.TextBox ChatServerText;
-		private System.Windows.Forms.Label ChatServerTitle;
-		private System.Windows.Forms.TextBox ChatNicknameText;
-		private System.Windows.Forms.Label ChatNicknameTitle;
-		private System.Windows.Forms.Button ChatRefreshButton;
-		private System.Windows.Forms.TabPage JobsConfigPanel;
-		private System.Windows.Forms.TabPage MapsConfigPanel;
-		private System.Windows.Forms.TabPage AdminsPanel;
-		private System.Windows.Forms.TextBox AddminTextBox;
-		private System.Windows.Forms.Button AddminButton;
-		private System.Windows.Forms.ListBox AdminsListBox;
-		private System.Windows.Forms.Label AdminsTitle;
-		private System.Windows.Forms.Button DeadminButton;
-		private System.Windows.Forms.ListBox AdminRanksListBox;
-		private System.Windows.Forms.Label RanksTitle;
-		private System.Windows.Forms.Button RemoveRankButton;
-		private System.Windows.Forms.TextBox AddRankTextBox;
-		private System.Windows.Forms.Button AddRankButton;
-		private System.Windows.Forms.Button ApplyAdminRankButton;
-		private System.Windows.Forms.CheckedListBox PermissionsListBox;
-		private System.Windows.Forms.Label PermissionsTItle;
-		private System.Windows.Forms.CheckedListBox NegativePermissions;
-		private System.Windows.Forms.Label NegativePermissionsTitle;
-		private System.Windows.Forms.Label ConfigDisabledLabel;
+		private System.Windows.Forms.Label ChannelsTitle;
+		private System.Windows.Forms.Label ChatAdminsTitle;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.RadioButton AdminModeSpecial;
+		private System.Windows.Forms.RadioButton AdminModeNormal;
+		private System.Windows.Forms.TabPage ServerPanel;
+		private System.Windows.Forms.CheckBox AutostartCheckbox;
+		private System.Windows.Forms.CheckBox WebclientCheckBox;
+		private System.Windows.Forms.Button WorldAnnounceButton;
+		private System.Windows.Forms.TextBox WorldAnnounceField;
+		private System.Windows.Forms.TextBox ServerPathTextbox;
+		private System.Windows.Forms.TextBox projectNameText;
+		private System.Windows.Forms.Label WorldAnnounceLabel;
+		private System.Windows.Forms.ComboBox SecuritySelector;
+		private System.Windows.Forms.Label SecurityTitle;
 		private System.Windows.Forms.Button ResetTestmerge;
+		private System.Windows.Forms.Label ServerPathLabel;
+		private System.Windows.Forms.Button CompileCancelButton;
+		private System.Windows.Forms.Label ProjectPathLabel;
+		private System.Windows.Forms.Label PortLabel;
+		private System.Windows.Forms.NumericUpDown PortSelector;
+		private System.Windows.Forms.Label ServerPRLabel;
+		private System.Windows.Forms.NumericUpDown ServerTestmergeInput;
+		private System.Windows.Forms.Button TestmergeButton;
+		private System.Windows.Forms.Button UpdateTestmergeButton;
+		private System.Windows.Forms.Button UpdateMergeButton;
+		private System.Windows.Forms.Button UpdateHardButton;
+		private System.Windows.Forms.Button ServerGRestartButton;
+		private System.Windows.Forms.CheckBox ServerGStopButton;
+		private System.Windows.Forms.Button ServerRestartButton;
+		private System.Windows.Forms.Button ServerStopButton;
+		private System.Windows.Forms.Button ServerStartButton;
+		private System.Windows.Forms.Label CompilerStatusLabel;
+		private System.Windows.Forms.Label CompilerLabel;
+		private System.Windows.Forms.Button compileButton;
+		private System.Windows.Forms.Button initializeButton;
+		private System.Windows.Forms.ProgressBar compilerProgressBar;
+		private System.Windows.Forms.Label ServerStatusLabel;
+		private System.Windows.Forms.Label ServerStatusTitle;
+		private System.Windows.Forms.TabPage BYONDPanel;
+		private System.Windows.Forms.Label LatestVersionLabel;
+		private System.Windows.Forms.Label LatestVersionTitle;
+		private System.Windows.Forms.Label StagedVersionLabel;
+		private System.Windows.Forms.Label StagedVersionTitle;
+		private System.Windows.Forms.Label StatusLabel;
+		private System.Windows.Forms.Label VersionLabel;
+		private System.Windows.Forms.Label VersionTitle;
+		private System.Windows.Forms.Label MinorVersionLabel;
+		private System.Windows.Forms.Label MajorVersionLabel;
+		private System.Windows.Forms.Button UpdateButton;
+		private System.Windows.Forms.NumericUpDown MinorVersionNumeric;
+		private System.Windows.Forms.NumericUpDown MajorVersionNumeric;
+		private System.Windows.Forms.ProgressBar UpdateProgressBar;
 		private System.Windows.Forms.TabPage RepoPanel;
+		private System.Windows.Forms.Button RepoRefreshButton;
+		private System.Windows.Forms.ListBox BackupTagsList;
 		private System.Windows.Forms.Button ResetRemote;
 		private System.Windows.Forms.Button RecloneButton;
 		private System.Windows.Forms.TextBox PythonPathText;
+		private System.Windows.Forms.TextBox RepoBranchTextBox;
+		private System.Windows.Forms.TextBox RepoRemoteTextBox;
 		private System.Windows.Forms.Label PythonPathLabel;
 		private System.Windows.Forms.Button RepoGenChangelogButton;
 		private System.Windows.Forms.NumericUpDown TestmergeSelector;
 		private System.Windows.Forms.ListBox TestMergeListLabel;
 		private System.Windows.Forms.Label CurrentRevisionLabel;
 		private System.Windows.Forms.Button RepoApplyButton;
-		private System.Windows.Forms.TextBox RepoBranchTextBox;
-		private System.Windows.Forms.TextBox RepoRemoteTextBox;
 		private System.Windows.Forms.Button HardReset;
 		private System.Windows.Forms.Button UpdateRepoButton;
 		private System.Windows.Forms.Button MergePRButton;
@@ -2131,28 +1756,6 @@
 		private System.Windows.Forms.Button CloneRepositoryButton;
 		private System.Windows.Forms.Label RepoProgressBarLabel;
 		private System.Windows.Forms.ProgressBar RepoProgressBar;
-		private System.Windows.Forms.ListBox BackupTagsList;
-		private System.Windows.Forms.ComboBox SecuritySelector;
-		private System.Windows.Forms.Label SecurityTitle;
-		private System.Windows.Forms.Label WorldAnnounceLabel;
-		private System.ComponentModel.BackgroundWorker ServerStartBGW;
-		private System.Windows.Forms.Button RepoRefreshButton;
-		private System.Windows.Forms.ComboBox IRCModesComboBox;
-		private System.Windows.Forms.TextBox AdminChannelsTextbox;
-		private System.Windows.Forms.TextBox WDChannelsTextbox;
-		private System.Windows.Forms.TextBox GameChannelsTextbox;
-		private System.Windows.Forms.TextBox DevChannelsTextbox;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.RadioButton AdminModeSpecial;
-		private System.Windows.Forms.RadioButton AdminModeNormal;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button WorldAnnounceButton;
-		private System.Windows.Forms.TextBox WorldAnnounceField;
-		private System.Windows.Forms.Button CompileCancelButton;
-		private System.Windows.Forms.CheckBox WebclientCheckBox;
+		private System.Windows.Forms.TabControl Panels;
 	}
 }

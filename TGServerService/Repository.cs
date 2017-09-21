@@ -14,8 +14,7 @@ namespace TGServerService
 	partial class TGStationServer : ITGRepository, IDisposable
 	{
 		const string RepoPath = "Repository";
-		const string RepoConfig = RepoPath + "/config";
-		const string RepoData = RepoPath + "/data";
+		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
 		const string RepoErrorUpToDate = "Already up to date!";
 		const string SSHPushRemote = "ssh_push_target";
 		const string PrivateKeyPath = "RepoKey/private_key.txt";
@@ -29,6 +28,80 @@ namespace TGServerService
 
 		Repository Repo;
 		int currentProgress = -1;
+
+		/// <summary>
+		/// Repo specific information about the installation
+		/// Requires RepoLock and !RepoBusy to be instantiated
+		/// </summary>
+		class RepoConfig
+		{
+			public RepoConfig()
+			{
+				if (!File.Exists(RepoTGS3SettingsPath))
+					return;
+				var rawdata = File.ReadAllText(RepoTGS3SettingsPath);
+				var Deserializer = new JavaScriptSerializer();
+				var json = Deserializer.Deserialize<IDictionary<string, object>>(rawdata);
+				try
+				{
+					var details = (IDictionary<string, object>)json["changelog"];
+					PathToChangelogPy = (string)details["script"];
+					ChangelogPyArguments = (string)details["arguments"];
+					ChangelogSupport = true;
+					try
+					{
+						PipDependancies = (IList<string>)details["pip_dependancies"];
+					}
+					catch { }
+					try
+					{
+						ChangelogPathsToStage = (IList<string>)details["synchronize_paths"];
+					}
+					catch { }
+				}
+				catch {
+					ChangelogSupport = false;
+				}
+				try
+				{
+					StaticDirectoryPaths = (IList<string>)json["static_directories"];
+				}
+				catch { }
+				try
+				{
+					DLLPaths = (IList<string>)json["dlls"];
+				}
+				catch { }
+			}
+			public readonly bool ChangelogSupport;
+			public readonly string PathToChangelogPy;
+			public readonly string ChangelogPyArguments;
+			public readonly IList<string> PipDependancies = new List<string>();
+			public readonly IList<string> ChangelogPathsToStage = new List<string>();
+			public readonly IList<string> StaticDirectoryPaths = new List<string>();
+			public readonly IList<string> DLLPaths = new List<string>();
+		}
+
+		RepoConfig _CurrentRepoConfig;
+
+		void InitRepo()
+		{
+			if(Exists())
+				UpdateInterfaceDll(false);
+		}
+
+		RepoConfig LoadRepoConfig()
+		{
+			if (_CurrentRepoConfig == null)
+				lock (RepoLock)
+				{
+					if (RepoBusy)
+						return null;
+					if (LoadRepo() == null)
+						_CurrentRepoConfig = new RepoConfig();
+				}
+			return _CurrentRepoConfig;
+		}
 
 		//public api
 		public bool OperationInProgress()
@@ -155,12 +228,8 @@ namespace TGServerService
 					//create an ssh remote for pushing
 					Repo.Network.Remotes.Add(SSHPushRemote, RepoURL.Replace("git://", "ssh://").Replace("https://", "ssh://"));
 
-					lock (configLock)
-					{
-						Program.CopyDirectory(RepoConfig, StaticConfigDir);
-					}
-					Program.CopyDirectory(RepoData, StaticDataDir, null, true);
-					File.Copy(RepoPath + LibMySQLFile, StaticDirs + LibMySQLFile, true);
+					InitialConfigureRepository();
+
 					SendMessage("REPO: Clone complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repository {0}:{1} successfully cloned", TGServerService.EventID.RepoClone);
 				}
@@ -183,6 +252,48 @@ namespace TGServerService
 					Cloning = false;
 				}
 			}
+		}
+
+		void InitialConfigureRepository()
+		{
+			Directory.CreateDirectory(StaticDirs);
+			UpdateInterfaceDll(false);
+			var Config = new RepoConfig();	//RepoBusy is set if we're here
+			foreach(var I in Config.StaticDirectoryPaths)
+			{
+				try
+				{
+					var source = Path.Combine(RepoPath, I);
+					var dest = Path.Combine(StaticDirs, I);
+					if (Directory.Exists(source))
+						Program.CopyDirectory(source, dest);
+					else
+						Directory.CreateDirectory(dest);
+				}
+				catch
+				{
+					TGServerService.WriteWarning("Could not setup static directory: " + I, TGServerService.EventID.RepoConfigurationFail);
+				}
+			}
+			foreach(var I in Config.DLLPaths)
+			{
+				try
+				{
+					var source = Path.Combine(RepoPath, I);
+					if (!File.Exists(source))
+					{
+						TGServerService.WriteWarning("Could not find DLL: " + I, TGServerService.EventID.RepoConfigurationFail);
+						continue;
+					}
+					var dest = Path.Combine(StaticDirs, I);
+					Program.CopyFileForceDirectories(source, dest, false);
+				}
+				catch
+				{
+					TGServerService.WriteWarning("Could not setup static DLL: " + I, TGServerService.EventID.RepoConfigurationFail);
+				}
+			}
+			_CurrentRepoConfig = Config;
 		}
 
 		//kicks off the cloning thread
@@ -324,6 +435,7 @@ namespace TGServerService
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
 					UpdateSubmodules();
+					_CurrentRepoConfig = new RepoConfig();
 					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
 					return res;
@@ -391,6 +503,7 @@ namespace TGServerService
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
+					_CurrentRepoConfig = new RepoConfig();
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
 					return null;
 				}
@@ -497,6 +610,7 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
+				_CurrentRepoConfig = new RepoConfig();
 				if (res == null)
 				{
 					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""), ChatMessageType.DeveloperInfo);
@@ -604,6 +718,7 @@ namespace TGServerService
 					if (Result == null)
 						try
 						{
+							_CurrentRepoConfig = new RepoConfig();
 							UpdateSubmodules();
 						}
 						catch (Exception e)
@@ -727,9 +842,12 @@ namespace TGServerService
 
 		public string PushChangelog()
 		{
-			if (!SSHAuth())
+			var Config = LoadRepoConfig();
+			if (Config == null)
+				return "Error reading changelog configuration";
+			if(!Config.ChangelogSupport || !SSHAuth())
 				return null;
-			return LocalIsRemote() ? Commit() ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
+			return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
 		FetchOptions GenerateFetchOptions()
@@ -781,7 +899,7 @@ namespace TGServerService
 			}
 		}
 
-		string Commit()
+		string Commit(RepoConfig Config)
 		{
 			lock (RepoLock)
 			{
@@ -791,8 +909,8 @@ namespace TGServerService
 				try
 				{
 					// Stage the file
-					Commands.Stage(Repo, "html/changelog.html");
-					Commands.Stage(Repo, "html/changelogs/*");
+					foreach(var I in Config.ChangelogPathsToStage)
+						Commands.Stage(Repo, I);
 
 					var status = Repo.RetrieveStatus();
 					var sum = status.Added.Count() + status.Removed.Count() + status.Modified.Count();
@@ -878,9 +996,19 @@ namespace TGServerService
 		//impl proc just for single level recursion
 		public string GenerateChangelogImpl(out string error, bool recurse = false)
 		{
-			const string ChangelogPy = RepoPath + "/tools/ss13_genchangelog.py";
-			const string ChangelogHtml = RepoPath + "/html/changelog.html";
-			const string ChangelogDir = RepoPath + "/html/changelogs";
+			var RConfig = LoadRepoConfig();
+			if (RConfig == null)
+			{
+				error = null;
+				return "Error loading changelog config!";
+			}
+			if (!RConfig.ChangelogSupport)
+			{
+				error = null;
+				return null;
+			}
+
+			string ChangelogPy = Path.Combine(RepoPath, RConfig.PathToChangelogPy);
 			if (!Exists())
 			{
 				error = "Repo does not exist!";
@@ -899,23 +1027,13 @@ namespace TGServerService
 					error = "Missing changelog generation script!";
 					return null;
 				}
-				if (!File.Exists(ChangelogHtml))
-				{
-					error = "Missing changelog html!";
-					return null;
-				}
-				if (!Directory.Exists(ChangelogDir))
-				{
-					error = "Missing auto changelog directory!";
-					return null;
-				}
 
 				var Config = Properties.Settings.Default;
 
 				var PythonFile = Config.PythonPath + "/python.exe";
 				if (!File.Exists(PythonFile))
 				{
-					error = "Cannot locate python 2.7!";
+					error = "Cannot locate python!";
 					return null;
 				}
 				try
@@ -925,7 +1043,7 @@ namespace TGServerService
 					using (var python = new Process())
 					{
 						python.StartInfo.FileName = PythonFile;
-						python.StartInfo.Arguments = String.Format("{0} {1} {2}", ChangelogPy, ChangelogHtml, ChangelogDir);
+						python.StartInfo.Arguments = String.Format("{0} {1}", ChangelogPy, RConfig.ChangelogPyArguments);
 						python.StartInfo.UseShellExecute = false;
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
@@ -939,7 +1057,7 @@ namespace TGServerService
 					}
 					if (exitCode != 0)
 					{
-						if (recurse)
+						if (recurse || RConfig.PipDependancies.Count == 0)
 						{
 							error = "Script failed!";
 							return result;
@@ -947,12 +1065,11 @@ namespace TGServerService
 						//update pip deps and try again
 
 						string PipFile = Config.PythonPath + "/scripts/pip.exe";
-						bool runningBSoup = false;
-						while (true)
+						foreach(var I in RConfig.PipDependancies)
 							using (var pip = new Process())
 							{
 								pip.StartInfo.FileName = PipFile;
-								pip.StartInfo.Arguments = !runningBSoup ? "install PyYaml" : "install beautifulsoup4";
+								pip.StartInfo.Arguments = "install " + I;
 								pip.StartInfo.UseShellExecute = false;
 								pip.StartInfo.RedirectStandardOutput = true;
 								pip.Start();
@@ -966,11 +1083,6 @@ namespace TGServerService
 									error = "Script and pip failed!";
 									return result;
 								}
-
-								if (runningBSoup)
-									break;
-								else
-									runningBSoup = true;
 							}
 						//and recurse
 						return GenerateChangelogImpl(out error, true);
