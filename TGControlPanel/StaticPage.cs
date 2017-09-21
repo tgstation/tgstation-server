@@ -47,7 +47,7 @@ namespace TGControlPanel
 				{
 					var dir = I.Remove(0, 1);
 					var index =	StaticFileListBox.Items.Add(DSNTimes(level) + dir + '/');
-					var fullpath = path + dir;
+					var fullpath = path + '/' + dir;
 					IndexesToPaths.Add(index, fullpath);
 					if (!EnumeratePath(fullpath, config, level + 1))
 					{
