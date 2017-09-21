@@ -78,6 +78,12 @@ namespace TGServerService
 					return File.ReadAllText(path);
 				}
 			}
+			catch (UnauthorizedAccessException e)
+			{
+				//no need for the full stacktrace
+				error = e.Message;
+				return null;
+			}
 			catch (Exception e)
 			{
 				error = e.ToString();
@@ -114,6 +120,11 @@ namespace TGServerService
 					return null;
 				}
 			}
+			catch (UnauthorizedAccessException e)
+			{
+				//no need for the full stacktrace
+				return e.Message;
+			}
 			catch (Exception e)
 			{
 				return e.ToString();
@@ -133,6 +144,12 @@ namespace TGServerService
 					result.Add('/' + I.Name);
 				error = null;
 				return result;
+			}
+			catch (UnauthorizedAccessException e)
+			{
+				//no need for the full stacktrace
+				error = e.Message;
+				return null;
 			}
 			catch (Exception e)
 			{
