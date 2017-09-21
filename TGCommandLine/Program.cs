@@ -113,16 +113,20 @@ namespace TGCommandLine
 			return result;
 		}
 
-		static bool AcceptedBadCert = false;
+		static string AcceptedBadCert;
 		static bool BadCertificateInteractive(string message)
 		{
-			if (AcceptedBadCert)
+			if (AcceptedBadCert == message)
 				return true;
 			Console.WriteLine(message);
 			Console.Write("Do you wish to continue? NOT RECCOMENDED! (y/N): ");
 			var result = Console.ReadLine().Trim().ToLower();
-			AcceptedBadCert = result == "y" || result == "yes";
-			return AcceptedBadCert;
+			if (result == "y" || result == "yes")
+			{
+				AcceptedBadCert = message;
+				return true;
+			}
+			return false;
 		}
 
 		static int Main(string[] args)
@@ -173,13 +177,11 @@ namespace TGCommandLine
 						{
 							Console.WriteLine("Unable to connect: " + res);
 							Server.MakeLocalConnection();
-							AcceptedBadCert = false;
 						}
 						else if (!Server.Authenticate())
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
 							Server.MakeLocalConnection();
-							AcceptedBadCert = false;
 						}
 						else
 						{
