@@ -38,7 +38,6 @@ namespace TGServerService
 		//Only need 1 proc instance
 		void InitDreamDaemon()
 		{
-			UpdateInterfaceDll(false);
 			var Reattach = Properties.Settings.Default.ReattachToDD;
 			if (Reattach)
 				try
@@ -374,7 +373,7 @@ namespace TGServerService
 				return;
 			//Copy the interface dll to the static dir
 			var InterfacePath = Assembly.GetAssembly(typeof(DDInteropCallHolder)).Location;
-			File.Copy(InterfacePath, targetPath, true);
+			Program.CopyFileForceDirectories(InterfacePath, targetPath, true);
 		}
 
 		//used by Start and Watchdog to start a DD instance

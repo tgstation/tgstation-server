@@ -47,7 +47,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var bytes = Server.GetComponent<ITGConfig>().ReadRaw(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
+			var bytes = Server.GetComponent<ITGConfig>().ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error);
 			if(bytes == null)
 			{
 				OutputProc("Error: " + error);
@@ -67,11 +67,11 @@ namespace TGCommandLine
 		}
 		public override string GetArgumentString()
 		{
-			return "<source config file> <out file> [--repo]";
+			return "<source static file> <out file> [--repo]";
 		}
 		public override string GetHelpText()
 		{
-			return "Downloads the specified file from the config tree and writes it to out file. --repo will fetch it from the repository instead of the game config";
+			return "Downloads the specified file from the static tree and writes it to out file. --repo will fetch it from the repository instead of the Static directory";
 		}
 	}
 	
@@ -87,7 +87,7 @@ namespace TGCommandLine
 		{
 			try
 			{
-				var res = Server.GetComponent<ITGConfig>().WriteRaw(parameters[0], File.ReadAllText(parameters[1]));
+				var res = Server.GetComponent<ITGConfig>().WriteText(parameters[0], File.ReadAllText(parameters[1]));
 				if (res != null)
 				{
 					OutputProc("Error: " + res);
@@ -103,12 +103,12 @@ namespace TGCommandLine
 
 		public override string GetArgumentString()
 		{
-			return "<destination config file> <source file> [--repo]";
+			return "<destination statoc file> <source file> [--repo]";
 		}
 
 		public override string GetHelpText()
 		{
-			return "Uploads the specified file to the config tree from source file";
+			return "Uploads the specified file to the static tree from source file";
 		}
 	}
 }

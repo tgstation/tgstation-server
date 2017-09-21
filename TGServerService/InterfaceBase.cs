@@ -18,6 +18,7 @@ namespace TGServerService
 		{
 			FindTheDroidsWereLookingFor();
 			InitChat();
+			InitRepo();
 			InitByond();
 			InitCompiler();
 			InitDreamDaemon();

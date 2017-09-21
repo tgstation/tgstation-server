@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace TGServerService
 {
@@ -11,6 +10,16 @@ namespace TGServerService
 		static void Main() => new TGServerService();	//wondows
 		
 		//Everything in this file is just generic helpers
+
+		public static void CopyFileForceDirectories(string source, string dest, bool overwrite)
+		{
+			try
+			{
+				Directory.CreateDirectory(Path.GetDirectoryName(dest));
+			}
+			catch { }   //we don't care if the above errors
+			File.Copy(source, dest, overwrite);    //if this throws errors thats all we care about
+		}
 
 		//http://stackoverflow.com/questions/1701457/directory-delete-doesnt-work-access-denied-error-but-under-windows-explorer-it
 		public static void DeleteDirectory(string path, bool ContentsOnly = false, IList<string> excludeRoot = null)
@@ -30,6 +39,7 @@ namespace TGServerService
 				di.Delete(true);
 			}
 		}
+
 		static void NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot)
 		{
 			foreach (var subDir in dir.GetDirectories())

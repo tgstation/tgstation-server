@@ -22,8 +22,6 @@ namespace TGServerService
 		#endregion
 
 		const string StaticDirs = "Static";
-		const string StaticDataDir = StaticDirs + "/data";
-		const string StaticConfigDir = StaticDirs + "/config";
 		const string StaticBackupDir = "Static_BACKUP";
 
 		const string LibMySQLFile = "/libmysql.dll";
@@ -39,9 +37,6 @@ namespace TGServerService
 		const string LiveDirTest = GameDirLive + LiveFile;
 
 		const string InterfaceDLLName = "TGServiceInterface.dll";
-
-		List<string> copyExcludeList = new List<string> { ".git", "data", "config", "libmysql.dll" };   //shit we handle
-		List<string> deleteExcludeList = new List<string> { "data", "config", "libmysql.dll" };   //shit we handle
 
 		object CompilerLock = new object();
 		TGCompilerStatus compilerCurrentStatus;
@@ -130,32 +125,37 @@ namespace TGServerService
 			return TGCompilerStatus.Uninitialized;
 		}
 
+		void CleanGameFolderList(string GameDir, IList<string> theList)
+		{
+			foreach (var I in theList)
+			{
+				var the_path = Path.Combine(GameDir, I);
+				if (Directory.Exists(the_path))
+					Directory.Delete(the_path);
+			}
+		}
+
 		//we need to remove symlinks before we can recursively delete
 		void CleanGameFolder()
 		{
 			if (Directory.Exists(Path.Combine(GameDirA, InterfaceDLLName)))
 				Directory.Delete(Path.Combine(GameDirA, InterfaceDLLName));
 
-			if (Directory.Exists(GameDirA + LibMySQLFile))
-				Directory.Delete(GameDirA + LibMySQLFile);
-
-			if (Directory.Exists(GameDirA + "/data"))
-				Directory.Delete(GameDirA + "/data");
-
-			if (Directory.Exists(GameDirA + "/config"))
-				Directory.Delete(GameDirA + "/config");
+			var Config = LoadRepoConfig();
+			if (Config != null)
+			{
+				CleanGameFolderList(GameDirA, Config.StaticDirectoryPaths);
+				CleanGameFolderList(GameDirA, Config.DLLPaths);
+			}
 
 			if (Directory.Exists(Path.Combine(GameDirB, InterfaceDLLName)))
 				Directory.Delete(Path.Combine(GameDirB, InterfaceDLLName));
 
-			if (Directory.Exists(GameDirB + LibMySQLFile))
-				Directory.Delete(GameDirB + LibMySQLFile);
-
-			if (Directory.Exists(GameDirB + "/data"))
-				Directory.Delete(GameDirB + "/data");
-
-			if (Directory.Exists(GameDirB + "/config"))
-				Directory.Delete(GameDirB + "/config");
+			if (Config != null)
+			{
+				CleanGameFolderList(GameDirB, Config.StaticDirectoryPaths);
+				CleanGameFolderList(GameDirB, Config.DLLPaths);
+			}
 
 			if (Directory.Exists(GameDirLive))
 				Directory.Delete(GameDirLive);
@@ -194,14 +194,14 @@ namespace TGServerService
 					Directory.CreateDirectory(GameDirA);
 					Directory.CreateDirectory(GameDirB);
 
-					CreateSymlink(GameDirA + "/data", StaticDataDir);
-					CreateSymlink(GameDirB + "/data", StaticDataDir);
+					var Config = LoadRepoConfig();
 
-					CreateSymlink(GameDirA + "/config", StaticConfigDir);
-					CreateSymlink(GameDirB + "/config", StaticConfigDir);
-
-					CreateSymlink(GameDirA + LibMySQLFile, StaticDirs + LibMySQLFile);
-					CreateSymlink(GameDirB + LibMySQLFile, StaticDirs + LibMySQLFile);
+					if (Config != null) {
+						foreach (var I in Config.StaticDirectoryPaths)
+							CreateSymlink(Path.Combine(GameDirA, I), Path.Combine(StaticDirs, I));
+						foreach (var I in Config.DLLPaths)
+							CreateSymlink(Path.Combine(GameDirA, I), Path.Combine(StaticDirs, I));
+					}
 
 					CreateSymlink(Path.Combine(GameDirA, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
 					CreateSymlink(Path.Combine(GameDirB, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
@@ -316,16 +316,33 @@ namespace TGServerService
 
 				var resurrectee = GetStagingDir();
 
-				Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
+				var Config = LoadRepoConfig();
+				var deleteExcludeList = new List<string>();
+				if (Config != null)
+				{
+					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
+					deleteExcludeList.AddRange(Config.DLLPaths);
+					Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
+				}
 
 				Directory.CreateDirectory(resurrectee + "/.git/logs");
 
-				if (!Directory.Exists(resurrectee + "/config"))
-					CreateSymlink(resurrectee + "/config", StaticConfigDir);
-				if (!Directory.Exists(resurrectee + "/data"))
-					CreateSymlink(resurrectee + "/data", StaticDataDir);
-				if (!File.Exists(resurrectee + LibMySQLFile))
-					CreateSymlink(resurrectee + LibMySQLFile, StaticDirs + LibMySQLFile);
+				if (Config != null)
+				{
+					foreach (var I in Config.StaticDirectoryPaths)
+					{
+						var the_path = Path.Combine(resurrectee, I);
+						if (!Directory.Exists(the_path))
+							CreateSymlink(Path.Combine(resurrectee, I), Path.Combine(StaticDirs, I));
+					}
+					foreach (var I in Config.DLLPaths)
+					{
+						var the_path = Path.Combine(resurrectee, I);
+						if (!File.Exists(the_path))
+							CreateSymlink(the_path, Path.Combine(StaticDirs, I));
+					}
+				}
+				
 				if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
 					CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
 
@@ -354,7 +371,8 @@ namespace TGServerService
 				}
 				try
 				{
-					Program.CopyDirectory(RepoPath, resurrectee, copyExcludeList);
+					deleteExcludeList.Add(".git");
+					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
 					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
