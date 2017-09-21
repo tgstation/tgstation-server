@@ -50,12 +50,12 @@ namespace TGServerService
 					ChangelogSupport = true;
 					try
 					{
-						PipDependancies = (IList<string>)details["pip_dependancies"];
+						PipDependancies = (string[])details["pip_dependancies"];
 					}
 					catch { }
 					try
 					{
-						ChangelogPathsToStage = (IList<string>)details["synchronize_paths"];
+						ChangelogPathsToStage = (string[])details["synchronize_paths"];
 					}
 					catch { }
 				}
@@ -64,22 +64,22 @@ namespace TGServerService
 				}
 				try
 				{
-					StaticDirectoryPaths = (IList<string>)json["static_directories"];
+					StaticDirectoryPaths = (string[])json["static_directories"];
 				}
 				catch { }
 				try
 				{
-					DLLPaths = (IList<string>)json["dlls"];
+					DLLPaths = (string[])json["dlls"];
 				}
 				catch { }
 			}
 			public readonly bool ChangelogSupport;
 			public readonly string PathToChangelogPy;
 			public readonly string ChangelogPyArguments;
-			public readonly IList<string> PipDependancies = new List<string>();
-			public readonly IList<string> ChangelogPathsToStage = new List<string>();
-			public readonly IList<string> StaticDirectoryPaths = new List<string>();
-			public readonly IList<string> DLLPaths = new List<string>();
+			public readonly string[] PipDependancies = { };
+			public readonly string[]ChangelogPathsToStage = { };
+			public readonly string[] StaticDirectoryPaths = { };
+			public readonly string[] DLLPaths = { };
 		}
 
 		RepoConfig _CurrentRepoConfig;
@@ -1057,7 +1057,7 @@ namespace TGServerService
 					}
 					if (exitCode != 0)
 					{
-						if (recurse || RConfig.PipDependancies.Count == 0)
+						if (recurse || RConfig.PipDependancies.Length == 0)
 						{
 							error = "Script failed!";
 							return result;
