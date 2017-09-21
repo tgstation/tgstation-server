@@ -10,11 +10,38 @@ namespace TGCommandLine
 		public ConfigCommand()
 		{
 			Keyword = "config";
-			Children = new Command[] { new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand(), new ConfigListCommand() };
+			Children = new Command[] { new ConfigDeleteCommand(), new ConfigServerDirectoryCommand(), new ConfigDownloadCommand(), new ConfigUploadCommand(), new ConfigListCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage settings";
+		}
+	}
+	class ConfigDeleteCommand : Command
+	{
+		public ConfigDeleteCommand()
+		{
+			Keyword = "delete";
+			RequiredParameters = 1;
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var res = Server.GetComponent<ITGConfig>().DeleteFile(parameters[0], out bool unauthorized);
+			if (res != null)
+			{
+				OutputProc(res);
+				return ExitCode.ServerError;
+			}
+			return ExitCode.Normal;
+		}
+		public override string GetArgumentString()
+		{
+			return "<static file>";
+		}
+		public override string GetHelpText()
+		{
+			return "Deletes the specified file from the static tree.";
 		}
 	}
 
