@@ -20,7 +20,7 @@ namespace TGServiceInterface
 
 		/// <summary>
 		/// Returns the file contents of the specified server directory
-		/// Subdirectories will be prefixed with '@'
+		/// Subdirectories will be prefixed with '/'
 		/// </summary>
 		/// <param name="subpath">Subdirectory to enumerate, enumerates the root directory if null</param>
 		/// <param name="error">null on success, error message on failure</param>

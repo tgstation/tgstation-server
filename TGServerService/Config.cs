@@ -130,7 +130,7 @@ namespace TGServerService
 				foreach (var I in dirToEnum.GetFiles())
 					result.Add(I.Name);
 				foreach (var I in dirToEnum.GetDirectories())
-					result.Add("@" + I.Name);
+					result.Add('/' + I.Name);
 				error = null;
 				return result;
 			}
