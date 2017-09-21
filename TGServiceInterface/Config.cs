@@ -19,6 +19,16 @@ namespace TGServiceInterface
 		string ServerDirectory();
 
 		/// <summary>
+		/// Returns the file contents of the specified server directory
+		/// Subdirectories will be prefixed with '@'
+		/// </summary>
+		/// <param name="subpath">Subdirectory to enumerate, enumerates the root directory if null</param>
+		/// <param name="error">null on success, error message on failure</param>
+		/// <returns>A list of files in the enumerated static directory on success, null on failure</returns>
+		[OperationContract]
+		IList<string> ListStaticDirectory(string subpath, out string error);
+
+		/// <summary>
 		/// For when you really just need to see the raw data of the config
 		/// </summary>
 		/// <param name="staticRelativePath">The path from the Static dir. E.g. config/config.txt</param>
