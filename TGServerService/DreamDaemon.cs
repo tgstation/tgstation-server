@@ -368,12 +368,12 @@ namespace TGServerService
 
 		void UpdateInterfaceDll(bool overwrite)
 		{
-			var targetPath = Path.Combine(StaticDirs, InterfaceDLLName);
-			if (File.Exists(targetPath) && !overwrite)
+			var targetPath = InterfaceDLLName;
+			if (File.Exists(InterfaceDLLName) && !overwrite)
 				return;
 			//Copy the interface dll to the static dir
 			var InterfacePath = Assembly.GetAssembly(typeof(DDInteropCallHolder)).Location;
-			Program.CopyFileForceDirectories(InterfacePath, targetPath, true);
+			File.Copy(InterfacePath, InterfaceDLLName, overwrite);
 		}
 
 		//used by Start and Watchdog to start a DD instance

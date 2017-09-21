@@ -203,8 +203,8 @@ namespace TGServerService
 							CreateSymlink(Path.Combine(GameDirA, I), Path.Combine(StaticDirs, I));
 					}
 
-					CreateSymlink(Path.Combine(GameDirA, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
-					CreateSymlink(Path.Combine(GameDirB, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
+					CreateSymlink(Path.Combine(GameDirA, InterfaceDLLName), InterfaceDLLName);
+					CreateSymlink(Path.Combine(GameDirB, InterfaceDLLName), InterfaceDLLName);
 
 					CreateSymlink(GameDirLive, GameDirA);
 					
@@ -344,7 +344,7 @@ namespace TGServerService
 				}
 				
 				if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
-					CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), Path.Combine(StaticDirs, InterfaceDLLName));
+					CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), InterfaceDLLName);
 
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))

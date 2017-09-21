@@ -173,14 +173,7 @@ namespace TGServerService
 					}
 
 					if (fi.Exists)
-					{
-						if (fi.Name == InterfaceDLLName)
-						{
-							unauthorized = false;
-							return "Cannot delete the interface DLL!";
-						}
 						File.Delete(path);
-					}
 					else if (Directory.Exists(path))
 						Program.DeleteDirectory(path);
 					unauthorized = false;
