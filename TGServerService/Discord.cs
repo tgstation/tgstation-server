@@ -38,11 +38,10 @@ namespace TGServerService
 		{
 			if (!DiscordConfig.AdminsAreSpecial)
 				return DiscordConfig.AdminList.Contains(u.Id.ToString());
-			/*
-			foreach (var I in u.Roles)
-				if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
-					return true;
-			*/
+            if(u is SocketGuildUser sgu)
+			    foreach (var I in sgu.Roles)
+				    if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
+					    return true;
 			return false;
 		}
 
@@ -53,7 +52,7 @@ namespace TGServerService
 				if (e.Author.Id == client.CurrentUser.Id)
 					return;
 
-				var pm = false; //TODO
+				var pm = e.Channel is IPrivateChannel;
 
 				if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
 					SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
@@ -66,7 +65,9 @@ namespace TGServerService
 					{
 						found = true;
 						formattedMessage = formattedMessage.Replace(u.Mention, "");
-						break;
+                        var nicknameMention = u.Mention.Replace("!", "");
+                        formattedMessage = formattedMessage.Replace(nicknameMention, "");
+                        break;
 					}
 
 				if (!found && !pm)
@@ -90,6 +91,7 @@ namespace TGServerService
 				{
 					SeenPrivateChannels.Clear();
 					client.LoginAsync(TokenType.Bot, DiscordConfig.BotToken).Wait();
+                    client.StartAsync().Wait();
 				}
 				return !Connected() ? "Connection failed!" : null;
 			}
@@ -116,6 +118,7 @@ namespace TGServerService
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
+                    client.StopAsync().Wait();
 					client.LogoutAsync().Wait();
 				}
 			}
@@ -124,13 +127,8 @@ namespace TGServerService
 
 		public string Reconnect()
 		{
-			TGDiscordSetupInfo tmp;
-			lock (DiscordLock)
-			{
-				tmp = new TGDiscordSetupInfo(DiscordConfig);
-				DiscordConfig.BotToken = "THIS_IS_NOT_A_BOT_TOKEN";
-			}
-			return SetProviderInfo(tmp);
+            Disconnect();
+            return Connect();
 		}
 
 		public void SendMessage(string msg, ChatMessageType mt)
@@ -190,6 +188,7 @@ namespace TGServerService
 		{
 			try
 			{
+                client.StopAsync().Wait();
 				client.LogoutAsync().Wait();
 			}
 			catch (Exception e) {
