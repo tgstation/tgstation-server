@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceProcess;
 using TGServiceInterface;
@@ -89,6 +90,14 @@ namespace TGServerService
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
 		public static readonly string Version = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
+
+		/// <summary>
+		/// You can't write to logs while impersonating, call this to cancel WCF's impersonation first
+		/// </summary>
+		public static void CancelImpersonation()
+		{
+			WindowsIdentity.Impersonate(IntPtr.Zero);
+		}
 
 		public static void WriteInfo(string message, EventID id)
 		{

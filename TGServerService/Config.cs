@@ -78,6 +78,7 @@ namespace TGServerService
 					}
 
 					var output = File.ReadAllText(path);
+					TGServerService.CancelImpersonation();
 					TGServerService.WriteInfo("Read of " + path, TGServerService.EventID.StaticRead);
 					error = null;
 					unauthorized = false;
@@ -129,7 +130,8 @@ namespace TGServerService
 
 					Directory.CreateDirectory(destdir);
 					File.WriteAllText(path, data);
-					TGServerService.WriteInfo(String.Format("Rewrite {0}: {1}", path, data), TGServerService.EventID.StaticWrite);
+					TGServerService.CancelImpersonation();
+					TGServerService.WriteInfo("Write to " + path, TGServerService.EventID.StaticWrite);
 					unauthorized = false;
 					return null;
 				}
@@ -179,6 +181,7 @@ namespace TGServerService
 						File.Delete(path);
 					else if (Directory.Exists(path))
 						Program.DeleteDirectory(path);
+					TGServerService.CancelImpersonation();
 					TGServerService.WriteInfo("Delete of " + path, TGServerService.EventID.StaticDelete);
 					unauthorized = false;
 					return null;

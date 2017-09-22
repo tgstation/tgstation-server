@@ -110,7 +110,14 @@ namespace TGControlPanel
 				error = ex.ToString();
 			}
 			if (error == null)
-				error = Server.GetComponent<ITGConfig>().WriteText(FileName, fileContents, out bool unauthorized);
+				try
+				{
+					error = Server.GetComponent<ITGConfig>().WriteText(FileName, fileContents, out bool unauthorized);
+				}
+				catch (Exception ex)
+				{
+					error = "Failed to read file, most likely due to it being too large. The transfer limit is much higher on non-remote connections. " + ex.ToString();
+				}
 			if (error != null)
 				MessageBox.Show("An error occurred: " + error);
 			BuildFileList();
@@ -126,7 +133,16 @@ namespace TGControlPanel
 			var remotePath = IndexesToPaths[StaticFileListBox.SelectedIndex];
 			if (remotePath == null)
 				return;
-			var text = Server.GetComponent<ITGConfig>().ReadText(remotePath, false, out string error, out bool unauthorized);
+			string text, error;
+			try
+			{
+				text = Server.GetComponent<ITGConfig>().ReadText(remotePath, false, out error, out bool unauthorized);
+			}
+			catch (Exception ex)
+			{
+				text = null;
+				error = "Failed to read file, most likely due to it being too large. The transfer limit is much higher on non-remote connections. " + ex.ToString();
+			}
 			if (text != null)
 			{
 				var ofd = new SaveFileDialog()
@@ -200,7 +216,17 @@ namespace TGControlPanel
 		private void StaticFileSaveButton_Click(object sender, EventArgs e)
 		{
 			var index = StaticFileListBox.SelectedIndex;
-			var res = Server.GetComponent<ITGConfig>().WriteText(IndexesToPaths[index], StaticFileEditTextbox.Text, out bool unauthorized);
+			string res;
+			bool unauthorized;
+			try
+			{
+				res = Server.GetComponent<ITGConfig>().WriteText(IndexesToPaths[index], StaticFileEditTextbox.Text, out unauthorized);
+			}
+			catch (Exception ex)
+			{
+				unauthorized = false;
+				res = "Failed to write file, most likely due to it being too large. The transfer limit is much higher on non-remote connections. " + ex.ToString();
+			}
 			if (res != null)
 			{
 				MessageBox.Show("Error: " + res);
@@ -228,7 +254,18 @@ namespace TGControlPanel
 			}
 			else
 			{
-				var entry = Server.GetComponent<ITGConfig>().ReadText(path, false, out string error, out bool unauthorized);
+				string entry, error;
+				bool unauthorized;
+				try
+				{
+					entry = Server.GetComponent<ITGConfig>().ReadText(path, false, out error, out unauthorized);
+				}
+				catch(Exception e)
+				{
+					entry = null;
+					unauthorized = false;
+					error = "Failed to read file, most likely due to it being too large. The transfer limit is much higher on non-remote connections. " + e.ToString();
+				}
 				if (entry == null)
 				{
 					StaticFileEditTextbox.ReadOnly = true;
