@@ -2,7 +2,7 @@ using Discord;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TGServiceInterface;
 
@@ -92,6 +92,7 @@ namespace TGServerService
 					SeenPrivateChannels.Clear();
 					client.LoginAsync(TokenType.Bot, DiscordConfig.BotToken).Wait();
 					client.StartAsync().Wait();
+					Thread.Sleep(1000); //wait for ConnectionState to update
 				}
 				return !Connected() ? "Connection failed!" : null;
 			}
