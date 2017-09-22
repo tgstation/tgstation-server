@@ -15,6 +15,7 @@ namespace TGControlPanel
 			InitBYONDPage();
 			InitServerPage();
 			LoadChatPage();
+			InitStaticPage();
 		}
 
 		private void Main_Resize(object sender, EventArgs e)
@@ -28,5 +29,6 @@ namespace TGControlPanel
 		{
 			Properties.Settings.Default.LastPageIndex = Panels.SelectedIndex;
 		}
+
 	}
 }

@@ -14,6 +14,16 @@ namespace TGServiceInterface
 		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration), typeof(ITGInterop) };
 
 		/// <summary>
+		/// The maximum message size to and from a local server 
+		/// </summary>
+		public static readonly long TransferLimitLocal = Int32.MaxValue;   //2GB can't go higher
+
+		/// <summary>
+		/// The maximum message size to and from a remote server
+		/// </summary>
+		public static readonly long TransferLimitRemote = 10485760;	//10 MB
+
+		/// <summary>
 		/// Base name of the communication pipe
 		/// they are formatted as MasterPipeName/ComponentName
 		/// </summary>
@@ -107,7 +117,8 @@ namespace TGServiceInterface
 			var InterfaceName = typeof(T).Name;
 			if (HTTPSURL == null)
 			{
-				outChannel = new ChannelFactory<T>(new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0) }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));
+				outChannel = new ChannelFactory<T>(
+				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
 				outChannel.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 				return outChannel.CreateChannel();
 			}
@@ -115,7 +126,8 @@ namespace TGServiceInterface
 			//okay we're going over
 			var binding = new WSHttpBinding()
 			{
-				SendTimeout = new TimeSpan(0, 10, 0)
+				SendTimeout = new TimeSpan(0, 0, 40),
+				MaxReceivedMessageSize = TransferLimitRemote
 			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
 			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check

@@ -26,7 +26,7 @@ namespace TGServerService
 			{
 				var configDir = repo ? RepoPath : StaticDirs;
 
-				var path = Path.Combine(configDir, staticRelativePath);
+				var path = configDir + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(configDir);
@@ -77,9 +77,12 @@ namespace TGServerService
 						return null;
 					}
 
+					var output = File.ReadAllText(path);
+					TGServerService.CancelImpersonation();
+					TGServerService.WriteInfo("Read of " + path, TGServerService.EventID.StaticRead);
 					error = null;
 					unauthorized = false;
-					return File.ReadAllText(path);
+					return output;
 				}
 			}
 			catch (UnauthorizedAccessException e)
@@ -101,7 +104,7 @@ namespace TGServerService
 		{
 			try
 			{
-				var path = Path.Combine(StaticDirs, staticRelativePath);
+				var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(StaticDirs);
@@ -127,6 +130,59 @@ namespace TGServerService
 
 					Directory.CreateDirectory(destdir);
 					File.WriteAllText(path, data);
+					TGServerService.CancelImpersonation();
+					TGServerService.WriteInfo("Write to " + path, TGServerService.EventID.StaticWrite);
+					unauthorized = false;
+					return null;
+				}
+			}
+			catch (UnauthorizedAccessException e)
+			{
+				//no need for the full stacktrace
+				unauthorized = true;
+				return e.Message;
+			}
+			catch (Exception e)
+			{
+				unauthorized = false;
+				return e.ToString();
+			}
+		}
+		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
+		public string DeleteFile(string staticRelativePath, out bool unauthorized)
+		{
+			try
+			{
+				var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+				lock (configLock)
+				{
+					var di1 = new DirectoryInfo(StaticDirs);
+					var fi = new FileInfo(path);
+					var di2 = new DirectoryInfo(fi.Directory.FullName);
+
+					var good = false;
+					while (di2 != null)
+					{
+						if (di2.FullName == di1.FullName)
+						{
+							good = true;
+							break;
+						}
+						else di2 = di2.Parent;
+					}
+
+					if (!good)
+					{
+						unauthorized = false;
+						return "Cannot delete above static directories!";
+					}
+
+					if (fi.Exists)
+						File.Delete(path);
+					else if (Directory.Exists(path))
+						Program.DeleteDirectory(path);
+					TGServerService.CancelImpersonation();
+					TGServerService.WriteInfo("Delete of " + path, TGServerService.EventID.StaticDelete);
 					unauthorized = false;
 					return null;
 				}
@@ -149,7 +205,13 @@ namespace TGServerService
 		{
 			try
 			{
-				DirectoryInfo dirToEnum = new DirectoryInfo(Path.Combine(StaticDirs, subDir ?? ""));
+				if (!Directory.Exists(StaticDirs))
+				{
+					error = null;
+					unauthorized = false;
+					return new List<string>();
+				}
+				DirectoryInfo dirToEnum = new DirectoryInfo(StaticDirs + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
 				var result = new List<string>();
 				foreach (var I in dirToEnum.GetFiles())
 					result.Add(I.Name);

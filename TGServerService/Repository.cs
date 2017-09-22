@@ -35,6 +35,13 @@ namespace TGServerService
 		/// </summary>
 		class RepoConfig
 		{
+			IList<string> LoadArray(object o) {
+				var array = (object[])o;
+				var res = new List<string>();
+				foreach (var I in array)
+					res.Add((string)I);
+				return res;
+			}
 			public RepoConfig()
 			{
 				if (!File.Exists(RepoTGS3SettingsPath))
@@ -50,12 +57,12 @@ namespace TGServerService
 					ChangelogSupport = true;
 					try
 					{
-						PipDependancies = (IList<string>)details["pip_dependancies"];
+						PipDependancies = LoadArray(details["pip_dependancies"]);
 					}
 					catch { }
 					try
 					{
-						ChangelogPathsToStage = (IList<string>)details["synchronize_paths"];
+						ChangelogPathsToStage = LoadArray(details["synchronize_paths"]);
 					}
 					catch { }
 				}
@@ -64,12 +71,12 @@ namespace TGServerService
 				}
 				try
 				{
-					StaticDirectoryPaths = (IList<string>)json["static_directories"];
+					StaticDirectoryPaths = LoadArray(json["static_directories"]);
 				}
 				catch { }
 				try
 				{
-					DLLPaths = (IList<string>)json["dlls"];
+					DLLPaths = LoadArray(json["dlls"]);
 				}
 				catch { }
 			}
