@@ -9,7 +9,6 @@ namespace TGControlPanel
 	partial class Main
 	{
 		IDictionary<int, string> IndexesToPaths = new Dictionary<int, string>();
-		bool changesMade = false;
 		void InitStaticPage()
 		{
 			BuildFileList();
