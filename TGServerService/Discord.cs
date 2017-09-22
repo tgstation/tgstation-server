@@ -38,10 +38,10 @@ namespace TGServerService
 		{
 			if (!DiscordConfig.AdminsAreSpecial)
 				return DiscordConfig.AdminList.Contains(u.Id.ToString());
-            if(u is SocketGuildUser sgu)
-			    foreach (var I in sgu.Roles)
-				    if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
-					    return true;
+			if(u is SocketGuildUser sgu)
+				foreach (var I in sgu.Roles)
+					if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
+						return true;
 			return false;
 		}
 
@@ -65,9 +65,9 @@ namespace TGServerService
 					{
 						found = true;
 						formattedMessage = formattedMessage.Replace(u.Mention, "");
-                        var nicknameMention = u.Mention.Replace("!", "");
-                        formattedMessage = formattedMessage.Replace(nicknameMention, "");
-                        break;
+						var nicknameMention = u.Mention.Replace("!", "");
+						formattedMessage = formattedMessage.Replace(nicknameMention, "");
+						break;
 					}
 
 				if (!found && !pm)
@@ -91,7 +91,7 @@ namespace TGServerService
 				{
 					SeenPrivateChannels.Clear();
 					client.LoginAsync(TokenType.Bot, DiscordConfig.BotToken).Wait();
-                    client.StartAsync().Wait();
+					client.StartAsync().Wait();
 				}
 				return !Connected() ? "Connection failed!" : null;
 			}
@@ -118,7 +118,7 @@ namespace TGServerService
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
-                    client.StopAsync().Wait();
+					client.StopAsync().Wait();
 					client.LogoutAsync().Wait();
 				}
 			}
@@ -127,8 +127,8 @@ namespace TGServerService
 
 		public string Reconnect()
 		{
-            Disconnect();
-            return Connect();
+			Disconnect();
+			return Connect();
 		}
 
 		public void SendMessage(string msg, ChatMessageType mt)
@@ -188,7 +188,7 @@ namespace TGServerService
 		{
 			try
 			{
-                client.StopAsync().Wait();
+				client.StopAsync().Wait();
 				client.LogoutAsync().Wait();
 			}
 			catch (Exception e) {
