@@ -89,8 +89,14 @@
         <ServiceInstall Id="ServiceInstaller" Name="TG Station Server" Type="ownProcess" EraseDescription="no" ErrorControl="normal" Start="auto" Vital="yes" />
         <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="TG Station Server" Wait="yes" />
       </Component>
-      <Component Id="DiscordNet" Guid="*">
-        <File Source="$(var.TGServerService.TargetDir)/Discord.Net.dll" />
+      <Component Id="DiscordNetCore" Guid="*">
+        <File Source="$(var.TGServerService.TargetDir)/Discord.Net.Core.dll" />
+      </Component>
+      <Component Id="DiscordNetRest" Guid="*">
+        <File Source="$(var.TGServerService.TargetDir)/Discord.Net.Rest.dll" />
+      </Component>
+      <Component Id="DiscordNetWebSocket" Guid="*">
+        <File Source="$(var.TGServerService.TargetDir)/Discord.Net.WebSocket.dll" />
       </Component>
       <Component Id="LibGit2Sharp" Guid="*">
         <File Source="$(var.TGServerService.TargetDir)/LibGit2Sharp.dll" />
@@ -101,20 +107,11 @@
       <Component Id="NewtonsoftJson" Guid="*">
         <File Source="$(var.TGServerService.TargetDir)/Newtonsoft.Json.dll" />
       </Component>
-      <Component Id="NitoAsyncConc" Guid="*">
-        <File Source="$(var.TGServerService.TargetDir)/Nito.AsyncEx.Concurrent.dll" />
+      <Component Id="SystemCollectionsImmutable" Guid="*">
+        <File Source="$(var.TGServerService.TargetDir)/System.Collections.Immutable.dll" />
       </Component>
-      <Component Id="NitoAsync" Guid="*">
-        <File Source="$(var.TGServerService.TargetDir)/Nito.AsyncEx.dll" />
-      </Component>
-      <Component Id="NitoAsyncEnlight" Guid="*">
-        <File Source="$(var.TGServerService.TargetDir)/Nito.AsyncEx.Enlightenment.dll" />
-      </Component>
-      <Component Id="RestSharp" Guid="*">
-        <File Source="$(var.TGServerService.TargetDir)/RestSharp.dll" />
-      </Component>
-      <Component Id="WebSock" Guid="*">
-        <File Source="$(var.TGServerService.TargetDir)/WebSocket4Net.dll" />
+      <Component Id="SystemInteractiveAsync" Guid="*">
+        <File Source="$(var.TGServerService.TargetDir)/System.Interactive.Async.dll" />
       </Component>
       <Component Id="TGControlPanel" Guid="*">
         <File Source="$(var.TGControlPanel.TargetPath)" KeyPath="yes" />

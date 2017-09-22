@@ -1,4 +1,5 @@
 using Discord;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace TGServerService
 	class TGDiscordChatProvider : ITGChatProvider
 	{
 		public event OnChatMessage OnChatMessage;
-		DiscordClient client;
+		DiscordSocketClient client;
 		TGDiscordSetupInfo DiscordConfig;
 		object DiscordLock = new object();
 
-		IDictionary<ulong, Channel> SeenPrivateChannels = new Dictionary<ulong, Channel>();
+		IDictionary<ulong, ISocketMessageChannel> SeenPrivateChannels = new Dictionary<ulong, ISocketMessageChannel>();
 
 		public TGDiscordChatProvider(TGChatSetupInfo info)
 		{
@@ -29,49 +30,54 @@ namespace TGServerService
 		void Init(TGChatSetupInfo info)
 		{
 			DiscordConfig = new TGDiscordSetupInfo(info);
-			client = new DiscordClient();
+			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 		}
 
-		private bool CheckAdmin(User u)
+		private bool CheckAdmin(SocketUser u)
 		{
 			if (!DiscordConfig.AdminsAreSpecial)
 				return DiscordConfig.AdminList.Contains(u.Id.ToString());
+			/*
 			foreach (var I in u.Roles)
 				if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
 					return true;
+			*/
 			return false;
 		}
 
-		private void Client_MessageReceived(object sender, MessageEventArgs e)
+		private async Task Client_MessageReceived(SocketMessage e)
 		{
-			if (e.User.Id == client.CurrentUser.Id)
-				return;
+			await Task.Run(() =>
+			{
+				if (e.Author.Id == client.CurrentUser.Id)
+					return;
 
-			var pm = e.Channel.IsPrivate;
-	
-			if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
-				SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
+				var pm = false; //TODO
 
-			bool found = false;
+				if (pm && !SeenPrivateChannels.ContainsKey(e.Channel.Id))
+					SeenPrivateChannels.Add(e.Channel.Id, e.Channel);
 
-			var formattedMessage = e.Message.RawText;
-			foreach (var u in e.Message.MentionedUsers)
-				if(u.Id == client.CurrentUser.Id)
-				{
-					found = true;
-					formattedMessage = formattedMessage.Replace(u.Mention, "");
-					break;
-				}
+				bool found = false;
 
-			if (!found && !pm)
-				return;
+				var formattedMessage = e.Content;
+				foreach (var u in e.MentionedUsers)
+					if (u.Id == client.CurrentUser.Id)
+					{
+						found = true;
+						formattedMessage = formattedMessage.Replace(u.Mention, "");
+						break;
+					}
 
-			formattedMessage = formattedMessage.Trim();
-			
-			var cid = e.Channel.Id.ToString();
+				if (!found && !pm)
+					return;
 
-			OnChatMessage(this, e.User.Id.ToString(), cid, formattedMessage, CheckAdmin(e.User), pm || DiscordConfig.AdminChannels.Contains(cid));
+				formattedMessage = formattedMessage.Trim();
+
+				var cid = e.Channel.Id.ToString();
+
+				OnChatMessage(this, e.Author.Id.ToString(), cid, formattedMessage, CheckAdmin(e.Author), pm || DiscordConfig.AdminChannels.Contains(cid));
+			});
 		}
 
 		public string Connect()
@@ -83,7 +89,7 @@ namespace TGServerService
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
-					client.Connect(DiscordConfig.BotToken, TokenType.Bot).Wait();
+					client.LoginAsync(TokenType.Bot, DiscordConfig.BotToken).Wait();
 				}
 				return !Connected() ? "Connection failed!" : null;
 			}
@@ -97,7 +103,7 @@ namespace TGServerService
 		{
 			lock (DiscordLock)
 			{
-				return client.State == ConnectionState.Connected;
+				return client.ConnectionState == ConnectionState.Connected;
 			}
 		}
 
@@ -110,7 +116,7 @@ namespace TGServerService
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
-					client.Disconnect().Wait();
+					client.LogoutAsync().Wait();
 				}
 			}
 			catch { }
@@ -135,7 +141,7 @@ namespace TGServerService
 			{
 				var tasks = new List<Task>();
 				var Config = Properties.Settings.Default;
-				foreach (var I in client.Servers)
+				foreach (var I in client.Guilds)
 					foreach (var J in I.TextChannels)
 					{
 						var cid = J.Id.ToString();
@@ -146,7 +152,7 @@ namespace TGServerService
 							|| (mt.HasFlag(ChatMessageType.WatchdogInfo) && DiscordConfig.WatchdogChannels.Contains(cid));
 
 						if (SendToThisChannel)
-							tasks.Add(J.SendMessage(msg));
+							tasks.Add(J.SendMessageAsync(msg));
 					}
 				foreach (var I in tasks)
 					I.Wait();
@@ -165,12 +171,12 @@ namespace TGServerService
 					var Config = Properties.Settings.Default;
 					var channel = Convert.ToUInt64(channelname);
 					if (SeenPrivateChannels.ContainsKey(channel))
-						SeenPrivateChannels[channel].SendMessage(message).Wait();
+						SeenPrivateChannels[channel].SendMessageAsync(message).Wait();
 					else
-						foreach (var I in client.Servers)
+						foreach (var I in client.Guilds)
 							foreach (var J in I.TextChannels)
 								if (J.Id == channel)
-									J.SendMessage(message).Wait();
+									J.SendMessageAsync(message).Wait();
 					TGServerService.WriteInfo(String.Format("Discord Send ({0}): {1}", channelname, message), TGServerService.EventID.ChatSend);
 					return null;
 				}
@@ -184,7 +190,7 @@ namespace TGServerService
 		{
 			try
 			{
-				client.Disconnect().Wait();
+				client.LogoutAsync().Wait();
 			}
 			catch (Exception e) {
 				TGServerService.WriteError("Discord failed DnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
