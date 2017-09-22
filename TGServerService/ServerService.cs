@@ -208,9 +208,10 @@ namespace TGServerService
 		void AddEndpoint(Type typetype)
 		{
 			var bindingName = Server.MasterInterfaceName + "/" + typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { MaxReceivedMessageSize = Server.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Server.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
+				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = Server.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;

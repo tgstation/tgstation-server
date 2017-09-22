@@ -118,7 +118,7 @@ namespace TGServiceInterface
 			if (HTTPSURL == null)
 			{
 				outChannel = new ChannelFactory<T>(
-				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 10, 0), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
+				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
 				outChannel.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 				return outChannel.CreateChannel();
 			}
@@ -126,7 +126,7 @@ namespace TGServiceInterface
 			//okay we're going over
 			var binding = new WSHttpBinding()
 			{
-				SendTimeout = new TimeSpan(0, 10, 0),
+				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = TransferLimitRemote
 			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
