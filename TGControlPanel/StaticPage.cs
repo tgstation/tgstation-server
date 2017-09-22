@@ -232,12 +232,15 @@ namespace TGControlPanel
 				if (entry == null)
 				{
 					StaticFileEditTextbox.ReadOnly = true;
-					StaticFileEditTextbox.Text = "ERROR: " + entry;
+					StaticFileEditTextbox.Text = "ERROR: " + error;
 					if (unauthorized && !title.Contains(" (UNAUTHORIZED)"))
 						StaticFileListBox.Items[newIndex] = title + " (UNAUTHORIZED)";
 				}
-				StaticFileEditTextbox.ReadOnly = false;
-				StaticFileEditTextbox.Text = entry;
+				else
+				{
+					StaticFileEditTextbox.ReadOnly = false;
+					StaticFileEditTextbox.Text = entry;
+				}
 			}
 		}
 	}
