@@ -220,12 +220,8 @@ namespace TGControlPanel
 			var newIndex = StaticFileListBox.SelectedIndex;
 			var path = IndexesToPaths[newIndex];
 			var title = (string)StaticFileListBox.Items[newIndex];
-			if (path == "TGServiceInterface.dll")
-			{
-				StaticFileEditTextbox.ReadOnly = true;
-				StaticFileEditTextbox.Text = "/tg/station Server Interface DLL";
-			}
-			else if (title[title.Length - 1] == '/')
+			var authed_title = title.Replace(" (UNAUTHORIZED)", "");
+			if (authed_title[authed_title.Length - 1] == '/')
 			{
 				StaticFileEditTextbox.ReadOnly = true;
 				StaticFileEditTextbox.Text = "Directory";

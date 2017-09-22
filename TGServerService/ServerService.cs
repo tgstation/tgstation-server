@@ -81,6 +81,9 @@ namespace TGServerService
 			InteropCallException = 7000,
 			APIVersionMismatch = 7100,
 			RepoConfigurationFail = 7200,
+			StaticRead = 7300,
+			StaticWrite = 7400,
+			StaticDelete = 7500,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
@@ -196,8 +199,11 @@ namespace TGServerService
 		void AddEndpoint(Type typetype)
 		{
 			var bindingName = Server.MasterInterfaceName + "/" + typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding(), bindingName);
-			var httpsBinding = new WSHttpBinding();
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { MaxReceivedMessageSize = Server.TransferLimitLocal }, bindingName);
+			var httpsBinding = new WSHttpBinding()
+			{
+				MaxReceivedMessageSize = Server.TransferLimitRemote
+			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
 			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
