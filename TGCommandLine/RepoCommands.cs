@@ -73,6 +73,7 @@ namespace TGCommandLine
 				OutputProc("Remote: " + remote + " (" + remotehead + ")");
 				OutputProc("Branch: " + branch);
 				OutputProc("HEAD: " + head);
+				OutputProc(String.Format("Committer Identity: {0} ({1})", Repo.GetCommitterName(), Repo.GetCommitterEmail()));
 			}
 			else
 			{
