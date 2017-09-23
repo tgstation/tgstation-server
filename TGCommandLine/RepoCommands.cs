@@ -9,7 +9,7 @@ namespace TGCommandLine
 		public RepoCommand()
 		{
 			Keyword = "repo";
-			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoChangelogCommand(), new RepoPythonPathCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand() };
+			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoPythonPathCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand() };
 		}
 		public override string GetHelpText()
 		{
@@ -155,9 +155,9 @@ namespace TGCommandLine
 			return "<hard|merge>";
 		}
 	}
-	class RepoChangelogCommand : Command
+	class RepoGenChangelogCommand : Command
 	{
-		public RepoChangelogCommand()
+		public RepoGenChangelogCommand()
 		{
 			Keyword = "gen-changelog";
 		}
@@ -173,6 +173,25 @@ namespace TGCommandLine
 		public override string GetHelpText()
 		{
 			return "Compiles the html changelog";
+		}
+	}
+	class RepoPushChangelogCommand : Command
+	{
+		public RepoPushChangelogCommand()
+		{
+			Keyword = "push-changelog";
+		}
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var result = Server.GetComponent<ITGRepository>().PushChangelog();
+			if(result != null)
+				OutputProc(result);
+			return result == null ? ExitCode.Normal : ExitCode.ServerError;
+		}
+
+		public override string GetHelpText()
+		{
+			return "Pushes the html changelog if the SSH authentication is configured correctly";
 		}
 	}
 	class RepoSetEmailCommand : Command
