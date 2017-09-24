@@ -114,7 +114,7 @@ namespace TGInstallerWrapper
 					try
 					{
 						Server.GetComponent<ITGSService>().PrepareForUpdate();
-                        Thread.Sleep(3000); //chat messages
+						Thread.Sleep(3000); //chat messages
 					}
 					catch
 					{
