@@ -46,7 +46,11 @@ namespace TGServerService
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
-					SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
+                    ThreadPool.QueueUserWorkItem(_ =>
+                    {
+                        Thread.Sleep(5000);
+                        SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
+                    });
 
 					//start wd 
 					RestartInProgress = true;
@@ -299,7 +303,8 @@ namespace TGServerService
 					AwaitingShutdown = ShutdownRequestPhase.None;
 					if (!RestartInProgress)
 					{
-						SendMessage("DD: Server stopped, watchdog exiting...", ChatMessageType.WatchdogInfo);
+						if(!Properties.Settings.Default.ReattachToDD)
+							SendMessage("DD: Server stopped, watchdog exiting...", ChatMessageType.WatchdogInfo);
 						TGServerService.WriteInfo("Watch dog exited", TGServerService.EventID.DDWatchdogExit);
 					}
 					else
