@@ -9,6 +9,17 @@ namespace TGControlPanel
 	partial class Main
 	{
 		IDictionary<int, string> IndexesToPaths = new Dictionary<int, string>();
+		IList<string> EnumeratedPaths = new List<string>() { "" };
+		bool enumerating = false;
+
+		enum EnumResult
+		{
+			Enumerated,
+			Unauthorized,
+			NotEnumerated,
+			Error,
+		}
+
 		void InitStaticPage()
 		{
 			BuildFileList();
@@ -16,28 +27,32 @@ namespace TGControlPanel
 
 		void BuildFileList()
 		{
+			enumerating = true;
 			IndexesToPaths.Clear();
 			StaticFileListBox.Items.Clear();
 			IndexesToPaths.Add(StaticFileListBox.Items.Add("/"), "/");
-			if (!EnumeratePath("", Server.GetComponent<ITGConfig>(), 1))
+			if (EnumeratePath("", Server.GetComponent<ITGConfig>(), 1) == EnumResult.Unauthorized)
 			{
 				StaticFileListBox.Items[0] += " (UNAUTHORIZED)";
 				IndexesToPaths[0] = null;
 			}
 			StaticFileListBox.SelectedIndex = 0;
+			enumerating = false;
 		}
 
-		bool EnumeratePath(string path, ITGConfig config, int level)
+		EnumResult EnumeratePath(string path, ITGConfig config, int level)
 		{
+			if (!EnumeratedPaths.Contains(path))
+				return EnumResult.NotEnumerated;
 			var Enum = config.ListStaticDirectory(path, out string error, out bool unauthorized);
 			if(Enum == null)
 			{
 				if (unauthorized)
-					return false;
+					return EnumResult.Unauthorized;
 				else
 				{
 					MessageBox.Show(String.Format("Could not enumerate static path \"{0}\" error: {1}", path, error));
-					return true;
+					return EnumResult.Error;
 				}
 			}
 			foreach(var I in Enum)
@@ -48,17 +63,26 @@ namespace TGControlPanel
 					var index =	StaticFileListBox.Items.Add(DSNTimes(level) + dir + '/');
 					var fullpath = path + '/' + dir;
 					IndexesToPaths.Add(index, fullpath);
-					if (!EnumeratePath(fullpath, config, level + 1))
+					switch(EnumeratePath(fullpath, config, level + 1))
 					{
-						StaticFileListBox.Items[index] += " (UNAUTHORIZED)";
-						IndexesToPaths[index] = null;
+						case EnumResult.Unauthorized:
+							StaticFileListBox.Items[index] += " (UNAUTHORIZED)";
+							IndexesToPaths[index] = null;
+							break;
+						case EnumResult.NotEnumerated:
+							StaticFileListBox.Items[index] += " (...)";
+							break;
+						case EnumResult.Error:
+							StaticFileListBox.Items[index] += " (ERROR)";
+							IndexesToPaths[index] = null;
+							break;
 					}
 					continue;
 				}
 
 				IndexesToPaths.Add(StaticFileListBox.Items.Add(DSNTimes(level) + I), Path.Combine(path, I));
 			}
-			return true;
+			return EnumResult.Enumerated;
 		}
 
 		string DSNTimes(int n)
@@ -243,7 +267,11 @@ namespace TGControlPanel
 
 		void UpdateEditText()
 		{
+			if (enumerating)
+				return;
 			var newIndex = StaticFileListBox.SelectedIndex;
+			if (newIndex == -1)
+				return;
 			var path = IndexesToPaths[newIndex];
 			var title = (string)StaticFileListBox.Items[newIndex];
 			var authed_title = title.Replace(" (UNAUTHORIZED)", "");
@@ -251,6 +279,13 @@ namespace TGControlPanel
 			{
 				StaticFileEditTextbox.ReadOnly = true;
 				StaticFileEditTextbox.Text = "Directory";
+				if (path != null && path != "/")
+				{
+					EnumeratedPaths.Add(path);
+					BuildFileList();
+					StaticFileListBox.SelectedIndex = newIndex;
+					return;
+				}
 			}
 			else
 			{
