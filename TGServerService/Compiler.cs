@@ -141,21 +141,8 @@ namespace TGServerService
 			if (Directory.Exists(Path.Combine(GameDirA, InterfaceDLLName)))
 				Directory.Delete(Path.Combine(GameDirA, InterfaceDLLName));
 
-			var Config = LoadRepoConfig();
-			if (Config != null)
-			{
-				CleanGameFolderList(GameDirA, Config.StaticDirectoryPaths);
-				CleanGameFolderList(GameDirA, Config.DLLPaths);
-			}
-
 			if (Directory.Exists(Path.Combine(GameDirB, InterfaceDLLName)))
 				Directory.Delete(Path.Combine(GameDirB, InterfaceDLLName));
-
-			if (Config != null)
-			{
-				CleanGameFolderList(GameDirB, Config.StaticDirectoryPaths);
-				CleanGameFolderList(GameDirB, Config.DLLPaths);
-			}
 
 			if (Directory.Exists(GameDirLive))
 				Directory.Delete(GameDirLive);
