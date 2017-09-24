@@ -37,7 +37,11 @@ namespace TGServiceInterface
 			try
 			{
 				var channel = Server.CreateChannel<ITGInterop>();
-				channel.CreateChannel().InteropMessage(String.Join(" ", args));
+                try
+                {
+                    channel.CreateChannel().InteropMessage(String.Join(" ", args));
+                }
+                catch { }
 				Server.CloseChannel(channel);
 
 			}
