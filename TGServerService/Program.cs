@@ -30,7 +30,11 @@ namespace TGServerService
 			if (excludeRoot != null)
 				for (var I = 0; I < excludeRoot.Count; ++I)
 					excludeRoot[I] = excludeRoot[I].ToLower();
-
+			if (!di.Attributes.HasFlag(FileAttributes.Directory))
+			{    //this is probably a symlink
+				Directory.Delete(di.FullName);
+				return;
+			}
 			NormalizeAndDelete(di, excludeRoot);
 			if (!ContentsOnly)
 			{
