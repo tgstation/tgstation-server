@@ -46,11 +46,11 @@ namespace TGServerService
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
 					TGServerService.WriteInfo("Reattached to running DD process!", TGServerService.EventID.DDReattachSuccess);
-                    ThreadPool.QueueUserWorkItem(_ =>
-                    {
-                        Thread.Sleep(5000);
-                        SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
-                    });
+					ThreadPool.QueueUserWorkItem(_ =>
+					{
+						Thread.Sleep(5000);
+						SendMessage("DD: Update complete. Watch dog reactivated...", ChatMessageType.WatchdogInfo);
+					});
 
 					//start wd 
 					RestartInProgress = true;
