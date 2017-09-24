@@ -21,15 +21,16 @@ namespace TGInstallerWrapper
 			InitializeComponent();
 			FormClosing += Main_FormClosing;
 			PathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + Path.DirectorySeparatorChar + InstallDir;
-			if (Server.VerifyConnection() == null)
-				try
-				{
-					VersionLabel.Text = Server.GetComponent<ITGSService>().Version();
-				}
-				catch
-				{
+			var verifiedConnection = Server.VerifyConnection() == null;
+			try
+			{
+				VersionLabel.Text = Server.GetComponent<ITGSService>().Version();
+			}
+			catch
+			{
+				if(verifiedConnection)
 					VersionLabel.Text = "< v3.0.85.0 (Missing ITGService.Version())";
-				}
+			}
 			TargetVersionLabel.Text += " v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 		}
 
@@ -110,17 +111,17 @@ namespace TGInstallerWrapper
 
 				ProgressBar.Style = ProgressBarStyle.Marquee;
 
-				if (Server.VerifyConnection() == null)
-					try
-					{
-						Server.GetComponent<ITGSService>().PrepareForUpdate();
-						Thread.Sleep(3000); //chat messages
-					}
-					catch
-					{
-						if (MessageBox.Show("ITGSService.PrepareForUpdate() threw an exception! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
-							return;
-					}
+				var connectionVerified = Server.VerifyConnection() == null;
+				try
+				{
+					Server.GetComponent<ITGSService>().PrepareForUpdate();
+					Thread.Sleep(3000); //chat messages
+				}
+				catch
+				{
+					if (connectionVerified && MessageBox.Show("ITGSService.PrepareForUpdate() threw an exception! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
+						return;
+				}
 
 				InstallCancelButton.Enabled = true;
 
