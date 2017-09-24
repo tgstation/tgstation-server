@@ -12,6 +12,6 @@ using System.Reflection;
 // [assembly: AssemblyVersion("1.0.*")]
 
 //It's impossible to make these a define, don't say I didn't warn you 
-[assembly: AssemblyVersion("3.1.0.3")]
-[assembly: AssemblyFileVersion("3.1.0.3")]
-[assembly: AssemblyInformationalVersion("3.1.0.3")]
+[assembly: AssemblyVersion("3.1.0.4")]
+[assembly: AssemblyFileVersion("3.1.0.4")]
+[assembly: AssemblyInformationalVersion("3.1.0.4")]
