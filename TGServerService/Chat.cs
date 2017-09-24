@@ -198,21 +198,21 @@ namespace TGServerService
 					
 					var lists = new JavaScriptSerializer().Deserialize<List<List<string>>>(Encoding.UTF8.GetString(plaintext));
 					var output = new List<TGChatSetupInfo>(lists.Count);
-                    var foundirc = 0;
-                    var founddiscord = 0;
-                    foreach (var l in lists)
-                    {
-                        var info = new TGChatSetupInfo(l);
-                        if (info.Provider == TGChatProvider.Discord)
-                            ++founddiscord;
-                        else if (info.Provider == TGChatProvider.IRC)
-                            ++foundirc;
-                        output.Add(info);
-                    }
+					var foundirc = 0;
+					var founddiscord = 0;
+					foreach (var l in lists)
+					{
+						var info = new TGChatSetupInfo(l);
+						if (info.Provider == TGChatProvider.Discord)
+							++founddiscord;
+						else if (info.Provider == TGChatProvider.IRC)
+							++foundirc;
+						output.Add(info);
+					}
 
-                    if (foundirc != 1 || founddiscord != 1)
-                        throw new Exception();
-                    
+					if (foundirc != 1 || founddiscord != 1)
+						throw new Exception();
+					
 					return output;
 				}
 				catch
