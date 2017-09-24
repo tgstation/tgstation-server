@@ -36,17 +36,14 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				ChannelFactory<ITGInterop> channel = null;
-				try
-				{
-					Server.GetComponentAndChannel(out channel).InteropMessage(String.Join(" ", args));
-					channel.Close();
-				}
-				catch
-				{
-					if(channel != null)
-						channel.Abort();
-				}
+				var channel = Server.CreateChannel<ITGInterop>();
+                try
+                {
+                    channel.CreateChannel().InteropMessage(String.Join(" ", args));
+                }
+                catch { }
+				Server.CloseChannel(channel);
+
 			}
 			catch { }
 			return 0;
