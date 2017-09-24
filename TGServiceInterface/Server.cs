@@ -49,7 +49,7 @@ namespace TGServiceInterface
 		/// </summary>
 		static string HTTPSPassword;
 
-
+		static Dictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
 		public static void SetBadCertificateHandler(Func<string, bool> handler)
 		{
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
@@ -84,6 +84,14 @@ namespace TGServiceInterface
 		{
 			HTTPSURL = null;
 			HTTPSPassword = null;
+			ClearCachedChannels();
+		}
+
+		static void ClearCachedChannels()
+		{
+			foreach (var I in ChannelFactoryCache)
+				CloseChannel(I.Value);
+			ChannelFactoryCache.Clear();
 		}
 
 		/// <summary>
@@ -97,6 +105,19 @@ namespace TGServiceInterface
 			HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
+			ClearCachedChannels();
+		}
+
+		public static void CloseChannel(ChannelFactory cf)
+		{
+			try
+			{
+				cf.Close();
+			}
+			catch
+			{
+				cf.Abort();
+			}
 		}
 
 		/// <summary>
@@ -106,10 +127,28 @@ namespace TGServiceInterface
 		/// <returns>The correct component</returns>
 		public static T GetComponent<T>()
 		{
-			return GetComponentAndChannel<T>(out ChannelFactory<T> ignored);
+			var tot = typeof(T);
+			ChannelFactory<T> cf;
+
+			lock (ChannelFactoryCache)
+			{
+				if (ChannelFactoryCache.ContainsKey(tot))
+					try
+					{
+						return ((ChannelFactory<T>)ChannelFactoryCache[tot]).CreateChannel();
+					}
+					catch
+					{
+						ChannelFactoryCache[tot].Abort();
+						ChannelFactoryCache.Remove(tot);
+					}
+				cf = CreateChannel<T>();
+				ChannelFactoryCache[tot] = cf;
+			}
+			return cf.CreateChannel();
 		}
 
-		public static T GetComponentAndChannel<T>(out ChannelFactory<T> outChannel)
+		public static ChannelFactory<T> CreateChannel<T>()
 		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT))
@@ -117,10 +156,10 @@ namespace TGServiceInterface
 			var InterfaceName = typeof(T).Name;
 			if (HTTPSURL == null)
 			{
-				outChannel = new ChannelFactory<T>(
+				var res2 = new ChannelFactory<T>(
 				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
-				outChannel.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
-				return outChannel.CreateChannel();
+				res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
+				return res2;
 			}
 
 			//okay we're going over
@@ -134,13 +173,13 @@ namespace TGServiceInterface
 			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
 			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", HTTPSURL, HTTPSPort, MasterInterfaceName, InterfaceName));
-			outChannel = new ChannelFactory<T>(binding, address);
+			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
 			{
-				outChannel.Credentials.UserName.UserName = HTTPSUsername;
-				outChannel.Credentials.UserName.Password = HTTPSPassword;
+				res.Credentials.UserName.UserName = HTTPSUsername;
+				res.Credentials.UserName.Password = HTTPSPassword;
 			}
-			return outChannel.CreateChannel();
+			return res;
 		}
 
 		/// <summary>
