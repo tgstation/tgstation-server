@@ -215,6 +215,7 @@ namespace TGServerService
 				MaxReceivedMessageSize = Server.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
+			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
 			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
 			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
