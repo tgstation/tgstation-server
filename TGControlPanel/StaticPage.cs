@@ -97,6 +97,7 @@ namespace TGControlPanel
 		private void StaticFilesRefreshButton_Click(object sender, EventArgs e)
 		{
 			BuildFileList();
+			UpdateEditText();
 		}
 
 		private void StaticFileUploadButton_Click(object sender, EventArgs e)
