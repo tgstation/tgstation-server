@@ -27,6 +27,18 @@ namespace TGControlPanel
 
 		private void Panels_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			switch (Panels.SelectedIndex)
+			{
+				case 1: //byond
+					UpdateBYONDButtons();
+					break;
+				case 2: //scp
+					LoadServerPage();
+					break;
+				case 3: //chat
+					LoadChatPage();
+					break;
+			}
 			Properties.Settings.Default.LastPageIndex = Panels.SelectedIndex;
 		}
 	}
