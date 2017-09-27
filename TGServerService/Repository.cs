@@ -249,22 +249,7 @@ namespace TGServerService
 					DeletePRList();
 					lock (configLock)
 					{
-						if (Directory.Exists(StaticDirs))
-						{
-							int count = 1;
-
-							string path = Path.GetDirectoryName(StaticBackupDir);
-							string newFullPath = StaticBackupDir;
-
-							while (File.Exists(newFullPath) || Directory.Exists(newFullPath))
-							{
-								string tempDirName = string.Format("{0}({1})", StaticBackupDir, count++);
-								newFullPath = Path.Combine(path, tempDirName);
-							}
-
-							Program.CopyDirectory(StaticDirs, newFullPath);
-						}
-						Program.DeleteDirectory(StaticDirs);
+						BackupAndDeleteStaticDirectory();
 					}
 
 					var Opts = new CloneOptions()
@@ -307,6 +292,26 @@ namespace TGServerService
 					Cloning = false;
 				}
 			}
+		}
+
+		void BackupAndDeleteStaticDirectory()
+		{
+			if (Directory.Exists(StaticDirs))
+			{
+				int count = 1;
+
+				string path = Path.GetDirectoryName(StaticBackupDir);
+				string newFullPath = StaticBackupDir;
+
+				while (File.Exists(newFullPath) || Directory.Exists(newFullPath))
+				{
+					string tempDirName = string.Format("{0}({1})", StaticBackupDir, count++);
+					newFullPath = Path.Combine(path, tempDirName);
+				}
+
+				Program.CopyDirectory(StaticDirs, newFullPath);
+			}
+			Program.DeleteDirectory(StaticDirs);
 		}
 
 		public string UpdateTGS3Json()

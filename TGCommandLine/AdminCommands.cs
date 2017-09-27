@@ -9,14 +9,14 @@ namespace TGCommandLine
 		public AdminCommand()
 		{
 			Keyword = "admin";
-			Children = new Command[] { new AdminViewGroupCommand(), new AdminSetGroupCommand(), new AdminClearGroupCommand(), new AdminViewPortCommand(), new AdminSetPortCommand(), new AdminMoveServerCommand() };
+			Children = new Command[] { new AdminViewGroupCommand(), new AdminSetGroupCommand(), new AdminClearGroupCommand(), new AdminViewPortCommand(), new AdminSetPortCommand(), new AdminMoveServerCommand(), new AdminRecreateStaticCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage server service authentication";
 		}
 	}
-	
+
 	class AdminMoveServerCommand : Command
 	{
 		public AdminMoveServerCommand()
@@ -40,6 +40,25 @@ namespace TGCommandLine
 		public override string GetHelpText()
 		{
 			return "Move the server installation (BYOND, Repo, Game) to a new location. Nothing else may be running for this task to complete";
+		}
+	}
+	class AdminRecreateStaticCommand : Command
+	{
+		public AdminRecreateStaticCommand()
+		{
+			Keyword = "recreate-static-directory";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var res = Server.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			OutputProc(res ?? "Success");
+			return res == null ? ExitCode.Normal : ExitCode.ServerError;
+		}
+
+		public override string GetHelpText()
+		{
+			return "Backup the current static directory and repopulate it from the TGS3.json in the repository";
 		}
 	}
 

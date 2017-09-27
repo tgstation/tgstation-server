@@ -44,6 +44,16 @@ namespace TGControlPanel
 			return true;
 		}
 
+		public static bool CheckAdminWithWarning()
+		{
+			if (!Server.AuthenticateAdmin())
+			{
+				MessageBox.Show("Only system administrators may use this command!");
+				return false;
+			}
+			return true;
+		}
+
 		public static void ServiceDisconnectException(Exception e)
 		{
 			MessageBox.Show("An unhandled exception occurred. This usually means we lost connection to the service. Error" + e.ToString());

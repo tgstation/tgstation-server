@@ -239,5 +239,44 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
+		public string RecreateStaticFolder()
+		{
+			if (!Monitor.TryEnter(RepoLock))
+				return "Repo locked!";
+			try
+			{
+				if (!Monitor.TryEnter(watchdogLock))
+					return "Watchdog locked!";
+				try
+				{
+					if (!Monitor.TryEnter(configLock))
+						return "Static dir locked!";
+					try
+					{
+						if (currentStatus != TGDreamDaemonStatus.Offline)
+							return "Watchdog running!";
+						BackupAndDeleteStaticDirectory();
+						InitialConfigureRepository();
+					}
+					finally
+					{
+						Monitor.Exit(configLock);
+					}
+				}
+				finally
+				{
+					Monitor.Exit(watchdogLock);
+				}
+			}
+			catch(Exception e)
+			{
+				return e.ToString();
+			}
+			finally
+			{
+				Monitor.Exit(RepoLock);
+			}
+			return null;
+		}
 	}
 }

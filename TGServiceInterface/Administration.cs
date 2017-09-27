@@ -46,5 +46,12 @@ namespace TGServiceInterface
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string MoveServer(string new_location);
+
+		/// <summary>
+		/// Renames the current static folder to a backup name and recreates is from the current repo using TGS3.json
+		/// </summary>
+		/// <returns>null on success, error message on failure</returns>
+		[OperationContract]
+		string RecreateStaticFolder();
 	}
 }
