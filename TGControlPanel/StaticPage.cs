@@ -274,7 +274,7 @@ namespace TGControlPanel
 				return;
 			var path = IndexesToPaths[newIndex];
 			var title = (string)StaticFileListBox.Items[newIndex];
-			var authed_title = title.Replace(" (UNAUTHORIZED)", "");
+			var authed_title = title.Replace(" (UNAUTHORIZED)", "").Replace(" (...)", "");
 			if (authed_title[authed_title.Length - 1] == '/')
 			{
 				StaticFileEditTextbox.ReadOnly = true;
@@ -283,7 +283,9 @@ namespace TGControlPanel
 				{
 					EnumeratedPaths.Add(path);
 					BuildFileList();
+					enumerating = true;
 					StaticFileListBox.SelectedIndex = newIndex;
+					enumerating = false;
 					return;
 				}
 			}
