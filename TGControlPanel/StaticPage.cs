@@ -261,6 +261,7 @@ namespace TGControlPanel
 				if (unauthorized && !title.Contains(" (UNAUTHORIZED)"))
 					StaticFileListBox.Items[index] = title + " (UNAUTHORIZED)";
 			}
+			UpdateEditText();
 		}
 
 		private void StaticFileListBox_SelectedIndexChanged(object sender, EventArgs e)

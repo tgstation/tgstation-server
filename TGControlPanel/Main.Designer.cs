@@ -145,6 +145,7 @@
 			this.RepoProgressBar = new System.Windows.Forms.ProgressBar();
 			this.Panels = new System.Windows.Forms.TabControl();
 			this.StaticPanel = new System.Windows.Forms.TabPage();
+			this.RecreateStaticButton = new System.Windows.Forms.Button();
 			this.StaticFileDownloadButton = new System.Windows.Forms.Button();
 			this.StaticFilesRefreshButton = new System.Windows.Forms.Button();
 			this.StaticFileUploadButton = new System.Windows.Forms.Button();
@@ -154,7 +155,6 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
-			this.RecreateStaticButton = new System.Windows.Forms.Button();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -1629,6 +1629,17 @@
 			this.StaticPanel.TabIndex = 5;
 			this.StaticPanel.Text = "Static Files";
 			// 
+			// RecreateStaticButton
+			// 
+			this.RecreateStaticButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.RecreateStaticButton.Location = new System.Drawing.Point(471, 6);
+			this.RecreateStaticButton.Name = "RecreateStaticButton";
+			this.RecreateStaticButton.Size = new System.Drawing.Size(144, 22);
+			this.RecreateStaticButton.TabIndex = 33;
+			this.RecreateStaticButton.Text = "Recreate Static Directory";
+			this.RecreateStaticButton.UseVisualStyleBackColor = true;
+			this.RecreateStaticButton.Click += new System.EventHandler(this.RecreateStaticButton_Click);
+			// 
 			// StaticFileDownloadButton
 			// 
 			this.StaticFileDownloadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1726,16 +1737,6 @@
 			this.StaticFileListBox.Size = new System.Drawing.Size(207, 329);
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
-			// 
-			// RecreateStaticButton
-			// 
-			this.RecreateStaticButton.Location = new System.Drawing.Point(471, 6);
-			this.RecreateStaticButton.Name = "RecreateStaticButton";
-			this.RecreateStaticButton.Size = new System.Drawing.Size(144, 22);
-			this.RecreateStaticButton.TabIndex = 33;
-			this.RecreateStaticButton.Text = "Recreate Static Directory";
-			this.RecreateStaticButton.UseVisualStyleBackColor = true;
-			this.RecreateStaticButton.Click += new System.EventHandler(this.RecreateStaticButton_Click);
 			// 
 			// Main
 			// 
