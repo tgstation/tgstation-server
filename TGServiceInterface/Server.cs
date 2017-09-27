@@ -135,7 +135,10 @@ namespace TGServiceInterface
 				if (ChannelFactoryCache.ContainsKey(tot))
 					try
 					{
-						return ((ChannelFactory<T>)ChannelFactoryCache[tot]).CreateChannel();
+						cf = ((ChannelFactory<T>)ChannelFactoryCache[tot]);
+						if (cf.State != CommunicationState.Opened)
+							throw new Exception();
+						return cf.CreateChannel();
 					}
 					catch
 					{
