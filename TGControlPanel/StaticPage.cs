@@ -317,7 +317,7 @@ namespace TGControlPanel
 				else
 				{
 					StaticFileEditTextbox.ReadOnly = false;
-					StaticFileEditTextbox.Text = entry;
+					StaticFileEditTextbox.Text = entry.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", Environment.NewLine);
 				}
 			}
 		}
