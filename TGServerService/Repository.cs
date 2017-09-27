@@ -33,15 +33,16 @@ namespace TGServerService
 		/// Repo specific information about the installation
 		/// Requires RepoLock and !RepoBusy to be instantiated
 		/// </summary>
-		class RepoConfig
+		class RepoConfig : IEquatable<RepoConfig>
 		{
-			IList<string> LoadArray(object o) {
-				var array = (object[])o;
-				var res = new List<string>();
-				foreach (var I in array)
-					res.Add((string)I);
-				return res;
-			}
+			public readonly bool ChangelogSupport;
+			public readonly string PathToChangelogPy;
+			public readonly string ChangelogPyArguments;
+			public readonly IList<string> PipDependancies = new List<string>();
+			public readonly IList<string> ChangelogPathsToStage = new List<string>();
+			public readonly IList<string> StaticDirectoryPaths = new List<string>();
+			public readonly IList<string> DLLPaths = new List<string>();
+
 			public RepoConfig()
 			{
 				if (!File.Exists(RepoTGS3SettingsPath))
@@ -80,13 +81,53 @@ namespace TGServerService
 				}
 				catch { }
 			}
-			public readonly bool ChangelogSupport;
-			public readonly string PathToChangelogPy;
-			public readonly string ChangelogPyArguments;
-			public readonly IList<string> PipDependancies = new List<string>();
-			public readonly IList<string> ChangelogPathsToStage = new List<string>();
-			public readonly IList<string> StaticDirectoryPaths = new List<string>();
-			public readonly IList<string> DLLPaths = new List<string>();
+			private static IList<string> LoadArray(object o)
+			{
+				var array = (object[])o;
+				var res = new List<string>();
+				foreach (var I in array)
+					res.Add((string)I);
+				return res;
+			}
+
+			public override bool Equals(object obj)
+			{
+				return Equals(obj as RepoConfig);
+			}
+
+			public bool Equals(RepoConfig other)
+			{
+				return ChangelogSupport == other.ChangelogSupport
+					&& PathToChangelogPy == other.PathToChangelogPy
+					&& ChangelogPyArguments == other.ChangelogPyArguments
+					&& PipDependancies.Equals(other.PipDependancies)
+					&& ChangelogPathsToStage.Equals(other.ChangelogPathsToStage)
+					&& StaticDirectoryPaths.Equals(other.StaticDirectoryPaths)
+					&& DLLPaths.Equals(other.DLLPaths);
+			}
+
+			public override int GetHashCode()
+			{
+				var hashCode = 1890628544;
+				hashCode = hashCode * -1521134295 + ChangelogSupport.GetHashCode();
+				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
+				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PipDependancies);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(ChangelogPathsToStage);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(StaticDirectoryPaths);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(DLLPaths);
+				return hashCode;
+			}
+
+			public static bool operator ==(RepoConfig config1, RepoConfig config2)
+			{
+				return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
+			}
+
+			public static bool operator !=(RepoConfig config1, RepoConfig config2)
+			{
+				return !(config1 == config2);
+			}
 		}
 
 		RepoConfig _CurrentRepoConfig;
