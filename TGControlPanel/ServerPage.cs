@@ -25,9 +25,6 @@ namespace TGControlPanel
 		void InitServerPage()
 		{
 			LoadServerPage();
-			ServerTimer.Start();
-			WorldStatusChecker.RunWorkerAsync();
-			WorldStatusChecker.RunWorkerCompleted += WorldStatusChecker_RunWorkerCompleted;
 			FullUpdateWorker.RunWorkerCompleted += FullUpdateWorker_RunWorkerCompleted;
 			ServerPathTextbox.LostFocus += ServerPathTextbox_LostFocus;
 			ServerPathTextbox.KeyDown += ServerPathTextbox_KeyDown;
@@ -63,14 +60,6 @@ namespace TGControlPanel
 			TestmergeButton.Enabled = true;
 			UpdateTestmergeButton.Enabled = true;
 			LoadServerPage();
-			ServerTimer.Start();
-		}
-
-		private void WorldStatusChecker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			if (DDStatusString != "Topic recieve error!" || ServerStatusLabel.Text == "OFFLINE")
-				ServerStatusLabel.Text = DDStatusString;
-			WorldStatusTimer.Start();
 		}
 
 		private void CompileCancelButton_Click(object sender, EventArgs e)
@@ -110,7 +99,6 @@ namespace TGControlPanel
 			WebclientCheckBox.Visible = RepoExists;
 			PortSelector.Visible = RepoExists;
 			projectNameText.Visible = RepoExists;
-			compilerProgressBar.Visible = RepoExists;
 			CompilerStatusLabel.Visible = RepoExists;
 			CompileCancelButton.Visible = RepoExists;
 			CompilerLabel.Visible = RepoExists;
@@ -171,35 +159,30 @@ namespace TGControlPanel
 				{
 					case TGCompilerStatus.Compiling:
 						CompilerStatusLabel.Text = "Compiling...";
-						compilerProgressBar.Style = ProgressBarStyle.Marquee;
 						compileButton.Enabled = false;
 						initializeButton.Enabled = false;
 						CompileCancelButton.Enabled = true;
 						break;
 					case TGCompilerStatus.Initializing:
 						CompilerStatusLabel.Text = "Initializing...";
-						compilerProgressBar.Style = ProgressBarStyle.Marquee;
 						compileButton.Enabled = false;
 						initializeButton.Enabled = false;
 						CompileCancelButton.Enabled = false;
 						break;
 					case TGCompilerStatus.Initialized:
 						CompilerStatusLabel.Text = "Idle";
-						compilerProgressBar.Style = ProgressBarStyle.Blocks;
 						initializeButton.Enabled = true;
 						compileButton.Enabled = true;
 						CompileCancelButton.Enabled = false;
 						break;
 					case TGCompilerStatus.Uninitialized:
 						CompilerStatusLabel.Text = "Uninitialized";
-						compilerProgressBar.Style = ProgressBarStyle.Blocks;
 						compileButton.Enabled = false;
 						initializeButton.Enabled = true;
 						CompileCancelButton.Enabled = false;
 						break;
 					default:
 						CompilerStatusLabel.Text = "Unknown!";
-						compilerProgressBar.Style = ProgressBarStyle.Blocks;
 						initializeButton.Enabled = true;
 						compileButton.Enabled = true;
 						CompileCancelButton.Enabled = true;
@@ -214,19 +197,7 @@ namespace TGControlPanel
 				updatingFields = false;
 			}
 		}
-
-		private void ServerTimer_Tick(object sender, System.EventArgs e)
-		{
-			try
-			{
-				LoadServerPage();
-			}
-			catch (Exception ex)
-			{
-				ServerTimer.Stop();
-				Program.ServiceDisconnectException(ex);
-			}
-		}
+		
 		private void ProjectNameText_LostFocus(object sender, EventArgs e)
 		{
 			UpdateProjectName();
@@ -256,7 +227,6 @@ namespace TGControlPanel
 			UpdateMergeButton.Enabled = false;
 			TestmergeButton.Enabled = false;
 			UpdateTestmergeButton.Enabled = false;
-			compilerProgressBar.Style = ProgressBarStyle.Marquee;
 			switch (fuAction)
 			{
 				case FullUpdateAction.Testmerge:
@@ -272,8 +242,12 @@ namespace TGControlPanel
 					CompilerStatusLabel.Text = String.Format("Updating and testmerging pull request #{0}...", testmergePR);
 					break;
 			}
-			ServerTimer.Stop();
 			FullUpdateWorker.RunWorkerAsync();
+		}
+
+		private void ServerPageRefreshButton_Click(object sender, EventArgs e)
+		{
+			LoadServerPage();
 		}
 
 		private void InitializeButton_Click(object sender, EventArgs e)
@@ -287,27 +261,6 @@ namespace TGControlPanel
 			if (!Server.GetComponent<ITGCompiler>().Compile())
 				MessageBox.Show("Unable to start compilation!");
 			LoadServerPage();
-		}
-		//because of lol byond this can take some time...
-		private void WorldStatusChecker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			try
-			{
-				if (!Server.GetComponent<ITGRepository>().Exists())
-					DDStatusString = "NOT INSTALLED";
-				else
-					DDStatusString = Server.GetComponent<ITGDreamDaemon>().StatusString(true);
-			}
-			catch
-			{
-				DDStatusString = "ERROR";
-			}
-		}
-
-		private void WorldStatusTimer_Tick(object sender, System.EventArgs e)
-		{
-			WorldStatusTimer.Stop();
-			WorldStatusChecker.RunWorkerAsync();
 		}
 
 		private void AutostartCheckbox_CheckedChanged(object sender, System.EventArgs e)
@@ -375,61 +328,68 @@ namespace TGControlPanel
 
 		private void FullUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			var Repo = Server.GetComponent<ITGRepository>();
-			var DM = Server.GetComponent<ITGCompiler>();
-			switch (fuAction)
+			try
 			{
-				case FullUpdateAction.Testmerge:
-					updateError = Repo.MergePullRequest(testmergePR);
-					if (updateError == null)
-					{
-						Repo.GenerateChangelog(out updateError);
-						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-					}
-					break;
-				case FullUpdateAction.UpdateHard:
-					updateError = Repo.Update(true);
-					if (updateError == null)
-					{
-						Repo.GenerateChangelog(out updateError);
-						if (updateError == null)
-							updateError = Repo.PushChangelog();
-						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-					}
-					break;
-				case FullUpdateAction.UpdateHardTestmerge:
-					updateError = Repo.Update(true);
-					if (updateError == null)
-					{
-						Repo.GenerateChangelog(out updateError);
-						if (updateError == null)
-							updateError = Repo.PushChangelog();
+				var Repo = Server.GetComponent<ITGRepository>();
+				var DM = Server.GetComponent<ITGCompiler>();
+				switch (fuAction)
+				{
+					case FullUpdateAction.Testmerge:
 						updateError = Repo.MergePullRequest(testmergePR);
 						if (updateError == null)
 						{
 							Repo.GenerateChangelog(out updateError);
 							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 						}
-					}
-					break;
-				case FullUpdateAction.UpdateMerge:
-					updateError = Repo.Update(false);
-					if (updateError == null)
-					{
-						Repo.GenerateChangelog(out updateError);
+						break;
+					case FullUpdateAction.UpdateHard:
+						updateError = Repo.Update(true);
 						if (updateError == null)
-							Repo.PushChangelog();   //not an error 99% of the time if this fails, just a dirty tree
-						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-					}
-					break;
-				case FullUpdateAction.Reset:
-					updateError = Repo.Reset(true);
-					if (updateError == null)
-					{
-						Repo.GenerateChangelog(out updateError);
-						updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-					}
-					break;
+						{
+							Repo.GenerateChangelog(out updateError);
+							if (updateError == null)
+								updateError = Repo.PushChangelog();
+							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+						}
+						break;
+					case FullUpdateAction.UpdateHardTestmerge:
+						updateError = Repo.Update(true);
+						if (updateError == null)
+						{
+							Repo.GenerateChangelog(out updateError);
+							if (updateError == null)
+								updateError = Repo.PushChangelog();
+							updateError = Repo.MergePullRequest(testmergePR);
+							if (updateError == null)
+							{
+								Repo.GenerateChangelog(out updateError);
+								updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+							}
+						}
+						break;
+					case FullUpdateAction.UpdateMerge:
+						updateError = Repo.Update(false);
+						if (updateError == null)
+						{
+							Repo.GenerateChangelog(out updateError);
+							if (updateError == null)
+								Repo.PushChangelog();   //not an error 99% of the time if this fails, just a dirty tree
+							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+						}
+						break;
+					case FullUpdateAction.Reset:
+						updateError = Repo.Reset(true);
+						if (updateError == null)
+						{
+							Repo.GenerateChangelog(out updateError);
+							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
+						}
+						break;
+				}
+			}
+			catch (Exception ex)
+			{
+				Program.ServiceDisconnectException(ex);
 			}
 		}
 		private void ResetTestmerge_Click(object sender, EventArgs e)
