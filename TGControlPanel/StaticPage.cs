@@ -22,6 +22,8 @@ namespace TGControlPanel
 
 		void InitStaticPage()
 		{
+			if(!Server.AuthenticateAdmin())
+				RecreateStaticButton.Visible = false;
 			BuildFileList();
 		}
 
@@ -316,6 +318,26 @@ namespace TGControlPanel
 					StaticFileEditTextbox.Text = entry;
 				}
 			}
+		}
+
+		private void RecreateStaticButton_Click(object sender, EventArgs e)
+		{
+			if (!Program.CheckAdminWithWarning())
+			{
+				RecreateStaticButton.Visible = false;
+				return;
+			}
+			if (MessageBox.Show("This will rename the current static directory to a backup and recreate it. Continue?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				return;
+			if (!Program.CheckAdminWithWarning())
+			{
+				RecreateStaticButton.Visible = false;
+				return;
+			}
+			var res = Server.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			if (res != null)
+				MessageBox.Show(res);
+			BuildFileList();
 		}
 	}
 }

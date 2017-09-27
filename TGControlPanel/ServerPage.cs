@@ -21,10 +21,14 @@ namespace TGControlPanel
 		string updateError;
 		bool updatingFields = false;
 
-		string DDStatusString = null;
 		void InitServerPage()
 		{
 			LoadServerPage();
+			if (!Server.AuthenticateAdmin())
+			{
+				ServerPathTextbox.Enabled = false;
+				ServerPathTextbox.ReadOnly = true;
+			}
 			FullUpdateWorker.RunWorkerCompleted += FullUpdateWorker_RunWorkerCompleted;
 			ServerPathTextbox.LostFocus += ServerPathTextbox_LostFocus;
 			ServerPathTextbox.KeyDown += ServerPathTextbox_KeyDown;
@@ -77,9 +81,10 @@ namespace TGControlPanel
 
 		void UpdateServerPath()
 		{
-			if (!Server.AuthenticateAdmin())
+			if (!Program.CheckAdminWithWarning())
 			{
-				MessageBox.Show("Only system administrators may move the server installation");
+				ServerPathTextbox.Enabled = false;
+				ServerPathTextbox.ReadOnly = true;
 				return;
 			}
 			if (updatingFields || ServerPathTextbox.Text.Trim() == Server.GetComponent<ITGConfig>().ServerDirectory())
@@ -87,6 +92,13 @@ namespace TGControlPanel
 			var DialogResult = MessageBox.Show("This will move the entire server installation.", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult != DialogResult.Yes)
 				return;
+
+			if (!Program.CheckAdminWithWarning())
+			{
+				ServerPathTextbox.Enabled = false;
+				ServerPathTextbox.ReadOnly = true;
+				return;
+			}
 			MessageBox.Show(Server.GetComponent<ITGAdministration>().MoveServer(ServerPathTextbox.Text) ?? "Success!");
 		}
 

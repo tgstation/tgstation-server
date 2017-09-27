@@ -154,6 +154,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
+			this.RecreateStaticButton = new System.Windows.Forms.Button();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -1611,6 +1612,7 @@
 			// StaticPanel
 			// 
 			this.StaticPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.StaticPanel.Controls.Add(this.RecreateStaticButton);
 			this.StaticPanel.Controls.Add(this.StaticFileDownloadButton);
 			this.StaticPanel.Controls.Add(this.StaticFilesRefreshButton);
 			this.StaticPanel.Controls.Add(this.StaticFileUploadButton);
@@ -1724,6 +1726,16 @@
 			this.StaticFileListBox.Size = new System.Drawing.Size(207, 329);
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
+			// 
+			// RecreateStaticButton
+			// 
+			this.RecreateStaticButton.Location = new System.Drawing.Point(471, 6);
+			this.RecreateStaticButton.Name = "RecreateStaticButton";
+			this.RecreateStaticButton.Size = new System.Drawing.Size(144, 22);
+			this.RecreateStaticButton.TabIndex = 33;
+			this.RecreateStaticButton.Text = "Recreate Static Directory";
+			this.RecreateStaticButton.UseVisualStyleBackColor = true;
+			this.RecreateStaticButton.Click += new System.EventHandler(this.RecreateStaticButton_Click);
 			// 
 			// Main
 			// 
@@ -1887,5 +1899,6 @@
 		private System.Windows.Forms.Button TGSJsonUpdate;
 		private System.Windows.Forms.Button BYONDRefreshButton;
 		private System.Windows.Forms.Button ServerPageRefreshButton;
+		private System.Windows.Forms.Button RecreateStaticButton;
 	}
 }
