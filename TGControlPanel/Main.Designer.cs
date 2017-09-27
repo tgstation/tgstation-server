@@ -31,7 +31,6 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
 			this.RepoBGW = new System.ComponentModel.BackgroundWorker();
-			this.BYONDTimer = new System.Windows.Forms.Timer(this.components);
 			this.ServerTimer = new System.Windows.Forms.Timer(this.components);
 			this.WorldStatusChecker = new System.ComponentModel.BackgroundWorker();
 			this.WorldStatusTimer = new System.Windows.Forms.Timer(this.components);
@@ -121,8 +120,8 @@
 			this.UpdateButton = new System.Windows.Forms.Button();
 			this.MinorVersionNumeric = new System.Windows.Forms.NumericUpDown();
 			this.MajorVersionNumeric = new System.Windows.Forms.NumericUpDown();
-			this.UpdateProgressBar = new System.Windows.Forms.ProgressBar();
 			this.RepoPanel = new System.Windows.Forms.TabPage();
+			this.TGSJsonUpdate = new System.Windows.Forms.Button();
 			this.RepoRefreshButton = new System.Windows.Forms.Button();
 			this.BackupTagsList = new System.Windows.Forms.ListBox();
 			this.ResetRemote = new System.Windows.Forms.Button();
@@ -158,7 +157,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
-			this.TGSJsonUpdate = new System.Windows.Forms.Button();
+			this.BYONDRefreshButton = new System.Windows.Forms.Button();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -179,11 +178,6 @@
 			// 
 			this.RepoBGW.WorkerReportsProgress = true;
 			this.RepoBGW.WorkerSupportsCancellation = true;
-			// 
-			// BYONDTimer
-			// 
-			this.BYONDTimer.Interval = 1000;
-			this.BYONDTimer.Tick += new System.EventHandler(this.BYONDTimer_Tick);
 			// 
 			// ServerTimer
 			// 
@@ -1097,6 +1091,7 @@
 			// BYONDPanel
 			// 
 			this.BYONDPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.BYONDPanel.Controls.Add(this.BYONDRefreshButton);
 			this.BYONDPanel.Controls.Add(this.LatestVersionLabel);
 			this.BYONDPanel.Controls.Add(this.LatestVersionTitle);
 			this.BYONDPanel.Controls.Add(this.StagedVersionLabel);
@@ -1109,7 +1104,6 @@
 			this.BYONDPanel.Controls.Add(this.UpdateButton);
 			this.BYONDPanel.Controls.Add(this.MinorVersionNumeric);
 			this.BYONDPanel.Controls.Add(this.MajorVersionNumeric);
-			this.BYONDPanel.Controls.Add(this.UpdateProgressBar);
 			this.BYONDPanel.Location = new System.Drawing.Point(4, 22);
 			this.BYONDPanel.Name = "BYONDPanel";
 			this.BYONDPanel.Size = new System.Drawing.Size(868, 366);
@@ -1227,7 +1221,7 @@
 			// 
 			// UpdateButton
 			// 
-			this.UpdateButton.Location = new System.Drawing.Point(372, 252);
+			this.UpdateButton.Location = new System.Drawing.Point(268, 252);
 			this.UpdateButton.Name = "UpdateButton";
 			this.UpdateButton.Size = new System.Drawing.Size(118, 28);
 			this.UpdateButton.TabIndex = 3;
@@ -1269,14 +1263,6 @@
             0,
             0});
 			// 
-			// UpdateProgressBar
-			// 
-			this.UpdateProgressBar.Location = new System.Drawing.Point(107, 286);
-			this.UpdateProgressBar.MarqueeAnimationSpeed = 50;
-			this.UpdateProgressBar.Name = "UpdateProgressBar";
-			this.UpdateProgressBar.Size = new System.Drawing.Size(650, 31);
-			this.UpdateProgressBar.TabIndex = 0;
-			// 
 			// RepoPanel
 			// 
 			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
@@ -1311,6 +1297,18 @@
 			this.RepoPanel.Size = new System.Drawing.Size(868, 366);
 			this.RepoPanel.TabIndex = 0;
 			this.RepoPanel.Text = "Repository";
+			// 
+			// TGSJsonUpdate
+			// 
+			this.TGSJsonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.TGSJsonUpdate.Location = new System.Drawing.Point(722, 212);
+			this.TGSJsonUpdate.Name = "TGSJsonUpdate";
+			this.TGSJsonUpdate.Size = new System.Drawing.Size(140, 29);
+			this.TGSJsonUpdate.TabIndex = 36;
+			this.TGSJsonUpdate.Text = "Update TGS3.json";
+			this.TGSJsonUpdate.UseVisualStyleBackColor = true;
+			this.TGSJsonUpdate.Visible = false;
+			this.TGSJsonUpdate.Click += new System.EventHandler(this.TGSJsonUpdate_Click);
 			// 
 			// RepoRefreshButton
 			// 
@@ -1736,17 +1734,15 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
-			// TGSJsonUpdate
+			// BYONDRefreshButton
 			// 
-			this.TGSJsonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.TGSJsonUpdate.Location = new System.Drawing.Point(722, 212);
-			this.TGSJsonUpdate.Name = "TGSJsonUpdate";
-			this.TGSJsonUpdate.Size = new System.Drawing.Size(140, 29);
-			this.TGSJsonUpdate.TabIndex = 36;
-			this.TGSJsonUpdate.Text = "Update TGS3.json";
-			this.TGSJsonUpdate.UseVisualStyleBackColor = true;
-			this.TGSJsonUpdate.Visible = false;
-			this.TGSJsonUpdate.Click += new System.EventHandler(this.TGSJsonUpdate_Click);
+			this.BYONDRefreshButton.Location = new System.Drawing.Point(462, 252);
+			this.BYONDRefreshButton.Name = "BYONDRefreshButton";
+			this.BYONDRefreshButton.Size = new System.Drawing.Size(118, 28);
+			this.BYONDRefreshButton.TabIndex = 14;
+			this.BYONDRefreshButton.Text = "Refresh";
+			this.BYONDRefreshButton.UseVisualStyleBackColor = true;
+			this.BYONDRefreshButton.Click += new System.EventHandler(this.BYONDRefreshButton_Click);
 			// 
 			// Main
 			// 
@@ -1786,7 +1782,6 @@
 
 		#endregion
 		private System.ComponentModel.BackgroundWorker RepoBGW;
-		private System.Windows.Forms.Timer BYONDTimer;
 		private System.Windows.Forms.Timer ServerTimer;
 		private System.ComponentModel.BackgroundWorker WorldStatusChecker;
 		private System.Windows.Forms.Timer WorldStatusTimer;
@@ -1876,7 +1871,6 @@
 		private System.Windows.Forms.Button UpdateButton;
 		private System.Windows.Forms.NumericUpDown MinorVersionNumeric;
 		private System.Windows.Forms.NumericUpDown MajorVersionNumeric;
-		private System.Windows.Forms.ProgressBar UpdateProgressBar;
 		private System.Windows.Forms.TabPage RepoPanel;
 		private System.Windows.Forms.Button RepoRefreshButton;
 		private System.Windows.Forms.ListBox BackupTagsList;
@@ -1914,5 +1908,6 @@
 		private System.Windows.Forms.Button StaticFilesRefreshButton;
 		private System.Windows.Forms.Button StaticFileDownloadButton;
 		private System.Windows.Forms.Button TGSJsonUpdate;
+		private System.Windows.Forms.Button BYONDRefreshButton;
 	}
 }
