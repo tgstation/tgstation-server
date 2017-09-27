@@ -41,6 +41,7 @@ namespace TGControlPanel
 		{
 			if (e.Result != null)
 				MessageBox.Show((string)e.Result);
+			LoadServerPage();
 		}
 
 		private void ProjectNameText_KeyDown(object sender, KeyEventArgs e)
@@ -151,12 +152,26 @@ namespace TGControlPanel
 				if (!RepoExists)
 					return;
 
-				var Online = DD.DaemonStatus() == TGDreamDaemonStatus.Online;
+				var DaeStat = DD.DaemonStatus();
+				var Online = DaeStat == TGDreamDaemonStatus.Online;
 				ServerStartButton.Enabled = !Online;
 				ServerGStopButton.Enabled = Online;
 				ServerGRestartButton.Enabled = Online;
 				ServerStopButton.Enabled = Online;
 				ServerRestartButton.Enabled = Online;
+
+				switch (DaeStat)
+				{
+					case TGDreamDaemonStatus.HardRebooting:
+						ServerStatusLabel.Text = "REBOOTING";
+						break;
+					case TGDreamDaemonStatus.Offline:
+						ServerStatusLabel.Text = "OFFLINE";
+						break;
+					case TGDreamDaemonStatus.Online:
+						ServerStatusLabel.Text = "ONLINE";
+						break;
+				}
 				
 				ServerGStopButton.Checked = DD.ShutdownInProgress();
 
