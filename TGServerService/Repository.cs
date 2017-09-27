@@ -15,6 +15,7 @@ namespace TGServerService
 	{
 		const string RepoPath = "Repository";
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
+		const string CachedTGS3SettingsPath = "TGS3.json";
 		const string RepoErrorUpToDate = "Already up to date!";
 		const string SSHPushRemote = "ssh_push_target";
 		const string PrivateKeyPath = "RepoKey/private_key.txt";
@@ -43,11 +44,12 @@ namespace TGServerService
 			public readonly IList<string> StaticDirectoryPaths = new List<string>();
 			public readonly IList<string> DLLPaths = new List<string>();
 
-			public RepoConfig()
+			public RepoConfig(bool FromRepository)
 			{
-				if (!File.Exists(RepoTGS3SettingsPath))
+				var path = FromRepository ? RepoTGS3SettingsPath : CachedTGS3SettingsPath;
+				if (!File.Exists(path))
 					return;
-				var rawdata = File.ReadAllText(RepoTGS3SettingsPath);
+				var rawdata = File.ReadAllText(path);
 				var Deserializer = new JavaScriptSerializer();
 				var json = Deserializer.Deserialize<IDictionary<string, object>>(rawdata);
 				try
@@ -130,27 +132,27 @@ namespace TGServerService
 			}
 		}
 
-		RepoConfig _CurrentRepoConfig;
-
 		void InitRepo()
 		{
 			if(Exists())
 				UpdateInterfaceDll(false);
 		}
 
-		RepoConfig LoadRepoConfig()
+		bool RepoConfigsMatch()
 		{
-			if (_CurrentRepoConfig == null)
-				lock (RepoLock)
-				{
-					if (RepoBusy)
-						return null;
-					if (LoadRepo() == null)
-						_CurrentRepoConfig = new RepoConfig();
-				}
-			return _CurrentRepoConfig;
+			//this should never be called while the repo is busy
+			RepoConfig I = null;
+			lock (RepoLock)
+			{
+				if (!RepoBusy && LoadRepo() == null)
+					I = new RepoConfig(true);
+			}
+			if (I == null)
+				throw new Exception("Unable to load TGS3.json from repo!");
+			var J = new RepoConfig(false);
+			return I == J;
 		}
-
+		
 		//public api
 		public bool OperationInProgress()
 		{
@@ -302,11 +304,28 @@ namespace TGServerService
 			}
 		}
 
+		public string UpdateTGS3Json()
+		{
+			try
+			{
+				if (File.Exists(RepoTGS3SettingsPath))
+					File.Copy(RepoTGS3SettingsPath, CachedTGS3SettingsPath, true);
+				else if (File.Exists(CachedTGS3SettingsPath))
+					File.Delete(CachedTGS3SettingsPath);
+			}
+			catch(Exception e)
+			{
+				return e.ToString();
+			}
+			return null;
+		}
+
 		void InitialConfigureRepository()
 		{
 			Directory.CreateDirectory(StaticDirs);
 			UpdateInterfaceDll(false);
-			var Config = new RepoConfig();	//RepoBusy is set if we're here
+			UpdateTGS3Json();
+			var Config = new RepoConfig(false);	//RepoBusy is set if we're here
 			foreach(var I in Config.StaticDirectoryPaths)
 			{
 				try
@@ -341,7 +360,6 @@ namespace TGServerService
 					TGServerService.WriteWarning("Could not setup static DLL: " + I, TGServerService.EventID.RepoConfigurationFail);
 				}
 			}
-			_CurrentRepoConfig = Config;
 		}
 
 		//kicks off the cloning thread
@@ -483,7 +501,6 @@ namespace TGServerService
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
 					UpdateSubmodules();
-					_CurrentRepoConfig = new RepoConfig();
 					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
 					return res;
@@ -551,7 +568,6 @@ namespace TGServerService
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
-					_CurrentRepoConfig = new RepoConfig();
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
 					return null;
 				}
@@ -658,7 +674,6 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
-				_CurrentRepoConfig = new RepoConfig();
 				if (res == null)
 				{
 					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""), ChatMessageType.DeveloperInfo);
@@ -766,7 +781,6 @@ namespace TGServerService
 					if (Result == null)
 						try
 						{
-							_CurrentRepoConfig = new RepoConfig();
 							UpdateSubmodules();
 						}
 						catch (Exception e)
@@ -890,7 +904,7 @@ namespace TGServerService
 
 		public string PushChangelog()
 		{
-			var Config = LoadRepoConfig();
+			var Config = new RepoConfig(false);
 			if (Config == null)
 				return "Error reading changelog configuration";
 			if(!Config.ChangelogSupport || !SSHAuth())
@@ -1044,7 +1058,7 @@ namespace TGServerService
 		//impl proc just for single level recursion
 		public string GenerateChangelogImpl(out string error, bool recurse = false)
 		{
-			var RConfig = LoadRepoConfig();
+			var RConfig = new RepoConfig(false);
 			if (RConfig == null)
 			{
 				error = null;

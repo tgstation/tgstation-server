@@ -172,6 +172,16 @@ namespace TGServerService
 						return;
 					}
 				}
+
+				if (!RepoConfigsMatch())
+				{
+					lock (CompilerLock)
+					{
+						lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
+						compilerCurrentStatus = IsInitialized();
+						return;
+					}
+				}
 				try
 				{
 					SendMessage("DM: Setting up symlinks...", ChatMessageType.DeveloperInfo);
@@ -181,7 +191,7 @@ namespace TGServerService
 					Directory.CreateDirectory(GameDirA);
 					Directory.CreateDirectory(GameDirB);
 
-					var Config = LoadRepoConfig();
+					var Config = new RepoConfig(false);
 
 					if (Config != null) {
 						foreach (var I in Config.StaticDirectoryPaths)
@@ -287,35 +297,69 @@ namespace TGServerService
 			{
 				if (GetVersion(TGByondVersion.Installed) == null)
 				{
-					lastCompilerError = "BYOND not installed!";
-					compilerCurrentStatus = TGCompilerStatus.Initialized;
-					return;
+					lock (CompilerLock)
+					{
+						lastCompilerError = "BYOND not installed!";
+						compilerCurrentStatus = TGCompilerStatus.Initialized;
+						return;
+					}
 				}
-				bool silent;
-				lock (CompilerLock)
+				string resurrectee;
+				try
 				{
-					silent = silentCompile;
-					silentCompile = false;
-				}
+					bool repobusy_check = false;
+					if (!Monitor.TryEnter(RepoLock))
+						repobusy_check = true;
 
-				if(!silent)
-					SendMessage("DM: Compiling...", ChatMessageType.DeveloperInfo);
+					if (!repobusy_check)
+					{
+						if (RepoBusy)
+							repobusy_check = true;
+						else
+							RepoBusy = true;
+						Monitor.Exit(RepoLock);
+					}
 
-				var resurrectee = GetStagingDir();
+					if (repobusy_check)
+					{
+						SendMessage("DM: Copy aborted, repo locked!", ChatMessageType.DeveloperInfo);
+						lock (CompilerLock)
+						{
+							lastCompilerError = "The repo could not be locked for copying";
+							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+							return;
+						}
+					}
+					if (!RepoConfigsMatch())
+					{
+						lock (CompilerLock)
+						{
+							lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
+							compilerCurrentStatus = IsInitialized();
+							return;
+						}
+					}
+					bool silent;
+					lock (CompilerLock)
+					{
+						silent = silentCompile;
+						silentCompile = false;
+					}
 
-				var Config = LoadRepoConfig();
-				var deleteExcludeList = new List<string>();
-				if (Config != null)
-				{
+					if (!silent)
+						SendMessage("DM: Compiling...", ChatMessageType.DeveloperInfo);
+
+					resurrectee = GetStagingDir();
+
+					var Config = new RepoConfig(false);
+					var deleteExcludeList = new List<string>();
 					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
 					deleteExcludeList.AddRange(Config.DLLPaths);
 					Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
-				}
 
-				Directory.CreateDirectory(resurrectee + "/.git/logs");
 
-				if (Config != null)
-				{
+					Directory.CreateDirectory(resurrectee + "/.git/logs");
+
 					foreach (var I in Config.StaticDirectoryPaths)
 					{
 						var the_path = Path.Combine(resurrectee, I);
@@ -328,36 +372,10 @@ namespace TGServerService
 						if (!File.Exists(the_path))
 							CreateSymlink(the_path, Path.Combine(StaticDirs, I));
 					}
-				}
-				
-				if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
-					CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), InterfaceDLLName);
 
-				bool repobusy_check = false;
-				if (!Monitor.TryEnter(RepoLock))
-					repobusy_check = true;
+					if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
+						CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), InterfaceDLLName);
 
-				if (!repobusy_check)
-				{
-					if (RepoBusy)
-						repobusy_check = true;
-					else
-						RepoBusy = true;
-					Monitor.Exit(RepoLock);
-				}
-
-				if (repobusy_check)
-				{
-					SendMessage("DM: Copy aborted, repo locked!", ChatMessageType.DeveloperInfo);
-					lock (CompilerLock)
-					{
-						lastCompilerError = "The repo could not be locked for copying";
-						compilerCurrentStatus = TGCompilerStatus.Initialized;	//still fairly valid
-						return;
-					}
-				}
-				try
-				{
 					deleteExcludeList.Add(".git");
 					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
 					//just the tip

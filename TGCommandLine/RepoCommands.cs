@@ -9,11 +9,35 @@ namespace TGCommandLine
 		public RepoCommand()
 		{
 			Keyword = "repo";
-			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoPythonPathCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand() };
+			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoPythonPathCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage the git repository";
+		}
+	}
+
+	class RepoUpdateJsonCommand : Command
+	{
+		public RepoUpdateJsonCommand()
+		{
+			Keyword = "update-json";
+		}
+
+		public override string GetHelpText()
+		{
+			return "Updates the cached TGS3.json with the one from the repo. Compilation is blocked if these two do not match.";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var res = Server.GetComponent<ITGRepository>().UpdateTGS3Json();
+			if (res != null)
+			{
+				OutputProc(res);
+				return ExitCode.ServerError;
+			}
+			return ExitCode.Normal;
 		}
 	}
 

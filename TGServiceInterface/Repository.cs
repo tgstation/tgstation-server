@@ -217,5 +217,12 @@ namespace TGServiceInterface
 		/// <returns>A dictionary of tag name -> commit on success, null on failure</returns>
 		[OperationContract]
 		IDictionary<string, string> ListBackups(out string error);
+
+		/// <summary>
+		/// Updates the cached TGS3.json to the repo's version
+		/// Compiles will not succeed if these two to not match
+		/// </summary>
+		/// <returns>null on success, error message on failure</returns>
+		string UpdateTGS3Json();
 	}
 }
