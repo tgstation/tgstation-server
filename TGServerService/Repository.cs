@@ -97,15 +97,20 @@ namespace TGServerService
 				return Equals(obj as RepoConfig);
 			}
 
+			private static bool ListEquals(IList<string> A, IList<string> B)
+			{
+				return A.All(B.Contains) && A.Count == B.Count;
+			}
+
 			public bool Equals(RepoConfig other)
 			{
 				return ChangelogSupport == other.ChangelogSupport
 					&& PathToChangelogPy == other.PathToChangelogPy
 					&& ChangelogPyArguments == other.ChangelogPyArguments
-					&& PipDependancies.Equals(other.PipDependancies)
-					&& ChangelogPathsToStage.Equals(other.ChangelogPathsToStage)
-					&& StaticDirectoryPaths.Equals(other.StaticDirectoryPaths)
-					&& DLLPaths.Equals(other.DLLPaths);
+					&& ListEquals(PipDependancies, other.PipDependancies)
+					&& ListEquals(ChangelogPathsToStage, other.ChangelogPathsToStage)
+					&& ListEquals(StaticDirectoryPaths, other.StaticDirectoryPaths)
+					&& ListEquals(DLLPaths, other.DLLPaths);
 			}
 
 			public override int GetHashCode()

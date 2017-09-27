@@ -304,41 +304,41 @@ namespace TGServerService
 						return;
 					}
 				}
+				if (!RepoConfigsMatch())
+				{
+					lock (CompilerLock)
+					{
+						lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
+						compilerCurrentStatus = IsInitialized();
+						return;
+					}
+				}
 				string resurrectee;
+				bool repobusy_check = false;
+				if (!Monitor.TryEnter(RepoLock))
+					repobusy_check = true;
+
+				if (!repobusy_check)
+				{
+					if (RepoBusy)
+						repobusy_check = true;
+					else
+						RepoBusy = true;
+					Monitor.Exit(RepoLock);
+				}
+
+				if (repobusy_check)
+				{
+					SendMessage("DM: Copy aborted, repo locked!", ChatMessageType.DeveloperInfo);
+					lock (CompilerLock)
+					{
+						lastCompilerError = "The repo could not be locked for copying";
+						compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
+						return;
+					}
+				}
 				try
 				{
-					bool repobusy_check = false;
-					if (!Monitor.TryEnter(RepoLock))
-						repobusy_check = true;
-
-					if (!repobusy_check)
-					{
-						if (RepoBusy)
-							repobusy_check = true;
-						else
-							RepoBusy = true;
-						Monitor.Exit(RepoLock);
-					}
-
-					if (repobusy_check)
-					{
-						SendMessage("DM: Copy aborted, repo locked!", ChatMessageType.DeveloperInfo);
-						lock (CompilerLock)
-						{
-							lastCompilerError = "The repo could not be locked for copying";
-							compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
-							return;
-						}
-					}
-					if (!RepoConfigsMatch())
-					{
-						lock (CompilerLock)
-						{
-							lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
-							compilerCurrentStatus = IsInitialized();
-							return;
-						}
-					}
 					bool silent;
 					lock (CompilerLock)
 					{
@@ -394,9 +394,9 @@ namespace TGServerService
 						RepoBusy = false;
 					}
 				}
-				
+
 				var res = CreateBackup();
-				if(res != null)
+				if (res != null)
 					lock (CompilerLock)
 					{
 						lastCompilerError = res;
@@ -405,7 +405,7 @@ namespace TGServerService
 					}
 
 				var dmeName = ProjectName() + ".dme";
-				var dmePath = resurrectee + "/" + dmeName; 
+				var dmePath = resurrectee + "/" + dmeName;
 				if (!File.Exists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
@@ -435,7 +435,7 @@ namespace TGServerService
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
 					DM.OutputDataReceived += new DataReceivedEventHandler(
-						delegate(object sender, DataReceivedEventArgs e)
+						delegate (object sender, DataReceivedEventArgs e)
 						{
 							OutputList.Append(Environment.NewLine);
 							OutputList.Append(e.Data);
@@ -449,7 +449,7 @@ namespace TGServerService
 								return;
 							canCancelCompilation = true;
 						}
-						
+
 						DM.Start();
 						DM.BeginOutputReadLine();
 						while (!DM.HasExited)
@@ -487,7 +487,7 @@ namespace TGServerService
 							{
 								//gotta go fast
 								var online = currentStatus == TGDreamDaemonStatus.Online;
-								if(online)
+								if (online)
 									Proc.Suspend();
 								try
 								{
@@ -498,7 +498,7 @@ namespace TGServerService
 								}
 								finally
 								{
-									if(online && !Proc.HasExited)
+									if (online && !Proc.HasExited)
 										Proc.Resume();
 								}
 							}

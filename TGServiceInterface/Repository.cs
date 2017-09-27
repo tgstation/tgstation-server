@@ -223,6 +223,7 @@ namespace TGServiceInterface
 		/// Compiles will not succeed if these two to not match
 		/// </summary>
 		/// <returns>null on success, error message on failure</returns>
+		[OperationContract]
 		string UpdateTGS3Json();
 	}
 }
