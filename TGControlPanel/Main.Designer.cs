@@ -158,6 +158,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
+			this.TGSJsonUpdate = new System.Windows.Forms.Button();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -1279,6 +1280,7 @@
 			// RepoPanel
 			// 
 			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.RepoPanel.Controls.Add(this.TGSJsonUpdate);
 			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
 			this.RepoPanel.Controls.Add(this.BackupTagsList);
 			this.RepoPanel.Controls.Add(this.ResetRemote);
@@ -1349,7 +1351,7 @@
 			// RecloneButton
 			// 
 			this.RecloneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.RecloneButton.Location = new System.Drawing.Point(722, 212);
+			this.RecloneButton.Location = new System.Drawing.Point(722, 247);
 			this.RecloneButton.Name = "RecloneButton";
 			this.RecloneButton.Size = new System.Drawing.Size(140, 29);
 			this.RecloneButton.TabIndex = 32;
@@ -1734,6 +1736,18 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
+			// TGSJsonUpdate
+			// 
+			this.TGSJsonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.TGSJsonUpdate.Location = new System.Drawing.Point(722, 212);
+			this.TGSJsonUpdate.Name = "TGSJsonUpdate";
+			this.TGSJsonUpdate.Size = new System.Drawing.Size(140, 29);
+			this.TGSJsonUpdate.TabIndex = 36;
+			this.TGSJsonUpdate.Text = "Update TGS3.json";
+			this.TGSJsonUpdate.UseVisualStyleBackColor = true;
+			this.TGSJsonUpdate.Visible = false;
+			this.TGSJsonUpdate.Click += new System.EventHandler(this.TGSJsonUpdate_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1899,5 +1913,6 @@
 		private System.Windows.Forms.Button StaticFileSaveButton;
 		private System.Windows.Forms.Button StaticFilesRefreshButton;
 		private System.Windows.Forms.Button StaticFileDownloadButton;
+		private System.Windows.Forms.Button TGSJsonUpdate;
 	}
 }

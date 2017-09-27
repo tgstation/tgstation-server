@@ -172,6 +172,16 @@ namespace TGServerService
 						return;
 					}
 				}
+
+				if (!RepoConfigsMatch())
+				{
+					lock (CompilerLock)
+					{
+						lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
+						compilerCurrentStatus = IsInitialized();
+						return;
+					}
+				}
 				try
 				{
 					SendMessage("DM: Setting up symlinks...", ChatMessageType.DeveloperInfo);
@@ -181,7 +191,7 @@ namespace TGServerService
 					Directory.CreateDirectory(GameDirA);
 					Directory.CreateDirectory(GameDirB);
 
-					var Config = LoadRepoConfig();
+					var Config = new RepoConfig(false);
 
 					if (Config != null) {
 						foreach (var I in Config.StaticDirectoryPaths)
@@ -287,52 +297,23 @@ namespace TGServerService
 			{
 				if (GetVersion(TGByondVersion.Installed) == null)
 				{
-					lastCompilerError = "BYOND not installed!";
-					compilerCurrentStatus = TGCompilerStatus.Initialized;
-					return;
-				}
-				bool silent;
-				lock (CompilerLock)
-				{
-					silent = silentCompile;
-					silentCompile = false;
-				}
-
-				if(!silent)
-					SendMessage("DM: Compiling...", ChatMessageType.DeveloperInfo);
-
-				var resurrectee = GetStagingDir();
-
-				var Config = LoadRepoConfig();
-				var deleteExcludeList = new List<string>();
-				if (Config != null)
-				{
-					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
-					deleteExcludeList.AddRange(Config.DLLPaths);
-					Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
-				}
-
-				Directory.CreateDirectory(resurrectee + "/.git/logs");
-
-				if (Config != null)
-				{
-					foreach (var I in Config.StaticDirectoryPaths)
+					lock (CompilerLock)
 					{
-						var the_path = Path.Combine(resurrectee, I);
-						if (!Directory.Exists(the_path))
-							CreateSymlink(Path.Combine(resurrectee, I), Path.Combine(StaticDirs, I));
-					}
-					foreach (var I in Config.DLLPaths)
-					{
-						var the_path = Path.Combine(resurrectee, I);
-						if (!File.Exists(the_path))
-							CreateSymlink(the_path, Path.Combine(StaticDirs, I));
+						lastCompilerError = "BYOND not installed!";
+						compilerCurrentStatus = TGCompilerStatus.Initialized;
+						return;
 					}
 				}
-				
-				if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
-					CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), InterfaceDLLName);
-
+				if (!RepoConfigsMatch())
+				{
+					lock (CompilerLock)
+					{
+						lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
+						compilerCurrentStatus = IsInitialized();
+						return;
+					}
+				}
+				string resurrectee;
 				bool repobusy_check = false;
 				if (!Monitor.TryEnter(RepoLock))
 					repobusy_check = true;
@@ -352,12 +333,49 @@ namespace TGServerService
 					lock (CompilerLock)
 					{
 						lastCompilerError = "The repo could not be locked for copying";
-						compilerCurrentStatus = TGCompilerStatus.Initialized;	//still fairly valid
+						compilerCurrentStatus = TGCompilerStatus.Initialized;   //still fairly valid
 						return;
 					}
 				}
 				try
 				{
+					bool silent;
+					lock (CompilerLock)
+					{
+						silent = silentCompile;
+						silentCompile = false;
+					}
+
+					if (!silent)
+						SendMessage("DM: Compiling...", ChatMessageType.DeveloperInfo);
+
+					resurrectee = GetStagingDir();
+
+					var Config = new RepoConfig(false);
+					var deleteExcludeList = new List<string>();
+					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
+					deleteExcludeList.AddRange(Config.DLLPaths);
+					Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
+
+
+					Directory.CreateDirectory(resurrectee + "/.git/logs");
+
+					foreach (var I in Config.StaticDirectoryPaths)
+					{
+						var the_path = Path.Combine(resurrectee, I);
+						if (!Directory.Exists(the_path))
+							CreateSymlink(Path.Combine(resurrectee, I), Path.Combine(StaticDirs, I));
+					}
+					foreach (var I in Config.DLLPaths)
+					{
+						var the_path = Path.Combine(resurrectee, I);
+						if (!File.Exists(the_path))
+							CreateSymlink(the_path, Path.Combine(StaticDirs, I));
+					}
+
+					if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
+						CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), InterfaceDLLName);
+
 					deleteExcludeList.Add(".git");
 					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
 					//just the tip
@@ -376,9 +394,9 @@ namespace TGServerService
 						RepoBusy = false;
 					}
 				}
-				
+
 				var res = CreateBackup();
-				if(res != null)
+				if (res != null)
 					lock (CompilerLock)
 					{
 						lastCompilerError = res;
@@ -387,7 +405,7 @@ namespace TGServerService
 					}
 
 				var dmeName = ProjectName() + ".dme";
-				var dmePath = resurrectee + "/" + dmeName; 
+				var dmePath = resurrectee + "/" + dmeName;
 				if (!File.Exists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
@@ -417,7 +435,7 @@ namespace TGServerService
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
 					DM.OutputDataReceived += new DataReceivedEventHandler(
-						delegate(object sender, DataReceivedEventArgs e)
+						delegate (object sender, DataReceivedEventArgs e)
 						{
 							OutputList.Append(Environment.NewLine);
 							OutputList.Append(e.Data);
@@ -431,7 +449,7 @@ namespace TGServerService
 								return;
 							canCancelCompilation = true;
 						}
-						
+
 						DM.Start();
 						DM.BeginOutputReadLine();
 						while (!DM.HasExited)
@@ -469,7 +487,7 @@ namespace TGServerService
 							{
 								//gotta go fast
 								var online = currentStatus == TGDreamDaemonStatus.Online;
-								if(online)
+								if (online)
 									Proc.Suspend();
 								try
 								{
@@ -480,7 +498,7 @@ namespace TGServerService
 								}
 								finally
 								{
-									if(online && !Proc.HasExited)
+									if (online && !Proc.HasExited)
 										Proc.Resume();
 								}
 							}

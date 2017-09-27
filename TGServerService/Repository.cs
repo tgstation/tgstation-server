@@ -15,6 +15,7 @@ namespace TGServerService
 	{
 		const string RepoPath = "Repository";
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
+		const string CachedTGS3SettingsPath = "TGS3.json";
 		const string RepoErrorUpToDate = "Already up to date!";
 		const string SSHPushRemote = "ssh_push_target";
 		const string PrivateKeyPath = "RepoKey/private_key.txt";
@@ -33,20 +34,22 @@ namespace TGServerService
 		/// Repo specific information about the installation
 		/// Requires RepoLock and !RepoBusy to be instantiated
 		/// </summary>
-		class RepoConfig
+		class RepoConfig : IEquatable<RepoConfig>
 		{
-			IList<string> LoadArray(object o) {
-				var array = (object[])o;
-				var res = new List<string>();
-				foreach (var I in array)
-					res.Add((string)I);
-				return res;
-			}
-			public RepoConfig()
+			public readonly bool ChangelogSupport;
+			public readonly string PathToChangelogPy;
+			public readonly string ChangelogPyArguments;
+			public readonly IList<string> PipDependancies = new List<string>();
+			public readonly IList<string> ChangelogPathsToStage = new List<string>();
+			public readonly IList<string> StaticDirectoryPaths = new List<string>();
+			public readonly IList<string> DLLPaths = new List<string>();
+
+			public RepoConfig(bool FromRepository)
 			{
-				if (!File.Exists(RepoTGS3SettingsPath))
+				var path = FromRepository ? RepoTGS3SettingsPath : CachedTGS3SettingsPath;
+				if (!File.Exists(path))
 					return;
-				var rawdata = File.ReadAllText(RepoTGS3SettingsPath);
+				var rawdata = File.ReadAllText(path);
 				var Deserializer = new JavaScriptSerializer();
 				var json = Deserializer.Deserialize<IDictionary<string, object>>(rawdata);
 				try
@@ -80,16 +83,59 @@ namespace TGServerService
 				}
 				catch { }
 			}
-			public readonly bool ChangelogSupport;
-			public readonly string PathToChangelogPy;
-			public readonly string ChangelogPyArguments;
-			public readonly IList<string> PipDependancies = new List<string>();
-			public readonly IList<string> ChangelogPathsToStage = new List<string>();
-			public readonly IList<string> StaticDirectoryPaths = new List<string>();
-			public readonly IList<string> DLLPaths = new List<string>();
-		}
+			private static IList<string> LoadArray(object o)
+			{
+				var array = (object[])o;
+				var res = new List<string>();
+				foreach (var I in array)
+					res.Add((string)I);
+				return res;
+			}
 
-		RepoConfig _CurrentRepoConfig;
+			public override bool Equals(object obj)
+			{
+				return Equals(obj as RepoConfig);
+			}
+
+			private static bool ListEquals(IList<string> A, IList<string> B)
+			{
+				return A.All(B.Contains) && A.Count == B.Count;
+			}
+
+			public bool Equals(RepoConfig other)
+			{
+				return ChangelogSupport == other.ChangelogSupport
+					&& PathToChangelogPy == other.PathToChangelogPy
+					&& ChangelogPyArguments == other.ChangelogPyArguments
+					&& ListEquals(PipDependancies, other.PipDependancies)
+					&& ListEquals(ChangelogPathsToStage, other.ChangelogPathsToStage)
+					&& ListEquals(StaticDirectoryPaths, other.StaticDirectoryPaths)
+					&& ListEquals(DLLPaths, other.DLLPaths);
+			}
+
+			public override int GetHashCode()
+			{
+				var hashCode = 1890628544;
+				hashCode = hashCode * -1521134295 + ChangelogSupport.GetHashCode();
+				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
+				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PipDependancies);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(ChangelogPathsToStage);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(StaticDirectoryPaths);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(DLLPaths);
+				return hashCode;
+			}
+
+			public static bool operator ==(RepoConfig config1, RepoConfig config2)
+			{
+				return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
+			}
+
+			public static bool operator !=(RepoConfig config1, RepoConfig config2)
+			{
+				return !(config1 == config2);
+			}
+		}
 
 		void InitRepo()
 		{
@@ -97,19 +143,21 @@ namespace TGServerService
 				UpdateInterfaceDll(false);
 		}
 
-		RepoConfig LoadRepoConfig()
+		bool RepoConfigsMatch()
 		{
-			if (_CurrentRepoConfig == null)
-				lock (RepoLock)
-				{
-					if (RepoBusy)
-						return null;
-					if (LoadRepo() == null)
-						_CurrentRepoConfig = new RepoConfig();
-				}
-			return _CurrentRepoConfig;
+			//this should never be called while the repo is busy
+			RepoConfig I = null;
+			lock (RepoLock)
+			{
+				if (!RepoBusy && LoadRepo() == null)
+					I = new RepoConfig(true);
+			}
+			if (I == null)
+				throw new Exception("Unable to load TGS3.json from repo!");
+			var J = new RepoConfig(false);
+			return I == J;
 		}
-
+		
 		//public api
 		public bool OperationInProgress()
 		{
@@ -261,11 +309,28 @@ namespace TGServerService
 			}
 		}
 
+		public string UpdateTGS3Json()
+		{
+			try
+			{
+				if (File.Exists(RepoTGS3SettingsPath))
+					File.Copy(RepoTGS3SettingsPath, CachedTGS3SettingsPath, true);
+				else if (File.Exists(CachedTGS3SettingsPath))
+					File.Delete(CachedTGS3SettingsPath);
+			}
+			catch(Exception e)
+			{
+				return e.ToString();
+			}
+			return null;
+		}
+
 		void InitialConfigureRepository()
 		{
 			Directory.CreateDirectory(StaticDirs);
 			UpdateInterfaceDll(false);
-			var Config = new RepoConfig();	//RepoBusy is set if we're here
+			UpdateTGS3Json();
+			var Config = new RepoConfig(false);	//RepoBusy is set if we're here
 			foreach(var I in Config.StaticDirectoryPaths)
 			{
 				try
@@ -300,7 +365,6 @@ namespace TGServerService
 					TGServerService.WriteWarning("Could not setup static DLL: " + I, TGServerService.EventID.RepoConfigurationFail);
 				}
 			}
-			_CurrentRepoConfig = Config;
 		}
 
 		//kicks off the cloning thread
@@ -442,7 +506,6 @@ namespace TGServerService
 					Commands.Checkout(Repo, sha, Opts);
 					var res = ResetNoLock(null);
 					UpdateSubmodules();
-					_CurrentRepoConfig = new RepoConfig();
 					SendMessage("REPO: Checkout complete!", ChatMessageType.DeveloperInfo);
 					TGServerService.WriteInfo("Repo checked out " + sha, TGServerService.EventID.RepoCheckout);
 					return res;
@@ -510,7 +573,6 @@ namespace TGServerService
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
-					_CurrentRepoConfig = new RepoConfig();
 					TGServerService.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, TGServerService.EventID.RepoMergeUpdate);
 					return null;
 				}
@@ -617,7 +679,6 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
-				_CurrentRepoConfig = new RepoConfig();
 				if (res == null)
 				{
 					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""), ChatMessageType.DeveloperInfo);
@@ -725,7 +786,6 @@ namespace TGServerService
 					if (Result == null)
 						try
 						{
-							_CurrentRepoConfig = new RepoConfig();
 							UpdateSubmodules();
 						}
 						catch (Exception e)
@@ -849,7 +909,7 @@ namespace TGServerService
 
 		public string PushChangelog()
 		{
-			var Config = LoadRepoConfig();
+			var Config = new RepoConfig(false);
 			if (Config == null)
 				return "Error reading changelog configuration";
 			if(!Config.ChangelogSupport || !SSHAuth())
@@ -1003,7 +1063,7 @@ namespace TGServerService
 		//impl proc just for single level recursion
 		public string GenerateChangelogImpl(out string error, bool recurse = false)
 		{
-			var RConfig = LoadRepoConfig();
+			var RConfig = new RepoConfig(false);
 			if (RConfig == null)
 			{
 				error = null;

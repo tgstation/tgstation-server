@@ -33,7 +33,7 @@ namespace TGServerService
 					if (repo)
 					{
 						//ensure we aren't trying to read anything outside the static dirs
-						var Config = LoadRepoConfig();
+						var Config = new RepoConfig(false);
 						if (Config == null)
 						{
 							error = "Unable to load static directory configuration";

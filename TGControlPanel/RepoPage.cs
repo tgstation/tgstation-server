@@ -115,6 +115,7 @@ namespace TGControlPanel
 				RepoGenChangelogButton.Visible = true;
 				RecloneButton.Visible = true;
 				ResetRemote.Visible = true;
+				TGSJsonUpdate.Visible = true;
 
 				CurrentRevisionLabel.Text = Repo.GetHead(false, out string error) ?? "Unknown";
 				RepoRemoteTextBox.Text = Repo.GetRemote(out error) ?? "Unknown";
@@ -262,6 +263,7 @@ namespace TGControlPanel
 			ResetRemote.Visible = false;
 			BackupTagsList.Visible = false;
 			RepoRefreshButton.Visible = false;
+			TGSJsonUpdate.Visible = false;
 
 			RepoPanel.UseWaitCursor = true;
 
@@ -344,6 +346,15 @@ namespace TGControlPanel
 		private void RepoGenChangelogButton_Click(object sender, System.EventArgs e)
 		{
 			DoAsyncOp(RepoAction.GenCL, "Generating changelog...");
+		}
+
+		private void TGSJsonUpdate_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("This will update the cached TGS3.json to the current repository version, potentially redefining symlinks. Proceed?", "Json Update", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				return;
+			var res = Server.GetComponent<ITGRepository>().UpdateTGS3Json();
+			if (res != null)
+				MessageBox.Show(res);
 		}
 	}
 }
