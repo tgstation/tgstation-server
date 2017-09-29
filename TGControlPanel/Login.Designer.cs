@@ -40,15 +40,16 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.PortSelector = new System.Windows.Forms.NumericUpDown();
+			this.SavePasswordCheckBox = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// LocalLoginButton
 			// 
 			this.LocalLoginButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.LocalLoginButton.Location = new System.Drawing.Point(87, 12);
+			this.LocalLoginButton.Location = new System.Drawing.Point(102, 12);
 			this.LocalLoginButton.Name = "LocalLoginButton";
-			this.LocalLoginButton.Size = new System.Drawing.Size(188, 25);
+			this.LocalLoginButton.Size = new System.Drawing.Size(157, 25);
 			this.LocalLoginButton.TabIndex = 13;
 			this.LocalLoginButton.Text = "Connect to Local Service";
 			this.LocalLoginButton.UseVisualStyleBackColor = true;
@@ -91,9 +92,9 @@
 			// RemoteLoginButton
 			// 
 			this.RemoteLoginButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.RemoteLoginButton.Location = new System.Drawing.Point(87, 200);
+			this.RemoteLoginButton.Location = new System.Drawing.Point(102, 200);
 			this.RemoteLoginButton.Name = "RemoteLoginButton";
-			this.RemoteLoginButton.Size = new System.Drawing.Size(188, 25);
+			this.RemoteLoginButton.Size = new System.Drawing.Size(157, 25);
 			this.RemoteLoginButton.TabIndex = 18;
 			this.RemoteLoginButton.Text = "Connect to Remote Service";
 			this.RemoteLoginButton.UseVisualStyleBackColor = true;
@@ -162,12 +163,24 @@
             0});
 			this.PortSelector.Name = "PortSelector";
 			this.PortSelector.Size = new System.Drawing.Size(80, 20);
-			this.PortSelector.TabIndex = 23;
+			this.PortSelector.TabIndex = 16;
 			this.PortSelector.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+			// 
+			// SavePasswordCheckBox
+			// 
+			this.SavePasswordCheckBox.AutoSize = true;
+			this.SavePasswordCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.SavePasswordCheckBox.Location = new System.Drawing.Point(265, 205);
+			this.SavePasswordCheckBox.Name = "SavePasswordCheckBox";
+			this.SavePasswordCheckBox.Size = new System.Drawing.Size(100, 17);
+			this.SavePasswordCheckBox.TabIndex = 23;
+			this.SavePasswordCheckBox.Text = "Save Password";
+			this.SavePasswordCheckBox.UseVisualStyleBackColor = true;
+			this.SavePasswordCheckBox.CheckedChanged += new System.EventHandler(this.SavePasswordCheckBox_CheckedChanged);
 			// 
 			// Login
 			// 
@@ -175,6 +188,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(374, 237);
+			this.Controls.Add(this.SavePasswordCheckBox);
 			this.Controls.Add(this.PortSelector);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
@@ -211,5 +225,6 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown PortSelector;
-    }
+		private System.Windows.Forms.CheckBox SavePasswordCheckBox;
+	}
 }

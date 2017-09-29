@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
@@ -52,6 +53,7 @@
     <Compile Include="Connectivity.cs" />
     <Compile Include="DreamDaemon.cs" />
     <Compile Include="Chat.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Server.cs" />
