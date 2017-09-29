@@ -167,9 +167,7 @@ namespace TGServerService
 			var rawdata = new JavaScriptSerializer().Serialize(infosList);
 			var Config = Properties.Settings.Default;
 
-			byte[] plaintext = Encoding.UTF8.GetBytes(rawdata);
-
-			Config.ChatProviderData = Program.EncryptData(plaintext, out string entrp);
+			Config.ChatProviderData = Helpers.EncryptData(rawdata, out string entrp);
 			Config.ChatProviderEntropy = entrp;
 		}
 
@@ -191,12 +189,12 @@ namespace TGServerService
 				if (rawdata == "NEEDS INITIALIZING")
 					return new List<TGChatSetupInfo>() { new TGIRCSetupInfo(), new TGDiscordSetupInfo() };
 
-				byte[] plaintext;
+				string plaintext;
 				try
 				{
-					plaintext = Program.DecryptData(rawdata, Config.ChatProviderEntropy);
+					plaintext = Helpers.DecryptData(rawdata, Config.ChatProviderEntropy);
 					
-					var lists = new JavaScriptSerializer().Deserialize<List<List<string>>>(Encoding.UTF8.GetString(plaintext));
+					var lists = new JavaScriptSerializer().Deserialize<List<List<string>>>(plaintext);
 					var output = new List<TGChatSetupInfo>(lists.Count);
 					var foundirc = 0;
 					var founddiscord = 0;

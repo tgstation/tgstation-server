@@ -106,5 +106,41 @@ namespace TGControlPanel.Properties {
                 this["RemotePort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RemoteDefault {
+            get {
+                return ((bool)(this["RemoteDefault"]));
+            }
+            set {
+                this["RemoteDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RemotePassword {
+            get {
+                return ((string)(this["RemotePassword"]));
+            }
+            set {
+                this["RemotePassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RemoteEntropy {
+            get {
+                return ((string)(this["RemoteEntropy"]));
+            }
+            set {
+                this["RemoteEntropy"] = value;
+            }
+        }
     }
 }

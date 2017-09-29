@@ -9,11 +9,19 @@ namespace TGControlPanel
 		public Login()
 		{
 			InitializeComponent();
-			IPTextBox.Text = Properties.Settings.Default.RemoteIP;
 			var Config = Properties.Settings.Default;
+			IPTextBox.Text = Config.RemoteIP;
 			UsernameTextBox.Text = Config.RemoteUsername;
 			PortSelector.Value = Config.RemotePort;
 			AcceptButton = RemoteLoginButton;
+			if(Config.RemoteDefault)
+				RemoteLoginButton.TabIndex = 0; //make this the first thing selected when loading
+			var decrypted = Helpers.DecryptData(Config.RemotePassword, Config.RemoteEntropy);
+			if (decrypted != null)
+			{
+				PasswordTextBox.Text = decrypted;
+				SavePasswordCheckBox.Checked = true;
+			}
 		}
 
 		private void RemoteLoginButton_Click(object sender, EventArgs e)
@@ -21,14 +29,27 @@ namespace TGControlPanel
 			IPTextBox.Text = IPTextBox.Text.Trim();
 			UsernameTextBox.Text = UsernameTextBox.Text.Trim();
 			Server.SetRemoteLoginInformation(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text);
-			Properties.Settings.Default.RemoteIP = IPTextBox.Text;
-			Properties.Settings.Default.RemoteUsername = UsernameTextBox.Text;
+			var Config = Properties.Settings.Default;
+			Config.RemoteIP = IPTextBox.Text;
+			Config.RemoteUsername = UsernameTextBox.Text;
+			if (SavePasswordCheckBox.Checked)
+			{
+				Config.RemotePassword = Helpers.EncryptData(PasswordTextBox.Text, out string entrop);
+				Config.RemoteEntropy = entrop;
+			}
+			else
+			{
+				Config.RemotePassword = null;
+				Config.RemoteEntropy = null;
+			}
+			Config.RemoteDefault = true;
 			VerifyAndConnect();
 		}
 
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
             Server.MakeLocalConnection();
+			Properties.Settings.Default.RemoteDefault = false;
 			VerifyAndConnect();
 		}
 
@@ -48,6 +69,16 @@ namespace TGControlPanel
 			Hide();
 			new Main().ShowDialog();
 			Close();
+		}
+
+		private void SavePasswordCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!SavePasswordCheckBox.Checked)
+			{
+				var Config = Properties.Settings.Default;
+				Config.RemotePassword = null;
+				Config.RemoteEntropy = null;
+			}
 		}
 	}
 }

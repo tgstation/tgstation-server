@@ -23,5 +23,14 @@
     <Setting Name="RemotePort" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">38607</Value>
     </Setting>
+    <Setting Name="RemoteDefault" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RemotePassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RemoteEntropy" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
