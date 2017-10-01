@@ -77,8 +77,7 @@ namespace TGServiceInterface
 						break;
 				}
 			}
-			OutputProc(String.Format("Invalid command: {0} {1}", Keyword, String.Join(" ", parameters)));
-			OutputProc(String.Format("Type '{0}?' or '{0}help' for available commands.", Keyword != null ? Keyword + " " : ""));
+			OutputProc(String.Format("Invalid command! Type '{0}?' or '{0}help' for available commands.", Keyword != null ? Keyword + " " : ""));
 			return ExitCode.BadCommand;
 		}
 		public override void PrintHelp()
