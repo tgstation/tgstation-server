@@ -28,7 +28,8 @@ namespace TGServerService
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
 		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
-		const string SCAPICompat = "api_compat";	//Tells the server we understand each other
+		const string SCAPICompat = "api_compat";    //Tells the server we understand each other
+		const string SCPlayerCount = "client_count";	//Gets the number of connected clients
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
@@ -132,6 +133,18 @@ namespace TGServerService
 				if (currentStatus != TGDreamDaemonStatus.Online)
 					return "Error: Server Offline!";
 				return SendTopic(String.Format("serviceCommsKey={0};command={1}", serviceCommsKey, cmd), currentPort);
+			}
+		}
+
+		public int PlayerCount()
+		{
+			try
+			{
+				return Convert.ToInt32(SendCommand(SCPlayerCount));
+			}
+			catch
+			{
+				return -1;
 			}
 		}
 

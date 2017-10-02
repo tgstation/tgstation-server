@@ -34,3 +34,13 @@
 	SERVER_TOOLS_CHAT_BROADCAST(checks_complete)
 	SERVER_TOOLS_RELAY_BROADCAST(checks_complete)
 	world.Reboot()
+
+var/list/clients = list()
+
+/client/New()
+	clients += src
+	return ..()
+
+/client/Del()
+	clients -= src
+	return ..()

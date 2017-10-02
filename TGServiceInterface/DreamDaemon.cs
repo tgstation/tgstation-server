@@ -178,5 +178,12 @@ namespace TGServiceInterface
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string WorldAnnounce(string msg);
+
+		/// <summary>
+		/// Returns the number of connected players. Requires game to use API version >= 3.1.0.1
+		/// </summary>
+		/// <returns>The number of connected players or -1 on error</returns>
+		[OperationContract]
+		int PlayerCount();
 	}
 }
