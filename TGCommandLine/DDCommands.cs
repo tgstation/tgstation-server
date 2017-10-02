@@ -149,6 +149,9 @@ namespace TGCommandLine
 			OutputProc(DD.StatusString(true));
 			if (DD.ShutdownInProgress())
 				OutputProc("The server will shutdown once the current round completes.");
+			var pc = DD.PlayerCount();
+			if (pc != -1)
+				OutputProc(pc + " connected clients");
 			return ExitCode.Normal;
 		}
 	}

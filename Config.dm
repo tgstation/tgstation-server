@@ -5,3 +5,4 @@
 #define SERVER_TOOLS_WORLD_ANNOUNCE(message) world << ##message
 #define SERVER_TOOLS_LOG(message) world.log << ##message
 #define SERVER_TOOLS_NOTIFY_ADMINS(event) message_admins(event)
+#define SERVER_TOOLS_CLIENT_COUNT clients.len

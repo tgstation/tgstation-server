@@ -170,6 +170,9 @@ namespace TGControlPanel
 						break;
 					case TGDreamDaemonStatus.Online:
 						ServerStatusLabel.Text = "ONLINE";
+						var pc = DD.PlayerCount();
+						if (pc != -1)
+							ServerStatusLabel.Text += " (" + pc + " players)";
 						break;
 				}
 				
