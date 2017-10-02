@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using TGServiceInterface;
 
 namespace TGControlPanel
 {
@@ -9,6 +11,11 @@ namespace TGControlPanel
 		public Main()
 		{
 			InitializeComponent();
+			if (Server.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+			{
+				Close();
+				return;
+			}
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
 			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
 			InitRepoPage();
