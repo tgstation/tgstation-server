@@ -21,7 +21,8 @@ namespace TGControlPanel
 				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new Login());
+				using(var L = new Login())
+					Application.Run(L);
 			}
 			catch (Exception e)
 			{

@@ -67,7 +67,8 @@ namespace TGControlPanel
 				return;
 			}
 			Hide();
-			new Main().ShowDialog();
+			using (var M = new Main())
+				M.ShowDialog();
 			Close();
 		}
 
