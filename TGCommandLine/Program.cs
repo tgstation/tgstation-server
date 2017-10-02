@@ -75,6 +75,12 @@ namespace TGCommandLine
 				return ExitCode.ConnectionError;
 			}
 
+			if (!SentVMMWarning && Server.VersionMismatch(out string error))
+			{
+				SentVMMWarning = true;
+				Console.WriteLine(error);
+			}
+
 			try
 			{
 				return new CLICommand().DoRun(argsAsList);
@@ -112,7 +118,7 @@ namespace TGCommandLine
 			Console.WriteLine();
 			return result;
 		}
-
+		static bool SentVMMWarning = false;
 		static string AcceptedBadCert;
 		static bool BadCertificateInteractive(string message)
 		{
@@ -155,6 +161,7 @@ namespace TGCommandLine
 				switch (NextCommand.ToLower())
 				{
 					case "remote":
+						SentVMMWarning = false;
 						Console.Write("Enter server address: ");
 						var address = Console.ReadLine();
 						Console.Write("Enter server port: ");
@@ -186,10 +193,16 @@ namespace TGCommandLine
 						else
 						{
 							Console.WriteLine("Connected remotely");
+							if (Server.VersionMismatch(out res))
+							{
+								SentVMMWarning = true;
+								Console.WriteLine(res);
+							}
 							Console.WriteLine("Type 'disconnect' to return to local mode");
 						}
 						break;
 					case "disconnect":
+						SentVMMWarning = false;
 						Server.MakeLocalConnection();
 						Console.WriteLine("Switch to local mode");
 						break;

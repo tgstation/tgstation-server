@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Security;
 using System.Security.Principal;
@@ -92,6 +93,20 @@ namespace TGServiceInterface
 			foreach (var I in ChannelFactoryCache)
 				CloseChannel(I.Value);
 			ChannelFactoryCache.Clear();
+		}
+
+		public static bool VersionMismatch(out string errorMessage)
+		{
+			var splits = Server.GetComponent<ITGSService>().Version().Split(' ');
+			var theirs = new Version(splits[splits.Length - 1].Substring(1));
+			var ours = new Version(FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
+			if(theirs != ours)
+			{
+				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", ours, theirs);
+				return true;
+			}
+			errorMessage = null;
+			return false;
 		}
 
 		/// <summary>
