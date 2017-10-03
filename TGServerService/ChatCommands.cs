@@ -55,7 +55,7 @@ namespace TGServerService
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Instance.SendCommand(String.Format("{0};sender={1};custom=\"{2}\"", Keyword, CommandInfo.Value.Speaker, String.Join(" ", parameters)));
+			var res = Instance.SendCommand(String.Format("{0};sender={1};custom={2}", Keyword, CommandInfo.Value.Speaker, String.Join(" ", parameters)));
 			if (res != "SUCESS" && !String.IsNullOrWhiteSpace(res))
 				OutputProc(res);
 			return ExitCode.Normal;
