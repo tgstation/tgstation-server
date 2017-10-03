@@ -520,7 +520,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string WorldAnnounce(string message)
 		{
-			var res = SendCommand(SCWorldAnnounce + ";message=" + message);
+			var res = SendCommand(SCWorldAnnounce + ";message=" + SanitizeTopicString(message));
 			if (res == "SUCCESS")
 				return null;
 			return res;
