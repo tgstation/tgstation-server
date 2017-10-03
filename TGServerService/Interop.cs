@@ -154,9 +154,15 @@ namespace TGServerService
 			return !(GameAPIVersion == null || GameAPIVersion < MinAPIVersion || GameAPIVersion > MaxAPIVersion);
 		}
 
+		public static string SanitizeTopicString(string input)
+		{
+			return input.Replace("%", "%25").Replace("=", "%3d").Replace(";", "%3b").Replace("&", "%26").Replace("+", "%2b");
+		}
+
 		//Fuckery to diddle byond with the right packet to accept our girth
 		string SendTopic(string topicdata, ushort port)
 		{
+			//santize the escape characters in accordance with http://www.byond.com/docs/ref/info.html#/proc/params2list
 			lock (topicLock) {
 				if (!CheckAPIVersionConstraints())
 					return "Incompatible API!";
