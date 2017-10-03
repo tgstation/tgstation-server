@@ -141,6 +141,8 @@ namespace TGServerService
 		{
 			if(Exists())
 				UpdateInterfaceDll(false);
+			if(LoadRepo() == null)
+				DisableGarbageCollectionNoLock();
 		}
 
 		bool RepoConfigsMatch()
@@ -265,6 +267,8 @@ namespace TGServerService
 					currentProgress = -1;
 					LoadRepo();
 
+					DisableGarbageCollectionNoLock();
+
 					//create an ssh remote for pushing
 					Repo.Network.Remotes.Add(SSHPushRemote, RepoURL.Replace("git://", "ssh://").Replace("https://", "ssh://"));
 
@@ -292,6 +296,11 @@ namespace TGServerService
 					Cloning = false;
 				}
 			}
+		}
+
+		void DisableGarbageCollectionNoLock()
+		{
+			Repo.Config.Set("gc.auto", false);
 		}
 
 		void BackupAndDeleteStaticDirectory()
