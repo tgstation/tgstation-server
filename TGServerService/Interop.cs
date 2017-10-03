@@ -157,6 +157,8 @@ namespace TGServerService
 		//Fuckery to diddle byond with the right packet to accept our girth
 		string SendTopic(string topicdata, ushort port)
 		{
+			//santize the escape characters in accordance with http://www.byond.com/docs/ref/info.html#/proc/params2list
+			topicdata = topicdata.Replace("%", "%25").Replace("=", "%3d").Replace(";", "%3b").Replace("&", "%26");
 			lock (topicLock) {
 				if (!CheckAPIVersionConstraints())
 					return "Incompatible API!";
