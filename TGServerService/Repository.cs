@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -141,8 +141,6 @@ namespace TGServerService
 		{
 			if(Exists())
 				UpdateInterfaceDll(false);
-			if(LoadRepo() == null)
-				DisableGarbageCollectionNoLock();
 		}
 
 		bool RepoConfigsMatch()
@@ -267,8 +265,6 @@ namespace TGServerService
 					currentProgress = -1;
 					LoadRepo();
 
-					DisableGarbageCollectionNoLock();
-
 					//create an ssh remote for pushing
 					Repo.Network.Remotes.Add(SSHPushRemote, RepoURL.Replace("git://", "ssh://").Replace("https://", "ssh://"));
 
@@ -296,11 +292,6 @@ namespace TGServerService
 					Cloning = false;
 				}
 			}
-		}
-
-		void DisableGarbageCollectionNoLock()
-		{
-			Repo.Config.Set("gc.auto", false);
 		}
 
 		void BackupAndDeleteStaticDirectory()
@@ -1089,7 +1080,7 @@ namespace TGServerService
 				return null;
 			}
 
-			string ChangelogPy = Path.Combine(RepoPath, RConfig.PathToChangelogPy);
+			string ChangelogPy = RConfig.PathToChangelogPy;
 			if (!Exists())
 			{
 				error = "Repo does not exist!";
@@ -1103,7 +1094,7 @@ namespace TGServerService
 					error = "Repo is busy!";
 					return null;
 				}
-				if (!File.Exists(ChangelogPy))
+				if (!File.Exists(Path.Combine(RepoPath, ChangelogPy)))
 				{
 					error = "Missing changelog generation script!";
 					return null;
@@ -1126,6 +1117,7 @@ namespace TGServerService
 						python.StartInfo.FileName = PythonFile;
 						python.StartInfo.Arguments = String.Format("{0} {1}", ChangelogPy, RConfig.ChangelogPyArguments);
 						python.StartInfo.UseShellExecute = false;
+						python.StartInfo.WorkingDirectory = new DirectoryInfo(RepoPath).FullName;
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
 						using (StreamReader reader = python.StandardOutput)
