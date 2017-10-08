@@ -1080,7 +1080,7 @@ namespace TGServerService
 				return null;
 			}
 
-			string ChangelogPy = Path.Combine(RepoPath, RConfig.PathToChangelogPy);
+			string ChangelogPy = RConfig.PathToChangelogPy;
 			if (!Exists())
 			{
 				error = "Repo does not exist!";
@@ -1094,7 +1094,7 @@ namespace TGServerService
 					error = "Repo is busy!";
 					return null;
 				}
-				if (!File.Exists(ChangelogPy))
+				if (!File.Exists(Path.Combine(RepoPath, ChangelogPy)))
 				{
 					error = "Missing changelog generation script!";
 					return null;
@@ -1117,6 +1117,7 @@ namespace TGServerService
 						python.StartInfo.FileName = PythonFile;
 						python.StartInfo.Arguments = String.Format("{0} {1}", ChangelogPy, RConfig.ChangelogPyArguments);
 						python.StartInfo.UseShellExecute = false;
+						python.StartInfo.WorkingDirectory = new DirectoryInfo(RepoPath).FullName;
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
 						using (StreamReader reader = python.StandardOutput)
