@@ -993,10 +993,7 @@ namespace TGServerService
 					foreach(var I in Config.ChangelogPathsToStage)
 						Commands.Stage(Repo, I);
 
-					var status = Repo.RetrieveStatus();
-					var sum = status.Added.Count() + status.Removed.Count() + status.Modified.Count();
-
-					if (sum == 0)   //nothing to commit
+					if (Repo.RetrieveStatus().Staged.Count() == 0)   //nothing to commit
 						return null;
 
 					// Create the committer's signature and commit
