@@ -1125,6 +1125,7 @@ namespace TGServerService
 					{
 						python.StartInfo.FileName = PythonFile;
 						python.StartInfo.Arguments = String.Format("{0} {1}", ChangelogPy, RConfig.ChangelogPyArguments);
+						python.StartInfo.WorkingDirectory = new DirectoryInfo(RepoPath).FullName;
 						python.StartInfo.UseShellExecute = false;
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
