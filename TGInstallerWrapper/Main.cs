@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -46,18 +47,23 @@ namespace TGInstallerWrapper
 			NoneFound,
 		}
 
-		PKillType PromptKillProcess(string name)
+		PKillType PromptKillProcesses(string name)
 		{
-			foreach (var P in Process.GetProcessesByName(name))
+			var processes = new List<Process>(Process.GetProcessesByName(name));
+			processes.RemoveAll(x => x.HasExited);
+			if(processes.Count > 0)
 			{
-				if (!P.HasExited && MessageBox.Show(String.Format("Found running {0}.exe! Shall I terminate it?", name), "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				if (MessageBox.Show(String.Format("Found {1} running instance{2} of {0}.exe! Shall I terminate {3}?", name, processes.Count, processes.Count > 1 ? "s" : "", processes.Count > 1 ? "them" : "it"), "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
 					return PKillType.Aborted;
-				if (!P.HasExited)
+				foreach (var P in processes)
 				{
-					P.Kill();
-					P.WaitForExit();
+					if (!P.HasExited)
+					{
+						P.Kill();
+						P.WaitForExit();
+					}
+					P.Dispose();
 				}
-				P.Dispose();
 				return PKillType.Killed;
 			}
 			return PKillType.NoneFound;
@@ -71,12 +77,12 @@ namespace TGInstallerWrapper
 			{
 				while (true)
 				{
-					var res = PromptKillProcess("TGCommandLine");
+					var res = PromptKillProcesses("TGCommandLine");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
 						continue;
-					res = PromptKillProcess("TGControlPanel");
+					res = PromptKillProcesses("TGControlPanel");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
