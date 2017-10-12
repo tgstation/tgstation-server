@@ -35,6 +35,9 @@ namespace TGControlPanel
 		{
 			switch (Panels.SelectedIndex)
 			{
+				case 0: //repo
+					PopulateRepoFields();
+					break;
 				case 1: //byond
 					UpdateBYONDButtons();
 					break;
