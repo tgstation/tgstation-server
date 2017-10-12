@@ -107,6 +107,7 @@ namespace TGControlPanel
 		{
 			var RepoExists = Server.GetComponent<ITGRepository>().Exists();
 			compileButton.Visible = RepoExists;
+			AutoUpdateCheckbox.Visible = RepoExists;
 			initializeButton.Visible = RepoExists;
 			AutostartCheckbox.Visible = RepoExists;
 			WebclientCheckBox.Visible = RepoExists;
@@ -133,12 +134,13 @@ namespace TGControlPanel
 			WorldAnnounceButton.Visible = RepoExists;
 			WorldAnnounceLabel.Visible = RepoExists;
 
+			if (updatingFields)
+				return;
+
 			var DM = Server.GetComponent<ITGCompiler>();
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			var Config = Server.GetComponent<ITGConfig>();
-
-			if (updatingFields)
-				return;
+			var Repo = Server.GetComponent<ITGRepository>();
 
 			try
 			{
@@ -151,6 +153,14 @@ namespace TGControlPanel
 
 				if (!RepoExists)
 					return;
+
+				var interval = Repo.AutoUpdateInterval();
+				var interval_not_zero = interval != 0;
+				AutoUpdateCheckbox.Checked = interval_not_zero;
+				AutoUpdateInterval.Visible = interval_not_zero;
+				AutoUpdateMLabel.Visible = interval_not_zero;
+				if (interval_not_zero)
+					AutoUpdateInterval.Value = interval;
 
 				var DaeStat = DD.DaemonStatus();
 				var Online = DaeStat == TGDreamDaemonStatus.Online;
@@ -472,6 +482,25 @@ namespace TGControlPanel
 		{
 			if (!updatingFields)
 				Server.GetComponent<ITGDreamDaemon>().SetWebclient(WebclientCheckBox.Checked);
+		}
+
+		private void AutoUpdateInterval_ValueChanged(object sender, EventArgs e)
+		{
+			if (!updatingFields)
+				Server.GetComponent<ITGRepository>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+		}
+
+		private void AutoUpdateCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (updatingFields)
+				return;
+			var on = AutoUpdateCheckbox.Visible && AutoUpdateCheckbox.Checked;
+			AutoUpdateInterval.Visible = on;
+			AutoUpdateMLabel.Visible = on;
+			if (!on)
+				Server.GetComponent<ITGRepository>().SetAutoUpdateInterval(0);
+			else
+				Server.GetComponent<ITGRepository>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 	}
 }

@@ -30,6 +30,11 @@ namespace TGServerService
 		Repository Repo;
 		int currentProgress = -1;
 
+		System.Timers.Timer autoUpdateTimer = new System.Timers.Timer()
+		{
+			AutoReset = true
+		};
+
 		/// <summary>
 		/// Repo specific information about the installation
 		/// Requires RepoLock and !RepoBusy to be instantiated
@@ -143,6 +148,9 @@ namespace TGServerService
 				UpdateInterfaceDll(false);
 			if(LoadRepo() == null)
 				DisableGarbageCollectionNoLock();
+			//start the autoupdate timer
+			autoUpdateTimer.Elapsed += AutoUpdateTimer_Elapsed;
+			SetAutoUpdateInterval(Properties.Settings.Default.AutoUpdateInterval);
 		}
 
 		bool RepoConfigsMatch()
@@ -557,12 +565,16 @@ namespace TGServerService
 		//public api
 		public string Update(bool reset)
 		{
+			return UpdateImpl(reset, true);
+		}
+
+		string UpdateImpl(bool reset, bool successOnUpToDate)
+		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					if (Repo.Head == null || !Repo.Head.IsTracking)
@@ -573,6 +585,11 @@ namespace TGServerService
 						return res;
 
 					var originBranch = Repo.Head.TrackedBranch;
+					if (!successOnUpToDate && Repo.Head.Tip.Sha == originBranch.Tip.Sha)
+						return RepoErrorUpToDate;
+
+					SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), ChatMessageType.DeveloperInfo);
+
 					if (reset)
 					{
 						var error = ResetNoLock(Repo.Head.TrackedBranch);
@@ -1176,6 +1193,33 @@ namespace TGServerService
 					TGServerService.WriteWarning("Changelog generation failed: " + error, TGServerService.EventID.RepoChangelogFail);
 					return null;
 				}
+			}
+		}
+
+		/// <inheritdoc />
+		public void SetAutoUpdateInterval(ulong newInterval)
+		{
+			lock (autoUpdateTimer)
+			{
+				autoUpdateTimer.Stop();
+				if (newInterval > 0) {
+					autoUpdateTimer.Interval = newInterval * 60 * 1000;	//convert from minutes to ms
+					autoUpdateTimer.Start();
+				}
+			}
+			Properties.Settings.Default.AutoUpdateInterval = newInterval;
+		}
+
+		public ulong AutoUpdateInterval()
+		{
+			return Properties.Settings.Default.AutoUpdateInterval;
+		}
+
+		private void AutoUpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+		{
+			if (UpdateImpl(true, false) == null)
+			{
+				Compile(true);
 			}
 		}
 
