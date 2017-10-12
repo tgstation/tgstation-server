@@ -8,7 +8,7 @@ namespace TGCommandLine
 	{
 		public CLICommand()
 		{
-			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand() };
+			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
 			if (Server.VerifyConnection() == null && Server.Authenticate() && Server.AuthenticateAdmin())
 				tmp.Add(new AdminCommand());
 			Children = tmp.ToArray();
@@ -19,6 +19,64 @@ namespace TGCommandLine
 			OutputProc("/tg/station 13 Server Command Line");
 			base.PrintHelp();
 		}
+	}
+	class AutoUpdateCommand : Command
+	{
+		public AutoUpdateCommand()
+		{
+			Keyword = "auto-update";
+		}
+
+		public override string GetHelpText()
+		{
+			return "Get the interval in minutes that the server automatically updates";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			var res = Server.GetComponent<ITGRepository>().AutoUpdateInterval();
+			OutputProc(res == 0 ? "OFF" : String.Format("Auto updating every {0} minutes", res));
+			return ExitCode.Normal;
+		}
+	}
+	class SetAutoUpdateCommand : Command
+	{
+		public SetAutoUpdateCommand()
+		{
+			Keyword = "set-auto-update";
+			RequiredParameters = 1;
+		}
+
+		public override string GetArgumentString()
+		{
+			return "<off|interval in minutes>";
+		}
+
+		public override string GetHelpText()
+		{
+			return "Set the interval in minutes that the server automatically updates";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			ulong NewInterval;
+			if (parameters[0].ToLower() == "off")
+				NewInterval = 0;
+			else
+				try
+				{
+					NewInterval = Convert.ToUInt64(parameters[0]);
+				}
+				catch
+				{
+					OutputProc("Invalid interval specified!");
+					return ExitCode.BadCommand;
+				}
+
+			Server.GetComponent<ITGRepository>().SetAutoUpdateInterval(NewInterval);
+			return ExitCode.Normal;
+		}
+
 	}
 	class UpdateCommand : Command
 	{
