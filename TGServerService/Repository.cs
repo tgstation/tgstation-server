@@ -14,6 +14,7 @@ namespace TGServerService
 	partial class TGStationServer : ITGRepository, IDisposable
 	{
 		const string RepoPath = "Repository";
+		const string RemoteTempBranchName = "___TGS3TempBranch";
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
 		const string CachedTGS3SettingsPath = "TGS3.json";
 		const string RepoErrorUpToDate = "Already up to date!";
@@ -745,19 +746,14 @@ namespace TGServerService
 			File.WriteAllText(PRJobFile, rawdata);
 		}
 
-		//public api
 		public string MergePullRequest(int PRNumber)
-		{
-			return MergePullRequestImpl(PRNumber, false);
-		}
-		string MergePullRequestImpl(int PRNumber, bool impliedUpdate)
 		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: {1}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"), ChatMessageType.DeveloperInfo);
+				SendMessage(String.Format("REPO: Merging PR #{0}...", PRNumber), ChatMessageType.DeveloperInfo);
 				result = ResetNoLock(null);
 				if (result != null)
 					return result;
@@ -845,6 +841,30 @@ namespace TGServerService
 							TGServerService.WriteError("Failed to update PR list", TGServerService.EventID.RepoPRListError);
 							return "PR Merged, JSON update failed: " + e.ToString();
 						}
+
+						if (SSHAuth())
+						{
+							try
+							{
+								//now try and push the commit to the remote so they can be referenced
+								var NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
+
+								var options = new PushOptions()
+								{
+									CredentialsProvider = GenerateGitCredentials
+								};
+								var targetRemote = Repo.Network.Remotes[SSHPushRemote];
+								Repo.Network.Push(targetRemote, NewB, options);	//push the branch
+								Repo.Network.Push(targetRemote, null, NewB, options);	//delete the branch
+								Repo.Branches.Remove(NewB);
+								TGServerService.WriteInfo("Pushed reference commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.ReferencePush);
+							}
+							catch (Exception e)
+							{
+								TGServerService.WriteWarning(String.Format("Failed to push reference commit: {0}. Error: {1}", Repo.Head.Tip.Sha, e.ToString()), TGServerService.EventID.ReferencePush);
+							}
+						}
+
 					}
 					return Result;
 				}

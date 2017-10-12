@@ -85,6 +85,7 @@ namespace TGServerService
 			StaticRead = 7300,
 			StaticWrite = 7400,
 			StaticDelete = 7500,
+			ReferencePush = 7600,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
