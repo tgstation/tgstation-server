@@ -189,21 +189,21 @@ namespace TGServerService
 		{
 			if (DaemonStatus() == TGDreamDaemonStatus.Offline)
 				return Start();
-			if (!Monitor.TryEnter(restartLock))
-				return "Restart already in progress";
-			try
+			lock(restartLock)
 			{
-				SendMessage("DD: Hard restart triggered", ChatMessageType.WatchdogInfo);
+				if (RestartInProgress)
+					return "Restart already in progress";
 				RestartInProgress = true;
-				Stop();
-				var res = Start();
-				return res;
 			}
-			finally
-			{
-				RestartInProgress = false;
-				Monitor.Exit(restartLock);
-			}
+			SendMessage("DD: Hard restart triggered", ChatMessageType.WatchdogInfo);
+			Stop();
+			var res = Start();
+			if(res != null)
+				lock(restartLock)
+				{
+					RestartInProgress = false;
+				}
+			return res;
 		}
 
 		//loop that keeps the server running
