@@ -193,9 +193,9 @@ namespace TGServerService
 			{
 				if (RestartInProgress)
 					return "Restart already in progress";
+				RestartInProgress = true;
 			}
 			SendMessage("DD: Hard restart triggered", ChatMessageType.WatchdogInfo);
-			RestartInProgress = true;
 			Stop();
 			var res = Start();
 			return res;
