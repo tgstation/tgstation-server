@@ -198,6 +198,11 @@ namespace TGServerService
 			SendMessage("DD: Hard restart triggered", ChatMessageType.WatchdogInfo);
 			Stop();
 			var res = Start();
+			if(res != null)
+				lock(restartLock)
+				{
+					RestartInProgress = false;
+				}
 			return res;
 		}
 
