@@ -225,5 +225,19 @@ namespace TGServiceInterface
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string UpdateTGS3Json();
+
+		/// <summary>
+		/// (De)Activate and set the interval for the automatic server updater
+		/// </summary>
+		/// <param name="newInterval">Interval to check for updates in minutes, disables if zero</param>
+		[OperationContract]
+		void SetAutoUpdateInterval(ulong newInterval);
+
+		/// <summary>
+		/// Get the current autoupdate interval
+		/// </summary>
+		/// <returns>The current auto update interval or zero if it's disabled</returns>
+		[OperationContract]
+		ulong AutoUpdateInterval();
 	}
 }
