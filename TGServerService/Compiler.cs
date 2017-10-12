@@ -352,7 +352,7 @@ namespace TGServerService
 					resurrectee = GetStagingDir();
 
 					var Config = new RepoConfig(false);
-					var deleteExcludeList = new List<string>();
+					var deleteExcludeList = new List<string> { InterfaceDLLName };
 					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
 					deleteExcludeList.AddRange(Config.DLLPaths);
 					Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
