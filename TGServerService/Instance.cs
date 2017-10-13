@@ -9,13 +9,15 @@ namespace TGServerService
 
 	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	partial class TGStationServer : IDisposable, ITGSService, ITGConnectivity
+	partial class TGStationServer : IDisposable, ITGConnectivity
 	{
+		public readonly InstanceConfig Config;
 
 		//call partial constructors/destructors from here
 		//called when the service is started
-		public TGStationServer()
+		public TGStationServer(InstanceConfig config)
 		{
+			Config = config;
 			FindTheDroidsWereLookingFor();
 			InitChat();
 			InitRepo();
@@ -32,22 +34,23 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+			Config.Save();
 		}
 
 		//public api
 		public string Version()
 		{
-			return TGServerService.Version;
+			return TGServerService.VersionString;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void VerifyConnection() { }
 
-		//public api
-		public void PrepareForUpdate()
+		public void Reattach(bool silent)
 		{
-			Properties.Settings.Default.ReattachToDD = true;
-			SendMessage("SERVICE: Update started...", ChatMessageType.DeveloperInfo);
+			Config.ReattachRequired = true;
+			if(!silent)
+				SendMessage("SERVICE: Update started...", ChatMessageType.DeveloperInfo);
 		}
 
 		//mostly generated code with a call to RunDisposals()

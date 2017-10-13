@@ -25,102 +25,6 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("tgstation")]
-        public string ProjectName {
-            get {
-                return ((string)(this["ProjectName"]));
-            }
-            set {
-                this["ProjectName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1337")]
-        public ushort ServerPort {
-            get {
-                return ((ushort)(this["ServerPort"]));
-            }
-            set {
-                this["ServerPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool PushChangelogToGit {
-            get {
-                return ((bool)(this["PushChangelogToGit"]));
-            }
-            set {
-                this["PushChangelogToGit"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("tgstation-server")]
-        public string CommitterName {
-            get {
-                return ((string)(this["CommitterName"]));
-            }
-            set {
-                this["CommitterName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("tgstation-server@tgstation13.org")]
-        public string CommitterEmail {
-            get {
-                return ((string)(this["CommitterEmail"]));
-            }
-            set {
-                this["CommitterEmail"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:/tgstation-server-3")]
-        public string ServerDirectory {
-            get {
-                return ((string)(this["ServerDirectory"]));
-            }
-            set {
-                this["ServerDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ServerSecurity {
-            get {
-                return ((int)(this["ServerSecurity"]));
-            }
-            set {
-                this["ServerSecurity"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DDAutoStart {
-            get {
-                return ((bool)(this["DDAutoStart"]));
-            }
-            set {
-                this["DDAutoStart"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Python27")]
         public string PythonPath {
             get {
@@ -128,30 +32,6 @@ namespace TGServerService.Properties {
             }
             set {
                 this["PythonPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("NEEDS INITIALIZING")]
-        public string ChatProviderData {
-            get {
-                return ((string)(this["ChatProviderData"]));
-            }
-            set {
-                this["ChatProviderData"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ChatProviderEntropy {
-            get {
-                return ((string)(this["ChatProviderEntropy"]));
-            }
-            set {
-                this["ChatProviderEntropy"] = value;
             }
         }
         
@@ -169,85 +49,13 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ReattachToDD {
-            get {
-                return ((bool)(this["ReattachToDD"]));
-            }
-            set {
-                this["ReattachToDD"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ReattachPID {
-            get {
-                return ((int)(this["ReattachPID"]));
-            }
-            set {
-                this["ReattachPID"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public ushort ReattachPort {
-            get {
-                return ((ushort)(this["ReattachPort"]));
-            }
-            set {
-                this["ReattachPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
         public int SettingsVersion {
             get {
                 return ((int)(this["SettingsVersion"]));
             }
             set {
                 this["SettingsVersion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ReattachCommsKey {
-            get {
-                return ((string)(this["ReattachCommsKey"]));
-            }
-            set {
-                this["ReattachCommsKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Webclient {
-            get {
-                return ((bool)(this["Webclient"]));
-            }
-            set {
-                this["Webclient"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AuthorizedGroupSID {
-            get {
-                return ((string)(this["AuthorizedGroupSID"]));
-            }
-            set {
-                this["AuthorizedGroupSID"] = value;
             }
         }
         
@@ -265,25 +73,24 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ReattachAPIVersion {
+        public global::System.Collections.Specialized.StringCollection InstancePaths {
             get {
-                return ((string)(this["ReattachAPIVersion"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["InstancePaths"]));
             }
             set {
-                this["ReattachAPIVersion"] = value;
+                this["InstancePaths"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public ulong AutoUpdateInterval {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ConvertedFromNETConfig {
             get {
-                return ((ulong)(this["AutoUpdateInterval"]));
+                return ((bool)(this["ConvertedFromNETConfig"]));
             }
             set {
-                this["AutoUpdateInterval"] = value;
+                this["ConvertedFromNETConfig"] = value;
             }
         }
     }

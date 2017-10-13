@@ -81,14 +81,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administration.cs" />
+    <Compile Include="AdministrativeAuthorizationManager.cs" />
     <Compile Include="Byond.cs" />
     <Compile Include="Chat.cs" />
     <Compile Include="ChatCommands.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="DeprecatedInstanceConfig.cs" />
     <Compile Include="Discord.cs" />
     <Compile Include="DreamDaemon.cs" />
-    <Compile Include="InterfaceBase.cs" />
+    <Compile Include="Instance.cs" />
+    <Compile Include="InstanceConfig.cs" />
     <Compile Include="IRC.cs" />
     <Compile Include="Interop.cs" />
     <Compile Include="PreactionHandler.cs" />
@@ -105,11 +108,11 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="ServerService.cs">
+    <Compile Include="Service.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ServerService.Designer.cs">
-      <DependentUpon>ServerService.cs</DependentUpon>
+    <Compile Include="Service.Designer.cs">
+      <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,8 +134,8 @@
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ServerService.resx">
-      <DependentUpon>ServerService.cs</DependentUpon>
+    <EmbeddedResource Include="Service.resx">
+      <DependentUpon>Service.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

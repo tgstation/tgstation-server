@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
@@ -8,7 +9,7 @@ using TGServiceInterface;
 
 namespace TGServerService
 {
-	public partial class TGServerService : ServiceBase
+	public partial class TGServerService : ServiceBase, ITGConnectivity, ITGSService
 	{ 
 		//only deprecate events, do not reuse them
 		public enum EventID
@@ -85,11 +86,12 @@ namespace TGServerService
 			StaticRead = 7300,
 			StaticWrite = 7400,
 			StaticDelete = 7500,
+			InstanceInitializationFailure = 7600,
 		}
 
 		static TGServerService ActiveService;   //So everyone else can write to our eventlog
 
-		public static readonly string Version = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
+		public static readonly string VersionString = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		/// <summary>
 		/// You can't write to logs while impersonating, call this to cancel WCF's impersonation first
@@ -116,55 +118,48 @@ namespace TGServerService
 		{
 			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}", username), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
 		}
-
-		ServiceHost host;   //the WCF host
+		
+		ServiceHost serviceHost;
+		IDictionary<string, ServiceHost> hosts;
 
 		void MigrateSettings(int oldVersion, int newVersion)
 		{
-			if (oldVersion == newVersion && newVersion == 0)	//chat refactor
-				Properties.Settings.Default.ChatProviderData = "NEEDS INITIALIZING";	//reset chat settings to be safe
+			//TODO
 		}
 	
 		//you should seriously not add anything here
 		//Use OnStart instead
 		public TGServerService()
 		{
+			var Config = Properties.Settings.Default;
 			try
 			{
+				Environment.CurrentDirectory = Directory.CreateDirectory(Path.GetTempPath() + "/TGStationServerService").FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
 				if (Properties.Settings.Default.UpgradeRequired)
 				{
-					var newVersion = Properties.Settings.Default.SettingsVersion;
-					Properties.Settings.Default.Upgrade();
-					var oldVersion = Properties.Settings.Default.SettingsVersion;
-					Properties.Settings.Default.SettingsVersion = newVersion;
+					var newVersion = Config.SettingsVersion;
+					Config.Upgrade();
+					var oldVersion = Config.SettingsVersion;
+					Config.SettingsVersion = newVersion;
 
 					MigrateSettings(oldVersion, newVersion);
 
-					Properties.Settings.Default.UpgradeRequired = false;
-					Properties.Settings.Default.Save();
+					Config.UpgradeRequired = false;
+					Config.Save();
 				}
-				InitializeComponent();
 				ActiveService = this;
+				InitializeComponent();
 				Run(this);
 			}
 			finally
 			{
-				Properties.Settings.Default.Save();
+				Config.Save();
 			}
 		}
 
-		//when babby is formed
-		protected override void OnStart(string[] args)
+		void ChangePortFromCommandLine(string[] args)
 		{
 			var Config = Properties.Settings.Default;
-			if (!Directory.Exists(Config.ServerDirectory))
-			{
-				EventLog.WriteEntry("Creating server directory: " + Config.ServerDirectory);
-				Directory.CreateDirectory(Config.ServerDirectory);
-			}
-			Environment.CurrentDirectory = Config.ServerDirectory;
-
-			var instance = new TGStationServer();
 
 			for (var I = 0; I < args.Length - 1; ++I)
 				if (args[I].ToLower() == "-port")
@@ -176,38 +171,92 @@ namespace TGServerService
 							throw new Exception("Cannot bind to port 0");
 						Config.RemoteAccessPort = res;
 					}
-					catch(Exception e)
+					catch (Exception e)
 					{
 						throw new Exception("Invalid argument for \"-port\"", e);
 					}
 					Config.Save();
 					break;
 				}
+		}
+		//when babby is formed
+		protected override void OnStart(string[] args)
+		{
+			ChangePortFromCommandLine(args);
 
-			host = new ServiceHost(instance, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Config.RemoteAccessPort)) })
+			SetupService();
+
+			SetupInstances();
+
+			OnlineAllHosts();
+		}
+
+		void SetupService()
+		{
+			serviceHost = CreateHost(this);
+			AddEndpoint(serviceHost, typeof(ITGSService), Server.MasterInterfaceName);
+			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us
+		}
+
+		void OnlineAllHosts()
+		{
+			serviceHost.Open();
+			foreach (var I in hosts)
+				I.Value.Open();
+		}
+
+		static ServiceHost CreateHost(object singleton)
+		{
+			return new ServiceHost(singleton, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Properties.Settings.Default.RemoteAccessPort)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
+		}
 
-			foreach (var I in Server.ValidInterfaces)
-				AddEndpoint(I);
-			
-			host.Authorization.ServiceAuthorizationManager = instance;
-
+		void SetupInstances()
+		{
+			var pathsToRemove = new List<string>();
+			foreach (var I in Properties.Settings.Default.InstancePaths)
+				if (SetupInstance(I) != null)
+					pathsToRemove.Add(I);
+		}
+		ServiceHost SetupInstance(string path)
+		{
+			TGStationServer instance;
 			try
 			{
-				host.Open();
+				var config = InstanceConfig.Load(path);
+				if (hosts.ContainsKey(path))
+				{
+					var datInstance = ((TGStationServer)hosts[path].SingletonInstance);
+					WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1} ({2}). Detaching...", path, datInstance.ServerDirectory(), datInstance.Config.Name), EventID.InstanceInitializationFailure);
+					return null;
+				}
+				if (!config.Enabled)
+					return null;
+				instance = new TGStationServer(config);
 			}
-			catch (AddressAlreadyInUseException e)
+			catch (Exception e)
 			{
-				throw new Exception("Can't start the service due to the configured remote access port being in use. To fix this change it by starting the service with the \"-port <port>\" argument.", e);
+				WriteError(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", path, e.ToString()), EventID.InstanceInitializationFailure);
+				return null;
 			}
+
+			var host = CreateHost(instance);
+			hosts.Add(instance.Config.Name, host);
+
+			var endpointPrefix = String.Format("{0}/{1}", Server.MasterInterfaceName, instance.Config.Name);
+			foreach (var J in Server.InstanceInterfaces)
+				AddEndpoint(host, J, endpointPrefix);
+
+			host.Authorization.ServiceAuthorizationManager = instance;
+			return host;
 		}
 
 		//shorthand for adding the WCF endpoint
-		void AddEndpoint(Type typetype)
+		void AddEndpoint(ServiceHost host, Type typetype, string PipePrefix)
 		{
-			var bindingName = Server.MasterInterfaceName + "/" + typetype.Name;
+			var bindingName = PipePrefix + "/" + typetype.Name;
 			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Server.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
@@ -226,14 +275,91 @@ namespace TGServerService
 		{
 			try
 			{
-				TGStationServer instance = (TGStationServer)host.SingletonInstance;
-				host.Close();
-				instance.Dispose();
+				foreach (var I in hosts)
+				{
+					var host = I.Value;
+					TGStationServer instance = (TGStationServer)host.SingletonInstance;
+					host.Close();
+					instance.Dispose();
+				}
 			}
 			catch (Exception e)
 			{
 				WriteError(e.ToString(), EventID.ServiceShutdownFail);
 			}
+		}
+
+		/// <inheritdoc />
+		public void VerifyConnection() { }
+
+		/// <inheritdoc />
+		public void PrepareForUpdate()
+		{
+			foreach (var I in hosts)
+				((TGStationServer)I.Value.SingletonInstance).Reattach(false);
+		}
+
+		/// <inheritdoc />
+		public ushort RemoteAccessPort()
+		{
+			return Properties.Settings.Default.RemoteAccessPort;
+		}
+
+		/// <inheritdoc />
+		public string SetRemoteAccessPort(ushort port)
+		{
+			if (port == 0)
+				return "Cannot bind to port 0";
+			Properties.Settings.Default.RemoteAccessPort = port;
+			return null;
+		}
+
+		/// <inheritdoc />
+		public string Version()
+		{
+			return VersionString;
+		}
+
+		/// <inheritdoc />
+		public IDictionary<string, string> ListInstances()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public string CreateInstance(string Name, string path)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public string ImportInstance(string path)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public bool InstanceEnabled(string Name)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public string SetInstanceEnabled(string Name, bool enabled)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public string RenameInstance(string name, string new_name)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public string DetachInstance(string name)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
