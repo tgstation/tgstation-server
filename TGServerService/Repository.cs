@@ -482,6 +482,8 @@ namespace TGServerService
 		//public api
 		public string Checkout(string sha)
 		{
+			if (sha == LiveTrackingBranch)
+				return "I'm sorry Dave, I'm afraid I can't do that...";
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
