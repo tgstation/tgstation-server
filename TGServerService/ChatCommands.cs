@@ -82,8 +82,13 @@ namespace TGServerService
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(String.Format("^{0}", Instance.GetHead(true, out string error)) ?? error);
-			return error == null ? ExitCode.Normal : ExitCode.ServerError;
+			var res = Instance.LiveSha();
+			if (res == "UNKNOWN") {
+				OutputProc(res);
+				return ExitCode.ServerError;
+			}
+			OutputProc(String.Format("^{0}", res));
+			return ExitCode.Normal;
 		}
 
 		public override string GetHelpText()

@@ -337,6 +337,7 @@ namespace TGServerService
 						return;
 					}
 				}
+				string CurrentSha;
 				try
 				{
 					bool silent;
@@ -378,6 +379,7 @@ namespace TGServerService
 
 					deleteExcludeList.Add(".git");
 					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
+					CurrentSha = GetHead(false, out string error);
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
 					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
@@ -524,6 +526,7 @@ namespace TGServerService
 							TGServerService.WriteWarning("Postcompile hook failed!", TGServerService.EventID.DMCompileError);
 							return;
 						}
+						UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
 						SendMessage("DM: " + msg, ChatMessageType.DeveloperInfo);
 						TGServerService.WriteInfo(msg, TGServerService.EventID.DMCompileSuccess);
