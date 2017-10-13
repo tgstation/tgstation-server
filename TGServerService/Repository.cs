@@ -21,6 +21,7 @@ namespace TGServerService
 		const string PrivateKeyPath = "RepoKey/private_key.txt";
 		const string PublicKeyPath = "RepoKey/public_key.txt";
 		const string PRJobFile = "prtestjob.json";
+		const string LiveTrackingBranch = "___TGSLiveCommitTrackingBranch";
 		const string CommitMessage = "Automatic changelog compile, [ci skip]";
 
 		object RepoLock = new object();
@@ -1184,6 +1185,22 @@ namespace TGServerService
 		public string PythonPath()
 		{
 			return Properties.Settings.Default.PythonPath;
+		}
+
+		void UpdateLiveSha()
+		{
+			if (LoadRepo() != null)
+				return;
+			var B = Repo.Branches[LiveTrackingBranch];
+			if (B != null)
+				Repo.Branches.Remove(B);
+			Repo.CreateBranch(LiveTrackingBranch, Repo.Head.Tip);		
+		}
+
+		public string LiveSha()
+		{
+			var B = Repo.Branches[LiveTrackingBranch];
+			return B != null ? B.Tip.Sha : "UNKNOWN";
 		}
 	}
 }

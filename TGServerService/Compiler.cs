@@ -378,6 +378,7 @@ namespace TGServerService
 
 					deleteExcludeList.Add(".git");
 					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
+					UpdateLiveSha();
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
 					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
