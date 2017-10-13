@@ -1187,14 +1187,14 @@ namespace TGServerService
 			return Properties.Settings.Default.PythonPath;
 		}
 
-		void UpdateLiveSha()
+		void UpdateLiveSha(string newSha)
 		{
 			if (LoadRepo() != null)
 				return;
 			var B = Repo.Branches[LiveTrackingBranch];
 			if (B != null)
 				Repo.Branches.Remove(B);
-			Repo.CreateBranch(LiveTrackingBranch, Repo.Head.Tip);		
+			Repo.CreateBranch(LiveTrackingBranch, newSha);		
 		}
 
 		public string LiveSha()
