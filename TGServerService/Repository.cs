@@ -18,8 +18,9 @@ namespace TGServerService
 		const string CachedTGS3SettingsPath = "TGS3.json";
 		const string RepoErrorUpToDate = "Already up to date!";
 		const string SSHPushRemote = "ssh_push_target";
-		const string PrivateKeyPath = "RepoKey/private_key.txt";
-		const string PublicKeyPath = "RepoKey/public_key.txt";
+		const string RepoKeyDir = "RepoKey/"
+		const string PrivateKeyPath = RepoKeyDir + "private_key.txt";
+		const string PublicKeyPath = RepoKeyDir + "public_key.txt";
 		const string PRJobFile = "prtestjob.json";
 		const string LiveTrackingBranch = "___TGSLiveCommitTrackingBranch";
 		const string CommitMessage = "Automatic changelog compile, [ci skip]";
@@ -145,6 +146,7 @@ namespace TGServerService
 
 		void InitRepo()
 		{
+			Directory.CreateDirectory(RepoKeyDir)
 			if(Exists())
 				UpdateInterfaceDll(false);
 			if(LoadRepo() == null)
