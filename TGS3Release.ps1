@@ -2,18 +2,11 @@ $bf = $Env:APPVEYOR_BUILD_FOLDER
 $src = "$bf\TGInstallerWrapper\bin\Release"
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$src\TG Station Server Installer.exe").FileVersion
 
-Remove-Item "$src\Microsoft.Deployment.WindowsInstaller.xml"
-Remove-Item "$src\TG Station Server Installer.exe.config"
-Remove-Item "$src\TG Station Server Installer.pdb"
-Rename-Item -Path "$src\TG Station Server Installer.exe" -NewName "$src\TG Station Server Installer v$version.exe"
+$destination = "$bf\TGS3-Server-v$version.exe"
 
-$destination = "$bf\TGS3-Server-v$version.zip"
-
-If(Test-path $destination) {Remove-item $destination}
+Move-Item -Path "$src\TG Station Server Installer.exe" -Destination "$destination"
 
 Add-Type -assembly "system.io.compression.filesystem"
-
-[io.compression.zipfile]::CreateFromDirectory($src, $destination) 
 
 $destination_md5sha = $Env:APPVEYOR_BUILD_FOLDER + "\MD5-SHA1-Server-v$version.txt"
 

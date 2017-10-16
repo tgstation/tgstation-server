@@ -5,7 +5,7 @@ image: Visual Studio 2017
 configuration: Release
 shallow_clone: true
 artifacts:
-- path: TGS3-Server-v*.zip
+- path: TGS3-Server-v*.exe
   name: TGS3Server
 - path: MD5-SHA1-Server-v*.txt
   name: MD5SHA1Server
