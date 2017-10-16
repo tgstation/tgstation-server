@@ -225,5 +225,19 @@ namespace TGServiceInterface
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string UpdateTGS3Json();
+
+		/// <summary>
+		/// Check if we push a temporary branch to the remote when we make testmerge commits
+		/// </summary>
+		/// <returns>true if we push testmerge commits, false otherwise</returns>
+		[OperationContract]
+		bool PushTestmergeCommits();
+
+		/// <summary>
+		/// Set if we push a temporary branch to the remote when we make testmerge commits
+		/// </summary>
+		/// <param name="newValue">true if we should push testmerge commits, false otherwise</param>
+		[OperationContract]
+		void SetPushTestmergeCommits(bool newValue);
 	}
 }

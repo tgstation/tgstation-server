@@ -555,6 +555,32 @@ namespace TGServerService
 			return null;
 		}
 
+		void PushTestmergeCommit()
+		{
+			if (Properties.Settings.Default.PushTestmergeCommits && SSHAuth())
+			{
+				try
+				{
+					//now try and push the commit to the remote so they can be referenced
+					var NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
+
+					var options = new PushOptions()
+					{
+						CredentialsProvider = GenerateGitCredentials
+					};
+					var targetRemote = Repo.Network.Remotes[SSHPushRemote];
+					Repo.Network.Push(targetRemote, NewB, options); //push the branch
+					Repo.Network.Push(targetRemote, null, NewB, options);   //delete the branch
+					Repo.Branches.Remove(NewB);
+					TGServerService.WriteInfo("Pushed reference commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.ReferencePush);
+				}
+				catch (Exception e)
+				{
+					TGServerService.WriteWarning(String.Format("Failed to push reference commit: {0}. Error: {1}", Repo.Head.Tip.Sha, e.ToString()), TGServerService.EventID.ReferencePush);
+				}
+			}
+		}
+
 		//public api
 		public string Update(bool reset)
 		{
@@ -585,6 +611,8 @@ namespace TGServerService
 						return error;
 					}
 					res = MergeBranch(originBranch.FriendlyName);
+					if (!LocalIsRemote())	//might be fast forward
+						PushTestmergeCommit();
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
@@ -842,29 +870,7 @@ namespace TGServerService
 							return "PR Merged, JSON update failed: " + e.ToString();
 						}
 
-						if (SSHAuth())
-						{
-							try
-							{
-								//now try and push the commit to the remote so they can be referenced
-								var NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
-
-								var options = new PushOptions()
-								{
-									CredentialsProvider = GenerateGitCredentials
-								};
-								var targetRemote = Repo.Network.Remotes[SSHPushRemote];
-								Repo.Network.Push(targetRemote, NewB, options);	//push the branch
-								Repo.Network.Push(targetRemote, null, NewB, options);	//delete the branch
-								Repo.Branches.Remove(NewB);
-								TGServerService.WriteInfo("Pushed reference commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.ReferencePush);
-							}
-							catch (Exception e)
-							{
-								TGServerService.WriteWarning(String.Format("Failed to push reference commit: {0}. Error: {1}", Repo.Head.Tip.Sha, e.ToString()), TGServerService.EventID.ReferencePush);
-							}
-						}
-
+						PushTestmergeCommit();
 					}
 					return Result;
 				}
@@ -1211,6 +1217,18 @@ namespace TGServerService
 		public string PythonPath()
 		{
 			return Properties.Settings.Default.PythonPath;
+		}
+
+		/// <inheritdoc />
+		public bool PushTestmergeCommits()
+		{
+			return Properties.Settings.Default.PushTestmergeCommits;
+		}
+
+		/// <inheritdoc />
+		public void SetPushTestmergeCommits(bool newValue)
+		{
+			Properties.Settings.Default.PushTestmergeCommits = newValue;
 		}
 	}
 }

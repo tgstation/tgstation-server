@@ -274,5 +274,17 @@ namespace TGServerService.Properties {
                 this["ReattachAPIVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PushTestmergeCommits {
+            get {
+                return ((bool)(this["PushTestmergeCommits"]));
+            }
+            set {
+                this["PushTestmergeCommits"] = value;
+            }
+        }
     }
 }
