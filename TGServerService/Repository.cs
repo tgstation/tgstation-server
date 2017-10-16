@@ -46,7 +46,7 @@ namespace TGServerService
 			public readonly string PathToChangelogPy;
 			public readonly string ChangelogPyArguments;
 			public readonly IList<string> PipDependancies = new List<string>();
-			public readonly IList<string> ChangelogPathsToStage = new List<string>();
+			public readonly IList<string> PathsToStage = new List<string>();
 			public readonly IList<string> StaticDirectoryPaths = new List<string>();
 			public readonly IList<string> DLLPaths = new List<string>();
 
@@ -69,15 +69,15 @@ namespace TGServerService
 						PipDependancies = LoadArray(details["pip_dependancies"]);
 					}
 					catch { }
-					try
-					{
-						ChangelogPathsToStage = LoadArray(details["synchronize_paths"]);
-					}
-					catch { }
 				}
 				catch {
 					ChangelogSupport = false;
 				}
+				try
+				{
+					PathsToStage = LoadArray(json["synchronize_paths"]);
+				}
+				catch { }
 				try
 				{
 					StaticDirectoryPaths = LoadArray(json["static_directories"]);
@@ -114,7 +114,7 @@ namespace TGServerService
 					&& PathToChangelogPy == other.PathToChangelogPy
 					&& ChangelogPyArguments == other.ChangelogPyArguments
 					&& ListEquals(PipDependancies, other.PipDependancies)
-					&& ListEquals(ChangelogPathsToStage, other.ChangelogPathsToStage)
+					&& ListEquals(PathsToStage, other.PathsToStage)
 					&& ListEquals(StaticDirectoryPaths, other.StaticDirectoryPaths)
 					&& ListEquals(DLLPaths, other.DLLPaths);
 			}
@@ -126,7 +126,7 @@ namespace TGServerService
 				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
 				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
 				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PipDependancies);
-				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(ChangelogPathsToStage);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PathsToStage);
 				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(StaticDirectoryPaths);
 				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(DLLPaths);
 				return hashCode;
@@ -1010,7 +1010,7 @@ namespace TGServerService
 				try
 				{
 					// Stage the file
-					foreach(var I in Config.ChangelogPathsToStage)
+					foreach(var I in Config.PathsToStage)
 						Commands.Stage(Repo, I);
 
 					if (Repo.RetrieveStatus().Staged.Count() == 0)   //nothing to commit
