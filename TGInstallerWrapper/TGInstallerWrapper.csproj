@@ -79,13 +79,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TGServiceInterface\TGServiceInterface.csproj">
-      <Project>{ac4e7e8b-f83a-481c-a8b0-8fa4e8ae59ab}</Project>
-      <Name>TGServiceInterface</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="FodyWeavers.xml" />
+    <None Include="Resources\TGServiceInterface.dll" />
     <Content Include="tgs.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
