@@ -89,6 +89,7 @@ namespace TGServerService
 					break;
 				case SRWorldReboot:
 					TGServerService.WriteInfo("World Rebooted", TGServerService.EventID.WorldReboot);
+					WriteCurrentDDLog("World rebooted");
 					ServerChatCommands = null;
 					ChatConnectivityCheck();
 					lock (CompilerLock)

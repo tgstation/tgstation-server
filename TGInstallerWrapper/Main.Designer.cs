@@ -1,4 +1,8 @@
-﻿namespace TGInstallerWrapper
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
+
+namespace TGInstallerWrapper
 {
 	partial class Main
 	{
@@ -127,7 +131,7 @@
 			this.VersionLabel.Name = "VersionLabel";
 			this.VersionLabel.Size = new System.Drawing.Size(228, 18);
 			this.VersionLabel.TabIndex = 8;
-			this.VersionLabel.Text = "None (No Service Running)";
+			this.VersionLabel.Text = "Unknown (No service running)";
 			// 
 			// InstallButton
 			// 
@@ -160,7 +164,7 @@
 			this.TargetVersionLabel.Name = "TargetVersionLabel";
 			this.TargetVersionLabel.Size = new System.Drawing.Size(132, 18);
 			this.TargetVersionLabel.TabIndex = 11;
-			this.TargetVersionLabel.Text = "Target Version:";
+			this.TargetVersionLabel.Text = "Target Version: v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 			// 
 			// InstallCancelButton
 			// 
@@ -179,6 +183,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(537, 153);
+			this.FormClosing += Main_FormClosing;
 			this.Controls.Add(this.InstallCancelButton);
 			this.Controls.Add(this.TargetVersionLabel);
 			this.Controls.Add(this.ShowLogCheckbox);

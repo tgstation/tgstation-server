@@ -70,6 +70,9 @@
 			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
 			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
 			this.ServerPanel = new System.Windows.Forms.TabPage();
+			this.AutoUpdateMLabel = new System.Windows.Forms.Label();
+			this.AutoUpdateInterval = new System.Windows.Forms.NumericUpDown();
+			this.AutoUpdateCheckbox = new System.Windows.Forms.CheckBox();
 			this.ServerPageRefreshButton = new System.Windows.Forms.Button();
 			this.AutostartCheckbox = new System.Windows.Forms.CheckBox();
 			this.WebclientCheckBox = new System.Windows.Forms.CheckBox();
@@ -160,6 +163,7 @@
 			this.ChatProviderSelectorPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.ServerPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.AutoUpdateInterval)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).BeginInit();
 			this.BYONDPanel.SuspendLayout();
@@ -631,6 +635,9 @@
 			// ServerPanel
 			// 
 			this.ServerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.ServerPanel.Controls.Add(this.AutoUpdateMLabel);
+			this.ServerPanel.Controls.Add(this.AutoUpdateInterval);
+			this.ServerPanel.Controls.Add(this.AutoUpdateCheckbox);
 			this.ServerPanel.Controls.Add(this.ServerPageRefreshButton);
 			this.ServerPanel.Controls.Add(this.AutostartCheckbox);
 			this.ServerPanel.Controls.Add(this.WebclientCheckBox);
@@ -670,6 +677,60 @@
 			this.ServerPanel.Size = new System.Drawing.Size(868, 366);
 			this.ServerPanel.TabIndex = 2;
 			this.ServerPanel.Text = "Server";
+			// 
+			// AutoUpdateMLabel
+			// 
+			this.AutoUpdateMLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.AutoUpdateMLabel.AutoSize = true;
+			this.AutoUpdateMLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AutoUpdateMLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AutoUpdateMLabel.Location = new System.Drawing.Point(433, 136);
+			this.AutoUpdateMLabel.Name = "AutoUpdateMLabel";
+			this.AutoUpdateMLabel.Size = new System.Drawing.Size(21, 18);
+			this.AutoUpdateMLabel.TabIndex = 47;
+			this.AutoUpdateMLabel.Text = "M";
+			this.AutoUpdateMLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AutoUpdateMLabel.Visible = false;
+			// 
+			// AutoUpdateInterval
+			// 
+			this.AutoUpdateInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.AutoUpdateInterval.Location = new System.Drawing.Point(365, 135);
+			this.AutoUpdateInterval.Maximum = new decimal(new int[] {
+            276447231,
+            23283,
+            0,
+            0});
+			this.AutoUpdateInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.AutoUpdateInterval.Name = "AutoUpdateInterval";
+			this.AutoUpdateInterval.Size = new System.Drawing.Size(62, 20);
+			this.AutoUpdateInterval.TabIndex = 46;
+			this.AutoUpdateInterval.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.AutoUpdateInterval.Visible = false;
+			this.AutoUpdateInterval.ValueChanged += new System.EventHandler(this.AutoUpdateInterval_ValueChanged);
+			// 
+			// AutoUpdateCheckbox
+			// 
+			this.AutoUpdateCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.AutoUpdateCheckbox.AutoSize = true;
+			this.AutoUpdateCheckbox.Font = new System.Drawing.Font("Verdana", 12F);
+			this.AutoUpdateCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.AutoUpdateCheckbox.Location = new System.Drawing.Point(228, 134);
+			this.AutoUpdateCheckbox.Name = "AutoUpdateCheckbox";
+			this.AutoUpdateCheckbox.Size = new System.Drawing.Size(131, 22);
+			this.AutoUpdateCheckbox.TabIndex = 45;
+			this.AutoUpdateCheckbox.Text = "Auto-Update";
+			this.AutoUpdateCheckbox.UseVisualStyleBackColor = true;
+			this.AutoUpdateCheckbox.Visible = false;
+			this.AutoUpdateCheckbox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckbox_CheckedChanged);
 			// 
 			// ServerPageRefreshButton
 			// 
@@ -713,7 +774,7 @@
 			// WorldAnnounceButton
 			// 
 			this.WorldAnnounceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.WorldAnnounceButton.Location = new System.Drawing.Point(785, 136);
+			this.WorldAnnounceButton.Location = new System.Drawing.Point(785, 133);
 			this.WorldAnnounceButton.Name = "WorldAnnounceButton";
 			this.WorldAnnounceButton.Size = new System.Drawing.Size(77, 20);
 			this.WorldAnnounceButton.TabIndex = 41;
@@ -724,7 +785,7 @@
 			// WorldAnnounceField
 			// 
 			this.WorldAnnounceField.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.WorldAnnounceField.Location = new System.Drawing.Point(566, 136);
+			this.WorldAnnounceField.Location = new System.Drawing.Point(566, 134);
 			this.WorldAnnounceField.Name = "WorldAnnounceField";
 			this.WorldAnnounceField.Size = new System.Drawing.Size(213, 20);
 			this.WorldAnnounceField.TabIndex = 40;
@@ -751,7 +812,7 @@
 			this.WorldAnnounceLabel.AutoSize = true;
 			this.WorldAnnounceLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.WorldAnnounceLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.WorldAnnounceLabel.Location = new System.Drawing.Point(466, 139);
+			this.WorldAnnounceLabel.Location = new System.Drawing.Point(466, 135);
 			this.WorldAnnounceLabel.Name = "WorldAnnounceLabel";
 			this.WorldAnnounceLabel.Size = new System.Drawing.Size(94, 18);
 			this.WorldAnnounceLabel.TabIndex = 39;
@@ -766,7 +827,7 @@
             "Trusted",
             "Safe",
             "Ultrasafe"});
-			this.SecuritySelector.Location = new System.Drawing.Point(136, 136);
+			this.SecuritySelector.Location = new System.Drawing.Point(101, 134);
 			this.SecuritySelector.Name = "SecuritySelector";
 			this.SecuritySelector.Size = new System.Drawing.Size(121, 21);
 			this.SecuritySelector.TabIndex = 38;
@@ -777,7 +838,7 @@
 			this.SecurityTitle.AutoSize = true;
 			this.SecurityTitle.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.SecurityTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.SecurityTitle.Location = new System.Drawing.Point(44, 139);
+			this.SecurityTitle.Location = new System.Drawing.Point(15, 139);
 			this.SecurityTitle.Name = "SecurityTitle";
 			this.SecurityTitle.Size = new System.Drawing.Size(80, 18);
 			this.SecurityTitle.TabIndex = 37;
@@ -1758,6 +1819,7 @@
 			this.panel1.PerformLayout();
 			this.ServerPanel.ResumeLayout(false);
 			this.ServerPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.AutoUpdateInterval)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).EndInit();
 			this.BYONDPanel.ResumeLayout(false);
@@ -1901,5 +1963,8 @@
 		private System.Windows.Forms.Button BYONDRefreshButton;
 		private System.Windows.Forms.Button ServerPageRefreshButton;
 		private System.Windows.Forms.Button RecreateStaticButton;
+		private System.Windows.Forms.NumericUpDown AutoUpdateInterval;
+		private System.Windows.Forms.CheckBox AutoUpdateCheckbox;
+		private System.Windows.Forms.Label AutoUpdateMLabel;
 	}
 }

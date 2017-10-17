@@ -57,6 +57,7 @@ namespace TGServerService
 				if (excludeRoot != null && excludeRoot.Contains(file.Name.ToLower()))
 					continue;
 				file.Attributes = FileAttributes.Normal;
+				file.Delete();
 			}
 		}
 

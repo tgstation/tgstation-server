@@ -205,7 +205,7 @@ namespace TGServerService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int SettingsVersion {
             get {
                 return ((int)(this["SettingsVersion"]));
@@ -272,6 +272,18 @@ namespace TGServerService.Properties {
             }
             set {
                 this["ReattachAPIVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong AutoUpdateInterval {
+            get {
+                return ((ulong)(this["AutoUpdateInterval"]));
+            }
+            set {
+                this["AutoUpdateInterval"] = value;
             }
         }
         

@@ -48,7 +48,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="SettingsVersion" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">4</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="ReattachCommsKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -64,6 +64,9 @@
     </Setting>
     <Setting Name="ReattachAPIVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AutoUpdateInterval" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="PushTestmergeCommits" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

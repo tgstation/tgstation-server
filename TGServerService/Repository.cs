@@ -19,9 +19,11 @@ namespace TGServerService
 		const string CachedTGS3SettingsPath = "TGS3.json";
 		const string RepoErrorUpToDate = "Already up to date!";
 		const string SSHPushRemote = "ssh_push_target";
-		const string PrivateKeyPath = "RepoKey/private_key.txt";
-		const string PublicKeyPath = "RepoKey/public_key.txt";
+		const string RepoKeyDir = "RepoKey/";
+		const string PrivateKeyPath = RepoKeyDir + "private_key.txt";
+		const string PublicKeyPath = RepoKeyDir + "public_key.txt";
 		const string PRJobFile = "prtestjob.json";
+		const string LiveTrackingBranch = "___TGSLiveCommitTrackingBranch";
 		const string CommitMessage = "Automatic changelog compile, [ci skip]";
 
 		object RepoLock = new object();
@@ -30,6 +32,11 @@ namespace TGServerService
 
 		Repository Repo;
 		int currentProgress = -1;
+
+		System.Timers.Timer autoUpdateTimer = new System.Timers.Timer()
+		{
+			AutoReset = true
+		};
 
 		/// <summary>
 		/// Repo specific information about the installation
@@ -41,7 +48,7 @@ namespace TGServerService
 			public readonly string PathToChangelogPy;
 			public readonly string ChangelogPyArguments;
 			public readonly IList<string> PipDependancies = new List<string>();
-			public readonly IList<string> ChangelogPathsToStage = new List<string>();
+			public readonly IList<string> PathsToStage = new List<string>();
 			public readonly IList<string> StaticDirectoryPaths = new List<string>();
 			public readonly IList<string> DLLPaths = new List<string>();
 
@@ -64,15 +71,15 @@ namespace TGServerService
 						PipDependancies = LoadArray(details["pip_dependancies"]);
 					}
 					catch { }
-					try
-					{
-						ChangelogPathsToStage = LoadArray(details["synchronize_paths"]);
-					}
-					catch { }
 				}
 				catch {
 					ChangelogSupport = false;
 				}
+				try
+				{
+					PathsToStage = LoadArray(json["synchronize_paths"]);
+				}
+				catch { }
 				try
 				{
 					StaticDirectoryPaths = LoadArray(json["static_directories"]);
@@ -109,7 +116,7 @@ namespace TGServerService
 					&& PathToChangelogPy == other.PathToChangelogPy
 					&& ChangelogPyArguments == other.ChangelogPyArguments
 					&& ListEquals(PipDependancies, other.PipDependancies)
-					&& ListEquals(ChangelogPathsToStage, other.ChangelogPathsToStage)
+					&& ListEquals(PathsToStage, other.PathsToStage)
 					&& ListEquals(StaticDirectoryPaths, other.StaticDirectoryPaths)
 					&& ListEquals(DLLPaths, other.DLLPaths);
 			}
@@ -121,7 +128,7 @@ namespace TGServerService
 				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
 				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
 				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PipDependancies);
-				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(ChangelogPathsToStage);
+				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PathsToStage);
 				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(StaticDirectoryPaths);
 				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(DLLPaths);
 				return hashCode;
@@ -140,10 +147,14 @@ namespace TGServerService
 
 		void InitRepo()
 		{
+			Directory.CreateDirectory(RepoKeyDir);
 			if(Exists())
 				UpdateInterfaceDll(false);
 			if(LoadRepo() == null)
 				DisableGarbageCollectionNoLock();
+			//start the autoupdate timer
+			autoUpdateTimer.Elapsed += AutoUpdateTimer_Elapsed;
+			SetAutoUpdateInterval(Properties.Settings.Default.AutoUpdateInterval);
 		}
 
 		bool RepoConfigsMatch()
@@ -491,6 +502,8 @@ namespace TGServerService
 		//public api
 		public string Checkout(string sha)
 		{
+			if (sha == LiveTrackingBranch)
+				return "I'm sorry Dave, I'm afraid I can't do that...";
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
@@ -584,12 +597,16 @@ namespace TGServerService
 		//public api
 		public string Update(bool reset)
 		{
+			return UpdateImpl(reset, true);
+		}
+
+		string UpdateImpl(bool reset, bool successOnUpToDate)
+		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), ChatMessageType.DeveloperInfo);
 				try
 				{
 					if (Repo.Head == null || !Repo.Head.IsTracking)
@@ -600,6 +617,11 @@ namespace TGServerService
 						return res;
 
 					var originBranch = Repo.Head.TrackedBranch;
+					if (!successOnUpToDate && Repo.Head.Tip.Sha == originBranch.Tip.Sha)
+						return RepoErrorUpToDate;
+
+					SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), ChatMessageType.DeveloperInfo);
+
 					if (reset)
 					{
 						var error = ResetNoLock(Repo.Head.TrackedBranch);
@@ -1016,7 +1038,7 @@ namespace TGServerService
 				try
 				{
 					// Stage the file
-					foreach(var I in Config.ChangelogPathsToStage)
+					foreach(var I in Config.PathsToStage)
 						Commands.Stage(Repo, I);
 
 					if (Repo.RetrieveStatus().Staged.Count() == 0)   //nothing to commit
@@ -1205,6 +1227,33 @@ namespace TGServerService
 			}
 		}
 
+		/// <inheritdoc />
+		public void SetAutoUpdateInterval(ulong newInterval)
+		{
+			lock (autoUpdateTimer)
+			{
+				autoUpdateTimer.Stop();
+				if (newInterval > 0) {
+					autoUpdateTimer.Interval = newInterval * 60 * 1000;	//convert from minutes to ms
+					autoUpdateTimer.Start();
+				}
+			}
+			Properties.Settings.Default.AutoUpdateInterval = newInterval;
+		}
+
+		public ulong AutoUpdateInterval()
+		{
+			return Properties.Settings.Default.AutoUpdateInterval;
+		}
+
+		private void AutoUpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+		{
+			if (UpdateImpl(true, false) == null)
+			{
+				Compile(true);
+			}
+		}
+
 		//public api
 		public bool SetPythonPath(string path)
 		{
@@ -1217,6 +1266,22 @@ namespace TGServerService
 		public string PythonPath()
 		{
 			return Properties.Settings.Default.PythonPath;
+		}
+
+		void UpdateLiveSha(string newSha)
+		{
+			if (LoadRepo() != null)
+				return;
+			var B = Repo.Branches[LiveTrackingBranch];
+			if (B != null)
+				Repo.Branches.Remove(B);
+			Repo.CreateBranch(LiveTrackingBranch, newSha);		
+		}
+
+		public string LiveSha()
+		{
+			var B = Repo.Branches[LiveTrackingBranch];
+			return B != null ? B.Tip.Sha : "UNKNOWN";
 		}
 
 		/// <inheritdoc />

@@ -227,6 +227,20 @@ namespace TGServiceInterface
 		string UpdateTGS3Json();
 
 		/// <summary>
+		/// (De)Activate and set the interval for the automatic server updater
+		/// </summary>
+		/// <param name="newInterval">Interval to check for updates in minutes, disables if zero</param>
+		[OperationContract]
+		void SetAutoUpdateInterval(ulong newInterval);
+
+		/// <summary>
+		/// Get the current autoupdate interval
+		/// </summary>
+		/// <returns>The current auto update interval or zero if it's disabled</returns>
+		[OperationContract]
+		ulong AutoUpdateInterval();
+
+		/// <summary>
 		/// Check if we push a temporary branch to the remote when we make testmerge commits
 		/// </summary>
 		/// <returns>true if we push testmerge commits, false otherwise</returns>
