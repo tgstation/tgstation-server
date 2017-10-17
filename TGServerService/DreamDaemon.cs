@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Timers;
 using TGServiceInterface;
 
 namespace TGServerService
@@ -18,14 +19,18 @@ namespace TGServerService
 			Pinged,
 		}
 
+		const string DiagnosticsDir = "Diagnostics";
+		const string ResourceDiagnosticsDir = DiagnosticsDir + "/Resources";
 		const int DDHangStartTime = 60;
 		const int DDBadStartTime = 10;
 
 		Process Proc;
+		PerformanceCounter pcpu;
 
 		object watchdogLock = new object();
 		Thread DDWatchdog;
 		TGDreamDaemonStatus currentStatus;
+		string CurrentDDLog;
 		ushort currentPort = 0;
 
 		object restartLock = new object();
@@ -38,6 +43,8 @@ namespace TGServerService
 		//Only need 1 proc instance
 		void InitDreamDaemon()
 		{
+			Directory.CreateDirectory(DiagnosticsDir);
+			Directory.CreateDirectory(ResourceDiagnosticsDir);
 			var Reattach = Properties.Settings.Default.ReattachToDD;
 			if (Reattach)
 				try
@@ -94,6 +101,7 @@ namespace TGServerService
 		void DisposeDreamDaemon()
 		{
 			var Detach = Properties.Settings.Default.ReattachToDD;
+			bool RenameLog = false;
 			if (DaemonStatus() == TGDreamDaemonStatus.Online)
 			{
 				if (!Detach)
@@ -102,13 +110,23 @@ namespace TGServerService
 					Thread.Sleep(1000);
 				}
 				else
+				{
+					RenameLog = CurrentDDLog != null;
 					SendMessage("DD: Detaching watch dog for update!", ChatMessageType.WatchdogInfo);
+					WriteCurrentDDLog("Service updating! Splitting diagnostics...");
+				}
 			}
 			else if (Detach)
-			{
 				Properties.Settings.Default.ReattachToDD = false;
-			}
 			Stop();
+			if(pcpu != null)
+				pcpu.Dispose();
+			if (RenameLog)
+				try
+				{
+					File.Move(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), Path.Combine(ResourceDiagnosticsDir, "SU-" + CurrentDDLog));
+				}
+				catch { }
 		}
 
 		//public api
@@ -206,6 +224,16 @@ namespace TGServerService
 			return res;
 		}
 
+		void WriteCurrentDDLog(string message)
+		{
+			lock (watchdogLock)
+			{
+				if (currentStatus != TGDreamDaemonStatus.Online || CurrentDDLog == null)
+					return;
+				File.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
+			}
+		}
+
 		//loop that keeps the server running
 		void Watchdog()
 		{
@@ -225,6 +253,13 @@ namespace TGServerService
 					}
 				}
 				var retries = 0;
+
+				var MemTrackTimer = new System.Timers.Timer
+				{
+					AutoReset = true,
+					Interval = 5000 //every 5 seconds
+				};
+				MemTrackTimer.Elapsed += MemTrackTimer_Elapsed;
 				while (true)
 				{
 					var starttime = DateTime.Now;
@@ -235,8 +270,23 @@ namespace TGServerService
 							SendCommand(SCGracefulShutdown);
 					}
 
+					//all good to go, let's start monitoring
+					var Now = DateTime.Now;
+					lock (watchdogLock)
+					{
+						CurrentDDLog = String.Format("{0} {1} Diagnostics.txt", Now.ToLongDateString(), Now.ToLongTimeString()).Replace(':', '-');
+						WriteCurrentDDLog("Starting monitoring...");
+						pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
+					}
+					MemTrackTimer.Start();
 					Proc.WaitForExit();
+					lock (watchdogLock)	//synchronize
+					{
+						MemTrackTimer.Stop();
+						pcpu.Dispose();
+					}
 
+					bool BadStart;
 					lock (watchdogLock)
 					{
 						currentStatus = TGDreamDaemonStatus.HardRebooting;
@@ -245,8 +295,8 @@ namespace TGServerService
 
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
-
-						if ((DateTime.Now - starttime).TotalSeconds < DDBadStartTime)
+						BadStart = (DateTime.Now - starttime).TotalSeconds < DDBadStartTime;
+						if (BadStart)
 						{
 							++retries;
 							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
@@ -261,6 +311,8 @@ namespace TGServerService
 							TGServerService.WriteWarning(msg, TGServerService.EventID.DDWatchdogRebootingServer);
 						}
 					}
+					if (BadStart)
+						WriteCurrentDDLog("Crash detected!");
 
 					var res = StartImpl(true);
 					if (res != null)
@@ -311,6 +363,20 @@ namespace TGServerService
 						TGServerService.WriteInfo("Watch dog restarting...", TGServerService.EventID.DDWatchdogRestart);
 				}
 			}
+		}
+
+		private void MemTrackTimer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			ulong megamem;
+			float cputime;
+			lock (watchdogLock)
+			{
+				cputime = pcpu.NextValue();
+				using (var pcm = new PerformanceCounter("Process", "Working Set - Private", Proc.ProcessName, true))
+					megamem = Convert.ToUInt64(pcm.NextValue()) / 1024;
+			}
+			var PercentCpuTime = (int)Math.Round((Decimal)cputime);
+			WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}MB", megamem, PercentCpuTime.ToString("D3")));
 		}
 
 		//public api
