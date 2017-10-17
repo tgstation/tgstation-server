@@ -1054,7 +1054,7 @@ namespace TGServerService
 						CredentialsProvider = GenerateGitCredentials,
 					};
 					Repo.Network.Push(Repo.Network.Remotes[SSHPushRemote], Repo.Head.CanonicalName, options);
-					TGServerService.WriteError("Repo pushed up to commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.RepoPush);
+					TGServerService.WriteInfo("Repo pushed up to commit: " + Repo.Head.Tip.Sha, TGServerService.EventID.RepoPush);
 					return null;
 				}
 				catch (Exception e)
