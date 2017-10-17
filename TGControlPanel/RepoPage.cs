@@ -87,7 +87,9 @@ namespace TGControlPanel
 			PythonPathLabel.Visible = true;
 			PythonPathText.Visible = true;
 			RepoRefreshButton.Visible = true;
+			SyncCommitsCheckBox.Visible = true;
 			PythonPathText.Text = Repo.PythonPath();
+			SyncCommitsCheckBox.Checked = Repo.PushTestmergeCommits();
 
 			if (!Repo.Exists())
 			{
@@ -240,6 +242,7 @@ namespace TGControlPanel
 			if (ra != RepoAction.Wait && RepoBusyCheck())
 				return;
 
+			SyncCommitsCheckBox.Visible = false;
 			CurrentRevisionLabel.Visible = false;
 			CurrentRevisionTitle.Visible = false;
 			TestMergeListLabel.Visible = false;
@@ -301,6 +304,7 @@ namespace TGControlPanel
 
 			if (!Reclone)
 			{
+				Repo.SetPushTestmergeCommits(SyncCommitsCheckBox.Checked);
 				var branch = Repo.GetBranch(out error);
 				if(branch == null)
 				{
