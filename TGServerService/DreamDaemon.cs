@@ -19,7 +19,8 @@ namespace TGServerService
 			Pinged,
 		}
 
-		const string DDDiagnosticsDir = "Diagnostics";
+		const string DiagnosticsDir = "Diagnostics";
+		const string ResourceDiagnosticsDir = DiagnosticsDir + "/Resources";
 		const int DDHangStartTime = 60;
 		const int DDBadStartTime = 10;
 
@@ -42,7 +43,8 @@ namespace TGServerService
 		//Only need 1 proc instance
 		void InitDreamDaemon()
 		{
-			Directory.CreateDirectory(DDDiagnosticsDir);
+			Directory.CreateDirectory(DiagnosticsDir);
+			Directory.CreateDirectory(ResourceDiagnosticsDir);
 			var Reattach = Properties.Settings.Default.ReattachToDD;
 			if (Reattach)
 				try
@@ -122,7 +124,7 @@ namespace TGServerService
 			if (RenameLog)
 				try
 				{
-					File.Move(Path.Combine(DDDiagnosticsDir, CurrentDDLog), Path.Combine(DDDiagnosticsDir, "SU-" + CurrentDDLog));
+					File.Move(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), Path.Combine(ResourceDiagnosticsDir, "SU-" + CurrentDDLog));
 				}
 				catch { }
 		}
@@ -228,7 +230,7 @@ namespace TGServerService
 			{
 				if (currentStatus != TGDreamDaemonStatus.Online || CurrentDDLog == null)
 					return;
-				File.AppendAllText(Path.Combine(DDDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
+				File.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
 			}
 		}
 
