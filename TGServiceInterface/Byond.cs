@@ -66,7 +66,7 @@ namespace TGServiceInterface
 		TGByondStatus CurrentStatus();
 
 		/// <summary>
-		/// updates the used byond version to that of version <paramref name="major"/>.<paramref name="minor"/>. The change won't take place until DD reboots. Calls <see cref="ITGDreamDaemon.RequestRestart"/> after completion. Runs asyncronously, use <see cref="CurrentStatus"/> to check progress
+		/// updates the used byond version to that of version <paramref name="major"/>.<paramref name="minor"/>. The change won't take place until DD reboots. Calls <see cref="ITGDreamDaemon.RequestRestart"/> if blocked by a running DD instance. Runs asyncronously, use <see cref="CurrentStatus"/> to check progress
 		/// </summary>
 		/// <param name="major">Major BYOND version. E.g. 511</param>
 		/// <param name="minor">Minor BYOND version. E.g. 1381</param>

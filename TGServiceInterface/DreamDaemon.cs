@@ -49,75 +49,70 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Gets the status of DreamDaemon
 		/// </summary>
-		/// <returns>The appropriate TGDreamDaemonStatus</returns>
+		/// <returns>The appropriate <see cref="TGDreamDaemonStatus"/></returns>
 		[OperationContract]
 		TGDreamDaemonStatus DaemonStatus();
 
 		/// <summary>
 		/// Returns a human readable string of the current server status
 		/// </summary>
-		/// <param name="includeMetaInfo">If true, the status will include the server's current visibility and security levels</param>
-		/// <returns>A human readable string of the current server status</returns>
+		/// <param name="includeMetaInfo">If <see langword="true"/>, the status will include the server's current visibility and security levels</param>
+		/// <returns>A human readable <see cref="string"/> of the current server status</returns>
 		[OperationContract]
 		string StatusString(bool includeMetaInfo);
 
 		/// <summary>
-		/// Check if a call to Start will fail
-		/// Of course, be aware of race conditions with other control panels
+		/// Check if a call to <see cref="Start"/> will fail. Of course, be aware of race conditions with other interfaces
 		/// </summary>
-		/// <returns>returns the error that would occur, null otherwise</returns>
+		/// <returns>The error that would occur, <see langword="null"/> otherwise</returns>
 		[OperationContract]
 		string CanStart();
 
 		/// <summary>
 		/// Starts the server if it isn't running
 		/// </summary>
-		/// <returns>null on success or error message on failure</returns>
+		/// <returns><see langword="null"/> on success or error message on failure</returns>
 		[OperationContract]
 		string Start();
 
 		/// <summary>
 		/// Immediately kills the server
 		/// </summary>
-		/// <returns>null on success or error message on failure</returns>
+		/// <returns><see langword="null"/> on success or error message on failure</returns>
 		[OperationContract]
 		string Stop();
 
 		/// <summary>
 		/// Immediately kills and restarts the server
 		/// </summary>
-		/// <returns>null on success or error message on failure</returns>
+		/// <returns><see langword="null"/> on success or error message on failure</returns>
 		[OperationContract]
 		string Restart();
 
 		/// <summary>
-		/// Restart the server after the currently running round ends
-		/// Has no effect if the server isn't running
+		/// Restart the server after the currently running world reboots. Has no effect if the server isn't running
 		/// </summary>
 		[OperationContract]
 		void RequestRestart();
 
 		/// <summary>
-		/// Stop the server after the currently running round ends
-		/// Has no effect if the server isn't running
+		/// Stop the server after the currently running world reboots.  Has no effect if the server isn't running
 		/// </summary>
 		[OperationContract]
 		void RequestStop();
 
 		/// <summary>
-		/// Get the configured (not running) security level
+		/// Get the configured (not necessarily running) security level
 		/// </summary>
-		/// <returns>The configured (not running) security level</returns>
+		/// <returns>The configured (not necessarily running) <see cref="TGDreamDaemonSecurity"/></returns>
 		[OperationContract]
 		TGDreamDaemonSecurity SecurityLevel();
 
 		/// <summary>
-		/// Sets the security level of the server. Requires reboot to apply
-		/// Implies a call to RequestRestart()
-		/// note that anything higher than Trusted will disable interop from DD
+		/// Sets the security level of the server. Requires server reboot to apply. Calls <see cref="RequestRestart"/>. Note that anything higher than Trusted will disable interop from DD
 		/// </summary>
 		/// <param name="level">The new security level</param>
-		/// <returns>True if the change was immediately applied, false if a graceful restart was queued</returns>
+		/// <returns><see langword="true"/> if the change was immediately applied, <see langword="false"/> otherwise and a call to <see cref="RequestRestart"/> was made</returns>
 		[OperationContract]
 		bool SetSecurityLevel(TGDreamDaemonSecurity level);
 
@@ -129,8 +124,7 @@ namespace TGServiceInterface
 		ushort Port();
 
 		/// <summary>
-		/// Set the port to host DD on. Requires reboot to apply
-		/// Implies a call to RequestRestart()
+		/// Set the port to host DD on. Requires reboot to apply. Calls <see cref="RequestRestart"/>.
 		/// </summary>
 		/// <param name="new_port">The new port</param>
 		[OperationContract]
@@ -139,35 +133,35 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Check if the watchdog will start when the service starts
 		/// </summary>
-		/// <returns>true if autostart is enabled, false otherwise</returns>
+		/// <returns><see langword="true"/> if autostart is enabled, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool Autostart();
 
 		/// <summary>
 		/// Set the autostart config
 		/// </summary>
-		/// <param name="on">true to start the watchdog with the service, false otherwise</param>
+		/// <param name="on"><see langword="true"/> to start the watchdog with the service, <see langword="false"/> to disable that functionality</param>
 		[OperationContract]
 		void SetAutostart(bool on);
 
 		/// <summary>
-		/// Check if the byond webclient is currently enabled for the server
+		/// Check if the BYOND webclient is currently enabled for the server
 		/// </summary>
-		/// <returns>true if the webclient is enabled, false otherwise</returns>
+		/// <returns><see langword="true"/> if the webclient is enabled, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool Webclient();
 
 		/// <summary>
 		/// Set the webclient config. Calls <see cref="RequestRestart"/>
 		/// </summary>
-		/// <param name="on">true to enable the byond webclient for the server, false otherwise</param>
+		/// <param name="on"><see langword="true"/> to enable the byond webclient for the server, <see langword="false"/> otherwise</param>
 		[OperationContract]
 		void SetWebclient(bool on);
 
 		/// <summary>
-		/// Checks if a server stop has bee requested
+		/// Checks if a server stop has been requested
 		/// </summary>
-		/// <returns>true if RequestStop has been called since the last server start, false otherwise</returns>
+		/// <returns><see langword="true"/> if <see cref="RequestStop"/> has been called since the last server start, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool ShutdownInProgress();
 
@@ -175,7 +169,7 @@ namespace TGServiceInterface
 		/// Sends a message to everyone on the server
 		/// </summary>
 		/// <param name="msg">The message to send</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string WorldAnnounce(string msg);
 
