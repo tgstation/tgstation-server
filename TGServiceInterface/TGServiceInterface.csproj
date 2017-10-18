@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Administration.cs" />
     <Compile Include="Byond.cs" />
+    <Compile Include="ChatProvider.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Config.cs" />
