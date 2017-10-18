@@ -24,7 +24,7 @@ build:
 after_build:
   - ps: .\TGS3Release.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
-  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/Release/TGServerService.exe").FileVersion
+  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/x86/Release/TGServerService.exe").FileVersion
 deploy:
   release: "tgstation-server-v$(TGSVersion)"
   description: 'The /tg/station server suite'
