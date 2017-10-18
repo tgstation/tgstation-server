@@ -47,11 +47,11 @@
         <Condition>INSTALLSHORTCUTSTART = 1</Condition>
         <Shortcut Id="StartMenuShortcutCL"
                   Name="TG Command Line"
-                  Target="[#TGCommandLine.exe]"
+                  Target="[!TGCommandLine.exe]"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
         <Shortcut Id="StartMenuShortcutCP"
                   Name="TG Control Panel"
-                  Target="[#TGControlPanel.exe]"
+                  Target="[!TGControlPanel.exe]"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
         <Shortcut Id="UninstallProduct"
 									Name="Uninstall TG Station Server"
@@ -68,11 +68,11 @@
         <Condition>INSTALLSHORTCUTDESK = 1</Condition>
         <Shortcut Id="DesktopShortcutCL"
                   Name="TG Command Line"
-                  Target="[#TGCommandLine.exe]"
+                  Target="[!TGCommandLine.exe]"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
         <Shortcut Id="DesktopShortcutCP"
                   Name="TG Control Panel"
-                  Target="[#TGControlPanel.exe]"
+                  Target="[!TGControlPanel.exe]"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
         <RemoveFolder Id="CleanUpDKShortCuts" Directory="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\TGStation\Server" Name="DesktopShortcuts" Type="integer" Value="1" KeyPath="yes"/>
