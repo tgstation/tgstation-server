@@ -61,27 +61,23 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Gets the current status of any BYOND updates
 		/// </summary>
-		/// <returns>A TGByondStatus</returns>
+		/// <returns>The current status of the byond updater</returns>
 		[OperationContract]
 		TGByondStatus CurrentStatus();
-		
+
 		/// <summary>
-		/// updates the used byond version to that of version major.minor
-		/// The change won't take place until dream daemon reboots
-		/// the latest parameter overrides the other two and forces an update to the latest (beta?) version
-		/// runs asyncronously, use CurrentStatus to see progress
+		/// updates the used byond version to that of version <paramref name="major"/>.<paramref name="minor"/>. The change won't take place until DD reboots. Calls <see cref="ITGDreamDaemon.RequestRestart"/> after completion. Runs asyncronously, use <see cref="CurrentStatus"/> to check progress
 		/// </summary>
 		/// <param name="major">Major BYOND version. E.g. 511</param>
 		/// <param name="minor">Minor BYOND version. E.g. 1381</param>
-		/// <returns>True if the update started, false if another operation was in progress</returns>
+		/// <returns><see langword="true"/> if the update started, <see langword="false"/> if another operation was in progress or DreamDaemon is running</returns>
 		[OperationContract]
 		bool UpdateToVersion(int major, int minor);
 
 		/// <summary>
-		/// Check the last update error
-		/// Checking this will clear the value
+		/// Check the last update error. Checking this will clear the value
 		/// </summary>
-		/// <returns>The last update error, if any</returns>
+		/// <returns>The last update error, if any. <see langword="null"/> otherwise.</returns>
 		[OperationContract]
 		string GetError();
 
@@ -89,7 +85,7 @@ namespace TGServiceInterface
 		/// Get the currently installed version as a string formatted as Major.Minor
 		/// </summary>
 		/// <param name="type">The type of version to retrieve</param>
-		/// <returns>null if no version is detected, the version string otherwise</returns>
+		/// <returns><see langword="null"/> if no version is detected, the version string otherwise</returns>
 		[OperationContract]
 		string GetVersion(TGByondVersion type);
 	}
