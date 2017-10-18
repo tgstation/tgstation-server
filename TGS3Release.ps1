@@ -1,5 +1,5 @@
 $bf = $Env:APPVEYOR_BUILD_FOLDER
-$src = "$bf\TGInstallerWrapper\bin\Release"
+$src = "$bf\TGInstallerWrapper\bin\x86\Release"
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$src\TG Station Server Installer.exe").FileVersion
 
 $destination = "$bf\TGS3-Server-v$version.exe"
