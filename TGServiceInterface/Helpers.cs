@@ -22,7 +22,7 @@ namespace TGServiceInterface
 			using (var rng = new RNGCryptoServiceProvider())
 				rng.GetBytes(bentropy);
 
-			byte[] ciphertext = ProtectedData.Protect(Encoding.UTF8.GetBytes(data), bentropy, DataProtectionScope.CurrentUser);
+			byte[] ciphertext = ProtectedData.Protect(Encoding.UTF8.GetBytes(cleartext), bentropy, DataProtectionScope.CurrentUser);
 
 			entropy = Convert.ToBase64String(bentropy, 0, bentropy.Length);
 			return Convert.ToBase64String(ciphertext, 0, ciphertext.Length);

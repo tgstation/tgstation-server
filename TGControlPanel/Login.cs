@@ -6,6 +6,9 @@ namespace TGControlPanel
 {
 	public partial class Login : Form
 	{
+		/// <summary>
+		/// Create a <see cref="Login"/>
+		/// </summary>
 		public Login()
 		{
 			InitializeComponent();

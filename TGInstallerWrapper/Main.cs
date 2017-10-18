@@ -33,6 +33,9 @@ namespace TGInstallerWrapper
 		bool cancelled = false;
 		bool pathIsDefault = true;
 
+		/// <summary>
+		/// Construct an installer form
+		/// </summary>
 		public Main()
 		{
 			InitializeComponent();
