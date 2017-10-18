@@ -56,7 +56,7 @@ namespace TGServiceInterface
 		/// Caller of <see cref="Run(IList{string})"/>, can be used to modify the root behaviour of the <see cref="Command"/>
 		/// </summary>
 		/// <param name="parameters">List of parameters passed to the <see cref="Command"/></param>
-		/// <returns></returns>
+		/// <returns>An <see cref="ExitCode"/> describing the execution of the <see cref="Command"/></returns>
 		public virtual ExitCode DoRun(IList<string> parameters)
 		{
 			return Run(parameters);
