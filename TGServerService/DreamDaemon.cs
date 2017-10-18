@@ -286,7 +286,8 @@ namespace TGServerService
 						pcpu.Dispose();
 					}
 
-					bool BadStart;
+					WriteCurrentDDLog("Crash detected!");
+
 					lock (watchdogLock)
 					{
 						currentStatus = TGDreamDaemonStatus.HardRebooting;
@@ -295,7 +296,7 @@ namespace TGServerService
 
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
-						BadStart = (DateTime.Now - starttime).TotalSeconds < DDBadStartTime;
+						var BadStart = (DateTime.Now - starttime).TotalSeconds < DDBadStartTime;
 						if (BadStart)
 						{
 							++retries;
@@ -311,8 +312,6 @@ namespace TGServerService
 							TGServerService.WriteWarning(msg, TGServerService.EventID.DDWatchdogRebootingServer);
 						}
 					}
-					if (BadStart)
-						WriteCurrentDDLog("Crash detected!");
 
 					var res = StartImpl(true);
 					if (res != null)
