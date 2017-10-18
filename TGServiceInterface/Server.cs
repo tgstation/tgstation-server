@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Security;
+using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+
 namespace TGServiceInterface
 {
 	public class Server
@@ -12,7 +15,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List of types that can be used with GetComponen
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = new List<Type> { typeof(ITGByond), typeof(ITGChat), typeof(ITGCompiler), typeof(ITGConfig), typeof(ITGDreamDaemon), typeof(ITGRepository), typeof(ITGSService), typeof(ITGConnectivity), typeof(ITGAdministration), typeof(ITGInterop) };
+		public static readonly IList<Type> ValidInterfaces = CollectComponents();
 
 		/// <summary>
 		/// The maximum message size to and from a local server 
@@ -51,6 +54,22 @@ namespace TGServiceInterface
 		static string HTTPSPassword;
 
 		static Dictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
+
+		/// <summary>
+		/// Returns a <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service
+		/// </summary>
+		/// <returns>A <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service</returns>
+		static IList<Type> CollectComponents()
+		{
+			//find all interfaces in this assembly in this namespace that have the service contract attribute
+			var query = from t in Assembly.GetExecutingAssembly().GetTypes()
+						where t.IsInterface 
+						&& t.Namespace == typeof(Server).Namespace
+						&& t.GetCustomAttribute(typeof(ServiceContractAttribute)) != null
+						select t;
+			return query.ToList();
+		}
+
 		public static void SetBadCertificateHandler(Func<string, bool> handler)
 		{
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
