@@ -16,18 +16,18 @@ namespace TGServiceInterface
 		/// Called from /world/ExportService(command)
 		/// </summary>
 		/// <param name="command">The command to run</param>
-		/// <returns>true on success, false on failure</returns>
+		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
 		[OperationContract]
 		bool InteropMessage(string command);
 	}
 
 	/// <summary>
-	/// Holds the proc that DD calls to access <see cref="ITGServiceBridge"/>
+	/// Holds the proc that DD calls to access <see cref="ITGInterop"/>
 	/// </summary>
 	public class DDInteropCallHolder
 	{
 		/// <summary>
-		/// The proc that DD calls to access <see cref="ITGServiceBridge"/>
+		/// The proc that DD calls to access <see cref="ITGInterop"/>
 		/// </summary>
 		/// <param name="args">The arguments passed</param>
 		/// <returns>0</returns>
@@ -43,7 +43,6 @@ namespace TGServiceInterface
                 }
                 catch { }
 				Server.CloseChannel(channel);
-
 			}
 			catch { }
 			return 0;

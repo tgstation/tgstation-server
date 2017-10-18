@@ -11,7 +11,7 @@ namespace TGServiceInterface
 	public class PullRequestInfo
 	{
 		/// <summary>
-		/// Construct a PullRequestInfo
+		/// Construct a <see cref="PullRequestInfo"/>
 		/// </summary>
 		/// <param name="number">The PR number</param>
 		/// <param name="author">The PR's author</param>
@@ -55,32 +55,30 @@ namespace TGServiceInterface
 		/// <summary>
 		/// If the repo is currently undergoing an operation
 		/// </summary>
-		/// <returns>true if the repo is busy, false otherwise</returns>
+		/// <returns><see langword="true"/> if the repo is busy, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool OperationInProgress();
 
 		/// <summary>
 		/// Gets the progress of repository operations, not all operations are supported
 		/// </summary>
-		/// <returns>A value between 0 and 100 representing the progress of the current operation or -1 if the operation cannot be monitored</returns>
+		/// <returns>A value between 0 and 100 inclusive representing the progress of the current operation or -1 if the operation cannot be monitored</returns>
 		[OperationContract]
 		int CheckoutProgress();
 
 		/// <summary>
-		/// Check if the repository is valid, if not Setup must be called
+		/// Check if the repository is valid, if not <see cref="Setup(string, string)"/> must be called
 		/// </summary>
-		/// <returns>true if the repository is valid, false otherwise</returns>
+		/// <returns><see langword="true"/> if the repository is valid, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool Exists();
 
 		/// <summary>
-		/// Deletes whatever may be left over and clones the repo at remote and checks out branch master
-		/// Will move config and data dirs to a backup location if they exist
-		/// runs asyncronously
+		/// Deletes whatever may be left over and clones the repo at <paramref name="remote"/> and checks out <paramref name="branch"/>. Will move config and data dirs to a backup location if they exist. Runs asyncronously
 		/// </summary>
-		/// <param name="remote">The address of the repo to clone. If ssh protocol is used, repository_private_key.txt must exist in the server directory.</param>
+		/// <param name="remote">The address of the repo to clone. If ssh protocol is used, private_key.txt and public_key.txt must exist in the server RepoKey directory.</param>
 		/// <param name="branch">The branch of the repo to checkout</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string Setup(string remote, string branch = "master");
 
@@ -88,24 +86,24 @@ namespace TGServiceInterface
 		/// Gets the sha of the current HEAD
 		/// </summary>
 		/// <param name="useTracked">If set to true and HEAD is currently a branch, will instead return the sha of the tracked remote branch if it exists</param>
-		/// <param name="error">null on success, error message on failure</param>
-		/// <returns>The sha of the current HEAD on success, null on failure</returns>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <returns>The sha of the current HEAD on success, <see langword="null"/> on failure</returns>
 		[OperationContract]
 		string GetHead(bool useTracked, out string error);
 
 		/// <summary>
 		/// Gets the name of the current branch
 		/// </summary>
-		/// <param name="error">null on success, error message on failure</param>
-		/// <returns>The name of the current branch on success, null on failure</returns>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <returns>The name of the current branch on success, <see langword="null"/> on failure</returns>
 		[OperationContract]
 		string GetBranch(out string error);
 
 		/// <summary>
 		/// Gets the url of the current origin
 		/// </summary>
-		/// <param name="error">null on success, error message on failure</param>
-		/// <returns>The url of the current origin on success, null on failure</returns>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <returns>The url of the current origin on success, <see langword="null"/> on failure</returns>
 		[OperationContract]
 		string GetRemote(out string error);
 
@@ -113,23 +111,23 @@ namespace TGServiceInterface
 		/// Hard checks out the passed object name
 		/// </summary>
 		/// <param name="branchorsha">The branch, commit, or tag to checkout</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string Checkout(string objectName);
 
 		/// <summary>
 		/// Fetches the origin and merges it into the current branch
 		/// </summary>
-		/// <param name="reset">If true, the operation will perform a hard reset instead of a merge</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <param name="reset">If <see langword="true"/>, the operation will perform a hard reset instead of a merge</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string Update(bool reset);
 
 		/// <summary>
 		/// Runs git reset --hard
 		/// </summary>
-		/// <param name="tracked">Changes command to git reset --hard origin/branch_name if true</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <param name="tracked">Changes command to git reset --hard origin/branch_name if <see langword="true"/></param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string Reset(bool tracked);
 
@@ -137,18 +135,15 @@ namespace TGServiceInterface
 		/// Merges the target pull request into the current branch if the remote is a github repository
 		/// </summary>
 		/// <param name="PRnumber">The github pull request number in the remote repository</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string MergePullRequest(int PRnumber);
-
-		//Returns a list of PR# -> Sha of the currently merged pull requests
-		//returns null on failure and error will be set
 
 		/// <summary>
 		/// Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it
 		/// </summary>
-		/// <param name="error">null on success, error message on failure</param>
-		/// <returns>A list of PullRequestInfo</returns>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <returns>A <see cref="IList{T}"/> of <see cref="PullRequestInfo"/></returns>
 		[OperationContract]
 		IList<PullRequestInfo> MergedPullRequests(out string error);
 
@@ -183,23 +178,23 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Updates the html changelog
 		/// </summary>
-		/// <param name="error">null on success, error on failure</param>
+		/// <param name="error"><see langword="null"/> on success, error on failure</param>
 		/// <returns>The output of the python script</returns>
 		[OperationContract]
 		string GenerateChangelog(out string error);
 
-        /// <summary>
-        /// Pushes the changelog to the currently git, this operation will only run if the changelog is the only difference to be pushed (i.e. no PRs merged)
-        /// </summary>
-        /// <returns>null on success, error on failure</returns>
-        [OperationContract]
-        string PushChangelog();
+		/// <summary>
+		/// Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exist for this function to succeed
+		/// </summary>
+		/// <returns><see langword="null"/> on success, error on failure</returns>
+		[OperationContract]
+        string SynchronizePush();
 
 		/// <summary>
 		/// Sets the path to the python 2.7 installation
 		/// </summary>
 		/// <param name="path">The new path</param>
-		/// <returns>true if the path exists, false otherwise</returns>
+		/// <returns><see langword="true"/> if the path exists, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool SetPythonPath(string path);
 
@@ -213,30 +208,29 @@ namespace TGServiceInterface
 		/// <summary>
 		/// List the tagged commits of the repo at which compiles took place
 		/// </summary>
-		/// <param name="error">null on success, error message on failure</param>
-		/// <returns>A dictionary of tag name -> commit on success, null on failure</returns>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <returns>A <see cref="IDictionary{TKey, TValue}"/> of tag name -> commit on success, <see langword="null"/> on failure</returns>
 		[OperationContract]
 		IDictionary<string, string> ListBackups(out string error);
 
 		/// <summary>
-		/// Updates the cached TGS3.json to the repo's version
-		/// Compiles will not succeed if these two to not match
+		/// Updates the cached TGS3.json to the repo's version. Compiles will not succeed if these two to not match
 		/// </summary>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string UpdateTGS3Json();
 
 		/// <summary>
 		/// (De)Activate and set the interval for the automatic server updater
 		/// </summary>
-		/// <param name="newInterval">Interval to check for updates in minutes, disables if zero</param>
+		/// <param name="newInterval">Interval to check for updates in minutes, disables if 0</param>
 		[OperationContract]
 		void SetAutoUpdateInterval(ulong newInterval);
 
 		/// <summary>
 		/// Get the current autoupdate interval
 		/// </summary>
-		/// <returns>The current auto update interval or zero if it's disabled</returns>
+		/// <returns>The current auto update interval or 0 if it's disabled</returns>
 		[OperationContract]
 		ulong AutoUpdateInterval();
 	}
