@@ -12,8 +12,8 @@ $destination_md5sha = $Env:APPVEYOR_BUILD_FOLDER + "\MD5-SHA1-Server-v$version.t
 
 $src2 = $Env:APPVEYOR_BUILD_FOLDER + "\ClientApps"
 [system.io.directory]::CreateDirectory($src2)
-Copy-Item "$bf\TGCommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
-Copy-Item "$bf\TGControlPanel\bin\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
+Copy-Item "$bf\TGCommandLine\bin\x86\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
+Copy-Item "$bf\TGControlPanel\bin\x86\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
 Copy-Item "$bf\TGServiceInterface\bin\x86\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
 
 $dest2 = "$bf\TGS3-Client-v$version.zip"
