@@ -25,7 +25,7 @@ build:
   parallel: true
   verbosity: minimal
 after_build:
-  - ps: .\TGS3Build.ps1
+  - ps: .\Tools\TGS3Build.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/x86/Release/TGServerService.exe").FileVersion
 deploy:
@@ -38,5 +38,3 @@ deploy:
   draft: false
   on:
     TGSDeploy: "Do it."
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

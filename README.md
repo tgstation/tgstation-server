@@ -16,7 +16,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 
 ## Installing (GUI):
 1. Launch TGControlPanel.exe as an administrator. A shortcut can be found on your desktop
-1. Optionally switch to the `Server` tab and change the Server Path location from C:\tgstation-server-3 to wherever you wish
+1. Optionally switch to the `Server` tab and change the Server Path location from C:\\tgstation-server-3 to wherever you wish
 1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
 1. Hit the clone button
 1. While waiting go to the BYOND tab and install the BYOND version you wish
