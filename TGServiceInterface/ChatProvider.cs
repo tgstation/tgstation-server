@@ -109,7 +109,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Properly formats a <paramref name="channel"/> name for the <see cref="TGChatProvider"/>
 		/// </summary>
-		/// <param name="working">The <see cref="string"/> to format</param>
+		/// <param name="channel">The <see cref="string"/> to format</param>
 		/// <returns>The formatted <see cref="string"/></returns>
 		protected virtual string SanitizeChannelName(string channel)
 		{
@@ -137,7 +137,6 @@ namespace TGServiceInterface
 		/// Constructs a <see cref="TGChatSetupInfo"/> from a data list
 		/// </summary>
 		/// <param name="DeserializedData">The data</param>
-		/// <param name="provider">The chat provider</param>
 		public TGChatSetupInfo(IList<string> DeserializedData)
 		{
 			DataFields = DeserializedData;

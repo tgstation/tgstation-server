@@ -152,10 +152,12 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Set the interface to look for services on a remote computer
+		/// Set the remote <see cref="Server"/> to connect to along with 
 		/// </summary>
-		/// <param name="address"></param>
-		/// <param name="port"></param>
+		/// <param name="address">The address of the remote server</param>
+		/// <param name="port">The port the remote server runs on</param>
+		/// <param name="username">Windows account username for the remote server</param>
+		/// <param name="password">Windows account password for the remote server</param>
 		public static void SetRemoteLoginInformation(string address, ushort port, string username, string password)
 		{
 			HTTPSURL = address;
@@ -168,7 +170,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Safely shuts down a single <see cref="ChannelFactory"/>
 		/// </summary>
-		/// <param name="cf"></param>
+		/// <param name="cf">The <see cref="ChannelFactory"/> to shutdown</param>
 		public static void CloseChannel(ChannelFactory cf)
 		{
 			try

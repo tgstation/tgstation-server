@@ -110,7 +110,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Hard checks out the passed object name
 		/// </summary>
-		/// <param name="branchorsha">The branch, commit, or tag to checkout</param>
+		/// <param name="objectName">The branch, commit, or tag to checkout</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string Checkout(string objectName);

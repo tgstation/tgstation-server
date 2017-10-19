@@ -29,6 +29,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The proc that DD calls to access <see cref="ITGInterop"/>
 		/// </summary>
+		/// <param name="argc">The number of arguments passed</param>
 		/// <param name="args">The arguments passed</param>
 		/// <returns>0</returns>
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
