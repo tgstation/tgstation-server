@@ -8,7 +8,7 @@ namespace TGControlPanel
 	/// <summary>
 	/// The main <see cref="TGControlPanel"/> form
 	/// </summary>
-	public partial class Main : Form
+	partial class Main : Form
 	{
 		/// <summary>
 		/// Create the control panel. Requires the <see cref="Server"/> has had it's connection info setup

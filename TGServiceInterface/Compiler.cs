@@ -34,7 +34,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder. Requires the repository to be set up and locks it once the compilation stage starts. Runs asyncronously from this call
 		/// </summary>
-		/// <returns><see if the operation began, false if it could not start</returns>
+		/// <returns><see langword="true"/> if the operation began, <see langword="false"/> if it could not start</returns>
 		[OperationContract]
 		bool Initialize();
 

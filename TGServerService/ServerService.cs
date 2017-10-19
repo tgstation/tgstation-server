@@ -8,7 +8,7 @@ using TGServiceInterface;
 
 namespace TGServerService
 {
-	public partial class TGServerService : ServiceBase
+	partial class TGServerService : ServiceBase
 	{ 
 		//only deprecate events, do not reuse them
 		public enum EventID

@@ -118,7 +118,7 @@ namespace TGCommandLine
 					OutputProc(res);
 				else
 				{
-					res = Repo.PushChangelog();
+					res = Repo.SynchronizePush();
 					if (res != null)
 						OutputProc(res);
 				}

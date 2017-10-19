@@ -80,8 +80,6 @@ namespace TGServiceInterface
 		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
 		/// </summary>
 		/// <param name="handler">The <see cref="Func{T, TResult}"/> to be called when a remote login is attempted while the server posesses a bad certificate. Passed a <see cref="string"/> of error information about the and should return <see langword="true"/> if it the connection should be made anyway</param>
-		/// </summary>
-		/// <param name="handler"></param>
 		public static void SetBadCertificateHandler(Func<string, bool> handler)
 		{
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>

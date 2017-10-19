@@ -4,10 +4,10 @@ using TGServiceInterface;
 
 namespace TGControlPanel
 {
-	public partial class Login : Form
+	partial class Login : Form
 	{
 		/// <summary>
-		/// Create a <see cref="Login"/>
+		/// Create a <see cref="Login"/> form
 		/// </summary>
 		public Login()
 		{

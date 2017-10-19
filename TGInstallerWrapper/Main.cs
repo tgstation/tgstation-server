@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace TGInstallerWrapper
 {
-	public partial class Main : Form
+	partial class Main : Form
 	{
 		const string DefaultInstallDir = "TG Station Server";  //keep this in sync with the msi installer
 

@@ -59,8 +59,21 @@ namespace TGServiceInterface
 		const int GameChannelIndex = 5;
 		const int ProviderIndex = 6;
 		const int EnabledIndex = 7;
+		/// <summary>
+		/// Starting index of <see cref="DataFields"/> which child classes should use to write their custom data to
+		/// </summary>
 		protected const int BaseIndex = 8;
+		/// <summary>
+		/// Set to <see langword="true"/> if a child constructor should use the baseInfo parameter of <see cref="TGChatSetupInfo.TGChatSetupInfo(TGChatSetupInfo, int)"/> to initialize it's property fields, <see langword="false"/> otherwise
+		/// </summary>
 		protected readonly bool InitializeFields;
+		
+		/// <summary>
+		/// Raw access to the underlying data
+		/// </summary>
+		[DataMember]
+		public IList<string> DataFields { get; protected set; }
+
 		/// <summary>
 		/// Constructs a <see cref="TGChatSetupInfo"/> from optional <paramref name="baseInfo"/>
 		/// </summary>
@@ -222,12 +235,6 @@ namespace TGServiceInterface
 			get { return (TGChatProvider)Convert.ToInt32(DataFields[ProviderIndex]); }
 			set { DataFields[ProviderIndex] = Convert.ToString((int)value); }
 		}
-
-		/// <summary>
-		/// Raw access to the underlying data
-		/// </summary>
-		[DataMember]
-		public IList<string> DataFields { get; protected set; }
 	}
 
 	/// <summary>
