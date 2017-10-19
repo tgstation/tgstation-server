@@ -17,7 +17,7 @@ artifacts:
 - path: MD5-SHA1-Client-v*.txt
   name: MD5SHA1Client
 install:
-  - choco install fciv doxygen.portable graphviz
+  - choco install fciv doxygen.portable graphviz.portable
 before_build:
   - nuget restore TGStationServer3.sln
 build:
