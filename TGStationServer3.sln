@@ -21,11 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build_byond.sh = build_byond.sh
 		Config.dm = Config.dm
 		DMAPITravisTester.dme = DMAPITravisTester.dme
+		Doxyfile = Doxyfile
 		install_byond.sh = install_byond.sh
 		README.md = README.md
 		Test.dm = Test.dm
 		tgs.ico = tgs.ico
-		TGS3Release.ps1 = TGS3Release.ps1
+		TGS3Build.ps1 = TGS3Build.ps1
 		Version.cs = Version.cs
 		View TGS3 Logs.xml = View TGS3 Logs.xml
 	EndProjectSection
