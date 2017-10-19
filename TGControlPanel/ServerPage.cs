@@ -388,7 +388,7 @@ namespace TGControlPanel
 						{
 							Repo.GenerateChangelog(out updateError);
 							if (updateError == null)
-								updateError = Repo.PushChangelog();
+								updateError = Repo.SynchronizePush();
 							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 						}
 						break;
@@ -398,7 +398,7 @@ namespace TGControlPanel
 						{
 							Repo.GenerateChangelog(out updateError);
 							if (updateError == null)
-								updateError = Repo.PushChangelog();
+								updateError = Repo.SynchronizePush();
 							updateError = Repo.MergePullRequest(testmergePR);
 							if (updateError == null)
 							{
@@ -413,7 +413,7 @@ namespace TGControlPanel
 						{
 							Repo.GenerateChangelog(out updateError);
 							if (updateError == null)
-								Repo.PushChangelog();   //not an error 99% of the time if this fails, just a dirty tree
+								Repo.SynchronizePush();   //not an error 99% of the time if this fails, just a dirty tree
 							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
 						}
 						break;

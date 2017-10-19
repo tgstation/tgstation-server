@@ -82,7 +82,9 @@ namespace TGServerService
 	/// <param name="speaker">The username of the speaker</param>
 	/// <param name="channel">The name of the channel</param>
 	/// <param name="message">The message text</param>
-	/// <param name="tagged">true if the bot was mentioned in the first word, false otherwise</param>
+	/// <param name="isAdmin"><see langword="true"/> if <paramref name="speaker"/> is considered a chat admin, <see langword="false"/> otherwise</param>
+	/// <param name="isAdminChannel"><see langword="true"/> if <paramref name="channel"/> is an admin chat channel, <see langword="false"/> otherwise</param>
+
 	delegate void OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel);
 
 	partial class TGStationServer : ITGChat

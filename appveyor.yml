@@ -1,5 +1,8 @@
 pull_requests:
   do_not_increment_build_number: true
+branches:
+  except:
+    - gh-pages
 skip_branch_with_pr: true
 image: Visual Studio 2017
 configuration: Release
@@ -14,7 +17,7 @@ artifacts:
 - path: MD5-SHA1-Client-v*.txt
   name: MD5SHA1Client
 install:
-  - choco install fciv
+  - choco install fciv doxygen.portable graphviz.portable
 before_build:
   - nuget restore TGStationServer3.sln
 build:
@@ -22,7 +25,7 @@ build:
   parallel: true
   verbosity: minimal
 after_build:
-  - ps: .\TGS3Release.ps1
+  - ps: .\Tools\TGS3Build.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/x86/Release/TGServerService.exe").FileVersion
 deploy:

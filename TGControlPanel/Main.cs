@@ -5,8 +5,14 @@ using TGServiceInterface;
 
 namespace TGControlPanel
 {
-	public partial class Main : Form
+	/// <summary>
+	/// The main <see cref="TGControlPanel"/> form
+	/// </summary>
+	partial class Main : Form
 	{
+		/// <summary>
+		/// Create the control panel. Requires the <see cref="Server"/> has had it's connection info setup
+		/// </summary>
 		public Main()
 		{
 			InitializeComponent();

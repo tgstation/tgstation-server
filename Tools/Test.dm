@@ -1,7 +1,3 @@
-#ifndef SERVER_TOOLS_ON_NEW
-#error DreamMaker rearranges the intentionally weird file layout of this project. Compile using dm.exe instead
-#endif
-
 /world/New()
 	SERVER_TOOLS_ON_NEW
 	world.log << "Service API Version: [SERVER_TOOLS_API_VERSION]"

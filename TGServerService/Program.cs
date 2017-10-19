@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TGServerService
 {
-	public static class Program
+	static class Program
 	{
 		static void Main() => new TGServerService();	//wondows
 		

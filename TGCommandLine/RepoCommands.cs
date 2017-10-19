@@ -207,7 +207,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Server.GetComponent<ITGRepository>().PushChangelog();
+			var result = Server.GetComponent<ITGRepository>().SynchronizePush();
 			if(result != null)
 				OutputProc(result);
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;

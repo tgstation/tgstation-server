@@ -10,10 +10,13 @@ using System.ServiceModel;
 
 namespace TGServiceInterface
 {
+	/// <summary>
+	/// Main inteface class for the service
+	/// </summary>
 	public class Server
 	{
 		/// <summary>
-		/// List of types that can be used with GetComponen
+		/// List of <see langword="interface"/>s that can be used with GetComponen
 		/// </summary>
 		public static readonly IList<Type> ValidInterfaces = CollectComponents();
 
@@ -53,6 +56,9 @@ namespace TGServiceInterface
 		/// </summary>
 		static string HTTPSPassword;
 
+		/// <summary>
+		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
+		/// </summary>
 		static Dictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
 
 		/// <summary>
@@ -70,6 +76,10 @@ namespace TGServiceInterface
 			return query.ToList();
 		}
 
+		/// <summary>
+		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
+		/// </summary>
+		/// <param name="handler">The <see cref="Func{T, TResult}"/> to be called when a remote login is attempted while the server posesses a bad certificate. Passed a <see cref="string"/> of error information about the and should return <see langword="true"/> if it the connection should be made anyway</param>
 		public static void SetBadCertificateHandler(Func<string, bool> handler)
 		{
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
@@ -107,13 +117,24 @@ namespace TGServiceInterface
 			ClearCachedChannels();
 		}
 
+		/// <summary>
+		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
+		/// </summary>
 		static void ClearCachedChannels()
 		{
-			foreach (var I in ChannelFactoryCache)
-				CloseChannel(I.Value);
-			ChannelFactoryCache.Clear();
+			lock (ChannelFactoryCache)
+			{
+				foreach (var I in ChannelFactoryCache)
+					CloseChannel(I.Value);
+				ChannelFactoryCache.Clear();
+			}
 		}
 
+		/// <summary>
+		/// Returns <see langword="true"/> if the <see cref="Server"/> interface being used to connect to a service does not have the same release version as the service
+		/// </summary>
+		/// <param name="errorMessage">An error message to display to the user should this function return <see langword="true"/></param>
+		/// <returns><see langword="true"/> if the <see cref="Server"/> interface being used to connect to a service does not have the same release version as the service</returns>
 		public static bool VersionMismatch(out string errorMessage)
 		{
 			var splits = Server.GetComponent<ITGSService>().Version().Split(' ');
@@ -129,10 +150,12 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Set the interface to look for services on a remote computer
+		/// Set the remote <see cref="Server"/> to connect to along with 
 		/// </summary>
-		/// <param name="address"></param>
-		/// <param name="port"></param>
+		/// <param name="address">The address of the remote server</param>
+		/// <param name="port">The port the remote server runs on</param>
+		/// <param name="username">Windows account username for the remote server</param>
+		/// <param name="password">Windows account password for the remote server</param>
 		public static void SetRemoteLoginInformation(string address, ushort port, string username, string password)
 		{
 			HTTPSURL = address;
@@ -142,6 +165,10 @@ namespace TGServiceInterface
 			ClearCachedChannels();
 		}
 
+		/// <summary>
+		/// Safely shuts down a single <see cref="ChannelFactory"/>
+		/// </summary>
+		/// <param name="cf">The <see cref="ChannelFactory"/> to shutdown</param>
 		public static void CloseChannel(ChannelFactory cf)
 		{
 			try
@@ -155,10 +182,10 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Returns the requested server component interface. This does not guarantee a successful connection
+		/// Returns the requested <see cref="Server"/> component <see langword="interface"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>
-		/// <typeparam name="T">The type of the component to retrieve</typeparam>
-		/// <returns>The correct component</returns>
+		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
+		/// <returns>The correct component <see langword="interface"/></returns>
 		public static T GetComponent<T>()
 		{
 			var tot = typeof(T);
@@ -185,6 +212,12 @@ namespace TGServiceInterface
 			return cf.CreateChannel();
 		}
 
+		/// <summary>
+		/// Directly creates a <see cref="ChannelFactory{TChannel}"/> for <typeparamref name="T"/> without caching. This should be eventually closed by the caller
+		/// </summary>
+		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
+		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
+		/// <exception cref="Exception">Thrown if <typeparamref name="T"/> isn't a valid component <see langword="interface"/></exception>
 		public static ChannelFactory<T> CreateChannel<T>()
 		{
 			var ToT = typeof(T);
@@ -220,11 +253,9 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Used to test if the service is avaiable on the machine
-		/// Note that state can technically change at any time
-		/// and any call to the service may throw an exception because it failed
+		/// Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed
 		/// </summary>
-		/// <returns>null on successful connection, error message on failure</returns>
+		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
 		public static string VerifyConnection()
 		{
 			try
@@ -239,10 +270,9 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// As opposed to VerifyConnection(), this check user credentials
-		/// Requires a prior call to <see cref="VerifyConnection"/>
+		/// Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <see cref="VerifyConnection"/>
 		/// </summary>
-		/// <returns>true if credentials are valid, false otherwise</returns>
+		/// <returns><see langword="true"/> if credentials are valid, <see langword="false"/> otherwise</returns>
 		public static bool Authenticate()
 		{
 			try
@@ -257,10 +287,9 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// As opposed to Authentication() this returns true if the current login can use the <see cref="ITGAdministration"/> interface.
-		/// Requires a prior call to <see cref="Authenticate"/>
+		/// Checks if the current login can use <see cref="ITGAdministration"/>. Requires a successful prior call to <see cref="Authenticate"/>
 		/// </summary>
-		/// <returns>true if the connection may use the <see cref="ITGAdministration"/> interface, false otherwise</returns>
+		/// <returns><see langword="true"/> if the connection may use <see cref="ITGAdministration"/>, <see langword="false"/> otherwise</returns>
 		public static bool AuthenticateAdmin()
 		{
 			try

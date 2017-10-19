@@ -37,6 +37,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\x86\Release\TGCommandLine.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AdminCommands.cs" />

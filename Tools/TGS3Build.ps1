@@ -2,6 +2,13 @@ $bf = $Env:APPVEYOR_BUILD_FOLDER
 $src = "$bf\TGInstallerWrapper\bin\x86\Release"
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$src\TG Station Server Installer.exe").FileVersion
 
+$doxdir = "C:\tgsdox"
+
+New-Item -Path $doxdir -ItemType directory
+
+Add-Content "$bf\Tools\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/tgs.ico"
+doxygen.exe "$bf\Tools\Doxyfile"
+
 $destination = "$bf\TGS3-Server-v$version.exe"
 
 Move-Item -Path "$src\TG Station Server Installer.exe" -Destination "$destination"

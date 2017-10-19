@@ -943,7 +943,7 @@ namespace TGServerService
 			}
 		}
 
-		public string PushChangelog()
+		public string SynchronizePush()
 		{
 			var Config = new RepoConfig(false);
 			if (Config == null)

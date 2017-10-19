@@ -4,7 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace TGServerService
 {
-	//lightly massaged code from https://stackoverflow.com/a/13109774
+	/// <summary>
+	/// Helpers to <see cref="Suspend(Process)"/>ing and <see cref="Resume(Process)"/> a <see cref="Process"/>. Lightly massaged code from https://stackoverflow.com/a/13109774
+	/// </summary>
 	public static class ProcessExtension
 	{
 		enum ThreadAccess : int
@@ -29,6 +31,10 @@ namespace TGServerService
 		[DllImport("kernel32.dll")]
 		static extern int ResumeThread(IntPtr hThread);
 
+		/// <summary>
+		/// Suspends all threads for a running <see cref="Process"/>
+		/// </summary>
+		/// <param name="process">The <see cref="Process"/> to suspend</param>
 		public static void Suspend(this Process process)
 		{
 			foreach (ProcessThread thread in process.Threads)
@@ -40,6 +46,11 @@ namespace TGServerService
 				CloseHandle(pOpenThread);
 			}
 		}
+
+		/// <summary>
+		/// Resumes all threads for a running <see cref="Process"/>
+		/// </summary>
+		/// <param name="process">The <see cref="Process"/> to suspend</param>
 		public static void Resume(this Process process)
 		{
 			foreach (ProcessThread thread in process.Threads)
