@@ -1,8 +1,5 @@
 pull_requests:
   do_not_increment_build_number: true
-branches:
-  except:
-    - gh-pages
 environment:
   repo_token:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
