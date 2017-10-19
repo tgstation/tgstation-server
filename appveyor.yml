@@ -3,6 +3,9 @@ pull_requests:
 branches:
   except:
     - gh-pages
+environment:
+  repo_token:
+    secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 skip_branch_with_pr: true
 image: Visual Studio 2017
 configuration: Release

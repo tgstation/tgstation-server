@@ -6,8 +6,25 @@ $doxdir = "C:\tgsdox"
 
 New-Item -Path $doxdir -ItemType directory
 
+$publish_dox = (-not (Test-Path Env:APPVEYOR_PULL_REQUEST_NUMBER)) -and ("$Env:APPVEYOR_REPO_BRANCH" -eq "master")
+
+if($publish_dox){
+	git clone -b gh-pages --single-branch https://git@github.com/$Env:APPVEYOR_REPO_NAME doxdir
+	rm -rf "$doxdir\*"
+}
+
 Add-Content "$bf\Tools\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/tgs.ico"
 doxygen.exe "$bf\Tools\Doxyfile"
+
+if($publish_dox){
+	cd $doxdir
+	git config --global push.default simple
+	git config user.name "Appveyor CI"
+	git config user.email "ci@appveyor.com"
+	git add --all
+	git commit -m "Deploy code docs to GitHub Pages for Appveyor build $Env:APPVEYOR_BUILD_NUMBER" -m "Commit: $Env:APPVEYOR_REPO_COMMIT"
+    git push --force origin gh-pages > /dev/null 2>&1
+}
 
 $destination = "$bf\TGS3-Server-v$version.exe"
 
