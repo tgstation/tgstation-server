@@ -12,11 +12,11 @@ namespace TGServerService
 		/// </summary>
 		ChatCommand = 100,
 		/// <summary>
-		/// Warning: When a <see cref="ChatProviders.ITGChatProvider"/> fails to <see cref="ChatProviders.ITGChatProvider.Connect"/>
+		/// Warning: When a <see cref="ChatProviders.IChatProvider"/> fails to <see cref="ChatProviders.IChatProvider.Connect"/>
 		/// </summary>
 		ChatConnectFail = 200,
 		/// <summary>
-		/// Error: When a <see cref="ChatProviders.ITGChatProvider"/> fails to construct
+		/// Error: When a <see cref="ChatProviders.IChatProvider"/> fails to construct
 		/// </summary>
 		ChatProviderStartFail = 300,
 		/// <summary>
@@ -110,11 +110,11 @@ namespace TGServerService
 		/// </summary>
 		DDWatchdogStarted = 2500,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="ChatProviders.ITGChatProvider.SendMessageDirect(string, string)"/> operation
+		/// Info: Successful completion of a <see cref="ChatProviders.IChatProvider.SendMessageDirect(string, string)"/> operation
 		/// </summary>
 		ChatSend = 2600,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="ChatProviders.ITGChatProvider.SendMessage(string, MessageType)"/> operation
+		/// Info: Successful completion of a <see cref="ChatProviders.IChatProvider.SendMessage(string, MessageType)"/> operation
 		/// </summary>
 		ChatBroadcast = 2700,
 		/// <summary>
@@ -123,7 +123,7 @@ namespace TGServerService
 		[Obsolete("Not in use anymore", true)]
 		ChatAdminBroadcast = 2800,
 		/// <summary>
-		/// Error: When an error occurs during a <see cref="ChatProviders.ITGChatProvider.Disconnect"/> operation
+		/// Error: When an error occurs during a <see cref="ChatProviders.IChatProvider.Disconnect"/> operation
 		/// </summary>
 		ChatDisconnectFail = 2900,
 		/// <summary>

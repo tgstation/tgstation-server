@@ -7,9 +7,9 @@ using Meebey.SmartIrc4net;
 namespace TGServerService.ChatProviders
 {
 	/// <summary>
-	/// <see cref="ITGChatProvider"/> for internet relay chat
+	/// <see cref="IChatProvider"/> for internet relay chat
 	/// </summary>
-	sealed class IRCChatProvider : ITGChatProvider
+	sealed class IRCChatProvider : IChatProvider
 	{
 		/// <summary>
 		/// Header used to mark that a channel is actually a query message

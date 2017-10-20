@@ -11,9 +11,9 @@ namespace TGServerService
 	sealed partial class ServerInstance : ITGChat
 	{
 		/// <summary>
-		/// List of <see cref="ITGChatProvider"/>s for the <see cref="ServerInstance"/>
+		/// List of <see cref="IChatProvider"/>s for the <see cref="ServerInstance"/>
 		/// </summary>
-		IList<ITGChatProvider> ChatProviders;
+		IList<IChatProvider> ChatProviders;
 		/// <summary>
 		/// Used for multithreading safety
 		/// </summary>
@@ -25,10 +25,10 @@ namespace TGServerService
 		public void InitChat()
 		{
 			var infos = InitProviderInfos();
-			ChatProviders = new List<ITGChatProvider>(infos.Count);
+			ChatProviders = new List<IChatProvider>(infos.Count);
 			foreach (var info in infos)
 			{
-				ITGChatProvider chatProvider;
+				IChatProvider chatProvider;
 				try
 				{
 					switch (info.Provider)
@@ -60,13 +60,13 @@ namespace TGServerService
 		/// <summary>
 		/// Implementation of <see cref="OnChatMessage"/> that recieves messages from all channels of all connected <see cref="ChatProviders"/>
 		/// </summary>
-		/// <param name="ChatProvider">The <see cref="ITGChatProvider"/> that heard the <paramref name="message"/></param>
+		/// <param name="ChatProvider">The <see cref="IChatProvider"/> that heard the <paramref name="message"/></param>
 		/// <param name="speaker">The user who wrote the <paramref name="message"/></param>
 		/// <param name="channel">The channel the <paramref name="message"/> is from</param>
 		/// <param name="message">The recieved message</param>
 		/// <param name="isAdmin"><see langword="true"/> if <paramref name="speaker"/> is considered a chat admin, <see langword="false"/> otherwise</param>
 		/// <param name="isAdminChannel"><see langword="true"/> if <paramref name="channel"/> is an admin channel, <see langword="false"/> otherwise</param>
-		private void ChatProvider_OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
+		private void ChatProvider_OnChatMessage(IChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
 

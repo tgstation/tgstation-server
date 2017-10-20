@@ -13,11 +13,11 @@ namespace TGServerService.ChatProviders
 	/// <param name="isAdmin"><see langword="true"/> if <paramref name="speaker"/> is considered a chat admin, <see langword="false"/> otherwise</param>
 	/// <param name="isAdminChannel"><see langword="true"/> if <paramref name="channel"/> is an admin chat channel, <see langword="false"/> otherwise</param>
 
-	delegate void OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel);
+	delegate void OnChatMessage(IChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel);
 	/// <summary>
 	/// Interface for a chat provder service
 	/// </summary>
-	interface ITGChatProvider : IDisposable
+	interface IChatProvider : IDisposable
 	{
 		/// <summary>
 		/// Sets <paramref name="info"/> for the provider

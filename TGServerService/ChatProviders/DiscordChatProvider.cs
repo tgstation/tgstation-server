@@ -9,9 +9,9 @@ using TGServiceInterface;
 namespace TGServerService.ChatProviders
 {
 	/// <summary>
-	/// <see cref="ITGChatProvider"/> for Discord: https://discordapp.com/
+	/// <see cref="IChatProvider"/> for Discord: https://discordapp.com/
 	/// </summary>
-	sealed class DiscordChatProvider : ITGChatProvider
+	sealed class DiscordChatProvider : IChatProvider
 	{
 		/// <inheritdoc />
 		public event OnChatMessage OnChatMessage;
