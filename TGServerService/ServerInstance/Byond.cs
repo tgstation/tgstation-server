@@ -10,7 +10,7 @@ using TGServiceInterface.Components;
 
 namespace TGServerService
 {
-	partial class ServerInstance : ITGByond
+	sealed partial class ServerInstance : ITGByond
 	{
 		/// <summary>
 		/// The instance directory to store the BYOND installation

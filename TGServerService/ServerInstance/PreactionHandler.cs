@@ -5,7 +5,7 @@ using System.IO;
 namespace TGServerService
 {
 	// Some useful functions for triggering pre action events
-	partial class ServerInstance
+	sealed partial class ServerInstance
 	{
 		const string EventFolder = "EventHandlers/";
 

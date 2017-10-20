@@ -8,7 +8,7 @@ using TGServiceInterface.Components;
 
 namespace TGServerService
 {
-	partial class ServerInstance : ITGChat
+	sealed partial class ServerInstance : ITGChat
 	{
 
 		IList<ITGChatProvider> ChatProviders;

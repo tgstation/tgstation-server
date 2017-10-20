@@ -9,7 +9,7 @@ namespace TGServerService.ChatProviders
 	/// <summary>
 	/// <see cref="ITGChatProvider"/> for internet relay chat
 	/// </summary>
-	class IRCChatProvider : ITGChatProvider
+	sealed class IRCChatProvider : ITGChatProvider
 	{
 		/// <summary>
 		/// Header used to mark that a channel is actually a query message
@@ -330,7 +330,7 @@ namespace TGServerService.ChatProviders
 		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="Disconnect"/> and sets <see cref="irc"/> to <see langword="null"/>
 		/// </summary>
 		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		protected virtual void Dispose(bool disposing)
+		void Dispose(bool disposing)
 		{
 			if (!disposedValue)
 			{

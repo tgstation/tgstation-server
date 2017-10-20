@@ -12,7 +12,7 @@ using TGServiceInterface.Components;
 
 namespace TGServerService
 {
-	partial class ServerInstance : ITGRepository, IDisposable
+	sealed partial class ServerInstance : ITGRepository, IDisposable
 	{
 		const string RepoPath = "Repository";
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";

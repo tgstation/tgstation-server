@@ -11,7 +11,7 @@ namespace TGServerService
 {
 	//manages the dd window.
 	//It's not possible to actually click it while starting it in CL mode, so in order to change visibility etc. It restarts the process when the round ends
-	partial class ServerInstance : ITGDreamDaemon
+	sealed partial class ServerInstance : ITGDreamDaemon
 	{
 		enum ShutdownRequestPhase
 		{

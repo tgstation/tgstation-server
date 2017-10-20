@@ -11,7 +11,7 @@ namespace TGServerService
 {
 	//note this only works with MACHINE LOCAL groups and admins for now
 	//if someone wants AD shit, code it yourself
-	partial class ServerInstance : ServiceAuthorizationManager, ITGAdministration
+	sealed partial class ServerInstance : ServiceAuthorizationManager, ITGAdministration
 	{
 		/// <summary>
 		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="ServerInstance"/>

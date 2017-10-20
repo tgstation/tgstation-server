@@ -37,7 +37,7 @@ namespace TGServerService.ChatCommands
 		}
 	}
 
-	class ServerChatCommand : ChatCommand
+	sealed class ServerChatCommand : ChatCommand
 	{
 		readonly string HelpText;
 		public ServerChatCommand(string name, string helpText, bool adminOnly, int requiredParameters)
@@ -62,7 +62,7 @@ namespace TGServerService.ChatCommands
 		}
 	}
 
-	class RootChatCommand : RootCommand
+	sealed class RootChatCommand : RootCommand
 	{
 		public RootChatCommand(List<Command> serverCommands)
 		{
@@ -74,7 +74,7 @@ namespace TGServerService.ChatCommands
 			PrintHelpList = true;
 		}
 	}
-	class RevisionCommand : ChatCommand
+	sealed class RevisionCommand : ChatCommand
 	{
 		public RevisionCommand()
 		{
@@ -97,7 +97,7 @@ namespace TGServerService.ChatCommands
 		}
 	}
 
-	class ByondCommand : ChatCommand
+	sealed class ByondCommand : ChatCommand
 	{
 		public ByondCommand()
 		{
@@ -124,7 +124,7 @@ namespace TGServerService.ChatCommands
 			return "[--staged|--latest]";
 		}
 	}
-	class VersionCommand : ChatCommand
+	sealed class VersionCommand : ChatCommand
 	{
 		public VersionCommand()
 		{
@@ -141,7 +141,7 @@ namespace TGServerService.ChatCommands
 			return "Gets the running service version";
 		}
 	}
-	class KekCommand : ChatCommand
+	sealed class KekCommand : ChatCommand
 	{
 		public KekCommand()
 		{
@@ -158,7 +158,7 @@ namespace TGServerService.ChatCommands
 			return "kek";
 		}
 	}
-	class PRsCommand : ChatCommand
+	sealed class PRsCommand : ChatCommand
 	{
 		public PRsCommand()
 		{

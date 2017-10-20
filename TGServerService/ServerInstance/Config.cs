@@ -7,7 +7,7 @@ using TGServiceInterface.Components;
 namespace TGServerService
 {
 	//knobs and such
-	partial class ServerInstance : ITGConfig
+	sealed partial class ServerInstance : ITGConfig
 	{
 		object configLock = new object();	//for atomic reads/writes
 		/// <inheritdoc />
