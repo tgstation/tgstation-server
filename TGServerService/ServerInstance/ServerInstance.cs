@@ -8,12 +8,16 @@ namespace TGServerService
 	//There really was no other succinct way to do it
 
 	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
+
+	/// <summary>
+	/// The class which holds all interface components
+	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	partial class ServerInstance : IDisposable, ITGSService, ITGConnectivity
 	{
-
-		//call partial constructors/destructors from here
-		//called when the service is started
+		/// <summary>
+		/// Constructs and a <see cref="ServerInstance"/>
+		/// </summary>
 		public ServerInstance()
 		{
 			FindTheDroidsWereLookingFor();
@@ -24,7 +28,9 @@ namespace TGServerService
 			InitDreamDaemon();
 		}
 
-		//called when the service is stopped
+		/// <summary>
+		/// Cleans up the <see cref="ServerInstance"/>
+		/// </summary>
 		void RunDisposals()
 		{
 			DisposeDreamDaemon();
@@ -53,8 +59,15 @@ namespace TGServerService
 		//mostly generated code with a call to RunDisposals()
 		//you don't need to open this
 		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls
+		/// <summary>
+		/// To detect redundant <see cref="Dispose()"/> calls
+		/// </summary>
+		private bool disposedValue = false;
 
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="RunDisposals"/>
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!disposedValue)
@@ -79,6 +92,9 @@ namespace TGServerService
 		// }
 
 		// This code added to correctly implement the disposable pattern.
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.

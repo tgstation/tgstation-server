@@ -280,7 +280,7 @@ namespace TGServerService.ChatProviders
 		private bool disposedValue = false;
 
 		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
+		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="DisconnectAndDispose"/>
 		/// </summary>
 		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
 		protected virtual void Dispose(bool disposing)
