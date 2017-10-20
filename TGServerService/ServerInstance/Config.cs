@@ -9,6 +9,9 @@ namespace TGServerService
 	//knobs and such
 	sealed partial class ServerInstance : ITGConfig
 	{
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object configLock = new object();	//for atomic reads/writes
 		/// <inheritdoc />
 		public string ServerDirectory()
@@ -100,6 +103,8 @@ namespace TGServerService
 				return null;
 			}
 		}
+
+		/// <inheritdoc />
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
@@ -151,6 +156,7 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
+		/// <inheritdoc />
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
@@ -205,6 +211,7 @@ namespace TGServerService
 			}
 		}
 
+		/// <inheritdoc />
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public IList<string> ListStaticDirectory(string subDir, out string error, out bool unauthorized)
 		{

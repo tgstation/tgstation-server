@@ -5,12 +5,12 @@ using TGServiceInterface.Components;
 namespace TGServerService
 {
 	//I know the fact that this is one massive partial class is gonna trigger everyone
-	//There really was no other succinct way to do it
+	//There really was no other succinct way to do it (<= He's lying through his teeth, don't listen to him)
 
-	//this line basically says make one instance of the service, use it multithreaded for requests, and never delete it
+	//this line basically says take one instance of the service, use it multithreaded for requests, and never delete it
 
 	/// <summary>
-	/// The class which holds all interface components
+	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed partial class ServerInstance : IDisposable, ITGSService, ITGConnectivity
