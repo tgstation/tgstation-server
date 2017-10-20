@@ -10,10 +10,18 @@ namespace TGServerService
 {
 	sealed partial class ServerInstance : ITGChat
 	{
-
+		/// <summary>
+		/// List of <see cref="ITGChatProvider"/>s for the <see cref="ServerInstance"/>
+		/// </summary>
 		IList<ITGChatProvider> ChatProviders;
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object ChatLock = new object();
 
+		/// <summary>
+		/// Set up the <see cref="ChatProviders"/> for the <see cref="ServerInstance"/>
+		/// </summary>
 		public void InitChat()
 		{
 			var infos = InitProviderInfos();
@@ -49,6 +57,15 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Implementation of <see cref="OnChatMessage"/> that recieves messages from all channels of all connected <see cref="ChatProviders"/>
+		/// </summary>
+		/// <param name="ChatProvider">The <see cref="ITGChatProvider"/> that heard the <paramref name="message"/></param>
+		/// <param name="speaker">The user who wrote the <paramref name="message"/></param>
+		/// <param name="channel">The channel the <paramref name="message"/> is from</param>
+		/// <param name="message">The recieved message</param>
+		/// <param name="isAdmin"><see langword="true"/> if <paramref name="speaker"/> is considered a chat admin, <see langword="false"/> otherwise</param>
+		/// <param name="isAdminChannel"><see langword="true"/> if <paramref name="channel"/> is an admin channel, <see langword="false"/> otherwise</param>
 		private void ChatProvider_OnChatMessage(ITGChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
@@ -75,7 +92,9 @@ namespace TGServerService
 			new RootChatCommand(ServerChatCommands).DoRun(asList);
 		}
 
-		//cleanup and save
+		/// <summary>
+		/// Properly shuts down all <see cref="ChatProviders"/>
+		/// </summary>
 		void DisposeChat()
 		{
 			var infosList = new List<IList<string>>();
@@ -94,6 +113,7 @@ namespace TGServerService
 			Config.ChatProviderEntropy = entrp;
 		}
 
+		/// <inheritdoc />
 		public IList<ChatSetupInfo> ProviderInfos()
 		{
 			var infosList = new List<ChatSetupInfo>();
@@ -102,7 +122,10 @@ namespace TGServerService
 			return infosList;
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Returns a list of <see cref="ChatSetupInfo"/>s loaded from the config or the defaults if none are set
+		/// </summary>
+		/// <returns>A list of <see cref="ChatSetupInfo"/>s loaded from the config or the defaults if none are set</returns>
 		IList<ChatSetupInfo> InitProviderInfos()
 		{
 			lock (ChatLock)
@@ -174,7 +197,7 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Reconnect servers that are enabled and disconnected
+		/// Reconnect servers that are enabled and disconnected. Checked every time DreamDaemon reboots
 		/// </summary>
 		void ChatConnectivityCheck()
 		{
