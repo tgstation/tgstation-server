@@ -171,8 +171,8 @@ namespace TGServerService
 			var J = new RepoConfig(false);
 			return I == J;
 		}
-		
-		//public api
+
+		/// <inheritdoc />
 		public bool OperationInProgress()
 		{
 			lock (RepoLock)
@@ -181,7 +181,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public int CheckoutProgress()
 		{
 			return currentProgress;
@@ -215,7 +215,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public bool Exists()
 		{
 			lock (RepoLock)
@@ -394,7 +394,7 @@ namespace TGServerService
 		}
 
 		//kicks off the cloning thread
-		//public api
+		/// <inheritdoc />
 		public string Setup(string RepoURL, string BranchName)
 		{
 			lock (RepoLock)
@@ -448,19 +448,19 @@ namespace TGServerService
 		}
 
 		//moist shleppy noises
-		//public api
+		/// <inheritdoc />
 		public string GetHead(bool useTracked, out string error)
 		{
 			return GetShaOrBranch(out error, false, useTracked);
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GetBranch(out string error)
 		{
 			return GetShaOrBranch(out error, true, false);
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GetRemote(out string error)
 		{
 			try
@@ -499,7 +499,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Checkout(string sha)
 		{
 			if (sha == LiveTrackingBranch)
@@ -568,7 +568,7 @@ namespace TGServerService
 			return null;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Update(bool reset)
 		{
 			return UpdateImpl(reset, true);
@@ -710,7 +710,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Reset(bool trackedBranch)
 		{
 			lock (RepoLock)
@@ -768,7 +768,7 @@ namespace TGServerService
 			File.WriteAllText(PRJobFile, rawdata);
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string MergePullRequest(int PRNumber)
 		{
 			return MergePullRequestImpl(PRNumber, false);
@@ -880,7 +880,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public IList<PullRequestInfo> MergedPullRequests(out string error)
 		{
 			lock (RepoLock)
@@ -908,7 +908,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GetCommitterName()
 		{
 			lock (RepoLock)
@@ -917,7 +917,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void SetCommitterName(string newName)
 		{
 			lock (RepoLock)
@@ -926,7 +926,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GetCommitterEmail()
 		{
 			lock (RepoLock)
@@ -935,7 +935,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void SetCommitterEmail(string newEmail)
 		{
 			lock (RepoLock)
@@ -1035,7 +1035,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		string Push()
 		{
 			if (LocalIsRemote())    //nothing to push
@@ -1088,7 +1088,7 @@ namespace TGServerService
 			};
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GenerateChangelog(out string error)
 		{
 			return GenerateChangelogImpl(out error);
@@ -1229,7 +1229,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public bool SetPythonPath(string path)
 		{
 			if (!Directory.Exists(path))

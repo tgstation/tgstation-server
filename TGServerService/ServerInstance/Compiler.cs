@@ -58,7 +58,7 @@ namespace TGServerService
 			compilerCurrentStatus = IsInitialized();
 		}
 
-		//public api
+		/// <inheritdoc />
 		public CompilerStatus GetStatus()
 		{
 			lock (CompilerLock)
@@ -67,7 +67,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string CompileError()
 		{
 			lock (CompilerLock)
@@ -103,7 +103,7 @@ namespace TGServerService
 			return compilerCurrentStatus == CompilerStatus.Uninitialized || compilerCurrentStatus == CompilerStatus.Initialized;
 		}
 		
-		//public api
+		/// <inheritdoc />
 		public bool Initialize()
 		{
 			lock (CompilerLock)
@@ -582,7 +582,7 @@ namespace TGServerService
 			}
 		}
 		//kicks off the compiler thread
-		//public api
+		/// <inheritdoc />
 		public bool Compile(bool silent = false)
 		{
 			lock (CompilerLock)
@@ -598,7 +598,7 @@ namespace TGServerService
 			return true;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string ProjectName()
 		{
 			lock (CompilerLock)
@@ -607,7 +607,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void SetProjectName(string projectName)
 		{
 			lock (CompilerLock)

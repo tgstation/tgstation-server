@@ -102,7 +102,7 @@ namespace TGServerService
 			return infosList;
 		}
 
-		//public api
+		/// <inheritdoc />
 		IList<ChatSetupInfo> InitProviderInfos()
 		{
 			lock (ChatLock)
@@ -145,7 +145,7 @@ namespace TGServerService
 			return InitProviderInfos();
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string SetProviderInfo(ChatSetupInfo info)
 		{
 			try
@@ -164,7 +164,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public bool Connected(ChatProvider providerType)
 		{
 			foreach (var I in ChatProviders)
@@ -183,7 +183,7 @@ namespace TGServerService
 					Reconnect(I);
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Reconnect(ChatProvider providerType)
 		{
 			foreach (var I in ChatProviders)

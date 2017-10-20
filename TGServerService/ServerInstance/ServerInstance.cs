@@ -34,16 +34,16 @@ namespace TGServerService
 			DisposeChat();
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Version()
 		{
 			return Service.Version;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void VerifyConnection() { }
 
-		//public api
+		/// <inheritdoc />
 		public void PrepareForUpdate()
 		{
 			Properties.Settings.Default.ReattachToDD = true;

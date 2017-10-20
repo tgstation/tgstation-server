@@ -72,7 +72,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public ByondStatus CurrentStatus()
 		{
 			lock (ByondLock)
@@ -81,7 +81,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GetError()
 		{
 			lock (ByondLock)
@@ -92,7 +92,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string GetVersion(ByondVersion type)
 		{
 			try
@@ -236,7 +236,7 @@ namespace TGServerService
 				}
 			}
 		}
-		//public api for kicking off the update thread
+		/// <inheritdoc />
 		public bool UpdateToVersion(int ma, int mi)
 		{
 			lock (ByondLock)

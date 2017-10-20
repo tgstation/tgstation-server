@@ -130,7 +130,7 @@ namespace TGServerService
 				catch { }
 		}
 
-		//public api
+		/// <inheritdoc />
 		public DreamDaemonStatus DaemonStatus()
 		{
 			lock (watchdogLock)
@@ -139,13 +139,13 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void RequestRestart()
 		{
 			SendCommand(SCHardReboot);
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void RequestStop()
 		{
 			lock (watchdogLock)
@@ -157,7 +157,7 @@ namespace TGServerService
 			SendCommand(SCGracefulShutdown);
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Stop()
 		{
 			Thread t;
@@ -176,7 +176,7 @@ namespace TGServerService
 				return "Server not running";
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void SetPort(ushort new_port)
 		{
 			lock (watchdogLock)
@@ -203,7 +203,7 @@ namespace TGServerService
 				ThreadPool.QueueUserWorkItem(_ => { Stop(); });
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Restart()
 		{
 			if (DaemonStatus() == DreamDaemonStatus.Offline)
@@ -379,7 +379,7 @@ namespace TGServerService
 			WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}MB", megamem, PercentCpuTime.ToString("D3")));
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string CanStart()
 		{
 			lock (watchdogLock)
@@ -398,7 +398,7 @@ namespace TGServerService
 			return null;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Start()
 		{
 			if (CurrentStatus() == ByondStatus.Staged)
@@ -496,7 +496,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public DreamDaemonSecurity SecurityLevel()
 		{
 			lock (watchdogLock)
@@ -505,7 +505,7 @@ namespace TGServerService
 			}
 		}
 
-		//public api
+		/// <inheritdoc />
 		public bool SetSecurityLevel(DreamDaemonSecurity level)
 		{
 			var Config = Properties.Settings.Default;
@@ -521,19 +521,19 @@ namespace TGServerService
 			return DaemonStatus() != DreamDaemonStatus.Online;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public bool Autostart()
 		{
 			return Properties.Settings.Default.DDAutoStart;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void SetAutostart(bool on)
 		{
 			Properties.Settings.Default.DDAutoStart = on;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string StatusString(bool includeMetaInfo)
 		{
 			const string visSecStr = " (Sec: {0})";
@@ -568,13 +568,13 @@ namespace TGServerService
 			return res;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public ushort Port()
 		{
 			return Properties.Settings.Default.ServerPort;
 		}
 
-		//public api
+		/// <inheritdoc />
 		public bool ShutdownInProgress()
 		{
 			lock (watchdogLock)

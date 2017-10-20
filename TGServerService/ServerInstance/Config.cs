@@ -10,13 +10,13 @@ namespace TGServerService
 	partial class ServerInstance : ITGConfig
 	{
 		object configLock = new object();	//for atomic reads/writes
-		//public api
+		/// <inheritdoc />
 		public string ServerDirectory()
 		{
 			return Environment.CurrentDirectory;
 		}
 
-		//public api
+		/// <inheritdoc />
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string ReadText(string staticRelativePath, bool repo, out string error, out bool unauthorized)
 		{
