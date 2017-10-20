@@ -13,10 +13,22 @@ namespace TGServerService
 	//if someone wants AD shit, code it yourself
 	partial class ServerInstance : ServiceAuthorizationManager, ITGAdministration
 	{
+		/// <summary>
+		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="ServerInstance"/>
+		/// </summary>
 		SecurityIdentifier TheDroidsWereLookingFor;
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object authLock = new object();
-		string LastSeenUser = null;
+		/// <summary>
+		/// The <see cref="WindowsIdentity.Name"/> of the last <see cref="WindowsIdentity"/> to attempt to access the <see cref="ServerInstance"/>
+		/// </summary>
+		string LastSeenUser;
 
+		/// <summary>
+		/// The <see cref="SecurityIdentifier"/> of the account the <see cref="Service"/> is running as
+		/// </summary>
 		readonly SecurityIdentifier ServiceSID = WindowsIdentity.GetCurrent().User;
 
 		/// <inheritdoc />
@@ -50,6 +62,11 @@ namespace TGServerService
 			return FindTheDroidsWereLookingFor(groupName);
 		}
 
+		/// <summary>
+		/// Set <see cref="TheDroidsWereLookingFor"/> based off either an <paramref name="search"/>ed name or a string <see cref="SecurityIdentifier"/> from the config
+		/// </summary>
+		/// <param name="search">The name of the group to search for</param>
+		/// <returns>The name of the group allowed to access the <see cref="ServerInstance"/> if it could be found, <see langword="null"/> otherwise</returns>
 		string FindTheDroidsWereLookingFor(string search = null)
 		{
 			//find the group that is authorized to use the tools
@@ -75,9 +92,12 @@ namespace TGServerService
 			}
 			return gp.Name;
 		}
-
-		//This function checks for authorization whenever an API call is made
-		//This does NOT validate the windows account, that is done when the user connects internally
+		
+		/// <summary>
+		/// Called by WCF whenever a component call is made. Checks to see that the supplied user account has access to the requested component
+		/// </summary>
+		/// <param name="operationContext">Various parameters about the operation supplied by WCF</param>
+		/// <returns><see langword="true"/> if the supplied user account may use the requested component, <see langword="false"/> otherwise</returns>
 		protected override bool CheckAccessCore(OperationContext operationContext)
 		{
 			var contract = operationContext.EndpointDispatcher.ContractName;
@@ -240,6 +260,8 @@ namespace TGServerService
 				return e.ToString();
 			}
 		}
+
+		/// <inheritdoc />
 		public string RecreateStaticFolder()
 		{
 			if (!Monitor.TryEnter(RepoLock))
