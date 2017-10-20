@@ -1,0 +1,4 @@
+<map id="TGCommandLine.ChatJoinCommand.Run" name="TGCommandLine.ChatJoinCommand.Run">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="316,5,513,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_chat.html#af0f92b1ed2eadf3c8beb6e3c086281b0" title="Returns TGChatSetupInfo for all TGChatProviders " alt="" coords="322,71,507,112"/>
+</map>

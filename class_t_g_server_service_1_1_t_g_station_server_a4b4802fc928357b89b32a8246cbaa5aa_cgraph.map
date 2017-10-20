@@ -1,0 +1,15 @@
+<map id="TGServerService.TGStationServer.Watchdog" name="TGServerService.TGStationServer.Watchdog">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a5bc12d1166a5bcd371580ac27a515892" title="TGServerService.TGStation\lServer.MemTrackTimer_Elapsed" alt="" coords="232,5,441,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a05aedeb16e1d1ef3dd06c0f3ea0d3f9c" title="TGServerService.TGStation\lServer.WriteCurrentDDLog" alt="" coords="489,19,668,60"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a37a52b80a04f677044775103e69dfe36" title="TGServerService.TGStation\lServer.SendCommand" alt="" coords="247,123,426,164"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#af4b14f46cd94f1fdbf7fc36044fb3d10" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="247,188,426,229"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a580e7467b5f8175ec1f313e72f73b3df" title="TGServerService.TGStation\lServer.StartImpl" alt="" coords="247,253,426,295"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7503974048ecfbcc2279394a5fa29fd2" title="TGServerService.TGStation\lServer.SendTopic" alt="" coords="489,109,668,151"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a01afe35ce6b92bb201c7cb57c768947c" title="TGServerService.TGStation\lServer.CheckAPIVersionConstraints" alt="" coords="716,109,947,151"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a8e2034adf9460099e81411b7e9df2989" title="TGServerService.TGStation\lServer.CanStartImpl" alt="" coords="489,175,668,216"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_t_g_station_server.html#acefa91670642906db499a095c530bda6" title="TGServerService.TGStation\lServer.GenCommsKey" alt="" coords="489,240,668,281"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_t_g_station_server.html#a345920ce33508d38e9109c20b8dcca0e" title="TGServerService.TGStation\lServer.SecurityWord" alt="" coords="489,305,668,347"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_t_g_station_server.html#ad262be4efe1b631925a6fb576c11dcd0" title="TGServerService.TGStation\lServer.UpdateInterfaceDll" alt="" coords="489,371,668,412"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_t_g_station_server.html#ad18cd170ea5810f7e9e6834b584c44c7" title="Retrieve&#39;s the service&#39;s version " alt="" coords="489,436,668,477"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#aad44415e7495a296a62bf08164a8dcae" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="742,175,921,216"/>
+</map>

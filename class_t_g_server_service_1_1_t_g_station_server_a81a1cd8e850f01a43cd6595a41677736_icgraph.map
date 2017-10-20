@@ -1,0 +1,10 @@
+<map id="TGServerService.TGStationServer.CleanByondStaging" name="TGServerService.TGStationServer.CleanByondStaging">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#ae080fe7975d3f96cb20a99306f1fe6c0" title="TGServerService.TGStation\lServer.DisposeByond" alt="" coords="235,5,414,47"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a5e9e0d9741c12d3f1fbafca42c9d5454" title="TGServerService.TGStation\lServer.InitByond" alt="" coords="235,71,414,112"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac6e581584fbcb94df25c3377ab1819dc" title="TGServerService.TGStation\lServer.UpdateToVersionImpl" alt="" coords="232,136,417,177"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#afc7af843093fca7c9361c03a4257ec63" title="TGServerService.TGStation\lServer.RunDisposals" alt="" coords="465,5,644,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a38fe563920a5b95fff3a23fc6257c5db" title="TGServerService.TGStation\lServer.Dispose" alt="" coords="692,5,871,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_server_service.html#a804718d6ffa3109bedb0ba88e4191622" title="TGServerService.TGServer\lService.OnStop" alt="" coords="919,5,1093,47"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="465,71,644,112"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a488ecd7dd1120d2851ffb417a4c1c953" title="updates the used byond version to that of version major .minor . The change won&#39;t take place until DD..." alt="" coords="465,136,644,177"/>
+</map>

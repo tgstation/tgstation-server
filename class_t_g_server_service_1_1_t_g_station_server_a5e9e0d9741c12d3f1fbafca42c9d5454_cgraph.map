@@ -1,0 +1,5 @@
+<map id="TGServerService.TGStationServer.InitByond" name="TGServerService.TGStationServer.InitByond">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a81a1cd8e850f01a43cd6595a41677736" title="TGServerService.TGStation\lServer.CleanByondStaging" alt="" coords="232,5,411,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="TGServerService.Program.\lDeleteDirectory" alt="" coords="459,5,633,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="TGServerService.Program.\lNormalizeAndDelete" alt="" coords="681,5,856,47"/>
+</map>

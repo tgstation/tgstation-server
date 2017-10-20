@@ -1,0 +1,5 @@
+<map id="TGServerService.TGIRCChatProvider.IRCListen" name="TGServerService.TGIRCChatProvider.IRCListen">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a2a6e268ca351a4626f34508aee6bc176" title="Connects the chat provider if it&#39;s enabled " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#ad3628ac58ad8fc2f297f8e8b14fa103f" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a5aead7e430252f8b292f9989bda0e37c" title="Sets info for the provider " alt="" coords="709,5,896,47"/>
+</map>

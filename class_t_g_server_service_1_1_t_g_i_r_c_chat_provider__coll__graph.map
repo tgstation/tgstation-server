@@ -1,0 +1,6 @@
+<map id="TGServerService.TGIRCChatProvider" name="TGServerService.TGIRCChatProvider">
+<area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_i_t_g_chat_provider.html" title="ITGChatProvider" alt="" coords="5,377,120,404"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="18,250,107,277"/>
+<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_t_g_chat_setup_info.html" title="For setting up authentication no matter the chat provider " alt="" coords="469,250,589,277"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_t_g_i_r_c_setup_info.html" title="Chat provider for IRC. Admin entries should be user nicknames in normal mode or required channel flag..." alt="" coords="416,377,643,404"/>
+</map>

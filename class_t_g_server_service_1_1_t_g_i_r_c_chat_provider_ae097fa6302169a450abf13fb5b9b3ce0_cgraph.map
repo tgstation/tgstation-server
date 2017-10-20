@@ -1,0 +1,5 @@
+<map id="TGServerService.TGIRCChatProvider.TGIRCChatProvider" name="TGServerService.TGIRCChatProvider.TGIRCChatProvider">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a287e28a3b769e6c2d1e8709785a9e226" title="TGServerService.TGIRCChat\lProvider.Irc_OnChannelMessage" alt="" coords="240,5,451,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a12cb4d40631ea32fc377810dac3eef67" title="TGServerService.TGIRCChat\lProvider.Irc_OnQueryMessage" alt="" coords="246,71,445,112"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#ae9f9d017ae56f2483d332c19db70b289" title="TGServerService.TGIRCChat\lProvider.CheckAdmin" alt="" coords="499,39,685,80"/>
+</map>

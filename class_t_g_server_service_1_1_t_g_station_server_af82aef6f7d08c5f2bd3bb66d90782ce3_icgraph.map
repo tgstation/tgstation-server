@@ -1,0 +1,5 @@
+<map id="TGServerService.TGStationServer.GetCurrentPRList" name="TGServerService.TGStationServer.GetCurrentPRList">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a31d0b6cb9607fdd6a2b51de2229d8076" title="Get the currently merged pull requests. Note that switching branches will delete this list and switch..." alt="" coords="237,5,419,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6e9a6eae6e3c2dfc6fe683407642c9a0" title="TGServerService.TGStation\lServer.MergePullRequestImpl" alt="" coords="232,71,424,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6bf83e8cdc80edd4328b4f97cbf11d65" title="Merges the target pull request into the current branch if the remote is a github repository ..." alt="" coords="472,71,651,112"/>
+</map>

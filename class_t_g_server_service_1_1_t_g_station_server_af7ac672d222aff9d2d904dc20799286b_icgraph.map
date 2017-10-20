@@ -1,0 +1,12 @@
+<map id="TGServerService.TGStationServer.ResetNoLock" name="TGServerService.TGStationServer.ResetNoLock">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a04c3911abbb1125290a45f43270c73e1" title="Hard checks out the passed object name " alt="" coords="232,5,411,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7a57e7d35dcb0cabccbf2d1d02a8ddb6" title="TGServerService.TGStation\lServer.MergeBranch" alt="" coords="232,123,411,164"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6e9a6eae6e3c2dfc6fe683407642c9a0" title="TGServerService.TGStation\lServer.MergePullRequestImpl" alt="" coords="459,77,651,119"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#ab29820e80681869e8a3f4960b5cf9b05" title="TGServerService.TGStation\lServer.UpdateImpl" alt="" coords="465,156,644,197"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_t_g_station_server.html#a5477528442d638ffe0463812e8931c86" title="Runs git reset –hard " alt="" coords="232,240,411,281"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6bf83e8cdc80edd4328b4f97cbf11d65" title="Merges the target pull request into the current branch if the remote is a github repository ..." alt="" coords="699,77,877,119"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6ba4486c9a158ddf89173e6788fa074f" title="Fetches the origin and merges it into the current branch " alt="" coords="699,149,877,191"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a545e23eb2037161874820efdf54a7260" title="TGServerService.TGStation\lServer.AutoUpdateTimer\l_Elapsed" alt="" coords="699,215,877,271"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a2b6b1fd6f7b3e28d88fd5c842bcca7b4" title="TGServerService.TGStation\lServer.InitRepo" alt="" coords="925,223,1104,264"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="1152,223,1331,264"/>
+</map>

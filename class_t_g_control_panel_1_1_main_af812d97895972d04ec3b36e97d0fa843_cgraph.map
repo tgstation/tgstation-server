@@ -1,0 +1,4 @@
+<map id="TGControlPanel.Main.UpdateButton_Click" name="TGControlPanel.Main.UpdateButton_Click">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a27af72f380adbef699e029454e331abd" title="TGControlPanel.Main.Update\lBYONDButtons" alt="" coords="246,5,437,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_byond.html#a52a643cca9f9dc511be56721e16a5aeb" title="updates the used byond version to that of version major .minor . The change won&#39;t take place until DD..." alt="" coords="244,71,439,112"/>
+</map>

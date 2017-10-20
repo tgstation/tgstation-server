@@ -1,0 +1,5 @@
+<map id="TGServerService.TGStationServer.ChatProvider_OnChatMessage" name="TGServerService.TGStationServer.ChatProvider_OnChatMessage">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="303,5,500,47"/>
+<area shape="rect" id="node4" href="$interface_t_g_server_service_1_1_i_t_g_chat_provider.html#ab2c77cf4cbcfc0a094af0e91d45eb330" title="Send a message to a channel " alt="" coords="292,71,511,112"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#a3f1078fdaf3e09f73b1c66cc6fd41da5" title="Override to do the actions of the Command " alt="" coords="559,13,779,39"/>
+</map>

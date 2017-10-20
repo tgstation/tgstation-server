@@ -1,0 +1,5 @@
+<map id="TGServerService.ITGChatProvider" name="TGServerService.ITGChatProvider">
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html" title="TGServerService.TGDiscord\lChatProvider" alt="" coords="5,155,188,196"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html" title="TGServerService.TGIRCChat\lProvider" alt="" coords="213,155,399,196"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title="IDisposable" alt="" coords="156,5,245,32"/>
+</map>

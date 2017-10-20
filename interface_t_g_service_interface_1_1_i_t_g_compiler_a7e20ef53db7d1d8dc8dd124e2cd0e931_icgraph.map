@@ -1,0 +1,6 @@
+<map id="TGServiceInterface.ITGCompiler.Compile" name="TGServiceInterface.ITGCompiler.Compile">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a77502a87824e2c0a5a9a5eb34323a0bd" title="TGControlPanel.Main.Compile\lButton_Click" alt="" coords="263,5,459,47"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_main.html#a5b42adf1d8737c7bdf5bc384a6fc059a" title="TGControlPanel.Main.Full\lUpdateWorker_DoWork" alt="" coords="275,71,446,112"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a1a0f40f5c059826559b381e810a93dcc" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="507,39,703,80"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Server has had it&#39;s connection info setup " alt="" coords="751,46,928,73"/>
+</map>

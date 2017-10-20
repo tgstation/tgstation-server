@@ -1,0 +1,6 @@
+<map id="TGServerService.TGIRCChatProvider.Connect" name="TGServerService.TGIRCChatProvider.Connect">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a6f3808ee03bf6fa478efbed9fb24e05c" title="Checks if the chat provider is connected " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a3ce4713d50d18a6dc98d617ba7912023" title="TGServerService.TGIRCChat\lProvider.IRCListen" alt="" coords="240,35,427,76"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a6c7ed9f7a8228496b45ca0dbfceba099" title="TGServerService.TGIRCChat\lProvider.JoinChannels" alt="" coords="240,100,427,141"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#ae063612d554745b17e512de20f4e0f9f" title="TGServerService.TGIRCChat\lProvider.Login" alt="" coords="240,165,427,207"/>
+</map>

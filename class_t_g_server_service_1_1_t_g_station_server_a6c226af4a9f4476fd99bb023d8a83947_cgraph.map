@@ -1,0 +1,11 @@
+<map id="TGServerService.TGStationServer.DisposeDreamDaemon" name="TGServerService.TGStationServer.DisposeDreamDaemon">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a602008e3e633242ade8c6a3c23312b73" title="Gets the status of DreamDaemon " alt="" coords="248,5,427,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#af4b14f46cd94f1fdbf7fc36044fb3d10" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="248,71,427,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#aed657129e532dad1a9b7ed3c21c91f3e" title="Immediately kills the server " alt="" coords="248,136,427,177"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a885534b6f2d781c66e269dc21c7dafa2" title="Sends a message to everyone on the server &#160;" alt="" coords="248,201,427,243"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#a05aedeb16e1d1ef3dd06c0f3ea0d3f9c" title="TGServerService.TGStation\lServer.WriteCurrentDDLog" alt="" coords="248,267,427,308"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a37a52b80a04f677044775103e69dfe36" title="TGServerService.TGStation\lServer.SendCommand" alt="" coords="475,169,653,211"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a1954fb103ca9b9d480a4ee00cba4c2c5" title="TGServerService.TGStation\lServer.SanitizeTopicString" alt="" coords="475,235,653,276"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7503974048ecfbcc2279394a5fa29fd2" title="TGServerService.TGStation\lServer.SendTopic" alt="" coords="701,169,880,211"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a01afe35ce6b92bb201c7cb57c768947c" title="TGServerService.TGStation\lServer.CheckAPIVersionConstraints" alt="" coords="928,169,1159,211"/>
+</map>

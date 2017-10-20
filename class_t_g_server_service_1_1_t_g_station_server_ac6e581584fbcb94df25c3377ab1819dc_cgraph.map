@@ -1,0 +1,13 @@
+<map id="TGServerService.TGStationServer.UpdateToVersionImpl" name="TGServerService.TGStationServer.UpdateToVersionImpl">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a48f88d7158b9cbbf5e9dd83913ff5a22" title="TGServerService.TGStation\lServer.ApplyStagedUpdate" alt="" coords="239,71,417,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#af4b14f46cd94f1fdbf7fc36044fb3d10" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="465,136,644,177"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a81a1cd8e850f01a43cd6595a41677736" title="TGServerService.TGStation\lServer.CleanByondStaging" alt="" coords="239,5,417,47"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a602008e3e633242ade8c6a3c23312b73" title="Gets the status of DreamDaemon " alt="" coords="239,188,417,229"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a5db2dbabb22619286fdf5370fb0baaec" title="Restart the server after the currently running world reboots. Has no effect if the server isn&#39;t runni..." alt="" coords="239,253,417,295"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="TGServerService.Program.\lDeleteDirectory" alt="" coords="467,5,642,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#aad44415e7495a296a62bf08164a8dcae" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="465,71,644,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="TGServerService.Program.\lNormalizeAndDelete" alt="" coords="694,5,869,47"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#a37a52b80a04f677044775103e69dfe36" title="TGServerService.TGStation\lServer.SendCommand" alt="" coords="465,253,644,295"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7503974048ecfbcc2279394a5fa29fd2" title="TGServerService.TGStation\lServer.SendTopic" alt="" coords="692,253,871,295"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_t_g_station_server.html#a01afe35ce6b92bb201c7cb57c768947c" title="TGServerService.TGStation\lServer.CheckAPIVersionConstraints" alt="" coords="919,253,1149,295"/>
+</map>

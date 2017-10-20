@@ -1,0 +1,9 @@
+<map id="Common.InternalPreloadUnmanagedLibraries" name="Common.InternalPreloadUnmanagedLibraries">
+<area shape="rect" id="node2" href="$class_common.html#adfd070f9a744e4501390a3532c33ffa0" title="Common.CalculateChecksum" alt="" coords="293,5,488,32"/>
+<area shape="rect" id="node3" href="$class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="329,56,452,83"/>
+<area shape="rect" id="node4" href="$class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03" title="Common.LoadLibrary" alt="" coords="318,107,463,133"/>
+<area shape="rect" id="node5" href="$class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="317,157,465,184"/>
+<area shape="rect" id="node6" href="$class_common.html#a80aef2baf693b0b9479103fe477f2b28" title="Common.MoveFileEx" alt="" coords="318,208,463,235"/>
+<area shape="rect" id="node7" href="$class_common.html#a17842afc6e42e650325e6ce5d1ff0868" title="Common.ResourceNameToPath" alt="" coords="287,259,495,285"/>
+<area shape="rect" id="node8" href="$class_common.html#ae755d665523d0877b8363f447dacd5af" title="Common.SetDllDirectory" alt="" coords="308,309,473,336"/>
+</map>

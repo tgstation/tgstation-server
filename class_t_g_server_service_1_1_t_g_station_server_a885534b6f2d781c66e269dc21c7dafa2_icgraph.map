@@ -1,0 +1,6 @@
+<map id="TGServerService.TGStationServer.WorldAnnounce" name="TGServerService.TGStationServer.WorldAnnounce">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6c226af4a9f4476fd99bb023d8a83947" title="TGServerService.TGStation\lServer.DisposeDreamDaemon" alt="" coords="232,5,427,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#afc7af843093fca7c9361c03a4257ec63" title="TGServerService.TGStation\lServer.RunDisposals" alt="" coords="475,5,653,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a38fe563920a5b95fff3a23fc6257c5db" title="TGServerService.TGStation\lServer.Dispose" alt="" coords="701,5,880,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_server_service.html#a804718d6ffa3109bedb0ba88e4191622" title="TGServerService.TGServer\lService.OnStop" alt="" coords="928,5,1103,47"/>
+</map>

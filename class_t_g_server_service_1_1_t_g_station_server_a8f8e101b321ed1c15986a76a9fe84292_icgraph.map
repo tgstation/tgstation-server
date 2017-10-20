@@ -1,0 +1,4 @@
+<map id="TGServerService.TGStationServer.LocalIsRemote" name="TGServerService.TGStationServer.LocalIsRemote">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4084b586456256fed81f6b040eac2378" title="TGServerService.TGStation\lServer.Push" alt="" coords="232,5,411,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a2755069816901fc62a76495b18b9c3b1" title="Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exis..." alt="" coords="459,35,637,76"/>
+</map>

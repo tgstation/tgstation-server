@@ -1,0 +1,5 @@
+<map id="TGServerService.TGStationServer.BackupAndDeleteStaticDirectory" name="TGServerService.TGStationServer.BackupAndDeleteStaticDirectory">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="TGServerService.Program.\lCopyDirectory" alt="" coords="305,5,480,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="TGServerService.Program.\lDeleteDirectory" alt="" coords="305,71,480,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="TGServerService.Program.\lNormalizeAndDelete" alt="" coords="528,71,703,112"/>
+</map>

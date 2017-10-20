@@ -1,0 +1,6 @@
+<map id="TGServerService.TGStationServer.Reset" name="TGServerService.TGStationServer.Reset">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a75972d6c070b9d5d4550b4355198bd63" title="TGServerService.TGStation\lServer.DeletePRList" alt="" coords="232,5,411,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a35c9e68208d74408b7cb9ade0f50183b" title="TGServerService.TGStation\lServer.LoadRepo" alt="" coords="232,71,411,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#af7ac672d222aff9d2d904dc20799286b" title="TGServerService.TGStation\lServer.ResetNoLock" alt="" coords="232,136,411,177"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#af4b14f46cd94f1fdbf7fc36044fb3d10" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="232,201,411,243"/>
+</map>

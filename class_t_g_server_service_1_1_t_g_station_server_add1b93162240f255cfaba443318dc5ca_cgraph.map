@@ -1,0 +1,6 @@
+<map id="TGServerService.TGStationServer.LoadServerChatCommands" name="TGServerService.TGStationServer.LoadServerChatCommands">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a602008e3e633242ade8c6a3c23312b73" title="Gets the status of DreamDaemon " alt="" coords="272,5,451,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a37a52b80a04f677044775103e69dfe36" title="TGServerService.TGStation\lServer.SendCommand" alt="" coords="272,71,451,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7503974048ecfbcc2279394a5fa29fd2" title="TGServerService.TGStation\lServer.SendTopic" alt="" coords="499,71,677,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a01afe35ce6b92bb201c7cb57c768947c" title="TGServerService.TGStation\lServer.CheckAPIVersionConstraints" alt="" coords="725,71,956,112"/>
+</map>

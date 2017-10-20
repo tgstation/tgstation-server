@@ -1,0 +1,9 @@
+<map id="TGServerService.TGStationServer.CurrentStatus" name="TGServerService.TGStationServer.CurrentStatus">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a99957b3a416de986d293a9f356d5b283" title="Starts the server if it isn&#39;t running " alt="" coords="232,39,411,80"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a02b2939ce159db54fa3da67a27cea490" title="TGServerService.TGStation\lServer.InitDreamDaemon" alt="" coords="459,5,637,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a580320f90519cf35409bd67afb97cfac" title="Immediately kills and restarts the server " alt="" coords="459,71,637,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="685,5,864,47"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#af671b71aa7c6bbf880cd40619f1ba354" title="TGServerService.TGStation\lServer.KillMe" alt="" coords="685,71,864,112"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7e7f8685fc3eb9f0e13c78e545b44dc9" title="TGServerService.TGStation\lServer.HandleCommand" alt="" coords="912,71,1091,112"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a934bcf412bd19e5f98a20056775d3d6a" title="Called from /world/ExportService(command) &#160;" alt="" coords="1139,71,1317,112"/>
+</map>

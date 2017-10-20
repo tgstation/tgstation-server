@@ -1,0 +1,20 @@
+<map id="TGServerService.TGStationServer.Clone" name="TGServerService.TGStationServer.Clone">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac45d67acdbf81ead4237f4f7db9ff527" title="TGServerService.TGStation\lServer.BackupAndDeleteStaticDirectory" alt="" coords="232,60,484,101"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="TGServerService.Program.\lDeleteDirectory" alt="" coords="544,31,719,72"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a75972d6c070b9d5d4550b4355198bd63" title="TGServerService.TGStation\lServer.DeletePRList" alt="" coords="269,125,447,167"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#abd6ec58b8bcce98228831cfe0c7414ac" title="TGServerService.TGStation\lServer.DisableGarbageCollection\lNoLock" alt="" coords="253,191,463,247"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#af27caae334726e02403878eb9ff1cbc5" title="TGServerService.TGStation\lServer.DisposeRepo" alt="" coords="269,272,447,313"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a759277477b46c33ea466d53920008fa1" title="TGServerService.TGStation\lServer.GenerateGitCredentials" alt="" coords="259,337,457,379"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#aba3f24520089a03a9c9c14f349e4953c" title="TGServerService.TGStation\lServer.HandleCheckoutProgress" alt="" coords="253,403,463,444"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac423a13b883fc61e85f90033939f3ea5" title="TGServerService.TGStation\lServer.HandleTransferProgress" alt="" coords="258,468,458,509"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_t_g_station_server.html#a73c8cecdb1b4ea9c19122c1a871ba8ff" title="TGServerService.TGStation\lServer.InitialConfigureRepository" alt="" coords="254,533,462,575"/>
+<area shape="rect" id="node18" href="$class_t_g_server_service_1_1_t_g_station_server.html#a35c9e68208d74408b7cb9ade0f50183b" title="TGServerService.TGStation\lServer.LoadRepo" alt="" coords="269,599,447,640"/>
+<area shape="rect" id="node19" href="$class_t_g_server_service_1_1_t_g_station_server.html#af4b14f46cd94f1fdbf7fc36044fb3d10" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="269,664,447,705"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="TGServerService.Program.\lCopyDirectory" alt="" coords="544,264,719,305"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="TGServerService.Program.\lNormalizeAndDelete" alt="" coords="787,31,961,72"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_t_g_station_server.html#ad262be4efe1b631925a6fb576c11dcd0" title="TGServerService.TGStation\lServer.UpdateInterfaceDll" alt="" coords="542,435,721,476"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_t_g_station_server.html#aae3631f91b89180008c90dbce020f7dd" title="Updates the cached TGS3.json to the repo&#39;s version. Compiles will not succeed if these two to not mat..." alt="" coords="542,500,721,541"/>
+<area shape="rect" id="node15" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a584e69611ceebd98436046320da51a97" title="TGServerService.TGStation\lServer.RepoConfig.RepoConfig" alt="" coords="532,565,731,607"/>
+<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#aef2a6a2e44bad48a223197b153734b06" title="TGServerService.Program.\lCopyFileForceDirectories" alt="" coords="544,631,719,672"/>
+<area shape="rect" id="node16" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a50a159f26f25732fa319c72ceacd1ff8" title="TGServerService.TGStation\lServer.RepoConfig.LoadArray" alt="" coords="779,565,969,607"/>
+</map>

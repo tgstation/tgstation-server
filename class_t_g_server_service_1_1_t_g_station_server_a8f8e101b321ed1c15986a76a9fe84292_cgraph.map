@@ -1,0 +1,7 @@
+<map id="TGServerService.TGStationServer.LocalIsRemote" name="TGServerService.TGStationServer.LocalIsRemote">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a3495b13f9d611fdc0a4a493d7039216a" title="Fetches origin " alt="" coords="232,39,411,80"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a35c9e68208d74408b7cb9ade0f50183b" title="TGServerService.TGStation\lServer.LoadRepo" alt="" coords="232,104,411,145"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#af362461ed1b2db2346c940de0eebaf58" title="TGServerService.TGStation\lServer.GenerateFetchOptions" alt="" coords="459,39,652,80"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a759277477b46c33ea466d53920008fa1" title="TGServerService.TGStation\lServer.GenerateGitCredentials" alt="" coords="701,5,899,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac423a13b883fc61e85f90033939f3ea5" title="TGServerService.TGStation\lServer.HandleTransferProgress" alt="" coords="700,71,900,112"/>
+</map>

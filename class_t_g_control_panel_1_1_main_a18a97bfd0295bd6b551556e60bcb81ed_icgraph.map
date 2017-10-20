@@ -1,0 +1,8 @@
+<map id="TGControlPanel.Main.PopulateRepoFields" name="TGControlPanel.Main.PopulateRepoFields">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#aeda15259ccefe2de9c43b24f6e264a41" title="TGControlPanel.Main.Init\lRepoPage" alt="" coords="504,18,671,59"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a94c30deabbdcec95612581480669db5b" title="TGControlPanel.Main.Panels\l_SelectedIndexChanged" alt="" coords="493,83,682,125"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_main.html#aeb99d1c5199dd7cb44562c230d9d751c" title="TGControlPanel.Main.Repo\lBGW_RunWorkerCompleted" alt="" coords="253,27,441,69"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_main.html#a41e11b53957ca0a3e8644041b706746b" title="TGControlPanel.Main.Repo\lRefreshButton_Click" alt="" coords="258,147,437,189"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Server has had it&#39;s connection info setup " alt="" coords="733,91,911,117"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_main.html#a1a0f40f5c059826559b381e810a93dcc" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="489,149,685,190"/>
+</map>

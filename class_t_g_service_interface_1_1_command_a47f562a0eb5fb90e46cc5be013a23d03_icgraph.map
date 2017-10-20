@@ -1,0 +1,5 @@
+<map id="TGServiceInterface.Command.DoRun" name="TGServiceInterface.Command.DoRun">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a34ec045f2bd76d7d4a29baa72e8e7cfc" title="TGServerService.TGStation\lServer.ChatProvider_OnChatMessage" alt="" coords="251,5,489,47"/>
+<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_program.html#a0991e0b2549f4744151ab7ad60a8979e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="269,71,471,112"/>
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="537,78,744,105"/>
+</map>

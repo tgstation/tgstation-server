@@ -1,0 +1,9 @@
+<map id="TGServerService.TGStationServer.MergeBranch" name="TGServerService.TGStationServer.MergeBranch">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6e9a6eae6e3c2dfc6fe683407642c9a0" title="TGServerService.TGStation\lServer.MergePullRequestImpl" alt="" coords="232,5,424,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#ab29820e80681869e8a3f4960b5cf9b05" title="TGServerService.TGStation\lServer.UpdateImpl" alt="" coords="239,71,417,112"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6bf83e8cdc80edd4328b4f97cbf11d65" title="Merges the target pull request into the current branch if the remote is a github repository ..." alt="" coords="472,5,651,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6ba4486c9a158ddf89173e6788fa074f" title="Fetches the origin and merges it into the current branch " alt="" coords="472,71,651,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a545e23eb2037161874820efdf54a7260" title="TGServerService.TGStation\lServer.AutoUpdateTimer\l_Elapsed" alt="" coords="472,137,651,193"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a2b6b1fd6f7b3e28d88fd5c842bcca7b4" title="TGServerService.TGStation\lServer.InitRepo" alt="" coords="699,144,877,185"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="925,144,1104,185"/>
+</map>

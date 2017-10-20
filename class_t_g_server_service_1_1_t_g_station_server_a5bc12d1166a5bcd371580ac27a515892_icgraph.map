@@ -1,0 +1,11 @@
+<map id="TGServerService.TGStationServer.MemTrackTimer_Elapsed" name="TGServerService.TGStationServer.MemTrackTimer_Elapsed">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4b4802fc928357b89b32a8246cbaa5aa" title="TGServerService.TGStation\lServer.Watchdog" alt="" coords="263,64,441,105"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a02b2939ce159db54fa3da67a27cea490" title="TGServerService.TGStation\lServer.InitDreamDaemon" alt="" coords="943,5,1121,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a580e7467b5f8175ec1f313e72f73b3df" title="TGServerService.TGStation\lServer.StartImpl" alt="" coords="489,64,668,105"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="1169,5,1348,47"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a99957b3a416de986d293a9f356d5b283" title="Starts the server if it isn&#39;t running " alt="" coords="716,64,895,105"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a580320f90519cf35409bd67afb97cfac" title="Immediately kills and restarts the server " alt="" coords="943,71,1121,112"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#af671b71aa7c6bbf880cd40619f1ba354" title="TGServerService.TGStation\lServer.KillMe" alt="" coords="1169,71,1348,112"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7e7f8685fc3eb9f0e13c78e545b44dc9" title="TGServerService.TGStation\lServer.HandleCommand" alt="" coords="1396,71,1575,112"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#a934bcf412bd19e5f98a20056775d3d6a" title="Called from /world/ExportService(command) &#160;" alt="" coords="1623,71,1801,112"/>
+</map>

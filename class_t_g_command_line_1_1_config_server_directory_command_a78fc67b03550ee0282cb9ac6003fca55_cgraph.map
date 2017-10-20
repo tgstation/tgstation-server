@@ -1,0 +1,4 @@
+<map id="TGCommandLine.ConfigServerDirectoryCommand.Run" name="TGCommandLine.ConfigServerDirectoryCommand.Run">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="252,5,449,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_config.html#a0528e37c2365b73ec64782450025169a" title="Return the directory of the server on the host machine " alt="" coords="253,71,448,112"/>
+</map>

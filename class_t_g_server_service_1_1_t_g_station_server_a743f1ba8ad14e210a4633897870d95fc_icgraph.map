@@ -1,0 +1,8 @@
+<map id="TGServerService.TGStationServer.Exists" name="TGServerService.TGStationServer.Exists">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#aba2cdfb67df286a0581ef39930f44de8" title="TGServerService.TGStation\lServer.GenerateChangelogImpl" alt="" coords="232,5,432,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a71df085ab1fe024056e8909feb48fabd" title="TGServerService.TGStation\lServer.InitializeImpl" alt="" coords="243,71,421,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a2b6b1fd6f7b3e28d88fd5c842bcca7b4" title="TGServerService.TGStation\lServer.InitRepo" alt="" coords="243,136,421,177"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a3a49d6a1a6506a54b4b0051ab6bd8a39" title="Updates the html changelog " alt="" coords="480,5,659,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a389a13c5841edddddf5be51701a5411d" title="Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder..." alt="" coords="480,71,659,112"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="480,136,659,177"/>
+</map>

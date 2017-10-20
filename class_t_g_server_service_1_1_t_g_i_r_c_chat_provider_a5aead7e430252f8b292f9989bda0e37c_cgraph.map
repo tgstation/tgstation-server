@@ -1,0 +1,9 @@
+<map id="TGServerService.TGIRCChatProvider.SetProviderInfo" name="TGServerService.TGIRCChatProvider.SetProviderInfo">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a6f3808ee03bf6fa478efbed9fb24e05c" title="Checks if the chat provider is connected " alt="" coords="944,129,1131,171"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#acde397d66250b752f04b93d8bcaf6e63" title="Disconnects the chat provider " alt="" coords="475,136,661,177"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a6c7ed9f7a8228496b45ca0dbfceba099" title="TGServerService.TGIRCChat\lProvider.JoinChannels" alt="" coords="709,5,896,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#ae063612d554745b17e512de20f4e0f9f" title="TGServerService.TGIRCChat\lProvider.Login" alt="" coords="709,188,896,229"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#ad3628ac58ad8fc2f297f8e8b14fa103f" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="240,81,427,123"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a2a6e268ca351a4626f34508aee6bc176" title="Connects the chat provider if it&#39;s enabled " alt="" coords="475,71,661,112"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a3ce4713d50d18a6dc98d617ba7912023" title="TGServerService.TGIRCChat\lProvider.IRCListen" alt="" coords="709,71,896,112"/>
+</map>

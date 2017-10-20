@@ -1,0 +1,7 @@
+<map id="TGServerService.TGStationServer.RequestRestart" name="TGServerService.TGStationServer.RequestRestart">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a096c8ca24628f85019214e2b5698afa4" title="Set the port to host DD on. Requires reboot to apply. Calls RequestRestart. " alt="" coords="235,5,414,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a43e6241a53773825a06608bc45e69d50" title="Sets the security level of the server. Requires server reboot to apply. Calls RequestRestart. Note that anything higher than Trusted will disable interop from DD " alt="" coords="235,71,414,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#ab381187ab709e34d2986b475614380d6" title="Set the webclient config. Calls RequestRestart &#160;" alt="" coords="235,136,414,177"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac6e581584fbcb94df25c3377ab1819dc" title="TGServerService.TGStation\lServer.UpdateToVersionImpl" alt="" coords="232,201,417,243"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a488ecd7dd1120d2851ffb417a4c1c953" title="updates the used byond version to that of version major .minor . The change won&#39;t take place until DD..." alt="" coords="465,201,644,243"/>
+</map>

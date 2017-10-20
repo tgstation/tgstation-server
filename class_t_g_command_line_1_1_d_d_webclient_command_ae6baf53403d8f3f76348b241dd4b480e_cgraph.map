@@ -1,0 +1,4 @@
+<map id="TGCommandLine.DDWebclientCommand.Run" name="TGCommandLine.DDWebclientCommand.Run">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="256,5,453,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_dream_daemon.html#ad7b9fbad2cf3a368bacb8340fd2708b8" title="Set the webclient config. Calls RequestRestart " alt="" coords="259,71,451,112"/>
+</map>

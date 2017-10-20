@@ -1,0 +1,11 @@
+<map id="TGServerService.TGStationServer.ApplyStagedUpdate" name="TGServerService.TGStationServer.ApplyStagedUpdate">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a99957b3a416de986d293a9f356d5b283" title="Starts the server if it isn&#39;t running " alt="" coords="235,71,414,112"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac6e581584fbcb94df25c3377ab1819dc" title="TGServerService.TGStation\lServer.UpdateToVersionImpl" alt="" coords="232,136,417,177"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a02b2939ce159db54fa3da67a27cea490" title="TGServerService.TGStation\lServer.InitDreamDaemon" alt="" coords="465,5,644,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a580320f90519cf35409bd67afb97cfac" title="Immediately kills and restarts the server " alt="" coords="465,71,644,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="692,5,871,47"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#af671b71aa7c6bbf880cd40619f1ba354" title="TGServerService.TGStation\lServer.KillMe" alt="" coords="692,71,871,112"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7e7f8685fc3eb9f0e13c78e545b44dc9" title="TGServerService.TGStation\lServer.HandleCommand" alt="" coords="919,71,1097,112"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a934bcf412bd19e5f98a20056775d3d6a" title="Called from /world/ExportService(command) &#160;" alt="" coords="1145,71,1324,112"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#a488ecd7dd1120d2851ffb417a4c1c953" title="updates the used byond version to that of version major .minor . The change won&#39;t take place until DD..." alt="" coords="465,136,644,177"/>
+</map>

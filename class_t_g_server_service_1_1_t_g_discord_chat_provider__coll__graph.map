@@ -1,0 +1,6 @@
+<map id="TGServerService.TGDiscordChatProvider" name="TGServerService.TGDiscordChatProvider">
+<area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_i_t_g_chat_provider.html" title="ITGChatProvider" alt="" coords="513,5,628,32"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="231,5,321,32"/>
+<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_t_g_chat_setup_info.html" title="For setting up authentication no matter the chat provider " alt="" coords="216,165,336,192"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_t_g_discord_setup_info.html" title="Chat provider for Discord. Admin entires should be user ids in normal mode or group ids in special mo..." alt="" coords="473,158,668,199"/>
+</map>

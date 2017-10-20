@@ -1,0 +1,5 @@
+<map id="TGCommandLine.CLICommand.CLICommand" name="TGCommandLine.CLICommand.CLICommand">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_server.html#abaad1c5a4c7dc92f59369dab256082a8" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="261,5,436,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_server.html#a412199ba72f1131654302c87dceaa2c9" title="Checks if the current login can use ITGAdministration. Requires a successful prior call to Authentica..." alt="" coords="261,71,436,112"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_server.html#a61e77836cbf5e2005bb399ff790f0897" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="261,136,436,177"/>
+</map>

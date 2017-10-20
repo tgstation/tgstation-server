@@ -1,0 +1,5 @@
+<map id="TGServerService.TGStationServer.DisposeByond" name="TGServerService.TGStationServer.DisposeByond">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#afc7af843093fca7c9361c03a4257ec63" title="TGServerService.TGStation\lServer.RunDisposals" alt="" coords="232,5,411,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a38fe563920a5b95fff3a23fc6257c5db" title="TGServerService.TGStation\lServer.Dispose" alt="" coords="459,5,637,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_server_service.html#a804718d6ffa3109bedb0ba88e4191622" title="TGServerService.TGServer\lService.OnStop" alt="" coords="685,5,860,47"/>
+</map>

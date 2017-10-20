@@ -1,0 +1,8 @@
+<map id="TGServerService.TGIRCChatProvider.Connected" name="TGServerService.TGIRCChatProvider.Connected">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a2a6e268ca351a4626f34508aee6bc176" title="Connects the chat provider if it&#39;s enabled " alt="" coords="477,32,664,73"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a5aead7e430252f8b292f9989bda0e37c" title="Sets info for the provider " alt="" coords="947,61,1133,102"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a3ce4713d50d18a6dc98d617ba7912023" title="TGServerService.TGIRCChat\lProvider.IRCListen" alt="" coords="241,32,428,73"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a3ef58727b0f22215c9bd6c3615a6b9f7" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="241,149,428,190"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#a3e039f9d7890483d5e9823112cc5914a" title="Send a message to a channel " alt="" coords="240,214,429,256"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_i_r_c_chat_provider.html#ad3628ac58ad8fc2f297f8e8b14fa103f" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="712,32,899,73"/>
+</map>

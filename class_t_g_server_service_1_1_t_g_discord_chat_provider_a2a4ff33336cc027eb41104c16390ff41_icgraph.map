@@ -1,0 +1,4 @@
+<map id="TGServerService.TGDiscordChatProvider.Disconnect" name="TGServerService.TGDiscordChatProvider.Disconnect">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a8cfac689a22e15f391c0160bd0aa31e2" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="236,5,419,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a748142aa12365ed25bdc3c7205eabaac" title="Sets info for the provider " alt="" coords="467,35,652,76"/>
+</map>

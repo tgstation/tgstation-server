@@ -1,0 +1,4 @@
+<map id="TGCommandLine.TestmergeCommand.Run" name="TGCommandLine.TestmergeCommand.Run">
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_t_g_repository.html#a94a480e278f68ad076c6b84e6529a523" title="Merges the target pull request into the current branch if the remote is a github repository ..." alt="" coords="327,5,547,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="338,71,535,112"/>
+</map>

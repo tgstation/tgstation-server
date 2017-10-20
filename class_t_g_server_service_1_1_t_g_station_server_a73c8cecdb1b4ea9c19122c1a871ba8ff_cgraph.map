@@ -1,0 +1,8 @@
+<map id="TGServerService.TGStationServer.InitialConfigureRepository" name="TGServerService.TGStationServer.InitialConfigureRepository">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="TGServerService.Program.\lCopyDirectory" alt="" coords="273,5,448,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#aef2a6a2e44bad48a223197b153734b06" title="TGServerService.Program.\lCopyFileForceDirectories" alt="" coords="273,71,448,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a584e69611ceebd98436046320da51a97" title="TGServerService.TGStation\lServer.RepoConfig.RepoConfig" alt="" coords="261,136,460,177"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#ad262be4efe1b631925a6fb576c11dcd0" title="TGServerService.TGStation\lServer.UpdateInterfaceDll" alt="" coords="271,201,450,243"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#aae3631f91b89180008c90dbce020f7dd" title="Updates the cached TGS3.json to the repo&#39;s version. Compiles will not succeed if these two to not mat..." alt="" coords="271,267,450,308"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a50a159f26f25732fa319c72ceacd1ff8" title="TGServerService.TGStation\lServer.RepoConfig.LoadArray" alt="" coords="508,136,699,177"/>
+</map>

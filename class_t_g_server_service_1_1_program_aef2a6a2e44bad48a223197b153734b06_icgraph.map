@@ -1,0 +1,6 @@
+<map id="TGServerService.Program.CopyFileForceDirectories" name="TGServerService.Program.CopyFileForceDirectories">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a73c8cecdb1b4ea9c19122c1a871ba8ff" title="TGServerService.TGStation\lServer.InitialConfigureRepository" alt="" coords="228,39,436,80"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#abb4506a35ae23d5ede6e31c6f6a81ce4" title="Renames the current static folder to a backup name and recreates is from the current repo using TGS3..." alt="" coords="484,5,668,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#afc957e196e553b3f02b4aee37cf39a75" title="TGServerService.TGStation\lServer.Clone" alt="" coords="487,71,665,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4b7c7e7327e7074ddf20e5d9c46e5c3e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="716,71,895,112"/>
+</map>

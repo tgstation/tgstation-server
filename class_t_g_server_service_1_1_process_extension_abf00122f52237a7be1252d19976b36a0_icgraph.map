@@ -1,0 +1,4 @@
+<map id="TGServerService.ProcessExtension.OpenThread" name="TGServerService.ProcessExtension.OpenThread">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_process_extension.html#a362bb332f8b85b64db1d834a86e30e2d" title="Resumes all threads for a running Process " alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_process_extension.html#a3e3c4b7e356d1fd8bceeafea74e121c6" title="Suspends all threads for a running Process " alt="" coords="284,71,515,112"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="TGServerService.TGStationServer.IsInitialized" name="TGServerService.TGStationServer.IsInitialized">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#af0d6133891a41755c6a7576a213a57a3" title="TGServerService.TGStation\lServer.CompileImpl" alt="" coords="232,27,411,69"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a71df085ab1fe024056e8909feb48fabd" title="TGServerService.TGStation\lServer.InitializeImpl" alt="" coords="459,86,637,127"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a63f80383bc41916017daa339588f8838" title="TGServerService.TGStation\lServer.InitCompiler" alt="" coords="232,145,411,186"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a0db690e6920c416b1b649dce372ec07b" title="Does all the necessary actions to take the revision currently in the repository and compile it to be ..." alt="" coords="459,17,637,58"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a545e23eb2037161874820efdf54a7260" title="TGServerService.TGStation\lServer.AutoUpdateTimer\l_Elapsed" alt="" coords="685,5,864,61"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a2b6b1fd6f7b3e28d88fd5c842bcca7b4" title="TGServerService.TGStation\lServer.InitRepo" alt="" coords="912,50,1091,91"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4f97e39d3ccbfe74fb6790dab5cc8a2c" title="TGServerService.TGStation\lServer.TGStationServer" alt="" coords="1139,94,1317,135"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#a389a13c5841edddddf5be51701a5411d" title="Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder..." alt="" coords="685,86,864,127"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#a6addc9d2bd62bf7a5940cfc513af4ca9" title="TGServerService.TGStation\lServer.DisposeCompiler" alt="" coords="459,203,637,245"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_t_g_station_server.html#afc7af843093fca7c9361c03a4257ec63" title="TGServerService.TGStation\lServer.RunDisposals" alt="" coords="685,203,864,245"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_t_g_station_server.html#a38fe563920a5b95fff3a23fc6257c5db" title="TGServerService.TGStation\lServer.Dispose" alt="" coords="912,203,1091,245"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_t_g_server_service.html#a804718d6ffa3109bedb0ba88e4191622" title="TGServerService.TGServer\lService.OnStop" alt="" coords="1141,203,1315,245"/>
+</map>

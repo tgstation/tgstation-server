@@ -1,0 +1,15 @@
+<map id="TGServerService.TGStationServer.SynchronizePush" name="TGServerService.TGStationServer.SynchronizePush">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a5f91ad1658871666a6d36dde9729790b" title="TGServerService.TGStation\lServer.Commit" alt="" coords="242,93,421,135"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#a8f8e101b321ed1c15986a76a9fe84292" title="TGServerService.TGStation\lServer.LocalIsRemote" alt="" coords="485,188,663,229"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_t_g_station_server.html#a4084b586456256fed81f6b040eac2378" title="TGServerService.TGStation\lServer.Push" alt="" coords="242,265,421,307"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_t_g_station_server.html#a3cb4ead512f72922441116267727eb93" title="TGServerService.TGStation\lServer.SSHAuth" alt="" coords="485,356,663,397"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a584e69611ceebd98436046320da51a97" title="TGServerService.TGStation\lServer.RepoConfig.RepoConfig" alt="" coords="232,411,431,452"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a75972d6c070b9d5d4550b4355198bd63" title="TGServerService.TGStation\lServer.DeletePRList" alt="" coords="485,5,663,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a35c9e68208d74408b7cb9ade0f50183b" title="TGServerService.TGStation\lServer.LoadRepo" alt="" coords="717,239,896,280"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac492a88de6e6c9078df1e59ce6d7a38f" title="TGServerService.TGStation\lServer.MakeSig" alt="" coords="485,123,663,164"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_station_server.html#a3495b13f9d611fdc0a4a493d7039216a" title="Fetches origin " alt="" coords="717,173,896,215"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_station_server.html#af362461ed1b2db2346c940de0eebaf58" title="TGServerService.TGStation\lServer.GenerateFetchOptions" alt="" coords="944,188,1137,229"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_station_server.html#a759277477b46c33ea466d53920008fa1" title="TGServerService.TGStation\lServer.GenerateGitCredentials" alt="" coords="1187,268,1384,309"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac423a13b883fc61e85f90033939f3ea5" title="TGServerService.TGStation\lServer.HandleTransferProgress" alt="" coords="1185,188,1385,229"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a50a159f26f25732fa319c72ceacd1ff8" title="TGServerService.TGStation\lServer.RepoConfig.LoadArray" alt="" coords="479,421,669,463"/>
+</map>

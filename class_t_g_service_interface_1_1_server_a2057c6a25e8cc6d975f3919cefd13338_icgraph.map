@@ -1,0 +1,3 @@
+<map id="TGServiceInterface.Server.CreateChannel&lt; T &gt;" name="TGServiceInterface.Server.CreateChannel&lt; T &gt;">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_server.html#a31e8251389e33dcfbc587948e2b84ae1" title="Returns the requested Server component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage " alt="" coords="228,5,403,47"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="TGControlPanel.Login.InitializeComponent" name="TGControlPanel.Login.InitializeComponent">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="285,103,467,144"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="277,168,475,209"/>
+<area shape="rect" id="node12" href="$class_t_g_control_panel_1_1_login.html#a308c5e1602dc46f5de8ac51535820cf7" title="TGControlPanel.Login.Save\lPasswordCheckBox_CheckedChanged" alt="" coords="252,233,500,275"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_server.html#a81da2afbcc6d4a969379c1786c27bdf3" title="Set the interface to look for services on the current computer " alt="" coords="553,103,728,144"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html#a419b6312a9b3a12a886b8a103aa38683" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="548,37,733,79"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_server.html#ad931ffc8b6242a5973a22a94cebc5f7e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="781,185,956,227"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_server.html#a39a0b2e6a7e143c12dbdd29222d777a5" title="Safely shuts down a single ChannelFactory " alt="" coords="1004,185,1179,227"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_server.html#a61e77836cbf5e2005bb399ff790f0897" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="781,71,956,112"/>
+<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_server.html#abaad1c5a4c7dc92f59369dab256082a8" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="781,5,956,47"/>
+<area shape="rect" id="node10" href="$class_t_g_service_interface_1_1_server.html#a5a828312c85f75c00316ebb54f202fc8" title="Set the remote Server to connect to along with " alt="" coords="550,233,731,275"/>
+<area shape="rect" id="node11" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="549,168,732,209"/>
+</map>

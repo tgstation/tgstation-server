@@ -1,0 +1,5 @@
+<map id="TGServerService.ProcessExtension.Resume" name="TGServerService.ProcessExtension.Resume">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="TGServerService.ProcessExtension.\lCloseHandle" alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="TGServerService.ProcessExtension.\lOpenThread" alt="" coords="284,71,515,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91" title="TGServerService.ProcessExtension.\lResumeThread" alt="" coords="284,136,515,177"/>
+</map>

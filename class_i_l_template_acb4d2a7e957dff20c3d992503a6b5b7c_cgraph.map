@@ -1,0 +1,8 @@
+<map id="ILTemplate.ResolveAssembly" name="ILTemplate.ResolveAssembly">
+<area shape="rect" id="node2" href="$class_common.html#a092e7fc10aca1741843c4f65a719d3c8" title="Common.Log" alt="" coords="590,5,689,32"/>
+<area shape="rect" id="node3" href="$class_common.html#a710e1dd5feaf74e91e88cc1417e13a3a" title="Common.ReadExistingAssembly" alt="" coords="270,56,483,83"/>
+<area shape="rect" id="node5" href="$class_common.html#a125562bcb6af91929b850b0b5e63b090" title="Common.ReadFromEmbeddedResources" alt="" coords="245,107,508,133"/>
+<area shape="rect" id="node4" href="$class_common.html#ac106c64e40ba8bdf60460294628f72b8" title="Common.CultureToString" alt="" coords="556,56,723,83"/>
+<area shape="rect" id="node6" href="$class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="565,107,713,133"/>
+<area shape="rect" id="node7" href="$class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f" title="Common.ReadStream" alt="" coords="564,157,715,184"/>
+</map>

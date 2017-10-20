@@ -1,0 +1,5 @@
+<map id="TGControlPanel.Main.ChatApplyButton_Click" name="TGControlPanel.Main.ChatApplyButton_Click">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#ab92a124019b930e8608c2951b3c33f71" title="TGControlPanel.Main.Load\lChatPage" alt="" coords="229,39,407,80"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_chat.html#af0f92b1ed2eadf3c8beb6e3c086281b0" title="Returns TGChatSetupInfo for all TGChatProviders " alt="" coords="457,5,642,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a7252c8bf68cc9d92f43abc8f5ca40fdd" title="TGControlPanel.Main.Assign\lListToTextbox" alt="" coords="455,71,644,112"/>
+</map>

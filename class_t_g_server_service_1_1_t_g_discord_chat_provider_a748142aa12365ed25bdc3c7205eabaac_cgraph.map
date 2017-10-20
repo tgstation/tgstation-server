@@ -1,0 +1,10 @@
+<map id="TGServerService.TGDiscordChatProvider.SetProviderInfo" name="TGServerService.TGDiscordChatProvider.SetProviderInfo">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a0428d47fe45315f41bb2a6099e2af549" title="Checks if the chat provider is connected " alt="" coords="813,51,996,92"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a2a4ff33336cc027eb41104c16390ff41" title="Disconnects the chat provider " alt="" coords="552,116,735,157"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a16f0663a0e815f24aa6933fd277d0f53" title="TGServerService.TGDiscord\lChatProvider.DisconnectAndDispose" alt="" coords="239,116,473,157"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#ae86a3a77ede1f2fef3d323fda93abd1e" title="TGServerService.TGDiscord\lChatProvider.Init" alt="" coords="265,233,447,275"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a8cfac689a22e15f391c0160bd0aa31e2" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="265,51,447,92"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a48b8acd543013034cfe4a779fff671b3" title="TGServerService.TGDiscord\lChatProvider.Client_MessageReceived" alt="" coords="521,233,765,275"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a1c175d43538904ffa9f845c3ea48c572" title="TGServerService.TGDiscord\lChatProvider.CheckAdmin" alt="" coords="813,233,996,275"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a8877fd749851b437c9a35c710b1873fb" title="Connects the chat provider if it&#39;s enabled " alt="" coords="552,51,735,92"/>
+</map>

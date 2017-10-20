@@ -1,0 +1,9 @@
+<map id="TGServerService.ChatCommand" name="TGServerService.ChatCommand">
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_byond_command.html" title="TGServerService.ByondCommand" alt="" coords="393,5,610,32"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_kek_command.html" title="TGServerService.KekCommand" alt="" coords="400,56,603,83"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_p_rs_command.html" title="TGServerService.PRsCommand" alt="" coords="399,107,604,133"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_revision_command.html" title="TGServerService.Revision\lCommand" alt="" coords="417,158,586,199"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_chat_command.html" title="TGServerService.ServerChat\lCommand" alt="" coords="409,223,593,265"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_version_command.html" title="TGServerService.VersionCommand" alt="" coords="389,289,613,316"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,136,87,163"/>
+</map>
