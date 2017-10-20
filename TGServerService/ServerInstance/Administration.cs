@@ -107,8 +107,14 @@ namespace TGServerService
 
 			var windowsIdent = operationContext.ServiceSecurityContext.WindowsIdentity;
 
-			if (contract == typeof(ITGInterop).Name)	//only allow the same user the service is running as to use interop, because that's what DD is running as
-				return windowsIdent.User == ServiceSID;
+			if (contract == typeof(ITGInterop).Name)
+			{    
+				//only allow the same user the service is running as to use interop, because that's what DD is running as, and don't spam the logs with it unless it fails
+				var result = windowsIdent.User == ServiceSID;
+				if(!result)
+					Service.WriteAccess(windowsIdent.Name, false);
+				return result;
+			}
 
 			var wp = new WindowsPrincipal(windowsIdent);
 			//first allow admins

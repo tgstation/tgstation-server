@@ -20,11 +20,12 @@ namespace TGServerService
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string ReadText(string staticRelativePath, bool repo, out string error, out bool unauthorized)
 		{
+			string path = null;
 			try
 			{
 				var configDir = repo ? RepoPath : StaticDirs;
 
-				var path = configDir + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+				path = configDir + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(configDir);
@@ -93,6 +94,8 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				error = e.ToString();
+				Service.CancelImpersonation();
+				Service.WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				unauthorized = false;
 				return null;
 			}
@@ -100,9 +103,9 @@ namespace TGServerService
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
+			var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
 			{
-				var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(StaticDirs);
@@ -143,15 +146,17 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				unauthorized = false;
+				Service.CancelImpersonation();
+				Service.WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
+			var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
 			{
-				var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
 				{
 					var di1 = new DirectoryInfo(StaticDirs);
@@ -194,6 +199,8 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				unauthorized = false;
+				Service.CancelImpersonation();
+				Service.WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}

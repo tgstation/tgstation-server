@@ -21,6 +21,7 @@ namespace TGServerService
 
 		bool HandleEvent(string eventName)
 		{
+
 			if (!EventHandlerExists(eventName))
 			{
 				// We don't need a handler, so let's just fail silently.
@@ -43,13 +44,15 @@ namespace TGServerService
 
 			var stdout = process.StandardOutput.ReadToEnd();
 			var stderr = process.StandardError.ReadToEnd();
+			var success = process.ExitCode == 0;
+			var eventData = String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetPath(eventName), stdout, stderr);
 
-			Service.WriteInfo(
-				String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetPath(eventName), stdout, stderr),
-				process.ExitCode == 0 ? EventID.PreactionEvent : EventID.PreactionFail
-		   );
+			if (success)
+				Service.WriteInfo(eventData, EventID.PreactionEvent);
+			else
+				Service.WriteWarning(eventData, EventID.PreactionFail);
 
-			return process.ExitCode == 0 ? true : false;
+			return success;
 		}
 
 		public bool PrecompileHook()

@@ -205,7 +205,8 @@ namespace TGServerService
 					try
 					{
 						ChatProvider.SendMessage(msg, mt);
-					}catch(Exception e)
+					}
+					catch (Exception e)
 					{
 						Service.WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), ChatProvider.ProviderInfo().Provider), EventID.ChatBroadcastFail);
 					}

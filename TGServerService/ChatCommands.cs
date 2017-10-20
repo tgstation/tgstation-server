@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace TGServerService.ChatCommands
 {
-	class CommandInfo
+	sealed class CommandInfo
 	{
 		public bool IsAdmin { get; set; }
 		public bool IsAdminChannel { get; set; }

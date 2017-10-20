@@ -370,7 +370,7 @@ namespace TGServerService
 				}
 				catch
 				{
-					Service.WriteWarning("Could not setup static directory: " + I, EventID.RepoConfigurationFail);
+					Service.WriteError("Could not setup static directory: " + I, EventID.RepoConfigurationFail);
 				}
 			}
 			foreach(var I in Config.DLLPaths)
@@ -388,7 +388,7 @@ namespace TGServerService
 				}
 				catch
 				{
-					Service.WriteWarning("Could not setup static DLL: " + I, EventID.RepoConfigurationFail);
+					Service.WriteError("Could not setup static DLL: " + I, EventID.RepoConfigurationFail);
 				}
 			}
 		}
@@ -1029,7 +1029,7 @@ namespace TGServerService
 				}
 				catch (Exception e)
 				{
-					Service.WriteError("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
+					Service.WriteWarning("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
 					return e.ToString();
 				}
 			}
@@ -1060,7 +1060,7 @@ namespace TGServerService
 				}
 				catch (Exception e)
 				{
-					Service.WriteError("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
+					Service.WriteWarning("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
 					return e.ToString();
 				}
 			}

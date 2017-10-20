@@ -221,6 +221,7 @@ namespace TGServerService
 					lock (CompilerLock)
 					{
 						SendMessage("DM: Setup failed!", MessageType.DeveloperInfo);
+						Service.WriteError("Compiler Initialization Error: " + e.ToString(), EventID.DMInitializeCrash);
 						lastCompilerError = e.ToString();
 						compilerCurrentStatus = CompilerStatus.Uninitialized;
 						return;

@@ -335,7 +335,7 @@ namespace TGServerService
 				{
 					lastError = e.ToString();
 					SendMessage("BYOND: Update failed!", MessageType.DeveloperInfo);
-					Service.WriteError("BYOND update failed!", EventID.BYONDUpdateFail);
+					Service.WriteError("BYOND update failed! Error: " + e.ToString(), EventID.BYONDUpdateFail);
 					return false;
 				}
 				finally

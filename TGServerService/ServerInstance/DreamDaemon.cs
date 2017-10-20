@@ -36,6 +36,7 @@ namespace TGServerService
 
 		object restartLock = new object();
 		bool RestartInProgress = false;
+		bool ReattachInsteadOfRestart = false;
 
 		DreamDaemonSecurity StartingSecurity;
 
@@ -62,6 +63,7 @@ namespace TGServerService
 
 					//start wd 
 					RestartInProgress = true;
+					ReattachInsteadOfRestart = true;
 					currentPort = Properties.Settings.Default.ReattachPort;
 					serviceCommsKey = Properties.Settings.Default.ReattachCommsKey;
 					try
@@ -250,7 +252,10 @@ namespace TGServerService
 					else
 					{
 						RestartInProgress = false;
-						Service.WriteInfo("Watchdog started", EventID.DDWatchdogRestarted);
+						if (!ReattachInsteadOfRestart)
+							Service.WriteInfo("Watchdog restarted", EventID.DDWatchdogRestarted);
+						else
+							ReattachInsteadOfRestart = false;
 					}
 				}
 				var retries = 0;
