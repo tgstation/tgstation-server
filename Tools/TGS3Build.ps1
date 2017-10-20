@@ -6,8 +6,7 @@ $doxdir = "C:\tgsdox"
 
 New-Item -Path $doxdir -ItemType directory
 
-#$publish_dox = (-not (Test-Path Env:APPVEYOR_PULL_REQUEST_NUMBER)) -and ("$Env:APPVEYOR_REPO_BRANCH" -eq "master")
-$publish_dox = $TRUE
+$publish_dox = (-not (Test-Path Env:APPVEYOR_PULL_REQUEST_NUMBER)) -and ("$Env:APPVEYOR_REPO_BRANCH" -eq "master")
 $github_url = "github.com/$Env:APPVEYOR_REPO_NAME"
 
 if($publish_dox){
