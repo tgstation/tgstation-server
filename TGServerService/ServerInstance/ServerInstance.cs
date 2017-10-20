@@ -21,6 +21,7 @@ namespace TGServerService
 		public ServerInstance()
 		{
 			FindTheDroidsWereLookingFor();
+			InitEventHandlers();
 			InitChat();
 			InitRepo();
 			InitByond();
