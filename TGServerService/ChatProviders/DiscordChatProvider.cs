@@ -8,25 +8,50 @@ using TGServiceInterface;
 
 namespace TGServerService.ChatProviders
 {
+	/// <summary>
+	/// <see cref="ITGChatProvider"/> for Discord: https://discordapp.com/
+	/// </summary>
 	class DiscordChatProvider : ITGChatProvider
 	{
+		/// <inheritdoc />
 		public event OnChatMessage OnChatMessage;
+		/// <summary>
+		/// The Discord API client
+		/// </summary>
 		DiscordSocketClient client;
+		/// <summary>
+		/// The setup info for the provider
+		/// </summary>
 		DiscordSetupInfo DiscordConfig;
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object DiscordLock = new object();
 
+		/// <summary>
+		/// An <see cref="IDictionary{TKey, TValue}"/> of internal identifers => <see cref="ISocketMessageChannel"/>s we have seen
+		/// </summary>
 		IDictionary<ulong, ISocketMessageChannel> SeenPrivateChannels = new Dictionary<ulong, ISocketMessageChannel>();
 
+		/// <summary>
+		/// Construct a <see cref="DiscordChatProvider"/>
+		/// </summary>
+		/// <param name="info">The <see cref="ChatSetupInfo"/></param>
 		public DiscordChatProvider(ChatSetupInfo info)
 		{
 			Init(info);
 		}
-
+		
+		/// <inheritdoc />
 		public ChatSetupInfo ProviderInfo()
 		{
 			return DiscordConfig;
 		}
 
+		/// <summary>
+		/// Sets up the Discord API <see cref="client"/> and <see cref="DiscordConfig"/>
+		/// </summary>
+		/// <param name="info">The <see cref="ChatSetupInfo"/> to init <see cref="DiscordConfig"/> with</param>
 		void Init(ChatSetupInfo info)
 		{
 			DiscordConfig = new DiscordSetupInfo(info);
@@ -34,17 +59,27 @@ namespace TGServerService.ChatProviders
 			client.MessageReceived += Client_MessageReceived;
 		}
 
-		private bool CheckAdmin(SocketUser u)
+		/// <summary>
+		/// Checks if a <paramref name="user"/> is considered a chat admin
+		/// </summary>
+		/// <param name="user">The sender of a message</param>
+		/// <returns><see langword="true"/> if <paramref name="user"/> is a chat admin, <see langword="false"/> otherwise</returns>
+		private bool CheckAdmin(SocketUser user)
 		{
 			if (!DiscordConfig.AdminsAreSpecial)
-				return DiscordConfig.AdminList.Contains(u.Id.ToString());
-			if(u is SocketGuildUser sgu)
+				return DiscordConfig.AdminList.Contains(user.Id.ToString());
+			if(user is SocketGuildUser sgu)
 				foreach (var I in sgu.Roles)
 					if (DiscordConfig.AdminList.Contains(I.Id.ToString()))
 						return true;
 			return false;
 		}
 
+		/// <summary>
+		/// Called when a channel the bot is in recieves a message or the bot is PM'd directly
+		/// </summary>
+		/// <param name="e">The event arguments</param>
+		/// <returns>The task to run when this occurs</returns>
 		private async Task Client_MessageReceived(SocketMessage e)
 		{
 			await Task.Run(() =>
@@ -81,6 +116,7 @@ namespace TGServerService.ChatProviders
 			});
 		}
 
+		/// <inheritdoc />
 		public string Connect()
 		{
 			try
@@ -102,6 +138,7 @@ namespace TGServerService.ChatProviders
 			}
 		}
 
+		/// <inheritdoc />
 		public bool Connected()
 		{
 			lock (DiscordLock)
@@ -110,6 +147,7 @@ namespace TGServerService.ChatProviders
 			}
 		}
 
+		/// <inheritdoc />
 		public void Disconnect()
 		{
 			try
@@ -126,12 +164,14 @@ namespace TGServerService.ChatProviders
 			catch { }
 		}
 
+		/// <inheritdoc />
 		public string Reconnect()
 		{
 			Disconnect();
 			return Connect();
 		}
 
+		/// <inheritdoc />
 		public void SendMessage(string msg, MessageType mt)
 		{
 			if (!Connected())
@@ -158,6 +198,7 @@ namespace TGServerService.ChatProviders
 			}
 		}
 
+		/// <inheritdoc />
 		public string SendMessageDirect(string message, string channelname)
 		{
 			if (!Connected())
@@ -185,6 +226,10 @@ namespace TGServerService.ChatProviders
 				return e.ToString();
 			}
 		}
+
+		/// <summary>
+		/// Shutsdown and disposes <see cref="client"/>
+		/// </summary>
 		void DisconnectAndDispose()
 		{
 			try
@@ -198,6 +243,7 @@ namespace TGServerService.ChatProviders
 			client.Dispose();
 		}
 
+		/// <inheritdoc />
 		public string SetProviderInfo(ChatSetupInfo info)
 		{
 			try
@@ -228,8 +274,15 @@ namespace TGServerService.ChatProviders
 		}
 
 		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls
+		/// <summary>
+		/// To detect redundant <see cref="Dispose()"/> calls
+		/// </summary>
+		private bool disposedValue = false;
 
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!disposedValue)
@@ -252,8 +305,9 @@ namespace TGServerService.ChatProviders
 		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
 		//   Dispose(false);
 		// }
-
-		// This code added to correctly implement the disposable pattern.
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.

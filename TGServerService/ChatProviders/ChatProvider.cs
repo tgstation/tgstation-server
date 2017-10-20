@@ -4,7 +4,7 @@ using TGServiceInterface;
 namespace TGServerService.ChatProviders
 {
 	/// <summary>
-	/// Callback for the chat provider recieving a message
+	/// Callback for the chat provider recieving a <paramref name="message"/>
 	/// </summary>
 	/// <param name="ChatProvider">The chat provider the message came from</param>
 	/// <param name="speaker">The username of the speaker</param>
@@ -20,16 +20,16 @@ namespace TGServerService.ChatProviders
 	interface ITGChatProvider : IDisposable
 	{
 		/// <summary>
-		/// Sets info for the provider
+		/// Sets <paramref name="info"/> for the provider
 		/// </summary>
-		/// <param name="info">The info to set</param>
+		/// <param name="info">The <see cref="ChatSetupInfo"/> to set</param>
 		/// <returns>null on success, error message on failure</returns>
 		string SetProviderInfo(ChatSetupInfo info);
 
 		/// <summary>
 		/// Gets the info of the provider
 		/// </summary>
-		/// <returns>The info for the chat provider</returns>
+		/// <returns>The <see cref="ChatSetupInfo"/> for the chat provider</returns>
 		ChatSetupInfo ProviderInfo();
 
 		/// <summary>
@@ -40,18 +40,18 @@ namespace TGServerService.ChatProviders
 		/// <summary>
 		/// Connects the chat provider if it's enabled
 		/// </summary>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string Connect();
 		/// <summary>
 		/// Forces a reconnection of the chat provider if it's enabled
 		/// </summary>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string Reconnect();
 
 		/// <summary>
 		/// Checks if the chat provider is connected
 		/// </summary>
-		/// <returns>true if the provider is connected, false otherwise</returns>
+		/// <returns><see langword="true"/> if the provider is connected, <see langword="false"/> otherwise</returns>
 		bool Connected();
 
 		/// <summary>
@@ -60,18 +60,18 @@ namespace TGServerService.ChatProviders
 		void Disconnect();
 
 		/// <summary>
-		/// Send a message to a channel
+		/// Send a <paramref name="message"/> to a <paramref name="channel"/>
 		/// </summary>
 		/// <param name="message">The message to send</param>
 		/// <param name="channel">The channel to send to</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string SendMessageDirect(string message, string channel);
 
 		/// <summary>
-		/// Broadcast a message to appropriate channels based on the message type
+		/// Broadcast a <paramref name="message"/> to appropriate channels based on the message type
 		/// </summary>
-		/// <param name="msg">The message to send</param>
-		/// <param name="mt">The message type</param>
-		void SendMessage(string msg, MessageType mt);
+		/// <param name="message">The message to send</param>
+		/// <param name="mt">The <see cref="MessageType"/></param>
+		void SendMessage(string message, MessageType mt);
 	}
 }

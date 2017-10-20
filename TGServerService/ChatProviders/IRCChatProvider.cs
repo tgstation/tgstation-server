@@ -4,25 +4,44 @@ using System.Threading;
 using TGServiceInterface;
 using Meebey.SmartIrc4net;
 
-
 namespace TGServerService.ChatProviders
 {
+	/// <summary>
+	/// <see cref="ITGChatProvider"/> for internet relay chat
+	/// </summary>
 	class IRCChatProvider : ITGChatProvider
 	{
+		/// <summary>
+		/// Header used to mark that a channel is actually a query message
+		/// </summary>
 		const string PrivateMessageMarker = "---PRIVATE-MSG---";
+		/// <summary>
+		/// The irc client
+		/// </summary>
 		IrcFeatures irc;
-
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object IRCLock = new object();
 
+		/// <summary>
+		/// The setup info for the provider
+		/// </summary>
 		IRCSetupInfo IRCConfig;
 
+		/// <inheritdoc />
 		public event OnChatMessage OnChatMessage;
-		
+
+		/// <inheritdoc />
 		public ChatSetupInfo ProviderInfo()
 		{
 			return IRCConfig;
 		}
 
+		/// <summary>
+		/// Construct a <see cref="IRCChatProvider"/>
+		/// </summary>
+		/// <param name="info">The <see cref="ChatSetupInfo"/></param>
 		public IRCChatProvider(ChatSetupInfo info)
 		{
 			IRCConfig = new IRCSetupInfo(info);
@@ -41,8 +60,8 @@ namespace TGServerService.ChatProviders
 			irc.OnChannelMessage += Irc_OnChannelMessage;
 			irc.OnQueryMessage += Irc_OnQueryMessage;
 		}
-		
-		//public api
+
+		/// <inheritdoc />
 		public string SendMessageDirect(string message, string channel)
 		{
 			try
@@ -64,6 +83,7 @@ namespace TGServerService.ChatProviders
 			}
 		}
 
+		/// <inheritdoc />
 		public string SetProviderInfo(ChatSetupInfo info)
 		{
 			var convertedInfo = (IRCSetupInfo)info;
@@ -84,6 +104,11 @@ namespace TGServerService.ChatProviders
 			return null;
 		}
 
+		/// <summary>
+		/// Checks if a message is considered sent from a chat admin
+		/// </summary>
+		/// <param name="e">The <see cref="IrcMessageData"/></param>
+		/// <returns><see langword="true"/> if <paramref name="e"/> was sent by a chat admin, <see langword="false"/> otherwise</returns>
 		private bool CheckAdmin(IrcMessageData e)
 		{
 			if (IRCConfig.AdminsAreSpecial)
@@ -122,12 +147,21 @@ namespace TGServerService.ChatProviders
 			return false;
 		}
 
-		//private message
+		/// <summary>
+		/// Called when the bot recieves a query message
+		/// </summary>
+		/// <param name="sender">The sender of the event (usually <see cref="irc"/>)</param>
+		/// <param name="e">The <see cref="IrcEventArgs"/></param>
 		private void Irc_OnQueryMessage(object sender, IrcEventArgs e)
 		{
 			OnChatMessage(this, e.Data.Nick, e.Data.Nick + PrivateMessageMarker, e.Data.Message, CheckAdmin(e.Data), true);
 		}
 
+		/// <summary>
+		/// Called when a channel the bot is in recieves a message
+		/// </summary>
+		/// <param name="sender">The sender of the event (usually <see cref="irc"/>)</param>
+		/// <param name="e">The <see cref="IrcEventArgs"/></param>
 		private void Irc_OnChannelMessage(object sender, IrcEventArgs e)
 		{
 			var formattedMessage = e.Data.Message.Trim();
@@ -144,7 +178,10 @@ namespace TGServerService.ChatProviders
 
 			OnChatMessage(this, e.Data.Nick, e.Data.Channel, formattedMessage, CheckAdmin(e.Data), IRCConfig.AdminChannels.Contains(e.Data.Channel.ToLower()));
 		}
-		//Joins configured channels
+
+		/// <summary>
+		/// Joins all channels specified in <see cref="IRCConfig"/>
+		/// </summary>
 		void JoinChannels()
 		{
 			var hs = new HashSet<string>();	//for unique inserts
@@ -165,7 +202,10 @@ namespace TGServerService.ChatProviders
 			foreach (var I in hs)
 				irc.RfcJoin(I);
 		}
-		//runs the login command
+
+		/// <summary>
+		/// Sends a login query to <see cref="IRCSetupInfo.AuthTarget"/> with message <see cref="IRCSetupInfo.AuthMessage"/> 
+		/// </summary>
 		void Login()
 		{
 			lock (IRCLock)
@@ -174,7 +214,7 @@ namespace TGServerService.ChatProviders
 					irc.SendMessage(SendType.Message, IRCConfig.AuthTarget, IRCConfig.AuthMessage);
 			}
 		}
-		//public api
+		/// <inheritdoc />
 		public string Connect()
 		{
 			if (Connected() || !IRCConfig.Enabled)
@@ -213,7 +253,9 @@ namespace TGServerService.ChatProviders
 			}
 		}
 
-		//This is the thread that listens for irc messages
+		/// <summary>
+		/// Runs the <see cref="irc"/> listener in a safe loop
+		/// </summary>
 		void IRCListen()
 		{
 			while (irc != null && Connected())
@@ -224,14 +266,14 @@ namespace TGServerService.ChatProviders
 				catch { }
 		}
 
-		//public api
+		/// <inheritdoc />
 		public string Reconnect()
 		{
 			Disconnect();
 			return Connect();
 		}
 
-		//public api
+		/// <inheritdoc />
 		public void Disconnect()
 		{ 
 			try
@@ -250,7 +292,7 @@ namespace TGServerService.ChatProviders
 				Service.WriteError("IRC failed QnD: " + e.ToString(), EventID.ChatDisconnectFail);
 			}
 		}
-		//public api
+		/// <inheritdoc />
 		public bool Connected()
 		{
 			lock (IRCLock)
@@ -258,7 +300,7 @@ namespace TGServerService.ChatProviders
 				return irc != null && irc.IsConnected;
 			}
 		}
-		//public api
+		/// <inheritdoc />
 		public void SendMessage(string message, MessageType mt)
 		{
 			if (!Connected())
@@ -279,8 +321,15 @@ namespace TGServerService.ChatProviders
 
 
 		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls
+		/// <summary>
+		/// To detect redundant <see cref="Dispose()"/> calls
+		/// </summary>
+		private bool disposedValue = false;
 
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!disposedValue)
@@ -306,6 +355,9 @@ namespace TGServerService.ChatProviders
 		// }
 
 		// This code added to correctly implement the disposable pattern.
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
