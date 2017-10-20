@@ -72,6 +72,6 @@ namespace TGServerService.ChatProviders
 		/// </summary>
 		/// <param name="msg">The message to send</param>
 		/// <param name="mt">The message type</param>
-		void SendMessage(string msg, ChatMessageType mt);
+		void SendMessage(string msg, MessageType mt);
 	}
 }

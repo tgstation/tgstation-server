@@ -132,7 +132,7 @@ namespace TGServerService.ChatProviders
 			return Connect();
 		}
 
-		public void SendMessage(string msg, ChatMessageType mt)
+		public void SendMessage(string msg, MessageType mt)
 		{
 			if (!Connected())
 				return;
@@ -145,10 +145,10 @@ namespace TGServerService.ChatProviders
 					{
 						var cid = J.Id.ToString();
 						var wdc = DiscordConfig.WatchdogChannels;
-						bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && DiscordConfig.AdminChannels.Contains(cid))
-							|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && DiscordConfig.DevChannels.Contains(cid))
-							|| (mt.HasFlag(ChatMessageType.GameInfo) && DiscordConfig.GameChannels.Contains(cid))
-							|| (mt.HasFlag(ChatMessageType.WatchdogInfo) && DiscordConfig.WatchdogChannels.Contains(cid));
+						bool SendToThisChannel = (mt.HasFlag(MessageType.AdminInfo) && DiscordConfig.AdminChannels.Contains(cid))
+							|| (mt.HasFlag(MessageType.DeveloperInfo) && DiscordConfig.DevChannels.Contains(cid))
+							|| (mt.HasFlag(MessageType.GameInfo) && DiscordConfig.GameChannels.Contains(cid))
+							|| (mt.HasFlag(MessageType.WatchdogInfo) && DiscordConfig.WatchdogChannels.Contains(cid));
 
 						if (SendToThisChannel)
 							tasks.Add(J.SendMessageAsync(msg));

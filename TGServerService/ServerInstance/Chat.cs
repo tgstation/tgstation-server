@@ -197,7 +197,7 @@ namespace TGServerService
 		/// </summary>
 		/// <param name="msg">The message to send</param>
 		/// <param name="mt">The message type</param>
-		public void SendMessage(string msg, ChatMessageType mt)
+		public void SendMessage(string msg, MessageType mt)
 		{
 			lock (ChatLock)
 			{

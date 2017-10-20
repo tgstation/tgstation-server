@@ -6,7 +6,7 @@ namespace TGServerService
 	/// Type of chat message, these may be OR'd together
 	/// </summary>
 	[Flags]
-	enum ChatMessageType
+	enum MessageType
 	{
 		/// <summary>
 		/// Send message to the admin channels

@@ -82,7 +82,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatMessageType.cs" />
+    <Compile Include="MessageType.cs" />
     <Compile Include="ServerInstance\Administration.cs" />
     <Compile Include="ServerInstance\Byond.cs" />
     <Compile Include="ServerInstance\Chat.cs" />

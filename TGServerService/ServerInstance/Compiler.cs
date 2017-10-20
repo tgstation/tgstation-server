@@ -185,7 +185,7 @@ namespace TGServerService
 				}
 				try
 				{
-					SendMessage("DM: Setting up symlinks...", ChatMessageType.DeveloperInfo);
+					SendMessage("DM: Setting up symlinks...", MessageType.DeveloperInfo);
 					CleanGameFolder();
 					Program.DeleteDirectory(GameDir);
 
@@ -220,7 +220,7 @@ namespace TGServerService
 				{
 					lock (CompilerLock)
 					{
-						SendMessage("DM: Setup failed!", ChatMessageType.DeveloperInfo);
+						SendMessage("DM: Setup failed!", MessageType.DeveloperInfo);
 						lastCompilerError = e.ToString();
 						compilerCurrentStatus = CompilerStatus.Uninitialized;
 						return;
@@ -330,7 +330,7 @@ namespace TGServerService
 
 				if (repobusy_check)
 				{
-					SendMessage("DM: Copy aborted, repo locked!", ChatMessageType.DeveloperInfo);
+					SendMessage("DM: Copy aborted, repo locked!", MessageType.DeveloperInfo);
 					lock (CompilerLock)
 					{
 						lastCompilerError = "The repo could not be locked for copying";
@@ -349,7 +349,7 @@ namespace TGServerService
 					}
 
 					if (!silent)
-						SendMessage("DM: Compiling...", ChatMessageType.DeveloperInfo);
+						SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
 
 					resurrectee = GetStagingDir();
 
@@ -412,7 +412,7 @@ namespace TGServerService
 				if (!File.Exists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
-					SendMessage("DM: " + errorMsg, ChatMessageType.DeveloperInfo);
+					SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo);
 					Service.WriteError(errorMsg, EventID.DMCompileCrash);
 					lock (CompilerLock)
 					{
@@ -529,7 +529,7 @@ namespace TGServerService
 						}
 						UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
-						SendMessage("DM: " + msg, ChatMessageType.DeveloperInfo);
+						SendMessage("DM: " + msg, MessageType.DeveloperInfo);
 						Service.WriteInfo(msg, EventID.DMCompileSuccess);
 						lock (CompilerLock)
 						{
@@ -541,7 +541,7 @@ namespace TGServerService
 					}
 					else
 					{
-						SendMessage("DM: Compile failed!", ChatMessageType.DeveloperInfo); //Also happens for warnings
+						SendMessage("DM: Compile failed!", MessageType.DeveloperInfo); //Also happens for warnings
 						Service.WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
 						lock (CompilerLock)
 						{
@@ -558,7 +558,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				SendMessage("DM: Compiler thread crashed!", ChatMessageType.DeveloperInfo);
+				SendMessage("DM: Compiler thread crashed!", MessageType.DeveloperInfo);
 				Service.WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
 				lock (CompilerLock)
 				{
@@ -575,7 +575,7 @@ namespace TGServerService
 					{
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
-						SendMessage("DM: Compile cancelled!", ChatMessageType.DeveloperInfo);
+						SendMessage("DM: Compile cancelled!", MessageType.DeveloperInfo);
 						Service.WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
 					}
 				}
