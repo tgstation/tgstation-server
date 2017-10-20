@@ -6,7 +6,7 @@ namespace TGServiceInterface
 	/// <summary>
 	/// Helper for creating commands that contain sub commands
 	/// </summary>
-	public class RootCommand : Command
+	public abstract class RootCommand : Command
 	{
 		/// <summary>
 		/// <see cref="Command"/>s further down the tree from this one. Set in Constructor
