@@ -31,7 +31,7 @@ namespace TGControlPanel
 		{
 			IPTextBox.Text = IPTextBox.Text.Trim();
 			UsernameTextBox.Text = UsernameTextBox.Text.Trim();
-			Server.SetRemoteLoginInformation(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text);
+			Interface.SetRemoteLoginInformation(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text);
 			var Config = Properties.Settings.Default;
 			Config.RemoteIP = IPTextBox.Text;
 			Config.RemoteUsername = UsernameTextBox.Text;
@@ -51,20 +51,20 @@ namespace TGControlPanel
 
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
-            Server.MakeLocalConnection();
+            Interface.MakeLocalConnection();
 			Properties.Settings.Default.RemoteDefault = false;
 			VerifyAndConnect();
 		}
 
 		void VerifyAndConnect()
 		{
-			var res = Server.VerifyConnection();
+			var res = Interface.VerifyConnection();
 			if (res != null)
 			{
 				MessageBox.Show("Unable to connect to service! Error: " + res);
 				return;
 			}
-			if (!Server.Authenticate())
+			if (!Interface.Authenticate())
 			{
 				MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
 				return;

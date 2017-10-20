@@ -33,7 +33,7 @@ namespace TGCommandLine
 					type = ByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = ByondVersion.Latest;
-			OutputProc(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+			OutputProc(Interface.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -56,7 +56,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			switch (Server.GetComponent<ITGByond>().CurrentStatus())
+			switch (Interface.GetComponent<ITGByond>().CurrentStatus())
 			{
 				case ByondStatus.Downloading:
 					OutputProc("Downloading update...");
@@ -109,7 +109,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var BYOND = Server.GetComponent<ITGByond>();
+			var BYOND = Interface.GetComponent<ITGByond>();
 			if (!BYOND.UpdateToVersion(Major, Minor))
 
 			{

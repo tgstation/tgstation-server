@@ -11,12 +11,12 @@ namespace TGControlPanel
 	partial class Main : Form
 	{
 		/// <summary>
-		/// Create the control panel. Requires the <see cref="Server"/> has had it's connection info setup
+		/// Create the control panel. Requires the <see cref="Interface"/> has had it's connection info setup
 		/// </summary>
 		public Main()
 		{
 			InitializeComponent();
-			if (Server.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+			if (Interface.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
 			{
 				Close();
 				return;

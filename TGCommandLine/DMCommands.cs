@@ -28,7 +28,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Server.GetComponent<ITGCompiler>();
+			var DM = Interface.GetComponent<ITGCompiler>();
 			var stat = DM.GetStatus();
 			if (stat != CompilerStatus.Initialized)
 			{
@@ -36,7 +36,7 @@ namespace TGCommandLine
 				return ExitCode.ServerError;
 			}
 
-			if (Server.GetComponent<ITGByond>().GetVersion(ByondVersion.Installed) == null)
+			if (Interface.GetComponent<ITGByond>().GetVersion(ByondVersion.Installed) == null)
 			{
 				Console.Write("Error: BYOND is not installed!");
 				return ExitCode.ServerError;
@@ -84,14 +84,14 @@ namespace TGCommandLine
 
 		void ShowError()
 		{
-			var error = Server.GetComponent<ITGCompiler>().CompileError();
+			var error = Interface.GetComponent<ITGCompiler>().CompileError();
 			if (error != null)
 				OutputProc("Last error: " + error);
 		}
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Server.GetComponent<ITGCompiler>();
+			var DM = Interface.GetComponent<ITGCompiler>();
 			OutputProc(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
 			Console.Write("Compilier is currently: ");
 			switch (DM.GetStatus())
@@ -142,7 +142,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
+			Interface.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
@@ -166,7 +166,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Server.GetComponent<ITGCompiler>();
+			var DM = Interface.GetComponent<ITGCompiler>();
 			var stat = DM.GetStatus();
 			if (stat == CompilerStatus.Compiling || stat == CompilerStatus.Initializing)
 			{
@@ -206,7 +206,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGCompiler>().Cancel();
+			var res = Interface.GetComponent<ITGCompiler>().Cancel();
 			OutputProc(res ?? "Success!");
 			return ExitCode.Normal;	//because failing cancellation implys it's already cancelled
 		}

@@ -19,7 +19,7 @@ namespace TGControlPanel
 		void LoadChatPage()
 		{
 			updatingChat = true;
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Interface.GetComponent<ITGChat>();
 			var PI = Chat.ProviderInfos()[(int)ModifyingProvider];
 			ChatAdminsTextBox.Visible = true;
 			IRCModesComboBox.Visible = false;
@@ -112,7 +112,7 @@ namespace TGControlPanel
 
 		private void ChatReconnectButton_Click(object sender, EventArgs e)
 		{
-			Server.GetComponent<ITGChat>().Reconnect(ModifyingProvider);
+			Interface.GetComponent<ITGChat>().Reconnect(ModifyingProvider);
 			LoadChatPage();
 		}
 
@@ -149,7 +149,7 @@ namespace TGControlPanel
 		}
 		void SetAdminsAreSpecial(bool value)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Interface.GetComponent<ITGChat>();
 			var PI = Chat.ProviderInfos()[(int)ModifyingProvider];
 			PI.AdminsAreSpecial = value;
 			var res = Chat.SetProviderInfo(PI);
@@ -208,7 +208,7 @@ namespace TGControlPanel
 				wip.Enabled = ChatEnabledCheckbox.Checked;
 				wip.AdminsAreSpecial = AdminModeSpecial.Checked;
 
-				res = Server.GetComponent<ITGChat>().SetProviderInfo(wip);
+				res = Interface.GetComponent<ITGChat>().SetProviderInfo(wip);
 			}
 			if (res != null)
 				MessageBox.Show(res);

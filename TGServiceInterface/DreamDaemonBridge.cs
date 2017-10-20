@@ -21,13 +21,13 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				var channel = Server.CreateChannel<ITGInterop>();
+				var channel = Interface.CreateChannel<ITGInterop>();
 				try
 				{
 					channel.CreateChannel().InteropMessage(String.Join(" ", args));
 				}
 				catch { }
-				Server.CloseChannel(channel);
+				Interface.CloseChannel(channel);
 			}
 			catch { }
 			return 0;

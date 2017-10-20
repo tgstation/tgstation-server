@@ -114,7 +114,7 @@ namespace TGServerService
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
 
-			foreach (var I in Server.ValidInterfaces)
+			foreach (var I in Interface.ValidInterfaces)
 				AddEndpoint(I);
 			
 			host.Authorization.ServiceAuthorizationManager = instance;
@@ -132,12 +132,12 @@ namespace TGServerService
 		//shorthand for adding the WCF endpoint
 		void AddEndpoint(Type typetype)
 		{
-			var bindingName = Server.MasterInterfaceName + "/" + typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Server.TransferLimitLocal }, bindingName);
+			var bindingName = Interface.MasterInterfaceName + "/" + typetype.Name;
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = Server.TransferLimitRemote
+				MaxReceivedMessageSize = Interface.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;

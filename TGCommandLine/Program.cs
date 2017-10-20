@@ -51,7 +51,7 @@ namespace TGCommandLine
 					}
 					argsAsList.RemoveAt(I);
 					argsAsList.RemoveAt(I);
-					Server.SetRemoteLoginInformation(address, port, username, password);
+					Interface.SetRemoteLoginInformation(address, port, username, password);
 					break;
 				}
 			}
@@ -62,7 +62,7 @@ namespace TGCommandLine
 				return Command.ExitCode.BadCommand;
 			}
 
-			var res = Server.VerifyConnection();
+			var res = Interface.VerifyConnection();
 			if (res != null)
 			{
 				Console.WriteLine("Unable to connect to service: " + res);
@@ -70,13 +70,13 @@ namespace TGCommandLine
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!Server.Authenticate())
+			if (!Interface.Authenticate())
 			{
 				Console.WriteLine("Authentication error: Username/password/windows identity is not authorized!");
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!SentVMMWarning && Server.VersionMismatch(out string error))
+			if (!SentVMMWarning && Interface.VersionMismatch(out string error))
 			{
 				SentVMMWarning = true;
 				Console.WriteLine(error);
@@ -141,7 +141,7 @@ namespace TGCommandLine
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 			{
-				Server.SetBadCertificateHandler((message) => {
+				Interface.SetBadCertificateHandler((message) => {
 					foreach (var I in args)
 						if (I.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
 							return true;
@@ -151,7 +151,7 @@ namespace TGCommandLine
 				return (int)RunCommandLine(new List<string>(args));
 			}
 
-			Server.SetBadCertificateHandler(BadCertificateInteractive);
+			Interface.SetBadCertificateHandler(BadCertificateInteractive);
 
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			//interactive mode
@@ -179,22 +179,22 @@ namespace TGCommandLine
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
-						Server.SetRemoteLoginInformation(address, port, username, password);
-						var res = Server.VerifyConnection();
+						Interface.SetRemoteLoginInformation(address, port, username, password);
+						var res = Interface.VerifyConnection();
 						if (res != null)
 						{
 							Console.WriteLine("Unable to connect: " + res);
-							Server.MakeLocalConnection();
+							Interface.MakeLocalConnection();
 						}
-						else if (!Server.Authenticate())
+						else if (!Interface.Authenticate())
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							Server.MakeLocalConnection();
+							Interface.MakeLocalConnection();
 						}
 						else
 						{
 							Console.WriteLine("Connected remotely");
-							if (Server.VersionMismatch(out res))
+							if (Interface.VersionMismatch(out res))
 							{
 								SentVMMWarning = true;
 								Console.WriteLine(res);
@@ -204,7 +204,7 @@ namespace TGCommandLine
 						break;
 					case "disconnect":
 						SentVMMWarning = false;
-						Server.MakeLocalConnection();
+						Interface.MakeLocalConnection();
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":
@@ -212,7 +212,7 @@ namespace TGCommandLine
 						return (int)Command.ExitCode.Normal;
 #if DEBUG
 					case "debug-upgrade":
-						Server.GetComponent<ITGSService>().PrepareForUpdate();
+						Interface.GetComponent<ITGSService>().PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
 #endif
 					default:
