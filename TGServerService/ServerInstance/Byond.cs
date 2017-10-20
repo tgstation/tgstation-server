@@ -12,30 +12,76 @@ namespace TGServerService
 {
 	partial class ServerInstance : ITGByond
 	{
+		/// <summary>
+		/// The instance directory to store the BYOND installation
+		/// </summary>
 		const string ByondDirectory = "BYOND";
+		/// <summary>
+		/// The instance directory to use when updating the BYOND installation
+		/// </summary>
 		const string StagingDirectory = "BYOND_staged";
-		const string StagingDirectoryInner = "BYOND_staged/byond";
+		/// <summary>
+		/// Path to the actual BYOND installation within the <see cref="StagingDirectory"/>
+		/// </summary>
+		const string StagingDirectoryInner = StagingDirectory + "/byond";
+		/// <summary>
+		/// The path in the instance directory to store the downloaded BYOND revision
+		/// </summary>
 		const string RevisionDownloadPath = "BYONDRevision.zip";
+		/// <summary>
+		/// The location of the BYOND version data of an installation
+		/// </summary>
 		const string VersionFile = "/byond_version.dat";
+		/// <summary>
+		/// The URL format string for getting BYOND version {0}.{1} zipfile
+		/// </summary>
 		const string ByondRevisionsURL = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+		/// <summary>
+		/// The URL for getting the latest BYOND version zipfile
+		/// </summary>
 		const string ByondLatestURL = "https://secure.byond.com/download/build/LATEST/";
-
-		const string ByondConfigDir = "BYOND_staged/BYOND/cfg";
-		const string ByondDDConfig = "/daemon.txt";
+		/// <summary>
+		/// The instance directory to modify the BYOND cfg before installation
+		/// </summary>
+		const string ByondConfigDir = "";
+		/// <summary>
+		/// BYOND's DreamDaemon config file in the cfg modification directory
+		/// </summary>
+		const string ByondDDConfig = ByondConfigDir + "/daemon.txt";
+		/// <summary>
+		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb
+		/// </summary>
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
 
+		/// <summary>
+		/// The status of the BYOND updater
+		/// </summary>
 		ByondStatus updateStat = ByondStatus.Idle;
-		object ByondLock = new object();
-		string lastError;
 
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
+		object ByondLock = new object();
+		/// <summary>
+		/// The last error the BYOND updater encountered
+		/// </summary>
+		string lastError;
+		/// <summary>
+		/// Thread used for staging BYOND revisions
+		/// </summary>
 		Thread RevisionStaging;
 
-		//Just cleanup
+		/// <summary>
+		/// Called when the <see cref="ServerInstance"/> is setup. Prepares the BYOND updater
+		/// </summary>
 		void InitByond()
 		{
 			CleanByondStaging();
 		}
 
+		/// <summary>
+		/// Cleans the BYOND staging directory
+		/// </summary>
 		void CleanByondStaging()
 		{
 			//linger not
@@ -44,7 +90,9 @@ namespace TGServerService
 			Program.DeleteDirectory(StagingDirectory);
 		}
 
-		//Kill the thread and cleanup again
+		/// <summary>
+		/// Called when the <see cref="ServerInstance"/> is shutdown
+		/// </summary>
 		void DisposeByond()
 		{
 			lock (ByondLock)
@@ -55,21 +103,25 @@ namespace TGServerService
 			}
 		}
 
-		//requires ByondLock to be locked
-		bool BusyCheckNoLock()
+		/// <summary>
+		/// Checks if the updater is considered busy
+		/// </summary>
+		/// <returns><see langword="true"/> if the updater is considered busy, <see langword="false"/> otherwise</returns>
+		bool BusyCheck()
 		{
-			switch (updateStat)
-			{
-				default:
-				case ByondStatus.Starting:
-				case ByondStatus.Downloading:
-				case ByondStatus.Staging:
-				case ByondStatus.Updating:
-					return true;
-				case ByondStatus.Idle:
-				case ByondStatus.Staged:
-					return false;
-			}
+			lock (ByondLock)
+				switch (updateStat)
+				{
+					default:
+					case ByondStatus.Starting:
+					case ByondStatus.Downloading:
+					case ByondStatus.Staging:
+					case ByondStatus.Updating:
+						return true;
+					case ByondStatus.Idle:
+					case ByondStatus.Staged:
+						return false;
+				}
 		}
 
 		/// <inheritdoc />
@@ -139,15 +191,11 @@ namespace TGServerService
 				return "Error: " + e.ToString();
 			}
 		}
-
-		//literally just for passing 2 ints to the thread function
-		class VersionInfo
-		{
-			public int major, minor;
-		}
-
-		//does the downloading and unzipping
-		//calls ApplyStagedUpdate() after if the server isn't running
+		
+		/// <summary>
+		/// Downloads and unzips a BYOND revision. Calls <see cref="ApplyStagedUpdate"/> afterwards if the <see cref="ServerInstance"/> isn't running, otherwise, calls <see cref="RequestRestart"/>. Sets <see cref="lastError"/> on failure
+		/// </summary>
+		/// <param name="param">Stringified BYOND revision</param>
 		public void UpdateToVersionImpl(object param)
 		{
 			lock (ByondLock) { 
@@ -160,22 +208,24 @@ namespace TGServerService
 			{
 				CleanByondStaging();
 
-				var vi = (VersionInfo)param;
+				var vi = ((string)param).Split('.');
+				var major = Convert.ToInt32(vi[0]);
+				var minor = Convert.ToInt32(vi[1]);
 				using (var client = new WebClient())
 				{
-					SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", vi.major, vi.minor), MessageType.DeveloperInfo);
+					SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
 
 					//DOWNLOADING
 
 					try
 					{
-						client.DownloadFile(String.Format(ByondRevisionsURL, vi.major, vi.minor), RevisionDownloadPath);
+						client.DownloadFile(String.Format(ByondRevisionsURL, major, minor), RevisionDownloadPath);
 					}
 					catch
 					{
 						SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
-						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", vi.major, vi.minor);
-						Service.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", vi.major, vi.minor), EventID.BYONDUpdateFail);
+						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", major, minor);
+						Service.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
 						lock (ByondLock)
 						{
 							updateStat = ByondStatus.Idle;
@@ -193,10 +243,10 @@ namespace TGServerService
 				ZipFile.ExtractToDirectory(RevisionDownloadPath, StagingDirectory);
 				lock (ByondLock)
 				{
-					File.WriteAllText(StagingDirectoryInner + VersionFile, String.Format("{0}.{1}", vi.major, vi.minor));
+					File.WriteAllText(StagingDirectoryInner + VersionFile, String.Format("{0}.{1}", major, minor));
 					//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
 					Directory.CreateDirectory(ByondConfigDir);
-					File.WriteAllText(ByondConfigDir + ByondDDConfig, ByondNoPromptTrustedMode);
+					File.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
 				}
 				File.Delete(RevisionDownloadPath);
 
@@ -216,8 +266,8 @@ namespace TGServerService
 					default:
 						RequestRestart();
 						lastError = "Update staged. Awaiting server restart...";
-						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", vi.major, vi.minor), MessageType.DeveloperInfo);
-						Service.WriteInfo(String.Format("BYOND update {0}.{1} staged", vi.major, vi.minor), EventID.BYONDUpdateStaged);
+						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
+						Service.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
 						break;
 				}
 			}
@@ -237,25 +287,29 @@ namespace TGServerService
 			}
 		}
 		/// <inheritdoc />
-		public bool UpdateToVersion(int ma, int mi)
+		public bool UpdateToVersion(int major, int minor)
 		{
 			lock (ByondLock)
 			{
-				if (!BusyCheckNoLock())
+				if (!BusyCheck())
 				{
 					updateStat = ByondStatus.Starting;
 					RevisionStaging = new Thread(new ParameterizedThreadStart(UpdateToVersionImpl))
 					{
 						IsBackground = true //don't slow me down
 					};
-					RevisionStaging.Start(new VersionInfo { major = ma, minor = mi });
+					RevisionStaging.Start(String.Format("{0}.{1}", major, minor));
 					return true;
 				}
 				return false; 
 			}
 		}
-		//tries to apply the staged update
-		public bool ApplyStagedUpdate()
+
+		/// <summary>
+		/// Attempts to move the staged update from <see cref="StagingDirectory"/> to <see cref="ByondDirectory"/>. Sets <see cref="lastError"/> on failure
+		/// </summary>
+		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
+		bool ApplyStagedUpdate()
 		{
 			lock (CompilerLock)
 			{
