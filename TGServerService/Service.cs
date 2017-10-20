@@ -5,89 +5,14 @@ using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceProcess;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGServerService
-{
-	partial class TGServerService : ServiceBase
-	{ 
-		//only deprecate events, do not reuse them
-		public enum EventID
-		{
-			ChatCommand = 100,
-			ChatConnectFail = 200,
-			ChatProviderStartFail = 300,
-			InvalidChatProvider = 400,
-			UpdateRequest = 500,
-			BYONDUpdateFail = 600,
-			BYONDUpdateStaged = 700,
-			BYONDUpdateComplete = 800,
-			ServerMoveFailed = 900,
-			ServerMovePartial = 1000,
-			ServerMoveComplete = 1100,
-			DMCompileCrash = 1200,
-			DMInitializeCrash = 1300,
-			DMCompileError = 1400,
-			DMCompileSuccess = 1500,
-			DMCompileCancel = 1600,
-			DDReattachFail = 1700,
-			DDReattachSuccess = 1800,
-			DDWatchdogCrash = 1900,
-			DDWatchdogExit = 2000,
-			DDWatchdogRebootedServer = 2100,
-			DDWatchdogRebootingServer = 2200,
-			DDWatchdogRestart = 2300,
-			DDWatchdogRestarted = 2400,
-			DDWatchdogStarted = 2500,
-			ChatSend = 2600,
-			ChatBroadcast = 2700,
-			//ChatAdminBroadcast = 2800,
-			ChatDisconnectFail = 2900,
-			//TopicSent = 3000,
-			//TopicFailed = 3100,
-			CommsKeySet = 3200,
-			NudgeStartFail = 3300,
-			NudgeCrash = 3400,
-			RepoClone = 3500,
-			RepoCloneFail = 3600,
-			RepoCheckout = 3700,
-			RepoCheckoutFail = 3800,
-			RepoHardUpdate = 3900,
-			RepoHardUpdateFail = 4000,
-			RepoMergeUpdate = 4100,
-			RepoMergeUpdateFail = 4200,
-			RepoBackupTag = 4300,
-			RepoBackupTagFail = 4400,
-			RepoResetTracked = 4500,
-			RepoResetTrackedFail = 4600,
-			RepoReset = 4700,
-			RepoResetFail = 4800,
-			RepoPRListError = 4900,
-			RepoPRMerge = 5000,
-			RepoPRMergeFail = 5100,
-			RepoCommit = 5200,
-			RepoCommitFail = 5300,
-			RepoPush = 5400,
-			RepoPushFail = 5500,
-			RepoChangelog = 5600,
-			RepoChangelogFail = 5700,
-			ServiceShutdownFail = 6100,
-			WorldReboot = 6200,
-			ServerUpdateApplied = 6300,
-			ChatBroadcastFail = 6400,
-			IRCLogModes = 6500,
-			SubmoduleReclone = 6600,
-			Authentication = 6700,
-			PreactionEvent = 6800,
-			PreactionFail = 6900,
-			InteropCallException = 7000,
-			APIVersionMismatch = 7100,
-			RepoConfigurationFail = 7200,
-			StaticRead = 7300,
-			StaticWrite = 7400,
-			StaticDelete = 7500,
-		}
+{//only deprecate events, do not reuse them
 
-		static TGServerService ActiveService;   //So everyone else can write to our eventlog
+	sealed partial class Service : ServiceBase
+	{ 
+		static Service ActiveService;   //So everyone else can write to our eventlog
 
 		public static readonly string Version = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 
@@ -127,7 +52,7 @@ namespace TGServerService
 	
 		//you should seriously not add anything here
 		//Use OnStart instead
-		public TGServerService()
+		public Service()
 		{
 			try
 			{
@@ -164,7 +89,7 @@ namespace TGServerService
 			}
 			Environment.CurrentDirectory = Config.ServerDirectory;
 
-			var instance = new TGStationServer();
+			var instance = new ServerInstance();
 
 			for (var I = 0; I < args.Length - 1; ++I)
 				if (args[I].ToLower() == "-port")
@@ -226,7 +151,7 @@ namespace TGServerService
 		{
 			try
 			{
-				TGStationServer instance = (TGStationServer)host.SingletonInstance;
+				var instance = (ServerInstance)host.SingletonInstance;
 				host.Close();
 				instance.Dispose();
 			}

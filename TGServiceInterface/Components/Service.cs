@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace TGServiceInterface
+namespace TGServiceInterface.Components
 {
 	/// <summary>
 	/// Interface for managing the service

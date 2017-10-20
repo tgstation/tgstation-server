@@ -6,50 +6,12 @@ using System.Web.Script.Serialization;
 namespace TGServiceInterface
 {
 	/// <summary>
-	/// The type of chat provider
-	/// </summary>
-	public enum TGChatProvider : int
-	{
-		/// <summary>
-		/// IRC chat provider
-		/// </summary>
-		IRC = 0,
-		/// <summary>
-		/// Discord chat provider
-		/// </summary>
-		Discord = 1,
-	}
-
-	/// <summary>
-	/// Supported irc permission modes
-	/// </summary>
-	public enum IRCMode : int
-	{
-		/// <summary>
-		/// +
-		/// </summary>
-		Voice,
-		/// <summary>
-		/// %
-		/// </summary>
-		Halfop,
-		/// <summary>
-		/// @
-		/// </summary>
-		Op,
-		/// <summary>
-		/// ~
-		/// </summary>
-		Owner,
-	}
-
-	/// <summary>
 	/// For setting up authentication no matter the chat provider
 	/// </summary>
 	[DataContract]
-	[KnownType(typeof(TGIRCSetupInfo))]
-	[KnownType(typeof(TGDiscordSetupInfo))]
-	public class TGChatSetupInfo
+	[KnownType(typeof(IRCSetupInfo))]
+	[KnownType(typeof(DiscordSetupInfo))]
+	public class ChatSetupInfo
 	{
 		const int AdminListIndex = 0;
 		const int AdminModeIndex = 1;
@@ -64,7 +26,7 @@ namespace TGServiceInterface
 		/// </summary>
 		protected const int BaseIndex = 8;
 		/// <summary>
-		/// Set to <see langword="true"/> if a child constructor should use the baseInfo parameter of <see cref="TGChatSetupInfo.TGChatSetupInfo(TGChatSetupInfo, int)"/> to initialize it's property fields, <see langword="false"/> otherwise
+		/// Set to <see langword="true"/> if a child constructor should use the baseInfo parameter of <see cref="ChatSetupInfo.ChatSetupInfo(ChatSetupInfo, int)"/> to initialize it's property fields, <see langword="false"/> otherwise
 		/// </summary>
 		protected readonly bool InitializeFields;
 		
@@ -75,11 +37,11 @@ namespace TGServiceInterface
 		public IList<string> DataFields { get; protected set; }
 
 		/// <summary>
-		/// Constructs a <see cref="TGChatSetupInfo"/> from optional <paramref name="baseInfo"/>
+		/// Constructs a <see cref="ChatSetupInfo"/> from optional <paramref name="baseInfo"/>
 		/// </summary>
 		/// <param name="baseInfo">Optional past data</param>
 		/// <param name="numFields">The number of fields in this chat provider</param>
-		protected TGChatSetupInfo(TGChatSetupInfo baseInfo, int numFields)
+		protected ChatSetupInfo(ChatSetupInfo baseInfo, int numFields)
 		{
 			numFields += BaseIndex;
 			InitializeFields = baseInfo == null || baseInfo.DataFields.Count != numFields;
@@ -103,24 +65,24 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Recreates <see langword="this"/> as the correct child <see cref="TGChatSetupInfo"/>
+		/// Recreates <see langword="this"/> as the correct child <see cref="ChatSetupInfo"/>
 		/// </summary>
-		/// <returns>A new <see cref="TGChatSetupInfo"/> based on the <see cref="Provider"/> type</returns>
-		TGChatSetupInfo Specialize()
+		/// <returns>A new <see cref="ChatSetupInfo"/> based on the <see cref="Provider"/> type</returns>
+		ChatSetupInfo Specialize()
 		{
 			switch (Provider)
 			{
-				case TGChatProvider.IRC:
-					return new TGIRCSetupInfo(this);
-				case TGChatProvider.Discord:
-					return new TGDiscordSetupInfo(this);
+				case ChatProvider.IRC:
+					return new IRCSetupInfo(this);
+				case ChatProvider.Discord:
+					return new DiscordSetupInfo(this);
 				default:
 					throw new Exception("Invalid provider!");
 			}
 		}
 
 		/// <summary>
-		/// Properly formats a <paramref name="channel"/> name for the <see cref="TGChatProvider"/>
+		/// Properly formats a <paramref name="channel"/> name for the <see cref="ChatProvider"/>
 		/// </summary>
 		/// <param name="channel">The <see cref="string"/> to format</param>
 		/// <returns>The formatted <see cref="string"/></returns>
@@ -147,10 +109,10 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Constructs a <see cref="TGChatSetupInfo"/> from a data list
+		/// Constructs a <see cref="ChatSetupInfo"/> from a data list
 		/// </summary>
 		/// <param name="DeserializedData">The data</param>
-		public TGChatSetupInfo(IList<string> DeserializedData)
+		public ChatSetupInfo(IList<string> DeserializedData)
 		{
 			DataFields = DeserializedData;
 		}
@@ -230,9 +192,9 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The type of provider
 		/// </summary>
-		public TGChatProvider Provider
+		public ChatProvider Provider
 		{
-			get { return (TGChatProvider)Convert.ToInt32(DataFields[ProviderIndex]); }
+			get { return (ChatProvider)Convert.ToInt32(DataFields[ProviderIndex]); }
 			set { DataFields[ProviderIndex] = Convert.ToString((int)value); }
 		}
 	}
@@ -241,7 +203,7 @@ namespace TGServiceInterface
 	/// Chat provider for IRC. Admin entries should be user nicknames in normal mode or required channel flags in special mode
 	/// </summary>
 	[DataContract]
-	public sealed class TGIRCSetupInfo : TGChatSetupInfo
+	public sealed class IRCSetupInfo : ChatSetupInfo
 	{
 		const int URLIndex = 0;
 		const int PortIndex = 1;
@@ -255,9 +217,9 @@ namespace TGServiceInterface
 		/// Construct IRC setup info from optional generic info. Defaults to TGS3 on rizons IRC server
 		/// </summary>
 		/// <param name="baseInfo">Optional generic info</param>
-		public TGIRCSetupInfo(TGChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
+		public IRCSetupInfo(ChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
 		{
-			Provider = TGChatProvider.IRC;
+			Provider = ChatProvider.IRC;
 			if (InitializeFields)
 			{
 				Nickname = "TGS3";
@@ -332,7 +294,7 @@ namespace TGServiceInterface
 	/// Chat provider for Discord. Admin entires should be user ids in normal mode or group ids in special mode
 	/// </summary>
 	[DataContract]
-	public sealed class TGDiscordSetupInfo : TGChatSetupInfo
+	public sealed class DiscordSetupInfo : ChatSetupInfo
 	{
 		const int BotTokenIndex = 0;
 		const int FieldsLen = 1;
@@ -340,9 +302,9 @@ namespace TGServiceInterface
 		/// Construct Discord setup info from optional generic info. Default is not a valid discord bot tokent
 		/// </summary>
 		/// <param name="baseInfo">Optional generic info</param>
-		public TGDiscordSetupInfo(TGChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
+		public DiscordSetupInfo(ChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
 		{
-			Provider = TGChatProvider.Discord;
+			Provider = ChatProvider.Discord;
 			if (InitializeFields)
 				BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; //needless to say, this is fake
 		}

@@ -1,30 +1,7 @@
 ﻿using System.ServiceModel;
 
-namespace TGServiceInterface
+namespace TGServiceInterface.Components
 {
-	/// <summary>
-	/// The status of the compiler
-	/// </summary>
-	public enum TGCompilerStatus
-	{
-		/// <summary>
-		/// Game folder is broken or does not exist
-		/// </summary>
-		Uninitialized,
-		/// <summary>
-		/// Game folder is being created
-		/// </summary>
-		Initializing,
-		/// <summary>
-		/// Game folder is setup, does not imply the dmb is compiled
-		/// </summary>
-		Initialized,
-		/// <summary>
-		/// Game is being compiled
-		/// </summary>
-		Compiling,
-	}
-
 	/// <summary>
 	/// For managing the Game A/B/Live folders, compiling, and hotswapping them
 	/// </summary>
@@ -39,7 +16,7 @@ namespace TGServiceInterface
 		bool Initialize();
 
 		/// <summary>
-		/// Does all the necessary actions to take the revision currently in the repository and compile it to be run on the next server reboot. Requires BYOND to be set up and the <see cref="GetStatus"/> to return <see cref="TGCompilerStatus.Initialized"/>. Runs asyncronously
+		/// Does all the necessary actions to take the revision currently in the repository and compile it to be run on the next server reboot. Requires BYOND to be set up and the <see cref="GetStatus"/> to return <see cref="CompilerStatus.Initialized"/>. Runs asyncronously
 		/// </summary>
 		/// <param name="silent">If <see langword="true"/> no message for compilation start will be printed</param>
 		/// <returns><see langword="true"/> if the operation began, <see langword="false"/> if it could not start</returns>
@@ -58,7 +35,7 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <returns>The current compiler status</returns>
 		[OperationContract]
-		TGCompilerStatus GetStatus();
+		CompilerStatus GetStatus();
 
 		/// <summary>
 		/// Returns the error message of the last operation. Reading this will clear the stored value

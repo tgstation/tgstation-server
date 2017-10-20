@@ -6,7 +6,7 @@ namespace TGServerService
 {
 	static class Program
 	{
-		static void Main() => new TGServerService();	//wondows
+		static void Main() => new Service();	//wondows
 		
 		//Everything in this file is just generic helpers
 
@@ -100,6 +100,11 @@ namespace TGServerService
 				string temppath = Path.Combine(destDirName, subdir.Name);
 				CopyDirectory(subdir.FullName, temppath, ignore);
 			}
+		}
+
+		public static string SanitizeTopicString(string input)
+		{
+			return input.Replace("%", "%25").Replace("=", "%3d").Replace(";", "%3b").Replace("&", "%26").Replace("+", "%2b");
 		}
 	}
 }

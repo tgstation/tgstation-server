@@ -5,31 +5,31 @@ using TGServiceInterface;
 using Meebey.SmartIrc4net;
 
 
-namespace TGServerService
+namespace TGServerService.ChatProviders
 {
-	class TGIRCChatProvider : ITGChatProvider
+	class IRCChatProvider : ITGChatProvider
 	{
 		const string PrivateMessageMarker = "---PRIVATE-MSG---";
 		IrcFeatures irc;
 
 		object IRCLock = new object();
 
-		TGIRCSetupInfo IRCConfig;
+		IRCSetupInfo IRCConfig;
 
 		public event OnChatMessage OnChatMessage;
 		
-		public TGChatSetupInfo ProviderInfo()
+		public ChatSetupInfo ProviderInfo()
 		{
 			return IRCConfig;
 		}
 
-		public TGIRCChatProvider(TGChatSetupInfo info)
+		public IRCChatProvider(ChatSetupInfo info)
 		{
-			IRCConfig = new TGIRCSetupInfo(info);
+			IRCConfig = new IRCSetupInfo(info);
 			irc = new IrcFeatures()
 			{
 				SupportNonRfc = true,
-				CtcpUserInfo = TGServerService.Version,
+				CtcpUserInfo = Service.Version,
 				AutoRejoin = true,
 				AutoRejoinOnKick = true,
 				AutoRelogin = true,
@@ -55,7 +55,7 @@ namespace TGServerService
 						channel = channel.Replace(PrivateMessageMarker, "");
 					irc.SendMessage(SendType.Message, channel, message);
 				}
-				TGServerService.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), TGServerService.EventID.ChatSend);
+				Service.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), EventID.ChatSend);
 				return null;
 			}
 			catch (Exception e)
@@ -64,9 +64,9 @@ namespace TGServerService
 			}
 		}
 
-		public string SetProviderInfo(TGChatSetupInfo info)
+		public string SetProviderInfo(ChatSetupInfo info)
 		{
-			var convertedInfo = (TGIRCSetupInfo)info;
+			var convertedInfo = (IRCSetupInfo)info;
 			var serverChange = convertedInfo.URL != IRCConfig.URL || convertedInfo.Port != IRCConfig.Port;
 			IRCConfig = convertedInfo;
 			if (!IRCConfig.Enabled)
@@ -247,7 +247,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteError("IRC failed QnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
+				Service.WriteError("IRC failed QnD: " + e.ToString(), EventID.ChatDisconnectFail);
 			}
 		}
 		//public api

@@ -3,20 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace TGServerService
+namespace TGServerService.ChatCommands
 {
 	class CommandInfo
 	{
 		public bool IsAdmin { get; set; }
 		public bool IsAdminChannel { get; set; }
 		public string Speaker { get; set; }
-		public TGStationServer Server { get; set; }
+		public ServerInstance Server { get; set; }
 	}
 	abstract class ChatCommand : Command
 	{
 		public bool RequiresAdmin { get; protected set; }
 		public static ThreadLocal<CommandInfo> CommandInfo = new ThreadLocal<CommandInfo>();
-		protected TGStationServer Instance { get { return CommandInfo.Value.Server; } }
+		protected ServerInstance Instance { get { return CommandInfo.Value.Server; } }
 		public override ExitCode DoRun(IList<string> parameters)
 		{
 			if (RequiresAdmin)
@@ -55,7 +55,7 @@ namespace TGServerService
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Instance.SendCommand(String.Format("{0};sender={1};custom={2}", Keyword, CommandInfo.Value.Speaker, TGStationServer.SanitizeTopicString(String.Join(" ", parameters))));
+			var res = Instance.SendCommand(String.Format("{0};sender={1};custom={2}", Keyword, CommandInfo.Value.Speaker, Program.SanitizeTopicString(String.Join(" ", parameters))));
 			if (res != "SUCCESS" && !String.IsNullOrWhiteSpace(res))
 				OutputProc(res);
 			return ExitCode.Normal;
@@ -105,12 +105,12 @@ namespace TGServerService
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var type = TGByondVersion.Installed;
+			var type = ByondVersion.Installed;
 			if (parameters.Count > 0)
 				if (parameters[0].ToLower() == "--staged")
-					type = TGByondVersion.Staged;
+					type = ByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
-					type = TGByondVersion.Latest;
+					type = ByondVersion.Latest;
 			OutputProc(Instance.GetVersion(type) ?? "None");
 			return ExitCode.Normal;
 		}

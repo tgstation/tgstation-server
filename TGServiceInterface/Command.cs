@@ -5,33 +5,32 @@ using System.Threading;
 namespace TGServiceInterface
 {
 	/// <summary>
-	/// Exit codes for <see cref="Command"/>s
-	/// </summary>
-	public enum ExitCode
-	{
-		/// <summary>
-		/// The <see cref="Command"/> ran successfully
-		/// </summary>
-		Normal = 0,
-		/// <summary>
-		/// The connection to the service was interrupted during the <see cref="Command"/>
-		/// </summary>
-		ConnectionError = 1,
-		/// <summary>
-		/// Invalid parameters for <see cref="Command"/>
-		/// </summary>
-		BadCommand = 2,
-		/// <summary>
-		/// The command failed due to conditions on the service
-		/// </summary>
-		ServerError = 3,
-	}
-
-	/// <summary>
 	/// Helper for creating a text <see cref="Command"/> tree
 	/// </summary>
 	public abstract class Command
 	{
+		/// <summary>
+		/// Exit codes for <see cref="Command"/>s
+		/// </summary>
+		public enum ExitCode
+		{
+			/// <summary>
+			/// The <see cref="Command"/> ran successfully
+			/// </summary>
+			Normal = 0,
+			/// <summary>
+			/// The connection to the service was interrupted during the <see cref="Command"/>
+			/// </summary>
+			ConnectionError = 1,
+			/// <summary>
+			/// Invalid parameters for <see cref="Command"/>
+			/// </summary>
+			BadCommand = 2,
+			/// <summary>
+			/// The command failed due to conditions on the service
+			/// </summary>
+			ServerError = 3,
+		}
 		/// <summary>
 		/// Proc that will show a message to the <see cref="Command"/> invoker. Do not call directly, use <see cref="OutputProc(string)"/> instead
 		/// </summary>

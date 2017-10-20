@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
-using System.Threading;
-using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGServerService
 {
 	//knobs and such
-	partial class TGStationServer : ITGConfig
+	partial class ServerInstance : ITGConfig
 	{
 		object configLock = new object();	//for atomic reads/writes
 		//public api
@@ -78,8 +76,8 @@ namespace TGServerService
 					}
 
 					var output = File.ReadAllText(path);
-					TGServerService.CancelImpersonation();
-					TGServerService.WriteInfo("Read of " + path, TGServerService.EventID.StaticRead);
+					Service.CancelImpersonation();
+					Service.WriteInfo("Read of " + path, EventID.StaticRead);
 					error = null;
 					unauthorized = false;
 					return output;
@@ -130,8 +128,8 @@ namespace TGServerService
 
 					Directory.CreateDirectory(destdir);
 					File.WriteAllText(path, data);
-					TGServerService.CancelImpersonation();
-					TGServerService.WriteInfo("Write to " + path, TGServerService.EventID.StaticWrite);
+					Service.CancelImpersonation();
+					Service.WriteInfo("Write to " + path, EventID.StaticWrite);
 					unauthorized = false;
 					return null;
 				}
@@ -181,8 +179,8 @@ namespace TGServerService
 						File.Delete(path);
 					else if (Directory.Exists(path))
 						Program.DeleteDirectory(path);
-					TGServerService.CancelImpersonation();
-					TGServerService.WriteInfo("Delete of " + path, TGServerService.EventID.StaticDelete);
+					Service.CancelImpersonation();
+					Service.WriteInfo("Delete of " + path, EventID.StaticDelete);
 					unauthorized = false;
 					return null;
 				}

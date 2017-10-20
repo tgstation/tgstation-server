@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -163,7 +164,7 @@ namespace TGControlPanel
 					AutoUpdateInterval.Value = interval;
 
 				var DaeStat = DD.DaemonStatus();
-				var Online = DaeStat == TGDreamDaemonStatus.Online;
+				var Online = DaeStat == DreamDaemonStatus.Online;
 				ServerStartButton.Enabled = !Online;
 				ServerGStopButton.Enabled = Online;
 				ServerGRestartButton.Enabled = Online;
@@ -172,13 +173,13 @@ namespace TGControlPanel
 
 				switch (DaeStat)
 				{
-					case TGDreamDaemonStatus.HardRebooting:
+					case DreamDaemonStatus.HardRebooting:
 						ServerStatusLabel.Text = "REBOOTING";
 						break;
-					case TGDreamDaemonStatus.Offline:
+					case DreamDaemonStatus.Offline:
 						ServerStatusLabel.Text = "OFFLINE";
 						break;
-					case TGDreamDaemonStatus.Online:
+					case DreamDaemonStatus.Online:
 						ServerStatusLabel.Text = "ONLINE";
 						var pc = DD.PlayerCount();
 						if (pc != -1)
@@ -197,25 +198,25 @@ namespace TGControlPanel
 
 				switch (DM.GetStatus())
 				{
-					case TGCompilerStatus.Compiling:
+					case CompilerStatus.Compiling:
 						CompilerStatusLabel.Text = "Compiling...";
 						compileButton.Enabled = false;
 						initializeButton.Enabled = false;
 						CompileCancelButton.Enabled = true;
 						break;
-					case TGCompilerStatus.Initializing:
+					case CompilerStatus.Initializing:
 						CompilerStatusLabel.Text = "Initializing...";
 						compileButton.Enabled = false;
 						initializeButton.Enabled = false;
 						CompileCancelButton.Enabled = false;
 						break;
-					case TGCompilerStatus.Initialized:
+					case CompilerStatus.Initialized:
 						CompilerStatusLabel.Text = "Idle";
 						initializeButton.Enabled = true;
 						compileButton.Enabled = true;
 						CompileCancelButton.Enabled = false;
 						break;
-					case TGCompilerStatus.Uninitialized:
+					case CompilerStatus.Uninitialized:
 						CompilerStatusLabel.Text = "Uninitialized";
 						compileButton.Enabled = false;
 						initializeButton.Enabled = true;
@@ -459,7 +460,7 @@ namespace TGControlPanel
 		private void SecuritySelector_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if (!Server.GetComponent<ITGDreamDaemon>().SetSecurityLevel((TGDreamDaemonSecurity)SecuritySelector.SelectedIndex))
+				if (!Server.GetComponent<ITGDreamDaemon>().SetSecurityLevel((DreamDaemonSecurity)SecuritySelector.SelectedIndex))
 					MessageBox.Show("Security change will be applied after next server reboot.");
 		}
 

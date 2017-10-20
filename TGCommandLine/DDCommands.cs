@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
@@ -84,7 +85,7 @@ namespace TGCommandLine
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
-				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
+				if (DD.DaemonStatus() != DreamDaemonStatus.Online)
 				{
 					OutputProc("Error: The game is not currently running!");
 					return ExitCode.ServerError;
@@ -113,7 +114,7 @@ namespace TGCommandLine
 			var DD = Server.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
-				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
+				if (DD.DaemonStatus() != DreamDaemonStatus.Online)
 				{
 					OutputProc("Error: The game is not currently running!");
 					return ExitCode.ServerError;
@@ -279,19 +280,19 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			TGDreamDaemonSecurity sec;
+			DreamDaemonSecurity sec;
 			switch (parameters[0].ToLower())
 			{
 				case "safe":
-					sec = TGDreamDaemonSecurity.Safe;
+					sec = DreamDaemonSecurity.Safe;
 					break;
 				case "ultra":
 				case "ultrasafe":
-					sec = TGDreamDaemonSecurity.Ultrasafe;
+					sec = DreamDaemonSecurity.Ultrasafe;
 					break;
 				case "trust":
 				case "trusted":
-					sec = TGDreamDaemonSecurity.Trusted;
+					sec = DreamDaemonSecurity.Trusted;
 					break;
 				default:
 					OutputProc("Invalid security word!");

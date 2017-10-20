@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace TGServiceInterface
+namespace TGServiceInterface.Components
 {
 	/// <summary>
 	/// For modifying the in game config

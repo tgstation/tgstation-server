@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace TGServiceInterface
+namespace TGServiceInterface.Components
 {
 	/// <summary>
 	/// Interface for handling chat bot
@@ -14,13 +14,13 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <param name="info">The info to set</param>
 		[OperationContract]
-		string SetProviderInfo(TGChatSetupInfo info);
+		string SetProviderInfo(ChatSetupInfo info);
 		/// <summary>
-		/// Returns <see cref="TGChatSetupInfo"/> for all <see cref="TGChatProvider"/>s
+		/// Returns <see cref="ChatSetupInfo"/> for all <see cref="ChatProvider"/>s
 		/// </summary>
-		/// <returns>A list of all <see cref="TGChatSetupInfo"/>s</returns>
+		/// <returns>A list of all <see cref="ChatSetupInfo"/>s</returns>
 		[OperationContract]
-		IList<TGChatSetupInfo> ProviderInfos();
+		IList<ChatSetupInfo> ProviderInfos();
 
 		/// <summary>
 		/// Checks connection status
@@ -28,7 +28,7 @@ namespace TGServiceInterface
 		/// <param name="providerType">The type of provider to check if connected</param>
 		/// <returns><see langword="true"/> if connected, <see langword="false"/> otherwise</returns>
 		[OperationContract]
-		bool Connected(TGChatProvider providerType);
+		bool Connected(ChatProvider providerType);
 
 		/// <summary>
 		/// Reconnect a specific <paramref name="providerType"/> to it's chat service
@@ -36,6 +36,6 @@ namespace TGServiceInterface
 		/// <param name="providerType">The type of provider to reconnect</param>
 		/// <returns><see langword="null"/> on success, error message <see cref="string"/> on failure</returns>
 		[OperationContract]
-		string Reconnect(TGChatProvider providerType);
+		string Reconnect(ChatProvider providerType);
 	}
 }

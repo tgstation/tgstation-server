@@ -1,4 +1,4 @@
-﻿namespace ServerService
+﻿namespace TGServerService
 {
 	partial class ProjectInstaller
 	{

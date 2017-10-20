@@ -7,6 +7,7 @@ using System.Net.Security;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+using TGServiceInterface.Components;
 
 namespace TGServiceInterface
 {
@@ -16,7 +17,7 @@ namespace TGServiceInterface
 	public class Server
 	{
 		/// <summary>
-		/// List of <see langword="interface"/>s that can be used with GetComponen
+		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/> and <see cref="CreateChannel{T}"/>
 		/// </summary>
 		public static readonly IList<Type> ValidInterfaces = CollectComponents();
 
@@ -59,7 +60,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
 		/// </summary>
-		static Dictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
+		static IDictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
 
 		/// <summary>
 		/// Returns a <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service
@@ -70,7 +71,7 @@ namespace TGServiceInterface
 			//find all interfaces in this assembly in this namespace that have the service contract attribute
 			var query = from t in Assembly.GetExecutingAssembly().GetTypes()
 						where t.IsInterface 
-						&& t.Namespace == typeof(Server).Namespace
+						&& t.Namespace == typeof(ITGSService).Namespace
 						&& t.GetCustomAttribute(typeof(ServiceContractAttribute)) != null
 						select t;
 			return query.ToList();

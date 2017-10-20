@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace TGServiceInterface
+namespace TGServiceInterface.Components
 {
 	/// <summary>
 	/// Used for testing connections to the service without authentication

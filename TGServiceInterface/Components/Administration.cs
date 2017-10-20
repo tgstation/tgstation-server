@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace TGServiceInterface
+namespace TGServiceInterface.Components
 {
 	/// <summary>
 	/// Manage the group that is used to access the service, can only be used by an administrator

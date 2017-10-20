@@ -1,6 +1,6 @@
 ﻿namespace TGServerService
 {
-	partial class TGServerService
+	sealed partial class Service
 	{
 		/// <summary> 
 		/// Required designer variable.

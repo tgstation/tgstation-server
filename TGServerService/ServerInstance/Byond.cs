@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGServerService
 {
-	partial class TGStationServer : ITGByond
+	partial class ServerInstance : ITGByond
 	{
 		const string ByondDirectory = "BYOND";
 		const string StagingDirectory = "BYOND_staged";
@@ -24,7 +24,7 @@ namespace TGServerService
 		const string ByondDDConfig = "/daemon.txt";
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
 
-		TGByondStatus updateStat = TGByondStatus.Idle;
+		ByondStatus updateStat = ByondStatus.Idle;
 		object ByondLock = new object();
 		string lastError;
 
@@ -61,19 +61,19 @@ namespace TGServerService
 			switch (updateStat)
 			{
 				default:
-				case TGByondStatus.Starting:
-				case TGByondStatus.Downloading:
-				case TGByondStatus.Staging:
-				case TGByondStatus.Updating:
+				case ByondStatus.Starting:
+				case ByondStatus.Downloading:
+				case ByondStatus.Staging:
+				case ByondStatus.Updating:
 					return true;
-				case TGByondStatus.Idle:
-				case TGByondStatus.Staged:
+				case ByondStatus.Idle:
+				case ByondStatus.Staged:
 					return false;
 			}
 		}
 
 		//public api
-		public TGByondStatus CurrentStatus()
+		public ByondStatus CurrentStatus()
 		{
 			lock (ByondLock)
 			{
@@ -93,13 +93,13 @@ namespace TGServerService
 		}
 
 		//public api
-		public string GetVersion(TGByondVersion type)
+		public string GetVersion(ByondVersion type)
 		{
 			try
 			{
 				lock (ByondLock)
 				{
-					if (type == TGByondVersion.Latest)
+					if (type == ByondVersion.Latest)
 					{
 						//get the latest version from the website
 						HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ByondLatestURL);
@@ -123,7 +123,7 @@ namespace TGServerService
 					}
 					else
 					{
-						string DirToUse = type == TGByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
+						string DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
 						if (Directory.Exists(DirToUse))
 						{
 							string file = DirToUse + VersionFile;
@@ -151,9 +151,9 @@ namespace TGServerService
 		public void UpdateToVersionImpl(object param)
 		{
 			lock (ByondLock) { 
-				if (updateStat != TGByondStatus.Starting)
+				if (updateStat != ByondStatus.Starting)
 					return;
-				updateStat = TGByondStatus.Downloading;
+				updateStat = ByondStatus.Downloading;
 			}
 
 			try
@@ -175,17 +175,17 @@ namespace TGServerService
 					{
 						SendMessage("BYOND: Update download failed. Does the specified version exist?", ChatMessageType.DeveloperInfo);
 						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", vi.major, vi.minor);
-						TGServerService.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", vi.major, vi.minor), TGServerService.EventID.BYONDUpdateFail);
+						Service.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", vi.major, vi.minor), EventID.BYONDUpdateFail);
 						lock (ByondLock)
 						{
-							updateStat = TGByondStatus.Idle;
+							updateStat = ByondStatus.Idle;
 						}
 						return;
 					}
 				}
 				lock (ByondLock)
 				{
-					updateStat = TGByondStatus.Staging;
+					updateStat = ByondStatus.Staging;
 				}
 
 				//STAGING
@@ -202,12 +202,12 @@ namespace TGServerService
 
 				lock (ByondLock)
 				{
-					updateStat = TGByondStatus.Staged;
+					updateStat = ByondStatus.Staged;
 				}
 
 				switch (DaemonStatus())
 				{
-					case TGDreamDaemonStatus.Offline:
+					case DreamDaemonStatus.Offline:
 						if(ApplyStagedUpdate())
 							lastError = null;
 						else
@@ -217,7 +217,7 @@ namespace TGServerService
 						RequestRestart();
 						lastError = "Update staged. Awaiting server restart...";
 						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", vi.major, vi.minor), ChatMessageType.DeveloperInfo);
-						TGServerService.WriteInfo(String.Format("BYOND update {0}.{1} staged", vi.major, vi.minor), TGServerService.EventID.BYONDUpdateStaged);
+						Service.WriteInfo(String.Format("BYOND update {0}.{1} staged", vi.major, vi.minor), EventID.BYONDUpdateStaged);
 						break;
 				}
 			}
@@ -227,10 +227,10 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteError("Revision staging errror: " + e.ToString(), TGServerService.EventID.BYONDUpdateFail);
+				Service.WriteError("Revision staging errror: " + e.ToString(), EventID.BYONDUpdateFail);
 				lock (ByondLock)
 				{
-					updateStat = TGByondStatus.Idle;
+					updateStat = ByondStatus.Idle;
 					lastError = e.ToString();
 					RevisionStaging = null;
 				}
@@ -243,7 +243,7 @@ namespace TGServerService
 			{
 				if (!BusyCheckNoLock())
 				{
-					updateStat = TGByondStatus.Starting;
+					updateStat = ByondStatus.Starting;
 					RevisionStaging = new Thread(new ParameterizedThreadStart(UpdateToVersionImpl))
 					{
 						IsBackground = true //don't slow me down
@@ -259,13 +259,13 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				if (compilerCurrentStatus == TGCompilerStatus.Compiling)
+				if (compilerCurrentStatus == CompilerStatus.Compiling)
 					return false;
 				lock (ByondLock)
 				{
-					if (updateStat != TGByondStatus.Staged)
+					if (updateStat != ByondStatus.Staged)
 						return false;
-					updateStat = TGByondStatus.Updating;
+					updateStat = ByondStatus.Updating;
 				}
 				try
 				{
@@ -274,20 +274,20 @@ namespace TGServerService
 					Program.DeleteDirectory(StagingDirectory);
 					lastError = null;
 					SendMessage("BYOND: Update completed!", ChatMessageType.DeveloperInfo);
-					TGServerService.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(TGByondVersion.Installed)), TGServerService.EventID.BYONDUpdateComplete);
+					Service.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);
 					return true;
 				}
 				catch (Exception e)
 				{
 					lastError = e.ToString();
 					SendMessage("BYOND: Update failed!", ChatMessageType.DeveloperInfo);
-					TGServerService.WriteError("BYOND update failed!", TGServerService.EventID.BYONDUpdateFail);
+					Service.WriteError("BYOND update failed!", EventID.BYONDUpdateFail);
 					return false;
 				}
 				finally
 				{
 					lock(ByondLock) {
-						updateStat = TGByondStatus.Idle;
+						updateStat = ByondStatus.Idle;
 					}
 				}
 			}

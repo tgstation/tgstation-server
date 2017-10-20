@@ -5,12 +5,13 @@ using System.Security.Principal;
 using System.ServiceModel;
 using System.Threading;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGServerService
 {
 	//note this only works with MACHINE LOCAL groups and admins for now
 	//if someone wants AD shit, code it yourself
-	partial class TGStationServer : ServiceAuthorizationManager, ITGAdministration
+	partial class ServerInstance : ServiceAuthorizationManager, ITGAdministration
 	{
 		SecurityIdentifier TheDroidsWereLookingFor;
 		object authLock = new object();
@@ -103,7 +104,7 @@ namespace TGServerService
 				if (LastSeenUser != user)
 				{
 					LastSeenUser = user;
-					TGServerService.WriteAccess(user, authSuccess);
+					Service.WriteAccess(user, authSuccess);
 				}
 			}
 			return authSuccess;
@@ -159,20 +160,20 @@ namespace TGServerService
 						return "BYOND locked";
 					try
 					{
-						if (updateStat != TGByondStatus.Idle)
+						if (updateStat != ByondStatus.Idle)
 							return "BYOND busy!";
 						if (!Monitor.TryEnter(CompilerLock))
 							return "Compiler locked!";
 
 						try
 						{
-							if (compilerCurrentStatus != TGCompilerStatus.Uninitialized && compilerCurrentStatus != TGCompilerStatus.Initialized)
+							if (compilerCurrentStatus != CompilerStatus.Uninitialized && compilerCurrentStatus != CompilerStatus.Initialized)
 								return "Compiler busy!";
 							if (!Monitor.TryEnter(watchdogLock))
 								return "Watchdog locked!";
 							try
 							{
-								if (currentStatus != TGDreamDaemonStatus.Offline)
+								if (currentStatus != DreamDaemonStatus.Offline)
 									return "Watchdog running!";
 								lock (configLock)
 								{
@@ -191,7 +192,7 @@ namespace TGServerService
 										catch (Exception e)
 										{
 											error = "The move was successful, but the path " + Config.ServerDirectory + " was unable to be deleted fully!";
-											TGServerService.WriteWarning(String.Format("Server move from {0} to {1} partial success: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMovePartial);
+											Service.WriteWarning(String.Format("Server move from {0} to {1} partial success: {2}", Config.ServerDirectory, new_location, e.ToString()), EventID.ServerMovePartial);
 										}
 									}
 									else
@@ -208,7 +209,7 @@ namespace TGServerService
 											throw;
 										}
 									}
-									TGServerService.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), TGServerService.EventID.ServerMoveComplete);
+									Service.WriteInfo(String.Format("Server moved from {0} to {1}", Config.ServerDirectory, new_location), EventID.ServerMoveComplete);
 									Config.ServerDirectory = new_location;
 									return null;
 								}
@@ -235,7 +236,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				TGServerService.WriteError(String.Format("Server move from {0} to {1} failed: {2}", Config.ServerDirectory, new_location, e.ToString()), TGServerService.EventID.ServerMoveFailed);
+				Service.WriteError(String.Format("Server move from {0} to {1} failed: {2}", Config.ServerDirectory, new_location, e.ToString()), EventID.ServerMoveFailed);
 				return e.ToString();
 			}
 		}
@@ -253,7 +254,7 @@ namespace TGServerService
 						return "Static dir locked!";
 					try
 					{
-						if (currentStatus != TGDreamDaemonStatus.Offline)
+						if (currentStatus != DreamDaemonStatus.Offline)
 							return "Watchdog running!";
 						BackupAndDeleteStaticDirectory();
 						InitialConfigureRepository();

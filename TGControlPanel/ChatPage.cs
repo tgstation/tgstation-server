@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -9,9 +10,9 @@ namespace TGControlPanel
 	{
 		bool updatingChat = false;
 		
-		TGChatProvider ModifyingProvider
+		ChatProvider ModifyingProvider
 		{
-			get { return (TGChatProvider)Properties.Settings.Default.LastChatProvider; }
+			get { return (ChatProvider)Properties.Settings.Default.LastChatProvider; }
 			set { Properties.Settings.Default.LastChatProvider = (int)value; }
 		}
 
@@ -24,8 +25,8 @@ namespace TGControlPanel
 			IRCModesComboBox.Visible = false;
 			switch (ModifyingProvider)
 			{
-				case TGChatProvider.Discord:
-					var DPI = new TGDiscordSetupInfo(PI);
+				case ChatProvider.Discord:
+					var DPI = new DiscordSetupInfo(PI);
 					DiscordProviderSwitch.Select();
 					AuthField1.Text = DPI.BotToken; //it's invisible so whatever
 					AuthField1Title.Text = "Bot Token:";
@@ -43,8 +44,8 @@ namespace TGControlPanel
 					AdminModeNormal.Text = "User IDs";
 					AdminModeSpecial.Text = "Role IDs";
 					break;
-				case TGChatProvider.IRC:
-					var IRC = new TGIRCSetupInfo(PI);
+				case ChatProvider.IRC:
+					var IRC = new IRCSetupInfo(PI);
 					IRCProviderSwitch.Select();
 					AuthField1.Text = IRC.AuthTarget;
 					AuthField2.Text = IRC.AuthMessage;
@@ -73,7 +74,7 @@ namespace TGControlPanel
 					}
 					break;
 				default:
-					Properties.Settings.Default.LastChatProvider = (int)TGChatProvider.IRC;
+					Properties.Settings.Default.LastChatProvider = (int)ChatProvider.IRC;
 					LoadChatPage();
 					return;
 			}
@@ -133,7 +134,7 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && DiscordProviderSwitch.Checked)
 			{
-				ModifyingProvider = TGChatProvider.Discord;
+				ModifyingProvider = ChatProvider.Discord;
 				LoadChatPage();
 			}
 		}
@@ -142,7 +143,7 @@ namespace TGControlPanel
 		{
 			if (!updatingChat && IRCProviderSwitch.Checked)
 			{
-				ModifyingProvider = TGChatProvider.IRC;
+				ModifyingProvider = ChatProvider.IRC;
 				LoadChatPage();
 			}
 		}
@@ -172,17 +173,17 @@ namespace TGControlPanel
 		private void ChatApplyButton_Click(object sender, EventArgs e)
 		{
 			string res = null;
-			TGChatSetupInfo wip = null;
+			ChatSetupInfo wip = null;
 			switch (ModifyingProvider)
 			{
-				case TGChatProvider.Discord:
-					wip = new TGDiscordSetupInfo()
+				case ChatProvider.Discord:
+					wip = new DiscordSetupInfo()
 					{
 						BotToken = AuthField1.Text
 					};
 					break;
-				case TGChatProvider.IRC:
-					wip = new TGIRCSetupInfo()
+				case ChatProvider.IRC:
+					wip = new IRCSetupInfo()
 					{
 						AuthMessage = AuthField2.Text,
 						AuthTarget = AuthField1.Text,

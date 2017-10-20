@@ -5,7 +5,7 @@ using System.IO;
 namespace TGServerService
 {
 	// Some useful functions for triggering pre action events
-	partial class TGStationServer
+	partial class ServerInstance
 	{
 		const string EventFolder = "EventHandlers/";
 
@@ -44,9 +44,9 @@ namespace TGServerService
 			var stdout = process.StandardOutput.ReadToEnd();
 			var stderr = process.StandardError.ReadToEnd();
 
-			TGServerService.WriteInfo(
+			Service.WriteInfo(
 				String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetPath(eventName), stdout, stderr),
-				process.ExitCode == 0 ? TGServerService.EventID.PreactionEvent : TGServerService.EventID.PreactionFail
+				process.ExitCode == 0 ? EventID.PreactionEvent : EventID.PreactionFail
 		   );
 
 			return process.ExitCode == 0 ? true : false;

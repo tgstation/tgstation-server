@@ -21,7 +21,7 @@ namespace TGServiceInterface
 		/// Forward parameters to commands further down the tree
 		/// </summary>
 		/// <param name="parameters">List of parameters passed to the <see cref="RootCommand"/></param>
-		/// <returns>The result of a sub <see cref="Command"/> or an appropriate <see cref="ExitCode"/> if the <see cref="RootCommand"/> handled it</returns>
+		/// <returns>The result of a sub <see cref="Command"/> or an appropriate <see cref="Command.ExitCode"/> if the <see cref="RootCommand"/> handled it</returns>
 		protected override ExitCode Run(IList<string> parameters)
 		{
 			if (parameters.Count > 0)

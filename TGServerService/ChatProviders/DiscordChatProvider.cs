@@ -6,30 +6,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using TGServiceInterface;
 
-namespace TGServerService
+namespace TGServerService.ChatProviders
 {
-	class TGDiscordChatProvider : ITGChatProvider
+	class DiscordChatProvider : ITGChatProvider
 	{
 		public event OnChatMessage OnChatMessage;
 		DiscordSocketClient client;
-		TGDiscordSetupInfo DiscordConfig;
+		DiscordSetupInfo DiscordConfig;
 		object DiscordLock = new object();
 
 		IDictionary<ulong, ISocketMessageChannel> SeenPrivateChannels = new Dictionary<ulong, ISocketMessageChannel>();
 
-		public TGDiscordChatProvider(TGChatSetupInfo info)
+		public DiscordChatProvider(ChatSetupInfo info)
 		{
 			Init(info);
 		}
 
-		public TGChatSetupInfo ProviderInfo()
+		public ChatSetupInfo ProviderInfo()
 		{
 			return DiscordConfig;
 		}
 
-		void Init(TGChatSetupInfo info)
+		void Init(ChatSetupInfo info)
 		{
-			DiscordConfig = new TGDiscordSetupInfo(info);
+			DiscordConfig = new DiscordSetupInfo(info);
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 		}
@@ -176,7 +176,7 @@ namespace TGServerService
 							foreach (var J in I.TextChannels)
 								if (J.Id == channel)
 									J.SendMessageAsync(message).Wait();
-					TGServerService.WriteInfo(String.Format("Discord Send ({0}): {1}", channelname, message), TGServerService.EventID.ChatSend);
+					Service.WriteInfo(String.Format("Discord Send ({0}): {1}", channelname, message), EventID.ChatSend);
 					return null;
 				}
 			}
@@ -193,19 +193,19 @@ namespace TGServerService
 				client.LogoutAsync().Wait();
 			}
 			catch (Exception e) {
-				TGServerService.WriteError("Discord failed DnD: " + e.ToString(), TGServerService.EventID.ChatDisconnectFail);
+				Service.WriteError("Discord failed DnD: " + e.ToString(), EventID.ChatDisconnectFail);
 			}
 			client.Dispose();
 		}
 
-		public string SetProviderInfo(TGChatSetupInfo info)
+		public string SetProviderInfo(ChatSetupInfo info)
 		{
 			try
 			{
 				lock (DiscordLock)
 				{
 					var odc = DiscordConfig;
-					DiscordConfig = new TGDiscordSetupInfo(info);
+					DiscordConfig = new DiscordSetupInfo(info);
 					if (DiscordConfig.BotToken != odc.BotToken)
 					{
 						DisconnectAndDispose();

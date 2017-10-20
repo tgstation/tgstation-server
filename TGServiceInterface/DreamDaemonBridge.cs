@@ -1,30 +1,14 @@
-﻿using System;
-using RGiesecke.DllExport;
+﻿using RGiesecke.DllExport;
+using System;
 using System.Runtime.InteropServices;
-using System.ServiceModel;
+using TGServiceInterface.Components;
 
 namespace TGServiceInterface
 {
-
-	/// <summary>
-	/// Used by DD to access the interop API with call()()
-	/// </summary>
-	[ServiceContract]
-	public interface ITGInterop
-	{
-		/// <summary>
-		/// Called from /world/ExportService(command)
-		/// </summary>
-		/// <param name="command">The command to run</param>
-		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
-		[OperationContract]
-		bool InteropMessage(string command);
-	}
-
 	/// <summary>
 	/// Holds the proc that DD calls to access <see cref="ITGInterop"/>
 	/// </summary>
-	public class DDInteropCallHolder
+	public sealed class DreamDaemonBridge
 	{
 		/// <summary>
 		/// The proc that DD calls to access <see cref="ITGInterop"/>
@@ -38,11 +22,11 @@ namespace TGServiceInterface
 			try
 			{
 				var channel = Server.CreateChannel<ITGInterop>();
-                try
-                {
-                    channel.CreateChannel().InteropMessage(String.Join(" ", args));
-                }
-                catch { }
+				try
+				{
+					channel.CreateChannel().InteropMessage(String.Join(" ", args));
+				}
+				catch { }
 				Server.CloseChannel(channel);
 			}
 			catch { }

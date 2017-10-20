@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
 
 	class Program
 	{
-		static ExitCode RunCommandLine(IList<string> argsAsList)
+		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			//first lookup the connection string
 			bool badConnectionString = false;
@@ -58,7 +59,7 @@ namespace TGCommandLine
 			if (badConnectionString)
 			{
 				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address:port");
-				return ExitCode.BadCommand;
+				return Command.ExitCode.BadCommand;
 			}
 
 			var res = Server.VerifyConnection();
@@ -66,13 +67,13 @@ namespace TGCommandLine
 			{
 				Console.WriteLine("Unable to connect to service: " + res);
 				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address:port");
-				return ExitCode.ConnectionError;
+				return Command.ExitCode.ConnectionError;
 			}
 
 			if (!Server.Authenticate())
 			{
 				Console.WriteLine("Authentication error: Username/password/windows identity is not authorized!");
-				return ExitCode.ConnectionError;
+				return Command.ExitCode.ConnectionError;
 			}
 
 			if (!SentVMMWarning && Server.VersionMismatch(out string error))
@@ -88,7 +89,7 @@ namespace TGCommandLine
 			catch (Exception e)
 			{
 				Console.WriteLine("Error: " + e.ToString());
-				return ExitCode.ConnectionError;
+				return Command.ExitCode.ConnectionError;
 			};
 		}
 		public static string ReadLineSecure()
@@ -208,11 +209,11 @@ namespace TGCommandLine
 						break;
 					case "quit":
 					case "exit":
-						return (int)ExitCode.Normal;
+						return (int)Command.ExitCode.Normal;
 #if DEBUG
 					case "debug-upgrade":
 						Server.GetComponent<ITGSService>().PrepareForUpdate();
-						return (int)ExitCode.Normal;
+						return (int)Command.ExitCode.Normal;
 #endif
 					default:
 						//linq voodoo to get quoted strings
