@@ -35,7 +35,7 @@ namespace TGServerService.ChatCommands
 		/// <summary>
 		/// <see cref="CommandInfo"/> for the <see cref="ChatCommand"/>
 		/// </summary>
-		public static ThreadLocal<CommandInfo> CommandInfo { protected get; set; } = new ThreadLocal<CommandInfo>();
+		public static ThreadLocal<CommandInfo> CommandInfo { get; private set; } = new ThreadLocal<CommandInfo>();
 		/// <summary>
 		/// If set to <see langword="true"/>, the <see cref="ChatCommand"/> cannot be invoked by a non-admin or outside an admin chat channel
 		/// </summary>

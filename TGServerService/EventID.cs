@@ -5,7 +5,7 @@ namespace TGServerService
 	/// <summary>
 	/// Various events and their IDs in no particular order. Found in the Windows event log. These incremented by 100 and are guaranteed to never be reused in the future. Each event ID may be information, a warning, or error and will be documented accordingly. Warnings will occur due to user, data, or network errors. Errors will occur due to filesystem errors or hard faults
 	/// </summary>
-	public enum EventID
+	public enum EventID : int
 	{
 		/// <summary>
 		/// Info: When the bot recieves a (not necessarily valid) chat command

@@ -8,50 +8,78 @@ using TGServiceInterface;
 using TGServiceInterface.Components;
 
 namespace TGServerService
-{//only deprecate events, do not reuse them
-
+{
+	/// <summary>
+	/// The windows service the application runs as
+	/// </summary>
 	sealed partial class Service : ServiceBase
-	{ 
-		static Service ActiveService;   //So everyone else can write to our eventlog
-
+	{
+		/// <summary>
+		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
+		/// </summary>
 		public static readonly string Version = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		/// <summary>
-		/// You can't write to logs while impersonating, call this to cancel WCF's impersonation first
+		/// Singleton instance
+		/// </summary>
+		static Service ActiveService;
+
+		/// <summary>
+		/// Cancels WCF's user impersonation to allow clean access to writing log files
 		/// </summary>
 		public static void CancelImpersonation()
 		{
 			WindowsIdentity.Impersonate(IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Writes information to Windows the event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		public static void WriteInfo(string message, EventID id)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Information, (int)id);
 		}
+		/// <summary>
+		/// Writes an error to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		public static void WriteError(string message, EventID id)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Error, (int)id);
 		}
+		/// <summary>
+		/// Writes a warning to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		public static void WriteWarning(string message, EventID id)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
+		/// <summary>
+		/// Writes an access event to the Windows event log
+		/// </summary>
+		/// <param name="username">The (un)authenticated Windows user's name</param>
+		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
 		public static void WriteAccess(string username, bool authSuccess)
 		{
 			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}", username), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
 		}
 
-		ServiceHost host;   //the WCF host
+		/// <summary>
+		/// The WCF host that the <see cref="Interface"/> connects to
+		/// </summary>
+		ServiceHost host;
 
-		void MigrateSettings(int oldVersion, int newVersion)
-		{
-			if (oldVersion == newVersion && newVersion == 0)	//chat refactor
-				Properties.Settings.Default.ChatProviderData = "NEEDS INITIALIZING";	//reset chat settings to be safe
-		}
-	
 		//you should seriously not add anything here
 		//Use OnStart instead
+		/// <summary>
+		/// Construct and run a <see cref="Service"/>. Can only execute in the context of the Windows service manager
+		/// </summary>
 		public Service()
 		{
 			try
@@ -78,7 +106,22 @@ namespace TGServerService
 			}
 		}
 
-		//when babby is formed
+
+		/// <summary>
+		/// Migrates the <see cref="Properties.Settings"/> file from an older version
+		/// </summary>
+		/// <param name="oldVersion">The previous version</param>
+		/// <param name="newVersion">The new version</param>
+		void MigrateSettings(int oldVersion, int newVersion)
+		{
+			if (oldVersion == newVersion && newVersion == 0)	//chat refactor
+				Properties.Settings.Default.ChatProviderData = "NEEDS INITIALIZING";	//reset chat settings to be safe
+		}
+
+		/// <summary>
+		/// Called by the Windows service manager. Initializes and starts the <see cref="ServerInstance"/>
+		/// </summary>
+		/// <param name="args">Command line arguments for the <see cref="Service"/></param>
 		protected override void OnStart(string[] args)
 		{
 			var Config = Properties.Settings.Default;
@@ -129,24 +172,29 @@ namespace TGServerService
 			}
 		}
 
-		//shorthand for adding the WCF endpoint
-		void AddEndpoint(Type typetype)
+		/// <summary>
+		/// Adds a WCF endpoint for a component <paramref name="type"/>
+		/// </summary>
+		/// <param name="type">The <see cref="Type"/> of the component <see langword="interface"/></param>
+		void AddEndpoint(Type type)
 		{
-			var bindingName = Interface.MasterInterfaceName + "/" + typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
+			var bindingName = Interface.MasterInterfaceName + "/" + type.Name;
+			host.AddServiceEndpoint(type, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = Interface.TransferLimitRemote
 			};
-			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
+			var requireAuth = type.Name != typeof(ITGConnectivity).Name;
 			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
 			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
 			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
-			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
+			host.AddServiceEndpoint(type, httpsBinding, bindingName);
 		}
 
-		//when we is kill
+		/// <summary>
+		/// Shutsdown the WCF <see cref="host"/> and calls <see cref="IDisposable.Dispose"/> on it's <see cref="ServerInstance"/>
+		/// </summary>
 		protected override void OnStop()
 		{
 			try
