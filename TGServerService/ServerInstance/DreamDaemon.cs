@@ -10,7 +10,7 @@ using TGServiceInterface.Components;
 namespace TGServerService
 {
 	//manages the dd window.
-	//It's not possible to actually click it while starting it in CL mode, so in order to change visibility etc. It restarts the process when the round ends
+	//It's not possible to actually click it while starting it in CL mode, so in order to change visibility, security, etc. It restarts the process when the world reboots
 	sealed partial class ServerInstance : ITGDreamDaemon
 	{
 		enum ShutdownRequestPhase
@@ -20,29 +20,79 @@ namespace TGServerService
 			Pinged,
 		}
 
+		/// <summary>
+		/// Directory for storing DreamDaemon diagnostic files
+		/// </summary>
 		const string DiagnosticsDir = "Diagnostics";
+		/// <summary>
+		/// Directory for storing DreamDaemon ResourceUsage files
+		/// </summary>
 		const string ResourceDiagnosticsDir = DiagnosticsDir + "/Resources";
+		/// <summary>
+		/// Time until DD is considered DOA on startup
+		/// </summary>
 		const int DDHangStartTime = 60;
+		/// <summary>
+		/// If DreamDaemon crashes before this time it is considered a bad startup
+		/// </summary>
 		const int DDBadStartTime = 10;
 
+		/// <summary>
+		/// The DreamDaemon process
+		/// </summary>
 		Process Proc;
+		/// <summary>
+		/// CPU performance information for <see cref="Proc"/>
+		/// </summary>
 		PerformanceCounter pcpu;
 
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object watchdogLock = new object();
+		/// <summary>
+		/// The thread that monitors the status of DreamDaemon
+		/// </summary>
 		Thread DDWatchdog;
+		/// <summary>
+		/// The <see cref="DreamDaemonStatus"/> of <see cref="Proc"/>
+		/// </summary>
 		DreamDaemonStatus currentStatus;
+		/// <summary>
+		/// Current logfile in use in <see cref="ResourceDiagnosticsDir"/>
+		/// </summary>
 		string CurrentDDLog;
+		/// <summary>
+		/// Current port DreamDaemon is running on
+		/// </summary>
 		ushort currentPort = 0;
 
+		/// <summary>
+		/// Used for multithreading safety
+		/// </summary>
 		object restartLock = new object();
+		/// <summary>
+		/// Used to indicate if an intentional restart is in progress on the watchdog. Requires <see cref="restartLock"/> to access
+		/// </summary>
 		bool RestartInProgress = false;
+		/// <summary>
+		/// Used to indicate if an service restart is in progress on the watchdog. Requires <see cref="restartLock"/> to access
+		/// </summary>
 		bool ReattachInsteadOfRestart = false;
 
+		/// <summary>
+		/// Current <see cref="DreamDaemonSecurity"/> level of DreamDaemon
+		/// </summary>
 		DreamDaemonSecurity StartingSecurity;
 
+		/// <summary>
+		/// Indicator of progress on a <see cref="RequestRestart"/> or <see cref="RequestStop"/> operation
+		/// </summary>
 		ShutdownRequestPhase AwaitingShutdown;
 
-		//Only need 1 proc instance
+		/// <summary>
+		/// Setup or reattach the watchdog, depending on <see cref="Properties.Settings.ReattachToDD"/>, and create the <see cref="DiagnosticsDir"/>
+		/// </summary>
 		void InitDreamDaemon()
 		{
 			Directory.CreateDirectory(DiagnosticsDir);
@@ -62,8 +112,11 @@ namespace TGServerService
 					});
 
 					//start wd 
-					RestartInProgress = true;
-					ReattachInsteadOfRestart = true;
+					lock (restartLock)
+					{
+						RestartInProgress = true;
+						ReattachInsteadOfRestart = true;
+					}
 					currentPort = Properties.Settings.Default.ReattachPort;
 					serviceCommsKey = Properties.Settings.Default.ReattachCommsKey;
 					try
@@ -100,7 +153,9 @@ namespace TGServerService
 				ThreadPool.QueueUserWorkItem( _ => { Start(); });
 		}
 
-		//die now k thx
+		/// <summary>
+		/// Either let go of <see cref="Proc"/> for reattachment or terminate it, depending on <see cref="Properties.Settings.ReattachToDD"/>
+		/// </summary>
 		void DisposeDreamDaemon()
 		{
 			var Detach = Properties.Settings.Default.ReattachToDD;
@@ -227,6 +282,10 @@ namespace TGServerService
 			return res;
 		}
 
+		/// <summary>
+		/// Write a <paramref name="message"/> to the <see cref="CurrentDDLog"/>. A timestamp will be prepended to it
+		/// </summary>
+		/// <param name="message">The message to log</param>
 		void WriteCurrentDDLog(string message)
 		{
 			lock (watchdogLock)
@@ -237,7 +296,9 @@ namespace TGServerService
 			}
 		}
 
-		//loop that keeps the server running
+		/// <summary>
+		/// Threaded loop that keeps DreamDaemon from unintentionally stopping
+		/// </summary>
 		void Watchdog()
 		{
 			try
@@ -339,7 +400,10 @@ namespace TGServerService
 						Properties.Settings.Default.ReattachPID = Proc.Id;
 						Properties.Settings.Default.ReattachPort = currentPort;
 						Properties.Settings.Default.ReattachCommsKey = serviceCommsKey;
-						RestartInProgress = true;
+						lock (restartLock)
+						{
+							RestartInProgress = true;
+						}
 					}
 					Proc.Close();
 				}
@@ -358,18 +422,26 @@ namespace TGServerService
 					currentStatus = DreamDaemonStatus.Offline;
 					currentPort = 0;
 					AwaitingShutdown = ShutdownRequestPhase.None;
-					if (!RestartInProgress)
+					lock (restartLock)
 					{
-						if(!Properties.Settings.Default.ReattachToDD)
-							SendMessage("DD: Server stopped, watchdog exiting...", MessageType.WatchdogInfo);
-						Service.WriteInfo("Watch dog exited", EventID.DDWatchdogExit);
+						if (!RestartInProgress)
+						{
+							if (!Properties.Settings.Default.ReattachToDD)
+								SendMessage("DD: Server stopped, watchdog exiting...", MessageType.WatchdogInfo);
+							Service.WriteInfo("Watch dog exited", EventID.DDWatchdogExit);
+						}
+						else
+							Service.WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
 					}
-					else
-						Service.WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
 				}
 			}
 		}
 
+		/// <summary>
+		/// Called every five seconds while DreamDaemon is running to log it's current state to the <see cref="DiagnosticsDir"/>
+		/// </summary>
+		/// <param name="sender">The event sender, an instance of <see cref="System.Timers.Timer"/></param>
+		/// <param name="e">The <see cref="ElapsedEventArgs"/></param>
 		private void MemTrackTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			ulong megamem;
@@ -386,14 +458,6 @@ namespace TGServerService
 
 		/// <inheritdoc />
 		public string CanStart()
-		{
-			lock (watchdogLock)
-			{
-				return CanStartImpl();
-			}
-		}
-
-		string CanStartImpl()
 		{
 			if (GetVersion(ByondVersion.Installed) == null)
 				return "Byond is not installed!";
@@ -416,7 +480,7 @@ namespace TGServerService
 			{
 				if (currentStatus != DreamDaemonStatus.Offline)
 					return "Server already running";
-				var res = CanStartImpl();
+				var res = CanStart();
 				if (res != null)
 					return res;
 				currentPort = 0;
@@ -424,8 +488,12 @@ namespace TGServerService
 			}
 			return StartImpl(false);
 		}
-
-		//translate the configured security level into a byond param
+		
+		/// <summary>
+		/// Translate the configured <see cref="DreamDaemonSecurity"/> level into a byond command line param
+		/// </summary>
+		/// <param name="starting">If <see langword="true"/> bases it's result on <see cref="StartingSecurity"/>, uses <see cref="Properties.Settings.ServerSecurity"/> otherwise</param>
+		/// <returns>"safe", "trusted", or "ultrasafe" depending on the <see cref="DreamDaemonSecurity"/> it checks</returns>
 		string SecurityWord(bool starting = false)
 		{
 			var level = starting ? StartingSecurity : (DreamDaemonSecurity)Properties.Settings.Default.ServerSecurity;
@@ -442,6 +510,10 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Copies <see cref="InterfaceDLLName"/> from the program directory to the the <see cref="ServerInstance"/> directory
+		/// </summary>
+		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll if it exists</param>
 		void UpdateInterfaceDll(bool overwrite)
 		{
 			if (File.Exists(InterfaceDLLName) && !overwrite)
@@ -451,14 +523,18 @@ namespace TGServerService
 			File.Copy(InterfacePath, InterfaceDLLName, overwrite);
 		}
 
-		//used by Start and Watchdog to start a DD instance
+		/// <summary>
+		/// Clears the current <see cref="GameAPIVersion"/>, calls <see cref="UpdateInterfaceDll(bool)"/> with a <see langword="true"/> parameter, and attempts to start the DreamDaemon <see cref="Proc"/>
+		/// </summary>
+		/// <param name="watchdog">If <see langword="false"/>, sets <see cref="DDWatchdog"/> to a new <see cref="Thread"/> pointing to <see cref="Watchdog"/> and starts it</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string StartImpl(bool watchdog)
 		{
 			try
 			{
 				lock (watchdogLock)
 				{
-					var res = CanStartImpl();
+					var res = CanStart();
 					if (res != null)
 						return res;
 
