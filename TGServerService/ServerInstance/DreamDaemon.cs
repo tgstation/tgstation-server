@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Timers;
@@ -516,11 +517,37 @@ namespace TGServerService
 		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll if it exists</param>
 		void UpdateInterfaceDll(bool overwrite)
 		{
-			if (File.Exists(InterfaceDLLName) && !overwrite)
+			var FileExists = File.Exists(InterfaceDLLName);
+			if (FileExists && !overwrite)
 				return;
 			//Copy the interface dll to the static dir
 			var InterfacePath = Assembly.GetAssembly(typeof(DreamDaemonBridge)).Location;
-			File.Copy(InterfacePath, InterfaceDLLName, overwrite);
+			try
+			{
+				if (FileExists)
+				{
+					var Old = File.ReadAllBytes(InterfaceDLLName);
+					var New = File.ReadAllBytes(InterfacePath);
+					if (Old.SequenceEqual(New))
+						return; //no need
+				}
+				File.Copy(InterfacePath, InterfaceDLLName, overwrite);
+				Service.WriteInfo("Updated interface DLL", TGServerService.EventID.InterfaceDLLUpdated);
+			}
+			catch
+			{
+				try
+				{
+					//ok the things being stupid and hasn't released the dll yet, try ONCE more
+					Thread.Sleep(1000);
+					File.Copy(InterfacePath, InterfaceDLLName, overwrite);
+				}
+				catch (Exception e)
+				{
+					//intentionally using the fi
+					Service.WriteError("Failed to update interface DLL! Error: " + e.ToString(), TGServerService.EventID.InterfaceDLLUpdateFail);
+				}
+			}
 		}
 
 		/// <summary>

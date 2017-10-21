@@ -307,15 +307,18 @@ namespace TGServerService.ChatProviders
 				return;
 			lock (IRCLock)
 			{
-				foreach (var cid in irc.JoinedChannels)
+				string cids = "";
+				for (var I = 0; I < irc.JoinedChannels.Count; ++I)
 				{
+					var cid = irc.JoinedChannels[I];
 					bool SendToThisChannel = (mt.HasFlag(MessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
 						|| (mt.HasFlag(MessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
 						|| (mt.HasFlag(MessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
 						|| (mt.HasFlag(MessageType.WatchdogInfo) && IRCConfig.WatchdogChannels.Contains(cid));
 					if (SendToThisChannel)
-						irc.SendMessage(SendType.Message, cid, message);
+						cids += I > 0 ? ',' + cid : cid;
 				}
+				irc.SendMessage(SendType.Message, cids, message);
 			}
 		}
 

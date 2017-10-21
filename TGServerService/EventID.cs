@@ -242,8 +242,16 @@ namespace TGServerService
 		/// Warning: An error occurred during a <see cref="TGServiceInterface.Components.ITGRepository.GenerateChangelog(out string)"/> operation
 		/// </summary>
 		RepoChangelogFail = 5700,
+		/// <summary>
+		/// Info: When the <see cref="TGServiceInterface"/> dll is updated for the <see cref="ServerInstance"/>
+		/// </summary>
+		InterfaceDLLUpdated = 5800,
+		/// <summary>
+		/// Error: An error occurred while updating the <see cref="TGServiceInterface"/> dll for the <see cref="ServerInstance"/>
+		/// </summary>
+		InterfaceDLLUpdateFail = 5900,
 
-		//YO THERE'S SPACE FOR 3 IDS HERE, USE EM!!!
+		//YO THERE'S SPACE FOR 1 MORE ID HERE, USE IT!!!
 
 		/// <summary>
 		/// Error: When an exception occurs while the <see cref="Service"/> is stopping
