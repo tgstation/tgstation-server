@@ -41,7 +41,7 @@ namespace TGServerService
 			irc.OnChannelMessage += Irc_OnChannelMessage;
 			irc.OnQueryMessage += Irc_OnQueryMessage;
 		}
-		
+
 		//public api
 		public string SendMessageDirect(string message, string channel)
 		{
@@ -265,15 +265,18 @@ namespace TGServerService
 				return;
 			lock (IRCLock)
 			{
-				foreach (var cid in irc.JoinedChannels)
+				string cids = "";
+				for (var I = 0; I < irc.JoinedChannels.Count; ++I)
 				{
+					var cid = irc.JoinedChannels[I];
 					bool SendToThisChannel = (mt.HasFlag(ChatMessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
 						|| (mt.HasFlag(ChatMessageType.WatchdogInfo) && IRCConfig.WatchdogChannels.Contains(cid));
 					if (SendToThisChannel)
-						irc.SendMessage(SendType.Message, cid, message);
+						cids += I > 0 ? ',' + cid : cid;
 				}
+				irc.SendMessage(SendType.Message, cids, message);
 			}
 		}
 
