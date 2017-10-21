@@ -70,6 +70,8 @@ namespace TGServerService
 			RepoPushFail = 5500,
 			RepoChangelog = 5600,
 			RepoChangelogFail = 5700,
+			InterfaceDLLUpdated = 5800,
+			InterfaceDLLUpdateFail = 5900,
 			ServiceShutdownFail = 6100,
 			WorldReboot = 6200,
 			ServerUpdateApplied = 6300,
