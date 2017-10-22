@@ -1,4 +1,4 @@
-﻿namespace ServerService
+﻿namespace TGServerService
 {
 	partial class ProjectInstaller
 	{
@@ -54,7 +54,13 @@
 
 		#endregion
 
+		/// <summary>
+		/// The project's <see cref="System.ServiceProcess.ServiceProcessInstaller"/>
+		/// </summary>
 		private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
+		/// <summary>
+		/// The project's <see cref="System.ServiceProcess.ServiceInstaller"/>
+		/// </summary>
 		private System.ServiceProcess.ServiceInstaller serviceInstaller1;
 	}
 }

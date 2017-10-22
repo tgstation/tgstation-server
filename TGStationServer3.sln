@@ -18,16 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
-		build_byond.sh = build_byond.sh
-		Config.dm = Config.dm
-		DMAPITravisTester.dme = DMAPITravisTester.dme
-		install_byond.sh = install_byond.sh
 		README.md = README.md
-		Test.dm = Test.dm
 		tgs.ico = tgs.ico
-		TGS3Release.ps1 = TGS3Release.ps1
 		Version.cs = Version.cs
-		View TGS3 Logs.xml = View TGS3 Logs.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGInstallerWrapper", "TGInstallerWrapper\TGInstallerWrapper.csproj", "{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}"
@@ -77,6 +70,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{9032B448
 		TGS3.json = TGS3.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB-2E84-47D4-9419-A2AB8E814ABF}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\build_byond.sh = Tools\build_byond.sh
+		Tools\Config.dm = Tools\Config.dm
+		Tools\DMAPITravisTester.dme = Tools\DMAPITravisTester.dme
+		Tools\Doxyfile = Tools\Doxyfile
+		Tools\install_byond.sh = Tools\install_byond.sh
+		Tools\Test.dm = Tools\Test.dm
+		Tools\TGS3Build.ps1 = Tools\TGS3Build.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{287B900C-1AFB-49B8-8BDD-C9058971C20C}"
+	ProjectSection(SolutionItems) = preProject
+		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -100,11 +109,9 @@ Global
 		{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}.Release|x86.ActiveCfg = Release|x86
 		{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}.Release|x86.Build.0 = Release|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Debug|x86.ActiveCfg = Debug|x86
-		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Debug|x86.Build.0 = Debug|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|x86.ActiveCfg = Release|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|x86.Build.0 = Release|x86
 		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|x86.ActiveCfg = Debug|x86
-		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|x86.Build.0 = Debug|x86
 		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|x86.ActiveCfg = Release|x86
 		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

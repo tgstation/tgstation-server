@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Threading;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -76,7 +77,7 @@ namespace TGControlPanel
 			if (RepoBusyCheck())
 				return;
 
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Interface.GetComponent<ITGRepository>();
 
 			RepoProgressBar.Style = ProgressBarStyle.Marquee;
 			RepoProgressBar.Visible = false;
@@ -149,7 +150,7 @@ namespace TGControlPanel
 
 		bool RepoBusyCheck()
 		{
-			if (Server.GetComponent<ITGRepository>().OperationInProgress())
+			if (Interface.GetComponent<ITGRepository>().OperationInProgress())
 			{
 				DoAsyncOp(RepoAction.Wait, "Waiting for repository to finish another action...");
 				return true;
@@ -171,7 +172,7 @@ namespace TGControlPanel
 		private void RepoBGW_DoWork(object sender, DoWorkEventArgs e)
 		{
 			//Only for clones
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Interface.GetComponent<ITGRepository>();
 
 			switch (action) {
 				case RepoAction.Clone:
@@ -212,7 +213,7 @@ namespace TGControlPanel
 		}
 		void UpdatePythonPath()
 		{
-			if (!Server.GetComponent<ITGRepository>().SetPythonPath(PythonPathText.Text))
+			if (!Interface.GetComponent<ITGRepository>().SetPythonPath(PythonPathText.Text))
 				MessageBox.Show("Python could not be found in the selected location!");
 		}
 		private void CloneRepositoryButton_Click(object sender, EventArgs e)
@@ -280,7 +281,7 @@ namespace TGControlPanel
 		}
 		private void RepoApplyButton_Click(object sender, EventArgs e)
 		{
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Interface.GetComponent<ITGRepository>();
 
 			if (RepoBusyCheck())
 				return;
@@ -352,7 +353,7 @@ namespace TGControlPanel
 		{
 			if (MessageBox.Show("This will update the cached TGS3.json to the current repository version, potentially redefining symlinks. Proceed?", "Json Update", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
-			var res = Server.GetComponent<ITGRepository>().UpdateTGS3Json();
+			var res = Interface.GetComponent<ITGRepository>().UpdateTGS3Json();
 			if (res != null)
 				MessageBox.Show(res);
 		}

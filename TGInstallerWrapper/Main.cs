@@ -10,15 +10,16 @@ using System.Windows.Forms;
 
 namespace TGInstallerWrapper
 {
-	public partial class Main : Form
+	partial class Main : Form
 	{
 		const string DefaultInstallDir = "TG Station Server";  //keep this in sync with the msi installer
 
 		//reflection shit, make sure it matches
 		const string InterfaceDLL = "TGServiceInterface.dll";
 		const string InterfaceNamespace = "TGServiceInterface";
+		const string InterfaceComponentsNamespace = InterfaceNamespace + ".Components";
 		const string InterfaceClass = InterfaceNamespace + ".Server";
-		const string InterfaceServiceInterface = InterfaceNamespace + ".ITGSService";   //fuck this typo
+		const string InterfaceServiceInterface = InterfaceComponentsNamespace + ".ITGSService";   //fuck this typo
 		const string InterfaceClassVerifyConnection = "VerifyConnection";
 		const string InterfaceClassGetComponent = "GetComponent";
 		const string InterfaceServiceInterfaceVersion = "Version";
@@ -33,6 +34,9 @@ namespace TGInstallerWrapper
 		bool cancelled = false;
 		bool pathIsDefault = true;
 
+		/// <summary>
+		/// Construct an installer form
+		/// </summary>
 		public Main()
 		{
 			InitializeComponent();
