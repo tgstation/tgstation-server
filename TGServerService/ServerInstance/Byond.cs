@@ -43,7 +43,7 @@ namespace TGServerService
 		/// <summary>
 		/// The instance directory to modify the BYOND cfg before installation
 		/// </summary>
-		const string ByondConfigDir = "";
+		const string ByondConfigDir = StagingDirectory + "/BYOND/cfg";
 		/// <summary>
 		/// BYOND's DreamDaemon config file in the cfg modification directory
 		/// </summary>

@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MessageType.cs" />
+    <Compile Include="RepoConfig.cs" />
     <Compile Include="ServerInstance\Administration.cs" />
     <Compile Include="ServerInstance\Byond.cs" />
     <Compile Include="ServerInstance\Chat.cs" />

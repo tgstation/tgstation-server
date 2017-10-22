@@ -24,18 +24,18 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The maximum message size to and from a local server 
 		/// </summary>
-		public static readonly long TransferLimitLocal = Int32.MaxValue;   //2GB can't go higher
+		public const long TransferLimitLocal = Int32.MaxValue;   //2GB can't go higher
 
 		/// <summary>
 		/// The maximum message size to and from a remote server
 		/// </summary>
-		public static readonly long TransferLimitRemote = 10485760;	//10 MB
+		public const long TransferLimitRemote = 10485760;	//10 MB
 
 		/// <summary>
 		/// Base name of the communication pipe
 		/// they are formatted as MasterPipeName/ComponentName
 		/// </summary>
-		public static string MasterInterfaceName = "TGStationServerService";
+		public const string MasterInterfaceName = "TGStationServerService";
 
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address

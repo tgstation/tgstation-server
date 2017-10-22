@@ -192,7 +192,7 @@ namespace TGServerService
 					Directory.CreateDirectory(GameDirA);
 					Directory.CreateDirectory(GameDirB);
 
-					var Config = new RepoConfig(false);
+					var Config = GetCachedRepoConfig();
 
 					if (Config != null) {
 						foreach (var I in Config.StaticDirectoryPaths)
@@ -354,7 +354,7 @@ namespace TGServerService
 
 					resurrectee = GetStagingDir();
 
-					var Config = new RepoConfig(false);
+					var Config = GetCachedRepoConfig();
 					var deleteExcludeList = new List<string> { InterfaceDLLName };
 					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
 					deleteExcludeList.AddRange(Config.DLLPaths);

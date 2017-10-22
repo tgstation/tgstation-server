@@ -14,137 +14,84 @@ namespace TGServerService
 {
 	sealed partial class ServerInstance : ITGRepository, IDisposable
 	{
+		/// <summary>
+		/// The <see cref="ServerInstance"/> directory for the repository
+		/// </summary>
 		const string RepoPath = "Repository";
+		/// <summary>
+		/// The path to the Repository's <see cref="RepoConfig"/> json
+		/// </summary>
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
+		/// <summary>
+		/// Path to the <see cref="ServerInstance"/>'s <see cref="RepoConfig"/> json
+		/// </summary>
 		const string CachedTGS3SettingsPath = "TGS3.json";
+		/// <summary>
+		/// Error message for when a merge operation fails due to the target branch already having the source branch's commits
+		/// </summary>
 		const string RepoErrorUpToDate = "Already up to date!";
+		/// <summary>
+		/// Git remote for push operations
+		/// </summary>
 		const string SSHPushRemote = "ssh_push_target";
+		/// <summary>
+		/// The <see cref="ServerInstance"/> directory for the repository SSH keys
+		/// </summary>
 		const string RepoKeyDir = "RepoKey/";
+		/// <summary>
+		/// The path to the private ssh-rsa key file
+		/// </summary>
 		const string PrivateKeyPath = RepoKeyDir + "private_key.txt";
+		/// <summary>
+		/// The path to the public ssh-rsa key file
+		/// </summary>
 		const string PublicKeyPath = RepoKeyDir + "public_key.txt";
+		/// <summary>
+		/// File name for monitoring which github pull requests are currently test merged
+		/// </summary>
 		const string PRJobFile = "prtestjob.json";
+		/// <summary>
+		/// The branch that points to the current commit that is live or staged to be live in DreamDaemon
+		/// </summary>
 		const string LiveTrackingBranch = "___TGSLiveCommitTrackingBranch";
+		/// <summary>
+		/// Commit message for <see cref="RepoConfig.PathsToStage"/>
+		/// </summary>
 		const string CommitMessage = "Automatic changelog compile, [ci skip]";
 
+		/// <summary>
+		/// Used in conjunction with <see cref="RepoBusy"/> for multithreading safety
+		/// </summary>
 		object RepoLock = new object();
+		/// <summary>
+		/// Used in conjunction with <see cref="RepoLock"/> for multithreading safety
+		/// </summary>
 		bool RepoBusy = false;
+		/// <summary>
+		/// Whether or not a git clone operation is in progress
+		/// </summary>
 		bool Cloning = false;
 
+		/// <summary>
+		/// The repository object
+		/// </summary>
 		Repository Repo;
+		/// <summary>
+		/// Used for reporting operation progress to the <see cref="TGServiceInterface"/>
+		/// </summary>
 		int currentProgress = -1;
 
+		/// <summary>
+		/// Used for automatically updating the <see cref="ServerInstance"/>
+		/// </summary>
 		System.Timers.Timer autoUpdateTimer = new System.Timers.Timer()
 		{
 			AutoReset = true
 		};
 
 		/// <summary>
-		/// Repo specific information about the installation
-		/// Requires RepoLock and !RepoBusy to be instantiated
+		/// Initializes the repository
 		/// </summary>
-		class RepoConfig : IEquatable<RepoConfig>
-		{
-			public readonly bool ChangelogSupport;
-			public readonly string PathToChangelogPy;
-			public readonly string ChangelogPyArguments;
-			public readonly IList<string> PipDependancies = new List<string>();
-			public readonly IList<string> PathsToStage = new List<string>();
-			public readonly IList<string> StaticDirectoryPaths = new List<string>();
-			public readonly IList<string> DLLPaths = new List<string>();
-
-			public RepoConfig(bool FromRepository)
-			{
-				var path = FromRepository ? RepoTGS3SettingsPath : CachedTGS3SettingsPath;
-				if (!File.Exists(path))
-					return;
-				var rawdata = File.ReadAllText(path);
-				var Deserializer = new JavaScriptSerializer();
-				var json = Deserializer.Deserialize<IDictionary<string, object>>(rawdata);
-				try
-				{
-					var details = (IDictionary<string, object>)json["changelog"];
-					PathToChangelogPy = (string)details["script"];
-					ChangelogPyArguments = (string)details["arguments"];
-					ChangelogSupport = true;
-					try
-					{
-						PipDependancies = LoadArray(details["pip_dependancies"]);
-					}
-					catch { }
-				}
-				catch {
-					ChangelogSupport = false;
-				}
-				try
-				{
-					PathsToStage = LoadArray(json["synchronize_paths"]);
-				}
-				catch { }
-				try
-				{
-					StaticDirectoryPaths = LoadArray(json["static_directories"]);
-				}
-				catch { }
-				try
-				{
-					DLLPaths = LoadArray(json["dlls"]);
-				}
-				catch { }
-			}
-			private static IList<string> LoadArray(object o)
-			{
-				var array = (object[])o;
-				var res = new List<string>();
-				foreach (var I in array)
-					res.Add((string)I);
-				return res;
-			}
-
-			public override bool Equals(object obj)
-			{
-				return Equals(obj as RepoConfig);
-			}
-
-			private static bool ListEquals(IList<string> A, IList<string> B)
-			{
-				return A.All(B.Contains) && A.Count == B.Count;
-			}
-
-			public bool Equals(RepoConfig other)
-			{
-				return ChangelogSupport == other.ChangelogSupport
-					&& PathToChangelogPy == other.PathToChangelogPy
-					&& ChangelogPyArguments == other.ChangelogPyArguments
-					&& ListEquals(PipDependancies, other.PipDependancies)
-					&& ListEquals(PathsToStage, other.PathsToStage)
-					&& ListEquals(StaticDirectoryPaths, other.StaticDirectoryPaths)
-					&& ListEquals(DLLPaths, other.DLLPaths);
-			}
-
-			public override int GetHashCode()
-			{
-				var hashCode = 1890628544;
-				hashCode = hashCode * -1521134295 + ChangelogSupport.GetHashCode();
-				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
-				hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
-				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PipDependancies);
-				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PathsToStage);
-				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(StaticDirectoryPaths);
-				hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(DLLPaths);
-				return hashCode;
-			}
-
-			public static bool operator ==(RepoConfig config1, RepoConfig config2)
-			{
-				return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
-			}
-
-			public static bool operator !=(RepoConfig config1, RepoConfig config2)
-			{
-				return !(config1 == config2);
-			}
-		}
-
 		void InitRepo()
 		{
 			Directory.CreateDirectory(RepoKeyDir);
@@ -157,6 +104,10 @@ namespace TGServerService
 			SetAutoUpdateInterval(Properties.Settings.Default.AutoUpdateInterval);
 		}
 
+		/// <summary>
+		/// Checks if the <see cref="CachedTGS3SettingsPath"/> and <see cref="RepoTGS3SettingsPath"/> json files match. 
+		/// </summary>
+		/// <returns><see langword="true"/> if the jsons match, <see langword="false"/> otherwise</returns>
 		bool RepoConfigsMatch()
 		{
 			//this should never be called while the repo is busy
@@ -164,12 +115,21 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				if (!RepoBusy && LoadRepo() == null)
-					I = new RepoConfig(true);
+					I = new RepoConfig(RepoTGS3SettingsPath);
 			}
 			if (I == null)
 				throw new Exception("Unable to load TGS3.json from repo!");
-			var J = new RepoConfig(false);
+			var J = GetCachedRepoConfig();
 			return I == J;
+		}
+
+		/// <summary>
+		/// Gets the <see cref="RepoConfig"/> for <see cref="CachedTGS3SettingsPath"/>
+		/// </summary>
+		/// <returns>The <see cref="RepoConfig"/> for <see cref="CachedTGS3SettingsPath"/></returns>
+		RepoConfig GetCachedRepoConfig()
+		{
+			return new RepoConfig(CachedTGS3SettingsPath);
 		}
 
 		/// <inheritdoc />
@@ -187,7 +147,10 @@ namespace TGServerService
 			return currentProgress;
 		}
 
-		//Sets up the repo object
+		/// <summary>
+		/// Initializes <see cref="Repo"/>
+		/// </summary>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string LoadRepo()
 		{
 			if (Repo != null)
@@ -205,7 +168,9 @@ namespace TGServerService
 			return null;
 		}
 
-		//Cleans up the repo object
+		/// <summary>
+		/// Cleans up <see cref="Repo"/>
+		/// </summary>
 		void DisposeRepo()
 		{
 			if (Repo != null)
@@ -224,35 +189,38 @@ namespace TGServerService
 			}
 		}
 
-		//Updates the currentProgress var
-		//no locks required because who gives a shit, it's a fucking 32-bit integer
+		/// <summary>
+		/// Updates <see cref="currentProgress"/> with the progess of the current <see cref="Repo"/> transfer operation
+		/// </summary>
+		/// <param name="progress">The <see cref="TransferProgress"/> of the current <see cref="Repo"/> transfer operation</param>
+		/// <returns><see langword="true"/></returns>
 		bool HandleTransferProgress(TransferProgress progress)
 		{
-			currentProgress = (int)(((float)progress.ReceivedObjects / progress.TotalObjects) * 100) / 2;
-			currentProgress += (int)(((float)progress.IndexedObjects / progress.TotalObjects) * 100) / 2;
+			currentProgress = ((int)(((float)progress.ReceivedObjects / progress.TotalObjects) * 100) / 2) +( (int)(((float)progress.IndexedObjects / progress.TotalObjects) * 100) / 2);
 			return true;
 		}
 
-		//see above
+		/// <summary>
+		/// Updates <see cref="currentProgress"/> with the progess of the current <see cref="Repo"/> checkout operation
+		/// </summary>
+		/// <param name="path">Ignored</param>
+		/// <param name="completedSteps">Dividend for progress calculation</param>
+		/// <param name="totalSteps">Divisor for progress calculation</param>
 		void HandleCheckoutProgress(string path, int completedSteps, int totalSteps)
 		{
 			currentProgress = (int)(((float)completedSteps / totalSteps) * 100);
 		}
 
-		//For the thread parameter
-		private class TwoStrings
-		{
-			public string a, b;
-		}
-
-		//This is the thread that resets za warldo
-		//clones, checksout, sets up static dir
+		/// <summary>
+		/// Backups up the <see cref="StaticDirs"/> and deletes the current <see cref="RepoPath"/> if they exist. Clones the given branch of the given remote. Sets up new <see cref="StaticDirs"/>
+		/// </summary>
+		/// <param name="twostrings">Remote and branch name, seperated by a ' '</param>
 		void Clone(object twostrings)
 		{
 			//busy flag set by caller
-			var ts = (TwoStrings)twostrings;
-			var RepoURL = ts.a;
-			var BranchName = ts.b;
+			var ts = ((string)twostrings).Split(' ');
+			var RepoURL = ts[0];
+			var BranchName = ts[1];
 			try
 			{
 				SendMessage(String.Format("REPO: {2} started: Cloning {0} branch of {1} ...", BranchName, RepoURL, Repository.IsValid(RepoPath) ? "Full reset" : "Setup"), MessageType.DeveloperInfo);
@@ -309,12 +277,19 @@ namespace TGServerService
 				}
 			}
 		}
+		
+		/// <summary>
+		/// Turns off the gc.auto git config setting
+		/// </summary>
 
 		void DisableGarbageCollectionNoLock()
 		{
 			Repo.Config.Set("gc.auto", false);
 		}
 
+		/// <summary>
+		/// Copies the Static directory to the first available Static_BACKUP path in the <see cref="ServerInstance"/> then deleted the old directory
+		/// </summary>
 		void BackupAndDeleteStaticDirectory()
 		{
 			if (Directory.Exists(StaticDirs))
@@ -335,6 +310,10 @@ namespace TGServerService
 			Program.DeleteDirectory(StaticDirs);
 		}
 
+		/// <summary>
+		/// Updates the <see cref="CachedTGS3SettingsPath"/> with the <see cref="RepoTGS3SettingsPath"/>
+		/// </summary>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		public string UpdateTGS3Json()
 		{
 			try
@@ -351,12 +330,15 @@ namespace TGServerService
 			return null;
 		}
 
+		/// <summary>
+		/// Initial setup for the <see cref="StaticDirs"/> and <see cref="CachedTGS3SettingsPath"/>
+		/// </summary>
 		void InitialConfigureRepository()
 		{
 			Directory.CreateDirectory(StaticDirs);
 			UpdateInterfaceDll(false);
 			UpdateTGS3Json();
-			var Config = new RepoConfig(false);	//RepoBusy is set if we're here
+			var Config = GetCachedRepoConfig();	//RepoBusy is set if we're here
 			foreach(var I in Config.StaticDirectoryPaths)
 			{
 				try
@@ -392,8 +374,7 @@ namespace TGServerService
 				}
 			}
 		}
-
-		//kicks off the cloning thread
+		
 		/// <inheritdoc />
 		public string Setup(string RepoURL, string BranchName)
 		{
@@ -415,12 +396,18 @@ namespace TGServerService
 				new Thread(new ParameterizedThreadStart(Clone))
 				{
 					IsBackground = true //make sure we don't hold up shutdown
-				}.Start(new TwoStrings { a = RepoURL, b = BranchName });
+				}.Start(RepoURL + ' ' + BranchName);
 				return null;
 			}
 		}
 
-		//Gets what HEAD is pointing to
+		/// <summary>
+		/// Gets the SHA or branch name of the <see cref="Repo"/>'s HEAD
+		/// </summary>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <param name="branch">If <see langword="true"/>, returns the branch name instead of the SHA</param>
+		/// <param name="tracked">If <see langword="true"/>, returns the tracked branch SHA and ignores <paramref name="branch"/></param>
+		/// <returns>The SHA or branch name of the <see cref="Repo"/>'s HEAD</returns>
 		string GetShaOrBranch(out string error, bool branch, bool tracked)
 		{
 			lock (RepoLock)
@@ -446,8 +433,7 @@ namespace TGServerService
 				}
 			}
 		}
-
-		//moist shleppy noises
+		
 		/// <inheritdoc />
 		public string GetHead(bool useTracked, out string error)
 		{
@@ -481,8 +467,11 @@ namespace TGServerService
 			}
 		}
 
-		//calls git reset --hard on HEAD
-		//requires RepoLock
+		/// <summary>
+		/// Equivalent of running `git reset --hard` on the repository. Requires <see cref="RepoLock"/>
+		/// </summary>
+		/// <param name="targetBranch">If not <see langword="null"/>, reset to this branch instead of HEAD</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string ResetNoLock(Branch targetBranch)
 		{
 			try
@@ -547,14 +536,18 @@ namespace TGServerService
 			}
 		}
 
-		//Merges a thing into HEAD, not even necessarily a branch
-		string MergeBranch(string branchname)
+		/// <summary>
+		/// Merges given <paramref name="committish"/> into the current branch
+		/// </summary>
+		/// <param name="committish">The sha/branch/tag to merge</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string MergeBranch(string committish)
 		{
 			var mo = new MergeOptions()
 			{
 				OnCheckoutProgress = HandleCheckoutProgress
 			};
-			var Result = Repo.Merge(branchname, MakeSig());
+			var Result = Repo.Merge(committish, MakeSig());
 			currentProgress = -1;
 			switch (Result.Status)
 			{
@@ -574,6 +567,12 @@ namespace TGServerService
 			return UpdateImpl(reset, true);
 		}
 
+		/// <summary>
+		/// Fetches the origin and merges it into the current branch
+		/// </summary>
+		/// <param name="reset">If <see langword="true"/>, the operation will perform a hard reset instead of a merge</param>
+		/// <param name="successOnUpToDate">If <see langword="true"/>, a return value of <see cref="RepoErrorUpToDate"/> will be changed to <see langword="null"/></param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string UpdateImpl(bool reset, bool successOnUpToDate)
 		{
 			lock (RepoLock)
@@ -622,6 +621,9 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Properly updates any git submodules in the repository
+		/// </summary>
 		private void UpdateSubmodules()
 		{
 			var suo = new SubmoduleUpdateOptions
@@ -652,6 +654,10 @@ namespace TGServerService
 				}
 		}
 
+		/// <summary>
+		/// Creates a date and timestamped tag of the current HEAD
+		/// </summary>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string CreateBackup()
 		{
 			try
@@ -686,6 +692,11 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Lists tags in the repository created by the <see cref="ServerInstance"/>
+		/// </summary>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <returns>A dictionary of tag title -> commit SHA on success, <see langword="null"/> on failure</returns>
 		public IDictionary<string, string> ListBackups(out string error)
 		{
 			try
@@ -728,15 +739,20 @@ namespace TGServerService
 				return res;
 			}
 		}
-
-		//Makes the LibGit2Sharp sig we'll use for committing based on the configured stuff
+		
+		/// <summary>
+		/// Creates a commit <see cref="LibGit2Sharp.Signature"/> based off of the configured name and e-mail
+		/// </summary>
+		/// <returns>The created <see cref="LibGit2Sharp.Signature"/></returns>
 		Signature MakeSig()
 		{
 			var Config = Properties.Settings.Default;
 			return new Signature(new Identity(Config.CommitterName, Config.CommitterEmail), DateTimeOffset.Now);
 		}
 
-		//I wonder...
+		/// <summary>
+		/// Deletes the <see cref="ServerInstance"/>'s <see cref="PRJobFile"/>
+		/// </summary>
 		void DeletePRList()
 		{
 			if (File.Exists(PRJobFile))
@@ -750,7 +766,10 @@ namespace TGServerService
 				}
 		}
 
-		//json_decode(file2text())
+		/// <summary>
+		/// Deserializes the <see cref="PRJobFile"/>
+		/// </summary>
+		/// <returns>A <see cref="IDictionary{TKey, TValue}"/> of <see cref="IDictionary{TKey, TValue}"/>. The outer one is keyed by PR# the inner one is keyed by internal <see cref="string"/>s</returns>
 		IDictionary<string, IDictionary<string, string>> GetCurrentPRList()
 		{
 			if (!File.Exists(PRJobFile))
@@ -760,7 +779,10 @@ namespace TGServerService
 			return Deserializer.Deserialize<IDictionary<string, IDictionary<string, string>>>(rawdata);
 		}
 
-		//text2file(json_encode())
+		/// <summary>
+		/// Serializes pull request info into <see cref="PRJobFile"/>
+		/// </summary>
+		/// <param name="list"></param>
 		void SetCurrentPRList(IDictionary<string, IDictionary<string, string>> list)
 		{
 			var Serializer = new JavaScriptSerializer();
@@ -771,16 +793,12 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string MergePullRequest(int PRNumber)
 		{
-			return MergePullRequestImpl(PRNumber, false);
-		}
-		string MergePullRequestImpl(int PRNumber, bool impliedUpdate)
-		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: {1}erging PR #{0}...", PRNumber, impliedUpdate ? "Test m" : "M"), MessageType.DeveloperInfo);
+				SendMessage(String.Format("REPO: Merging PR #{0}...", PRNumber), MessageType.DeveloperInfo);
 				result = ResetNoLock(null);
 				if (result != null)
 					return result;
@@ -944,9 +962,10 @@ namespace TGServerService
 			}
 		}
 
+		/// <inheritdoc />
 		public string SynchronizePush()
 		{
-			var Config = new RepoConfig(false);
+			var Config = GetCachedRepoConfig();
 			if (Config == null)
 				return "Error reading changelog configuration";
 			if(!Config.ChangelogSupport || !SSHAuth())
@@ -954,6 +973,10 @@ namespace TGServerService
 			return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
+		/// <summary>
+		/// Create <see cref="FetchOptions"/> that Prune and have the appropriate credentials and progress handler
+		/// </summary>
+		/// <returns>Properly configured <see cref="FetchOptions"/></returns>
 		FetchOptions GenerateFetchOptions()
 		{
 			return new FetchOptions()
@@ -984,6 +1007,10 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Check if the current HEAD matches the tracked remote branch HEAD
+		/// </summary>
+		/// <returns><see langword="true"/> if the current HEAD matches the tracked remote branch HEAD, <see langword="false"/> otherwise</returns>
 		bool LocalIsRemote()
 		{
 			lock (RepoLock)
@@ -1003,6 +1030,11 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Create a commit based on a <paramref name="Config"/>
+		/// </summary>
+		/// <param name="Config">A <see cref="RepoConfig"/> with <see cref="RepoConfig.PathsToStage"/></param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string Commit(RepoConfig Config)
 		{
 			lock (RepoLock)
@@ -1066,11 +1098,22 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Check if the <see cref="ServerInstance"/> is configured for SSH pushing
+		/// </summary>
+		/// <returns><see langword="true"/> if the see cref="ServerInstance"/> is configured for SSH pushing, <see langword="false"/> otherwise</returns>
 		bool SSHAuth()
 		{
 			return File.Exists(PrivateKeyPath) && File.Exists(PublicKeyPath);
 		}
 
+		/// <summary>
+		/// SSH credentials callback. Properly sets up SSH keys for an authorization operation
+		/// </summary>
+		/// <param name="url">Ignored</param>
+		/// <param name="usernameFromUrl">The username to use for the operation</param>
+		/// <param name="types">The <see cref="SupportedCredentialTypes"/> for the operation</param>
+		/// <returns>The proper <see cref="Credentials"/> for the operation</returns>
 		Credentials GenerateGitCredentials(string url, string usernameFromUrl, SupportedCredentialTypes types)
 		{
 			var user = usernameFromUrl ?? "git";
@@ -1094,10 +1137,15 @@ namespace TGServerService
 			return GenerateChangelogImpl(out error);
 		}
 
-		//impl proc just for single level recursion
+		/// <summary>
+		/// Updates the html changelog
+		/// </summary>
+		/// <param name="error"><see langword="null"/> on success, error on failure</param>
+		/// <param name="recurse">If <see langword="true"/>, prevents a recursive call to this function after updating pip dependencies</param>
+		/// <returns>The output of the python script</returns>
 		public string GenerateChangelogImpl(out string error, bool recurse = false)
 		{
-			var RConfig = new RepoConfig(false);
+			var RConfig = GetCachedRepoConfig();
 			if (RConfig == null)
 			{
 				error = null;
@@ -1216,11 +1264,17 @@ namespace TGServerService
 			Properties.Settings.Default.AutoUpdateInterval = newInterval;
 		}
 
+		/// <inheritdoc />
 		public ulong AutoUpdateInterval()
 		{
 			return Properties.Settings.Default.AutoUpdateInterval;
 		}
-
+		
+		/// <summary>
+		/// Runs on the configured <see cref="Properties.Settings.AutoUpdateInterval"/> and tries to <see cref="Update(bool)"/> and <see cref="Compile(bool)"/> the <see cref="ServerInstance"/>
+		/// </summary>
+		/// <param name="sender">A <see cref="System.Timers.Timer"/></param>
+		/// <param name="e">The event arguments</param>
 		private void AutoUpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
 			if (UpdateImpl(true, false) == null)
@@ -1238,11 +1292,16 @@ namespace TGServerService
 			return true;
 		}
 
+		/// <inheritdoc />
 		public string PythonPath()
 		{
 			return Properties.Settings.Default.PythonPath;
 		}
 
+		/// <summary>
+		/// Updates <see cref="LiveTrackingBranch"/> with the staged <see cref="Compile(bool)"/>'s SHA
+		/// </summary>
+		/// <param name="newSha">The commit SHA that was staged</param>
 		void UpdateLiveSha(string newSha)
 		{
 			if (LoadRepo() != null)
@@ -1253,6 +1312,10 @@ namespace TGServerService
 			Repo.CreateBranch(LiveTrackingBranch, newSha);		
 		}
 
+		/// <summary>
+		/// Gets the current staged or live commit SHA
+		/// </summary>
+		/// <returns>The current staged or live commit SHA</returns>
 		public string LiveSha()
 		{
 			var B = Repo.Branches[LiveTrackingBranch];
