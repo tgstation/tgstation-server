@@ -14,6 +14,8 @@ If you want to contribute the first thing you'll need to do is [set up Git](http
 
 There is an open list of approachable issues for [your inspiration here](https://github.com/tgstation/tgstation-server/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22).
 
+Here is a link to the code's always up-to-date documentation: https://tgstation.github.io/tgstation-server/annotated.html
+
 You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/coderbus) on irc.rizon.net. We're just here to have fun and help out, so please don't expect professional support.
 
 ### Development Environment
