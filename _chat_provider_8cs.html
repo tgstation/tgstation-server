@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>tgstation-server: TGServiceInterface/ChatProvider.cs File Reference</title>
+<title>tgstation-server: TGServerService/ChatProviders/ChatProvider.cs File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">3.1.5.0</span>
+   &#160;<span id="projectnumber">3.1.5.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -84,14 +84,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_fdc310282cfc9aff3ebfbe382eff4efc.html">TGServiceInterface</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_f220d0611c2e3262469750905b70ffc9.html">TGServerService</a></li><li class="navelem"><a class="el" href="dir_9412b3c8e581b4647d692201d06f4fef.html">ChatProviders</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ChatProvider.cs File Reference</div>  </div>
 </div><!--header-->
@@ -101,35 +101,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_t_g_chat_setup_info.html">TGServiceInterface.TGChatSetupInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">For setting up authentication no matter the chat provider  <a href="class_t_g_service_interface_1_1_t_g_chat_setup_info.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_t_g_i_r_c_setup_info.html">TGServiceInterface.TGIRCSetupInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chat provider for IRC. Admin entries should be user nicknames in normal mode or required channel flags in special mode  <a href="class_t_g_service_interface_1_1_t_g_i_r_c_setup_info.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_t_g_discord_setup_info.html">TGServiceInterface.TGDiscordSetupInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chat provider for Discord. Admin entires should be user ids in normal mode or group ids in special mode  <a href="class_t_g_service_interface_1_1_t_g_discord_setup_info.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html">TGServerService.ChatProviders.IChatProvider</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for a chat provder service  <a href="interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespace_t_g_service_interface"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_g_service_interface.html">TGServiceInterface</a></td></tr>
+<tr class="memitem:namespace_t_g_server_service_1_1_chat_providers"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_g_server_service_1_1_chat_providers.html">TGServerService.ChatProviders</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a667220a926fe5d60320b9a34b93b286b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286b">TGServiceInterface.TGChatProvider</a> : int { <a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286bab2749506b1760a1ca1a5d95c0b967fe6">TGServiceInterface.TGChatProvider.IRC</a> = 0, 
-<a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286ba8f5cc6430613f1c12f36965050bb7197">TGServiceInterface.TGChatProvider.Discord</a> = 1
- }<tr class="memdesc:a667220a926fe5d60320b9a34b93b286b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of chat provider  <a href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286b">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:a667220a926fe5d60320b9a34b93b286b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af168318ccd202f2bf82e69656a2c09b8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8">TGServiceInterface.IRCMode</a> : int { <a class="el" href="namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8ad7a3fdf1351b72249a47454751549deb">TGServiceInterface.IRCMode.Voice</a>, 
-<a class="el" href="namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8abbf6e6c492afce3799ce582f932f4931">TGServiceInterface.IRCMode.Halfop</a>, 
-<a class="el" href="namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8a38c4658d5308897a92cef9e113aefc3a">TGServiceInterface.IRCMode.Op</a>, 
-<a class="el" href="namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8ab6f4a2ec6356bbd56d49f2096bf9d3d3">TGServiceInterface.IRCMode.Owner</a>
- }<tr class="memdesc:af168318ccd202f2bf82e69656a2c09b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supported irc permission modes  <a href="namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:af168318ccd202f2bf82e69656a2c09b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ad45a8eb27f10ef48d2473cc64840656b"><td class="memItemLeft" align="right" valign="top">delegate void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_g_server_service_1_1_chat_providers.html#ad45a8eb27f10ef48d2473cc64840656b">TGServerService.ChatProviders.OnChatMessage</a> (IChatProvider <a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)</td></tr>
+<tr class="memdesc:ad45a8eb27f10ef48d2473cc64840656b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the chat provider recieving a <em>message</em>   <a href="namespace_t_g_server_service_1_1_chat_providers.html#ad45a8eb27f10ef48d2473cc64840656b">More...</a><br /></td></tr>
+<tr class="separator:ad45a8eb27f10ef48d2473cc64840656b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

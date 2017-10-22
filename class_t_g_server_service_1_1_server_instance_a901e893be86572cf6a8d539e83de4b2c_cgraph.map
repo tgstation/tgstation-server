@@ -1,0 +1,12 @@
+<map id="TGServerService.ServerInstance.DisposeDreamDaemon" name="TGServerService.ServerInstance.DisposeDreamDaemon">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ab39a3abd504c56e0d217a7ad475506e4" title="Gets the status of DreamDaemon &#160;" alt="" coords="277,5,488,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="277,71,488,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ad8b0bbbe0957e9d732666bec0ec06698" title="Immediately kills the server &#160;" alt="" coords="264,137,501,163"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a989bcee76648cec9c7e52a5d33217e90" title="Sends a message to everyone on the server &#160;" alt="" coords="277,188,488,229"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#ac66b59d813dcc51bf26bd90f3b812e8d" title="Write a message &#160;to the CurrentDDLog. A timestamp will be prepended to it " alt="" coords="277,253,488,295"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="571,71,738,112"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#aaa392248d5913143b6537352190e75e6" title="TGServerService.ServerInstance.\lSendCommand" alt="" coords="549,161,760,203"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_program.html#a7c301d450202a1f0ef212beabb74de5b" title="Properly escapes characters for a BYOND Topic() packet. See http://www.byond.com/docs/ref/info.html#/proc/list2params " alt="" coords="567,227,742,268"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#ad13b3094596c77baca6116842d373760" title="TGServerService.ServerInstance.\lSendTopic" alt="" coords="808,161,1019,203"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#a84e536f3c962184942e7a5b01bc9ffad" title="TGServerService.ServerInstance.\lCheckAPIVersionConstraints" alt="" coords="1067,161,1277,203"/>
+</map>

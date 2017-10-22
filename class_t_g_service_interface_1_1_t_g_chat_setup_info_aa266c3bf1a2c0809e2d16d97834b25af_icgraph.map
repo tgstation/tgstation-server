@@ -1,4 +1,0 @@
-<map id="TGServiceInterface.TGChatSetupInfo.Specialize" name="TGServiceInterface.TGChatSetupInfo.Specialize">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_t_g_chat_setup_info.html#a6413bfe9b8ac164eba43b7a6ce6c2431" title="Properly formats a channel &#160;name for the TGChatProvider " alt="" coords="232,29,440,71"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_t_g_chat_setup_info.html#a54ea26749d3843f0930b0184002447b3" title="Sanitizes a list of channelnames &#160;" alt="" coords="488,29,703,71"/>
-</map>

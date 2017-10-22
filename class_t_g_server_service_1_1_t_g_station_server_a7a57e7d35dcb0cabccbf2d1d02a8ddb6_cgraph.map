@@ -1,6 +1,0 @@
-<map id="TGServerService.TGStationServer.MergeBranch" name="TGServerService.TGStationServer.MergeBranch">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#aba3f24520089a03a9c9c14f349e4953c" title="TGServerService.TGStation\lServer.HandleCheckoutProgress" alt="" coords="232,5,441,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac492a88de6e6c9078df1e59ce6d7a38f" title="TGServerService.TGStation\lServer.MakeSig" alt="" coords="247,71,426,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#af7ac672d222aff9d2d904dc20799286b" title="TGServerService.TGStation\lServer.ResetNoLock" alt="" coords="247,136,426,177"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#af4b14f46cd94f1fdbf7fc36044fb3d10" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="247,201,426,243"/>
-</map>

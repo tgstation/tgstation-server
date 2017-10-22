@@ -9,8 +9,8 @@ var searchData=
   ['testmergeselector',['TestmergeSelector',['../class_t_g_control_panel_1_1_main.html#a2366ca81e3f9ee81f0e0261ed1f730d1',1,'TGControlPanel::Main']]],
   ['testpr',['TestPR',['../class_t_g_control_panel_1_1_main.html#aa94589bc29646f8e21cf96d3c5eca94f',1,'TGControlPanel::Main']]],
   ['tgsjsonupdate',['TGSJsonUpdate',['../class_t_g_control_panel_1_1_main.html#aa5122da07d7973f243c3e756b3f6d50f',1,'TGControlPanel::Main']]],
-  ['thedroidswerelookingfor',['TheDroidsWereLookingFor',['../class_t_g_server_service_1_1_t_g_station_server.html#ac729edcf4a3a3c03831bbef6ba0b0b77',1,'TGServerService::TGStationServer']]],
-  ['topiclock',['topicLock',['../class_t_g_server_service_1_1_t_g_station_server.html#a4da732b8123bf659d9c9f432abcda57f',1,'TGServerService::TGStationServer']]],
-  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_service_interface_1_1_server.html#ac06fdc8f3e89239e19282e35b2212c32',1,'TGServiceInterface::Server']]],
-  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_service_interface_1_1_server.html#ab61755c34d17ab23b0b4313a4da74eb1',1,'TGServiceInterface::Server']]]
+  ['thedroidswerelookingfor',['TheDroidsWereLookingFor',['../class_t_g_server_service_1_1_server_instance.html#a099e2fa5d7fe81467538a56467c9906c',1,'TGServerService::ServerInstance']]],
+  ['topiclock',['topicLock',['../class_t_g_server_service_1_1_server_instance.html#a8875aeb516888e8ed1007c14302076a1',1,'TGServerService::ServerInstance']]],
+  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_service_interface_1_1_interface.html#aa5ccca53bb7e2bd6fd609ee68099bbd2',1,'TGServiceInterface::Interface']]],
+  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_service_interface_1_1_interface.html#a00d88d167689139612f0e7c4444eb35d',1,'TGServiceInterface::Interface']]]
 ];

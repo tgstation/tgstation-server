@@ -1,5 +1,0 @@
-<map id="TGServerService.ITGChatProvider.Connected" name="TGServerService.ITGChatProvider.Connected">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a47fc30ce6d1990f5320dfa8592ceaf94" title="Reconnect servers that are enabled and disconnected " alt="" coords="272,5,468,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a7e7f8685fc3eb9f0e13c78e545b44dc9" title="TGServerService.TGStation\lServer.HandleCommand" alt="" coords="516,5,695,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a934bcf412bd19e5f98a20056775d3d6a" title="Called from /world/ExportService(command) &#160;" alt="" coords="743,5,921,47"/>
-</map>

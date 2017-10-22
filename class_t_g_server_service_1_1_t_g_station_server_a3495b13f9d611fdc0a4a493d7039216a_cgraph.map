@@ -1,5 +1,0 @@
-<map id="TGServerService.TGStationServer.Fetch" name="TGServerService.TGStationServer.Fetch">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#af362461ed1b2db2346c940de0eebaf58" title="TGServerService.TGStation\lServer.GenerateFetchOptions" alt="" coords="232,39,425,80"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a759277477b46c33ea466d53920008fa1" title="TGServerService.TGStation\lServer.GenerateGitCredentials" alt="" coords="475,5,672,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac423a13b883fc61e85f90033939f3ea5" title="TGServerService.TGStation\lServer.HandleTransferProgress" alt="" coords="473,71,673,112"/>
-</map>

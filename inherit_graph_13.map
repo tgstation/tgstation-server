@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_two_strings.html" title="TGServerService.TGStation\lServer.TwoStrings" alt="" coords="5,5,184,47"/>
+<area shape="rect" id="node1" href="$class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider " alt="" coords="5,42,220,69"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_discord_setup_info.html" title="Chat provider for Discord. Admin entires should be user ids in normal mode or group ids in special mo..." alt="" coords="283,5,462,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_i_r_c_setup_info.html" title="Chat provider for IRC. Admin entries should be user nicknames in normal mode or required channel flag..." alt="" coords="268,71,477,98"/>
 </map>

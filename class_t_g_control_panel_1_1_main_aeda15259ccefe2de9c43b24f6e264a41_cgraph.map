@@ -4,8 +4,8 @@
 <area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_main.html#a80df133f35a6dd98a4faef5e11e6d8ea" title="TGControlPanel.Main.Repo\lBGW_DoWork" alt="" coords="227,71,406,112"/>
 <area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_main.html#a7b6699fc34396a250032951671c4bb62" title="TGControlPanel.Main.Repo\lBGW_ProgressChanged" alt="" coords="227,188,406,229"/>
 <area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_main.html#aeb99d1c5199dd7cb44562c230d9d751c" title="TGControlPanel.Main.Repo\lBGW_RunWorkerCompleted" alt="" coords="223,253,411,295"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a3139230d97ac96ca48272086f4f8ebd5" title="TGControlPanel.Main.DoAsyncOp" alt="" coords="462,15,681,42"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a2591e90294d2a362a662aba7f567efda" title="TGControlPanel.Main.Repo\lBusyCheck" alt="" coords="729,8,908,49"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_t_g_repository.html#abf1a02cf190290e84d735f2a39ad8d78" title="If the repo is currently undergoing an operation " alt="" coords="956,8,1176,49"/>
-<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_i_t_g_repository.html#a637b9a4365f2e885020d8134a500aa88" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="461,68,681,109"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a3139230d97ac96ca48272086f4f8ebd5" title="TGControlPanel.Main.DoAsyncOp" alt="" coords="461,15,680,42"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a2591e90294d2a362a662aba7f567efda" title="TGControlPanel.Main.Repo\lBusyCheck" alt="" coords="728,8,907,49"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="955,8,1181,49"/>
+<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1ba91e01239633db1ea8e7c20a954b9e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="465,68,676,109"/>
 </map>

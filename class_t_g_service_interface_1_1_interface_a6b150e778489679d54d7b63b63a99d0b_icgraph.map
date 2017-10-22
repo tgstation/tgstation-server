@@ -1,0 +1,10 @@
+<map id="TGServiceInterface.Interface.VerifyConnection" name="TGServiceInterface.Interface.VerifyConnection">
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_c_l_i_command.html#a8c88c47f14e18bb058594b65c8449f7b" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
+<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="496,71,703,98"/>
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="243,123,445,164"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html#a419b6312a9b3a12a886b8a103aa38683" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,188,437,229"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="508,155,691,196"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="501,220,698,261"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="751,188,949,229"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="997,195,1180,222"/>
+</map>

@@ -1,5 +1,0 @@
-<map id="TGServerService.TGStationServer.PrecompileHook" name="TGServerService.TGStationServer.PrecompileHook">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#ae702d6f9a5b409ab61296b1292c25e5e" title="TGServerService.TGStation\lServer.HandleEvent" alt="" coords="232,35,411,76"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a0533c199dda5cfaf7eca21bc93c28cb2" title="TGServerService.TGStation\lServer.EventHandlerExists" alt="" coords="459,5,637,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#a8b0a5b66e584a0cbd138e5435567d3aa" title="TGServerService.TGStation\lServer.GetPath" alt="" coords="685,35,864,76"/>
-</map>

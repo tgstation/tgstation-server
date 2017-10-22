@@ -1,5 +1,0 @@
-<map id="TGServerService.TGStationServer.Commit" name="TGServerService.TGStationServer.Commit">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a75972d6c070b9d5d4550b4355198bd63" title="TGServerService.TGStation\lServer.DeletePRList" alt="" coords="232,5,411,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a35c9e68208d74408b7cb9ade0f50183b" title="TGServerService.TGStation\lServer.LoadRepo" alt="" coords="232,71,411,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server.html#ac492a88de6e6c9078df1e59ce6d7a38f" title="TGServerService.TGStation\lServer.MakeSig" alt="" coords="232,136,411,177"/>
-</map>

@@ -1,0 +1,4 @@
+<map id="TGServerService.ChatCommands.ServerChatCommand" name="TGServerService.ChatCommands.ServerChatCommand">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_chat_commands_1_1_chat_command.html" title="A command heard by a ChatProviders.IChatProvider " alt="" coords="21,185,129,212"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
+</map>

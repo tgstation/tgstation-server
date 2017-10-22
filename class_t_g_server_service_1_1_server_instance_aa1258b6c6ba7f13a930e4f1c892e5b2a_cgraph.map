@@ -1,0 +1,19 @@
+<map id="TGServerService.ServerInstance.UpdateImpl" name="TGServerService.ServerInstance.UpdateImpl">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a04c0e665fa5086f6ebf6d5ffe288ca89" title="Deletes the ServerInstance&#39;s PRJobFile " alt="" coords="264,9,475,51"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#af8f4334b030e4cddf3f643aedc84f59e" title="Fetches origin " alt="" coords="264,79,475,120"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="264,151,475,192"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#a533ddcf0f8c4cd09d87b3e4eae916ccf" title="Merges given committish &#160;into the current branch " alt="" coords="264,216,475,257"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#aac5ddb16ab8332882d6bdf2be41d3e56" title="Equivalent of running git reset &#45;&#45;hard on the repository. Requires RepoLock " alt="" coords="523,267,733,308"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="523,384,733,425"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="803,384,970,425"/>
+<area shape="rect" id="node15" href="$class_t_g_server_service_1_1_server_instance.html#a95d603da4a4dcd14255f39bbf59931ad" title="Properly updates any git submodules in the repository " alt="" coords="264,435,475,476"/>
+<area shape="rect" id="node18" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="286,500,453,541"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="545,5,711,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ab56ecfc17b45a4658e0a676402b634e3" title="Create FetchOptions that Prune and have the appropriate credentials and progress handler ..." alt="" coords="523,71,733,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a895420e900c51183a28580f3a3ab3039" title="SSH credentials callback. Properly sets up SSH keys for an authorization operation ..." alt="" coords="781,39,992,80"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a445215ce9af4a260d0ec5cf1a88210df" title="Updates currentProgress with the progess of the current Repo transfer operation " alt="" coords="781,104,992,145"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#a971b17056739405a3d2b598ebd1be27a" title="Updates currentProgress with the progess of the current Repo checkout operation " alt="" coords="523,201,733,243"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#abcde3c7acdaf49fcd170dde635747ab1" title="Creates a commit LibGit2Sharp.Signature based off of the configured name and e&#45;mail ..." alt="" coords="523,136,733,177"/>
+<area shape="rect" id="node16" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="541,501,715,543"/>
+<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="799,501,974,543"/>
+</map>

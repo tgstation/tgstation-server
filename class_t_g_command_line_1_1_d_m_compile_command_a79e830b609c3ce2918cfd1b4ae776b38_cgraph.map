@@ -1,5 +1,5 @@
 <map id="TGCommandLine.DMCompileCommand.Run" name="TGCommandLine.DMCompileCommand.Run">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_t_g_compiler.html#a08f3ee8d057a156972040bc41e2e3c91" title="Returns the current compiler status " alt="" coords="332,5,541,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_byond.html#aef81b0c434b5f7ef2ceda72fb5be3ee4" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="339,71,534,112"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="338,136,535,177"/>
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler.html#a141230e592c991205d2c9c15f9ad6873" title="Returns the current compiler status " alt="" coords="332,5,543,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_byond.html#aa10128c78afe5c181cf71b7386638132" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="332,71,543,112"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="339,136,536,177"/>
 </map>

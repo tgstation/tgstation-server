@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['onchatmessage',['OnChatMessage',['../namespace_t_g_server_service.html#a79ac73113470669c0a388d8079359aeb',1,'TGServerService']]],
-  ['onstart',['OnStart',['../class_t_g_server_service_1_1_t_g_server_service.html#a70d09e9cfbef1fb897924b0e101bb30f',1,'TGServerService::TGServerService']]],
-  ['onstop',['OnStop',['../class_t_g_server_service_1_1_t_g_server_service.html#a804718d6ffa3109bedb0ba88e4191622',1,'TGServerService::TGServerService']]],
+  ['onchatmessage',['OnChatMessage',['../namespace_t_g_server_service_1_1_chat_providers.html#ad45a8eb27f10ef48d2473cc64840656b',1,'TGServerService::ChatProviders']]],
+  ['onstart',['OnStart',['../class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e',1,'TGServerService::Service']]],
+  ['onstop',['OnStop',['../class_t_g_server_service_1_1_service.html#a2dbfb4436b03982b6d7e466fde1763d7',1,'TGServerService::Service']]],
   ['onuiupdate',['OnUIUpdate',['../class_t_g_installer_wrapper_1_1_main.html#a12888c2a8c8758555dd3497d5432ab99',1,'TGInstallerWrapper::Main']]],
   ['openthread',['OpenThread',['../class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0',1,'TGServerService::ProcessExtension']]],
-  ['operationinprogress',['OperationInProgress',['../class_t_g_server_service_1_1_t_g_station_server.html#ac68616bf9ee2858ea631f83a22d5051a',1,'TGServerService.TGStationServer.OperationInProgress()'],['../interface_t_g_service_interface_1_1_i_t_g_repository.html#abf1a02cf190290e84d735f2a39ad8d78',1,'TGServiceInterface.ITGRepository.OperationInProgress()']]],
-  ['operator_21_3d',['operator!=',['../class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a8f7e5e0ae83254f1621569b302d3a27e',1,'TGServerService::TGStationServer::RepoConfig']]],
-  ['operator_3d_3d',['operator==',['../class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a24913dddce68d7a4358354815d5b64e6',1,'TGServerService::TGStationServer::RepoConfig']]],
+  ['operationinprogress',['OperationInProgress',['../class_t_g_server_service_1_1_server_instance.html#a366db6a24e005771f49cca17a373c490',1,'TGServerService.ServerInstance.OperationInProgress()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7',1,'TGServiceInterface.Components.ITGRepository.OperationInProgress()']]],
+  ['operator_21_3d',['operator!=',['../class_t_g_server_service_1_1_repo_config.html#a75f6fa709eb4839c2f0bcf6d5a30cc3c',1,'TGServerService::RepoConfig']]],
+  ['operator_3d_3d',['operator==',['../class_t_g_server_service_1_1_repo_config.html#a2193bf192d92368ba3b99ba6f66096d9',1,'TGServerService::RepoConfig']]],
   ['outputproc',['OutputProc',['../class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047',1,'TGServiceInterface::Command']]]
 ];

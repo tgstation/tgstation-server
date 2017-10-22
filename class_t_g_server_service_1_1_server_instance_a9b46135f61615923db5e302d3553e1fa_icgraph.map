@@ -1,0 +1,7 @@
+<map id="TGServerService.ServerInstance.DisposeRepo" name="TGServerService.ServerInstance.DisposeRepo">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a14f34e7f968afb1ad7f77d8813d5799b" title="Backups up the StaticDirs and deletes the current RepoPath if they exist. Clones the given branch of ..." alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#aa8a3c62ea83e029263e21654e184ab80" title="Moves the entire server installation, requires no operations to be running &#160;" alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="264,136,475,177"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="523,5,733,47"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="523,136,733,177"/>
+</map>

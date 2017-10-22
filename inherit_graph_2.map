@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_equatable.html" title="IEquatable" alt="" coords="5,13,88,39"/>
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html" title="Repo specific information about the installation Requires RepoLock and !RepoBusy to be instantiated ..." alt="" coords="136,5,315,47"/>
+<area shape="rect" id="node1" href="$class_i_equatable.html" title="IEquatable" alt="" coords="5,5,88,32"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_repo_config.html" title="Repository specific information for a ServerInstance " alt="" coords="136,5,323,32"/>
 </map>

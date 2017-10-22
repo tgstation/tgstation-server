@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">3.1.5.0</span>
+   &#160;<span id="projectnumber">3.1.5.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -251,7 +251,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Either stick with the default port <code>38607</code> or change it with <code>admin set-port &lt;port #&gt;</code></li>
 </ol>
 <ol type="1">
-<li><a href="https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate">Bind the SSL certificate to port 38607</a><ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate">Bind the SSL certificate to the port</a><ul>
 <li>e.g. <code>netsh http add sslcert ipport=0.0.0.0:&lt;port #&gt; certhash=&lt;certificate hash&gt; appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}</code></li>
 <li>The <code>appid</code> GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above</li>
 </ul>
@@ -283,6 +283,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>When the server is updated, we just point this to the updating folder so that the update takes place next round.</li>
 </ul>
 </li>
+<li><code>Diagnostics</code><ul>
+<li>This contains various timestamped diagnostic information for DreamDaemon invocations</li>
+</ul>
+</li>
 <li><code>Repository/</code><ul>
 <li>This contains the actual git repository, all changes in here will be overwritten during update operations.</li>
 </ul>
@@ -309,6 +313,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li><code>prtestjob.json</code><ul>
 <li>This contains information about current test merged pull requests in the Repository folder</li>
+</ul>
+</li>
+<li><code>TGS3.json</code><ul>
+<li>This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it</li>
 </ul>
 </li>
 </ul>
@@ -364,7 +372,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3>Viewing Server Logs</h3>
 <ul>
 <li>Logs are stored in the Windows event viewer under <code>Windows Logs</code> -&gt; <code>Application</code>. You'll need to filter this list for <code>TG Station Server</code></li>
-<li>Every event type is keyed with an ID. A complete listing of these IDs can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/TGServerService/ServerService.cs#L15">here</a>.</li>
+<li>Every event type is keyed with an ID. A complete listing of these IDs and their purpose can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/TGServerService/EventID.cs">here</a>.</li>
 <li>You can also import the custom view <code>View TGS3 Logs.xml</code> in this folder to have them automatically filtered</li>
 </ul>
 <h3>Enabling upstream changelog generation</h3>
@@ -377,7 +385,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 <h2>CONTRIBUTING</h2>
 <ul>
-<li>Version numbers and releases will be handled by maintainers, do not modify these in your PR</li>
+<li>See https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md "CONTRIBUTING.md"</li>
 </ul>
 <h2>LICENSING</h2>
 <ul>

@@ -1,22 +1,22 @@
 var searchData=
 [
-  ['update',['Update',['../class_t_g_server_service_1_1_t_g_station_server.html#a6ba4486c9a158ddf89173e6788fa074f',1,'TGServerService.TGStationServer.Update()'],['../interface_t_g_service_interface_1_1_i_t_g_repository.html#ada00c2d0bdb0df83a3a52c05cf3e7b03',1,'TGServiceInterface.ITGRepository.Update()']]],
+  ['update',['Update',['../class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037',1,'TGServerService.ServerInstance.Update()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a7797519d602c97c02ec9b2145b277867',1,'TGServiceInterface.Components.ITGRepository.Update()']]],
   ['updatebutton_5fclick',['UpdateButton_Click',['../class_t_g_control_panel_1_1_main.html#af812d97895972d04ec3b36e97d0fa843',1,'TGControlPanel::Main']]],
   ['updatebyondbuttons',['UpdateBYONDButtons',['../class_t_g_control_panel_1_1_main.html#a27af72f380adbef699e029454e331abd',1,'TGControlPanel::Main']]],
   ['updatecommand',['UpdateCommand',['../class_t_g_command_line_1_1_update_command.html#a9e9f9dca43150c4cbcc528a0ccff0ce9',1,'TGCommandLine::UpdateCommand']]],
   ['updateedittext',['UpdateEditText',['../class_t_g_control_panel_1_1_main.html#a686dcedc838bbd35badc7503097e831a',1,'TGControlPanel::Main']]],
   ['updatehardbutton_5fclick',['UpdateHardButton_Click',['../class_t_g_control_panel_1_1_main.html#a21395eb21addf06987b15fea13e0db0d',1,'TGControlPanel::Main']]],
-  ['updateimpl',['UpdateImpl',['../class_t_g_server_service_1_1_t_g_station_server.html#ab29820e80681869e8a3f4960b5cf9b05',1,'TGServerService::TGStationServer']]],
-  ['updateinterfacedll',['UpdateInterfaceDll',['../class_t_g_server_service_1_1_t_g_station_server.html#ad262be4efe1b631925a6fb576c11dcd0',1,'TGServerService::TGStationServer']]],
-  ['updatelivesha',['UpdateLiveSha',['../class_t_g_server_service_1_1_t_g_station_server.html#a60c80eb55188affc2b418eace0368b0b',1,'TGServerService::TGStationServer']]],
+  ['updateimpl',['UpdateImpl',['../class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a',1,'TGServerService::ServerInstance']]],
+  ['updateinterfacedll',['UpdateInterfaceDll',['../class_t_g_server_service_1_1_server_instance.html#a4b4771257ed71f5145b495f85a0553da',1,'TGServerService::ServerInstance']]],
+  ['updatelivesha',['UpdateLiveSha',['../class_t_g_server_service_1_1_server_instance.html#aeb0cb7b5664b4796ef9aa9082bbce424',1,'TGServerService::ServerInstance']]],
   ['updatemergebutton_5fclick',['UpdateMergeButton_Click',['../class_t_g_control_panel_1_1_main.html#a15524c15834c25556e04636bd80a6270',1,'TGControlPanel::Main']]],
   ['updateprojectname',['UpdateProjectName',['../class_t_g_control_panel_1_1_main.html#ac8496fe05985af4c8dcc6f60f20a231d',1,'TGControlPanel::Main']]],
   ['updatepythonpath',['UpdatePythonPath',['../class_t_g_control_panel_1_1_main.html#ae3d95c6d82f7288f4908c4e317e08606',1,'TGControlPanel::Main']]],
   ['updaterepobutton_5fclick',['UpdateRepoButton_Click',['../class_t_g_control_panel_1_1_main.html#a3b0f11d4f799a4f01f99c9cb2ce944f6',1,'TGControlPanel::Main']]],
   ['updateserverpath',['UpdateServerPath',['../class_t_g_control_panel_1_1_main.html#a7d605d5392b23a22288c1c75d742df4b',1,'TGControlPanel::Main']]],
-  ['updatesubmodules',['UpdateSubmodules',['../class_t_g_server_service_1_1_t_g_station_server.html#af9b44e93dd8858b78b6c437cf37316ba',1,'TGServerService::TGStationServer']]],
+  ['updatesubmodules',['UpdateSubmodules',['../class_t_g_server_service_1_1_server_instance.html#a95d603da4a4dcd14255f39bbf59931ad',1,'TGServerService::ServerInstance']]],
   ['updatetestmergebutton_5fclick',['UpdateTestmergeButton_Click',['../class_t_g_control_panel_1_1_main.html#ad70b9a3fe3dcbbf8ff8e7fb6c9dda626',1,'TGControlPanel::Main']]],
-  ['updatetgs3json',['UpdateTGS3Json',['../class_t_g_server_service_1_1_t_g_station_server.html#aae3631f91b89180008c90dbce020f7dd',1,'TGServerService.TGStationServer.UpdateTGS3Json()'],['../interface_t_g_service_interface_1_1_i_t_g_repository.html#ac4e4e04e089907e5a9690c99e72ef953',1,'TGServiceInterface.ITGRepository.UpdateTGS3Json()']]],
-  ['updatetoversion',['UpdateToVersion',['../class_t_g_server_service_1_1_t_g_station_server.html#a488ecd7dd1120d2851ffb417a4c1c953',1,'TGServerService.TGStationServer.UpdateToVersion()'],['../interface_t_g_service_interface_1_1_i_t_g_byond.html#a52a643cca9f9dc511be56721e16a5aeb',1,'TGServiceInterface.ITGByond.UpdateToVersion()']]],
-  ['updatetoversionimpl',['UpdateToVersionImpl',['../class_t_g_server_service_1_1_t_g_station_server.html#ac6e581584fbcb94df25c3377ab1819dc',1,'TGServerService::TGStationServer']]]
+  ['updatetgs3json',['UpdateTGS3Json',['../class_t_g_server_service_1_1_server_instance.html#a3e791a0e714b6c1e94e6b27c13ce2b2a',1,'TGServerService.ServerInstance.UpdateTGS3Json()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aaaeafb6b096afbb025c949a5d30d209b',1,'TGServiceInterface.Components.ITGRepository.UpdateTGS3Json()']]],
+  ['updatetoversion',['UpdateToVersion',['../class_t_g_server_service_1_1_server_instance.html#a6136aa0574aa874d5532cb528e764d78',1,'TGServerService.ServerInstance.UpdateToVersion()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_byond.html#a3c734e0bb0667d4ecf2e2fc829cc44f8',1,'TGServiceInterface.Components.ITGByond.UpdateToVersion()']]],
+  ['updatetoversionimpl',['UpdateToVersionImpl',['../class_t_g_server_service_1_1_server_instance.html#a4a2dc7c3b649bf0e7f81362c851a2c8f',1,'TGServerService::ServerInstance']]]
 ];

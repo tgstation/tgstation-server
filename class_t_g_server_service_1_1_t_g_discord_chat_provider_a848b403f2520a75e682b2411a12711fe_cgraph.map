@@ -1,5 +1,0 @@
-<map id="TGServerService.TGDiscordChatProvider.TGDiscordChatProvider" name="TGServerService.TGDiscordChatProvider.TGDiscordChatProvider">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#ae86a3a77ede1f2fef3d323fda93abd1e" title="TGServerService.TGDiscord\lChatProvider.Init" alt="" coords="287,5,469,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a48b8acd543013034cfe4a779fff671b3" title="TGServerService.TGDiscord\lChatProvider.Client_MessageReceived" alt="" coords="517,5,761,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a1c175d43538904ffa9f845c3ea48c572" title="TGServerService.TGDiscord\lChatProvider.CheckAdmin" alt="" coords="809,5,992,47"/>
-</map>

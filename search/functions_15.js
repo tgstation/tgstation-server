@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['watchdog',['Watchdog',['../class_t_g_server_service_1_1_t_g_station_server.html#a4b4802fc928357b89b32a8246cbaa5aa',1,'TGServerService::TGStationServer']]],
-  ['webclient',['Webclient',['../class_t_g_server_service_1_1_t_g_station_server.html#a74ea038a6f3c973087c1572b118eb73f',1,'TGServerService.TGStationServer.Webclient()'],['../interface_t_g_service_interface_1_1_i_t_g_dream_daemon.html#a3153ad641431fd024980f11194eca412',1,'TGServiceInterface.ITGDreamDaemon.Webclient()']]],
+  ['watchdog',['Watchdog',['../class_t_g_server_service_1_1_server_instance.html#ab76e4c626e2b38e75781aaad0b7809a9',1,'TGServerService::ServerInstance']]],
+  ['webclient',['Webclient',['../class_t_g_server_service_1_1_server_instance.html#a8a57165f218c76860f040311e44a9f48',1,'TGServerService.ServerInstance.Webclient()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a71d84549d242fbae9467bab8d8ad8eb6',1,'TGServiceInterface.Components.ITGDreamDaemon.Webclient()']]],
   ['webclientcheckbox_5fcheckedchanged',['WebclientCheckBox_CheckedChanged',['../class_t_g_control_panel_1_1_main.html#a446d927871670518882b78d4ec04a68b',1,'TGControlPanel::Main']]],
-  ['worldannounce',['WorldAnnounce',['../class_t_g_server_service_1_1_t_g_station_server.html#a885534b6f2d781c66e269dc21c7dafa2',1,'TGServerService.TGStationServer.WorldAnnounce()'],['../interface_t_g_service_interface_1_1_i_t_g_dream_daemon.html#ab037b96322cdc1e90603e3df48f69e52',1,'TGServiceInterface.ITGDreamDaemon.WorldAnnounce()']]],
+  ['worldannounce',['WorldAnnounce',['../class_t_g_server_service_1_1_server_instance.html#a989bcee76648cec9c7e52a5d33217e90',1,'TGServerService.ServerInstance.WorldAnnounce()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a632f5682a16fefcd665e20bfc371a09c',1,'TGServiceInterface.Components.ITGDreamDaemon.WorldAnnounce()']]],
   ['worldannouncebutton_5fclick',['WorldAnnounceButton_Click',['../class_t_g_control_panel_1_1_main.html#a6670fdd8857f61789de6d0d62c98218e',1,'TGControlPanel::Main']]],
-  ['writeaccess',['WriteAccess',['../class_t_g_server_service_1_1_t_g_server_service.html#a50d466b40331edcc42f4969b2ab81c22',1,'TGServerService::TGServerService']]],
-  ['writecurrentddlog',['WriteCurrentDDLog',['../class_t_g_server_service_1_1_t_g_station_server.html#a05aedeb16e1d1ef3dd06c0f3ea0d3f9c',1,'TGServerService::TGStationServer']]],
-  ['writeerror',['WriteError',['../class_t_g_server_service_1_1_t_g_server_service.html#a06fb03f5cf87e28044bf95a1b7ceb383',1,'TGServerService::TGServerService']]],
-  ['writeinfo',['WriteInfo',['../class_t_g_server_service_1_1_t_g_server_service.html#ad14c96a6dd1672c013d737bdd12b5f73',1,'TGServerService::TGServerService']]],
-  ['writetext',['WriteText',['../class_t_g_server_service_1_1_t_g_station_server.html#a5e2da6291b11cadfe34f6ab153f55058',1,'TGServerService.TGStationServer.WriteText()'],['../interface_t_g_service_interface_1_1_i_t_g_config.html#a841afb009d82d583aeb4d32c9186fc89',1,'TGServiceInterface.ITGConfig.WriteText()']]],
-  ['writewarning',['WriteWarning',['../class_t_g_server_service_1_1_t_g_server_service.html#ac0787e375806812625bb130ab61e9be0',1,'TGServerService::TGServerService']]]
+  ['writeaccess',['WriteAccess',['../class_t_g_server_service_1_1_service.html#a5f6ad886bff03e90360d6ea8fc0c94ad',1,'TGServerService::Service']]],
+  ['writecurrentddlog',['WriteCurrentDDLog',['../class_t_g_server_service_1_1_server_instance.html#ac66b59d813dcc51bf26bd90f3b812e8d',1,'TGServerService::ServerInstance']]],
+  ['writeerror',['WriteError',['../class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c',1,'TGServerService::Service']]],
+  ['writeinfo',['WriteInfo',['../class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9',1,'TGServerService::Service']]],
+  ['writetext',['WriteText',['../class_t_g_server_service_1_1_server_instance.html#abdf26641e717823f8958ac46db3c0cc8',1,'TGServerService.ServerInstance.WriteText()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a24f599bf111d66d9a4e27e92131d1165',1,'TGServiceInterface.Components.ITGConfig.WriteText()']]],
+  ['writewarning',['WriteWarning',['../class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14',1,'TGServerService::Service']]]
 ];

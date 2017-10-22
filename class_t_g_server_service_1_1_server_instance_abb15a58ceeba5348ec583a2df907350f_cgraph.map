@@ -1,0 +1,15 @@
+<map id="TGServerService.ServerInstance.Checkout" name="TGServerService.ServerInstance.Checkout">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af8f4334b030e4cddf3f643aedc84f59e" title="Fetches origin " alt="" coords="264,37,475,79"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a971b17056739405a3d2b598ebd1be27a" title="Updates currentProgress with the progess of the current Repo checkout operation " alt="" coords="264,103,475,144"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="264,168,475,209"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#aac5ddb16ab8332882d6bdf2be41d3e56" title="Equivalent of running git reset &#45;&#45;hard on the repository. Requires RepoLock " alt="" coords="264,233,475,275"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="523,351,733,392"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="803,351,970,392"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a95d603da4a4dcd14255f39bbf59931ad" title="Properly updates any git submodules in the repository " alt="" coords="264,401,475,443"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="286,467,453,508"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ab56ecfc17b45a4658e0a676402b634e3" title="Create FetchOptions that Prune and have the appropriate credentials and progress handler ..." alt="" coords="523,37,733,79"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a895420e900c51183a28580f3a3ab3039" title="SSH credentials callback. Properly sets up SSH keys for an authorization operation ..." alt="" coords="781,5,992,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a445215ce9af4a260d0ec5cf1a88210df" title="Updates currentProgress with the progess of the current Repo transfer operation " alt="" coords="781,71,992,112"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="541,468,715,509"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="799,468,974,509"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="TGServerService.ServerInstance.GetCurrentPRList" name="TGServerService.ServerInstance.GetCurrentPRList">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a5eb674c9b1ad47e3965a23ee8bb1c226" title="Get the currently merged pull requests. Note that switching branches will delete this list and switch..." alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="264,71,475,112"/>
+</map>

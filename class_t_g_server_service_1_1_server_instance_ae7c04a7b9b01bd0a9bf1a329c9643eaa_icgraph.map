@@ -1,0 +1,5 @@
+<map id="TGServerService.ServerInstance.Reconnect" name="TGServerService.ServerInstance.Reconnect">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#aff49184e8ceaf6099708b568f09fc4fa" title="Reconnect servers that are enabled and disconnected. Checked every time DreamDaemon reboots ..." alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#aa2d4ae32c582b1d03b22402dab486e80" title="TGServerService.ServerInstance.\lHandleCommand" alt="" coords="523,5,733,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a31cb383e125fcb094259185112c3ea40" title="Called from /world/ExportService(command) &#160;" alt="" coords="781,5,992,47"/>
+</map>

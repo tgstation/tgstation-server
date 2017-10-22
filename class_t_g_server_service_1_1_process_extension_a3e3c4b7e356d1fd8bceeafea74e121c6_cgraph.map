@@ -1,5 +1,5 @@
 <map id="TGServerService.ProcessExtension.Suspend" name="TGServerService.ProcessExtension.Suspend">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="TGServerService.ProcessExtension.\lCloseHandle" alt="" coords="284,5,515,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="TGServerService.ProcessExtension.\lOpenThread" alt="" coords="284,71,515,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a" title="TGServerService.ProcessExtension.\lSuspendThread" alt="" coords="284,136,515,177"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx " alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx " alt="" coords="284,71,515,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms686345(v=vs.85).aspx " alt="" coords="284,136,515,177"/>
 </map>

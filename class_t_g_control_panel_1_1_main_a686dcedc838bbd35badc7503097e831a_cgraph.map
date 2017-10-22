@@ -2,5 +2,5 @@
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#ad9b437efc66091bf556926eaf8e23c25" title="TGControlPanel.Main.Build\lFileList" alt="" coords="244,27,423,69"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a40f924051abc6a9a3521e0fcb262121e" title="TGControlPanel.Main.EnumeratePath" alt="" coords="471,35,709,61"/>
 <area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#aacb4cabcfff5294f83a1dc407c4f425c" title="TGControlPanel.Main.DSNTimes" alt="" coords="757,5,968,32"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_t_g_config.html#accab9af3011c28781802a2f59fe45226" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="765,57,960,98"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="757,57,968,98"/>
 </map>

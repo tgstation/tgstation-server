@@ -1,8 +1,8 @@
 <map id="TGControlPanel.Main.StaticFileCreateButton_Click" name="TGControlPanel.Main.StaticFileCreateButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#ad9b437efc66091bf556926eaf8e23c25" title="TGControlPanel.Main.Build\lFileList" alt="" coords="244,27,423,69"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="236,93,431,134"/>
-<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_i_t_g_config.html#a841afb009d82d583aeb4d32c9186fc89" title="Write to a static file " alt="" coords="236,158,431,199"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a40f924051abc6a9a3521e0fcb262121e" title="TGControlPanel.Main.EnumeratePath" alt="" coords="479,35,717,61"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#aacb4cabcfff5294f83a1dc407c4f425c" title="TGControlPanel.Main.DSNTimes" alt="" coords="765,5,976,32"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_t_g_config.html#accab9af3011c28781802a2f59fe45226" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="773,57,968,98"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#ad9b437efc66091bf556926eaf8e23c25" title="TGControlPanel.Main.Build\lFileList" alt="" coords="252,27,431,69"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="244,93,439,134"/>
+<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a24f599bf111d66d9a4e27e92131d1165" title="Write to a static file " alt="" coords="236,158,447,199"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a40f924051abc6a9a3521e0fcb262121e" title="TGControlPanel.Main.EnumeratePath" alt="" coords="495,35,733,61"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#aacb4cabcfff5294f83a1dc407c4f425c" title="TGControlPanel.Main.DSNTimes" alt="" coords="781,5,992,32"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="781,57,992,98"/>
 </map>

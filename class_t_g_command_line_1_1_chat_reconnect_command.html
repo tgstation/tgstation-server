@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">3.1.5.0</span>
+   &#160;<span id="projectnumber">3.1.5.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -118,13 +118,13 @@ Collaboration diagram for TGCommandLine.ChatReconnectCommand:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab1ff4a9d2ff83f4b84db7307e03a3cc2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#ab1ff4a9d2ff83f4b84db7307e03a3cc2">ChatReconnectCommand</a> (<a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286b">TGChatProvider</a> pI)</td></tr>
-<tr class="separator:ab1ff4a9d2ff83f4b84db7307e03a3cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a375c1322840d9a07352db00801071232"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#a375c1322840d9a07352db00801071232">ChatReconnectCommand</a> (<a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a> pI)</td></tr>
+<tr class="separator:a375c1322840d9a07352db00801071232"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae34da788f5e3ff68eb79e5de335a2f6"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#aae34da788f5e3ff68eb79e5de335a2f6">GetHelpText</a> ()</td></tr>
 <tr class="memdesc:aae34da788f5e3ff68eb79e5de335a2f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override to add usage text to the Command  <a href="#aae34da788f5e3ff68eb79e5de335a2f6">More...</a><br /></td></tr>
 <tr class="separator:aae34da788f5e3ff68eb79e5de335a2f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_t_g_service_interface_1_1_command"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_t_g_service_interface_1_1_command')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_t_g_service_interface_1_1_command.html">TGServiceInterface.Command</a></td></tr>
-<tr class="memitem:a47f562a0eb5fb90e46cc5be013a23d03 inherit pub_methods_class_t_g_service_interface_1_1_command"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_t_g_service_interface.html#ac139f05b2d7eb8c9410c503c0f9b15e3">ExitCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03">DoRun</a> (IList&lt; string &gt; parameters)</td></tr>
+<tr class="memitem:a47f562a0eb5fb90e46cc5be013a23d03 inherit pub_methods_class_t_g_service_interface_1_1_command"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">ExitCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03">DoRun</a> (IList&lt; string &gt; parameters)</td></tr>
 <tr class="memdesc:a47f562a0eb5fb90e46cc5be013a23d03 inherit pub_methods_class_t_g_service_interface_1_1_command"><td class="mdescLeft">&#160;</td><td class="mdescRight">Caller of <a class="el" href="class_t_g_service_interface_1_1_command.html#a3f1078fdaf3e09f73b1c66cc6fd41da5" title="Override to do the actions of the Command ">Run(IList&lt;string&gt;)</a>, can be used to modify the root behaviour of the <a class="el" href="class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree ">Command</a>  <a href="#a47f562a0eb5fb90e46cc5be013a23d03">More...</a><br /></td></tr>
 <tr class="separator:a47f562a0eb5fb90e46cc5be013a23d03 inherit pub_methods_class_t_g_service_interface_1_1_command"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af556021dabb50f50e411880e1c4cf9bb inherit pub_methods_class_t_g_service_interface_1_1_command"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_command.html#af556021dabb50f50e411880e1c4cf9bb">PrintHelp</a> ()</td></tr>
@@ -136,17 +136,25 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a0088025141f3a6571f335a0a2bc52201"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="namespace_t_g_service_interface.html#ac139f05b2d7eb8c9410c503c0f9b15e3">ExitCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#a0088025141f3a6571f335a0a2bc52201">Run</a> (IList&lt; string &gt; parameters)</td></tr>
+<tr class="memitem:a0088025141f3a6571f335a0a2bc52201"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">ExitCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#a0088025141f3a6571f335a0a2bc52201">Run</a> (IList&lt; string &gt; parameters)</td></tr>
 <tr class="memdesc:a0088025141f3a6571f335a0a2bc52201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override to do the actions of the Command  <a href="#a0088025141f3a6571f335a0a2bc52201">More...</a><br /></td></tr>
 <tr class="separator:a0088025141f3a6571f335a0a2bc52201"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ac19092110f7051568e33df3c6dbc6e2e"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286b">TGChatProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#ac19092110f7051568e33df3c6dbc6e2e">providerIndex</a></td></tr>
-<tr class="separator:ac19092110f7051568e33df3c6dbc6e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb6413f3a4be1a9a43520905fd9b88a5"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_chat_reconnect_command.html#afb6413f3a4be1a9a43520905fd9b88a5">providerIndex</a></td></tr>
+<tr class="separator:afb6413f3a4be1a9a43520905fd9b88a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_class_t_g_service_interface_1_1_command"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_t_g_service_interface_1_1_command')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_t_g_service_interface_1_1_command.html">TGServiceInterface.Command</a></td></tr>
+<tr class="memitem:a071167708049f5286c7d79bb1bae1631 inherit pub_types_class_t_g_service_interface_1_1_command"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">ExitCode</a> { <a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631a960b44c579bc2f6818d2daaf9e4c16f0">ExitCode.Normal</a> = 0, 
+<a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631a094a6f6b0868122a9dd008cb91c083e4">ExitCode.ConnectionError</a> = 1, 
+<a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631aa8a531d11db80cfc1fe739df02353193">ExitCode.BadCommand</a> = 2, 
+<a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631a7d65c64901711bc2cd2a33ff2641fbe9">ExitCode.ServerError</a> = 3
+ }<tr class="memdesc:a071167708049f5286c7d79bb1bae1631"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit codes for <a class="el" href="class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree ">Command</a>s  <a href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a071167708049f5286c7d79bb1bae1631 inherit pub_types_class_t_g_service_interface_1_1_command"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_class_t_g_service_interface_1_1_command"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_class_t_g_service_interface_1_1_command')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="class_t_g_service_interface_1_1_command.html">TGServiceInterface.Command</a></td></tr>
 <tr class="memitem:a91dc14e80c3f2f3813088fed664c3f9e inherit pub_static_attribs_class_t_g_service_interface_1_1_command"><td class="memItemLeft" align="right" valign="top">static ThreadLocal&lt; Action&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_command.html#a91dc14e80c3f2f3813088fed664c3f9e">OutputProcVar</a> = new ThreadLocal&lt;Action&lt;string&gt;&gt;()</td></tr>
 <tr class="memdesc:a91dc14e80c3f2f3813088fed664c3f9e inherit pub_static_attribs_class_t_g_service_interface_1_1_command"><td class="mdescLeft">&#160;</td><td class="mdescRight">Proc that will show a message to the <a class="el" href="class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree ">Command</a> invoker. Do not call directly, use <a class="el" href="class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker ">OutputProc(string)</a> instead  <a href="#a91dc14e80c3f2f3813088fed664c3f9e">More...</a><br /></td></tr>
@@ -165,27 +173,27 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00267">267</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00268">268</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab1ff4a9d2ff83f4b84db7307e03a3cc2"></a>
+<a class="anchor" id="a375c1322840d9a07352db00801071232"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TGCommandLine.ChatReconnectCommand.ChatReconnectCommand </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286b">TGChatProvider</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>&#160;</td>
           <td class="paramname"><em>pI</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00270">270</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00271">271</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 
-<p>References <a class="el" href="_command_8cs_source.html#l00050">TGServiceInterface.Command.Keyword</a>.</p>
-<div class="fragment"><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        {</div><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">Keyword</a> = <span class="stringliteral">&quot;reconnect&quot;</span>;</div><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <a class="code" href="class_t_g_command_line_1_1_chat_reconnect_command.html#ac19092110f7051568e33df3c6dbc6e2e">providerIndex</a> = pI;</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        }</div><div class="ttc" id="class_t_g_command_line_1_1_chat_reconnect_command_html_ac19092110f7051568e33df3c6dbc6e2e"><div class="ttname"><a href="class_t_g_command_line_1_1_chat_reconnect_command.html#ac19092110f7051568e33df3c6dbc6e2e">TGCommandLine.ChatReconnectCommand.providerIndex</a></div><div class="ttdeci">readonly TGChatProvider providerIndex</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_command_line_2_chat_commands_8cs_source.html#l00269">ChatCommands.cs:269</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_command_html_a24d806f740c7d2508c8cf9c34d2bba39"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">TGServiceInterface.Command.Keyword</a></div><div class="ttdeci">string Keyword</div><div class="ttdoc">The text that invokes this Command. Set in constructor </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00050">Command.cs:50</a></div></div>
+<p>References <a class="el" href="_command_8cs_source.html#l00049">TGServiceInterface.Command.Keyword</a>.</p>
+<div class="fragment"><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        {</div><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">Keyword</a> = <span class="stringliteral">&quot;reconnect&quot;</span>;</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            <a class="code" href="class_t_g_command_line_1_1_chat_reconnect_command.html#afb6413f3a4be1a9a43520905fd9b88a5">providerIndex</a> = pI;</div><div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_command_html_a24d806f740c7d2508c8cf9c34d2bba39"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">TGServiceInterface.Command.Keyword</a></div><div class="ttdeci">string Keyword</div><div class="ttdoc">The text that invokes this Command. Set in constructor </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00049">Command.cs:49</a></div></div>
+<div class="ttc" id="class_t_g_command_line_1_1_chat_reconnect_command_html_afb6413f3a4be1a9a43520905fd9b88a5"><div class="ttname"><a href="class_t_g_command_line_1_1_chat_reconnect_command.html#afb6413f3a4be1a9a43520905fd9b88a5">TGCommandLine.ChatReconnectCommand.providerIndex</a></div><div class="ttdeci">readonly ChatProvider providerIndex</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_command_line_2_chat_commands_8cs_source.html#l00270">ChatCommands.cs:270</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -216,8 +224,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_t_g_service_interface_1_1_command.html#a08148c745f8a165e27141d7f4d09e450">TGServiceInterface.Command</a>.</p>
 
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00276">276</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        {</div><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Restablish the chat connection&quot;</span>;</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00277">277</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        {</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Restablish the chat connection&quot;</span>;</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a0088025141f3a6571f335a0a2bc52201"></a>
@@ -228,7 +236,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override <a class="el" href="namespace_t_g_service_interface.html#ac139f05b2d7eb8c9410c503c0f9b15e3">ExitCode</a> TGCommandLine.ChatReconnectCommand.Run </td>
+          <td class="memname">override <a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">ExitCode</a> TGCommandLine.ChatReconnectCommand.Run </td>
           <td>(</td>
           <td class="paramtype">IList&lt; string &gt;&#160;</td>
           <td class="paramname"><em>parameters</em></td><td>)</td>
@@ -249,18 +257,18 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An ExitCode describing the execution of the Command</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631" title="Exit codes for Commands ">ExitCode</a> describing the execution of the Command</dd></dl>
 
 <p>Implements <a class="el" href="class_t_g_service_interface_1_1_command.html#a3f1078fdaf3e09f73b1c66cc6fd41da5">TGServiceInterface.Command</a>.</p>
 
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00281">281</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00282">282</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 
-<p>References <a class="el" href="_command_8cs_source.html#l00043">TGServiceInterface.Command.OutputProc()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        {</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            var res = <a class="code" href="class_t_g_service_interface_1_1_server.html">Server</a>.GetComponent&lt;<a class="code" href="interface_t_g_service_interface_1_1_i_t_g_chat.html">ITGChat</a>&gt;().Reconnect(<a class="code" href="class_t_g_command_line_1_1_chat_reconnect_command.html#ac19092110f7051568e33df3c6dbc6e2e">providerIndex</a>);</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordflow">if</span> (res != null)</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            {</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047">OutputProc</a>(<span class="stringliteral">&quot;Error: &quot;</span> + res);</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="namespace_t_g_service_interface.html#ac139f05b2d7eb8c9410c503c0f9b15e3">ExitCode</a>.ServerError;</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            }</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="namespace_t_g_service_interface.html#ac139f05b2d7eb8c9410c503c0f9b15e3">ExitCode</a>.Normal;</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        }</div><div class="ttc" id="class_t_g_command_line_1_1_chat_reconnect_command_html_ac19092110f7051568e33df3c6dbc6e2e"><div class="ttname"><a href="class_t_g_command_line_1_1_chat_reconnect_command.html#ac19092110f7051568e33df3c6dbc6e2e">TGCommandLine.ChatReconnectCommand.providerIndex</a></div><div class="ttdeci">readonly TGChatProvider providerIndex</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_command_line_2_chat_commands_8cs_source.html#l00269">ChatCommands.cs:269</a></div></div>
-<div class="ttc" id="interface_t_g_service_interface_1_1_i_t_g_chat_html"><div class="ttname"><a href="interface_t_g_service_interface_1_1_i_t_g_chat.html">TGServiceInterface.ITGChat</a></div><div class="ttdoc">Interface for handling chat bot </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_service_interface_2_chat_8cs_source.html#l00010">Chat.cs:10</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_command_html_aa157626ffb8ef1c4c2d8350954c2f047"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047">TGServiceInterface.Command.OutputProc</a></div><div class="ttdeci">static void OutputProc(string message)</div><div class="ttdoc">Write output to the Command invoker </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00043">Command.cs:43</a></div></div>
-<div class="ttc" id="namespace_t_g_service_interface_html_ac139f05b2d7eb8c9410c503c0f9b15e3"><div class="ttname"><a href="namespace_t_g_service_interface.html#ac139f05b2d7eb8c9410c503c0f9b15e3">TGServiceInterface.ExitCode</a></div><div class="ttdeci">ExitCode</div><div class="ttdoc">Exit codes for Commands </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00010">Command.cs:10</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_server_html"><div class="ttname"><a href="class_t_g_service_interface_1_1_server.html">TGServiceInterface.Server</a></div><div class="ttdoc">Main inteface class for the service </div><div class="ttdef"><b>Definition:</b> <a href="_server_8cs_source.html#l00016">Server.cs:16</a></div></div>
+<p>References <a class="el" href="_command_8cs_source.html#l00042">TGServiceInterface.Command.OutputProc()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        {</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            var res = <a class="code" href="class_t_g_service_interface_1_1_interface.html">Interface</a>.GetComponent&lt;<a class="code" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html">ITGChat</a>&gt;().Reconnect(<a class="code" href="class_t_g_command_line_1_1_chat_reconnect_command.html#afb6413f3a4be1a9a43520905fd9b88a5">providerIndex</a>);</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            <span class="keywordflow">if</span> (res != null)</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            {</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047">OutputProc</a>(<span class="stringliteral">&quot;Error: &quot;</span> + res);</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">ExitCode</a>.ServerError;</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            }</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">ExitCode</a>.Normal;</div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_command_html_a071167708049f5286c7d79bb1bae1631"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631">TGServiceInterface.Command.ExitCode</a></div><div class="ttdeci">ExitCode</div><div class="ttdoc">Exit codes for Commands </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00015">Command.cs:15</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_command_html_aa157626ffb8ef1c4c2d8350954c2f047"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047">TGServiceInterface.Command.OutputProc</a></div><div class="ttdeci">static void OutputProc(string message)</div><div class="ttdoc">Write output to the Command invoker </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00042">Command.cs:42</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html">TGServiceInterface.Interface</a></div><div class="ttdoc">Main inteface class for the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00017">Interface.cs:17</a></div></div>
+<div class="ttc" id="class_t_g_command_line_1_1_chat_reconnect_command_html_afb6413f3a4be1a9a43520905fd9b88a5"><div class="ttname"><a href="class_t_g_command_line_1_1_chat_reconnect_command.html#afb6413f3a4be1a9a43520905fd9b88a5">TGCommandLine.ChatReconnectCommand.providerIndex</a></div><div class="ttdeci">readonly ChatProvider providerIndex</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_command_line_2_chat_commands_8cs_source.html#l00270">ChatCommands.cs:270</a></div></div>
+<div class="ttc" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat_html"><div class="ttname"><a href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html">TGServiceInterface.Components.ITGChat</a></div><div class="ttdoc">Interface for handling chat bot </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_service_interface_2_components_2_chat_8cs_source.html#l00010">Chat.cs:10</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -275,7 +283,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ac19092110f7051568e33df3c6dbc6e2e"></a>
+<a class="anchor" id="afb6413f3a4be1a9a43520905fd9b88a5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -283,7 +291,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly <a class="el" href="namespace_t_g_service_interface.html#a667220a926fe5d60320b9a34b93b286b">TGChatProvider</a> TGCommandLine.ChatReconnectCommand.providerIndex</td>
+          <td class="memname">readonly <a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a> TGCommandLine.ChatReconnectCommand.providerIndex</td>
         </tr>
       </table>
   </td>
@@ -293,7 +301,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00269">269</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00270">270</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 
 </div>
 </div>

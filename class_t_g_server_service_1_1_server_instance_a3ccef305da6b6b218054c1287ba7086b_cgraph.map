@@ -1,0 +1,6 @@
+<map id="TGServerService.ServerInstance.HandleEvent" name="TGServerService.ServerInstance.HandleEvent">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ae35924a25d2d0fcfb0124ad21ecb421f" title="Check if an event handler for eventName &#160;exists " alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ab7c024a90c8ffdb678f9b0bfaafd8764" title="Gets the path of an event given an eventName &#160;" alt="" coords="523,35,733,76"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="286,123,453,164"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="286,188,453,229"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="TGServerService.ServerInstance.CreateBackup" name="TGServerService.ServerInstance.CreateBackup">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="286,71,453,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="286,136,453,177"/>
+</map>

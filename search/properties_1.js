@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bottoken',['BotToken',['../class_t_g_service_interface_1_1_t_g_discord_setup_info.html#a11aee33931a110416ea8130410320cb7',1,'TGServiceInterface::TGDiscordSetupInfo']]]
+  ['bottoken',['BotToken',['../class_t_g_service_interface_1_1_discord_setup_info.html#a4f3852a72fcc9cfa27c04ab21cc73398',1,'TGServiceInterface::DiscordSetupInfo']]]
 ];

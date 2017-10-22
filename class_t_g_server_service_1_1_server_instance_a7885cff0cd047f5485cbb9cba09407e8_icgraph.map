@@ -1,0 +1,4 @@
+<map id="TGServerService.ServerInstance.CompilerIdleNoLock" name="TGServerService.ServerInstance.CompilerIdleNoLock">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a427984d1cb5c60f217967795c9695998" title="Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder..." alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="264,71,475,112"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="TGServiceInterface.Components.ITGByond.GetVersion" name="TGServiceInterface.Components.ITGByond.GetVersion">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a2ea0f522fb6f141f9d475e59ce38b311" title="TGControlPanel.Main.Init\lBYONDPage" alt="" coords="320,5,487,47"/>
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_b_y_o_n_d_version_command.html#a9bfc5fd351789036fadd01b18b908599" title="Override to do the actions of the Command " alt="" coords="295,71,511,112"/>
+<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_d_m_compile_command.html#a79e830b609c3ce2918cfd1b4ae776b38" title="Override to do the actions of the Command " alt="" coords="264,137,543,163"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Interface has had it&#39;s connection info setup ..." alt="" coords="591,13,768,39"/>
+</map>

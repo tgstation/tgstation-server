@@ -1,0 +1,5 @@
+<map id="TGServerService.ServerInstance.SSHAuth" name="TGServerService.ServerInstance.SSHAuth">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af8c5c3b1d918969c67fda31e5a4c7ab3" title="TGServerService.ServerInstance.Push" alt="" coords="264,5,504,32"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7e077da7a7def0afaa4ac78d4d0a25ce" title="Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exis..." alt="" coords="552,23,763,65"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="279,107,489,149"/>
+</map>

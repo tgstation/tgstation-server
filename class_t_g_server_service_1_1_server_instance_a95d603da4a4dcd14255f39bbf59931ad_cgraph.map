@@ -1,0 +1,6 @@
+<map id="TGServerService.ServerInstance.UpdateSubmodules" name="TGServerService.ServerInstance.UpdateSubmodules">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="282,5,457,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="527,100,693,141"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="523,5,697,47"/>
+</map>

@@ -1,4 +1,6 @@
 <map id="TGServiceInterface.Helpers.DecryptData" name="TGServiceInterface.Helpers.DecryptData">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a37fc5fa7030c17395176cd416cdeedb2" title="TGServerService.TGStation\lServer.InitProviderInfos" alt="" coords="238,5,417,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="236,71,419,98"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a773aa236fa08157b085162e7c2bdd846" title="Returns a list of ChatSetupInfos loaded from the config or the defaults if none are set ..." alt="" coords="236,5,447,47"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="250,71,433,98"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a61c197535442dd090e429de96abe5466" title="Set up the ChatProviders for the ServerInstance " alt="" coords="495,5,705,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a805c3433c1fd7347b862ba4a3b0ea5f8" title="Constructs and a ServerInstance " alt="" coords="753,5,964,47"/>
 </map>

@@ -1,6 +1,8 @@
 <map id="TGServiceInterface.Command.Run" name="TGServiceInterface.Command.Run">
 <area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="273,39,471,80"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server.html#a34ec045f2bd76d7d4a29baa72e8e7cfc" title="TGServerService.TGStation\lServer.ChatProvider_OnChatMessage" alt="" coords="519,5,757,47"/>
-<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_program.html#a0991e0b2549f4744151ab7ad60a8979e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="537,71,739,112"/>
-<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="805,78,1012,105"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a74914da816161c02d9833216fbcb0e25" title="Implementation of OnChatMessage that recieves messages from all channels of all connected ChatProvide..." alt="" coords="519,5,729,47"/>
+<area shape="rect" id="node6" href="$class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="523,71,725,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a61c197535442dd090e429de96abe5466" title="Set up the ChatProviders for the ServerInstance " alt="" coords="777,5,988,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a805c3433c1fd7347b862ba4a3b0ea5f8" title="Constructs and a ServerInstance " alt="" coords="1036,5,1247,47"/>
+<area shape="rect" id="node7" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="779,78,986,105"/>
 </map>

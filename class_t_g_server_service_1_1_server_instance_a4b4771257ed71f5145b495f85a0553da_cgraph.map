@@ -1,0 +1,4 @@
+<map id="TGServerService.ServerInstance.UpdateInterfaceDll" name="TGServerService.ServerInstance.UpdateInterfaceDll">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="264,5,431,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="264,71,431,112"/>
+</map>

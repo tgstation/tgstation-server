@@ -1,7 +1,7 @@
 var searchData=
 [
   ['chataddmincommand',['ChatAddminCommand',['../class_t_g_command_line_1_1_chat_addmin_command.html',1,'TGCommandLine']]],
-  ['chatcommand',['ChatCommand',['../class_t_g_server_service_1_1_chat_command.html',1,'TGServerService']]],
+  ['chatcommand',['ChatCommand',['../class_t_g_server_service_1_1_chat_commands_1_1_chat_command.html',1,'TGServerService::ChatCommands']]],
   ['chatdeadmincommand',['ChatDeadminCommand',['../class_t_g_command_line_1_1_chat_deadmin_command.html',1,'TGCommandLine']]],
   ['chatdisablecommand',['ChatDisableCommand',['../class_t_g_command_line_1_1_chat_disable_command.html',1,'TGCommandLine']]],
   ['chatenablecommand',['ChatEnableCommand',['../class_t_g_command_line_1_1_chat_enable_command.html',1,'TGCommandLine']]],
@@ -9,10 +9,11 @@ var searchData=
   ['chatlistadminscommand',['ChatListAdminsCommand',['../class_t_g_command_line_1_1_chat_list_admins_command.html',1,'TGCommandLine']]],
   ['chatpartcommand',['ChatPartCommand',['../class_t_g_command_line_1_1_chat_part_command.html',1,'TGCommandLine']]],
   ['chatreconnectcommand',['ChatReconnectCommand',['../class_t_g_command_line_1_1_chat_reconnect_command.html',1,'TGCommandLine']]],
+  ['chatsetupinfo',['ChatSetupInfo',['../class_t_g_service_interface_1_1_chat_setup_info.html',1,'TGServiceInterface']]],
   ['chatstatuscommand',['ChatStatusCommand',['../class_t_g_command_line_1_1_chat_status_command.html',1,'TGCommandLine']]],
   ['clicommand',['CLICommand',['../class_t_g_command_line_1_1_c_l_i_command.html',1,'TGCommandLine']]],
   ['command',['Command',['../class_t_g_service_interface_1_1_command.html',1,'TGServiceInterface']]],
-  ['commandinfo',['CommandInfo',['../class_t_g_server_service_1_1_command_info.html',1,'TGServerService']]],
+  ['commandinfo',['CommandInfo',['../class_t_g_server_service_1_1_chat_commands_1_1_command_info.html',1,'TGServerService::ChatCommands']]],
   ['common',['Common',['../class_common.html',1,'']]],
   ['configcommand',['ConfigCommand',['../class_t_g_command_line_1_1_config_command.html',1,'TGCommandLine']]],
   ['configdeletecommand',['ConfigDeleteCommand',['../class_t_g_command_line_1_1_config_delete_command.html',1,'TGCommandLine']]],

@@ -1,4 +1,0 @@
-<map id="TGServiceInterface.TGChatSetupInfo.SanitizeChannelNames" name="TGServiceInterface.TGChatSetupInfo.SanitizeChannelNames">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_t_g_chat_setup_info.html#a6413bfe9b8ac164eba43b7a6ce6c2431" title="Properly formats a channel &#160;name for the TGChatProvider " alt="" coords="268,29,476,71"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_t_g_chat_setup_info.html#aa266c3bf1a2c0809e2d16d97834b25af" title="Recreates &#160;as the correct child TGChatSetupInfo " alt="" coords="524,29,703,71"/>
-</map>

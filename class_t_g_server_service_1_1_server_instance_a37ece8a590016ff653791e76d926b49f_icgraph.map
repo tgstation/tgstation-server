@@ -1,0 +1,4 @@
+<map id="TGServerService.ServerInstance.DisposeChat" name="TGServerService.ServerInstance.DisposeChat">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="523,5,733,47"/>
+</map>

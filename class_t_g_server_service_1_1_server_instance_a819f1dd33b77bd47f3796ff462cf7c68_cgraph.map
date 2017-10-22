@@ -1,0 +1,4 @@
+<map id="TGServerService.ServerInstance.StatusString" name="TGServerService.ServerInstance.StatusString">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ab39a3abd504c56e0d217a7ad475506e4" title="Gets the status of DreamDaemon &#160;" alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ae430434d3ffdbdaba867da778283b28b" title="Translate the configured DreamDaemonSecurity level into a byond command line param ..." alt="" coords="264,71,475,112"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="TGServiceInterface.Interface.MakeLocalConnection" name="TGServiceInterface.Interface.MakeLocalConnection">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
+</map>

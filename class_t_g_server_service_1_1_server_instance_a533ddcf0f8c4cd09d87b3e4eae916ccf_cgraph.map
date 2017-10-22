@@ -1,0 +1,7 @@
+<map id="TGServerService.ServerInstance.MergeBranch" name="TGServerService.ServerInstance.MergeBranch">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a971b17056739405a3d2b598ebd1be27a" title="Updates currentProgress with the progess of the current Repo checkout operation " alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#abcde3c7acdaf49fcd170dde635747ab1" title="Creates a commit LibGit2Sharp.Signature based off of the configured name and e&#45;mail ..." alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#aac5ddb16ab8332882d6bdf2be41d3e56" title="Equivalent of running git reset &#45;&#45;hard on the repository. Requires RepoLock " alt="" coords="264,136,475,177"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,201,475,243"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="523,201,689,243"/>
+</map>

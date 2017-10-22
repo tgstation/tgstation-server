@@ -1,8 +1,0 @@
-<map id="TGServerService.TGDiscordChatProvider.Connected" name="TGServerService.TGDiscordChatProvider.Connected">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a8877fd749851b437c9a35c710b1873fb" title="Connects the chat provider if it&#39;s enabled " alt="" coords="253,46,435,88"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a748142aa12365ed25bdc3c7205eabaac" title="Sets info for the provider " alt="" coords="731,48,916,89"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a2a4ff33336cc027eb41104c16390ff41" title="Disconnects the chat provider " alt="" coords="253,112,435,153"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a77aec2def38a6d6a872dac00a037e386" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="253,177,435,218"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a1d0cd97c54bf51ecf224a1a8ea26e9a3" title="Send a message to a channel " alt="" coords="236,242,452,284"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_discord_chat_provider.html#a8cfac689a22e15f391c0160bd0aa31e2" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="500,48,683,89"/>
-</map>

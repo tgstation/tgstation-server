@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">3.1.5.0</span>
+   &#160;<span id="projectnumber">3.1.5.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -100,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Helpers to Suspend(Process)ing and Resume(Process) a Process. Lightly massaged code from <a href="https://stackoverflow.com/a/13109774">https://stackoverflow.com/a/13109774</a>  
+<p>Helpers to Suspend(Process)ing and Resume(Process) a Process. Lightly massaged code from <a href="https://stackoverflow.com/a/13109774">https://stackoverflow.com/a/13109774</a>. Documentation linked from MSDN on 20/10/2017  
  <a href="class_t_g_server_service_1_1_process_extension.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -114,35 +114,28 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:a761b08dda45d0e23d8db5e20ec1c13dd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a> : int { <br />
-&#160;&#160;<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dda1b52d4a7cbbcb87a81515c443453a2d5">ThreadAccess.TERMINATE</a> = (0x0001), 
-<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddad94d862bc2dfcc2092a51baef65588d8">ThreadAccess.SUSPEND_RESUME</a> = (0x0002), 
-<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dda4bcc13421f7662b786977bfa345eb614">ThreadAccess.GET_CONTEXT</a> = (0x0008), 
-<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dda692b1b3a584d7d26db2a347eeae563d4">ThreadAccess.SET_CONTEXT</a> = (0x0010), 
-<br />
-&#160;&#160;<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddae4c82c79f1d7c885d90bfe318f058292">ThreadAccess.SET_INFORMATION</a> = (0x0020), 
-<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dda9423b43550505dac15860e40a928dfc1">ThreadAccess.QUERY_INFORMATION</a> = (0x0040), 
-<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddae3fa6833edab0cea583bbad7beffb4eb">ThreadAccess.SET_THREAD_TOKEN</a> = (0x0080), 
-<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dda3411e37f16156aaeb23dd76f008c0669">ThreadAccess.IMPERSONATE</a> = (0x0100), 
-<br />
-&#160;&#160;<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddaefff961177a7cf485e0175be8d8c40dd">ThreadAccess.DIRECT_IMPERSONATION</a> = (0x0200)
-<br />
- }</td></tr>
+<tr class="memitem:a761b08dda45d0e23d8db5e20ec1c13dd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a> : int { <a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddad94d862bc2dfcc2092a51baef65588d8">ThreadAccess.SUSPEND_RESUME</a> = (0x0002)
+ }<tr class="memdesc:a761b08dda45d0e23d8db5e20ec1c13dd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx</a>  <a href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">More...</a><br /></td></tr>
+</td></tr>
 <tr class="separator:a761b08dda45d0e23d8db5e20ec1c13dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:abf00122f52237a7be1252d19976b36a0"><td class="memItemLeft" align="right" valign="top">static IntPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">OpenThread</a> (<a class="el" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a> dwDesiredAccess, bool bInheritHandle, uint dwThreadId)</td></tr>
+<tr class="memdesc:abf00122f52237a7be1252d19976b36a0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx</a>  <a href="#abf00122f52237a7be1252d19976b36a0">More...</a><br /></td></tr>
 <tr class="separator:abf00122f52237a7be1252d19976b36a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0f09dcdab9f99892ba951bd9cfdc3c2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">CloseHandle</a> (IntPtr hObject)</td></tr>
+<tr class="memdesc:ae0f09dcdab9f99892ba951bd9cfdc3c2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx</a>  <a href="#ae0f09dcdab9f99892ba951bd9cfdc3c2">More...</a><br /></td></tr>
 <tr class="separator:ae0f09dcdab9f99892ba951bd9cfdc3c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09b155c0500409ba85cbf6b564ef368a"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a">SuspendThread</a> (IntPtr hThread)</td></tr>
+<tr class="memdesc:a09b155c0500409ba85cbf6b564ef368a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx</a>  <a href="#a09b155c0500409ba85cbf6b564ef368a">More...</a><br /></td></tr>
 <tr class="separator:a09b155c0500409ba85cbf6b564ef368a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a841db5d455eb6cb229b88f7d16723f91"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91">ResumeThread</a> (IntPtr hThread)</td></tr>
+<tr class="memdesc:a841db5d455eb6cb229b88f7d16723f91"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx</a>  <a href="#a841db5d455eb6cb229b88f7d16723f91">More...</a><br /></td></tr>
 <tr class="separator:a841db5d455eb6cb229b88f7d16723f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Helpers to Suspend(Process)ing and Resume(Process) a Process. Lightly massaged code from <a href="https://stackoverflow.com/a/13109774">https://stackoverflow.com/a/13109774</a> </p>
+<div class="textblock"><p>Helpers to Suspend(Process)ing and Resume(Process) a Process. Lightly massaged code from <a href="https://stackoverflow.com/a/13109774">https://stackoverflow.com/a/13109774</a>. Documentation linked from MSDN on 20/10/2017 </p>
 
 <p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00010">10</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
@@ -163,29 +156,15 @@ Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx</a> </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13dda1b52d4a7cbbcb87a81515c443453a2d5"></a>TERMINATE&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13ddad94d862bc2dfcc2092a51baef65588d8"></a>SUSPEND_RESUME&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13dda4bcc13421f7662b786977bfa345eb614"></a>GET_CONTEXT&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13dda692b1b3a584d7d26db2a347eeae563d4"></a>SET_CONTEXT&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13ddae4c82c79f1d7c885d90bfe318f058292"></a>SET_INFORMATION&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13dda9423b43550505dac15860e40a928dfc1"></a>QUERY_INFORMATION&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13ddae3fa6833edab0cea583bbad7beffb4eb"></a>SET_THREAD_TOKEN&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13dda3411e37f16156aaeb23dd76f008c0669"></a>IMPERSONATE&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13ddaefff961177a7cf485e0175be8d8c40dd"></a>DIRECT_IMPERSONATION&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a761b08dda45d0e23d8db5e20ec1c13ddad94d862bc2dfcc2092a51baef65588d8"></a>SUSPEND_RESUME&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00012">12</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                          : <span class="keywordtype">int</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            TERMINATE = (0x0001),</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            SUSPEND_RESUME = (0x0002),</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            GET_CONTEXT = (0x0008),</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            SET_CONTEXT = (0x0010),</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            SET_INFORMATION = (0x0020),</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            QUERY_INFORMATION = (0x0040),</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            SET_THREAD_TOKEN = (0x0080),</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            IMPERSONATE = (0x0100),</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            DIRECT_IMPERSONATION = (0x0200)</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00015">15</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                          : <span class="keywordtype">int</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            SUSPEND_RESUME = (0x0002),</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -211,7 +190,9 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00054">TGServerService.ProcessExtension.Resume()</a>, and <a class="el" href="_process_extension_8cs_source.html#l00038">TGServerService.ProcessExtension.Suspend()</a>.</p>
+<p><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx</a> </p>
+
+<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00060">TGServerService.ProcessExtension.Resume()</a>, and <a class="el" href="_process_extension_8cs_source.html#l00044">TGServerService.ProcessExtension.Suspend()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -264,7 +245,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00054">TGServerService.ProcessExtension.Resume()</a>, and <a class="el" href="_process_extension_8cs_source.html#l00038">TGServerService.ProcessExtension.Suspend()</a>.</p>
+<p><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx</a> </p>
+
+<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00060">TGServerService.ProcessExtension.Resume()</a>, and <a class="el" href="_process_extension_8cs_source.html#l00044">TGServerService.ProcessExtension.Suspend()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -309,22 +292,22 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00054">54</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
+<p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00060">60</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
 
 <p>References <a class="el" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">TGServerService.ProcessExtension.CloseHandle()</a>, <a class="el" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">TGServerService.ProcessExtension.OpenThread()</a>, and <a class="el" href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91">TGServerService.ProcessExtension.ResumeThread()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">foreach</span> (ProcessThread thread <span class="keywordflow">in</span> process.Threads)</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                var pOpenThread = <a class="code" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">OpenThread</a>(<a class="code" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a>.SUSPEND_RESUME, <span class="keyword">false</span>, (uint)thread.Id);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">if</span> (pOpenThread == IntPtr.Zero)</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    <span class="keywordflow">continue</span>;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91">ResumeThread</a>(pOpenThread);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">CloseHandle</a>(pOpenThread);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div><div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a841db5d455eb6cb229b88f7d16723f91"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91">TGServerService.ProcessExtension.ResumeThread</a></div><div class="ttdeci">static int ResumeThread(IntPtr hThread)</div></div>
-<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_ae0f09dcdab9f99892ba951bd9cfdc3c2"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">TGServerService.ProcessExtension.CloseHandle</a></div><div class="ttdeci">static bool CloseHandle(IntPtr hObject)</div></div>
-<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a761b08dda45d0e23d8db5e20ec1c13dd"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">TGServerService.ProcessExtension.ThreadAccess</a></div><div class="ttdeci">ThreadAccess</div><div class="ttdef"><b>Definition:</b> <a href="_process_extension_8cs_source.html#l00012">ProcessExtension.cs:12</a></div></div>
-<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_abf00122f52237a7be1252d19976b36a0"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">TGServerService.ProcessExtension.OpenThread</a></div><div class="ttdeci">static IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId)</div></div>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">foreach</span> (ProcessThread thread <span class="keywordflow">in</span> process.Threads)</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            {</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                var pOpenThread = <a class="code" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">OpenThread</a>(<a class="code" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a>.SUSPEND_RESUME, <span class="keyword">false</span>, (uint)thread.Id);</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">if</span> (pOpenThread == IntPtr.Zero)</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    <span class="keywordflow">continue</span>;</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91">ResumeThread</a>(pOpenThread);</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">CloseHandle</a>(pOpenThread);</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div><div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a841db5d455eb6cb229b88f7d16723f91"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91">TGServerService.ProcessExtension.ResumeThread</a></div><div class="ttdeci">static int ResumeThread(IntPtr hThread)</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx </div></div>
+<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_ae0f09dcdab9f99892ba951bd9cfdc3c2"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">TGServerService.ProcessExtension.CloseHandle</a></div><div class="ttdeci">static bool CloseHandle(IntPtr hObject)</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx </div></div>
+<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a761b08dda45d0e23d8db5e20ec1c13dd"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">TGServerService.ProcessExtension.ThreadAccess</a></div><div class="ttdeci">ThreadAccess</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx </div><div class="ttdef"><b>Definition:</b> <a href="_process_extension_8cs_source.html#l00015">ProcessExtension.cs:15</a></div></div>
+<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_abf00122f52237a7be1252d19976b36a0"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">TGServerService.ProcessExtension.OpenThread</a></div><div class="ttdeci">static IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId)</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx </div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_server_service_1_1_process_extension_a362bb332f8b85b64db1d834a86e30e2d_cgraph.png" border="0" usemap="#class_t_g_server_service_1_1_process_extension_a362bb332f8b85b64db1d834a86e30e2d_cgraph" alt=""/></div>
 <map name="class_t_g_server_service_1_1_process_extension_a362bb332f8b85b64db1d834a86e30e2d_cgraph" id="class_t_g_server_service_1_1_process_extension_a362bb332f8b85b64db1d834a86e30e2d_cgraph">
-<area shape="rect" id="node2" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="TGServerService.ProcessExtension.\lCloseHandle" alt="" coords="284,5,515,47"/>
-<area shape="rect" id="node3" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="TGServerService.ProcessExtension.\lOpenThread" alt="" coords="284,71,515,112"/>
-<area shape="rect" id="node4" href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91" title="TGServerService.ProcessExtension.\lResumeThread" alt="" coords="284,136,515,177"/>
+<area shape="rect" id="node2" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx " alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node3" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx " alt="" coords="284,71,515,112"/>
+<area shape="rect" id="node4" href="class_t_g_server_service_1_1_process_extension.html#a841db5d455eb6cb229b88f7d16723f91" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx " alt="" coords="284,136,515,177"/>
 </map>
 </div>
 </p>
@@ -353,7 +336,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00054">TGServerService.ProcessExtension.Resume()</a>.</p>
+<p><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx</a> </p>
+
+<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00060">TGServerService.ProcessExtension.Resume()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -397,22 +382,22 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00038">38</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
+<p>Definition at line <a class="el" href="_process_extension_8cs_source.html#l00044">44</a> of file <a class="el" href="_process_extension_8cs_source.html">ProcessExtension.cs</a>.</p>
 
 <p>References <a class="el" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">TGServerService.ProcessExtension.CloseHandle()</a>, <a class="el" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">TGServerService.ProcessExtension.OpenThread()</a>, and <a class="el" href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a">TGServerService.ProcessExtension.SuspendThread()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">foreach</span> (ProcessThread thread <span class="keywordflow">in</span> process.Threads)</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                var pOpenThread = <a class="code" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">OpenThread</a>(<a class="code" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a>.SUSPEND_RESUME, <span class="keyword">false</span>, (uint)thread.Id);</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span> (pOpenThread == IntPtr.Zero)</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    <span class="keywordflow">continue</span>;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a">SuspendThread</a>(pOpenThread);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">CloseHandle</a>(pOpenThread);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div><div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a09b155c0500409ba85cbf6b564ef368a"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a">TGServerService.ProcessExtension.SuspendThread</a></div><div class="ttdeci">static uint SuspendThread(IntPtr hThread)</div></div>
-<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_ae0f09dcdab9f99892ba951bd9cfdc3c2"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">TGServerService.ProcessExtension.CloseHandle</a></div><div class="ttdeci">static bool CloseHandle(IntPtr hObject)</div></div>
-<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a761b08dda45d0e23d8db5e20ec1c13dd"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">TGServerService.ProcessExtension.ThreadAccess</a></div><div class="ttdeci">ThreadAccess</div><div class="ttdef"><b>Definition:</b> <a href="_process_extension_8cs_source.html#l00012">ProcessExtension.cs:12</a></div></div>
-<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_abf00122f52237a7be1252d19976b36a0"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">TGServerService.ProcessExtension.OpenThread</a></div><div class="ttdeci">static IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId)</div></div>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">foreach</span> (ProcessThread thread <span class="keywordflow">in</span> process.Threads)</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                var pOpenThread = <a class="code" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">OpenThread</a>(<a class="code" href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">ThreadAccess</a>.SUSPEND_RESUME, <span class="keyword">false</span>, (uint)thread.Id);</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">if</span> (pOpenThread == IntPtr.Zero)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    <span class="keywordflow">continue</span>;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a">SuspendThread</a>(pOpenThread);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <a class="code" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">CloseHandle</a>(pOpenThread);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            }</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div><div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a09b155c0500409ba85cbf6b564ef368a"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a">TGServerService.ProcessExtension.SuspendThread</a></div><div class="ttdeci">static uint SuspendThread(IntPtr hThread)</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx </div></div>
+<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_ae0f09dcdab9f99892ba951bd9cfdc3c2"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2">TGServerService.ProcessExtension.CloseHandle</a></div><div class="ttdeci">static bool CloseHandle(IntPtr hObject)</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx </div></div>
+<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_a761b08dda45d0e23d8db5e20ec1c13dd"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13dd">TGServerService.ProcessExtension.ThreadAccess</a></div><div class="ttdeci">ThreadAccess</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx </div><div class="ttdef"><b>Definition:</b> <a href="_process_extension_8cs_source.html#l00015">ProcessExtension.cs:15</a></div></div>
+<div class="ttc" id="class_t_g_server_service_1_1_process_extension_html_abf00122f52237a7be1252d19976b36a0"><div class="ttname"><a href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0">TGServerService.ProcessExtension.OpenThread</a></div><div class="ttdeci">static IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId)</div><div class="ttdoc">https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx </div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_server_service_1_1_process_extension_a3e3c4b7e356d1fd8bceeafea74e121c6_cgraph.png" border="0" usemap="#class_t_g_server_service_1_1_process_extension_a3e3c4b7e356d1fd8bceeafea74e121c6_cgraph" alt=""/></div>
 <map name="class_t_g_server_service_1_1_process_extension_a3e3c4b7e356d1fd8bceeafea74e121c6_cgraph" id="class_t_g_server_service_1_1_process_extension_a3e3c4b7e356d1fd8bceeafea74e121c6_cgraph">
-<area shape="rect" id="node2" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="TGServerService.ProcessExtension.\lCloseHandle" alt="" coords="284,5,515,47"/>
-<area shape="rect" id="node3" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="TGServerService.ProcessExtension.\lOpenThread" alt="" coords="284,71,515,112"/>
-<area shape="rect" id="node4" href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a" title="TGServerService.ProcessExtension.\lSuspendThread" alt="" coords="284,136,515,177"/>
+<area shape="rect" id="node2" href="class_t_g_server_service_1_1_process_extension.html#ae0f09dcdab9f99892ba951bd9cfdc3c2" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx " alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node3" href="class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx " alt="" coords="284,71,515,112"/>
+<area shape="rect" id="node4" href="class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a" title="https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms686345(v=vs.85).aspx " alt="" coords="284,136,515,177"/>
 </map>
 </div>
 </p>
@@ -441,7 +426,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00038">TGServerService.ProcessExtension.Suspend()</a>.</p>
+<p><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx</a> </p>
+
+<p>Referenced by <a class="el" href="_process_extension_8cs_source.html#l00044">TGServerService.ProcessExtension.Suspend()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

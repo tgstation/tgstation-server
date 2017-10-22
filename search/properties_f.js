@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['watchdogchannels',['WatchdogChannels',['../class_t_g_service_interface_1_1_t_g_chat_setup_info.html#ac3614427ea94f3f0b5a2cacc0062d16b',1,'TGServiceInterface::TGChatSetupInfo']]]
+  ['watchdogchannels',['WatchdogChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#af27e3e8438c9f4d0f0badb376d008306',1,'TGServiceInterface::ChatSetupInfo']]]
 ];

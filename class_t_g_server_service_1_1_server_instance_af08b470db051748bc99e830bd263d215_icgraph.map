@@ -1,0 +1,5 @@
+<map id="TGServerService.ServerInstance.CleanGameFolder" name="TGServerService.ServerInstance.CleanGameFolder">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#aabf31525de01a260b7a83ce8ac928d62" title="TGServerService.ServerInstance.\lInitializeImpl" alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#aa8a3c62ea83e029263e21654e184ab80" title="Moves the entire server installation, requires no operations to be running &#160;" alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a427984d1cb5c60f217967795c9695998" title="Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder..." alt="" coords="523,5,733,47"/>
+</map>

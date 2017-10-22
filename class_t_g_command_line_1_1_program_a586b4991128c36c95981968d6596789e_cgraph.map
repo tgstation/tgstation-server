@@ -1,0 +1,10 @@
+<map id="TGCommandLine.Program.RunCommandLine" name="TGCommandLine.Program.RunCommandLine">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#adad729a90df646b92e5ce08a7f5b01ca" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="261,5,448,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="256,71,453,112"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a101de9104808f05dbbd6eaea130922b4" title="Set the remote Interface to connect to along with " alt="" coords="261,136,448,177"/>
+<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="261,201,448,243"/>
+<area shape="rect" id="node9" href="$class_t_g_service_interface_1_1_interface.html#ab84424d0f0f8a47c7b6680ebd6c52d98" title="Returns &#160;if the Interface interface being used to connect to a service does not have the same release..." alt="" coords="261,267,448,308"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_command.html#a3f1078fdaf3e09f73b1c66cc6fd41da5" title="Override to do the actions of the Command " alt="" coords="501,78,721,105"/>
+<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="518,136,705,177"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="769,136,956,177"/>
+</map>

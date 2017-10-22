@@ -1,4 +1,0 @@
-<map id="TGServerService.TGStationServer.ChatConnectivityCheck" name="TGServerService.TGStationServer.ChatConnectivityCheck">
-<area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_i_t_g_chat_provider.html#ab077c7b464f0c07e0056b09e742bbeb1" title="Checks if the chat provider is connected " alt="" coords="249,5,468,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_server_service_1_1_i_t_g_chat_provider.html#a4fcdd61b2a843bf1a1419523c774d793" title="Forces a reconnection of the chat provider if it&#39;s enabled " alt="" coords="249,71,468,112"/>
-</map>

@@ -1,0 +1,7 @@
+<map id="TGServerService.ServerInstance.RequestRestart" name="TGServerService.ServerInstance.RequestRestart">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a62a876e7b45a0668c0a545d6c168ab54" title="Set the port to host DD on. Requires reboot to apply. Calls RequestRestart. &#160;" alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a9922a66137753d8a21b965fff7469989" title="Sets the security level of the server. Requires server reboot to apply. Calls RequestRestart. Note that anything higher than Trusted will disable interop from DD &#160;" alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ac71b088f4e5df4f6925e522759e4093d" title="Set the webclient config. Calls RequestRestart &#160;" alt="" coords="264,136,475,177"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a4a2dc7c3b649bf0e7f81362c851a2c8f" title="Downloads and unzips a BYOND revision. Calls ApplyStagedUpdate afterwards if the ServerInstance isn&#39;t..." alt="" coords="264,201,475,243"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a6136aa0574aa874d5532cb528e764d78" title="updates the used byond version to that of version major .minor . The change won&#39;t take place until DD..." alt="" coords="523,201,733,243"/>
+</map>

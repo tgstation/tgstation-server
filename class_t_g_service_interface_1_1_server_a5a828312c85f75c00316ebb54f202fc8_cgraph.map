@@ -1,4 +1,0 @@
-<map id="TGServiceInterface.Server.SetRemoteLoginInformation" name="TGServiceInterface.Server.SetRemoteLoginInformation">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_server.html#ad931ffc8b6242a5973a22a94cebc5f7e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="235,5,409,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_server.html#a39a0b2e6a7e143c12dbdd29222d777a5" title="Safely shuts down a single ChannelFactory " alt="" coords="457,5,632,47"/>
-</map>

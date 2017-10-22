@@ -1,7 +1,0 @@
-<map id="TGServerService.TGStationServer.MoveServer" name="TGServerService.TGStationServer.MoveServer">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#a1bfdad0ffa5b429295bed5c26a62ed38" title="TGServerService.TGStation\lServer.CleanGameFolder" alt="" coords="232,5,411,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="TGServerService.Program.\lCopyDirectory" alt="" coords="234,71,409,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="TGServerService.Program.\lDeleteDirectory" alt="" coords="234,136,409,177"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_t_g_station_server.html#af27caae334726e02403878eb9ff1cbc5" title="TGServerService.TGStation\lServer.DisposeRepo" alt="" coords="232,201,411,243"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="TGServerService.Program.\lNormalizeAndDelete" alt="" coords="459,136,633,177"/>
-</map>

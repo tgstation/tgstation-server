@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fullupdateaction',['FullUpdateAction',['../class_t_g_control_panel_1_1_main.html#a2f8204c713be1aff242b6be45646a8cb',1,'TGControlPanel::Main']]]
+  ['dreamdaemonsecurity',['DreamDaemonSecurity',['../namespace_t_g_service_interface.html#a82f76b01f699bef8336537255d268118',1,'TGServiceInterface']]],
+  ['dreamdaemonstatus',['DreamDaemonStatus',['../namespace_t_g_service_interface.html#a8d0a8727304bcbf3c0b9967701e533e9',1,'TGServiceInterface']]]
 ];

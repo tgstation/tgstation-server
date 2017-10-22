@@ -1,6 +1,6 @@
 <map id="TGControlPanel.Main.LoadChatPage" name="TGControlPanel.Main.LoadChatPage">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a62c2ea32e5eef3615b65eb40c393223e" title="TGControlPanel.Main.Chat\lApplyButton_Click" alt="" coords="510,172,686,214"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Server has had it&#39;s connection info setup " alt="" coords="993,213,1171,240"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Interface has had it&#39;s connection info setup ..." alt="" coords="993,213,1171,240"/>
 <area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_main.html#a6fef32e8bb8ff13ee814e2a881ec92a7" title="TGControlPanel.Main.Chat\lReconnectButton_Click" alt="" coords="510,238,686,279"/>
 <area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_main.html#a360732af4946fb79cb631c7cae4e7e67" title="TGControlPanel.Main.Chat\lRefreshButton_Click" alt="" coords="251,394,427,435"/>
 <area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_main.html#a60e5e7e610c4470115a55bcd725f45ff" title="TGControlPanel.Main.Discord\lProviderSwitch_CheckedChanged" alt="" coords="231,67,447,108"/>

@@ -1,0 +1,6 @@
+<map id="TGServerService.ServerInstance.WorldAnnounce" name="TGServerService.ServerInstance.WorldAnnounce">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a7c301d450202a1f0ef212beabb74de5b" title="Properly escapes characters for a BYOND Topic() packet. See http://www.byond.com/docs/ref/info.html#/proc/list2params " alt="" coords="282,5,457,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#aaa392248d5913143b6537352190e75e6" title="TGServerService.ServerInstance.\lSendCommand" alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ad13b3094596c77baca6116842d373760" title="TGServerService.ServerInstance.\lSendTopic" alt="" coords="523,71,733,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a84e536f3c962184942e7a5b01bc9ffad" title="TGServerService.ServerInstance.\lCheckAPIVersionConstraints" alt="" coords="781,71,992,112"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="TGServerService.ServerInstance.GetStagingDir" name="TGServerService.ServerInstance.GetStagingDir">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#abae42263b35cd0124df7a0975c8810f8" title="TGServerService.ServerInstance.\lCreateSymlink" alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#af1a8a673b30cc996fc7251de037732fc" title="TGServerService.ServerInstance.\lInvertDirectory" alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a6842952e4558a97fc0b9612c5cfc5088" title="TGServerService.ServerInstance.\lCreateSymbolicLink" alt="" coords="523,5,733,47"/>
+</map>

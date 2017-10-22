@@ -1,4 +1,4 @@
 <map id="TGControlPanel.Main.InitBYONDPage" name="TGControlPanel.Main.InitBYONDPage">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_t_g_byond.html#aef81b0c434b5f7ef2ceda72fb5be3ee4" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="220,5,415,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a27af72f380adbef699e029454e331abd" title="TGControlPanel.Main.Update\lBYONDButtons" alt="" coords="222,71,413,112"/>
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_byond.html#aa10128c78afe5c181cf71b7386638132" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="220,5,431,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a27af72f380adbef699e029454e331abd" title="TGControlPanel.Main.Update\lBYONDButtons" alt="" coords="230,71,421,112"/>
 </map>

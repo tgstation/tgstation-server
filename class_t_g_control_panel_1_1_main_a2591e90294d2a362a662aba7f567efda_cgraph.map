@@ -1,4 +1,4 @@
 <map id="TGControlPanel.Main.RepoBusyCheck" name="TGControlPanel.Main.RepoBusyCheck">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a3139230d97ac96ca48272086f4f8ebd5" title="TGControlPanel.Main.DoAsyncOp" alt="" coords="233,13,451,39"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_t_g_repository.html#abf1a02cf190290e84d735f2a39ad8d78" title="If the repo is currently undergoing an operation " alt="" coords="232,64,452,105"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a3139230d97ac96ca48272086f4f8ebd5" title="TGControlPanel.Main.DoAsyncOp" alt="" coords="236,13,455,39"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="232,64,459,105"/>
 </map>

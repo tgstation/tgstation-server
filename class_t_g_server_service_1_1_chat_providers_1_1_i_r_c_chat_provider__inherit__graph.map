@@ -1,0 +1,4 @@
+<map id="TGServerService.ChatProviders.IRCChatProvider" name="TGServerService.ChatProviders.IRCChatProvider">
+<area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html" title="Interface for a chat provder service " alt="" coords="59,80,157,107"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="63,5,153,32"/>
+</map>

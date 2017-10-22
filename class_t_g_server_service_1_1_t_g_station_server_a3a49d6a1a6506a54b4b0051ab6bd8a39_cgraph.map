@@ -1,6 +1,0 @@
-<map id="TGServerService.TGStationServer.GenerateChangelog" name="TGServerService.TGStationServer.GenerateChangelog">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_t_g_station_server.html#aba2cdfb67df286a0581ef39930f44de8" title="TGServerService.TGStation\lServer.GenerateChangelogImpl" alt="" coords="232,39,432,80"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a584e69611ceebd98436046320da51a97" title="TGServerService.TGStation\lServer.RepoConfig.RepoConfig" alt="" coords="480,5,679,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_t_g_station_server.html#a743f1ba8ad14e210a4633897870d95fc" title="Check if the repository is valid, if not Setup(string, string) must be called " alt="" coords="490,71,669,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_t_g_station_server_1_1_repo_config.html#a50a159f26f25732fa319c72ceacd1ff8" title="TGServerService.TGStation\lServer.RepoConfig.LoadArray" alt="" coords="727,5,917,47"/>
-</map>

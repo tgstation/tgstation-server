@@ -1,6 +1,0 @@
-<map id="TGServiceInterface.ITGChat.SetProviderInfo" name="TGServiceInterface.ITGChat.SetProviderInfo">
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_i_r_c_nick_command.html#a4613cf45e879503377ad33f00e0d3ace" title="Override to do the actions of the Command " alt="" coords="239,5,498,32"/>
-<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_i_r_c_auth_command.html#a0c5a2f2ea5212b642258cf9d347c2c20" title="Override to do the actions of the Command " alt="" coords="239,56,499,83"/>
-<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_i_r_c_disable_auth_command.html#a1c5db4b3f44fb1d75174fa5355013184" title="Override to do the actions of the Command " alt="" coords="273,107,464,149"/>
-<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_discord_set_token_command.html#a76c632a949bf4148d270c67678f503c7" title="Override to do the actions of the Command " alt="" coords="273,173,464,214"/>
-</map>

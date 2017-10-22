@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['helpers_2ecs',['Helpers.cs',['../_helpers_8cs.html',1,'']]]
+  ['enumerations_2ecs',['Enumerations.cs',['../_enumerations_8cs.html',1,'']]],
+  ['eventid_2ecs',['EventID.cs',['../_event_i_d_8cs.html',1,'']]]
 ];

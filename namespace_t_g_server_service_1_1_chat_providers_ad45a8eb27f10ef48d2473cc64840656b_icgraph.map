@@ -1,0 +1,5 @@
+<map id="TGServerService.ChatProviders.OnChatMessage" name="TGServerService.ChatProviders.OnChatMessage">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html#abcd57d9186faf25ab800932967e79e50" title="Called when a channel the bot is in recieves a message or the bot is PM&#39;d directly ..." alt="" coords="285,5,491,61"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a6becde4495ed93e0bf809302c1f70680" title="Called when a channel the bot is in recieves a message " alt="" coords="259,86,517,127"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#ac8370f51af8be9bfd796e1fc3d2a59b7" title="Called when the bot recieves a query message " alt="" coords="265,151,511,193"/>
+</map>

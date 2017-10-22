@@ -1,0 +1,11 @@
+<map id="TGServerService.ServerInstance.Push" name="TGServerService.ServerInstance.Push">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a895420e900c51183a28580f3a3ab3039" title="SSH credentials callback. Properly sets up SSH keys for an authorization operation ..." alt="" coords="1069,23,1280,64"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="552,52,763,93"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#abf36c04158aa4503aacabaf20d8106d0" title="Check if the current HEAD matches the tracked remote branch HEAD " alt="" coords="293,107,504,148"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a3fa2414f020ebecc7b1470e12a243d09" title="Check if the ServerInstance is configured for SSH pushing " alt="" coords="293,172,504,213"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="315,237,482,279"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="315,303,482,344"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#af8f4334b030e4cddf3f643aedc84f59e" title="Fetches origin " alt="" coords="552,117,763,159"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#ab56ecfc17b45a4658e0a676402b634e3" title="Create FetchOptions that Prune and have the appropriate credentials and progress handler ..." alt="" coords="811,103,1021,144"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a445215ce9af4a260d0ec5cf1a88210df" title="Updates currentProgress with the progess of the current Repo transfer operation " alt="" coords="1069,103,1280,144"/>
+</map>
