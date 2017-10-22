@@ -186,7 +186,7 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 
 ## CONTRIBUTING
 
-* See [CONTRIBUTING.md](https://github.com/tgstation/tgstation-server/.github/CONTRIBUTING.md)
+* See [CONTRIBUTING.md](https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md)
 
 ## LICENSING
 
