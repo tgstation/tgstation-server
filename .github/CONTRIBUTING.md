@@ -12,11 +12,43 @@ First things first, we want to make it clear how you can contribute (if you've n
 
 If you want to contribute the first thing you'll need to do is [set up Git](http://tgstation13.org/wiki/Setting_up_git) so you can download the source code.
 
-We have a [list of guides on the wiki](http://www.tgstation13.org/wiki/index.php/Guides#Development_and_Contribution_Guides) that will help you get started contributing to /tg/station with Git and Dream Maker. For beginners, it is recommended you work on small projects like bugfixes at first. If you need help learning to program in BYOND, check out this [repository of resources](http://www.byond.com/developer/articles/resources).
-
 There is an open list of approachable issues for [your inspiration here](https://github.com/tgstation/tgstation-server/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22).
 
 You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/coderbus) on irc.rizon.net. We're just here to have fun and help out, so please don't expect professional support.
+
+### Development Environment
+
+We reccommend any Visual Studio version that can support the .NET framework v4.5.2. However, the project should be buildable with any C# compiler than can read .sln files. Once installed, simply double-click TGStationServer3.sln to open it.
+
+#### Installing Dependencies
+
+Visual Studio comes with the nuget package manager. To install the dependencies, right-click the solution and select `Restore NuGet Packages`. If you are using some other development environment, you can download nuget [here](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) as a single CLI executable. Then simply run `nuget restore TGStationServer3.sln` from the root of the project directory. 
+
+##### (Optional) Installing WiX Toolset and Visual Studio Extension
+
+The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. You can download the Wix Toolset and Visual studio extension [here](http://wixtoolset.org/releases/). This will allow you to build `TGServiceInstaller.wixproj` just like all the other projects.
+
+#### Debugging
+
+So you've built the project and everything's good, right? Now you have to debug it. Debugging the command line and control panel are easy enough, just launch them like any other process. Debugging the TGServerService itself though requires a bit of finagling due to how Windows services work.
+
+1. Uninstall any release versions of TG Station Server 3 you may have on your machine
+1. Open an administrative Windows cmd prompt
+1. Run `sc delete "TG Station Server"` for sanity
+1. Build the service in debug mode
+1. Navigate to `C:\Windows\Microsoft.NET\Framework\v4.0.30319`
+1. Run `InstallUtil.exe` with the path to your debug `TGServerService.exe` as an argument. This will register your debug build as a Windows service. 
+
+If the command runs successfully you're all set up. Now, here is the debugging process.
+
+1. BEFORE BUILDING. Stop `TG Station Server` from the Windows Services control panel
+1. Build your new Debug version
+1. Set your breakpoints
+1. Start the service
+1. Use your environment to attach to `TGServerService.exe` for debugging
+1. If you need to debug startup, you'll have to add `System.Diagnostics.Debugger.Start()` where you want the service to wait for you. Note that breaking in the constructor of `TGServerService.Service` will cause Windows to terminate the process if you don't move fast enough due to it thinking the service is malfunctioning. In fact, if you need to debug the constructor, it's better to launch TGServerService.exe as a regular debug session, you won't be able to pass the `Service.Run()` call that way however.
+
+Now be careful while debugging. The service runs with root level privileges and you wouldn't want any [accidents](http://i.imgur.com/zvGEpJD.png) to happen, would you?
 
 ## Meet the Team
 
