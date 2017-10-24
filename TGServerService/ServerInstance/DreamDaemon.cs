@@ -39,6 +39,23 @@ namespace TGServerService
 		const int DDBadStartTime = 10;
 
 		/// <summary>
+		/// The file name of the .dll that contains the <see cref="Interface"/>
+		/// </summary>
+		static readonly string InterfaceDLLName = Path.GetFileName(Assembly.GetAssembly(typeof(Interface)).Location);
+		/// <summary>
+		/// The file name of the .dll that contains the <see cref="ITGInterop"/> bridge class
+		/// </summary>
+		const string BridgeDLLName = "TGDreamDaemonBridge.dll";
+		/// <summary>
+		/// The namespace that contains the <see cref="ITGInterop"/> bridge class. Used for reflection
+		/// </summary>
+		const string DreamDaemonBridgeNamespace = "TGDreamDaemonBridge";
+		/// <summary>
+		/// The <see cref="ITGInterop"/> bridge class. Used for reflection
+		/// </summary>
+		const string DreamDaemonBridgeType = DreamDaemonBridgeNamespace + ".DreamDaemonBridge";
+
+		/// <summary>
 		/// The DreamDaemon process
 		/// </summary>
 		Process Proc;
@@ -512,27 +529,56 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Copies <see cref="InterfaceDLLName"/> from the program directory to the the <see cref="ServerInstance"/> directory
+		/// Copies <see cref="InterfaceDLLName"/> and <see cref="BridgeDLLName"/> from the program directory to the the <see cref="ServerInstance"/> directory
 		/// </summary>
-		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll if it exists</param>
-		void UpdateInterfaceDll(bool overwrite)
+		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll, if it exists</param>
+		void UpdateInterfaceDlls(bool overwrite)
 		{
-			var FileExists = File.Exists(InterfaceDLLName);
+			var InterfacePath = Assembly.GetAssembly(typeof(Interface)).Location;
+			UpdateInterfaceDLL(InterfacePath, InterfaceDLLName, overwrite);
+
+			var BridgePath = Path.Combine(Path.GetDirectoryName(InterfacePath), BridgeDLLName);
+#if DEBUG
+			//We could be debugging from the project directory
+			if(!File.Exists(BridgePath))
+				//A little hackish debug mode doctoring never hurt anyone
+				BridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(InterfacePath)))), "TGDreamDaemonBridge/bin/Debug", BridgeDLLName);
+#endif
+			try
+			{
+				//Use reflection to ensure these are the droids we're looking for
+				var bridge = Assembly.ReflectionOnlyLoadFrom(BridgePath);
+				bridge.GetType(DreamDaemonBridgeType);
+				UpdateInterfaceDLL(BridgePath, BridgeDLLName, overwrite);
+			}
+			catch (Exception e) {
+				Service.WriteError(String.Format("Unable to locate {0}! Error: {1}", BridgeDLLName, e.ToString()), EventID.InterfaceDLLUpdateFail);
+			}
+		}
+
+		/// <summary>
+		/// Copies the .dll at <paramref name="path"/> to <paramref name="targetPath"/> in the <see cref="ServerInstance"/>, optionally with an <paramref name="overwrite"/> paremeter, retrying once if the file is locked
+		/// </summary>
+		/// <param name="path">The path of the source .dll</param>
+		/// <param name="targetPath">The path of the destination .dll</param>
+		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current <paramref name="targetPath"/> .dll, if it exists</param>
+		void UpdateInterfaceDLL(string path, string targetPath, bool overwrite)
+		{
+			var FileExists = File.Exists(targetPath);
 			if (FileExists && !overwrite)
 				return;
 			//Copy the interface dll to the static dir
-			var InterfacePath = Assembly.GetAssembly(typeof(DreamDaemonBridge)).Location;
 			try
 			{
 				if (FileExists)
 				{
-					var Old = File.ReadAllBytes(InterfaceDLLName);
-					var New = File.ReadAllBytes(InterfacePath);
+					var Old = File.ReadAllBytes(path);
+					var New = File.ReadAllBytes(targetPath);
 					if (Old.SequenceEqual(New))
 						return; //no need
 				}
-				File.Copy(InterfacePath, InterfaceDLLName, overwrite);
-				Service.WriteInfo("Updated interface DLL", TGServerService.EventID.InterfaceDLLUpdated);
+				File.Copy(path, targetPath, overwrite);
+				Service.WriteInfo("Updated interface DLL " + targetPath, TGServerService.EventID.InterfaceDLLUpdated);
 			}
 			catch
 			{
@@ -540,12 +586,12 @@ namespace TGServerService
 				{
 					//ok the things being stupid and hasn't released the dll yet, try ONCE more
 					Thread.Sleep(1000);
-					File.Copy(InterfacePath, InterfaceDLLName, overwrite);
+					File.Copy(path, targetPath, overwrite);
 				}
 				catch (Exception e)
 				{
 					//intentionally using the fi
-					Service.WriteError("Failed to update interface DLL! Error: " + e.ToString(), TGServerService.EventID.InterfaceDLLUpdateFail);
+					Service.WriteError(String.Format("Failed to update interface DLL {0}! Error: {1}", targetPath, e.ToString()), TGServerService.EventID.InterfaceDLLUpdateFail);
 				}
 			}
 		}
@@ -571,7 +617,7 @@ namespace TGServerService
 					GenCommsKey();
 					StartingSecurity = (DreamDaemonSecurity)Config.ServerSecurity;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient " : "");
-					UpdateInterfaceDll(true);
+					UpdateInterfaceDlls(true);
 					lock (topicLock)
 					{
 						GameAPIVersion = null;  //needs updating

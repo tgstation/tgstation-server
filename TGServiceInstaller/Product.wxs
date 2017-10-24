@@ -119,6 +119,9 @@
       <Component Id="TGServiceInterface" Guid="*">
         <File Source="$(var.TGServiceInterface.TargetPath)" />
       </Component>
+      <Component Id="TGDreamDaemonBridge" Guid="*">
+        <File Source="$(var.TGDreamDaemonBridge.TargetPath)" />
+      </Component>
     </ComponentGroup>
     <ComponentGroup Id="Gitx86Components" Directory="x86Folder">
       <Component Id="LibGit2Sharpx86" Guid="*">

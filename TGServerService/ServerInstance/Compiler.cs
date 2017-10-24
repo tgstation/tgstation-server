@@ -37,8 +37,6 @@ namespace TGServerService
 		const string BDirTest = GameDirB + LiveFile;
 		const string LiveDirTest = GameDirLive + LiveFile;
 
-		const string InterfaceDLLName = "TGServiceInterface.dll";
-
 		object CompilerLock = new object();
 		CompilerStatus compilerCurrentStatus;
 		string lastCompilerError;
@@ -142,8 +140,14 @@ namespace TGServerService
 			if (Directory.Exists(Path.Combine(GameDirA, InterfaceDLLName)))
 				Directory.Delete(Path.Combine(GameDirA, InterfaceDLLName));
 
+			if (Directory.Exists(Path.Combine(GameDirA, BridgeDLLName)))
+				Directory.Delete(Path.Combine(GameDirA, BridgeDLLName));
+
 			if (Directory.Exists(Path.Combine(GameDirB, InterfaceDLLName)))
 				Directory.Delete(Path.Combine(GameDirB, InterfaceDLLName));
+
+			if (Directory.Exists(Path.Combine(GameDirB, BridgeDLLName)))
+				Directory.Delete(Path.Combine(GameDirB, BridgeDLLName));
 
 			if (Directory.Exists(GameDirLive))
 				Directory.Delete(GameDirLive);
@@ -203,6 +207,9 @@ namespace TGServerService
 
 					CreateSymlink(Path.Combine(GameDirA, InterfaceDLLName), InterfaceDLLName);
 					CreateSymlink(Path.Combine(GameDirB, InterfaceDLLName), InterfaceDLLName);
+
+					CreateSymlink(Path.Combine(GameDirA, BridgeDLLName), BridgeDLLName);
+					CreateSymlink(Path.Combine(GameDirB, BridgeDLLName), BridgeDLLName);
 
 					CreateSymlink(GameDirLive, GameDirA);
 					
@@ -355,7 +362,7 @@ namespace TGServerService
 					resurrectee = GetStagingDir();
 
 					var Config = GetCachedRepoConfig();
-					var deleteExcludeList = new List<string> { InterfaceDLLName };
+					var deleteExcludeList = new List<string> { InterfaceDLLName, BridgeDLLName };
 					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
 					deleteExcludeList.AddRange(Config.DLLPaths);
 					Program.DeleteDirectory(resurrectee, true, deleteExcludeList);
@@ -378,6 +385,9 @@ namespace TGServerService
 
 					if (!File.Exists(Path.Combine(resurrectee, InterfaceDLLName)))
 						CreateSymlink(Path.Combine(resurrectee, InterfaceDLLName), InterfaceDLLName);
+
+					if (!File.Exists(Path.Combine(resurrectee, BridgeDLLName)))
+						CreateSymlink(Path.Combine(resurrectee, BridgeDLLName), BridgeDLLName);
 
 					deleteExcludeList.Add(".git");
 					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
