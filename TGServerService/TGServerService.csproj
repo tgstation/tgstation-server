@@ -82,12 +82,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatCommands\ByondCommand.cs" />
+    <Compile Include="ChatCommands\CommandInfo.cs" />
+    <Compile Include="ChatCommands\ChatCommand.cs" />
+    <Compile Include="ChatCommands\KekCommand.cs" />
+    <Compile Include="ChatCommands\PullRequestsCommand.cs" />
+    <Compile Include="ChatCommands\RevisionCommand.cs" />
+    <Compile Include="ChatCommands\RootChatCommand.cs" />
+    <Compile Include="ChatCommands\ServerChatCommand.cs" />
+    <Compile Include="ChatCommands\VersionCommand.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="RepoConfig.cs" />
     <Compile Include="ServerInstance\Administration.cs" />
     <Compile Include="ServerInstance\Byond.cs" />
     <Compile Include="ServerInstance\Chat.cs" />
-    <Compile Include="ChatCommands.cs" />
     <Compile Include="ChatProviders\ChatProvider.cs" />
     <Compile Include="ServerInstance\Compiler.cs" />
     <Compile Include="ServerInstance\Config.cs" />
