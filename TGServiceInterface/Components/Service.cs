@@ -96,5 +96,20 @@ namespace TGServiceInterface.Components
 		/// <returns>null on success, error message on failure</returns>
 		[OperationContract]
 		string DetachInstance(string name);
+
+		/// <summary>
+		/// Sets the path to the python 2.7 installation
+		/// </summary>
+		/// <param name="path">The new path</param>
+		/// <returns><see langword="true"/> if the path exists, <see langword="false"/> otherwise</returns>
+		[OperationContract]
+		bool SetPythonPath(string path);
+
+		/// <summary>
+		/// Gets the path to the python 2.7 installation
+		/// </summary>
+		/// <returns>The path to the python 2.7 installation</returns>
+		[OperationContract]
+		string PythonPath();
 	}
 }

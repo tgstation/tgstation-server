@@ -72,9 +72,9 @@ namespace TGServerService
 			switch (oldVersion)
 			{
 				case 6: //switch to per-instance configs
-					var IC = DeprecatedInstanceConfig.CreateFromNETSettings(out string instanceDir);
+					var IC = DeprecatedInstanceConfig.CreateFromNETSettings();
 					IC.Save();
-					Properties.Settings.Default.InstancePaths.Add(instanceDir);
+					Properties.Settings.Default.InstancePaths.Add(IC.InstanceDirectory);
 					break;
 			}
 		}
@@ -341,6 +341,21 @@ namespace TGServerService
 		public string Version()
 		{
 			return VersionString;
+		}
+
+		/// <inheritdoc />
+		public bool SetPythonPath(string path)
+		{
+			if (!Directory.Exists(path))
+				return false;
+			Properties.Settings.Default.PythonPath = Path.GetFullPath(path);
+			return true;
+		}
+
+		/// <inheritdoc />
+		public string PythonPath()
+		{
+			return Properties.Settings.Default.PythonPath;
 		}
 
 		/// <inheritdoc />

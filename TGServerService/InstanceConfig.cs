@@ -11,9 +11,9 @@ namespace TGServerService
 		[ScriptIgnore]
 		const string JSONFilename = "Instance.json";
 		[ScriptIgnore]
-		protected const ulong CurrentVersion = 0;	//Literally any time you add/deprecated a field, this number needs to be bumped
+		protected const ulong CurrentVersion = 0;   //Literally any time you add/deprecated a field, this number needs to be bumped
 		[ScriptIgnore]
-		protected string InstanceDir;
+		public string InstanceDirectory { get; private set; }
 
 		public ulong Version { get; protected set; } = CurrentVersion;
 		public Guid ID { get; private set; } = Guid.NewGuid();
@@ -44,16 +44,25 @@ namespace TGServerService
 
 		public ulong AutoUpdateInterval { get; set; } = 0;
 
+		/// <summary>
+		/// Construct a <see cref="InstanceConfig"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
+		public InstanceConfig(string path)
+		{
+			InstanceDirectory = path;
+		}
+
 		public void Save()
 		{
-			File.WriteAllText(Path.Combine(InstanceDir, JSONFilename), new JavaScriptSerializer().Serialize(this));
+			File.WriteAllText(Path.Combine(InstanceDirectory, JSONFilename), new JavaScriptSerializer().Serialize(this));
 		}
 
 		public static InstanceConfig Load(string path)
 		{
 			var configtext = File.ReadAllText(Path.Combine(path, JSONFilename));
 			var res = new JavaScriptSerializer().Deserialize<DeprecatedInstanceConfig>(configtext);
-			res.InstanceDir = path;
+			res.InstanceDirectory = path;
 			res.MigrateToCurrentVersion();
 			return res;
 		}

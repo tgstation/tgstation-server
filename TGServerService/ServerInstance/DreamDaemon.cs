@@ -96,8 +96,8 @@ namespace TGServerService
 		/// </summary>
 		void InitDreamDaemon()
 		{
-			Directory.CreateDirectory(DiagnosticsDir);
-			Directory.CreateDirectory(ResourceDiagnosticsDir);
+			Directory.CreateDirectory(RelativePath(DiagnosticsDir));
+			Directory.CreateDirectory(RelativePath(ResourceDiagnosticsDir));
 			var Reattach = Config.ReattachRequired;
 			if (Reattach)
 				try
@@ -183,7 +183,8 @@ namespace TGServerService
 			if (RenameLog)
 				try
 				{
-					File.Move(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), Path.Combine(ResourceDiagnosticsDir, "SU-" + CurrentDDLog));
+					var rrdd = RelativePath(ResourceDiagnosticsDir);
+					File.Move(Path.Combine(rrdd, CurrentDDLog), Path.Combine(rrdd, "SU-" + CurrentDDLog));
 				}
 				catch { }
 		}
@@ -293,7 +294,7 @@ namespace TGServerService
 			{
 				if (currentStatus != DreamDaemonStatus.Online || CurrentDDLog == null)
 					return;
-				File.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
+				File.AppendAllText(Path.Combine(RelativePath(ResourceDiagnosticsDir), CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
 			}
 		}
 
@@ -523,7 +524,8 @@ namespace TGServerService
 		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll if it exists</param>
 		void UpdateInterfaceDll(bool overwrite)
 		{
-			var FileExists = File.Exists(InterfaceDLLName);
+			var ridlln = RelativePath(InterfaceDLLName);
+			var FileExists = File.Exists(ridlln);
 			if (FileExists && !overwrite)
 				return;
 			//Copy the interface dll to the static dir
@@ -532,12 +534,12 @@ namespace TGServerService
 			{
 				if (FileExists)
 				{
-					var Old = File.ReadAllBytes(InterfaceDLLName);
+					var Old = File.ReadAllBytes(ridlln);
 					var New = File.ReadAllBytes(InterfacePath);
 					if (Old.SequenceEqual(New))
 						return; //no need
 				}
-				File.Copy(InterfacePath, InterfaceDLLName, overwrite);
+				File.Copy(InterfacePath, ridlln, overwrite);
 				WriteInfo("Updated interface DLL", EventID.InterfaceDLLUpdated);
 			}
 			catch
@@ -546,7 +548,7 @@ namespace TGServerService
 				{
 					//ok the things being stupid and hasn't released the dll yet, try ONCE more
 					Thread.Sleep(1000);
-					File.Copy(InterfacePath, InterfaceDLLName, overwrite);
+					File.Copy(InterfacePath, ridlln, overwrite);
 				}
 				catch (Exception e)
 				{
@@ -571,7 +573,7 @@ namespace TGServerService
 					if (res != null)
 						return res;
 					
-					var DMB = GameDirLive + "/" + Config.ProjectName + ".dmb";
+					var DMB = RelativePath(GameDirLive + "/" + Config.ProjectName + ".dmb");
 
 					GenCommsKey();
 					StartingSecurity = Config.Security;

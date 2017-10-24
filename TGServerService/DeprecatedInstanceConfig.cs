@@ -1,4 +1,5 @@
-﻿using TGServiceInterface;
+﻿using System;
+using TGServiceInterface;
 
 namespace TGServerService
 {
@@ -11,12 +12,11 @@ namespace TGServerService
 		/// Convert the settings version 6 .NET settings file to a config json
 		/// </summary>
 		/// <returns>An <see cref="InstanceConfig"/> based off the old .NET setting file</returns>
-		public static InstanceConfig CreateFromNETSettings(out string instanceDirectory)
+		public static InstanceConfig CreateFromNETSettings()
 		{
 			var Config = Properties.Settings.Default;
-			var result = new DeprecatedInstanceConfig()
+			var result = new DeprecatedInstanceConfig((string)Config.GetPreviousVersion("ServerDirectory"))
 			{
-				InstanceDir = (string)Config.GetPreviousVersion("ServerDirectory"),
 				ProjectName = (string)Config.GetPreviousVersion("ProjectName"),
 				Port = (ushort)Config.GetPreviousVersion("ServerPort"),
 				CommitterName = (string)Config.GetPreviousVersion("CommitterName"),
@@ -34,9 +34,20 @@ namespace TGServerService
 				AuthorizedUserGroupSID = (string)Config.GetPreviousVersion("AuthorizedGroupSID")
 			};
 			result.MigrateToCurrentVersion();
-			instanceDirectory = result.InstanceDir;
 			return result;
 		}
+
+		/// <summary>
+		/// Construct a <see cref="DeprecatedInstanceConfig"/>. Used by the deserializer
+		/// </summary>
+		[Obsolete("This method is for use by the deserializer only.", true)]
+		public DeprecatedInstanceConfig() : base(null) { }
+
+		/// <summary>
+		/// Construct a <see cref="DeprecatedInstanceConfig"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
+		public DeprecatedInstanceConfig(string path) : base(path) { }
 
 		/// <summary>
 		/// Migrates the <see cref="DeprecatedInstanceConfig"/> from <see cref="Version"/> to <see cref="MigrateToCurrentVersion"/>

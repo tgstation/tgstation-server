@@ -84,10 +84,11 @@ namespace TGServerService
 		/// </summary>
 		void CleanByondStaging()
 		{
+			var rrdp = RelativePath(RevisionDownloadPath);
 			//linger not
-			if (File.Exists(RevisionDownloadPath))
-				File.Delete(RevisionDownloadPath);
-			Program.DeleteDirectory(StagingDirectory);
+			if (File.Exists(rrdp))
+				File.Delete(rrdp);
+			Program.DeleteDirectory(RelativePath(StagingDirectory));
 		}
 
 		/// <summary>
@@ -175,7 +176,7 @@ namespace TGServerService
 					}
 					else
 					{
-						string DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
+						string DirToUse = RelativePath(type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory);
 						if (Directory.Exists(DirToUse))
 						{
 							string file = DirToUse + VersionFile;
@@ -211,6 +212,7 @@ namespace TGServerService
 				var vi = ((string)param).Split('.');
 				var major = Convert.ToInt32(vi[0]);
 				var minor = Convert.ToInt32(vi[1]);
+				var rrdp = RelativePath(RevisionDownloadPath);
 				using (var client = new WebClient())
 				{
 					SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
@@ -219,7 +221,7 @@ namespace TGServerService
 
 					try
 					{
-						client.DownloadFile(String.Format(ByondRevisionsURL, major, minor), RevisionDownloadPath);
+						client.DownloadFile(String.Format(ByondRevisionsURL, major, minor), rrdp);
 					}
 					catch
 					{
@@ -240,13 +242,13 @@ namespace TGServerService
 
 				//STAGING
 				
-				ZipFile.ExtractToDirectory(RevisionDownloadPath, StagingDirectory);
+				ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
 				lock (ByondLock)
 				{
-					File.WriteAllText(StagingDirectoryInner + VersionFile, String.Format("{0}.{1}", major, minor));
+					File.WriteAllText(RelativePath(StagingDirectoryInner + VersionFile), String.Format("{0}.{1}", major, minor));
 					//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
-					Directory.CreateDirectory(ByondConfigDir);
-					File.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
+					Directory.CreateDirectory(RelativePath(ByondConfigDir));
+					File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
 				}
 				File.Delete(RevisionDownloadPath);
 
@@ -323,9 +325,10 @@ namespace TGServerService
 				}
 				try
 				{
-					Program.DeleteDirectory(ByondDirectory);
-					Directory.Move(StagingDirectoryInner, ByondDirectory);
-					Program.DeleteDirectory(StagingDirectory);
+					var rbd = RelativePath(ByondDirectory);
+					Program.DeleteDirectory(rbd);
+					Directory.Move(RelativePath(StagingDirectoryInner), rbd);
+					Program.DeleteDirectory(RelativePath(StagingDirectory));
 					lastError = null;
 					SendMessage("BYOND: Update completed!", MessageType.DeveloperInfo);
 					WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);

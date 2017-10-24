@@ -16,7 +16,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string ServerDirectory()
 		{
-			return Environment.CurrentDirectory;
+			return Config.InstanceDirectory;
 		}
 
 		/// <inheritdoc />
@@ -26,7 +26,7 @@ namespace TGServerService
 			string path = null;
 			try
 			{
-				var configDir = repo ? RepoPath : StaticDirs;
+				var configDir = RelativePath(repo ? RepoPath : StaticDirs);
 
 				path = configDir + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
@@ -45,7 +45,7 @@ namespace TGServerService
 						var Found = false;
 						foreach (var I in Config.StaticDirectoryPaths)
 						{
-							if (di1.FullName == new DirectoryInfo(Path.Combine(RepoPath, I)).FullName)
+							if (di1.FullName == new DirectoryInfo(Path.Combine(RelativePath(RepoPath), I)).FullName)
 							{
 								Found = true;
 								break;
@@ -108,12 +108,12 @@ namespace TGServerService
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
-			var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+			var path = RelativePath(StaticDirs) + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
 			{
 				lock (configLock)
 				{
-					var di1 = new DirectoryInfo(StaticDirs);
+					var di1 = new DirectoryInfo(RelativePath(StaticDirs));
 					var destdir = new FileInfo(path).Directory.FullName;
 					var di2 = new DirectoryInfo(destdir);
 
@@ -160,12 +160,12 @@ namespace TGServerService
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
-			var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+			var path = RelativePath(StaticDirs + '/' + staticRelativePath);   //do not use path.combine or it will try and take the root
 			try
 			{
 				lock (configLock)
 				{
-					var di1 = new DirectoryInfo(StaticDirs);
+					var di1 = new DirectoryInfo(RelativePath(StaticDirs));
 					var fi = new FileInfo(path);
 					var di2 = new DirectoryInfo(fi.Directory.FullName);
 
@@ -217,13 +217,13 @@ namespace TGServerService
 		{
 			try
 			{
-				if (!Directory.Exists(StaticDirs))
+				if (!Directory.Exists(RelativePath(StaticDirs)))
 				{
 					error = null;
 					unauthorized = false;
 					return new List<string>();
 				}
-				DirectoryInfo dirToEnum = new DirectoryInfo(StaticDirs + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
+				DirectoryInfo dirToEnum = new DirectoryInfo(RelativePath(StaticDirs) + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
 				var result = new List<string>();
 				foreach (var I in dirToEnum.GetFiles())
 					result.Add(I.Name);

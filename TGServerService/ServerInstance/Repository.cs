@@ -94,7 +94,7 @@ namespace TGServerService
 		/// </summary>
 		void InitRepo()
 		{
-			Directory.CreateDirectory(RepoKeyDir);
+			Directory.CreateDirectory(RelativePath(RepoKeyDir));
 			if(Exists())
 				UpdateInterfaceDll(false);
 			if(LoadRepo() == null)
@@ -115,7 +115,7 @@ namespace TGServerService
 			lock (RepoLock)
 			{
 				if (!RepoBusy && LoadRepo() == null)
-					I = new RepoConfig(RepoTGS3SettingsPath);
+					I = new RepoConfig(RelativePath(RepoTGS3SettingsPath));
 			}
 			if (I == null)
 				throw new Exception("Unable to load TGS3.json from repo!");
@@ -129,7 +129,7 @@ namespace TGServerService
 		/// <returns>The <see cref="RepoConfig"/> for <see cref="CachedTGS3SettingsPath"/></returns>
 		RepoConfig GetCachedRepoConfig()
 		{
-			return new RepoConfig(CachedTGS3SettingsPath);
+			return new RepoConfig(RelativePath(CachedTGS3SettingsPath));
 		}
 
 		/// <inheritdoc />
@@ -155,11 +155,11 @@ namespace TGServerService
 		{
 			if (Repo != null)
 				return null;
-			if (!Repository.IsValid(RepoPath))
+			if (!Repository.IsValid(RelativePath(RepoPath)))
 				return "Repository does not exist";
 			try
 			{
-				Repo = new Repository(RepoPath);
+				Repo = new Repository(RelativePath(RepoPath));
 			}
 			catch (Exception e)
 			{
@@ -185,7 +185,7 @@ namespace TGServerService
 		{
 			lock (RepoLock)
 			{
-				return !Cloning && Repository.IsValid(RepoPath);
+				return !Cloning && Repository.IsValid(RelativePath(RepoPath));
 			}
 		}
 
@@ -227,7 +227,7 @@ namespace TGServerService
 				try
 				{
 					DisposeRepo();
-					Program.DeleteDirectory(RepoPath);
+					Program.DeleteDirectory(RelativePath(RepoPath));
 					DeletePRList();
 					lock (configLock)
 					{
@@ -243,7 +243,7 @@ namespace TGServerService
 						CredentialsProvider = GenerateGitCredentials,
 					};
 
-					Repository.Clone(RepoURL, RepoPath, Opts);
+					Repository.Clone(RepoURL, RelativePath(RepoPath), Opts);
 					currentProgress = -1;
 					LoadRepo();
 
@@ -292,22 +292,24 @@ namespace TGServerService
 		/// </summary>
 		void BackupAndDeleteStaticDirectory()
 		{
-			if (Directory.Exists(StaticDirs))
+			var rsd = RelativePath(StaticDirs);
+			if (Directory.Exists(rsd))
 			{
 				int count = 1;
 
-				string path = Path.GetDirectoryName(StaticBackupDir);
-				string newFullPath = StaticBackupDir;
+				var rsbd = RelativePath(StaticBackupDir);
+				string path = Path.GetDirectoryName(rsbd);
+				string newFullPath = rsbd;
 
 				while (File.Exists(newFullPath) || Directory.Exists(newFullPath))
 				{
-					string tempDirName = string.Format("{0}({1})", StaticBackupDir, count++);
+					string tempDirName = string.Format("{0}({1})", rsbd, count++);
 					newFullPath = Path.Combine(path, tempDirName);
 				}
 
-				Program.CopyDirectory(StaticDirs, newFullPath);
+				Program.CopyDirectory(rsd, newFullPath);
 			}
-			Program.DeleteDirectory(StaticDirs);
+			Program.DeleteDirectory(rsd);
 		}
 
 		/// <summary>
@@ -318,10 +320,10 @@ namespace TGServerService
 		{
 			try
 			{
-				if (File.Exists(RepoTGS3SettingsPath))
-					File.Copy(RepoTGS3SettingsPath, CachedTGS3SettingsPath, true);
-				else if (File.Exists(CachedTGS3SettingsPath))
-					File.Delete(CachedTGS3SettingsPath);
+				if (File.Exists(RelativePath(RepoTGS3SettingsPath)))
+					File.Copy(RelativePath(RepoTGS3SettingsPath), RelativePath(CachedTGS3SettingsPath), true);
+				else if (File.Exists(RelativePath(CachedTGS3SettingsPath)))
+					File.Delete(RelativePath(CachedTGS3SettingsPath));
 			}
 			catch(Exception e)
 			{
@@ -335,7 +337,7 @@ namespace TGServerService
 		/// </summary>
 		void InitialConfigureRepository()
 		{
-			Directory.CreateDirectory(StaticDirs);
+			Directory.CreateDirectory(RelativePath(StaticDirs));
 			UpdateInterfaceDll(false);
 			UpdateTGS3Json();
 			var Config = GetCachedRepoConfig();	//RepoBusy is set if we're here
@@ -343,8 +345,8 @@ namespace TGServerService
 			{
 				try
 				{
-					var source = Path.Combine(RepoPath, I);
-					var dest = Path.Combine(StaticDirs, I);
+					var source = Path.Combine(RelativePath(RepoPath), I);
+					var dest = Path.Combine(RelativePath(StaticDirs), I);
 					if (Directory.Exists(source))
 						Program.CopyDirectory(source, dest);
 					else
@@ -359,13 +361,13 @@ namespace TGServerService
 			{
 				try
 				{
-					var source = Path.Combine(RepoPath, I);
+					var source = Path.Combine(RelativePath(RepoPath), I);
 					if (!File.Exists(source))
 					{
 						WriteWarning("Could not find DLL: " + I, EventID.RepoConfigurationFail);
 						continue;
 					}
-					var dest = Path.Combine(StaticDirs, I);
+					var dest = Path.Combine(RelativePath(StaticDirs), I);
 					Program.CopyFileForceDirectories(source, dest, false);
 				}
 				catch
@@ -641,7 +643,7 @@ namespace TGServerService
 					//kill off the modules/ folder in .git and try again
 					try
 					{
-						Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
+						Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RelativePath(RepoPath), I.Path));
 					}
 					catch
 					{
@@ -754,10 +756,10 @@ namespace TGServerService
 		/// </summary>
 		void DeletePRList()
 		{
-			if (File.Exists(PRJobFile))
+			if (File.Exists(RelativePath(PRJobFile)))
 				try
 				{
-					File.Delete(PRJobFile);
+					File.Delete(RelativePath(PRJobFile));
 				}
 				catch (Exception e)
 				{
@@ -771,9 +773,9 @@ namespace TGServerService
 		/// <returns>A <see cref="IDictionary{TKey, TValue}"/> of <see cref="IDictionary{TKey, TValue}"/>. The outer one is keyed by PR# the inner one is keyed by internal <see cref="string"/>s</returns>
 		IDictionary<string, IDictionary<string, string>> GetCurrentPRList()
 		{
-			if (!File.Exists(PRJobFile))
+			if (!File.Exists(RelativePath(PRJobFile)))
 				return new Dictionary<string, IDictionary<string, string>>();
-			var rawdata = File.ReadAllText(PRJobFile);
+			var rawdata = File.ReadAllText(RelativePath(PRJobFile));
 			var Deserializer = new JavaScriptSerializer();
 			return Deserializer.Deserialize<IDictionary<string, IDictionary<string, string>>>(rawdata);
 		}
@@ -786,7 +788,7 @@ namespace TGServerService
 		{
 			var Serializer = new JavaScriptSerializer();
 			var rawdata = Serializer.Serialize(list);
-			File.WriteAllText(PRJobFile, rawdata);
+			File.WriteAllText(RelativePath(PRJobFile), rawdata);
 		}
 
 		/// <inheritdoc />
@@ -1103,7 +1105,7 @@ namespace TGServerService
 		/// <returns><see langword="true"/> if the see cref="ServerInstance"/> is configured for SSH pushing, <see langword="false"/> otherwise</returns>
 		bool SSHAuth()
 		{
-			return File.Exists(PrivateKeyPath) && File.Exists(PublicKeyPath);
+			return File.Exists(RelativePath(PrivateKeyPath)) && File.Exists(RelativePath(PublicKeyPath));
 		}
 
 		/// <summary>
@@ -1124,8 +1126,8 @@ namespace TGServerService
 			return new SshUserKeyCredentials()
 			{
 				Username = user,
-				PrivateKey = PrivateKeyPath,
-				PublicKey = PublicKeyPath,
+				PrivateKey = RelativePath(PrivateKeyPath),
+				PublicKey = RelativePath(PublicKeyPath),
 				Passphrase = "",
 			};
 		}
@@ -1170,7 +1172,7 @@ namespace TGServerService
 					error = "Repo is busy!";
 					return null;
 				}
-				if (!File.Exists(Path.Combine(RepoPath, ChangelogPy)))
+				if (!File.Exists(Path.Combine(RelativePath(RepoPath), ChangelogPy)))
 				{
 					error = "Missing changelog generation script!";
 					return null;
@@ -1178,7 +1180,7 @@ namespace TGServerService
 
 				var Config = Properties.Settings.Default;
 
-				var PythonFile = Config.PythonPath + "/python.exe";
+				var PythonFile = Path.Combine(Config.PythonPath, "python.exe");
 				if (!File.Exists(PythonFile))
 				{
 					error = "Cannot locate python!";
@@ -1193,7 +1195,7 @@ namespace TGServerService
 						python.StartInfo.FileName = PythonFile;
 						python.StartInfo.Arguments = String.Format("{0} {1}", ChangelogPy, RConfig.ChangelogPyArguments);
 						python.StartInfo.UseShellExecute = false;
-						python.StartInfo.WorkingDirectory = new DirectoryInfo(RepoPath).FullName;
+						python.StartInfo.WorkingDirectory = new DirectoryInfo(RelativePath(RepoPath)).FullName;
 						python.StartInfo.RedirectStandardOutput = true;
 						python.Start();
 						using (StreamReader reader = python.StandardOutput)
@@ -1280,21 +1282,6 @@ namespace TGServerService
 			{
 				Compile(true);
 			}
-		}
-
-		/// <inheritdoc />
-		public bool SetPythonPath(string path)
-		{
-			if (!Directory.Exists(path))
-				return false;
-			Properties.Settings.Default.PythonPath = Path.GetFullPath(path);
-			return true;
-		}
-
-		/// <inheritdoc />
-		public string PythonPath()
-		{
-			return Properties.Settings.Default.PythonPath;
 		}
 
 		/// <summary>

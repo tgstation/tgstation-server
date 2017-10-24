@@ -148,21 +148,6 @@ namespace TGServiceInterface.Components
         string SynchronizePush();
 
 		/// <summary>
-		/// Sets the path to the python 2.7 installation
-		/// </summary>
-		/// <param name="path">The new path</param>
-		/// <returns><see langword="true"/> if the path exists, <see langword="false"/> otherwise</returns>
-		[OperationContract]
-		bool SetPythonPath(string path);
-
-		/// <summary>
-		/// Gets the path to the python 2.7 installation
-		/// </summary>
-		/// <returns>The path to the python 2.7 installation</returns>
-		[OperationContract]
-		string PythonPath();
-
-		/// <summary>
 		/// List the tagged commits of the repo at which compiles took place
 		/// </summary>
 		/// <param name="error"><see langword="null"/> on success, error message on failure</param>

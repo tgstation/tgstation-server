@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.ServiceModel;
 using TGServiceInterface.Components;
 
@@ -90,6 +91,15 @@ namespace TGServerService
 		void WriteAccess(string username, bool authSuccess)
 		{
 			Service.WriteEntry(String.Format("Access from: {0}", username), EventID.Authentication, authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, LoggingID);
+		}
+
+		/// <summary>
+		/// Converts relative paths to full <see cref="ServerInstance"/> directory paths
+		/// </summary>
+		/// <returns></returns>
+		string RelativePath(string path)
+		{
+			return Path.Combine(Config.InstanceDirectory, path);
 		}
 
 		/// <inheritdoc />

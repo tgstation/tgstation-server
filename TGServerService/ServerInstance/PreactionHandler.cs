@@ -17,7 +17,7 @@ namespace TGServerService
 		/// </summary>
 		void InitEventHandlers()
 		{
-			Directory.CreateDirectory(EventFolder);
+			Directory.CreateDirectory(RelativePath(EventFolder));
 		}
 
 		/// <summary>
@@ -27,7 +27,7 @@ namespace TGServerService
 		/// <returns>The path to the event handler</returns>
 		string GetEventPath(string eventName)
 		{
-			return string.Format("{0}{1}.bat", EventFolder, eventName);
+			return string.Format("{0}{1}.bat", RelativePath(EventFolder), eventName);
 		}
 
 		/// <summary>
