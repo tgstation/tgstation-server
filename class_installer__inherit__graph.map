@@ -1,3 +1,3 @@
 <map id="Installer" name="Installer">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_project_installer.html" title="This tells the .msi there is a Windows System.ServiceProcess.ServiceBase in this System.Reflection.Assembly that needs installation " alt="" coords="5,80,212,107"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_project_installer.html" title="This tells the .msi there is a Windows ServiceBase in this System.Reflection.Assembly that needs inst..." alt="" coords="5,80,212,107"/>
 </map>

@@ -29,8 +29,6 @@ var searchData=
   ['serverstopbutton',['ServerStopButton',['../class_t_g_control_panel_1_1_main.html#a4fae5f7d42d842a420d10761b5b21ef0',1,'TGControlPanel::Main']]],
   ['servertestmergeinput',['ServerTestmergeInput',['../class_t_g_control_panel_1_1_main.html#ac8fc67b4214d8e3687246d6ec1782f5e',1,'TGControlPanel::Main']]],
   ['servicecommskey',['serviceCommsKey',['../class_t_g_server_service_1_1_server_instance.html#a5bc2c5cf72086f7be5ab0360a8b97105',1,'TGServerService::ServerInstance']]],
-  ['serviceinstaller1',['serviceInstaller1',['../class_t_g_server_service_1_1_project_installer.html#a4a239ece924169a6d4f53e21d714ef43',1,'TGServerService::ProjectInstaller']]],
-  ['serviceprocessinstaller1',['serviceProcessInstaller1',['../class_t_g_server_service_1_1_project_installer.html#a397c0a35cc685495c306af86b56ef65e',1,'TGServerService::ProjectInstaller']]],
   ['servicesid',['ServiceSID',['../class_t_g_server_service_1_1_server_instance.html#a27f51f5fdaedcb7b20c19cb507ae0940',1,'TGServerService::ServerInstance']]],
   ['showlogcheckbox',['ShowLogCheckbox',['../class_t_g_installer_wrapper_1_1_main.html#ab17bc0d43351247635a3145f57d9f637',1,'TGInstallerWrapper::Main']]],
   ['silentcompile',['silentCompile',['../class_t_g_server_service_1_1_server_instance.html#a8011e4943a3fbb07f419d91ea5585132',1,'TGServerService::ServerInstance']]],

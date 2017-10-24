@@ -178,7 +178,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00020">20</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_commands_8cs_source.html#l00020">20</a> of file <a class="el" href="_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a28b4eca0b33de5ad58638ae9f266b169"></a>
 <div class="memitem">
@@ -193,7 +193,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00022">22</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_commands_8cs_source.html#l00022">22</a> of file <a class="el" href="_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 
 <p>References <a class="el" href="_root_command_8cs_source.html#l00014">TGServiceInterface.RootCommand.Children</a>, and <a class="el" href="_command_8cs_source.html#l00049">TGServiceInterface.Command.Keyword</a>.</p>
 <div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">Keyword</a> = <span class="stringliteral">&quot;discord&quot;</span>;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_root_command.html#a4162d8a4524ca5068e790ce74d332a38">Children</a> = <span class="keyword">new</span> <a class="code" href="class_t_g_service_interface_1_1_command.html">Command</a>[] { <span class="keyword">new</span> DiscordSetTokenCommand(), <span class="keyword">new</span> ChatJoinCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatPartCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatListAdminsCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatReconnectCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatAddminCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatDeadminCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatEnableCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatDisableCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord), <span class="keyword">new</span> ChatStatusCommand(<a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord) , <span class="keyword">new</span> DiscordAuthModeCommand() };</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_command_html"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html">TGServiceInterface.Command</a></div><div class="ttdoc">Helper for creating a text Command tree </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00010">Command.cs:10</a></div></div>
@@ -230,12 +230,12 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_t_g_service_interface_1_1_command.html#a08148c745f8a165e27141d7f4d09e450">TGServiceInterface.Command</a>.</p>
 
-<p>Definition at line <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html#l00027">27</a> of file <a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_commands_8cs_source.html#l00027">27</a> of file <a class="el" href="_chat_commands_8cs_source.html">ChatCommands.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Manages the Discord bot&quot;</span>;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>TGCommandLine/<a class="el" href="_t_g_command_line_2_chat_commands_8cs_source.html">ChatCommands.cs</a></li>
+<li>TGCommandLine/<a class="el" href="_chat_commands_8cs_source.html">ChatCommands.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

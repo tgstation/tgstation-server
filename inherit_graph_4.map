@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$class_installer.html" title="Installer" alt="" coords="5,5,72,32"/>
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_project_installer.html" title="This tells the .msi there is a Windows System.ServiceProcess.ServiceBase in this System.Reflection.Assembly that needs installation " alt="" coords="120,5,327,32"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_project_installer.html" title="This tells the .msi there is a Windows ServiceBase in this System.Reflection.Assembly that needs inst..." alt="" coords="120,5,327,32"/>
 </map>
