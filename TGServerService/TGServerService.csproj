@@ -142,7 +142,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LockDependancies.txt" />
     <Content Include="tgs.ico" />
   </ItemGroup>
   <ItemGroup />
