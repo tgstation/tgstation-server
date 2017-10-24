@@ -225,7 +225,7 @@ namespace TGServerService
 					{
 						SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
 						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", major, minor);
-						Service.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
+						WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
 						lock (ByondLock)
 						{
 							updateStat = ByondStatus.Idle;
@@ -267,7 +267,7 @@ namespace TGServerService
 						RequestRestart();
 						lastError = "Update staged. Awaiting server restart...";
 						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
-						Service.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
+						WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
 						break;
 				}
 			}
@@ -277,7 +277,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				Service.WriteError("Revision staging errror: " + e.ToString(), EventID.BYONDUpdateFail);
+				WriteError("Revision staging errror: " + e.ToString(), EventID.BYONDUpdateFail);
 				lock (ByondLock)
 				{
 					updateStat = ByondStatus.Idle;
@@ -328,14 +328,14 @@ namespace TGServerService
 					Program.DeleteDirectory(StagingDirectory);
 					lastError = null;
 					SendMessage("BYOND: Update completed!", MessageType.DeveloperInfo);
-					Service.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);
+					WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);
 					return true;
 				}
 				catch (Exception e)
 				{
 					lastError = e.ToString();
 					SendMessage("BYOND: Update failed!", MessageType.DeveloperInfo);
-					Service.WriteError("BYOND update failed! Error: " + e.ToString(), EventID.BYONDUpdateFail);
+					WriteError("BYOND update failed! Error: " + e.ToString(), EventID.BYONDUpdateFail);
 					return false;
 				}
 				finally

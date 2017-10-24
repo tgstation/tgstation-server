@@ -109,7 +109,7 @@ namespace TGServerService
 				//only allow the same user the service is running as to use interop, because that's what DD is running as, and don't spam the logs with it unless it fails
 				var result = windowsIdent.User == ServiceSID;
 				if(!result)
-					Service.WriteAccess(windowsIdent.Name, false);
+					WriteAccess(windowsIdent.Name, false);
 				return result;
 			}
 
@@ -127,7 +127,7 @@ namespace TGServerService
 				if (LastSeenUser != user)
 				{
 					LastSeenUser = user;
-					Service.WriteAccess(user, authSuccess);
+					WriteAccess(user, authSuccess);
 				}
 			}
 			return authSuccess;

@@ -74,9 +74,9 @@ namespace TGServerService
 			var eventData = String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetEventPath(eventName), stdout, stderr);
 
 			if (success)
-				Service.WriteInfo(eventData, EventID.PreactionEvent);
+				WriteInfo(eventData, EventID.PreactionEvent);
 			else
-				Service.WriteWarning(eventData, EventID.PreactionFail);
+				WriteWarning(eventData, EventID.PreactionFail);
 
 			return success;
 		}

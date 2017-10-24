@@ -217,7 +217,6 @@ namespace TGServerService.ChatProviders
 							foreach (var J in I.TextChannels)
 								if (J.Id == channel)
 									J.SendMessageAsync(message).Wait();
-					Service.WriteInfo(String.Format("Discord Send ({0}): {1}", channelname, message), EventID.ChatSend);
 					return null;
 				}
 			}
@@ -237,9 +236,7 @@ namespace TGServerService.ChatProviders
 				client.StopAsync().Wait();
 				client.LogoutAsync().Wait();
 			}
-			catch (Exception e) {
-				Service.WriteError("Discord failed DnD: " + e.ToString(), EventID.ChatDisconnectFail);
-			}
+			catch { }
 			client.Dispose();
 		}
 

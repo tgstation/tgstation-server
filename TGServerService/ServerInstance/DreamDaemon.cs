@@ -105,7 +105,7 @@ namespace TGServerService
 					Proc = Process.GetProcessById(Config.ReattachProcessID);
 					if (Proc == null)
 						throw new Exception("GetProcessById returned null!");
-					Service.WriteInfo("Reattached to running DD process!", EventID.DDReattachSuccess);
+					WriteInfo("Reattached to running DD process!", EventID.DDReattachSuccess);
 					ThreadPool.QueueUserWorkItem(_ =>
 					{
 						Thread.Sleep(5000);
@@ -131,7 +131,7 @@ namespace TGServerService
 				}
 				catch (Exception e)
 				{
-					Service.WriteError(String.Format("Failed to reattach to DreamDaemon! PID: {0}. Exception: {1}", Config.ReattachProcessID, e.ToString()), EventID.DDReattachFail);
+					WriteError(String.Format("Failed to reattach to DreamDaemon! PID: {0}. Exception: {1}", Config.ReattachProcessID, e.ToString()), EventID.DDReattachFail);
 				}
 				finally
 				{
@@ -309,13 +309,13 @@ namespace TGServerService
 					if (!RestartInProgress)
 					{
 						SendMessage("DD: Server started, watchdog active...", MessageType.WatchdogInfo);
-						Service.WriteInfo("Watchdog started", EventID.DDWatchdogStarted);
+						WriteInfo("Watchdog started", EventID.DDWatchdogStarted);
 					}
 					else
 					{
 						RestartInProgress = false;
 						if (!ReattachInsteadOfRestart)
-							Service.WriteInfo("Watchdog restarted", EventID.DDWatchdogRestarted);
+							WriteInfo("Watchdog restarted", EventID.DDWatchdogRestarted);
 						else
 							ReattachInsteadOfRestart = false;
 					}
@@ -383,7 +383,7 @@ namespace TGServerService
 							retries = 0;
 							var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
 							SendMessage(msg, MessageType.WatchdogInfo);
-							Service.WriteWarning(msg, EventID.DDWatchdogRebootingServer);
+							WriteWarning(msg, EventID.DDWatchdogRebootingServer);
 						}
 					}
 
@@ -420,7 +420,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DD: Watchdog thread crashed!", MessageType.WatchdogInfo);
-				Service.WriteError("Watch dog thread crashed: " + e.ToString(), EventID.DDWatchdogCrash);
+				WriteError("Watch dog thread crashed: " + e.ToString(), EventID.DDWatchdogCrash);
 			}
 			finally
 			{
@@ -435,10 +435,10 @@ namespace TGServerService
 						{
 							if (!Config.ReattachRequired)
 								SendMessage("DD: Server stopped, watchdog exiting...", MessageType.WatchdogInfo);
-							Service.WriteInfo("Watch dog exited", EventID.DDWatchdogExit);
+							WriteInfo("Watch dog exited", EventID.DDWatchdogExit);
 						}
 						else
-							Service.WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
+							WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
 					}
 				}
 			}
@@ -538,7 +538,7 @@ namespace TGServerService
 						return; //no need
 				}
 				File.Copy(InterfacePath, InterfaceDLLName, overwrite);
-				Service.WriteInfo("Updated interface DLL", EventID.InterfaceDLLUpdated);
+				WriteInfo("Updated interface DLL", EventID.InterfaceDLLUpdated);
 			}
 			catch
 			{
@@ -551,7 +551,7 @@ namespace TGServerService
 				catch (Exception e)
 				{
 					//intentionally using the fi
-					Service.WriteError("Failed to update interface DLL! Error: " + e.ToString(), EventID.InterfaceDLLUpdateFail);
+					WriteError("Failed to update interface DLL! Error: " + e.ToString(), EventID.InterfaceDLLUpdateFail);
 				}
 			}
 		}

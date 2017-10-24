@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using TGServiceInterface.Components;
 
@@ -16,14 +17,19 @@ namespace TGServerService
 	sealed partial class ServerInstance : IDisposable, ITGConnectivity
 	{
 		/// <summary>
+		/// Used to assign the instance to event IDs
+		/// </summary>
+		public readonly byte LoggingID;
+		/// <summary>
 		/// The configuration settings for the instance
 		/// </summary>
 		public readonly InstanceConfig Config;
 		/// <summary>
 		/// Constructs and a <see cref="ServerInstance"/>
 		/// </summary>
-		public ServerInstance(InstanceConfig config)
+		public ServerInstance(InstanceConfig config, byte logID)
 		{
+			LoggingID = logID;
 			Config = config;
 			FindTheDroidsWereLookingFor();
 			InitEventHandlers();
@@ -44,6 +50,46 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+		}
+
+		/// <summary>
+		/// Writes information to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
+		void WriteInfo(string message, EventID id)
+		{
+			Service.WriteEntry(message, id, EventLogEntryType.Information, LoggingID);
+		}
+
+		/// <summary>
+		/// Writes an error to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
+		void WriteError(string message, EventID id)
+		{
+			Service.WriteEntry(message, id, EventLogEntryType.Error, LoggingID);
+		}
+
+		/// <summary>
+		/// Writes a warning to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
+		void WriteWarning(string message, EventID id)
+		{
+			Service.WriteEntry(message, id, EventLogEntryType.Warning, LoggingID);
+		}
+
+		/// <summary>
+		/// Writes an access event to the Windows event log
+		/// </summary>
+		/// <param name="username">The (un)authenticated Windows user's name</param>
+		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
+		void WriteAccess(string username, bool authSuccess)
+		{
+			Service.WriteEntry(String.Format("Access from: {0}", username), EventID.Authentication, authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, LoggingID);
 		}
 
 		/// <inheritdoc />

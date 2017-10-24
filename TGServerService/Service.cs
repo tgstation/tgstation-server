@@ -16,6 +16,11 @@ namespace TGServerService
 	sealed partial class Service : ServiceBase
 	{
 		/// <summary>
+		/// The logging ID used for <see cref="Service"/> events
+		/// </summary>
+		public const byte LoggingID = 0;
+
+		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
 		/// </summary>
 		public static readonly string VersionString = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
@@ -34,57 +39,44 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Writes information to Windows the event log
+		/// Writes an event to Windows the event log
 		/// </summary>
 		/// <param name="message">The log message</param>
 		/// <param name="id">The <see cref="EventID"/> of the message</param>
-		public static void WriteInfo(string message, EventID id)
+		/// <param name="eventType">The <see cref="EventLogEntryType"/> of the event</param>
+		/// <param name="loggingID">The logging source ID for the event</param>
+		public static void WriteEntry(string message, EventID id, EventLogEntryType eventType, byte loggingID)
 		{
-			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Information, (int)id);
-		}
-		/// <summary>
-		/// Writes an error to the Windows event log
-		/// </summary>
-		/// <param name="message">The log message</param>
-		/// <param name="id">The <see cref="EventID"/> of the message</param>
-		public static void WriteError(string message, EventID id)
-		{
-			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Error, (int)id);
-		}
-		/// <summary>
-		/// Writes a warning to the Windows event log
-		/// </summary>
-		/// <param name="message">The log message</param>
-		/// <param name="id">The <see cref="EventID"/> of the message</param>
-		public static void WriteWarning(string message, EventID id)
-		{
-			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
-		}
-
-		/// <summary>
-		/// Writes an access event to the Windows event log
-		/// </summary>
-		/// <param name="username">The (un)authenticated Windows user's name</param>
-		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
-		public static void WriteAccess(string username, bool authSuccess)
-		{
-			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}", username), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
+			ActiveService.EventLog.WriteEntry(message, eventType, (int)id + loggingID);
 		}
 
 		/// <summary>
 		/// The WCF host that contains <see cref="ITGSService"/> connects to
 		/// </summary>
 		ServiceHost serviceHost;
+		/// <summary>
+		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref=""/>
+		/// </summary>
 		IDictionary<string, ServiceHost> hosts;
+		/// <summary>
+		/// List of <see cref="ServerInstance.LoggingID"/>s in use
+		/// </summary>
+		IList<int> UsedLoggingIDs = new List<int>();
 
 		/// <summary>
-		/// Migrates the .NET config from <paramref name="oldVersion"/> to <paramref name="newVersion"/>
+		/// Migrates the .NET config from <paramref name="oldVersion"/> to <paramref name="oldVersion"/> + 1
 		/// </summary>
 		/// <param name="oldVersion">The version to migrate from</param>
-		/// <param name="newVersion">The version to migrate to</param>
-		void MigrateSettings(int oldVersion, int newVersion)
+		void MigrateSettings(int oldVersion)
 		{
-			//Uneeded... So far...
+			switch (oldVersion)
+			{
+				case 6: //switch to per-instance configs
+					var IC = DeprecatedInstanceConfig.CreateFromNETSettings(out string instanceDir);
+					IC.Save();
+					Properties.Settings.Default.InstancePaths.Add(instanceDir);
+					break;
+			}
 		}
 	
 		//you should seriously not add anything here
@@ -102,10 +94,11 @@ namespace TGServerService
 				{
 					var newVersion = Config.SettingsVersion;
 					Config.Upgrade();
-					var oldVersion = Config.SettingsVersion;
-					Config.SettingsVersion = newVersion;
+					
+					for(var oldVersion = Config.SettingsVersion; oldVersion < newVersion; ++oldVersion)
+						MigrateSettings(oldVersion);
 
-					MigrateSettings(oldVersion, newVersion);
+					Config.SettingsVersion = newVersion;
 
 					Config.UpgradeRequired = false;
 					Config.Save();
@@ -120,6 +113,10 @@ namespace TGServerService
 			}
 		}
 
+		/// <summary>
+		/// Overrides and saves the configured <see cref="Properties.Settings.RemoteAccessPort"/> if requested by command line parameters
+		/// </summary>
+		/// <param name="args">The command line parameters for the <see cref="Service"/></param>
 		void ChangePortFromCommandLine(string[] args)
 		{
 			var Config = Properties.Settings.Default;
@@ -142,7 +139,11 @@ namespace TGServerService
 					break;
 				}
 		}
-		//when babby is formed
+
+		/// <summary>
+		/// Called by the Windows service manager. Initializes and starts configured <see cref="ServerInstance"/>s
+		/// </summary>
+		/// <param name="args">Command line arguments for the <see cref="Service"/></param>
 		protected override void OnStart(string[] args)
 		{
 			ChangePortFromCommandLine(args);
@@ -154,6 +155,9 @@ namespace TGServerService
 			OnlineAllHosts();
 		}
 
+		/// <summary>
+		/// Creates the <see cref="ServiceHost"/> for <see cref="ITGSService"/>
+		/// </summary>
 		void SetupService()
 		{
 			serviceHost = CreateHost(this);
@@ -161,6 +165,9 @@ namespace TGServerService
 			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us
 		}
 
+		/// <summary>
+		/// Opens all created <see cref="ServiceHost"/>s
+		/// </summary>
 		void OnlineAllHosts()
 		{
 			serviceHost.Open();
@@ -168,6 +175,11 @@ namespace TGServerService
 				I.Value.Open();
 		}
 
+		/// <summary>
+		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, <see cref="ServiceHost.CloseTimeout"/>, and the configured <see cref="Properties.Settings.RemoteAccessPort"/>
+		/// </summary>
+		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
+		/// <returns>The created <see cref="ServiceHost"/></returns>
 		static ServiceHost CreateHost(object singleton)
 		{
 			return new ServiceHost(singleton, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Properties.Settings.Default.RemoteAccessPort)) })
@@ -176,13 +188,52 @@ namespace TGServerService
 			};
 		}
 
+		/// <summary>
+		/// Creates <see cref="ServiceHost"/>s for all <see cref="ServerInstance"/>s as listed in <see cref="Properties.Settings.InstancePaths"/>
+		/// </summary>
 		void SetupInstances()
 		{
+			hosts = new Dictionary<string, ServiceHost>();
 			var pathsToRemove = new List<string>();
 			foreach (var I in Properties.Settings.Default.InstancePaths)
 				if (SetupInstance(I) != null)
 					pathsToRemove.Add(I);
 		}
+
+		/// <summary>
+		/// Unlocks a <see cref="ServerInstance.LoggingID"/> acquired with <see cref="LockLoggingID"/>
+		/// </summary>
+		/// <param name="ID">The <see cref="ServerInstance.LoggingID"/> to unlock</param>
+		void UnlockLoggingID(byte ID)
+		{
+			lock (UsedLoggingIDs)
+			{
+				UsedLoggingIDs.Remove(ID);
+			}
+		}
+
+		/// <summary>
+		/// Gets and locks a <see cref="ServerInstance.LoggingID"/>
+		/// </summary>
+		/// <returns>A logging ID for the <see cref="ServerInstance"/> must be released using <see cref="UnlockLoggingID(byte)"/></returns>
+		byte LockLoggingID()
+		{
+			lock (UsedLoggingIDs)
+			{
+				for (byte I = 1; I < 100; ++I)
+					if (!UsedLoggingIDs.Contains(I))
+					{
+						return I;
+					}
+			}
+			throw new Exception("All logging IDs in use!");
+		}
+
+		/// <summary>
+		/// Creates and starts a <see cref="ServiceHost"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
+		/// <returns>The inactive <see cref="ServiceHost"/> on success, <see langword="null"/> on failure</returns>
 		ServiceHost SetupInstance(string path)
 		{
 			ServerInstance instance;
@@ -192,16 +243,18 @@ namespace TGServerService
 				if (hosts.ContainsKey(path))
 				{
 					var datInstance = ((ServerInstance)hosts[path].SingletonInstance);
-					WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1} ({2}). Detaching...", path, datInstance.ServerDirectory(), datInstance.Config.Name), EventID.InstanceInitializationFailure);
+					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1} ({2}). Detaching...", path, datInstance.ServerDirectory(), datInstance.Config.Name), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 					return null;
 				}
 				if (!config.Enabled)
 					return null;
-				instance = new ServerInstance(config);
+				var ID = LockLoggingID();
+				WriteEntry(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, path, ID), EventID.InstanceIDAssigned, EventLogEntryType.Information, ID);
+				instance = new ServerInstance(config, ID);
 			}
 			catch (Exception e)
 			{
-				WriteError(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", path, e.ToString()), EventID.InstanceInitializationFailure);
+				WriteEntry(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", path, e.ToString()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 				return null;
 			}
 
@@ -217,11 +270,11 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Adds a WCF endpoint for a component <paramref name="type"/>
+		/// Adds a WCF endpoint for a component <paramref name="typetype"/>
 		/// </summary>
-		/// <param name="host"></param>
-		/// <param name="typetype"></param>
-		/// <param name="PipePrefix"></param>
+		/// <param name="host">The service host to add the component to</param>
+		/// <param name="typetype">The type of the component</param>
+		/// <param name="PipePrefix">The URI prefix for accessing the <paramref name="host"/></param>
 		void AddEndpoint(ServiceHost host, Type typetype, string PipePrefix)
 		{
 			var bindingName = PipePrefix + "/" + typetype.Name;
@@ -255,7 +308,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				WriteError(e.ToString(), EventID.ServiceShutdownFail);
+				WriteEntry(e.ToString(), EventID.ServiceShutdownFail, EventLogEntryType.Error, LoggingID);
 			}
 		}
 

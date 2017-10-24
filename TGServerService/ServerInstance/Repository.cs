@@ -255,7 +255,7 @@ namespace TGServerService
 					InitialConfigureRepository();
 
 					SendMessage("REPO: Clone complete!", MessageType.DeveloperInfo);
-					Service.WriteInfo("Repository {0}:{1} successfully cloned", EventID.RepoClone);
+					WriteInfo("Repository {0}:{1} successfully cloned", EventID.RepoClone);
 				}
 				finally
 				{
@@ -266,7 +266,7 @@ namespace TGServerService
 
 			{
 				SendMessage("REPO: Setup failed!", MessageType.DeveloperInfo);
-				Service.WriteWarning(String.Format("Failed to clone {2}:{0}: {1}", BranchName, e.ToString(), RepoURL), EventID.RepoCloneFail);
+				WriteWarning(String.Format("Failed to clone {2}:{0}: {1}", BranchName, e.ToString(), RepoURL), EventID.RepoCloneFail);
 			}
 			finally
 			{
@@ -352,7 +352,7 @@ namespace TGServerService
 				}
 				catch
 				{
-					Service.WriteError("Could not setup static directory: " + I, EventID.RepoConfigurationFail);
+					WriteError("Could not setup static directory: " + I, EventID.RepoConfigurationFail);
 				}
 			}
 			foreach(var I in Config.DLLPaths)
@@ -362,7 +362,7 @@ namespace TGServerService
 					var source = Path.Combine(RepoPath, I);
 					if (!File.Exists(source))
 					{
-						Service.WriteWarning("Could not find DLL: " + I, EventID.RepoConfigurationFail);
+						WriteWarning("Could not find DLL: " + I, EventID.RepoConfigurationFail);
 						continue;
 					}
 					var dest = Path.Combine(StaticDirs, I);
@@ -370,7 +370,7 @@ namespace TGServerService
 				}
 				catch
 				{
-					Service.WriteError("Could not setup static DLL: " + I, EventID.RepoConfigurationFail);
+					WriteError("Could not setup static DLL: " + I, EventID.RepoConfigurationFail);
 				}
 			}
 		}
@@ -524,13 +524,13 @@ namespace TGServerService
 					var res = ResetNoLock(null);
 					UpdateSubmodules();
 					SendMessage("REPO: Checkout complete!", MessageType.DeveloperInfo);
-					Service.WriteInfo("Repo checked out " + sha, EventID.RepoCheckout);
+					WriteInfo("Repo checked out " + sha, EventID.RepoCheckout);
 					return res;
 				}
 				catch (Exception e)
 				{
 					SendMessage("REPO: Checkout failed!", MessageType.DeveloperInfo);
-					Service.WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), EventID.RepoCheckoutFail);
+					WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), EventID.RepoCheckoutFail);
 					return e.ToString();
 				}
 			}
@@ -602,20 +602,20 @@ namespace TGServerService
 						if (error != null)
 							throw new Exception(error);
 						DeletePRList();
-						Service.WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, EventID.RepoHardUpdate);
+						WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, EventID.RepoHardUpdate);
 						return error;
 					}
 					res = MergeBranch(originBranch.FriendlyName);
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
-					Service.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, EventID.RepoMergeUpdate);
+					WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, EventID.RepoMergeUpdate);
 					return null;
 				}
 				catch (Exception E)
 				{
 					SendMessage("REPO: Update failed!", MessageType.DeveloperInfo);
-					Service.WriteWarning(String.Format("Repo{0} update failed", reset ? " hard" : ""), reset ? EventID.RepoHardUpdateFail : EventID.RepoMergeUpdateFail);
+					WriteWarning(String.Format("Repo{0} update failed", reset ? " hard" : ""), reset ? EventID.RepoHardUpdateFail : EventID.RepoMergeUpdateFail);
 					return E.ToString();
 				}
 			}
@@ -650,7 +650,7 @@ namespace TGServerService
 					Repo.Submodules.Update(I.Name, suo);
 					var msg = String.Format("I had to reclone submodule {0}. If this is happening a lot find a better hack or fix https://github.com/libgit2/libgit2/issues/3820!", I.Name);
 					SendMessage(String.Format("REPO: {0}", msg), MessageType.DeveloperInfo);
-					Service.WriteWarning(msg, EventID.SubmoduleReclone);
+					WriteWarning(msg, EventID.SubmoduleReclone);
 				}
 		}
 
@@ -679,7 +679,7 @@ namespace TGServerService
 
 					if (tag != null)
 					{
-						Service.WriteInfo("Repo backup created at tag: " + tagName + " commit: " + HEAD, EventID.RepoBackupTag);
+						WriteInfo("Repo backup created at tag: " + tagName + " commit: " + HEAD, EventID.RepoBackupTag);
 						return null;
 					}
 					throw new Exception("Tag creation failed!");
@@ -687,7 +687,7 @@ namespace TGServerService
 			}
 			catch (Exception e)
 			{
-				Service.WriteWarning(String.Format("Failed backup tag creation at commit {0}!", Repo.Head.Tip.Sha), EventID.RepoBackupTagFail);
+				WriteWarning(String.Format("Failed backup tag creation at commit {0}!", Repo.Head.Tip.Sha), EventID.RepoBackupTagFail);
 				return e.ToString();
 			}
 		}
@@ -732,10 +732,10 @@ namespace TGServerService
 					SendMessage(String.Format("REPO: Hard reset to {0}branch", trackedBranch ? "tracked " : ""), MessageType.DeveloperInfo);
 					if (trackedBranch)
 						DeletePRList();
-					Service.WriteInfo(String.Format("Repo branch reset{0}", trackedBranch ? " to tracked branch" : ""), trackedBranch ? EventID.RepoResetTracked : EventID.RepoReset);
+					WriteInfo(String.Format("Repo branch reset{0}", trackedBranch ? " to tracked branch" : ""), trackedBranch ? EventID.RepoResetTracked : EventID.RepoReset);
 					return null;
 				}
-				Service.WriteWarning(String.Format("Failed to reset{0}: {1}", trackedBranch ? " to tracked branch" : "", res), trackedBranch ? EventID.RepoResetTrackedFail : EventID.RepoResetFail);
+				WriteWarning(String.Format("Failed to reset{0}: {1}", trackedBranch ? " to tracked branch" : "", res), trackedBranch ? EventID.RepoResetTrackedFail : EventID.RepoResetFail);
 				return res;
 			}
 		}
@@ -761,7 +761,7 @@ namespace TGServerService
 				}
 				catch (Exception e)
 				{
-					Service.WriteError("Failed to delete PR list: " + e.ToString(), EventID.RepoPRListError);
+					WriteError("Failed to delete PR list: " + e.ToString(), EventID.RepoPRListError);
 				}
 		}
 
@@ -849,7 +849,7 @@ namespace TGServerService
 
 					if (Result == null)
 					{
-						Service.WriteInfo(String.Format("Merged pull request #{0}", PRNumber), EventID.RepoPRMerge);
+						WriteInfo(String.Format("Merged pull request #{0}", PRNumber), EventID.RepoPRMerge);
 						try
 						{
 							var CurrentPRs = GetCurrentPRList();
@@ -882,7 +882,7 @@ namespace TGServerService
 						}
 						catch (Exception e)
 						{
-							Service.WriteError("Failed to update PR list", EventID.RepoPRListError);
+							WriteError("Failed to update PR list", EventID.RepoPRListError);
 							return "PR Merged, JSON update failed: " + e.ToString();
 						}
 					}
@@ -891,7 +891,7 @@ namespace TGServerService
 				catch (Exception E)
 				{
 					SendMessage("REPO: PR merge failed!", MessageType.DeveloperInfo);
-					Service.WriteWarning(String.Format("Failed to merge pull request #{0}: {1}", PRNumber, E.ToString()), EventID.RepoPRMergeFail);
+					WriteWarning(String.Format("Failed to merge pull request #{0}: {1}", PRNumber, E.ToString()), EventID.RepoPRMergeFail);
 					return E.ToString();
 				}
 			}
@@ -1054,13 +1054,13 @@ namespace TGServerService
 					var authorandcommitter = MakeSig();
 
 					// Commit to the repository
-					Service.WriteInfo(String.Format("Commit {0} created from changelogs", Repo.Commit(CommitMessage, authorandcommitter, authorandcommitter)), EventID.RepoCommit);
+					WriteInfo(String.Format("Commit {0} created from changelogs", Repo.Commit(CommitMessage, authorandcommitter, authorandcommitter)), EventID.RepoCommit);
 					DeletePRList();
 					return null;
 				}
 				catch (Exception e)
 				{
-					Service.WriteWarning("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
+					WriteWarning("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
 					return e.ToString();
 				}
 			}
@@ -1086,12 +1086,12 @@ namespace TGServerService
 						CredentialsProvider = GenerateGitCredentials,
 					};
 					Repo.Network.Push(Repo.Network.Remotes[SSHPushRemote], Repo.Head.CanonicalName, options);
-					Service.WriteInfo("Repo pushed up to commit: " + Repo.Head.Tip.Sha, EventID.RepoPush);
+					WriteInfo("Repo pushed up to commit: " + Repo.Head.Tip.Sha, EventID.RepoPush);
 					return null;
 				}
 				catch (Exception e)
 				{
-					Service.WriteWarning("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
+					WriteWarning("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
 					return e.ToString();
 				}
 			}
@@ -1237,13 +1237,13 @@ namespace TGServerService
 						return GenerateChangelogImpl(out error, true);
 					}
 					error = null;
-					Service.WriteInfo("Changelog generated" + error, EventID.RepoChangelog);
+					WriteInfo("Changelog generated" + error, EventID.RepoChangelog);
 					return result;
 				}
 				catch (Exception e)
 				{
 					error = e.ToString();
-					Service.WriteWarning("Changelog generation failed: " + error, EventID.RepoChangelogFail);
+					WriteWarning("Changelog generation failed: " + error, EventID.RepoChangelogFail);
 					return null;
 				}
 			}

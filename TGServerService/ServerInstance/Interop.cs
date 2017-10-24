@@ -89,7 +89,7 @@ namespace TGServerService
 					SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
 					break;
 				case SRWorldReboot:
-					Service.WriteInfo("World Rebooted", EventID.WorldReboot);
+					WriteInfo("World Rebooted", EventID.WorldReboot);
 					WriteCurrentDDLog("World rebooted");
 					ServerChatCommands = null;
 					ChatConnectivityCheck();
@@ -102,7 +102,7 @@ namespace TGServerService
 							{
 								GameAPIVersion = null;  //needs updating
 							}
-							Service.WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
+							WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
 						}
 					}
 					break;
@@ -117,7 +117,7 @@ namespace TGServerService
 						}
 						catch
 						{
-							Service.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
+							WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
 							GameAPIVersion = null;
 							break;
 						}
@@ -230,7 +230,7 @@ namespace TGServerService
 				serviceCommsKey += tmp;
 			} while (serviceCommsKey.Length < CommsKeyLen);
 			serviceCommsKey = serviceCommsKey.Substring(0, CommsKeyLen);
-			Service.WriteInfo("Service Comms Key set to: " + serviceCommsKey, EventID.CommsKeySet);
+			WriteInfo("Service Comms Key set to: " + serviceCommsKey, EventID.CommsKeySet);
 		}
 
 		/// <inheritdoc />
@@ -243,7 +243,7 @@ namespace TGServerService
 			}
 			catch(Exception e)
 			{
-				Service.WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
+				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
 				return false;
 			}
 		}

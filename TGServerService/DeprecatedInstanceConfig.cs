@@ -8,10 +8,10 @@ namespace TGServerService
 	class DeprecatedInstanceConfig : InstanceConfig
 	{
 		/// <summary>
-		/// Convert the 3.1 .NET settings file to a config json
+		/// Convert the settings version 6 .NET settings file to a config json
 		/// </summary>
-		/// <returns>A saved <see cref="InstanceConfig"/> based off the old .NET setting file</returns>
-		public static InstanceConfig CreateFromNETSettings()
+		/// <returns>An <see cref="InstanceConfig"/> based off the old .NET setting file</returns>
+		public static InstanceConfig CreateFromNETSettings(out string instanceDirectory)
 		{
 			var Config = Properties.Settings.Default;
 			var result = new DeprecatedInstanceConfig()
@@ -34,7 +34,7 @@ namespace TGServerService
 				AuthorizedUserGroupSID = (string)Config.GetPreviousVersion("AuthorizedGroupSID")
 			};
 			result.MigrateToCurrentVersion();
-			result.Save();
+			instanceDirectory = result.InstanceDir;
 			return result;
 		}
 

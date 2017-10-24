@@ -81,7 +81,7 @@ namespace TGServerService
 
 					var output = File.ReadAllText(path);
 					Service.CancelImpersonation();
-					Service.WriteInfo("Read of " + path, EventID.StaticRead);
+					WriteInfo("Read of " + path, EventID.StaticRead);
 					error = null;
 					unauthorized = false;
 					return output;
@@ -98,7 +98,7 @@ namespace TGServerService
 			{
 				error = e.ToString();
 				Service.CancelImpersonation();
-				Service.WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
+				WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				unauthorized = false;
 				return null;
 			}
@@ -137,7 +137,7 @@ namespace TGServerService
 					Directory.CreateDirectory(destdir);
 					File.WriteAllText(path, data);
 					Service.CancelImpersonation();
-					Service.WriteInfo("Write to " + path, EventID.StaticWrite);
+					WriteInfo("Write to " + path, EventID.StaticWrite);
 					unauthorized = false;
 					return null;
 				}
@@ -152,7 +152,7 @@ namespace TGServerService
 			{
 				unauthorized = false;
 				Service.CancelImpersonation();
-				Service.WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
+				WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}
@@ -191,7 +191,7 @@ namespace TGServerService
 					else if (Directory.Exists(path))
 						Program.DeleteDirectory(path);
 					Service.CancelImpersonation();
-					Service.WriteInfo("Delete of " + path, EventID.StaticDelete);
+					WriteInfo("Delete of " + path, EventID.StaticDelete);
 					unauthorized = false;
 					return null;
 				}
@@ -206,7 +206,7 @@ namespace TGServerService
 			{
 				unauthorized = false;
 				Service.CancelImpersonation();
-				Service.WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
+				WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}

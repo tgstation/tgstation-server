@@ -221,7 +221,7 @@ namespace TGServerService
 					lock (CompilerLock)
 					{
 						SendMessage("DM: Setup failed!", MessageType.DeveloperInfo);
-						Service.WriteError("Compiler Initialization Error: " + e.ToString(), EventID.DMInitializeCrash);
+						WriteError("Compiler Initialization Error: " + e.ToString(), EventID.DMInitializeCrash);
 						lastCompilerError = e.ToString();
 						compilerCurrentStatus = CompilerStatus.Uninitialized;
 						return;
@@ -414,7 +414,7 @@ namespace TGServerService
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
 					SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo);
-					Service.WriteError(errorMsg, EventID.DMCompileCrash);
+					WriteError(errorMsg, EventID.DMCompileCrash);
 					lock (CompilerLock)
 					{
 						lastCompilerError = errorMsg;
@@ -427,7 +427,7 @@ namespace TGServerService
 				{
 					lastCompilerError = "The precompile hook failed";
 					compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-					Service.WriteWarning("Precompile hook failed!", EventID.DMCompileError);
+					WriteWarning("Precompile hook failed!", EventID.DMCompileError);
 					return;
 				}
 
@@ -525,13 +525,13 @@ namespace TGServerService
 						{
 							lastCompilerError = "The postcompile hook failed";
 							compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-							Service.WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
+							WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
 							return;
 						}
 						UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
 						SendMessage("DM: " + msg, MessageType.DeveloperInfo);
-						Service.WriteInfo(msg, EventID.DMCompileSuccess);
+						WriteInfo(msg, EventID.DMCompileSuccess);
 						lock (CompilerLock)
 						{
 							if (staged)
@@ -543,7 +543,7 @@ namespace TGServerService
 					else
 					{
 						SendMessage("DM: Compile failed!", MessageType.DeveloperInfo); //Also happens for warnings
-						Service.WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
+						WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
@@ -560,7 +560,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DM: Compiler thread crashed!", MessageType.DeveloperInfo);
-				Service.WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
+				WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
 				lock (CompilerLock)
 				{
 					lastCompilerError = e.ToString();
@@ -577,7 +577,7 @@ namespace TGServerService
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
 						SendMessage("DM: Compile cancelled!", MessageType.DeveloperInfo);
-						Service.WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
+						WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
 					}
 				}
 			}

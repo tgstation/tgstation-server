@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Diagnostics;
+using System.Security.Principal;
 using System.ServiceModel;
 using TGServiceInterface.Components;
 
@@ -7,7 +9,7 @@ namespace TGServerService
 	/// <summary>
 	/// A <see cref="ServiceAuthorizationManager"/> used to determine only if the caller is an admin
 	/// </summary>
-	class AdministrativeAuthorizationManager : ServiceAuthorizationManager
+	sealed class AdministrativeAuthorizationManager : ServiceAuthorizationManager
 	{
 		string LastSeenUser;
 		protected override bool CheckAccessCore(OperationContext operationContext)
@@ -27,7 +29,7 @@ namespace TGServerService
 			if (LastSeenUser != user)
 			{
 				LastSeenUser = user;
-				Service.WriteAccess(user, authSuccess);
+				Service.WriteEntry(String.Format("Root access from: {0}", user), EventID.Authentication, authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, Service.LoggingID);
 			}
 			return authSuccess;
 		}

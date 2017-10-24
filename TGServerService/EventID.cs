@@ -3,7 +3,7 @@
 namespace TGServerService
 {
 	/// <summary>
-	/// Various events and their IDs in no particular order. Found in the Windows event log. These incremented by 100 and are guaranteed to never be reused in the future. Each event ID may be information, a warning, or error and will be documented accordingly. Warnings will occur due to user, data, or network errors. Errors will occur due to filesystem errors or hard faults
+	/// Various events and their IDs in no particular order. Found in the Windows event log. These key incremented by 100 and are guaranteed to never be reused in the future. In the windows event viewer, these IDs will be offset by the <see cref="ServerInstance.LoggingID"/> to distinguish events between instances. Each event ID may be information, a warning, or error and will be documented accordingly. Warnings will occur due to user, data, or network errors. Errors will occur due to filesystem errors or hard faults
 	/// </summary>
 	public enum EventID : int
 	{
@@ -112,10 +112,12 @@ namespace TGServerService
 		/// <summary>
 		/// Info: Successful completion of a <see cref="ChatProviders.IChatProvider.SendMessageDirect(string, string)"/> operation
 		/// </summary>
+		[Obsolete("Not in use anymore", true)]
 		ChatSend = 2600,
 		/// <summary>
 		/// Info: Successful completion of a <see cref="ChatProviders.IChatProvider.SendMessage(string, MessageType)"/> operation
 		/// </summary>
+		[Obsolete("Not in use anymore", true)]
 		ChatBroadcast = 2700,
 		/// <summary>
 		/// Not in use anymore
@@ -125,6 +127,7 @@ namespace TGServerService
 		/// <summary>
 		/// Error: When an error occurs during a <see cref="ChatProviders.IChatProvider.Disconnect"/> operation
 		/// </summary>
+		[Obsolete("Not in use anymore", true)]
 		ChatDisconnectFail = 2900,
 		/// <summary>
 		/// Not in use anymore
@@ -315,5 +318,9 @@ namespace TGServerService
 		/// Info: Successfully delete of a static path. Warning: An error occurred during a delete of a static path
 		/// </summary>
 		StaticDelete = 7500,
+		/// <summary>
+		/// Info: When an instance's logging ID is first assigned
+		/// </summary>
+		InstanceIDAssigned = 7600,
 	}
 }

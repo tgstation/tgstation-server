@@ -40,19 +40,19 @@ namespace TGServerService
 							chatProvider = new IRCChatProvider(info);
 							break;
 						default:
-							Service.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), EventID.InvalidChatProvider);
+							WriteError(String.Format("Invalid chat provider: {0}", info.Provider), EventID.InvalidChatProvider);
 							continue;
 					}
 				}
 				catch (Exception e)
 				{
-					Service.WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), EventID.ChatProviderStartFail);
+					WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), EventID.ChatProviderStartFail);
 					continue;
 				}
 				chatProvider.OnChatMessage += ChatProvider_OnChatMessage;
 				var res = chatProvider.Connect();
 				if (res != null)
-					Service.WriteWarning(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", chatProvider.GetType().ToString(), res), EventID.ChatConnectFail);
+					WriteWarning(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", chatProvider.GetType().ToString(), res), EventID.ChatConnectFail);
 				ChatProviders.Add(chatProvider);
 			}
 		}
@@ -86,7 +86,7 @@ namespace TGServerService
 				Speaker = speaker,
 				Server = this,
 			};
-			Service.WriteInfo(String.Format("Chat Command from {0} ({2}): {1}", speaker, String.Join(" ", asList), channel), EventID.ChatCommand);
+			WriteInfo(String.Format("Chat Command from {0} ({2}): {1}", speaker, String.Join(" ", asList), channel), EventID.ChatCommand);
 			if (ServerChatCommands == null)
 				LoadServerChatCommands();
 			new RootChatCommand(ServerChatCommands).DoRun(asList);
@@ -229,7 +229,7 @@ namespace TGServerService
 					}
 					catch (Exception e)
 					{
-						Service.WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), ChatProvider.ProviderInfo().Provider), EventID.ChatBroadcastFail);
+						WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), ChatProvider.ProviderInfo().Provider), EventID.ChatBroadcastFail);
 					}
 			}
 		}
