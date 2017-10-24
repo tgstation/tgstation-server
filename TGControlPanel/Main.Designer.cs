@@ -78,8 +78,6 @@
 			this.WebclientCheckBox = new System.Windows.Forms.CheckBox();
 			this.WorldAnnounceButton = new System.Windows.Forms.Button();
 			this.WorldAnnounceField = new System.Windows.Forms.TextBox();
-			this.ServerPathTextbox = new System.Windows.Forms.TextBox();
-			this.projectNameText = new System.Windows.Forms.TextBox();
 			this.WorldAnnounceLabel = new System.Windows.Forms.Label();
 			this.SecuritySelector = new System.Windows.Forms.ComboBox();
 			this.SecurityTitle = new System.Windows.Forms.Label();
@@ -158,6 +156,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
+			this.projectNameText = new System.Windows.Forms.TextBox();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -643,7 +642,6 @@
 			this.ServerPanel.Controls.Add(this.WebclientCheckBox);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceButton);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceField);
-			this.ServerPanel.Controls.Add(this.ServerPathTextbox);
 			this.ServerPanel.Controls.Add(this.projectNameText);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceLabel);
 			this.ServerPanel.Controls.Add(this.SecuritySelector);
@@ -789,22 +787,6 @@
 			this.WorldAnnounceField.Name = "WorldAnnounceField";
 			this.WorldAnnounceField.Size = new System.Drawing.Size(213, 20);
 			this.WorldAnnounceField.TabIndex = 40;
-			// 
-			// ServerPathTextbox
-			// 
-			this.ServerPathTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.ServerPathTextbox.Location = new System.Drawing.Point(136, 163);
-			this.ServerPathTextbox.Name = "ServerPathTextbox";
-			this.ServerPathTextbox.Size = new System.Drawing.Size(296, 20);
-			this.ServerPathTextbox.TabIndex = 32;
-			// 
-			// projectNameText
-			// 
-			this.projectNameText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.projectNameText.Location = new System.Drawing.Point(566, 163);
-			this.projectNameText.Name = "projectNameText";
-			this.projectNameText.Size = new System.Drawing.Size(296, 20);
-			this.projectNameText.TabIndex = 29;
 			// 
 			// WorldAnnounceLabel
 			// 
@@ -1799,6 +1781,14 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
+			// projectNameText
+			// 
+			this.projectNameText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.projectNameText.Location = new System.Drawing.Point(566, 163);
+			this.projectNameText.Name = "projectNameText";
+			this.projectNameText.Size = new System.Drawing.Size(296, 20);
+			this.projectNameText.TabIndex = 29;
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1882,8 +1872,6 @@
 		private System.Windows.Forms.CheckBox WebclientCheckBox;
 		private System.Windows.Forms.Button WorldAnnounceButton;
 		private System.Windows.Forms.TextBox WorldAnnounceField;
-		private System.Windows.Forms.TextBox ServerPathTextbox;
-		private System.Windows.Forms.TextBox projectNameText;
 		private System.Windows.Forms.Label WorldAnnounceLabel;
 		private System.Windows.Forms.ComboBox SecuritySelector;
 		private System.Windows.Forms.Label SecurityTitle;
@@ -1966,5 +1954,6 @@
 		private System.Windows.Forms.NumericUpDown AutoUpdateInterval;
 		private System.Windows.Forms.CheckBox AutoUpdateCheckbox;
 		private System.Windows.Forms.Label AutoUpdateMLabel;
+		private System.Windows.Forms.TextBox projectNameText;
 	}
 }

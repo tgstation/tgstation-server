@@ -25,14 +25,7 @@ namespace TGControlPanel
 		void InitServerPage()
 		{
 			LoadServerPage();
-			if (!Interface.AuthenticateAdmin())
-			{
-				ServerPathTextbox.Enabled = false;
-				ServerPathTextbox.ReadOnly = true;
-			}
 			FullUpdateWorker.RunWorkerCompleted += FullUpdateWorker_RunWorkerCompleted;
-			ServerPathTextbox.LostFocus += ServerPathTextbox_LostFocus;
-			ServerPathTextbox.KeyDown += ServerPathTextbox_KeyDown;
 			projectNameText.LostFocus += ProjectNameText_LostFocus;
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
 			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
@@ -49,12 +42,6 @@ namespace TGControlPanel
 		{
 			if (e.KeyCode == Keys.Enter)
 				UpdateProjectName();
-		}
-
-		private void ServerPathTextbox_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Enter)
-				UpdateServerPath();
 		}
 
 		private void FullUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -74,34 +61,6 @@ namespace TGControlPanel
 			if (res != null)
 				MessageBox.Show(res);
 			LoadServerPage();
-		}
-
-		private void ServerPathTextbox_LostFocus(object sender, EventArgs e)
-		{
-			UpdateServerPath();
-		}
-
-		void UpdateServerPath()
-		{
-			if (!Program.CheckAdminWithWarning())
-			{
-				ServerPathTextbox.Enabled = false;
-				ServerPathTextbox.ReadOnly = true;
-				return;
-			}
-			if (updatingFields || ServerPathTextbox.Text.Trim() == Interface.GetComponent<ITGConfig>().ServerDirectory())
-				return;
-			var DialogResult = MessageBox.Show("This will move the entire server installation.", "Confim", MessageBoxButtons.YesNo);
-			if (DialogResult != DialogResult.Yes)
-				return;
-
-			if (!Program.CheckAdminWithWarning())
-			{
-				ServerPathTextbox.Enabled = false;
-				ServerPathTextbox.ReadOnly = true;
-				return;
-			}
-			MessageBox.Show(Interface.GetComponent<ITGAdministration>().MoveServer(ServerPathTextbox.Text) ?? "Success!");
 		}
 
 		void LoadServerPage()
@@ -146,9 +105,8 @@ namespace TGControlPanel
 			try
 			{
 				updatingFields = true;
-
-				if (!ServerPathTextbox.Focused)
-					ServerPathTextbox.Text = Config.ServerDirectory();
+				
+				ServerPathLabel.Text = "Server Path: " + Config.ServerDirectory();
 
 				SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
 
