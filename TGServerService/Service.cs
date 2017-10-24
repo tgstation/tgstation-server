@@ -103,8 +103,8 @@ namespace TGServerService
 					Config.UpgradeRequired = false;
 					Config.Save();
 				}
-				ActiveService = this;
 				ServiceName = "TG Station Server";
+				ActiveService = this;
 				Run(this);
 			}
 			finally
