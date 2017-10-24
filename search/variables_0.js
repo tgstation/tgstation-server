@@ -10,6 +10,7 @@ var searchData=
   ['adminmodeindex',['AdminModeIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#ac5285c392ff73756c0f5a2430468811f',1,'TGServiceInterface::ChatSetupInfo']]],
   ['adminmodenormal',['AdminModeNormal',['../class_t_g_control_panel_1_1_main.html#a963f3aab10ad4509d2f565a7d98e0005',1,'TGControlPanel::Main']]],
   ['adminmodespecial',['AdminModeSpecial',['../class_t_g_control_panel_1_1_main.html#a31cd329d57e1da9af65c91674233626e',1,'TGControlPanel::Main']]],
+  ['allowedmajorapiversion',['AllowedMajorAPIVersion',['../class_t_g_server_service_1_1_server_instance.html#a178ed6d4540e6d79c2d6a3df12640c4e',1,'TGServerService::ServerInstance']]],
   ['assemblynames',['assemblyNames',['../class_i_l_template.html#ab717da90fc9ccb8a7ba5eb4cc5a3be4e',1,'ILTemplate']]],
   ['authfield1',['AuthField1',['../class_t_g_control_panel_1_1_main.html#a54ca814d527b569ed79e04d0ce0ae4c6',1,'TGControlPanel::Main']]],
   ['authfield1title',['AuthField1Title',['../class_t_g_control_panel_1_1_main.html#ace6eba6e552cfc326b5121f362fdd455',1,'TGControlPanel::Main']]],

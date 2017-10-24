@@ -37,6 +37,7 @@ var searchData=
   ['adminviewgroupcommand',['AdminViewGroupCommand',['../class_t_g_command_line_1_1_admin_view_group_command.html',1,'TGCommandLine']]],
   ['adminviewportcommand',['AdminViewPortCommand',['../class_t_g_command_line_1_1_admin_view_port_command.html',1,'TGCommandLine']]],
   ['adminviewportcommand',['AdminViewPortCommand',['../class_t_g_command_line_1_1_admin_view_port_command.html#ae45e6b6a8f9c16dad5fce3d7533180ab',1,'TGCommandLine::AdminViewPortCommand']]],
+  ['allowedmajorapiversion',['AllowedMajorAPIVersion',['../class_t_g_server_service_1_1_server_instance.html#a178ed6d4540e6d79c2d6a3df12640c4e',1,'TGServerService::ServerInstance']]],
   ['apiversionmismatch',['APIVersionMismatch',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a6882e4a329119caa1c37c97b71aa9041',1,'TGServerService']]],
   ['applystagedupdate',['ApplyStagedUpdate',['../class_t_g_server_service_1_1_server_instance.html#a28e22392a22a56807a3c3a6a3a366860',1,'TGServerService::ServerInstance']]],
   ['assemblyinfo_2ecs',['AssemblyInfo.cs',['../_t_g_command_line_2_properties_2_assembly_info_8cs.html',1,'']]],
