@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -9,10 +10,10 @@ namespace TGControlPanel
 		string lastReadError = null;
 		void InitBYONDPage()
 		{
-			var BYOND = Server.GetComponent<ITGByond>();
-			var CV = BYOND.GetVersion(TGByondVersion.Installed);
+			var BYOND = Interface.GetComponent<ITGByond>();
+			var CV = BYOND.GetVersion(ByondVersion.Installed);
 			if (CV == null)
-				CV = BYOND.GetVersion(TGByondVersion.Staged);
+				CV = BYOND.GetVersion(ByondVersion.Staged);
 			if (CV != null)
 			{
 				var splits = CV.Split('.');
@@ -29,7 +30,7 @@ namespace TGControlPanel
 				}
 			}
 
-			var latestVer = Server.GetComponent<ITGByond>().GetVersion(TGByondVersion.Latest);
+			var latestVer = Interface.GetComponent<ITGByond>().GetVersion(ByondVersion.Latest);
 			LatestVersionLabel.Text = latestVer;
 
 			try
@@ -46,7 +47,7 @@ namespace TGControlPanel
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			UpdateBYONDButtons();
-			if (!Server.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
+			if (!Interface.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
 				MessageBox.Show("Unable to begin update, there is another operation in progress.");
 		}
 		
@@ -56,40 +57,40 @@ namespace TGControlPanel
 		}
 		void UpdateBYONDButtons()
 		{
-			var BYOND = Server.GetComponent<ITGByond>();
+			var BYOND = Interface.GetComponent<ITGByond>();
 
-			VersionLabel.Text = BYOND.GetVersion(TGByondVersion.Installed) ?? "Not Installed";
+			VersionLabel.Text = BYOND.GetVersion(ByondVersion.Installed) ?? "Not Installed";
 
 			StagedVersionTitle.Visible = false;
 			StagedVersionLabel.Visible = false;
 			switch (BYOND.CurrentStatus())
 			{
-				case TGByondStatus.Idle:
-				case TGByondStatus.Starting:
+				case ByondStatus.Idle:
+				case ByondStatus.Starting:
 					StatusLabel.Text = "Idle";
 					UpdateButton.Enabled = true;
 					break;
-				case TGByondStatus.Downloading:
+				case ByondStatus.Downloading:
 					StatusLabel.Text = "Downloading...";
 					UpdateButton.Enabled = false;
 					break;
-				case TGByondStatus.Staging:
+				case ByondStatus.Staging:
 					StatusLabel.Text = "Staging...";
 					UpdateButton.Enabled = false;
 					break;
-				case TGByondStatus.Staged:
+				case ByondStatus.Staged:
 					StagedVersionTitle.Visible = true;
 					StagedVersionLabel.Visible = true;
-					StagedVersionLabel.Text = BYOND.GetVersion(TGByondVersion.Staged) ?? "Unknown";
+					StagedVersionLabel.Text = BYOND.GetVersion(ByondVersion.Staged) ?? "Unknown";
 					StatusLabel.Text = "Staged and waiting for BYOND to shutdown...";
 					UpdateButton.Enabled = true;
 					break;
-				case TGByondStatus.Updating:
+				case ByondStatus.Updating:
 					StatusLabel.Text = "Applying update...";
 					UpdateButton.Enabled = false;
 					break;
 			}
-			var error = Server.GetComponent<ITGByond>().GetError();
+			var error = Interface.GetComponent<ITGByond>().GetError();
 			if (error != lastReadError)
 			{
 				lastReadError = error;

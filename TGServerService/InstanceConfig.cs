@@ -11,11 +11,11 @@ namespace TGServerService
 		[ScriptIgnore]
 		const string JSONFilename = "Instance.json";
 		[ScriptIgnore]
-		const ulong CurrentVersion = 0;	//Literally any time you add/deprecated a field, this number needs to be bumped
+		protected const ulong CurrentVersion = 0;	//Literally any time you add/deprecated a field, this number needs to be bumped
 		[ScriptIgnore]
-		string InstanceDir;
+		protected string InstanceDir;
 
-		public ulong Version { get; private set; } = CurrentVersion;
+		public ulong Version { get; protected set; } = CurrentVersion;
 		public Guid ID { get; private set; } = Guid.NewGuid();
 
 		public string Name { get; set; } = "TG Station Server";
@@ -24,7 +24,7 @@ namespace TGServerService
 		public string ProjectName { get; set; } = "tgstation";
 
 		public ushort Port { get; set; } = 1337;
-		public TGDreamDaemonSecurity Security { get; set; } = TGDreamDaemonSecurity.Trusted;
+		public DreamDaemonSecurity Security { get; set; } = DreamDaemonSecurity.Trusted;
 		public bool Autostart { get; set; } = false;
 		public bool Webclient { get; set; } = false;
 
@@ -54,33 +54,8 @@ namespace TGServerService
 			var configtext = File.ReadAllText(Path.Combine(path, JSONFilename));
 			var res = new JavaScriptSerializer().Deserialize<DeprecatedInstanceConfig>(configtext);
 			res.InstanceDir = path;
-			for (; res.Version < CurrentVersion; ++res.Version)
-				res.Migrate();
+			res.MigrateToCurrentVersion();
 			return res;
-		}
-		
-		public void ConvertNETConfigToInstanceConfig()
-		{
-			var Config = Properties.Settings.Default;
-			new InstanceConfig()
-			{
-				InstanceDir = (string)Config.GetPreviousVersion("ServerDirectory"),
-				ProjectName = (string)Config.GetPreviousVersion("ProjectName"),
-				Port = (ushort)Config.GetPreviousVersion("ServerPort"),
-				CommitterName = (string)Config.GetPreviousVersion("CommitterName"),
-				CommitterEmail = (string)Config.GetPreviousVersion("CommitterEmail"),
-				Security = (TGDreamDaemonSecurity)Config.GetPreviousVersion("ServerSecurity"),
-				Autostart = (bool)Config.GetPreviousVersion("DDAutoStart"),
-				ChatProviderData = (string)Config.GetPreviousVersion("ChatProviderData"),
-				ChatProviderEntropy = (string)Config.GetPreviousVersion("ChatProviderEntropy"),
-				ReattachRequired = (bool)Config.GetPreviousVersion("ReattachToDD"),
-				ReattachProcessID = (int)Config.GetPreviousVersion("ReattachPID"),
-				ReattachPort = (ushort)Config.GetPreviousVersion("ReattachPort"),
-				ReattachCommsKey = (string)Config.GetPreviousVersion("ReattachCommsKey"),
-				ReattachAPIVersion = (string)Config.GetPreviousVersion("ReattachAPIVersion"),
-				AutoUpdateInterval = (ulong)Config.GetPreviousVersion("AutoUpdateInterval"),
-				AuthorizedUserGroupSID = (string)Config.GetPreviousVersion("AuthorizedGroupSID")
-			}.Save();
 		}
 	}
 }

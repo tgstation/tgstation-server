@@ -32,6 +32,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\x86\Release\TGServiceInterface.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RGiesecke.DllExport.Metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f52d83c1a22df51, processorArchitecture=MSIL">
@@ -45,21 +47,26 @@
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administration.cs" />
-    <Compile Include="Byond.cs" />
+    <Compile Include="Components\Administration.cs" />
+    <Compile Include="Components\Byond.cs" />
+    <Compile Include="ChatSetupInfo.cs" />
     <Compile Include="Command.cs" />
-    <Compile Include="Compiler.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Connectivity.cs" />
-    <Compile Include="DreamDaemon.cs" />
-    <Compile Include="Chat.cs" />
+    <Compile Include="Components\Compiler.cs" />
+    <Compile Include="Components\Config.cs" />
+    <Compile Include="Components\Connectivity.cs" />
+    <Compile Include="Components\DreamDaemon.cs" />
+    <Compile Include="Components\Chat.cs" />
+    <Compile Include="DreamDaemonBridge.cs" />
+    <Compile Include="Enumerations.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
+    <Compile Include="Components\Repository.cs" />
+    <Compile Include="PullRequestInfo.cs" />
+    <Compile Include="RootCommand.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="..\Version.cs" />
-    <Compile Include="Service.cs" />
-    <Compile Include="Interop.cs" />
+    <Compile Include="Components\Service.cs" />
+    <Compile Include="Components\Interop.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />

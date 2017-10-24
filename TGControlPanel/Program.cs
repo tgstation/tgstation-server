@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TGServiceInterface;
 
@@ -10,7 +9,7 @@ namespace TGControlPanel
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Server.SetBadCertificateHandler(BadCertificateHandler);
+			Interface.SetBadCertificateHandler(BadCertificateHandler);
 			try
 			{
 				if (Properties.Settings.Default.UpgradeRequired)
@@ -47,7 +46,7 @@ namespace TGControlPanel
 
 		public static bool CheckAdminWithWarning()
 		{
-			if (!Server.AuthenticateAdmin())
+			if (!Interface.AuthenticateAdmin())
 			{
 				MessageBox.Show("Only system administrators may use this command!");
 				return false;

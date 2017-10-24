@@ -3,36 +3,126 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TGServiceInterface;
 
 namespace TGInstallerWrapper
 {
-	public partial class Main : Form
+	partial class Main : Form
 	{
-		const string InstallDir = "TG Station Server";  //keep this in sync with the msi installer
+		const string DefaultInstallDir = "TG Station Server";  //keep this in sync with the msi installer
+
+		//reflection shit, make sure it matches
+		const string InterfaceDLL = "TGServiceInterface.dll";
+		const string InterfaceNamespace = "TGServiceInterface";
+		const string InterfaceComponentsNamespace = InterfaceNamespace + ".Components";
+		const string InterfaceClass = InterfaceNamespace + ".Server";
+		const string InterfaceServiceInterface = InterfaceComponentsNamespace + ".ITGSService";   //fuck this typo
+		const string InterfaceClassVerifyConnection = "VerifyConnection";
+		const string InterfaceClassGetComponent = "GetComponent";
+		const string InterfaceServiceInterfaceVersion = "Version";
+		const string InterfaceServiceInterfacePrepareForUpdate = "PrepareForUpdate";
+
+		Assembly InterfaceAssembly;
+		Type Server, ITGSService;
+		MethodInfo VerifyConnection, GetComponentITGSService, Version, PrepareForUpdate;
+
+		string tempDir;
 		bool installing = false;
 		bool cancelled = false;
 		bool pathIsDefault = true;
+
+		/// <summary>
+		/// Construct an installer form
+		/// </summary>
 		public Main()
 		{
 			InitializeComponent();
-			FormClosing += Main_FormClosing;
-			PathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + Path.DirectorySeparatorChar + InstallDir;
-			var verifiedConnection = Server.VerifyConnection() == null;
+			SetupTempDir();
+			LoadInterfaceFromReflection();
+			CheckForExistingVersion();
+			PathTextBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), DefaultInstallDir);
+		}
+
+		void SetupTempDir()
+		{
+			tempDir = Path.Combine(Path.GetTempPath(), "TGS3InstallerTempDir");
 			try
 			{
-				VersionLabel.Text = Server.GetComponent<ITGSService>().Version();
+				if (File.Exists(tempDir))
+					File.Delete(tempDir);
+				else if (Directory.Exists(tempDir))
+					Directory.Delete(tempDir);
+			}
+			catch { }
+			if (File.Exists(tempDir) || Directory.Exists(tempDir))
+			{
+				tempDir = Path.GetTempFileName();
+				File.Delete(tempDir);  //we want a dir not a file
+			}
+			Directory.CreateDirectory(tempDir);
+		}
+
+		void LoadInterfaceFromReflection()
+		{
+			//so this is where we expect to find the interface dll
+			try
+			{
+				var tmppath = Path.Combine(tempDir, InterfaceDLL);
+				File.WriteAllBytes(tmppath, Properties.Resources.TGServiceInterface);
+				InterfaceAssembly = Assembly.LoadFrom(tmppath);	//we can't link to it, or load the bytes directly because the thing will complain about mixing the DLLExport code and IL code
+				Server = InterfaceAssembly.GetType(InterfaceClass);
+				ITGSService = InterfaceAssembly.GetType(InterfaceServiceInterface);
+				VerifyConnection = Server.GetMethod(InterfaceClassVerifyConnection);
+				GetComponentITGSService = Server.GetMethod(InterfaceClassGetComponent).MakeGenericMethod(ITGSService);
+				Version = ITGSService.GetMethod(InterfaceServiceInterfaceVersion);
+				PrepareForUpdate = ITGSService.GetMethod(InterfaceServiceInterfacePrepareForUpdate);
 			}
 			catch
 			{
-				if(verifiedConnection)
+				InterfaceAssembly = null;
+				VersionLabel.Text = "Error: (Could not load interface dll)";
+				return;
+			}
+		}
+
+		void CheckForExistingVersion() {
+			if (InterfaceAssembly == null)
+				return;
+			var verifiedConnection = VerifyConnection.Invoke(null, null) == null;
+			try
+			{
+				VersionLabel.Text = (string)Version.Invoke(GetComponentITGSService.Invoke(null, null), null);
+			}
+			catch
+			{
+				if (verifiedConnection)
 					VersionLabel.Text = "< v3.0.85.0 (Missing ITGService.Version())";
 			}
-			TargetVersionLabel.Text += " v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
+		}
+
+		bool ConfirmDangerousUpgrade()
+		{
+			return MessageBox.Show("Unable connect to service! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes;
+		}
+
+		bool TellServiceWereComingForThem()
+		{
+			if (InterfaceAssembly == null)
+				return ConfirmDangerousUpgrade();
+			var connectionVerified = VerifyConnection.Invoke(null, null) == null;
+			try
+			{
+				PrepareForUpdate.Invoke(GetComponentITGSService.Invoke(null, null), null);
+				Thread.Sleep(3000); //chat messages
+				return true;
+			}
+			catch
+			{
+				return ConfirmDangerousUpgrade();
+			}
 		}
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -71,7 +161,6 @@ namespace TGInstallerWrapper
 
 		async void DoInstall()
 		{
-			string path = null;
 			string logfile = null;
 			try
 			{
@@ -90,6 +179,9 @@ namespace TGInstallerWrapper
 					break;
 				}
 				
+				if (!TellServiceWereComingForThem())
+					return;
+
 				var args = new List<string>();
 				if (!pathIsDefault)
 					args.Add(String.Format("INSTALLFOLDER=\"{0}\"", PathTextBox.Text));
@@ -108,32 +200,16 @@ namespace TGInstallerWrapper
 				ShowLogCheckbox.Enabled = false;
 				InstallButton.Text = "Installing...";
 
-				path = Path.GetTempFileName();
-				File.Delete(path);  //we want a dir not a file
-				Directory.CreateDirectory(path);
-				var msipath = path + Path.DirectorySeparatorChar + "TGServiceInstaller.msi";
+				var msipath = Path.Combine(tempDir, "TGServiceInstaller.msi");
 				File.WriteAllBytes(msipath, Properties.Resources.TGServiceInstaller);
-				File.WriteAllBytes(path + Path.DirectorySeparatorChar + "cab1.cab", Properties.Resources.cab1);
+				File.WriteAllBytes(Path.Combine(tempDir, "cab1.cab"), Properties.Resources.cab1);
 
 				ProgressBar.Style = ProgressBarStyle.Marquee;
-
-				var connectionVerified = Server.VerifyConnection() == null;
-				try
-				{
-					Server.GetComponent<ITGSService>().PrepareForUpdate();
-					Thread.Sleep(3000); //chat messages
-				}
-				catch
-				{
-					if (connectionVerified && MessageBox.Show("ITGSService.PrepareForUpdate() threw an exception! Existing DreamDaemon instances will be terminated. Continue?", "Warning", MessageBoxButtons.YesNo) != DialogResult.Yes)
-						return;
-				}
-
 				InstallCancelButton.Enabled = true;
 
 				if (ShowLogCheckbox.Checked)
 				{
-					logfile = path + Path.DirectorySeparatorChar + "tgsinstall.log";
+					logfile = Path.Combine(tempDir, "tgsinstall.log");
 					Installer.EnableLog(InstallLogModes.Verbose | InstallLogModes.PropertyDump, logfile);
 				}
 				var cl = String.Join(" ", args);
@@ -172,12 +248,6 @@ namespace TGInstallerWrapper
 						Process.Start(logfile).WaitForInputIdle();
 					}
 					catch { }
-				if (path != null)
-					try
-					{
-						Directory.Delete(path, true);
-					}
-					catch { }
 			}
 			MessageBox.Show("Success!");
 			Application.Exit();
@@ -208,7 +278,7 @@ namespace TGInstallerWrapper
 			if (fbd.ShowDialog() != DialogResult.OK)
 				return;
 			pathIsDefault = false;
-			PathTextBox.Text = fbd.SelectedPath + Path.DirectorySeparatorChar + InstallDir;
+			PathTextBox.Text = fbd.SelectedPath + Path.DirectorySeparatorChar + DefaultInstallDir;
 		}
 
 		private void CancelButton_Click(object sender, EventArgs e)

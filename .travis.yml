@@ -5,7 +5,7 @@ env:
     global:
     - BYOND_MAJOR="511"
     - BYOND_MINOR="1385"
-    - DMEName="DMAPITravisTester.dme"
+    - DMEName="Tools/DMAPITravisTester.dme"
 
 cache:
   directories:
@@ -18,7 +18,7 @@ addons:
       - libstdc++6:i386
 
 install:
-    - ./install_byond.sh
+    - ./Tools/install_byond.sh
 
 script:
-    - ./build_byond.sh
+    - ./Tools/build_byond.sh

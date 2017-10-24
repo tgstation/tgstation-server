@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
@@ -37,7 +38,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGDreamDaemon>().WorldAnnounce(String.Join(" ", parameters));
+			var res = Interface.GetComponent<ITGDreamDaemon>().WorldAnnounce(String.Join(" ", parameters));
 			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -57,7 +58,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGDreamDaemon>().Start();
+			var res = Interface.GetComponent<ITGDreamDaemon>().Start();
 			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -81,10 +82,10 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Interface.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
-				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
+				if (DD.DaemonStatus() != DreamDaemonStatus.Online)
 				{
 					OutputProc("Error: The game is not currently running!");
 					return ExitCode.ServerError;
@@ -110,10 +111,10 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Interface.GetComponent<ITGDreamDaemon>();
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
-				if (DD.DaemonStatus() != TGDreamDaemonStatus.Online)
+				if (DD.DaemonStatus() != DreamDaemonStatus.Online)
 				{
 					OutputProc("Error: The game is not currently running!");
 					return ExitCode.ServerError;
@@ -145,7 +146,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Interface.GetComponent<ITGDreamDaemon>();
 			OutputProc(DD.StatusString(true));
 			if (DD.ShutdownInProgress())
 				OutputProc("The server will shutdown once the current round completes.");
@@ -166,7 +167,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Interface.GetComponent<ITGDreamDaemon>();
 			switch (parameters[0].ToLower())
 			{
 				case "on":
@@ -204,7 +205,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Server.GetComponent<ITGDreamDaemon>();
+			var DD = Interface.GetComponent<ITGDreamDaemon>();
 			switch (parameters[0].ToLower())
 			{
 				case "on":
@@ -254,7 +255,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			Server.GetComponent<ITGDreamDaemon>().SetPort(port);
+			Interface.GetComponent<ITGDreamDaemon>().SetPort(port);
 			return ExitCode.Normal;
 		}
 
@@ -279,25 +280,25 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			TGDreamDaemonSecurity sec;
+			DreamDaemonSecurity sec;
 			switch (parameters[0].ToLower())
 			{
 				case "safe":
-					sec = TGDreamDaemonSecurity.Safe;
+					sec = DreamDaemonSecurity.Safe;
 					break;
 				case "ultra":
 				case "ultrasafe":
-					sec = TGDreamDaemonSecurity.Ultrasafe;
+					sec = DreamDaemonSecurity.Ultrasafe;
 					break;
 				case "trust":
 				case "trusted":
-					sec = TGDreamDaemonSecurity.Trusted;
+					sec = DreamDaemonSecurity.Trusted;
 					break;
 				default:
 					OutputProc("Invalid security word!");
 					return ExitCode.BadCommand;
 			}
-			Server.GetComponent<ITGDreamDaemon>().SetSecurityLevel(sec);
+			Interface.GetComponent<ITGDreamDaemon>().SetSecurityLevel(sec);
 			return ExitCode.Normal;
 		}
 

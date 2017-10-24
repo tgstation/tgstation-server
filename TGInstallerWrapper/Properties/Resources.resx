@@ -122,6 +122,9 @@
     <value>..\..\TGServiceInstaller\bin\Release\cab1.cab;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TGServiceInstaller" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>...\..\TGServiceInstaller\bin\Release\TGServiceInstaller.msi;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\TGServiceInstaller\bin\Release\TGServiceInstaller.msi;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TGServiceInterface" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\TGServiceInterface\bin\x86\Release\TGServiceInterface.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

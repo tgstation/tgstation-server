@@ -81,17 +81,5 @@ namespace TGServerService.Properties {
                 this["InstancePaths"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ConvertedFromNETConfig {
-            get {
-                return ((bool)(this["ConvertedFromNETConfig"]));
-            }
-            set {
-                this["ConvertedFromNETConfig"] = value;
-            }
-        }
     }
 }

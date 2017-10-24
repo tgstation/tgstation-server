@@ -16,28 +16,30 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>tgs.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\x86\Release\TGServerService.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Core, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -80,28 +82,32 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administration.cs" />
     <Compile Include="AdministrativeAuthorizationManager.cs" />
-    <Compile Include="Byond.cs" />
-    <Compile Include="Chat.cs" />
-    <Compile Include="ChatCommands.cs" />
-    <Compile Include="Compiler.cs" />
-    <Compile Include="Config.cs" />
     <Compile Include="DeprecatedInstanceConfig.cs" />
-    <Compile Include="Discord.cs" />
-    <Compile Include="DreamDaemon.cs" />
-    <Compile Include="Instance.cs" />
     <Compile Include="InstanceConfig.cs" />
-    <Compile Include="IRC.cs" />
-    <Compile Include="Interop.cs" />
-    <Compile Include="PreactionHandler.cs" />
+    <Compile Include="MessageType.cs" />
+    <Compile Include="RepoConfig.cs" />
+    <Compile Include="ServerInstance\Administration.cs" />
+    <Compile Include="ServerInstance\Byond.cs" />
+    <Compile Include="ServerInstance\Chat.cs" />
+    <Compile Include="ChatCommands.cs" />
+    <Compile Include="ChatProviders\ChatProvider.cs" />
+    <Compile Include="ServerInstance\Compiler.cs" />
+    <Compile Include="ServerInstance\Config.cs" />
+    <Compile Include="ChatProviders\DiscordChatProvider.cs" />
+    <Compile Include="ServerInstance\DreamDaemon.cs" />
+    <Compile Include="EventID.cs" />
+    <Compile Include="ServerInstance\ServerInstance.cs" />
+    <Compile Include="ChatProviders\IRCChatProvider.cs" />
+    <Compile Include="ServerInstance\Interop.cs" />
+    <Compile Include="ServerInstance\PreactionHandler.cs" />
     <Compile Include="ProcessExtension.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Repository.cs" />
+    <Compile Include="ServerInstance\Repository.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -110,9 +116,6 @@
     </Compile>
     <Compile Include="Service.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Service.Designer.cs">
-      <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,9 +136,6 @@
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Service.resx">
-      <DependentUpon>Service.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

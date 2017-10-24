@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
@@ -27,7 +28,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGAdministration>().MoveServer(parameters[0]);
+			var res = Interface.GetComponent<ITGAdministration>().MoveServer(parameters[0]);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -51,7 +52,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder();
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -91,7 +92,7 @@ namespace TGCommandLine
 				OutputProc("Invalid port number!");
 				return ExitCode.BadCommand;
 			}
-			var res = Server.GetComponent<ITGAdministration>().SetRemoteAccessPort(port);
+			var res = Interface.GetComponent<ITGAdministration>().SetRemoteAccessPort(port);
 			OutputProc(res ?? "Success!");
 			return ExitCode.Normal;
 		}
@@ -109,7 +110,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var port = Server.GetComponent<ITGAdministration>().RemoteAccessPort();
+			var port = Interface.GetComponent<ITGAdministration>().RemoteAccessPort();
 			OutputProc(String.Format("{0}", port));
 			return ExitCode.Normal;
 		}
@@ -128,7 +129,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var group = Server.GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+			var group = Interface.GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
 			OutputProc(group ?? "ERROR");
 			return group != null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -153,7 +154,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Server.GetComponent<ITGAdministration>().SetAuthorizedGroup(parameters[0]);
+			var result = Interface.GetComponent<ITGAdministration>().SetAuthorizedGroup(parameters[0]);
 			if(result != null)
 			{
 				OutputProc("Group set to: " + result);
@@ -181,7 +182,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGAdministration>().SetAuthorizedGroup(null);
+			var res = Interface.GetComponent<ITGAdministration>().SetAuthorizedGroup(null);
 			if(res != "ADMIN")
 			{
 				OutputProc("Failed to clear the group??? We are currently set to: " + res);

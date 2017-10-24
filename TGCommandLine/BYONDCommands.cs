@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
@@ -26,13 +27,13 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var type = TGByondVersion.Installed;
+			var type = ByondVersion.Installed;
 			if (parameters.Count > 0)
 				if (parameters[0].ToLower() == "--staged")
-					type = TGByondVersion.Staged;
+					type = ByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
-					type = TGByondVersion.Latest;
-			OutputProc(Server.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+					type = ByondVersion.Latest;
+			OutputProc(Interface.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -55,24 +56,24 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			switch (Server.GetComponent<ITGByond>().CurrentStatus())
+			switch (Interface.GetComponent<ITGByond>().CurrentStatus())
 			{
-				case TGByondStatus.Downloading:
+				case ByondStatus.Downloading:
 					OutputProc("Downloading update...");
 					break;
-				case TGByondStatus.Idle:
+				case ByondStatus.Idle:
 					OutputProc("Updater Idle");
 					break;
-				case TGByondStatus.Staged:
+				case ByondStatus.Staged:
 					OutputProc("Update staged and awaiting server restart");
 					break;
-				case TGByondStatus.Staging:
+				case ByondStatus.Staging:
 					OutputProc("Staging update...");
 					break;
-				case TGByondStatus.Starting:
+				case ByondStatus.Starting:
 					OutputProc("Starting update...");
 					break;
-				case TGByondStatus.Updating:
+				case ByondStatus.Updating:
 					OutputProc("Applying update...");
 					break;
 				default:
@@ -108,7 +109,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var BYOND = Server.GetComponent<ITGByond>();
+			var BYOND = Interface.GetComponent<ITGByond>();
 			if (!BYOND.UpdateToVersion(Major, Minor))
 
 			{
@@ -117,13 +118,13 @@ namespace TGCommandLine
 			}
 			
 			var stat = BYOND.CurrentStatus();
-			while (stat != TGByondStatus.Idle && stat != TGByondStatus.Staged)
+			while (stat != ByondStatus.Idle && stat != ByondStatus.Staged)
 			{
 				Thread.Sleep(100);
 				stat = BYOND.CurrentStatus();
 			}
 			var res = BYOND.GetError();
-			OutputProc(res ?? (stat == TGByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
+			OutputProc(res ?? (stat == ByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 		public override string GetArgumentString()

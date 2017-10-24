@@ -6,130 +6,93 @@ using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceProcess;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGServerService
 {
-	public partial class TGServerService : ServiceBase, ITGConnectivity, ITGSService
-	{ 
-		//only deprecate events, do not reuse them
-		public enum EventID
-		{
-			ChatCommand = 100,
-			ChatConnectFail = 200,
-			ChatProviderStartFail = 300,
-			InvalidChatProvider = 400,
-			UpdateRequest = 500,
-			BYONDUpdateFail = 600,
-			BYONDUpdateStaged = 700,
-			BYONDUpdateComplete = 800,
-			ServerMoveFailed = 900,
-			ServerMovePartial = 1000,
-			ServerMoveComplete = 1100,
-			DMCompileCrash = 1200,
-			DMInitializeCrash = 1300,
-			DMCompileError = 1400,
-			DMCompileSuccess = 1500,
-			DMCompileCancel = 1600,
-			DDReattachFail = 1700,
-			DDReattachSuccess = 1800,
-			DDWatchdogCrash = 1900,
-			DDWatchdogExit = 2000,
-			DDWatchdogRebootedServer = 2100,
-			DDWatchdogRebootingServer = 2200,
-			DDWatchdogRestart = 2300,
-			DDWatchdogRestarted = 2400,
-			DDWatchdogStarted = 2500,
-			ChatSend = 2600,
-			ChatBroadcast = 2700,
-			//ChatAdminBroadcast = 2800,
-			ChatDisconnectFail = 2900,
-			//TopicSent = 3000,
-			//TopicFailed = 3100,
-			CommsKeySet = 3200,
-			NudgeStartFail = 3300,
-			NudgeCrash = 3400,
-			RepoClone = 3500,
-			RepoCloneFail = 3600,
-			RepoCheckout = 3700,
-			RepoCheckoutFail = 3800,
-			RepoHardUpdate = 3900,
-			RepoHardUpdateFail = 4000,
-			RepoMergeUpdate = 4100,
-			RepoMergeUpdateFail = 4200,
-			RepoBackupTag = 4300,
-			RepoBackupTagFail = 4400,
-			RepoResetTracked = 4500,
-			RepoResetTrackedFail = 4600,
-			RepoReset = 4700,
-			RepoResetFail = 4800,
-			RepoPRListError = 4900,
-			RepoPRMerge = 5000,
-			RepoPRMergeFail = 5100,
-			RepoCommit = 5200,
-			RepoCommitFail = 5300,
-			RepoPush = 5400,
-			RepoPushFail = 5500,
-			RepoChangelog = 5600,
-			RepoChangelogFail = 5700,
-			ServiceShutdownFail = 6100,
-			WorldReboot = 6200,
-			ServerUpdateApplied = 6300,
-			ChatBroadcastFail = 6400,
-			IRCLogModes = 6500,
-			SubmoduleReclone = 6600,
-			Authentication = 6700,
-			PreactionEvent = 6800,
-			PreactionFail = 6900,
-			InteropCallException = 7000,
-			APIVersionMismatch = 7100,
-			RepoConfigurationFail = 7200,
-			StaticRead = 7300,
-			StaticWrite = 7400,
-			StaticDelete = 7500,
-			InstanceInitializationFailure = 7600,
-		}
-
-		static TGServerService ActiveService;   //So everyone else can write to our eventlog
-
+	/// <summary>
+	/// The windows service the application runs as
+	/// </summary>
+	sealed partial class Service : ServiceBase
+	{
+		/// <summary>
+		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
+		/// </summary>
 		public static readonly string VersionString = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		/// <summary>
-		/// You can't write to logs while impersonating, call this to cancel WCF's impersonation first
+		/// Singleton instance
+		/// </summary>
+		static Service ActiveService;
+
+		/// <summary>
+		/// Cancels WCF's user impersonation to allow clean access to writing log files
 		/// </summary>
 		public static void CancelImpersonation()
 		{
 			WindowsIdentity.Impersonate(IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Writes information to Windows the event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		public static void WriteInfo(string message, EventID id)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Information, (int)id);
 		}
+		/// <summary>
+		/// Writes an error to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		public static void WriteError(string message, EventID id)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Error, (int)id);
 		}
+		/// <summary>
+		/// Writes a warning to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		public static void WriteWarning(string message, EventID id)
 		{
 			ActiveService.EventLog.WriteEntry(message, EventLogEntryType.Warning, (int)id);
 		}
 
+		/// <summary>
+		/// Writes an access event to the Windows event log
+		/// </summary>
+		/// <param name="username">The (un)authenticated Windows user's name</param>
+		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
 		public static void WriteAccess(string username, bool authSuccess)
 		{
 			ActiveService.EventLog.WriteEntry(String.Format("Access from: {0}", username), authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, (int)EventID.Authentication);
 		}
-		
+
+		/// <summary>
+		/// The WCF host that contains <see cref="ITGSService"/> connects to
+		/// </summary>
 		ServiceHost serviceHost;
 		IDictionary<string, ServiceHost> hosts;
 
+		/// <summary>
+		/// Migrates the .NET config from <paramref name="oldVersion"/> to <paramref name="newVersion"/>
+		/// </summary>
+		/// <param name="oldVersion">The version to migrate from</param>
+		/// <param name="newVersion">The version to migrate to</param>
 		void MigrateSettings(int oldVersion, int newVersion)
 		{
-			//TODO
+			//Uneeded... So far...
 		}
 	
 		//you should seriously not add anything here
 		//Use OnStart instead
-		public TGServerService()
+		/// <summary>
+		/// Construct and run a <see cref="Service"/>. Can only execute in the context of the Windows service manager
+		/// </summary>
+		public Service()
 		{
 			var Config = Properties.Settings.Default;
 			try
@@ -148,7 +111,7 @@ namespace TGServerService
 					Config.Save();
 				}
 				ActiveService = this;
-				InitializeComponent();
+				ServiceName = "TG Station Server";
 				Run(this);
 			}
 			finally
@@ -194,7 +157,7 @@ namespace TGServerService
 		void SetupService()
 		{
 			serviceHost = CreateHost(this);
-			AddEndpoint(serviceHost, typeof(ITGSService), Server.MasterInterfaceName);
+			AddEndpoint(serviceHost, typeof(ITGSService), Interface.MasterInterfaceName);
 			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us
 		}
 
@@ -222,19 +185,19 @@ namespace TGServerService
 		}
 		ServiceHost SetupInstance(string path)
 		{
-			TGStationServer instance;
+			ServerInstance instance;
 			try
 			{
 				var config = InstanceConfig.Load(path);
 				if (hosts.ContainsKey(path))
 				{
-					var datInstance = ((TGStationServer)hosts[path].SingletonInstance);
+					var datInstance = ((ServerInstance)hosts[path].SingletonInstance);
 					WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1} ({2}). Detaching...", path, datInstance.ServerDirectory(), datInstance.Config.Name), EventID.InstanceInitializationFailure);
 					return null;
 				}
 				if (!config.Enabled)
 					return null;
-				instance = new TGStationServer(config);
+				instance = new ServerInstance(config);
 			}
 			catch (Exception e)
 			{
@@ -245,23 +208,28 @@ namespace TGServerService
 			var host = CreateHost(instance);
 			hosts.Add(instance.Config.Name, host);
 
-			var endpointPrefix = String.Format("{0}/{1}", Server.MasterInterfaceName, instance.Config.Name);
-			foreach (var J in Server.InstanceInterfaces)
+			var endpointPrefix = String.Format("{0}/{1}", Interface.MasterInterfaceName, instance.Config.Name);
+			foreach (var J in Interface.ValidInterfaces)
 				AddEndpoint(host, J, endpointPrefix);
 
 			host.Authorization.ServiceAuthorizationManager = instance;
 			return host;
 		}
 
-		//shorthand for adding the WCF endpoint
+		/// <summary>
+		/// Adds a WCF endpoint for a component <paramref name="type"/>
+		/// </summary>
+		/// <param name="host"></param>
+		/// <param name="typetype"></param>
+		/// <param name="PipePrefix"></param>
 		void AddEndpoint(ServiceHost host, Type typetype, string PipePrefix)
 		{
 			var bindingName = PipePrefix + "/" + typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Server.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = Server.TransferLimitRemote
+				MaxReceivedMessageSize = Interface.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
@@ -270,7 +238,9 @@ namespace TGServerService
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 
-		//when we is kill
+		/// <summary>
+		/// Shutsdown the WCF <see cref="host"/> and calls <see cref="IDisposable.Dispose"/> on it's <see cref="ServerInstance"/>
+		/// </summary>
 		protected override void OnStop()
 		{
 			try
@@ -278,7 +248,7 @@ namespace TGServerService
 				foreach (var I in hosts)
 				{
 					var host = I.Value;
-					TGStationServer instance = (TGStationServer)host.SingletonInstance;
+					var instance = (ServerInstance)host.SingletonInstance;
 					host.Close();
 					instance.Dispose();
 				}
@@ -296,7 +266,7 @@ namespace TGServerService
 		public void PrepareForUpdate()
 		{
 			foreach (var I in hosts)
-				((TGStationServer)I.Value.SingletonInstance).Reattach(false);
+				((ServerInstance)I.Value.SingletonInstance).Reattach(false);
 		}
 
 		/// <inheritdoc />

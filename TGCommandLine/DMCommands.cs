@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
@@ -27,15 +28,15 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Server.GetComponent<ITGCompiler>();
+			var DM = Interface.GetComponent<ITGCompiler>();
 			var stat = DM.GetStatus();
-			if (stat != TGCompilerStatus.Initialized)
+			if (stat != CompilerStatus.Initialized)
 			{
-				OutputProc("Error: Compiler is " + ((stat == TGCompilerStatus.Uninitialized) ? "unintialized!" : "busy with another task!"));
+				OutputProc("Error: Compiler is " + ((stat == CompilerStatus.Uninitialized) ? "unintialized!" : "busy with another task!"));
 				return ExitCode.ServerError;
 			}
 
-			if (Server.GetComponent<ITGByond>().GetVersion(TGByondVersion.Installed) == null)
+			if (Interface.GetComponent<ITGByond>().GetVersion(ByondVersion.Installed) == null)
 			{
 				Console.Write("Error: BYOND is not installed!");
 				return ExitCode.ServerError;
@@ -55,7 +56,7 @@ namespace TGCommandLine
 				do
 				{
 					Thread.Sleep(1000);
-				} while (DM.GetStatus() == TGCompilerStatus.Compiling);
+				} while (DM.GetStatus() == CompilerStatus.Compiling);
 				var res = DM.CompileError();
 				OutputProc(res ?? "Compilation successful");
 				if (res != null)
@@ -83,29 +84,29 @@ namespace TGCommandLine
 
 		void ShowError()
 		{
-			var error = Server.GetComponent<ITGCompiler>().CompileError();
+			var error = Interface.GetComponent<ITGCompiler>().CompileError();
 			if (error != null)
 				OutputProc("Last error: " + error);
 		}
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Server.GetComponent<ITGCompiler>();
+			var DM = Interface.GetComponent<ITGCompiler>();
 			OutputProc(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
 			Console.Write("Compilier is currently: ");
 			switch (DM.GetStatus())
 			{
-				case TGCompilerStatus.Compiling:
+				case CompilerStatus.Compiling:
 					OutputProc("Compiling...");
 					break;
-				case TGCompilerStatus.Initialized:
+				case CompilerStatus.Initialized:
 					OutputProc("Idle");
 					ShowError();
 					break;
-				case TGCompilerStatus.Initializing:
+				case CompilerStatus.Initializing:
 					OutputProc("Setting up...");
 					break;
-				case TGCompilerStatus.Uninitialized:
+				case CompilerStatus.Uninitialized:
 					OutputProc("Uninitialized");
 					ShowError();
 					break;
@@ -141,7 +142,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
+			Interface.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
@@ -165,11 +166,11 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Server.GetComponent<ITGCompiler>();
+			var DM = Interface.GetComponent<ITGCompiler>();
 			var stat = DM.GetStatus();
-			if (stat == TGCompilerStatus.Compiling || stat == TGCompilerStatus.Initializing)
+			if (stat == CompilerStatus.Compiling || stat == CompilerStatus.Initializing)
 			{
-				OutputProc("Error: Compiler is " + ((stat == TGCompilerStatus.Initializing) ? "already initialized!" : " already running!"));
+				OutputProc("Error: Compiler is " + ((stat == CompilerStatus.Initializing) ? "already initialized!" : " already running!"));
 				return ExitCode.ServerError;
 			}
 			if (!DM.Initialize())
@@ -186,7 +187,7 @@ namespace TGCommandLine
 				do
 				{
 					Thread.Sleep(1000);
-				} while (DM.GetStatus() == TGCompilerStatus.Initializing);
+				} while (DM.GetStatus() == CompilerStatus.Initializing);
 				var res = DM.CompileError();
 				OutputProc(res ?? "Initialization successful");
 				if (res != null)
@@ -205,7 +206,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGCompiler>().Cancel();
+			var res = Interface.GetComponent<ITGCompiler>().Cancel();
 			OutputProc(res ?? "Success!");
 			return ExitCode.Normal;	//because failing cancellation implys it's already cancelled
 		}

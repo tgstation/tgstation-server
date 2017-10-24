@@ -1,9 +1,12 @@
 ﻿using System.Security.Principal;
 using System.ServiceModel;
-using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGServerService
 {
+	/// <summary>
+	/// A <see cref="ServiceAuthorizationManager"/> used to determine only if the caller is an admin
+	/// </summary>
 	class AdministrativeAuthorizationManager : ServiceAuthorizationManager
 	{
 		string LastSeenUser;
@@ -24,7 +27,7 @@ namespace TGServerService
 			if (LastSeenUser != user)
 			{
 				LastSeenUser = user;
-				TGServerService.WriteAccess(user, authSuccess);
+				Service.WriteAccess(user, authSuccess);
 			}
 			return authSuccess;
 		}
