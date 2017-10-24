@@ -538,7 +538,7 @@ namespace TGServerService
 						return; //no need
 				}
 				File.Copy(InterfacePath, InterfaceDLLName, overwrite);
-				Service.WriteInfo("Updated interface DLL", TGServerService.EventID.InterfaceDLLUpdated);
+				Service.WriteInfo("Updated interface DLL", EventID.InterfaceDLLUpdated);
 			}
 			catch
 			{
@@ -551,7 +551,7 @@ namespace TGServerService
 				catch (Exception e)
 				{
 					//intentionally using the fi
-					Service.WriteError("Failed to update interface DLL! Error: " + e.ToString(), TGServerService.EventID.InterfaceDLLUpdateFail);
+					Service.WriteError("Failed to update interface DLL! Error: " + e.ToString(), EventID.InterfaceDLLUpdateFail);
 				}
 			}
 		}
