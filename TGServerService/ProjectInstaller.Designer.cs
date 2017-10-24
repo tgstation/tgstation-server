@@ -1,6 +1,6 @@
 ﻿namespace TGServerService
 {
-	partial class ProjectInstaller
+	public partial class ProjectInstaller
 	{
 		/// <summary>
 		/// Required designer variable.
