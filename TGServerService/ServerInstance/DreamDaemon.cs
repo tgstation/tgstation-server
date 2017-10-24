@@ -344,14 +344,20 @@ namespace TGServerService
 					{
 						CurrentDDLog = String.Format("{0} {1} Diagnostics.txt", Now.ToLongDateString(), Now.ToLongTimeString()).Replace(':', '-');
 						WriteCurrentDDLog("Starting monitoring...");
-						pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
 					}
+					pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
 					MemTrackTimer.Start();
-					Proc.WaitForExit();
-					lock (watchdogLock)	//synchronize
+					try
 					{
-						MemTrackTimer.Stop();
-						pcpu.Dispose();
+						Proc.WaitForExit();
+					}
+					finally
+					{
+						lock (watchdogLock) //synchronize
+						{
+							MemTrackTimer.Stop();
+							pcpu.Dispose();
+						}
 					}
 
 					WriteCurrentDDLog("Crash detected!");
