@@ -16,7 +16,6 @@ namespace TGServerService
 		public string InstanceDirectory { get; private set; }
 
 		public ulong Version { get; protected set; } = CurrentVersion;
-		public Guid ID { get; private set; } = Guid.NewGuid();
 
 		public string Name { get; set; } = "TG Station Server";
 		public bool Enabled { get; set; } = true;
@@ -55,7 +54,9 @@ namespace TGServerService
 
 		public void Save()
 		{
-			File.WriteAllText(Path.Combine(InstanceDirectory, JSONFilename), new JavaScriptSerializer().Serialize(this));
+			var data = new JavaScriptSerializer().Serialize(this);
+			var path = Path.Combine(InstanceDirectory, JSONFilename);
+			File.WriteAllText(path, data);
 		}
 
 		public static InstanceConfig Load(string path)

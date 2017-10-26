@@ -24,7 +24,7 @@ namespace TGServerService
 		/// <summary>
 		/// The configuration settings for the instance
 		/// </summary>
-		public readonly InstanceConfig Config;
+		readonly InstanceConfig Config;
 		/// <summary>
 		/// Constructs and a <see cref="ServerInstance"/>
 		/// </summary>
@@ -51,6 +51,7 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+			Config.Save();
 		}
 
 		/// <summary>

@@ -577,7 +577,7 @@ namespace TGServerService
 
 					GenCommsKey();
 					StartingSecurity = Config.Security;
-					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.Port, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient " : "");
+					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}&server_instance={6}\" -{2} -public", DMB, Config.Port, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient " : "", Config.Name);
 					UpdateInterfaceDll(true);
 					lock (topicLock)
 					{

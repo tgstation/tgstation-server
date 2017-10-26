@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
@@ -13,7 +14,8 @@ namespace TGServerService
 	/// <summary>
 	/// The windows service the application runs as
 	/// </summary>
-	sealed partial class Service : ServiceBase
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
+	sealed class Service : ServiceBase, ITGSService, ITGConnectivity
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Service"/> events
@@ -51,6 +53,25 @@ namespace TGServerService
 		}
 
 		/// <summary>
+		/// Constructs and runs a <see cref="Service"/>. Do not add any code that might need debugging here as it's near impossible to get Windows to debug it properly without timing out
+		/// </summary>
+		public static void Launch()
+		{
+			if (ActiveService != null)
+				throw new Exception("There is already a Service instance running!");
+			ActiveService = new Service();
+			Run(ActiveService);
+		}
+
+		/// <summary>
+		/// Sets up the service name. Do not add any more code due to the reasons outlined in <see cref="Launch"/>
+		/// </summary>
+		Service()
+		{
+			ServiceName = "TG Station Server";
+		}
+
+		/// <summary>
 		/// The WCF host that contains <see cref="ITGSService"/> connects to
 		/// </summary>
 		ServiceHost serviceHost;
@@ -69,47 +90,14 @@ namespace TGServerService
 		/// <param name="oldVersion">The version to migrate from</param>
 		void MigrateSettings(int oldVersion)
 		{
+			var Config = Properties.Settings.Default;
 			switch (oldVersion)
 			{
 				case 6: //switch to per-instance configs
 					var IC = DeprecatedInstanceConfig.CreateFromNETSettings();
 					IC.Save();
-					Properties.Settings.Default.InstancePaths.Add(IC.InstanceDirectory);
+					Config.InstancePaths.Add(IC.InstanceDirectory);
 					break;
-			}
-		}
-	
-		//you should seriously not add anything here
-		//Use OnStart instead
-		/// <summary>
-		/// Construct and run a <see cref="Service"/>. Can only execute in the context of the Windows service manager
-		/// </summary>
-		public Service()
-		{
-			var Config = Properties.Settings.Default;
-			try
-			{
-				Environment.CurrentDirectory = Directory.CreateDirectory(Path.GetTempPath() + "/TGStationServerService").FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
-				if (Properties.Settings.Default.UpgradeRequired)
-				{
-					var newVersion = Config.SettingsVersion;
-					Config.Upgrade();
-					
-					for(var oldVersion = Config.SettingsVersion; oldVersion < newVersion; ++oldVersion)
-						MigrateSettings(oldVersion);
-
-					Config.SettingsVersion = newVersion;
-
-					Config.UpgradeRequired = false;
-					Config.Save();
-				}
-				ServiceName = "TG Station Server";
-				ActiveService = this;
-				Run(this);
-			}
-			finally
-			{
-				Config.Save();
 			}
 		}
 
@@ -146,6 +134,10 @@ namespace TGServerService
 		/// <param name="args">Command line arguments for the <see cref="Service"/></param>
 		protected override void OnStart(string[] args)
 		{
+			Environment.CurrentDirectory = Directory.CreateDirectory(Path.GetTempPath() + "/TGStationServerService").FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
+
+			SetupConfig();
+
 			ChangePortFromCommandLine(args);
 
 			SetupService();
@@ -156,12 +148,47 @@ namespace TGServerService
 		}
 
 		/// <summary>
+		/// Writes some changes to the <see cref="Properties.Settings"/> that always need to be done.
+		/// </summary>
+		void PrePrepConfig()
+		{
+			var Config = Properties.Settings.Default;
+
+			if (Config.InstancePaths == null)
+				Config.InstancePaths = new StringCollection();
+		}
+
+		/// <summary>
+		/// Upgrades up the service configuration
+		/// </summary>
+		void SetupConfig()
+		{
+			var Config = Properties.Settings.Default;
+			if (Config.UpgradeRequired)
+			{
+				var newVersion = Config.SettingsVersion;
+				Config.Upgrade();
+
+				PrePrepConfig();
+				
+				for (var oldVersion = Config.SettingsVersion; oldVersion < newVersion; ++oldVersion)
+					MigrateSettings(oldVersion);
+
+				Config.SettingsVersion = newVersion;
+
+				Config.UpgradeRequired = false;
+				Config.Save();
+			}
+		}
+
+		/// <summary>
 		/// Creates the <see cref="ServiceHost"/> for <see cref="ITGSService"/>
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this);
-			AddEndpoint(serviceHost, typeof(ITGSService), Interface.MasterInterfaceName);
+			serviceHost = CreateHost(this, Interface.ServiceInterfaceName);
+			AddEndpoint(serviceHost, typeof(ITGSService));
+			AddEndpoint(serviceHost, typeof(ITGConnectivity));
 			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us
 		}
 
@@ -180,9 +207,9 @@ namespace TGServerService
 		/// </summary>
 		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
-		static ServiceHost CreateHost(object singleton)
+		static ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
-			return new ServiceHost(singleton, new Uri[] { new Uri("net.pipe://localhost"), new Uri(String.Format("https://localhost:{0}", Properties.Settings.Default.RemoteAccessPort)) })
+			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Properties.Settings.Default.RemoteAccessPort, endpointPostfix)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
@@ -237,19 +264,21 @@ namespace TGServerService
 		ServiceHost SetupInstance(string path)
 		{
 			ServerInstance instance;
+			string instanceName;
 			try
 			{
 				var config = InstanceConfig.Load(path);
 				if (hosts.ContainsKey(path))
 				{
 					var datInstance = ((ServerInstance)hosts[path].SingletonInstance);
-					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1} ({2}). Detaching...", path, datInstance.ServerDirectory(), datInstance.Config.Name), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", path, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 					return null;
 				}
 				if (!config.Enabled)
 					return null;
 				var ID = LockLoggingID();
 				WriteEntry(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, path, ID), EventID.InstanceIDAssigned, EventLogEntryType.Information, ID);
+				instanceName = config.Name;
 				instance = new ServerInstance(config, ID);
 			}
 			catch (Exception e)
@@ -258,12 +287,11 @@ namespace TGServerService
 				return null;
 			}
 
-			var host = CreateHost(instance);
-			hosts.Add(instance.Config.Name, host);
-
-			var endpointPrefix = String.Format("{0}/{1}", Interface.MasterInterfaceName, instance.Config.Name);
+			var host = CreateHost(instance, String.Format("{0}/{1}", Interface.InstanceInterfaceName, instanceName));
+			hosts.Add(instanceName, host);
+			
 			foreach (var J in Interface.ValidInterfaces)
-				AddEndpoint(host, J, endpointPrefix);
+				AddEndpoint(host, J);
 
 			host.Authorization.ServiceAuthorizationManager = instance;
 			return host;
@@ -275,9 +303,9 @@ namespace TGServerService
 		/// <param name="host">The service host to add the component to</param>
 		/// <param name="typetype">The type of the component</param>
 		/// <param name="PipePrefix">The URI prefix for accessing the <paramref name="host"/></param>
-		void AddEndpoint(ServiceHost host, Type typetype, string PipePrefix)
+		void AddEndpoint(ServiceHost host, Type typetype)
 		{
-			var bindingName = PipePrefix + "/" + typetype.Name;
+			var bindingName = typetype.Name;
 			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
@@ -310,6 +338,8 @@ namespace TGServerService
 			{
 				WriteEntry(e.ToString(), EventID.ServiceShutdownFail, EventLogEntryType.Error, LoggingID);
 			}
+			Properties.Settings.Default.Save();
+			ActiveService = null;
 		}
 
 		/// <inheritdoc />

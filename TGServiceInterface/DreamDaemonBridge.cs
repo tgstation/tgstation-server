@@ -1,5 +1,6 @@
 ﻿using RGiesecke.DllExport;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TGServiceInterface.Components;
 
@@ -21,13 +22,17 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				var channel = Interface.CreateChannel<ITGInterop>();
+				var parsedArgs = new List<string>();
+				parsedArgs.AddRange(args);
+				Interface.InstanceName = parsedArgs[0];
+				parsedArgs.RemoveAt(0);
+				var channel = Interface.GetComponent<ITGInterop>();
 				try
 				{
-					channel.CreateChannel().InteropMessage(String.Join(" ", args));
+					channel.InteropMessage(String.Join(" ", parsedArgs));
 				}
 				catch { }
-				Interface.CloseChannel(channel);
+				Interface.CloseAllChannels();
 			}
 			catch { }
 			return 0;
