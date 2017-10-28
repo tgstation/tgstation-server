@@ -124,6 +124,9 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 * `TGS3.json`
 	* This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it
 
+### Codebase integration
+To get the TGS3 API for your code base, import the 3 .dm files in the `DMAPI` folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a TGS3.json file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options.
+
 ### Starting the game server:
 To run the game server, open the `Server` tab of the control panel and click either `Start`
 
