@@ -18,7 +18,7 @@ namespace TGInstallerWrapper
 		const string InterfaceDLL = "TGServiceInterface.dll";
 		const string InterfaceNamespace = "TGServiceInterface";
 		const string InterfaceComponentsNamespace = InterfaceNamespace + ".Components";
-		const string InterfaceClass = InterfaceNamespace + ".Server";
+		const string InterfaceClass = InterfaceNamespace + ".Interface";
 		const string InterfaceServiceInterface = InterfaceComponentsNamespace + ".ITGSService";   //fuck this typo
 		const string InterfaceClassVerifyConnection = "VerifyConnection";
 		const string InterfaceClassGetComponent = "GetComponent";
