@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -42,11 +42,8 @@ namespace TGServerService
 			if (excludeRoot != null)
 				for (var I = 0; I < excludeRoot.Count; ++I)
 					excludeRoot[I] = excludeRoot[I].ToLower();
-			if (!di.Attributes.HasFlag(FileAttributes.Directory))
-			{    //this is probably a symlink
-				Directory.Delete(di.FullName);
+			if (CheckDeleteSymlinkDir(di))
 				return;
-			}
 			NormalizeAndDelete(di, excludeRoot);
 			if (!ContentsOnly)
 			{
@@ -54,6 +51,22 @@ namespace TGServerService
 					throw new Exception("Cannot fully delete folder with exclusions specified!");
 				di.Delete(true);
 			}
+		}
+
+
+		/// <summary>
+		/// Properly unlinks directory <paramref name="di"/> if it is a symlink
+		/// </summary>
+		/// <param name="di"><see cref="DirectoryInfo"/> for the directory in question</param>
+		/// <returns><see langword="true"/> if <paramref name="di"/> was a symlink and deleted, <see langword="false"/> otherwise</returns>
+		static bool CheckDeleteSymlinkDir(DirectoryInfo di)
+		{
+			if (!di.Attributes.HasFlag(FileAttributes.Directory))
+			{    //this is probably a symlink
+				Directory.Delete(di.FullName);
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -66,6 +79,8 @@ namespace TGServerService
 			foreach (var subDir in dir.GetDirectories())
 			{
 				if (excludeRoot != null && excludeRoot.Contains(subDir.Name.ToLower()))
+					continue;
+				if (CheckDeleteSymlinkDir(subDir))
 					continue;
 				NormalizeAndDelete(subDir, null);
 				subDir.Delete(true);

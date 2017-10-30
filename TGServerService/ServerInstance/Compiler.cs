@@ -25,8 +25,6 @@ namespace TGServerService
 		const string StaticDirs = "Static";
 		const string StaticBackupDir = "Static_BACKUP";
 
-		const string LibMySQLFile = "/libmysql.dll";
-
 		const string GameDir = "Game";
 		const string GameDirA = GameDir + "/A";
 		const string GameDirB = GameDir + "/B";
@@ -122,7 +120,7 @@ namespace TGServerService
 		//what is says on the tin
 		CompilerStatus IsInitialized()
 		{
-			if (File.Exists(RelativePath(GameDirLive + LibMySQLFile)))	//its a good tell, jim
+			if (File.Exists(RelativePath(Path.Combine(GameDirLive, InterfaceDLLName))))	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}
