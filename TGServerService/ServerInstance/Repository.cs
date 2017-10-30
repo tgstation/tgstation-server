@@ -637,20 +637,27 @@ namespace TGServerService
 				}
 				catch (Exception e)
 				{
-					//workaround for https://github.com/libgit2/libgit2/issues/3820
-					//kill off the modules/ folder in .git and try again
 					try
 					{
-						Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
+						//workaround for https://github.com/libgit2/libgit2/issues/3820
+						//kill off the modules/ folder in .git and try again
+						try
+						{
+							Program.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
+						}
+						catch
+						{
+							throw e;
+						}
+						Repo.Submodules.Update(I.Name, suo);
+						var msg = String.Format("I had to reclone submodule {0}. If this is happening a lot find a better hack or fix https://github.com/libgit2/libgit2/issues/3820!", I.Name);
+						SendMessage(String.Format("REPO: {0}", msg), MessageType.DeveloperInfo);
+						Service.WriteWarning(msg, EventID.Submodule);
 					}
-					catch
+					catch (Exception ex)
 					{
-						throw e;
+						Service.WriteError(String.Format("Failed to update submodule {0}! Error: {1}", I.Name, ex.ToString()), EventID.Submodule);
 					}
-					Repo.Submodules.Update(I.Name, suo);
-					var msg = String.Format("I had to reclone submodule {0}. If this is happening a lot find a better hack or fix https://github.com/libgit2/libgit2/issues/3820!", I.Name);
-					SendMessage(String.Format("REPO: {0}", msg), MessageType.DeveloperInfo);
-					Service.WriteWarning(msg, EventID.SubmoduleReclone);
 				}
 		}
 
