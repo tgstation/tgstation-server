@@ -64,6 +64,20 @@ namespace TGServerService
 		}
 
 		/// <summary>
+		/// Checks an <paramref name="instanceName"/> for illegal characters
+		/// </summary>
+		/// <param name="instanceName">The <see cref="ServerInstance"/> name to check</param>
+		/// <returns><see langword="null"/> if <paramref name="instanceName"/> contains no illegal characters, error message otherwise</returns>
+		static string CheckInstanceName(string instanceName)
+		{
+			char[] bannedCharacters = { ';', '&', '=', '%' };
+			foreach (var I in bannedCharacters)
+				if (instanceName.Contains(I.ToString()))
+					return "Instance names may not contain the following characters: ';', '&', '=', or '%'";
+			return null;
+		}
+
+		/// <summary>
 		/// Sets up the service name. Do not add any more code due to the reasons outlined in <see cref="Launch"/>
 		/// </summary>
 		Service()
@@ -401,6 +415,9 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
+			var res = CheckInstanceName(Name);
+			if (res != null)
+				return res;
 			if (File.Exists(path) || Directory.Exists(path))
 				return "Cannot create instance at pre-existing path!";
 			var Config = Properties.Settings.Default;
@@ -542,6 +559,9 @@ namespace TGServerService
 		{
 			if (name == new_name)
 				return null;
+			var res = CheckInstanceName(new_name);
+			if (res != null)
+				return res;
 			lock (this)
 			{
 				//we have to check em all anyway

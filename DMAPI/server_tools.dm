@@ -98,6 +98,8 @@
 #define SERVICE_REQUEST_WORLD_REBOOT "worldreboot"
 #define SERVICE_REQUEST_API_VERSION "api_ver"
 
+#define SERVICE_RETURN_SUCCESS "SUCCESS"
+
 /*
 The MIT License
 

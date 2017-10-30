@@ -24,13 +24,20 @@ namespace TGServerService
 		const int AllowedMajorAPIVersion = 1;
 		Version GameAPIVersion;
 
+		const string SPInstanceName = "server_instance";
+
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
 		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
 		const string SCAPICompat = "api_compat";    //Tells the server we understand each other
-		const string SCPlayerCount = "client_count";	//Gets the number of connected clients
+		const string SCPlayerCount = "client_count";    //Gets the number of connected client
+
+		/// <summary>
+		/// String returned when a command completes successfully with no output
+		/// </summary>
+		const string SRetSuccess = "SUCCESS";
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
