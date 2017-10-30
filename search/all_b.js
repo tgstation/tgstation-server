@@ -13,7 +13,6 @@ var searchData=
   ['latest',['Latest',['../namespace_t_g_service_interface.html#a7610968e566eeb321fee2adba3fbf107acd118d21c3b0b4762c6e0063661e6e45',1,'TGServiceInterface']]],
   ['latestversionlabel',['LatestVersionLabel',['../class_t_g_control_panel_1_1_main.html#a61d00aef8bee541858fd67cdf4ad4db9',1,'TGControlPanel::Main']]],
   ['latestversiontitle',['LatestVersionTitle',['../class_t_g_control_panel_1_1_main.html#ace629a4f239f49fb1aec483ddf3d9f1a',1,'TGControlPanel::Main']]],
-  ['libmysqlfile',['LibMySQLFile',['../class_t_g_server_service_1_1_server_instance.html#a280f8b421bd1d3a8a8cb4c5e455fdfc3',1,'TGServerService::ServerInstance']]],
   ['listbackups',['ListBackups',['../class_t_g_server_service_1_1_server_instance.html#ab6650942838ebe1dc0766dc47b3f5363',1,'TGServerService.ServerInstance.ListBackups()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1e4ef71b269722616e8fde455f7137f3',1,'TGServiceInterface.Components.ITGRepository.ListBackups()']]],
   ['listequals',['ListEquals',['../class_t_g_server_service_1_1_repo_config.html#a175d81924dfc64560041adbd9b86cc0a',1,'TGServerService::RepoConfig']]],
   ['liststaticdirectory',['ListStaticDirectory',['../class_t_g_server_service_1_1_server_instance.html#a3559490653f3f50bfd2959b6c53809e1',1,'TGServerService.ServerInstance.ListStaticDirectory()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd',1,'TGServiceInterface.Components.ITGConfig.ListStaticDirectory()']]],
