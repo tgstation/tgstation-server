@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,7 +9,7 @@ namespace TGServerService
 		/// <summary>
 		/// Entry point to the program
 		/// </summary>
-		static void Main() => new Service();
+		static void Main() => Service.Launch();
 
 		/// <summary>
 		/// Copy a file from <paramref name="source"/> to <paramref name="dest"/>, but first ensure the destination directory exists
@@ -42,11 +42,8 @@ namespace TGServerService
 			if (excludeRoot != null)
 				for (var I = 0; I < excludeRoot.Count; ++I)
 					excludeRoot[I] = excludeRoot[I].ToLower();
-			if (!di.Attributes.HasFlag(FileAttributes.Directory))
-			{    //this is probably a symlink
-				Directory.Delete(di.FullName);
+			if (CheckDeleteSymlinkDir(di))
 				return;
-			}
 			NormalizeAndDelete(di, excludeRoot);
 			if (!ContentsOnly)
 			{
@@ -54,6 +51,16 @@ namespace TGServerService
 					throw new Exception("Cannot fully delete folder with exclusions specified!");
 				di.Delete(true);
 			}
+		}
+
+		static bool CheckDeleteSymlinkDir(DirectoryInfo di)
+		{
+			if (!di.Attributes.HasFlag(FileAttributes.Directory))
+			{    //this is probably a symlink
+				Directory.Delete(di.FullName);
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -66,6 +73,8 @@ namespace TGServerService
 			foreach (var subDir in dir.GetDirectories())
 			{
 				if (excludeRoot != null && excludeRoot.Contains(subDir.Name.ToLower()))
+					continue;
+				if (CheckDeleteSymlinkDir(subDir))
 					continue;
 				NormalizeAndDelete(subDir, null);
 				subDir.Delete(true);
