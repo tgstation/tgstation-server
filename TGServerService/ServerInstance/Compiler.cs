@@ -482,38 +482,22 @@ namespace TGServerService
 					{
 						lock (watchdogLock)
 						{
+							//gotta go fast
+							var online = currentStatus == DreamDaemonStatus.Online;
+							if (online)
+								Proc.Suspend();
 							try
 							{
-								//gotta go fast
-								var online = currentStatus == DreamDaemonStatus.Online;
-								if (online)
-									Proc.Suspend();
-								try
-								{
-									var rgdl = RelativePath(GameDirLive);
-									if (Directory.Exists(rgdl))
-										//these next two lines should be atomic but this is the best we can do
-										Directory.Delete(rgdl);
-									CreateSymlink(rgdl, resurrectee);
-								}
-								finally
-								{
-									if (online && !Proc.HasExited)
-										Proc.Resume();
-								}
+								var rgdl = RelativePath(GameDirLive);
+								if (Directory.Exists(rgdl))
+									//these next two lines should be atomic but this is the best we can do
+									Directory.Delete(rgdl);
+								CreateSymlink(rgdl, resurrectee);
 							}
 							finally
 							{
-								if (currentStatus == DreamDaemonStatus.Online)
-								{
-									try
-									{
-										Proc.PriorityClass = ProcessPriorityClass.Normal;
-									}
-									catch { }
-									Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
-									Thread.CurrentThread.Priority = ThreadPriority.Normal;
-								}
+								if (online && !Proc.HasExited)
+									Proc.Resume();
 							}
 						}
 						var staged = DaemonStatus() != DreamDaemonStatus.Offline;

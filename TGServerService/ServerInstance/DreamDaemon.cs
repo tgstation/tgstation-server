@@ -584,6 +584,7 @@ namespace TGServerService
 						GameAPIVersion = null;  //needs updating
 					}
 					Proc.Start();
+					Proc.PriorityClass = ProcessPriorityClass.AboveNormal;
 
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
 					{

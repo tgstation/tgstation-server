@@ -283,8 +283,9 @@ namespace TGServerService
 		IRCLogModes = 6500,
 		/// <summary>
 		/// Warning: When the Repository submodule handler has to reclone a submodule entirely. This is a long operation and is due to an upstream bug
+		/// Error: When a submodule update operation fails completely
 		/// </summary>
-		SubmoduleReclone = 6600,
+		Submodule = 6600,
 		/// <summary>
 		/// This event is of type <see cref="System.Diagnostics.EventLogEntryType.SuccessAudit"/> or <see cref="System.Diagnostics.EventLogEntryType.FailureAudit"/>. It occurs when a user different from the previous one tries and either succeeds or fails to access a <see cref="ServerInstance"/>. DreamDaemon itself successfully accessing <see cref="TGServiceInterface.Components.ITGInterop"/> will not trigger this
 		/// </summary>

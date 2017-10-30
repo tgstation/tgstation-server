@@ -18,7 +18,7 @@ namespace TGInstallerWrapper
 		const string InterfaceDLL = "TGServiceInterface.dll";
 		const string InterfaceNamespace = "TGServiceInterface";
 		const string InterfaceComponentsNamespace = InterfaceNamespace + ".Components";
-		const string InterfaceClass = InterfaceNamespace + ".Server";
+		const string InterfaceClass = InterfaceNamespace + ".Interface";
 		const string InterfaceServiceInterface = InterfaceComponentsNamespace + ".ITGSService";   //fuck this typo
 		const string InterfaceClassVerifyConnection = "VerifyConnection";
 		const string InterfaceClassGetComponent = "GetComponent";
@@ -80,11 +80,11 @@ namespace TGInstallerWrapper
 				Version = ITGSService.GetMethod(InterfaceServiceInterfaceVersion);
 				PrepareForUpdate = ITGSService.GetMethod(InterfaceServiceInterfacePrepareForUpdate);
 			}
-			catch
+			catch (Exception e)
 			{
 				InterfaceAssembly = null;
 				VersionLabel.Text = "Error: (Could not load interface dll)";
-				return;
+				MessageBox.Show(String.Format("An error occurred while loading {0} (This is an easily preventable bug, please report it)! Error: {1}", InterfaceDLL, e.ToString()));
 			}
 		}
 
@@ -95,6 +95,8 @@ namespace TGInstallerWrapper
 			try
 			{
 				VersionLabel.Text = (string)Version.Invoke(GetComponentITGSService.Invoke(null, null), null);
+				if (VersionLabel.Text.Contains("v3.0")) //OH GOD!!!!
+					MessageBox.Show("Warning! Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!");
 			}
 			catch
 			{

@@ -127,6 +127,9 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 * `Instance.cfg`
 	* The encrypted internal configuration settings for a server instance. Note that access to this file bypasses API user restrictions
 
+### Codebase integration
+To get the TGS3 API for your code base, import the 3 .dm files in the `DMAPI` folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a TGS3.json file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options.
+
 ### Starting the game server:
 To run the game server, open the `Server` tab of the control panel and click either `Start`
 
