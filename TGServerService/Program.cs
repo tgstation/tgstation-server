@@ -53,6 +53,12 @@ namespace TGServerService
 			}
 		}
 
+
+		/// <summary>
+		/// Properly unlinks directory <paramref name="di"/> if it is a symlink
+		/// </summary>
+		/// <param name="di"><see cref="DirectoryInfo"/> for the directory in question</param>
+		/// <returns><see langword="true"/> if <paramref name="di"/> was a symlink and deleted, <see langword="false"/> otherwise</returns>
 		static bool CheckDeleteSymlinkDir(DirectoryInfo di)
 		{
 			if (!di.Attributes.HasFlag(FileAttributes.Directory))
