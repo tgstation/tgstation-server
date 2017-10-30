@@ -80,11 +80,11 @@ namespace TGInstallerWrapper
 				Version = ITGSService.GetMethod(InterfaceServiceInterfaceVersion);
 				PrepareForUpdate = ITGSService.GetMethod(InterfaceServiceInterfacePrepareForUpdate);
 			}
-			catch
+			catch (Exception e)
 			{
 				InterfaceAssembly = null;
 				VersionLabel.Text = "Error: (Could not load interface dll)";
-				return;
+				MessageBox.Show(String.Format("An error occurred while loading {0} (This is an easily preventable bug, please report it)! Error: {1}", InterfaceDLL, e.ToString()));
 			}
 		}
 
