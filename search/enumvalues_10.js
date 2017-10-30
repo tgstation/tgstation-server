@@ -13,6 +13,6 @@ var searchData=
   ['staticdelete',['StaticDelete',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a6b6ea5be78a74eaa2d4cfff9998f6a9e',1,'TGServerService']]],
   ['staticread',['StaticRead',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a3b35249bb273aea8b56c05f2c914a38a',1,'TGServerService']]],
   ['staticwrite',['StaticWrite',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a225925cf188e2e258a3a985895d1703a',1,'TGServerService']]],
-  ['submodulereclone',['SubmoduleReclone',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a2b034f0c546e9a433c0057b8c0032af6',1,'TGServerService']]],
+  ['submodule',['Submodule',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398ad1080ecc7739373d44552257dbe8b191',1,'TGServerService']]],
   ['suspend_5fresume',['SUSPEND_RESUME',['../class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddad94d862bc2dfcc2092a51baef65588d8',1,'TGServerService::ProcessExtension']]]
 ];

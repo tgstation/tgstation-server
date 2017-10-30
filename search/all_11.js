@@ -151,7 +151,7 @@ var searchData=
   ['statuslabel',['StatusLabel',['../class_t_g_control_panel_1_1_main.html#a5227b49dc170d818764bfe8d3b49533d',1,'TGControlPanel::Main']]],
   ['statusstring',['StatusString',['../class_t_g_server_service_1_1_server_instance.html#a819f1dd33b77bd47f3796ff462cf7c68',1,'TGServerService.ServerInstance.StatusString()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a9412c3e87c66b46711c4e7f7b6cbdd0e',1,'TGServiceInterface.Components.ITGDreamDaemon.StatusString()']]],
   ['stop',['Stop',['../class_t_g_server_service_1_1_server_instance.html#ad8b0bbbe0957e9d732666bec0ec06698',1,'TGServerService.ServerInstance.Stop()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a3770a5abea27382caff0d80cd9ad8403',1,'TGServiceInterface.Components.ITGDreamDaemon.Stop()']]],
-  ['submodulereclone',['SubmoduleReclone',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a2b034f0c546e9a433c0057b8c0032af6',1,'TGServerService']]],
+  ['submodule',['Submodule',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398ad1080ecc7739373d44552257dbe8b191',1,'TGServerService']]],
   ['suspend',['Suspend',['../class_t_g_server_service_1_1_process_extension.html#a3e3c4b7e356d1fd8bceeafea74e121c6',1,'TGServerService::ProcessExtension']]],
   ['suspend_5fresume',['SUSPEND_RESUME',['../class_t_g_server_service_1_1_process_extension.html#a761b08dda45d0e23d8db5e20ec1c13ddad94d862bc2dfcc2092a51baef65588d8',1,'TGServerService::ProcessExtension']]],
   ['suspendthread',['SuspendThread',['../class_t_g_server_service_1_1_process_extension.html#a09b155c0500409ba85cbf6b564ef368a',1,'TGServerService::ProcessExtension']]],
