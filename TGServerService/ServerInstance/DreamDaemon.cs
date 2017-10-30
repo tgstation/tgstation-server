@@ -142,7 +142,7 @@ namespace TGServerService
 			if (Proc == null)
 				Proc = new Process();
 
-			Proc.StartInfo.FileName = ByondDirectory + "/bin/dreamdaemon.exe";
+			Proc.StartInfo.FileName = RelativePath(ByondDirectory + "/bin/dreamdaemon.exe");
 			Proc.StartInfo.UseShellExecute = false;
 
 			if (Reattach)
@@ -469,7 +469,7 @@ namespace TGServerService
 		{
 			if (GetVersion(ByondVersion.Installed) == null)
 				return "Byond is not installed!";
-			var DMB = GameDirLive + "/" + Config.ProjectName + ".dmb";
+			var DMB = RelativePath(GameDirLive + "/" + Config.ProjectName + ".dmb");
 			if (!File.Exists(DMB))
 				return String.Format("Unable to find {0}!", DMB);
 			return null;
