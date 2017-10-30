@@ -1272,7 +1272,7 @@ namespace TGServerService
 		}
 		
 		/// <summary>
-		/// Runs on the configured <see cref="Properties.Settings.AutoUpdateInterval"/> and tries to <see cref="Update(bool)"/> and <see cref="Compile(bool)"/> the <see cref="ServerInstance"/>
+		/// Runs on the configured <see cref="InstanceConfig.AutoUpdateInterval"/> of <see cref="Config"/> and tries to <see cref="Update(bool)"/> and <see cref="Compile(bool)"/> the <see cref="ServerInstance"/>
 		/// </summary>
 		/// <param name="sender">A <see cref="System.Timers.Timer"/></param>
 		/// <param name="e">The event arguments</param>

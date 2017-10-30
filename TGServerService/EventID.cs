@@ -41,16 +41,19 @@ namespace TGServerService
 		/// </summary>
 		BYONDUpdateComplete = 800,
 		/// <summary>
-		/// Error: Failed to move the <see cref="ServerInstance"/> with <see cref="TGServiceInterface.Components.ITGAdministration.MoveServer(string)"/>
+		/// Error: Failed to move the <see cref="ServerInstance"/> with TGServiceInterface.Components.ITGAdministration.MoveServer(string)
 		/// </summary>
+		[Obsolete("Not in use anymore", true)]
 		ServerMoveFailed = 900,
 		/// <summary>
-		/// Warning: Failed to delete the old directory during a <see cref="TGServiceInterface.Components.ITGAdministration.MoveServer(string)"/> operation
+		/// Warning: Failed to delete the old directory during a TGServiceInterface.Components.ITGAdministration.MoveServer(string) operation
 		/// </summary>
+		[Obsolete("Not in use anymore", true)]
 		ServerMovePartial = 1000,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="TGServiceInterface.Components.ITGAdministration.MoveServer(string)"/> operation
+		/// Info: Successful completion of a TGServiceInterface.Components.ITGAdministration.MoveServer(string) operation
 		/// </summary>
+		[Obsolete("Not in use anymore", true)]
 		ServerMoveComplete = 1100,
 		/// <summary>
 		/// Error: An internal error occurred during a <see cref="TGServiceInterface.Components.ITGCompiler.Compile(bool)"/> operation

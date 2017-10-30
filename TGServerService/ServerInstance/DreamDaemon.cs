@@ -92,7 +92,7 @@ namespace TGServerService
 		ShutdownRequestPhase AwaitingShutdown;
 
 		/// <summary>
-		/// Setup or reattach the watchdog, depending on <see cref="Properties.Settings.ReattachToDD"/>, and create the <see cref="DiagnosticsDir"/>
+		/// Setup or reattach the watchdog, depending on <see cref="InstanceConfig.ReattachRequired"/> of <see cref="Config"/>, and create the <see cref="DiagnosticsDir"/>
 		/// </summary>
 		void InitDreamDaemon()
 		{
@@ -155,7 +155,7 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Either let go of <see cref="Proc"/> for reattachment or terminate it, depending on <see cref="Properties.Settings.ReattachToDD"/>
+		/// Either let go of <see cref="Proc"/> for reattachment or terminate it, depending on <see cref="InstanceConfig.ReattachRequired"/> of <see cref="Config"/>
 		/// </summary>
 		void DisposeDreamDaemon()
 		{
@@ -500,7 +500,7 @@ namespace TGServerService
 		/// <summary>
 		/// Translate the configured <see cref="DreamDaemonSecurity"/> level into a byond command line param
 		/// </summary>
-		/// <param name="starting">If <see langword="true"/> bases it's result on <see cref="StartingSecurity"/>, uses <see cref="Properties.Settings.ServerSecurity"/> otherwise</param>
+		/// <param name="starting">If <see langword="true"/> bases it's result on <see cref="StartingSecurity"/>, uses <see cref="InstanceConfig.Security"/> of <see cref="Config"/> otherwise</param>
 		/// <returns>"safe", "trusted", or "ultrasafe" depending on the <see cref="DreamDaemonSecurity"/> it checks</returns>
 		string SecurityWord(bool starting = false)
 		{

@@ -76,7 +76,7 @@ namespace TGServerService
 		/// </summary>
 		ServiceHost serviceHost;
 		/// <summary>
-		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref=""/>
+		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref="ServiceHost"/> hosting the <see cref="ServerInstance"/>
 		/// </summary>
 		IDictionary<string, ServiceHost> hosts;
 		/// <summary>
@@ -203,9 +203,10 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, <see cref="ServiceHost.CloseTimeout"/>, and the configured <see cref="Properties.Settings.RemoteAccessPort"/>
+		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, CloseTimeout for the <see cref="ServiceHost"/>, and the configured <see cref="Properties.Settings.RemoteAccessPort"/>
 		/// </summary>
 		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
+		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
 		static ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
@@ -302,7 +303,6 @@ namespace TGServerService
 		/// </summary>
 		/// <param name="host">The service host to add the component to</param>
 		/// <param name="typetype">The type of the component</param>
-		/// <param name="PipePrefix">The URI prefix for accessing the <paramref name="host"/></param>
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
@@ -320,7 +320,7 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Shutsdown the WCF <see cref="host"/> and calls <see cref="IDisposable.Dispose"/> on it's <see cref="ServerInstance"/>
+		/// Shuts down all active <see cref="ServiceHost"/>s and calls <see cref="IDisposable.Dispose"/> on it's <see cref="ServerInstance"/>
 		/// </summary>
 		protected override void OnStop()
 		{
