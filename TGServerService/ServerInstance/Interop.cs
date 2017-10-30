@@ -21,7 +21,7 @@ namespace TGServerService
 		string serviceCommsKey; //regenerated every DD restart
 
 		//range of supported api versions
-		const int AllowedMajorAPIVersion = 1;
+		const int AllowedMajorAPIVersion = 2;
 		Version GameAPIVersion;
 
 		const string SPInstanceName = "server_instance";
