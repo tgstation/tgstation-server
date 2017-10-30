@@ -1,7 +1,8 @@
 <map id="TGServerService.ServerInstance.UpdateSubmodules" name="TGServerService.ServerInstance.UpdateSubmodules">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="282,5,457,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,71,475,112"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="527,100,693,141"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="286,188,453,229"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="523,5,697,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="527,115,693,156"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="286,188,453,229"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="745,5,920,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="523,35,697,76"/>
 </map>

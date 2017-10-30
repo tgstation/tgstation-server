@@ -2,10 +2,11 @@
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af08b470db051748bc99e830bd263d215" title="TGServerService.ServerInstance.\lCleanGameFolder" alt="" coords="264,5,475,47"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="282,71,457,112"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="282,136,457,177"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a9b46135f61615923db5e302d3553e1fa" title="Cleans up Repo " alt="" coords="264,201,475,243"/>
-<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="286,267,453,308"/>
-<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="286,332,453,373"/>
-<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="286,397,453,439"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a9b46135f61615923db5e302d3553e1fa" title="Cleans up Repo " alt="" coords="264,201,475,243"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="286,267,453,308"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="286,332,453,373"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="286,397,453,439"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="523,71,697,112"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="523,136,697,177"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="745,163,920,204"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="523,192,697,233"/>
 </map>

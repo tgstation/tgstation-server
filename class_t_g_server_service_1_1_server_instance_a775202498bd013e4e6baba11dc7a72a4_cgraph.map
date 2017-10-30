@@ -3,8 +3,8 @@
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a901e893be86572cf6a8d539e83de4b2c" title="Either let go of Proc for reattachment or terminate it, depending on Properties.Settings.ReattachToDD " alt="" coords="523,169,733,211"/>
 <area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#a46ed0d7dc832756ebf66a79ab2435f7f" title="TGServerService.ServerInstance.\lDisposeCompiler" alt="" coords="523,319,733,360"/>
 <area shape="rect" id="node17" href="$class_t_g_server_service_1_1_server_instance.html#a0ae469ca70e8869f5f5ed794d7fe4ce5" title="Called when the ServerInstance is shutdown " alt="" coords="523,384,733,425"/>
-<area shape="rect" id="node21" href="$class_t_g_server_service_1_1_server_instance.html#a9b46135f61615923db5e302d3553e1fa" title="Cleans up Repo " alt="" coords="523,449,733,491"/>
-<area shape="rect" id="node22" href="$class_t_g_server_service_1_1_server_instance.html#a37ece8a590016ff653791e76d926b49f" title="Properly shuts down all ChatProviders " alt="" coords="523,515,733,556"/>
+<area shape="rect" id="node22" href="$class_t_g_server_service_1_1_server_instance.html#a9b46135f61615923db5e302d3553e1fa" title="Cleans up Repo " alt="" coords="523,449,733,491"/>
+<area shape="rect" id="node23" href="$class_t_g_server_service_1_1_server_instance.html#a37ece8a590016ff653791e76d926b49f" title="Properly shuts down all ChatProviders " alt="" coords="523,515,733,556"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ab39a3abd504c56e0d217a7ad475506e4" title="Gets the status of DreamDaemon &#160;" alt="" coords="795,5,1005,47"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a989bcee76648cec9c7e52a5d33217e90" title="Sends a message to everyone on the server &#160;" alt="" coords="795,71,1005,112"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="795,136,1005,177"/>
@@ -19,6 +19,7 @@
 <area shape="rect" id="node16" href="$class_t_g_server_service_1_1_server_instance.html#a8445f34deceaaa76a7c2088f8c7f1991" title="TGServerService.ServerInstance.\lIsInitialized" alt="" coords="1067,319,1277,360"/>
 <area shape="rect" id="node18" href="$class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6" title="Cleans the BYOND staging directory " alt="" coords="795,384,1005,425"/>
 <area shape="rect" id="node19" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="1085,384,1259,425"/>
-<area shape="rect" id="node20" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1343,384,1518,425"/>
-<area shape="rect" id="node23" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="809,515,991,556"/>
+<area shape="rect" id="node20" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1602,384,1777,425"/>
+<area shape="rect" id="node21" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1343,413,1518,455"/>
+<area shape="rect" id="node24" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="809,515,991,556"/>
 </map>

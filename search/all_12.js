@@ -13,7 +13,7 @@ var searchData=
   ['test',['Test',['../class_t_g_control_panel_1_1_main.html#a2e54914529ebf33a9ee35d8c67ee79c4a0cbc6611f5540bd0809a388dc95a615b',1,'TGControlPanel::Main']]],
   ['testmerge',['Testmerge',['../class_t_g_control_panel_1_1_main.html#a2f8204c713be1aff242b6be45646a8cba6e2d1ed67eda436b44a684e01deb433a',1,'TGControlPanel::Main']]],
   ['testmergebutton',['TestmergeButton',['../class_t_g_control_panel_1_1_main.html#a86dc0556240a526401a740f496de7371',1,'TGControlPanel::Main']]],
-  ['testmergebutton_5fclick',['TestMergeButton_Click',['../class_t_g_control_panel_1_1_main.html#a3ada1f581d265958c530ae739420eedd',1,'TGControlPanel.Main.TestMergeButton_Click(object sender, EventArgs e)'],['../class_t_g_control_panel_1_1_main.html#a6a37276fd2d63053de867618299520ac',1,'TGControlPanel.Main.TestmergeButton_Click(object sender, System.EventArgs e)']]],
+  ['testmergebutton_5fclick',['TestmergeButton_Click',['../class_t_g_control_panel_1_1_main.html#a6a37276fd2d63053de867618299520ac',1,'TGControlPanel.Main.TestmergeButton_Click(object sender, System.EventArgs e)'],['../class_t_g_control_panel_1_1_main.html#a3ada1f581d265958c530ae739420eedd',1,'TGControlPanel.Main.TestMergeButton_Click(object sender, EventArgs e)']]],
   ['testmergecommand',['TestmergeCommand',['../class_t_g_command_line_1_1_testmerge_command.html',1,'TGCommandLine']]],
   ['testmergecommand',['TestmergeCommand',['../class_t_g_command_line_1_1_testmerge_command.html#a8dbbc7f25b95f9da87feac96dbf44aa6',1,'TGCommandLine::TestmergeCommand']]],
   ['testmergelistlabel',['TestMergeListLabel',['../class_t_g_control_panel_1_1_main.html#a9d0f6fe7a0156a42c0b88e9ec612fce2',1,'TGControlPanel::Main']]],
