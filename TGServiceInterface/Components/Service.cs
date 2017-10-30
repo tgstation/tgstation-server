@@ -42,7 +42,7 @@ namespace TGServiceInterface.Components
 		/// <summary>
 		/// List instances 
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>A <see cref="IDictionary{TKey, TValue}"/> of instance names relating to their paths</returns>
 		[OperationContract]
 		IDictionary<string, string> ListInstances();
 
@@ -51,7 +51,7 @@ namespace TGServiceInterface.Components
 		/// </summary>
 		/// <param name="Name">The name of the instance</param>
 		/// <param name="path">The path to the instance</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string CreateInstance(string Name, string path);
 
@@ -59,7 +59,7 @@ namespace TGServiceInterface.Components
 		/// Registers an existing server instance
 		/// </summary>
 		/// <param name="path">The path to the instance</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string ImportInstance(string path);
 
@@ -67,7 +67,7 @@ namespace TGServiceInterface.Components
 		/// Checks if an instance is online
 		/// </summary>
 		/// <param name="Name">The name of the instance</param>
-		/// <returns>true if the Instance exists and is online, false otherwise</returns>
+		/// <returns><see langword="true"/> if the Instance exists and is online, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool InstanceEnabled(string Name);
 
@@ -75,17 +75,17 @@ namespace TGServiceInterface.Components
 		/// Sets an instance's enabled status
 		/// </summary>
 		/// <param name="Name">The instance whom's status should be changed</param>
-		/// <param name="enabled">true to enable the instance, false to disable it</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <param name="enabled"><see langword="true"/> to enable the instance, <see langword="false"/> to disable it</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string SetInstanceEnabled(string Name, bool enabled);
 
 		/// <summary>
-		/// Renames an instance
+		/// Renames an instance, this will restart the instance if it is enabled
 		/// </summary>
 		/// <param name="name">The current name of the instance</param>
 		/// <param name="new_name">The new name of the instance</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string RenameInstance(string name, string new_name);
 
@@ -93,7 +93,7 @@ namespace TGServiceInterface.Components
 		/// Disables and unregisters an instance, allowing the folder and data to be manipulated manually
 		/// </summary>
 		/// <param name="name">The instance to detach</param>
-		/// <returns>null on success, error message on failure</returns>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
 		string DetachInstance(string name);
 

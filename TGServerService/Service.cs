@@ -397,37 +397,208 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
-			throw new NotImplementedException();
+			if (File.Exists(path) || Directory.Exists(path))
+				return "Cannot create instance at pre-existing path!";
+			var Config = Properties.Settings.Default;
+			lock (this)
+			{
+				if (Config.InstancePaths.Contains(path))
+					return String.Format("Instance at {0} already exists!", path);
+				try
+				{
+					var ic = new InstanceConfig(path);
+					Directory.CreateDirectory(path);
+					ic.Save();
+					Properties.Settings.Default.InstancePaths.Add(path);
+				}
+				catch (Exception e)
+				{
+					return e.ToString();
+				}
+				return SetupOneInstance(path);
+			}
+		}
+
+		/// <summary>
+		/// Starts and onlines an instance located at <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to the instance</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string SetupOneInstance(string path)
+		{
+			try
+			{
+				var host = SetupInstance(path);
+				if (host != null)
+					host.Open();
+				return null;
+			}
+			catch (Exception e)
+			{
+				return "Instance set up but an error occurred while starting it: " + e.ToString();
+			}
 		}
 
 		/// <inheritdoc />
 		public string ImportInstance(string path)
 		{
-			throw new NotImplementedException();
+			var Config = Properties.Settings.Default;
+			lock (this)
+			{
+				if (Config.InstancePaths.Contains(path))
+					return String.Format("Instance at {0} already exists!", path);
+				if(!Directory.Exists(path))
+					return String.Format("There is no instance located at {0}!", path);
+				InstanceConfig ic;
+				try
+				{
+					ic = InstanceConfig.Load(path);
+					ic.Save();
+					Properties.Settings.Default.InstancePaths.Add(path);
+				}
+				catch (Exception e)
+				{
+					return e.ToString();
+				}
+				return SetupOneInstance(path);
+			}
 		}
 
 		/// <inheritdoc />
 		public bool InstanceEnabled(string Name)
 		{
-			throw new NotImplementedException();
+			lock(this)
+			{
+				return hosts.ContainsKey(Name);
+			}
 		}
 
 		/// <inheritdoc />
 		public string SetInstanceEnabled(string Name, bool enabled)
 		{
-			throw new NotImplementedException();
+			return SetInstanceEnabledImpl(Name, enabled, out string path);
+		}
+
+
+		/// <summary>
+		/// Sets a <see cref="ServerInstance"/>'s enabled status
+		/// </summary>
+		/// <param name="Name">The <see cref="ServerInstance"/> whom's status should be changed</param>
+		/// <param name="enabled"><see langword="true"/> to enable the <see cref="ServerInstance"/>, <see langword="false"/> to disable it</param>
+		/// <param name="path">The path to the modified <see cref="ServerInstance"/></param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string SetInstanceEnabledImpl(string Name, bool enabled, out string path)
+		{
+			path = null;
+			lock (this)
+			{
+				var hostIsOnline = hosts.ContainsKey(Name);
+				if (enabled)
+				{
+					if (hostIsOnline)
+						return null;
+					//now this is a bit awkward because we need to check each instance config for the one named Name
+					string LastCheckedConfig = null;
+					try
+					{
+						foreach (var I in Properties.Settings.Default.InstancePaths)
+						{
+							LastCheckedConfig = I;
+							var ic = InstanceConfig.Load(I);
+							if (ic.Name == Name)
+							{
+								path = I;
+								return SetupOneInstance(I);
+							}
+						}
+					}
+					catch (Exception e)
+					{
+						return String.Format("An error occurred while checking instance config at {0}! Error: ", LastCheckedConfig, e.ToString());
+					}
+					return String.Format("Instance {0} does not exist!", Name);
+				}
+				else
+				{
+					if (!hostIsOnline)
+						return null;
+					var host = hosts[Name];
+					hosts.Remove(Name);
+					var inst = (ServerInstance)host.SingletonInstance;
+					host.Close();
+					path = inst.ServerDirectory();
+					inst.Dispose();
+					return null;
+				}
+			}
 		}
 
 		/// <inheritdoc />
 		public string RenameInstance(string name, string new_name)
 		{
-			throw new NotImplementedException();
+			if (name == new_name)
+				return null;
+			lock (this)
+			{
+				//we have to check em all anyway
+				InstanceConfig the_droid_were_looking_for = null;
+				foreach (var I in Properties.Settings.Default.InstancePaths)
+				{
+					var ic = InstanceConfig.Load(I);
+					if (ic.Name == name)
+						the_droid_were_looking_for = ic;
+					else if (ic.Name == new_name)
+						return String.Format("There is already another instance named {0}!", new_name);
+				}
+				if (the_droid_were_looking_for == null)
+					return String.Format("There is no instance named {0}!", name);
+				var ie = InstanceEnabled(name);
+				if(ie)
+					SetInstanceEnabled(name, false);
+				the_droid_were_looking_for.Name = new_name;
+				string result = "";
+				try
+				{
+					the_droid_were_looking_for.Save();
+					result = null;
+				}
+				catch(Exception e)
+				{
+					result = "Could not save instance config! Error: " + e.ToString();
+				}
+				finally
+				{
+					if (ie)
+						result = SetInstanceEnabled(new_name, true) + " "+ result;
+				}
+				return result;
+			}
 		}
 
 		/// <inheritdoc />
 		public string DetachInstance(string name)
 		{
-			throw new NotImplementedException();
+			lock (this)
+			{
+				var res = SetInstanceEnabledImpl(name, false, out string path);
+				if (res != null)
+					return res;
+				var Config = Properties.Settings.Default.InstancePaths;
+				if (path == null)    //gotta find it ourselves
+					foreach (var I in Config)
+					{
+						var ic = InstanceConfig.Load(I);
+						if (ic.Name == name)
+						{
+							path = I;
+							break;
+						}
+					}
+				if (path == null)
+					return String.Format("No instance named {0} exists!", name);
+				Config.Remove(path);
+				return null;
+			}
 		}
 	}
 }
