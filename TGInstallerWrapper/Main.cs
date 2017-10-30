@@ -95,6 +95,8 @@ namespace TGInstallerWrapper
 			try
 			{
 				VersionLabel.Text = (string)Version.Invoke(GetComponentITGSService.Invoke(null, null), null);
+				if (VersionLabel.Text.Contains("v3.0")) //OH GOD!!!!
+					MessageBox.Show("Warning! Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!");
 			}
 			catch
 			{
