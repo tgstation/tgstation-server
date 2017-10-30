@@ -324,19 +324,23 @@ namespace TGServerService
 		/// </summary>
 		protected override void OnStop()
 		{
-			try
+			lock (this)
 			{
-				foreach (var I in hosts)
+				try
 				{
-					var host = I.Value;
-					var instance = (ServerInstance)host.SingletonInstance;
-					host.Close();
-					instance.Dispose();
+					foreach (var I in hosts)
+					{
+						var host = I.Value;
+						var instance = (ServerInstance)host.SingletonInstance;
+						host.Close();
+						instance.Dispose();
+					}
 				}
-			}
-			catch (Exception e)
-			{
-				WriteEntry(e.ToString(), EventID.ServiceShutdownFail, EventLogEntryType.Error, LoggingID);
+				catch (Exception e)
+				{
+					WriteEntry(e.ToString(), EventID.ServiceShutdownFail, EventLogEntryType.Error, LoggingID);
+				}
+				serviceHost.Close();
 			}
 			Properties.Settings.Default.Save();
 			ActiveService = null;
