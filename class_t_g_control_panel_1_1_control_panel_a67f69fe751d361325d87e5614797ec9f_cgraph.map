@@ -1,0 +1,5 @@
+<map id="TGControlPanel.ControlPanel.BuildFileList" name="TGControlPanel.ControlPanel.BuildFileList">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#ad915cc66d166da5b44380f42b945832d" title="TGControlPanel.ControlPanel.\lEnumeratePath" alt="" coords="248,39,443,80"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="491,5,701,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a600c48516804105326cf74e580cec691" title="TGControlPanel.ControlPanel.\lDSNTimes" alt="" coords="499,71,693,112"/>
+</map>

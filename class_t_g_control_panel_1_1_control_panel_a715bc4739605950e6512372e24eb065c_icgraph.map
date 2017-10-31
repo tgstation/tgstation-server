@@ -1,0 +1,6 @@
+<map id="TGControlPanel.ControlPanel.UpdateServerPath" name="TGControlPanel.ControlPanel.UpdateServerPath">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a79a9f109517e00df2b26bc62b369310b" title="TGControlPanel.ControlPanel.\lServerPathTextbox_KeyDown" alt="" coords="250,5,445,47"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a7e665c3596bc4061b43eccdbbf201944" title="TGControlPanel.ControlPanel.\lServerPathTextbox_LostFocus" alt="" coords="248,71,447,112"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="495,39,689,80"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="737,39,932,80"/>
+</map>

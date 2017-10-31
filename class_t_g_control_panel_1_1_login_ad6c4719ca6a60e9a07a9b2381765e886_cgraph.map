@@ -1,0 +1,4 @@
+<map id="TGControlPanel.Login.VerifyAndConnect" name="TGControlPanel.Login.VerifyAndConnect">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a55684ee7aa082d03cf2febb5b410ea00" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="239,5,425,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="239,71,425,112"/>
+</map>

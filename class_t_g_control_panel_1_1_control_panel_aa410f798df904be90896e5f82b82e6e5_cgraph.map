@@ -1,0 +1,6 @@
+<map id="TGControlPanel.ControlPanel.AdminModeNormal_CheckedChanged" name="TGControlPanel.ControlPanel.AdminModeNormal_CheckedChanged">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#af5980cb711918ba41efbe9a66e369799" title="TGControlPanel.ControlPanel.\lSetAdminsAreSpecial" alt="" coords="295,35,489,76"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html#aa875f5edaee37201ade100e943faf434" title="Returns ChatSetupInfo for all ChatProviders " alt="" coords="780,5,991,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595" title="TGControlPanel.ControlPanel.\lLoadChatPage" alt="" coords="537,64,732,105"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a8f1a1772fbab5ff05473625ed995c598" title="TGControlPanel.ControlPanel.\lAssignListToTextbox" alt="" coords="788,71,983,112"/>
+</map>

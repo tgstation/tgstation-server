@@ -1,0 +1,5 @@
+<map id="TGServiceInterface.Interface.ClearCachedChannels" name="TGServiceInterface.Interface.ClearCachedChannels">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="709,5,896,47"/>
+</map>

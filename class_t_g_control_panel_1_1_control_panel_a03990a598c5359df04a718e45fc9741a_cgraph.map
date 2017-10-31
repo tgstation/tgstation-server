@@ -1,0 +1,5 @@
+<map id="TGControlPanel.ControlPanel.ChatReconnectButton_Click" name="TGControlPanel.ControlPanel.ChatReconnectButton_Click">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595" title="TGControlPanel.ControlPanel.\lLoadChatPage" alt="" coords="248,39,443,80"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html#aa875f5edaee37201ade100e943faf434" title="Returns ChatSetupInfo for all ChatProviders " alt="" coords="491,5,701,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a8f1a1772fbab5ff05473625ed995c598" title="TGControlPanel.ControlPanel.\lAssignListToTextbox" alt="" coords="499,71,693,112"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="TGControlPanel.ControlPanel.RecloneButton_Click" name="TGControlPanel.ControlPanel.RecloneButton_Click">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#aff73fe7bed37b8732a330b8559e3a550" title="TGControlPanel.ControlPanel.\lCloneRepo" alt="" coords="248,39,443,80"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a4c31730c223827ee9aa0f961b3c6bcbd" title="TGControlPanel.ControlPanel.\lDoAsyncOp" alt="" coords="491,5,685,47"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#aa2d576242a720c28ad4d56b6c85763c8" title="TGControlPanel.ControlPanel.\lUpdatePythonPath" alt="" coords="491,71,685,112"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6e2d041a46bbda54bb6e70dab696c3dc" title="TGControlPanel.ControlPanel.\lRepoBusyCheck" alt="" coords="741,5,936,47"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="992,5,1219,47"/>
+<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a77327e69d2fca0cab7415edf570b3f94" title="Sets the path to the python 2.7 installation " alt="" coords="733,71,944,112"/>
+</map>

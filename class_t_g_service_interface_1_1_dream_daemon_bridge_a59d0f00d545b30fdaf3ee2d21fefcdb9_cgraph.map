@@ -1,4 +1,3 @@
 <map id="TGServiceInterface.DreamDaemonBridge.DDEntryPoint" name="TGServiceInterface.DreamDaemonBridge.DDEntryPoint">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="256,5,443,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_interop.html#a0ffd8993d37ffa931d94c3b0390e49af" title="Called from /world/ExportService(command) " alt="" coords="244,71,455,112"/>
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_interop.html#a0ffd8993d37ffa931d94c3b0390e49af" title="Called from /world/ExportService(command) " alt="" coords="244,5,455,47"/>
 </map>

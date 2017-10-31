@@ -1,6 +1,0 @@
-<map id="TGControlPanel.Main.RepoBGW_RunWorkerCompleted" name="TGControlPanel.Main.RepoBGW_RunWorkerCompleted">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a18a97bfd0295bd6b551556e60bcb81ed" title="TGControlPanel.Main.Populate\lRepoFields" alt="" coords="241,64,441,105"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a2591e90294d2a362a662aba7f567efda" title="TGControlPanel.Main.Repo\lBusyCheck" alt="" coords="489,64,668,105"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="716,5,943,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_main.html#a3139230d97ac96ca48272086f4f8ebd5" title="TGControlPanel.Main.DoAsyncOp" alt="" coords="720,71,939,98"/>
-</map>

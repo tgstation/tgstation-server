@@ -1,8 +1,0 @@
-<map id="TGControlPanel.Main.RecreateStaticButton_Click" name="TGControlPanel.Main.RecreateStaticButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#ad9b437efc66091bf556926eaf8e23c25" title="TGControlPanel.Main.Build\lFileList" alt="" coords="269,27,447,69"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_program.html#a40109c5a6c31e89d7e2c7cd67d7f3b49" title="TGControlPanel.Program.Check\lAdminWithWarning" alt="" coords="255,93,461,134"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a40f924051abc6a9a3521e0fcb262121e" title="TGControlPanel.Main.EnumeratePath" alt="" coords="509,35,748,61"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#aacb4cabcfff5294f83a1dc407c4f425c" title="TGControlPanel.Main.DSNTimes" alt="" coords="796,5,1007,32"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="796,57,1007,98"/>
-<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html#a3cab053a930b0cededd4ad5e60167046" title="Checks if the current login can use ITGAdministration. Requires a successful prior call to Authentica..." alt="" coords="535,93,722,134"/>
-</map>

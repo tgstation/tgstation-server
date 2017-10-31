@@ -1,18 +1,19 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_disposable.html" title="IDisposable" alt="" coords="66,46,155,73"/>
+<area shape="rect" id="node1" href="$class_i_disposable.html" title="IDisposable" alt="" coords="66,75,155,102"/>
 <area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html" title="Interface for a chat provder service " alt="" coords="265,39,470,80"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="264,399,471,426"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="264,429,471,455"/>
+<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="276,105,459,131"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html" title="IChatProvider for Discord: https://discordapp.com/ " alt="" coords="519,5,724,47"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html" title="IChatProvider for internet relay chat " alt="" coords="519,71,724,112"/>
-<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html" title="Manage the group that is used to access the service, can only be used by an administrator ..." alt="" coords="5,97,216,139"/>
-<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_byond.html" title="For managing the BYOND installation the server runs " alt="" coords="5,163,216,204"/>
-<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html" title="Interface for handling chat bot " alt="" coords="5,228,216,269"/>
-<area shape="rect" id="node9" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler.html" title="For managing the Game A/B/Live folders, compiling, and hotswapping them " alt="" coords="5,293,216,335"/>
-<area shape="rect" id="node10" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html" title="For modifying the in game config Most if not all of these will not apply until the next server reboot..." alt="" coords="5,359,216,400"/>
-<area shape="rect" id="node11" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html" title="Used for testing connections to the service without authentication " alt="" coords="5,424,216,465"/>
-<area shape="rect" id="node12" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html" title="Interface for managing the actual BYOND game server " alt="" coords="5,489,216,531"/>
-<area shape="rect" id="node13" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_interop.html" title="Used by DD to access the interop API with call()() " alt="" coords="5,555,216,596"/>
-<area shape="rect" id="node14" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html" title="Interface for managing the code repository " alt="" coords="5,620,216,661"/>
-<area shape="rect" id="node15" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service " alt="" coords="5,685,216,727"/>
-<area shape="rect" id="node16" href="$class_service_authorization_manager.html" title="ServiceAuthorizationManager" alt="" coords="15,751,206,778"/>
+<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html" title="Manage the group that is used to access the service, can only be used by an administrator ..." alt="" coords="5,127,216,168"/>
+<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_byond.html" title="For managing the BYOND installation the server runs " alt="" coords="5,192,216,233"/>
+<area shape="rect" id="node9" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html" title="Interface for handling chat bot " alt="" coords="5,257,216,299"/>
+<area shape="rect" id="node10" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler.html" title="For managing the Game A/B/Live folders, compiling, and hotswapping them " alt="" coords="5,323,216,364"/>
+<area shape="rect" id="node11" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html" title="For modifying the in game config Most if not all of these will not apply until the next server reboot..." alt="" coords="5,388,216,429"/>
+<area shape="rect" id="node12" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html" title="Used for testing connections to the service without authentication " alt="" coords="5,453,216,495"/>
+<area shape="rect" id="node13" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html" title="Interface for managing the actual BYOND game server " alt="" coords="5,519,216,560"/>
+<area shape="rect" id="node14" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_interop.html" title="Used by DD to access the interop API with call()() " alt="" coords="5,584,216,625"/>
+<area shape="rect" id="node15" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html" title="Interface for managing the code repository " alt="" coords="5,649,216,691"/>
+<area shape="rect" id="node16" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service " alt="" coords="5,715,216,756"/>
+<area shape="rect" id="node17" href="$class_service_authorization_manager.html" title="ServiceAuthorizationManager" alt="" coords="15,781,206,807"/>
 </map>

@@ -1,0 +1,4 @@
+<map id="TGControlPanel.ControlPanel.InitializeButton_Click" name="TGControlPanel.ControlPanel.InitializeButton_Click">
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler.html#a90c3f445b84e69fe69eba02933ed2a6d" title="Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder..." alt="" coords="248,5,459,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a" title="TGControlPanel.ControlPanel.\lLoadServerPage" alt="" coords="256,71,451,112"/>
+</map>

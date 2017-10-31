@@ -1,3 +1,4 @@
 <map id="TGCommandLine.BYONDUpdateCommand" name="TGCommandLine.BYONDUpdateCommand">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="71,5,153,32"/>
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="48,80,176,107"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="71,5,153,32"/>
 </map>

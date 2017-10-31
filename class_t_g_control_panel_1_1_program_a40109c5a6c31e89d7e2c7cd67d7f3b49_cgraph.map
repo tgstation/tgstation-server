@@ -1,3 +1,0 @@
-<map id="TGControlPanel.Program.CheckAdminWithWarning" name="TGControlPanel.Program.CheckAdminWithWarning">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a3cab053a930b0cededd4ad5e60167046" title="Checks if the current login can use ITGAdministration. Requires a successful prior call to Authentica..." alt="" coords="260,5,447,47"/>
-</map>

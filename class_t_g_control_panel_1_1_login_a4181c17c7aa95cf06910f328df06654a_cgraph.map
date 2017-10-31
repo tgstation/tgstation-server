@@ -1,9 +1,6 @@
 <map id="TGControlPanel.Login.RemoteLoginButton_Click" name="TGControlPanel.Login.RemoteLoginButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="253,5,435,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a101de9104808f05dbbd6eaea130922b4" title="Set the remote Interface to connect to along with " alt="" coords="251,71,437,112"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html#a419b6312a9b3a12a886b8a103aa38683" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,136,437,177"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="485,71,672,112"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="720,71,907,112"/>
-<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="485,136,672,177"/>
-<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_interface.html#adad729a90df646b92e5ce08a7f5b01ca" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="485,201,672,243"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="252,5,435,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_login.html#ad6c4719ca6a60e9a07a9b2381765e886" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,71,436,112"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="484,37,671,79"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a55684ee7aa082d03cf2febb5b410ea00" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="484,103,671,144"/>
 </map>

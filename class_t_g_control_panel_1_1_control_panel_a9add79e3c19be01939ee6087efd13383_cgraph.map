@@ -1,0 +1,14 @@
+<map id="TGControlPanel.ControlPanel.InitServerPage" name="TGControlPanel.ControlPanel.InitServerPage">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#acd589b9365cdf955da752e8f2649cf21" title="Checks if the current login can use ITGAdministration. Requires a successful prior call to Authentica..." alt="" coords="285,5,471,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#acdbf071340e7b9091e5c85e3533efd16" title="TGControlPanel.ControlPanel.\lFullUpdateWorker_RunWorkerCompleted" alt="" coords="248,71,508,112"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a" title="TGControlPanel.ControlPanel.\lLoadServerPage" alt="" coords="556,129,751,171"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a5a8e1588c50b0228a7e36e8b61f701b3" title="TGControlPanel.ControlPanel.\lProjectNameText_KeyDown" alt="" coords="281,253,475,295"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a1a435ec5d43eafc7c8002dd2ed79561c" title="TGControlPanel.ControlPanel.\lProjectNameText_LostFocus" alt="" coords="281,319,475,360"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a79a9f109517e00df2b26bc62b369310b" title="TGControlPanel.ControlPanel.\lServerPathTextbox_KeyDown" alt="" coords="281,384,475,425"/>
+<area shape="rect" id="node12" href="$class_t_g_control_panel_1_1_control_panel.html#a7e665c3596bc4061b43eccdbbf201944" title="TGControlPanel.ControlPanel.\lServerPathTextbox_LostFocus" alt="" coords="279,449,477,491"/>
+<area shape="rect" id="node13" href="$class_t_g_control_panel_1_1_control_panel.html#a5124dac696b2e88cb0ff26c71b5fc9ac" title="TGControlPanel.ControlPanel.\lServerStartBGW_RunWorkerCompleted" alt="" coords="252,188,504,229"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#ad3392c89236dc8608478b82bf8df78c6" title="TGControlPanel.ControlPanel.\lUpdateProjectName" alt="" coords="556,303,751,344"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_control_panel.html#a715bc4739605950e6512372e24eb065c" title="TGControlPanel.ControlPanel.\lUpdateServerPath" alt="" coords="556,400,751,441"/>
+<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_control_panel.html#abb2dd6252baca12b13577ef742d1a400" title="TGControlPanel.ControlPanel.\lCheckAdminWithWarning" alt="" coords="807,367,1001,408"/>
+<area shape="rect" id="node11" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a68ef388c6df73ee89b698a1644df2a06" title="Moves the entire server installation, requires no operations to be running " alt="" coords="799,432,1009,473"/>
+</map>

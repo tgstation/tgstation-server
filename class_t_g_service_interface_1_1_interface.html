@@ -91,11 +91,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a> &#124;
-<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_t_g_service_interface_1_1_interface-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">TGServiceInterface.Interface Class Reference</div>  </div>
@@ -105,45 +107,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Main inteface class for the service  
  <a href="class_t_g_service_interface_1_1_interface.html#details">More...</a></p>
 <div class="dynheader">
+Inheritance diagram for TGServiceInterface.Interface:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface__inherit__graph.png" border="0" usemap="#_t_g_service_interface_8_interface_inherit__map" alt="Inheritance graph"/></div>
+<map name="_t_g_service_interface_8_interface_inherit__map" id="_t_g_service_interface_8_interface_inherit__map">
+<area shape="rect" id="node2" href="class_i_disposable.html" title="IDisposable" alt="" coords="52,5,141,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
 Collaboration diagram for TGServiceInterface.Interface:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_service_interface_1_1_interface__coll__graph.png" border="0" usemap="#_t_g_service_interface_8_interface_coll__map" alt="Collaboration graph"/></div>
 <map name="_t_g_service_interface_8_interface_coll__map" id="_t_g_service_interface_8_interface_coll__map">
+<area shape="rect" id="node2" href="class_i_disposable.html" title="IDisposable" alt="" coords="28,5,117,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa32780160cb085b1e39ec637cca40882"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882">SetBadCertificateHandler</a> (Func&lt; string, bool &gt; handler)</td></tr>
-<tr class="memdesc:aa32780160cb085b1e39ec637cca40882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the function called when a remote login fails due to the server having an invalid SSL cert  <a href="#aa32780160cb085b1e39ec637cca40882">More...</a><br /></td></tr>
-<tr class="separator:aa32780160cb085b1e39ec637cca40882"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f0eb4fa70429ac1ddef8fb1a13366a1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a5f0eb4fa70429ac1ddef8fb1a13366a1">MakeLocalConnection</a> ()</td></tr>
-<tr class="memdesc:a5f0eb4fa70429ac1ddef8fb1a13366a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interface to look for services on the current computer  <a href="#a5f0eb4fa70429ac1ddef8fb1a13366a1">More...</a><br /></td></tr>
-<tr class="separator:a5f0eb4fa70429ac1ddef8fb1a13366a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab84424d0f0f8a47c7b6680ebd6c52d98"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#ab84424d0f0f8a47c7b6680ebd6c52d98">VersionMismatch</a> (out string errorMessage)</td></tr>
-<tr class="memdesc:ab84424d0f0f8a47c7b6680ebd6c52d98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns  if the <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> interface being used to connect to a service does not have the same release version as the service  <a href="#ab84424d0f0f8a47c7b6680ebd6c52d98">More...</a><br /></td></tr>
-<tr class="separator:ab84424d0f0f8a47c7b6680ebd6c52d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a101de9104808f05dbbd6eaea130922b4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a101de9104808f05dbbd6eaea130922b4">SetRemoteLoginInformation</a> (string address, ushort port, string username, string password)</td></tr>
-<tr class="memdesc:a101de9104808f05dbbd6eaea130922b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the remote <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> to connect to along with  <a href="#a101de9104808f05dbbd6eaea130922b4">More...</a><br /></td></tr>
-<tr class="separator:a101de9104808f05dbbd6eaea130922b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a773131d065f9cd22418389a1687a89e0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0">CloseChannel</a> (ChannelFactory cf)</td></tr>
-<tr class="memdesc:a773131d065f9cd22418389a1687a89e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely shuts down a single ChannelFactory  <a href="#a773131d065f9cd22418389a1687a89e0">More...</a><br /></td></tr>
-<tr class="separator:a773131d065f9cd22418389a1687a89e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a265e15ee016fe273ddf947bfba0d0ab9"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a265e15ee016fe273ddf947bfba0d0ab9">GetComponent&lt; T &gt;</a> ()</td></tr>
-<tr class="memdesc:a265e15ee016fe273ddf947bfba0d0ab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the requested <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage  <a href="#a265e15ee016fe273ddf947bfba0d0ab9">More...</a><br /></td></tr>
-<tr class="separator:a265e15ee016fe273ddf947bfba0d0ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75cea73ddc15b2b993f696a55864ded0"><td class="memItemLeft" align="right" valign="top">static ChannelFactory&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a75cea73ddc15b2b993f696a55864ded0">CreateChannel&lt; T &gt;</a> ()</td></tr>
-<tr class="memdesc:a75cea73ddc15b2b993f696a55864ded0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directly creates a ChannelFactory&lt;TChannel&gt; for <em>T</em>  without caching. This should be eventually closed by the caller  <a href="#a75cea73ddc15b2b993f696a55864ded0">More...</a><br /></td></tr>
-<tr class="separator:a75cea73ddc15b2b993f696a55864ded0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b150e778489679d54d7b63b63a99d0b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b">VerifyConnection</a> ()</td></tr>
-<tr class="memdesc:a6b150e778489679d54d7b63b63a99d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed  <a href="#a6b150e778489679d54d7b63b63a99d0b">More...</a><br /></td></tr>
-<tr class="separator:a6b150e778489679d54d7b63b63a99d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad729a90df646b92e5ce08a7f5b01ca"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#adad729a90df646b92e5ce08a7f5b01ca">Authenticate</a> ()</td></tr>
-<tr class="memdesc:adad729a90df646b92e5ce08a7f5b01ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any...">VerifyConnection</a>  <a href="#adad729a90df646b92e5ce08a7f5b01ca">More...</a><br /></td></tr>
-<tr class="separator:adad729a90df646b92e5ce08a7f5b01ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cab053a930b0cededd4ad5e60167046"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a3cab053a930b0cededd4ad5e60167046">AuthenticateAdmin</a> ()</td></tr>
-<tr class="memdesc:a3cab053a930b0cededd4ad5e60167046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the current login can use ITGAdministration. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#adad729a90df646b92e5ce08a7f5b01ca" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p...">Authenticate</a>  <a href="#a3cab053a930b0cededd4ad5e60167046">More...</a><br /></td></tr>
-<tr class="separator:a3cab053a930b0cededd4ad5e60167046"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2883ba0cef5ea989d16159aa613eb8b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a2883ba0cef5ea989d16159aa613eb8b9">Interface</a> ()</td></tr>
+<tr class="memdesc:a2883ba0cef5ea989d16159aa613eb8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> for a local connection  <a href="#a2883ba0cef5ea989d16159aa613eb8b9">More...</a><br /></td></tr>
+<tr class="separator:a2883ba0cef5ea989d16159aa613eb8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1d90ca6271278b7b8ebb958d91d2e3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#aa1d90ca6271278b7b8ebb958d91d2e3d">Interface</a> (string address, ushort port, string username, string password)</td></tr>
+<tr class="memdesc:aa1d90ca6271278b7b8ebb958d91d2e3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> for a remote connection  <a href="#aa1d90ca6271278b7b8ebb958d91d2e3d">More...</a><br /></td></tr>
+<tr class="separator:aa1d90ca6271278b7b8ebb958d91d2e3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b3d5ef8645d26a07092e9c71b78dae5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a4b3d5ef8645d26a07092e9c71b78dae5">SetBadCertificateHandler</a> (Func&lt; string, bool &gt; handler)</td></tr>
+<tr class="memdesc:a4b3d5ef8645d26a07092e9c71b78dae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the function called when a remote login fails due to the server having an invalid SSL cert  <a href="#a4b3d5ef8645d26a07092e9c71b78dae5">More...</a><br /></td></tr>
+<tr class="separator:a4b3d5ef8645d26a07092e9c71b78dae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa917a2e4f95d7fd2c5b1fc0d143280b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#aa917a2e4f95d7fd2c5b1fc0d143280b8">VersionMismatch</a> (out string errorMessage)</td></tr>
+<tr class="memdesc:aa917a2e4f95d7fd2c5b1fc0d143280b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns  if the <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> interface being used to connect to a service does not have the same release version as the service  <a href="#aa917a2e4f95d7fd2c5b1fc0d143280b8">More...</a><br /></td></tr>
+<tr class="separator:aa917a2e4f95d7fd2c5b1fc0d143280b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b2f9a5c843fcb0ed4a4398088945ce"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a43b2f9a5c843fcb0ed4a4398088945ce">GetComponent&lt; T &gt;</a> ()</td></tr>
+<tr class="memdesc:a43b2f9a5c843fcb0ed4a4398088945ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the requested <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage  <a href="#a43b2f9a5c843fcb0ed4a4398088945ce">More...</a><br /></td></tr>
+<tr class="separator:a43b2f9a5c843fcb0ed4a4398088945ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89acbad09e55283debb0311300a040d1"><td class="memItemLeft" align="right" valign="top">ChannelFactory&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1">CreateChannel&lt; T &gt;</a> ()</td></tr>
+<tr class="memdesc:a89acbad09e55283debb0311300a040d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directly creates a ChannelFactory&lt;TChannel&gt; for <em>T</em>  without caching. This should be eventually closed by the caller  <a href="#a89acbad09e55283debb0311300a040d1">More...</a><br /></td></tr>
+<tr class="separator:a89acbad09e55283debb0311300a040d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0de07ef23a3a0e5accd0f1403f2febbf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf">VerifyConnection</a> ()</td></tr>
+<tr class="memdesc:a0de07ef23a3a0e5accd0f1403f2febbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed  <a href="#a0de07ef23a3a0e5accd0f1403f2febbf">More...</a><br /></td></tr>
+<tr class="separator:a0de07ef23a3a0e5accd0f1403f2febbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55684ee7aa082d03cf2febb5b410ea00"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a55684ee7aa082d03cf2febb5b410ea00">Authenticate</a> ()</td></tr>
+<tr class="memdesc:a55684ee7aa082d03cf2febb5b410ea00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any...">VerifyConnection</a>  <a href="#a55684ee7aa082d03cf2febb5b410ea00">More...</a><br /></td></tr>
+<tr class="separator:a55684ee7aa082d03cf2febb5b410ea00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd589b9365cdf955da752e8f2649cf21"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#acd589b9365cdf955da752e8f2649cf21">AuthenticateAdmin</a> ()</td></tr>
+<tr class="memdesc:acd589b9365cdf955da752e8f2649cf21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the current login can use ITGAdministration. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#a55684ee7aa082d03cf2febb5b410ea00" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p...">Authenticate</a>  <a href="#acd589b9365cdf955da752e8f2649cf21">More...</a><br /></td></tr>
+<tr class="separator:acd589b9365cdf955da752e8f2649cf21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3a37157767048ad0c0a53d444afe25e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e">Dispose</a> ()</td></tr>
+<tr class="memdesc:ad3a37157767048ad0c0a53d444afe25e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern  <a href="#ad3a37157767048ad0c0a53d444afe25e">More...</a><br /></td></tr>
+<tr class="separator:ad3a37157767048ad0c0a53d444afe25e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -160,78 +171,163 @@ Public Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a177251e0cec2b05f762f91a560766e95"><td class="memItemLeft" align="right" valign="top">static readonly IList&lt; Type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a177251e0cec2b05f762f91a560766e95">ValidInterfaces</a> = <a class="el" href="class_t_g_service_interface_1_1_interface.html#a16c1a11f673d89d677a73e405d1e201b">CollectComponents</a>()</td></tr>
-<tr class="memdesc:a177251e0cec2b05f762f91a560766e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of s that can be used with <a class="el" href="class_t_g_service_interface_1_1_interface.html#a265e15ee016fe273ddf947bfba0d0ab9" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage ">GetComponent&lt;T&gt;</a> and <a class="el" href="class_t_g_service_interface_1_1_interface.html#a75cea73ddc15b2b993f696a55864ded0" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...">CreateChannel&lt;T&gt;</a>  <a href="#a177251e0cec2b05f762f91a560766e95">More...</a><br /></td></tr>
+<tr class="memdesc:a177251e0cec2b05f762f91a560766e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of s that can be used with <a class="el" href="class_t_g_service_interface_1_1_interface.html#a43b2f9a5c843fcb0ed4a4398088945ce" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage ">GetComponent&lt;T&gt;</a> and <a class="el" href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...">CreateChannel&lt;T&gt;</a>  <a href="#a177251e0cec2b05f762f91a560766e95">More...</a><br /></td></tr>
 <tr class="separator:a177251e0cec2b05f762f91a560766e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a82f59d8fade644e23d6a9e38fe02460d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d">Dispose</a> (bool disposing)</td></tr>
+<tr class="memdesc:a82f59d8fade644e23d6a9e38fe02460d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern. Calls <a class="el" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it ">ClearCachedChannels</a>  <a href="#a82f59d8fade644e23d6a9e38fe02460d">More...</a><br /></td></tr>
+<tr class="separator:a82f59d8fade644e23d6a9e38fe02460d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a5ae1a578668295091f6da4f28816964b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b">ClearCachedChannels</a> ()</td></tr>
+<tr class="memdesc:a5ae1a578668295091f6da4f28816964b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes all ChannelFactorys stored in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d" title="Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...">ChannelFactoryCache</a> and clears it  <a href="#a5ae1a578668295091f6da4f28816964b">More...</a><br /></td></tr>
+<tr class="separator:a5ae1a578668295091f6da4f28816964b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
 <tr class="memitem:a16c1a11f673d89d677a73e405d1e201b"><td class="memItemLeft" align="right" valign="top">static IList&lt; Type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a16c1a11f673d89d677a73e405d1e201b">CollectComponents</a> ()</td></tr>
 <tr class="memdesc:a16c1a11f673d89d677a73e405d1e201b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a IList&lt;T&gt; of  Types that can be used with the service  <a href="#a16c1a11f673d89d677a73e405d1e201b">More...</a><br /></td></tr>
 <tr class="separator:a16c1a11f673d89d677a73e405d1e201b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7cf26c6305dfe3f7ab3ab7a52868b3a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a">ClearCachedChannels</a> ()</td></tr>
-<tr class="memdesc:ae7cf26c6305dfe3f7ab3ab7a52868b3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes all ChannelFactorys stored in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d" title="Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...">ChannelFactoryCache</a> and clears it  <a href="#ae7cf26c6305dfe3f7ab3ab7a52868b3a">More...</a><br /></td></tr>
-<tr class="separator:ae7cf26c6305dfe3f7ab3ab7a52868b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a773131d065f9cd22418389a1687a89e0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0">CloseChannel</a> (ChannelFactory cf)</td></tr>
+<tr class="memdesc:a773131d065f9cd22418389a1687a89e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely shuts down a single ChannelFactory  <a href="#a773131d065f9cd22418389a1687a89e0">More...</a><br /></td></tr>
+<tr class="separator:a773131d065f9cd22418389a1687a89e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a638ac53dcc56eb98e7cfc9db67947249"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249">ChannelFactory_Closed</a> (object sender, EventArgs e)</td></tr>
+<tr class="memdesc:a638ac53dcc56eb98e7cfc9db67947249"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposes a closed ChannelFactory  <a href="#a638ac53dcc56eb98e7cfc9db67947249">More...</a><br /></td></tr>
+<tr class="separator:a638ac53dcc56eb98e7cfc9db67947249"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
-Static Private Attributes</h2></td></tr>
-<tr class="memitem:aa9fc11e8f54d25d8b61f8ebff40751a3"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">HTTPSURL</a></td></tr>
-<tr class="memdesc:aa9fc11e8f54d25d8b61f8ebff40751a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">If this is set, we will try and connect to an HTTPS server running at this address  <a href="#aa9fc11e8f54d25d8b61f8ebff40751a3">More...</a><br /></td></tr>
-<tr class="separator:aa9fc11e8f54d25d8b61f8ebff40751a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43ad42460dba6f8e08659285029e39cc"><td class="memItemLeft" align="right" valign="top">static ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">HTTPSPort</a> = 38607</td></tr>
-<tr class="memdesc:a43ad42460dba6f8e08659285029e39cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The port used by the service  <a href="#a43ad42460dba6f8e08659285029e39cc">More...</a><br /></td></tr>
-<tr class="separator:a43ad42460dba6f8e08659285029e39cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cf6ac453199d2e5a63075e039b97328"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a6cf6ac453199d2e5a63075e039b97328">HTTPSUsername</a></td></tr>
-<tr class="memdesc:a6cf6ac453199d2e5a63075e039b97328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Username for remote operations  <a href="#a6cf6ac453199d2e5a63075e039b97328">More...</a><br /></td></tr>
-<tr class="separator:a6cf6ac453199d2e5a63075e039b97328"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe0b9037c75657f9bb88dda055875001"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">HTTPSPassword</a></td></tr>
-<tr class="memdesc:abe0b9037c75657f9bb88dda055875001"><td class="mdescLeft">&#160;</td><td class="mdescRight">Password for remote operations  <a href="#abe0b9037c75657f9bb88dda055875001">More...</a><br /></td></tr>
-<tr class="separator:abe0b9037c75657f9bb88dda055875001"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4950a0fbe1fdbd63a6bbb9202e34733d"><td class="memItemLeft" align="right" valign="top">static IDictionary&lt; Type, ChannelFactory &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a> = new Dictionary&lt;Type, ChannelFactory&gt;()</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a35973bd60c60a6bd441dc3eab894ef3e"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">HTTPSURL</a></td></tr>
+<tr class="memdesc:a35973bd60c60a6bd441dc3eab894ef3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">If this is set, we will try and connect to an HTTPS server running at this address  <a href="#a35973bd60c60a6bd441dc3eab894ef3e">More...</a><br /></td></tr>
+<tr class="separator:a35973bd60c60a6bd441dc3eab894ef3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4600585dc4a1182eebcf06fb94a2f759"><td class="memItemLeft" align="right" valign="top">readonly ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">HTTPSPort</a></td></tr>
+<tr class="memdesc:a4600585dc4a1182eebcf06fb94a2f759"><td class="mdescLeft">&#160;</td><td class="mdescRight">The port used by the service  <a href="#a4600585dc4a1182eebcf06fb94a2f759">More...</a><br /></td></tr>
+<tr class="separator:a4600585dc4a1182eebcf06fb94a2f759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4b9cc26e24aaa842e5c39db41c3b0e"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#abe4b9cc26e24aaa842e5c39db41c3b0e">HTTPSUsername</a></td></tr>
+<tr class="memdesc:abe4b9cc26e24aaa842e5c39db41c3b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Username for remote operations  <a href="#abe4b9cc26e24aaa842e5c39db41c3b0e">More...</a><br /></td></tr>
+<tr class="separator:abe4b9cc26e24aaa842e5c39db41c3b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e5c7c3910eb723350a593e9c402aed6"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a3e5c7c3910eb723350a593e9c402aed6">HTTPSPassword</a></td></tr>
+<tr class="memdesc:a3e5c7c3910eb723350a593e9c402aed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Password for remote operations  <a href="#a3e5c7c3910eb723350a593e9c402aed6">More...</a><br /></td></tr>
+<tr class="separator:a3e5c7c3910eb723350a593e9c402aed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4950a0fbe1fdbd63a6bbb9202e34733d"><td class="memItemLeft" align="right" valign="top">IDictionary&lt; Type, ChannelFactory &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a> = new Dictionary&lt;Type, ChannelFactory&gt;()</td></tr>
 <tr class="memdesc:a4950a0fbe1fdbd63a6bbb9202e34733d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fault at any time. Must be locked before being accessed  <a href="#a4950a0fbe1fdbd63a6bbb9202e34733d">More...</a><br /></td></tr>
 <tr class="separator:a4950a0fbe1fdbd63a6bbb9202e34733d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a785b92eae6884937b6c8c57e051dd285"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a785b92eae6884937b6c8c57e051dd285">disposedValue</a> = false</td></tr>
+<tr class="memdesc:a785b92eae6884937b6c8c57e051dd285"><td class="mdescLeft">&#160;</td><td class="mdescRight">To detect redundant <a class="el" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels ">Dispose(bool)</a> calls  <a href="#a785b92eae6884937b6c8c57e051dd285">More...</a><br /></td></tr>
+<tr class="separator:a785b92eae6884937b6c8c57e051dd285"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main inteface class for the service </p>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00017">17</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="adad729a90df646b92e5ce08a7f5b01ca"></a>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a2883ba0cef5ea989d16159aa613eb8b9"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool TGServiceInterface.Interface.Authenticate </td>
+          <td class="memname">TGServiceInterface.Interface.Interface </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any...">VerifyConnection</a> </p>
+<p>Construct an <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> for a local connection </p>
+
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00083">83</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{ }</div></div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="aa1d90ca6271278b7b8ebb958d91d2e3d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TGServiceInterface.Interface.Interface </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ushort&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>password</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct an <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> for a remote connection </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The address of the remote server</td></tr>
+    <tr><td class="paramname">port</td><td>The port the remote server runs on</td></tr>
+    <tr><td class="paramname">username</td><td>Windows account username for the remote server</td></tr>
+    <tr><td class="paramname">password</td><td>Windows account password for the remote server</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00092">92</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        {</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">HTTPSURL</a> = address;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">HTTPSPort</a> = port;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#abe4b9cc26e24aaa842e5c39db41c3b0e">HTTPSUsername</a> = username;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#a3e5c7c3910eb723350a593e9c402aed6">HTTPSPassword</a> = password;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_abe4b9cc26e24aaa842e5c39db41c3b0e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#abe4b9cc26e24aaa842e5c39db41c3b0e">TGServiceInterface.Interface.HTTPSUsername</a></div><div class="ttdeci">readonly string HTTPSUsername</div><div class="ttdoc">Username for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00053">Interface.cs:53</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a35973bd60c60a6bd441dc3eab894ef3e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">readonly string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4600585dc4a1182eebcf06fb94a2f759"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">TGServiceInterface.Interface.HTTPSPort</a></div><div class="ttdeci">readonly ushort HTTPSPort</div><div class="ttdoc">The port used by the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00048">Interface.cs:48</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a3e5c7c3910eb723350a593e9c402aed6"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a3e5c7c3910eb723350a593e9c402aed6">TGServiceInterface.Interface.HTTPSPassword</a></div><div class="ttdeci">readonly string HTTPSPassword</div><div class="ttdoc">Password for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00058">Interface.cs:58</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a55684ee7aa082d03cf2febb5b410ea00"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TGServiceInterface.Interface.Authenticate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any...">VerifyConnection</a> </p>
 <dl class="section return"><dt>Returns</dt><dd>if credentials are valid,  otherwise</dd></dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00277">277</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00282">282</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00139">TGCommandLine.Program.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00012">TGCommandLine.Program.RunCommandLine()</a>, and <a class="el" href="_login_8cs_source.html#l00059">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        {</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            {</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                GetComponent&lt;ITGSService&gt;().Version();</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            }</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            {</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            }</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        }</div></div><!-- fragment -->
+<p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00159">TGCommandLine.Program.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00014">TGCommandLine.Program.RunCommandLine()</a>, and <a class="el" href="_login_8cs_source.html#l00063">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        {</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            {</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                GetComponent&lt;ITGSService&gt;().Version();</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            }</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            {</div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            }</div><div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        }</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_adad729a90df646b92e5ce08a7f5b01ca_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_adad729a90df646b92e5ce08a7f5b01ca_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_adad729a90df646b92e5ce08a7f5b01ca_icgraph" id="class_t_g_service_interface_1_1_interface_adad729a90df646b92e5ce08a7f5b01ca_icgraph">
-<area shape="rect" id="node2" href="class_t_g_command_line_1_1_c_l_i_command.html#a8c88c47f14e18bb058594b65c8449f7b" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a55684ee7aa082d03cf2febb5b410ea00_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a55684ee7aa082d03cf2febb5b410ea00_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a55684ee7aa082d03cf2febb5b410ea00_icgraph" id="class_t_g_service_interface_1_1_interface_a55684ee7aa082d03cf2febb5b410ea00_icgraph">
+<area shape="rect" id="node2" href="class_t_g_command_line_1_1_c_l_i_command.html#a27ba1bd98d0e3c80a5a2365b2f260520" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
 <area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="496,71,703,98"/>
 <area shape="rect" id="node4" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="243,123,445,164"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#a419b6312a9b3a12a886b8a103aa38683" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,188,437,229"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#ad6c4719ca6a60e9a07a9b2381765e886" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,188,437,229"/>
 <area shape="rect" id="node6" href="class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="508,155,691,196"/>
 <area shape="rect" id="node9" href="class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="501,220,698,261"/>
 <area shape="rect" id="node7" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="751,188,949,229"/>
@@ -242,56 +338,44 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a3cab053a930b0cededd4ad5e60167046"></a>
+<a class="anchor" id="acd589b9365cdf955da752e8f2649cf21"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool TGServiceInterface.Interface.AuthenticateAdmin </td>
+          <td class="memname">bool TGServiceInterface.Interface.AuthenticateAdmin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Checks if the current login can use ITGAdministration. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#adad729a90df646b92e5ce08a7f5b01ca" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p...">Authenticate</a> </p>
+<p>Checks if the current login can use ITGAdministration. Requires a successful prior call to <a class="el" href="class_t_g_service_interface_1_1_interface.html#a55684ee7aa082d03cf2febb5b410ea00" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p...">Authenticate</a> </p>
 <dl class="section return"><dt>Returns</dt><dd>if the connection may use ITGAdministration,  otherwise</dd></dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00294">294</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00299">299</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00047">TGControlPanel.Program.CheckAdminWithWarning()</a>, <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_server_page_8cs_source.html#l00025">TGControlPanel.Main.InitServerPage()</a>, and <a class="el" href="_static_page_8cs_source.html#l00024">TGControlPanel.Main.InitStaticPage()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        {</div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            {</div><div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                GetComponent&lt;ITGAdministration&gt;().GetCurrentAuthorizedGroup();</div><div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            }</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            {</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            }</div><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        }</div></div><!-- fragment -->
+<p>References <a class="el" href="_interface_8cs_source.html#l00316">TGServiceInterface.Interface.disposedValue</a>.</p>
+
+<p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_server_page_8cs_source.html#l00025">TGControlPanel.ControlPanel.InitServerPage()</a>, and <a class="el" href="_static_page_8cs_source.html#l00024">TGControlPanel.ControlPanel.InitStaticPage()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        {</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            {</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                GetComponent&lt;ITGAdministration&gt;().GetCurrentAuthorizedGroup();</div><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            }</div><div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            {</div><div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            }</div><div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        }</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a3cab053a930b0cededd4ad5e60167046_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a3cab053a930b0cededd4ad5e60167046_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a3cab053a930b0cededd4ad5e60167046_icgraph" id="class_t_g_service_interface_1_1_interface_a3cab053a930b0cededd4ad5e60167046_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_program.html#a40109c5a6c31e89d7e2c7cd67d7f3b49" title="TGControlPanel.Program.Check\lAdminWithWarning" alt="" coords="241,100,447,141"/>
-<area shape="rect" id="node8" href="class_t_g_control_panel_1_1_main.html#a3cdabfb6e775902eafd9ba3ac9e42cc2" title="TGControlPanel.Main.Init\lServerPage" alt="" coords="993,115,1160,156"/>
-<area shape="rect" id="node10" href="class_t_g_command_line_1_1_c_l_i_command.html#a8c88c47f14e18bb058594b65c8449f7b" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,232,448,273"/>
-<area shape="rect" id="node11" href="class_t_g_control_panel_1_1_main.html#afcc9c16786f6ef2451889a4fe1c18917" title="TGControlPanel.Main.Init\lStaticPage" alt="" coords="513,261,680,303"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_main.html#a0c1763509afde2bb554c4ece3d621c11" title="TGControlPanel.Main.Recreate\lStaticButton_Click" alt="" coords="496,5,697,47"/>
-<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_main.html#a7d605d5392b23a22288c1c75d742df4b" title="TGControlPanel.Main.Update\lServerPath" alt="" coords="501,100,692,141"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_main.html#a1a0f40f5c059826559b381e810a93dcc" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="979,20,1175,61"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Interface has had it&#39;s connection info setup ..." alt="" coords="1223,122,1400,149"/>
-<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_main.html#ab43ad343dbaace3ee720f5cd4e5e0933" title="TGControlPanel.Main.Server\lPathTextbox_KeyDown" alt="" coords="745,49,931,91"/>
-<area shape="rect" id="node9" href="class_t_g_control_panel_1_1_main.html#a0f0391cd9bf06a338fe590594c361343" title="TGControlPanel.Main.Server\lPathTextbox_LostFocus" alt="" coords="745,115,931,156"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_acd589b9365cdf955da752e8f2649cf21_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_acd589b9365cdf955da752e8f2649cf21_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_acd589b9365cdf955da752e8f2649cf21_icgraph" id="class_t_g_service_interface_1_1_interface_acd589b9365cdf955da752e8f2649cf21_icgraph">
+<area shape="rect" id="node2" href="class_t_g_command_line_1_1_c_l_i_command.html#a27ba1bd98d0e3c80a5a2365b2f260520" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="247,71,441,112"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_control_panel.html#acff60868ed9882eb00b12ece6e108865" title="TGControlPanel.ControlPanel.\lInitStaticPage" alt="" coords="247,136,441,177"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="496,104,691,145"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="ae7cf26c6305dfe3f7ab3ab7a52868b3a"></a>
+<a class="anchor" id="a638ac53dcc56eb98e7cfc9db67947249"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -299,10 +383,21 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TGServiceInterface.Interface.ClearCachedChannels </td>
+          <td class="memname">static void TGServiceInterface.Interface.ChannelFactory_Closed </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>sender</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">EventArgs&#160;</td>
+          <td class="paramname"><em>e</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -312,22 +407,29 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Closes all ChannelFactorys stored in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d" title="Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...">ChannelFactoryCache</a> and clears it </p>
+<p>Disposes a closed ChannelFactory </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sender</td><td>The channel factory that was closed</td></tr>
+    <tr><td class="paramname">e</td><td>The event arguments</td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00124">124</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00185">185</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>References <a class="el" href="_interface_8cs_source.html#l00173">TGServiceInterface.Interface.CloseChannel()</a>.</p>
+<p>References <a class="el" href="_interface_8cs_source.html#l00347">TGServiceInterface.Interface.Dispose()</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00114">TGServiceInterface.Interface.MakeLocalConnection()</a>, and <a class="el" href="_interface_8cs_source.html#l00160">TGServiceInterface.Interface.SetRemoteLoginInformation()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            lock (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>)</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            {</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <span class="keywordflow">foreach</span> (var I <span class="keywordflow">in</span> <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>)</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                    <a class="code" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0">CloseChannel</a>(I.Value);</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                ChannelFactoryCache.Clear();</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            }</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4950a0fbe1fdbd63a6bbb9202e34733d"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">TGServiceInterface.Interface.ChannelFactoryCache</a></div><div class="ttdeci">static IDictionary&lt; Type, ChannelFactory &gt; ChannelFactoryCache</div><div class="ttdoc">Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00063">Interface.cs:63</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a773131d065f9cd22418389a1687a89e0"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0">TGServiceInterface.Interface.CloseChannel</a></div><div class="ttdeci">static void CloseChannel(ChannelFactory cf)</div><div class="ttdoc">Safely shuts down a single ChannelFactory </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00173">Interface.cs:173</a></div></div>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00167">TGServiceInterface.Interface.CloseChannel()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        {</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            (sender as <a class="code" href="class_i_disposable.html">IDisposable</a>).<a class="code" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e">Dispose</a>();</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_ad3a37157767048ad0c0a53d444afe25e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e">TGServiceInterface.Interface.Dispose</a></div><div class="ttdeci">void Dispose()</div><div class="ttdoc">Implements the IDisposable pattern </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00347">Interface.cs:347</a></div></div>
+<div class="ttc" id="class_i_disposable_html"><div class="ttname"><a href="class_i_disposable.html">IDisposable</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_cgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_cgraph" id="class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_cgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="240,5,427,47"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_cgraph" id="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_cgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="240,5,427,47"/>
 </map>
 </div>
 </p>
@@ -335,16 +437,66 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_icgraph" id="class_t_g_service_interface_1_1_interface_ae7cf26c6305dfe3f7ab3ab7a52868b3a_icgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a5f0eb4fa70429ac1ddef8fb1a13366a1" title="Set the interface to look for services on the current computer " alt="" coords="240,152,427,193"/>
-<area shape="rect" id="node7" href="class_t_g_service_interface_1_1_interface.html#a101de9104808f05dbbd6eaea130922b4" title="Set the remote Interface to connect to along with " alt="" coords="240,57,427,98"/>
-<area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="725,35,932,62"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="485,210,667,252"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="729,152,928,193"/>
-<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="980,159,1163,186"/>
-<area shape="rect" id="node8" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="475,28,677,69"/>
-<area shape="rect" id="node9" href="class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="477,93,675,134"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_icgraph" id="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_icgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="709,5,896,47"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5ae1a578668295091f6da4f28816964b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TGServiceInterface.Interface.ClearCachedChannels </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Closes all ChannelFactorys stored in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d" title="Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...">ChannelFactoryCache</a> and clears it </p>
+
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00134">134</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+
+<p>References <a class="el" href="_interface_8cs_source.html#l00167">TGServiceInterface.Interface.CloseChannel()</a>.</p>
+
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00322">TGServiceInterface.Interface.Dispose()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        {</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            lock (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>)</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            {</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="keywordflow">foreach</span> (var I <span class="keywordflow">in</span> <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>)</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    <a class="code" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0">CloseChannel</a>(I.Value);</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                ChannelFactoryCache.Clear();</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            }</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4950a0fbe1fdbd63a6bbb9202e34733d"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">TGServiceInterface.Interface.ChannelFactoryCache</a></div><div class="ttdeci">IDictionary&lt; Type, ChannelFactory &gt; ChannelFactoryCache</div><div class="ttdoc">Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00063">Interface.cs:63</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a773131d065f9cd22418389a1687a89e0"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0">TGServiceInterface.Interface.CloseChannel</a></div><div class="ttdeci">static void CloseChannel(ChannelFactory cf)</div><div class="ttdoc">Safely shuts down a single ChannelFactory </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00167">Interface.cs:167</a></div></div>
+</div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_cgraph" id="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_cgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="709,5,896,47"/>
+</map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph" id="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="240,5,427,47"/>
 </map>
 </div>
 </p>
@@ -368,7 +520,7 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -381,25 +533,31 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00173">173</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00167">167</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00124">TGServiceInterface.Interface.ClearCachedChannels()</a>, and <a class="el" href="_dream_daemon_bridge_8cs_source.html#l00020">TGServiceInterface.DreamDaemonBridge.DDEntryPoint()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        {</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            {</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                cf.Close();</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            }</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            {</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                cf.Abort();</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            }</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        }</div></div><!-- fragment -->
+<p>References <a class="el" href="_interface_8cs_source.html#l00185">TGServiceInterface.Interface.ChannelFactory_Closed()</a>.</p>
+
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00134">TGServiceInterface.Interface.ClearCachedChannels()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        {</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            {</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                cf.Closed += <a class="code" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249">ChannelFactory_Closed</a>;</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                cf.Close();</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            }</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            {</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                cf.Abort();</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            }</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a638ac53dcc56eb98e7cfc9db67947249"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249">TGServiceInterface.Interface.ChannelFactory_Closed</a></div><div class="ttdeci">static void ChannelFactory_Closed(object sender, EventArgs e)</div><div class="ttdoc">Disposes a closed ChannelFactory </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00185">Interface.cs:185</a></div></div>
+</div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_cgraph" id="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_cgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="475,5,661,47"/>
+</map>
+</div>
+</p>
+
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph" alt=""/></div>
 <map name="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph" id="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="242,104,429,145"/>
-<area shape="rect" id="node11" href="class_t_g_service_interface_1_1_dream_daemon_bridge.html#a59d0f00d545b30fdaf3ee2d21fefcdb9" title="The proc that DD calls to access ITGInterop " alt="" coords="240,169,431,210"/>
-<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a5f0eb4fa70429ac1ddef8fb1a13366a1" title="Set the interface to look for services on the current computer " alt="" coords="479,152,665,193"/>
-<area shape="rect" id="node8" href="class_t_g_service_interface_1_1_interface.html#a101de9104808f05dbbd6eaea130922b4" title="Set the remote Interface to connect to along with " alt="" coords="479,57,665,98"/>
-<area shape="rect" id="node4" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="964,35,1171,62"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="723,210,906,252"/>
-<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="968,152,1167,193"/>
-<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="1219,159,1401,186"/>
-<area shape="rect" id="node9" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="713,28,916,69"/>
-<area shape="rect" id="node10" href="class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="716,93,913,134"/>
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="475,5,661,47"/>
 </map>
 </div>
 </p>
@@ -435,25 +593,17 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a75cea73ddc15b2b993f696a55864ded0"></a>
+<a class="anchor" id="a89acbad09e55283debb0311300a040d1"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static ChannelFactory&lt;T&gt; TGServiceInterface.Interface.CreateChannel&lt; T &gt; </td>
+          <td class="memname">ChannelFactory&lt;T&gt; TGServiceInterface.Interface.CreateChannel&lt; T &gt; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Directly creates a ChannelFactory&lt;TChannel&gt; for <em>T</em>  without caching. This should be eventually closed by the caller </p>
@@ -471,34 +621,34 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00222">222</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00227">227</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
 <p>References <a class="el" href="_interface_8cs_source.html#l00058">TGServiceInterface.Interface.HTTPSPassword</a>, and <a class="el" href="_interface_8cs_source.html#l00053">TGServiceInterface.Interface.HTTPSUsername</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00190">TGServiceInterface.Interface.GetComponent&lt; T &gt;()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            var ToT = typeof(T);</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_t_g_service_interface_1_1_interface.html#a177251e0cec2b05f762f91a560766e95">ValidInterfaces</a>.Contains(ToT))</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Invalid type!&quot;</span>);</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            var InterfaceName = typeof(T).Name;</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">HTTPSURL</a> == null)</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            {</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                var res2 = <span class="keyword">new</span> ChannelFactory&lt;T&gt;(</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                <span class="keyword">new</span> NetNamedPipeBinding { SendTimeout = <span class="keyword">new</span> TimeSpan(0, 0, 30), MaxReceivedMessageSize = <a class="code" href="class_t_g_service_interface_1_1_interface.html#aa5ccca53bb7e2bd6fd609ee68099bbd2">TransferLimitLocal</a> }, <span class="keyword">new</span> EndpointAddress(String.Format(<span class="stringliteral">&quot;net.pipe://localhost/{0}/{1}&quot;</span>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77">MasterInterfaceName</a>, InterfaceName)));                                                     <span class="comment">//10 megs</span></div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="keywordflow">return</span> res2;</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            }</div><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <span class="comment">//okay we&#39;re going over</span></div><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            var binding = <span class="keyword">new</span> WSHttpBinding()</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            {</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                SendTimeout = <span class="keyword">new</span> TimeSpan(0, 0, 40),</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                MaxReceivedMessageSize = <a class="code" href="class_t_g_service_interface_1_1_interface.html#a00d88d167689139612f0e7c4444eb35d">TransferLimitRemote</a></div><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            };</div><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            var requireAuth = InterfaceName != typeof(<a class="code" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html">ITGConnectivity</a>).Name;</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    <span class="comment">//do not require auth for a connectivity check</span></div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;</div><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            var address = <span class="keyword">new</span> EndpointAddress(String.Format(<span class="stringliteral">&quot;https://{0}:{1}/{2}/{3}&quot;</span>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">HTTPSURL</a>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">HTTPSPort</a>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77">MasterInterfaceName</a>, InterfaceName));</div><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            var res = <span class="keyword">new</span> ChannelFactory&lt;T&gt;(binding, address);</div><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            <span class="keywordflow">if</span> (requireAuth)</div><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            {</div><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                res.Credentials.UserName.UserName = <a class="code" href="class_t_g_service_interface_1_1_interface.html#a6cf6ac453199d2e5a63075e039b97328">HTTPSUsername</a>;</div><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                res.Credentials.UserName.Password = <a class="code" href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">HTTPSPassword</a>;</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            }</div><div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="keywordflow">return</span> res;</div><div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa9fc11e8f54d25d8b61f8ebff40751a3"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">static string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a6cf6ac453199d2e5a63075e039b97328"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a6cf6ac453199d2e5a63075e039b97328">TGServiceInterface.Interface.HTTPSUsername</a></div><div class="ttdeci">static string HTTPSUsername</div><div class="ttdoc">Username for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00053">Interface.cs:53</a></div></div>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00195">TGServiceInterface.Interface.GetComponent&lt; T &gt;()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        {</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            var ToT = typeof(T);</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_t_g_service_interface_1_1_interface.html#a177251e0cec2b05f762f91a560766e95">ValidInterfaces</a>.Contains(ToT))</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Invalid type!&quot;</span>);</div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            var InterfaceName = typeof(T).Name;</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">HTTPSURL</a> == null)</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            {</div><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                var res2 = <span class="keyword">new</span> ChannelFactory&lt;T&gt;(</div><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                <span class="keyword">new</span> NetNamedPipeBinding { SendTimeout = <span class="keyword">new</span> TimeSpan(0, 0, 30), MaxReceivedMessageSize = <a class="code" href="class_t_g_service_interface_1_1_interface.html#aa5ccca53bb7e2bd6fd609ee68099bbd2">TransferLimitLocal</a> }, <span class="keyword">new</span> EndpointAddress(String.Format(<span class="stringliteral">&quot;net.pipe://localhost/{0}/{1}&quot;</span>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77">MasterInterfaceName</a>, InterfaceName)));                                                     <span class="comment">//10 megs</span></div><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                <span class="keywordflow">return</span> res2;</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            }</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="comment">//okay we&#39;re going over</span></div><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            var binding = <span class="keyword">new</span> WSHttpBinding()</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            {</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                SendTimeout = <span class="keyword">new</span> TimeSpan(0, 0, 40),</div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                MaxReceivedMessageSize = <a class="code" href="class_t_g_service_interface_1_1_interface.html#a00d88d167689139612f0e7c4444eb35d">TransferLimitRemote</a></div><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            };</div><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            var requireAuth = InterfaceName != typeof(<a class="code" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html">ITGConnectivity</a>).Name;</div><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;</div><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    <span class="comment">//do not require auth for a connectivity check</span></div><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;</div><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            var address = <span class="keyword">new</span> EndpointAddress(String.Format(<span class="stringliteral">&quot;https://{0}:{1}/{2}/{3}&quot;</span>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">HTTPSURL</a>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">HTTPSPort</a>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77">MasterInterfaceName</a>, InterfaceName));</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            var res = <span class="keyword">new</span> ChannelFactory&lt;T&gt;(binding, address);</div><div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="keywordflow">if</span> (requireAuth)</div><div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            {</div><div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                res.Credentials.UserName.UserName = <a class="code" href="class_t_g_service_interface_1_1_interface.html#abe4b9cc26e24aaa842e5c39db41c3b0e">HTTPSUsername</a>;</div><div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                res.Credentials.UserName.Password = <a class="code" href="class_t_g_service_interface_1_1_interface.html#a3e5c7c3910eb723350a593e9c402aed6">HTTPSPassword</a>;</div><div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            }</div><div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="keywordflow">return</span> res;</div><div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_abe4b9cc26e24aaa842e5c39db41c3b0e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#abe4b9cc26e24aaa842e5c39db41c3b0e">TGServiceInterface.Interface.HTTPSUsername</a></div><div class="ttdeci">readonly string HTTPSUsername</div><div class="ttdoc">Username for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00053">Interface.cs:53</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a177251e0cec2b05f762f91a560766e95"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a177251e0cec2b05f762f91a560766e95">TGServiceInterface.Interface.ValidInterfaces</a></div><div class="ttdeci">static readonly IList&lt; Type &gt; ValidInterfaces</div><div class="ttdoc">List of s that can be used with GetComponent&lt;T&gt; and CreateChannel&lt;T&gt; </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00022">Interface.cs:22</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a43ad42460dba6f8e08659285029e39cc"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">TGServiceInterface.Interface.HTTPSPort</a></div><div class="ttdeci">static ushort HTTPSPort</div><div class="ttdoc">The port used by the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00048">Interface.cs:48</a></div></div>
 <div class="ttc" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity_html"><div class="ttname"><a href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html">TGServiceInterface.Components.ITGConnectivity</a></div><div class="ttdoc">Used for testing connections to the service without authentication </div><div class="ttdef"><b>Definition:</b> <a href="_connectivity_8cs_source.html#l00009">Connectivity.cs:9</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a35973bd60c60a6bd441dc3eab894ef3e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">readonly string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa5ccca53bb7e2bd6fd609ee68099bbd2"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa5ccca53bb7e2bd6fd609ee68099bbd2">TGServiceInterface.Interface.TransferLimitLocal</a></div><div class="ttdeci">const long TransferLimitLocal</div><div class="ttdoc">The maximum message size to and from a local server </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00027">Interface.cs:27</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4600585dc4a1182eebcf06fb94a2f759"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">TGServiceInterface.Interface.HTTPSPort</a></div><div class="ttdeci">readonly ushort HTTPSPort</div><div class="ttdoc">The port used by the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00048">Interface.cs:48</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a00d88d167689139612f0e7c4444eb35d"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a00d88d167689139612f0e7c4444eb35d">TGServiceInterface.Interface.TransferLimitRemote</a></div><div class="ttdeci">const long TransferLimitRemote</div><div class="ttdoc">The maximum message size to and from a remote server </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00032">Interface.cs:32</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a9357161b2c8d891dbf69a0e7018ddf77"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77">TGServiceInterface.Interface.MasterInterfaceName</a></div><div class="ttdeci">const string MasterInterfaceName</div><div class="ttdoc">Base name of the communication pipe they are formatted as MasterPipeName/ComponentName ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00038">Interface.cs:38</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_abe0b9037c75657f9bb88dda055875001"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">TGServiceInterface.Interface.HTTPSPassword</a></div><div class="ttdeci">static string HTTPSPassword</div><div class="ttdoc">Password for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00058">Interface.cs:58</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a3e5c7c3910eb723350a593e9c402aed6"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a3e5c7c3910eb723350a593e9c402aed6">TGServiceInterface.Interface.HTTPSPassword</a></div><div class="ttdeci">readonly string HTTPSPassword</div><div class="ttdoc">Password for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00058">Interface.cs:58</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a75cea73ddc15b2b993f696a55864ded0_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a75cea73ddc15b2b993f696a55864ded0_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a75cea73ddc15b2b993f696a55864ded0_icgraph" id="class_t_g_service_interface_1_1_interface_a75cea73ddc15b2b993f696a55864ded0_icgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a265e15ee016fe273ddf947bfba0d0ab9" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage " alt="" coords="240,5,427,47"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a89acbad09e55283debb0311300a040d1_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a89acbad09e55283debb0311300a040d1_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a89acbad09e55283debb0311300a040d1_icgraph" id="class_t_g_service_interface_1_1_interface_a89acbad09e55283debb0311300a040d1_icgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a43b2f9a5c843fcb0ed4a4398088945ce" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage " alt="" coords="240,5,427,47"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a265e15ee016fe273ddf947bfba0d0ab9"></a>
+<a class="anchor" id="a82f59d8fade644e23d6a9e38fe02460d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -506,17 +656,95 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T TGServiceInterface.Interface.GetComponent&lt; T &gt; </td>
+          <td class="memname">virtual void TGServiceInterface.Interface.Dispose </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>disposing</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+<p>Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern. Calls <a class="el" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it ">ClearCachedChannels</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">disposing</td><td>if <a class="el" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern ">Dispose()</a> was called manually,  if it was from the finalizer</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00322">322</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+
+<p>References <a class="el" href="_interface_8cs_source.html#l00134">TGServiceInterface.Interface.ClearCachedChannels()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        {</div><div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_t_g_service_interface_1_1_interface.html#a785b92eae6884937b6c8c57e051dd285">disposedValue</a>)</div><div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            {</div><div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                <span class="keywordflow">if</span> (disposing)</div><div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                {</div><div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                    <a class="code" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b">ClearCachedChannels</a>();</div><div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                }</div><div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div><div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                <span class="comment">// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.</span></div><div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                <span class="comment">// TODO: set large fields to null.</span></div><div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div><div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_interface.html#a785b92eae6884937b6c8c57e051dd285">disposedValue</a> = <span class="keyword">true</span>;</div><div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            }</div><div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a5ae1a578668295091f6da4f28816964b"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b">TGServiceInterface.Interface.ClearCachedChannels</a></div><div class="ttdeci">void ClearCachedChannels()</div><div class="ttdoc">Closes all ChannelFactorys stored in ChannelFactoryCache and clears it </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00134">Interface.cs:134</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a785b92eae6884937b6c8c57e051dd285"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a785b92eae6884937b6c8c57e051dd285">TGServiceInterface.Interface.disposedValue</a></div><div class="ttdeci">bool disposedValue</div><div class="ttdoc">To detect redundant Dispose(bool) calls </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00316">Interface.cs:316</a></div></div>
+</div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph" id="class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="709,5,896,47"/>
+<area shape="rect" id="node5" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="944,5,1131,47"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3a37157767048ad0c0a53d444afe25e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TGServiceInterface.Interface.Dispose </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern </p>
+
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00347">347</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00185">TGServiceInterface.Interface.ChannelFactory_Closed()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        {</div><div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            <span class="comment">// Do not change this code. Put cleanup code in Dispose(bool disposing) above.</span></div><div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e">Dispose</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;            <span class="comment">// TODO: uncomment the following line if the finalizer is overridden above.</span></div><div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;            <span class="comment">// GC.SuppressFinalize(this);</span></div><div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_ad3a37157767048ad0c0a53d444afe25e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e">TGServiceInterface.Interface.Dispose</a></div><div class="ttdeci">void Dispose()</div><div class="ttdoc">Implements the IDisposable pattern </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00347">Interface.cs:347</a></div></div>
+</div><!-- fragment -->
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_ad3a37157767048ad0c0a53d444afe25e_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_ad3a37157767048ad0c0a53d444afe25e_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_ad3a37157767048ad0c0a53d444afe25e_icgraph" id="class_t_g_service_interface_1_1_interface_ad3a37157767048ad0c0a53d444afe25e_icgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="709,5,896,47"/>
+<area shape="rect" id="node5" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="944,5,1131,47"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a43b2f9a5c843fcb0ed4a4398088945ce"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">T TGServiceInterface.Interface.GetComponent&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 <p>Returns the requested <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage </p>
@@ -528,102 +756,36 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The correct component </dd></dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00190">190</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00195">195</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>References <a class="el" href="_interface_8cs_source.html#l00222">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        {</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            var tot = typeof(T);</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            ChannelFactory&lt;T&gt; cf;</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            lock (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>)</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            {</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>.ContainsKey(tot))</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    <span class="keywordflow">try</span></div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    {</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                        cf = ((ChannelFactory&lt;T&gt;)<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>[tot]);</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                        <span class="keywordflow">if</span> (cf.State != CommunicationState.Opened)</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                            <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception();</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                        <span class="keywordflow">return</span> cf.CreateChannel();</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    }</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    <span class="keywordflow">catch</span></div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    {</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                        <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>[tot].Abort();</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                        <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>.Remove(tot);</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    }</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                cf = <a class="code" href="class_t_g_service_interface_1_1_interface.html#a75cea73ddc15b2b993f696a55864ded0">CreateChannel&lt;T&gt;</a>();</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>[tot] = cf;</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            }</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">return</span> cf.CreateChannel();</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a75cea73ddc15b2b993f696a55864ded0"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a75cea73ddc15b2b993f696a55864ded0">TGServiceInterface.Interface.CreateChannel&lt; T &gt;</a></div><div class="ttdeci">static ChannelFactory&lt; T &gt; CreateChannel&lt; T &gt;()</div><div class="ttdoc">Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00222">Interface.cs:222</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4950a0fbe1fdbd63a6bbb9202e34733d"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">TGServiceInterface.Interface.ChannelFactoryCache</a></div><div class="ttdeci">static IDictionary&lt; Type, ChannelFactory &gt; ChannelFactoryCache</div><div class="ttdoc">Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00063">Interface.cs:63</a></div></div>
+<p>References <a class="el" href="_interface_8cs_source.html#l00227">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        {</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            var tot = typeof(T);</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            ChannelFactory&lt;T&gt; cf;</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            lock (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>)</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            {</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>.ContainsKey(tot))</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    <span class="keywordflow">try</span></div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    {</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                        cf = ((ChannelFactory&lt;T&gt;)<a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>[tot]);</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                        <span class="keywordflow">if</span> (cf.State != CommunicationState.Opened)</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                            <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception();</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                        <span class="keywordflow">return</span> cf.CreateChannel();</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    }</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                    <span class="keywordflow">catch</span></div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                    {</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                        <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>[tot].Abort();</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                        <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>.Remove(tot);</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                    }</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                cf = <a class="code" href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1">CreateChannel&lt;T&gt;</a>();</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">ChannelFactoryCache</a>[tot] = cf;</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">return</span> cf.CreateChannel();</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a89acbad09e55283debb0311300a040d1"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1">TGServiceInterface.Interface.CreateChannel&lt; T &gt;</a></div><div class="ttdeci">ChannelFactory&lt; T &gt; CreateChannel&lt; T &gt;()</div><div class="ttdoc">Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00227">Interface.cs:227</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4950a0fbe1fdbd63a6bbb9202e34733d"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d">TGServiceInterface.Interface.ChannelFactoryCache</a></div><div class="ttdeci">IDictionary&lt; Type, ChannelFactory &gt; ChannelFactoryCache</div><div class="ttdoc">Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00063">Interface.cs:63</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a265e15ee016fe273ddf947bfba0d0ab9_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a265e15ee016fe273ddf947bfba0d0ab9_cgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a265e15ee016fe273ddf947bfba0d0ab9_cgraph" id="class_t_g_service_interface_1_1_interface_a265e15ee016fe273ddf947bfba0d0ab9_cgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a75cea73ddc15b2b993f696a55864ded0" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T &#160;without caching. This should be eventually closed ..." alt="" coords="240,5,427,47"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a43b2f9a5c843fcb0ed4a4398088945ce_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a43b2f9a5c843fcb0ed4a4398088945ce_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a43b2f9a5c843fcb0ed4a4398088945ce_cgraph" id="class_t_g_service_interface_1_1_interface_a43b2f9a5c843fcb0ed4a4398088945ce_cgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T &#160;without caching. This should be eventually closed ..." alt="" coords="240,5,427,47"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a5f0eb4fa70429ac1ddef8fb1a13366a1"></a>
+<a class="anchor" id="a4b3d5ef8645d26a07092e9c71b78dae5"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TGServiceInterface.Interface.MakeLocalConnection </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the interface to look for services on the current computer </p>
-
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00114">114</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
-
-<p>References <a class="el" href="_interface_8cs_source.html#l00124">TGServiceInterface.Interface.ClearCachedChannels()</a>.</p>
-
-<p>Referenced by <a class="el" href="_login_8cs_source.html#l00052">TGControlPanel.Login.LocalLoginButton_Click()</a>, and <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00139">TGCommandLine.Program.Main()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        {</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">HTTPSURL</a> = null;</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">HTTPSPassword</a> = null;</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a">ClearCachedChannels</a>();</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa9fc11e8f54d25d8b61f8ebff40751a3"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">static string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_ae7cf26c6305dfe3f7ab3ab7a52868b3a"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a">TGServiceInterface.Interface.ClearCachedChannels</a></div><div class="ttdeci">static void ClearCachedChannels()</div><div class="ttdoc">Closes all ChannelFactorys stored in ChannelFactoryCache and clears it </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00124">Interface.cs:124</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_abe0b9037c75657f9bb88dda055875001"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">TGServiceInterface.Interface.HTTPSPassword</a></div><div class="ttdeci">static string HTTPSPassword</div><div class="ttdoc">Password for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00058">Interface.cs:58</a></div></div>
-</div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_cgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_cgraph" id="class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_cgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
-<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_icgraph" id="class_t_g_service_interface_1_1_interface_a5f0eb4fa70429ac1ddef8fb1a13366a1_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="252,5,435,47"/>
-<area shape="rect" id="node5" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="240,71,447,98"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="495,5,693,47"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="741,13,924,39"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aa32780160cb085b1e39ec637cca40882"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void TGServiceInterface.Interface.SetBadCertificateHandler </td>
+          <td class="memname">void TGServiceInterface.Interface.SetBadCertificateHandler </td>
           <td>(</td>
           <td class="paramtype">Func&lt; string, bool &gt;&#160;</td>
           <td class="paramname"><em>handler</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Sets the function called when a remote login fails due to the server having an invalid SSL cert </p>
@@ -634,156 +796,56 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00084">84</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00104">104</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00010">TGControlPanel.Program.Main()</a>, and <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00139">TGCommandLine.Program.Main()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =&gt;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="keywordtype">string</span> ErrorMessage;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">switch</span> (error)</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.None:</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateChainErrors:</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;There are certificate chain errors.&quot;</span>;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateNameMismatch:</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;The certificate name does not match.&quot;</span>;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateNotAvailable:</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;The certificate doesn&#39;t exist in the trust store.&quot;</span>;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    <span class="keywordflow">default</span>:</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;An unknown error occurred.&quot;</span>;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                }</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                ErrorMessage = String.Format(<span class="stringliteral">&quot;The certificate failed to verify for {0}:{1}. {2} {3}&quot;</span>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">HTTPSURL</a>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">HTTPSPort</a>, ErrorMessage, cert.ToString());</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">return</span> handler(ErrorMessage);</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            };</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa9fc11e8f54d25d8b61f8ebff40751a3"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">static string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a43ad42460dba6f8e08659285029e39cc"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">TGServiceInterface.Interface.HTTPSPort</a></div><div class="ttdeci">static ushort HTTPSPort</div><div class="ttdoc">The port used by the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00048">Interface.cs:48</a></div></div>
+<p>Referenced by <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00098">TGCommandLine.Program.ReplaceInterface()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =&gt;</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            {</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordtype">string</span> ErrorMessage;</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keywordflow">switch</span> (error)</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.None:</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateChainErrors:</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;There are certificate chain errors.&quot;</span>;</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateNameMismatch:</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;The certificate name does not match.&quot;</span>;</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateNotAvailable:</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;The certificate doesn&#39;t exist in the trust store.&quot;</span>;</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    <span class="keywordflow">default</span>:</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;An unknown error occurred.&quot;</span>;</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                }</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                ErrorMessage = String.Format(<span class="stringliteral">&quot;The certificate failed to verify for {0}:{1}. {2} {3}&quot;</span>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">HTTPSURL</a>, <a class="code" href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">HTTPSPort</a>, ErrorMessage, cert.ToString());</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="keywordflow">return</span> handler(ErrorMessage);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            };</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a35973bd60c60a6bd441dc3eab894ef3e"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">readonly string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a4600585dc4a1182eebcf06fb94a2f759"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759">TGServiceInterface.Interface.HTTPSPort</a></div><div class="ttdeci">readonly ushort HTTPSPort</div><div class="ttdoc">The port used by the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00048">Interface.cs:48</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_aa32780160cb085b1e39ec637cca40882_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_aa32780160cb085b1e39ec637cca40882_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_aa32780160cb085b1e39ec637cca40882_icgraph" id="class_t_g_service_interface_1_1_interface_aa32780160cb085b1e39ec637cca40882_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_program.html#a7c082331085691218882730365ce60f0" title="TGControlPanel.Program.Main" alt="" coords="244,5,443,32"/>
-<area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="240,56,447,83"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a4b3d5ef8645d26a07092e9c71b78dae5_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a4b3d5ef8645d26a07092e9c71b78dae5_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a4b3d5ef8645d26a07092e9c71b78dae5_icgraph" id="class_t_g_service_interface_1_1_interface_a4b3d5ef8645d26a07092e9c71b78dae5_icgraph">
+<area shape="rect" id="node2" href="class_t_g_command_line_1_1_program.html#a141fa9af9c942c81d0392fa135afa1cf" title="TGCommandLine.Program.Replace\lInterface" alt="" coords="240,5,467,47"/>
+<area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="765,13,972,39"/>
+<area shape="rect" id="node4" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="515,35,717,76"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a101de9104808f05dbbd6eaea130922b4"></a>
+<a class="anchor" id="a0de07ef23a3a0e5accd0f1403f2febbf"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TGServiceInterface.Interface.SetRemoteLoginInformation </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ushort&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>username</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>password</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the remote <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> to connect to along with </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">address</td><td>The address of the remote server</td></tr>
-    <tr><td class="paramname">port</td><td>The port the remote server runs on</td></tr>
-    <tr><td class="paramname">username</td><td>Windows account username for the remote server</td></tr>
-    <tr><td class="paramname">password</td><td>Windows account password for the remote server</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00160">160</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
-
-<p>References <a class="el" href="_interface_8cs_source.html#l00124">TGServiceInterface.Interface.ClearCachedChannels()</a>.</p>
-
-<p>Referenced by <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00139">TGCommandLine.Program.Main()</a>, <a class="el" href="_login_8cs_source.html#l00030">TGControlPanel.Login.RemoteLoginButton_Click()</a>, and <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00012">TGCommandLine.Program.RunCommandLine()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        {</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">HTTPSURL</a> = address;</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">HTTPSPort</a> = port;</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#a6cf6ac453199d2e5a63075e039b97328">HTTPSUsername</a> = username;</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">HTTPSPassword</a> = password;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a">ClearCachedChannels</a>();</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa9fc11e8f54d25d8b61f8ebff40751a3"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3">TGServiceInterface.Interface.HTTPSURL</a></div><div class="ttdeci">static string HTTPSURL</div><div class="ttdoc">If this is set, we will try and connect to an HTTPS server running at this address ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00043">Interface.cs:43</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a6cf6ac453199d2e5a63075e039b97328"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a6cf6ac453199d2e5a63075e039b97328">TGServiceInterface.Interface.HTTPSUsername</a></div><div class="ttdeci">static string HTTPSUsername</div><div class="ttdoc">Username for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00053">Interface.cs:53</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a43ad42460dba6f8e08659285029e39cc"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc">TGServiceInterface.Interface.HTTPSPort</a></div><div class="ttdeci">static ushort HTTPSPort</div><div class="ttdoc">The port used by the service </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00048">Interface.cs:48</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_ae7cf26c6305dfe3f7ab3ab7a52868b3a"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a">TGServiceInterface.Interface.ClearCachedChannels</a></div><div class="ttdeci">static void ClearCachedChannels()</div><div class="ttdoc">Closes all ChannelFactorys stored in ChannelFactoryCache and clears it </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00124">Interface.cs:124</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_interface_html_abe0b9037c75657f9bb88dda055875001"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#abe0b9037c75657f9bb88dda055875001">TGServiceInterface.Interface.HTTPSPassword</a></div><div class="ttdeci">static string HTTPSPassword</div><div class="ttdoc">Password for remote operations </div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00058">Interface.cs:58</a></div></div>
-</div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_cgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_cgraph" id="class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_cgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#ae7cf26c6305dfe3f7ab3ab7a52868b3a" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
-<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_icgraph" id="class_t_g_service_interface_1_1_interface_a101de9104808f05dbbd6eaea130922b4_icgraph">
-<area shape="rect" id="node2" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="491,5,697,32"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="243,93,440,134"/>
-<area shape="rect" id="node6" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="240,27,443,69"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="495,93,693,134"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="745,100,928,127"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a6b150e778489679d54d7b63b63a99d0b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static string TGServiceInterface.Interface.VerifyConnection </td>
+          <td class="memname">string TGServiceInterface.Interface.VerifyConnection </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed </p>
 <dl class="section return"><dt>Returns</dt><dd>on successful connection, error message string on failure</dd></dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00260">260</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00265">265</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00139">TGCommandLine.Program.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00012">TGCommandLine.Program.RunCommandLine()</a>, and <a class="el" href="_login_8cs_source.html#l00059">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        {</div><div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            {</div><div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                GetComponent&lt;ITGConnectivity&gt;().<a class="code" href="class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b">VerifyConnection</a>();</div><div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            }</div><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            {</div><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                <span class="keywordflow">return</span> e.ToString();</div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            }</div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a6b150e778489679d54d7b63b63a99d0b"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a6b150e778489679d54d7b63b63a99d0b">TGServiceInterface.Interface.VerifyConnection</a></div><div class="ttdeci">static string VerifyConnection()</div><div class="ttdoc">Used to test if the service is avaiable on the machine. Note that state can technically change at any...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00260">Interface.cs:260</a></div></div>
+<p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00159">TGCommandLine.Program.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00014">TGCommandLine.Program.RunCommandLine()</a>, and <a class="el" href="_login_8cs_source.html#l00063">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        {</div><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            {</div><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                GetComponent&lt;ITGConnectivity&gt;().<a class="code" href="class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf">VerifyConnection</a>();</div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            }</div><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            {</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                <span class="keywordflow">return</span> e.ToString();</div><div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            }</div><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_a0de07ef23a3a0e5accd0f1403f2febbf"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf">TGServiceInterface.Interface.VerifyConnection</a></div><div class="ttdeci">string VerifyConnection()</div><div class="ttdoc">Used to test if the service is avaiable on the machine. Note that state can technically change at any...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00265">Interface.cs:265</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a6b150e778489679d54d7b63b63a99d0b_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a6b150e778489679d54d7b63b63a99d0b_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a6b150e778489679d54d7b63b63a99d0b_icgraph" id="class_t_g_service_interface_1_1_interface_a6b150e778489679d54d7b63b63a99d0b_icgraph">
-<area shape="rect" id="node2" href="class_t_g_command_line_1_1_c_l_i_command.html#a8c88c47f14e18bb058594b65c8449f7b" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_a0de07ef23a3a0e5accd0f1403f2febbf_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a0de07ef23a3a0e5accd0f1403f2febbf_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_a0de07ef23a3a0e5accd0f1403f2febbf_icgraph" id="class_t_g_service_interface_1_1_interface_a0de07ef23a3a0e5accd0f1403f2febbf_icgraph">
+<area shape="rect" id="node2" href="class_t_g_command_line_1_1_c_l_i_command.html#a27ba1bd98d0e3c80a5a2365b2f260520" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
 <area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="496,71,703,98"/>
 <area shape="rect" id="node4" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="243,123,445,164"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#a419b6312a9b3a12a886b8a103aa38683" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,188,437,229"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_login.html#ad6c4719ca6a60e9a07a9b2381765e886" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,188,437,229"/>
 <area shape="rect" id="node6" href="class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="508,155,691,196"/>
 <area shape="rect" id="node9" href="class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="501,220,698,261"/>
 <area shape="rect" id="node7" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="751,188,949,229"/>
@@ -794,26 +856,18 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="ab84424d0f0f8a47c7b6680ebd6c52d98"></a>
+<a class="anchor" id="aa917a2e4f95d7fd2c5b1fc0d143280b8"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool TGServiceInterface.Interface.VersionMismatch </td>
+          <td class="memname">bool TGServiceInterface.Interface.VersionMismatch </td>
           <td>(</td>
           <td class="paramtype">out string&#160;</td>
           <td class="paramname"><em>errorMessage</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns  if the <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> interface being used to connect to a service does not have the same release version as the service </p>
@@ -825,20 +879,18 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>if the <a class="el" href="class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service ">Interface</a> interface being used to connect to a service does not have the same release version as the service</dd></dl>
 
-<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00139">139</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00149">149</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_t_g_control_panel_2_main_8cs_source.html#l00016">TGControlPanel.Main.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00139">TGCommandLine.Program.Main()</a>, and <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00012">TGCommandLine.Program.RunCommandLine()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        {</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            var splits = Interface.GetComponent&lt;<a class="code" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html">ITGSService</a>&gt;().Version().Split(<span class="charliteral">&#39; &#39;</span>);</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            var theirs = <span class="keyword">new</span> Version(splits[splits.Length - 1].Substring(1));</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            var ours = <span class="keyword">new</span> Version(FileVersionInfo.GetVersionInfo(<a class="code" href="namespace_system.html">System</a>.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span>(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Revision != ours.Revision)    <span class="comment">//don&#39;t care about the patch level</span></div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            {</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                errorMessage = String.Format(<span class="stringliteral">&quot;Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.&quot;</span>, ours, theirs);</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            }</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            errorMessage = null;</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        }</div><div class="ttc" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service_html"><div class="ttname"><a href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html">TGServiceInterface.Components.ITGSService</a></div><div class="ttdoc">Interface for managing the service </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_service_interface_2_components_2_service_8cs_source.html#l00009">Service.cs:9</a></div></div>
-<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
+<p>Referenced by <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00159">TGCommandLine.Program.Main()</a>, and <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00014">TGCommandLine.Program.RunCommandLine()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        {</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            var splits = GetComponent&lt;ITGSService&gt;().Version().Split(<span class="charliteral">&#39; &#39;</span>);</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            var theirs = <span class="keyword">new</span> Version(splits[splits.Length - 1].Substring(1));</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            var ours = <span class="keyword">new</span> Version(FileVersionInfo.GetVersionInfo(<a class="code" href="namespace_system.html">System</a>.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">if</span>(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Revision != ours.Revision)    <span class="comment">//don&#39;t care about the patch level</span></div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            {</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                errorMessage = String.Format(<span class="stringliteral">&quot;Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.&quot;</span>, ours, theirs);</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            }</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            errorMessage = null;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        }</div><div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_ab84424d0f0f8a47c7b6680ebd6c52d98_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_ab84424d0f0f8a47c7b6680ebd6c52d98_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_ab84424d0f0f8a47c7b6680ebd6c52d98_icgraph" id="class_t_g_service_interface_1_1_interface_ab84424d0f0f8a47c7b6680ebd6c52d98_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Interface has had it&#39;s connection info setup ..." alt="" coords="253,5,430,32"/>
-<area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="491,85,697,112"/>
-<area shape="rect" id="node4" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="240,107,443,149"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_aa917a2e4f95d7fd2c5b1fc0d143280b8_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_aa917a2e4f95d7fd2c5b1fc0d143280b8_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_aa917a2e4f95d7fd2c5b1fc0d143280b8_icgraph" id="class_t_g_service_interface_1_1_interface_aa917a2e4f95d7fd2c5b1fc0d143280b8_icgraph">
+<area shape="rect" id="node2" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="491,13,697,39"/>
+<area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="240,35,443,76"/>
 </map>
 </div>
 </p>
@@ -859,7 +911,7 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -870,7 +922,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="abe0b9037c75657f9bb88dda055875001"></a>
+<a class="anchor" id="a785b92eae6884937b6c8c57e051dd285"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -878,12 +930,38 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string TGServiceInterface.Interface.HTTPSPassword</td>
+          <td class="memname">bool TGServiceInterface.Interface.disposedValue = false</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>To detect redundant <a class="el" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels ">Dispose(bool)</a> calls </p>
+
+<p>Definition at line <a class="el" href="_interface_8cs_source.html#l00316">316</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00299">TGServiceInterface.Interface.AuthenticateAdmin()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3e5c7c3910eb723350a593e9c402aed6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly string TGServiceInterface.Interface.HTTPSPassword</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -892,11 +970,11 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00058">58</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00222">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00227">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a43ad42460dba6f8e08659285029e39cc"></a>
+<a class="anchor" id="a4600585dc4a1182eebcf06fb94a2f759"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -904,12 +982,12 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ushort TGServiceInterface.Interface.HTTPSPort = 38607</td>
+          <td class="memname">readonly ushort TGServiceInterface.Interface.HTTPSPort</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -920,7 +998,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="aa9fc11e8f54d25d8b61f8ebff40751a3"></a>
+<a class="anchor" id="a35973bd60c60a6bd441dc3eab894ef3e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -928,12 +1006,12 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string TGServiceInterface.Interface.HTTPSURL</td>
+          <td class="memname">readonly string TGServiceInterface.Interface.HTTPSURL</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -944,7 +1022,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a6cf6ac453199d2e5a63075e039b97328"></a>
+<a class="anchor" id="abe4b9cc26e24aaa842e5c39db41c3b0e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -952,12 +1030,12 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string TGServiceInterface.Interface.HTTPSUsername</td>
+          <td class="memname">readonly string TGServiceInterface.Interface.HTTPSUsername</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -966,7 +1044,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00053">53</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00222">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00227">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
@@ -1042,7 +1120,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>List of s that can be used with <a class="el" href="class_t_g_service_interface_1_1_interface.html#a265e15ee016fe273ddf947bfba0d0ab9" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage ">GetComponent&lt;T&gt;</a> and <a class="el" href="class_t_g_service_interface_1_1_interface.html#a75cea73ddc15b2b993f696a55864ded0" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...">CreateChannel&lt;T&gt;</a> </p>
+<p>List of s that can be used with <a class="el" href="class_t_g_service_interface_1_1_interface.html#a43b2f9a5c843fcb0ed4a4398088945ce" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage ">GetComponent&lt;T&gt;</a> and <a class="el" href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...">CreateChannel&lt;T&gt;</a> </p>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00022">22</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 

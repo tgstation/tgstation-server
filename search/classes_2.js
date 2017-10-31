@@ -20,5 +20,7 @@ var searchData=
   ['configdownloadcommand',['ConfigDownloadCommand',['../class_t_g_command_line_1_1_config_download_command.html',1,'TGCommandLine']]],
   ['configlistcommand',['ConfigListCommand',['../class_t_g_command_line_1_1_config_list_command.html',1,'TGCommandLine']]],
   ['configserverdirectorycommand',['ConfigServerDirectoryCommand',['../class_t_g_command_line_1_1_config_server_directory_command.html',1,'TGCommandLine']]],
-  ['configuploadcommand',['ConfigUploadCommand',['../class_t_g_command_line_1_1_config_upload_command.html',1,'TGCommandLine']]]
+  ['configuploadcommand',['ConfigUploadCommand',['../class_t_g_command_line_1_1_config_upload_command.html',1,'TGCommandLine']]],
+  ['consolecommand',['ConsoleCommand',['../class_t_g_command_line_1_1_console_command.html',1,'TGCommandLine']]],
+  ['controlpanel',['ControlPanel',['../class_t_g_control_panel_1_1_control_panel.html',1,'TGControlPanel']]]
 ];

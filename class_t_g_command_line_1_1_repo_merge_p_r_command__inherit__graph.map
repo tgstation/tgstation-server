@@ -1,3 +1,4 @@
 <map id="TGCommandLine.RepoMergePRCommand" name="TGCommandLine.RepoMergePRCommand">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="99,5,181,32"/>
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="76,80,204,107"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="99,5,181,32"/>
 </map>

@@ -1,9 +1,0 @@
-<map id="TGControlPanel.Main.RunServerUpdate" name="TGControlPanel.Main.RunServerUpdate">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_main.html#a0d7c97530f770f7cf2488706f1528474" title="TGControlPanel.Main.Reset\lTestmerge_Click" alt="" coords="275,5,458,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_main.html#a6a37276fd2d63053de867618299520ac" title="TGControlPanel.Main.Testmerge\lButton_Click" alt="" coords="261,71,472,112"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_main.html#a21395eb21addf06987b15fea13e0db0d" title="TGControlPanel.Main.Update\lHardButton_Click" alt="" coords="271,136,462,177"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_main.html#a15524c15834c25556e04636bd80a6270" title="TGControlPanel.Main.Update\lMergeButton_Click" alt="" coords="271,201,462,243"/>
-<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_main.html#ad70b9a3fe3dcbbf8ff8e7fb6c9dda626" title="TGControlPanel.Main.Update\lTestmergeButton_Click" alt="" coords="271,267,462,308"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_main.html#a1a0f40f5c059826559b381e810a93dcc" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="520,136,716,177"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_main.html#a8c188784b61b8ffd7aef8e1dd28fd96d" title="Create the control panel. Requires the Interface has had it&#39;s connection info setup ..." alt="" coords="764,143,941,170"/>
-</map>

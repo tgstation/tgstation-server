@@ -1,0 +1,7 @@
+<map id="TGControlPanel.ControlPanel.UpdateEditText" name="TGControlPanel.ControlPanel.UpdateEditText">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a2b31d5d0ced8851673d8d9d64ab4acdf" title="TGControlPanel.ControlPanel.\lStaticFileListBox_SelectedIndex\lChanged" alt="" coords="248,5,459,61"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a3e5bc3171934832a71fbc35fcef4191d" title="TGControlPanel.ControlPanel.\lStaticFileSaveButton_Click" alt="" coords="256,86,451,127"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a1ced4d705551e8ebfcb3d2bfcc2eb624" title="TGControlPanel.ControlPanel.\lStaticFilesRefreshButton_Click" alt="" coords="252,151,455,193"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="507,86,701,127"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="749,86,944,127"/>
+</map>
