@@ -13,11 +13,6 @@ namespace TGServerService
 		/// Used for multithreading safety
 		/// </summary>
 		object configLock = new object();	//for atomic reads/writes
-		/// <inheritdoc />
-		public string ServerDirectory()
-		{
-			return Config.InstanceDirectory;
-		}
 
 		/// <inheritdoc />
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]

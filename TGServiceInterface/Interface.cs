@@ -46,9 +46,9 @@ namespace TGServiceInterface
 
 
 		/// <summary>
-		/// The name of the current instance in use
+		/// The name of the current instance in use. Defaults to <see langword="null"/>
 		/// </summary>
-		public static string InstanceName;
+		public string InstanceName { get; private set; }
 
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
@@ -110,6 +110,48 @@ namespace TGServiceInterface
 			HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
+		}
+
+		/// <summary>
+		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
+		/// </summary>
+		/// <param name="instanceName">The name of the instance to connect to</param>
+		/// <returns>The apporopriate <see cref="InstanceConnectivity"/> value</returns>
+		public InstanceConnectivity ConnectToInstance(string instanceName)
+		{
+			return ConnectToInstanceImpl(instanceName, false);
+		}
+
+		/// <summary>
+		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
+		/// </summary>
+		/// <param name="instanceName">The name of the instance to connect to</param>
+		/// <param name="skipAuthChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks and returns <see cref="InstanceConnectivity.Connected"/></param>
+		/// <returns>The apporopriate <see cref="InstanceConnectivity"/> value</returns>
+		internal InstanceConnectivity ConnectToInstanceImpl(string instanceName, bool skipAuthChecks) {
+			if (VerifyConnection() != null)
+				return InstanceConnectivity.None;
+			var prevInstance = InstanceName;
+			CloseAllChannels();
+			InstanceName = instanceName;
+			if (skipAuthChecks)
+				return InstanceConnectivity.Connected;
+			try
+			{
+				GetComponent<ITGConnectivity>().VerifyConnection();
+			}
+			catch
+			{
+				InstanceName = prevInstance;
+				return InstanceConnectivity.None;
+			}
+			try
+			{
+				GetComponent<ITGInstance>().ServerDirectory();
+				return InstanceConnectivity.Authenticated;
+			} catch {
+				return InstanceConnectivity.Connected;
+			}
 		}
 
 		/// <summary>

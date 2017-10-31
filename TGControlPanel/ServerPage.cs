@@ -106,7 +106,7 @@ namespace TGControlPanel
 			{
 				updatingFields = true;
 				
-				ServerPathLabel.Text = "Server Path: " + Config.ServerDirectory();
+				ServerPathLabel.Text = "Server Path: " + Interface.GetComponent<ITGInstance>().ServerDirectory();
 
 				SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
 

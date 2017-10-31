@@ -24,10 +24,10 @@ namespace TGServiceInterface
 			{
 				var parsedArgs = new List<string>();
 				parsedArgs.AddRange(args);
-				Interface.InstanceName = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
 				using (var I = new Interface())
-					I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
+					if(I.ConnectToInstanceImpl(parsedArgs[0], true).HasFlag(InstanceConnectivity.Connected))
+						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }
 			return 0;

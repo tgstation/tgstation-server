@@ -88,7 +88,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Interface.GetComponent<ITGConfig>().ServerDirectory());
+			OutputProc(Interface.GetComponent<ITGInstance>().ServerDirectory());
 			return ExitCode.Normal;
 		}
 		

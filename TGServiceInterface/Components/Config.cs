@@ -10,12 +10,6 @@ namespace TGServiceInterface.Components
 	[ServiceContract]
 	public interface ITGConfig
 	{
-		/// <summary>
-		/// Return the directory of the server on the host machine
-		/// </summary>
-		/// <returns>The path to the directory on success, null on failure</returns>
-		[OperationContract]
-		string ServerDirectory();
 
 		/// <summary>
 		/// Returns the file contents of the specified server directory

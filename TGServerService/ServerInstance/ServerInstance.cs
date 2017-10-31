@@ -15,7 +15,7 @@ namespace TGServerService
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed partial class ServerInstance : IDisposable, ITGConnectivity
+	sealed partial class ServerInstance : IDisposable, ITGConnectivity, ITGInstance
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -119,6 +119,13 @@ namespace TGServerService
 			if(!silent)
 				SendMessage("SERVICE: Update started...", MessageType.DeveloperInfo);
 		}
+
+		/// <inheritdoc />
+		public string ServerDirectory()
+		{
+			return Config.InstanceDirectory;
+		}
+
 
 		//mostly generated code with a call to RunDisposals()
 		//you don't need to open this

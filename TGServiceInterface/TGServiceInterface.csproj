@@ -56,6 +56,7 @@
     <Compile Include="Components\Connectivity.cs" />
     <Compile Include="Components\DreamDaemon.cs" />
     <Compile Include="Components\Chat.cs" />
+    <Compile Include="Components\Instance.cs" />
     <Compile Include="DreamDaemonBridge.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Helpers.cs" />
