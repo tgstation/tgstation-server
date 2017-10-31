@@ -116,6 +116,36 @@ namespace TGServerService
 		}
 
 		/// <summary>
+		/// Enumerates configured <see cref="InstanceConfig"/>s. Detaches those that fail to load
+		/// </summary>
+		/// <returns>Each configured <see cref="InstanceConfig"/></returns>
+		IEnumerable<InstanceConfig> GetInstanceConfigs()
+		{
+			var pathsToRemove = new List<string>();
+			lock (this)
+			{
+				var IPS = Properties.Settings.Default.InstancePaths;
+				foreach (var I in IPS)
+				{
+					InstanceConfig ic;
+					try
+					{
+						ic = InstanceConfig.Load(I);
+					}
+					catch (Exception e)
+					{
+						WriteEntry(String.Format("Unable load instance config at path {0}. Error: {1} Detaching...", I, e.ToString()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+						pathsToRemove.Add(I);
+						continue;
+					}
+					yield return ic;
+				}
+				foreach (var I in pathsToRemove)
+					IPS.Remove(I);
+			}
+		}
+
+		/// <summary>
 		/// Overrides and saves the configured <see cref="Properties.Settings.RemoteAccessPort"/> if requested by command line parameters
 		/// </summary>
 		/// <param name="args">The command line parameters for the <see cref="Service"/></param>
@@ -231,15 +261,17 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Creates <see cref="ServiceHost"/>s for all <see cref="ServerInstance"/>s as listed in <see cref="Properties.Settings.InstancePaths"/>
+		/// Creates <see cref="ServiceHost"/>s for all <see cref="ServerInstance"/>s as listed in <see cref="Properties.Settings.InstancePaths"/>, detaches bad ones
 		/// </summary>
 		void SetupInstances()
 		{
 			hosts = new Dictionary<string, ServiceHost>();
 			var pathsToRemove = new List<string>();
-			foreach (var I in Properties.Settings.Default.InstancePaths)
+			foreach (var I in GetInstanceConfigs())
 				if (SetupInstance(I) != null)
-					pathsToRemove.Add(I);
+					pathsToRemove.Add(I.InstanceDirectory);
+			foreach (var I in pathsToRemove)
+				Properties.Settings.Default.InstancePaths.Remove(I);
 		}
 
 		/// <summary>
@@ -273,33 +305,33 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Creates and starts a <see cref="ServiceHost"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// Creates and starts a <see cref="ServiceHost"/> for a <see cref="ServerInstance"/> at <paramref name="config"/>
 		/// </summary>
-		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
+		/// <param name="config">The <see cref="InstanceConfig"/> for the <see cref="ServerInstance"/></param>
 		/// <returns>The inactive <see cref="ServiceHost"/> on success, <see langword="null"/> on failure</returns>
-		ServiceHost SetupInstance(string path)
+		ServiceHost SetupInstance(InstanceConfig config)
 		{
 			ServerInstance instance;
 			string instanceName;
 			try
 			{
-				var config = InstanceConfig.Load(path);
-				if (hosts.ContainsKey(path))
+				if (hosts.ContainsKey(config.InstanceDirectory))
 				{
-					var datInstance = ((ServerInstance)hosts[path].SingletonInstance);
-					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", path, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+					var datInstance = ((ServerInstance)hosts[config.InstanceDirectory].SingletonInstance);
+					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.InstanceDirectory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+					Properties.Settings.Default.InstancePaths.Remove(config.InstanceDirectory);
 					return null;
 				}
 				if (!config.Enabled)
 					return null;
 				var ID = LockLoggingID();
-				WriteEntry(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, path, ID), EventID.InstanceIDAssigned, EventLogEntryType.Information, ID);
+				WriteEntry(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, config.InstanceDirectory, ID), EventID.InstanceIDAssigned, EventLogEntryType.Information, ID);
 				instanceName = config.Name;
 				instance = new ServerInstance(config, ID);
 			}
 			catch (Exception e)
 			{
-				WriteEntry(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", path, e.ToString()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+				WriteEntry(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", config.InstanceDirectory, e.ToString()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 				return null;
 			}
 
@@ -412,16 +444,14 @@ namespace TGServerService
 		{
 			var result = new List<InstanceMetadata>();
 			lock (this)
-				foreach (var I in Properties.Settings.Default.InstancePaths) {
-					var ic = InstanceConfig.Load(I);
+				foreach (var ic in GetInstanceConfigs()) 
 					result.Add(new InstanceMetadata
 					{
 						Name = ic.Name,
-						Path = I,
+						Path = ic.InstanceDirectory,
 						Enabled = ic.Enabled,
 						LoggingID = (byte)(ic.Enabled ? ((ServerInstance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
 					});
-				}
 			return result;
 		}
 
@@ -438,10 +468,13 @@ namespace TGServerService
 			{
 				if (Config.InstancePaths.Contains(path))
 					return String.Format("Instance at {0} already exists!", path);
+				InstanceConfig ic;
 				try
 				{
-					var ic = new InstanceConfig(path);
-					ic.Name = Name;
+					ic = new InstanceConfig(path)
+					{
+						Name = Name
+					};
 					Directory.CreateDirectory(path);
 					ic.Save();
 					Properties.Settings.Default.InstancePaths.Add(path);
@@ -450,22 +483,25 @@ namespace TGServerService
 				{
 					return e.ToString();
 				}
-				return SetupOneInstance(path);
+				return SetupOneInstance(ic);
 			}
 		}
 
 		/// <summary>
-		/// Starts and onlines an instance located at <paramref name="path"/>
+		/// Starts and onlines an instance located at <paramref name="config"/>
 		/// </summary>
-		/// <param name="path">The path to the instance</param>
+		/// <param name="config">The <see cref="InstanceConfig"/> for the <see cref="ServerInstance"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string SetupOneInstance(string path)
+		string SetupOneInstance(InstanceConfig config)
 		{
 			try
 			{
-				var host = SetupInstance(path);
+				var host = SetupInstance(config);
 				if (host != null)
 					host.Open();
+				else
+					lock (this)
+						Properties.Settings.Default.InstancePaths.Remove(config.InstanceDirectory);
 				return null;
 			}
 			catch (Exception e)
@@ -495,7 +531,7 @@ namespace TGServerService
 				{
 					return e.ToString();
 				}
-				return SetupOneInstance(path);
+				return SetupOneInstance(ic);
 			}
 		}
 
@@ -536,14 +572,12 @@ namespace TGServerService
 					string LastCheckedConfig = null;
 					try
 					{
-						foreach (var I in Properties.Settings.Default.InstancePaths)
+						foreach (var ic in GetInstanceConfigs())
 						{
-							LastCheckedConfig = I;
-							var ic = InstanceConfig.Load(I);
 							if (ic.Name == Name)
 							{
-								path = I;
-								return SetupOneInstance(I);
+								path = ic.InstanceDirectory;
+								return SetupOneInstance(ic);
 							}
 						}
 					}
@@ -580,14 +614,14 @@ namespace TGServerService
 			{
 				//we have to check em all anyway
 				InstanceConfig the_droid_were_looking_for = null;
-				foreach (var I in Properties.Settings.Default.InstancePaths)
-				{
-					var ic = InstanceConfig.Load(I);
+				foreach (var ic in GetInstanceConfigs())
 					if (ic.Name == name)
+					{
 						the_droid_were_looking_for = ic;
+						break;
+					}
 					else if (ic.Name == new_name)
 						return String.Format("There is already another instance named {0}!", new_name);
-				}
 				if (the_droid_were_looking_for == null)
 					return String.Format("There is no instance named {0}!", name);
 				var ie = InstanceEnabled(name);
@@ -621,20 +655,15 @@ namespace TGServerService
 				var res = SetInstanceEnabledImpl(name, false, out string path);
 				if (res != null)
 					return res;
-				var Config = Properties.Settings.Default.InstancePaths;
 				if (path == null)    //gotta find it ourselves
-					foreach (var I in Config)
-					{
-						var ic = InstanceConfig.Load(I);
+					foreach (var ic in GetInstanceConfigs())
 						if (ic.Name == name)
 						{
-							path = I;
+							path = ic.InstanceDirectory;
 							break;
 						}
-					}
 				if (path == null)
 					return String.Format("No instance named {0} exists!", name);
-				Config.Remove(path);
 				return null;
 			}
 		}
