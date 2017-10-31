@@ -18,7 +18,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminMoveServerCommand : Command
+	class AdminMoveServerCommand : ConsoleCommand
 	{
 		public AdminMoveServerCommand()
 		{
@@ -43,7 +43,7 @@ namespace TGCommandLine
 			return "Move the server installation (BYOND, Repo, Game) to a new location. Nothing else may be running for this task to complete";
 		}
 	}
-	class AdminRecreateStaticCommand : Command
+	class AdminRecreateStaticCommand : ConsoleCommand
 	{
 		public AdminRecreateStaticCommand()
 		{
@@ -63,7 +63,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminSetPortCommand : Command
+	class AdminSetPortCommand : ConsoleCommand
 	{
 		public AdminSetPortCommand()
 		{
@@ -98,7 +98,8 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminViewPortCommand : Command {
+	class AdminViewPortCommand : ConsoleCommand
+	{
 		public AdminViewPortCommand()
 		{
 			Keyword = "view-port";
@@ -116,7 +117,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminViewGroupCommand : Command
+	class AdminViewGroupCommand : ConsoleCommand
 	{
 		public AdminViewGroupCommand()
 		{
@@ -135,7 +136,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminSetGroupCommand : Command
+	class AdminSetGroupCommand : ConsoleCommand
 	{
 		public AdminSetGroupCommand()
 		{
@@ -168,7 +169,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminClearGroupCommand : Command
+	class AdminClearGroupCommand : ConsoleCommand
 	{
 		public AdminClearGroupCommand()
 		{

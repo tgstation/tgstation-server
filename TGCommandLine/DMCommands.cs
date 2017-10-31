@@ -19,7 +19,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DMCompileCommand : Command
+	class DMCompileCommand : ConsoleCommand
 	{
 		public DMCompileCommand()
 		{
@@ -75,7 +75,7 @@ namespace TGCommandLine
 			return "Starts a compile/update job optionally waiting for completion";
 		}
 	}
-	class DMStatusCommand : Command
+	class DMStatusCommand : ConsoleCommand
 	{
 		public DMStatusCommand()
 		{
@@ -123,7 +123,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DMSetProjectNameCommand : Command
+	class DMSetProjectNameCommand : ConsoleCommand
 	{
 		public DMSetProjectNameCommand()
 		{
@@ -147,7 +147,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DMInitializeCommand : Command
+	class DMInitializeCommand : ConsoleCommand
 	{
 		public DMInitializeCommand()
 		{
@@ -197,7 +197,7 @@ namespace TGCommandLine
 		}
 	}
 	
-	class DMCancelCommand : Command
+	class DMCancelCommand : ConsoleCommand
 	{
 		public DMCancelCommand()
 		{

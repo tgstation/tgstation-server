@@ -21,13 +21,8 @@ namespace TGServiceInterface
 		{
 			try
 			{
-				var channel = Interface.CreateChannel<ITGInterop>();
-				try
-				{
-					channel.CreateChannel().InteropMessage(String.Join(" ", args));
-				}
-				catch { }
-				Interface.CloseChannel(channel);
+				using (var I = new Interface())
+					I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", args));
 			}
 			catch { }
 			return 0;

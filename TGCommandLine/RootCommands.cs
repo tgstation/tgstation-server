@@ -7,10 +7,10 @@ namespace TGCommandLine
 {
 	class CLICommand : RootCommand
 	{
-		public CLICommand()
+		public CLICommand(Interface I)
 		{
 			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
-			if (Interface.VerifyConnection() == null && Interface.Authenticate() && Interface.AuthenticateAdmin())
+			if (I.VerifyConnection() == null && I.Authenticate() && I.AuthenticateAdmin())
 				tmp.Add(new AdminCommand());
 			Children = tmp.ToArray();
 		}
@@ -21,7 +21,7 @@ namespace TGCommandLine
 			base.PrintHelp();
 		}
 	}
-	class AutoUpdateCommand : Command
+	class AutoUpdateCommand : ConsoleCommand
 	{
 		public AutoUpdateCommand()
 		{
@@ -40,7 +40,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class SetAutoUpdateCommand : Command
+	class SetAutoUpdateCommand : ConsoleCommand
 	{
 		public SetAutoUpdateCommand()
 		{
@@ -79,7 +79,7 @@ namespace TGCommandLine
 		}
 
 	}
-	class UpdateCommand : Command
+	class UpdateCommand : ConsoleCommand
 	{
 		public UpdateCommand()
 		{
@@ -140,7 +140,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class TestmergeCommand : Command
+	class TestmergeCommand : ConsoleCommand
 	{
 		public TestmergeCommand()
 		{

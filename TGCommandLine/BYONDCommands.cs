@@ -19,7 +19,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class BYONDVersionCommand : Command
+	class BYONDVersionCommand : ConsoleCommand
 	{
 		public BYONDVersionCommand()
 		{
@@ -48,7 +48,7 @@ namespace TGCommandLine
 	}
 
 
-	class BYONDStatusCommand : Command
+	class BYONDStatusCommand : ConsoleCommand
 	{
 		public BYONDStatusCommand()
 		{
@@ -88,7 +88,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class BYONDUpdateCommand : Command
+	class BYONDUpdateCommand : ConsoleCommand
 	{
 		public BYONDUpdateCommand()
 		{

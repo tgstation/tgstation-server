@@ -29,7 +29,7 @@ namespace TGCommandLine
 			return "Manages the Discord bot";
 		}
 	}
-	class IRCNickCommand : Command
+	class IRCNickCommand : ConsoleCommand
 	{
 		public IRCNickCommand()
 		{
@@ -57,7 +57,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ChatJoinCommand : Command
+	class ChatJoinCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatJoinCommand(ChatProvider pI)
@@ -136,7 +136,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ChatPartCommand : Command
+	class ChatPartCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatPartCommand(ChatProvider pI)
@@ -206,7 +206,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatListAdminsCommand : Command
+	class ChatListAdminsCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatListAdminsCommand(ChatProvider pI)
@@ -265,7 +265,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatReconnectCommand : Command
+	class ChatReconnectCommand : ConsoleCommand
 	{
 		readonly ChatProvider providerIndex;
 		public ChatReconnectCommand(ChatProvider pI)
@@ -290,7 +290,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatAddminCommand : Command
+	class ChatAddminCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatAddminCommand(ChatProvider pI)
@@ -337,7 +337,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class IRCAuthModeCommand : Command
+	class IRCAuthModeCommand : ConsoleCommand
 	{
 		public IRCAuthModeCommand()
 		{
@@ -376,7 +376,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class DiscordAuthModeCommand : Command
+	class DiscordAuthModeCommand : ConsoleCommand
 	{
 		public DiscordAuthModeCommand()
 		{
@@ -415,7 +415,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class IRCAuthLevelCommand : Command
+	class IRCAuthLevelCommand : ConsoleCommand
 	{
 		public IRCAuthLevelCommand()
 		{
@@ -463,7 +463,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatDeadminCommand : Command
+	class ChatDeadminCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatDeadminCommand(ChatProvider pI)
@@ -511,7 +511,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class IRCAuthCommand : Command
+	class IRCAuthCommand : ConsoleCommand
 	{
 		public IRCAuthCommand()
 		{
@@ -539,7 +539,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class IRCDisableAuthCommand : Command
+	class IRCDisableAuthCommand : ConsoleCommand
 	{
 		public IRCDisableAuthCommand()
 		{
@@ -561,7 +561,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ChatStatusCommand : Command
+	class ChatStatusCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatStatusCommand(ChatProvider pI)
@@ -594,7 +594,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatEnableCommand : Command
+	class ChatEnableCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatEnableCommand(ChatProvider pI)
@@ -622,7 +622,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatDisableCommand : Command
+	class ChatDisableCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
 		public ChatDisableCommand(ChatProvider pI)
@@ -651,7 +651,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class IRCServerCommand : Command
+	class IRCServerCommand : ConsoleCommand
 	{
 		public IRCServerCommand()
 		{
@@ -696,7 +696,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DiscordSetTokenCommand : Command
+	class DiscordSetTokenCommand : ConsoleCommand
 	{
 		public DiscordSetTokenCommand()
 		{

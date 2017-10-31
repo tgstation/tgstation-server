@@ -18,7 +18,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DDWorldAnnounceCommand : Command
+	class DDWorldAnnounceCommand : ConsoleCommand
 	{
 		public DDWorldAnnounceCommand()
 		{
@@ -44,7 +44,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DDStartCommand : Command
+	class DDStartCommand : ConsoleCommand
 	{
 		public DDStartCommand()
 		{
@@ -64,7 +64,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DDStopCommand : Command
+	class DDStopCommand : ConsoleCommand
 	{
 		public DDStopCommand()
 		{
@@ -98,7 +98,7 @@ namespace TGCommandLine
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
 	}
-	class DDRestartCommand : Command
+	class DDRestartCommand : ConsoleCommand
 	{
 		public DDRestartCommand()
 		{
@@ -132,7 +132,7 @@ namespace TGCommandLine
 			return "Restarts the server and watchdog optionally waiting for the current round to end";
 		}
 	}
-	class DDStatusCommand : Command
+	class DDStatusCommand : ConsoleCommand
 	{
 		public DDStatusCommand()
 		{
@@ -157,7 +157,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DDAutostartCommand : Command
+	class DDAutostartCommand : ConsoleCommand
 	{
 		public DDAutostartCommand()
 		{
@@ -195,7 +195,7 @@ namespace TGCommandLine
 			return "Change or check autostarting of the game server with the service";
 		}
 	}
-	class DDWebclientCommand : Command
+	class DDWebclientCommand : ConsoleCommand
 	{
 		public DDWebclientCommand()
 		{
@@ -234,7 +234,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DDPortCommand : Command
+	class DDPortCommand : ConsoleCommand
 	{
 		public DDPortCommand()
 		{
@@ -270,7 +270,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DDSecurityCommand : Command
+	class DDSecurityCommand : ConsoleCommand
 	{
 		public DDSecurityCommand()
 		{
