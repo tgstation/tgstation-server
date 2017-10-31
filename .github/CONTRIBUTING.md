@@ -90,7 +90,11 @@ Instead you can use object orientation, or simply placing repeated code in a fun
 This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these #defines with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
 
 ### Do not commit modifications to Version.cs
-This file will be updated by maintainers when they deem it prudent to release a new version
+This file will be updated by maintainers when they deem it prudent to release a new version. For reference here is the version format we use 3.<major>.<minor>.<patch>. The criteria for changing a version number is as follows
+	
+- Major: A breaking change to the DMAPI
+- Minor: Additions or changes to the interface or DMAPI
+- Patch: Non-breaking changes internal to each of the 3 modules (Service, Interface, DMAPI)
 
 ### Formatting
 
