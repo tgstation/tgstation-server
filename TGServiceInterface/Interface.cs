@@ -116,26 +116,30 @@ namespace TGServiceInterface
 		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
 		/// </summary>
 		/// <param name="instanceName">The name of the instance to connect to</param>
-		/// <returns>The apporopriate <see cref="InstanceConnectivity"/> value</returns>
-		public InstanceConnectivity ConnectToInstance(string instanceName)
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		public ConnectivityLevel ConnectToInstance(string instanceName = null)
 		{
+			if (instanceName == null)
+				instanceName = InstanceName;
 			return ConnectToInstanceImpl(instanceName, false);
 		}
 
 		/// <summary>
-		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
+		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance. Sets <see cref="InstanceName"/>
 		/// </summary>
 		/// <param name="instanceName">The name of the instance to connect to</param>
-		/// <param name="skipAuthChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks and returns <see cref="InstanceConnectivity.Connected"/></param>
-		/// <returns>The apporopriate <see cref="InstanceConnectivity"/> value</returns>
-		internal InstanceConnectivity ConnectToInstanceImpl(string instanceName, bool skipAuthChecks) {
-			if (VerifyConnection() != null)
-				return InstanceConnectivity.None;
+		/// <param name="skipAuthChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks and returns <see cref="ConnectivityLevel.Connected"/></param>
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		internal ConnectivityLevel ConnectToInstanceImpl(string instanceName, bool skipAuthChecks)
+		{
+			if (!ConnectionStatus().HasFlag(ConnectivityLevel.Connected))
+				return ConnectivityLevel.None;
 			var prevInstance = InstanceName;
-			CloseAllChannels();
+			if (prevInstance != instanceName)
+				CloseAllChannels();
 			InstanceName = instanceName;
 			if (skipAuthChecks)
-				return InstanceConnectivity.Connected;
+				return ConnectivityLevel.Connected;
 			try
 			{
 				GetComponent<ITGConnectivity>().VerifyConnection();
@@ -143,14 +147,24 @@ namespace TGServiceInterface
 			catch
 			{
 				InstanceName = prevInstance;
-				return InstanceConnectivity.None;
+				return ConnectivityLevel.None;
 			}
 			try
 			{
 				GetComponent<ITGInstance>().ServerDirectory();
-				return InstanceConnectivity.Authenticated;
-			} catch {
-				return InstanceConnectivity.Connected;
+			}
+			catch
+			{
+				return ConnectivityLevel.Connected;
+			}
+			try
+			{
+				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+				return ConnectivityLevel.Administrator;
+			}
+			catch
+			{
+				return ConnectivityLevel.Authenticated;
 			}
 		}
 
@@ -301,7 +315,7 @@ namespace TGServiceInterface
 		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
 		/// <exception cref="Exception">Thrown if <typeparamref name="T"/> isn't a valid component <see langword="interface"/></exception>
-		public ChannelFactory<T> CreateChannel<T>(string instanceName)
+		ChannelFactory<T> CreateChannel<T>(string instanceName)
 		{
 			var accessPath = instanceName == null ? ServiceInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
 
@@ -335,53 +349,51 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed
+		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
 		/// </summary>
 		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
-		public string VerifyConnection()
+		public ConnectivityLevel ConnectionStatus()
+		{
+			return ConnectionStatus(out string unused);
+		}
+
+		/// <summary>
+		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
+		/// </summary>
+		/// <param name="error">String of the error that prevented an elevated connectivity level</param>
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		public ConnectivityLevel ConnectionStatus(out string error)
 		{
 			try
 			{
 				GetComponentImpl<ITGConnectivity>(false).VerifyConnection();
-				return null;
 			}
-			catch (Exception e)
+			catch (CommunicationException e)
 			{
-				return e.ToString();
+				error = e.ToString();
+				return ConnectivityLevel.None;
 			}
-		}
-
-		/// <summary>
-		/// Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <see cref="VerifyConnection"/>
-		/// </summary>
-		/// <returns><see langword="true"/> if credentials are valid, <see langword="false"/> otherwise</returns>
-		public bool Authenticate()
-		{
+			var service = GetService();
 			try
 			{
-				GetService().Version();
-				return true;
+				service.Version();
 			}
-			catch
+			catch(Exception e)
 			{
-				return false;
+				error = e.ToString();
+				return ConnectivityLevel.Connected;
 			}
-		}
-
-		/// <summary>
-		/// Checks if the current login can use <see cref="ITGAdministration"/>. Requires a successful prior call to <see cref="Authenticate"/>
-		/// </summary>
-		/// <returns><see langword="true"/> if the connection may use <see cref="ITGAdministration"/>, <see langword="false"/> otherwise</returns>
-		public bool AuthenticateAdmin()
-		{
 			try
 			{
-				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
-				return true;
+				// TODO
+
+				error = null;
+				return ConnectivityLevel.Administrator;
 			}
-			catch
+			catch(Exception e)
 			{
-				return false;
+				error = e.ToString();
+				return ConnectivityLevel.Authenticated;
 			}
 		}
 

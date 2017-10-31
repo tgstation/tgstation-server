@@ -62,13 +62,13 @@ namespace TGControlPanel
 
 		void VerifyAndConnect(Interface I)
 		{
-			var res = I.VerifyConnection();
-			if (res != null)
+			var res = I.ConnectionStatus(out string error);
+			if (!res.HasFlag(ConnectivityLevel.Connected))
 			{
-				MessageBox.Show("Unable to connect to service! Error: " + res);
+				MessageBox.Show("Unable to connect to service! Error: " + error);
 				return;
 			}
-			if (!I.Authenticate())
+			if (!res.HasFlag(ConnectivityLevel.Authenticated))
 			{
 				MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
 				return;

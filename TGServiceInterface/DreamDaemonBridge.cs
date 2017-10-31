@@ -26,7 +26,7 @@ namespace TGServiceInterface
 				parsedArgs.AddRange(args);
 				parsedArgs.RemoveAt(0);
 				using (var I = new Interface())
-					if(I.ConnectToInstanceImpl(parsedArgs[0], true).HasFlag(InstanceConnectivity.Connected))
+					if(I.ConnectToInstanceImpl(parsedArgs[0], true).HasFlag(ConnectivityLevel.Connected))
 						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }

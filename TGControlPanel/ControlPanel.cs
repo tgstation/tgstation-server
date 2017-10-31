@@ -66,7 +66,7 @@ namespace TGControlPanel
 
 		bool CheckAdminWithWarning()
 		{
-			if (!Interface.AuthenticateAdmin())
+			if (!Interface.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
 			{
 				MessageBox.Show("Only system administrators may use this command!");
 				return false;

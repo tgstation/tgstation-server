@@ -3,10 +3,10 @@
 namespace TGServiceInterface
 {
 	/// <summary>
-	/// Description of the connectivity level to an <see cref="Components.ITGInstance"/>
+	/// Description of the connectivity level to an <see cref="Components.ITGInstance"/> or the <see cref="Components.ITGSService"/>
 	/// </summary>
 	[Flags]
-	public enum InstanceConnectivity
+	public enum ConnectivityLevel
 	{
 		/// <summary>
 		/// The connection could not be made, either a communication error occurred or the specified <see cref="Components.ITGInstance"/> does not exist

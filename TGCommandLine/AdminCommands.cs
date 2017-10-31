@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TGServiceInterface;
 using TGServiceInterface.Components;
 
@@ -14,7 +13,7 @@ namespace TGCommandLine
 		}
 		public override string GetHelpText()
 		{
-			return "Manage server service authentication";
+			return "Manage instance authentication";
 		}
 	}
 

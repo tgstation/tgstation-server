@@ -64,21 +64,21 @@ namespace TGCommandLine
 				return Command.ExitCode.BadCommand;
 			}
 
-			var res = currentInterface.VerifyConnection();
-			if (res != null)
+			var res = currentInterface.ConnectionStatus(out string error);
+			if (!res.HasFlag(ConnectivityLevel.Connected))
 			{
-				Console.WriteLine("Unable to connect to service: " + res);
+				Console.WriteLine("Unable to connect to service: " + error);
 				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address:port");
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!currentInterface.Authenticate())
+			if (!res.HasFlag(ConnectivityLevel.Authenticated))
 			{
 				Console.WriteLine("Authentication error: Username/password/windows identity is not authorized!");
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!SentVMMWarning && currentInterface.VersionMismatch(out string error))
+			if (!SentVMMWarning && currentInterface.VersionMismatch(out error))
 			{
 				SentVMMWarning = true;
 				Console.WriteLine(error);
@@ -190,13 +190,13 @@ namespace TGCommandLine
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
 						ReplaceInterface(new Interface(address, port, username, password));
-						var res = currentInterface.VerifyConnection();
-						if (res != null)
+						var res = currentInterface.ConnectionStatus(out string error);
+						if (!res.HasFlag(ConnectivityLevel.Connected))
 						{
-							Console.WriteLine("Unable to connect: " + res);
+							Console.WriteLine("Unable to connect: " + error);
 							ReplaceInterface(new Interface());
 						}
-						else if (!currentInterface.Authenticate())
+						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
 							ReplaceInterface(new Interface());
@@ -204,10 +204,10 @@ namespace TGCommandLine
 						else
 						{
 							Console.WriteLine("Connected remotely");
-							if (currentInterface.VersionMismatch(out res))
+							if (currentInterface.VersionMismatch(out error))
 							{
 								SentVMMWarning = true;
-								Console.WriteLine(res);
+								Console.WriteLine(error);
 							}
 							Console.WriteLine("Type 'disconnect' to return to local mode");
 						}
