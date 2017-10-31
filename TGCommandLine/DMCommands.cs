@@ -6,7 +6,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class DMCommand : RootCommand
+	class DMCommand : InstanceRootCommand
 	{
 		public DMCommand()
 		{

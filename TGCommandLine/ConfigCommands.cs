@@ -6,7 +6,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class ConfigCommand : RootCommand
+	class ConfigCommand : InstanceRootCommand
 	{
 		public ConfigCommand()
 		{

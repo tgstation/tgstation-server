@@ -5,7 +5,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class IRCCommand : RootCommand
+	class IRCCommand : InstanceRootCommand
 	{
 		public IRCCommand()
 		{
@@ -17,7 +17,7 @@ namespace TGCommandLine
 			return "Manages the IRC bot";
 		}
 	}
-	class DiscordCommand : RootCommand
+	class DiscordCommand : InstanceRootCommand
 	{
 		public DiscordCommand()
 		{

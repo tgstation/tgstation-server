@@ -71,9 +71,9 @@ namespace TGServiceInterface
 		readonly string HTTPSPassword;
 
 		/// <summary>
-		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
+		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
 		/// </summary>
-		IDictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
+		IDictionary<string, ChannelFactory> ChannelFactoryCache = new Dictionary<string, ChannelFactory>();
 
 		/// <summary>
 		/// Returns a <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service
@@ -136,7 +136,7 @@ namespace TGServiceInterface
 				return ConnectivityLevel.None;
 			var prevInstance = InstanceName;
 			if (prevInstance != instanceName)
-				CloseAllChannels();
+				CloseAllChannels(false);
 			InstanceName = instanceName;
 			if (skipAuthChecks)
 				return ConnectivityLevel.Connected;
@@ -202,13 +202,28 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
 		/// </summary>
-		void CloseAllChannels()
+		/// <param name="includingRoot">If set to <see langword="false"/>, doesn't clear the channels that are used by <see cref="ITGSService"/></param>
+		void CloseAllChannels(bool includingRoot)
 		{
+			string[] RootThings = { typeof(ITGSService).Name, 'S' + typeof(ITGConnectivity).Name };
 			lock (ChannelFactoryCache)
 			{
 				foreach (var I in ChannelFactoryCache)
-					CloseChannel(I.Value);
-				ChannelFactoryCache.Clear();
+				{
+					if (RootThings.Contains(I.Key))
+						continue;
+					var cf = I.Value;
+					try
+					{
+						cf.Closed += ChannelFactory_Closed;
+						cf.Close();
+					}
+					catch
+					{
+						cf.Abort();
+					}
+					ChannelFactoryCache.Remove(I);
+				}
 			}
 		}
 
@@ -229,23 +244,6 @@ namespace TGServiceInterface
 			}
 			errorMessage = null;
 			return false;
-		}
-
-		/// <summary>
-		/// Safely shuts down a single <see cref="ChannelFactory"/>
-		/// </summary>
-		/// <param name="cf">The <see cref="ChannelFactory"/> to shutdown</param>
-		static void CloseChannel(ChannelFactory cf)
-		{
-			try
-			{
-				cf.Closed += ChannelFactory_Closed;
-				cf.Close();
-			}
-			catch
-			{
-				cf.Abort();
-			}
 		}
 
 		/// <summary>
@@ -275,8 +273,10 @@ namespace TGServiceInterface
 		{
 			if (useInstanceName & InstanceName == null)
 				throw new Exception("Instance not selected!");
-
-			var tot = typeof(T);
+			var actualToT = typeof(T);
+			var tot = actualToT.Name;
+			if (actualToT == typeof(ITGConnectivity) && !useInstanceName)
+				tot = 'S' + tot; 
 			ChannelFactory<T> cf;
 
 			lock (ChannelFactoryCache)
@@ -413,7 +413,7 @@ namespace TGServiceInterface
 			{
 				if (disposing)
 				{
-					CloseAllChannels();
+					CloseAllChannels(true);
 				}
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

@@ -4,7 +4,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class AdminCommand : RootCommand
+	class AdminCommand : InstanceRootCommand
 	{
 		public AdminCommand()
 		{

@@ -19,11 +19,11 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The connected user is authenticated
 		/// </summary>
-		Authenticated = 2,
+		Authenticated = 2 | Connected,
 		/// <summary>
 		/// The connected user is an administrator
 		/// </summary>
-		Administrator = 4,
+		Administrator = 4 | Authenticated,
 	}
 
 	/// <summary>

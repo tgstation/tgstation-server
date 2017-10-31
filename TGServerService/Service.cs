@@ -265,6 +265,7 @@ namespace TGServerService
 				for (byte I = 1; I < 100; ++I)
 					if (!UsedLoggingIDs.Contains(I))
 					{
+						UsedLoggingIDs.Add(I);
 						return I;
 					}
 			}
@@ -407,9 +408,21 @@ namespace TGServerService
 		}
 
 		/// <inheritdoc />
-		public IDictionary<string, string> ListInstances()
+		public IList<InstanceMetadata> ListInstances()
 		{
-			throw new NotImplementedException();
+			var result = new List<InstanceMetadata>();
+			lock (this)
+				foreach (var I in Properties.Settings.Default.InstancePaths) {
+					var ic = InstanceConfig.Load(I);
+					result.Add(new InstanceMetadata
+					{
+						Name = ic.Name,
+						Path = I,
+						Enabled = ic.Enabled,
+						LoggingID = (byte)(ic.Enabled ? ((ServerInstance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
+					});
+				}
+			return result;
 		}
 
 		/// <inheritdoc />
@@ -428,6 +441,7 @@ namespace TGServerService
 				try
 				{
 					var ic = new InstanceConfig(path);
+					ic.Name = Name;
 					Directory.CreateDirectory(path);
 					ic.Save();
 					Properties.Settings.Default.InstancePaths.Add(path);
@@ -593,7 +607,7 @@ namespace TGServerService
 				finally
 				{
 					if (ie)
-						result = SetInstanceEnabled(new_name, true) + " "+ result;
+						result = SetInstanceEnabled(new_name, true) + " " + result;
 				}
 				return result;
 			}

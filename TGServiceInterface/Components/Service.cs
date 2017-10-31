@@ -44,7 +44,7 @@ namespace TGServiceInterface.Components
 		/// </summary>
 		/// <returns>A <see cref="IDictionary{TKey, TValue}"/> of instance names relating to their paths</returns>
 		[OperationContract]
-		IDictionary<string, string> ListInstances();
+		IList<InstanceMetadata> ListInstances();
 
 		/// <summary>
 		/// Creates a new server instance

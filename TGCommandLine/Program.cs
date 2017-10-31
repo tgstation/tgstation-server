@@ -9,7 +9,7 @@ namespace TGCommandLine
 
 	class Program
 	{
-		static bool interactive = false;
+		static bool interactive = false, saidSrvVersion = false;
 		static Interface currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
@@ -83,6 +83,11 @@ namespace TGCommandLine
 				SentVMMWarning = true;
 				Console.WriteLine(error);
 			}
+			else if (interactive && !saidSrvVersion)
+			{
+				Console.WriteLine("Connectd to service version: " + currentInterface.GetService().Version());
+				saidSrvVersion = true;
+			}
 
 			try
 			{
@@ -97,7 +102,6 @@ namespace TGCommandLine
 
 		static void ReplaceInterface(Interface I)
 		{
-
 			if (!interactive)
 				I.SetBadCertificateHandler((message) =>
 				{
@@ -110,6 +114,8 @@ namespace TGCommandLine
 				I.SetBadCertificateHandler(BadCertificateInteractive);
 			currentInterface = I;
 			ConsoleCommand.Interface = I;
+			InstanceRootCommand.currentInterface = I;
+			saidSrvVersion = false;
 		}
 
 		public static string ReadLineSecure()
@@ -156,21 +162,60 @@ namespace TGCommandLine
 			return false;
 		}
 
+		/// <summary>
+		/// Tries to set <see cref="currentInterface"/>'s <see cref="ITGInstance"/> to <paramref name="instanceName"/>, outputting appropriate messages
+		/// </summary>
+		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to test</param>
+		/// <param name="silentSuccess">If <see langword="true"/>, does not output on success</param>
+		/// <returns><see langword="true"/> if a <see cref="ConnectivityLevel.Authenticated"/> was achieved with <see cref="Interface.ConnectToInstance(string)"/>, <see langword="false"/> otherwise</returns>
+		static bool CheckInstanceConnectivity(string instanceName, bool silentSuccess)
+		{
+			var res = currentInterface.ConnectToInstance(instanceName);
+			if (!res.HasFlag(ConnectivityLevel.Connected))
+				Console.WriteLine("Unable to connect to instance! Does it exist?");
+			else if (!res.HasFlag(ConnectivityLevel.Authenticated))
+				Console.WriteLine("The current user is not authorized to use this instance!");
+			else
+			{
+				if(!silentSuccess)
+					Console.WriteLine("Successfully conected to instance!");
+				return true;
+			}
+			return false;
+		}
+
 		static int Main(string[] args)
 		{
 			ReplaceInterface(new Interface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
-				return (int)RunCommandLine(new List<string>(args));
-
-			Console.WriteLine("Type 'remote' to connect to a remote service");
+			{
+				var argsAsList = new List<string>(args);
+				for (var I = 0; I < argsAsList.Count - 1; ++I)
+					if (argsAsList[I].ToLower() == "--instance")
+					{
+						if (!CheckInstanceConnectivity(args[I + 1], true))
+							return (int)Command.ExitCode.ConnectionError;
+						argsAsList.RemoveRange(I, 2);
+						break;
+					}
+				return (int)RunCommandLine(argsAsList);
+			}
 			//interactive mode
+
+			Console.WriteLine("Type 'instance' to connect to a server instance");
+			Console.WriteLine("Type 'remote' to connect to a remote service");
+
 			while (true)
 			{
 				Console.Write("Enter command: ");
 				var NextCommand = Console.ReadLine();
 				switch (NextCommand.ToLower())
 				{
+					case "instance":
+						Console.Write("Enter instance name: ");
+						CheckInstanceConnectivity(Console.ReadLine(), false);
+						break;
 					case "remote":
 						SentVMMWarning = false;
 						Console.Write("Enter server address: ");
