@@ -18,7 +18,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoUpdateJsonCommand : Command
+	class RepoUpdateJsonCommand : ConsoleCommand
 	{
 		public RepoUpdateJsonCommand()
 		{
@@ -42,7 +42,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoSetupCommand : Command
+	class RepoSetupCommand : ConsoleCommand
 	{
 		public RepoSetupCommand()
 		{
@@ -70,7 +70,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoStatusCommand : Command
+	class RepoStatusCommand : ConsoleCommand
 	{
 		public RepoStatusCommand()
 		{
@@ -123,7 +123,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoResetCommand : Command
+	class RepoResetCommand : ConsoleCommand
 	{
 		public RepoResetCommand()
 		{
@@ -145,7 +145,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoUpdateCommand : Command
+	class RepoUpdateCommand : ConsoleCommand
 	{
 		public RepoUpdateCommand()
 		{
@@ -180,7 +180,7 @@ namespace TGCommandLine
 			return "<hard|merge>";
 		}
 	}
-	class RepoGenChangelogCommand : Command
+	class RepoGenChangelogCommand : ConsoleCommand
 	{
 		public RepoGenChangelogCommand()
 		{
@@ -200,7 +200,7 @@ namespace TGCommandLine
 			return "Compiles the html changelog";
 		}
 	}
-	class RepoPushChangelogCommand : Command
+	class RepoPushChangelogCommand : ConsoleCommand
 	{
 		public RepoPushChangelogCommand()
 		{
@@ -219,7 +219,7 @@ namespace TGCommandLine
 			return "Pushes the html changelog if the SSH authentication is configured correctly";
 		}
 	}
-	class RepoSetEmailCommand : Command
+	class RepoSetEmailCommand : ConsoleCommand
 	{
 		public RepoSetEmailCommand()
 		{
@@ -241,7 +241,7 @@ namespace TGCommandLine
 			return "Set the e-mail used for commits";
 		}
 	}
-	class RepoSetNameCommand : Command
+	class RepoSetNameCommand : ConsoleCommand
 	{
 		public RepoSetNameCommand()
 		{
@@ -263,7 +263,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoMergePRCommand : Command
+	class RepoMergePRCommand : ConsoleCommand
 	{
 		public RepoMergePRCommand()
 		{
@@ -298,7 +298,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoListPRsCommand : Command
+	class RepoListPRsCommand : ConsoleCommand
 	{
 		public RepoListPRsCommand()
 		{
@@ -325,7 +325,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoListBackupsCommand : Command
+	class RepoListBackupsCommand : ConsoleCommand
 	{
 		public RepoListBackupsCommand()
 		{
@@ -351,7 +351,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class RepoCheckoutCommand : Command
+	class RepoCheckoutCommand : ConsoleCommand
 	{
 		public RepoCheckoutCommand()
 		{

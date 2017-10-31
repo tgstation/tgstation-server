@@ -18,7 +18,7 @@ namespace TGCommandLine
 			return "Manage settings";
 		}
 	}
-	class ConfigDeleteCommand : Command
+	class ConfigDeleteCommand : ConsoleCommand
 	{
 		public ConfigDeleteCommand()
 		{
@@ -46,7 +46,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ConfigListCommand : Command
+	class ConfigListCommand : ConsoleCommand
 	{
 		public ConfigListCommand()
 		{
@@ -79,7 +79,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ConfigServerDirectoryCommand : Command
+	class ConfigServerDirectoryCommand : ConsoleCommand
 	{
 		public ConfigServerDirectoryCommand()
 		{
@@ -98,7 +98,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ConfigDownloadCommand : Command
+	class ConfigDownloadCommand : ConsoleCommand
 	{
 		public ConfigDownloadCommand()
 		{
@@ -136,7 +136,7 @@ namespace TGCommandLine
 		}
 	}
 	
-	class ConfigUploadCommand : Command
+	class ConfigUploadCommand : ConsoleCommand
 	{
 		public ConfigUploadCommand()
 		{

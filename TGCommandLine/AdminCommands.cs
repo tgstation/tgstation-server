@@ -18,7 +18,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminRecreateStaticCommand : Command
+	class AdminRecreateStaticCommand : ConsoleCommand
 	{
 		public AdminRecreateStaticCommand()
 		{
@@ -38,7 +38,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminViewGroupCommand : Command
+	class AdminViewGroupCommand : ConsoleCommand
 	{
 		public AdminViewGroupCommand()
 		{
@@ -57,7 +57,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminSetGroupCommand : Command
+	class AdminSetGroupCommand : ConsoleCommand
 	{
 		public AdminSetGroupCommand()
 		{
@@ -90,7 +90,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class AdminClearGroupCommand : Command
+	class AdminClearGroupCommand : ConsoleCommand
 	{
 		public AdminClearGroupCommand()
 		{

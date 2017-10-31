@@ -14,7 +14,7 @@ namespace TGServiceInterface
 	/// <summary>
 	/// Main inteface class for the service
 	/// </summary>
-	public class Interface
+	public class Interface : IDisposable
 	{
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/> and <see cref="CreateChannel{T}"/>
@@ -53,27 +53,27 @@ namespace TGServiceInterface
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
 		/// </summary>
-		static string HTTPSURL;
+		readonly string HTTPSURL;
 
 		/// <summary>
 		/// The port used by the service
 		/// </summary>
-		static ushort HTTPSPort = 38607;
+		readonly ushort HTTPSPort;
 
 		/// <summary>
 		/// Username for remote operations
 		/// </summary>
-		static string HTTPSUsername;
+		readonly string HTTPSUsername;
 
 		/// <summary>
 		/// Password for remote operations
 		/// </summary>
-		static string HTTPSPassword;
+		readonly string HTTPSPassword;
 
 		/// <summary>
 		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
 		/// </summary>
-		static IDictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
+		IDictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
 
 		/// <summary>
 		/// Returns a <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service
@@ -93,10 +93,30 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
+		/// Construct an <see cref="Interface"/> for a local connection
+		/// </summary>
+		public Interface() { }
+
+		/// <summary>
+		/// Construct an <see cref="Interface"/> for a remote connection
+		/// </summary>
+		/// <param name="address">The address of the remote server</param>
+		/// <param name="port">The port the remote server runs on</param>
+		/// <param name="username">Windows account username for the remote server</param>
+		/// <param name="password">Windows account password for the remote server</param>
+		public Interface(string address, ushort port, string username, string password)
+		{
+			HTTPSURL = address;
+			HTTPSPort = port;
+			HTTPSUsername = username;
+			HTTPSPassword = password;
+		}
+
+		/// <summary>
 		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
 		/// </summary>
 		/// <param name="handler">The <see cref="Func{T, TResult}"/> to be called when a remote login is attempted while the server posesses a bad certificate. Passed a <see cref="string"/> of error information about the and should return <see langword="true"/> if it the connection should be made anyway</param>
-		public static void SetBadCertificateHandler(Func<string, bool> handler)
+		public void SetBadCertificateHandler(Func<string, bool> handler)
 		{
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
 			{
@@ -124,19 +144,9 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Set the interface to look for services on the current computer
-		/// </summary>
-		public static void MakeLocalConnection()
-		{
-			HTTPSURL = null;
-			HTTPSPassword = null;
-			CloseAllChannels();
-		}
-
-		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
 		/// </summary>
-		public static void CloseAllChannels()
+		void CloseAllChannels()
 		{
 			lock (ChannelFactoryCache)
 			{
@@ -151,7 +161,7 @@ namespace TGServiceInterface
 		/// </summary>
 		/// <param name="errorMessage">An error message to display to the user should this function return <see langword="true"/></param>
 		/// <returns><see langword="true"/> if the <see cref="Interface"/> interface being used to connect to a service does not have the same release version as the service</returns>
-		public static bool VersionMismatch(out string errorMessage)
+		public bool VersionMismatch(out string errorMessage)
 		{
 			var splits = GetService().Version().Split(' ');
 			var theirs = new Version(splits[splits.Length - 1].Substring(1));
@@ -166,22 +176,6 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Set the remote <see cref="Interface"/> to connect to along with 
-		/// </summary>
-		/// <param name="address">The address of the remote server</param>
-		/// <param name="port">The port the remote server runs on</param>
-		/// <param name="username">Windows account username for the remote server</param>
-		/// <param name="password">Windows account password for the remote server</param>
-		public static void SetRemoteLoginInformation(string address, ushort port, string username, string password)
-		{
-			HTTPSURL = address;
-			HTTPSPort = port;
-			HTTPSUsername = username;
-			HTTPSPassword = password;
-			CloseAllChannels();
-		}
-
-		/// <summary>
 		/// Safely shuts down a single <see cref="ChannelFactory"/>
 		/// </summary>
 		/// <param name="cf">The <see cref="ChannelFactory"/> to shutdown</param>
@@ -189,6 +183,7 @@ namespace TGServiceInterface
 		{
 			try
 			{
+				cf.Closed += ChannelFactory_Closed;
 				cf.Close();
 			}
 			catch
@@ -198,11 +193,21 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
+		/// Disposes a closed <see cref="ChannelFactory"/>
+		/// </summary>
+		/// <param name="sender">The channel factory that was closed</param>
+		/// <param name="e">The event arguments</param>
+		static void ChannelFactory_Closed(object sender, EventArgs e)
+		{
+			(sender as IDisposable).Dispose();
+		}
+
+		/// <summary>
 		/// Returns the requested <see cref="Interface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <returns>The correct component <see langword="interface"/></returns>
-		public static T GetComponent<T>()
+		public T GetComponent<T>()
 		{
 			var ToT = typeof(T);
 			if (!ValidInterfaces.Contains(ToT) && ToT != typeof(ITGSService))
@@ -210,7 +215,7 @@ namespace TGServiceInterface
 			return GetComponentImpl<T>(true);
 		}
 
-		static T GetComponentImpl<T>(bool useInstanceName)
+		T GetComponentImpl<T>(bool useInstanceName)
 		{
 			if (useInstanceName & InstanceName == null)
 				throw new Exception("Instance not selected!");
@@ -243,7 +248,7 @@ namespace TGServiceInterface
 		/// Returns the <see cref="ITGSService"/> component for the service
 		/// </summary>
 		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
-		public static ITGSService GetService()
+		public ITGSService GetService()
 		{
 			return GetComponentImpl<ITGSService>(false);
 		}
@@ -254,7 +259,7 @@ namespace TGServiceInterface
 		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
 		/// <exception cref="Exception">Thrown if <typeparamref name="T"/> isn't a valid component <see langword="interface"/></exception>
-		static ChannelFactory<T> CreateChannel<T>(string instanceName)
+		public ChannelFactory<T> CreateChannel<T>(string instanceName)
 		{
 			var accessPath = instanceName == null ? ServiceInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
 
@@ -291,7 +296,7 @@ namespace TGServiceInterface
 		/// Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed
 		/// </summary>
 		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
-		public static string VerifyConnection()
+		public string VerifyConnection()
 		{
 			try
 			{
@@ -308,7 +313,7 @@ namespace TGServiceInterface
 		/// Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <see cref="VerifyConnection"/>
 		/// </summary>
 		/// <returns><see langword="true"/> if credentials are valid, <see langword="false"/> otherwise</returns>
-		public static bool Authenticate()
+		public bool Authenticate()
 		{
 			try
 			{
@@ -325,7 +330,7 @@ namespace TGServiceInterface
 		/// Checks if the current login can use <see cref="ITGAdministration"/>. Requires a successful prior call to <see cref="Authenticate"/>
 		/// </summary>
 		/// <returns><see langword="true"/> if the connection may use <see cref="ITGAdministration"/>, <see langword="false"/> otherwise</returns>
-		public static bool AuthenticateAdmin()
+		public bool AuthenticateAdmin()
 		{
 			try
 			{
@@ -337,5 +342,49 @@ namespace TGServiceInterface
 				return false;
 			}
 		}
+
+		#region IDisposable Support
+		/// <summary>
+		/// To detect redundant <see cref="Dispose(bool)"/> calls
+		/// </summary>
+		private bool disposedValue = false;
+
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="CloseAllChannels"/>
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!disposedValue)
+			{
+				if (disposing)
+				{
+					CloseAllChannels();
+				}
+
+				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: set large fields to null.
+
+				disposedValue = true;
+			}
+		}
+
+		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+		// ~Interface() {
+		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+		//   Dispose(false);
+		// }
+
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			// GC.SuppressFinalize(this);
+		}
+		#endregion
 	}
 }

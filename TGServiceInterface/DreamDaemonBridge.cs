@@ -26,13 +26,8 @@ namespace TGServiceInterface
 				parsedArgs.AddRange(args);
 				Interface.InstanceName = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
-				var channel = Interface.GetComponent<ITGInterop>();
-				try
-				{
-					channel.InteropMessage(String.Join(" ", parsedArgs));
-				}
-				catch { }
-				Interface.CloseAllChannels();
+				using (var I = new Interface())
+					I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }
 			return 0;
