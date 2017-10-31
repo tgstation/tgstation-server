@@ -1,5 +1,5 @@
 <map id="TGServerService.ServerInstance.ServerInstance" name="TGServerService.ServerInstance.ServerInstance">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a217ecaa0e91ebecb8460f46b992dc09f" title="Set TheDroidsWereLookingFor based off either an search ed name or a string SecurityIdentifier from th..." alt="" coords="264,95,475,136"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a2e5dea27fe5ea99beb0b1911eaffdaf7" title="Set TheDroidsWereLookingFor based off either an search ed name or a string SecurityIdentifier from th..." alt="" coords="264,95,475,136"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a1f51512799decc40e41edde3d1917d0e" title="Called when the ServerInstance is setup. Prepares the BYOND updater " alt="" coords="264,212,475,253"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a61c197535442dd090e429de96abe5466" title="Set up the ChatProviders for the ServerInstance " alt="" coords="785,147,996,188"/>
 <area shape="rect" id="node23" href="$class_t_g_server_service_1_1_server_instance.html#ad6f61d0895428e85ec403dbfd0afe744" title="TGServerService.ServerInstance.\lInitCompiler" alt="" coords="264,277,475,319"/>
