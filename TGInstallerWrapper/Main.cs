@@ -26,6 +26,7 @@ namespace TGInstallerWrapper
 		const string InterfaceServiceInterfacePrepareForUpdate = "PrepareForUpdate";
 
 		Assembly InterfaceAssembly;
+		object InterfaceObject;
 		Type Server, ITGSService;
 		MethodInfo VerifyConnection, GetComponentITGSService, Version, PrepareForUpdate;
 
@@ -74,6 +75,7 @@ namespace TGInstallerWrapper
 				File.WriteAllBytes(tmppath, Properties.Resources.TGServiceInterface);
 				InterfaceAssembly = Assembly.LoadFrom(tmppath);	//we can't link to it, or load the bytes directly because the thing will complain about mixing the DLLExport code and IL code
 				Server = InterfaceAssembly.GetType(InterfaceClass);
+				InterfaceObject = Activator.CreateInstance(Server);
 				ITGSService = InterfaceAssembly.GetType(InterfaceServiceInterface);
 				VerifyConnection = Server.GetMethod(InterfaceClassVerifyConnection);
 				GetComponentITGSService = Server.GetMethod(InterfaceClassGetComponent).MakeGenericMethod(ITGSService);
@@ -91,10 +93,10 @@ namespace TGInstallerWrapper
 		void CheckForExistingVersion() {
 			if (InterfaceAssembly == null)
 				return;
-			var verifiedConnection = VerifyConnection.Invoke(null, null) == null;
+			var verifiedConnection = VerifyConnection.Invoke(InterfaceObject, null) == null;
 			try
 			{
-				VersionLabel.Text = (string)Version.Invoke(GetComponentITGSService.Invoke(null, null), null);
+				VersionLabel.Text = (string)Version.Invoke(GetComponentITGSService.Invoke(InterfaceObject, null), null);
 				if (VersionLabel.Text.Contains("v3.0")) //OH GOD!!!!
 					MessageBox.Show("Warning! Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!");
 			}
@@ -114,10 +116,10 @@ namespace TGInstallerWrapper
 		{
 			if (InterfaceAssembly == null)
 				return ConfirmDangerousUpgrade();
-			var connectionVerified = VerifyConnection.Invoke(null, null) == null;
+			var connectionVerified = VerifyConnection.Invoke(InterfaceObject, null) == null;
 			try
 			{
-				PrepareForUpdate.Invoke(GetComponentITGSService.Invoke(null, null), null);
+				PrepareForUpdate.Invoke(GetComponentITGSService.Invoke(InterfaceObject, null), null);
 				Thread.Sleep(3000); //chat messages
 				return true;
 			}

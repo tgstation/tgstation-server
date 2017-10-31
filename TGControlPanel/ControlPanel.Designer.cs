@@ -15,6 +15,7 @@
 		{
 			if (disposing && (components != null))
 			{
+				Interface.Dispose();
 				components.Dispose();
 			}
 			base.Dispose(disposing);

@@ -83,7 +83,7 @@ namespace TGControlPanel
 
 		void UpdateServerPath()
 		{
-			if (!Program.CheckAdminWithWarning())
+			if (!CheckAdminWithWarning())
 			{
 				ServerPathTextbox.Enabled = false;
 				ServerPathTextbox.ReadOnly = true;
@@ -95,7 +95,7 @@ namespace TGControlPanel
 			if (DialogResult != DialogResult.Yes)
 				return;
 
-			if (!Program.CheckAdminWithWarning())
+			if (!CheckAdminWithWarning())
 			{
 				ServerPathTextbox.Enabled = false;
 				ServerPathTextbox.ReadOnly = true;

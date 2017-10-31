@@ -11,10 +11,17 @@ namespace TGControlPanel
 	partial class ControlPanel : Form
 	{
 		/// <summary>
-		/// Create the control panel. Requires the <see cref="Interface"/> has had it's connection info setup
+		/// The <see cref="TGServiceInterface.Interface"/> instance for this <see cref="ControlPanel"/>
 		/// </summary>
-		public ControlPanel()
+		readonly Interface Interface;
+
+		/// <summary>
+		/// Constructs a <see cref="ControlPanel"/>
+		/// </summary>
+		/// <param name="I">The <see cref="TGServiceInterface.Interface"/> for the <see cref="ControlPanel"/></param>
+		public ControlPanel(Interface I)
 		{
+			Interface = I;
 			InitializeComponent();
 			if (Interface.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
 			{
@@ -55,6 +62,16 @@ namespace TGControlPanel
 					break;
 			}
 			Properties.Settings.Default.LastPageIndex = Panels.SelectedIndex;
+		}
+
+		bool CheckAdminWithWarning()
+		{
+			if (!Interface.AuthenticateAdmin())
+			{
+				MessageBox.Show("Only system administrators may use this command!");
+				return false;
+			}
+			return true;
 		}
 	}
 }

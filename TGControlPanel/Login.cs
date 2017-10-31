@@ -31,46 +31,50 @@ namespace TGControlPanel
 		{
 			IPTextBox.Text = IPTextBox.Text.Trim();
 			UsernameTextBox.Text = UsernameTextBox.Text.Trim();
-			Interface.SetRemoteLoginInformation(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text);
-			var Config = Properties.Settings.Default;
-			Config.RemoteIP = IPTextBox.Text;
-			Config.RemoteUsername = UsernameTextBox.Text;
-			if (SavePasswordCheckBox.Checked)
+			using (var I = new Interface(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text))
 			{
-				Config.RemotePassword = Helpers.EncryptData(PasswordTextBox.Text, out string entrop);
-				Config.RemoteEntropy = entrop;
+				var Config = Properties.Settings.Default;
+				Config.RemoteIP = IPTextBox.Text;
+				Config.RemoteUsername = UsernameTextBox.Text;
+				if (SavePasswordCheckBox.Checked)
+				{
+					Config.RemotePassword = Helpers.EncryptData(PasswordTextBox.Text, out string entrop);
+					Config.RemoteEntropy = entrop;
+				}
+				else
+				{
+					Config.RemotePassword = null;
+					Config.RemoteEntropy = null;
+				}
+				Config.RemoteDefault = true;
+				VerifyAndConnect(I);
 			}
-			else
-			{
-				Config.RemotePassword = null;
-				Config.RemoteEntropy = null;
-			}
-			Config.RemoteDefault = true;
-			VerifyAndConnect();
 		}
 
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
-            Interface.MakeLocalConnection();
-			Properties.Settings.Default.RemoteDefault = false;
-			VerifyAndConnect();
+			using (var I = new Interface())
+			{
+				Properties.Settings.Default.RemoteDefault = false;
+				VerifyAndConnect(I);
+			}
 		}
 
-		void VerifyAndConnect()
+		void VerifyAndConnect(Interface I)
 		{
-			var res = Interface.VerifyConnection();
+			var res = I.VerifyConnection();
 			if (res != null)
 			{
 				MessageBox.Show("Unable to connect to service! Error: " + res);
 				return;
 			}
-			if (!Interface.Authenticate())
+			if (!I.Authenticate())
 			{
 				MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
 				return;
 			}
 			Hide();
-			using (var M = new ControlPanel())
+			using (var M = new ControlPanel(I))
 				M.ShowDialog();
 			Close();
 		}

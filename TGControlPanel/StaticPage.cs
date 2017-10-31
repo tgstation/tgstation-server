@@ -325,14 +325,14 @@ namespace TGControlPanel
 
 		private void RecreateStaticButton_Click(object sender, EventArgs e)
 		{
-			if (!Program.CheckAdminWithWarning())
+			if (!CheckAdminWithWarning())
 			{
 				RecreateStaticButton.Visible = false;
 				return;
 			}
 			if (MessageBox.Show("This will rename the current static directory to a backup and recreate it. Continue?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
-			if (!Program.CheckAdminWithWarning())
+			if (!CheckAdminWithWarning())
 			{
 				RecreateStaticButton.Visible = false;
 				return;

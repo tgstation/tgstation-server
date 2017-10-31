@@ -9,7 +9,6 @@ namespace TGControlPanel
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Interface.SetBadCertificateHandler(BadCertificateHandler);
 			try
 			{
 				if (Properties.Settings.Default.UpgradeRequired)
@@ -40,16 +39,6 @@ namespace TGControlPanel
 				var result = MessageBox.Show(message + " IT IS HIGHLY RECCOMENDED YOU DO NOT PROCEED! Continue?", "SSL Error", MessageBoxButtons.YesNo) == DialogResult.Yes;
 				SSLErrorPromptResult = result;
 				return result;
-			}
-			return true;
-		}
-
-		public static bool CheckAdminWithWarning()
-		{
-			if (!Interface.AuthenticateAdmin())
-			{
-				MessageBox.Show("Only system administrators may use this command!");
-				return false;
 			}
 			return true;
 		}
