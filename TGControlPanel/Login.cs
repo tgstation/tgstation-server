@@ -70,7 +70,7 @@ namespace TGControlPanel
 				return;
 			}
 			Hide();
-			using (var M = new Main())
+			using (var M = new ControlPanel())
 				M.ShowDialog();
 			Close();
 		}

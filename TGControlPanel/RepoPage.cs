@@ -7,7 +7,7 @@ using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
-	partial class Main
+	partial class ControlPanel
 	{
 		enum RepoAction {
 			Clone,

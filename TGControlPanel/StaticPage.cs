@@ -7,7 +7,7 @@ using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
-	partial class Main
+	partial class ControlPanel
 	{
 		IDictionary<int, string> IndexesToPaths = new Dictionary<int, string>();
 		IList<string> EnumeratedPaths = new List<string>() { "" };

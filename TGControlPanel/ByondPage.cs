@@ -5,7 +5,7 @@ using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
-	partial class Main
+	partial class ControlPanel
 	{
 		string lastReadError = null;
 		void InitBYONDPage()
