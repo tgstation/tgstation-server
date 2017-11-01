@@ -34,11 +34,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Base name of communication URLs
 		/// </summary>
-		const string MasterInterfaceName = "TGStationServerService";
-		/// <summary>
-		/// Base name of the root service URLs
-		/// </summary>
-		public const string ServiceInterfaceName = MasterInterfaceName + "/Service";
+		public const string MasterInterfaceName = "TGStationServerService";
 		/// <summary>
 		/// Base name of instance URLs
 		/// </summary>
@@ -323,7 +319,7 @@ namespace TGServiceInterface
 		/// <exception cref="Exception">Thrown if <typeparamref name="T"/> isn't a valid component <see langword="interface"/></exception>
 		ChannelFactory<T> CreateChannel<T>(string instanceName)
 		{
-			var accessPath = instanceName == null ? ServiceInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
+			var accessPath = instanceName == null ? MasterInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
 
 			var InterfaceName = typeof(T).Name;
 			if (HTTPSURL == null)

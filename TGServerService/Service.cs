@@ -230,7 +230,7 @@ namespace TGServerService
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this, Interface.ServiceInterfaceName);
+			serviceHost = CreateHost(this, Interface.MasterInterfaceName);
 			AddEndpoint(serviceHost, typeof(ITGSService));
 			AddEndpoint(serviceHost, typeof(ITGConnectivity));
 			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us

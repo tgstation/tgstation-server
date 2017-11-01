@@ -57,7 +57,9 @@ namespace TGControlPanel
 				Height = 150,
 				FormBorderStyle = FormBorderStyle.FixedDialog,
 				Text = caption,
-				StartPosition = FormStartPosition.CenterScreen
+				StartPosition = FormStartPosition.CenterScreen,
+				MaximizeBox = false,
+				MinimizeBox = false,
 			};
 			Label textLabel = new Label() { Left = 50, Top = 20, Text = text, AutoSize = true };
 			TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
