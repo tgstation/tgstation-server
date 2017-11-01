@@ -38,9 +38,14 @@ namespace TGServerService
 			{
 				if (TheDroidsWereLookingFor == null)
 					return "ADMIN";
-
-				var pc = new PrincipalContext(ContextType.Machine);
-				return GroupPrincipal.FindByIdentity(pc, IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
+				
+				string res = null;
+				try
+				{
+					res = GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Machine), IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
+				}
+				catch { }
+				return res ?? GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain), IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
 			}
 			catch
 			{
@@ -66,11 +71,12 @@ namespace TGServerService
 		/// Set <see cref="TheDroidsWereLookingFor"/> based off either an <paramref name="search"/>ed name or a string <see cref="SecurityIdentifier"/> from the config
 		/// </summary>
 		/// <param name="search">The name of the group to search for</param>
+		/// <param name="useDomain">Recursive parameter used to check for the group using <see cref="ContextType.Domain"/> instead of <see cref="ContextType.Machine"/></param>
 		/// <returns>The name of the group allowed to access the <see cref="ServerInstance"/> if it could be found, <see langword="null"/> otherwise</returns>
-		string FindTheDroidsWereLookingFor(string search = null)
+		string FindTheDroidsWereLookingFor(string search = null, bool useDomain = false)
 		{
 			//find the group that is authorized to use the tools
-			var pc = new PrincipalContext(ContextType.Machine);
+			var pc = new PrincipalContext(useDomain ? ContextType.Domain : ContextType.Machine);
 			var config = Properties.Settings.Default;
 			var groupName = search ?? config.AuthorizedGroupSID;
 			if (String.IsNullOrWhiteSpace(groupName))
@@ -82,7 +88,7 @@ namespace TGServerService
 					//try again with all types
 					gp = GroupPrincipal.FindByIdentity(pc, search);
 				if (gp == null)
-					return null;
+					return useDomain ? null : FindTheDroidsWereLookingFor(search, true);
 			}
 			TheDroidsWereLookingFor = gp.Sid;
 			if (search != null)
