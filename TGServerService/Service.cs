@@ -267,9 +267,19 @@ namespace TGServerService
 		{
 			hosts = new Dictionary<string, ServiceHost>();
 			var pathsToRemove = new List<string>();
+			var seenNames = new List<string>();
 			foreach (var I in GetInstanceConfigs())
-				if (SetupInstance(I) != null)
+			{
+				if (seenNames.Contains(I.Name))
+				{
+					WriteEntry(String.Format("Instance at {0} has a duplicate name! Detaching...", I.InstanceDirectory), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 					pathsToRemove.Add(I.InstanceDirectory);
+				}
+				if (SetupInstance(I) == null)
+					pathsToRemove.Add(I.InstanceDirectory);
+				else
+					seenNames.Add(I.Name);
+			}
 			foreach (var I in pathsToRemove)
 				Properties.Settings.Default.InstancePaths.Remove(I);
 		}
@@ -468,6 +478,9 @@ namespace TGServerService
 			{
 				if (Config.InstancePaths.Contains(path))
 					return String.Format("Instance at {0} already exists!", path);
+				foreach (var oic in GetInstanceConfigs())
+					if (Name == oic.Name)
+						return String.Format("Instance named {0} already exists!", oic.Name);
 				InstanceConfig ic;
 				try
 				{
@@ -524,6 +537,9 @@ namespace TGServerService
 				try
 				{
 					ic = InstanceConfig.Load(path);
+					foreach(var oic in GetInstanceConfigs())
+						if(ic.Name == oic.Name)
+							return String.Format("Instance named {0} already exists!", oic.Name);
 					ic.Save();
 					Properties.Settings.Default.InstancePaths.Add(path);
 				}
@@ -641,7 +657,11 @@ namespace TGServerService
 				finally
 				{
 					if (ie)
-						result = SetInstanceEnabled(new_name, true) + " " + result;
+					{
+						var resRestore = SetInstanceEnabled(new_name, true);
+						if (resRestore != null)
+							result = (result + " " + resRestore).Trim();
+					}
 				}
 				return result;
 			}
@@ -664,6 +684,7 @@ namespace TGServerService
 						}
 				if (path == null)
 					return String.Format("No instance named {0} exists!", name);
+				Properties.Settings.Default.InstancePaths.Remove(path);
 				return null;
 			}
 		}
