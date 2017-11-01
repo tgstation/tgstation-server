@@ -254,6 +254,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate">Bind the SSL certificate to the port</a><ul>
 <li>e.g. <code>netsh http add sslcert ipport=0.0.0.0:&lt;port #&gt; certhash=&lt;certificate hash&gt; appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}</code></li>
 <li>The <code>appid</code> GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above</li>
+<li>Power shell users remember to quit the appid: <code>netsh http add sslcert ipport=0.0.0.0:&lt;port #&gt; certhash=&lt;certificate hash&gt; appid="{F32EDA25-0855-411C-AF5E-F0D042917E2D}"</code> as {} has special meaning in powershell</li>
 </ul>
 </li>
 </ol>
