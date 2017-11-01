@@ -35,6 +35,7 @@ namespace TGControlPanel
 			{
 				var Config = Properties.Settings.Default;
 				Config.RemoteIP = IPTextBox.Text;
+				Config.RemotePort = (ushort)PortSelector.Value;
 				Config.RemoteUsername = UsernameTextBox.Text;
 				if (SavePasswordCheckBox.Checked)
 				{
