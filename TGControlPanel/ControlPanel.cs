@@ -36,6 +36,14 @@ namespace TGControlPanel
 			LoadChatPage();
 			InitStaticPage();
 		}
+		
+		/// <summary>
+		/// Called from <see cref="Dispose(bool)"/>
+		/// </summary>
+		void Cleanup()
+		{
+			Interface.Dispose();
+		}
 
 		private void Main_Resize(object sender, EventArgs e)
 		{
