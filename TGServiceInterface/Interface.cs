@@ -78,26 +78,6 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Construct an <see cref="Interface"/> for a local connection
-		/// </summary>
-		public Interface() { }
-
-		/// <summary>
-		/// Construct an <see cref="Interface"/> for a remote connection
-		/// </summary>
-		/// <param name="address">The address of the remote server</param>
-		/// <param name="port">The port the remote server runs on</param>
-		/// <param name="username">Windows account username for the remote server</param>
-		/// <param name="password">Windows account password for the remote server</param>
-		public Interface(string address, ushort port, string username, string password)
-		{
-			HTTPSURL = address;
-			HTTPSPort = port;
-			HTTPSUsername = username;
-			HTTPSPassword = password;
-		}
-
-		/// <summary>
 		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
 		/// </summary>
 		/// <param name="handler">The <see cref="Func{T, TResult}"/> to be called when a remote login is attempted while the server posesses a bad certificate. Passed a <see cref="string"/> of error information about the and should return <see langword="true"/> if it the connection should be made anyway</param>
@@ -126,6 +106,26 @@ namespace TGServiceInterface
 				ErrorMessage = String.Format("The certificate failed to verify! Error: {2} Cert: {3}", ErrorMessage, cert.ToString());
 				return handler(ErrorMessage);
 			};
+		}
+
+		/// <summary>
+		/// Construct an <see cref="Interface"/> for a local connection
+		/// </summary>
+		public Interface() { }
+
+		/// <summary>
+		/// Construct an <see cref="Interface"/> for a remote connection
+		/// </summary>
+		/// <param name="address">The address of the remote server</param>
+		/// <param name="port">The port the remote server runs on</param>
+		/// <param name="username">Windows account username for the remote server</param>
+		/// <param name="password">Windows account password for the remote server</param>
+		public Interface(string address, ushort port, string username, string password)
+		{
+			HTTPSURL = address;
+			HTTPSPort = port;
+			HTTPSUsername = username;
+			HTTPSPassword = password;
 		}
 
 		/// <summary>
