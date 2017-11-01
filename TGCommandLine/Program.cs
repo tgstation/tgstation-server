@@ -200,11 +200,9 @@ namespace TGCommandLine
 				return (int)RunCommandLine(argsAsList);
 			}
 			//interactive mode
-
 			Interface.SetBadCertificateHandler(BadCertificateInteractive);
 			Console.WriteLine("Type 'instance' to connect to a server instance");
 			Console.WriteLine("Type 'remote' to connect to a remote service");
-
 			while (true)
 			{
 				Console.Write("Enter command: ");

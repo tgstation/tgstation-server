@@ -89,6 +89,37 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
+		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
+		/// </summary>
+		/// <param name="handler">The <see cref="Func{T, TResult}"/> to be called when a remote login is attempted while the server posesses a bad certificate. Passed a <see cref="string"/> of error information about the and should return <see langword="true"/> if it the connection should be made anyway</param>
+		public static void SetBadCertificateHandler(Func<string, bool> handler)
+		{
+			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
+			{
+				string ErrorMessage;
+				switch (error)
+				{
+					case SslPolicyErrors.None:
+						return true;
+					case SslPolicyErrors.RemoteCertificateChainErrors:
+						ErrorMessage = "There are certificate chain errors.";
+						break;
+					case SslPolicyErrors.RemoteCertificateNameMismatch:
+						ErrorMessage = "The certificate name does not match.";
+						break;
+					case SslPolicyErrors.RemoteCertificateNotAvailable:
+						ErrorMessage = "The certificate doesn't exist in the trust store.";
+						break;
+					default:
+						ErrorMessage = "An unknown error occurred.";
+						break;
+				}
+				ErrorMessage = String.Format("The server's certificate failed to verify! Error: {0} Cert: {1}", ErrorMessage, cert.ToString());
+				return handler(ErrorMessage);
+			};
+		}
+
+		/// <summary>
 		/// Construct an <see cref="Interface"/> for a local connection
 		/// </summary>
 		public Interface() { }
@@ -168,37 +199,6 @@ namespace TGServiceInterface
 			{
 				return ConnectivityLevel.Authenticated;
 			}
-		}
-
-		/// <summary>
-		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
-		/// </summary>
-		/// <param name="handler">The <see cref="Func{T, TResult}"/> to be called when a remote login is attempted while the server posesses a bad certificate. Passed a <see cref="string"/> of error information about the and should return <see langword="true"/> if it the connection should be made anyway</param>
-		public static void SetBadCertificateHandler(Func<string, bool> handler)
-		{
-			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
-			{
-				string ErrorMessage;
-				switch (error)
-				{
-					case SslPolicyErrors.None:
-						return true;
-					case SslPolicyErrors.RemoteCertificateChainErrors:
-						ErrorMessage = "There are certificate chain errors.";
-						break;
-					case SslPolicyErrors.RemoteCertificateNameMismatch:
-						ErrorMessage = "The certificate name does not match.";
-						break;
-					case SslPolicyErrors.RemoteCertificateNotAvailable:
-						ErrorMessage = "The certificate doesn't exist in the trust store.";
-						break;
-					default:
-						ErrorMessage = "An unknown error occurred.";
-						break;
-				}
-				ErrorMessage = String.Format("The server's certificate failed to verify! Error: {0} Cert: {1}", ErrorMessage, cert.ToString());
-				return handler(ErrorMessage);
-			};
 		}
 
 		/// <summary>

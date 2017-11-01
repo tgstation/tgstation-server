@@ -230,7 +230,7 @@ namespace TGControlPanel
 		}
 		void DoAsyncOp(RepoAction ra, string message)
 		{
-			if (ra != RepoAction.Wait && RepoBusyCheck())
+			if (RepoBGW.IsBusy || (ra != RepoAction.Wait && RepoBusyCheck()))
 				return;
 
 			CurrentRevisionLabel.Visible = false;
