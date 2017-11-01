@@ -26,6 +26,7 @@ build:
   project: TGStationServer3.sln
   parallel: true
   verbosity: minimal
+  publish_nuget: true
 after_build:
   - ps: .\Tools\TGS3Build.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
