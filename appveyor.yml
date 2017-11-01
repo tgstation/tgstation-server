@@ -17,7 +17,7 @@ artifacts:
 - path: MD5-SHA1-Client-v*.txt
   name: MD5SHA1Client
 - path: 'TGServiceInterface\*.nupkg'
-  name: InterfaceNugetPackage
+  name: TGServiceInterface
 cache:
   - packages -> **\packages.config
 install:
@@ -28,6 +28,7 @@ build:
   project: TGStationServer3.sln
   parallel: true
   verbosity: minimal
+  publish_nuget: true
 after_build:
   - ps: .\Tools\TGS3Build.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
@@ -46,6 +47,6 @@ deploy:
     api_key:
       secure: bedsYuLMqGREzkVkJqRx+BTMgOvDO76tgaNc8sW5E3Ao6iw8oGHdJ/BZov8y0iKa
     skip_symbols: true
-    artifact: InterfaceNugetPackage
+    artifact: TGServiceInterface
     on:
       TGSDeploy: "Do it."
