@@ -31,12 +31,19 @@ after_build:
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/x86/Release/TGServerService.exe").FileVersion
 deploy:
-  release: "tgstation-server-v$(TGSVersion)"
-  description: 'The /tg/station server suite'
-  provider: GitHub
-  auth_token:
+  - provider: GitHub
+    release: "tgstation-server-v$(TGSVersion)"
+    description: 'The /tg/station server suite'
+    auth_token:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
-  artifact: TGS3Server,MD5SHA1Server,TGS3Client,MD5SHA1Client
-  draft: false
-  on:
-    TGSDeploy: "Do it."
+    artifact: TGS3Server,MD5SHA1Server,TGS3Client,MD5SHA1Client
+    draft: false
+    on:
+      TGSDeploy: "Do it."
+  - provider: NuGet
+    api_key:
+      secure: bedsYuLMqGREzkVkJqRx+BTMgOvDO76tgaNc8sW5E3Ao6iw8oGHdJ/BZov8y0iKa
+    skip_symbols: true
+    artifact: /.*\.nupkg/
+    on:
+      TGSDeploy: "Do it."

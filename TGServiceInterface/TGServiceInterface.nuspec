@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>Cyberboss</authors>
+    <licenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/tgstation/tgstation-server</projectUrl>
+    <iconUrl>https://tgstation.github.io/tgstation-server/tgs.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Interface for managing /tg/station server</description>
+    <copyright>Copyright 2017</copyright>
+    <releaseNotes>https://github.com/tgstation/tgstation-server/releases/tag/tgstation-server-v$version$</releaseNotes>
+    <tags>tgstation game-server byond service toolset wcf ss13 client-lib tgstation-server api wcf-service soap</tags>
+    <dependencies>
+      <group targetFramework="net452">
+        <dependency id="UnmanagedExports" version="1.2.7" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\x86\Release\TGServiceInterface.xml" target="lib\net452" />
+  </files>
+</package>
