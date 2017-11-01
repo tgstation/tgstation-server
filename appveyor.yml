@@ -16,6 +16,8 @@ artifacts:
   name: TGS3Client
 - path: MD5-SHA1-Client-v*.txt
   name: MD5SHA1Client
+- path: **\TGServiceInterface-v*.nupkg
+  name: TGServiceInterface.nupkg
 cache:
   - packages -> **\packages.config
 install:
