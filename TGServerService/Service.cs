@@ -391,6 +391,7 @@ namespace TGServerService
 						var instance = (ServerInstance)host.SingletonInstance;
 						host.Close();
 						instance.Dispose();
+						UnlockLoggingID(instance.LoggingID);
 					}
 				}
 				catch (Exception e)
@@ -615,6 +616,7 @@ namespace TGServerService
 					path = inst.ServerDirectory();
 					inst.Offline();
 					inst.Dispose();
+					UnlockLoggingID(inst.LoggingID);
 					return null;
 				}
 			}

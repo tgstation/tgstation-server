@@ -27,8 +27,9 @@ namespace TGControlPanel
 		/// <param name="I">The <see cref="TGServiceInterface.Interface"/> for the <see cref="ControlPanel"/></param>
 		public ControlPanel(Interface I)
 		{
-			Interface = I;
 			InitializeComponent();
+			Interface = I;
+			Text += " Instance: " + I.InstanceName;
 			if (Interface.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
 			{
 				Close();

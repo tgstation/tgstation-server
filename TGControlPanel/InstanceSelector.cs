@@ -95,8 +95,7 @@ namespace TGControlPanel
 		/// <param name="instanceName">The name of the <see cref="TGServiceInterface.Components.ITGInstance"/> to connect to</param>
 		async void TryConnectToInstance(string instanceName)
 		{
-			var activeCP = ControlPanel.InstancesInUse[instanceName];
-			if(activeCP != null)
+			if(ControlPanel.InstancesInUse.TryGetValue(instanceName, out ControlPanel activeCP))
 			{
 				activeCP.BringToFront();
 				return;
