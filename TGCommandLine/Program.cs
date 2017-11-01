@@ -102,16 +102,6 @@ namespace TGCommandLine
 
 		static void ReplaceInterface(Interface I)
 		{
-			if (!interactive)
-				I.SetBadCertificateHandler((message) =>
-				{
-					foreach (var J in Environment.GetCommandLineArgs())
-						if (J.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
-							return true;
-					return false;
-				});
-			else
-				I.SetBadCertificateHandler(BadCertificateInteractive);
 			currentInterface = I;
 			ConsoleCommand.Interface = I;
 			InstanceRootCommand.currentInterface = I;
@@ -192,6 +182,7 @@ namespace TGCommandLine
 			{
 				var argsAsList = new List<string>(args);
 				for (var I = 0; I < argsAsList.Count - 1; ++I)
+				{
 					if (argsAsList[I].ToLower() == "--instance")
 					{
 						if (!CheckInstanceConnectivity(args[I + 1], true))
@@ -199,10 +190,18 @@ namespace TGCommandLine
 						argsAsList.RemoveRange(I, 2);
 						break;
 					}
+					else if (argsAsList[I].ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
+					{
+						argsAsList.RemoveAt(I);
+						--I;
+						Interface.SetBadCertificateHandler(_ => false);
+					}
+				}
 				return (int)RunCommandLine(argsAsList);
 			}
 			//interactive mode
 
+			Interface.SetBadCertificateHandler(BadCertificateInteractive);
 			Console.WriteLine("Type 'instance' to connect to a server instance");
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 
