@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using TGServiceInterface;
@@ -8,8 +9,13 @@ namespace TGControlPanel
 	/// <summary>
 	/// The main <see cref="ControlPanel"/> form
 	/// </summary>
-	partial class ControlPanel : Form
+	partial class ControlPanel : CountedForm
 	{
+		/// <summary>
+		/// List of instances being used by open control panels
+		/// </summary>
+		public static IDictionary<string, ControlPanel> InstancesInUse { get; private set; } = new Dictionary<string, ControlPanel>();
+
 		/// <summary>
 		/// The <see cref="TGServiceInterface.Interface"/> instance for this <see cref="ControlPanel"/>
 		/// </summary>
@@ -35,6 +41,7 @@ namespace TGControlPanel
 			InitServerPage();
 			LoadChatPage();
 			InitStaticPage();
+			InstancesInUse.Add(I.InstanceName, this);
 		}
 		
 		/// <summary>
@@ -42,6 +49,7 @@ namespace TGControlPanel
 		/// </summary>
 		void Cleanup()
 		{
+			InstancesInUse.Remove(Interface.InstanceName);
 			Interface.Dispose();
 		}
 

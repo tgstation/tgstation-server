@@ -55,6 +55,15 @@
     <Compile Include="ControlPanel\ChatPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CountedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.Designer.cs">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +93,9 @@
     <Compile Include="ControlPanel\StaticPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="InstanceSelector.resx">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
