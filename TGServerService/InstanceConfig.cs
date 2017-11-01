@@ -30,7 +30,7 @@ namespace TGServerService
 		public string CommitterName { get; set; } = "tgstation-server";
 		public string CommitterEmail { get; set; } = "tgstation-server@tgstation13.org";
 
-		public string ChatProviderData { get; set; } = "NEEDS INITIALIZING";
+		public string ChatProviderData { get; set; } = ServerInstance.UninitializedString;
 		public string ChatProviderEntropy { get; set; }
 
 		public bool ReattachRequired { get; set; } = false;

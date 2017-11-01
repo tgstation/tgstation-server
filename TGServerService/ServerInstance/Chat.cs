@@ -11,6 +11,11 @@ namespace TGServerService
 	sealed partial class ServerInstance : ITGChat
 	{
 		/// <summary>
+		/// Used for indicating unintialized encrypted data
+		/// </summary>
+		public const string UninitializedString = "NEEDS INITIALIZING";
+
+		/// <summary>
 		/// List of <see cref="IChatProvider"/>s for the <see cref="ServerInstance"/>
 		/// </summary>
 		IList<IChatProvider> ChatProviders;
@@ -130,8 +135,8 @@ namespace TGServerService
 			lock (ChatLock)
 			{
 				var rawdata = Config.ChatProviderData;
-				if (rawdata == "NEEDS INITIALIZING")
-					return new List<ChatSetupInfo>() { new IRCSetupInfo(), new DiscordSetupInfo() };
+				if (rawdata == UninitializedString)
+					return new List<ChatSetupInfo>() { new IRCSetupInfo() { Nickname = Config.Name }, new DiscordSetupInfo() };
 
 				string plaintext;
 				try
@@ -159,7 +164,7 @@ namespace TGServerService
 				}
 				catch
 				{
-					Config.ChatProviderData = "NEEDS INITIALIZING";
+					Config.ChatProviderData = UninitializedString;
 				}
 			}
 			//if we get here we want to retry
