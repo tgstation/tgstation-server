@@ -35,7 +35,7 @@ deploy:
     release: "tgstation-server-v$(TGSVersion)"
     description: 'The /tg/station server suite'
     auth_token:
-    secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
+      secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
     artifact: TGS3Server,MD5SHA1Server,TGS3Client,MD5SHA1Client
     draft: false
     on:
