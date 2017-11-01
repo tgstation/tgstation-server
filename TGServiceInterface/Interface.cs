@@ -14,7 +14,7 @@ namespace TGServiceInterface
 	/// <summary>
 	/// Main inteface class for the service
 	/// </summary>
-	public class Interface : IDisposable
+	sealed public class Interface : IDisposable
 	{
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/> and <see cref="CreateChannel{T}"/>
@@ -319,7 +319,7 @@ namespace TGServiceInterface
 		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="ClearCachedChannels"/>
 		/// </summary>
 		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		protected virtual void Dispose(bool disposing)
+		void Dispose(bool disposing)
 		{
 			if (!disposedValue)
 			{
