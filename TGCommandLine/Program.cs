@@ -9,7 +9,6 @@ namespace TGCommandLine
 
 	class Program
 	{
-		static bool interactive = false;
 		static Interface currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
