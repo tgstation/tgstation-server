@@ -94,7 +94,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -174,17 +173,14 @@ Static Public Attributes</h2></td></tr>
 <tr class="memdesc:a177251e0cec2b05f762f91a560766e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of s that can be used with <a class="el" href="class_t_g_service_interface_1_1_interface.html#a43b2f9a5c843fcb0ed4a4398088945ce" title="Returns the requested Interface component . This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage ">GetComponent&lt;T&gt;</a> and <a class="el" href="class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T  without caching. This should be eventually closed ...">CreateChannel&lt;T&gt;</a>  <a href="#a177251e0cec2b05f762f91a560766e95">More...</a><br /></td></tr>
 <tr class="separator:a177251e0cec2b05f762f91a560766e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a82f59d8fade644e23d6a9e38fe02460d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d">Dispose</a> (bool disposing)</td></tr>
-<tr class="memdesc:a82f59d8fade644e23d6a9e38fe02460d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern. Calls <a class="el" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it ">ClearCachedChannels</a>  <a href="#a82f59d8fade644e23d6a9e38fe02460d">More...</a><br /></td></tr>
-<tr class="separator:a82f59d8fade644e23d6a9e38fe02460d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a5ae1a578668295091f6da4f28816964b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b">ClearCachedChannels</a> ()</td></tr>
 <tr class="memdesc:a5ae1a578668295091f6da4f28816964b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes all ChannelFactorys stored in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d" title="Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fa...">ChannelFactoryCache</a> and clears it  <a href="#a5ae1a578668295091f6da4f28816964b">More...</a><br /></td></tr>
 <tr class="separator:a5ae1a578668295091f6da4f28816964b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac53f6302587ec361d8b186708ab0db41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41">Dispose</a> (bool disposing)</td></tr>
+<tr class="memdesc:ac53f6302587ec361d8b186708ab0db41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern. Calls <a class="el" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it ">ClearCachedChannels</a>  <a href="#ac53f6302587ec361d8b186708ab0db41">More...</a><br /></td></tr>
+<tr class="separator:ac53f6302587ec361d8b186708ab0db41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -216,7 +212,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a4950a0fbe1fdbd63a6bbb9202e34733d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associated list of open ChannelFactorys keyed by  type. A ChannelFactory in this list may close or fault at any time. Must be locked before being accessed  <a href="#a4950a0fbe1fdbd63a6bbb9202e34733d">More...</a><br /></td></tr>
 <tr class="separator:a4950a0fbe1fdbd63a6bbb9202e34733d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a785b92eae6884937b6c8c57e051dd285"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_interface.html#a785b92eae6884937b6c8c57e051dd285">disposedValue</a> = false</td></tr>
-<tr class="memdesc:a785b92eae6884937b6c8c57e051dd285"><td class="mdescLeft">&#160;</td><td class="mdescRight">To detect redundant <a class="el" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels ">Dispose(bool)</a> calls  <a href="#a785b92eae6884937b6c8c57e051dd285">More...</a><br /></td></tr>
+<tr class="memdesc:a785b92eae6884937b6c8c57e051dd285"><td class="mdescLeft">&#160;</td><td class="mdescRight">To detect redundant <a class="el" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls ClearCachedChannels ">Dispose(bool)</a> calls  <a href="#a785b92eae6884937b6c8c57e051dd285">More...</a><br /></td></tr>
 <tr class="separator:a785b92eae6884937b6c8c57e051dd285"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -441,7 +437,7 @@ Here is the caller graph for this function:</div>
 <map name="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_icgraph" id="class_t_g_service_interface_1_1_interface_a638ac53dcc56eb98e7cfc9db67947249_icgraph">
 <area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="240,5,427,47"/>
 <area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="475,5,661,47"/>
-<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="709,5,896,47"/>
+<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="709,5,896,47"/>
 </map>
 </div>
 </p>
@@ -496,7 +492,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph" alt=""/></div>
 <map name="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph" id="class_t_g_service_interface_1_1_interface_a5ae1a578668295091f6da4f28816964b_icgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="240,5,427,47"/>
 </map>
 </div>
 </p>
@@ -557,7 +553,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph" alt=""/></div>
 <map name="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph" id="class_t_g_service_interface_1_1_interface_a773131d065f9cd22418389a1687a89e0_icgraph">
 <area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
-<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="475,5,661,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="475,5,661,47"/>
 </map>
 </div>
 </p>
@@ -648,7 +644,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a82f59d8fade644e23d6a9e38fe02460d"></a>
+<a class="anchor" id="ac53f6302587ec361d8b186708ab0db41"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -656,7 +652,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void TGServiceInterface.Interface.Dispose </td>
+          <td class="memname">void TGServiceInterface.Interface.Dispose </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>disposing</em></td><td>)</td>
@@ -665,7 +661,7 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -687,8 +683,8 @@ Here is the caller graph for this function:</div>
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph" id="class_t_g_service_interface_1_1_interface_a82f59d8fade644e23d6a9e38fe02460d_cgraph">
+<div class="center"><img src="class_t_g_service_interface_1_1_interface_ac53f6302587ec361d8b186708ab0db41_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_interface_ac53f6302587ec361d8b186708ab0db41_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_interface_ac53f6302587ec361d8b186708ab0db41_cgraph" id="class_t_g_service_interface_1_1_interface_ac53f6302587ec361d8b186708ab0db41_cgraph">
 <area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
 <area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
 <area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="709,5,896,47"/>
@@ -727,7 +723,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="240,5,427,47"/>
 <area shape="rect" id="node3" href="class_t_g_service_interface_1_1_interface.html#a773131d065f9cd22418389a1687a89e0" title="Safely shuts down a single ChannelFactory " alt="" coords="475,5,661,47"/>
 <area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="709,5,896,47"/>
-<area shape="rect" id="node5" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="944,5,1131,47"/>
+<area shape="rect" id="node5" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls ClearCachedChannels " alt="" coords="944,5,1131,47"/>
 </map>
 </div>
 </p>
@@ -940,7 +936,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>To detect redundant <a class="el" href="class_t_g_service_interface_1_1_interface.html#a82f59d8fade644e23d6a9e38fe02460d" title="Implements the IDisposable pattern. Calls ClearCachedChannels ">Dispose(bool)</a> calls </p>
+<p>To detect redundant <a class="el" href="class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls ClearCachedChannels ">Dispose(bool)</a> calls </p>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00316">316</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
