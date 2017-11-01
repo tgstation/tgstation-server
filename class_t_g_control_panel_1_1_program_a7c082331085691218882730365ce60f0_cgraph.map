@@ -1,3 +1,5 @@
 <map id="TGControlPanel.Program.Main" name="TGControlPanel.Program.Main">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956" title="TGControlPanel.Program.Service\lDisconnectException" alt="" coords="252,5,464,47"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0" title="TGControlPanel.Program.Bad\lCertificateHandler" alt="" coords="261,5,455,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956" title="TGControlPanel.Program.Service\lDisconnectException" alt="" coords="252,71,464,112"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882" title="Sets the function called when a remote login fails due to the server having an invalid SSL cert ..." alt="" coords="265,136,451,177"/>
 </map>
