@@ -14,7 +14,7 @@ namespace TGServiceInterface
 	/// <summary>
 	/// Main inteface class for the service
 	/// </summary>
-	public class Interface : IDisposable
+	public sealed class Interface : IDisposable
 	{
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/> and <see cref="CreateChannel{T}"/>
