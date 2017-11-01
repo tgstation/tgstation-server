@@ -100,7 +100,7 @@ namespace TGServerService
 		/// <returns></returns>
 		string RelativePath(string path)
 		{
-			return Path.Combine(Config.InstanceDirectory, path);
+			return Path.Combine(Config.Directory, path);
 		}
 
 		/// <inheritdoc />
@@ -123,7 +123,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string ServerDirectory()
 		{
-			return Config.InstanceDirectory;
+			return Config.Directory;
 		}
 
 

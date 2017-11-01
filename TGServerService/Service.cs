@@ -110,7 +110,7 @@ namespace TGServerService
 				case 6: //switch to per-instance configs
 					var IC = DeprecatedInstanceConfig.CreateFromNETSettings();
 					IC.Save();
-					Config.InstancePaths.Add(IC.InstanceDirectory);
+					Config.InstancePaths.Add(IC.Directory);
 					break;
 			}
 		}
@@ -272,11 +272,11 @@ namespace TGServerService
 			{
 				if (seenNames.Contains(I.Name))
 				{
-					WriteEntry(String.Format("Instance at {0} has a duplicate name! Detaching...", I.InstanceDirectory), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
-					pathsToRemove.Add(I.InstanceDirectory);
+					WriteEntry(String.Format("Instance at {0} has a duplicate name! Detaching...", I.Directory), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+					pathsToRemove.Add(I.Directory);
 				}
 				if (SetupInstance(I) == null)
-					pathsToRemove.Add(I.InstanceDirectory);
+					pathsToRemove.Add(I.Directory);
 				else
 					seenNames.Add(I.Name);
 			}
@@ -325,23 +325,23 @@ namespace TGServerService
 			string instanceName;
 			try
 			{
-				if (hosts.ContainsKey(config.InstanceDirectory))
+				if (hosts.ContainsKey(config.Directory))
 				{
-					var datInstance = ((ServerInstance)hosts[config.InstanceDirectory].SingletonInstance);
-					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.InstanceDirectory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
-					Properties.Settings.Default.InstancePaths.Remove(config.InstanceDirectory);
+					var datInstance = ((ServerInstance)hosts[config.Directory].SingletonInstance);
+					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+					Properties.Settings.Default.InstancePaths.Remove(config.Directory);
 					return null;
 				}
 				if (!config.Enabled)
 					return null;
 				var ID = LockLoggingID();
-				WriteEntry(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, config.InstanceDirectory, ID), EventID.InstanceIDAssigned, EventLogEntryType.Information, ID);
+				WriteEntry(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, config.Directory, ID), EventID.InstanceIDAssigned, EventLogEntryType.Information, ID);
 				instanceName = config.Name;
 				instance = new ServerInstance(config, ID);
 			}
 			catch (Exception e)
 			{
-				WriteEntry(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", config.InstanceDirectory, e.ToString()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
+				WriteEntry(String.Format("Unable to start instance at path {0}. Detaching... Error: {1}", config.Directory, e.ToString()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 				return null;
 			}
 
@@ -458,7 +458,7 @@ namespace TGServerService
 					result.Add(new InstanceMetadata
 					{
 						Name = ic.Name,
-						Path = ic.InstanceDirectory,
+						Path = ic.Directory,
 						Enabled = ic.Enabled,
 						LoggingID = (byte)(ic.Enabled ? ((ServerInstance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
 					});
@@ -514,7 +514,7 @@ namespace TGServerService
 					host.Open();
 				else
 					lock (this)
-						Properties.Settings.Default.InstancePaths.Remove(config.InstanceDirectory);
+						Properties.Settings.Default.InstancePaths.Remove(config.Directory);
 				return null;
 			}
 			catch (Exception e)
@@ -592,7 +592,7 @@ namespace TGServerService
 						{
 							if (ic.Name == Name)
 							{
-								path = ic.InstanceDirectory;
+								path = ic.Directory;
 								return SetupOneInstance(ic);
 							}
 						}
@@ -679,7 +679,7 @@ namespace TGServerService
 					foreach (var ic in GetInstanceConfigs())
 						if (ic.Name == name)
 						{
-							path = ic.InstanceDirectory;
+							path = ic.Directory;
 							break;
 						}
 				if (path == null)

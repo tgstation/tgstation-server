@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Web.Script.Serialization;
 using TGServiceInterface;
 
@@ -13,7 +12,7 @@ namespace TGServerService
 		[ScriptIgnore]
 		protected const ulong CurrentVersion = 0;   //Literally any time you add/deprecated a field, this number needs to be bumped
 		[ScriptIgnore]
-		public string InstanceDirectory { get; private set; }
+		public string Directory { get; private set; }
 
 		public ulong Version { get; protected set; } = CurrentVersion;
 
@@ -49,13 +48,13 @@ namespace TGServerService
 		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
 		public InstanceConfig(string path)
 		{
-			InstanceDirectory = path;
+			Directory = path;
 		}
 
 		public void Save()
 		{
 			var data = new JavaScriptSerializer().Serialize(this);
-			var path = Path.Combine(InstanceDirectory, JSONFilename);
+			var path = Path.Combine(Directory, JSONFilename);
 			File.WriteAllText(path, data);
 		}
 
@@ -63,7 +62,7 @@ namespace TGServerService
 		{
 			var configtext = File.ReadAllText(Path.Combine(path, JSONFilename));
 			var res = new JavaScriptSerializer().Deserialize<DeprecatedInstanceConfig>(configtext);
-			res.InstanceDirectory = path;
+			res.Directory = path;
 			res.MigrateToCurrentVersion();
 			return res;
 		}
