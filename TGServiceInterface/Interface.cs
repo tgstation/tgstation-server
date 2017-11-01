@@ -113,6 +113,12 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
+		/// Constructs an <see cref="Interface"/> that connects to the same <see cref="ITGSService"/> as some <paramref name="other"/> <see cref="ITGInstance"/>
+		/// </summary>
+		/// <param name="other"></param>
+		public Interface(Interface other) : this(other.HTTPSURL, other.HTTPSPort, other.HTTPSUsername, other.HTTPSPassword) { }
+
+		/// <summary>
 		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
 		/// </summary>
 		/// <param name="instanceName">The name of the instance to connect to</param>
