@@ -593,6 +593,7 @@ namespace TGServerService
 							if (ic.Name == Name)
 							{
 								path = ic.Directory;
+								ic.Enabled = true;
 								return SetupOneInstance(ic);
 							}
 						}
@@ -612,6 +613,7 @@ namespace TGServerService
 					var inst = (ServerInstance)host.SingletonInstance;
 					host.Close();
 					path = inst.ServerDirectory();
+					inst.Offline();
 					inst.Dispose();
 					return null;
 				}

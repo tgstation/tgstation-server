@@ -126,6 +126,13 @@ namespace TGServerService
 			return Config.Directory;
 		}
 
+		/// <summary>
+		/// Sets <see cref="InstanceConfig.Enabled"/> of <see cref="Config"/> to <see langword="false"/>
+		/// </summary>
+		public void Offline()
+		{
+			Config.Enabled = false;
+		}
 
 		//mostly generated code with a call to RunDisposals()
 		//you don't need to open this
