@@ -9,7 +9,6 @@ namespace TGCommandLine
 
 	class Program
 	{
-		static bool interactive = false;
 		static Interface currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
@@ -97,17 +96,6 @@ namespace TGCommandLine
 
 		static void ReplaceInterface(Interface I)
 		{
-
-			if (!interactive)
-				I.SetBadCertificateHandler((message) =>
-				{
-					foreach (var J in Environment.GetCommandLineArgs())
-						if (J.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
-							return true;
-					return false;
-				});
-			else
-				I.SetBadCertificateHandler(BadCertificateInteractive);
 			currentInterface = I;
 			ConsoleCommand.Interface = I;
 		}
@@ -161,10 +149,20 @@ namespace TGCommandLine
 			ReplaceInterface(new Interface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
+			{
+				Interface.SetBadCertificateHandler((message) =>
+				{
+					foreach (var J in args)
+						if (J.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
+							return true;
+					return false;
+				});
 				return (int)RunCommandLine(new List<string>(args));
+			}
 
-			Console.WriteLine("Type 'remote' to connect to a remote service");
 			//interactive mode
+			Interface.SetBadCertificateHandler(BadCertificateInteractive);
+			Console.WriteLine("Type 'remote' to connect to a remote service");
 			while (true)
 			{
 				Console.Write("Enter command: ");

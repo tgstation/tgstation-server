@@ -19,6 +19,7 @@ namespace TGControlPanel
 				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
+				Interface.SetBadCertificateHandler(BadCertificateHandler);
 				using(var L = new Login())
 					Application.Run(L);
 			}
