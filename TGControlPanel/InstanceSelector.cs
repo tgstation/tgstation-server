@@ -175,7 +175,7 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.ImportInstance(string)/>
+		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.ImportInstance(string)"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
@@ -192,7 +192,7 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.CreateInstance(string, string)/>
+		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.CreateInstance(string, string)"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>

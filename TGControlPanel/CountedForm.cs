@@ -3,7 +3,7 @@
 namespace TGControlPanel
 {
 	/// <summary>
-	/// Calls <see cref="Application.Exit"/> when all <see cref="CountedForm"/>s are <see cref="Form.Close"/>d
+	/// Calls <see cref="Application.Exit()"/> when all <see cref="CountedForm"/>s are <see cref="Form.Close"/>d
 	/// </summary>
 	class CountedForm : Form
 	{
@@ -22,7 +22,7 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Decrements <see cref="FormCount"/>. Calls <see cref="Application.Exit"/> if it reaches 0
+		/// Decrements <see cref="FormCount"/>. Calls <see cref="Application.Exit()"/> if it reaches 0
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="FormClosedEventArgs"/></param>
