@@ -61,7 +61,7 @@ namespace TGControlPanel
 			}
 		}
 
-		void VerifyAndConnect(Interface I)
+		async void VerifyAndConnect(Interface I)
 		{
 			var res = I.VerifyConnection();
 			if (res != null)
@@ -74,9 +74,19 @@ namespace TGControlPanel
 				MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
 				return;
 			}
-			Hide();
-			using (var M = new ControlPanel(I))
-				M.ShowDialog();
+			ControlPanel cp;
+			Enabled = false;
+			UseWaitCursor = true;
+			try
+			{
+				await Task.Factory.StartNew(() => { cp = new ControlPanel(I); });
+				Hide();
+				cp.ShowDialog();
+			}
+			finally
+			{
+				cp.Dispose();
+			}
 			Close();
 		}
 
