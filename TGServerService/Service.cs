@@ -180,15 +180,17 @@ namespace TGServerService
 		{
 			var bindingName = Interface.MasterInterfaceName + "/" + type.Name;
 			host.AddServiceEndpoint(type, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
-			var httpsBinding = new WSHttpBinding()
+			var httpsBinding = new BasicHttpsBinding
 			{
-				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = Interface.TransferLimitRemote
+				AllowCookies = true,
+				MaxReceivedMessageSize = Interface.TransferLimitRemote,
+				SendTimeout = new TimeSpan(0, 0, 40)
 			};
+
 			var requireAuth = type.Name != typeof(ITGConnectivity).Name;
-			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
-			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
+			httpsBinding.Security.Transport.ClientCredentialType = requireAuth ? HttpClientCredentialType.Windows : HttpClientCredentialType.None;
+			httpsBinding.Security.Mode = BasicHttpsSecurityMode.Transport;
+
 			host.AddServiceEndpoint(type, httpsBinding, bindingName);
 		}
 
