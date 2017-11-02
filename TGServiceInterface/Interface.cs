@@ -129,6 +129,11 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
+		/// Checks if the <see cref="Interface"/> is setup for a remote connection
+		/// </summary>
+		public bool IsRemoteConnection { get { return HTTPSURL != null; } }
+
+		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
 		/// </summary>
 		void ClearCachedChannels()
@@ -230,7 +235,7 @@ namespace TGServiceInterface
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 			var InterfaceName = typeof(T).Name;
-			if (HTTPSURL == null)
+			if (!IsRemoteConnection)
 			{
 				var res2 = new ChannelFactory<T>(
 				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
