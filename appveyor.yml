@@ -18,6 +18,8 @@ artifacts:
   name: MD5SHA1Client
 cache:
   - packages -> **\packages.config
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
   - choco install fciv doxygen.portable graphviz.portable
 before_build:
