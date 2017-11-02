@@ -40,12 +40,12 @@ namespace TGServiceInterface
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
 		/// </summary>
-		readonly string HTTPSURL;
+		public readonly string HTTPSURL;
 
 		/// <summary>
 		/// The port used by the service
 		/// </summary>
-		readonly ushort HTTPSPort;
+		public readonly ushort HTTPSPort;
 
 		/// <summary>
 		/// Username for remote operations

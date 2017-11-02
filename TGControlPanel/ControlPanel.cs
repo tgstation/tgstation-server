@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -23,6 +24,11 @@ namespace TGControlPanel
 		{
 			Interface = I;
 			InitializeComponent();
+			if (Interface.IsRemoteConnection)
+			{
+				var splits = Interface.GetComponent<ITGSService>().Version().Split(' ');
+				Text = String.Format("TGS {0}: {1}:{2}", splits[splits.Length - 1], Interface.HTTPSURL, Interface.HTTPSPort);
+			}
 			if (Interface.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
 			{
 				Close();
