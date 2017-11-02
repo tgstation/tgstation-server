@@ -12,7 +12,7 @@ namespace TGServerService
 	/// <summary>
 	/// The windows service the application runs as
 	/// </summary>
-	sealed partial class Service : ServiceBase
+	sealed class Service : ServiceBase
 	{
 		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
