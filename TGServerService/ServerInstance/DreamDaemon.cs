@@ -518,10 +518,10 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Copies <see cref="InterfaceDLLName"/> from the program directory to the the <see cref="ServerInstance"/> directory
+		/// Copies <see cref="BridgeDLLName"/> from the program directory to the the <see cref="ServerInstance"/> directory
 		/// </summary>
 		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll if it exists</param>
-		void UpdateInterfaceDll(bool overwrite)
+		void UpdateBridgeDll(bool overwrite)
 		{
 			var FileExists = File.Exists(BridgeDLLName);
 			if (FileExists && !overwrite)
@@ -529,12 +529,13 @@ namespace TGServerService
 			//Copy the interface dll to the static dir
 
 			var InterfacePath = Assembly.GetAssembly(typeof(Interface)).Location;
+			//bridge is installed next to the interface
 			var BridgePath = Path.Combine(Path.GetDirectoryName(InterfacePath), BridgeDLLName);
 #if DEBUG
 			//We could be debugging from the project directory
 			if (!File.Exists(BridgePath))
 				//A little hackish debug mode doctoring never hurt anyone
-				BridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(InterfacePath)))), "TGDreamDaemonBridge/bin/Debug", BridgeDLLName);
+				BridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(InterfacePath)))), "TGDreamDaemonBridge/bin/x86/Debug", BridgeDLLName);
 #endif
 			try
 			{
@@ -556,7 +557,7 @@ namespace TGServerService
 					if (Old.SequenceEqual(New))
 						return; //no need
 				}
-				File.Copy(InterfacePath, BridgeDLLName, overwrite);
+				File.Copy(BridgePath, BridgeDLLName, overwrite);
 				Service.WriteInfo("Updated interface DLL", EventID.BridgeDLLUpdated);
 			}
 			catch
@@ -576,7 +577,7 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Clears the current <see cref="GameAPIVersion"/>, calls <see cref="UpdateInterfaceDll(bool)"/> with a <see langword="true"/> parameter, and attempts to start the DreamDaemon <see cref="Proc"/>
+		/// Clears the current <see cref="GameAPIVersion"/>, calls <see cref="UpdateBridgeDll(bool)"/> with a <see langword="true"/> parameter, and attempts to start the DreamDaemon <see cref="Proc"/>
 		/// </summary>
 		/// <param name="watchdog">If <see langword="false"/>, sets <see cref="DDWatchdog"/> to a new <see cref="Thread"/> pointing to <see cref="Watchdog"/> and starts it</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
@@ -596,7 +597,7 @@ namespace TGServerService
 					GenCommsKey();
 					StartingSecurity = (DreamDaemonSecurity)Config.ServerSecurity;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}\" -{2} -public", DMB, Config.ServerPort, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient " : "");
-					UpdateInterfaceDll(true);
+					UpdateBridgeDll(true);
 					lock (topicLock)
 					{
 						GameAPIVersion = null;  //needs updating

@@ -21,7 +21,7 @@ namespace TGServerService
 		string serviceCommsKey; //regenerated every DD restart
 
 		//range of supported api versions
-		const int AllowedMajorAPIVersion = 1;
+		const int AllowedMajorAPIVersion = 2;
 		Version GameAPIVersion;
 
 		//See code/modules/server_tools/server_tools.dm for command switch
