@@ -21,8 +21,7 @@ namespace TGServerService
 		string serviceCommsKey; //regenerated every DD restart
 
 		//range of supported api versions
-		readonly Version MinAPIVersion = new Version("3.1.0.0");
-		readonly Version MaxAPIVersion = new Version("3.1.0.99");
+		const int AllowedMajorAPIVersion = 1;
 		Version GameAPIVersion;
 
 		//See code/modules/server_tools/server_tools.dm for command switch
@@ -118,7 +117,7 @@ namespace TGServerService
 						}
 						catch
 						{
-							Service.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (Min: {1}. Max: {2}). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", MinAPIVersion, MaxAPIVersion), EventID.APIVersionMismatch);
+							Service.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
 							GameAPIVersion = null;
 							break;
 						}
@@ -154,7 +153,9 @@ namespace TGServerService
 		//requires topiclock
 		bool CheckAPIVersionConstraints()
 		{
-			return !(GameAPIVersion == null || GameAPIVersion < MinAPIVersion || GameAPIVersion > MaxAPIVersion);
+			//major will never change for all of TGS3
+			//we treat minor as major, build as minor, and revision as patch
+			return !(GameAPIVersion == null || GameAPIVersion.Minor != AllowedMajorAPIVersion);
 		}
 
 		//Fuckery to diddle byond with the right packet to accept our girth

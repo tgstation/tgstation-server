@@ -76,6 +76,7 @@ This process is identical to the above steps in command line mode. You can alway
 1. [Bind the SSL certificate to the port](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate)
 	- e.g. `netsh http add sslcert ipport=0.0.0.0:<port #> certhash=<certificate hash> appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}`
 	- The `appid` GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above
+	- Power shell users remember to quit the appid: `netsh http add sslcert ipport=0.0.0.0:<port #> certhash=<certificate hash> appid="{F32EDA25-0855-411C-AF5E-F0D042917E2D}"` as {} has special meaning in powershell
 1. Ensure the port can be acccessed from the internet
 1. Log in from any computer using a username and password from the service computer in either the CLI or GUI
 
@@ -123,6 +124,9 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 
 * `TGS3.json`
 	* This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it
+
+### Codebase integration
+To get the TGS3 API for your code base, import the 3 .dm files in the `DMAPI` folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a TGS3.json file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options.
 
 ### Starting the game server:
 To run the game server, open the `Server` tab of the control panel and click either `Start`

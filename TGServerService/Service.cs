@@ -96,7 +96,7 @@ namespace TGServerService
 					Properties.Settings.Default.UpgradeRequired = false;
 					Properties.Settings.Default.Save();
 				}
-				InitializeComponent();
+				ServiceName = "TG Station Server";
 				ActiveService = this;
 				Run(this);
 			}

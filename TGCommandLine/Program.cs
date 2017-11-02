@@ -9,6 +9,7 @@ namespace TGCommandLine
 
 	class Program
 	{
+		static Interface currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			//first lookup the connection string
@@ -51,7 +52,7 @@ namespace TGCommandLine
 					}
 					argsAsList.RemoveAt(I);
 					argsAsList.RemoveAt(I);
-					Interface.SetRemoteLoginInformation(address, port, username, password);
+					ReplaceInterface(new Interface(address, port, username, password));
 					break;
 				}
 			}
@@ -62,7 +63,7 @@ namespace TGCommandLine
 				return Command.ExitCode.BadCommand;
 			}
 
-			var res = Interface.VerifyConnection();
+			var res = currentInterface.VerifyConnection();
 			if (res != null)
 			{
 				Console.WriteLine("Unable to connect to service: " + res);
@@ -70,13 +71,13 @@ namespace TGCommandLine
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!Interface.Authenticate())
+			if (!currentInterface.Authenticate())
 			{
 				Console.WriteLine("Authentication error: Username/password/windows identity is not authorized!");
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!SentVMMWarning && Interface.VersionMismatch(out string error))
+			if (!SentVMMWarning && currentInterface.VersionMismatch(out string error))
 			{
 				SentVMMWarning = true;
 				Console.WriteLine(error);
@@ -84,7 +85,7 @@ namespace TGCommandLine
 
 			try
 			{
-				return new CLICommand().DoRun(argsAsList);
+				return new CLICommand(currentInterface).DoRun(argsAsList);
 			}
 			catch (Exception e)
 			{
@@ -92,6 +93,13 @@ namespace TGCommandLine
 				return Command.ExitCode.ConnectionError;
 			};
 		}
+
+		static void ReplaceInterface(Interface I)
+		{
+			currentInterface = I;
+			ConsoleCommand.Interface = I;
+		}
+
 		public static string ReadLineSecure()
 		{
 			string result = "";
@@ -138,23 +146,23 @@ namespace TGCommandLine
 
 		static int Main(string[] args)
 		{
+			ReplaceInterface(new Interface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 			{
-				Interface.SetBadCertificateHandler((message) => {
-					foreach (var I in args)
-						if (I.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
+				Interface.SetBadCertificateHandler((message) =>
+				{
+					foreach (var J in args)
+						if (J.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
 							return true;
 					return false;
 				});
-				//allow self signed certs in debug mode
 				return (int)RunCommandLine(new List<string>(args));
 			}
 
-			Interface.SetBadCertificateHandler(BadCertificateInteractive);
-
-			Console.WriteLine("Type 'remote' to connect to a remote service");
 			//interactive mode
+			Interface.SetBadCertificateHandler(BadCertificateInteractive);
+			Console.WriteLine("Type 'remote' to connect to a remote service");
 			while (true)
 			{
 				Console.Write("Enter command: ");
@@ -179,22 +187,22 @@ namespace TGCommandLine
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
-						Interface.SetRemoteLoginInformation(address, port, username, password);
-						var res = Interface.VerifyConnection();
+						ReplaceInterface(new Interface(address, port, username, password));
+						var res = currentInterface.VerifyConnection();
 						if (res != null)
 						{
 							Console.WriteLine("Unable to connect: " + res);
-							Interface.MakeLocalConnection();
+							ReplaceInterface(new Interface());
 						}
-						else if (!Interface.Authenticate())
+						else if (!currentInterface.Authenticate())
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							Interface.MakeLocalConnection();
+							ReplaceInterface(new Interface());
 						}
 						else
 						{
 							Console.WriteLine("Connected remotely");
-							if (Interface.VersionMismatch(out res))
+							if (currentInterface.VersionMismatch(out res))
 							{
 								SentVMMWarning = true;
 								Console.WriteLine(res);
@@ -204,7 +212,7 @@ namespace TGCommandLine
 						break;
 					case "disconnect":
 						SentVMMWarning = false;
-						Interface.MakeLocalConnection();
+						ReplaceInterface(new Interface());
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":
@@ -212,7 +220,7 @@ namespace TGCommandLine
 						return (int)Command.ExitCode.Normal;
 #if DEBUG
 					case "debug-upgrade":
-						Interface.GetComponent<ITGSService>().PrepareForUpdate();
+						currentInterface.GetComponent<ITGSService>().PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
 #endif
 					default:

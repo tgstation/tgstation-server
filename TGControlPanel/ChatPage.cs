@@ -6,7 +6,7 @@ using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
-	partial class Main
+	partial class ControlPanel
 	{
 		bool updatingChat = false;
 		

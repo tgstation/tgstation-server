@@ -361,14 +361,20 @@ namespace TGServerService
 					{
 						CurrentDDLog = String.Format("{0} {1} Diagnostics.txt", Now.ToLongDateString(), Now.ToLongTimeString()).Replace(':', '-');
 						WriteCurrentDDLog("Starting monitoring...");
-						pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
 					}
+					pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
 					MemTrackTimer.Start();
-					Proc.WaitForExit();
-					lock (watchdogLock)	//synchronize
+					try
 					{
-						MemTrackTimer.Stop();
-						pcpu.Dispose();
+						Proc.WaitForExit();
+					}
+					finally
+					{
+						lock (watchdogLock) //synchronize
+						{
+							MemTrackTimer.Stop();
+							pcpu.Dispose();
+						}
 					}
 
 					WriteCurrentDDLog("Crash detected!");
@@ -578,7 +584,7 @@ namespace TGServerService
 						return; //no need
 				}
 				File.Copy(path, targetPath, overwrite);
-				Service.WriteInfo("Updated interface DLL " + targetPath, TGServerService.EventID.InterfaceDLLUpdated);
+				Service.WriteInfo("Updated interface DLL", EventID.InterfaceDLLUpdated);
 			}
 			catch
 			{
@@ -591,13 +597,13 @@ namespace TGServerService
 				catch (Exception e)
 				{
 					//intentionally using the fi
-					Service.WriteError(String.Format("Failed to update interface DLL {0}! Error: {1}", targetPath, e.ToString()), TGServerService.EventID.InterfaceDLLUpdateFail);
+					Service.WriteError(String.Format("Failed to update interface DLL {0}! Error: {1}", targetPath, e.ToString()), EventID.InterfaceDLLUpdateFail);
 				}
 			}
 		}
 
 		/// <summary>
-		/// Clears the current <see cref="GameAPIVersion"/>, calls <see cref="UpdateInterfaceDll(bool)"/> with a <see langword="true"/> parameter, and attempts to start the DreamDaemon <see cref="Proc"/>
+		/// Clears the current <see cref="GameAPIVersion"/>, calls <see cref="UpdateInterfaceDlls(bool)"/> with a <see langword="true"/> parameter, and attempts to start the DreamDaemon <see cref="Proc"/>
 		/// </summary>
 		/// <param name="watchdog">If <see langword="false"/>, sets <see cref="DDWatchdog"/> to a new <see cref="Thread"/> pointing to <see cref="Watchdog"/> and starts it</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
@@ -623,6 +629,7 @@ namespace TGServerService
 						GameAPIVersion = null;  //needs updating
 					}
 					Proc.Start();
+					Proc.PriorityClass = ProcessPriorityClass.AboveNormal;
 
 					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
 					{

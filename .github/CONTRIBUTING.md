@@ -90,7 +90,11 @@ Instead you can use object orientation, or simply placing repeated code in a fun
 This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these #defines with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
 
 ### Do not commit modifications to Version.cs
-This file will be updated by maintainers when they deem it prudent to release a new version
+This file will be updated by maintainers when they deem it prudent to release a new version. For reference here is the version format we use 3.\<major\>.\<minor\>.\<patch\> The criteria for changing a version number is as follows
+	
+- Major: A breaking change to the DMAPI
+- Minor: Additions or changes to the interface or DMAPI
+- Patch: Non-breaking changes internal to each of the 3 modules (Service, Interface, DMAPI)
 
 ### Formatting
 
@@ -158,3 +162,7 @@ Just becuase something isn't on this list doesn't mean that it's acceptable. Use
 Yes, we know that the files have a tonne of mixed Windows and Linux line endings. Attempts to fix this have been met with less than stellar success, and as such we have decided to give up caring until there comes a time when it matters.
 
 Therefore, EOF settings of main repo are forbidden territory one must avoid wandering into, at risk of losing body and/or mind to the Git gods.
+
+## Other Notes
+
+* Feel free to add your nuget account to TGServiceInterface/Packages.nuspec authors list if you modify the interface

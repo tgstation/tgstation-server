@@ -20,6 +20,8 @@ namespace TGInstallerWrapper
 		bool cancelled = false;
 		bool pathIsDefault = true;
 
+		Interface Interface;
+
 		/// <summary>
 		/// Construct an installer form
 		/// </summary>
@@ -67,6 +69,7 @@ namespace TGInstallerWrapper
 		}
 
 		void CheckForExistingVersion() {
+			Interface = new Interface();
 			var verifiedConnection = Interface.VerifyConnection() == null;
 			try
 			{
