@@ -40,12 +40,12 @@ namespace TGServiceInterface
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
 		/// </summary>
-		readonly string HTTPSURL;
+		public readonly string HTTPSURL;
 
 		/// <summary>
 		/// The port used by the service
 		/// </summary>
-		readonly ushort HTTPSPort;
+		public readonly ushort HTTPSPort;
 
 		/// <summary>
 		/// Username for remote operations
@@ -127,6 +127,11 @@ namespace TGServiceInterface
 			HTTPSUsername = username;
 			HTTPSPassword = password;
 		}
+
+		/// <summary>
+		/// Checks if the <see cref="Interface"/> is setup for a remote connection
+		/// </summary>
+		public bool IsRemoteConnection { get { return HTTPSURL != null; } }
 
 		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
@@ -230,7 +235,7 @@ namespace TGServiceInterface
 			if (!ValidInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 			var InterfaceName = typeof(T).Name;
-			if (HTTPSURL == null)
+			if (!IsRemoteConnection)
 			{
 				var res2 = new ChannelFactory<T>(
 				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
