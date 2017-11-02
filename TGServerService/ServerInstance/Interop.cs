@@ -42,6 +42,19 @@ namespace TGServerService
 		const string CCPAdminOnly = "admin_only";
 		const string CCPRequiredParameters = "required_parameters";
 
+		/// <summary>
+		/// The file name of the .dll that contains the <see cref="ITGInterop"/> bridge class
+		/// </summary>
+		const string BridgeDLLName = "TGDreamDaemonBridge.dll";
+		/// <summary>
+		/// The namespace that contains the <see cref="ITGInterop"/> bridge class. Used for reflection
+		/// </summary>
+		const string DreamDaemonBridgeNamespace = "TGDreamDaemonBridge";
+		/// <summary>
+		/// The <see cref="ITGInterop"/> bridge class. Used for reflection
+		/// </summary>
+		const string DreamDaemonBridgeType = DreamDaemonBridgeNamespace + ".DreamDaemonBridge";
+
 		List<Command> ServerChatCommands;
 
 		void LoadServerChatCommands()

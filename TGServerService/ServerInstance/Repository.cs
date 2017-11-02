@@ -96,7 +96,7 @@ namespace TGServerService
 		{
 			Directory.CreateDirectory(RepoKeyDir);
 			if(Exists())
-				UpdateInterfaceDlls(false);
+				UpdateInterfaceDll(false);
 			if(LoadRepo() == null)
 				DisableGarbageCollectionNoLock();
 			//start the autoupdate timer
@@ -336,7 +336,7 @@ namespace TGServerService
 		void InitialConfigureRepository()
 		{
 			Directory.CreateDirectory(StaticDirs);
-			UpdateInterfaceDlls(false);
+			UpdateInterfaceDll(false);
 			UpdateTGS3Json();
 			var Config = GetCachedRepoConfig();	//RepoBusy is set if we're here
 			foreach(var I in Config.StaticDirectoryPaths)

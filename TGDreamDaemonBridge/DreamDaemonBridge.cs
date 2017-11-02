@@ -9,7 +9,7 @@ namespace TGDreamDaemonBridge
 	/// <summary>
 	/// Holds the proc that DD calls to access <see cref="ITGInterop"/>
 	/// </summary>
-	public sealed class DreamDaemonBridge
+	public static class DreamDaemonBridge
 	{
 		/// <summary>
 		/// The proc that DD calls to access <see cref="ITGInterop"/>
@@ -20,6 +20,7 @@ namespace TGDreamDaemonBridge
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
 		public static int DDEntryPoint(int argc, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 0)]string[] args)
 		{
+			System.Diagnostics.Debugger.Launch();
 			try
 			{
 				using (var I = new Interface())
