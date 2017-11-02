@@ -243,18 +243,18 @@ namespace TGServiceInterface
 				return res2;
 			}
 
-			//okay we're going over
-			var binding = new WSHttpBinding()
+			var httpsBinding = new BasicHttpsBinding
 			{
-				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = TransferLimitRemote
+				AllowCookies = true,
+				MaxReceivedMessageSize = TransferLimitRemote,
+				SendTimeout = new TimeSpan(0, 0, 40)
 			};
+
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
-			binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
-			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
+			httpsBinding.Security.Transport.ClientCredentialType = requireAuth ? HttpClientCredentialType.Windows : HttpClientCredentialType.None;
+			httpsBinding.Security.Mode = BasicHttpsSecurityMode.Transport;
 			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", HTTPSURL, HTTPSPort, MasterInterfaceName, InterfaceName));
-			var res = new ChannelFactory<T>(binding, address);
+			var res = new ChannelFactory<T>(httpsBinding, address);
 			if (requireAuth)
 			{
 				res.Credentials.UserName.UserName = HTTPSUsername;
