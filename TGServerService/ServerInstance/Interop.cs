@@ -165,34 +165,33 @@ namespace TGServerService
 			lock (topicLock) {
 				if (!CheckAPIVersionConstraints())
 					return "Incompatible API!";
+
+				StringBuilder stringPacket = new StringBuilder();
+				stringPacket.Append((char)'\x00', 8);
+				stringPacket.Append('?' + topicdata);
+				stringPacket.Append((char)'\x00');
+				string fullString = stringPacket.ToString();
+				var packet = Encoding.ASCII.GetBytes(fullString);
+				packet[1] = 0x83;
+				var FinalLength = packet.Length - 4;
+				if (FinalLength > UInt16.MaxValue)
+					return "Error: Topic too long";
+
+				var lengthBytes = BitConverter.GetBytes((ushort)FinalLength);
+
+				packet[2] = lengthBytes[1]; //fucking endianess
+				packet[3] = lengthBytes[0];
+
+				var returnedString = "NULL";
+				var returnedData = new byte[UInt16.MaxValue];
 				using (var topicSender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = 5000, ReceiveTimeout = 5000 })
-				{
 					try
 					{
 						topicSender.Connect(IPAddress.Loopback, port);
-
-						StringBuilder stringPacket = new StringBuilder();
-						stringPacket.Append((char)'\x00', 8);
-						stringPacket.Append('?' + topicdata);
-						stringPacket.Append((char)'\x00');
-						string fullString = stringPacket.ToString();
-						var packet = Encoding.ASCII.GetBytes(fullString);
-						packet[1] = 0x83;
-						var FinalLength = packet.Length - 4;
-						if (FinalLength > UInt16.MaxValue)
-							return "Error: Topic too long";
-
-						var lengthBytes = BitConverter.GetBytes((ushort)FinalLength);
-
-						packet[2] = lengthBytes[1]; //fucking endianess
-						packet[3] = lengthBytes[0];
-
 						topicSender.Send(packet);
 
-						string returnedString = "NULL";
 						try
 						{
-							var returnedData = new byte[UInt16.MaxValue];
 							topicSender.Receive(returnedData);
 							var raw_string = Encoding.ASCII.GetString(returnedData).TrimEnd(new char[] { (char)0 }).Trim();
 							if (raw_string.Length > 6)
@@ -206,14 +205,13 @@ namespace TGServerService
 						{
 							topicSender.Shutdown(SocketShutdown.Both);
 						}
-						
-						return returnedString;
 					}
 					catch
 					{
 						return "Topic delivery failed!";
 					}
-				}
+					
+				return returnedString;
 			}
 		}
 
