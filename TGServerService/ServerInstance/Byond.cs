@@ -326,6 +326,7 @@ namespace TGServerService
 					Program.DeleteDirectory(ByondDirectory);
 					Directory.Move(StagingDirectoryInner, ByondDirectory);
 					Program.DeleteDirectory(StagingDirectory);
+					ThreadPool.QueueUserWorkItem(_ => (){ Compile(); });
 					lastError = null;
 					SendMessage("BYOND: Update completed!", MessageType.DeveloperInfo);
 					Service.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);
