@@ -118,10 +118,10 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Enumerates configured <see cref="InstanceConfig"/>s. Detaches those that fail to load
+		/// Enumerates configured <see cref="IInstanceConfig"/>s. Detaches those that fail to load
 		/// </summary>
-		/// <returns>Each configured <see cref="InstanceConfig"/></returns>
-		IEnumerable<InstanceConfig> GetInstanceConfigs()
+		/// <returns>Each configured <see cref="IInstanceConfig"/></returns>
+		IEnumerable<IInstanceConfig> GetInstanceConfigs()
 		{
 			var pathsToRemove = new List<string>();
 			lock (this)
@@ -129,7 +129,7 @@ namespace TGServerService
 				var IPS = Properties.Settings.Default.InstancePaths;
 				foreach (var I in IPS)
 				{
-					InstanceConfig ic;
+					IInstanceConfig ic;
 					try
 					{
 						ic = InstanceConfig.Load(I);
@@ -319,9 +319,9 @@ namespace TGServerService
 		/// <summary>
 		/// Creates and starts a <see cref="ServiceHost"/> for a <see cref="ServerInstance"/> at <paramref name="config"/>
 		/// </summary>
-		/// <param name="config">The <see cref="InstanceConfig"/> for the <see cref="ServerInstance"/></param>
+		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="ServerInstance"/></param>
 		/// <returns>The inactive <see cref="ServiceHost"/> on success, <see langword="null"/> on failure</returns>
-		ServiceHost SetupInstance(InstanceConfig config)
+		ServiceHost SetupInstance(IInstanceConfig config)
 		{
 			ServerInstance instance;
 			string instanceName;
@@ -484,7 +484,7 @@ namespace TGServerService
 				foreach (var oic in GetInstanceConfigs())
 					if (Name == oic.Name)
 						return String.Format("Instance named {0} already exists!", oic.Name);
-				InstanceConfig ic;
+				IInstanceConfig ic;
 				try
 				{
 					ic = new InstanceConfig(path)
@@ -506,9 +506,9 @@ namespace TGServerService
 		/// <summary>
 		/// Starts and onlines an instance located at <paramref name="config"/>
 		/// </summary>
-		/// <param name="config">The <see cref="InstanceConfig"/> for the <see cref="ServerInstance"/></param>
+		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="ServerInstance"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string SetupOneInstance(InstanceConfig config)
+		string SetupOneInstance(IInstanceConfig config)
 		{
 			try
 			{
@@ -536,7 +536,7 @@ namespace TGServerService
 					return String.Format("Instance at {0} already exists!", path);
 				if(!Directory.Exists(path))
 					return String.Format("There is no instance located at {0}!", path);
-				InstanceConfig ic;
+				IInstanceConfig ic;
 				try
 				{
 					ic = InstanceConfig.Load(path);
@@ -635,7 +635,7 @@ namespace TGServerService
 			lock (this)
 			{
 				//we have to check em all anyway
-				InstanceConfig the_droid_were_looking_for = null;
+				IInstanceConfig the_droid_were_looking_for = null;
 				foreach (var ic in GetInstanceConfigs())
 					if (ic.Name == name)
 					{

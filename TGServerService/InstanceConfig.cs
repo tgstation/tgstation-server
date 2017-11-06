@@ -4,117 +4,189 @@ using TGServiceInterface;
 
 namespace TGServerService
 {
-	class InstanceConfig
+	/// <summary>
+	/// Configuration settings for a <see cref="ServerInstance"/>
+	/// </summary>
+	interface IInstanceConfig
+	{
+		/// <summary>
+		/// The <see cref="ServerInstance"/> directory this <see cref="IInstanceConfig"/> is for
+		/// </summary>
+		string Directory { get; }
+
+		/// <summary>
+		/// Actual version of the <see cref="IInstanceConfig"/>. Migrated up via <see cref="DeprecatedInstanceConfig"/>
+		/// </summary>
+		ulong Version { get; }
+
+		/// <summary>
+		/// The name of the <see cref="ServerInstance"/>
+		/// </summary>
+		string Name { get; set; }
+
+		/// <summary>
+		/// If the <see cref="ServerInstance"/> is active
+		/// </summary>
+		bool Enabled { get; set; }
+
+		/// <summary>
+		/// The name of the .dme/.dmb the <see cref="ServerInstance"/> uses
+		/// </summary>
+		string ProjectName { get; set; }
+
+		/// <summary>
+		/// The port the <see cref="ServerInstance"/> runs on
+		/// </summary>
+		ushort Port { get; set; }
+
+		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="ServerInstance"/>
+		/// </summary>
+		DreamDaemonSecurity Security { get; set; }
+
+		/// <summary>
+		/// Whether or not the <see cref="ServerInstance"/> should immediately start DreamDaemon when activated
+		/// </summary>
+		bool Autostart { get; set; }
+
+		/// <summary>
+		/// Whether or not DreamDaemon allows connections from webclients
+		/// </summary>
+		bool Webclient { get; set; }
+
+		/// <summary>
+		/// Author and committer name for synchronize commits
+		/// </summary>
+		string CommitterName { get; set; }
+		/// <summary>
+		/// Author and committer e-mail for synchronize commits
+		/// </summary>
+		string CommitterEmail { get; set; }
+
+		/// <summary>
+		/// Encrypted serialized <see cref="ChatSetupInfo"/>s
+		/// </summary>
+		string ChatProviderData { get; set; }
+
+		/// <summary>
+		/// Entropy for <see cref="ChatProviderData"/>
+		/// </summary>
+		string ChatProviderEntropy { get; set; }
+
+		/// <summary>
+		/// If the <see cref="ServerInstance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
+		/// </summary>
+		bool ReattachRequired { get; set; }
+
+		/// <summary>
+		/// The <see cref="System.Diagnostics.Process.Id"/> of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
+		/// </summary>
+		int ReattachProcessID { get; set; }
+
+		/// <summary>
+		/// The port the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
+		/// </summary>
+		ushort ReattachPort { get; set; }
+
+		/// <summary>
+		/// The serviceCommsKey the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
+		/// </summary>
+		string ReattachCommsKey { get; set; }
+
+		/// <summary>
+		/// The API version of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
+		/// </summary>
+		string ReattachAPIVersion { get; set; }
+
+		/// <summary>
+		/// The user group allowed to use the <see cref="ServerInstance"/>
+		/// </summary>
+		string AuthorizedUserGroupSID { get; set; }
+
+		/// <summary>
+		/// The auto update interval for the <see cref="ServerInstance"/>
+		/// </summary>
+		ulong AutoUpdateInterval { get; set; }
+		/// <summary>
+		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="ServerInstance"/> <see cref="Directory"/>
+		/// </summary>
+		void Save();
+	}
+
+	/// <inheritdoc />
+	class InstanceConfig : IInstanceConfig
 	{
 		/// <summary>
 		/// The name the file is saved as in the <see cref="Directory"/>
 		/// </summary>
-		//tell javascriptserializer to ignore these fields
 		[ScriptIgnore]
 		public const string JSONFilename = "Instance.json";
+
 		/// <summary>
 		/// The current version of the config
 		/// </summary>
 		[ScriptIgnore]
 		protected const ulong CurrentVersion = 0;   //Literally any time you add/deprecated a field, this number needs to be bumped
-		/// <summary>
-		/// The <see cref="ServerInstance"/> directory this <see cref="InstanceConfig"/> is for
-		/// </summary>
+
+		/// <inheritdoc />
 		[ScriptIgnore]
 		public string Directory { get; private set; }
 
-		/// <summary>
-		/// Actual version of the <see cref="InstanceConfig"/>. Migrated up via <see cref="DeprecatedInstanceConfig"/>
-		/// </summary>
+		/// <inheritdoc />
 		public ulong Version { get; protected set; } = CurrentVersion;
 
-		/// <summary>
-		/// The name of the <see cref="ServerInstance"/>
-		/// </summary>
+		/// <inheritdoc />
 		public string Name { get; set; } = "TG Station Server";
 
-		/// <summary>
-		/// If the <see cref="ServerInstance"/> is active
-		/// </summary>
+		/// <inheritdoc />
 		public bool Enabled { get; set; } = true;
 
-		/// <summary>
-		/// The name of the .dme/.dmb the <see cref="ServerInstance"/> uses
-		/// </summary>
+		/// <inheritdoc />
 		public string ProjectName { get; set; } = "tgstation";
 
-		/// <summary>
-		/// The port the <see cref="ServerInstance"/> runs on
-		/// </summary>
+		/// <inheritdoc />
 		public ushort Port { get; set; } = 1337;
 
-		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="ServerInstance"/>
-		/// </summary>
+		/// <inheritdoc />
 		public DreamDaemonSecurity Security { get; set; } = DreamDaemonSecurity.Trusted;
 
-		/// <summary>
-		/// Whether or not the <see cref="ServerInstance"/> should immediately start DreamDaemon when activated
-		/// </summary>
+		/// <inheritdoc />
 		public bool Autostart { get; set; } = false;
 
-		/// <summary>
-		/// Whether or not DreamDaemon allows connections from webclients
-		/// </summary>
+		/// <inheritdoc />
 		public bool Webclient { get; set; } = false;
 
-		/// <summary>
-		/// Author and committer name for synchronize commits
-		/// </summary>
+		/// <inheritdoc />
 		public string CommitterName { get; set; } = "tgstation-server";
-		/// <summary>
-		/// Author and committer e-mail for synchronize commits
-		/// </summary>
+
+		/// <inheritdoc />
 		public string CommitterEmail { get; set; } = "tgstation-server@tgstation13.org";
 
-		/// <summary>
-		/// Encrypted serialized <see cref="ChatSetupInfo"/>s
-		/// </summary>
+		/// <inheritdoc />
 		public string ChatProviderData { get; set; } = ServerInstance.UninitializedString;
 
-		/// <summary>
-		/// Entropy for <see cref="ChatProviderData"/>
-		/// </summary>
+		/// <inheritdoc />
 		public string ChatProviderEntropy { get; set; }
 
-		/// <summary>
-		/// If the <see cref="ServerInstance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
-		/// </summary>
+		/// <inheritdoc />
 		public bool ReattachRequired { get; set; } = false;
 
-		/// <summary>
-		/// The <see cref="System.Diagnostics.Process.Id"/> of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
-		/// </summary>
+		/// <inheritdoc />
 		public int ReattachProcessID { get; set; }
 
-		/// <summary>
-		/// The port the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
-		/// </summary>
+		/// <inheritdoc />
 		public ushort ReattachPort { get; set; }
 
-		/// <summary>
-		/// The serviceCommsKey the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
-		/// </summary>
+		/// <inheritdoc />
 		public string ReattachCommsKey { get; set; }
 
-		/// <summary>
-		/// The API version of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
-		/// </summary>
+		/// <inheritdoc />
 		public string ReattachAPIVersion { get; set; }
 
-		/// <summary>
-		/// The user group allowed to use the <see cref="ServerInstance"/>
-		/// </summary>
+		/// <inheritdoc />
 		public string AuthorizedUserGroupSID { get; set; } = null;
 
-		/// <summary>
-		/// The auto update interval for the <see cref="ServerInstance"/>
-		/// </summary>
+		/// <inheritdoc />
 		public ulong AutoUpdateInterval { get; set; } = 0;
 
 		/// <summary>
@@ -126,9 +198,7 @@ namespace TGServerService
 			Directory = path;
 		}
 
-		/// <summary>
-		/// Saves the <see cref="InstanceConfig"/> to it's <see cref="ServerInstance"/> <see cref="Directory"/>
-		/// </summary>
+		/// <inheritdoc />
 		public void Save()
 		{
 			var data = new JavaScriptSerializer().Serialize(this);
@@ -137,11 +207,11 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Loads and migrates an <see cref="InstanceConfig"/> from a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// Loads and migrates an <see cref="IInstanceConfig"/> from a <see cref="ServerInstance"/> at <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to the <see cref="ServerInstance"/> directory</param>
-		/// <returns>The migrated <see cref="InstanceConfig"/></returns>
-		public static InstanceConfig Load(string path)
+		/// <returns>The migrated <see cref="IInstanceConfig"/></returns>
+		public static IInstanceConfig Load(string path)
 		{
 			var configtext = File.ReadAllText(Path.Combine(path, JSONFilename));
 			var res = new JavaScriptSerializer().Deserialize<DeprecatedInstanceConfig>(configtext);
