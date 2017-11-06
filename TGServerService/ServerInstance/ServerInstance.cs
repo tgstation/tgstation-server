@@ -24,11 +24,11 @@ namespace TGServerService
 		/// <summary>
 		/// The configuration settings for the instance
 		/// </summary>
-		readonly InstanceConfig Config;
+		readonly IInstanceConfig Config;
 		/// <summary>
 		/// Constructs and a <see cref="ServerInstance"/>
 		/// </summary>
-		public ServerInstance(InstanceConfig config, byte logID)
+		public ServerInstance(IInstanceConfig config, byte logID)
 		{
 			LoggingID = logID;
 			Config = config;

@@ -19,7 +19,7 @@ namespace TGServerService.Tests
 		/// Creates a default <see cref="InstanceConfig"/> at <see cref="TempPath"/>
 		/// </summary>
 		/// <returns></returns>
-		InstanceConfig CreateTempConfig()
+		IInstanceConfig CreateTempConfig()
 		{
 			return new InstanceConfig(TempPath);
 		}
