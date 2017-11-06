@@ -571,10 +571,11 @@ namespace TGServerService
 		{
 			if (Config.PushTestmergeCommits && SSHAuth())
 			{
+				string NewB = null;
 				try
 				{
 					//now try and push the commit to the remote so they can be referenced
-					var NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
+					NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
 
 					var options = new PushOptions()
 					{
@@ -582,13 +583,19 @@ namespace TGServerService
 					};
 					var targetRemote = Repo.Network.Remotes[SSHPushRemote];
 					Repo.Network.Push(targetRemote, NewB, options); //push the branch
-					Repo.Network.Push(targetRemote, null, NewB, options);   //delete the branch
 					Repo.Branches.Remove(NewB);
+					NewB = null;
+					Repo.Network.Push(targetRemote, String.Format(":{0}", NewB), options);   //delete the branch
 					WriteInfo("Pushed reference commit: " + Repo.Head.Tip.Sha, EventID.ReferencePush);
 				}
 				catch (Exception e)
 				{
 					WriteWarning(String.Format("Failed to push reference commit: {0}. Error: {1}", Repo.Head.Tip.Sha, e.ToString()), EventID.ReferencePush);
+				}
+				finally
+				{
+					if (NewB != null)
+						Repo.Branches.Remove(NewB);
 				}
 			}
 		}
