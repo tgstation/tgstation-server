@@ -2,74 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TGServerService.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ProjectName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tgstation</Value>
-    </Setting>
-    <Setting Name="ServerPort" Type="System.UInt16" Scope="User">
-      <Value Profile="(Default)">1337</Value>
-    </Setting>
-    <Setting Name="PushChangelogToGit" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="CommitterName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tgstation-server</Value>
-    </Setting>
-    <Setting Name="CommitterEmail" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tgstation-server@tgstation13.org</Value>
-    </Setting>
-    <Setting Name="ServerDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:/tgstation-server-3</Value>
-    </Setting>
-    <Setting Name="ServerSecurity" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="DDAutoStart" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="PythonPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Python27</Value>
-    </Setting>
-    <Setting Name="ChatProviderData" Type="System.String" Scope="User">
-      <Value Profile="(Default)">NEEDS INITIALIZING</Value>
-    </Setting>
-    <Setting Name="ChatProviderEntropy" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="ReattachToDD" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="ReattachPID" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="ReattachPort" Type="System.UInt16" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="SettingsVersion" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
-    </Setting>
-    <Setting Name="ReattachCommsKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="Webclient" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="AuthorizedGroupSID" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">7</Value>
     </Setting>
     <Setting Name="RemoteAccessPort" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">38607</Value>
     </Setting>
-    <Setting Name="ReattachAPIVersion" Type="System.String" Scope="User">
+    <Setting Name="InstancePaths" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="AutoUpdateInterval" Type="System.UInt64" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="PushTestmergeCommits" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

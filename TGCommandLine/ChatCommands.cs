@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class IRCCommand : RootCommand
+	class IRCCommand : InstanceRootCommand
 	{
 		public IRCCommand()
 		{
 			Keyword = "irc";
-			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand(), new ChatJoinCommand(TGChatProvider.IRC), new ChatPartCommand(TGChatProvider.IRC), new ChatListAdminsCommand(TGChatProvider.IRC), new ChatReconnectCommand(TGChatProvider.IRC), new ChatAddminCommand(TGChatProvider.IRC), new ChatDeadminCommand(TGChatProvider.IRC), new ChatEnableCommand(TGChatProvider.IRC), new ChatDisableCommand(TGChatProvider.IRC), new ChatStatusCommand(TGChatProvider.IRC), new IRCAuthModeCommand(), new IRCAuthLevelCommand() };
+			Children = new Command[] { new IRCNickCommand(), new IRCAuthCommand(), new IRCDisableAuthCommand(), new IRCServerCommand(), new ChatJoinCommand(ChatProvider.IRC), new ChatPartCommand(ChatProvider.IRC), new ChatListAdminsCommand(ChatProvider.IRC), new ChatReconnectCommand(ChatProvider.IRC), new ChatAddminCommand(ChatProvider.IRC), new ChatDeadminCommand(ChatProvider.IRC), new ChatEnableCommand(ChatProvider.IRC), new ChatDisableCommand(ChatProvider.IRC), new ChatStatusCommand(ChatProvider.IRC), new IRCAuthModeCommand(), new IRCAuthLevelCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manages the IRC bot";
 		}
 	}
-	class DiscordCommand : RootCommand
+	class DiscordCommand : InstanceRootCommand
 	{
 		public DiscordCommand()
 		{
 			Keyword = "discord";
-			Children = new Command[] { new DiscordSetTokenCommand(), new ChatJoinCommand(TGChatProvider.Discord), new ChatPartCommand(TGChatProvider.Discord), new ChatListAdminsCommand(TGChatProvider.Discord), new ChatReconnectCommand(TGChatProvider.Discord), new ChatAddminCommand(TGChatProvider.Discord), new ChatDeadminCommand(TGChatProvider.Discord), new ChatEnableCommand(TGChatProvider.Discord), new ChatDisableCommand(TGChatProvider.Discord), new ChatStatusCommand(TGChatProvider.Discord) , new DiscordAuthModeCommand() };
+			Children = new Command[] { new DiscordSetTokenCommand(), new ChatJoinCommand(ChatProvider.Discord), new ChatPartCommand(ChatProvider.Discord), new ChatListAdminsCommand(ChatProvider.Discord), new ChatReconnectCommand(ChatProvider.Discord), new ChatAddminCommand(ChatProvider.Discord), new ChatDeadminCommand(ChatProvider.Discord), new ChatEnableCommand(ChatProvider.Discord), new ChatDisableCommand(ChatProvider.Discord), new ChatStatusCommand(ChatProvider.Discord) , new DiscordAuthModeCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manages the Discord bot";
 		}
 	}
-	class IRCNickCommand : Command
+	class IRCNickCommand : ConsoleCommand
 	{
 		public IRCNickCommand()
 		{
@@ -47,8 +48,8 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
-			Chat.SetProviderInfo(new TGIRCSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.IRC])
+			var Chat = Interface.GetComponent<ITGChat>();
+			Chat.SetProviderInfo(new IRCSetupInfo(Chat.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				Nickname = parameters[0],
 			});
@@ -56,10 +57,10 @@ namespace TGCommandLine
 		}
 	}
 
-	class ChatJoinCommand : Command
+	class ChatJoinCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatJoinCommand(TGChatProvider pI)
+		public ChatJoinCommand(ChatProvider pI)
 		{
 			Keyword = "join";
 			RequiredParameters = 2;
@@ -77,7 +78,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
 			IList<string> channels;
 
@@ -135,10 +136,10 @@ namespace TGCommandLine
 		}
 	}
 
-	class ChatPartCommand : Command
+	class ChatPartCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatPartCommand(TGChatProvider pI)
+		public ChatPartCommand(ChatProvider pI)
 		{
 			Keyword = "part";
 			RequiredParameters = 2;
@@ -155,7 +156,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
 			IList<string> channels;
 
@@ -178,7 +179,7 @@ namespace TGCommandLine
 					return ExitCode.BadCommand;
 			}
 			var lowerParam = parameters[0].ToLower();
-			if ((TGChatProvider)providerIndex == TGChatProvider.IRC && lowerParam[0] != '#')
+			if ((ChatProvider)providerIndex == ChatProvider.IRC && lowerParam[0] != '#')
 				lowerParam = "#" + lowerParam;
 			channels.Remove(lowerParam);
 			switch (parameters[1].ToLower())
@@ -205,10 +206,10 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatListAdminsCommand : Command
+	class ChatListAdminsCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatListAdminsCommand(TGChatProvider pI)
+		public ChatListAdminsCommand(ChatProvider pI)
 		{
 			Keyword = "list-admins";
 			providerIndex = (int)pI;
@@ -221,17 +222,17 @@ namespace TGCommandLine
 		
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var info = Server.GetComponent<ITGChat>().ProviderInfos()[providerIndex];
+			var info = Interface.GetComponent<ITGChat>().ProviderInfos()[providerIndex];
 			string authType;
-			switch ((TGChatProvider)providerIndex)
+			switch ((ChatProvider)providerIndex)
 			{
-				case TGChatProvider.IRC:
+				case ChatProvider.IRC:
 					if (info.AdminsAreSpecial)
 						authType = "Mode:";
 					else
 						authType = "Nicknames:";
 					break;
-				case TGChatProvider.Discord:
+				case ChatProvider.Discord:
 					if (info.AdminsAreSpecial)
 						authType = "Role IDs:";
 					else
@@ -242,8 +243,8 @@ namespace TGCommandLine
 					return ExitCode.ServerError;
 			}
 			OutputProc("Authorized " + authType);
-			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
-				switch(new TGIRCSetupInfo(info).AuthLevel)
+			if (info.AdminsAreSpecial && (ChatProvider)providerIndex == ChatProvider.IRC)
+				switch(new IRCSetupInfo(info).AuthLevel)
 				{
 					case IRCMode.Voice:
 						OutputProc("+");
@@ -264,10 +265,10 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatReconnectCommand : Command
+	class ChatReconnectCommand : ConsoleCommand
 	{
-		readonly TGChatProvider providerIndex;
-		public ChatReconnectCommand(TGChatProvider pI)
+		readonly ChatProvider providerIndex;
+		public ChatReconnectCommand(ChatProvider pI)
 		{
 			Keyword = "reconnect";
 			providerIndex = pI;
@@ -280,7 +281,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGChat>().Reconnect(providerIndex);
+			var res = Interface.GetComponent<ITGChat>().Reconnect(providerIndex);
 			if (res != null)
 			{
 				OutputProc("Error: " + res);
@@ -289,10 +290,10 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatAddminCommand : Command
+	class ChatAddminCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatAddminCommand(TGChatProvider pI)
+		public ChatAddminCommand(ChatProvider pI)
 		{
 			Keyword = "addmin";
 			RequiredParameters = 1;
@@ -309,11 +310,11 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
 			var newmin = parameters[0].ToLower();
 
-			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
+			if (info.AdminsAreSpecial && (ChatProvider)providerIndex == ChatProvider.IRC)
 			{
 				OutputProc("Invalid auth mode for this command!");
 				return ExitCode.BadCommand;
@@ -336,7 +337,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class IRCAuthModeCommand : Command
+	class IRCAuthModeCommand : ConsoleCommand
 	{
 		public IRCAuthModeCommand()
 		{
@@ -354,8 +355,8 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
-			var info = IRC.ProviderInfos()[(int)TGChatProvider.IRC];
+			var IRC = Interface.GetComponent<ITGChat>();
+			var info = IRC.ProviderInfos()[(int)ChatProvider.IRC];
 			var lowerparam = parameters[0].ToLower();
 			if (lowerparam == "channel-mode")
 				info.AdminsAreSpecial = true;
@@ -375,7 +376,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class DiscordAuthModeCommand : Command
+	class DiscordAuthModeCommand : ConsoleCommand
 	{
 		public DiscordAuthModeCommand()
 		{
@@ -393,8 +394,8 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
-			var info = IRC.ProviderInfos()[(int)TGChatProvider.Discord];
+			var IRC = Interface.GetComponent<ITGChat>();
+			var info = IRC.ProviderInfos()[(int)ChatProvider.Discord];
 			var lowerparam = parameters[0].ToLower();
 			if (lowerparam == "role-id")
 				info.AdminsAreSpecial = true;
@@ -414,7 +415,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class IRCAuthLevelCommand : Command
+	class IRCAuthLevelCommand : ConsoleCommand
 	{
 		public IRCAuthLevelCommand()
 		{
@@ -432,8 +433,8 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
-			var info = new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC]);
+			var IRC = Interface.GetComponent<ITGChat>();
+			var info = new IRCSetupInfo(IRC.ProviderInfos()[(int)ChatProvider.IRC]);
 			switch (parameters[0])
 			{
 				case "+":
@@ -462,10 +463,10 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatDeadminCommand : Command
+	class ChatDeadminCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatDeadminCommand(TGChatProvider pI)
+		public ChatDeadminCommand(ChatProvider pI)
 		{
 			Keyword = "deadmin";
 			RequiredParameters = 1;
@@ -481,11 +482,11 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
 			var newmin = parameters[0].ToLower();
 			
-			if (info.AdminsAreSpecial && (TGChatProvider)providerIndex == TGChatProvider.IRC)
+			if (info.AdminsAreSpecial && (ChatProvider)providerIndex == ChatProvider.IRC)
 			{
 				OutputProc("Invalid auth mode for this command!");
 				return ExitCode.BadCommand;
@@ -510,7 +511,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class IRCAuthCommand : Command
+	class IRCAuthCommand : ConsoleCommand
 	{
 		public IRCAuthCommand()
 		{
@@ -528,8 +529,8 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
-			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC])
+			var IRC = Interface.GetComponent<ITGChat>();
+			IRC.SetProviderInfo(new IRCSetupInfo(IRC.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				AuthTarget = parameters[0],
 				AuthMessage = parameters[1]
@@ -538,7 +539,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class IRCDisableAuthCommand : Command
+	class IRCDisableAuthCommand : ConsoleCommand
 	{
 		public IRCDisableAuthCommand()
 		{
@@ -550,8 +551,8 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
-			IRC.SetProviderInfo(new TGIRCSetupInfo(IRC.ProviderInfos()[(int)TGChatProvider.IRC])
+			var IRC = Interface.GetComponent<ITGChat>();
+			IRC.SetProviderInfo(new IRCSetupInfo(IRC.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				AuthTarget = null,
 				AuthMessage = null,
@@ -560,10 +561,10 @@ namespace TGCommandLine
 		}
 	}
 
-	class ChatStatusCommand : Command
+	class ChatStatusCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatStatusCommand(TGChatProvider pI)
+		public ChatStatusCommand(ChatProvider pI)
 		{
 			Keyword = "status";
 			providerIndex = (int)pI;
@@ -574,7 +575,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Server.GetComponent<ITGChat>();
+			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
 			OutputProc("Currently configured channels:");
 			OutputProc("Admin:");
@@ -593,10 +594,10 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatEnableCommand : Command
+	class ChatEnableCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatEnableCommand(TGChatProvider pI)
+		public ChatEnableCommand(ChatProvider pI)
 		{
 			Keyword = "enable";
 			providerIndex = (int)pI;
@@ -609,7 +610,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Interface.GetComponent<ITGChat>();
 			var info = Chat.ProviderInfos()[providerIndex];
 			info.Enabled = true;
 			var res = Chat.SetProviderInfo(info);
@@ -621,10 +622,10 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class ChatDisableCommand : Command
+	class ChatDisableCommand : ConsoleCommand
 	{
 		readonly int providerIndex;
-		public ChatDisableCommand(TGChatProvider pI)
+		public ChatDisableCommand(ChatProvider pI)
 		{
 			Keyword = "disable";
 			providerIndex = (int)pI;
@@ -637,7 +638,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
+			var Chat = Interface.GetComponent<ITGChat>();
 			var info = Chat.ProviderInfos()[providerIndex];
 			info.Enabled = false;
 			var res = Chat.SetProviderInfo(info);
@@ -650,7 +651,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class IRCServerCommand : Command
+	class IRCServerCommand : ConsoleCommand
 	{
 		public IRCServerCommand()
 		{
@@ -674,8 +675,8 @@ namespace TGCommandLine
 				OutputProc("Invalid parameter!");
 				return ExitCode.BadCommand;
 			}
-			var Chat = Server.GetComponent<ITGChat>();
-			var PI = new TGIRCSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.IRC])
+			var Chat = Interface.GetComponent<ITGChat>();
+			var PI = new IRCSetupInfo(Chat.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				URL = splits[0]
 			};
@@ -695,7 +696,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class DiscordSetTokenCommand : Command
+	class DiscordSetTokenCommand : ConsoleCommand
 	{
 		public DiscordSetTokenCommand()
 		{
@@ -712,8 +713,8 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Server.GetComponent<ITGChat>();
-			var res = Chat.SetProviderInfo(new TGDiscordSetupInfo(Chat.ProviderInfos()[(int)TGChatProvider.Discord]) { BotToken = parameters[0] });
+			var Chat = Interface.GetComponent<ITGChat>();
+			var res = Chat.SetProviderInfo(new DiscordSetupInfo(Chat.ProviderInfos()[(int)ChatProvider.Discord]) { BotToken = parameters[0] });
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}

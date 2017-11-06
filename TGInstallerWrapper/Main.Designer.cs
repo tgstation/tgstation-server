@@ -20,6 +20,7 @@ namespace TGInstallerWrapper
 			if (disposing && (components != null))
 			{
 				components.Dispose();
+				CleanTempDir();
 			}
 			base.Dispose(disposing);
 		}

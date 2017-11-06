@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class ConfigCommand : RootCommand
+	class ConfigCommand : InstanceRootCommand
 	{
 		public ConfigCommand()
 		{
@@ -17,7 +18,7 @@ namespace TGCommandLine
 			return "Manage settings";
 		}
 	}
-	class ConfigDeleteCommand : Command
+	class ConfigDeleteCommand : ConsoleCommand
 	{
 		public ConfigDeleteCommand()
 		{
@@ -27,7 +28,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGConfig>().DeleteFile(parameters[0], out bool unauthorized);
+			var res = Interface.GetComponent<ITGConfig>().DeleteFile(parameters[0], out bool unauthorized);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -45,7 +46,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ConfigListCommand : Command
+	class ConfigListCommand : ConsoleCommand
 	{
 		public ConfigListCommand()
 		{
@@ -63,7 +64,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var list = Server.GetComponent<ITGConfig>().ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error, out bool unauthorized);
+			var list = Interface.GetComponent<ITGConfig>().ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error, out bool unauthorized);
 			if(list == null)
 			{
 				OutputProc(error);
@@ -78,7 +79,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ConfigServerDirectoryCommand : Command
+	class ConfigServerDirectoryCommand : ConsoleCommand
 	{
 		public ConfigServerDirectoryCommand()
 		{
@@ -87,7 +88,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Server.GetComponent<ITGConfig>().ServerDirectory());
+			OutputProc(Interface.GetComponent<ITGInstance>().ServerDirectory());
 			return ExitCode.Normal;
 		}
 		
@@ -97,7 +98,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class ConfigDownloadCommand : Command
+	class ConfigDownloadCommand : ConsoleCommand
 	{
 		public ConfigDownloadCommand()
 		{
@@ -107,7 +108,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var bytes = Server.GetComponent<ITGConfig>().ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error, out bool unauthorized);
+			var bytes = Interface.GetComponent<ITGConfig>().ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error, out bool unauthorized);
 			if(bytes == null)
 			{
 				OutputProc("Error: " + error);
@@ -135,7 +136,7 @@ namespace TGCommandLine
 		}
 	}
 	
-	class ConfigUploadCommand : Command
+	class ConfigUploadCommand : ConsoleCommand
 	{
 		public ConfigUploadCommand()
 		{
@@ -147,7 +148,7 @@ namespace TGCommandLine
 		{
 			try
 			{
-				var res = Server.GetComponent<ITGConfig>().WriteText(parameters[0], File.ReadAllText(parameters[1]), out bool unauthorized);
+				var res = Interface.GetComponent<ITGConfig>().WriteText(parameters[0], File.ReadAllText(parameters[1]), out bool unauthorized);
 				if (res != null)
 				{
 					OutputProc("Error: " + res);

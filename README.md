@@ -16,7 +16,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 
 ## Installing (GUI):
 1. Launch TGControlPanel.exe as an administrator. A shortcut can be found on your desktop
-1. Optionally switch to the `Server` tab and change the Server Path location from C:\tgstation-server-3 to wherever you wish
+1. Optionally switch to the `Server` tab and change the Server Path location from `C:\\tgstation-server-3` to wherever you wish
 1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
 1. Hit the clone button
 1. While waiting go to the BYOND tab and install the BYOND version you wish
@@ -73,9 +73,10 @@ This process is identical to the above steps in command line mode. You can alway
 
 1. Obtain an SSL certificate to secure the connection (this is beyond the scope of this guide)
 1. Either stick with the default port `38607` or change it with `admin set-port <port #>`
-1. [Bind the SSL certificate to port 38607](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate)
+1. [Bind the SSL certificate to the port](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate)
 	- e.g. `netsh http add sslcert ipport=0.0.0.0:<port #> certhash=<certificate hash> appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}`
 	- The `appid` GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above
+	- Power shell users remember to quit the appid: `netsh http add sslcert ipport=0.0.0.0:<port #> certhash=<certificate hash> appid="{F32EDA25-0855-411C-AF5E-F0D042917E2D}"` as {} has special meaning in powershell
 1. Ensure the port can be acccessed from the internet
 1. Log in from any computer using a username and password from the service computer in either the CLI or GUI
 
@@ -97,6 +98,9 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 	* This is a symbolic link pointing to current "live" folder.
 	* When the server is updated, we just point this to the updating folder so that the update takes place next round.
 
+* `Diagnostics`
+	* This contains various timestamped diagnostic information for DreamDaemon invocations
+
 * `Repository/`
 	* This contains the actual git repository, all changes in here will be overwritten during update operations.
 
@@ -117,6 +121,15 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 
 * `prtestjob.json`
 	* This contains information about current test merged pull requests in the Repository folder
+	
+* `TGS3.json`
+	* This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it
+
+* `Instance.cfg`
+	* The encrypted internal configuration settings for a server instance. Note that access to this file bypasses API user restrictions
+
+### Codebase integration
+To get the TGS3 API for your code base, import the 3 .dm files in the `DMAPI` folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a TGS3.json file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options.
 
 ### Starting the game server:
 To run the game server, open the `Server` tab of the control panel and click either `Start`
@@ -168,7 +181,7 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 
 ### Viewing Server Logs
 * Logs are stored in the Windows event viewer under `Windows Logs` -> `Application`. You'll need to filter this list for `TG Station Server`
-* Every event type is keyed with an ID. A complete listing of these IDs can be found [here](https://github.com/tgstation/tgstation-server/blob/master/TGServerService/ServerService.cs#L15).
+* Every event type is keyed with an ID. A complete listing of these IDs and their purpose can be found [here](https://github.com/tgstation/tgstation-server/blob/master/TGServerService/EventID.cs).
 * You can also import the custom view `View TGS3 Logs.xml` in this folder to have them automatically filtered
 
 ### Enabling upstream changelog generation
@@ -180,7 +193,7 @@ You can clear all active test merges using `Reset to Origin Branch` in the `Repo
 
 ## CONTRIBUTING
 
-* Version numbers and releases will be handled by maintainers, do not modify these in your PR
+* See [CONTRIBUTING.md](https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md)
 
 ## LICENSING
 

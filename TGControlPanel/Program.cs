@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TGServiceInterface;
 
@@ -10,7 +9,6 @@ namespace TGControlPanel
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Server.SetBadCertificateHandler(BadCertificateHandler);
 			try
 			{
 				if (Properties.Settings.Default.UpgradeRequired)
@@ -21,8 +19,10 @@ namespace TGControlPanel
 				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				using(var L = new Login())
-					Application.Run(L);
+				Interface.SetBadCertificateHandler(BadCertificateHandler);
+				var login = new Login();
+				login.Show();
+				Application.Run();
 			}
 			catch (Exception e)
 			{
@@ -45,16 +45,6 @@ namespace TGControlPanel
 			return true;
 		}
 
-		public static bool CheckAdminWithWarning()
-		{
-			if (!Server.AuthenticateAdmin())
-			{
-				MessageBox.Show("Only system administrators may use this command!");
-				return false;
-			}
-			return true;
-		}
-
 		public static void ServiceDisconnectException(Exception e)
 		{
 			MessageBox.Show("An unhandled exception occurred. This usually means we lost connection to the service. Error" + e.ToString());
@@ -68,7 +58,9 @@ namespace TGControlPanel
 				Height = 150,
 				FormBorderStyle = FormBorderStyle.FixedDialog,
 				Text = caption,
-				StartPosition = FormStartPosition.CenterScreen
+				StartPosition = FormStartPosition.CenterScreen,
+				MaximizeBox = false,
+				MinimizeBox = false,
 			};
 			Label textLabel = new Label() { Left = 50, Top = 20, Text = text, AutoSize = true };
 			TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };

@@ -4,118 +4,89 @@ using System.Threading;
 
 namespace TGServiceInterface
 {
-	public enum ExitCode
-	{
-		Normal = 0,
-		ConnectionError = 1,
-		BadCommand = 2,
-		ServerError = 3,
-	}
+	/// <summary>
+	/// Helper for creating a text <see cref="Command"/> tree
+	/// </summary>
 	public abstract class Command
 	{
+		/// <summary>
+		/// Exit codes for <see cref="Command"/>s
+		/// </summary>
+		public enum ExitCode : int
+		{
+			/// <summary>
+			/// The <see cref="Command"/> ran successfully
+			/// </summary>
+			Normal = 0,
+			/// <summary>
+			/// The connection to the service was interrupted during the <see cref="Command"/>
+			/// </summary>
+			ConnectionError = 1,
+			/// <summary>
+			/// Invalid parameters for <see cref="Command"/>
+			/// </summary>
+			BadCommand = 2,
+			/// <summary>
+			/// The command failed due to conditions on the service
+			/// </summary>
+			ServerError = 3,
+		}
+		/// <summary>
+		/// Proc that will show a message to the <see cref="Command"/> invoker. Do not call directly, use <see cref="OutputProc(string)"/> instead
+		/// </summary>
 		public static ThreadLocal<Action<string>> OutputProcVar = new ThreadLocal<Action<string>>();
+		/// <summary>
+		/// Write output to the <see cref="Command"/> invoker
+		/// </summary>
+		/// <param name="message">The output to display</param>
 		protected static void OutputProc(string message)
 		{
 			OutputProcVar.Value(message);
 		}
+		/// <summary>
+		/// The text that invokes this <see cref="Command"/>. Set in constructor
+		/// </summary>
 		public string Keyword { get; protected set; }
-		public Command[] Children { get; protected set; } = { };
+		/// <summary>
+		/// The number of parameters this <see cref="Command"/> requires. Set in Constructor
+		/// </summary>
 		public int RequiredParameters { get; protected set; }
+		/// <summary>
+		/// Caller of <see cref="Run(IList{string})"/>, can be used to modify the root behaviour of the <see cref="Command"/>
+		/// </summary>
+		/// <param name="parameters">List of parameters passed to the <see cref="Command"/></param>
+		/// <returns>An <see cref="ExitCode"/> describing the execution of the <see cref="Command"/></returns>
 		public virtual ExitCode DoRun(IList<string> parameters)
 		{
 			return Run(parameters);
 		}
+		/// <summary>
+		/// Override to do the actions of the <see cref="Command"/> 
+		/// </summary>
+		/// <param name="parameters">List of <see cref="string"/> parameters passed to the <see cref="Command"/>. Guaranteed to have at least <see cref="RequiredParameters"/> non-empty/whitespace entries</param>
+		/// <returns>An <see cref="ExitCode"/> describing the execution of the <see cref="Command"/></returns>
 		protected abstract ExitCode Run(IList<string> parameters);
+		/// <summary>
+		/// Prints usage text of the <see cref="Command"/> to the invoker
+		/// </summary>
 		public virtual void PrintHelp()
 		{
 			var argstr = GetArgumentString();
 			OutputProc(String.Format("{0} {1}- {2}", Keyword, argstr.Length > 0 ? argstr + " " : "", GetHelpText()));
 		}
+		/// <summary>
+		/// Override to add argument text to the <see cref="Command"/>
+		/// Format is &lt;required&gt; &lt;arguments&gt; [optional] [arguments]
+		/// </summary>
+		/// <returns>Formatted argument text for the <see cref="Command"/></returns>
 		public virtual string GetArgumentString()
 		{
 			return "";
 		}
+		/// <summary>
+		/// Override to add usage text to the <see cref="Command"/>
+		/// </summary>
+		/// <returns>Formatted usage text for the <see cref="Command"/></returns>
 		public abstract string GetHelpText();
-	}
-
-	public class RootCommand : Command
-	{
-		public static bool PrintHelpList = false;
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			if (parameters.Count > 0)
-			{
-				var LocalKeyword = parameters[0].Trim().ToLower();
-				parameters.RemoveAt(0);
-				switch (LocalKeyword)
-				{
-					case "help":
-					case "?":
-						PrintHelp();
-						return ExitCode.Normal;
-					default:
-						foreach (var c in Children)
-							if (c.Keyword == LocalKeyword)
-							{
-								if(parameters.Count> 0)
-								{
-									var possibleHelp = parameters[0].ToLower();
-									if (possibleHelp == "help" || possibleHelp == "?")
-									{
-										c.PrintHelp();
-										return ExitCode.Normal;
-									}
-								}
-								if (parameters.Count < c.RequiredParameters)
-								{
-									OutputProc("Not enough parameters!");
-									return ExitCode.BadCommand;
-								}
-								return c.DoRun(parameters);
-							}
-						parameters.Insert(0, LocalKeyword);
-						break;
-				}
-			}
-			OutputProc(String.Format("Invalid command! Type '{0}?' or '{0}help' for available commands.", Keyword != null ? Keyword + " " : ""));
-			return ExitCode.BadCommand;
-		}
-		public override void PrintHelp()
-		{
-			var Final = new List<string>();
-			if (PrintHelpList)
-			{
-				foreach (var c in Children)
-					Final.Add(c.Keyword);
-				OutputProc("Available commands (type '?' or 'help' after command for more info): " + String.Join(", ", Final));
-			}
-			else
-			{
-				var Prefixes = new List<string>();
-				var Postfixes = new List<string>();
-				int MaxPrefixLen = 0;
-				foreach (var c in Children)
-				{
-					var ns = c.Keyword + " " + c.GetArgumentString();
-					MaxPrefixLen = Math.Max(MaxPrefixLen, ns.Length);
-					Prefixes.Add(ns);
-					Postfixes.Add(c.GetHelpText());
-				}
-
-				for (var I = 0; I < Prefixes.Count; ++I)
-				{
-					var lp = Prefixes[I];
-					for (; lp.Length < MaxPrefixLen + 1; lp += " ") ;
-					Final.Add(lp + "- " + Postfixes[I]);
-				}
-				Final.Sort();
-				Final.ForEach(OutputProc);
-			}
-		}
-
-		public override string GetHelpText()
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

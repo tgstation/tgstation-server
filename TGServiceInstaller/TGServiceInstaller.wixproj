@@ -18,6 +18,7 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <SuppressPdbOutput>True</SuppressPdbOutput>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
@@ -34,6 +35,14 @@
     <ProjectReference Include="..\TGCommandLine\TGCommandLine.csproj">
       <Name>TGCommandLine</Name>
       <Project>{89191f69-b18e-4b59-b72e-e12f9b6811a0}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\TGDreamDaemonBridge\TGDreamDaemonBridge.csproj">
+      <Name>TGDreamDaemonBridge</Name>
+      <Project>{9a01ef03-8eae-45cb-8b87-4a17bd904557}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

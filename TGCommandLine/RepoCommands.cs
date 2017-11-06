@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
@@ -9,7 +10,7 @@ namespace TGCommandLine
 		public RepoCommand()
 		{
 			Keyword = "repo";
-			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoPythonPathCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand(), new RepoSetPushTestmergeCommitsCommand() };
+			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand(), new RepoSetPushTestmergeCommitsCommand() };
 		}
 		public override string GetHelpText()
 		{
@@ -17,7 +18,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoSetPushTestmergeCommitsCommand : Command
+	class RepoSetPushTestmergeCommitsCommand : ConsoleCommand
 	{
 		public RepoSetPushTestmergeCommitsCommand()
 		{
@@ -39,10 +40,10 @@ namespace TGCommandLine
 			switch (parameters[0].ToLower())
 			{
 				case "on":
-					Server.GetComponent<ITGRepository>().SetPushTestmergeCommits(true);
+					Interface.GetComponent<ITGRepository>().SetPushTestmergeCommits(true);
 					break;
 				case "off":
-					Server.GetComponent<ITGRepository>().SetPushTestmergeCommits(false);
+					Interface.GetComponent<ITGRepository>().SetPushTestmergeCommits(false);
 					break;
 				default:
 					OutputProc("Invalid option!");
@@ -52,7 +53,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoUpdateJsonCommand : Command
+	class RepoUpdateJsonCommand : ConsoleCommand
 	{
 		public RepoUpdateJsonCommand()
 		{
@@ -66,7 +67,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGRepository>().UpdateTGS3Json();
+			var res = Interface.GetComponent<ITGRepository>().UpdateTGS3Json();
 			if (res != null)
 			{
 				OutputProc(res);
@@ -76,7 +77,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoSetupCommand : Command
+	class RepoSetupCommand : ConsoleCommand
 	{
 		public RepoSetupCommand()
 		{
@@ -85,7 +86,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGRepository>().Setup(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
+			var res = Interface.GetComponent<ITGRepository>().Setup(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
 			if (res != null)
 			{
 				OutputProc("Error: " + res);
@@ -104,7 +105,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoStatusCommand : Command
+	class RepoStatusCommand : ConsoleCommand
 	{
 		public RepoStatusCommand()
 		{
@@ -112,7 +113,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Repo = Server.GetComponent<ITGRepository>();
+			var Repo = Interface.GetComponent<ITGRepository>();
 			var busy = Repo.OperationInProgress();
 			if (!busy)
 			{
@@ -158,7 +159,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoResetCommand : Command
+	class RepoResetCommand : ConsoleCommand
 	{
 		public RepoResetCommand()
 		{
@@ -166,7 +167,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Server.GetComponent<ITGRepository>().Reset(parameters.Count > 0 && parameters[0].ToLower() == "--origin");
+			var result = Interface.GetComponent<ITGRepository>().Reset(parameters.Count > 0 && parameters[0].ToLower() == "--origin");
 			OutputProc(result ?? "Success!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -180,7 +181,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoUpdateCommand : Command
+	class RepoUpdateCommand : ConsoleCommand
 	{
 		public RepoUpdateCommand()
 		{
@@ -202,7 +203,7 @@ namespace TGCommandLine
 					OutputProc("Invalid parameter: " + parameters[0]);
 					return ExitCode.BadCommand;
 			}
-			var res = Server.GetComponent<ITGRepository>().Update(hard);
+			var res = Interface.GetComponent<ITGRepository>().Update(hard);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -215,7 +216,7 @@ namespace TGCommandLine
 			return "<hard|merge>";
 		}
 	}
-	class RepoGenChangelogCommand : Command
+	class RepoGenChangelogCommand : ConsoleCommand
 	{
 		public RepoGenChangelogCommand()
 		{
@@ -223,7 +224,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Server.GetComponent<ITGRepository>().GenerateChangelog(out string error);
+			var result = Interface.GetComponent<ITGRepository>().GenerateChangelog(out string error);
 			OutputProc(error ?? "Success!");
 			if (result != null)
 				OutputProc(result);
@@ -235,7 +236,7 @@ namespace TGCommandLine
 			return "Compiles the html changelog";
 		}
 	}
-	class RepoPushChangelogCommand : Command
+	class RepoPushChangelogCommand : ConsoleCommand
 	{
 		public RepoPushChangelogCommand()
 		{
@@ -243,7 +244,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Server.GetComponent<ITGRepository>().PushChangelog();
+			var result = Interface.GetComponent<ITGRepository>().SynchronizePush();
 			if(result != null)
 				OutputProc(result);
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
@@ -254,7 +255,7 @@ namespace TGCommandLine
 			return "Pushes the html changelog if the SSH authentication is configured correctly";
 		}
 	}
-	class RepoSetEmailCommand : Command
+	class RepoSetEmailCommand : ConsoleCommand
 	{
 		public RepoSetEmailCommand()
 		{
@@ -263,7 +264,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGRepository>().SetCommitterEmail(parameters[0]);
+			Interface.GetComponent<ITGRepository>().SetCommitterEmail(parameters[0]);
 			return ExitCode.Normal;
 		}
 
@@ -276,7 +277,7 @@ namespace TGCommandLine
 			return "Set the e-mail used for commits";
 		}
 	}
-	class RepoSetNameCommand : Command
+	class RepoSetNameCommand : ConsoleCommand
 	{
 		public RepoSetNameCommand()
 		{
@@ -285,7 +286,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Server.GetComponent<ITGRepository>().SetCommitterName(parameters[0]);
+			Interface.GetComponent<ITGRepository>().SetCommitterName(parameters[0]);
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -297,29 +298,8 @@ namespace TGCommandLine
 			return "Set the name used for commits";
 		}
 	}
-	class RepoPythonPathCommand : Command
-	{
-		public RepoPythonPathCommand()
-		{
-			Keyword = "python-path";
-			RequiredParameters = 1;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			Server.GetComponent<ITGRepository>().SetPythonPath(parameters[0]);
-			return ExitCode.Normal;
-		}
-		public override string GetArgumentString()
-		{
-			return "<path>";
-		}
-		public override string GetHelpText()
-		{
-			return "Set the path to the folder containing the python 2.7 installation";
-		}
-	}
 
-	class RepoMergePRCommand : Command
+	class RepoMergePRCommand : ConsoleCommand
 	{
 		public RepoMergePRCommand()
 		{
@@ -339,7 +319,7 @@ namespace TGCommandLine
 				OutputProc("Invalid PR Number!");
 				return ExitCode.BadCommand;
 			}
-			var res = Server.GetComponent<ITGRepository>().MergePullRequest(PR);
+			var res = Interface.GetComponent<ITGRepository>().MergePullRequest(PR);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -354,7 +334,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoListPRsCommand : Command
+	class RepoListPRsCommand : ConsoleCommand
 	{
 		public RepoListPRsCommand()
 		{
@@ -366,7 +346,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var data = Server.GetComponent<ITGRepository>().MergedPullRequests(out string error);
+			var data = Interface.GetComponent<ITGRepository>().MergedPullRequests(out string error);
 			if (data == null)
 			{
 				OutputProc(error);
@@ -381,7 +361,7 @@ namespace TGCommandLine
 		}
 	}
 
-	class RepoListBackupsCommand : Command
+	class RepoListBackupsCommand : ConsoleCommand
 	{
 		public RepoListBackupsCommand()
 		{
@@ -393,7 +373,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var data = Server.GetComponent<ITGRepository>().ListBackups(out string error);
+			var data = Interface.GetComponent<ITGRepository>().ListBackups(out string error);
 			if (data == null)
 			{
 				OutputProc(error);
@@ -407,7 +387,7 @@ namespace TGCommandLine
 			return ExitCode.Normal;
 		}
 	}
-	class RepoCheckoutCommand : Command
+	class RepoCheckoutCommand : ConsoleCommand
 	{
 		public RepoCheckoutCommand()
 		{
@@ -420,7 +400,7 @@ namespace TGCommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Server.GetComponent<ITGRepository>().Checkout(parameters[0]);
+			var res = Interface.GetComponent<ITGRepository>().Checkout(parameters[0]);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
