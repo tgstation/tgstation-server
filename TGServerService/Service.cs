@@ -15,7 +15,7 @@ namespace TGServerService
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Service : ServiceBase, ITGSService, ITGConnectivity
+	class Service : ServiceBase, ITGSService, ITGConnectivity
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Service"/> events
@@ -53,17 +53,6 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Constructs and runs a <see cref="Service"/>. Do not add any code that might need debugging here as it's near impossible to get Windows to debug it properly without timing out
-		/// </summary>
-		public static void Launch()
-		{
-			if (ActiveService != null)
-				throw new Exception("There is already a Service instance running!");
-			ActiveService = new Service();
-			Run(ActiveService);
-		}
-
-		/// <summary>
 		/// Checks an <paramref name="instanceName"/> for illegal characters
 		/// </summary>
 		/// <param name="instanceName">The <see cref="ServerInstance"/> name to check</param>
@@ -78,11 +67,24 @@ namespace TGServerService
 		}
 
 		/// <summary>
-		/// Sets up the service name. Do not add any more code due to the reasons outlined in <see cref="Launch"/>
+		/// Sets up ServiceName and <see cref="ActiveService"/>
 		/// </summary>
-		Service()
+		public Service()
 		{
 			ServiceName = "TG Station Server";
+			if (ActiveService != null)
+				throw new Exception("There is already a Service instance running!");
+			ActiveService = this;
+		}
+		
+		/// <summary>
+		/// Clears <see cref="ActiveService"/>
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if this method was invoked from <see cref="IDisposable.Dispose"/>, otherwise it was invoked by the finalizer</param>
+		protected override void Dispose(bool disposing)
+		{
+			ActiveService = null;
+			base.Dispose(disposing);
 		}
 
 		/// <summary>

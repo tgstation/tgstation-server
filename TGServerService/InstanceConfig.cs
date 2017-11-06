@@ -11,7 +11,7 @@ namespace TGServerService
 		/// </summary>
 		//tell javascriptserializer to ignore these fields
 		[ScriptIgnore]
-		const string JSONFilename = "Instance.json";
+		public const string JSONFilename = "Instance.json";
 		/// <summary>
 		/// The current version of the config
 		/// </summary>
