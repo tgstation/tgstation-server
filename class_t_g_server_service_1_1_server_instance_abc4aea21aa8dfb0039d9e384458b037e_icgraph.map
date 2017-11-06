@@ -13,7 +13,7 @@
 <area shape="rect" id="node33" href="$class_t_g_server_service_1_1_server_instance.html#a95d603da4a4dcd14255f39bbf59931ad" title="Properly updates any git submodules in the repository " alt="" coords="264,778,475,819"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a8f8c222dd4a2d21957b968b26eff08a3" title="Starts the server if it isn&#39;t running &#160;" alt="" coords="781,226,992,267"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#ac58aa725d4b3a81cf979ab657a02cdb8" title="Immediately kills and restarts the server &#160;" alt="" coords="1040,226,1251,267"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ab29fd416eb81b88dc28f1d9eeeaadeb9" title="Constructs and a ServerInstance " alt="" coords="1299,423,1509,464"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="1299,423,1509,464"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a8bdb55d2113035b09f1697072e14c873" title="TGServerService.ServerInstance.\lKillMe" alt="" coords="1299,226,1509,267"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#aa2d4ae32c582b1d03b22402dab486e80" title="TGServerService.ServerInstance.\lHandleCommand" alt="" coords="1557,226,1768,267"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#a31cb383e125fcb094259185112c3ea40" title="Called from /world/ExportService(command) &#160;" alt="" coords="1816,226,2027,267"/>

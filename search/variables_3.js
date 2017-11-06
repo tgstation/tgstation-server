@@ -45,7 +45,7 @@ var searchData=
   ['compilerstatuslabel',['CompilerStatusLabel',['../class_t_g_control_panel_1_1_control_panel.html#af3559d3f273ce9afd6d5750849b72756',1,'TGControlPanel::ControlPanel']]],
   ['compilerthread',['CompilerThread',['../class_t_g_server_service_1_1_server_instance.html#a7276f1afc5e4e29a3dd7ecbc324b1661',1,'TGServerService::ServerInstance']]],
   ['components',['components',['../class_t_g_control_panel_1_1_control_panel.html#aa38320098e5baa4eaa85fbc4e32fb970',1,'TGControlPanel.ControlPanel.components()'],['../class_t_g_control_panel_1_1_instance_selector.html#ac8b52a51c013c6ab3eacc6818ca5c50e',1,'TGControlPanel.InstanceSelector.components()'],['../class_t_g_control_panel_1_1_login.html#a33de7b9187fe5cbb173b10a3af660b13',1,'TGControlPanel.Login.components()'],['../class_t_g_installer_wrapper_1_1_main.html#a28d54546452ecc6ad9cfa2be7eb1a01c',1,'TGInstallerWrapper.Main.components()']]],
-  ['config',['Config',['../class_t_g_server_service_1_1_server_instance.html#a7a0ec30eb2bda8894c13d493fd80566d',1,'TGServerService::ServerInstance']]],
+  ['config',['Config',['../class_t_g_server_service_1_1_server_instance.html#a1ed1bcea68110ae3639926572caf28ab',1,'TGServerService::ServerInstance']]],
   ['configlock',['configLock',['../class_t_g_server_service_1_1_server_instance.html#a4d407c09b7a499c45266c916e4eaa947',1,'TGServerService::ServerInstance']]],
   ['createinstancebutton',['CreateInstanceButton',['../class_t_g_control_panel_1_1_instance_selector.html#acf9d74f5190e4ac6f013aa5a633d8a43',1,'TGControlPanel::InstanceSelector']]],
   ['currentddlog',['CurrentDDLog',['../class_t_g_server_service_1_1_server_instance.html#a20d86baac5dc500fc0fda143655e83e8',1,'TGServerService::ServerInstance']]],

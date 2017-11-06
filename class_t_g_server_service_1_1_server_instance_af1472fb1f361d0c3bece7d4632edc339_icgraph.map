@@ -3,7 +3,7 @@
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#ab76e4c626e2b38e75781aaad0b7809a9" title="Threaded loop that keeps DreamDaemon from unintentionally stopping " alt="" coords="264,5,475,47"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a8fa16abc1470f3a09b8c5da998ad03a9" title="Setup or reattach the watchdog, depending on InstanceConfig.ReattachRequired of Config, and create the DiagnosticsDir " alt="" coords="523,5,733,47"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ac58aa725d4b3a81cf979ab657a02cdb8" title="Immediately kills and restarts the server &#160;" alt="" coords="523,71,733,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ab29fd416eb81b88dc28f1d9eeeaadeb9" title="Constructs and a ServerInstance " alt="" coords="781,5,992,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="781,5,992,47"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a8bdb55d2113035b09f1697072e14c873" title="TGServerService.ServerInstance.\lKillMe" alt="" coords="781,71,992,112"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#aa2d4ae32c582b1d03b22402dab486e80" title="TGServerService.ServerInstance.\lHandleCommand" alt="" coords="1040,71,1251,112"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a31cb383e125fcb094259185112c3ea40" title="Called from /world/ExportService(command) &#160;" alt="" coords="1299,71,1509,112"/>

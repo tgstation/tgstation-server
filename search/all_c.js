@@ -21,7 +21,7 @@ var searchData=
   ['livefile',['LiveFile',['../class_t_g_server_service_1_1_server_instance.html#a857c11bb60033e231f050145493ca3b8',1,'TGServerService::ServerInstance']]],
   ['livesha',['LiveSha',['../class_t_g_server_service_1_1_server_instance.html#aa45764917d226888faaf4ba29a4963a0',1,'TGServerService::ServerInstance']]],
   ['livetrackingbranch',['LiveTrackingBranch',['../class_t_g_server_service_1_1_server_instance.html#a6940fb33b38a22d9b7b5d55d5e17dbfd',1,'TGServerService::ServerInstance']]],
-  ['load',['Load',['../class_t_g_server_service_1_1_instance_config.html#ac18cfbc0482a23d2092febe2c0a0bcfb',1,'TGServerService::InstanceConfig']]],
+  ['load',['Load',['../class_t_g_server_service_1_1_instance_config.html#a0b97b4c09f7ceeb88a2fcba8c0c4a0cf',1,'TGServerService::InstanceConfig']]],
   ['loadarray',['LoadArray',['../class_t_g_server_service_1_1_repo_config.html#ad814ca2cfdd76820f3603c3251f79e21',1,'TGServerService::RepoConfig']]],
   ['loadchatpage',['LoadChatPage',['../class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595',1,'TGControlPanel::ControlPanel']]],
   ['loadlibrary',['LoadLibrary',['../class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03',1,'Common.LoadLibrary(string dllToLoad)'],['../class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03',1,'Common.LoadLibrary(string dllToLoad)']]],

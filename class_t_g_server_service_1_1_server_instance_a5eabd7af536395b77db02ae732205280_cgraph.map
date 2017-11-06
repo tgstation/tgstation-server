@@ -6,7 +6,7 @@
 <area shape="rect" id="node28" href="$class_t_g_server_service_1_1_server_instance.html#a8fa16abc1470f3a09b8c5da998ad03a9" title="Setup or reattach the watchdog, depending on InstanceConfig.ReattachRequired of Config, and create the DiagnosticsDir " alt="" coords="264,664,475,705"/>
 <area shape="rect" id="node42" href="$class_t_g_server_service_1_1_server_instance.html#ac607fbc15cc4048f8f0d19644ee584aa" title="Creates the EventFolder " alt="" coords="264,232,475,273"/>
 <area shape="rect" id="node43" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="264,1264,475,1305"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_instance_config.html#a9d77e1404ff1815cd19ca1c6f5401987" title="Saves the InstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="545,291,715,332"/>
+<area shape="rect" id="node3" href="$interface_t_g_server_service_1_1_i_instance_config.html#a6603d839cc98813cf3c7c11035080693" title="Saves the IInstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="543,291,717,332"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6" title="Cleans the BYOND staging directory " alt="" coords="785,64,996,105"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="1307,459,1517,500"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="1062,5,1237,47"/>

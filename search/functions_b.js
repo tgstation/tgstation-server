@@ -5,7 +5,7 @@ var searchData=
   ['listinstances',['ListInstances',['../class_t_g_server_service_1_1_service.html#a1238e3562599d24e76fe7551e25d577a',1,'TGServerService.Service.ListInstances()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a79746acca6c942d9b8aef2b14fa529e2',1,'TGServiceInterface.Components.ITGSService.ListInstances()']]],
   ['liststaticdirectory',['ListStaticDirectory',['../class_t_g_server_service_1_1_server_instance.html#a3559490653f3f50bfd2959b6c53809e1',1,'TGServerService.ServerInstance.ListStaticDirectory()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd',1,'TGServiceInterface.Components.ITGConfig.ListStaticDirectory()']]],
   ['livesha',['LiveSha',['../class_t_g_server_service_1_1_server_instance.html#aa45764917d226888faaf4ba29a4963a0',1,'TGServerService::ServerInstance']]],
-  ['load',['Load',['../class_t_g_server_service_1_1_instance_config.html#ac18cfbc0482a23d2092febe2c0a0bcfb',1,'TGServerService::InstanceConfig']]],
+  ['load',['Load',['../class_t_g_server_service_1_1_instance_config.html#a0b97b4c09f7ceeb88a2fcba8c0c4a0cf',1,'TGServerService::InstanceConfig']]],
   ['loadarray',['LoadArray',['../class_t_g_server_service_1_1_repo_config.html#ad814ca2cfdd76820f3603c3251f79e21',1,'TGServerService::RepoConfig']]],
   ['loadchatpage',['LoadChatPage',['../class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595',1,'TGControlPanel::ControlPanel']]],
   ['loadlibrary',['LoadLibrary',['../class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03',1,'Common.LoadLibrary(string dllToLoad)'],['../class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03',1,'Common.LoadLibrary(string dllToLoad)']]],

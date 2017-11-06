@@ -3,6 +3,7 @@ var searchData=
   ['ichatprovider',['IChatProvider',['../interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html',1,'TGServerService::ChatProviders']]],
   ['idisposable',['IDisposable',['../class_i_disposable.html',1,'']]],
   ['iequatable',['IEquatable',['../class_i_equatable.html',1,'']]],
+  ['iinstanceconfig',['IInstanceConfig',['../interface_t_g_server_service_1_1_i_instance_config.html',1,'TGServerService']]],
   ['iinterface',['IInterface',['../interface_t_g_service_interface_1_1_i_interface.html',1,'TGServiceInterface']]],
   ['iltemplate',['ILTemplate',['../class_i_l_template.html',1,'']]],
   ['installer',['Installer',['../class_installer.html',1,'']]],

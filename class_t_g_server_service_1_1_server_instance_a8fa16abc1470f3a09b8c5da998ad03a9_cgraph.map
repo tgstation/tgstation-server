@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a0fe694292a23f97ff14be63deda934d3" title="TGServerService.ServerInstance.\lReattach" alt="" coords="523,61,733,103"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="1040,71,1251,112"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="1557,601,1768,643"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_instance_config.html#a9d77e1404ff1815cd19ca1c6f5401987" title="Saves the InstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="284,843,455,884"/>
+<area shape="rect" id="node7" href="$interface_t_g_server_service_1_1_i_instance_config.html#a6603d839cc98813cf3c7c11035080693" title="Saves the IInstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="283,843,456,884"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a8f8c222dd4a2d21957b968b26eff08a3" title="Starts the server if it isn&#39;t running &#160;" alt="" coords="264,477,475,519"/>
 <area shape="rect" id="node15" href="$class_t_g_server_service_1_1_server_instance.html#abc4aea21aa8dfb0039d9e384458b037e" title="Writes an error to the Windows event log " alt="" coords="1040,305,1251,347"/>
 <area shape="rect" id="node16" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="1040,371,1251,412"/>

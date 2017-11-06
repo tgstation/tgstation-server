@@ -1,5 +1,5 @@
 <map id="TGServerService.InstanceConfig.Load" name="TGServerService.InstanceConfig.Load">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a9b5c6694977d1c65dcc661dbfd7edb97" title="Enumerates configured InstanceConfigs. Detaches those that fail to load " alt="" coords="232,231,399,272"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a35b2af5c3e94d08b1d7caf118c1c0aac" title="Enumerates configured IInstanceConfigs. Detaches those that fail to load " alt="" coords="232,231,399,272"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="455,369,621,411"/>
 <area shape="rect" id="node12" href="$class_t_g_server_service_1_1_tests_1_1_test_instance_config.html#a70992faaf518e5de285c460c82ae73af" title="Test that InstanceConfig.Load(string) works correctly " alt="" coords="224,373,407,415"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#ab74c8e27919681ca6333d98088e482b9" title="Creates ServiceHosts for all ServerInstances as listed in Properties.Settings.InstancePaths, detaches bad ones " alt="" coords="455,5,621,47"/>

@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['reattachapiversion',['ReattachAPIVersion',['../class_t_g_server_service_1_1_instance_config.html#a8462feb0eb7d0bf5825a1694d679c3d2',1,'TGServerService::InstanceConfig']]],
-  ['reattachcommskey',['ReattachCommsKey',['../class_t_g_server_service_1_1_instance_config.html#a996b58b88a57630e13848b453c247b26',1,'TGServerService::InstanceConfig']]],
-  ['reattachport',['ReattachPort',['../class_t_g_server_service_1_1_instance_config.html#a784bb1b1cd2fc8604d80a345867dc508',1,'TGServerService::InstanceConfig']]],
-  ['reattachprocessid',['ReattachProcessID',['../class_t_g_server_service_1_1_instance_config.html#ab96659a32fbd69394433c7b3af178064',1,'TGServerService::InstanceConfig']]],
-  ['reattachrequired',['ReattachRequired',['../class_t_g_server_service_1_1_instance_config.html#a4103e72ac0bff9a1b1b75e5a6525c8a4',1,'TGServerService::InstanceConfig']]],
+  ['reattachapiversion',['ReattachAPIVersion',['../interface_t_g_server_service_1_1_i_instance_config.html#a06c69b27edbc006f3b90028c0dd8682c',1,'TGServerService.IInstanceConfig.ReattachAPIVersion()'],['../class_t_g_server_service_1_1_instance_config.html#a8462feb0eb7d0bf5825a1694d679c3d2',1,'TGServerService.InstanceConfig.ReattachAPIVersion()']]],
+  ['reattachcommskey',['ReattachCommsKey',['../interface_t_g_server_service_1_1_i_instance_config.html#a3496b7c9fc1a06b9b16181c8aa77ac2b',1,'TGServerService.IInstanceConfig.ReattachCommsKey()'],['../class_t_g_server_service_1_1_instance_config.html#a996b58b88a57630e13848b453c247b26',1,'TGServerService.InstanceConfig.ReattachCommsKey()']]],
+  ['reattachport',['ReattachPort',['../interface_t_g_server_service_1_1_i_instance_config.html#a65da0e5bd240b2734b28adb9bf4ed06d',1,'TGServerService.IInstanceConfig.ReattachPort()'],['../class_t_g_server_service_1_1_instance_config.html#a784bb1b1cd2fc8604d80a345867dc508',1,'TGServerService.InstanceConfig.ReattachPort()']]],
+  ['reattachprocessid',['ReattachProcessID',['../interface_t_g_server_service_1_1_i_instance_config.html#afda34eba9edf46d9773aa45321a43abc',1,'TGServerService.IInstanceConfig.ReattachProcessID()'],['../class_t_g_server_service_1_1_instance_config.html#ab96659a32fbd69394433c7b3af178064',1,'TGServerService.InstanceConfig.ReattachProcessID()']]],
+  ['reattachrequired',['ReattachRequired',['../interface_t_g_server_service_1_1_i_instance_config.html#a54357828f9b8469607cbb954e948d9a2',1,'TGServerService.IInstanceConfig.ReattachRequired()'],['../class_t_g_server_service_1_1_instance_config.html#a4103e72ac0bff9a1b1b75e5a6525c8a4',1,'TGServerService.InstanceConfig.ReattachRequired()']]],
   ['requiredparameters',['RequiredParameters',['../class_t_g_service_interface_1_1_command.html#aff3cd84b173669126ba7a4e215d872e7',1,'TGServiceInterface::Command']]],
   ['requiresadmin',['RequiresAdmin',['../class_t_g_server_service_1_1_chat_commands_1_1_chat_command.html#af8635b39235a49da28f1c7c3ee0a53ff',1,'TGServerService::ChatCommands::ChatCommand']]]
 ];

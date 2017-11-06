@@ -1,8 +1,8 @@
 <map id="TGServerService.Service.AddEndpoint" name="TGServerService.Service.AddEndpoint">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#af9fbc7211bc275fbfbb1bd6fcf4f94d0" title="Creates and starts a ServiceHost for a ServerInstance at config &#160;" alt="" coords="220,168,387,209"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a162d6b7d16266208b04285b4894b78cb" title="Creates and starts a ServiceHost for a ServerInstance at config &#160;" alt="" coords="220,168,387,209"/>
 <area shape="rect" id="node12" href="$class_t_g_server_service_1_1_service.html#a1e851175c71de84bae17d2f43c8b3301" title="Creates the ServiceHost for ITGSService " alt="" coords="220,233,387,275"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#ab74c8e27919681ca6333d98088e482b9" title="Creates ServiceHosts for all ServerInstances as listed in Properties.Settings.InstancePaths, detaches bad ones " alt="" coords="435,172,601,213"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#a7bd9fa33a5f51db6f4f44cdd8eaae281" title="Starts and onlines an instance located at config &#160;" alt="" coords="435,105,601,147"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#aee995f06ba36b0d2313b610fac064346" title="Starts and onlines an instance located at config &#160;" alt="" coords="435,105,601,147"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e" title="Called by the Windows service manager. Initializes and starts configured ServerInstances ..." alt="" coords="649,233,816,275"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new server instance &#160;" alt="" coords="649,103,816,144"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="649,168,816,209"/>

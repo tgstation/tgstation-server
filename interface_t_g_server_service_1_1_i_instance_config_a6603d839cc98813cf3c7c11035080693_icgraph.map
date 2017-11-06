@@ -1,0 +1,11 @@
+<map id="TGServerService.IInstanceConfig.Save" name="TGServerService.IInstanceConfig.Save">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new server instance &#160;" alt="" coords="249,5,415,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a2e5dea27fe5ea99beb0b1911eaffdaf7" title="Set TheDroidsWereLookingFor based off either an search ed name or a string SecurityIdentifier from th..." alt="" coords="227,123,437,164"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a17fd1cd46cd9791a923b449460459dbe" title="Searches the windows machine for the group named groupName , sets it as the authorized group if it&#39;s ..." alt="" coords="485,93,696,135"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="249,188,415,229"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a8fa16abc1470f3a09b8c5da998ad03a9" title="Setup or reattach the watchdog, depending on InstanceConfig.ReattachRequired of Config, and create the DiagnosticsDir " alt="" coords="227,253,437,295"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="249,319,415,360"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="485,207,696,248"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#a3ed52895c6c15b9f1270f73369958347" title="Upgrades up the service configuration " alt="" coords="507,319,674,360"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e" title="Called by the Windows service manager. Initializes and starts configured ServerInstances ..." alt="" coords="744,319,911,360"/>
+</map>

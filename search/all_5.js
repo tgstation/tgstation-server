@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['enabled',['Enabled',['../class_t_g_server_service_1_1_instance_config.html#a5c5299a15a41f783643dfee92e19ceed',1,'TGServerService.InstanceConfig.Enabled()'],['../class_t_g_service_interface_1_1_chat_setup_info.html#af99a3123f9a81487a55c1d03df28c87d',1,'TGServiceInterface.ChatSetupInfo.Enabled()'],['../class_t_g_service_interface_1_1_instance_metadata.html#ad7d5c3121f259d0f810b87ab1bca9f29',1,'TGServiceInterface.InstanceMetadata.Enabled()']]],
+  ['enabled',['Enabled',['../interface_t_g_server_service_1_1_i_instance_config.html#ab5a0a78c93bfd38d740447f203319267',1,'TGServerService.IInstanceConfig.Enabled()'],['../class_t_g_server_service_1_1_instance_config.html#a5c5299a15a41f783643dfee92e19ceed',1,'TGServerService.InstanceConfig.Enabled()'],['../class_t_g_service_interface_1_1_chat_setup_info.html#af99a3123f9a81487a55c1d03df28c87d',1,'TGServiceInterface.ChatSetupInfo.Enabled()'],['../class_t_g_service_interface_1_1_instance_metadata.html#ad7d5c3121f259d0f810b87ab1bca9f29',1,'TGServiceInterface.InstanceMetadata.Enabled()']]],
   ['enabledindex',['EnabledIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#ad0b54239f4f4688e1ec14d89a65ff31b',1,'TGServiceInterface::ChatSetupInfo']]],
   ['encryptdata',['EncryptData',['../class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96',1,'TGServiceInterface::Helpers']]],
   ['enumerated',['Enumerated',['../class_t_g_control_panel_1_1_control_panel.html#a11e64e10ecd2e5625563b5a5df609440a0416b63774d9876d28b528d592de8b57',1,'TGControlPanel::ControlPanel']]],

@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_server_service_1_1_instance_config.html" title="TGServerService.Instance\lConfig" alt="" coords="5,5,176,47"/>
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="" coords="224,5,411,47"/>
+<area shape="rect" id="node1" href="$interface_t_g_server_service_1_1_i_instance_config.html" title="Configuration settings for a ServerInstance " alt="" coords="5,5,179,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_instance_config.html" title="TGServerService.Instance\lConfig" alt="" coords="227,5,397,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="" coords="445,5,632,47"/>
 </map>

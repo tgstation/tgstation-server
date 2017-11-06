@@ -27,7 +27,7 @@
 <area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#aabf31525de01a260b7a83ce8ac928d62" title="TGServerService.ServerInstance.\lInitializeImpl" alt="" coords="1069,489,1280,531"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured InstanceConfig.AutoUpdateInterval of Config and tries to Update(bool) and Comp..." alt="" coords="1342,413,1553,455"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="1615,413,1825,455"/>
-<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#ab29fd416eb81b88dc28f1d9eeeaadeb9" title="Constructs and a ServerInstance " alt="" coords="1873,413,2084,455"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="1873,413,2084,455"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#a427984d1cb5c60f217967795c9695998" title="Sets up the symlinks for hotswapping game code. This will reset everything in the Game folder..." alt="" coords="1342,489,1553,531"/>
 <area shape="rect" id="node17" href="$class_t_g_server_service_1_1_server_instance.html#adbff0b841a8e339a79890a1a91be1fef" title="Updates the html changelog &#160;" alt="" coords="552,1796,763,1837"/>
 <area shape="rect" id="node21" href="$class_t_g_server_service_1_1_server_instance.html#a74d6e8df896a4a8f6f1faa7d67a2bbde" title="Run the &quot;postcompile&quot; event " alt="" coords="552,289,763,331"/>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name',['Name',['../class_t_g_server_service_1_1_instance_config.html#a7da592ea91a0b4ddf0806e25aa5d3b77',1,'TGServerService.InstanceConfig.Name()'],['../class_t_g_service_interface_1_1_instance_metadata.html#aa4e0f82b2fef9af8fe214531d1951c9b',1,'TGServiceInterface.InstanceMetadata.Name()']]],
+  ['name',['Name',['../interface_t_g_server_service_1_1_i_instance_config.html#ab6c542abe8aea2f9e7029ad6597fbb81',1,'TGServerService.IInstanceConfig.Name()'],['../class_t_g_server_service_1_1_instance_config.html#a7da592ea91a0b4ddf0806e25aa5d3b77',1,'TGServerService.InstanceConfig.Name()'],['../class_t_g_service_interface_1_1_instance_metadata.html#aa4e0f82b2fef9af8fe214531d1951c9b',1,'TGServiceInterface.InstanceMetadata.Name()']]],
   ['nickindex',['NickIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a234f7c160cd2a98485e856c7cdb34489',1,'TGServiceInterface::IRCSetupInfo']]],
   ['nickname',['Nickname',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#aade2c7fa428105a2d4af7c75acecf000',1,'TGServiceInterface::IRCSetupInfo']]],
   ['none',['None',['../class_t_g_server_service_1_1_server_instance.html#ad1ddb778169e3f37504360e6850f3b10a6adf97f83acf6453d4a6a4b1070f3754',1,'TGServerService.ServerInstance.None()'],['../namespace_t_g_service_interface.html#acaf0524ae14529619dd7b58bb50d89fda6adf97f83acf6453d4a6a4b1070f3754',1,'TGServiceInterface.None()']]],
