@@ -214,8 +214,6 @@ namespace TGServerService
 			{
 				var newVersion = Config.SettingsVersion;
 				Config.Upgrade();
-
-				PrePrepConfig();
 				
 				for (var oldVersion = Config.SettingsVersion; oldVersion < newVersion; ++oldVersion)
 					MigrateSettings(oldVersion);
@@ -225,6 +223,8 @@ namespace TGServerService
 				Config.UpgradeRequired = false;
 				Config.Save();
 			}
+
+			PrePrepConfig();
 		}
 
 		/// <summary>
