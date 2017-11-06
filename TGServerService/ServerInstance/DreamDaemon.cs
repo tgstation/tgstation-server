@@ -343,7 +343,7 @@ namespace TGServerService
 					var Now = DateTime.Now;
 					lock (watchdogLock)
 					{
-						CurrentDDLog = String.Format("{0} {1} Diagnostics.txt", Now.ToLongDateString(), Now.ToLongTimeString()).Replace(':', '-');
+						CurrentDDLog = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ");
 						WriteCurrentDDLog("Starting monitoring...");
 					}
 					pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
