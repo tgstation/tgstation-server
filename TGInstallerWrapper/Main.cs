@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGInstallerWrapper
 {
@@ -14,26 +15,12 @@ namespace TGInstallerWrapper
 	{
 		const string DefaultInstallDir = "TG Station Server";  //keep this in sync with the msi installer
 
-		//reflection shit, make sure it matches
-		const string InterfaceDLL = "TGServiceInterface.dll";
-		const string InterfaceNamespace = "TGServiceInterface";
-		const string InterfaceComponentsNamespace = InterfaceNamespace + ".Components";
-		const string InterfaceClass = InterfaceNamespace + ".Interface";
-		const string InterfaceServiceInterface = InterfaceComponentsNamespace + ".ITGSService";   //fuck this typo
-		const string InterfaceClassVerifyConnection = "VerifyConnection";
-		const string InterfaceClassGetComponent = "GetComponent";
-		const string InterfaceServiceInterfaceVersion = "Version";
-		const string InterfaceServiceInterfacePrepareForUpdate = "PrepareForUpdate";
-
-		Assembly InterfaceAssembly;
-		object InterfaceObject;
-		Type Server, ITGSService;
-		MethodInfo VerifyConnection, GetComponentITGSService, Version, PrepareForUpdate;
-
 		string tempDir;
 		bool installing = false;
 		bool cancelled = false;
 		bool pathIsDefault = true;
+
+		Interface Interface;
 
 		/// <summary>
 		/// Construct an installer form
@@ -42,7 +29,6 @@ namespace TGInstallerWrapper
 		{
 			InitializeComponent();
 			SetupTempDir();
-			LoadInterfaceFromReflection();
 			CheckForExistingVersion();
 			PathTextBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), DefaultInstallDir);
 		}
@@ -55,7 +41,7 @@ namespace TGInstallerWrapper
 				if (File.Exists(tempDir))
 					File.Delete(tempDir);
 				else if (Directory.Exists(tempDir))
-					Directory.Delete(tempDir);
+					Directory.Delete(tempDir, true);
 			}
 			catch { }
 			if (File.Exists(tempDir) || Directory.Exists(tempDir))
@@ -63,42 +49,37 @@ namespace TGInstallerWrapper
 				tempDir = Path.GetTempFileName();
 				File.Delete(tempDir);  //we want a dir not a file
 			}
-			Directory.CreateDirectory(tempDir);
-		}
-
-		void LoadInterfaceFromReflection()
-		{
-			//so this is where we expect to find the interface dll
 			try
 			{
-				var tmppath = Path.Combine(tempDir, InterfaceDLL);
-				File.WriteAllBytes(tmppath, Properties.Resources.TGServiceInterface);
-				InterfaceAssembly = Assembly.LoadFrom(tmppath);	//we can't link to it, or load the bytes directly because the thing will complain about mixing the DLLExport code and IL code
-				Server = InterfaceAssembly.GetType(InterfaceClass);
-				InterfaceObject = Activator.CreateInstance(Server);
-				ITGSService = InterfaceAssembly.GetType(InterfaceServiceInterface);
-				VerifyConnection = Server.GetMethod(InterfaceClassVerifyConnection);
-				GetComponentITGSService = Server.GetMethod(InterfaceClassGetComponent).MakeGenericMethod(ITGSService);
-				Version = ITGSService.GetMethod(InterfaceServiceInterfaceVersion);
-				PrepareForUpdate = ITGSService.GetMethod(InterfaceServiceInterfacePrepareForUpdate);
+				Directory.CreateDirectory(tempDir);
 			}
-			catch (Exception e)
+			catch
 			{
-				InterfaceAssembly = null;
-				VersionLabel.Text = "Error: (Could not load interface dll)";
-				MessageBox.Show(String.Format("An error occurred while loading {0} (This is an easily preventable bug, please report it)! Error: {1}", InterfaceDLL, e.ToString()));
+				tempDir = null;
 			}
+		}
+
+		void CleanTempDir() {
+			if(tempDir != null)
+				try
+				{
+					Directory.Delete(tempDir, true);
+				}
+				catch { }
 		}
 
 		void CheckForExistingVersion() {
-			if (InterfaceAssembly == null)
-				return;
-			var verifiedConnection = VerifyConnection.Invoke(InterfaceObject, null) == null;
+			Interface = new Interface();
+			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				VersionLabel.Text = (string)Version.Invoke(GetComponentITGSService.Invoke(InterfaceObject, null), null);
-				if (VersionLabel.Text.Contains("v3.0")) //OH GOD!!!!
-					MessageBox.Show("Warning! Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!");
+				VersionLabel.Text = Interface.GetComponent<ITGSService>().Version();
+				var isV0 = VersionLabel.Text.Contains("v3.0");
+				if (isV0) //OH GOD!!!!
+					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
+				if (isV0 || VersionLabel.Text.Contains("v3.1"))
+					//Friendly reminger
+					MessageBox.Show("Upgrading to service version 3.2 will break the 3.1 DMAPI. It is recommended you update your game to the 3.2 API before updating the servive to avoid having to trigger hard restarts.", "Note");
 			}
 			catch
 			{
@@ -114,12 +95,10 @@ namespace TGInstallerWrapper
 
 		bool TellServiceWereComingForThem()
 		{
-			if (InterfaceAssembly == null)
-				return ConfirmDangerousUpgrade();
-			var connectionVerified = VerifyConnection.Invoke(InterfaceObject, null) == null;
+			var connectionVerified = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				PrepareForUpdate.Invoke(GetComponentITGSService.Invoke(InterfaceObject, null), null);
+				Interface.GetComponent<ITGSService>().PrepareForUpdate();
 				Thread.Sleep(3000); //chat messages
 				return true;
 			}

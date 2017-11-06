@@ -49,12 +49,12 @@ namespace TGServiceInterface
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
 		/// </summary>
-		readonly string HTTPSURL;
+		public readonly string HTTPSURL;
 
 		/// <summary>
 		/// The port used by the service
 		/// </summary>
-		readonly ushort HTTPSPort;
+		public readonly ushort HTTPSPort;
 
 		/// <summary>
 		/// Username for remote operations
@@ -149,29 +149,19 @@ namespace TGServiceInterface
 		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
 		/// </summary>
 		/// <param name="instanceName">The name of the instance to connect to</param>
+		/// <param name="skipChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks, sets <see cref="InstanceName"/>, and returns <see cref="ConnectivityLevel.Connected"/></param>
 		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
-		public ConnectivityLevel ConnectToInstance(string instanceName = null)
+		public ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false)
 		{
 			if (instanceName == null)
 				instanceName = InstanceName;
-			return ConnectToInstanceImpl(instanceName, false);
-		}
-
-		/// <summary>
-		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance. Sets <see cref="InstanceName"/>
-		/// </summary>
-		/// <param name="instanceName">The name of the instance to connect to</param>
-		/// <param name="skipAuthChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks and returns <see cref="ConnectivityLevel.Connected"/></param>
-		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
-		internal ConnectivityLevel ConnectToInstanceImpl(string instanceName, bool skipAuthChecks)
-		{
-			if (!ConnectionStatus().HasFlag(ConnectivityLevel.Connected))
+			if (!skipChecks && !ConnectionStatus().HasFlag(ConnectivityLevel.Connected))
 				return ConnectivityLevel.None;
 			var prevInstance = InstanceName;
 			if (prevInstance != instanceName)
 				CloseAllChannels(false);
 			InstanceName = instanceName;
-			if (skipAuthChecks)
+			if (skipChecks)
 				return ConnectivityLevel.Connected;
 			try
 			{
@@ -200,6 +190,11 @@ namespace TGServiceInterface
 				return ConnectivityLevel.Authenticated;
 			}
 		}
+
+		/// <summary>
+		/// Checks if the <see cref="Interface"/> is setup for a remote connection
+		/// </summary>
+		public bool IsRemoteConnection { get { return HTTPSURL != null; } }
 
 		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
@@ -322,7 +317,7 @@ namespace TGServiceInterface
 			var accessPath = instanceName == null ? MasterInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
 
 			var InterfaceName = typeof(T).Name;
-			if (HTTPSURL == null)
+			if (!IsRemoteConnection)
 			{
 				var res2 = new ChannelFactory<T>(
 				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, InterfaceName)));														//10 megs

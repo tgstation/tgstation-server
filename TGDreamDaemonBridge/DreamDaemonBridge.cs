@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TGServiceInterface;
 using TGServiceInterface.Components;
 
-namespace TGServiceInterface
+namespace TGDreamDaemonBridge
 {
 	/// <summary>
 	/// Holds the proc that DD calls to access <see cref="ITGInterop"/>
 	/// </summary>
-	public sealed class DreamDaemonBridge
+	public static class DreamDaemonBridge
 	{
 		/// <summary>
 		/// The proc that DD calls to access <see cref="ITGInterop"/>
@@ -26,7 +27,7 @@ namespace TGServiceInterface
 				parsedArgs.AddRange(args);
 				parsedArgs.RemoveAt(0);
 				using (var I = new Interface())
-					if(I.ConnectToInstanceImpl(parsedArgs[0], true).HasFlag(ConnectivityLevel.Connected))
+					if(I.ConnectToInstance(parsedArgs[0], true).HasFlag(ConnectivityLevel.Connected))
 						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }

@@ -79,15 +79,5 @@ namespace TGInstallerWrapper.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] TGServiceInterface {
-            get {
-                object obj = ResourceManager.GetObject("TGServiceInterface", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
