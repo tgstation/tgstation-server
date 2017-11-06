@@ -9,6 +9,7 @@ namespace TGCommandLine
 
 	class Program
 	{
+		static bool interactive = false, saidSrvVersion = false;
 		static Interface currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
@@ -63,24 +64,29 @@ namespace TGCommandLine
 				return Command.ExitCode.BadCommand;
 			}
 
-			var res = currentInterface.VerifyConnection();
-			if (res != null)
+			var res = currentInterface.ConnectionStatus(out string error);
+			if (!res.HasFlag(ConnectivityLevel.Connected))
 			{
-				Console.WriteLine("Unable to connect to service: " + res);
+				Console.WriteLine("Unable to connect to service: " + error);
 				Console.WriteLine("Remote connection usage: <-c/--connect> username:password@address:port");
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!currentInterface.Authenticate())
+			if (!res.HasFlag(ConnectivityLevel.Authenticated))
 			{
 				Console.WriteLine("Authentication error: Username/password/windows identity is not authorized!");
 				return Command.ExitCode.ConnectionError;
 			}
 
-			if (!SentVMMWarning && currentInterface.VersionMismatch(out string error))
+			if (!SentVMMWarning && currentInterface.VersionMismatch(out error))
 			{
 				SentVMMWarning = true;
 				Console.WriteLine(error);
+			}
+			else if (interactive && !saidSrvVersion)
+			{
+				Console.WriteLine("Connectd to service version: " + currentInterface.GetService().Version());
+				saidSrvVersion = true;
 			}
 
 			try
@@ -98,6 +104,8 @@ namespace TGCommandLine
 		{
 			currentInterface = I;
 			ConsoleCommand.Interface = I;
+			InstanceRootCommand.currentInterface = I;
+			saidSrvVersion = false;
 		}
 
 		public static string ReadLineSecure()
@@ -144,24 +152,56 @@ namespace TGCommandLine
 			return false;
 		}
 
+		/// <summary>
+		/// Tries to set <see cref="currentInterface"/>'s <see cref="ITGInstance"/> to <paramref name="instanceName"/>, outputting appropriate messages
+		/// </summary>
+		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to test</param>
+		/// <param name="silentSuccess">If <see langword="true"/>, does not output on success</param>
+		/// <returns><see langword="true"/> if a <see cref="ConnectivityLevel.Authenticated"/> was achieved with <see cref="Interface.ConnectToInstance(string, bool)"/>, <see langword="false"/> otherwise</returns>
+		static bool CheckInstanceConnectivity(string instanceName, bool silentSuccess)
+		{
+			var res = currentInterface.ConnectToInstance(instanceName);
+			if (!res.HasFlag(ConnectivityLevel.Connected))
+				Console.WriteLine("Unable to connect to instance! Does it exist?");
+			else if (!res.HasFlag(ConnectivityLevel.Authenticated))
+				Console.WriteLine("The current user is not authorized to use this instance!");
+			else
+			{
+				if(!silentSuccess)
+					Console.WriteLine("Successfully conected to instance!");
+				return true;
+			}
+			return false;
+		}
+
 		static int Main(string[] args)
 		{
 			ReplaceInterface(new Interface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 			{
-				Interface.SetBadCertificateHandler((message) =>
+				var argsAsList = new List<string>(args);
+				for (var I = 0; I < argsAsList.Count - 1; ++I)
 				{
-					foreach (var J in args)
-						if (J.ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
-							return true;
-					return false;
-				});
-				return (int)RunCommandLine(new List<string>(args));
+					if (argsAsList[I].ToLower() == "--instance")
+					{
+						if (!CheckInstanceConnectivity(args[I + 1], true))
+							return (int)Command.ExitCode.ConnectionError;
+						argsAsList.RemoveRange(I, 2);
+						break;
+					}
+					else if (argsAsList[I].ToLower() == "--disable-ssl-verification")    //im just not even going to document this because i hate it so much
+					{
+						argsAsList.RemoveAt(I);
+						--I;
+						Interface.SetBadCertificateHandler(_ => false);
+					}
+				}
+				return (int)RunCommandLine(argsAsList);
 			}
-
 			//interactive mode
 			Interface.SetBadCertificateHandler(BadCertificateInteractive);
+			Console.WriteLine("Type 'instance' to connect to a server instance");
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			while (true)
 			{
@@ -169,6 +209,10 @@ namespace TGCommandLine
 				var NextCommand = Console.ReadLine();
 				switch (NextCommand.ToLower())
 				{
+					case "instance":
+						Console.Write("Enter instance name: ");
+						CheckInstanceConnectivity(Console.ReadLine(), false);
+						break;
 					case "remote":
 						SentVMMWarning = false;
 						Console.Write("Enter server address: ");
@@ -188,13 +232,13 @@ namespace TGCommandLine
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
 						ReplaceInterface(new Interface(address, port, username, password));
-						var res = currentInterface.VerifyConnection();
-						if (res != null)
+						var res = currentInterface.ConnectionStatus(out string error);
+						if (!res.HasFlag(ConnectivityLevel.Connected))
 						{
-							Console.WriteLine("Unable to connect: " + res);
+							Console.WriteLine("Unable to connect: " + error);
 							ReplaceInterface(new Interface());
 						}
-						else if (!currentInterface.Authenticate())
+						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
 							ReplaceInterface(new Interface());
@@ -202,10 +246,10 @@ namespace TGCommandLine
 						else
 						{
 							Console.WriteLine("Connected remotely");
-							if (currentInterface.VersionMismatch(out res))
+							if (currentInterface.VersionMismatch(out error))
 							{
 								SentVMMWarning = true;
-								Console.WriteLine(res);
+								Console.WriteLine(error);
 							}
 							Console.WriteLine("Type 'disconnect' to return to local mode");
 						}

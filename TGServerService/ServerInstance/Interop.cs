@@ -24,13 +24,20 @@ namespace TGServerService
 		const int AllowedMajorAPIVersion = 2;
 		Version GameAPIVersion;
 
+		const string SPInstanceName = "server_instance";
+
 		//See code/modules/server_tools/server_tools.dm for command switch
 		const string SCHardReboot = "hard_reboot";  //requests that dreamdaemon restarts when the round ends
 		const string SCGracefulShutdown = "graceful_shutdown";  //requests that dreamdaemon stops when the round ends
 		const string SCWorldAnnounce = "world_announce";	//sends param 'message' to the world
 		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
 		const string SCAPICompat = "api_compat";    //Tells the server we understand each other
-		const string SCPlayerCount = "client_count";	//Gets the number of connected clients
+		const string SCPlayerCount = "client_count";    //Gets the number of connected client
+
+		/// <summary>
+		/// String returned when a command completes successfully with no output
+		/// </summary>
+		const string SRetSuccess = "SUCCESS";
 
 		const string SRKillProcess = "killme";
 		const string SRIRCBroadcast = "irc";
@@ -102,7 +109,7 @@ namespace TGServerService
 					SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
 					break;
 				case SRWorldReboot:
-					Service.WriteInfo("World Rebooted", EventID.WorldReboot);
+					WriteInfo("World Rebooted", EventID.WorldReboot);
 					WriteCurrentDDLog("World rebooted");
 					ServerChatCommands = null;
 					ChatConnectivityCheck();
@@ -115,7 +122,7 @@ namespace TGServerService
 							{
 								GameAPIVersion = null;  //needs updating
 							}
-							Service.WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
+							WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
 						}
 					}
 					break;
@@ -130,7 +137,7 @@ namespace TGServerService
 						}
 						catch
 						{
-							Service.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
+							WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
 							GameAPIVersion = null;
 							break;
 						}
@@ -241,7 +248,7 @@ namespace TGServerService
 				serviceCommsKey += tmp;
 			} while (serviceCommsKey.Length < CommsKeyLen);
 			serviceCommsKey = serviceCommsKey.Substring(0, CommsKeyLen);
-			Service.WriteInfo("Service Comms Key set to: " + serviceCommsKey, EventID.CommsKeySet);
+			WriteInfo("Service Comms Key set to: " + serviceCommsKey, EventID.CommsKeySet);
 		}
 
 		/// <inheritdoc />
@@ -254,7 +261,7 @@ namespace TGServerService
 			}
 			catch(Exception e)
 			{
-				Service.WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
+				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
 				return false;
 			}
 		}

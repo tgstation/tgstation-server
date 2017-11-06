@@ -12,7 +12,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Exit codes for <see cref="Command"/>s
 		/// </summary>
-		public enum ExitCode
+		public enum ExitCode : int
 		{
 			/// <summary>
 			/// The <see cref="Command"/> ran successfully

@@ -49,11 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ByondPage.cs">
+    <Compile Include="ControlPanel\ByondPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChatPage.cs">
+    <Compile Include="ControlPanel\ChatPage.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CountedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstanceSelector.Designer.cs">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -61,10 +70,10 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="ControlPanel.cs">
+    <Compile Include="ControlPanel\ControlPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ControlPanel.Designer.cs">
+    <Compile Include="ControlPanel\ControlPanel.Designer.cs">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -74,20 +83,23 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RepoPage.cs">
+    <Compile Include="ControlPanel\RepoPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ServerPage.cs">
+    <Compile Include="ControlPanel\ServerPage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\Version.cs" />
-    <Compile Include="StaticPage.cs">
+    <Compile Include="ControlPanel\StaticPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="InstanceSelector.resx">
+      <DependentUpon>InstanceSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ControlPanel.resx">
+    <EmbeddedResource Include="ControlPanel\ControlPanel.resx">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

@@ -70,7 +70,7 @@ namespace TGInstallerWrapper
 
 		void CheckForExistingVersion() {
 			Interface = new Interface();
-			var verifiedConnection = Interface.VerifyConnection() == null;
+			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
 				VersionLabel.Text = Interface.GetComponent<ITGSService>().Version();
@@ -95,7 +95,7 @@ namespace TGInstallerWrapper
 
 		bool TellServiceWereComingForThem()
 		{
-			var connectionVerified = Interface.VerifyConnection() == null;
+			var connectionVerified = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
 				Interface.GetComponent<ITGSService>().PrepareForUpdate();

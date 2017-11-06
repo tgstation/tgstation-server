@@ -23,7 +23,7 @@ namespace TGControlPanel
 
 		void InitStaticPage()
 		{
-			if(!Interface.AuthenticateAdmin())
+			if(!Interface.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
 				RecreateStaticButton.Visible = false;
 			BuildFileList();
 		}

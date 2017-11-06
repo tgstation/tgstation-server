@@ -49,8 +49,9 @@ namespace TGServerService
 		//deletes leftovers and checks current status
 		void InitCompiler()
 		{
-			if (File.Exists(LiveDirTest))
-				File.Delete(LiveDirTest);
+			var rldt = RelativePath(LiveDirTest);
+			if (File.Exists(rldt))
+				File.Delete(rldt);
 			compilerCurrentStatus = IsInitialized();
 		}
 
@@ -87,7 +88,7 @@ namespace TGServerService
 		}
 
 		//translates the win32 api call into an exception if it fails
-		void CreateSymlink(string link, string target)
+		static void CreateSymlink(string link, string target)
 		{
 			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
 				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
@@ -117,32 +118,25 @@ namespace TGServerService
 		//what is says on the tin
 		CompilerStatus IsInitialized()
 		{
-			if (File.Exists(Path.Combine(GameDirLive, BridgeDLLName)))   //its a good tell, jim
+			if (File.Exists(RelativePath(Path.Combine(GameDirLive, BridgeDLLName))))	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}
-
-		void CleanGameFolderList(string GameDir, IList<string> theList)
-		{
-			foreach (var I in theList)
-			{
-				var the_path = Path.Combine(GameDir, I);
-				if (Directory.Exists(the_path))
-					Directory.Delete(the_path);
-			}
-		}
-
+		
 		//we need to remove symlinks before we can recursively delete
 		void CleanGameFolder()
 		{
-			if (Directory.Exists(Path.Combine(GameDirA, BridgeDLLName)))
-				Directory.Delete(Path.Combine(GameDirA, BridgeDLLName));
+			var GameDirABridge = RelativePath(Path.Combine(GameDirA, BridgeDLLName));
+			if (Directory.Exists(GameDirABridge))
+				Directory.Delete(GameDirABridge);
 
-			if (Directory.Exists(Path.Combine(GameDirB, BridgeDLLName)))
-				Directory.Delete(Path.Combine(GameDirB, BridgeDLLName));
+			var GameDirBBridge = RelativePath(Path.Combine(GameDirB, BridgeDLLName));
+			if (Directory.Exists(GameDirBBridge))
+				Directory.Delete(GameDirBBridge);
 
-			if (Directory.Exists(GameDirLive))
-				Directory.Delete(GameDirLive);
+			var rgdl = RelativePath(GameDirLive);
+			if (Directory.Exists(rgdl))
+				Directory.Delete(rgdl);
 		}
 
 		//Initializing thread
@@ -183,26 +177,26 @@ namespace TGServerService
 				{
 					SendMessage("DM: Setting up symlinks...", MessageType.DeveloperInfo);
 					CleanGameFolder();
-					Program.DeleteDirectory(GameDir);
+					Program.DeleteDirectory(RelativePath(GameDir));
 
-					Directory.CreateDirectory(GameDirA);
-					Directory.CreateDirectory(GameDirB);
+					Directory.CreateDirectory(RelativePath(GameDirA));
+					Directory.CreateDirectory(RelativePath(GameDirB));
 
-					var Config = GetCachedRepoConfig();
+					var rep_config = GetCachedRepoConfig();
 
-					if (Config != null)
-					{
-						foreach (var I in Config.StaticDirectoryPaths)
-							CreateSymlink(Path.Combine(GameDirA, I), Path.Combine(StaticDirs, I));
-						foreach (var I in Config.DLLPaths)
-							CreateSymlink(Path.Combine(GameDirA, I), Path.Combine(StaticDirs, I));
+					if (rep_config != null) {
+						foreach (var I in rep_config.StaticDirectoryPaths)
+							CreateSymlink(RelativePath(Path.Combine(GameDirA, I)), RelativePath(Path.Combine(StaticDirs, I)));
+						foreach (var I in rep_config.DLLPaths)
+							CreateSymlink(RelativePath(Path.Combine(GameDirA, I)), RelativePath(Path.Combine(StaticDirs, I)));
 					}
 
-					CreateSymlink(Path.Combine(GameDirA, BridgeDLLName), BridgeDLLName);
-					CreateSymlink(Path.Combine(GameDirB, BridgeDLLName), BridgeDLLName);
+					var rbdlln = RelativePath(BridgeDLLName);
+					CreateSymlink(RelativePath(Path.Combine(GameDirA, BridgeDLLName)), rbdlln);
+					CreateSymlink(RelativePath(Path.Combine(GameDirB, BridgeDLLName)), rbdlln);
 
-					CreateSymlink(GameDirLive, GameDirA);
-
+					CreateSymlink(RelativePath(GameDirLive), RelativePath(GameDirA));
+					
 					lock (CompilerLock)
 					{
 						compilerCurrentStatus = CompilerStatus.Compiling;
@@ -218,7 +212,7 @@ namespace TGServerService
 					lock (CompilerLock)
 					{
 						SendMessage("DM: Setup failed!", MessageType.DeveloperInfo);
-						Service.WriteError("Compiler Initialization Error: " + e.ToString(), EventID.DMInitializeCrash);
+						WriteError("Compiler Initialization Error: " + e.ToString(), EventID.DMInitializeCrash);
 						lastCompilerError = e.ToString();
 						compilerCurrentStatus = CompilerStatus.Uninitialized;
 						return;
@@ -236,33 +230,33 @@ namespace TGServerService
 		string GetStagingDir()
 		{
 			string TheDir;
-			if (!Directory.Exists(GameDirLive))
+			if (!Directory.Exists(RelativePath(GameDirLive)))
 				TheDir = GameDirA;
 			else
 			{
-				File.Create(LiveDirTest).Close();
+				File.Create(RelativePath(LiveDirTest)).Close();
 				try
 				{
-					if (File.Exists(ADirTest))
+					if (File.Exists(RelativePath(ADirTest)))
 						TheDir = GameDirA;
-					else if (File.Exists(BDirTest))
+					else if (File.Exists(RelativePath(BDirTest)))
 						TheDir = GameDirB;
 					else
 						throw new Exception("Unable to determine current live directory!");
 				}
 				finally
 				{
-					File.Delete(LiveDirTest);
+					File.Delete(RelativePath(LiveDirTest));
 				}
 
 
 				TheDir = InvertDirectory(TheDir);
-
 			}
+
 			//So TheDir is what the Live folder is NOT pointing to
 			//Now we need to check if DD is running that folder and swap it if necessary
 
-			var rsclock = TheDir + "/" + Properties.Settings.Default.ProjectName + ".rsc.lk";
+			var rsclock = RelativePath(TheDir + "/" + Config.ProjectName + ".rsc.lk");
 			if (File.Exists(rsclock))
 			{
 				try
@@ -272,12 +266,12 @@ namespace TGServerService
 				catch   //held open by byond
 				{
 					//This means there is a staged update waiting to be applied, we have to unstage it before we can work
-					Directory.Delete(GameDirLive);
-					CreateSymlink(GameDirLive, TheDir);
-					return InvertDirectory(TheDir);
+					Directory.Delete(RelativePath(GameDirLive));
+					CreateSymlink(RelativePath(GameDirLive), TheDir);
+					return RelativePath(InvertDirectory(TheDir));
 				}
 			}
-			return TheDir;
+			return RelativePath(TheDir);
 		}
 
 		//I hope you can read this
@@ -349,7 +343,7 @@ namespace TGServerService
 					if (!silent)
 						SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
 
-					resurrectee = GetStagingDir();
+					resurrectee = GetStagingDir();	//non-relative
 
 					var Config = GetCachedRepoConfig();
 					var deleteExcludeList = new List<string> { BridgeDLLName };
@@ -364,27 +358,27 @@ namespace TGServerService
 					{
 						var the_path = Path.Combine(resurrectee, I);
 						if (!Directory.Exists(the_path))
-							CreateSymlink(Path.Combine(resurrectee, I), Path.Combine(StaticDirs, I));
+							CreateSymlink(Path.Combine(resurrectee, I), RelativePath(Path.Combine(StaticDirs, I)));
 					}
 					foreach (var I in Config.DLLPaths)
 					{
 						var the_path = Path.Combine(resurrectee, I);
 						if (!File.Exists(the_path))
-							CreateSymlink(the_path, Path.Combine(StaticDirs, I));
+							CreateSymlink(the_path, RelativePath(Path.Combine(StaticDirs, I)));
 					}
 
 					if (!File.Exists(Path.Combine(resurrectee, BridgeDLLName)))
-						CreateSymlink(Path.Combine(resurrectee, BridgeDLLName), BridgeDLLName);
+						CreateSymlink(Path.Combine(resurrectee, BridgeDLLName), RelativePath(BridgeDLLName));
 
 					deleteExcludeList.Add(".git");
-					Program.CopyDirectory(RepoPath, resurrectee, deleteExcludeList);
+					Program.CopyDirectory(RelativePath(RepoPath), resurrectee, deleteExcludeList);
 					CurrentSha = GetHead(false, out string error);
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
-					Program.CopyDirectory(RepoPath + GitLogsDir, resurrectee + GitLogsDir);
+					Program.CopyDirectory(RelativePath(RepoPath + GitLogsDir), resurrectee + GitLogsDir);
 					try
 					{
-						File.Copy(PRJobFile, resurrectee + Path.DirectorySeparatorChar + PRJobFile);
+						File.Copy(RelativePath(PRJobFile), Path.Combine(resurrectee, PRJobFile));
 					}
 					catch { }
 				}
@@ -411,7 +405,7 @@ namespace TGServerService
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
 					SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo);
-					Service.WriteError(errorMsg, EventID.DMCompileCrash);
+					WriteError(errorMsg, EventID.DMCompileCrash);
 					lock (CompilerLock)
 					{
 						lastCompilerError = errorMsg;
@@ -424,13 +418,13 @@ namespace TGServerService
 				{
 					lastCompilerError = "The precompile hook failed";
 					compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-					Service.WriteWarning("Precompile hook failed!", EventID.DMCompileError);
+					WriteWarning("Precompile hook failed!", EventID.DMCompileError);
 					return;
 				}
 
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
-					DM.StartInfo.FileName = ByondDirectory + "/bin/dm.exe";
+					DM.StartInfo.FileName = RelativePath(ByondDirectory + "/bin/dm.exe");
 					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
@@ -490,10 +484,11 @@ namespace TGServerService
 								Proc.Suspend();
 							try
 							{
-								if (Directory.Exists(GameDirLive))
-									//these two lines should be atomic but this is the best we can do
-									Directory.Delete(GameDirLive);
-								CreateSymlink(GameDirLive, resurrectee);
+								var rgdl = RelativePath(GameDirLive);
+								if (Directory.Exists(rgdl))
+									//these next two lines should be atomic but this is the best we can do
+									Directory.Delete(rgdl);
+								CreateSymlink(rgdl, resurrectee);
 							}
 							finally
 							{
@@ -506,13 +501,13 @@ namespace TGServerService
 						{
 							lastCompilerError = "The postcompile hook failed";
 							compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-							Service.WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
+							WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
 							return;
 						}
 						UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
 						SendMessage("DM: " + msg, MessageType.DeveloperInfo);
-						Service.WriteInfo(msg, EventID.DMCompileSuccess);
+						WriteInfo(msg, EventID.DMCompileSuccess);
 						lock (CompilerLock)
 						{
 							if (staged)
@@ -524,7 +519,7 @@ namespace TGServerService
 					else
 					{
 						SendMessage("DM: Compile failed!", MessageType.DeveloperInfo); //Also happens for warnings
-						Service.WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
+						WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
 						lock (CompilerLock)
 						{
 							lastCompilerError = "DM compile failure";
@@ -541,7 +536,7 @@ namespace TGServerService
 			catch (Exception e)
 			{
 				SendMessage("DM: Compiler thread crashed!", MessageType.DeveloperInfo);
-				Service.WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
+				WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
 				lock (CompilerLock)
 				{
 					lastCompilerError = e.ToString();
@@ -558,7 +553,7 @@ namespace TGServerService
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						compilationCancellationRequestation = false;
 						SendMessage("DM: Compile cancelled!", MessageType.DeveloperInfo);
-						Service.WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
+						WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
 					}
 				}
 			}
@@ -585,7 +580,7 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				return Properties.Settings.Default.ProjectName;
+				return Config.ProjectName;
 			}
 		}
 
@@ -594,7 +589,7 @@ namespace TGServerService
 		{
 			lock (CompilerLock)
 			{
-				Properties.Settings.Default.ProjectName = projectName;
+				Config.ProjectName = projectName;
 			}
 		}
 

@@ -13,11 +13,6 @@ namespace TGServerService
 		/// Used for multithreading safety
 		/// </summary>
 		object configLock = new object();	//for atomic reads/writes
-		/// <inheritdoc />
-		public string ServerDirectory()
-		{
-			return Environment.CurrentDirectory;
-		}
 
 		/// <inheritdoc />
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
@@ -26,7 +21,7 @@ namespace TGServerService
 			string path = null;
 			try
 			{
-				var configDir = repo ? RepoPath : StaticDirs;
+				var configDir = RelativePath(repo ? RepoPath : StaticDirs);
 
 				path = configDir + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 				lock (configLock)
@@ -45,7 +40,7 @@ namespace TGServerService
 						var Found = false;
 						foreach (var I in Config.StaticDirectoryPaths)
 						{
-							if (di1.FullName == new DirectoryInfo(Path.Combine(RepoPath, I)).FullName)
+							if (di1.FullName == new DirectoryInfo(Path.Combine(RelativePath(RepoPath), I)).FullName)
 							{
 								Found = true;
 								break;
@@ -81,7 +76,7 @@ namespace TGServerService
 
 					var output = File.ReadAllText(path);
 					Service.CancelImpersonation();
-					Service.WriteInfo("Read of " + path, EventID.StaticRead);
+					WriteInfo("Read of " + path, EventID.StaticRead);
 					error = null;
 					unauthorized = false;
 					return output;
@@ -98,7 +93,7 @@ namespace TGServerService
 			{
 				error = e.ToString();
 				Service.CancelImpersonation();
-				Service.WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
+				WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				unauthorized = false;
 				return null;
 			}
@@ -108,12 +103,12 @@ namespace TGServerService
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
-			var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+			var path = RelativePath(StaticDirs) + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
 			{
 				lock (configLock)
 				{
-					var di1 = new DirectoryInfo(StaticDirs);
+					var di1 = new DirectoryInfo(RelativePath(StaticDirs));
 					var destdir = new FileInfo(path).Directory.FullName;
 					var di2 = new DirectoryInfo(destdir);
 
@@ -137,7 +132,7 @@ namespace TGServerService
 					Directory.CreateDirectory(destdir);
 					File.WriteAllText(path, data);
 					Service.CancelImpersonation();
-					Service.WriteInfo("Write to " + path, EventID.StaticWrite);
+					WriteInfo("Write to " + path, EventID.StaticWrite);
 					unauthorized = false;
 					return null;
 				}
@@ -152,7 +147,7 @@ namespace TGServerService
 			{
 				unauthorized = false;
 				Service.CancelImpersonation();
-				Service.WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
+				WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}
@@ -160,12 +155,12 @@ namespace TGServerService
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
-			var path = StaticDirs + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
+			var path = RelativePath(StaticDirs + '/' + staticRelativePath);   //do not use path.combine or it will try and take the root
 			try
 			{
 				lock (configLock)
 				{
-					var di1 = new DirectoryInfo(StaticDirs);
+					var di1 = new DirectoryInfo(RelativePath(StaticDirs));
 					var fi = new FileInfo(path);
 					var di2 = new DirectoryInfo(fi.Directory.FullName);
 
@@ -191,7 +186,7 @@ namespace TGServerService
 					else if (Directory.Exists(path))
 						Program.DeleteDirectory(path);
 					Service.CancelImpersonation();
-					Service.WriteInfo("Delete of " + path, EventID.StaticDelete);
+					WriteInfo("Delete of " + path, EventID.StaticDelete);
 					unauthorized = false;
 					return null;
 				}
@@ -206,7 +201,7 @@ namespace TGServerService
 			{
 				unauthorized = false;
 				Service.CancelImpersonation();
-				Service.WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
+				WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}
@@ -217,13 +212,13 @@ namespace TGServerService
 		{
 			try
 			{
-				if (!Directory.Exists(StaticDirs))
+				if (!Directory.Exists(RelativePath(StaticDirs)))
 				{
 					error = null;
 					unauthorized = false;
 					return new List<string>();
 				}
-				DirectoryInfo dirToEnum = new DirectoryInfo(StaticDirs + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
+				DirectoryInfo dirToEnum = new DirectoryInfo(RelativePath(StaticDirs) + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
 				var result = new List<string>();
 				foreach (var I in dirToEnum.GetFiles())
 					result.Add(I.Name);

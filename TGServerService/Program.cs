@@ -9,7 +9,7 @@ namespace TGServerService
 		/// <summary>
 		/// Entry point to the program
 		/// </summary>
-		static void Main() => new Service();
+		static void Main() => Service.Launch();
 
 		/// <summary>
 		/// Copy a file from <paramref name="source"/> to <paramref name="dest"/>, but first ensure the destination directory exists

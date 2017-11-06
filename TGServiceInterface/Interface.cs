@@ -29,13 +29,22 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The maximum message size to and from a remote server
 		/// </summary>
-		public const long TransferLimitRemote = 10485760;	//10 MB
+		public const long TransferLimitRemote = 10485760;   //10 MB
 
 		/// <summary>
-		/// Base name of the communication pipe
-		/// they are formatted as MasterPipeName/ComponentName
+		/// Base name of communication URLs
 		/// </summary>
 		public const string MasterInterfaceName = "TGStationServerService";
+		/// <summary>
+		/// Base name of instance URLs
+		/// </summary>
+		public const string InstanceInterfaceName = MasterInterfaceName + "/Instance";
+
+
+		/// <summary>
+		/// The name of the current instance in use. Defaults to <see langword="null"/>
+		/// </summary>
+		public string InstanceName { get; private set; }
 
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
@@ -58,9 +67,9 @@ namespace TGServiceInterface
 		readonly string HTTPSPassword;
 
 		/// <summary>
-		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
+		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
 		/// </summary>
-		IDictionary<Type, ChannelFactory> ChannelFactoryCache = new Dictionary<Type, ChannelFactory>();
+		IDictionary<string, ChannelFactory> ChannelFactoryCache = new Dictionary<string, ChannelFactory>();
 
 		/// <summary>
 		/// Returns a <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service
@@ -68,11 +77,13 @@ namespace TGServiceInterface
 		/// <returns>A <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service</returns>
 		static IList<Type> CollectComponents()
 		{
-			//find all interfaces in this assembly in this namespace that have the service contract attribute
+			var ServiceComponent = typeof(ITGSService); //this is special
+														//find all interfaces in this assembly in this namespace that have the service contract attribute
 			var query = from t in Assembly.GetExecutingAssembly().GetTypes()
-						where t.IsInterface 
-						&& t.Namespace == typeof(ITGSService).Namespace
+						where t.IsInterface
+						&& t.Namespace == ServiceComponent.Namespace
 						&& t.GetCustomAttribute(typeof(ServiceContractAttribute)) != null
+						&& t != ServiceComponent
 						select t;
 			return query.ToList();
 		}
@@ -103,7 +114,7 @@ namespace TGServiceInterface
 						ErrorMessage = "An unknown error occurred.";
 						break;
 				}
-				ErrorMessage = String.Format("The certificate failed to verify! Error: {0} Cert: {1}", ErrorMessage, cert.ToString());
+				ErrorMessage = String.Format("The server's certificate failed to verify! Error: {0} Cert: {1}", ErrorMessage, cert.ToString());
 				return handler(ErrorMessage);
 			};
 		}
@@ -129,6 +140,58 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
+		/// Constructs an <see cref="Interface"/> that connects to the same <see cref="ITGSService"/> as some <paramref name="other"/> <see cref="ITGInstance"/>
+		/// </summary>
+		/// <param name="other"></param>
+		public Interface(Interface other) : this(other.HTTPSURL, other.HTTPSPort, other.HTTPSUsername, other.HTTPSPassword) { }
+
+		/// <summary>
+		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
+		/// </summary>
+		/// <param name="instanceName">The name of the instance to connect to</param>
+		/// <param name="skipChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks, sets <see cref="InstanceName"/>, and returns <see cref="ConnectivityLevel.Connected"/></param>
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		public ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false)
+		{
+			if (instanceName == null)
+				instanceName = InstanceName;
+			if (!skipChecks && !ConnectionStatus().HasFlag(ConnectivityLevel.Connected))
+				return ConnectivityLevel.None;
+			var prevInstance = InstanceName;
+			if (prevInstance != instanceName)
+				CloseAllChannels(false);
+			InstanceName = instanceName;
+			if (skipChecks)
+				return ConnectivityLevel.Connected;
+			try
+			{
+				GetComponent<ITGConnectivity>().VerifyConnection();
+			}
+			catch
+			{
+				InstanceName = prevInstance;
+				return ConnectivityLevel.None;
+			}
+			try
+			{
+				GetComponent<ITGInstance>().ServerDirectory();
+			}
+			catch
+			{
+				return ConnectivityLevel.Connected;
+			}
+			try
+			{
+				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+				return ConnectivityLevel.Administrator;
+			}
+			catch
+			{
+				return ConnectivityLevel.Authenticated;
+			}
+		}
+
+		/// <summary>
 		/// Checks if the <see cref="Interface"/> is setup for a remote connection
 		/// </summary>
 		public bool IsRemoteConnection { get { return HTTPSURL != null; } }
@@ -136,13 +199,28 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
 		/// </summary>
-		void ClearCachedChannels()
+		/// <param name="includingRoot">If set to <see langword="false"/>, doesn't clear the channels that are used by <see cref="ITGSService"/></param>
+		void CloseAllChannels(bool includingRoot)
 		{
+			string[] RootThings = { typeof(ITGSService).Name, 'S' + typeof(ITGConnectivity).Name };
 			lock (ChannelFactoryCache)
 			{
 				foreach (var I in ChannelFactoryCache)
-					CloseChannel(I.Value);
-				ChannelFactoryCache.Clear();
+				{
+					if (RootThings.Contains(I.Key))
+						continue;
+					var cf = I.Value;
+					try
+					{
+						cf.Closed += ChannelFactory_Closed;
+						cf.Close();
+					}
+					catch
+					{
+						cf.Abort();
+					}
+					ChannelFactoryCache.Remove(I);
+				}
 			}
 		}
 
@@ -153,7 +231,7 @@ namespace TGServiceInterface
 		/// <returns><see langword="true"/> if the <see cref="Interface"/> interface being used to connect to a service does not have the same release version as the service</returns>
 		public bool VersionMismatch(out string errorMessage)
 		{
-			var splits = GetComponent<ITGSService>().Version().Split(' ');
+			var splits = GetService().Version().Split(' ');
 			var theirs = new Version(splits[splits.Length - 1].Substring(1));
 			var ours = new Version(FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
 			if(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Revision != ours.Revision)	//don't care about the patch level
@@ -163,23 +241,6 @@ namespace TGServiceInterface
 			}
 			errorMessage = null;
 			return false;
-		}
-
-		/// <summary>
-		/// Safely shuts down a single <see cref="ChannelFactory"/>
-		/// </summary>
-		/// <param name="cf">The <see cref="ChannelFactory"/> to shutdown</param>
-		static void CloseChannel(ChannelFactory cf)
-		{
-			try
-			{
-				cf.Closed += ChannelFactory_Closed;
-				cf.Close();
-			}
-			catch
-			{
-				cf.Abort();
-			}
 		}
 
 		/// <summary>
@@ -193,13 +254,26 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Returns the requested <see cref="Interface"/> component <see langword="interface"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
+		/// Returns the requested <see cref="Interface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <returns>The correct component <see langword="interface"/></returns>
 		public T GetComponent<T>()
 		{
-			var tot = typeof(T);
+			var ToT = typeof(T);
+			if (!ValidInterfaces.Contains(ToT) && ToT != typeof(ITGSService))
+				throw new Exception("Invalid type!");
+			return GetComponentImpl<T>(true);
+		}
+
+		T GetComponentImpl<T>(bool useInstanceName)
+		{
+			if (useInstanceName & InstanceName == null)
+				throw new Exception("Instance not selected!");
+			var actualToT = typeof(T);
+			var tot = actualToT.Name;
+			if (actualToT == typeof(ITGConnectivity) && !useInstanceName)
+				tot = 'S' + tot; 
 			ChannelFactory<T> cf;
 
 			lock (ChannelFactoryCache)
@@ -217,10 +291,19 @@ namespace TGServiceInterface
 						ChannelFactoryCache[tot].Abort();
 						ChannelFactoryCache.Remove(tot);
 					}
-				cf = CreateChannel<T>();
+				cf = CreateChannel<T>(useInstanceName ? InstanceName : null);
 				ChannelFactoryCache[tot] = cf;
 			}
 			return cf.CreateChannel();
+		}
+
+		/// <summary>
+		/// Returns the <see cref="ITGSService"/> component for the service
+		/// </summary>
+		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
+		public ITGSService GetService()
+		{
+			return GetComponentImpl<ITGSService>(false);
 		}
 
 		/// <summary>
@@ -229,16 +312,15 @@ namespace TGServiceInterface
 		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
 		/// <exception cref="Exception">Thrown if <typeparamref name="T"/> isn't a valid component <see langword="interface"/></exception>
-		public ChannelFactory<T> CreateChannel<T>()
+		ChannelFactory<T> CreateChannel<T>(string instanceName)
 		{
-			var ToT = typeof(T);
-			if (!ValidInterfaces.Contains(ToT))
-				throw new Exception("Invalid type!");
+			var accessPath = instanceName == null ? MasterInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
+
 			var InterfaceName = typeof(T).Name;
 			if (!IsRemoteConnection)
 			{
 				var res2 = new ChannelFactory<T>(
-				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", MasterInterfaceName, InterfaceName)));														//10 megs
+				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, InterfaceName)));														//10 megs
 				res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 				return res2;
 			}
@@ -253,7 +335,7 @@ namespace TGServiceInterface
 			binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
 			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
 			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
-			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", HTTPSURL, HTTPSPort, MasterInterfaceName, InterfaceName));
+			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", HTTPSURL, HTTPSPort, accessPath, InterfaceName));
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
 			{
@@ -264,53 +346,51 @@ namespace TGServiceInterface
 		}
 
 		/// <summary>
-		/// Used to test if the service is avaiable on the machine. Note that state can technically change at any time and any call to the service may throw an exception because it failed
+		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
 		/// </summary>
 		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
-		public string VerifyConnection()
+		public ConnectivityLevel ConnectionStatus()
 		{
-			try
-			{
-				GetComponent<ITGConnectivity>().VerifyConnection();
-				return null;
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
-			}
+			return ConnectionStatus(out string unused);
 		}
 
 		/// <summary>
-		/// Checks if the supplied user's credentials have permission to use the service. Requires a successful prior call to <see cref="VerifyConnection"/>
+		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
 		/// </summary>
-		/// <returns><see langword="true"/> if credentials are valid, <see langword="false"/> otherwise</returns>
-		public bool Authenticate()
+		/// <param name="error">String of the error that prevented an elevated connectivity level</param>
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		public ConnectivityLevel ConnectionStatus(out string error)
 		{
 			try
 			{
-				GetComponent<ITGSService>().Version();
-				return true;
+				GetComponentImpl<ITGConnectivity>(false).VerifyConnection();
 			}
-			catch
+			catch (CommunicationException e)
 			{
-				return false;
+				error = e.ToString();
+				return ConnectivityLevel.None;
 			}
-		}
+			var service = GetService();
+			try
+			{
+				service.Version();
+			}
+			catch(Exception e)
+			{
+				error = e.ToString();
+				return ConnectivityLevel.Connected;
+			}
+			try
+			{
+				// TODO
 
-		/// <summary>
-		/// Checks if the current login can use <see cref="ITGAdministration"/>. Requires a successful prior call to <see cref="Authenticate"/>
-		/// </summary>
-		/// <returns><see langword="true"/> if the connection may use <see cref="ITGAdministration"/>, <see langword="false"/> otherwise</returns>
-		public bool AuthenticateAdmin()
-		{
-			try
-			{
-				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
-				return true;
+				error = null;
+				return ConnectivityLevel.Administrator;
 			}
-			catch
+			catch(Exception e)
 			{
-				return false;
+				error = e.ToString();
+				return ConnectivityLevel.Authenticated;
 			}
 		}
 
@@ -321,7 +401,7 @@ namespace TGServiceInterface
 		private bool disposedValue = false;
 
 		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="ClearCachedChannels"/>
+		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="CloseAllChannels"/>
 		/// </summary>
 		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
 		void Dispose(bool disposing)
@@ -330,7 +410,7 @@ namespace TGServiceInterface
 			{
 				if (disposing)
 				{
-					ClearCachedChannels();
+					CloseAllChannels(true);
 				}
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

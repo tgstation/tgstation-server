@@ -17,7 +17,7 @@ namespace TGServerService
 		/// </summary>
 		void InitEventHandlers()
 		{
-			Directory.CreateDirectory(EventFolder);
+			Directory.CreateDirectory(RelativePath(EventFolder));
 		}
 
 		/// <summary>
@@ -27,7 +27,7 @@ namespace TGServerService
 		/// <returns>The path to the event handler</returns>
 		string GetEventPath(string eventName)
 		{
-			return string.Format("{0}{1}.bat", EventFolder, eventName);
+			return string.Format("{0}{1}.bat", RelativePath(EventFolder), eventName);
 		}
 
 		/// <summary>
@@ -74,9 +74,9 @@ namespace TGServerService
 			var eventData = String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetEventPath(eventName), stdout, stderr);
 
 			if (success)
-				Service.WriteInfo(eventData, EventID.PreactionEvent);
+				WriteInfo(eventData, EventID.PreactionEvent);
 			else
-				Service.WriteWarning(eventData, EventID.PreactionFail);
+				WriteWarning(eventData, EventID.PreactionFail);
 
 			return success;
 		}

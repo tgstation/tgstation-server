@@ -48,11 +48,13 @@
     <Compile Include="DDCommands.cs" />
     <Compile Include="DMCommands.cs" />
     <Compile Include="ChatCommands.cs" />
+    <Compile Include="InstanceRootCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepoCommands.cs" />
     <Compile Include="RootCommands.cs" />
     <Compile Include="..\Version.cs" />
+    <Compile Include="ServiceCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

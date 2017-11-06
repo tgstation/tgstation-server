@@ -6,7 +6,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class BYONDCommand : RootCommand
+	class BYONDCommand : InstanceRootCommand
 	{
 		public BYONDCommand()
 		{

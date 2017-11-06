@@ -6,7 +6,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class ConfigCommand : RootCommand
+	class ConfigCommand : InstanceRootCommand
 	{
 		public ConfigCommand()
 		{
@@ -88,7 +88,7 @@ namespace TGCommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Interface.GetComponent<ITGConfig>().ServerDirectory());
+			OutputProc(Interface.GetComponent<ITGInstance>().ServerDirectory());
 			return ExitCode.Normal;
 		}
 		

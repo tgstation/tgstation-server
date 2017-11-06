@@ -15,7 +15,7 @@
 		{
 			if (disposing && (components != null))
 			{
-				Interface.Dispose();
+				Cleanup();
 				components.Dispose();
 			}
 			base.Dispose(disposing);
@@ -79,7 +79,6 @@
 			this.WebclientCheckBox = new System.Windows.Forms.CheckBox();
 			this.WorldAnnounceButton = new System.Windows.Forms.Button();
 			this.WorldAnnounceField = new System.Windows.Forms.TextBox();
-			this.ServerPathTextbox = new System.Windows.Forms.TextBox();
 			this.projectNameText = new System.Windows.Forms.TextBox();
 			this.WorldAnnounceLabel = new System.Windows.Forms.Label();
 			this.SecuritySelector = new System.Windows.Forms.ComboBox();
@@ -127,10 +126,8 @@
 			this.BackupTagsList = new System.Windows.Forms.ListBox();
 			this.ResetRemote = new System.Windows.Forms.Button();
 			this.RecloneButton = new System.Windows.Forms.Button();
-			this.PythonPathText = new System.Windows.Forms.TextBox();
 			this.RepoBranchTextBox = new System.Windows.Forms.TextBox();
 			this.RepoRemoteTextBox = new System.Windows.Forms.TextBox();
-			this.PythonPathLabel = new System.Windows.Forms.Label();
 			this.RepoGenChangelogButton = new System.Windows.Forms.Button();
 			this.TestmergeSelector = new System.Windows.Forms.NumericUpDown();
 			this.TestMergeListLabel = new System.Windows.Forms.ListBox();
@@ -644,7 +641,6 @@
 			this.ServerPanel.Controls.Add(this.WebclientCheckBox);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceButton);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceField);
-			this.ServerPanel.Controls.Add(this.ServerPathTextbox);
 			this.ServerPanel.Controls.Add(this.projectNameText);
 			this.ServerPanel.Controls.Add(this.WorldAnnounceLabel);
 			this.ServerPanel.Controls.Add(this.SecuritySelector);
@@ -790,14 +786,6 @@
 			this.WorldAnnounceField.Name = "WorldAnnounceField";
 			this.WorldAnnounceField.Size = new System.Drawing.Size(213, 20);
 			this.WorldAnnounceField.TabIndex = 40;
-			// 
-			// ServerPathTextbox
-			// 
-			this.ServerPathTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.ServerPathTextbox.Location = new System.Drawing.Point(136, 163);
-			this.ServerPathTextbox.Name = "ServerPathTextbox";
-			this.ServerPathTextbox.Size = new System.Drawing.Size(296, 20);
-			this.ServerPathTextbox.TabIndex = 32;
 			// 
 			// projectNameText
 			// 
@@ -1325,10 +1313,8 @@
 			this.RepoPanel.Controls.Add(this.BackupTagsList);
 			this.RepoPanel.Controls.Add(this.ResetRemote);
 			this.RepoPanel.Controls.Add(this.RecloneButton);
-			this.RepoPanel.Controls.Add(this.PythonPathText);
 			this.RepoPanel.Controls.Add(this.RepoBranchTextBox);
 			this.RepoPanel.Controls.Add(this.RepoRemoteTextBox);
-			this.RepoPanel.Controls.Add(this.PythonPathLabel);
 			this.RepoPanel.Controls.Add(this.RepoGenChangelogButton);
 			this.RepoPanel.Controls.Add(this.TestmergeSelector);
 			this.RepoPanel.Controls.Add(this.TestMergeListLabel);
@@ -1412,14 +1398,6 @@
 			this.RecloneButton.Visible = false;
 			this.RecloneButton.Click += new System.EventHandler(this.RecloneButton_Click);
 			// 
-			// PythonPathText
-			// 
-			this.PythonPathText.Location = new System.Drawing.Point(122, 112);
-			this.PythonPathText.Name = "PythonPathText";
-			this.PythonPathText.Size = new System.Drawing.Size(535, 20);
-			this.PythonPathText.TabIndex = 31;
-			this.PythonPathText.Visible = false;
-			// 
 			// RepoBranchTextBox
 			// 
 			this.RepoBranchTextBox.Location = new System.Drawing.Point(122, 70);
@@ -1435,19 +1413,6 @@
 			this.RepoRemoteTextBox.Size = new System.Drawing.Size(535, 20);
 			this.RepoRemoteTextBox.TabIndex = 14;
 			this.RepoRemoteTextBox.Visible = false;
-			// 
-			// PythonPathLabel
-			// 
-			this.PythonPathLabel.AutoSize = true;
-			this.PythonPathLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.PythonPathLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.PythonPathLabel.Location = new System.Drawing.Point(6, 112);
-			this.PythonPathLabel.Name = "PythonPathLabel";
-			this.PythonPathLabel.Size = new System.Drawing.Size(114, 18);
-			this.PythonPathLabel.TabIndex = 30;
-			this.PythonPathLabel.Text = "Python Path:";
-			this.PythonPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.PythonPathLabel.Visible = false;
 			// 
 			// RepoGenChangelogButton
 			// 
@@ -1883,8 +1848,6 @@
 		private System.Windows.Forms.CheckBox WebclientCheckBox;
 		private System.Windows.Forms.Button WorldAnnounceButton;
 		private System.Windows.Forms.TextBox WorldAnnounceField;
-		private System.Windows.Forms.TextBox ServerPathTextbox;
-		private System.Windows.Forms.TextBox projectNameText;
 		private System.Windows.Forms.Label WorldAnnounceLabel;
 		private System.Windows.Forms.ComboBox SecuritySelector;
 		private System.Windows.Forms.Label SecurityTitle;
@@ -1929,10 +1892,8 @@
 		private System.Windows.Forms.ListBox BackupTagsList;
 		private System.Windows.Forms.Button ResetRemote;
 		private System.Windows.Forms.Button RecloneButton;
-		private System.Windows.Forms.TextBox PythonPathText;
 		private System.Windows.Forms.TextBox RepoBranchTextBox;
 		private System.Windows.Forms.TextBox RepoRemoteTextBox;
-		private System.Windows.Forms.Label PythonPathLabel;
 		private System.Windows.Forms.Button RepoGenChangelogButton;
 		private System.Windows.Forms.NumericUpDown TestmergeSelector;
 		private System.Windows.Forms.ListBox TestMergeListLabel;
@@ -1967,5 +1928,6 @@
 		private System.Windows.Forms.NumericUpDown AutoUpdateInterval;
 		private System.Windows.Forms.CheckBox AutoUpdateCheckbox;
 		private System.Windows.Forms.Label AutoUpdateMLabel;
+		private System.Windows.Forms.TextBox projectNameText;
 	}
 }

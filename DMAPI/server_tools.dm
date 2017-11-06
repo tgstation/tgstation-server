@@ -71,6 +71,7 @@
 
 #define SERVICE_WORLD_PARAM "server_service"
 #define SERVICE_VERSION_PARAM "server_service_version"
+#define SERVICE_INSTANCE_PARAM "server_instance"
 #define SERVICE_PR_TEST_JSON "prtestjob.json"
 #define SERVICE_INTERFACE_DLL "TGDreamDaemonBridge.dll"
 #define SERVICE_INTERFACE_FUNCTION "DDEntryPoint"
@@ -96,6 +97,8 @@
 #define SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE "send2irc"
 #define SERVICE_REQUEST_WORLD_REBOOT "worldreboot"
 #define SERVICE_REQUEST_API_VERSION "api_ver"
+
+#define SERVICE_RETURN_SUCCESS "SUCCESS"
 
 /*
 The MIT License

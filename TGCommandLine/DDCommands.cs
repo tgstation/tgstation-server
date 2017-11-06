@@ -5,7 +5,7 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-	class DDCommand : RootCommand
+	class DDCommand : InstanceRootCommand
 	{
 		public DDCommand()
 		{

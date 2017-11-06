@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.ServiceModel;
 using TGServiceInterface.Components;
 
@@ -13,13 +15,23 @@ namespace TGServerService
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed partial class ServerInstance : IDisposable, ITGSService, ITGConnectivity
+	sealed partial class ServerInstance : IDisposable, ITGConnectivity, ITGInstance
 	{
+		/// <summary>
+		/// Used to assign the instance to event IDs
+		/// </summary>
+		public readonly byte LoggingID;
+		/// <summary>
+		/// The configuration settings for the instance
+		/// </summary>
+		readonly InstanceConfig Config;
 		/// <summary>
 		/// Constructs and a <see cref="ServerInstance"/>
 		/// </summary>
-		public ServerInstance()
+		public ServerInstance(InstanceConfig config, byte logID)
 		{
+			LoggingID = logID;
+			Config = config;
 			FindTheDroidsWereLookingFor();
 			InitEventHandlers();
 			InitChat();
@@ -39,22 +51,87 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+			Config.Save();
+		}
+
+		/// <summary>
+		/// Writes information to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
+		void WriteInfo(string message, EventID id)
+		{
+			Service.WriteEntry(message, id, EventLogEntryType.Information, LoggingID);
+		}
+
+		/// <summary>
+		/// Writes an error to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
+		void WriteError(string message, EventID id)
+		{
+			Service.WriteEntry(message, id, EventLogEntryType.Error, LoggingID);
+		}
+
+		/// <summary>
+		/// Writes a warning to the Windows event log
+		/// </summary>
+		/// <param name="message">The log message</param>
+		/// <param name="id">The <see cref="EventID"/> of the message</param>
+		void WriteWarning(string message, EventID id)
+		{
+			Service.WriteEntry(message, id, EventLogEntryType.Warning, LoggingID);
+		}
+
+		/// <summary>
+		/// Writes an access event to the Windows event log
+		/// </summary>
+		/// <param name="username">The (un)authenticated Windows user's name</param>
+		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
+		void WriteAccess(string username, bool authSuccess)
+		{
+			Service.WriteEntry(String.Format("Access from: {0}", username), EventID.Authentication, authSuccess ? EventLogEntryType.SuccessAudit : EventLogEntryType.FailureAudit, LoggingID);
+		}
+
+		/// <summary>
+		/// Converts relative paths to full <see cref="ServerInstance"/> directory paths
+		/// </summary>
+		/// <returns></returns>
+		string RelativePath(string path)
+		{
+			return Path.Combine(Config.Directory, path);
 		}
 
 		/// <inheritdoc />
 		public string Version()
 		{
-			return Service.Version;
+			return Service.VersionString;
 		}
 
 		/// <inheritdoc />
 		public void VerifyConnection() { }
 
 		/// <inheritdoc />
-		public void PrepareForUpdate()
+		public void Reattach(bool silent)
 		{
-			Properties.Settings.Default.ReattachToDD = true;
-			SendMessage("SERVICE: Update started...", MessageType.DeveloperInfo);
+			Config.ReattachRequired = true;
+			if(!silent)
+				SendMessage("SERVICE: Update started...", MessageType.DeveloperInfo);
+		}
+
+		/// <inheritdoc />
+		public string ServerDirectory()
+		{
+			return Config.Directory;
+		}
+
+		/// <summary>
+		/// Sets <see cref="InstanceConfig.Enabled"/> of <see cref="Config"/> to <see langword="false"/>
+		/// </summary>
+		public void Offline()
+		{
+			Config.Enabled = false;
 		}
 
 		//mostly generated code with a call to RunDisposals()

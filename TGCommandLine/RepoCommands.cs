@@ -10,7 +10,7 @@ namespace TGCommandLine
 		public RepoCommand()
 		{
 			Keyword = "repo";
-			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoPythonPathCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand() };
+			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand() };
 		}
 		public override string GetHelpText()
 		{
@@ -260,27 +260,6 @@ namespace TGCommandLine
 		public override string GetHelpText()
 		{
 			return "Set the name used for commits";
-		}
-	}
-	class RepoPythonPathCommand : ConsoleCommand
-	{
-		public RepoPythonPathCommand()
-		{
-			Keyword = "python-path";
-			RequiredParameters = 1;
-		}
-		protected override ExitCode Run(IList<string> parameters)
-		{
-			Interface.GetComponent<ITGRepository>().SetPythonPath(parameters[0]);
-			return ExitCode.Normal;
-		}
-		public override string GetArgumentString()
-		{
-			return "<path>";
-		}
-		public override string GetHelpText()
-		{
-			return "Set the path to the folder containing the python 2.7 installation";
 		}
 	}
 

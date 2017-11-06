@@ -4,7 +4,7 @@ using TGServiceInterface;
 
 namespace TGControlPanel
 {
-	partial class Login : Form
+	partial class Login : CountedForm
 	{
 		/// <summary>
 		/// Create a <see cref="Login"/> form
@@ -54,30 +54,54 @@ namespace TGControlPanel
 
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
-			using (var I = new Interface())
-			{
-				Properties.Settings.Default.RemoteDefault = false;
-				VerifyAndConnect(I);
-			}
+			Properties.Settings.Default.RemoteDefault = false;
+			VerifyAndConnect(new Interface());
 		}
 
 		void VerifyAndConnect(Interface I)
 		{
-			var res = I.VerifyConnection();
-			if (res != null)
+			try
 			{
-				MessageBox.Show("Unable to connect to service! Error: " + res);
-				return;
+				var res = I.ConnectionStatus(out string error);
+				if (!res.HasFlag(ConnectivityLevel.Connected))
+				{
+					MessageBox.Show("Unable to connect to service! Error: " + error);
+					return;
+				}
+				if (!res.HasFlag(ConnectivityLevel.Authenticated))
+				{
+					MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
+					return;
+				}
+
+				if (!res.HasFlag(ConnectivityLevel.Administrator))
+				{
+					while (true)
+					{
+						var InstanceToConnectTo = Program.TextPrompt("Select instance", "You do not have permission to list server instances. Please enter the name of the instance to connect to:");
+						if (InstanceToConnectTo == null)
+							return;
+
+						res = I.ConnectToInstance(InstanceToConnectTo);
+						if (!res.HasFlag(ConnectivityLevel.Connected))
+							MessageBox.Show("Unable to connect to instance! Does it exist?");
+						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
+							MessageBox.Show("The current user is not authorized to access this instance!");
+						else
+							break;
+					}
+
+					new ControlPanel(I).Show();
+				}
+				else
+					new InstanceSelector(I).Show();
+				Close();
 			}
-			if (!I.Authenticate())
+			catch
 			{
-				MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
-				return;
+				I.Dispose();
+				throw;
 			}
-			Hide();
-			using (var M = new ControlPanel(I))
-				M.ShowDialog();
-			Close();
 		}
 
 		private void SavePasswordCheckBox_CheckedChanged(object sender, EventArgs e)

@@ -48,7 +48,7 @@ If the command runs successfully you're all set up. Now, here is the debugging p
 1. Set your breakpoints
 1. Start the service
 1. Use your environment to attach to `TGServerService.exe` for debugging
-1. If you need to debug startup, you'll have to add `System.Diagnostics.Debugger.Start()` where you want the service to wait for you. Note that breaking in the constructor of `TGServerService.Service` will cause Windows to terminate the process if you don't move fast enough due to it thinking the service is malfunctioning. In fact, if you need to debug the constructor, it's better to launch `TGServerService.exe` as a regular debug session, you won't be able to pass the `Service.Run()` call that way, however.
+1. If you need to debug startup, you'll have to add `System.Diagnostics.Debugger.Start()` where you want the service to wait for you. Do not write a constructor for the Service classas Windows will not let you debug it properly
 
 Now be careful while debugging. The service runs with root level privileges and you wouldn't want any [accidents](http://i.imgur.com/zvGEpJD.png) to happen, would you?
 

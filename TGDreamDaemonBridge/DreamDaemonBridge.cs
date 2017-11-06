@@ -1,5 +1,6 @@
 ﻿using RGiesecke.DllExport;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TGServiceInterface;
 using TGServiceInterface.Components;
@@ -22,8 +23,12 @@ namespace TGDreamDaemonBridge
 		{
 			try
 			{
+				var parsedArgs = new List<string>();
+				parsedArgs.AddRange(args);
+				parsedArgs.RemoveAt(0);
 				using (var I = new Interface())
-					I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", args));
+					if(I.ConnectToInstance(parsedArgs[0], true).HasFlag(ConnectivityLevel.Connected))
+						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }
 			return 0;

@@ -10,8 +10,10 @@ namespace TGCommandLine
 		public CLICommand(Interface I)
 		{
 			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
-			if (I.VerifyConnection() == null && I.Authenticate() && I.AuthenticateAdmin())
+			if (I.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
 				tmp.Add(new AdminCommand());
+			if (I.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator))
+				tmp.Add(new ServiceCommand());
 			Children = tmp.ToArray();
 		}
 

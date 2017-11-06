@@ -85,10 +85,7 @@ namespace TGControlPanel
 			RepoRemoteTextBox.Visible = true;
 			BranchNameTitle.Visible = true;
 			RepoBranchTextBox.Visible = true;
-			PythonPathLabel.Visible = true;
-			PythonPathText.Visible = true;
 			RepoRefreshButton.Visible = true;
-			PythonPathText.Text = Repo.PythonPath();
 
 			if (!Repo.Exists())
 			{
@@ -211,11 +208,7 @@ namespace TGControlPanel
 				RepoBGW.ReportProgress(Repo.CheckoutProgress());
 			} while (Repo.OperationInProgress());
 		}
-		void UpdatePythonPath()
-		{
-			if (!Interface.GetComponent<ITGRepository>().SetPythonPath(PythonPathText.Text))
-				MessageBox.Show("Python could not be found in the selected location!");
-		}
+
 		private void CloneRepositoryButton_Click(object sender, EventArgs e)
 		{
 			CloneRepo();
@@ -225,7 +218,6 @@ namespace TGControlPanel
 		{
 			CloneRepoURL = RepoRemoteTextBox.Text;
 			CheckoutBranch = RepoBranchTextBox.Text;
-			UpdatePythonPath();
 
 			DoAsyncOp(RepoAction.Clone, String.Format("Cloning {0} branch of {1}...", CheckoutBranch, CloneRepoURL));
 		}
@@ -258,8 +250,6 @@ namespace TGControlPanel
 			IdentityLabel.Visible = false;
 			TestmergeSelector.Visible = false;
 			RepoGenChangelogButton.Visible = false;
-			PythonPathLabel.Visible = false;
-			PythonPathText.Visible = false;
 			RecloneButton.Visible = false;
 			ResetRemote.Visible = false;
 			BackupTagsList.Visible = false;
@@ -312,8 +302,6 @@ namespace TGControlPanel
 				CheckoutBranch = RepoBranchTextBox.Text;
 				if(branch != CheckoutBranch)
 					DoAsyncOp(RepoAction.Checkout, String.Format("Checking out {0}...", CheckoutBranch));
-				
-				UpdatePythonPath();
 			}
 			else
 				CloneRepositoryButton_Click(null, null);

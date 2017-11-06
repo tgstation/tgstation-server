@@ -48,7 +48,7 @@ namespace TGServerService.ChatProviders
 			irc = new IrcFeatures()
 			{
 				SupportNonRfc = true,
-				CtcpUserInfo = Service.Version,
+				CtcpUserInfo = Service.VersionString,
 				AutoRejoin = true,
 				AutoRejoinOnKick = true,
 				AutoRelogin = true,
@@ -74,7 +74,6 @@ namespace TGServerService.ChatProviders
 						channel = channel.Replace(PrivateMessageMarker, "");
 					irc.SendMessage(SendType.Message, channel, message);
 				}
-				Service.WriteInfo(String.Format("IRC Send ({0}): {1}", channel, message), EventID.ChatSend);
 				return null;
 			}
 			catch (Exception e)
@@ -275,7 +274,7 @@ namespace TGServerService.ChatProviders
 
 		/// <inheritdoc />
 		public void Disconnect()
-		{ 
+		{
 			try
 			{
 				lock (IRCLock)
@@ -287,10 +286,7 @@ namespace TGServerService.ChatProviders
 					}
 				}
 			}
-			catch (Exception e)
-			{
-				Service.WriteError("IRC failed QnD: " + e.ToString(), EventID.ChatDisconnectFail);
-			}
+			catch { }
 		}
 		/// <inheritdoc />
 		public bool Connected()

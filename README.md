@@ -16,7 +16,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 
 ## Installing (GUI):
 1. Launch TGControlPanel.exe as an administrator. A shortcut can be found on your desktop
-1. Optionally switch to the `Server` tab and change the Server Path location from C:\\tgstation-server-3 to wherever you wish
+1. Optionally switch to the `Server` tab and change the Server Path location from `C:\\tgstation-server-3` to wherever you wish
 1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
 1. Hit the clone button
 1. While waiting go to the BYOND tab and install the BYOND version you wish
@@ -121,9 +121,12 @@ The service supports updates while running a DreamDaemon instance. Simply instal
 
 * `prtestjob.json`
 	* This contains information about current test merged pull requests in the Repository folder
-
+	
 * `TGS3.json`
 	* This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it
+
+* `Instance.cfg`
+	* The encrypted internal configuration settings for a server instance. Note that access to this file bypasses API user restrictions
 
 ### Codebase integration
 To get the TGS3 API for your code base, import the 3 .dm files in the `DMAPI` folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a TGS3.json file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options.
