@@ -1,9 +1,10 @@
 <map id="TGServerService.ServerInstance.Stop" name="TGServerService.ServerInstance.Stop">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a901e893be86572cf6a8d539e83de4b2c" title="Either let go of Proc for reattachment or terminate it, depending on InstanceConfig.ReattachRequired of Config " alt="" coords="291,5,501,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a8bdb55d2113035b09f1697072e14c873" title="TGServerService.ServerInstance.\lKillMe" alt="" coords="549,96,760,137"/>
-<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#ac58aa725d4b3a81cf979ab657a02cdb8" title="Immediately kills and restarts the server &#160;" alt="" coords="291,123,501,164"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a8bdb55d2113035b09f1697072e14c873" title="TGServerService.ServerInstance.\lKillMe" alt="" coords="549,96,760,137"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#ac58aa725d4b3a81cf979ab657a02cdb8" title="Immediately kills and restarts the server &#160;" alt="" coords="291,123,501,164"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="549,5,760,47"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="808,5,1019,47"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#aa2d4ae32c582b1d03b22402dab486e80" title="TGServerService.ServerInstance.\lHandleCommand" alt="" coords="808,96,1019,137"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a31cb383e125fcb094259185112c3ea40" title="Called from /world/ExportService(command) &#160;" alt="" coords="1067,96,1277,137"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_tests_1_1_test_server_instance.html#ab460e1bcdc346f16d0479df4154f804f" title="Test a ServerInstance can be created and destroyed successfully with a basic InstanceConfig ..." alt="" coords="1067,5,1305,47"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#aa2d4ae32c582b1d03b22402dab486e80" title="TGServerService.ServerInstance.\lHandleCommand" alt="" coords="808,96,1019,137"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a31cb383e125fcb094259185112c3ea40" title="Called from /world/ExportService(command) &#160;" alt="" coords="1081,96,1291,137"/>
 </map>

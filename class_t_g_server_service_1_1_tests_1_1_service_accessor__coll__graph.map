@@ -1,0 +1,7 @@
+<map id="TGServerService.Tests.ServiceAccessor" name="TGServerService.Tests.ServiceAccessor">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html" title="The windows service the application runs as " alt="" coords="575,275,639,301"/>
+<area shape="rect" id="node3" href="$class_service_base.html" title="ServiceBase" alt="" coords="23,172,118,199"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html" title="The windows service the application runs as " alt="" coords="283,275,445,301"/>
+<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service " alt="" coords="24,5,117,32"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html" title="Used for testing connections to the service without authentication " alt="" coords="15,243,127,269"/>
+</map>

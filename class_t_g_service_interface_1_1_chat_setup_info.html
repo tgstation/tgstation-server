@@ -130,9 +130,6 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a66b6adbd8ab074fe05e26bb870642606"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a66b6adbd8ab074fe05e26bb870642606">ChatSetupInfo</a> (<a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html">ChatSetupInfo</a> baseInfo, int numFields)</td></tr>
-<tr class="memdesc:a66b6adbd8ab074fe05e26bb870642606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider ">ChatSetupInfo</a> from optional <em>baseInfo</em>   <a href="#a66b6adbd8ab074fe05e26bb870642606">More...</a><br /></td></tr>
-<tr class="separator:a66b6adbd8ab074fe05e26bb870642606"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa4f1fdc3024cb00143acc44ff65a292"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">SanitizeChannelName</a> (string channel)</td></tr>
 <tr class="memdesc:afa4f1fdc3024cb00143acc44ff65a292"><td class="mdescLeft">&#160;</td><td class="mdescRight">Properly formats a <em>channel</em>  name for the <a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4" title="The type of chat provider ">ChatProvider</a>  <a href="#afa4f1fdc3024cb00143acc44ff65a292">More...</a><br /></td></tr>
 <tr class="separator:afa4f1fdc3024cb00143acc44ff65a292"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,7 +140,7 @@ Protected Attributes</h2></td></tr>
 <tr class="memdesc:a6b962c478c0dce27ea9fb163375a8846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting index of <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7" title="Raw access to the underlying data ">DataFields</a> which child classes should use to write their custom data to  <a href="#a6b962c478c0dce27ea9fb163375a8846">More...</a><br /></td></tr>
 <tr class="separator:a6b962c478c0dce27ea9fb163375a8846"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a065ea657bcf0f8f76fd877cba8d6e996"><td class="memItemLeft" align="right" valign="top">readonly bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a065ea657bcf0f8f76fd877cba8d6e996">InitializeFields</a></td></tr>
-<tr class="memdesc:a065ea657bcf0f8f76fd877cba8d6e996"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to  if a child constructor should use the baseInfo parameter of <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a66b6adbd8ab074fe05e26bb870642606" title="Constructs a ChatSetupInfo from optional baseInfo  ">ChatSetupInfo.ChatSetupInfo(ChatSetupInfo, int)</a> to initialize it's property fields,  otherwise  <a href="#a065ea657bcf0f8f76fd877cba8d6e996">More...</a><br /></td></tr>
+<tr class="memdesc:a065ea657bcf0f8f76fd877cba8d6e996"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to  if a child constructor should use the baseInfo parameter of ChatSetupInfo.ChatSetupInfo(ChatProvider, ChatSetupInfo, int) to initialize it's property fields,  otherwise  <a href="#a065ea657bcf0f8f76fd877cba8d6e996">More...</a><br /></td></tr>
 <tr class="separator:a065ea657bcf0f8f76fd877cba8d6e996"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
@@ -178,9 +175,9 @@ Properties</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:aca4743b0a23954a5a6b94946a69136e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html">ChatSetupInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#aca4743b0a23954a5a6b94946a69136e6">Specialize</a> ()</td></tr>
-<tr class="memdesc:aca4743b0a23954a5a6b94946a69136e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recreates  as the correct child <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider ">ChatSetupInfo</a>  <a href="#aca4743b0a23954a5a6b94946a69136e6">More...</a><br /></td></tr>
-<tr class="separator:aca4743b0a23954a5a6b94946a69136e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76249a8204796aef0f93a46482455b98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html">ChatSetupInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98">Specialize</a> (bool checkOnly)</td></tr>
+<tr class="memdesc:a76249a8204796aef0f93a46482455b98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recreates  as the correct child <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider ">ChatSetupInfo</a>  <a href="#a76249a8204796aef0f93a46482455b98">More...</a><br /></td></tr>
+<tr class="separator:a76249a8204796aef0f93a46482455b98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd80a887842fd1c6ce1cf1335598bf54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#afd80a887842fd1c6ce1cf1335598bf54">SanitizeChannelNames</a> (IList&lt; string &gt; channelnames)</td></tr>
 <tr class="memdesc:afd80a887842fd1c6ce1cf1335598bf54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sanitizes a list of <em>channelnames</em>   <a href="#afd80a887842fd1c6ce1cf1335598bf54">More...</a><br /></td></tr>
 <tr class="separator:afd80a887842fd1c6ce1cf1335598bf54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,63 +206,6 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00014">14</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a66b6adbd8ab074fe05e26bb870642606"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">TGServiceInterface.ChatSetupInfo.ChatSetupInfo </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html">ChatSetupInfo</a>&#160;</td>
-          <td class="paramname"><em>baseInfo</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>numFields</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructs a <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider ">ChatSetupInfo</a> from optional <em>baseInfo</em>  </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">baseInfo</td><td>Optional past data</td></tr>
-    <tr><td class="paramname">numFields</td><td>The number of fields in this chat provider</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00044">44</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
-
-<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00139">TGServiceInterface.ChatSetupInfo.AdminChannels</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00123">TGServiceInterface.ChatSetupInfo.AdminList</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00131">TGServiceInterface.ChatSetupInfo.AdminsAreSpecial</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00027">TGServiceInterface.ChatSetupInfo.BaseIndex</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00037">TGServiceInterface.ChatSetupInfo.DataFields</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00151">TGServiceInterface.ChatSetupInfo.DevChannels</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00187">TGServiceInterface.ChatSetupInfo.Enabled</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00175">TGServiceInterface.ChatSetupInfo.GameChannels</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00163">TGServiceInterface.ChatSetupInfo.WatchdogChannels</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            numFields += <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a6b962c478c0dce27ea9fb163375a8846">BaseIndex</a>;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a065ea657bcf0f8f76fd877cba8d6e996">InitializeFields</a> = baseInfo == null || baseInfo.DataFields.Count != numFields;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a065ea657bcf0f8f76fd877cba8d6e996">InitializeFields</a>)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">DataFields</a> = <span class="keyword">new</span> List&lt;string&gt;(numFields);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">for</span> (var I = 0; I &lt; numFields; ++I)</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">DataFields</a>.Add(null);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a3db52960b8349d5af2d9a62d30e26ee0">AdminList</a> = <span class="keyword">new</span> List&lt;string&gt;();</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#ab469e1c4e7ab1aa9047818400cb51bde">AdminChannels</a> = <span class="keyword">new</span> List&lt;string&gt;();</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a7bc09dd64238edefade920a349f48fb4">DevChannels</a> = <span class="keyword">new</span> List&lt;string&gt;();</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a9b83aa3d81e74132368a0652d994fc8a">GameChannels</a> = <span class="keyword">new</span> List&lt;string&gt;();</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#af27e3e8438c9f4d0f0badb376d008306">WatchdogChannels</a> = <span class="keyword">new</span> List&lt;string&gt;();</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#ab32ea0b5008445696dc9a3a84d04c037">AdminsAreSpecial</a> = <span class="keyword">false</span>;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#af99a3123f9a81487a55c1d03df28c87d">Enabled</a> = <span class="keyword">false</span>;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">DataFields</a> = baseInfo.DataFields;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a7bc09dd64238edefade920a349f48fb4"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a7bc09dd64238edefade920a349f48fb4">TGServiceInterface.ChatSetupInfo.DevChannels</a></div><div class="ttdeci">IList&lt; string &gt; DevChannels</div><div class="ttdoc">The channels to which repo and compile messages are sent </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00151">ChatSetupInfo.cs:151</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a065ea657bcf0f8f76fd877cba8d6e996"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a065ea657bcf0f8f76fd877cba8d6e996">TGServiceInterface.ChatSetupInfo.InitializeFields</a></div><div class="ttdeci">readonly bool InitializeFields</div><div class="ttdoc">Set to  if a child constructor should use the baseInfo parameter of ChatSetupInfo.ChatSetupInfo(ChatSetupInfo, int) to initialize it&amp;#39;s property fields,  otherwise </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00031">ChatSetupInfo.cs:31</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_ab32ea0b5008445696dc9a3a84d04c037"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#ab32ea0b5008445696dc9a3a84d04c037">TGServiceInterface.ChatSetupInfo.AdminsAreSpecial</a></div><div class="ttdeci">bool AdminsAreSpecial</div><div class="ttdoc">If AdminList corresponds to a Provider specific recognization method </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00131">ChatSetupInfo.cs:131</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a9b83aa3d81e74132368a0652d994fc8a"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a9b83aa3d81e74132368a0652d994fc8a">TGServiceInterface.ChatSetupInfo.GameChannels</a></div><div class="ttdeci">IList&lt; string &gt; GameChannels</div><div class="ttdoc">The channels to which game messages are sent </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00175">ChatSetupInfo.cs:175</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a3db52960b8349d5af2d9a62d30e26ee0"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a3db52960b8349d5af2d9a62d30e26ee0">TGServiceInterface.ChatSetupInfo.AdminList</a></div><div class="ttdeci">IList&lt; string &gt; AdminList</div><div class="ttdoc">The list of admin entries </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00123">ChatSetupInfo.cs:123</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a5c655059819f4c38abfa9bc9626021c7"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">TGServiceInterface.ChatSetupInfo.DataFields</a></div><div class="ttdeci">IList&lt; string &gt; DataFields</div><div class="ttdoc">Raw access to the underlying data </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00037">ChatSetupInfo.cs:37</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_af99a3123f9a81487a55c1d03df28c87d"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#af99a3123f9a81487a55c1d03df28c87d">TGServiceInterface.ChatSetupInfo.Enabled</a></div><div class="ttdeci">bool Enabled</div><div class="ttdoc">If this chat provider is enabled </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00187">ChatSetupInfo.cs:187</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_af27e3e8438c9f4d0f0badb376d008306"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#af27e3e8438c9f4d0f0badb376d008306">TGServiceInterface.ChatSetupInfo.WatchdogChannels</a></div><div class="ttdeci">IList&lt; string &gt; WatchdogChannels</div><div class="ttdoc">The channels to which watchdog messages are sent </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00163">ChatSetupInfo.cs:163</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a6b962c478c0dce27ea9fb163375a8846"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a6b962c478c0dce27ea9fb163375a8846">TGServiceInterface.ChatSetupInfo.BaseIndex</a></div><div class="ttdeci">const int BaseIndex</div><div class="ttdoc">Starting index of DataFields which child classes should use to write their custom data to ...</div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00027">ChatSetupInfo.cs:27</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_ab469e1c4e7ab1aa9047818400cb51bde"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#ab469e1c4e7ab1aa9047818400cb51bde">TGServiceInterface.ChatSetupInfo.AdminChannels</a></div><div class="ttdeci">IList&lt; string &gt; AdminChannels</div><div class="ttdoc">The channels from which admin commands/messages can be sent/received </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00139">ChatSetupInfo.cs:139</a></div></div>
-</div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="a399f64656ad06e8026f335c591baeda7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -288,11 +228,22 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00115">115</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00124">124</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00123">TGServiceInterface.ChatSetupInfo.AdminList</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00037">TGServiceInterface.ChatSetupInfo.DataFields</a>.</p>
-<div class="fragment"><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">DataFields</a> = DeserializedData;</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a5c655059819f4c38abfa9bc9626021c7"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">TGServiceInterface.ChatSetupInfo.DataFields</a></div><div class="ttdeci">IList&lt; string &gt; DataFields</div><div class="ttdoc">Raw access to the underlying data </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00037">ChatSetupInfo.cs:37</a></div></div>
+<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00133">TGServiceInterface.ChatSetupInfo.AdminList</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00037">TGServiceInterface.ChatSetupInfo.DataFields</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00075">TGServiceInterface.ChatSetupInfo.Specialize()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">DataFields</a> = DeserializedData;</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98">Specialize</a>(<span class="keyword">false</span>);  <span class="comment">//ensure provider type is valid</span></div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a76249a8204796aef0f93a46482455b98"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98">TGServiceInterface.ChatSetupInfo.Specialize</a></div><div class="ttdeci">ChatSetupInfo Specialize(bool checkOnly)</div><div class="ttdoc">Recreates  as the correct child ChatSetupInfo </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00075">ChatSetupInfo.cs:75</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a5c655059819f4c38abfa9bc9626021c7"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a5c655059819f4c38abfa9bc9626021c7">TGServiceInterface.ChatSetupInfo.DataFields</a></div><div class="ttdeci">IList&lt; string &gt; DataFields</div><div class="ttdoc">Raw access to the underlying data </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00037">ChatSetupInfo.cs:37</a></div></div>
 </div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_service_interface_1_1_chat_setup_info_a399f64656ad06e8026f335c591baeda7_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_chat_setup_info_a399f64656ad06e8026f335c591baeda7_cgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_chat_setup_info_a399f64656ad06e8026f335c591baeda7_cgraph" id="class_t_g_service_interface_1_1_chat_setup_info_a399f64656ad06e8026f335c591baeda7_cgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98" title="Recreates &#160;as the correct child ChatSetupInfo " alt="" coords="248,5,443,47"/>
+</map>
+</div>
+</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -329,20 +280,20 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_t_g_service_interface_1_1_discord_setup_info.html#af33f0ba1197bd11979b9d89271f6fceb">TGServiceInterface.DiscordSetupInfo</a>, and <a class="el" href="class_t_g_service_interface_1_1_i_r_c_setup_info.html#ae2a65aa0079001376bd65ef60791ec0c">TGServiceInterface.IRCSetupInfo</a>.</p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00089">89</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00098">98</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00089">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00071">TGServiceInterface.ChatSetupInfo.Specialize()</a>.</p>
+<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00098">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00075">TGServiceInterface.ChatSetupInfo.Specialize()</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00089">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00098">TGServiceInterface.ChatSetupInfo.SanitizeChannelNames()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#aca4743b0a23954a5a6b94946a69136e6">Specialize</a>().<a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">SanitizeChannelName</a>(channel);</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_aca4743b0a23954a5a6b94946a69136e6"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#aca4743b0a23954a5a6b94946a69136e6">TGServiceInterface.ChatSetupInfo.Specialize</a></div><div class="ttdeci">ChatSetupInfo Specialize()</div><div class="ttdoc">Recreates  as the correct child ChatSetupInfo </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00071">ChatSetupInfo.cs:71</a></div></div>
-<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_afa4f1fdc3024cb00143acc44ff65a292"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">TGServiceInterface.ChatSetupInfo.SanitizeChannelName</a></div><div class="ttdeci">virtual string SanitizeChannelName(string channel)</div><div class="ttdoc">Properly formats a channel  name for the ChatProvider </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00089">ChatSetupInfo.cs:89</a></div></div>
+<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00098">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00107">TGServiceInterface.ChatSetupInfo.SanitizeChannelNames()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98">Specialize</a>(<span class="keyword">false</span>).<a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">SanitizeChannelName</a>(channel);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a76249a8204796aef0f93a46482455b98"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98">TGServiceInterface.ChatSetupInfo.Specialize</a></div><div class="ttdeci">ChatSetupInfo Specialize(bool checkOnly)</div><div class="ttdoc">Recreates  as the correct child ChatSetupInfo </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00075">ChatSetupInfo.cs:75</a></div></div>
+<div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_afa4f1fdc3024cb00143acc44ff65a292"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">TGServiceInterface.ChatSetupInfo.SanitizeChannelName</a></div><div class="ttdeci">virtual string SanitizeChannelName(string channel)</div><div class="ttdoc">Properly formats a channel  name for the ChatProvider </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00098">ChatSetupInfo.cs:98</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_service_interface_1_1_chat_setup_info_afa4f1fdc3024cb00143acc44ff65a292_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_chat_setup_info_afa4f1fdc3024cb00143acc44ff65a292_cgraph" alt=""/></div>
 <map name="class_t_g_service_interface_1_1_chat_setup_info_afa4f1fdc3024cb00143acc44ff65a292_cgraph" id="class_t_g_service_interface_1_1_chat_setup_info_afa4f1fdc3024cb00143acc44ff65a292_cgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_chat_setup_info.html#aca4743b0a23954a5a6b94946a69136e6" title="Recreates &#160;as the correct child ChatSetupInfo " alt="" coords="248,29,443,71"/>
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98" title="Recreates &#160;as the correct child ChatSetupInfo " alt="" coords="248,29,443,71"/>
 </map>
 </div>
 </p>
@@ -389,10 +340,10 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00098">98</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00107">107</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00089">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">for</span> (var I = 0; I &lt; channelnames.Count; ++I)</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(channelnames[I]))</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    channelnames.RemoveAt(I);</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    --I;</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    channelnames[I] = <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">SanitizeChannelName</a>(channelnames[I].Trim());</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_afa4f1fdc3024cb00143acc44ff65a292"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">TGServiceInterface.ChatSetupInfo.SanitizeChannelName</a></div><div class="ttdeci">virtual string SanitizeChannelName(string channel)</div><div class="ttdoc">Properly formats a channel  name for the ChatProvider </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00089">ChatSetupInfo.cs:89</a></div></div>
+<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00098">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        {</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">for</span> (var I = 0; I &lt; channelnames.Count; ++I)</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(channelnames[I]))</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    channelnames.RemoveAt(I);</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    --I;</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                }</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    channelnames[I] = <a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">SanitizeChannelName</a>(channelnames[I].Trim());</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_afa4f1fdc3024cb00143acc44ff65a292"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292">TGServiceInterface.ChatSetupInfo.SanitizeChannelName</a></div><div class="ttdeci">virtual string SanitizeChannelName(string channel)</div><div class="ttdoc">Properly formats a channel  name for the ChatProvider </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00098">ChatSetupInfo.cs:98</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -400,14 +351,14 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="class_t_g_service_interface_1_1_chat_setup_info_afd80a887842fd1c6ce1cf1335598bf54_cgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_chat_setup_info_afd80a887842fd1c6ce1cf1335598bf54_cgraph" alt=""/></div>
 <map name="class_t_g_service_interface_1_1_chat_setup_info_afd80a887842fd1c6ce1cf1335598bf54_cgraph" id="class_t_g_service_interface_1_1_chat_setup_info_afd80a887842fd1c6ce1cf1335598bf54_cgraph">
 <area shape="rect" id="node2" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292" title="Properly formats a channel &#160;name for the ChatProvider " alt="" coords="248,29,443,71"/>
-<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_chat_setup_info.html#aca4743b0a23954a5a6b94946a69136e6" title="Recreates &#160;as the correct child ChatSetupInfo " alt="" coords="491,29,685,71"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_chat_setup_info.html#a76249a8204796aef0f93a46482455b98" title="Recreates &#160;as the correct child ChatSetupInfo " alt="" coords="491,29,685,71"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="aca4743b0a23954a5a6b94946a69136e6"></a>
+<a class="anchor" id="a76249a8204796aef0f93a46482455b98"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -417,7 +368,8 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname"><a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html">ChatSetupInfo</a> TGServiceInterface.ChatSetupInfo.Specialize </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>checkOnly</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -429,23 +381,30 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Recreates  as the correct child <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider ">ChatSetupInfo</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">checkOnly</td><td>If ,  is returned provided <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a51c53174aec0de67d4aaf91144925913" title="The type of provider ">Provider</a> is a valid <a class="el" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4" title="The type of chat provider ">ChatProvider</a></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html" title="For setting up authentication no matter the chat provider ">ChatSetupInfo</a> based on the <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a51c53174aec0de67d4aaf91144925913" title="The type of provider ">Provider</a> type</dd></dl>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00071">71</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00075">75</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00196">TGServiceInterface.ChatSetupInfo.Provider</a>.</p>
+<p>References <a class="el" href="_chat_setup_info_8cs_source.html#l00206">TGServiceInterface.ChatSetupInfo.Provider</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00089">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordflow">switch</span> (<a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a51c53174aec0de67d4aaf91144925913">Provider</a>)</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.IRC:</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">new</span> IRCSetupInfo(<span class="keyword">this</span>);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord:</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">new</span> DiscordSetupInfo(<span class="keyword">this</span>);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">default</span>:</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Invalid provider!&quot;</span>);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            }</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a51c53174aec0de67d4aaf91144925913"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a51c53174aec0de67d4aaf91144925913">TGServiceInterface.ChatSetupInfo.Provider</a></div><div class="ttdeci">ChatProvider Provider</div><div class="ttdoc">The type of provider </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00196">ChatSetupInfo.cs:196</a></div></div>
+<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00124">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00098">TGServiceInterface.ChatSetupInfo.SanitizeChannelName()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">switch</span> (<a class="code" href="class_t_g_service_interface_1_1_chat_setup_info.html#a51c53174aec0de67d4aaf91144925913">Provider</a>)</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.IRC:</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <span class="keywordflow">if</span> (!checkOnly)</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">new</span> IRCSetupInfo(<span class="keyword">this</span>);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    <span class="keywordflow">break</span>;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">ChatProvider</a>.Discord:</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keywordflow">if</span> (!checkOnly)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">new</span> DiscordSetupInfo(<span class="keyword">this</span>);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    <span class="keywordflow">break</span>;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keywordflow">default</span>:</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Invalid provider!&quot;</span>);</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            }</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_chat_setup_info_html_a51c53174aec0de67d4aaf91144925913"><div class="ttname"><a href="class_t_g_service_interface_1_1_chat_setup_info.html#a51c53174aec0de67d4aaf91144925913">TGServiceInterface.ChatSetupInfo.Provider</a></div><div class="ttdeci">ChatProvider Provider</div><div class="ttdoc">The type of provider </div><div class="ttdef"><b>Definition:</b> <a href="_chat_setup_info_8cs_source.html#l00206">ChatSetupInfo.cs:206</a></div></div>
 <div class="ttc" id="namespace_t_g_service_interface_html_a383af7e89a74270e05065b7f1bed06a4"><div class="ttname"><a href="namespace_t_g_service_interface.html#a383af7e89a74270e05065b7f1bed06a4">TGServiceInterface.ChatProvider</a></div><div class="ttdeci">ChatProvider</div><div class="ttdoc">The type of chat provider </div><div class="ttdef"><b>Definition:</b> <a href="_enumerations_8cs_source.html#l00080">Enumerations.cs:80</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_service_interface_1_1_chat_setup_info_aca4743b0a23954a5a6b94946a69136e6_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_chat_setup_info_aca4743b0a23954a5a6b94946a69136e6_icgraph" alt=""/></div>
-<map name="class_t_g_service_interface_1_1_chat_setup_info_aca4743b0a23954a5a6b94946a69136e6_icgraph" id="class_t_g_service_interface_1_1_chat_setup_info_aca4743b0a23954a5a6b94946a69136e6_icgraph">
-<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292" title="Properly formats a channel &#160;name for the ChatProvider " alt="" coords="248,29,443,71"/>
-<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_chat_setup_info.html#afd80a887842fd1c6ce1cf1335598bf54" title="Sanitizes a list of channelnames &#160;" alt="" coords="491,29,685,71"/>
+<div class="center"><img src="class_t_g_service_interface_1_1_chat_setup_info_a76249a8204796aef0f93a46482455b98_icgraph.png" border="0" usemap="#class_t_g_service_interface_1_1_chat_setup_info_a76249a8204796aef0f93a46482455b98_icgraph" alt=""/></div>
+<map name="class_t_g_service_interface_1_1_chat_setup_info_a76249a8204796aef0f93a46482455b98_icgraph" id="class_t_g_service_interface_1_1_chat_setup_info_a76249a8204796aef0f93a46482455b98_icgraph">
+<area shape="rect" id="node2" href="class_t_g_service_interface_1_1_chat_setup_info.html#a399f64656ad06e8026f335c591baeda7" title="Constructs a ChatSetupInfo from a data list " alt="" coords="248,5,443,47"/>
+<area shape="rect" id="node3" href="class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292" title="Properly formats a channel &#160;name for the ChatProvider " alt="" coords="248,95,443,136"/>
+<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_chat_setup_info.html#afd80a887842fd1c6ce1cf1335598bf54" title="Sanitizes a list of channelnames &#160;" alt="" coords="491,95,685,136"/>
 </map>
 </div>
 </p>
@@ -541,8 +500,6 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00027">27</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="addb2a809de12be2e723d2e4f2d54b571"></a>
@@ -629,11 +586,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Set to  if a child constructor should use the baseInfo parameter of <a class="el" href="class_t_g_service_interface_1_1_chat_setup_info.html#a66b6adbd8ab074fe05e26bb870642606" title="Constructs a ChatSetupInfo from optional baseInfo  ">ChatSetupInfo.ChatSetupInfo(ChatSetupInfo, int)</a> to initialize it's property fields,  otherwise </p>
+<p>Set to  if a child constructor should use the baseInfo parameter of ChatSetupInfo.ChatSetupInfo(ChatProvider, ChatSetupInfo, int) to initialize it's property fields,  otherwise </p>
 
 <p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00031">31</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00305">TGServiceInterface.DiscordSetupInfo.DiscordSetupInfo()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00220">TGServiceInterface.IRCSetupInfo.IRCSetupInfo()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00314">TGServiceInterface.DiscordSetupInfo.DiscordSetupInfo()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00230">TGServiceInterface.IRCSetupInfo.IRCSetupInfo()</a>.</p>
 
 </div>
 </div>
@@ -702,9 +659,9 @@ Here is the caller graph for this function:</div>
 
 <p>The channels from which admin commands/messages can be sent/received </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00139">139</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00149">149</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00083">TGServerService.ChatProviders.DiscordChatProvider.Client_MessageReceived()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00164">TGServerService.ChatProviders.IRCChatProvider.Irc_OnChannelMessage()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00083">TGServerService.ChatProviders.DiscordChatProvider.Client_MessageReceived()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00164">TGServerService.ChatProviders.IRCChatProvider.Irc_OnChannelMessage()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
 
 </div>
 </div>
@@ -728,9 +685,9 @@ Here is the caller graph for this function:</div>
 
 <p>The list of admin entries </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00123">123</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00133">133</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00067">TGServerService.ChatProviders.DiscordChatProvider.CheckAdmin()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00111">TGServerService.ChatProviders.IRCChatProvider.CheckAdmin()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00124">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00067">TGServerService.ChatProviders.DiscordChatProvider.CheckAdmin()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00111">TGServerService.ChatProviders.IRCChatProvider.CheckAdmin()</a>.</p>
 
 </div>
 </div>
@@ -754,9 +711,9 @@ Here is the caller graph for this function:</div>
 
 <p>If AdminList corresponds to a Provider specific recognization method </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00131">131</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00141">141</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00067">TGServerService.ChatProviders.DiscordChatProvider.CheckAdmin()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00111">TGServerService.ChatProviders.IRCChatProvider.CheckAdmin()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00220">TGServiceInterface.IRCSetupInfo.IRCSetupInfo()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00067">TGServerService.ChatProviders.DiscordChatProvider.CheckAdmin()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00111">TGServerService.ChatProviders.IRCChatProvider.CheckAdmin()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00230">TGServiceInterface.IRCSetupInfo.IRCSetupInfo()</a>.</p>
 
 </div>
 </div>
@@ -782,7 +739,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00037">37</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00124">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>.</p>
 
 </div>
 </div>
@@ -806,9 +763,9 @@ Here is the caller graph for this function:</div>
 
 <p>The channels to which repo and compile messages are sent </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00151">151</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00161">161</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
 
 </div>
 </div>
@@ -832,9 +789,9 @@ Here is the caller graph for this function:</div>
 
 <p>If this chat provider is enabled </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00187">187</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00197">197</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00120">TGServerService.ChatProviders.DiscordChatProvider.Connect()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00217">TGServerService.ChatProviders.IRCChatProvider.Connect()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00086">TGServerService.ChatProviders.IRCChatProvider.SetProviderInfo()</a>, and <a class="el" href="_discord_chat_provider_8cs_source.html#l00244">TGServerService.ChatProviders.DiscordChatProvider.SetProviderInfo()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00120">TGServerService.ChatProviders.DiscordChatProvider.Connect()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00217">TGServerService.ChatProviders.IRCChatProvider.Connect()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00086">TGServerService.ChatProviders.IRCChatProvider.SetProviderInfo()</a>, and <a class="el" href="_discord_chat_provider_8cs_source.html#l00244">TGServerService.ChatProviders.DiscordChatProvider.SetProviderInfo()</a>.</p>
 
 </div>
 </div>
@@ -858,9 +815,9 @@ Here is the caller graph for this function:</div>
 
 <p>The channels to which game messages are sent </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00175">175</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00185">185</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
 
 </div>
 </div>
@@ -884,9 +841,9 @@ Here is the caller graph for this function:</div>
 
 <p>The type of provider </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00196">196</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00206">206</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_setup_info_8cs_source.html#l00305">TGServiceInterface.DiscordSetupInfo.DiscordSetupInfo()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00220">TGServiceInterface.IRCSetupInfo.IRCSetupInfo()</a>, <a class="el" href="_t_g_server_service_2_server_instance_2_chat_8cs_source.html#l00175">TGServerService.ServerInstance.SetProviderInfo()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00071">TGServiceInterface.ChatSetupInfo.Specialize()</a>.</p>
+<p>Referenced by <a class="el" href="_t_g_server_service_2_server_instance_2_chat_8cs_source.html#l00175">TGServerService.ServerInstance.SetProviderInfo()</a>, and <a class="el" href="_chat_setup_info_8cs_source.html#l00075">TGServiceInterface.ChatSetupInfo.Specialize()</a>.</p>
 
 </div>
 </div>
@@ -910,9 +867,9 @@ Here is the caller graph for this function:</div>
 
 <p>The channels to which watchdog messages are sent </p>
 
-<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00163">163</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
+<p>Definition at line <a class="el" href="_chat_setup_info_8cs_source.html#l00173">173</a> of file <a class="el" href="_chat_setup_info_8cs_source.html">ChatSetupInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_chat_setup_info_8cs_source.html#l00044">TGServiceInterface.ChatSetupInfo.ChatSetupInfo()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_page_8cs_source.html#l00173">TGControlPanel.ControlPanel.ChatApplyButton_Click()</a>, <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00184">TGServerService.ChatProviders.IRCChatProvider.JoinChannels()</a>, <a class="el" href="_discord_chat_provider_8cs_source.html#l00175">TGServerService.ChatProviders.DiscordChatProvider.SendMessage()</a>, and <a class="el" href="_i_r_c_chat_provider_8cs_source.html#l00300">TGServerService.ChatProviders.IRCChatProvider.SendMessage()</a>.</p>
 
 </div>
 </div>

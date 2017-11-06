@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['launch',['Launch',['../class_t_g_server_service_1_1_service.html#af96ae5c9ae881a7b5e5bf3f555baf6bb',1,'TGServerService::Service']]],
   ['listbackups',['ListBackups',['../class_t_g_server_service_1_1_server_instance.html#ab6650942838ebe1dc0766dc47b3f5363',1,'TGServerService.ServerInstance.ListBackups()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1e4ef71b269722616e8fde455f7137f3',1,'TGServiceInterface.Components.ITGRepository.ListBackups()']]],
   ['listequals',['ListEquals',['../class_t_g_server_service_1_1_repo_config.html#a175d81924dfc64560041adbd9b86cc0a',1,'TGServerService::RepoConfig']]],
   ['listinstances',['ListInstances',['../class_t_g_server_service_1_1_service.html#a1238e3562599d24e76fe7551e25d577a',1,'TGServerService.Service.ListInstances()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a79746acca6c942d9b8aef2b14fa529e2',1,'TGServiceInterface.Components.ITGSService.ListInstances()']]],

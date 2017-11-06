@@ -3,4 +3,5 @@
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="264,71,475,112"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="523,5,733,47"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="523,71,733,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_tests_1_1_test_server_instance.html#ab460e1bcdc346f16d0479df4154f804f" title="Test a ServerInstance can be created and destroyed successfully with a basic InstanceConfig ..." alt="" coords="781,71,1020,112"/>
 </map>

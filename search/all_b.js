@@ -13,7 +13,6 @@ var searchData=
   ['latest',['Latest',['../namespace_t_g_service_interface.html#a7610968e566eeb321fee2adba3fbf107acd118d21c3b0b4762c6e0063661e6e45',1,'TGServiceInterface']]],
   ['latestversionlabel',['LatestVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#a18c1a9b554f6ed1193963cd09c9fbf2e',1,'TGControlPanel::ControlPanel']]],
   ['latestversiontitle',['LatestVersionTitle',['../class_t_g_control_panel_1_1_control_panel.html#ac4a7e93484997532dd034d3392955bb5',1,'TGControlPanel::ControlPanel']]],
-  ['launch',['Launch',['../class_t_g_server_service_1_1_service.html#af96ae5c9ae881a7b5e5bf3f555baf6bb',1,'TGServerService::Service']]],
   ['listbackups',['ListBackups',['../class_t_g_server_service_1_1_server_instance.html#ab6650942838ebe1dc0766dc47b3f5363',1,'TGServerService.ServerInstance.ListBackups()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1e4ef71b269722616e8fde455f7137f3',1,'TGServiceInterface.Components.ITGRepository.ListBackups()']]],
   ['listequals',['ListEquals',['../class_t_g_server_service_1_1_repo_config.html#a175d81924dfc64560041adbd9b86cc0a',1,'TGServerService::RepoConfig']]],
   ['listinstances',['ListInstances',['../class_t_g_server_service_1_1_service.html#a1238e3562599d24e76fe7551e25d577a',1,'TGServerService.Service.ListInstances()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a79746acca6c942d9b8aef2b14fa529e2',1,'TGServiceInterface.Components.ITGSService.ListInstances()']]],
@@ -37,8 +36,8 @@ var searchData=
   ['lockloggingid',['LockLoggingID',['../class_t_g_server_service_1_1_service.html#af8321586d223cb2326e14360b8af7d8e',1,'TGServerService::Service']]],
   ['log',['Log',['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)'],['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)']]],
   ['loggingid',['LoggingID',['../class_t_g_server_service_1_1_server_instance.html#afbfb768a2d7c05237dd2650892cf6266',1,'TGServerService.ServerInstance.LoggingID()'],['../class_t_g_server_service_1_1_service.html#a6e95310be3be5a0cebd4f0c00fc83123',1,'TGServerService.Service.LoggingID()'],['../class_t_g_service_interface_1_1_instance_metadata.html#a6bc127862aaaf1b7daef24121c46d4b4',1,'TGServiceInterface.InstanceMetadata.LoggingID()']]],
-  ['login',['Login',['../class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce',1,'TGControlPanel.Login.Login()'],['../class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a8c480508ff5dbb3d0a4416381753bc24',1,'TGServerService.ChatProviders.IRCChatProvider.Login()']]],
   ['login',['Login',['../class_t_g_control_panel_1_1_login.html',1,'TGControlPanel']]],
+  ['login',['Login',['../class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce',1,'TGControlPanel.Login.Login()'],['../class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a8c480508ff5dbb3d0a4416381753bc24',1,'TGServerService.ChatProviders.IRCChatProvider.Login()']]],
   ['login_2ecs',['Login.cs',['../_login_8cs.html',1,'']]],
   ['login_2edesigner_2ecs',['Login.Designer.cs',['../_login_8_designer_8cs.html',1,'']]]
 ];

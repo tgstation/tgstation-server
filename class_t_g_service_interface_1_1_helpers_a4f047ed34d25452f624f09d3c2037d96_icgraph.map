@@ -1,8 +1,10 @@
 <map id="TGServiceInterface.Helpers.EncryptData" name="TGServiceInterface.Helpers.EncryptData">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a37ece8a590016ff653791e76d926b49f" title="Properly shuts down all ChatProviders " alt="" coords="236,5,447,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="243,71,440,112"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="495,5,705,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="753,5,964,47"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="501,71,699,112"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="767,78,950,105"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_tests_1_1_test_helpers.html#a969eb86d2854e9f1db554f1fe49d827a" title="Run assertions for a successful call to Helpers.EncryptData(string, out string) " alt="" coords="239,5,444,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a37ece8a590016ff653791e76d926b49f" title="Properly shuts down all ChatProviders " alt="" coords="236,71,447,112"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="243,136,440,177"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="495,71,705,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="753,71,964,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_tests_1_1_test_server_instance.html#ab460e1bcdc346f16d0479df4154f804f" title="Test a ServerInstance can be created and destroyed successfully with a basic InstanceConfig ..." alt="" coords="1012,71,1251,112"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="501,136,699,177"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="767,143,950,170"/>
 </map>
