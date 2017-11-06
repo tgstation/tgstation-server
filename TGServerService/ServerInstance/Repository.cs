@@ -592,8 +592,11 @@ namespace TGServerService
 					NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
 					Repo.Network.Push(targetRemote, NewB, options); //push the branch
 					Repo.Branches.Remove(NewB);
+					var removalString = String.Format(":{0}", NewB);
 					NewB = null;
-					Repo.Network.Push(targetRemote, String.Format(":{0}", NewB), options);   //delete the branch
+					//we need to delay the second operation a LOT otherwise we get ssh errors
+					Thread.Sleep(10000);
+					Repo.Network.Push(targetRemote, removalString, options);   //delete the branch
 					WriteInfo("Pushed reference commit: " + Repo.Head.Tip.Sha, EventID.ReferencePush);
 				}
 				catch (Exception e)
