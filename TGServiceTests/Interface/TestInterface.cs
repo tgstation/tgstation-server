@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
+using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TGServiceInterface.Components;
 
 namespace TGServiceInterface.Tests
 {
@@ -10,6 +12,10 @@ namespace TGServiceInterface.Tests
 	[TestClass]
 	public class TestInterface
 	{
+		/// <summary>
+		/// Name to use for testing <see cref="ITGInstance"/>s
+		/// </summary>
+		const string TestInstanceName = "TestInstance";
 		/// <summary>
 		/// Test that <see cref="Interface.SetBadCertificateHandler(Func{string, bool})"/> can execute successfully
 		/// </summary>
@@ -75,6 +81,15 @@ namespace TGServiceInterface.Tests
 			Assert.AreEqual(first.HTTPSURL, second.HTTPSURL);
 			Assert.AreEqual(first.HTTPSPort, second.HTTPSPort);
 			Assert.IsTrue(second.IsRemoteConnection);
+		}
+
+		[TestMethod]
+		public void TestRemoteAccessInterfaceAllowsWindowsImpersonation()
+		{
+			var inter = CreateFakeRemoteInterface();
+			var po = new PrivateObject(inter);
+			var cf = (ChannelFactory<ITGConfig>)po.Invoke("CreateChannel", new Type[] { typeof(string) }, new object[] { TestInstanceName }, new Type[] { typeof(ITGConfig) });
+			Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, System.Security.Principal.TokenImpersonationLevel.Impersonation);
 		}
 	}
 }
