@@ -3,7 +3,7 @@ var searchData=
   ['daemonstatus',['DaemonStatus',['../class_t_g_server_service_1_1_server_instance.html#ab39a3abd504c56e0d217a7ad475506e4',1,'TGServerService.ServerInstance.DaemonStatus()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a25fcfee27a4105a52518aad2899cdb38',1,'TGServiceInterface.Components.ITGDreamDaemon.DaemonStatus()']]],
   ['ddautostartcommand',['DDAutostartCommand',['../class_t_g_command_line_1_1_d_d_autostart_command.html#a6c785ec7634ecb794bb775ca79ccc3a2',1,'TGCommandLine::DDAutostartCommand']]],
   ['ddcommand',['DDCommand',['../class_t_g_command_line_1_1_d_d_command.html#a167aea89bb3e959262597268350ec68c',1,'TGCommandLine::DDCommand']]],
-  ['ddentrypoint',['DDEntryPoint',['../class_t_g_service_interface_1_1_dream_daemon_bridge.html#a59d0f00d545b30fdaf3ee2d21fefcdb9',1,'TGServiceInterface::DreamDaemonBridge']]],
+  ['ddentrypoint',['DDEntryPoint',['../class_t_g_dream_daemon_bridge_1_1_dream_daemon_bridge.html#af9f4382f0727c7a16889fb84593053b9',1,'TGDreamDaemonBridge::DreamDaemonBridge']]],
   ['ddportcommand',['DDPortCommand',['../class_t_g_command_line_1_1_d_d_port_command.html#a19a23edf9744b7df3d4ad765e6640b86',1,'TGCommandLine::DDPortCommand']]],
   ['ddrestartcommand',['DDRestartCommand',['../class_t_g_command_line_1_1_d_d_restart_command.html#ad6fb473cbd18a75d3465b3e39b0bc0e8',1,'TGCommandLine::DDRestartCommand']]],
   ['ddsecuritycommand',['DDSecurityCommand',['../class_t_g_command_line_1_1_d_d_security_command.html#ab549a0048b589db692ce9e572740987a',1,'TGCommandLine::DDSecurityCommand']]],

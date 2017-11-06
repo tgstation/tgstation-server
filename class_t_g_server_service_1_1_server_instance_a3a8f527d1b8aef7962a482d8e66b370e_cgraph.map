@@ -23,6 +23,6 @@
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="1048,309,1215,350"/>
 <area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#aef2a6a2e44bad48a223197b153734b06" title="Copy a file from source &#160;to dest , but first ensure the destination directory exists ..." alt="" coords="803,367,978,409"/>
 <area shape="rect" id="node18" href="$class_t_g_server_service_1_1_server_instance.html#a460f7422c8ca2c016df6d18a6c64e287" title="Gets the RepoConfig for CachedTGS3SettingsPath " alt="" coords="785,433,996,474"/>
-<area shape="rect" id="node19" href="$class_t_g_server_service_1_1_server_instance.html#a4b4771257ed71f5145b495f85a0553da" title="Copies InterfaceDLLName from the program directory to the the ServerInstance directory ..." alt="" coords="785,498,996,539"/>
+<area shape="rect" id="node19" href="$class_t_g_server_service_1_1_server_instance.html#ac8e5fb51cbd79f58097ce777d2caf7a9" title="Copies BridgeDLLName from the program directory to the the ServerInstance directory ..." alt="" coords="785,498,996,539"/>
 <area shape="rect" id="node21" href="$class_t_g_server_service_1_1_server_instance.html#a3e791a0e714b6c1e94e6b27c13ce2b2a" title="Updates the CachedTGS3SettingsPath with the RepoTGS3SettingsPath " alt="" coords="785,563,996,605"/>
 </map>

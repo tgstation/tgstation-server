@@ -11,6 +11,9 @@ var searchData=
   ['bottoken',['BotToken',['../class_t_g_service_interface_1_1_discord_setup_info.html#a4f3852a72fcc9cfa27c04ab21cc73398',1,'TGServiceInterface::DiscordSetupInfo']]],
   ['bottokenindex',['BotTokenIndex',['../class_t_g_service_interface_1_1_discord_setup_info.html#a314ea2a81d79c1f4f0486217dd2d62c1',1,'TGServiceInterface::DiscordSetupInfo']]],
   ['branchnametitle',['BranchNameTitle',['../class_t_g_control_panel_1_1_control_panel.html#a30b004a2476222826a6587db327956d1',1,'TGControlPanel::ControlPanel']]],
+  ['bridgedllname',['BridgeDLLName',['../class_t_g_server_service_1_1_server_instance.html#a53163f831dc935310ef155d7b1f48aac',1,'TGServerService::ServerInstance']]],
+  ['bridgedllupdated',['BridgeDLLUpdated',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a6b72095c13bae4ec9c8397ebaf390a87',1,'TGServerService']]],
+  ['bridgedllupdatefail',['BridgeDLLUpdateFail',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a3cbc4d485a0f0dec176f75379f979226',1,'TGServerService']]],
   ['buildfilelist',['BuildFileList',['../class_t_g_control_panel_1_1_control_panel.html#a67f69fe751d361325d87e5614797ec9f',1,'TGControlPanel::ControlPanel']]],
   ['busycheck',['BusyCheck',['../class_t_g_server_service_1_1_server_instance.html#a05bc0ce5b4867dfd63385a30bf713f9e',1,'TGServerService::ServerInstance']]],
   ['byond_2ecs',['Byond.cs',['../_t_g_server_service_2_server_instance_2_byond_8cs.html',1,'']]],
@@ -40,6 +43,6 @@ var searchData=
   ['byondupdatefail',['BYONDUpdateFail',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398aa152096d72a4aefc3f81099b9d07086d',1,'TGServerService']]],
   ['byondupdatestaged',['BYONDUpdateStaged',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398abdf25bc6920808a89bd2d16fb4dc20d9',1,'TGServerService']]],
   ['byondversion',['ByondVersion',['../namespace_t_g_service_interface.html#a7610968e566eeb321fee2adba3fbf107',1,'TGServiceInterface']]],
-  ['byondversioncommand',['BYONDVersionCommand',['../class_t_g_command_line_1_1_b_y_o_n_d_version_command.html',1,'TGCommandLine']]],
-  ['byondversioncommand',['BYONDVersionCommand',['../class_t_g_command_line_1_1_b_y_o_n_d_version_command.html#a854b1eabdf10e9f0eca6666a5f80c5d0',1,'TGCommandLine::BYONDVersionCommand']]]
+  ['byondversioncommand',['BYONDVersionCommand',['../class_t_g_command_line_1_1_b_y_o_n_d_version_command.html#a854b1eabdf10e9f0eca6666a5f80c5d0',1,'TGCommandLine::BYONDVersionCommand']]],
+  ['byondversioncommand',['BYONDVersionCommand',['../class_t_g_command_line_1_1_b_y_o_n_d_version_command.html',1,'TGCommandLine']]]
 ];

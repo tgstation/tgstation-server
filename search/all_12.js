@@ -24,6 +24,7 @@ var searchData=
   ['textprompt',['TextPrompt',['../class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6',1,'TGControlPanel::Program']]],
   ['tgcommandline',['TGCommandLine',['../namespace_t_g_command_line.html',1,'']]],
   ['tgcontrolpanel',['TGControlPanel',['../namespace_t_g_control_panel.html',1,'']]],
+  ['tgdreamdaemonbridge',['TGDreamDaemonBridge',['../namespace_t_g_dream_daemon_bridge.html',1,'']]],
   ['tginstallerwrapper',['TGInstallerWrapper',['../namespace_t_g_installer_wrapper.html',1,'']]],
   ['tgserverservice',['TGServerService',['../namespace_t_g_server_service.html',1,'']]],
   ['tgserviceinterface',['TGServiceInterface',['../namespace_t_g_service_interface.html',1,'']]],

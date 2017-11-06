@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['calculatechecksum',['CalculateChecksum',['../class_common.html#adfd070f9a744e4501390a3532c33ffa0',1,'Common']]],
+  ['calculatechecksum',['CalculateChecksum',['../class_common.html#adfd070f9a744e4501390a3532c33ffa0',1,'Common.CalculateChecksum(string filename)'],['../class_common.html#adfd070f9a744e4501390a3532c33ffa0',1,'Common.CalculateChecksum(string filename)']]],
   ['cancel',['Cancel',['../class_t_g_server_service_1_1_server_instance.html#a5d503c183dc730ccdf2d396ab4306a89',1,'TGServerService.ServerInstance.Cancel()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler.html#a4a3144fa98edacebae7f884657047c96',1,'TGServiceInterface.Components.ITGCompiler.Cancel()']]],
   ['cancelbutton_5fclick',['CancelButton_Click',['../class_t_g_installer_wrapper_1_1_main.html#a69f017b7e1ab25a56c23a5819e703343',1,'TGInstallerWrapper::Main']]],
   ['cancelimpersonation',['CancelImpersonation',['../class_t_g_server_service_1_1_service.html#ac3397831deffcbd077a20f4ceb86f7c7',1,'TGServerService::Service']]],
@@ -32,6 +32,7 @@ var searchData=
   ['cleanbyondstaging',['CleanByondStaging',['../class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6',1,'TGServerService::ServerInstance']]],
   ['cleangamefolder',['CleanGameFolder',['../class_t_g_server_service_1_1_server_instance.html#af08b470db051748bc99e830bd263d215',1,'TGServerService::ServerInstance']]],
   ['cleangamefolderlist',['CleanGameFolderList',['../class_t_g_server_service_1_1_server_instance.html#a56cc1fde0f34afba7b1f209a35b25247',1,'TGServerService::ServerInstance']]],
+  ['cleantempdir',['CleanTempDir',['../class_t_g_installer_wrapper_1_1_main.html#a3f2ee84a99c3bca792385b96829a26f8',1,'TGInstallerWrapper::Main']]],
   ['clearcachedchannels',['ClearCachedChannels',['../class_t_g_service_interface_1_1_interface.html#a5ae1a578668295091f6da4f28816964b',1,'TGServiceInterface::Interface']]],
   ['clicommand',['CLICommand',['../class_t_g_command_line_1_1_c_l_i_command.html#a27ba1bd98d0e3c80a5a2365b2f260520',1,'TGCommandLine::CLICommand']]],
   ['client_5fmessagereceived',['Client_MessageReceived',['../class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html#abcd57d9186faf25ab800932967e79e50',1,'TGServerService::ChatProviders::DiscordChatProvider']]],
@@ -61,12 +62,12 @@ var searchData=
   ['copydirectory',['CopyDirectory',['../class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23',1,'TGServerService::Program']]],
   ['copydirectoryimpl',['CopyDirectoryImpl',['../class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c',1,'TGServerService::Program']]],
   ['copyfileforcedirectories',['CopyFileForceDirectories',['../class_t_g_server_service_1_1_program.html#aef2a6a2e44bad48a223197b153734b06',1,'TGServerService::Program']]],
-  ['copyto',['CopyTo',['../class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7',1,'Common']]],
+  ['copyto',['CopyTo',['../class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7',1,'Common.CopyTo(Stream source, Stream destination)'],['../class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7',1,'Common.CopyTo(Stream source, Stream destination)']]],
   ['createbackup',['CreateBackup',['../class_t_g_server_service_1_1_server_instance.html#ae69e75b4b1379d03852e6bef850dfcc4',1,'TGServerService::ServerInstance']]],
   ['createchannel_3c_20t_20_3e',['CreateChannel&lt; T &gt;',['../class_t_g_service_interface_1_1_interface.html#a89acbad09e55283debb0311300a040d1',1,'TGServiceInterface::Interface']]],
-  ['createdirectory',['CreateDirectory',['../class_common.html#af06d3ae24d5e59a164e3309b56d8834a',1,'Common']]],
+  ['createdirectory',['CreateDirectory',['../class_common.html#af06d3ae24d5e59a164e3309b56d8834a',1,'Common.CreateDirectory(string tempBasePath)'],['../class_common.html#af06d3ae24d5e59a164e3309b56d8834a',1,'Common.CreateDirectory(string tempBasePath)']]],
   ['createsymboliclink',['CreateSymbolicLink',['../class_t_g_server_service_1_1_server_instance.html#a6842952e4558a97fc0b9612c5cfc5088',1,'TGServerService::ServerInstance']]],
   ['createsymlink',['CreateSymlink',['../class_t_g_server_service_1_1_server_instance.html#abae42263b35cd0124df7a0975c8810f8',1,'TGServerService::ServerInstance']]],
-  ['culturetostring',['CultureToString',['../class_common.html#ac106c64e40ba8bdf60460294628f72b8',1,'Common']]],
+  ['culturetostring',['CultureToString',['../class_common.html#ac106c64e40ba8bdf60460294628f72b8',1,'Common.CultureToString(CultureInfo culture)'],['../class_common.html#ac106c64e40ba8bdf60460294628f72b8',1,'Common.CultureToString(CultureInfo culture)']]],
   ['currentstatus',['CurrentStatus',['../class_t_g_server_service_1_1_server_instance.html#a31b1bd6a8c38575bffb5442fbd75a677',1,'TGServerService.ServerInstance.CurrentStatus()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_byond.html#a5b9bfa607e7a77cd83ce07bcc91b4afd',1,'TGServiceInterface.Components.ITGByond.CurrentStatus()']]]
 ];

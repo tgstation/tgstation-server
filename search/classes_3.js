@@ -21,5 +21,5 @@ var searchData=
   ['dminitializecommand',['DMInitializeCommand',['../class_t_g_command_line_1_1_d_m_initialize_command.html',1,'TGCommandLine']]],
   ['dmsetprojectnamecommand',['DMSetProjectNameCommand',['../class_t_g_command_line_1_1_d_m_set_project_name_command.html',1,'TGCommandLine']]],
   ['dmstatuscommand',['DMStatusCommand',['../class_t_g_command_line_1_1_d_m_status_command.html',1,'TGCommandLine']]],
-  ['dreamdaemonbridge',['DreamDaemonBridge',['../class_t_g_service_interface_1_1_dream_daemon_bridge.html',1,'TGServiceInterface']]]
+  ['dreamdaemonbridge',['DreamDaemonBridge',['../class_t_g_dream_daemon_bridge_1_1_dream_daemon_bridge.html',1,'TGDreamDaemonBridge']]]
 ];

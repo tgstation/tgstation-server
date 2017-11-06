@@ -22,6 +22,6 @@ var searchData=
   ['minorversionlabel',['MinorVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#af426a158e26eee7f6f2f38330ec5a5f0',1,'TGControlPanel::ControlPanel']]],
   ['minorversionnumeric',['MinorVersionNumeric',['../class_t_g_control_panel_1_1_control_panel.html#aff3fe06b51bc69c5d133472243566340',1,'TGControlPanel::ControlPanel']]],
   ['modifyingprovider',['ModifyingProvider',['../class_t_g_control_panel_1_1_control_panel.html#ada7e991d1f973b306f421f8257f6151b',1,'TGControlPanel::ControlPanel']]],
-  ['movefileex',['MoveFileEx',['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common']]],
+  ['movefileex',['MoveFileEx',['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)'],['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)']]],
   ['moveserver',['MoveServer',['../class_t_g_server_service_1_1_server_instance.html#aa8a3c62ea83e029263e21654e184ab80',1,'TGServerService.ServerInstance.MoveServer()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a68ef388c6df73ee89b698a1644df2a06',1,'TGServiceInterface.Components.ITGAdministration.MoveServer()']]]
 ];

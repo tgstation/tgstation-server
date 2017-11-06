@@ -1,5 +1,5 @@
 <map id="TGServerService.ServerInstance.SecurityWord" name="TGServerService.ServerInstance.SecurityWord">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af1472fb1f361d0c3bece7d4632edc339" title="Clears the current GameAPIVersion, calls UpdateInterfaceDll(bool) with a &#160;parameter, and attempts to start the DreamDaemon Proc " alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af1472fb1f361d0c3bece7d4632edc339" title="Clears the current GameAPIVersion, calls UpdateBridgeDll(bool) with a &#160;parameter, and attempts to sta..." alt="" coords="264,5,475,47"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a819f1dd33b77bd47f3796ff462cf7c68" title="Returns a human readable string of the current server status &#160;" alt="" coords="264,71,475,112"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ab76e4c626e2b38e75781aaad0b7809a9" title="Threaded loop that keeps DreamDaemon from unintentionally stopping " alt="" coords="523,5,733,47"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a8f8c222dd4a2d21957b968b26eff08a3" title="Starts the server if it isn&#39;t running &#160;" alt="" coords="523,71,733,112"/>

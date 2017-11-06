@@ -12,7 +12,6 @@ var searchData=
   ['portindex',['PortIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a1f14f7a6c249f1e1975cfed1061edc69',1,'TGServiceInterface::IRCSetupInfo']]],
   ['portlabel',['PortLabel',['../class_t_g_control_panel_1_1_control_panel.html#a579b3869b1916c908911720d0bbb497a',1,'TGControlPanel::ControlPanel']]],
   ['portselector',['PortSelector',['../class_t_g_control_panel_1_1_control_panel.html#a2d1eb709a36ad3a7e5e956233485a3f3',1,'TGControlPanel.ControlPanel.PortSelector()'],['../class_t_g_control_panel_1_1_login.html#a89b964df87580bc60ff793b9d0033023',1,'TGControlPanel.Login.PortSelector()']]],
-  ['prepareforupdate',['PrepareForUpdate',['../class_t_g_installer_wrapper_1_1_main.html#aec09dc5446a94b19940a21df6b2a6706',1,'TGInstallerWrapper::Main']]],
   ['printhelplist',['PrintHelpList',['../class_t_g_service_interface_1_1_root_command.html#a90e6f1cffa7c8c63b32e91f9ebe3a84e',1,'TGServiceInterface::RootCommand']]],
   ['privatekeypath',['PrivateKeyPath',['../class_t_g_server_service_1_1_server_instance.html#a2ab6a2c8f02431003a7b3eee7f453fff',1,'TGServerService::ServerInstance']]],
   ['privatemessagemarker',['PrivateMessageMarker',['../class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a12769a5b7159e8f665f2a35ffbebe9f3',1,'TGServerService::ChatProviders::IRCChatProvider']]],

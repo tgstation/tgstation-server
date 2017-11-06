@@ -2,10 +2,10 @@
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="282,5,457,47"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#aef2a6a2e44bad48a223197b153734b06" title="Copy a file from source &#160;to dest , but first ensure the destination directory exists ..." alt="" coords="282,71,457,112"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a460f7422c8ca2c016df6d18a6c64e287" title="Gets the RepoConfig for CachedTGS3SettingsPath " alt="" coords="264,136,475,177"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a4b4771257ed71f5145b495f85a0553da" title="Copies InterfaceDLLName from the program directory to the the ServerInstance directory ..." alt="" coords="264,201,475,243"/>
-<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="527,260,693,301"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#ac8e5fb51cbd79f58097ce777d2caf7a9" title="Copies BridgeDLLName from the program directory to the the ServerInstance directory ..." alt="" coords="264,253,475,295"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="527,195,693,236"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#a3e791a0e714b6c1e94e6b27c13ce2b2a" title="Updates the CachedTGS3SettingsPath with the RepoTGS3SettingsPath " alt="" coords="264,319,475,360"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="286,384,453,425"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="523,5,697,47"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="527,195,693,236"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#ac90d464e7982312e0a43f1d710bd83a9" title="Writes information to Windows the event log " alt="" coords="527,260,693,301"/>
 </map>

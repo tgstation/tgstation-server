@@ -12,7 +12,6 @@ var searchData=
   ['seenprivatechannels',['SeenPrivateChannels',['../class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html#ac326cd5eb269a12d00bb3e7e08c2c4b9',1,'TGServerService::ChatProviders::DiscordChatProvider']]],
   ['selectpathbutton',['SelectPathButton',['../class_t_g_installer_wrapper_1_1_main.html#ad73219fcb30171e2358bacbe3431bf13',1,'TGInstallerWrapper::Main']]],
   ['sentvmmwarning',['SentVMMWarning',['../class_t_g_command_line_1_1_program.html#a8c40f05615cbe62bf0902eefaa5f5096',1,'TGCommandLine::Program']]],
-  ['server',['Server',['../class_t_g_installer_wrapper_1_1_main.html#add1596a8b04b6aea4f9a2feddf7cdad4',1,'TGInstallerWrapper::Main']]],
   ['serverchatcommands',['ServerChatCommands',['../class_t_g_server_service_1_1_server_instance.html#af07a5ca7e8aeb5612b5333d94275e762',1,'TGServerService::ServerInstance']]],
   ['servergrestartbutton',['ServerGRestartButton',['../class_t_g_control_panel_1_1_control_panel.html#aeac3c97a892c554074ebdf94946f7407',1,'TGControlPanel::ControlPanel']]],
   ['servergstopbutton',['ServerGStopButton',['../class_t_g_control_panel_1_1_control_panel.html#a03983ff5cc67977b6c05f28a679ca9be',1,'TGControlPanel::ControlPanel']]],
@@ -58,6 +57,6 @@ var searchData=
   ['staticfileuploadbutton',['StaticFileUploadButton',['../class_t_g_control_panel_1_1_control_panel.html#a69d2f0d15f11bd85e69550efb6eb5718',1,'TGControlPanel::ControlPanel']]],
   ['staticpanel',['StaticPanel',['../class_t_g_control_panel_1_1_control_panel.html#a0ebe269ed08cb774771a2810aa2bc188',1,'TGControlPanel::ControlPanel']]],
   ['statuslabel',['StatusLabel',['../class_t_g_control_panel_1_1_control_panel.html#abf835a4acf0a24f77c048114de61b4a5',1,'TGControlPanel::ControlPanel']]],
-  ['symbolnames',['symbolNames',['../class_i_l_template.html#ae80645ba2039e82f4bcf04758f1d41a3',1,'ILTemplate']]],
+  ['symbolnames',['symbolNames',['../class_i_l_template.html#a87f4dab58eac1aaf7fc3b2874c07a98c',1,'ILTemplate']]],
   ['system',['System',['../_t_g_command_line_2_program_8cs.html#a81a223a02c34d82b47199f08308847f2',1,'System():&#160;Program.cs'],['../_server_page_8cs.html#a4598c6b5042b9ab31ee4f4644765857d',1,'System():&#160;ServerPage.cs']]]
 ];
