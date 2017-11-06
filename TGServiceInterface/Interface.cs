@@ -12,7 +12,7 @@ using TGServiceInterface.Components;
 namespace TGServiceInterface
 {
 	/// <summary>
-	/// Main inteface for communicating the <see cref="ITGSService"/>
+	/// Main <see langword="interface"/> for communicating the <see cref="ITGSService"/>
 	/// </summary>
 	public interface IInterface : IDisposable
 	{
