@@ -581,16 +581,15 @@ namespace TGServerService
 			if (Config.PushTestmergeCommits && SSHAuth())
 			{
 				string NewB = null;
+				var targetRemote = Repo.Network.Remotes[SSHPushRemote];
+				var options = new PushOptions()
+				{
+					CredentialsProvider = GenerateGitCredentials
+				};
 				try
 				{
 					//now try and push the commit to the remote so they can be referenced
 					NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
-
-					var options = new PushOptions()
-					{
-						CredentialsProvider = GenerateGitCredentials
-					};
-					var targetRemote = Repo.Network.Remotes[SSHPushRemote];
 					Repo.Network.Push(targetRemote, NewB, options); //push the branch
 					Repo.Branches.Remove(NewB);
 					NewB = null;
@@ -604,7 +603,19 @@ namespace TGServerService
 				finally
 				{
 					if (NewB != null)
-						Repo.Branches.Remove(NewB);
+					{
+						//Try to delete the branches regardless
+						try
+						{
+							Repo.Branches.Remove(NewB);
+						}
+						catch { }
+						try
+						{
+							Repo.Network.Push(targetRemote, String.Format(":{0}", NewB), options);
+						}
+						catch { }
+					}
 				}
 			}
 		}
