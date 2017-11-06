@@ -20,7 +20,7 @@ namespace TGInstallerWrapper
 		bool cancelled = false;
 		bool pathIsDefault = true;
 
-		Interface Interface;
+		IInterface Interface;
 
 		/// <summary>
 		/// Construct an installer form

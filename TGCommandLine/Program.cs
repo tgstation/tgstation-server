@@ -10,7 +10,7 @@ namespace TGCommandLine
 	class Program
 	{
 		static bool interactive = false, saidSrvVersion = false;
-		static Interface currentInterface;
+		static IInterface currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			//first lookup the connection string
@@ -100,7 +100,7 @@ namespace TGCommandLine
 			};
 		}
 
-		static void ReplaceInterface(Interface I)
+		static void ReplaceInterface(IInterface I)
 		{
 			currentInterface = I;
 			ConsoleCommand.Interface = I;
@@ -157,7 +157,7 @@ namespace TGCommandLine
 		/// </summary>
 		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to test</param>
 		/// <param name="silentSuccess">If <see langword="true"/>, does not output on success</param>
-		/// <returns><see langword="true"/> if a <see cref="ConnectivityLevel.Authenticated"/> was achieved with <see cref="Interface.ConnectToInstance(string, bool)"/>, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if a <see cref="ConnectivityLevel.Authenticated"/> was achieved with <see cref="IInterface.ConnectToInstance(string, bool)"/>, <see langword="false"/> otherwise</returns>
 		static bool CheckInstanceConnectivity(string instanceName, bool silentSuccess)
 		{
 			var res = currentInterface.ConnectToInstance(instanceName);

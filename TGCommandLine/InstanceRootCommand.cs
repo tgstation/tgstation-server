@@ -5,7 +5,7 @@ namespace TGCommandLine
 {
 	abstract class InstanceRootCommand : RootCommand
 	{
-		public static Interface currentInterface;
+		public static IInterface currentInterface;
 		public override ExitCode DoRun(IList<string> parameters)
 		{
 			if (currentInterface.InstanceName == null)

@@ -12,14 +12,14 @@ namespace TGControlPanel
 	partial class InstanceSelector : CountedForm
 	{
 		/// <summary>
-		/// The <see cref="Interface"/> we build instance connections from
+		/// The <see cref="IInterface"/> we build instance connections from
 		/// </summary>
-		readonly Interface masterInterface;
+		readonly IInterface masterInterface;
 		/// <summary>
 		/// List of <see cref="InstanceMetadata"/> from <see cref="masterInterface"/>
 		/// </summary>
 		IList<InstanceMetadata> InstanceData;
-		public InstanceSelector(Interface I)
+		public InstanceSelector(IInterface I)
 		{
 			InitializeComponent();
 			InstanceListBox.MouseDoubleClick += InstanceListBox_MouseDoubleClick;
@@ -100,7 +100,7 @@ namespace TGControlPanel
 				activeCP.BringToFront();
 				return;
 			}
-			var InstanceAccessor = new Interface(masterInterface);
+			var InstanceAccessor = new Interface(masterInterface as Interface);
 			try
 			{
 				ConnectivityLevel res = ConnectivityLevel.None;
