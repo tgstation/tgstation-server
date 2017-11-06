@@ -1,5 +1,5 @@
 $bf = $Env:APPVEYOR_BUILD_FOLDER
-$src = "$bf\TGInstallerWrapper\bin\x86\Release"
+$src = "$bf\TGInstallerWrapper\bin\Release"
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$src\TG Station Server Installer.exe").FileVersion
 
 $doxdir = "C:\tgsdox"
@@ -43,9 +43,9 @@ $destination_md5sha = "$bf\MD5-SHA1-Server-v$version.txt"
 
 $src2 = "$bf\ClientApps"
 [system.io.directory]::CreateDirectory($src2)
-Copy-Item "$bf\TGCommandLine\bin\x86\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
-Copy-Item "$bf\TGControlPanel\bin\x86\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
-Copy-Item "$bf\TGServiceInterface\bin\x86\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
+Copy-Item "$bf\TGCommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
+Copy-Item "$bf\TGControlPanel\bin\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
+Copy-Item "$bf\TGServiceInterface\bin\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
 
 $dest2 = "$bf\TGS3-Client-v$version.zip"
 

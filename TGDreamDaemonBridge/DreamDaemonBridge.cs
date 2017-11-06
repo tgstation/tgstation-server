@@ -1,14 +1,15 @@
 ﻿using RGiesecke.DllExport;
 using System;
 using System.Runtime.InteropServices;
+using TGServiceInterface;
 using TGServiceInterface.Components;
 
-namespace TGServiceInterface
+namespace TGDreamDaemonBridge
 {
 	/// <summary>
 	/// Holds the proc that DD calls to access <see cref="ITGInterop"/>
 	/// </summary>
-	public sealed class DreamDaemonBridge
+	public static class DreamDaemonBridge
 	{
 		/// <summary>
 		/// The proc that DD calls to access <see cref="ITGInterop"/>

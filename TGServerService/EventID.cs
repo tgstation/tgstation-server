@@ -245,11 +245,11 @@ namespace TGServerService
 		/// <summary>
 		/// Info: When the <see cref="TGServiceInterface"/> dll is updated for the <see cref="ServerInstance"/>
 		/// </summary>
-		InterfaceDLLUpdated = 5800,
+		BridgeDLLUpdated = 5800,
 		/// <summary>
 		/// Error: An error occurred while updating the <see cref="TGServiceInterface"/> dll for the <see cref="ServerInstance"/>
 		/// </summary>
-		InterfaceDLLUpdateFail = 5900,
+		BridgeDLLUpdateFail = 5900,
 
 		//YO THERE'S SPACE FOR 1 MORE ID HERE, USE IT!!!
 

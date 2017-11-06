@@ -21,7 +21,7 @@ namespace TGServerService
 		string serviceCommsKey; //regenerated every DD restart
 
 		//range of supported api versions
-		const int AllowedMajorAPIVersion = 1;
+		const int AllowedMajorAPIVersion = 2;
 		Version GameAPIVersion;
 
 		//See code/modules/server_tools/server_tools.dm for command switch
@@ -41,6 +41,19 @@ namespace TGServerService
 		const string CCPHelpText = "help_text";
 		const string CCPAdminOnly = "admin_only";
 		const string CCPRequiredParameters = "required_parameters";
+
+		/// <summary>
+		/// The file name of the .dll that contains the <see cref="ITGInterop"/> bridge class
+		/// </summary>
+		const string BridgeDLLName = "TGDreamDaemonBridge.dll";
+		/// <summary>
+		/// The namespace that contains the <see cref="ITGInterop"/> bridge class. Used for reflection
+		/// </summary>
+		const string DreamDaemonBridgeNamespace = "TGDreamDaemonBridge";
+		/// <summary>
+		/// The <see cref="ITGInterop"/> bridge class. Used for reflection
+		/// </summary>
+		const string DreamDaemonBridgeType = DreamDaemonBridgeNamespace + ".DreamDaemonBridge";
 
 		List<Command> ServerChatCommands;
 
