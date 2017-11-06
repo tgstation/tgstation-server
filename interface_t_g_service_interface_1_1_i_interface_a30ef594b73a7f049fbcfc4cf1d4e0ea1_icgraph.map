@@ -1,0 +1,11 @@
+<map id="TGServiceInterface.IInterface.ConnectToInstance" name="TGServiceInterface.IInterface.ConnectToInstance">
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_program.html#a04591dc018f6fb3a4c991537605576df" title="Tries to set currentInterface&#39;s ITGInstance to instanceName , outputting appropriate messages ..." alt="" coords="244,5,460,47"/>
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_c_l_i_command.html#aebb5bac08688ad34e40b1cf6c6ced992" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="248,71,456,112"/>
+<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_instance_root_command.html#ad49dde82f04f021d8b817cafd0f60866" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="251,136,453,177"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="259,201,445,243"/>
+<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="508,13,715,39"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="520,168,703,209"/>
+<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="513,233,710,275"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="763,201,961,243"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="1009,209,1192,235"/>
+</map>

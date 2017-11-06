@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['gameapiversion',['GameAPIVersion',['../class_t_g_server_service_1_1_server_instance.html#a070d3f5a7292c22e7cd0a807a8f73e4a',1,'TGServerService::ServerInstance']]],
-  ['gamechannelindex',['GameChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#aff454ce77357f87ab0b3727dacc9549f',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['gamechannelstextbox',['GameChannelsTextbox',['../class_t_g_control_panel_1_1_control_panel.html#a50e104ddc0a2f3cc1c2d2998f02a71c0',1,'TGControlPanel::ControlPanel']]],
-  ['gamedir',['GameDir',['../class_t_g_server_service_1_1_server_instance.html#aae521c4c39e87f29fc7cba98c0ff58d7',1,'TGServerService::ServerInstance']]],
-  ['gamedira',['GameDirA',['../class_t_g_server_service_1_1_server_instance.html#a0c6bafbaf5618ced251442f5e66fa89c',1,'TGServerService::ServerInstance']]],
-  ['gamedirb',['GameDirB',['../class_t_g_server_service_1_1_server_instance.html#a7a81324e1e1171c1d2d2adc35b105e62',1,'TGServerService::ServerInstance']]],
-  ['gamedirlive',['GameDirLive',['../class_t_g_server_service_1_1_server_instance.html#a6dc8ecb836197d4e0a889d8b8944237a',1,'TGServerService::ServerInstance']]]
+  ['fieldslen',['FieldsLen',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ad9cc0f4f8ba087c06c05768e935a703f',1,'TGServiceInterface.IRCSetupInfo.FieldsLen()'],['../class_t_g_service_interface_1_1_discord_setup_info.html#ad64f39e1a4fdaeb9651f7af50f4c3222',1,'TGServiceInterface.DiscordSetupInfo.FieldsLen()']]],
+  ['formcount',['FormCount',['../class_t_g_control_panel_1_1_counted_form.html#a9b230d7540de47f6a81773987c5a9bd2',1,'TGControlPanel::CountedForm']]],
+  ['fuaction',['fuAction',['../class_t_g_control_panel_1_1_control_panel.html#a9a293f9e45d94fc75374e01324238201',1,'TGControlPanel::ControlPanel']]],
+  ['fullupdateworker',['FullUpdateWorker',['../class_t_g_control_panel_1_1_control_panel.html#a01dea9930011e87fc8c39017cde41f5c',1,'TGControlPanel::ControlPanel']]]
 ];

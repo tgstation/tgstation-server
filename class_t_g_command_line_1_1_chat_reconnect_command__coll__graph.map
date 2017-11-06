@@ -1,6 +1,6 @@
 <map id="TGCommandLine.ChatReconnectCommand" name="TGCommandLine.ChatReconnectCommand">
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="623,203,751,230"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="380,95,461,122"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="329,225,512,251"/>
-<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="30,71,119,98"/>
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="60,199,188,225"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_interface.html" title="Main inteface for communicating the ITGSService " alt="" coords="140,109,327,136"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="189,13,278,39"/>
 </map>

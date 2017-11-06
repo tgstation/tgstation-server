@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['version',['Version',['../class_t_g_server_service_1_1_instance_config.html#a0008bd94f0c2d8784a2e996795ec74b7',1,'TGServerService::InstanceConfig']]]
+  ['url',['URL',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a5008e7907ca39ad4307a3567b7fc3031',1,'TGServiceInterface::IRCSetupInfo']]]
 ];

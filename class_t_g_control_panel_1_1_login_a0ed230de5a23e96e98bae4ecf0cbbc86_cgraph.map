@@ -1,10 +1,6 @@
 <map id="TGControlPanel.Login.LocalLoginButton_Click" name="TGControlPanel.Login.LocalLoginButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_login.html#ad6c4719ca6a60e9a07a9b2381765e886" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="236,66,421,107"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="712,66,899,107"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="469,32,664,74"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a55ac73b5d78b94a214713f5ab5a5a5e3" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="473,98,660,139"/>
-<area shape="rect" id="node9" href="$class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls CloseAllChannels " alt="" coords="473,163,660,204"/>
-<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html#a1c7f1ff1cf29c52be03c214be135011e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="712,147,899,188"/>
-<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="947,147,1133,188"/>
-<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="1181,147,1368,188"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="236,71,421,112"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="471,5,662,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="469,71,664,112"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_interface.html#a30ef594b73a7f049fbcfc4cf1d4e0ea1" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="471,136,662,177"/>
 </map>

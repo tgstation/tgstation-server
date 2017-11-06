@@ -1,16 +1,20 @@
 var searchData=
 [
-  ['fakestart',['FakeStart',['../class_t_g_server_service_1_1_tests_1_1_service_accessor.html#a16ec2c83d5db6c4fad4729ee1b6fc9ee',1,'TGServerService::Tests::ServiceAccessor']]],
-  ['fakestop',['FakeStop',['../class_t_g_server_service_1_1_tests_1_1_service_accessor.html#a0dc9a9b7ef0625f607a3d6593b482955',1,'TGServerService::Tests::ServiceAccessor']]],
-  ['fetch',['Fetch',['../class_t_g_server_service_1_1_server_instance.html#af8f4334b030e4cddf3f643aedc84f59e',1,'TGServerService::ServerInstance']]],
-  ['fieldslen',['FieldsLen',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ad9cc0f4f8ba087c06c05768e935a703f',1,'TGServiceInterface.IRCSetupInfo.FieldsLen()'],['../class_t_g_service_interface_1_1_discord_setup_info.html#ad64f39e1a4fdaeb9651f7af50f4c3222',1,'TGServiceInterface.DiscordSetupInfo.FieldsLen()']]],
-  ['file',['File',['../class_t_g_server_service_1_1_server_instance.html#af30b33f85b47517c591e0a2ea5b88fa9a0b27918290ff5323bea1e3b78a9cf04e',1,'TGServerService::ServerInstance']]],
-  ['findthedroidswerelookingfor',['FindTheDroidsWereLookingFor',['../class_t_g_server_service_1_1_server_instance.html#a2e5dea27fe5ea99beb0b1911eaffdaf7',1,'TGServerService::ServerInstance']]],
-  ['form',['Form',['../class_form.html',1,'']]],
-  ['formcount',['FormCount',['../class_t_g_control_panel_1_1_counted_form.html#a9b230d7540de47f6a81773987c5a9bd2',1,'TGControlPanel::CountedForm']]],
-  ['fuaction',['fuAction',['../class_t_g_control_panel_1_1_control_panel.html#a9a293f9e45d94fc75374e01324238201',1,'TGControlPanel::ControlPanel']]],
-  ['fullupdateaction',['FullUpdateAction',['../class_t_g_control_panel_1_1_control_panel.html#a47420c27d232b802a07c3feed6dbdf5e',1,'TGControlPanel::ControlPanel']]],
-  ['fullupdateworker',['FullUpdateWorker',['../class_t_g_control_panel_1_1_control_panel.html#a01dea9930011e87fc8c39017cde41f5c',1,'TGControlPanel::ControlPanel']]],
-  ['fullupdateworker_5fdowork',['FullUpdateWorker_DoWork',['../class_t_g_control_panel_1_1_control_panel.html#a0487c053eae698fec43881bff4d29f8f',1,'TGControlPanel::ControlPanel']]],
-  ['fullupdateworker_5frunworkercompleted',['FullUpdateWorker_RunWorkerCompleted',['../class_t_g_control_panel_1_1_control_panel.html#acdbf071340e7b9091e5c85e3533efd16',1,'TGControlPanel::ControlPanel']]]
+  ['enabled',['Enabled',['../class_t_g_server_service_1_1_instance_config.html#a5c5299a15a41f783643dfee92e19ceed',1,'TGServerService.InstanceConfig.Enabled()'],['../class_t_g_service_interface_1_1_chat_setup_info.html#af99a3123f9a81487a55c1d03df28c87d',1,'TGServiceInterface.ChatSetupInfo.Enabled()'],['../class_t_g_service_interface_1_1_instance_metadata.html#ad7d5c3121f259d0f810b87ab1bca9f29',1,'TGServiceInterface.InstanceMetadata.Enabled()']]],
+  ['enabledindex',['EnabledIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#ad0b54239f4f4688e1ec14d89a65ff31b',1,'TGServiceInterface::ChatSetupInfo']]],
+  ['encryptdata',['EncryptData',['../class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96',1,'TGServiceInterface::Helpers']]],
+  ['enumerated',['Enumerated',['../class_t_g_control_panel_1_1_control_panel.html#a11e64e10ecd2e5625563b5a5df609440a0416b63774d9876d28b528d592de8b57',1,'TGControlPanel::ControlPanel']]],
+  ['enumeratedpaths',['EnumeratedPaths',['../class_t_g_control_panel_1_1_control_panel.html#a6b87bc7f77ee587c54e4301004898ffd',1,'TGControlPanel::ControlPanel']]],
+  ['enumeratepath',['EnumeratePath',['../class_t_g_control_panel_1_1_control_panel.html#ad915cc66d166da5b44380f42b945832d',1,'TGControlPanel::ControlPanel']]],
+  ['enumerating',['enumerating',['../class_t_g_control_panel_1_1_control_panel.html#a5101702eacaa2759178d6b4fa61a4581',1,'TGControlPanel::ControlPanel']]],
+  ['enumerations_2ecs',['Enumerations.cs',['../_enumerations_8cs.html',1,'']]],
+  ['enumresult',['EnumResult',['../class_t_g_control_panel_1_1_control_panel.html#a11e64e10ecd2e5625563b5a5df609440',1,'TGControlPanel::ControlPanel']]],
+  ['equals',['Equals',['../class_t_g_server_service_1_1_repo_config.html#a4a7fff8ecfd2d694729b68738303b6cf',1,'TGServerService.RepoConfig.Equals(object obj)'],['../class_t_g_server_service_1_1_repo_config.html#af1af0c3548218ed8fc04b387a25b99f9',1,'TGServerService.RepoConfig.Equals(RepoConfig other)']]],
+  ['error',['Error',['../class_t_g_control_panel_1_1_control_panel.html#a11e64e10ecd2e5625563b5a5df609440a902b0d55fddef6f8d651fe1035b7d4bd',1,'TGControlPanel::ControlPanel']]],
+  ['eventfolder',['EventFolder',['../class_t_g_server_service_1_1_server_instance.html#a1b7519bc4b8c9476fcd9699385535533',1,'TGServerService::ServerInstance']]],
+  ['eventhandlerexists',['EventHandlerExists',['../class_t_g_server_service_1_1_server_instance.html#ae35924a25d2d0fcfb0124ad21ecb421f',1,'TGServerService::ServerInstance']]],
+  ['eventid',['EventID',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398',1,'TGServerService']]],
+  ['eventid_2ecs',['EventID.cs',['../_event_i_d_8cs.html',1,'']]],
+  ['exists',['Exists',['../class_t_g_server_service_1_1_server_instance.html#ace81439a32bd7252f187ff607a071e07',1,'TGServerService.ServerInstance.Exists()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a84eaa0cb4ba225f0b466f91e569a978e',1,'TGServiceInterface.Components.ITGRepository.Exists()']]],
+  ['exitcode',['ExitCode',['../class_t_g_service_interface_1_1_command.html#aa9ed97e9e1139f15e8e6b3556bfdc810',1,'TGServiceInterface::Command']]]
 ];

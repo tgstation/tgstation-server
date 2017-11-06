@@ -1,7 +1,7 @@
 <map id="TGControlPanel.ControlPanel.AssignListToTextbox" name="TGControlPanel.ControlPanel.AssignListToTextbox">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595" title="TGControlPanel.ControlPanel.\lLoadChatPage" alt="" coords="248,209,443,251"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a875a049fb9dea97c166d32159e1e20ca" title="TGControlPanel.ControlPanel.\lChatRefreshButton_Click" alt="" coords="823,60,1017,101"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="1340,188,1535,229"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1340,188,1535,229"/>
 <area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a03990a598c5359df04a718e45fc9741a" title="TGControlPanel.ControlPanel.\lChatReconnectButton_Click" alt="" coords="823,308,1017,349"/>
 <area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a16208c363e9400733131d24babaa4b20" title="TGControlPanel.ControlPanel.\lDiscordProviderSwitch_CheckedChanged" alt="" coords="491,359,751,400"/>
 <area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#acf608f4e71e840fac21f6b1a4778d692" title="TGControlPanel.ControlPanel.\lIRCProviderSwitch_CheckedChanged" alt="" coords="502,21,739,63"/>

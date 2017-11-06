@@ -1,9 +1,9 @@
 <map id="TGCommandLine.Program.RunCommandLine" name="TGCommandLine.Program.RunCommandLine">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="276,5,463,47"/>
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="274,5,465,47"/>
 <area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="271,71,468,112"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#aa1696bde7c44d86f69e4d5de173c3299" title="Returns the ITGSService component for the service " alt="" coords="547,173,734,215"/>
-<area shape="rect" id="node6" href="$class_t_g_command_line_1_1_program.html#a141fa9af9c942c81d0392fa135afa1cf" title="TGCommandLine.Program.Replace\lInterface" alt="" coords="256,188,483,229"/>
-<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a66cf3ff7b46dcc8248468fec224e8f3f" title="Retrieve&#39;s the service&#39;s version " alt="" coords="535,283,746,324"/>
-<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_interface.html#aa917a2e4f95d7fd2c5b1fc0d143280b8" title="Returns &#160;if the Interface interface being used to connect to a service does not have the same release..." alt="" coords="276,253,463,295"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_interface.html#ada45ab47bbbe2a93e69dfc79c8a57cbe" title="Returns the ITGSService component for the service " alt="" coords="274,136,465,177"/>
+<area shape="rect" id="node6" href="$class_t_g_command_line_1_1_program.html#a871956e508e9c91a510f76945a4201b1" title="TGCommandLine.Program.Replace\lInterface" alt="" coords="256,201,483,243"/>
+<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a66cf3ff7b46dcc8248468fec224e8f3f" title="Retrieve&#39;s the service&#39;s version " alt="" coords="264,267,475,308"/>
+<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_i_interface.html#a9b6c6257b149ce75f9e38c77fadebcde" title="Returns &#160;if the IInterface interface being used to connect to a service does not have the same releas..." alt="" coords="274,332,465,373"/>
 <area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_command.html#a3f1078fdaf3e09f73b1c66cc6fd41da5" title="Override to do the actions of the Command " alt="" coords="531,78,751,105"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="TGControlPanel.InstanceSelector.RefreshInstances" name="TGControlPanel.InstanceSelector.RefreshInstances">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#a83bb95eec4399cdcbf004525ae8425ec" title="Prompts the user for parameters to TGServiceInterface.Components.ITGSService.CreateInstance(string, string) " alt="" coords="272,47,491,88"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#af00faa03791eb06e062ed15891a7378a" title="TGControlPanel.InstanceSelector.\lInstanceSelector" alt="" coords="817,178,1036,219"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#ad1b5884cdf446fbb792c03871b50c664" title="TGControlPanel.InstanceSelector.\lInstanceSelector" alt="" coords="817,178,1036,219"/>
 <area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_instance_selector.html#adfd6ea3a3ec162841758ebeeb3aa1b63" title="Prompts the user for parameters to TGServiceInterface.Components.ITGSService.DetachInstance(string) ..." alt="" coords="272,112,491,154"/>
 <area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_instance_selector.html#a045e1131381ad714d6a85fc9c1abb07d" title="Prompts the user for parameters to TGServiceInterface.Components.ITGSService.ImportInstance(string) ..." alt="" coords="272,178,491,219"/>
 <area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7dcf998e6c7250aedbb36218132441e" title="Calls RefreshInstances " alt="" coords="272,243,491,284"/>

@@ -1,4 +1,0 @@
-<map id="TGServiceInterface.Interface.GetComponent&lt; T &gt;" name="TGServiceInterface.Interface.GetComponent&lt; T &gt;">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a98e149031108ca5fab90e1eceedb0c0d" title="TGServiceInterface.Interface.\lGetComponentImpl\&lt; T \&gt;" alt="" coords="240,5,427,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a8c11e700a5ad69bda4c904bdb4bf412e" title="Directly creates a ChannelFactory&lt;TChannel&gt; for T &#160;without caching. This should be eventually closed ..." alt="" coords="475,5,661,47"/>
-</map>

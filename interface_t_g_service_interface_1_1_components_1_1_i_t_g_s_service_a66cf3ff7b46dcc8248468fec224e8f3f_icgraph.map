@@ -1,5 +1,5 @@
 <map id="TGServiceInterface.Components.ITGSService.Version" name="TGServiceInterface.Components.ITGSService.Version">
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="499,5,701,47"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#aa917a2e4f95d7fd2c5b1fc0d143280b8" title="Returns &#160;if the Interface interface being used to connect to a service does not have the same release..." alt="" coords="264,64,451,105"/>
-<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="749,42,956,69"/>
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="264,5,467,47"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#aa917a2e4f95d7fd2c5b1fc0d143280b8" title="Returns &#160;if the IInterface interface being used to connect to a service does not have the same releas..." alt="" coords="272,71,459,112"/>
+<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="515,13,721,39"/>
 </map>

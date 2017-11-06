@@ -1,5 +1,0 @@
-<map id="TGServiceInterface.Interface.Dispose" name="TGServiceInterface.Interface.Dispose">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a1c7f1ff1cf29c52be03c214be135011e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="240,5,427,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="475,5,661,47"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="709,5,896,47"/>
-</map>

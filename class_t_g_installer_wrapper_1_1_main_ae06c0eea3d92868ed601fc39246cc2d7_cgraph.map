@@ -1,4 +1,4 @@
 <map id="TGInstallerWrapper.Main.TellServiceWereComingForThem" name="TGInstallerWrapper.Main.TellServiceWereComingForThem">
-<area shape="rect" id="node2" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="269,5,445,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="264,71,451,112"/>
+<area shape="rect" id="node2" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="271,5,447,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="264,71,455,112"/>
 </map>

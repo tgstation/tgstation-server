@@ -1,8 +1,4 @@
 <map id="TGCommandLine.InstanceRootCommand.DoRun" name="TGCommandLine.InstanceRootCommand.DoRun">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a55ac73b5d78b94a214713f5ab5a5a5e3" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="261,37,448,79"/>
-<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="256,103,453,144"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="501,5,688,47"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#a1c7f1ff1cf29c52be03c214be135011e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="501,71,688,112"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="736,71,923,112"/>
-<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="971,71,1157,112"/>
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_interface.html#a30ef594b73a7f049fbcfc4cf1d4e0ea1" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="259,5,450,47"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="256,71,453,112"/>
 </map>

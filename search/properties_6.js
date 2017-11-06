@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['instance',['Instance',['../class_t_g_server_service_1_1_chat_commands_1_1_chat_command.html#ad88aca64f613d0f1e7d2ccc662e368b1',1,'TGServerService::ChatCommands::ChatCommand']]],
-  ['instancejsonpath',['InstanceJSONPath',['../class_t_g_server_service_1_1_tests_1_1_test_instance_config.html#ac0f80f6950253bf9de8a4aad5d99a61c',1,'TGServerService::Tests::TestInstanceConfig']]],
-  ['instancename',['InstanceName',['../class_t_g_service_interface_1_1_interface.html#a8fed74399c2f93e666cbcd2daa30134b',1,'TGServiceInterface::Interface']]],
-  ['instancesinuse',['InstancesInUse',['../class_t_g_control_panel_1_1_control_panel.html#ac630a631fcd559654ba2c8b9cd2ee6cb',1,'TGControlPanel::ControlPanel']]],
-  ['isadmin',['IsAdmin',['../class_t_g_server_service_1_1_chat_commands_1_1_command_info.html#a9a0a92e23e1e56bffd52edb424b07cee',1,'TGServerService::ChatCommands::CommandInfo']]],
-  ['isadminchannel',['IsAdminChannel',['../class_t_g_server_service_1_1_chat_commands_1_1_command_info.html#a66486d6603e710ee058f55232f5a07f3',1,'TGServerService::ChatCommands::CommandInfo']]],
-  ['isremoteconnection',['IsRemoteConnection',['../class_t_g_service_interface_1_1_interface.html#a6191fad5a87576296b7f73d307934a3f',1,'TGServiceInterface::Interface']]]
+  ['httpsport',['HTTPSPort',['../interface_t_g_service_interface_1_1_i_interface.html#afbcd9c4a6ef07a81b10fbbd2662805f7',1,'TGServiceInterface.IInterface.HTTPSPort()'],['../class_t_g_service_interface_1_1_interface.html#a43ad42460dba6f8e08659285029e39cc',1,'TGServiceInterface.Interface.HTTPSPort()']]],
+  ['httpsurl',['HTTPSURL',['../interface_t_g_service_interface_1_1_i_interface.html#af4e4c39a1c73c4057723410daefa59df',1,'TGServiceInterface.IInterface.HTTPSURL()'],['../class_t_g_service_interface_1_1_interface.html#aa9fc11e8f54d25d8b61f8ebff40751a3',1,'TGServiceInterface.Interface.HTTPSURL()']]]
 ];

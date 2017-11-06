@@ -11,7 +11,7 @@
 <area shape="rect" id="node21" href="$class_t_g_command_line_1_1_chat_enable_command.html#af09f39e68f7cce4281ff5cdd1836373a" title="Override to do the actions of the Command " alt="" coords="299,862,492,903"/>
 <area shape="rect" id="node22" href="$class_t_g_command_line_1_1_chat_disable_command.html#a7882429ecbcf12974ab8a2bd620008c8" title="Override to do the actions of the Command " alt="" coords="297,927,493,968"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a4eac1aea3709798598cc2034bf3f48ff" title="TGControlPanel.ControlPanel.\lChatApplyButton_Click" alt="" coords="907,244,1101,286"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="1424,76,1619,118"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1424,76,1619,118"/>
 <area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a03990a598c5359df04a718e45fc9741a" title="TGControlPanel.ControlPanel.\lChatReconnectButton_Click" alt="" coords="907,310,1101,351"/>
 <area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a875a049fb9dea97c166d32159e1e20ca" title="TGControlPanel.ControlPanel.\lChatRefreshButton_Click" alt="" coords="607,368,802,410"/>
 <area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a16208c363e9400733131d24babaa4b20" title="TGControlPanel.ControlPanel.\lDiscordProviderSwitch_CheckedChanged" alt="" coords="575,135,835,176"/>

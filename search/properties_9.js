@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['modifyingprovider',['ModifyingProvider',['../class_t_g_control_panel_1_1_control_panel.html#ada7e991d1f973b306f421f8257f6151b',1,'TGControlPanel::ControlPanel']]]
+  ['loggingid',['LoggingID',['../class_t_g_service_interface_1_1_instance_metadata.html#a6bc127862aaaf1b7daef24121c46d4b4',1,'TGServiceInterface::InstanceMetadata']]]
 ];

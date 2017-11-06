@@ -1,0 +1,6 @@
+<map id="TGServiceInterface.IInterface.GetService" name="TGServiceInterface.IInterface.GetService">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a3930591b87c7bfb0f21df293c6ecec35" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="252,5,439,47"/>
+<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="244,71,447,112"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#aa917a2e4f95d7fd2c5b1fc0d143280b8" title="Returns &#160;if the IInterface interface being used to connect to a service does not have the same releas..." alt="" coords="252,136,439,177"/>
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="495,78,701,105"/>
+</map>

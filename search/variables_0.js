@@ -1,29 +1,5 @@
 var searchData=
 [
-  ['acceptedbadcert',['AcceptedBadCert',['../class_t_g_command_line_1_1_program.html#a88fce2efeee99fb1fa3b209be016897c',1,'TGCommandLine::Program']]],
-  ['action',['action',['../class_t_g_control_panel_1_1_control_panel.html#ac7507f30ba3ab607b759593874d4ee3a',1,'TGControlPanel::ControlPanel']]],
-  ['activeservice',['ActiveService',['../class_t_g_server_service_1_1_service.html#ac2057d36e9866b9fc8483ba5e56eca12',1,'TGServerService::Service']]],
-  ['adirtest',['ADirTest',['../class_t_g_server_service_1_1_server_instance.html#a5cea7fb477daccffb693b933e8a0b231',1,'TGServerService::ServerInstance']]],
-  ['adminchannelindex',['AdminChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#adaa65d11dca12c88e0d120df99daeed5',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['adminchannelstextbox',['AdminChannelsTextbox',['../class_t_g_control_panel_1_1_control_panel.html#a4bba11aaef253363a7763fbb1cdee6f7',1,'TGControlPanel::ControlPanel']]],
-  ['adminlistindex',['AdminListIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#a730e818a9a17e74aa2a5986319e3ca62',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['adminmodeindex',['AdminModeIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#ac5285c392ff73756c0f5a2430468811f',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['adminmodenormal',['AdminModeNormal',['../class_t_g_control_panel_1_1_control_panel.html#a03930a65aa35cef98fd5bfaaedcaf67d',1,'TGControlPanel::ControlPanel']]],
-  ['adminmodespecial',['AdminModeSpecial',['../class_t_g_control_panel_1_1_control_panel.html#a205570b0594df1f3e614286dbf9fe422',1,'TGControlPanel::ControlPanel']]],
-  ['allowedmajorapiversion',['AllowedMajorAPIVersion',['../class_t_g_server_service_1_1_server_instance.html#a178ed6d4540e6d79c2d6a3df12640c4e',1,'TGServerService::ServerInstance']]],
-  ['assemblynames',['assemblyNames',['../class_i_l_template.html#ac908ecb03b0196c36d94ddc3d2959d2d',1,'ILTemplate']]],
-  ['authfield1',['AuthField1',['../class_t_g_control_panel_1_1_control_panel.html#adcb7a0f0097234fb80c05a93ec37f4a3',1,'TGControlPanel::ControlPanel']]],
-  ['authfield1title',['AuthField1Title',['../class_t_g_control_panel_1_1_control_panel.html#afd29d03936b72d5e95a27b2a8ca7a690',1,'TGControlPanel::ControlPanel']]],
-  ['authfield2',['AuthField2',['../class_t_g_control_panel_1_1_control_panel.html#aa66f57cc487b94fb304e00c068cdb776',1,'TGControlPanel::ControlPanel']]],
-  ['authfield2title',['AuthField2Title',['../class_t_g_control_panel_1_1_control_panel.html#a4357b2055a03d70270334ee0986d544a',1,'TGControlPanel::ControlPanel']]],
-  ['authlevelindex',['AuthLevelIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a898051e7bbbf8c46caeadb135902709b',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['authlock',['authLock',['../class_t_g_server_service_1_1_server_instance.html#a3d9e7ee0d819cee495bd78f9a54c46fd',1,'TGServerService::ServerInstance']]],
-  ['authmessageindex',['AuthMessageIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#afa9093810835129a21087551554ef2bd',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['authtargetindex',['AuthTargetIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#aa2f2086e761653f60f333f5df2744ba8',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['autostartcheckbox',['AutostartCheckbox',['../class_t_g_control_panel_1_1_control_panel.html#a50e084e5ddadd1e11f07de1bb22947f3',1,'TGControlPanel::ControlPanel']]],
-  ['autoupdatecheckbox',['AutoUpdateCheckbox',['../class_t_g_control_panel_1_1_control_panel.html#a0a9cf3b3282ca6950e35657e967e9036',1,'TGControlPanel::ControlPanel']]],
-  ['autoupdateinterval',['AutoUpdateInterval',['../class_t_g_control_panel_1_1_control_panel.html#a069774e577048497f405a4ccd3018592',1,'TGControlPanel::ControlPanel']]],
-  ['autoupdatemlabel',['AutoUpdateMLabel',['../class_t_g_control_panel_1_1_control_panel.html#a886a4959c3ff3caab57f68c0e4465acf',1,'TGControlPanel::ControlPanel']]],
-  ['autoupdatetimer',['autoUpdateTimer',['../class_t_g_server_service_1_1_server_instance.html#ae88c3d75e0b20177d4d8ad653e8ea4d1',1,'TGServerService::ServerInstance']]],
-  ['awaitingshutdown',['AwaitingShutdown',['../class_t_g_server_service_1_1_server_instance.html#a0fcdc82f293c4cd7da11738f2c1e2656',1,'TGServerService::ServerInstance']]]
+  ['_5fhttpsport',['_HTTPSPort',['../class_t_g_service_interface_1_1_interface.html#a1852b8a82d890b0023fb15d265ed77c9',1,'TGServiceInterface::Interface']]],
+  ['_5fhttpsurl',['_HTTPSURL',['../class_t_g_service_interface_1_1_interface.html#a19464ee6a0e6949f6dcc45520fc05f7f',1,'TGServiceInterface::Interface']]]
 ];

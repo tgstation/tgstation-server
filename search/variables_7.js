@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['hardreset',['HardReset',['../class_t_g_control_panel_1_1_control_panel.html#a2de39cb1d26a3bd8260aac129d46787b',1,'TGControlPanel::ControlPanel']]],
-  ['helptext',['HelpText',['../class_t_g_server_service_1_1_chat_commands_1_1_server_chat_command.html#a42f0d3cbf44e0fbd9f1b97af9469e1d3',1,'TGServerService::ChatCommands::ServerChatCommand']]],
-  ['hosts',['hosts',['../class_t_g_server_service_1_1_service.html#ad84d7c573dcaddfa8411b826c1d4fc53',1,'TGServerService::Service']]],
-  ['httpspassword',['HTTPSPassword',['../class_t_g_service_interface_1_1_interface.html#a3e5c7c3910eb723350a593e9c402aed6',1,'TGServiceInterface::Interface']]],
-  ['httpsport',['HTTPSPort',['../class_t_g_service_interface_1_1_interface.html#a4600585dc4a1182eebcf06fb94a2f759',1,'TGServiceInterface::Interface']]],
-  ['httpsurl',['HTTPSURL',['../class_t_g_service_interface_1_1_interface.html#a35973bd60c60a6bd441dc3eab894ef3e',1,'TGServiceInterface::Interface']]],
-  ['httpsusername',['HTTPSUsername',['../class_t_g_service_interface_1_1_interface.html#abe4b9cc26e24aaa842e5c39db41c3b0e',1,'TGServiceInterface::Interface']]]
+  ['gameapiversion',['GameAPIVersion',['../class_t_g_server_service_1_1_server_instance.html#a070d3f5a7292c22e7cd0a807a8f73e4a',1,'TGServerService::ServerInstance']]],
+  ['gamechannelindex',['GameChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#aff454ce77357f87ab0b3727dacc9549f',1,'TGServiceInterface::ChatSetupInfo']]],
+  ['gamechannelstextbox',['GameChannelsTextbox',['../class_t_g_control_panel_1_1_control_panel.html#a50e104ddc0a2f3cc1c2d2998f02a71c0',1,'TGControlPanel::ControlPanel']]],
+  ['gamedir',['GameDir',['../class_t_g_server_service_1_1_server_instance.html#aae521c4c39e87f29fc7cba98c0ff58d7',1,'TGServerService::ServerInstance']]],
+  ['gamedira',['GameDirA',['../class_t_g_server_service_1_1_server_instance.html#a0c6bafbaf5618ced251442f5e66fa89c',1,'TGServerService::ServerInstance']]],
+  ['gamedirb',['GameDirB',['../class_t_g_server_service_1_1_server_instance.html#a7a81324e1e1171c1d2d2adc35b105e62',1,'TGServerService::ServerInstance']]],
+  ['gamedirlive',['GameDirLive',['../class_t_g_server_service_1_1_server_instance.html#a6dc8ecb836197d4e0a889d8b8944237a',1,'TGServerService::ServerInstance']]]
 ];

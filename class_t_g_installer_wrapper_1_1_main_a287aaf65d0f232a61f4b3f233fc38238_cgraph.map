@@ -7,6 +7,6 @@
 <area shape="rect" id="node5" href="$class_t_g_installer_wrapper_1_1_main.html#a12888c2a8c8758555dd3497d5432ab99" title="TGInstallerWrapper.Main.\lOnUIUpdate" alt="" coords="678,5,847,47"/>
 <area shape="rect" id="node6" href="$class_t_g_installer_wrapper_1_1_main.html#a7ebbf1725d5a650b127ed0e27b1d771f" title="TGInstallerWrapper.Main.\lPromptKillProcesses" alt="" coords="678,71,847,112"/>
 <area shape="rect" id="node7" href="$class_t_g_installer_wrapper_1_1_main.html#ae06c0eea3d92868ed601fc39246cc2d7" title="TGInstallerWrapper.Main.\lTellServiceWereComingForThem" alt="" coords="657,136,868,177"/>
-<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="916,103,1103,144"/>
-<area shape="rect" id="node9" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="921,168,1097,209"/>
+<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="916,103,1107,144"/>
+<area shape="rect" id="node9" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="923,168,1099,209"/>
 </map>

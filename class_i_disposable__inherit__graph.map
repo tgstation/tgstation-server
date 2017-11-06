@@ -1,7 +1,8 @@
 <map id="IDisposable" name="IDisposable">
-<area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html" title="Interface for a chat provder service " alt="" coords="143,37,349,79"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="143,103,349,130"/>
-<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="155,154,337,181"/>
+<area shape="rect" id="node2" href="$interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html" title="Interface for a chat provder service " alt="" coords="143,45,349,87"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="143,111,349,138"/>
+<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_i_interface.html" title="Main inteface for communicating the ITGSService " alt="" coords="153,162,339,189"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html" title="IChatProvider for Discord: https://discordapp.com/ " alt="" coords="397,5,603,47"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html" title="IChatProvider for internet relay chat " alt="" coords="397,71,603,112"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html" title="TGServiceInterface.Interface" alt="" coords="409,162,591,189"/>
 </map>
