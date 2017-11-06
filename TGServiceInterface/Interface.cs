@@ -341,6 +341,7 @@ namespace TGServiceInterface
 			{
 				res.Credentials.UserName.UserName = HTTPSUsername;
 				res.Credentials.UserName.Password = HTTPSPassword;
+				res.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 			}
 			return res;
 		}
