@@ -567,7 +567,7 @@ namespace TGServerService
 				{
 					//ok the things being stupid and hasn't released the dll yet, try ONCE more
 					Thread.Sleep(1000);
-					File.Copy(InterfacePath, rbdlln, overwrite);
+					File.Copy(BridgePath, rbdlln, overwrite);
 				}
 				catch (Exception e)
 				{
