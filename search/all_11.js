@@ -161,6 +161,7 @@ var searchData=
   ['starting',['Starting',['../namespace_t_g_service_interface.html#af1c6e932aa16d25cbe05b86e896f3935ac2efe4bbd13e6cb0db293e72884273c0',1,'TGServiceInterface']]],
   ['startingsecurity',['StartingSecurity',['../class_t_g_server_service_1_1_server_instance.html#a76df7e1dbf0a616318dc38a5b74096d2',1,'TGServerService::ServerInstance']]],
   ['startshortcutscheckbox',['StartShortcutsCheckbox',['../class_t_g_installer_wrapper_1_1_main.html#af1cd09c619d926f9c94ff82aab73814f',1,'TGInstallerWrapper::Main']]],
+  ['startstopservicebasic',['StartStopServiceBasic',['../class_t_g_server_service_1_1_tests_1_1_test_service.html#a77792e963a3128d466a2f5aafdc6d833',1,'TGServerService::Tests::TestService']]],
   ['staticbackupdir',['StaticBackupDir',['../class_t_g_server_service_1_1_server_instance.html#ae65be76d9379b4c23864048a54032e76',1,'TGServerService::ServerInstance']]],
   ['staticdelete',['StaticDelete',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a6b6ea5be78a74eaa2d4cfff9998f6a9e',1,'TGServerService']]],
   ['staticdirectorypaths',['StaticDirectoryPaths',['../class_t_g_server_service_1_1_repo_config.html#a9dfe03794c7d48dd655c67dbe05368e6',1,'TGServerService::RepoConfig']]],

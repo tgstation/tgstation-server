@@ -71,6 +71,7 @@ var searchData=
   ['sshauth',['SSHAuth',['../class_t_g_server_service_1_1_server_instance.html#a3fa2414f020ebecc7b1470e12a243d09',1,'TGServerService::ServerInstance']]],
   ['start',['Start',['../class_t_g_server_service_1_1_server_instance.html#a8f8c222dd4a2d21957b968b26eff08a3',1,'TGServerService.ServerInstance.Start()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a39b8c7109599ec81b54524dbda335776',1,'TGServiceInterface.Components.ITGDreamDaemon.Start()']]],
   ['startimpl',['StartImpl',['../class_t_g_server_service_1_1_server_instance.html#af1472fb1f361d0c3bece7d4632edc339',1,'TGServerService::ServerInstance']]],
+  ['startstopservicebasic',['StartStopServiceBasic',['../class_t_g_server_service_1_1_tests_1_1_test_service.html#a77792e963a3128d466a2f5aafdc6d833',1,'TGServerService::Tests::TestService']]],
   ['staticfilecreatebutton_5fclick',['StaticFileCreateButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#a6315d9c2622fa35bd1e0c62e9bcd4d64',1,'TGControlPanel::ControlPanel']]],
   ['staticfiledeletebutton_5fclick',['StaticFileDeleteButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#aecd5cb464abaca09a3e90c0f1df52af4',1,'TGControlPanel::ControlPanel']]],
   ['staticfiledownloadbutton_5fclick',['StaticFileDownloadButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#a5543970a3bcf468179bcd4967429f609',1,'TGControlPanel::ControlPanel']]],
