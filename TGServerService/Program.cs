@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.ServiceProcess;
 
 namespace TGServerService
 {
@@ -9,7 +10,10 @@ namespace TGServerService
 		/// <summary>
 		/// Entry point to the program
 		/// </summary>
-		static void Main() => Service.Launch();
+		static void Main() {
+			using (var S = new Service())
+				ServiceBase.Run(S);
+		}
 
 		/// <summary>
 		/// Copy a file from <paramref name="source"/> to <paramref name="dest"/>, but first ensure the destination directory exists

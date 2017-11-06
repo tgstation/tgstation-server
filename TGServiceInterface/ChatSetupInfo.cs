@@ -26,7 +26,7 @@ namespace TGServiceInterface
 		/// </summary>
 		protected const int BaseIndex = 8;
 		/// <summary>
-		/// Set to <see langword="true"/> if a child constructor should use the baseInfo parameter of <see cref="ChatSetupInfo.ChatSetupInfo(ChatSetupInfo, int)"/> to initialize it's property fields, <see langword="false"/> otherwise
+		/// Set to <see langword="true"/> if a child constructor should use the baseInfo parameter of <see cref="ChatSetupInfo.ChatSetupInfo(ChatProvider, ChatSetupInfo, int)"/> to initialize it's property fields, <see langword="false"/> otherwise
 		/// </summary>
 		protected readonly bool InitializeFields;
 		
@@ -39,9 +39,10 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Constructs a <see cref="ChatSetupInfo"/> from optional <paramref name="baseInfo"/>
 		/// </summary>
+		/// <param name="provider">The <see cref="ChatProvider"/> that this <see cref="ChatSetupInfo"/> is for</param>
 		/// <param name="baseInfo">Optional past data</param>
 		/// <param name="numFields">The number of fields in this chat provider</param>
-		protected ChatSetupInfo(ChatSetupInfo baseInfo, int numFields)
+		protected internal ChatSetupInfo(ChatProvider provider, ChatSetupInfo baseInfo, int numFields)
 		{
 			numFields += BaseIndex;
 			InitializeFields = baseInfo == null || baseInfo.DataFields.Count != numFields;
@@ -62,23 +63,31 @@ namespace TGServiceInterface
 			}
 			else
 				DataFields = baseInfo.DataFields;
+			Provider = provider;
+			Specialize(true);   //to check we have a valid provider
 		}
 
 		/// <summary>
 		/// Recreates <see langword="this"/> as the correct child <see cref="ChatSetupInfo"/>
 		/// </summary>
+		/// <param name="checkOnly">If <see langword="true"/>, <see langword="null"/> is returned provided <see cref="Provider"/> is a valid <see cref="ChatProvider"/></param>
 		/// <returns>A new <see cref="ChatSetupInfo"/> based on the <see cref="Provider"/> type</returns>
-		ChatSetupInfo Specialize()
+		ChatSetupInfo Specialize(bool checkOnly)
 		{
 			switch (Provider)
 			{
 				case ChatProvider.IRC:
-					return new IRCSetupInfo(this);
+					if (!checkOnly)
+						return new IRCSetupInfo(this);
+					break;
 				case ChatProvider.Discord:
-					return new DiscordSetupInfo(this);
+					if (!checkOnly)
+						return new DiscordSetupInfo(this);
+					break;
 				default:
 					throw new Exception("Invalid provider!");
 			}
+			return null;
 		}
 
 		/// <summary>
@@ -88,7 +97,7 @@ namespace TGServiceInterface
 		/// <returns>The formatted <see cref="string"/></returns>
 		protected virtual string SanitizeChannelName(string channel)
 		{
-			return Specialize().SanitizeChannelName(channel);
+			return Specialize(false).SanitizeChannelName(channel);
 		}
 
 		/// <summary>
@@ -115,6 +124,7 @@ namespace TGServiceInterface
 		public ChatSetupInfo(IList<string> DeserializedData)
 		{
 			DataFields = DeserializedData;
+			Specialize(false);	//ensure provider type is valid
 		}
 		/// <summary>
 		/// The list of admin entries
@@ -217,19 +227,18 @@ namespace TGServiceInterface
 		/// Construct IRC setup info from optional generic info. Defaults to TGS3 on rizons IRC server
 		/// </summary>
 		/// <param name="baseInfo">Optional generic info</param>
-		public IRCSetupInfo(ChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
+		public IRCSetupInfo(ChatSetupInfo baseInfo = null) : base(ChatProvider.IRC, baseInfo, FieldsLen)
 		{
-			Provider = ChatProvider.IRC;
-			if (InitializeFields)
-			{
-				Nickname = "TGS3";
-				URL = "irc.rizon.net";
-				Port = 6667;
-				AuthTarget = "";
-				AuthMessage = "";
-				AdminsAreSpecial = true;
-				AuthLevel = IRCMode.Op;
-			}
+			if (!InitializeFields)
+				return;
+
+			Nickname = "TGS3";
+			URL = "irc.rizon.net";
+			Port = 6667;
+			AuthTarget = "";
+			AuthMessage = "";
+			AdminsAreSpecial = true;
+			AuthLevel = IRCMode.Op;
 		}
 
 		/// <inheritdoc />
@@ -302,11 +311,11 @@ namespace TGServiceInterface
 		/// Construct Discord setup info from optional generic info. Default is not a valid discord bot tokent
 		/// </summary>
 		/// <param name="baseInfo">Optional generic info</param>
-		public DiscordSetupInfo(ChatSetupInfo baseInfo = null) : base(baseInfo, FieldsLen)
+		public DiscordSetupInfo(ChatSetupInfo baseInfo = null) : base(ChatProvider.Discord, baseInfo, FieldsLen)
 		{
-			Provider = ChatProvider.Discord;
-			if (InitializeFields)
-				BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; //needless to say, this is fake
+			if (!InitializeFields)
+				return;
+			BotToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; //needless to say, this is fake
 		}
 		/// <inheritdoc />
 		protected override string SanitizeChannelName(string working)
