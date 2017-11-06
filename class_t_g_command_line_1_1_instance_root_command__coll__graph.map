@@ -1,6 +1,6 @@
 <map id="TGCommandLine.InstanceRootCommand" name="TGCommandLine.InstanceRootCommand">
 <area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="71,199,179,225"/>
 <area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
-<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_i_interface.html" title="Main inteface for communicating the ITGSService " alt="" coords="204,199,391,225"/>
+<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_i_interface.html" title="Main &#160;for communicating the ITGSService " alt="" coords="204,199,391,225"/>
 <area shape="rect" id="node7" href="$class_i_disposable.html" title="IDisposable" alt="" coords="253,109,342,136"/>
 </map>
