@@ -546,14 +546,21 @@ namespace TGServerService
 		/// Merges given <paramref name="committish"/> into the current branch
 		/// </summary>
 		/// <param name="committish">The sha/branch/tag to merge</param>
+		/// <param name="mergeMessage">The commit message for the merge commit</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string MergeBranch(string committish)
+		string MergeBranch(string committish, string mergeMessage)
 		{
 			var mo = new MergeOptions()
 			{
 				OnCheckoutProgress = HandleCheckoutProgress
 			};
-			var Result = Repo.Merge(committish, MakeSig());
+			if (mergeMessage != null)
+			{
+				mo.CommitOnSuccess = false;
+				mo.FastForwardStrategy = FastForwardStrategy.NoFastForward;
+			}
+			var sig = MakeSig();
+			var Result = Repo.Merge(committish, sig, mo);
 			currentProgress = -1;
 			switch (Result.Status)
 			{
@@ -564,6 +571,8 @@ namespace TGServerService
 				case MergeStatus.UpToDate:
 					return RepoErrorUpToDate;
 			}
+			if(mergeMessage != null)
+				Repo.Commit(mergeMessage, sig, sig);
 			return null;
 		}
 
@@ -644,7 +653,7 @@ namespace TGServerService
 						WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, EventID.RepoHardUpdate);
 						return error;
 					}
-					res = MergeBranch(originBranch.FriendlyName);
+					res = MergeBranch(originBranch.FriendlyName, "Merge origin into current testmerge");
 					if (!LocalIsRemote())	//might be fast forward
 						PushTestmergeCommit();
 					if (res != null)
@@ -883,7 +892,7 @@ namespace TGServerService
 					}
 
 					//so we'll know if this fails
-					var Result = MergeBranch(LocalBranchName);
+					var Result = MergeBranch(LocalBranchName, String.Format("Testmerge commit for pull request #{0}", PRNumber));
 
 					if (Result == null)
 						try
