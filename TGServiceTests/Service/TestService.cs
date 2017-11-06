@@ -19,16 +19,24 @@ namespace TGServerService.Tests
 		}
 
 		/// <summary>
-		/// Test <see cref="Service.OnStart(string[])"/> and <see cref="Service.OnStop"/> can execute successfully
+		/// Starts and stops a <see cref="Service"/>
 		/// </summary>
-		[TestMethod]
-		public void TestStartupAndShutdown()
+		void StartStopServiceBasic()
 		{
 			using (var S = new ServiceAccessor())
 			{
 				S.FakeStart(new string[] { });
 				S.FakeStop();
 			}
+		}
+
+		/// <summary>
+		/// Test <see cref="Service.OnStart(string[])"/> and <see cref="Service.OnStop"/> can execute successfully
+		/// </summary>
+		[TestMethod]
+		public void TestStartupAndShutdown()
+		{
+			StartStopServiceBasic();
 		}
 		
 		/// <summary>
@@ -44,6 +52,22 @@ namespace TGServerService.Tests
 				S.FakeStop();
 			}
 			Assert.AreEqual(Properties.Settings.Default.RemoteAccessPort, 36785);
+		}
+
+		/// <summary>
+		/// Test that the .NET config is always initialized regardless of <see cref="Properties.Settings.UpgradeRequired"/>
+		/// </summary>
+		[TestMethod]
+		public void TestNETConfigIsAlwaysPrepped()
+		{
+			Properties.Settings.Default.UpgradeRequired = true;
+			Properties.Settings.Default.InstancePaths = null;
+			StartStopServiceBasic();
+			Assert.IsNotNull(Properties.Settings.Default.InstancePaths);
+			Properties.Settings.Default.UpgradeRequired = false;
+			Properties.Settings.Default.InstancePaths = null;
+			StartStopServiceBasic();
+			Assert.IsNotNull(Properties.Settings.Default.InstancePaths);
 		}
 	}
 }
