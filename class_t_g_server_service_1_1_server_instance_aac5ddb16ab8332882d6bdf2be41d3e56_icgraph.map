@@ -5,7 +5,7 @@
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a" title="Fetches the origin and merges it into the current branch " alt="" coords="523,156,733,197"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#ad2ab144910505686ff9529a708751f8f" title="Runs git reset –hard &#160;" alt="" coords="264,240,475,281"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="781,123,992,164"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured Properties.Settings.AutoUpdateInterval and tries to Update(bool) and Compile(b..." alt="" coords="781,188,992,229"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured InstanceConfig.AutoUpdateInterval of Config and tries to Update(bool) and Comp..." alt="" coords="781,188,992,229"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="1040,188,1251,229"/>
-<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#a805c3433c1fd7347b862ba4a3b0ea5f8" title="Constructs and a ServerInstance " alt="" coords="1299,188,1509,229"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#ab29fd416eb81b88dc28f1d9eeeaadeb9" title="Constructs and a ServerInstance " alt="" coords="1299,188,1509,229"/>
 </map>

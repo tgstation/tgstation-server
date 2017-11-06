@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['offline',['Offline',['../namespace_t_g_service_interface.html#a8d0a8727304bcbf3c0b9967701e533e9a8d9da4bc0e49a50e09ac9f7e56789d39',1,'TGServiceInterface']]],
+  ['offline',['Offline',['../class_t_g_server_service_1_1_server_instance.html#a50cee8b27ee9aba8ab71e9c0e3aae47a',1,'TGServerService.ServerInstance.Offline()'],['../namespace_t_g_service_interface.html#a8d0a8727304bcbf3c0b9967701e533e9a8d9da4bc0e49a50e09ac9f7e56789d39',1,'TGServiceInterface.Offline()']]],
   ['onchatmessage',['OnChatMessage',['../interface_t_g_server_service_1_1_chat_providers_1_1_i_chat_provider.html#a09f5975151daea56bd8f17cd30f85da3',1,'TGServerService.ChatProviders.IChatProvider.OnChatMessage()'],['../class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html#a6bda06c124017932c9117701491326e2',1,'TGServerService.ChatProviders.DiscordChatProvider.OnChatMessage()'],['../class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a0c3ed58a02323fbd839364015fe28559',1,'TGServerService.ChatProviders.IRCChatProvider.OnChatMessage()'],['../namespace_t_g_server_service_1_1_chat_providers.html#ad45a8eb27f10ef48d2473cc64840656b',1,'TGServerService.ChatProviders.OnChatMessage()']]],
   ['online',['Online',['../namespace_t_g_service_interface.html#a8d0a8727304bcbf3c0b9967701e533e9a54f664c70c22054ea0d8d26fc3997ce7',1,'TGServiceInterface']]],
+  ['onlineallhosts',['OnlineAllHosts',['../class_t_g_server_service_1_1_service.html#a6a61f954b4c3ea04d88d73bfb095ead6',1,'TGServerService::Service']]],
   ['onstart',['OnStart',['../class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e',1,'TGServerService::Service']]],
   ['onstop',['OnStop',['../class_t_g_server_service_1_1_service.html#a2dbfb4436b03982b6d7e466fde1763d7',1,'TGServerService::Service']]],
   ['onuiupdate',['OnUIUpdate',['../class_t_g_installer_wrapper_1_1_main.html#a12888c2a8c8758555dd3497d5432ab99',1,'TGInstallerWrapper::Main']]],

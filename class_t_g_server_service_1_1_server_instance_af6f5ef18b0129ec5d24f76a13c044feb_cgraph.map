@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.PrepareForUpdate" name="TGServerService.ServerInstance.PrepareForUpdate">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#ae3c4dfb35fce33f3462633036bc5af14" title="Writes a warning to the Windows event log " alt="" coords="523,5,689,47"/>
-</map>

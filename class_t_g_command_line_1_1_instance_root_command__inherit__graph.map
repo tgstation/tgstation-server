@@ -1,0 +1,11 @@
+<map id="TGCommandLine.InstanceRootCommand" name="TGCommandLine.InstanceRootCommand">
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_admin_command.html" title="TGCommandLine.AdminCommand" alt="" coords="545,5,768,32"/>
+<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_b_y_o_n_d_command.html" title="TGCommandLine.BYONDCommand" alt="" coords="541,56,772,83"/>
+<area shape="rect" id="node6" href="$class_t_g_command_line_1_1_config_command.html" title="TGCommandLine.ConfigCommand" alt="" coords="546,107,767,133"/>
+<area shape="rect" id="node7" href="$class_t_g_command_line_1_1_d_d_command.html" title="TGCommandLine.DDCommand" alt="" coords="555,157,758,184"/>
+<area shape="rect" id="node8" href="$class_t_g_command_line_1_1_discord_command.html" title="TGCommandLine.DiscordCommand" alt="" coords="542,208,771,235"/>
+<area shape="rect" id="node9" href="$class_t_g_command_line_1_1_d_m_command.html" title="TGCommandLine.DMCommand" alt="" coords="554,259,759,285"/>
+<area shape="rect" id="node10" href="$class_t_g_command_line_1_1_i_r_c_command.html" title="TGCommandLine.IRCCommand" alt="" coords="553,309,760,336"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="135,157,243,184"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,157,87,184"/>
+</map>

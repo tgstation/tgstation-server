@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['watchdoglock',['watchdogLock',['../class_t_g_server_service_1_1_server_instance.html#aac9358eb96d27250fb77c78695e90128',1,'TGServerService::ServerInstance']]],
-  ['wdchannelindex',['WDChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#a2f9899e91d03db2cf5dc5f6aa332744d',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['wdchannelstextbox',['WDChannelsTextbox',['../class_t_g_control_panel_1_1_control_panel.html#ae1b0b469b163fc7271d5a8cdd99fcdad',1,'TGControlPanel::ControlPanel']]],
-  ['webclientcheckbox',['WebclientCheckBox',['../class_t_g_control_panel_1_1_control_panel.html#a482f4ba997fc513cf5b414f45c512e90',1,'TGControlPanel::ControlPanel']]],
-  ['worldannouncebutton',['WorldAnnounceButton',['../class_t_g_control_panel_1_1_control_panel.html#ad1d9a19947dde4b655a0721cf2006cdb',1,'TGControlPanel::ControlPanel']]],
-  ['worldannouncefield',['WorldAnnounceField',['../class_t_g_control_panel_1_1_control_panel.html#a3bddc71cc6fea0d65753e1916a93a433',1,'TGControlPanel::ControlPanel']]],
-  ['worldannouncelabel',['WorldAnnounceLabel',['../class_t_g_control_panel_1_1_control_panel.html#a3988c7ca432fcffb3e2b3398392002b7',1,'TGControlPanel::ControlPanel']]]
+  ['validinterfaces',['ValidInterfaces',['../class_t_g_service_interface_1_1_interface.html#a177251e0cec2b05f762f91a560766e95',1,'TGServiceInterface::Interface']]],
+  ['versionfile',['VersionFile',['../class_t_g_server_service_1_1_server_instance.html#a012f09818116b92edf15f9d4aff96dff',1,'TGServerService::ServerInstance']]],
+  ['versionlabel',['VersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#a92a234d744b8707f05256e8c1c8eb9ec',1,'TGControlPanel.ControlPanel.VersionLabel()'],['../class_t_g_installer_wrapper_1_1_main.html#a18033b91547646bb9f97c8d51fde3bc2',1,'TGInstallerWrapper.Main.VersionLabel()']]],
+  ['versionstring',['VersionString',['../class_t_g_server_service_1_1_service.html#a088c62d8706172788f1889e68074e574',1,'TGServerService::Service']]],
+  ['versiontitle',['VersionTitle',['../class_t_g_control_panel_1_1_control_panel.html#a31d1b8bb2d3a117a3e6a659e424b7e2c',1,'TGControlPanel::ControlPanel']]]
 ];

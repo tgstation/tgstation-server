@@ -1,6 +1,0 @@
-<map id="TGCommandLine.AdminMoveServerCommand" name="TGCommandLine.AdminMoveServerCommand">
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="609,150,737,177"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="376,95,457,122"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="325,227,508,254"/>
-<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="30,71,119,98"/>
-</map>

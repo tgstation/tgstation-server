@@ -10,6 +10,7 @@ var searchData=
   ['ddstopcommand',['DDStopCommand',['../class_t_g_command_line_1_1_d_d_stop_command.html',1,'TGCommandLine']]],
   ['ddwebclientcommand',['DDWebclientCommand',['../class_t_g_command_line_1_1_d_d_webclient_command.html',1,'TGCommandLine']]],
   ['ddworldannouncecommand',['DDWorldAnnounceCommand',['../class_t_g_command_line_1_1_d_d_world_announce_command.html',1,'TGCommandLine']]],
+  ['deprecatedinstanceconfig',['DeprecatedInstanceConfig',['../class_t_g_server_service_1_1_deprecated_instance_config.html',1,'TGServerService']]],
   ['discordauthmodecommand',['DiscordAuthModeCommand',['../class_t_g_command_line_1_1_discord_auth_mode_command.html',1,'TGCommandLine']]],
   ['discordchatprovider',['DiscordChatProvider',['../class_t_g_server_service_1_1_chat_providers_1_1_discord_chat_provider.html',1,'TGServerService::ChatProviders']]],
   ['discordcommand',['DiscordCommand',['../class_t_g_command_line_1_1_discord_command.html',1,'TGCommandLine']]],

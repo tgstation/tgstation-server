@@ -1,0 +1,6 @@
+<map id="TGCommandLine.ServiceRemoteAccessPortCommand" name="TGCommandLine.ServiceRemoteAccessPortCommand">
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="613,147,741,174"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="380,94,461,121"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="329,225,512,251"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="30,71,119,98"/>
+</map>

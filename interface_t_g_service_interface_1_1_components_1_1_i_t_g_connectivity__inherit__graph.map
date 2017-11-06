@@ -1,3 +1,4 @@
 <map id="TGServiceInterface.Components.ITGConnectivity" name="TGServiceInterface.Components.ITGConnectivity">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="7,95,214,121"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="5,95,212,121"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html" title="The windows service the application runs as " alt="" coords="237,95,399,121"/>
 </map>

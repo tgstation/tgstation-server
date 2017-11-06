@@ -8,7 +8,7 @@ var searchData=
   ['ccprequiredparameters',['CCPRequiredParameters',['../class_t_g_server_service_1_1_server_instance.html#a3d33a80602850bbfcbc85ea2e1b4e42d',1,'TGServerService::ServerInstance']]],
   ['changelogpyarguments',['ChangelogPyArguments',['../class_t_g_server_service_1_1_repo_config.html#aba12fea103cba1fce39483184c7397d1',1,'TGServerService::RepoConfig']]],
   ['changelogsupport',['ChangelogSupport',['../class_t_g_server_service_1_1_repo_config.html#ab23367bbb43cd535d7742f4a9dd40792',1,'TGServerService::RepoConfig']]],
-  ['channelfactorycache',['ChannelFactoryCache',['../class_t_g_service_interface_1_1_interface.html#a4950a0fbe1fdbd63a6bbb9202e34733d',1,'TGServiceInterface::Interface']]],
+  ['channelfactorycache',['ChannelFactoryCache',['../class_t_g_service_interface_1_1_interface.html#a15260e7fc5835c633f28c44c4145c8f3',1,'TGServiceInterface::Interface']]],
   ['channelstitle',['ChannelsTitle',['../class_t_g_control_panel_1_1_control_panel.html#a2b02e9e66e3a29194dcd122b9587b935',1,'TGControlPanel::ControlPanel']]],
   ['chatadminstextbox',['ChatAdminsTextBox',['../class_t_g_control_panel_1_1_control_panel.html#a84bcbf28f15ede03b54a3632fecdbb79',1,'TGControlPanel::ControlPanel']]],
   ['chatadminstitle',['ChatAdminsTitle',['../class_t_g_control_panel_1_1_control_panel.html#afbf67d0f5f64807033230e77fd082940',1,'TGControlPanel::ControlPanel']]],
@@ -44,13 +44,16 @@ var searchData=
   ['compilerlock',['CompilerLock',['../class_t_g_server_service_1_1_server_instance.html#a43598a044d75089e4c3a0b433bca455b',1,'TGServerService::ServerInstance']]],
   ['compilerstatuslabel',['CompilerStatusLabel',['../class_t_g_control_panel_1_1_control_panel.html#af3559d3f273ce9afd6d5750849b72756',1,'TGControlPanel::ControlPanel']]],
   ['compilerthread',['CompilerThread',['../class_t_g_server_service_1_1_server_instance.html#a7276f1afc5e4e29a3dd7ecbc324b1661',1,'TGServerService::ServerInstance']]],
-  ['components',['components',['../class_t_g_control_panel_1_1_control_panel.html#aa38320098e5baa4eaa85fbc4e32fb970',1,'TGControlPanel.ControlPanel.components()'],['../class_t_g_control_panel_1_1_login.html#a33de7b9187fe5cbb173b10a3af660b13',1,'TGControlPanel.Login.components()'],['../class_t_g_installer_wrapper_1_1_main.html#a28d54546452ecc6ad9cfa2be7eb1a01c',1,'TGInstallerWrapper.Main.components()']]],
+  ['components',['components',['../class_t_g_control_panel_1_1_control_panel.html#aa38320098e5baa4eaa85fbc4e32fb970',1,'TGControlPanel.ControlPanel.components()'],['../class_t_g_control_panel_1_1_instance_selector.html#ac8b52a51c013c6ab3eacc6818ca5c50e',1,'TGControlPanel.InstanceSelector.components()'],['../class_t_g_control_panel_1_1_login.html#a33de7b9187fe5cbb173b10a3af660b13',1,'TGControlPanel.Login.components()'],['../class_t_g_installer_wrapper_1_1_main.html#a28d54546452ecc6ad9cfa2be7eb1a01c',1,'TGInstallerWrapper.Main.components()']]],
+  ['config',['Config',['../class_t_g_server_service_1_1_server_instance.html#a7a0ec30eb2bda8894c13d493fd80566d',1,'TGServerService::ServerInstance']]],
   ['configlock',['configLock',['../class_t_g_server_service_1_1_server_instance.html#a4d407c09b7a499c45266c916e4eaa947',1,'TGServerService::ServerInstance']]],
+  ['createinstancebutton',['CreateInstanceButton',['../class_t_g_control_panel_1_1_instance_selector.html#acf9d74f5190e4ac6f013aa5a633d8a43',1,'TGControlPanel::InstanceSelector']]],
   ['currentddlog',['CurrentDDLog',['../class_t_g_server_service_1_1_server_instance.html#a20d86baac5dc500fc0fda143655e83e8',1,'TGServerService::ServerInstance']]],
-  ['currentinterface',['currentInterface',['../class_t_g_command_line_1_1_program.html#ad8e5728cd3e8f0ebc304c4e0482e615e',1,'TGCommandLine::Program']]],
+  ['currentinterface',['currentInterface',['../class_t_g_command_line_1_1_instance_root_command.html#a9fc31263380b518a50207e6eb1dc71d7',1,'TGCommandLine.InstanceRootCommand.currentInterface()'],['../class_t_g_command_line_1_1_program.html#ad8e5728cd3e8f0ebc304c4e0482e615e',1,'TGCommandLine.Program.currentInterface()']]],
   ['currentport',['currentPort',['../class_t_g_server_service_1_1_server_instance.html#a4e943244934b9768a821aa6ec722ac18',1,'TGServerService::ServerInstance']]],
   ['currentprogress',['currentProgress',['../class_t_g_server_service_1_1_server_instance.html#ab294e7b6c6025f2c4f15b8b0dc78ef9e',1,'TGServerService::ServerInstance']]],
   ['currentrevisionlabel',['CurrentRevisionLabel',['../class_t_g_control_panel_1_1_control_panel.html#a1da63bc85fdf02e64c3e17d3274809ab',1,'TGControlPanel::ControlPanel']]],
   ['currentrevisiontitle',['CurrentRevisionTitle',['../class_t_g_control_panel_1_1_control_panel.html#ae1e1aa3a9774cd06ea4d2c1e50f3ea93',1,'TGControlPanel.ControlPanel.CurrentRevisionTitle()'],['../class_t_g_control_panel_1_1_login.html#a61eb852d147d039cb557bfad18211c1d',1,'TGControlPanel.Login.CurrentRevisionTitle()']]],
-  ['currentstatus',['currentStatus',['../class_t_g_server_service_1_1_server_instance.html#ac30b2fd293b49f890f3a1e32646c6d64',1,'TGServerService::ServerInstance']]]
+  ['currentstatus',['currentStatus',['../class_t_g_server_service_1_1_server_instance.html#ac30b2fd293b49f890f3a1e32646c6d64',1,'TGServerService::ServerInstance']]],
+  ['currentversion',['CurrentVersion',['../class_t_g_server_service_1_1_instance_config.html#a901961cd827e4636fdac9833d87c78f7',1,'TGServerService::InstanceConfig']]]
 ];

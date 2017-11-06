@@ -1,6 +1,11 @@
 <map id="TGControlPanel.Login.RemoteLoginButton_Click" name="TGControlPanel.Login.RemoteLoginButton_Click">
 <area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="252,5,435,47"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_login.html#ad6c4719ca6a60e9a07a9b2381765e886" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,71,436,112"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#a0de07ef23a3a0e5accd0f1403f2febbf" title="Used to test if the service is avaiable on the machine. Note that state can technically change at any..." alt="" coords="484,37,671,79"/>
-<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a55684ee7aa082d03cf2febb5b410ea00" title="Checks if the supplied user&#39;s credentials have permission to use the service. Requires a successful p..." alt="" coords="484,103,671,144"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="727,71,913,112"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="484,37,679,79"/>
+<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html#a55ac73b5d78b94a214713f5ab5a5a5e3" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="488,103,675,144"/>
+<area shape="rect" id="node10" href="$class_t_g_service_interface_1_1_interface.html#ac53f6302587ec361d8b186708ab0db41" title="Implements the IDisposable pattern. Calls CloseAllChannels " alt="" coords="488,168,675,209"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html#a1c7f1ff1cf29c52be03c214be135011e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="727,152,913,193"/>
+<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="961,152,1148,193"/>
+<area shape="rect" id="node9" href="$class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="1196,152,1383,193"/>
 </map>

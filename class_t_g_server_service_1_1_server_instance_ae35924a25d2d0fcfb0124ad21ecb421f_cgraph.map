@@ -1,3 +1,4 @@
 <map id="TGServerService.ServerInstance.EventHandlerExists" name="TGServerService.ServerInstance.EventHandlerExists">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ab7c024a90c8ffdb678f9b0bfaafd8764" title="Gets the path of an event given an eventName &#160;" alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,5,733,47"/>
 </map>

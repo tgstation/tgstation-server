@@ -1,0 +1,7 @@
+<map id="TGServerService.Service.SetupConfig" name="TGServerService.Service.SetupConfig">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="220,45,387,86"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#afeed60cf886ff66bfcaa160f028f0022" title="Writes some changes to the Properties.Settings that always need to be done. " alt="" coords="220,110,387,151"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#a283d7b133be485f8aa82efa41cb91e2f" title="Convert the settings version 6 .NET settings file to a config json " alt="" coords="435,13,687,54"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_instance_config.html#a9d77e1404ff1815cd19ca1c6f5401987" title="Saves the InstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="475,78,646,119"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#a36cae6e31f427c44793cedca5d691138" title="Construct a DeprecatedInstanceConfig. Used by the deserializer " alt="" coords="735,5,961,61"/>
+</map>

@@ -1,3 +1,4 @@
 <map id="ServiceAuthorizationManager" name="ServiceAuthorizationManager">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="5,80,212,107"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_administrative_authorization_manager.html" title="A ServiceAuthorizationManager used to determine only if the caller is an admin " alt="" coords="5,80,208,121"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="233,87,439,114"/>
 </map>

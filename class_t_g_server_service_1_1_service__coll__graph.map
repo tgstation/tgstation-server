@@ -1,3 +1,5 @@
 <map id="TGServerService.Service" name="TGServerService.Service">
-<area shape="rect" id="node2" href="$class_service_base.html" title="ServiceBase" alt="" coords="5,5,100,32"/>
+<area shape="rect" id="node2" href="$class_service_base.html" title="ServiceBase" alt="" coords="23,5,118,32"/>
+<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service " alt="" coords="24,56,117,83"/>
+<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html" title="Used for testing connections to the service without authentication " alt="" coords="15,107,127,133"/>
 </map>

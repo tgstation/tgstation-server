@@ -1,3 +1,4 @@
 <map id="TGControlPanel.ControlPanel" name="TGControlPanel.ControlPanel">
-<area shape="rect" id="node2" href="$class_form.html" title="Form" alt="" coords="75,5,127,32"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="51,80,151,107"/>
+<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="75,5,127,32"/>
 </map>

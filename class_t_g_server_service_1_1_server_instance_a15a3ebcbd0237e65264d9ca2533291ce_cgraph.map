@@ -1,7 +1,8 @@
 <map id="TGServerService.ServerInstance.BackupAndDeleteStaticDirectory" name="TGServerService.ServerInstance.BackupAndDeleteStaticDirectory">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="265,5,440,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="265,71,440,112"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="488,5,663,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="711,96,885,137"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="488,125,663,167"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="283,5,458,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="283,71,458,112"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="265,136,476,177"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="524,5,699,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="747,97,921,139"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="524,127,699,168"/>
 </map>

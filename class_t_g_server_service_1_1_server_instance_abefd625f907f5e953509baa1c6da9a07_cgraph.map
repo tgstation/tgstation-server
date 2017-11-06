@@ -1,4 +1,5 @@
 <map id="TGServerService.ServerInstance.GetHead" name="TGServerService.ServerInstance.GetHead">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a848b2e594808b20d91c9d9b273edd8f1" title="Gets the SHA or branch name of the Repo&#39;s HEAD " alt="" coords="264,5,475,47"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="523,5,733,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="781,5,992,47"/>
 </map>

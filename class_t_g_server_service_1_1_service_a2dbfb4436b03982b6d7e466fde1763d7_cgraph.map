@@ -1,3 +1,4 @@
 <map id="TGServerService.Service.OnStop" name="TGServerService.Service.OnStop">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a103b806b056a42886318a9f0422a865c" title="Writes an error to the Windows event log " alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a43203a881d0bd7376cfeb73182a847cc" title="Unlocks a ServerInstance.LoggingID acquired with LockLoggingID " alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="220,95,387,136"/>
 </map>

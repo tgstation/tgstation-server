@@ -1,0 +1,5 @@
+<map id="TGControlPanel.InstanceSelector.CreateInstanceButton_Click" name="TGControlPanel.InstanceSelector.CreateInstanceButton_Click">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using TGServiceInterface.Components.ITGSService.ListInstances ..." alt="" coords="272,5,491,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#aa765d5b8f1eb1acfafb6016755c5cbc4" title="Used to wrap Interface calls in a non&#45;blocking fashion " alt="" coords="539,35,757,76"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="284,123,479,164"/>
+</map>

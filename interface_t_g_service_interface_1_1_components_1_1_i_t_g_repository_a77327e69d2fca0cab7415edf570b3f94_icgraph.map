@@ -1,9 +1,0 @@
-<map id="TGServiceInterface.Components.ITGRepository.SetPythonPath" name="TGServiceInterface.Components.ITGRepository.SetPythonPath">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#aa2d576242a720c28ad4d56b6c85763c8" title="TGControlPanel.ControlPanel.\lUpdatePythonPath" alt="" coords="264,93,459,135"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#aff73fe7bed37b8732a330b8559e3a550" title="TGControlPanel.ControlPanel.\lCloneRepo" alt="" coords="507,64,701,105"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a9a36a69d6abdde297a1447cb465926ba" title="TGControlPanel.ControlPanel.\lRepoApplyButton_Click" alt="" coords="992,123,1187,164"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a7400b3bc0b2d583be9a51b1e72276223" title="TGControlPanel.ControlPanel.\lCloneRepositoryButton_Click" alt="" coords="749,64,944,105"/>
-<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a1f367682d1387913c18941792a64ef9c" title="TGControlPanel.ControlPanel.\lRecloneButton_Click" alt="" coords="992,5,1187,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="1235,64,1429,105"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="1477,64,1672,105"/>
-</map>

@@ -1,5 +1,5 @@
 <map id="TGCommandLine.ConsoleCommand" name="TGCommandLine.ConsoleCommand">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="376,95,457,122"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="325,227,508,254"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="380,94,461,121"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="329,225,512,251"/>
 <area shape="rect" id="node5" href="$class_i_disposable.html" title="IDisposable" alt="" coords="30,71,119,98"/>
 </map>

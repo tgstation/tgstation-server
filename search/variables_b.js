@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['nickindex',['NickIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a234f7c160cd2a98485e856c7cdb34489',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['nullcache',['nullCache',['../class_i_l_template.html#a5cd94e546a3da8206c53f20870ed9b65',1,'ILTemplate']]],
-  ['nullcachelock',['nullCacheLock',['../class_i_l_template.html#a5f187dc9e73311fd3da527dc0ebe6de2',1,'ILTemplate']]]
+  ['majorversionlabel',['MajorVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#af3b0120ac0840d6e7b07e3b6aed9d729',1,'TGControlPanel::ControlPanel']]],
+  ['majorversionnumeric',['MajorVersionNumeric',['../class_t_g_control_panel_1_1_control_panel.html#a77fb209e83fd74f58859e29ebcf72b99',1,'TGControlPanel::ControlPanel']]],
+  ['masterinterface',['masterInterface',['../class_t_g_control_panel_1_1_instance_selector.html#a483a09f9fffd813c7fbb4ee9acf034d9',1,'TGControlPanel::InstanceSelector']]],
+  ['masterinterfacename',['MasterInterfaceName',['../class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77',1,'TGServiceInterface::Interface']]],
+  ['mergeprbutton',['MergePRButton',['../class_t_g_control_panel_1_1_control_panel.html#a7ec8bd826684b7595d497512f34c4295',1,'TGControlPanel::ControlPanel']]],
+  ['minorversionlabel',['MinorVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#af426a158e26eee7f6f2f38330ec5a5f0',1,'TGControlPanel::ControlPanel']]],
+  ['minorversionnumeric',['MinorVersionNumeric',['../class_t_g_control_panel_1_1_control_panel.html#aff3fe06b51bc69c5d133472243566340',1,'TGControlPanel::ControlPanel']]]
 ];

@@ -1,3 +1,4 @@
 <map id="TGServerService.ServerInstance.MemTrackTimer_Elapsed" name="TGServerService.ServerInstance.MemTrackTimer_Elapsed">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ac66b59d813dcc51bf26bd90f3b812e8d" title="Write a message &#160;to the CurrentDDLog. A timestamp will be prepended to it " alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,5,733,47"/>
 </map>

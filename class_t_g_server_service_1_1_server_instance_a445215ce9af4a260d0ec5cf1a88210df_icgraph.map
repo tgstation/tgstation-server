@@ -10,7 +10,7 @@
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a7e077da7a7def0afaa4ac78d4d0a25ce" title="Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exis..." alt="" coords="1328,47,1539,88"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#af8c5c3b1d918969c67fda31e5a4c7ab3" title="TGServerService.ServerInstance.Push" alt="" coords="1040,79,1280,106"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="1055,133,1265,175"/>
-<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured Properties.Settings.AutoUpdateInterval and tries to Update(bool) and Compile(b..." alt="" coords="1055,199,1265,240"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured InstanceConfig.AutoUpdateInterval of Config and tries to Update(bool) and Comp..." alt="" coords="1055,199,1265,240"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="1328,199,1539,240"/>
-<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#a805c3433c1fd7347b862ba4a3b0ea5f8" title="Constructs and a ServerInstance " alt="" coords="1587,199,1797,240"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#ab29fd416eb81b88dc28f1d9eeeaadeb9" title="Constructs and a ServerInstance " alt="" coords="1587,199,1797,240"/>
 </map>

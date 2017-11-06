@@ -9,6 +9,7 @@ var searchData=
   ['majorversionlabel',['MajorVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#af3b0120ac0840d6e7b07e3b6aed9d729',1,'TGControlPanel::ControlPanel']]],
   ['majorversionnumeric',['MajorVersionNumeric',['../class_t_g_control_panel_1_1_control_panel.html#a77fb209e83fd74f58859e29ebcf72b99',1,'TGControlPanel::ControlPanel']]],
   ['makesig',['MakeSig',['../class_t_g_server_service_1_1_server_instance.html#abcde3c7acdaf49fcd170dde635747ab1',1,'TGServerService::ServerInstance']]],
+  ['masterinterface',['masterInterface',['../class_t_g_control_panel_1_1_instance_selector.html#a483a09f9fffd813c7fbb4ee9acf034d9',1,'TGControlPanel::InstanceSelector']]],
   ['masterinterfacename',['MasterInterfaceName',['../class_t_g_service_interface_1_1_interface.html#a9357161b2c8d891dbf69a0e7018ddf77',1,'TGServiceInterface::Interface']]],
   ['memtracktimer_5felapsed',['MemTrackTimer_Elapsed',['../class_t_g_server_service_1_1_server_instance.html#ac23c0fcef71fc61e9429f04482c5035b',1,'TGServerService::ServerInstance']]],
   ['merge',['Merge',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476aa68be4837f6c739877233e527a996dd00',1,'TGControlPanel::ControlPanel']]],
@@ -18,10 +19,11 @@ var searchData=
   ['mergepullrequest',['MergePullRequest',['../class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed',1,'TGServerService.ServerInstance.MergePullRequest()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a763d4bab7df28454c63510f25bdb31ab',1,'TGServiceInterface.Components.ITGRepository.MergePullRequest()']]],
   ['messagetype',['MessageType',['../namespace_t_g_server_service.html#a77ffb8da5e77d0173c9a1a3b8ba0b110',1,'TGServerService']]],
   ['messagetype_2ecs',['MessageType.cs',['../_message_type_8cs.html',1,'']]],
-  ['migratesettings',['MigrateSettings',['../class_t_g_server_service_1_1_service.html#a1f69ae79605fe8f17f3183ae15583d39',1,'TGServerService::Service']]],
+  ['migrate',['Migrate',['../class_t_g_server_service_1_1_deprecated_instance_config.html#aef2091b761a740ecbb1f58fccf9342d1',1,'TGServerService::DeprecatedInstanceConfig']]],
+  ['migratesettings',['MigrateSettings',['../class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7',1,'TGServerService::Service']]],
+  ['migratetocurrentversion',['MigrateToCurrentVersion',['../class_t_g_server_service_1_1_deprecated_instance_config.html#abbdc2539c528aa57758d8baf9fa069a3',1,'TGServerService::DeprecatedInstanceConfig']]],
   ['minorversionlabel',['MinorVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#af426a158e26eee7f6f2f38330ec5a5f0',1,'TGControlPanel::ControlPanel']]],
   ['minorversionnumeric',['MinorVersionNumeric',['../class_t_g_control_panel_1_1_control_panel.html#aff3fe06b51bc69c5d133472243566340',1,'TGControlPanel::ControlPanel']]],
   ['modifyingprovider',['ModifyingProvider',['../class_t_g_control_panel_1_1_control_panel.html#ada7e991d1f973b306f421f8257f6151b',1,'TGControlPanel::ControlPanel']]],
-  ['movefileex',['MoveFileEx',['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)'],['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)']]],
-  ['moveserver',['MoveServer',['../class_t_g_server_service_1_1_server_instance.html#aa8a3c62ea83e029263e21654e184ab80',1,'TGServerService.ServerInstance.MoveServer()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a68ef388c6df73ee89b698a1644df2a06',1,'TGServiceInterface.Components.ITGAdministration.MoveServer()']]]
+  ['movefileex',['MoveFileEx',['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)'],['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)']]]
 ];

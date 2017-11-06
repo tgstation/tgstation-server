@@ -1,5 +1,6 @@
 <map id="TGControlPanel.ControlPanel" name="TGControlPanel.ControlPanel">
-<area shape="rect" id="node2" href="$class_form.html" title="Form" alt="" coords="387,205,439,232"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="321,256,504,283"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="28,65,117,92"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="367,56,467,83"/>
+<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="47,56,99,83"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="325,333,508,360"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="28,493,117,520"/>
 </map>

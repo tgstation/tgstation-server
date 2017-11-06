@@ -1,0 +1,7 @@
+<map id="TGCommandLine.Program.CheckInstanceConnectivity" name="TGCommandLine.Program.CheckInstanceConnectivity">
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#a55ac73b5d78b94a214713f5ab5a5a5e3" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="269,39,456,80"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="504,5,691,47"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_interface.html#a1c7f1ff1cf29c52be03c214be135011e" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it " alt="" coords="504,71,691,112"/>
+<area shape="rect" id="node5" href="$class_t_g_service_interface_1_1_interface.html#a638ac53dcc56eb98e7cfc9db67947249" title="Disposes a closed ChannelFactory " alt="" coords="739,71,925,112"/>
+<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_interface.html#ad3a37157767048ad0c0a53d444afe25e" title="Implements the IDisposable pattern " alt="" coords="973,71,1160,112"/>
+</map>

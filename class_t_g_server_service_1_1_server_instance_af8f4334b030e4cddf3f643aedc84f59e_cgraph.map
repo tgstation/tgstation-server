@@ -1,5 +1,6 @@
 <map id="TGServerService.ServerInstance.Fetch" name="TGServerService.ServerInstance.Fetch">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ab56ecfc17b45a4658e0a676402b634e3" title="Create FetchOptions that Prune and have the appropriate credentials and progress handler ..." alt="" coords="264,39,475,80"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a895420e900c51183a28580f3a3ab3039" title="SSH credentials callback. Properly sets up SSH keys for an authorization operation ..." alt="" coords="523,5,733,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a445215ce9af4a260d0ec5cf1a88210df" title="Updates currentProgress with the progess of the current Repo transfer operation " alt="" coords="523,71,733,112"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a445215ce9af4a260d0ec5cf1a88210df" title="Updates currentProgress with the progess of the current Repo transfer operation " alt="" coords="523,71,733,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="781,5,992,47"/>
 </map>

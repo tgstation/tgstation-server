@@ -8,7 +8,6 @@ var searchData=
   ['repolistprscommand',['RepoListPRsCommand',['../class_t_g_command_line_1_1_repo_list_p_rs_command.html',1,'TGCommandLine']]],
   ['repomergeprcommand',['RepoMergePRCommand',['../class_t_g_command_line_1_1_repo_merge_p_r_command.html',1,'TGCommandLine']]],
   ['repopushchangelogcommand',['RepoPushChangelogCommand',['../class_t_g_command_line_1_1_repo_push_changelog_command.html',1,'TGCommandLine']]],
-  ['repopythonpathcommand',['RepoPythonPathCommand',['../class_t_g_command_line_1_1_repo_python_path_command.html',1,'TGCommandLine']]],
   ['reporesetcommand',['RepoResetCommand',['../class_t_g_command_line_1_1_repo_reset_command.html',1,'TGCommandLine']]],
   ['reposetemailcommand',['RepoSetEmailCommand',['../class_t_g_command_line_1_1_repo_set_email_command.html',1,'TGCommandLine']]],
   ['reposetnamecommand',['RepoSetNameCommand',['../class_t_g_command_line_1_1_repo_set_name_command.html',1,'TGCommandLine']]],

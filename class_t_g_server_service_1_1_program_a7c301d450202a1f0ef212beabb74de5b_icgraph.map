@@ -1,7 +1,7 @@
 <map id="TGServerService.Program.SanitizeTopicString" name="TGServerService.Program.SanitizeTopicString">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_chat_commands_1_1_server_chat_command.html#a9c08433ab83a0a85b419c61287a4917a" title="Override to do the actions of the Command &#160;" alt="" coords="228,5,447,47"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a989bcee76648cec9c7e52a5d33217e90" title="Sends a message to everyone on the server &#160;" alt="" coords="232,71,443,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a901e893be86572cf6a8d539e83de4b2c" title="Either let go of Proc for reattachment or terminate it, depending on Properties.Settings.ReattachToDD " alt="" coords="495,71,705,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a901e893be86572cf6a8d539e83de4b2c" title="Either let go of Proc for reattachment or terminate it, depending on InstanceConfig.ReattachRequired of Config " alt="" coords="495,71,705,112"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="753,71,964,112"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="1012,71,1223,112"/>
 </map>

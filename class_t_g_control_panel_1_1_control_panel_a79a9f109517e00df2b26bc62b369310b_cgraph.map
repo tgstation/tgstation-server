@@ -1,5 +1,0 @@
-<map id="TGControlPanel.ControlPanel.ServerPathTextbox_KeyDown" name="TGControlPanel.ControlPanel.ServerPathTextbox_KeyDown">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a715bc4739605950e6512372e24eb065c" title="TGControlPanel.ControlPanel.\lUpdateServerPath" alt="" coords="248,39,443,80"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#abb2dd6252baca12b13577ef742d1a400" title="TGControlPanel.ControlPanel.\lCheckAdminWithWarning" alt="" coords="499,5,693,47"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a68ef388c6df73ee89b698a1644df2a06" title="Moves the entire server installation, requires no operations to be running " alt="" coords="491,71,701,112"/>
-</map>

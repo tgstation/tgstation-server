@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_server_service_1_1_chat_commands_1_1_command_info.html" title="Metadata about the currently running ChatCommand " alt="" coords="5,5,224,47"/>
+<area shape="rect" id="node1" href="$class_t_g_server_service_1_1_instance_config.html" title="TGServerService.Instance\lConfig" alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="" coords="224,5,411,47"/>
 </map>

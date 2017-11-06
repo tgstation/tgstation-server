@@ -1,3 +1,19 @@
 <map id="TGServerService.Service.OnStart" name="TGServerService.Service.OnStart">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a2c4c6dd3cb5dadda5608e02fcd1adb35" title="Adds a WCF endpoint for a component type &#160;" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a68b7d6185818aa22a4edcf4865ec2bb0" title="Overrides and saves the configured Properties.Settings.RemoteAccessPort if requested by command line ..." alt="" coords="220,5,423,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a6a61f954b4c3ea04d88d73bfb095ead6" title="Opens all created ServiceHosts " alt="" coords="238,71,405,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a3ed52895c6c15b9f1270f73369958347" title="Upgrades up the service configuration " alt="" coords="238,136,405,177"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#ab74c8e27919681ca6333d98088e482b9" title="Creates ServiceHosts for all ServerInstances as listed in Properties.Settings.InstancePaths, detaches bad ones " alt="" coords="238,231,405,272"/>
+<area shape="rect" id="node18" href="$class_t_g_server_service_1_1_service.html#a1e851175c71de84bae17d2f43c8b3301" title="Creates the ServiceHost for ITGSService " alt="" coords="471,376,637,417"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#afeed60cf886ff66bfcaa160f028f0022" title="Writes some changes to the Properties.Settings that always need to be done. " alt="" coords="471,41,637,83"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="471,107,637,148"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#a283d7b133be485f8aa82efa41cb91e2f" title="Convert the settings version 6 .NET settings file to a config json " alt="" coords="685,91,937,132"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_instance_config.html#a9d77e1404ff1815cd19ca1c6f5401987" title="Saves the InstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="726,25,897,67"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#a36cae6e31f427c44793cedca5d691138" title="Construct a DeprecatedInstanceConfig. Used by the deserializer " alt="" coords="985,83,1212,139"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_service.html#a9b5c6694977d1c65dcc661dbfd7edb97" title="Enumerates configured InstanceConfigs. Detaches those that fail to load " alt="" coords="471,187,637,228"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="728,245,895,287"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_service.html#af9fbc7211bc275fbfbb1bd6fcf4f94d0" title="Creates and starts a ServiceHost for a ServerInstance at config &#160;" alt="" coords="471,311,637,352"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_instance_config.html#ac18cfbc0482a23d2092febe2c0a0bcfb" title="Loads and migrates an InstanceConfig from a ServerInstance at path &#160;" alt="" coords="726,156,897,197"/>
+<area shape="rect" id="node15" href="$class_t_g_server_service_1_1_service.html#af8321586d223cb2326e14360b8af7d8e" title="Gets and locks a ServerInstance.LoggingID " alt="" coords="728,311,895,352"/>
+<area shape="rect" id="node16" href="$class_t_g_server_service_1_1_service.html#abd51696063d87ec7fc00054a19b345d9" title="Creates a ServiceHost for singleton &#160;using the default pipe, CloseTimeout for the ServiceHost..." alt="" coords="728,441,895,483"/>
+<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_service.html#a70efdca1b28c2d1a30df7e46bd48bc40" title="Adds a WCF endpoint for a component typetype &#160;" alt="" coords="728,376,895,417"/>
 </map>

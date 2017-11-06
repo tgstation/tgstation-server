@@ -5,7 +5,7 @@ var searchData=
   ['backuptagslist_5fmousedoubleclick',['BackupTagsList_MouseDoubleClick',['../class_t_g_control_panel_1_1_control_panel.html#ae78a814091f297009537cade56383588',1,'TGControlPanel::ControlPanel']]],
   ['badcertificatehandler',['BadCertificateHandler',['../class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0',1,'TGControlPanel::Program']]],
   ['badcertificateinteractive',['BadCertificateInteractive',['../class_t_g_command_line_1_1_program.html#adcda3c65e733b3f708c1b22427fc67b8',1,'TGCommandLine::Program']]],
-  ['badcommand',['BadCommand',['../class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631aa8a531d11db80cfc1fe739df02353193',1,'TGServiceInterface::Command']]],
+  ['badcommand',['BadCommand',['../class_t_g_service_interface_1_1_command.html#aa9ed97e9e1139f15e8e6b3556bfdc810aa8a531d11db80cfc1fe739df02353193',1,'TGServiceInterface::Command']]],
   ['baseindex',['BaseIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#a6b962c478c0dce27ea9fb163375a8846',1,'TGServiceInterface::ChatSetupInfo']]],
   ['bdirtest',['BDirTest',['../class_t_g_server_service_1_1_server_instance.html#a3584843b75b22e9caaf4706fe6d9a26f',1,'TGServerService::ServerInstance']]],
   ['bottoken',['BotToken',['../class_t_g_service_interface_1_1_discord_setup_info.html#a4f3852a72fcc9cfa27c04ab21cc73398',1,'TGServiceInterface::DiscordSetupInfo']]],

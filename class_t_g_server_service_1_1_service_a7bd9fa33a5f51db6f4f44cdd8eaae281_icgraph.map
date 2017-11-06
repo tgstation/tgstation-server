@@ -1,0 +1,8 @@
+<map id="TGServerService.Service.SetupOneInstance" name="TGServerService.Service.SetupOneInstance">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new server instance &#160;" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="220,71,387,112"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a4a985af3b9cd637f80b406c0395599f2" title="Sets a ServerInstance&#39;s enabled status " alt="" coords="220,136,387,177"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#a4a3002f3d9ef01874bb73b676f5eb110" title="Disables and unregisters an instance, allowing the folder and data to be manipulated manually &#160;..." alt="" coords="435,103,601,144"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a3198184dea17357f249757cba2647c77" title="Sets an instance&#39;s enabled status &#160;" alt="" coords="435,168,601,209"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a5faffc551d8f0ef082208b53394a9aea" title="Renames an instance, this will restart the instance if it is enabled &#160;" alt="" coords="649,168,816,209"/>
+</map>

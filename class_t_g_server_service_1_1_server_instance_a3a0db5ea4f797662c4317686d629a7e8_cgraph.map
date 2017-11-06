@@ -1,4 +1,5 @@
 <map id="TGServerService.ServerInstance.RepoConfigsMatch" name="TGServerService.ServerInstance.RepoConfigsMatch">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a460f7422c8ca2c016df6d18a6c64e287" title="Gets the RepoConfig for CachedTGS3SettingsPath " alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="264,71,475,112"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,64,733,105"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="264,123,475,164"/>
 </map>

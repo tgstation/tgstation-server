@@ -1,6 +1,6 @@
 <map id="TGServerService.ServerInstance.UpdateImpl" name="TGServerService.ServerInstance.UpdateImpl">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured Properties.Settings.AutoUpdateInterval and tries to Update(bool) and Compile(b..." alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured InstanceConfig.AutoUpdateInterval of Config and tries to Update(bool) and Comp..." alt="" coords="264,5,475,47"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="264,71,475,112"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="523,5,733,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a805c3433c1fd7347b862ba4a3b0ea5f8" title="Constructs and a ServerInstance " alt="" coords="781,5,992,47"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ab29fd416eb81b88dc28f1d9eeeaadeb9" title="Constructs and a ServerInstance " alt="" coords="781,5,992,47"/>
 </map>

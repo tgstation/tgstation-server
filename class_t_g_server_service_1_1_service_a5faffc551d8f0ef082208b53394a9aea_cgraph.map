@@ -1,0 +1,15 @@
+<map id="TGServerService.Service.RenameInstance" name="TGServerService.Service.RenameInstance">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#aab8893f216482bd3ac65029838ada7fd" title="Checks an instanceName &#160;for illegal characters " alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a9b5c6694977d1c65dcc661dbfd7edb97" title="Enumerates configured InstanceConfigs. Detaches those that fail to load " alt="" coords="649,79,816,120"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#ae76f237bd1c470a81363ae5c4e7db2f4" title="Checks if an instance is online &#160;" alt="" coords="220,123,387,164"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a3198184dea17357f249757cba2647c77" title="Sets an instance&#39;s enabled status &#160;" alt="" coords="220,188,387,229"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_instance_config.html#ac18cfbc0482a23d2092febe2c0a0bcfb" title="Loads and migrates an InstanceConfig from a ServerInstance at path &#160;" alt="" coords="864,24,1035,65"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="1083,83,1249,124"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#a4a985af3b9cd637f80b406c0395599f2" title="Sets a ServerInstance&#39;s enabled status " alt="" coords="435,159,601,200"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#a7bd9fa33a5f51db6f4f44cdd8eaae281" title="Starts and onlines an instance located at config &#160;" alt="" coords="649,152,816,193"/>
+<area shape="rect" id="node14" href="$class_t_g_server_service_1_1_service.html#a43203a881d0bd7376cfeb73182a847cc" title="Unlocks a ServerInstance.LoggingID acquired with LockLoggingID " alt="" coords="649,217,816,259"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#af9fbc7211bc275fbfbb1bd6fcf4f94d0" title="Creates and starts a ServiceHost for a ServerInstance at config &#160;" alt="" coords="866,152,1033,193"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_service.html#af8321586d223cb2326e14360b8af7d8e" title="Gets and locks a ServerInstance.LoggingID " alt="" coords="1083,148,1249,189"/>
+<area shape="rect" id="node12" href="$class_t_g_server_service_1_1_service.html#abd51696063d87ec7fc00054a19b345d9" title="Creates a ServiceHost for singleton &#160;using the default pipe, CloseTimeout for the ServiceHost..." alt="" coords="1083,213,1249,255"/>
+<area shape="rect" id="node13" href="$class_t_g_server_service_1_1_service.html#a70efdca1b28c2d1a30df7e46bd48bc40" title="Adds a WCF endpoint for a component typetype &#160;" alt="" coords="1083,279,1249,320"/>
+</map>

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['unlockloggingid',['UnlockLoggingID',['../class_t_g_server_service_1_1_service.html#a43203a881d0bd7376cfeb73182a847cc',1,'TGServerService::Service']]],
   ['update',['Update',['../class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037',1,'TGServerService.ServerInstance.Update()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a7797519d602c97c02ec9b2145b277867',1,'TGServiceInterface.Components.ITGRepository.Update()']]],
   ['updatebridgedll',['UpdateBridgeDll',['../class_t_g_server_service_1_1_server_instance.html#ac8e5fb51cbd79f58097ce777d2caf7a9',1,'TGServerService::ServerInstance']]],
   ['updatebutton_5fclick',['UpdateButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#a54e31fa034d65691844b05642636f808',1,'TGControlPanel::ControlPanel']]],
@@ -11,9 +12,7 @@ var searchData=
   ['updatelivesha',['UpdateLiveSha',['../class_t_g_server_service_1_1_server_instance.html#aeb0cb7b5664b4796ef9aa9082bbce424',1,'TGServerService::ServerInstance']]],
   ['updatemergebutton_5fclick',['UpdateMergeButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#a175e0bc674d224fd38adec40aa3dfc46',1,'TGControlPanel::ControlPanel']]],
   ['updateprojectname',['UpdateProjectName',['../class_t_g_control_panel_1_1_control_panel.html#ad3392c89236dc8608478b82bf8df78c6',1,'TGControlPanel::ControlPanel']]],
-  ['updatepythonpath',['UpdatePythonPath',['../class_t_g_control_panel_1_1_control_panel.html#aa2d576242a720c28ad4d56b6c85763c8',1,'TGControlPanel::ControlPanel']]],
   ['updaterepobutton_5fclick',['UpdateRepoButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#af4228692d422fe7090d454d6840ed431',1,'TGControlPanel::ControlPanel']]],
-  ['updateserverpath',['UpdateServerPath',['../class_t_g_control_panel_1_1_control_panel.html#a715bc4739605950e6512372e24eb065c',1,'TGControlPanel::ControlPanel']]],
   ['updatesubmodules',['UpdateSubmodules',['../class_t_g_server_service_1_1_server_instance.html#a95d603da4a4dcd14255f39bbf59931ad',1,'TGServerService::ServerInstance']]],
   ['updatetestmergebutton_5fclick',['UpdateTestmergeButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#a561db6c97615610d9d7e607759e8fc89',1,'TGControlPanel::ControlPanel']]],
   ['updatetgs3json',['UpdateTGS3Json',['../class_t_g_server_service_1_1_server_instance.html#a3e791a0e714b6c1e94e6b27c13ce2b2a',1,'TGServerService.ServerInstance.UpdateTGS3Json()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aaaeafb6b096afbb025c949a5d30d209b',1,'TGServiceInterface.Components.ITGRepository.UpdateTGS3Json()']]],

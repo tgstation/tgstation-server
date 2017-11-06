@@ -1,9 +1,5 @@
 <map id="TGControlPanel.ControlPanel.CheckAdminWithWarning" name="TGControlPanel.ControlPanel.CheckAdminWithWarning">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a034a04af2f9c3098e50dc97e5a75514e" title="TGControlPanel.ControlPanel.\lRecreateStaticButton_Click" alt="" coords="248,5,443,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a715bc4739605950e6512372e24eb065c" title="TGControlPanel.ControlPanel.\lUpdateServerPath" alt="" coords="248,71,443,112"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="737,5,932,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="980,39,1175,80"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a79a9f109517e00df2b26bc62b369310b" title="TGControlPanel.ControlPanel.\lServerPathTextbox_KeyDown" alt="" coords="493,67,687,108"/>
-<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a7e665c3596bc4061b43eccdbbf201944" title="TGControlPanel.ControlPanel.\lServerPathTextbox_LostFocus" alt="" coords="491,132,689,173"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="737,71,932,112"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="491,5,685,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="733,5,928,47"/>
 </map>

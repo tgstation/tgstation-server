@@ -111,21 +111,12 @@ Inheritance diagram for TGServiceInterface.Components.ITGAdministration:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2cdd84ded3c69149ca2da56d87aa97b9"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a2cdd84ded3c69149ca2da56d87aa97b9">RemoteAccessPort</a> ()</td></tr>
-<tr class="memdesc:a2cdd84ded3c69149ca2da56d87aa97b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the port used for remote operation  <a href="#a2cdd84ded3c69149ca2da56d87aa97b9">More...</a><br /></td></tr>
-<tr class="separator:a2cdd84ded3c69149ca2da56d87aa97b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ce1ad9323ff444c7bc31916084abd1c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a8ce1ad9323ff444c7bc31916084abd1c">SetRemoteAccessPort</a> (ushort port)</td></tr>
-<tr class="memdesc:a8ce1ad9323ff444c7bc31916084abd1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the port used for remote operation Requires a service restart to take effect  <a href="#a8ce1ad9323ff444c7bc31916084abd1c">More...</a><br /></td></tr>
-<tr class="separator:a8ce1ad9323ff444c7bc31916084abd1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36082e26039fc2f4e2308e4d2aed5344"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a36082e26039fc2f4e2308e4d2aed5344">GetCurrentAuthorizedGroup</a> ()</td></tr>
 <tr class="memdesc:a36082e26039fc2f4e2308e4d2aed5344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the windows group allowed to use the service other than administrator  <a href="#a36082e26039fc2f4e2308e4d2aed5344">More...</a><br /></td></tr>
 <tr class="separator:a36082e26039fc2f4e2308e4d2aed5344"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93407a5676692590ab5d8c36edc2c068"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a93407a5676692590ab5d8c36edc2c068">SetAuthorizedGroup</a> (string groupName)</td></tr>
 <tr class="memdesc:a93407a5676692590ab5d8c36edc2c068"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches the windows machine for the group named <em>groupName</em> , sets it as the authorized group if it's found  <a href="#a93407a5676692590ab5d8c36edc2c068">More...</a><br /></td></tr>
 <tr class="separator:a93407a5676692590ab5d8c36edc2c068"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68ef388c6df73ee89b698a1644df2a06"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#a68ef388c6df73ee89b698a1644df2a06">MoveServer</a> (string new_location)</td></tr>
-<tr class="memdesc:a68ef388c6df73ee89b698a1644df2a06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the entire server installation, requires no operations to be running  <a href="#a68ef388c6df73ee89b698a1644df2a06">More...</a><br /></td></tr>
-<tr class="separator:a68ef388c6df73ee89b698a1644df2a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab51e5cdabbb1a137702fb99f741924af"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration.html#ab51e5cdabbb1a137702fb99f741924af">RecreateStaticFolder</a> ()</td></tr>
 <tr class="memdesc:ab51e5cdabbb1a137702fb99f741924af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renames the current static folder to a backup name and recreates is from the current repo using TGS3.json  <a href="#ab51e5cdabbb1a137702fb99f741924af">More...</a><br /></td></tr>
 <tr class="separator:ab51e5cdabbb1a137702fb99f741924af"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,49 +146,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a68ef388c6df73ee89b698a1644df2a06"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string TGServiceInterface.Components.ITGAdministration.MoveServer </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>new_location</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Moves the entire server installation, requires no operations to be running </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">new_location</td><td>The new path to place the server</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>on success, error message on failure</dd></dl>
-
-<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#aa8a3c62ea83e029263e21654e184ab80">TGServerService.ServerInstance</a>.</p>
-
-<p>Referenced by <a class="el" href="_server_page_8cs_source.html#l00084">TGControlPanel.ControlPanel.UpdateServerPath()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration_a68ef388c6df73ee89b698a1644df2a06_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration_a68ef388c6df73ee89b698a1644df2a06_icgraph" alt=""/></div>
-<map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration_a68ef388c6df73ee89b698a1644df2a06_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_administration_a68ef388c6df73ee89b698a1644df2a06_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_control_panel.html#a715bc4739605950e6512372e24eb065c" title="TGControlPanel.ControlPanel.\lUpdateServerPath" alt="" coords="264,39,459,80"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_control_panel.html#a79a9f109517e00df2b26bc62b369310b" title="TGControlPanel.ControlPanel.\lServerPathTextbox_KeyDown" alt="" coords="509,5,703,47"/>
-<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_control_panel.html#a7e665c3596bc4061b43eccdbbf201944" title="TGControlPanel.ControlPanel.\lServerPathTextbox_LostFocus" alt="" coords="507,71,705,112"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="753,39,948,80"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="996,39,1191,80"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
 <a class="anchor" id="ab51e5cdabbb1a137702fb99f741924af"></a>
 <div class="memitem">
 <div class="memproto">
@@ -215,26 +163,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>on success, error message on failure</dd></dl>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#aeb8f7b25f00c15aed0b80f2e0cff6ef4">TGServerService.ServerInstance</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2cdd84ded3c69149ca2da56d87aa97b9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ushort TGServiceInterface.Components.ITGAdministration.RemoteAccessPort </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the port used for remote operation </p>
-<dl class="section return"><dt>Returns</dt><dd>The port used for remote operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a61c8fb2f26cf9d46c59b7677fdbad233">TGServerService.ServerInstance</a>.</p>
 
 </div>
 </div>
@@ -262,33 +190,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>The name of the windows group that is now authorized to use the service on success,  on failure, "ADMIN" on clearing</dd></dl>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a17fd1cd46cd9791a923b449460459dbe">TGServerService.ServerInstance</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8ce1ad9323ff444c7bc31916084abd1c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string TGServiceInterface.Components.ITGAdministration.SetRemoteAccessPort </td>
-          <td>(</td>
-          <td class="paramtype">ushort&#160;</td>
-          <td class="paramname"><em>port</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Set the port used for remote operation Requires a service restart to take effect </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">port</td><td>The new port to use for remote operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>on success, error message on failure</dd></dl>
-
-<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a248a8fbd9ed9e8c08db3dff6b7adba04">TGServerService.ServerInstance</a>.</p>
 
 </div>
 </div>

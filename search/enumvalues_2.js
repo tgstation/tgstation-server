@@ -12,5 +12,6 @@ var searchData=
   ['clone',['Clone',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476aaff24590464659ee8cdec688128c35f89',1,'TGControlPanel::ControlPanel']]],
   ['commskeyset',['CommsKeySet',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a3f5515237adf85328c50c6b8b14a9c20',1,'TGServerService']]],
   ['compiling',['Compiling',['../namespace_t_g_service_interface.html#af50082a408f9ae6f37a053a7a2464ef3ac96b4a8750d3ff3116a6f8be2e900926',1,'TGServiceInterface']]],
-  ['connectionerror',['ConnectionError',['../class_t_g_service_interface_1_1_command.html#a071167708049f5286c7d79bb1bae1631a094a6f6b0868122a9dd008cb91c083e4',1,'TGServiceInterface::Command']]]
+  ['connected',['Connected',['../namespace_t_g_service_interface.html#acaf0524ae14529619dd7b58bb50d89fda2ec0d16e4ca169baedb9b2d50ec5c6d7',1,'TGServiceInterface']]],
+  ['connectionerror',['ConnectionError',['../class_t_g_service_interface_1_1_command.html#aa9ed97e9e1139f15e8e6b3556bfdc810a094a6f6b0868122a9dd008cb91c083e4',1,'TGServiceInterface::Command']]]
 ];

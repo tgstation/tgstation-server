@@ -1,0 +1,4 @@
+<map id="TGServerService.Service.PrePrepConfig" name="TGServerService.Service.PrePrepConfig">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a3ed52895c6c15b9f1270f73369958347" title="Upgrades up the service configuration " alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e" title="Called by the Windows service manager. Initializes and starts configured ServerInstances ..." alt="" coords="435,5,601,47"/>
+</map>

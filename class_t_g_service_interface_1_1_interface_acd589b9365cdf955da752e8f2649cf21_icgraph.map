@@ -1,6 +1,0 @@
-<map id="TGServiceInterface.Interface.AuthenticateAdmin" name="TGServiceInterface.Interface.AuthenticateAdmin">
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_c_l_i_command.html#a27ba1bd98d0e3c80a5a2365b2f260520" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="240,5,448,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="247,71,441,112"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#acff60868ed9882eb00b12ece6e108865" title="TGControlPanel.ControlPanel.\lInitStaticPage" alt="" coords="247,136,441,177"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6b699b4ff857850f74ae1a022933bc8a" title="Constructs a ControlPanel " alt="" coords="496,104,691,145"/>
-</map>

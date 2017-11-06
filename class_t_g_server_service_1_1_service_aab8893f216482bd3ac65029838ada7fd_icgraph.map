@@ -1,0 +1,4 @@
+<map id="TGServerService.Service.CheckInstanceName" name="TGServerService.Service.CheckInstanceName">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new server instance &#160;" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a5faffc551d8f0ef082208b53394a9aea" title="Renames an instance, this will restart the instance if it is enabled &#160;" alt="" coords="220,71,387,112"/>
+</map>

@@ -1,4 +1,7 @@
 <map id="TGCommandLine.AdminCommand" name="TGCommandLine.AdminCommand">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="86,199,194,225"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_instance_root_command.html" title="InstanceRootCommand" alt="" coords="927,121,1084,147"/>
+<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="640,47,748,74"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="309,13,391,39"/>
+<area shape="rect" id="node7" href="$class_t_g_service_interface_1_1_interface.html" title="Main inteface class for the service " alt="" coords="603,231,785,258"/>
+<area shape="rect" id="node8" href="$class_i_disposable.html" title="IDisposable" alt="" coords="305,122,395,149"/>
 </map>

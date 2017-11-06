@@ -1,0 +1,11 @@
+<map id="TGServerService.Service.ImportInstance" name="TGServerService.Service.ImportInstance">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a9b5c6694977d1c65dcc661dbfd7edb97" title="Enumerates configured InstanceConfigs. Detaches those that fail to load " alt="" coords="222,64,389,105"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_instance_config.html#ac18cfbc0482a23d2092febe2c0a0bcfb" title="Loads and migrates an InstanceConfig from a ServerInstance at path &#160;" alt="" coords="439,5,609,47"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_instance_config.html#a9d77e1404ff1815cd19ca1c6f5401987" title="Saves the InstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="220,129,391,171"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a7bd9fa33a5f51db6f4f44cdd8eaae281" title="Starts and onlines an instance located at config &#160;" alt="" coords="222,195,389,236"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="657,64,824,105"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#af9fbc7211bc275fbfbb1bd6fcf4f94d0" title="Creates and starts a ServiceHost for a ServerInstance at config &#160;" alt="" coords="441,195,607,236"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#af8321586d223cb2326e14360b8af7d8e" title="Gets and locks a ServerInstance.LoggingID " alt="" coords="657,129,824,171"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#abd51696063d87ec7fc00054a19b345d9" title="Creates a ServiceHost for singleton &#160;using the default pipe, CloseTimeout for the ServiceHost..." alt="" coords="657,195,824,236"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_service.html#a70efdca1b28c2d1a30df7e46bd48bc40" title="Adds a WCF endpoint for a component typetype &#160;" alt="" coords="657,260,824,301"/>
+</map>

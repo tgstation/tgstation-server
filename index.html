@@ -104,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Launch TGControlPanel.exe as an administrator. A shortcut can be found on your desktop</li>
 </ol>
 <ol type="1">
-<li>Optionally switch to the <code>Server</code> tab and change the Server Path location from C:\tgstation-server-3 to wherever you wish</li>
+<li>Optionally switch to the <code>Server</code> tab and change the Server Path location from <code>C:\\tgstation-server-3</code> to wherever you wish</li>
 </ol>
 <ol type="1">
 <li>Go to the <code>Repository</code> Tab and set the remote address and branch of the git you with to track</li>
@@ -318,6 +318,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li><code>TGS3.json</code><ul>
 <li>This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it</li>
+</ul>
+</li>
+<li><code>Instance.cfg</code><ul>
+<li>The encrypted internal configuration settings for a server instance. Note that access to this file bypasses API user restrictions</li>
 </ul>
 </li>
 </ul>

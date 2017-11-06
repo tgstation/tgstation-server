@@ -6,5 +6,8 @@ var searchData=
   ['authlevel',['AuthLevel',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a845fd7339bf6a12da91a104e161bb68f',1,'TGServiceInterface::IRCSetupInfo']]],
   ['authmessage',['AuthMessage',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ae0babac07ba1ce7a6ec6137846732cd9',1,'TGServiceInterface::IRCSetupInfo']]],
   ['author',['Author',['../class_t_g_service_interface_1_1_pull_request_info.html#ab48b7764b4016b52323423bb331f9094',1,'TGServiceInterface::PullRequestInfo']]],
-  ['authtarget',['AuthTarget',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ac0e73fcef87cade10406b787893f4fc1',1,'TGServiceInterface::IRCSetupInfo']]]
+  ['authorizedusergroupsid',['AuthorizedUserGroupSID',['../class_t_g_server_service_1_1_instance_config.html#af87fd6c14c27323ab6b92df1e4d7af25',1,'TGServerService::InstanceConfig']]],
+  ['authtarget',['AuthTarget',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ac0e73fcef87cade10406b787893f4fc1',1,'TGServiceInterface::IRCSetupInfo']]],
+  ['autostart',['Autostart',['../class_t_g_server_service_1_1_instance_config.html#a9bcb4ab19f2695db4b995b815ceda889',1,'TGServerService::InstanceConfig']]],
+  ['autoupdateinterval',['AutoUpdateInterval',['../class_t_g_server_service_1_1_instance_config.html#a61dffa75357f6e6b1325765c3a4eba47',1,'TGServerService::InstanceConfig']]]
 ];
