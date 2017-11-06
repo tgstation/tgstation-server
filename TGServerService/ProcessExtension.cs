@@ -7,7 +7,7 @@ namespace TGServerService
 	/// <summary>
 	/// Helpers to <see cref="Suspend(Process)"/>ing and <see cref="Resume(Process)"/> a <see cref="Process"/>. Lightly massaged code from https://stackoverflow.com/a/13109774. Documentation linked from MSDN on 20/10/2017
 	/// </summary>
-	public static class ProcessExtension
+	static class ProcessExtension
 	{
 		/// <summary>
 		/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx

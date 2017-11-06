@@ -74,6 +74,12 @@ namespace TGInstallerWrapper
 			try
 			{
 				VersionLabel.Text = Interface.GetComponent<ITGSService>().Version();
+				var isV0 = VersionLabel.Text.Contains("v3.0");
+				if (isV0) //OH GOD!!!!
+					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
+				if (isV0 || VersionLabel.Text.Contains("v3.1"))
+					//Friendly reminger
+					MessageBox.Show("Upgrading to service version 3.2 will break the 3.1 DMAPI. It is recommended you update your game to the 3.2 API before updating the servive to avoid having to trigger hard restarts.", "Note");
 			}
 			catch
 			{

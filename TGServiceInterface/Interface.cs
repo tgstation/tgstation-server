@@ -103,7 +103,7 @@ namespace TGServiceInterface
 						ErrorMessage = "An unknown error occurred.";
 						break;
 				}
-				ErrorMessage = String.Format("The certificate failed to verify! Error: {2} Cert: {3}", ErrorMessage, cert.ToString());
+				ErrorMessage = String.Format("The certificate failed to verify! Error: {0} Cert: {1}", ErrorMessage, cert.ToString());
 				return handler(ErrorMessage);
 			};
 		}
