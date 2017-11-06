@@ -12,9 +12,74 @@ using TGServiceInterface.Components;
 namespace TGServiceInterface
 {
 	/// <summary>
-	/// Main inteface class for the service
+	/// Main inteface for communicating the <see cref="ITGSService"/>
 	/// </summary>
-	sealed public class Interface : IDisposable
+	public interface IInterface : IDisposable
+	{
+		/// <summary>
+		/// The name of the current instance in use. Defaults to <see langword="null"/>
+		/// </summary>
+		string InstanceName { get; }
+
+		/// <summary>
+		/// If this is set, we will try and connect to an HTTPS server running at this address
+		/// </summary>
+		string HTTPSURL { get; }
+
+		/// <summary>
+		/// The port used to connect to the <see cref="ITGSService"/>
+		/// </summary>
+		ushort HTTPSPort { get; }
+
+		/// <summary>
+		/// Checks if the <see cref="IInterface"/> is setup for a remote connection
+		/// </summary>
+		bool IsRemoteConnection { get; }
+
+		/// <summary>
+		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
+		/// </summary>
+		/// <param name="instanceName">The name of the instance to connect to</param>
+		/// <param name="skipChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks, sets <see cref="InstanceName"/>, and returns <see cref="ConnectivityLevel.Connected"/></param>
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false);
+
+		/// <summary>
+		/// Returns <see langword="true"/> if the <see cref="IInterface"/> interface being used to connect to a service does not have the same release version as the service
+		/// </summary>
+		/// <param name="errorMessage">An error message to display to the user should this function return <see langword="true"/></param>
+		/// <returns><see langword="true"/> if the <see cref="IInterface"/> interface being used to connect to a service does not have the same release version as the service</returns>
+		bool VersionMismatch(out string errorMessage);
+
+		/// <summary>
+		/// Returns the requested <see cref="IInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
+		/// </summary>
+		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
+		/// <returns>The correct component <see langword="interface"/></returns>
+		T GetComponent<T>();
+
+		/// <summary>
+		/// Returns the <see cref="ITGSService"/> component for the service
+		/// </summary>
+		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
+		ITGSService GetService();
+
+		/// <summary>
+		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
+		/// </summary>
+		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
+		ConnectivityLevel ConnectionStatus();
+
+		/// <summary>
+		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
+		/// </summary>
+		/// <param name="error">String of the error that prevented an elevated connectivity level</param>
+		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		ConnectivityLevel ConnectionStatus(out string error);
+	}
+
+	/// <inheritdoc />
+	sealed public class Interface : IInterface
 	{
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/> and <see cref="CreateChannel{T}"/>
@@ -40,21 +105,24 @@ namespace TGServiceInterface
 		/// </summary>
 		public const string InstanceInterfaceName = MasterInterfaceName + "/Instance";
 
-
-		/// <summary>
-		/// The name of the current instance in use. Defaults to <see langword="null"/>
-		/// </summary>
+		/// <inheritdoc />
 		public string InstanceName { get; private set; }
 
 		/// <summary>
 		/// If this is set, we will try and connect to an HTTPS server running at this address
 		/// </summary>
-		public readonly string HTTPSURL;
+		readonly string _HTTPSURL;
+
+		/// <inheritdoc />
+		public string HTTPSURL { get { return _HTTPSURL; } }
 
 		/// <summary>
-		/// The port used by the service
+		/// The port used to connect to the <see cref="ITGSService"/>
 		/// </summary>
-		public readonly ushort HTTPSPort;
+		readonly ushort _HTTPSPort;
+
+		/// <inheritdoc />
+		public ushort HTTPSPort { get { return _HTTPSPort; } }
 
 		/// <summary>
 		/// Username for remote operations
@@ -133,8 +201,8 @@ namespace TGServiceInterface
 		/// <param name="password">Windows account password for the remote server</param>
 		public Interface(string address, ushort port, string username, string password)
 		{
-			HTTPSURL = address;
-			HTTPSPort = port;
+			_HTTPSURL = address;
+			_HTTPSPort = port;
 			HTTPSUsername = username;
 			HTTPSPassword = password;
 		}
@@ -142,15 +210,10 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Constructs an <see cref="Interface"/> that connects to the same <see cref="ITGSService"/> as some <paramref name="other"/> <see cref="ITGInstance"/>
 		/// </summary>
-		/// <param name="other"></param>
+		/// <param name="other">Another <see cref="Interface"/> to copy settings from</param>
 		public Interface(Interface other) : this(other.HTTPSURL, other.HTTPSPort, other.HTTPSUsername, other.HTTPSPassword) { }
 
-		/// <summary>
-		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
-		/// </summary>
-		/// <param name="instanceName">The name of the instance to connect to</param>
-		/// <param name="skipChecks">If set to <see langword="true"/>, skips the connectivity and authentication checks, sets <see cref="InstanceName"/>, and returns <see cref="ConnectivityLevel.Connected"/></param>
-		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		/// <inheritdoc />
 		public ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false)
 		{
 			if (instanceName == null)
@@ -191,9 +254,7 @@ namespace TGServiceInterface
 			}
 		}
 
-		/// <summary>
-		/// Checks if the <see cref="Interface"/> is setup for a remote connection
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsRemoteConnection { get { return HTTPSURL != null; } }
 
 		/// <summary>
@@ -224,11 +285,7 @@ namespace TGServiceInterface
 			}
 		}
 
-		/// <summary>
-		/// Returns <see langword="true"/> if the <see cref="Interface"/> interface being used to connect to a service does not have the same release version as the service
-		/// </summary>
-		/// <param name="errorMessage">An error message to display to the user should this function return <see langword="true"/></param>
-		/// <returns><see langword="true"/> if the <see cref="Interface"/> interface being used to connect to a service does not have the same release version as the service</returns>
+		/// <inheritdoc />
 		public bool VersionMismatch(out string errorMessage)
 		{
 			var splits = GetService().Version().Split(' ');
@@ -253,11 +310,7 @@ namespace TGServiceInterface
 			(sender as IDisposable).Dispose();
 		}
 
-		/// <summary>
-		/// Returns the requested <see cref="Interface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
-		/// </summary>
-		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
-		/// <returns>The correct component <see langword="interface"/></returns>
+		/// <inheritdoc />
 		public T GetComponent<T>()
 		{
 			var ToT = typeof(T);
@@ -265,7 +318,13 @@ namespace TGServiceInterface
 				throw new Exception("Invalid type!");
 			return GetComponentImpl<T>(true);
 		}
-
+		
+		/// <summary>
+		/// Returns the requested <see cref="Interface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
+		/// </summary>
+		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
+		/// <param name="useInstanceName">If <see cref="InstanceName"/> should be used to connect</param>
+		/// <returns>The correct component <see langword="interface"/></returns>
 		T GetComponentImpl<T>(bool useInstanceName)
 		{
 			if (useInstanceName & InstanceName == null)
@@ -297,10 +356,7 @@ namespace TGServiceInterface
 			return cf.CreateChannel();
 		}
 
-		/// <summary>
-		/// Returns the <see cref="ITGSService"/> component for the service
-		/// </summary>
-		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
+		/// <inheritdoc />
 		public ITGSService GetService()
 		{
 			return GetComponentImpl<ITGSService>(false);
@@ -346,20 +402,13 @@ namespace TGServiceInterface
 			return res;
 		}
 
-		/// <summary>
-		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
-		/// </summary>
-		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
+		/// <inheritdoc />
 		public ConnectivityLevel ConnectionStatus()
 		{
 			return ConnectionStatus(out string unused);
 		}
 
-		/// <summary>
-		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
-		/// </summary>
-		/// <param name="error">String of the error that prevented an elevated connectivity level</param>
-		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>
+		/// <inheritdoc />
 		public ConnectivityLevel ConnectionStatus(out string error)
 		{
 			try

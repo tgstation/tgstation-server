@@ -58,7 +58,7 @@ namespace TGControlPanel
 			VerifyAndConnect(new Interface());
 		}
 
-		void VerifyAndConnect(Interface I)
+		void VerifyAndConnect(IInterface I)
 		{
 			try
 			{
