@@ -179,14 +179,14 @@ namespace TGServiceInterface.Components
 		/// <summary>
 		/// Check if we push a temporary branch to the remote when we make testmerge commits
 		/// </summary>
-		/// <returns>true if we push testmerge commits, false otherwise</returns>
+		/// <returns><see langword="true"/> if we publish testmerge commits to the remote, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool PushTestmergeCommits();
 
 		/// <summary>
 		/// Set if we push a temporary branch to the remote when we make testmerge commits
 		/// </summary>
-		/// <param name="newValue">true if we should push testmerge commits, false otherwise</param>
+		/// <param name="newValue"><see langword="true"/> if we testmerge commits should be published to the remote, <see langword="false"/> otherwise</param>
 		[OperationContract]
 		void SetPushTestmergeCommits(bool newValue);
 	}
