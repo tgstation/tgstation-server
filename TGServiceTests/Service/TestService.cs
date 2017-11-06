@@ -37,11 +37,13 @@ namespace TGServerService.Tests
 		[TestMethod]
 		public void TestCommandLinePortSet()
 		{
+			Properties.Settings.Default.RemoteAccessPort = 11111;
 			using (var S = new ServiceAccessor())
 			{
 				S.FakeStart(new string[] { "-port", "36785" });
 				S.FakeStop();
 			}
+			Assert.AreEqual(Properties.Settings.Default.RemoteAccessPort, 36785);
 		}
 	}
 }
