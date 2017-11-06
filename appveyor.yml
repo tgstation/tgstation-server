@@ -21,7 +21,7 @@ cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
-  - choco install fciv doxygen.portable graphviz.portable
+  - choco install fciv doxygen.portable graphviz.portable opencover.portable codecov
 before_build:
   - nuget restore TGStationServer3.sln
 build:
@@ -33,6 +33,9 @@ after_build:
   - ps: .\Tools\TGS3Build.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/Release/TGServerService.exe").FileVersion
+test_script:
+  - OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer"".\TGServiceTests\bin\Release\TGServiceTests.dll" -filter:"+[UnitTestTargetProject*]* -[TGServiceTests*]*" -output:".\MyProject_coverage.xml"
+  - codecov -f "MyProject_coverage.xml"
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
