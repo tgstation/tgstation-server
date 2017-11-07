@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -77,13 +78,13 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Loads the <see cref="InstanceListBox"/> using <see cref="TGServiceInterface.Components.ITGSService.ListInstances"/>
+		/// Loads the <see cref="InstanceListBox"/> using <see cref="ITGLanding.ListInstances"/>
 		/// </summary>
 		async void RefreshInstances()
 		{
 			InstanceListBox.Items.Clear();
 			await WrapServerOp(() => {
-				InstanceData = masterInterface.GetService().ListInstances();
+				InstanceData = masterInterface.GetServiceComponent<ITGLanding>().ListInstances();
 			});
 			foreach(var I in InstanceData)
 				InstanceListBox.Items.Add(String.Format("{0}: {1} - {2} - {3}", I.LoggingID, I.Name, I.Path, I.Enabled ? "ONLINE" : "OFFLINE"));
@@ -92,7 +93,7 @@ namespace TGControlPanel
 		/// <summary>
 		/// Tries to start a <see cref="ControlPanel"/> for a given <paramref name="instanceName"/>
 		/// </summary>
-		/// <param name="instanceName">The name of the <see cref="TGServiceInterface.Components.ITGInstance"/> to connect to</param>
+		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to connect to</param>
 		async void TryConnectToInstance(string instanceName)
 		{
 			if(ControlPanel.InstancesInUse.TryGetValue(instanceName, out ControlPanel activeCP))
@@ -123,7 +124,7 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.DetachInstance(string)"/>
+		/// Prompts the user for parameters to <see cref="ITGInstanceManager.DetachInstance(string)"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
@@ -135,7 +136,7 @@ namespace TGControlPanel
 			if (MessageBox.Show(String.Format("This will dissociate the server instance at \"{0}\"! Are you sure?", imd.Path), "Instance Detach", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetService().DetachInstance(imd.Name); });
+			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().DetachInstance(imd.Name); });
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
@@ -152,7 +153,7 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.RenameInstance(string, string)"/>
+		/// Prompts the user for parameters to <see cref="ITGInstanceManager.RenameInstance(string, string)"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
@@ -167,14 +168,14 @@ namespace TGControlPanel
 			if (imd.Enabled && MessageBox.Show(String.Format("This will temporarily offline the server instance! Are you sure?", imd.Path), "Instance Restart", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetService().RenameInstance(imd.Name, new_name); });
+			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().RenameInstance(imd.Name, new_name); });
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
 		}
 
 		/// <summary>
-		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.ImportInstance(string)"/>
+		/// Prompts the user for parameters to <see cref="ITGInstanceManager.ImportInstance(string)"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
@@ -184,14 +185,14 @@ namespace TGControlPanel
 			if (instance_path == null)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetService().ImportInstance(instance_path); });
+			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().ImportInstance(instance_path); });
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
 		}
 
 		/// <summary>
-		/// Prompts the user for parameters to <see cref="TGServiceInterface.Components.ITGSService.CreateInstance(string, string)"/>
+		/// Prompts the user for parameters to <see cref="ITGInstanceManager.CreateInstance(string, string)"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
@@ -204,7 +205,7 @@ namespace TGControlPanel
 			if (instance_path == null)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetService().CreateInstance(instance_name, instance_path); });
+			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().CreateInstance(instance_name, instance_path); });
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();

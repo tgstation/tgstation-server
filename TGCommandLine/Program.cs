@@ -85,7 +85,7 @@ namespace TGCommandLine
 			}
 			else if (interactive && !saidSrvVersion)
 			{
-				Console.WriteLine("Connectd to service version: " + currentInterface.GetService().Version());
+				Console.WriteLine("Connectd to service version: " + currentInterface.GetServiceComponent<ITGLanding>().Version());
 				saidSrvVersion = true;
 			}
 

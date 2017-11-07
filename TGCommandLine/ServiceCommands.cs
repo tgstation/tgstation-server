@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
 	/// <summary>
-	/// Used for managing the <see cref="TGServiceInterface.Components.ITGSService"/>
+	/// Used for managing the <see cref="ITGSService"/> components
 	/// </summary>
 	class ServiceCommand : RootCommand
 	{
@@ -26,7 +27,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.CreateInstance(string, string)"/>
+	/// Command for calling <see cref="ITGInstanceManager.CreateInstance(string, string)"/>
 	/// </summary>
 	class ServiceCreateInstanceCommand : ConsoleCommand
 	{
@@ -54,7 +55,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().CreateInstance(parameters[0], parameters[1]);
+			var res = Interface.GetServiceComponent<ITGInstanceManager>().CreateInstance(parameters[0], parameters[1]);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -65,7 +66,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.ListInstances"/>
+	/// Command for calling <see cref="ITGLanding.ListInstances"/>
 	/// </summary>
 	class ServiceListInstancesCommand : ConsoleCommand
 	{
@@ -86,14 +87,14 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			foreach (var I in Interface.GetService().ListInstances())
+			foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
 				OutputProc(String.Format("{0} ({1}):\t{2}{3}", I.Name, I.Path, I.Enabled ? "Online" : "Offline", I.Enabled ? String.Format(" ({0})", I.LoggingID) : ""));
 			return ExitCode.Normal;
 		}
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.DetachInstance(string)"/>
+	/// Command for calling <see cref="ITGInstanceManager.DetachInstance(string)"/>
 	/// </summary>
 	class ServiceDetachInstanceCommand : ConsoleCommand
 	{
@@ -121,7 +122,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().DetachInstance(parameters[0]);
+			var res = Interface.GetServiceComponent<ITGInstanceManager>().DetachInstance(parameters[0]);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -132,7 +133,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.ImportInstance(string)"/>
+	/// Command for calling <see cref="ITGInstanceManager.ImportInstance(string)"/>
 	/// </summary>
 	class ServiceImportInstanceCommand : ConsoleCommand
 	{
@@ -160,7 +161,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().ImportInstance(parameters[0]);
+			var res = Interface.GetServiceComponent<ITGInstanceManager>().ImportInstance(parameters[0]);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -171,7 +172,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.PythonPath"/>
+	/// Command for calling <see cref="ITGSService.PythonPath"/>
 	/// </summary>
 	class ServicePythonPathCommand : ConsoleCommand
 	{
@@ -192,7 +193,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().PythonPath();
+			var res = Interface.GetServiceComponent<ITGSService>().PythonPath();
 			if (res != null)
 			{
 				OutputProc(res);
@@ -203,7 +204,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.SetPythonPath(string)"/>
+	/// Command for calling <see cref="ITGSService.SetPythonPath(string)"/>
 	/// </summary>
 	class ServiceSetPythonPathCommand : ConsoleCommand
 	{
@@ -231,13 +232,13 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Interface.GetService().SetPythonPath(parameters[0]);
+			Interface.GetServiceComponent<ITGSService>().SetPythonPath(parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.SetInstanceEnabled(string, bool)"/> with a <see langword="true"/> parameter
+	/// Command for calling <see cref="ITGInstanceManager.SetInstanceEnabled(string, bool)"/> with a <see langword="true"/> parameter
 	/// </summary>
 	class ServiceEnableInstanceCommand : ConsoleCommand
 	{
@@ -265,7 +266,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().SetInstanceEnabled(parameters[0], true);
+			var res = Interface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(parameters[0], true);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -276,7 +277,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.SetInstanceEnabled(string, bool)"/> with a <see langword="false"/> parameter
+	/// Command for calling <see cref="ITGInstanceManager.SetInstanceEnabled(string, bool)"/> with a <see langword="false"/> parameter
 	/// </summary>
 	class ServiceDisableInstanceCommand : ConsoleCommand
 	{
@@ -304,7 +305,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().SetInstanceEnabled(parameters[0], false);
+			var res = Interface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(parameters[0], false);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -336,7 +337,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Interface.GetService().RemoteAccessPort().ToString());
+			OutputProc(Interface.GetServiceComponent<ITGSService>().RemoteAccessPort().ToString());
 			return ExitCode.Normal;
 		}
 	}
@@ -381,7 +382,7 @@ namespace TGCommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var res = Interface.GetService().SetRemoteAccessPort(port);
+			var res = Interface.GetServiceComponent<ITGSService>().SetRemoteAccessPort(port);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -393,7 +394,7 @@ namespace TGCommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGServiceInterface.Components.ITGSService.RenameInstance(string, string)"/>
+	/// Command for calling <see cref="ITGInstanceManager.RenameInstance(string, string)"/>
 	/// </summary>
 	class ServiceRenameInstanceCommand : ConsoleCommand
 	{
@@ -421,7 +422,7 @@ namespace TGCommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetService().RenameInstance(parameters[0], parameters[1]);
+			var res = Interface.GetServiceComponent<ITGInstanceManager>().RenameInstance(parameters[0], parameters[1]);
 			if (res != null)
 			{
 				OutputProc(res);

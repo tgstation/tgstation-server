@@ -15,7 +15,7 @@ namespace TGServerService
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	class Service : ServiceBase, ITGSService, ITGConnectivity
+	class Service : ServiceBase, ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Service"/> events
@@ -233,9 +233,9 @@ namespace TGServerService
 		void SetupService()
 		{
 			serviceHost = CreateHost(this, Interface.MasterInterfaceName);
-			AddEndpoint(serviceHost, typeof(ITGSService));
-			AddEndpoint(serviceHost, typeof(ITGConnectivity));
-			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us
+			foreach (var I in Interface.ValidServiceInterfaces)
+				AddEndpoint(serviceHost, I);
+			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager();	//only admins can diddle us
 		}
 
 		/// <summary>
@@ -350,7 +350,7 @@ namespace TGServerService
 			var host = CreateHost(instance, String.Format("{0}/{1}", Interface.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
 			
-			foreach (var J in Interface.ValidInterfaces)
+			foreach (var J in Interface.ValidInstanceInterfaces)
 				AddEndpoint(host, J);
 
 			host.Authorization.ServiceAuthorizationManager = instance;
