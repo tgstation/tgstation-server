@@ -1,0 +1,17 @@
+codecov:
+  strict_yaml_branch: master
+coverage:
+  status:
+    project:
+      default:
+        threshold: 0
+        if_no_uploads: failure
+        if_ci_failed: failure
+    patch: off
+    changes:
+      default:
+        if_no_uploads: failure
+        if_ci_failed: failure
+        only_pulls: yes
+comment:
+  layout: "header, diff, changes"

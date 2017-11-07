@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServerService", "TGServerService\TGServerService.csproj", "{F32EDA25-0855-411C-AF5E-F0D042917E2D}"
 EndProject
@@ -15,6 +15,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TGServiceInstaller", "TGSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D8FC6AA-1D33-44B6-81C2-35ED7A87EDBC}"
 	ProjectSection(SolutionItems) = preProject
+		.codecov.yml = .codecov.yml
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
@@ -74,11 +75,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB
 	ProjectSection(SolutionItems) = preProject
 		Tools\build_byond.sh = Tools\build_byond.sh
 		Tools\Config.dm = Tools\Config.dm
+		Tools\CoverageExclusions.runsettings = Tools\CoverageExclusions.runsettings
 		Tools\DMAPITravisTester.dme = Tools\DMAPITravisTester.dme
 		Tools\Doxyfile = Tools\Doxyfile
 		Tools\install_byond.sh = Tools\install_byond.sh
 		Tools\Test.dm = Tools\Test.dm
 		Tools\TGS3Build.ps1 = Tools\TGS3Build.ps1
+		Tools\UploadCoverage.ps1 = Tools\UploadCoverage.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{287B900C-1AFB-49B8-8BDD-C9058971C20C}"
