@@ -16,8 +16,8 @@ namespace TGServerService
 		/// <summary>
 		/// Convert the settings version 6 .NET settings file to a config json
 		/// </summary>
-		/// <returns>An <see cref="InstanceConfig"/> based off the old .NET setting file</returns>
-		public static InstanceConfig CreateFromNETSettings()
+		/// <returns>An <see cref="IInstanceConfig"/> based off the old .NET setting file</returns>
+		public static IInstanceConfig CreateFromNETSettings()
 		{
 			var Config = Properties.Settings.Default;
 			var result = new DeprecatedInstanceConfig(LoadPreviousNetPropertyOrDefault("ServerDirectory", "C:\\tgstation-server-3"));

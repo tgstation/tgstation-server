@@ -13,9 +13,11 @@ if($publish_dox){
 	echo "Cloning https://git@$github_url..."
 	git clone -b gh-pages --single-branch "https://git@$github_url" "$doxdir" 2>$null
 	rm -r "$doxdir\*"
+	Add-Content "$bf\Tools\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/tgs.ico`nHAVE_DOT=YES"
+}else{
+	Add-Content "$bf\Tools\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/tgs.ico"
 }
 
-Add-Content "$bf\Tools\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/tgs.ico"
 doxygen.exe "$bf\Tools\Doxyfile"
 
 if($publish_dox){
