@@ -7,7 +7,7 @@ namespace TGServerService
 	/// <summary>
 	/// Configuration settings for a <see cref="ServerInstance"/>
 	/// </summary>
-	interface IInstanceConfig
+	public interface IInstanceConfig
 	{
 		/// <summary>
 		/// The <see cref="ServerInstance"/> directory this <see cref="IInstanceConfig"/> is for
