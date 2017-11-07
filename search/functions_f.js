@@ -21,5 +21,7 @@ var searchData=
   ['pullrequestinfo',['PullRequestInfo',['../class_t_g_service_interface_1_1_pull_request_info.html#ab986528556ed48fa9760fa41af7f00f9',1,'TGServiceInterface::PullRequestInfo']]],
   ['pullrequestscommand',['PullRequestsCommand',['../class_t_g_server_service_1_1_chat_commands_1_1_pull_requests_command.html#a94abf0d4f68589b93666ca9dc7e918ef',1,'TGServerService::ChatCommands::PullRequestsCommand']]],
   ['push',['Push',['../class_t_g_server_service_1_1_server_instance.html#af8c5c3b1d918969c67fda31e5a4c7ab3',1,'TGServerService::ServerInstance']]],
+  ['pushtestmergecommit',['PushTestmergeCommit',['../class_t_g_server_service_1_1_server_instance.html#a192e852251a6ecaf221ae518f943302d',1,'TGServerService::ServerInstance']]],
+  ['pushtestmergecommits',['PushTestmergeCommits',['../class_t_g_server_service_1_1_server_instance.html#ad89156702d881eb4eaecf1cafaf41d11',1,'TGServerService.ServerInstance.PushTestmergeCommits()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a093c699b1bf3801faf1c739f2c1d1890',1,'TGServiceInterface.Components.ITGRepository.PushTestmergeCommits()']]],
   ['pythonpath',['PythonPath',['../class_t_g_server_service_1_1_service.html#af90e43b785ee8ff8bb1dad5b7f137e66',1,'TGServerService.Service.PythonPath()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a72fefd6485c2f3a69367b134183e4160',1,'TGServiceInterface.Components.ITGSService.PythonPath()']]]
 ];

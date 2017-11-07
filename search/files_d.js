@@ -1,9 +1,13 @@
 var searchData=
 [
-  ['tempdirectoryrequiredtest_2ecs',['TempDirectoryRequiredTest.cs',['../_temp_directory_required_test_8cs.html',1,'']]],
-  ['testhelpers_2ecs',['TestHelpers.cs',['../_test_helpers_8cs.html',1,'']]],
-  ['testinstanceconfig_2ecs',['TestInstanceConfig.cs',['../_test_instance_config_8cs.html',1,'']]],
-  ['testinterface_2ecs',['TestInterface.cs',['../_test_interface_8cs.html',1,'']]],
-  ['testserverinstance_2ecs',['TestServerInstance.cs',['../_test_server_instance_8cs.html',1,'']]],
-  ['testservice_2ecs',['TestService.cs',['../_test_service_8cs.html',1,'']]]
+  ['serverchatcommand_2ecs',['ServerChatCommand.cs',['../_server_chat_command_8cs.html',1,'']]],
+  ['serverinstance_2ecs',['ServerInstance.cs',['../_server_instance_8cs.html',1,'']]],
+  ['serverpage_2ecs',['ServerPage.cs',['../_server_page_8cs.html',1,'']]],
+  ['service_2ecs',['Service.cs',['../_t_g_server_service_2_service_8cs.html',1,'']]],
+  ['service_2ecs',['Service.cs',['../_t_g_service_interface_2_components_2_service_8cs.html',1,'']]],
+  ['serviceaccessor_2ecs',['ServiceAccessor.cs',['../_service_accessor_8cs.html',1,'']]],
+  ['servicecommands_2ecs',['ServiceCommands.cs',['../_service_commands_8cs.html',1,'']]],
+  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_t_g_control_panel_2_properties_2_settings_8_designer_8cs.html',1,'']]],
+  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_t_g_server_service_2_properties_2_settings_8_designer_8cs.html',1,'']]],
+  ['staticpage_2ecs',['StaticPage.cs',['../_static_page_8cs.html',1,'']]]
 ];

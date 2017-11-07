@@ -6,6 +6,7 @@ var searchData=
   ['refreshbutton',['RefreshButton',['../class_t_g_control_panel_1_1_instance_selector.html#a04fb8fc6f9ec9ff4c94bd1a93a3cf64d',1,'TGControlPanel::InstanceSelector']]],
   ['remoteloginbutton',['RemoteLoginButton',['../class_t_g_control_panel_1_1_login.html#af86cd0693769050038cf9b2de7a4f048',1,'TGControlPanel::Login']]],
   ['remotenametitle',['RemoteNameTitle',['../class_t_g_control_panel_1_1_control_panel.html#a1fe5eeb655e18d159a4f94154e073d3d',1,'TGControlPanel::ControlPanel']]],
+  ['remotetempbranchname',['RemoteTempBranchName',['../class_t_g_server_service_1_1_server_instance.html#a4334f46d42669bdf111b697be464d605',1,'TGServerService::ServerInstance']]],
   ['renameinstancebutton',['RenameInstanceButton',['../class_t_g_control_panel_1_1_instance_selector.html#ab25f68812431c6750ce916913269e5e5',1,'TGControlPanel::InstanceSelector']]],
   ['repo',['Repo',['../class_t_g_server_service_1_1_server_instance.html#a6088bf51e04fc17da371cc85d1d5df6e',1,'TGServerService::ServerInstance']]],
   ['repoapplybutton',['RepoApplyButton',['../class_t_g_control_panel_1_1_control_panel.html#a826380cb01dd6e38f5d463a53df506ec',1,'TGControlPanel::ControlPanel']]],

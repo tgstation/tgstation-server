@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['versioncommand',['VersionCommand',['../class_t_g_server_service_1_1_chat_commands_1_1_version_command.html',1,'TGServerService::ChatCommands']]]
+  ['updatecommand',['UpdateCommand',['../class_t_g_command_line_1_1_update_command.html',1,'TGCommandLine']]]
 ];

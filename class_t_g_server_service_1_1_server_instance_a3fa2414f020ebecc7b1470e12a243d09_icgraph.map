@@ -1,5 +1,12 @@
 <map id="TGServerService.ServerInstance.SSHAuth" name="TGServerService.ServerInstance.SSHAuth">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af8c5c3b1d918969c67fda31e5a4c7ab3" title="TGServerService.ServerInstance.Push" alt="" coords="264,5,504,32"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7e077da7a7def0afaa4ac78d4d0a25ce" title="Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exis..." alt="" coords="552,23,763,65"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="279,107,489,149"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7e077da7a7def0afaa4ac78d4d0a25ce" title="Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exis..." alt="" coords="552,9,763,50"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a192e852251a6ecaf221ae518f943302d" title="TGServerService.ServerInstance.\lPushTestmergeCommit" alt="" coords="279,107,489,149"/>
+<area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="279,173,489,214"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="552,95,763,137"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a" title="Fetches the origin and merges it into the current branch " alt="" coords="552,161,763,202"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="811,127,1021,169"/>
+<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured InstanceConfig.AutoUpdateInterval of Config and tries to Update(bool) and Comp..." alt="" coords="811,193,1021,234"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="1069,193,1280,234"/>
+<area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="1328,193,1539,234"/>
 </map>

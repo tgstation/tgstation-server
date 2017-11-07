@@ -5,11 +5,12 @@ var searchData=
   ['main_5fresize',['Main_Resize',['../class_t_g_control_panel_1_1_control_panel.html#a9b288d6ecb61488c065f506983236332',1,'TGControlPanel::ControlPanel']]],
   ['makesig',['MakeSig',['../class_t_g_server_service_1_1_server_instance.html#abcde3c7acdaf49fcd170dde635747ab1',1,'TGServerService::ServerInstance']]],
   ['memtracktimer_5felapsed',['MemTrackTimer_Elapsed',['../class_t_g_server_service_1_1_server_instance.html#ac23c0fcef71fc61e9429f04482c5035b',1,'TGServerService::ServerInstance']]],
-  ['mergebranch',['MergeBranch',['../class_t_g_server_service_1_1_server_instance.html#a533ddcf0f8c4cd09d87b3e4eae916ccf',1,'TGServerService::ServerInstance']]],
+  ['mergebranch',['MergeBranch',['../class_t_g_server_service_1_1_server_instance.html#a2b8125f0a6c43bb7c24721451d7c6897',1,'TGServerService::ServerInstance']]],
   ['mergedpullrequests',['MergedPullRequests',['../class_t_g_server_service_1_1_server_instance.html#a5eb674c9b1ad47e3965a23ee8bb1c226',1,'TGServerService.ServerInstance.MergedPullRequests()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aa15ff5c498d885f5f7b44273e83b0aef',1,'TGServiceInterface.Components.ITGRepository.MergedPullRequests()']]],
   ['mergepullrequest',['MergePullRequest',['../class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed',1,'TGServerService.ServerInstance.MergePullRequest()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a763d4bab7df28454c63510f25bdb31ab',1,'TGServiceInterface.Components.ITGRepository.MergePullRequest()']]],
   ['migrate',['Migrate',['../class_t_g_server_service_1_1_deprecated_instance_config.html#aef2091b761a740ecbb1f58fccf9342d1',1,'TGServerService::DeprecatedInstanceConfig']]],
   ['migratesettings',['MigrateSettings',['../class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7',1,'TGServerService::Service']]],
   ['migratetocurrentversion',['MigrateToCurrentVersion',['../class_t_g_server_service_1_1_deprecated_instance_config.html#abbdc2539c528aa57758d8baf9fa069a3',1,'TGServerService::DeprecatedInstanceConfig']]],
+  ['mockinterfacetorepo',['MockInterfaceToRepo',['../class_t_g_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_repository_command_test.html#a8f43f1e2f259c1b4c3d343679137de68',1,'TGCommandLine::Commands::Repository::Tests::RepositoryCommandTest']]],
   ['movefileex',['MoveFileEx',['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)'],['../class_common.html#a80aef2baf693b0b9479103fe477f2b28',1,'Common.MoveFileEx(string lpExistingFileName, string lpNewFileName, int dwFlags)']]]
 ];

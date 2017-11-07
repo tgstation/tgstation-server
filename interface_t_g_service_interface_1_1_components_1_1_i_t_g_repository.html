@@ -177,6 +177,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a55f09a1e511d89d6af22f8cfa2c51c80"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a55f09a1e511d89d6af22f8cfa2c51c80">AutoUpdateInterval</a> ()</td></tr>
 <tr class="memdesc:a55f09a1e511d89d6af22f8cfa2c51c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current autoupdate interval  <a href="#a55f09a1e511d89d6af22f8cfa2c51c80">More...</a><br /></td></tr>
 <tr class="separator:a55f09a1e511d89d6af22f8cfa2c51c80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a093c699b1bf3801faf1c739f2c1d1890"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a093c699b1bf3801faf1c739f2c1d1890">PushTestmergeCommits</a> ()</td></tr>
+<tr class="memdesc:a093c699b1bf3801faf1c739f2c1d1890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if we push a temporary branch to the remote when we make testmerge commits  <a href="#a093c699b1bf3801faf1c739f2c1d1890">More...</a><br /></td></tr>
+<tr class="separator:a093c699b1bf3801faf1c739f2c1d1890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae355fa3d68cfc105426567fa42e33b6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#ae355fa3d68cfc105426567fa42e33b6b">SetPushTestmergeCommits</a> (bool newValue)</td></tr>
+<tr class="memdesc:ae355fa3d68cfc105426567fa42e33b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if we push a temporary branch to the remote when we make testmerge commits  <a href="#ae355fa3d68cfc105426567fa42e33b6b">More...</a><br /></td></tr>
+<tr class="separator:ae355fa3d68cfc105426567fa42e33b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_t_g_service_interface_1_1_interface.html">Interface</a> for managing the code repository </p>
@@ -427,7 +433,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#aac376ed040ee3efc2ef5173339baf723">TGServerService.ServerInstance</a>.</p>
 
-<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00272">TGControlPanel.ControlPanel.RepoApplyButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00275">TGControlPanel.ControlPanel.RepoApplyButton_Click()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -554,7 +560,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a366db6a24e005771f49cca17a373c490">TGServerService.ServerInstance</a>.</p>
 
-<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00148">TGControlPanel.ControlPanel.RepoBusyCheck()</a>, and <a class="el" href="_repo_commands_8cs_source.html#l00079">TGCommandLine.RepoStatusCommand.Run()</a>.</p>
+<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00150">TGControlPanel.ControlPanel.RepoBusyCheck()</a>, and <a class="el" href="_repo_commands_8cs_source.html#l00114">TGCommandLine.RepoStatusCommand.Run()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -584,6 +590,26 @@ Here is the caller graph for this function:</div>
 </map>
 </div>
 </p>
+
+</div>
+</div>
+<a class="anchor" id="a093c699b1bf3801faf1c739f2c1d1890"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TGServiceInterface.Components.ITGRepository.PushTestmergeCommits </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if we push a temporary branch to the remote when we make testmerge commits </p>
+<dl class="section return"><dt>Returns</dt><dd>if we publish testmerge commits to the remote,  otherwise</dd></dl>
+
+<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#ad89156702d881eb4eaecf1cafaf41d11">TGServerService.ServerInstance</a>.</p>
 
 </div>
 </div>
@@ -692,6 +718,32 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="ae355fa3d68cfc105426567fa42e33b6b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TGServiceInterface.Components.ITGRepository.SetPushTestmergeCommits </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>newValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set if we push a temporary branch to the remote when we make testmerge commits </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newValue</td><td>if we testmerge commits should be published to the remote,  otherwise</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a40855dbc29e62495204806e98781bd7b">TGServerService.ServerInstance</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1ba91e01239633db1ea8e7c20a954b9e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -728,7 +780,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e">TGServerService.ServerInstance</a>.</p>
 
-<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00169">TGControlPanel.ControlPanel.RepoBGW_DoWork()</a>.</p>
+<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00171">TGControlPanel.ControlPanel.RepoBGW_DoWork()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

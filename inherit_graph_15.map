@@ -1,8 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,4566,199,4593"/>
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="TGCommandLine.ConsoleCommand" alt="" coords="247,2207,479,2234"/>
-<area shape="rect" id="node74" href="$class_t_g_server_service_1_1_chat_commands_1_1_chat_command.html" title="A command heard by a ChatProviders.IChatProvider " alt="" coords="253,4559,472,4600"/>
-<area shape="rect" id="node81" href="$class_t_g_service_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="253,4875,473,4902"/>
+<area shape="rect" id="node1" href="$class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,4631,199,4658"/>
+<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_console_command.html" title="TGCommandLine.ConsoleCommand" alt="" coords="247,2239,479,2266"/>
+<area shape="rect" id="node75" href="$class_t_g_server_service_1_1_chat_commands_1_1_chat_command.html" title="A command heard by a ChatProviders.IChatProvider " alt="" coords="253,4624,472,4665"/>
+<area shape="rect" id="node82" href="$class_t_g_service_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="253,4941,473,4967"/>
 <area shape="rect" id="node3" href="$class_t_g_command_line_1_1_admin_clear_group_command.html" title="TGCommandLine.AdminClear\lGroupCommand" alt="" coords="565,5,758,47"/>
 <area shape="rect" id="node4" href="$class_t_g_command_line_1_1_admin_recreate_static_command.html" title="TGCommandLine.AdminRecreate\lStaticCommand" alt="" coords="554,71,769,112"/>
 <area shape="rect" id="node5" href="$class_t_g_command_line_1_1_admin_set_group_command.html" title="TGCommandLine.AdminSetGroup\lCommand" alt="" coords="552,136,771,177"/>
@@ -56,40 +56,41 @@
 <area shape="rect" id="node53" href="$class_t_g_command_line_1_1_repo_reset_command.html" title="TGCommandLine.RepoResetCommand" alt="" coords="537,3078,786,3105"/>
 <area shape="rect" id="node54" href="$class_t_g_command_line_1_1_repo_set_email_command.html" title="TGCommandLine.RepoSetEmail\lCommand" alt="" coords="557,3129,766,3171"/>
 <area shape="rect" id="node55" href="$class_t_g_command_line_1_1_repo_set_name_command.html" title="TGCommandLine.RepoSetName\lCommand" alt="" coords="556,3195,767,3236"/>
-<area shape="rect" id="node56" href="$class_t_g_command_line_1_1_repo_setup_command.html" title="TGCommandLine.RepoSetupCommand" alt="" coords="537,3261,786,3287"/>
-<area shape="rect" id="node57" href="$class_t_g_command_line_1_1_repo_status_command.html" title="TGCommandLine.RepoStatus\lCommand" alt="" coords="564,3312,759,3353"/>
-<area shape="rect" id="node58" href="$class_t_g_command_line_1_1_repo_update_command.html" title="TGCommandLine.RepoUpdate\lCommand" alt="" coords="563,3377,760,3419"/>
-<area shape="rect" id="node59" href="$class_t_g_command_line_1_1_repo_update_json_command.html" title="TGCommandLine.RepoUpdate\lJsonCommand" alt="" coords="563,3443,760,3484"/>
-<area shape="rect" id="node60" href="$class_t_g_command_line_1_1_service_create_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.CreateInstance(string, string) " alt="" coords="558,3508,765,3549"/>
-<area shape="rect" id="node61" href="$class_t_g_command_line_1_1_service_detach_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.DetachInstance(string) ..." alt="" coords="557,3573,766,3615"/>
-<area shape="rect" id="node62" href="$class_t_g_command_line_1_1_service_disable_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetInstanceEnabled(string, bool) with a &#160;parameter " alt="" coords="556,3639,767,3680"/>
-<area shape="rect" id="node63" href="$class_t_g_command_line_1_1_service_enable_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetInstanceEnabled(string, bool) with a &#160;parameter " alt="" coords="557,3704,765,3745"/>
-<area shape="rect" id="node64" href="$class_t_g_command_line_1_1_service_import_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.ImportInstance(string) ..." alt="" coords="559,3769,763,3811"/>
-<area shape="rect" id="node65" href="$class_t_g_command_line_1_1_service_list_instances_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.ListInstances " alt="" coords="567,3835,756,3876"/>
-<area shape="rect" id="node66" href="$class_t_g_command_line_1_1_service_python_path_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.PythonPath " alt="" coords="557,3900,766,3941"/>
-<area shape="rect" id="node67" href="$class_t_g_command_line_1_1_service_remote_access_port_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.RemoteAccessPort " alt="" coords="555,3965,768,4007"/>
-<area shape="rect" id="node68" href="$class_t_g_command_line_1_1_service_rename_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.RenameInstance(string, string) " alt="" coords="553,4031,769,4072"/>
-<area shape="rect" id="node69" href="$class_t_g_command_line_1_1_service_set_python_path_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetPythonPath(string) ..." alt="" coords="567,4096,755,4137"/>
-<area shape="rect" id="node70" href="$class_t_g_command_line_1_1_service_set_remote_access_port_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetRemoteAccessPort(ushort) ..." alt="" coords="564,4161,759,4203"/>
-<area shape="rect" id="node71" href="$class_t_g_command_line_1_1_set_auto_update_command.html" title="TGCommandLine.SetAutoUpdate\lCommand" alt="" coords="554,4227,769,4268"/>
-<area shape="rect" id="node72" href="$class_t_g_command_line_1_1_testmerge_command.html" title="TGCommandLine.TestmergeCommand" alt="" coords="538,4293,785,4319"/>
-<area shape="rect" id="node73" href="$class_t_g_command_line_1_1_update_command.html" title="TGCommandLine.UpdateCommand" alt="" coords="548,4343,775,4370"/>
-<area shape="rect" id="node75" href="$class_t_g_server_service_1_1_chat_commands_1_1_byond_command.html" title="Retrieve the installed, staged, or latest availab " alt="" coords="552,4395,771,4436"/>
-<area shape="rect" id="node76" href="$class_t_g_server_service_1_1_chat_commands_1_1_kek_command.html" title="kek " alt="" coords="552,4460,771,4501"/>
-<area shape="rect" id="node77" href="$class_t_g_server_service_1_1_chat_commands_1_1_pull_requests_command.html" title="Retrieve the list of test&#45;merged github pull requests " alt="" coords="552,4525,771,4567"/>
-<area shape="rect" id="node78" href="$class_t_g_server_service_1_1_chat_commands_1_1_revision_command.html" title="Retrieves the git SHA of the live DreamDaemon code " alt="" coords="552,4591,771,4632"/>
-<area shape="rect" id="node79" href="$class_t_g_server_service_1_1_chat_commands_1_1_server_chat_command.html" title="ChatCommands generated by DreamDaemon via the API " alt="" coords="552,4656,771,4697"/>
-<area shape="rect" id="node80" href="$class_t_g_server_service_1_1_chat_commands_1_1_version_command.html" title="Retrieve the current service version " alt="" coords="552,4721,771,4763"/>
-<area shape="rect" id="node82" href="$class_t_g_command_line_1_1_c_l_i_command.html" title="TGCommandLine.CLICommand" alt="" coords="559,4787,763,4814"/>
-<area shape="rect" id="node83" href="$class_t_g_command_line_1_1_instance_root_command.html" title="TGCommandLine.InstanceRoot\lCommand" alt="" coords="560,4839,763,4880"/>
-<area shape="rect" id="node91" href="$class_t_g_command_line_1_1_repo_command.html" title="TGCommandLine.RepoCommand" alt="" coords="554,4905,769,4931"/>
-<area shape="rect" id="node92" href="$class_t_g_command_line_1_1_service_command.html" title="Used for managing the TGServiceInterface.Components.ITGSService " alt="" coords="548,4955,775,4982"/>
-<area shape="rect" id="node93" href="$class_t_g_server_service_1_1_chat_commands_1_1_root_chat_command.html" title="The main root chat command " alt="" coords="552,5007,771,5048"/>
-<area shape="rect" id="node84" href="$class_t_g_command_line_1_1_admin_command.html" title="TGCommandLine.AdminCommand" alt="" coords="848,4694,1071,4721"/>
-<area shape="rect" id="node85" href="$class_t_g_command_line_1_1_b_y_o_n_d_command.html" title="TGCommandLine.BYONDCommand" alt="" coords="844,4745,1075,4771"/>
-<area shape="rect" id="node86" href="$class_t_g_command_line_1_1_config_command.html" title="TGCommandLine.ConfigCommand" alt="" coords="849,4795,1070,4822"/>
-<area shape="rect" id="node87" href="$class_t_g_command_line_1_1_d_d_command.html" title="TGCommandLine.DDCommand" alt="" coords="858,4846,1061,4873"/>
-<area shape="rect" id="node88" href="$class_t_g_command_line_1_1_discord_command.html" title="TGCommandLine.DiscordCommand" alt="" coords="845,4897,1074,4923"/>
-<area shape="rect" id="node89" href="$class_t_g_command_line_1_1_d_m_command.html" title="TGCommandLine.DMCommand" alt="" coords="857,4947,1062,4974"/>
-<area shape="rect" id="node90" href="$class_t_g_command_line_1_1_i_r_c_command.html" title="TGCommandLine.IRCCommand" alt="" coords="856,4998,1063,5025"/>
+<area shape="rect" id="node56" href="$class_t_g_command_line_1_1_repo_set_push_testmerge_commits_command.html" title="TGCommandLine.RepoSetPush\lTestmergeCommitsCommand" alt="" coords="558,3260,765,3301"/>
+<area shape="rect" id="node57" href="$class_t_g_command_line_1_1_repo_setup_command.html" title="TGCommandLine.RepoSetupCommand" alt="" coords="537,3326,786,3353"/>
+<area shape="rect" id="node58" href="$class_t_g_command_line_1_1_repo_status_command.html" title="TGCommandLine.RepoStatus\lCommand" alt="" coords="564,3377,759,3419"/>
+<area shape="rect" id="node59" href="$class_t_g_command_line_1_1_repo_update_command.html" title="TGCommandLine.RepoUpdate\lCommand" alt="" coords="563,3443,760,3484"/>
+<area shape="rect" id="node60" href="$class_t_g_command_line_1_1_repo_update_json_command.html" title="TGCommandLine.RepoUpdate\lJsonCommand" alt="" coords="563,3508,760,3549"/>
+<area shape="rect" id="node61" href="$class_t_g_command_line_1_1_service_create_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.CreateInstance(string, string) " alt="" coords="558,3573,765,3615"/>
+<area shape="rect" id="node62" href="$class_t_g_command_line_1_1_service_detach_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.DetachInstance(string) ..." alt="" coords="557,3639,766,3680"/>
+<area shape="rect" id="node63" href="$class_t_g_command_line_1_1_service_disable_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetInstanceEnabled(string, bool) with a &#160;parameter " alt="" coords="556,3704,767,3745"/>
+<area shape="rect" id="node64" href="$class_t_g_command_line_1_1_service_enable_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetInstanceEnabled(string, bool) with a &#160;parameter " alt="" coords="557,3769,765,3811"/>
+<area shape="rect" id="node65" href="$class_t_g_command_line_1_1_service_import_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.ImportInstance(string) ..." alt="" coords="559,3835,763,3876"/>
+<area shape="rect" id="node66" href="$class_t_g_command_line_1_1_service_list_instances_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.ListInstances " alt="" coords="567,3900,756,3941"/>
+<area shape="rect" id="node67" href="$class_t_g_command_line_1_1_service_python_path_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.PythonPath " alt="" coords="557,3965,766,4007"/>
+<area shape="rect" id="node68" href="$class_t_g_command_line_1_1_service_remote_access_port_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.RemoteAccessPort " alt="" coords="555,4031,768,4072"/>
+<area shape="rect" id="node69" href="$class_t_g_command_line_1_1_service_rename_instance_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.RenameInstance(string, string) " alt="" coords="553,4096,769,4137"/>
+<area shape="rect" id="node70" href="$class_t_g_command_line_1_1_service_set_python_path_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetPythonPath(string) ..." alt="" coords="567,4161,755,4203"/>
+<area shape="rect" id="node71" href="$class_t_g_command_line_1_1_service_set_remote_access_port_command.html" title="Command for calling TGServiceInterface.Components.ITGSService.SetRemoteAccessPort(ushort) ..." alt="" coords="564,4227,759,4268"/>
+<area shape="rect" id="node72" href="$class_t_g_command_line_1_1_set_auto_update_command.html" title="TGCommandLine.SetAutoUpdate\lCommand" alt="" coords="554,4292,769,4333"/>
+<area shape="rect" id="node73" href="$class_t_g_command_line_1_1_testmerge_command.html" title="TGCommandLine.TestmergeCommand" alt="" coords="538,4358,785,4385"/>
+<area shape="rect" id="node74" href="$class_t_g_command_line_1_1_update_command.html" title="TGCommandLine.UpdateCommand" alt="" coords="548,4409,775,4435"/>
+<area shape="rect" id="node76" href="$class_t_g_server_service_1_1_chat_commands_1_1_byond_command.html" title="Retrieve the installed, staged, or latest availab " alt="" coords="552,4460,771,4501"/>
+<area shape="rect" id="node77" href="$class_t_g_server_service_1_1_chat_commands_1_1_kek_command.html" title="kek " alt="" coords="552,4525,771,4567"/>
+<area shape="rect" id="node78" href="$class_t_g_server_service_1_1_chat_commands_1_1_pull_requests_command.html" title="Retrieve the list of test&#45;merged github pull requests " alt="" coords="552,4591,771,4632"/>
+<area shape="rect" id="node79" href="$class_t_g_server_service_1_1_chat_commands_1_1_revision_command.html" title="Retrieves the git SHA of the live DreamDaemon code " alt="" coords="552,4656,771,4697"/>
+<area shape="rect" id="node80" href="$class_t_g_server_service_1_1_chat_commands_1_1_server_chat_command.html" title="ChatCommands generated by DreamDaemon via the API " alt="" coords="552,4721,771,4763"/>
+<area shape="rect" id="node81" href="$class_t_g_server_service_1_1_chat_commands_1_1_version_command.html" title="Retrieve the current service version " alt="" coords="552,4787,771,4828"/>
+<area shape="rect" id="node83" href="$class_t_g_command_line_1_1_c_l_i_command.html" title="TGCommandLine.CLICommand" alt="" coords="559,4853,763,4879"/>
+<area shape="rect" id="node84" href="$class_t_g_command_line_1_1_instance_root_command.html" title="TGCommandLine.InstanceRoot\lCommand" alt="" coords="560,4904,763,4945"/>
+<area shape="rect" id="node92" href="$class_t_g_command_line_1_1_repo_command.html" title="TGCommandLine.RepoCommand" alt="" coords="554,4970,769,4997"/>
+<area shape="rect" id="node93" href="$class_t_g_command_line_1_1_service_command.html" title="Used for managing the TGServiceInterface.Components.ITGSService " alt="" coords="548,5021,775,5047"/>
+<area shape="rect" id="node94" href="$class_t_g_server_service_1_1_chat_commands_1_1_root_chat_command.html" title="The main root chat command " alt="" coords="552,5072,771,5113"/>
+<area shape="rect" id="node85" href="$class_t_g_command_line_1_1_admin_command.html" title="TGCommandLine.AdminCommand" alt="" coords="848,4759,1071,4786"/>
+<area shape="rect" id="node86" href="$class_t_g_command_line_1_1_b_y_o_n_d_command.html" title="TGCommandLine.BYONDCommand" alt="" coords="844,4810,1075,4837"/>
+<area shape="rect" id="node87" href="$class_t_g_command_line_1_1_config_command.html" title="TGCommandLine.ConfigCommand" alt="" coords="849,4861,1070,4887"/>
+<area shape="rect" id="node88" href="$class_t_g_command_line_1_1_d_d_command.html" title="TGCommandLine.DDCommand" alt="" coords="858,4911,1061,4938"/>
+<area shape="rect" id="node89" href="$class_t_g_command_line_1_1_discord_command.html" title="TGCommandLine.DiscordCommand" alt="" coords="845,4962,1074,4989"/>
+<area shape="rect" id="node90" href="$class_t_g_command_line_1_1_d_m_command.html" title="TGCommandLine.DMCommand" alt="" coords="857,5013,1062,5039"/>
+<area shape="rect" id="node91" href="$class_t_g_command_line_1_1_i_r_c_command.html" title="TGCommandLine.IRCCommand" alt="" coords="856,5063,1063,5090"/>
 </map>
