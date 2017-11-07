@@ -20,7 +20,7 @@ namespace TGServerService
 		public static IInstanceConfig CreateFromNETSettings()
 		{
 			var Config = Properties.Settings.Default;
-			var result = new DeprecatedInstanceConfig(LoadPreviousNetPropertyOrDefault("ServerDirectory", "C:\\tgstation-server-3"));
+			var result = new DeprecatedInstanceConfig(Program.NormalizePath(LoadPreviousNetPropertyOrDefault("ServerDirectory", "C:\\tgstation-server-3")));
 			// using nameof for sanity where possible
 			result.ProjectName = LoadPreviousNetPropertyOrDefault(nameof(ProjectName), result.ProjectName);
 			result.Port = LoadPreviousNetPropertyOrDefault("ServerPort", result.Port);

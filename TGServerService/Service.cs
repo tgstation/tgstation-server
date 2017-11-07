@@ -471,6 +471,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
+			path = Program.NormalizePath(path);
 			var res = CheckInstanceName(Name);
 			if (res != null)
 				return res;
@@ -529,6 +530,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string ImportInstance(string path)
 		{
+			path = Program.NormalizePath(path);
 			var Config = Properties.Settings.Default;
 			lock (this)
 			{
