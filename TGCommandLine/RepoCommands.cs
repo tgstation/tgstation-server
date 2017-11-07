@@ -10,11 +10,46 @@ namespace TGCommandLine
 		public RepoCommand()
 		{
 			Keyword = "repo";
-			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand() };
+			Children = new Command[] { new RepoSetupCommand(), new RepoUpdateCommand(), new RepoGenChangelogCommand(), new RepoPushChangelogCommand(), new RepoSetEmailCommand(), new RepoSetNameCommand(), new RepoMergePRCommand(), new RepoListPRsCommand(), new RepoStatusCommand(), new RepoListBackupsCommand(), new RepoCheckoutCommand(), new RepoResetCommand(), new RepoUpdateJsonCommand(), new RepoSetPushTestmergeCommitsCommand() };
 		}
 		public override string GetHelpText()
 		{
 			return "Manage the git repository";
+		}
+	}
+
+	class RepoSetPushTestmergeCommitsCommand : ConsoleCommand
+	{
+		public RepoSetPushTestmergeCommitsCommand()
+		{
+			Keyword = "push-testmerges";
+			RequiredParameters = 1;
+		}
+		public override string GetHelpText()
+		{
+			return "Set if a temporary branch is to the remote when we make testmerge commits and then delete it";
+		}
+
+		public override string GetArgumentString()
+		{
+			return "<on|off>";
+		}
+
+		protected override ExitCode Run(IList<string> parameters)
+		{
+			switch (parameters[0].ToLower())
+			{
+				case "on":
+					Interface.GetComponent<ITGRepository>().SetPushTestmergeCommits(true);
+					break;
+				case "off":
+					Interface.GetComponent<ITGRepository>().SetPushTestmergeCommits(false);
+					break;
+				default:
+					OutputProc("Invalid option!");
+					return ExitCode.BadCommand;
+			}
+			return ExitCode.Normal;
 		}
 	}
 
@@ -98,6 +133,7 @@ namespace TGCommandLine
 				OutputProc("Remote: " + remote + " (" + remotehead + ")");
 				OutputProc("Branch: " + branch);
 				OutputProc("HEAD: " + head);
+				OutputProc("Push testmerge commits: " + (Repo.PushTestmergeCommits() ? "ON" : "OFF"));
 				OutputProc(String.Format("Committer Identity: {0} ({1})", Repo.GetCommitterName(), Repo.GetCommitterEmail()));
 			}
 			else

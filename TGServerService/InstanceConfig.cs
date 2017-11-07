@@ -7,7 +7,7 @@ namespace TGServerService
 	/// <summary>
 	/// Configuration settings for a <see cref="ServerInstance"/>
 	/// </summary>
-	interface IInstanceConfig
+	public interface IInstanceConfig
 	{
 		/// <summary>
 		/// The <see cref="ServerInstance"/> directory this <see cref="IInstanceConfig"/> is for
@@ -107,6 +107,12 @@ namespace TGServerService
 		/// The auto update interval for the <see cref="ServerInstance"/>
 		/// </summary>
 		ulong AutoUpdateInterval { get; set; }
+
+		/// <summary>
+		/// Whether or not testmerge commits are published to a temporary remote branch
+		/// </summary>
+		bool PushTestmergeCommits { get; set; }
+
 		/// <summary>
 		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="ServerInstance"/> <see cref="Directory"/>
 		/// </summary>
@@ -188,6 +194,9 @@ namespace TGServerService
 
 		/// <inheritdoc />
 		public ulong AutoUpdateInterval { get; set; } = 0;
+
+		/// <inheritdoc />
+		public bool PushTestmergeCommits { get; set; } = false;
 
 		/// <summary>
 		/// Construct a <see cref="InstanceConfig"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>

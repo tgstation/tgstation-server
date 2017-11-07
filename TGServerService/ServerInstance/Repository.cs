@@ -19,6 +19,10 @@ namespace TGServerService
 		/// </summary>
 		const string RepoPath = "Repository";
 		/// <summary>
+		/// The branch name used for publishing testmerge commits
+		/// </summary>
+		const string RemoteTempBranchName = "___TGS3TempBranch";
+		/// <summary>
 		/// The path to the Repository's <see cref="RepoConfig"/> json
 		/// </summary>
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
@@ -542,14 +546,21 @@ namespace TGServerService
 		/// Merges given <paramref name="committish"/> into the current branch
 		/// </summary>
 		/// <param name="committish">The sha/branch/tag to merge</param>
+		/// <param name="mergeMessage">The commit message for the merge commit</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string MergeBranch(string committish)
+		string MergeBranch(string committish, string mergeMessage)
 		{
 			var mo = new MergeOptions()
 			{
 				OnCheckoutProgress = HandleCheckoutProgress
 			};
-			var Result = Repo.Merge(committish, MakeSig());
+			if (mergeMessage != null)
+			{
+				mo.CommitOnSuccess = false;
+				mo.FastForwardStrategy = FastForwardStrategy.NoFastForward;
+			}
+			var sig = MakeSig();
+			var Result = Repo.Merge(committish, sig, mo);
 			currentProgress = -1;
 			switch (Result.Status)
 			{
@@ -560,7 +571,56 @@ namespace TGServerService
 				case MergeStatus.UpToDate:
 					return RepoErrorUpToDate;
 			}
+			if(mergeMessage != null)
+				Repo.Commit(mergeMessage, sig, sig);
 			return null;
+		}
+
+		void PushTestmergeCommit()
+		{
+			if (Config.PushTestmergeCommits && SSHAuth())
+			{
+				string NewB = null;
+				var targetRemote = Repo.Network.Remotes[SSHPushRemote];
+				var options = new PushOptions()
+				{
+					CredentialsProvider = GenerateGitCredentials
+				};
+				try
+				{
+					//now try and push the commit to the remote so they can be referenced
+					NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
+					Repo.Network.Push(targetRemote, NewB, options); //push the branch
+					Repo.Branches.Remove(NewB);
+					var removalString = String.Format(":{0}", NewB);
+					NewB = null;
+					//we need to delay the second operation a LOT otherwise we get ssh errors
+					Thread.Sleep(10000);
+					Repo.Network.Push(targetRemote, removalString, options);   //delete the branch
+					WriteInfo("Pushed reference commit: " + Repo.Head.Tip.Sha, EventID.ReferencePush);
+				}
+				catch (Exception e)
+				{
+					WriteWarning(String.Format("Failed to push reference commit: {0}. Error: {1}", Repo.Head.Tip.Sha, e.ToString()), EventID.ReferencePush);
+				}
+				finally
+				{
+					if (NewB != null)
+					{
+						//Try to delete the branches regardless
+						try
+						{
+							Repo.Branches.Remove(NewB);
+						}
+						catch { }
+						try
+						{
+							Repo.Network.Push(targetRemote, String.Format(":{0}", NewB), options);
+						}
+						catch { }
+					}
+				}
+			}
 		}
 
 		/// <inheritdoc />
@@ -607,7 +667,9 @@ namespace TGServerService
 						WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, EventID.RepoHardUpdate);
 						return error;
 					}
-					res = MergeBranch(originBranch.FriendlyName);
+					res = MergeBranch(originBranch.FriendlyName, "Merge origin into current testmerge");
+					if (!LocalIsRemote())	//might be fast forward
+						PushTestmergeCommit();
 					if (res != null)
 						throw new Exception(res);
 					UpdateSubmodules();
@@ -844,7 +906,7 @@ namespace TGServerService
 					}
 
 					//so we'll know if this fails
-					var Result = MergeBranch(LocalBranchName);
+					var Result = MergeBranch(LocalBranchName, String.Format("Testmerge commit for pull request #{0}", PRNumber));
 
 					if (Result == null)
 						try
@@ -894,6 +956,8 @@ namespace TGServerService
 							WriteError("Failed to update PR list", EventID.RepoPRListError);
 							return "PR Merged, JSON update failed: " + e.ToString();
 						}
+
+						PushTestmergeCommit();
 					}
 					return Result;
 				}
@@ -1313,6 +1377,18 @@ namespace TGServerService
 		{
 			var B = Repo.Branches[LiveTrackingBranch];
 			return B != null ? B.Tip.Sha : "UNKNOWN";
+		}
+
+		/// <inheritdoc />
+		public bool PushTestmergeCommits()
+		{
+			return Config.PushTestmergeCommits;
+		}
+
+		/// <inheritdoc />
+		public void SetPushTestmergeCommits(bool newValue)
+		{
+			Config.PushTestmergeCommits = newValue;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TGServiceTests;
 
 namespace TGServerService.Tests
@@ -16,6 +17,34 @@ namespace TGServerService.Tests
 		public void TestBasicInstantiation()
 		{
 			new ServerInstance(new InstanceConfig(TempPath), 1).Dispose();
+		}
+
+		/// <summary>
+		/// Test the return value of <see cref="ServerInstance.PushTestmergeCommits"/>
+		/// </summary>
+		[TestMethod]
+		public void TestPushTestMergeCommits()
+		{
+			var ic = new InstanceConfig(TempPath) { PushTestmergeCommits = false };
+			using (var si = new ServerInstance(ic, 1))
+			{
+				Assert.IsFalse(si.PushTestmergeCommits());
+				ic.PushTestmergeCommits = true;
+				Assert.IsTrue(si.PushTestmergeCommits());
+			}
+		}
+
+		[TestMethod]
+		public void TestSetPushTestMergeCommits()
+		{
+			var ic = new InstanceConfig(TempPath) { PushTestmergeCommits = false };
+			using (var si = new ServerInstance(ic, 1))
+			{
+				si.SetPushTestmergeCommits(true);
+				Assert.IsTrue(ic.PushTestmergeCommits);
+				si.SetPushTestmergeCommits(false);
+				Assert.IsFalse(ic.PushTestmergeCommits);
+			}
 		}
 	}
 }

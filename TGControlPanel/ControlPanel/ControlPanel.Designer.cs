@@ -156,6 +156,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
+			this.SyncCommitsCheckBox = new System.Windows.Forms.CheckBox();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -1308,6 +1309,7 @@
 			// RepoPanel
 			// 
 			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.RepoPanel.Controls.Add(this.SyncCommitsCheckBox);
 			this.RepoPanel.Controls.Add(this.TGSJsonUpdate);
 			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
 			this.RepoPanel.Controls.Add(this.BackupTagsList);
@@ -1765,6 +1767,20 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
+			// SyncCommitsCheckBox
+			// 
+			this.SyncCommitsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.SyncCommitsCheckBox.AutoSize = true;
+			this.SyncCommitsCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
+			this.SyncCommitsCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.SyncCommitsCheckBox.Location = new System.Drawing.Point(574, 16);
+			this.SyncCommitsCheckBox.Name = "SyncCommitsCheckBox";
+			this.SyncCommitsCheckBox.Size = new System.Drawing.Size(142, 22);
+			this.SyncCommitsCheckBox.TabIndex = 46;
+			this.SyncCommitsCheckBox.Text = "Sync Commits";
+			this.SyncCommitsCheckBox.UseVisualStyleBackColor = true;
+			this.SyncCommitsCheckBox.Visible = false;
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1929,5 +1945,6 @@
 		private System.Windows.Forms.CheckBox AutoUpdateCheckbox;
 		private System.Windows.Forms.Label AutoUpdateMLabel;
 		private System.Windows.Forms.TextBox projectNameText;
+		private System.Windows.Forms.CheckBox SyncCommitsCheckBox;
 	}
 }

@@ -326,5 +326,10 @@ namespace TGServerService
 		/// Info: When an instance's logging ID is first assigned
 		/// </summary>
 		InstanceIDAssigned = 7600,
+		/// <summary>
+		/// Info: When a testmerge commit is published
+		/// Warning: When a testmerge commit failed to be published
+		/// </summary>
+		ReferencePush = 7700,
 	}
 }

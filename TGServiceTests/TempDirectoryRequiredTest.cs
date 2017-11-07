@@ -7,7 +7,7 @@ namespace TGServiceTests
 	/// To be the parent of test classes that required a temporary directory
 	/// </summary>
 	[TestClass]
-	public class TempDirectoryRequiredTest
+	public abstract class TempDirectoryRequiredTest
 	{
 		/// <summary>
 		/// The path to the temporary directory

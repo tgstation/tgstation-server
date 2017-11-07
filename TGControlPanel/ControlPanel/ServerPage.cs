@@ -93,6 +93,7 @@ namespace TGControlPanel
 			WorldAnnounceField.Visible = RepoExists;
 			WorldAnnounceButton.Visible = RepoExists;
 			WorldAnnounceLabel.Visible = RepoExists;
+			SyncCommitsCheckBox.Visible = RepoExists;
 
 			if (updatingFields)
 				return;
