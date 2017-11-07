@@ -73,7 +73,7 @@ namespace TGInstallerWrapper
 			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				VersionLabel.Text = Interface.GetComponent<ITGSService>().Version();
+				VersionLabel.Text = Interface.GetService().Version();
 				var isV0 = VersionLabel.Text.Contains("v3.0");
 				if (isV0) //OH GOD!!!!
 					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
@@ -98,7 +98,7 @@ namespace TGInstallerWrapper
 			var connectionVerified = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				Interface.GetComponent<ITGSService>().PrepareForUpdate();
+				Interface.GetService().PrepareForUpdate();
 				Thread.Sleep(3000); //chat messages
 				return true;
 			}
