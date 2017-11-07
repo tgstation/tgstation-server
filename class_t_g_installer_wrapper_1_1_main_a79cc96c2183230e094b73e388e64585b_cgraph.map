@@ -2,6 +2,8 @@
 <area shape="rect" id="node2" href="$class_t_g_installer_wrapper_1_1_main.html#a12888c2a8c8758555dd3497d5432ab99" title="TGInstallerWrapper.Main.\lOnUIUpdate" alt="" coords="243,5,413,47"/>
 <area shape="rect" id="node3" href="$class_t_g_installer_wrapper_1_1_main.html#a7ebbf1725d5a650b127ed0e27b1d771f" title="TGInstallerWrapper.Main.\lPromptKillProcesses" alt="" coords="243,71,413,112"/>
 <area shape="rect" id="node4" href="$class_t_g_installer_wrapper_1_1_main.html#ae06c0eea3d92868ed601fc39246cc2d7" title="TGInstallerWrapper.Main.\lTellServiceWereComingForThem" alt="" coords="223,136,433,177"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="481,103,672,144"/>
-<area shape="rect" id="node6" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="489,168,665,209"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="491,37,682,79"/>
+<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_i_interface.html#ada45ab47bbbe2a93e69dfc79c8a57cbe" title="Returns the ITGSService component for the service " alt="" coords="491,103,682,144"/>
+<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a88575a80e50322643d7b456239bde90d" title="Next stop of the service will not close DD and sets a flag for it to reattach once it restarts ..." alt="" coords="481,168,692,209"/>
+<area shape="rect" id="node8" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="499,233,675,275"/>
 </map>
