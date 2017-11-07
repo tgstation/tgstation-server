@@ -32,7 +32,8 @@ if($publish_dox){
 	echo "" > .nojekyll
 	git add --all
 	git commit -m "Deploy code docs to GitHub Pages for Appveyor build $Env:APPVEYOR_BUILD_NUMBER" -m "Commit: $Env:APPVEYOR_REPO_COMMIT"
-    git push -f "https://$Env:repo_token@$github_url" 2>&1 | out-null
+	git push -f "https://$Env:repo_token@$github_url" 2>&1 | out-null
+	cd "$bf"
 }
 
 $destination = "$bf\TGS3-Server-v$version.exe"
