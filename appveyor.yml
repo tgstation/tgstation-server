@@ -34,8 +34,8 @@ after_build:
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/Release/TGServerService.exe").FileVersion
 test_script:
-  - OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:"".\TGServiceTests\bin\Release\TGServiceTests.dll" -filter:"+[TG*]* -[TGServiceTests*]*" -output:".\TGSCoverage.xml"
-  - codecov -f "TGSCoverage.xml"
+  - vstest.console /logger:Appveyor "TGServiceTests\bin\Release\TGServiceTests.dll" /Enablecodecoverage /Settings:"Tools/CoverageExclusions.runsettings" /inIsolation /Platform:x64
+  - powershell -Command "Tools/GenCodeCovXML.ps1"
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
