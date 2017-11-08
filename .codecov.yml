@@ -9,7 +9,7 @@ coverage:
         if_ci_failed: failure
     patch:
       default:
-        target: 100%
+        target: 100
         only_pulls: true
     changes:
       default:
