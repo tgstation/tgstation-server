@@ -600,6 +600,7 @@ namespace TGServerService
 							{
 								path = ic.Directory;
 								ic.Enabled = true;
+								ic.Save();
 								return SetupOneInstance(ic);
 							}
 						}
