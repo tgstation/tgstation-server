@@ -10,7 +10,7 @@ namespace TGControlPanel
 	/// <summary>
 	/// Form used for managing <see cref="ITGSService"/> <see cref="ITGInstance"/> manipulation functions
 	/// </summary>
-	partial class InstanceSelector : CountedForm
+	sealed partial class InstanceSelector : CountedForm
 	{
 		/// <summary>
 		/// The <see cref="IInterface"/> we build instance connections from
@@ -234,7 +234,7 @@ namespace TGControlPanel
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
-		private void ConnectButton_Click(object sender, EventArgs e)
+		void ConnectButton_Click(object sender, EventArgs e)
 		{
 			TryConnectToIndexInstance(InstanceListBox.SelectedIndex);
 		}

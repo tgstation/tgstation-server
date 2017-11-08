@@ -10,7 +10,7 @@ namespace TGControlPanel
 	/// <summary>
 	/// The main <see cref="ControlPanel"/> form
 	/// </summary>
-	partial class ControlPanel : CountedForm
+	sealed partial class ControlPanel : CountedForm
 	{
 		/// <summary>
 		/// List of instances being used by open control panels

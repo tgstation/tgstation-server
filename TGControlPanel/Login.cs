@@ -4,7 +4,7 @@ using TGServiceInterface;
 
 namespace TGControlPanel
 {
-	partial class Login : CountedForm
+	sealed partial class Login : CountedForm
 	{
 		/// <summary>
 		/// Create a <see cref="Login"/> form
