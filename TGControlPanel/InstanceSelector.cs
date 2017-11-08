@@ -249,14 +249,20 @@ namespace TGControlPanel
 			if (UpdatingEnabledCheckbox)
 				return;
 			var enabling = EnabledCheckBox.Checked;
-			if (MessageBox.Show(String.Format("Are you sure you want to {0} this instance?", enabling ? "online" : "offline"), "Instance Status Change", MessageBoxButtons.YesNo) != DialogResult.Yes)
-				return;
-			string res = null;
-			var index = InstanceListBox.SelectedIndex;
-			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(InstanceData[index].Name, enabling));
-			if (res != null)
-				MessageBox.Show(res);
-			RefreshInstances();
+			try
+			{
+				if (MessageBox.Show(String.Format("Are you sure you want to {0} this instance?", enabling ? "online" : "offline"), "Instance Status Change", MessageBoxButtons.YesNo) != DialogResult.Yes)
+					return;
+				string res = null;
+				var index = InstanceListBox.SelectedIndex;
+				await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(InstanceData[index].Name, enabling));
+				if (res != null)
+					MessageBox.Show(res);
+			}
+			finally
+			{
+				RefreshInstances();
+			}
 		}
 
 		/// <summary>
