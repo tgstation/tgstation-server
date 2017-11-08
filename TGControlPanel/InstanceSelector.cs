@@ -25,6 +25,10 @@ namespace TGControlPanel
 		/// </summary>
 		bool UpdatingEnabledCheckbox = false;
 
+		/// <summary>
+		/// Construct an <see cref="InstanceSelector"/>
+		/// </summary>
+		/// <param name="I">An <see cref="IInterface"/> connected a the <see cref="ITGSService"/></param>
 		public InstanceSelector(IInterface I)
 		{
 			InitializeComponent();
@@ -248,9 +252,11 @@ namespace TGControlPanel
 			if (MessageBox.Show(String.Format("Are you sure you want to {0} this instance?", enabling ? "online" : "offline"), "Instance Status Change", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
 			string res = null;
-			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(InstanceData[InstanceListBox.SelectedIndex].Name, enabling));
+			var index = InstanceListBox.SelectedIndex;
+			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(InstanceData[index].Name, enabling));
 			if (res != null)
 				MessageBox.Show(res);
+			RefreshInstances();
 		}
 
 		/// <summary>
