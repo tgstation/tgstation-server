@@ -6,6 +6,7 @@ namespace TGServiceInterface.Components
 	/// <summary>
 	/// Used for general authentication and listing <see cref="ITGInstance"/>s
 	/// </summary>
+	[ServiceContract]
 	public interface ITGLanding
 	{
 		/// <summary>
