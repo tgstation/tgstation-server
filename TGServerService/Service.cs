@@ -590,25 +590,14 @@ namespace TGServerService
 				{
 					if (hostIsOnline)
 						return null;
-					//now this is a bit awkward because we need to check each instance config for the one named Name
-					string LastCheckedConfig = null;
-					try
-					{
-						foreach (var ic in GetInstanceConfigs())
+					foreach (var ic in GetInstanceConfigs())
+						if (ic.Name == Name)
 						{
-							if (ic.Name == Name)
-							{
-								path = ic.Directory;
-								ic.Enabled = true;
-								ic.Save();
-								return SetupOneInstance(ic);
-							}
+							path = ic.Directory;
+							ic.Enabled = true;
+							ic.Save();
+							return SetupOneInstance(ic);
 						}
-					}
-					catch (Exception e)
-					{
-						return String.Format("An error occurred while checking instance config at {0}! Error: ", LastCheckedConfig, e.ToString());
-					}
 					return String.Format("Instance {0} does not exist!", Name);
 				}
 				else
