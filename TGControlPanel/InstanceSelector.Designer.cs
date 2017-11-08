@@ -36,6 +36,8 @@
 			this.RenameInstanceButton = new System.Windows.Forms.Button();
 			this.DetachInstanceButton = new System.Windows.Forms.Button();
 			this.RefreshButton = new System.Windows.Forms.Button();
+			this.ConnectButton = new System.Windows.Forms.Button();
+			this.EnabledCheckBox = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// InstanceListBox
@@ -46,6 +48,7 @@
 			this.InstanceListBox.Name = "InstanceListBox";
 			this.InstanceListBox.Size = new System.Drawing.Size(339, 238);
 			this.InstanceListBox.TabIndex = 0;
+			this.InstanceListBox.SelectedIndexChanged += new System.EventHandler(this.InstanceListBox_SelectedIndexChanged);
 			// 
 			// CreateInstanceButton
 			// 
@@ -94,7 +97,7 @@
 			// RefreshButton
 			// 
 			this.RefreshButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.RefreshButton.Location = new System.Drawing.Point(358, 226);
+			this.RefreshButton.Location = new System.Drawing.Point(358, 195);
 			this.RefreshButton.Name = "RefreshButton";
 			this.RefreshButton.Size = new System.Drawing.Size(148, 25);
 			this.RefreshButton.TabIndex = 19;
@@ -102,12 +105,37 @@
 			this.RefreshButton.UseVisualStyleBackColor = true;
 			this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
 			// 
+			// ConnectButton
+			// 
+			this.ConnectButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.ConnectButton.Location = new System.Drawing.Point(358, 226);
+			this.ConnectButton.Name = "ConnectButton";
+			this.ConnectButton.Size = new System.Drawing.Size(148, 25);
+			this.ConnectButton.TabIndex = 20;
+			this.ConnectButton.Text = "Connect";
+			this.ConnectButton.UseVisualStyleBackColor = true;
+			this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+			// 
+			// EnabledCheckBox
+			// 
+			this.EnabledCheckBox.AutoSize = true;
+			this.EnabledCheckBox.ForeColor = System.Drawing.Color.White;
+			this.EnabledCheckBox.Location = new System.Drawing.Point(396, 149);
+			this.EnabledCheckBox.Name = "EnabledCheckBox";
+			this.EnabledCheckBox.Size = new System.Drawing.Size(65, 17);
+			this.EnabledCheckBox.TabIndex = 21;
+			this.EnabledCheckBox.Text = "Enabled";
+			this.EnabledCheckBox.UseVisualStyleBackColor = true;
+			this.EnabledCheckBox.CheckedChanged += new System.EventHandler(this.EnabledCheckBox_CheckedChanged);
+			// 
 			// InstanceSelector
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(518, 261);
+			this.Controls.Add(this.EnabledCheckBox);
+			this.Controls.Add(this.ConnectButton);
 			this.Controls.Add(this.RefreshButton);
 			this.Controls.Add(this.DetachInstanceButton);
 			this.Controls.Add(this.RenameInstanceButton);
@@ -119,6 +147,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Server Instances";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -130,5 +159,7 @@
 		private System.Windows.Forms.Button RenameInstanceButton;
 		private System.Windows.Forms.Button DetachInstanceButton;
 		private System.Windows.Forms.Button RefreshButton;
+		private System.Windows.Forms.Button ConnectButton;
+		private System.Windows.Forms.CheckBox EnabledCheckBox;
 	}
 }

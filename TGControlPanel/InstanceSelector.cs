@@ -8,7 +8,7 @@ using TGServiceInterface.Components;
 namespace TGControlPanel
 {
 	/// <summary>
-	/// Form used for managing <see cref="TGServiceInterface.Components.ITGSService"/> <see cref="TGServiceInterface.Components.ITGInstance"/> manipulation functions
+	/// Form used for managing <see cref="ITGSService"/> <see cref="ITGInstance"/> manipulation functions
 	/// </summary>
 	partial class InstanceSelector : CountedForm
 	{
@@ -20,6 +20,11 @@ namespace TGControlPanel
 		/// List of <see cref="InstanceMetadata"/> from <see cref="masterInterface"/>
 		/// </summary>
 		IList<InstanceMetadata> InstanceData;
+		/// <summary>
+		/// Used for modifying <see cref="EnabledCheckBox"/> without invoking its side effects
+		/// </summary>
+		bool UpdatingEnabledCheckbox = false;
+
 		public InstanceSelector(IInterface I)
 		{
 			InitializeComponent();
@@ -48,15 +53,13 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Connects to a <see cref="TGServiceInterface.Components.ITGInstance"/> if it is double clicked in <see cref="InstanceListBox"/>
+		/// Connects to a <see cref="ITGInstance"/> if it is double clicked in <see cref="InstanceListBox"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="MouseEventArgs"/></param>
 		void InstanceListBox_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			var index = InstanceListBox.IndexFromPoint(e.Location);
-			if (index != ListBox.NoMatches)
-				TryConnectToInstance(InstanceData[index].Name);
+			TryConnectToIndexInstance(InstanceListBox.IndexFromPoint(e.Location));
 		}
 
 		/// <summary>
@@ -88,15 +91,26 @@ namespace TGControlPanel
 			});
 			foreach(var I in InstanceData)
 				InstanceListBox.Items.Add(String.Format("{0}: {1} - {2} - {3}", I.LoggingID, I.Name, I.Path, I.Enabled ? "ONLINE" : "OFFLINE"));
+			var HasServerAdmin = masterInterface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
+			CreateInstanceButton.Enabled = HasServerAdmin;
+			ImportInstanceButton.Enabled = HasServerAdmin;
+			RenameInstanceButton.Enabled = HasServerAdmin;
+			DetachInstanceButton.Enabled = HasServerAdmin;
+			EnabledCheckBox.Enabled = HasServerAdmin;
+			if(InstanceData.Count > 0)
+				InstanceListBox.SelectedIndex = 0;
 		}
 
 		/// <summary>
-		/// Tries to start a <see cref="ControlPanel"/> for a given <paramref name="instanceName"/>
+		/// Tries to start a <see cref="ControlPanel"/> for a given <see cref="InstanceListBox"/> <paramref name="index"/>
 		/// </summary>
-		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to connect to</param>
-		async void TryConnectToInstance(string instanceName)
+		/// <param name="index">The <see cref="ListBox.SelectedIndex"/> of <see cref="InstanceListBox"/> to connect to</param>
+		async void TryConnectToIndexInstance(int index)
 		{
-			if(ControlPanel.InstancesInUse.TryGetValue(instanceName, out ControlPanel activeCP))
+			if (index == ListBox.NoMatches)
+				return;
+			var instanceName = InstanceData[index].Name;
+			if (ControlPanel.InstancesInUse.TryGetValue(instanceName, out ControlPanel activeCP))
 			{
 				activeCP.BringToFront();
 				return;
@@ -136,7 +150,7 @@ namespace TGControlPanel
 			if (MessageBox.Show(String.Format("This will dissociate the server instance at \"{0}\"! Are you sure?", imd.Path), "Instance Detach", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().DetachInstance(imd.Name); });
+			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().DetachInstance(imd.Name));
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
@@ -168,7 +182,7 @@ namespace TGControlPanel
 			if (imd.Enabled && MessageBox.Show(String.Format("This will temporarily offline the server instance! Are you sure?", imd.Path), "Instance Restart", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().RenameInstance(imd.Name, new_name); });
+			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().RenameInstance(imd.Name, new_name));
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
@@ -185,7 +199,7 @@ namespace TGControlPanel
 			if (instance_path == null)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().ImportInstance(instance_path); });
+			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().ImportInstance(instance_path));
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
@@ -205,10 +219,54 @@ namespace TGControlPanel
 			if (instance_path == null)
 				return;
 			string res = null;
-			await WrapServerOp(() => { res = masterInterface.GetServiceComponent<ITGInstanceManager>().CreateInstance(instance_name, instance_path); });
+			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().CreateInstance(instance_name, instance_path));
 			if (res != null)
 				MessageBox.Show(res);
 			RefreshInstances();
+		}
+
+		/// <summary>
+		/// Attempts to connect the user to an <see cref="ITGInstance"/> based on the <see cref="ListBox.SelectedIndex"/> of <see cref="InstanceListBox"/>
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		private void ConnectButton_Click(object sender, EventArgs e)
+		{
+			TryConnectToIndexInstance(InstanceListBox.SelectedIndex);
+		}
+
+		/// <summary>
+		/// Prompts the user if they want to call <see cref="ITGInstanceManager.SetInstanceEnabled(string, bool)"/> to either online or offline an <see cref="ITGInstance"/> based on its current state
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		async void EnabledCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (UpdatingEnabledCheckbox)
+				return;
+			var enabling = EnabledCheckBox.Checked;
+			if (MessageBox.Show(String.Format("Are you sure you want to {0} this instance?", enabling ? "online" : "offline"), "Instance Status Change", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				return;
+			string res = null;
+			await WrapServerOp(() => res = masterInterface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(InstanceData[InstanceListBox.SelectedIndex].Name, enabling));
+			if (res != null)
+				MessageBox.Show(res);
+		}
+
+		/// <summary>
+		/// Update <see cref="EnabledCheckBox"/> based on the selected <see cref="ITGInstance"/>'s <see cref="InstanceMetadata.Enabled"/> property
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		void InstanceListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var index = InstanceListBox.SelectedIndex;
+			if (index != ListBox.NoMatches)
+			{
+				UpdatingEnabledCheckbox = true;
+				EnabledCheckBox.Checked = InstanceData[index].Enabled;
+				UpdatingEnabledCheckbox = false;
+			}
 		}
 	}
 }
