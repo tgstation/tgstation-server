@@ -7,7 +7,10 @@ coverage:
         threshold: 0
         if_no_uploads: failure
         if_ci_failed: failure
-    patch: off
+    patch:
+      default:
+        target: 100%
+        only_pulls: true
     changes:
       default:
         if_no_uploads: failure
