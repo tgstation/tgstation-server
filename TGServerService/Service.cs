@@ -277,7 +277,7 @@ namespace TGServerService
 					WriteEntry(String.Format("Instance at {0} has a duplicate name! Detaching...", I.Directory), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 					pathsToRemove.Add(I.Directory);
 				}
-				if (SetupInstance(I) == null)
+				if (I.Enabled && SetupInstance(I) == null)
 					pathsToRemove.Add(I.Directory);
 				else
 					seenNames.Add(I.Name);
@@ -331,7 +331,6 @@ namespace TGServerService
 				{
 					var datInstance = ((ServerInstance)hosts[config.Directory].SingletonInstance);
 					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
-					Properties.Settings.Default.InstancePaths.Remove(config.Directory);
 					return null;
 				}
 				if (!config.Enabled)
@@ -511,6 +510,8 @@ namespace TGServerService
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string SetupOneInstance(IInstanceConfig config)
 		{
+			if (!config.Enabled)
+				return null;
 			try
 			{
 				var host = SetupInstance(config);
