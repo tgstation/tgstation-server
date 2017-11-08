@@ -73,28 +73,8 @@ namespace TGControlPanel
 					MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
 					return;
 				}
-
-				if (!res.HasFlag(ConnectivityLevel.Administrator))
-				{
-					while (true)
-					{
-						var InstanceToConnectTo = Program.TextPrompt("Select instance", "You do not have permission to list server instances. Please enter the name of the instance to connect to:");
-						if (InstanceToConnectTo == null)
-							return;
-
-						res = I.ConnectToInstance(InstanceToConnectTo);
-						if (!res.HasFlag(ConnectivityLevel.Connected))
-							MessageBox.Show("Unable to connect to instance! Does it exist?");
-						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
-							MessageBox.Show("The current user is not authorized to access this instance!");
-						else
-							break;
-					}
-
-					new ControlPanel(I).Show();
-				}
-				else
-					new InstanceSelector(I).Show();
+				
+				new InstanceSelector(I).Show();
 				Close();
 			}
 			catch
