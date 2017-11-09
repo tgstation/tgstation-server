@@ -53,4 +53,4 @@ $base64string = Decrypt-String $encrypted $Env:snk_passphrase "SNK-Encrypt" "IV-
 $rawstring = [System.Convert]::FromBase64String($base64string)
 [IO.File]::WriteAllBytes("$bf/TGStationServer3.snk", $rawstring)
 
-Add-Content "$bf/Version.cs" "[assembly: AssemblyKeyFile(`"TGStationServer3.snk`")]"
+Add-Content "$bf/AssemblyInfo.global.cs" "[assembly: AssemblyKeyFile(`"TGStationServer3.snk`")]"

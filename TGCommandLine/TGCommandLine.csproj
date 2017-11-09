@@ -41,10 +41,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AdminCommands.cs" />
@@ -59,12 +56,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepoCommands.cs" />
     <Compile Include="RootCommands.cs" />
-    <Compile Include="..\Version.cs" />
+    <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="ServiceCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TGServiceInterface\TGServiceInterface.csproj">

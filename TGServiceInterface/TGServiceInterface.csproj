@@ -37,10 +37,7 @@
     <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,7 +65,7 @@
     <Compile Include="PullRequestInfo.cs" />
     <Compile Include="RootCommand.cs" />
     <Compile Include="Interface.cs" />
-    <Compile Include="..\Version.cs" />
+    <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Components\Service.cs" />
     <Compile Include="Components\Interop.cs" />
   </ItemGroup>
@@ -77,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TGServiceInterface.nuspec" />
-    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

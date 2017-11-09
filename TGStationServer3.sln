@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServerService", "TGServerService\TGServerService.csproj", "{F32EDA25-0855-411C-AF5E-F0D042917E2D}"
 EndProject
@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
+		AssemblyInfo.global.cs = AssemblyInfo.global.cs
 		README.md = README.md
 		tgs.ico = tgs.ico
-		Version.cs = Version.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGInstallerWrapper", "TGInstallerWrapper\TGInstallerWrapper.csproj", "{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}"
@@ -116,10 +116,12 @@ Global
 		{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Debug|Any CPU.ActiveCfg = Release|x86
+		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Debug|Any CPU.Build.0 = Release|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|Any CPU.ActiveCfg = Release|x86
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB}.Release|Any CPU.Build.0 = Release|x86
 		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A01EF03-8EAE-45CB-8B87-4A17BD904557}.Debug|Any CPU.ActiveCfg = Debug|x86
