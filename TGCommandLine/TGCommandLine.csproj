@@ -40,6 +40,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AdminCommands.cs" />
     <Compile Include="BYONDCommands.cs" />
@@ -58,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TGServiceInterface\TGServiceInterface.csproj">

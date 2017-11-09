@@ -37,6 +37,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
@@ -70,9 +76,11 @@
     <Compile Include="Service\TestServerInstance.cs" />
     <Compile Include="Service\TestService.cs" />
     <Compile Include="TempDirectoryRequiredTest.cs" />
+    <Compile Include="..\Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

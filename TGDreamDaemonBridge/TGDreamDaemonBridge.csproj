@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="DreamDaemonBridge.cs" />
     <Compile Include="..\Version.cs" />
@@ -51,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

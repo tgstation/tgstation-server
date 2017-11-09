@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("f32eda25-0855-411c-af5e-f0d042917e2d")]
 
 //allow the unit tester to peek inside us
-[assembly: InternalsVisibleTo("TGServiceTests", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("TGServiceTests, PublicKeyToken=<1521fb3fe76ed910>", AllInternalsVisible = true)]

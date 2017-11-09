@@ -42,6 +42,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
@@ -80,6 +86,7 @@
     <None Include="App.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
+    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

@@ -41,6 +41,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\TGStationServer3.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Core, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Discord.Net.Core.1.0.2\lib\net45\Discord.Net.Core.dll</HintPath>
@@ -138,6 +144,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="..\TGStationServer3.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TGServiceInterface\TGServiceInterface.csproj">
