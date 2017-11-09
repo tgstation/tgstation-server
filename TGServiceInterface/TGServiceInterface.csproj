@@ -36,6 +36,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
@@ -62,7 +65,7 @@
     <Compile Include="PullRequestInfo.cs" />
     <Compile Include="RootCommand.cs" />
     <Compile Include="Interface.cs" />
-    <Compile Include="..\Version.cs" />
+    <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Components\Service.cs" />
     <Compile Include="Components\Interop.cs" />
   </ItemGroup>
