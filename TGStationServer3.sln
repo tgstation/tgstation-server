@@ -82,6 +82,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB
 		Tools\install_byond.sh = Tools\install_byond.sh
 		Tools\Test.dm = Tools\Test.dm
 		Tools\TGS3Build.ps1 = Tools\TGS3Build.ps1
+		Tools\TGStationServer3.pfx = Tools\TGStationServer3.pfx
 		Tools\UploadCoverage.ps1 = Tools\UploadCoverage.ps1
 	EndProjectSection
 EndProject
