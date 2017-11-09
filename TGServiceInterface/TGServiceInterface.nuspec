@@ -13,7 +13,4 @@
     <releaseNotes>https://github.com/tgstation/tgstation-server/releases/tag/tgstation-server-v$version$</releaseNotes>
     <tags>tgstation game-server byond service toolset wcf ss13 client-lib tgstation-server api wcf-service soap</tags>
   </metadata>
-  <files>
-    <file src="bin\x86\Release\TGServiceInterface.xml" target="lib\net452" />
-  </files>
 </package>
