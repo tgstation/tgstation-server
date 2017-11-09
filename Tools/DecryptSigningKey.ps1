@@ -51,10 +51,6 @@ $encrypted = [IO.File]::ReadAllText("$bf/Tools/TGStationServer3.enc.snk")
 $base64string = Decrypt-String $encrypted $Env:snk_passphrase "SNK-Encrypt" "IV-HashCompute"
 
 $rawstring = [System.Convert]::FromBase64String($base64string)
-[IO.File]::WriteAllBytes("$bf/TGServiceInterface/TGStationServer3.snk", $rawstring)
-[IO.File]::WriteAllBytes("$bf/TGServiceTests/TGStationServer3.snk", $rawstring)
-[IO.File]::WriteAllBytes("$bf/TGInstallerWrapper/TGStationServer3.snk", $rawstring)
-[IO.File]::WriteAllBytes("$bf/TGDreamDaemonBridge/TGStationServer3.snk", $rawstring)
-[IO.File]::WriteAllBytes("$bf/TGCommandLine/TGStationServer3.snk", $rawstring)
+[IO.File]::WriteAllBytes("$bf/TGStationServer3.snk", $rawstring)
 
 Add-Content "$bf/Version.cs" "[assembly: AssemblyKeyFile(`"TGStationServer3.snk`")]"
