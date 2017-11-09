@@ -44,6 +44,7 @@ function Decrypt-String($Encrypted, $Passphrase, $salt="SaltCrypto", $init="IV_P
 	# Clears the RijndaelManaged Cryptology IV and Key
 	$r.Clear()
 }
+$bf = $Env:APPVEYOR_BUILD_FOLDER
 
 $encrypted = [IO.File]::ReadAllText("$bf/Tools/TGStationServer3.enc.snk")
 
