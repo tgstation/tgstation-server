@@ -14,9 +14,9 @@ namespace TGControlPanel
 #endif
 	{
 		/// <summary>
-		/// Used to wrap <see cref="IInterface"/> calls in a non-blocking fashion while disabling the <see cref="Form"/> and enabling the wait cursor
+		/// Used to wrap <see cref="TGServiceInterface.IInterface"/> calls in a non-blocking fashion while disabling the <see cref="Form"/> and enabling the wait cursor
 		/// </summary>
-		/// <param name="action">The <see cref="IInterface"/> operation to wrap</param>
+		/// <param name="action">The <see cref="TGServiceInterface.IInterface"/> operation to wrap</param>
 		/// <returns>A <see cref="Task"/> wrapping <paramref name="action"/></returns>
 		protected Task WrapServerOp(Action action)
 		{
