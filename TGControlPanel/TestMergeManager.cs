@@ -36,6 +36,9 @@ namespace TGControlPanel
 		{
 			Enabled = false;
 			UseWaitCursor = true;
+			ApplyingPullRequestsLabel.Visible = true;
+			ApplyingPullRequestsProgressBar.Visible = true;
+			PullRequestListBox.Visible = false;
 			try
 			{
 				PullRequestListBox.Items.Clear();
@@ -102,6 +105,9 @@ namespace TGControlPanel
 			{
 				Enabled = true;
 				UseWaitCursor = false;
+				ApplyingPullRequestsLabel.Visible = false;
+				ApplyingPullRequestsProgressBar.Visible = false;
+				PullRequestListBox.Visible = true;
 			}
 		}
 

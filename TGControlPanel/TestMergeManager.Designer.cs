@@ -36,6 +36,8 @@
 			this.NoUpdateRadioButton = new System.Windows.Forms.RadioButton();
 			this.RefreshButton = new System.Windows.Forms.Button();
 			this.UpdateActionLabel = new System.Windows.Forms.Label();
+			this.ApplyingPullRequestsLabel = new System.Windows.Forms.Label();
+			this.ApplyingPullRequestsProgressBar = new System.Windows.Forms.ProgressBar();
 			this.SuspendLayout();
 			// 
 			// PullRequestListBox
@@ -119,12 +121,36 @@
 			this.UpdateActionLabel.TabIndex = 7;
 			this.UpdateActionLabel.Text = "Update Action:";
 			// 
+			// ApplyingPullRequestsLabel
+			// 
+			this.ApplyingPullRequestsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ApplyingPullRequestsLabel.AutoSize = true;
+			this.ApplyingPullRequestsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ApplyingPullRequestsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.ApplyingPullRequestsLabel.Location = new System.Drawing.Point(224, 92);
+			this.ApplyingPullRequestsLabel.Name = "ApplyingPullRequestsLabel";
+			this.ApplyingPullRequestsLabel.Size = new System.Drawing.Size(156, 16);
+			this.ApplyingPullRequestsLabel.TabIndex = 8;
+			this.ApplyingPullRequestsLabel.Text = "Applying Pull Requests...";
+			this.ApplyingPullRequestsLabel.Visible = false;
+			// 
+			// ApplyingPullRequestsProgressBar
+			// 
+			this.ApplyingPullRequestsProgressBar.Location = new System.Drawing.Point(48, 112);
+			this.ApplyingPullRequestsProgressBar.Name = "ApplyingPullRequestsProgressBar";
+			this.ApplyingPullRequestsProgressBar.Size = new System.Drawing.Size(513, 23);
+			this.ApplyingPullRequestsProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			this.ApplyingPullRequestsProgressBar.TabIndex = 9;
+			this.ApplyingPullRequestsProgressBar.Visible = false;
+			// 
 			// TestMergeManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(613, 261);
+			this.Controls.Add(this.ApplyingPullRequestsProgressBar);
+			this.Controls.Add(this.ApplyingPullRequestsLabel);
 			this.Controls.Add(this.RefreshButton);
 			this.Controls.Add(this.NoUpdateRadioButton);
 			this.Controls.Add(this.UpdateToOriginRadioButton);
@@ -151,5 +177,7 @@
 		private System.Windows.Forms.RadioButton NoUpdateRadioButton;
 		private System.Windows.Forms.Button RefreshButton;
 		private System.Windows.Forms.Label UpdateActionLabel;
+		private System.Windows.Forms.Label ApplyingPullRequestsLabel;
+		private System.Windows.Forms.ProgressBar ApplyingPullRequestsProgressBar;
 	}
 }
