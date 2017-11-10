@@ -76,13 +76,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB
 		Tools\build_byond.sh = Tools\build_byond.sh
 		Tools\Config.dm = Tools\Config.dm
 		Tools\CoverageExclusions.runsettings = Tools\CoverageExclusions.runsettings
-		Tools\DecryptSigningKey.ps1 = Tools\DecryptSigningKey.ps1
 		Tools\DMAPITravisTester.dme = Tools\DMAPITravisTester.dme
 		Tools\Doxyfile = Tools\Doxyfile
 		Tools\install_byond.sh = Tools\install_byond.sh
+		Tools\SignBasics.ps1 = Tools\SignBasics.ps1
+		Tools\SignMSI.ps1 = Tools\SignMSI.ps1
 		Tools\Test.dm = Tools\Test.dm
 		Tools\TGS3Build.ps1 = Tools\TGS3Build.ps1
-		Tools\TGStationServer3.pfx = Tools\TGStationServer3.pfx
+		Tools\tgstation13.org.pfx = Tools\tgstation13.org.pfx
 		Tools\UploadCoverage.ps1 = Tools\UploadCoverage.ps1
 	EndProjectSection
 EndProject

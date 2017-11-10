@@ -26,7 +26,6 @@ install:
   - choco install fciv doxygen.portable graphviz.portable opencover.portable codecov
 before_build:
   - nuget restore TGStationServer3.sln
-  - powershell -Command "Tools/DecryptSigningKey.ps1"
 build:
   project: TGStationServer3.sln
   parallel: true

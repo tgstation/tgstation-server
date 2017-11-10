@@ -1,4 +1,20 @@
 $bf = $Env:APPVEYOR_BUILD_FOLDER
+
+
+function CodeSign
+{
+	param($file)
+	&'C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe' sign /f "$bf/Tools/tgstation13.org.pfx" /p "$env:snk_passphrase" /t http://timestamp.verisign.com/scripts/timstamp.dll "$file"
+}
+
+#Sign the output files
+if (Test-Path env:snk_passphrase)
+{
+	CodeSign "$bf/TGServiceTests/bin/Release/TGServiceTests.dll"
+	CodeSign "$bf/TGInstallerWrapper/bin/Release/TG Station Server Installer.exe"
+	$env:snk_passphrase = ""
+}
+
 $src = "$bf\TGInstallerWrapper\bin\Release"
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$src\TG Station Server Installer.exe").FileVersion
 
@@ -33,6 +49,7 @@ if($publish_dox){
 	git add --all
 	git commit -m "Deploy code docs to GitHub Pages for Appveyor build $Env:APPVEYOR_BUILD_NUMBER" -m "Commit: $Env:APPVEYOR_REPO_COMMIT"
 	git push -f "https://$Env:repo_token@$github_url" 2>&1 | out-null
+	$Env:repo_token = ""
 	cd "$bf"
 }
 
