@@ -3,6 +3,8 @@ pull_requests:
 environment:
   repo_token:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
+  snk_passphrase:
+    secure: dsRGlNewYn/JoycPaMoxLCrb3wkL31RsdU7Xwbo7TIAmClwShCVWeRPN+eGA+fMZX12MDNRBs8Fws4IxqLKQ36thQo6p2B+kPksAUJiAOR5QKJoT6nt8JB1wBMFS2kH4
 skip_branch_with_pr: true
 image: Visual Studio 2017
 configuration: Release

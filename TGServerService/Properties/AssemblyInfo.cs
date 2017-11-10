@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -15,6 +14,3 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("f32eda25-0855-411c-af5e-f0d042917e2d")]
-
-//allow the unit tester to peek inside us
-[assembly: InternalsVisibleTo("TGServiceTests", AllInternalsVisible = true)]
