@@ -51,7 +51,6 @@ namespace TGControlPanel
 			UpdateHardButton.Enabled = true;
 			UpdateMergeButton.Enabled = true;
 			TestmergeButton.Enabled = true;
-			UpdateTestmergeButton.Enabled = true;
 			LoadServerPage();
 		}
 
@@ -77,7 +76,6 @@ namespace TGControlPanel
 			CompileCancelButton.Visible = RepoExists;
 			CompilerLabel.Visible = RepoExists;
 			ProjectPathLabel.Visible = RepoExists;
-			ServerPRLabel.Visible = RepoExists;
 			ServerGStopButton.Visible = RepoExists;
 			ServerStartButton.Visible = RepoExists;
 			ServerGRestartButton.Visible = RepoExists;
@@ -85,10 +83,8 @@ namespace TGControlPanel
 			PortLabel.Visible = RepoExists;
 			ServerStopButton.Visible = RepoExists;
 			TestmergeButton.Visible = RepoExists;
-			ServerTestmergeInput.Visible = RepoExists;
 			UpdateHardButton.Visible = RepoExists;
 			UpdateMergeButton.Visible = RepoExists;
-			UpdateTestmergeButton.Visible = RepoExists;
 			ResetTestmerge.Visible = RepoExists;
 			WorldAnnounceField.Visible = RepoExists;
 			WorldAnnounceButton.Visible = RepoExists;
@@ -226,7 +222,6 @@ namespace TGControlPanel
 			UpdateHardButton.Enabled = false;
 			UpdateMergeButton.Enabled = false;
 			TestmergeButton.Enabled = false;
-			UpdateTestmergeButton.Enabled = false;
 			switch (fuAction)
 			{
 				case FullUpdateAction.Testmerge:
@@ -402,18 +397,20 @@ namespace TGControlPanel
 			RunServerUpdate(FullUpdateAction.UpdateHard);
 		}
 
-		private void UpdateTestmergeButton_Click(object sender, System.EventArgs e)
-		{
-			RunServerUpdate(FullUpdateAction.UpdateHardTestmerge, (ushort)ServerTestmergeInput.Value);
-		}
-
 		private void UpdateMergeButton_Click(object sender, System.EventArgs e)
 		{
 			RunServerUpdate(FullUpdateAction.UpdateMerge);
 		}
-		private void TestmergeButton_Click(object sender, System.EventArgs e)
+
+		/// <summary>
+		/// Launches the <see cref="TestMergeManager"/>
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		void TestmergeButton_Click(object sender, System.EventArgs e)
 		{
-			RunServerUpdate(FullUpdateAction.Testmerge, (ushort)ServerTestmergeInput.Value);
+			new TestMergeManager(Interface).ShowDialog();
+			LoadServerPage();
 		}
 
 		private void SecuritySelector_SelectedIndexChanged(object sender, EventArgs e)

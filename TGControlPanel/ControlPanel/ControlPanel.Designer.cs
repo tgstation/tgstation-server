@@ -89,10 +89,7 @@
 			this.ProjectPathLabel = new System.Windows.Forms.Label();
 			this.PortLabel = new System.Windows.Forms.Label();
 			this.PortSelector = new System.Windows.Forms.NumericUpDown();
-			this.ServerPRLabel = new System.Windows.Forms.Label();
-			this.ServerTestmergeInput = new System.Windows.Forms.NumericUpDown();
 			this.TestmergeButton = new System.Windows.Forms.Button();
-			this.UpdateTestmergeButton = new System.Windows.Forms.Button();
 			this.UpdateMergeButton = new System.Windows.Forms.Button();
 			this.UpdateHardButton = new System.Windows.Forms.Button();
 			this.ServerGRestartButton = new System.Windows.Forms.Button();
@@ -121,6 +118,7 @@
 			this.MinorVersionNumeric = new System.Windows.Forms.NumericUpDown();
 			this.MajorVersionNumeric = new System.Windows.Forms.NumericUpDown();
 			this.RepoPanel = new System.Windows.Forms.TabPage();
+			this.SyncCommitsCheckBox = new System.Windows.Forms.CheckBox();
 			this.TGSJsonUpdate = new System.Windows.Forms.Button();
 			this.RepoRefreshButton = new System.Windows.Forms.Button();
 			this.BackupTagsList = new System.Windows.Forms.ListBox();
@@ -156,7 +154,6 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
-			this.SyncCommitsCheckBox = new System.Windows.Forms.CheckBox();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -164,7 +161,6 @@
 			this.ServerPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AutoUpdateInterval)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).BeginInit();
 			this.BYONDPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MinorVersionNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.MajorVersionNumeric)).BeginInit();
@@ -652,10 +648,7 @@
 			this.ServerPanel.Controls.Add(this.ProjectPathLabel);
 			this.ServerPanel.Controls.Add(this.PortLabel);
 			this.ServerPanel.Controls.Add(this.PortSelector);
-			this.ServerPanel.Controls.Add(this.ServerPRLabel);
-			this.ServerPanel.Controls.Add(this.ServerTestmergeInput);
 			this.ServerPanel.Controls.Add(this.TestmergeButton);
-			this.ServerPanel.Controls.Add(this.UpdateTestmergeButton);
 			this.ServerPanel.Controls.Add(this.UpdateMergeButton);
 			this.ServerPanel.Controls.Add(this.UpdateHardButton);
 			this.ServerPanel.Controls.Add(this.ServerGRestartButton);
@@ -919,73 +912,36 @@
             0});
 			this.PortSelector.ValueChanged += new System.EventHandler(this.PortSelector_ValueChanged);
 			// 
-			// ServerPRLabel
-			// 
-			this.ServerPRLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ServerPRLabel.AutoSize = true;
-			this.ServerPRLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.ServerPRLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.ServerPRLabel.Location = new System.Drawing.Point(745, 101);
-			this.ServerPRLabel.Name = "ServerPRLabel";
-			this.ServerPRLabel.Size = new System.Drawing.Size(49, 18);
-			this.ServerPRLabel.TabIndex = 26;
-			this.ServerPRLabel.Text = "PR#:";
-			this.ServerPRLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// ServerTestmergeInput
-			// 
-			this.ServerTestmergeInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ServerTestmergeInput.Location = new System.Drawing.Point(806, 99);
-			this.ServerTestmergeInput.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-			this.ServerTestmergeInput.Name = "ServerTestmergeInput";
-			this.ServerTestmergeInput.Size = new System.Drawing.Size(62, 20);
-			this.ServerTestmergeInput.TabIndex = 25;
-			// 
 			// TestmergeButton
 			// 
 			this.TestmergeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.TestmergeButton.Location = new System.Drawing.Point(454, 95);
+			this.TestmergeButton.Location = new System.Drawing.Point(456, 95);
 			this.TestmergeButton.Name = "TestmergeButton";
 			this.TestmergeButton.Size = new System.Drawing.Size(142, 28);
 			this.TestmergeButton.TabIndex = 24;
-			this.TestmergeButton.Text = "Testmerge";
+			this.TestmergeButton.Text = "Test Merge Manager";
 			this.TestmergeButton.UseVisualStyleBackColor = true;
 			this.TestmergeButton.Click += new System.EventHandler(this.TestmergeButton_Click);
-			// 
-			// UpdateTestmergeButton
-			// 
-			this.UpdateTestmergeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.UpdateTestmergeButton.Location = new System.Drawing.Point(306, 95);
-			this.UpdateTestmergeButton.Name = "UpdateTestmergeButton";
-			this.UpdateTestmergeButton.Size = new System.Drawing.Size(142, 28);
-			this.UpdateTestmergeButton.TabIndex = 23;
-			this.UpdateTestmergeButton.Text = "Update and Testmerge";
-			this.UpdateTestmergeButton.UseVisualStyleBackColor = true;
-			this.UpdateTestmergeButton.Click += new System.EventHandler(this.UpdateTestmergeButton_Click);
 			// 
 			// UpdateMergeButton
 			// 
 			this.UpdateMergeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.UpdateMergeButton.Location = new System.Drawing.Point(158, 95);
+			this.UpdateMergeButton.Location = new System.Drawing.Point(293, 95);
 			this.UpdateMergeButton.Name = "UpdateMergeButton";
-			this.UpdateMergeButton.Size = new System.Drawing.Size(142, 28);
+			this.UpdateMergeButton.Size = new System.Drawing.Size(157, 28);
 			this.UpdateMergeButton.TabIndex = 22;
-			this.UpdateMergeButton.Text = "Update (KeepTestmerge)";
+			this.UpdateMergeButton.Text = "Update (Keep Test Merges)";
 			this.UpdateMergeButton.UseVisualStyleBackColor = true;
 			this.UpdateMergeButton.Click += new System.EventHandler(this.UpdateMergeButton_Click);
 			// 
 			// UpdateHardButton
 			// 
 			this.UpdateHardButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.UpdateHardButton.Location = new System.Drawing.Point(7, 95);
+			this.UpdateHardButton.Location = new System.Drawing.Point(130, 95);
 			this.UpdateHardButton.Name = "UpdateHardButton";
-			this.UpdateHardButton.Size = new System.Drawing.Size(145, 28);
+			this.UpdateHardButton.Size = new System.Drawing.Size(157, 28);
 			this.UpdateHardButton.TabIndex = 21;
-			this.UpdateHardButton.Text = "Update (Reset Testmerge)";
+			this.UpdateHardButton.Text = "Update (Reset Test Merges)";
 			this.UpdateHardButton.UseVisualStyleBackColor = true;
 			this.UpdateHardButton.Click += new System.EventHandler(this.UpdateHardButton_Click);
 			// 
@@ -1339,6 +1295,20 @@
 			this.RepoPanel.Size = new System.Drawing.Size(868, 366);
 			this.RepoPanel.TabIndex = 0;
 			this.RepoPanel.Text = "Repository";
+			// 
+			// SyncCommitsCheckBox
+			// 
+			this.SyncCommitsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.SyncCommitsCheckBox.AutoSize = true;
+			this.SyncCommitsCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
+			this.SyncCommitsCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.SyncCommitsCheckBox.Location = new System.Drawing.Point(574, 16);
+			this.SyncCommitsCheckBox.Name = "SyncCommitsCheckBox";
+			this.SyncCommitsCheckBox.Size = new System.Drawing.Size(142, 22);
+			this.SyncCommitsCheckBox.TabIndex = 46;
+			this.SyncCommitsCheckBox.Text = "Sync Commits";
+			this.SyncCommitsCheckBox.UseVisualStyleBackColor = true;
+			this.SyncCommitsCheckBox.Visible = false;
 			// 
 			// TGSJsonUpdate
 			// 
@@ -1767,21 +1737,7 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
-			// SyncCommitsCheckBox
-			// 
-			this.SyncCommitsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.SyncCommitsCheckBox.AutoSize = true;
-			this.SyncCommitsCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
-			this.SyncCommitsCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.SyncCommitsCheckBox.Location = new System.Drawing.Point(574, 16);
-			this.SyncCommitsCheckBox.Name = "SyncCommitsCheckBox";
-			this.SyncCommitsCheckBox.Size = new System.Drawing.Size(142, 22);
-			this.SyncCommitsCheckBox.TabIndex = 46;
-			this.SyncCommitsCheckBox.Text = "Sync Commits";
-			this.SyncCommitsCheckBox.UseVisualStyleBackColor = true;
-			this.SyncCommitsCheckBox.Visible = false;
-			// 
-			// Main
+			// ControlPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1789,7 +1745,7 @@
 			this.ClientSize = new System.Drawing.Size(900, 415);
 			this.Controls.Add(this.Panels);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "Main";
+			this.Name = "ControlPanel";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "/tg/station 13 Server Control Panel";
 			this.ChatPanel.ResumeLayout(false);
@@ -1803,7 +1759,6 @@
 			this.ServerPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AutoUpdateInterval)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.PortSelector)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ServerTestmergeInput)).EndInit();
 			this.BYONDPanel.ResumeLayout(false);
 			this.BYONDPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MinorVersionNumeric)).EndInit();
@@ -1873,10 +1828,7 @@
 		private System.Windows.Forms.Label ProjectPathLabel;
 		private System.Windows.Forms.Label PortLabel;
 		private System.Windows.Forms.NumericUpDown PortSelector;
-		private System.Windows.Forms.Label ServerPRLabel;
-		private System.Windows.Forms.NumericUpDown ServerTestmergeInput;
 		private System.Windows.Forms.Button TestmergeButton;
-		private System.Windows.Forms.Button UpdateTestmergeButton;
 		private System.Windows.Forms.Button UpdateMergeButton;
 		private System.Windows.Forms.Button UpdateHardButton;
 		private System.Windows.Forms.Button ServerGRestartButton;
