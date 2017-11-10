@@ -36,9 +36,6 @@ namespace TGControlPanel
 		{
 			Enabled = false;
 			UseWaitCursor = true;
-			ApplyingPullRequestsLabel.Visible = true;
-			ApplyingPullRequestsProgressBar.Visible = true;
-			PullRequestListBox.Visible = false;
 			try
 			{
 				PullRequestListBox.Items.Clear();
@@ -105,9 +102,6 @@ namespace TGControlPanel
 			{
 				Enabled = true;
 				UseWaitCursor = false;
-				ApplyingPullRequestsLabel.Visible = false;
-				ApplyingPullRequestsProgressBar.Visible = false;
-				PullRequestListBox.Visible = true;
 			}
 		}
 
@@ -130,6 +124,9 @@ namespace TGControlPanel
 		{
 			Enabled = false;
 			UseWaitCursor = true;
+			ApplyingPullRequestsLabel.Visible = true;
+			ApplyingPullRequestsProgressBar.Visible = true;
+			PullRequestListBox.Visible = false;
 			try
 			{
 				//so first collect a list of pulls that are checked
@@ -192,6 +189,9 @@ namespace TGControlPanel
 			{
 				Enabled = true;
 				UseWaitCursor = false;
+				ApplyingPullRequestsLabel.Visible = false;
+				ApplyingPullRequestsProgressBar.Visible = false;
+				PullRequestListBox.Visible = true;
 			}
 		}
 
