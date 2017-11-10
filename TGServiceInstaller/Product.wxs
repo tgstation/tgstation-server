@@ -101,6 +101,9 @@
       <Component Id="LibGit2Sharp" Guid="*">
         <File Source="$(var.TGServerService.TargetDir)/LibGit2Sharp.dll" />
       </Component>
+      <Component Id="Octokit" Guid="*">
+        <File Source="$(var.TGControlPanel.TargetDir)/Octokit.dll" />
+      </Component>
       <Component Id="MeebeySmartIrc4net" Guid="*">
         <File Source="$(var.TGServerService.TargetDir)/Meebey.SmartIrc4net.dll" />
       </Component>
