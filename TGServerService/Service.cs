@@ -15,7 +15,7 @@ namespace TGServerService
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	class Service : ServiceBase, ITGSService, ITGConnectivity
+	class Service : ServiceBase, ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Service"/> events
@@ -233,9 +233,9 @@ namespace TGServerService
 		void SetupService()
 		{
 			serviceHost = CreateHost(this, Interface.MasterInterfaceName);
-			AddEndpoint(serviceHost, typeof(ITGSService));
-			AddEndpoint(serviceHost, typeof(ITGConnectivity));
-			serviceHost.Authorization.ServiceAuthorizationManager = new AdministrativeAuthorizationManager();	//only admins can diddle us
+			foreach (var I in Interface.ValidServiceInterfaces)
+				AddEndpoint(serviceHost, I);
+			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager();	//only admins can diddle us
 		}
 
 		/// <summary>
@@ -277,7 +277,7 @@ namespace TGServerService
 					WriteEntry(String.Format("Instance at {0} has a duplicate name! Detaching...", I.Directory), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
 					pathsToRemove.Add(I.Directory);
 				}
-				if (SetupInstance(I) == null)
+				if (I.Enabled && SetupInstance(I) == null)
 					pathsToRemove.Add(I.Directory);
 				else
 					seenNames.Add(I.Name);
@@ -331,7 +331,6 @@ namespace TGServerService
 				{
 					var datInstance = ((ServerInstance)hosts[config.Directory].SingletonInstance);
 					WriteEntry(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, EventLogEntryType.Error, LoggingID);
-					Properties.Settings.Default.InstancePaths.Remove(config.Directory);
 					return null;
 				}
 				if (!config.Enabled)
@@ -350,7 +349,7 @@ namespace TGServerService
 			var host = CreateHost(instance, String.Format("{0}/{1}", Interface.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
 			
-			foreach (var J in Interface.ValidInterfaces)
+			foreach (var J in Interface.ValidInstanceInterfaces)
 				AddEndpoint(host, J);
 
 			host.Authorization.ServiceAuthorizationManager = instance;
@@ -471,6 +470,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
+			path = Program.NormalizePath(path);
 			var res = CheckInstanceName(Name);
 			if (res != null)
 				return res;
@@ -510,6 +510,8 @@ namespace TGServerService
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string SetupOneInstance(IInstanceConfig config)
 		{
+			if (!config.Enabled)
+				return null;
 			try
 			{
 				var host = SetupInstance(config);
@@ -529,6 +531,7 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string ImportInstance(string path)
 		{
+			path = Program.NormalizePath(path);
 			var Config = Properties.Settings.Default;
 			lock (this)
 			{
@@ -587,24 +590,14 @@ namespace TGServerService
 				{
 					if (hostIsOnline)
 						return null;
-					//now this is a bit awkward because we need to check each instance config for the one named Name
-					string LastCheckedConfig = null;
-					try
-					{
-						foreach (var ic in GetInstanceConfigs())
+					foreach (var ic in GetInstanceConfigs())
+						if (ic.Name == Name)
 						{
-							if (ic.Name == Name)
-							{
-								path = ic.Directory;
-								ic.Enabled = true;
-								return SetupOneInstance(ic);
-							}
+							path = ic.Directory;
+							ic.Enabled = true;
+							ic.Save();
+							return SetupOneInstance(ic);
 						}
-					}
-					catch (Exception e)
-					{
-						return String.Format("An error occurred while checking instance config at {0}! Error: ", LastCheckedConfig, e.ToString());
-					}
 					return String.Format("Instance {0} does not exist!", Name);
 				}
 				else

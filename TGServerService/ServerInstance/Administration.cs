@@ -73,6 +73,7 @@ namespace TGServerService
 		/// <returns>The name of the group allowed to access the <see cref="ServerInstance"/> if it could be found, <see langword="null"/> otherwise</returns>
 		string FindTheDroidsWereLookingFor(string search = null, bool useDomain = false)
 		{
+			RootAuthorizationManager.InstanceAuthManagers.Add(this);
 			//find the group that is authorized to use the tools
 			var pc = new PrincipalContext(useDomain ? ContextType.Domain : ContextType.Machine);
 			var groupName = search ?? Config.AuthorizedUserGroupSID;
@@ -94,6 +95,14 @@ namespace TGServerService
 				Config.Save();
 			}
 			return gp.Name;
+		}
+
+		/// <summary>
+		/// Cleans up the <see cref="ITGAdministration"/> component
+		/// </summary>
+		void DisposeAdministration()
+		{
+			RootAuthorizationManager.InstanceAuthManagers.Remove(this);
 		}
 		
 		/// <summary>

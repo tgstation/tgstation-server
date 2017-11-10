@@ -175,5 +175,17 @@ namespace TGServerService
 		{
 			return input.Replace("%", "%25").Replace("=", "%3d").Replace(";", "%3b").Replace("&", "%26").Replace("+", "%2b");
 		}
+
+		/// <summary>
+		/// Normalizes different versions of a path <see cref="string"/>
+		/// </summary>
+		/// <param name="path">The path to normalize</param>
+		/// <returns>The normalized path</returns>
+		public static string NormalizePath(string path)
+		{
+			return Path.GetFullPath(new Uri(path).LocalPath)
+					   .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+					   .ToUpperInvariant();
+		}
 	}
 }

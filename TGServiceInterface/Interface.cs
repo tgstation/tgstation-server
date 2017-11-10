@@ -52,17 +52,17 @@ namespace TGServiceInterface
 		bool VersionMismatch(out string errorMessage);
 
 		/// <summary>
-		/// Returns the requested <see cref="IInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
+		/// Returns the requested <see cref="IInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection.
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <returns>The correct component <see langword="interface"/></returns>
 		T GetComponent<T>();
 
 		/// <summary>
-		/// Returns the <see cref="ITGSService"/> component for the service
+		/// Returns a root service component
 		/// </summary>
 		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
-		ITGSService GetService();
+		T GetServiceComponent<T>();
 
 		/// <summary>
 		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
@@ -82,9 +82,14 @@ namespace TGServiceInterface
 	sealed public class Interface : IInterface
 	{
 		/// <summary>
-		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/> and <see cref="CreateChannel{T}"/>
+		/// List of <see langword="interface"/>s that can be used with <see cref="GetServiceComponent{T}"/>
 		/// </summary>
-		public static readonly IList<Type> ValidInterfaces = CollectComponents();
+		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGSService), typeof(ITGInstanceManager), typeof(ITGConnectivity), typeof(ITGLanding) };
+
+		/// <summary>
+		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/>
+		/// </summary>
+		public static readonly IList<Type> ValidInstanceInterfaces = CollectComponents();
 
 		/// <summary>
 		/// The maximum message size to and from a local server 
@@ -145,13 +150,13 @@ namespace TGServiceInterface
 		/// <returns>A <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service</returns>
 		static IList<Type> CollectComponents()
 		{
-			var ServiceComponent = typeof(ITGSService); //this is special
-														//find all interfaces in this assembly in this namespace that have the service contract attribute
+			var ConnectivityComponent = typeof(ITGConnectivity);
+																   //find all interfaces in this assembly in this namespace that have the service contract attribute
 			var query = from t in Assembly.GetExecutingAssembly().GetTypes()
 						where t.IsInterface
-						&& t.Namespace == ServiceComponent.Namespace
+						&& t.Namespace == ConnectivityComponent.Namespace
 						&& t.GetCustomAttribute(typeof(ServiceContractAttribute)) != null
-						&& t != ServiceComponent
+						&& (t == ConnectivityComponent || !ValidServiceInterfaces.Contains(t))
 						select t;
 			return query.ToList();
 		}
@@ -288,7 +293,7 @@ namespace TGServiceInterface
 		/// <inheritdoc />
 		public bool VersionMismatch(out string errorMessage)
 		{
-			var splits = GetService().Version().Split(' ');
+			var splits = GetServiceComponent<ITGLanding>().Version().Split(' ');
 			var theirs = new Version(splits[splits.Length - 1].Substring(1));
 			var ours = new Version(FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
 			if(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Revision != ours.Revision)	//don't care about the patch level
@@ -314,7 +319,7 @@ namespace TGServiceInterface
 		public T GetComponent<T>()
 		{
 			var ToT = typeof(T);
-			if (!ValidInterfaces.Contains(ToT) && ToT != typeof(ITGSService))
+			if (!ValidInstanceInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 			return GetComponentImpl<T>(true);
 		}
@@ -357,9 +362,12 @@ namespace TGServiceInterface
 		}
 
 		/// <inheritdoc />
-		public ITGSService GetService()
+		public T GetServiceComponent<T>()
 		{
-			return GetComponentImpl<ITGSService>(false);
+			var ToT = typeof(T);
+			if (!ValidServiceInterfaces.Contains(ToT))
+				throw new Exception("Invalid type!");
+			return GetComponentImpl<T>(false);
 		}
 
 		/// <summary>
@@ -420,10 +428,9 @@ namespace TGServiceInterface
 				error = e.ToString();
 				return ConnectivityLevel.None;
 			}
-			var service = GetService();
 			try
 			{
-				service.Version();
+				GetServiceComponent<ITGLanding>().Version();
 			}
 			catch(Exception e)
 			{
@@ -432,8 +439,7 @@ namespace TGServiceInterface
 			}
 			try
 			{
-				// TODO
-
+				GetServiceComponent<ITGSService>().Version();
 				error = null;
 				return ConnectivityLevel.Administrator;
 			}

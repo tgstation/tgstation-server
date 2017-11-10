@@ -51,6 +51,7 @@ namespace TGServerService
 			DisposeByond();
 			DisposeRepo();
 			DisposeChat();
+			DisposeAdministration();
 			Config.Save();
 		}
 

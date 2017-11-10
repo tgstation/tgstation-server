@@ -13,12 +13,5 @@ namespace TGServiceInterface.Components
 		/// </summary>
 		[OperationContract]
 		void VerifyConnection();
-
-		/// <summary>
-		/// Retrieve's the service's version
-		/// </summary>
-		/// <returns>The service's version</returns>
-		[OperationContract]
-		string Version();
 	}
 }

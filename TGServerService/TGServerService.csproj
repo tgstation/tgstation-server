@@ -95,7 +95,7 @@
     <Compile Include="ChatCommands\RootChatCommand.cs" />
     <Compile Include="ChatCommands\ServerChatCommand.cs" />
     <Compile Include="ChatCommands\VersionCommand.cs" />
-    <Compile Include="AdministrativeAuthorizationManager.cs" />
+    <Compile Include="RootAuthorizationManager.cs" />
     <Compile Include="DeprecatedInstanceConfig.cs" />
     <Compile Include="InstanceConfig.cs" />
     <Compile Include="MessageType.cs" />
