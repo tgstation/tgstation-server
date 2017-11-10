@@ -96,6 +96,9 @@
     <Compile Include="ControlPanel\StaticPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ServerOpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="InstanceSelector.resx">
       <DependentUpon>InstanceSelector.cs</DependentUpon>
     </EmbeddedResource>
