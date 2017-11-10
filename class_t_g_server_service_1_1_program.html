@@ -113,6 +113,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7c301d450202a1f0ef212beabb74de5b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_program.html#a7c301d450202a1f0ef212beabb74de5b">SanitizeTopicString</a> (string input)</td></tr>
 <tr class="memdesc:a7c301d450202a1f0ef212beabb74de5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Properly escapes characters for a BYOND Topic() packet. See <a href="http://www.byond.com/docs/ref/info.html#/proc/list2params">http://www.byond.com/docs/ref/info.html#/proc/list2params</a>  <a href="#a7c301d450202a1f0ef212beabb74de5b">More...</a><br /></td></tr>
 <tr class="separator:a7c301d450202a1f0ef212beabb74de5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6420e768ee1d50084da8d47b98c01897"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_server_service_1_1_program.html#a6420e768ee1d50084da8d47b98c01897">NormalizePath</a> (string path)</td></tr>
+<tr class="memdesc:a6420e768ee1d50084da8d47b98c01897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalizes different versions of a path string  <a href="#a6420e768ee1d50084da8d47b98c01897">More...</a><br /></td></tr>
+<tr class="separator:a6420e768ee1d50084da8d47b98c01897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -694,6 +697,58 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node32" href="class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a" title="Fetches the origin and merges it into the current branch " alt="" coords="711,567,921,608"/>
 <area shape="rect" id="node34" href="class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="711,501,921,543"/>
 <area shape="rect" id="node33" href="class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="969,567,1180,608"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a6420e768ee1d50084da8d47b98c01897"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static string TGServerService.Program.NormalizePath </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Normalizes different versions of a path string </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to normalize</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The normalized path</dd></dl>
+
+<p>Definition at line <a class="el" href="_t_g_server_service_2_program_8cs_source.html#l00184">184</a> of file <a class="el" href="_t_g_server_service_2_program_8cs_source.html">Program.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_deprecated_instance_config_8cs_source.html#l00020">TGServerService.DeprecatedInstanceConfig.CreateFromNETSettings()</a>, <a class="el" href="_t_g_server_service_2_service_8cs_source.html#l00471">TGServerService.Service.CreateInstance()</a>, and <a class="el" href="_t_g_server_service_2_service_8cs_source.html#l00532">TGServerService.Service.ImportInstance()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        {</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">return</span> Path.GetFullPath(<span class="keyword">new</span> Uri(path).LocalPath)</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                       .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                       .ToUpperInvariant();</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        }</div></div><!-- fragment -->
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_server_service_1_1_program_a6420e768ee1d50084da8d47b98c01897_icgraph.png" border="0" usemap="#class_t_g_server_service_1_1_program_a6420e768ee1d50084da8d47b98c01897_icgraph" alt=""/></div>
+<map name="class_t_g_server_service_1_1_program_a6420e768ee1d50084da8d47b98c01897_icgraph" id="class_t_g_server_service_1_1_program_a6420e768ee1d50084da8d47b98c01897_icgraph">
+<area shape="rect" id="node2" href="class_t_g_server_service_1_1_deprecated_instance_config.html#afba21ee7d48c8ce87cd3a87969d0d2f2" title="Convert the settings version 6 .NET settings file to a config json " alt="" coords="228,5,480,47"/>
+<area shape="rect" id="node6" href="class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new ITGInstance &#160;" alt="" coords="271,71,437,112"/>
+<area shape="rect" id="node7" href="class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="271,136,437,177"/>
+<area shape="rect" id="node3" href="class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="528,5,695,47"/>
+<area shape="rect" id="node4" href="class_t_g_server_service_1_1_service.html#a3ed52895c6c15b9f1270f73369958347" title="Upgrades up the service configuration " alt="" coords="743,5,909,47"/>
+<area shape="rect" id="node5" href="class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e" title="Called by the Windows service manager. Initializes and starts configured ServerInstances ..." alt="" coords="957,5,1124,47"/>
 </map>
 </div>
 </p>

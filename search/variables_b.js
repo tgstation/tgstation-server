@@ -9,7 +9,7 @@ var searchData=
   ['lastcompilererror',['lastCompilerError',['../class_t_g_server_service_1_1_server_instance.html#a66a6d4cf18b436ad79fd5eb9e3546881',1,'TGServerService::ServerInstance']]],
   ['lasterror',['lastError',['../class_t_g_server_service_1_1_server_instance.html#adcc40d967672331fc5578d052f20743a',1,'TGServerService::ServerInstance']]],
   ['lastreaderror',['lastReadError',['../class_t_g_control_panel_1_1_control_panel.html#a62cbe96a7908c4a5b8c1786cbe52667e',1,'TGControlPanel::ControlPanel']]],
-  ['lastseenuser',['LastSeenUser',['../class_t_g_server_service_1_1_administrative_authorization_manager.html#a50ea58a54eb03a2bab9c463858829a8f',1,'TGServerService.AdministrativeAuthorizationManager.LastSeenUser()'],['../class_t_g_server_service_1_1_server_instance.html#a1859affa82dede4f2ed907a7d6958529',1,'TGServerService.ServerInstance.LastSeenUser()']]],
+  ['lastseenuser',['LastSeenUser',['../class_t_g_server_service_1_1_root_authorization_manager.html#af5a4f6452aecedec300ff814f36e835e',1,'TGServerService.RootAuthorizationManager.LastSeenUser()'],['../class_t_g_server_service_1_1_server_instance.html#a1859affa82dede4f2ed907a7d6958529',1,'TGServerService.ServerInstance.LastSeenUser()']]],
   ['latestversionlabel',['LatestVersionLabel',['../class_t_g_control_panel_1_1_control_panel.html#a18c1a9b554f6ed1193963cd09c9fbf2e',1,'TGControlPanel::ControlPanel']]],
   ['latestversiontitle',['LatestVersionTitle',['../class_t_g_control_panel_1_1_control_panel.html#ac4a7e93484997532dd034d3392955bb5',1,'TGControlPanel::ControlPanel']]],
   ['livedirtest',['LiveDirTest',['../class_t_g_server_service_1_1_server_instance.html#a6399ca237782f1286ad7379153a51298',1,'TGServerService::ServerInstance']]],

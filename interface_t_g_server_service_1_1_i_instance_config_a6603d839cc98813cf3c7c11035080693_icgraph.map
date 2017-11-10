@@ -1,5 +1,5 @@
 <map id="TGServerService.IInstanceConfig.Save" name="TGServerService.IInstanceConfig.Save">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new server instance &#160;" alt="" coords="249,5,415,47"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new ITGInstance &#160;" alt="" coords="249,5,415,47"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a2e5dea27fe5ea99beb0b1911eaffdaf7" title="Set TheDroidsWereLookingFor based off either an search ed name or a string SecurityIdentifier from th..." alt="" coords="227,123,437,164"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a17fd1cd46cd9791a923b449460459dbe" title="Searches the windows machine for the group named groupName , sets it as the authorized group if it&#39;s ..." alt="" coords="485,93,696,135"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="249,188,415,229"/>

@@ -1,10 +1,8 @@
 <map id="TGControlPanel.Login.InitializeComponent" name="TGControlPanel.Login.InitializeComponent">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="285,71,467,112"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="277,136,475,177"/>
-<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_login.html#a308c5e1602dc46f5de8ac51535820cf7" title="TGControlPanel.Login.Save\lPasswordCheckBox_CheckedChanged" alt="" coords="252,201,500,243"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="548,71,733,112"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="783,5,974,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="781,71,976,112"/>
-<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_i_interface.html#a30ef594b73a7f049fbcfc4cf1d4e0ea1" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="783,136,974,177"/>
-<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="549,136,732,177"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="285,5,467,47"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="277,71,475,112"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#a308c5e1602dc46f5de8ac51535820cf7" title="TGControlPanel.Login.Save\lPasswordCheckBox_CheckedChanged" alt="" coords="252,136,500,177"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="548,5,733,47"/>
+<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="781,5,972,47"/>
+<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="549,71,732,112"/>
 </map>

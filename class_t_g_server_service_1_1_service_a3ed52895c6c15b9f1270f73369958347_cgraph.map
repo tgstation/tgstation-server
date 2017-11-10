@@ -1,7 +1,8 @@
 <map id="TGServerService.Service.SetupConfig" name="TGServerService.Service.SetupConfig">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="220,45,387,86"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#afeed60cf886ff66bfcaa160f028f0022" title="Writes some changes to the Properties.Settings that always need to be done. " alt="" coords="220,110,387,151"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#afba21ee7d48c8ce87cd3a87969d0d2f2" title="Convert the settings version 6 .NET settings file to a config json " alt="" coords="435,13,687,54"/>
-<area shape="rect" id="node5" href="$interface_t_g_server_service_1_1_i_instance_config.html#a6603d839cc98813cf3c7c11035080693" title="Saves the IInstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="474,78,647,119"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="220,82,387,123"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#afeed60cf886ff66bfcaa160f028f0022" title="Writes some changes to the Properties.Settings that always need to be done. " alt="" coords="220,147,387,189"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#afba21ee7d48c8ce87cd3a87969d0d2f2" title="Convert the settings version 6 .NET settings file to a config json " alt="" coords="435,50,687,91"/>
+<area shape="rect" id="node6" href="$interface_t_g_server_service_1_1_i_instance_config.html#a6603d839cc98813cf3c7c11035080693" title="Saves the IInstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="474,115,647,157"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#a36cae6e31f427c44793cedca5d691138" title="Construct a DeprecatedInstanceConfig. Used by the deserializer " alt="" coords="735,5,961,61"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a6420e768ee1d50084da8d47b98c01897" title="Normalizes different versions of a path string " alt="" coords="761,86,935,127"/>
 </map>

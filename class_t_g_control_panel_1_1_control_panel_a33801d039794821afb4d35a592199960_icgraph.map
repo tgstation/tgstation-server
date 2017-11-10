@@ -1,6 +1,8 @@
 <map id="TGControlPanel.ControlPanel.Cleanup" name="TGControlPanel.ControlPanel.Cleanup">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#acce61389dee2a45c04ceb23c3ee013d1" title="Clean up any resources being used. " alt="" coords="248,5,443,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#a38f8e902c62f985c1660661b4ab08efe" title="Tries to start a ControlPanel for a given instanceName &#160;" alt="" coords="491,5,709,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#a0be79044c859576c4b17102baeda0a3a" title="Connects to a TGServiceInterface.Components.ITGInstance if it is double clicked in InstanceListBox ..." alt="" coords="757,5,988,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_instance_selector.html#ad1b5884cdf446fbb792c03871b50c664" title="TGControlPanel.InstanceSelector.\lInstanceSelector" alt="" coords="1036,5,1255,47"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#acce61389dee2a45c04ceb23c3ee013d1" title="Clean up any resources being used. " alt="" coords="248,39,443,80"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#a463acf31a9f4d87568a92b0a1f68c14c" title="Tries to start a ControlPanel for a given InstanceListBox index &#160;" alt="" coords="491,39,709,80"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#a0be79044c859576c4b17102baeda0a3a" title="Connects to a ITGInstance if it is double clicked in InstanceListBox " alt="" coords="1024,5,1255,47"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_instance_selector.html#ab534ab5253516951cc2ae7a2fe12f5d4" title="Attempts to connect the user to an ITGInstance based on the ListBox.SelectedIndex of InstanceListBox ..." alt="" coords="757,68,976,109"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_instance_selector.html#ad1b5884cdf446fbb792c03871b50c664" title="Construct an InstanceSelector " alt="" coords="1303,39,1521,80"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_instance_selector.html#a6c3c23e146d0c198edd58f7a67bb4b62" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="1030,71,1249,112"/>
 </map>

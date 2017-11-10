@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Used for managing the <a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service ">TGServiceInterface.Components.ITGSService</a>  
+<p>Used for managing the ITGSService components  
  <a href="class_t_g_command_line_1_1_service_command.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for TGCommandLine.ServiceCommand:</div>
@@ -122,7 +122,7 @@ Collaboration diagram for TGCommandLine.ServiceCommand:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5bab101f853cc85e219b196b049df621"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_service_command.html#a5bab101f853cc85e219b196b049df621">ServiceCommand</a> ()</td></tr>
-<tr class="memdesc:a5bab101f853cc85e219b196b049df621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_t_g_command_line_1_1_service_command.html" title="Used for managing the TGServiceInterface.Components.ITGSService ">ServiceCommand</a>  <a href="#a5bab101f853cc85e219b196b049df621">More...</a><br /></td></tr>
+<tr class="memdesc:a5bab101f853cc85e219b196b049df621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_t_g_command_line_1_1_service_command.html" title="Used for managing the ITGSService components ">ServiceCommand</a>  <a href="#a5bab101f853cc85e219b196b049df621">More...</a><br /></td></tr>
 <tr class="separator:a5bab101f853cc85e219b196b049df621"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad90e30320012bf1cb8617e7dc72f83be"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_command_line_1_1_service_command.html#ad90e30320012bf1cb8617e7dc72f83be">GetHelpText</a> ()</td></tr>
 <tr class="memdesc:ad90e30320012bf1cb8617e7dc72f83be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override to add usage text to the <a class="el" href="class_t_g_service_interface_1_1_command.html" title="Helper for creating a text Command tree ">Command</a>   <a href="#ad90e30320012bf1cb8617e7dc72f83be">More...</a><br /></td></tr>
@@ -181,9 +181,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:aff3cd84b173669126ba7a4e215d872e7 inherit properties_class_t_g_service_interface_1_1_command"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Used for managing the <a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service ">TGServiceInterface.Components.ITGSService</a> </p>
+<div class="textblock"><p>Used for managing the ITGSService components </p>
 
-<p>Definition at line <a class="el" href="_service_commands_8cs_source.html#l00010">10</a> of file <a class="el" href="_service_commands_8cs_source.html">ServiceCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_service_commands_8cs_source.html#l00011">11</a> of file <a class="el" href="_service_commands_8cs_source.html">ServiceCommands.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a5bab101f853cc85e219b196b049df621"></a>
 <div class="memitem">
@@ -198,12 +198,12 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Construct a <a class="el" href="class_t_g_command_line_1_1_service_command.html" title="Used for managing the TGServiceInterface.Components.ITGSService ">ServiceCommand</a> </p>
+<p>Construct a <a class="el" href="class_t_g_command_line_1_1_service_command.html" title="Used for managing the ITGSService components ">ServiceCommand</a> </p>
 
-<p>Definition at line <a class="el" href="_service_commands_8cs_source.html#l00015">15</a> of file <a class="el" href="_service_commands_8cs_source.html">ServiceCommands.cs</a>.</p>
+<p>Definition at line <a class="el" href="_service_commands_8cs_source.html#l00016">16</a> of file <a class="el" href="_service_commands_8cs_source.html">ServiceCommands.cs</a>.</p>
 
 <p>References <a class="el" href="_root_command_8cs_source.html#l00014">TGServiceInterface.RootCommand.Children</a>, and <a class="el" href="_command_8cs_source.html#l00049">TGServiceInterface.Command.Keyword</a>.</p>
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">Keyword</a> = <span class="stringliteral">&quot;service&quot;</span>;</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_root_command.html#a4162d8a4524ca5068e790ce74d332a38">Children</a> = <span class="keyword">new</span> <a class="code" href="class_t_g_service_interface_1_1_command.html">Command</a>[] { <span class="keyword">new</span> ServiceCreateInstanceCommand(), <span class="keyword">new</span> ServiceDetachInstanceCommand(), <span class="keyword">new</span> ServiceEnableInstanceCommand(), <span class="keyword">new</span> ServiceImportInstanceCommand(), <span class="keyword">new</span> ServiceListInstancesCommand(), <span class="keyword">new</span> ServicePythonPathCommand(), <span class="keyword">new</span> ServiceSetPythonPathCommand(), <span class="keyword">new</span> ServiceSetRemoteAccessPortCommand(), <span class="keyword">new</span> ServiceRemoteAccessPortCommand(), <span class="keyword">new</span> ServiceDisableInstanceCommand(), <span class="keyword">new</span> ServiceRenameInstanceCommand() };</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_command_html"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html">TGServiceInterface.Command</a></div><div class="ttdoc">Helper for creating a text Command tree </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00010">Command.cs:10</a></div></div>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">Keyword</a> = <span class="stringliteral">&quot;service&quot;</span>;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <a class="code" href="class_t_g_service_interface_1_1_root_command.html#a4162d8a4524ca5068e790ce74d332a38">Children</a> = <span class="keyword">new</span> <a class="code" href="class_t_g_service_interface_1_1_command.html">Command</a>[] { <span class="keyword">new</span> ServiceCreateInstanceCommand(), <span class="keyword">new</span> ServiceDetachInstanceCommand(), <span class="keyword">new</span> ServiceEnableInstanceCommand(), <span class="keyword">new</span> ServiceImportInstanceCommand(), <span class="keyword">new</span> ServiceListInstancesCommand(), <span class="keyword">new</span> ServicePythonPathCommand(), <span class="keyword">new</span> ServiceSetPythonPathCommand(), <span class="keyword">new</span> ServiceSetRemoteAccessPortCommand(), <span class="keyword">new</span> ServiceRemoteAccessPortCommand(), <span class="keyword">new</span> ServiceDisableInstanceCommand(), <span class="keyword">new</span> ServiceRenameInstanceCommand() };</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_command_html"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html">TGServiceInterface.Command</a></div><div class="ttdoc">Helper for creating a text Command tree </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00010">Command.cs:10</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_command_html_a24d806f740c7d2508c8cf9c34d2bba39"><div class="ttname"><a href="class_t_g_service_interface_1_1_command.html#a24d806f740c7d2508c8cf9c34d2bba39">TGServiceInterface.Command.Keyword</a></div><div class="ttdeci">string Keyword</div><div class="ttdoc">The text that invokes this Command. Set in constructor </div><div class="ttdef"><b>Definition:</b> <a href="_command_8cs_source.html#l00049">Command.cs:49</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_root_command_html_a4162d8a4524ca5068e790ce74d332a38"><div class="ttname"><a href="class_t_g_service_interface_1_1_root_command.html#a4162d8a4524ca5068e790ce74d332a38">TGServiceInterface.RootCommand.Children</a></div><div class="ttdeci">Command[] Children</div><div class="ttdoc">Commands further down the tree from this one. Set in Constructor </div><div class="ttdef"><b>Definition:</b> <a href="_root_command_8cs_source.html#l00014">RootCommand.cs:14</a></div></div>
 </div><!-- fragment -->
@@ -235,8 +235,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_t_g_service_interface_1_1_command.html#a08148c745f8a165e27141d7f4d09e450">TGServiceInterface.Command</a>.</p>
 
-<p>Definition at line <a class="el" href="_service_commands_8cs_source.html#l00022">22</a> of file <a class="el" href="_service_commands_8cs_source.html">ServiceCommands.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Manage service wide settings&quot;</span>;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_service_commands_8cs_source.html#l00023">23</a> of file <a class="el" href="_service_commands_8cs_source.html">ServiceCommands.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Manage service wide settings&quot;</span>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

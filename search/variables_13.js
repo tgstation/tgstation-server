@@ -10,6 +10,7 @@ var searchData=
   ['updatestat',['updateStat',['../class_t_g_server_service_1_1_server_instance.html#a773bda7930c58a1def918b077efcf2a1',1,'TGServerService::ServerInstance']]],
   ['updatetestmergebutton',['UpdateTestmergeButton',['../class_t_g_control_panel_1_1_control_panel.html#ad60e76630fc9f1dc3b4c57871853010a',1,'TGControlPanel::ControlPanel']]],
   ['updatingchat',['updatingChat',['../class_t_g_control_panel_1_1_control_panel.html#ab0ee99fc8293333475ff6814206871e6',1,'TGControlPanel::ControlPanel']]],
+  ['updatingenabledcheckbox',['UpdatingEnabledCheckbox',['../class_t_g_control_panel_1_1_instance_selector.html#a2af83097256c0354191dc31222a3fdf1',1,'TGControlPanel::InstanceSelector']]],
   ['updatingfields',['updatingFields',['../class_t_g_control_panel_1_1_control_panel.html#a69e3587bf0137aa9bf7f26838c55e9ec',1,'TGControlPanel::ControlPanel']]],
   ['urlindex',['URLIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a747227f8b0ec3a8115ad79b31f80a4d8',1,'TGServiceInterface::IRCSetupInfo']]],
   ['usedloggingids',['UsedLoggingIDs',['../class_t_g_server_service_1_1_service.html#aed1f5d700a3a39457ce637e1d8e62290',1,'TGServerService::Service']]],

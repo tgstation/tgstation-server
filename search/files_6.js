@@ -4,6 +4,7 @@ var searchData=
   ['iltemplate_2ecs',['ILTemplate.cs',['../_t_g_installer_wrapper_2obj_2_release_2_i_l_template_8cs.html',1,'']]],
   ['instance_2ecs',['Instance.cs',['../_instance_8cs.html',1,'']]],
   ['instanceconfig_2ecs',['InstanceConfig.cs',['../_instance_config_8cs.html',1,'']]],
+  ['instancemanager_2ecs',['InstanceManager.cs',['../_instance_manager_8cs.html',1,'']]],
   ['instancemetadata_2ecs',['InstanceMetadata.cs',['../_instance_metadata_8cs.html',1,'']]],
   ['instancerootcommand_2ecs',['InstanceRootCommand.cs',['../_instance_root_command_8cs.html',1,'']]],
   ['instanceselector_2ecs',['InstanceSelector.cs',['../_instance_selector_8cs.html',1,'']]],

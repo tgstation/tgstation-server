@@ -37,6 +37,7 @@ var searchData=
   ['updatetoversionimpl',['UpdateToVersionImpl',['../class_t_g_server_service_1_1_server_instance.html#a4a2dc7c3b649bf0e7f81362c851a2c8f',1,'TGServerService::ServerInstance']]],
   ['updating',['Updating',['../namespace_t_g_service_interface.html#af1c6e932aa16d25cbe05b86e896f3935a6909beea5b50605780e3411f879fe916',1,'TGServiceInterface']]],
   ['updatingchat',['updatingChat',['../class_t_g_control_panel_1_1_control_panel.html#ab0ee99fc8293333475ff6814206871e6',1,'TGControlPanel::ControlPanel']]],
+  ['updatingenabledcheckbox',['UpdatingEnabledCheckbox',['../class_t_g_control_panel_1_1_instance_selector.html#a2af83097256c0354191dc31222a3fdf1',1,'TGControlPanel::InstanceSelector']]],
   ['updatingfields',['updatingFields',['../class_t_g_control_panel_1_1_control_panel.html#a69e3587bf0137aa9bf7f26838c55e9ec',1,'TGControlPanel::ControlPanel']]],
   ['url',['URL',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a5008e7907ca39ad4307a3567b7fc3031',1,'TGServiceInterface::IRCSetupInfo']]],
   ['urlindex',['URLIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a747227f8b0ec3a8115ad79b31f80a4d8',1,'TGServiceInterface::IRCSetupInfo']]],

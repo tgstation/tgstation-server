@@ -1,4 +1,3 @@
 <map id="TGCommandLine.ServicePythonPathCommand.Run" name="TGCommandLine.ServicePythonPathCommand.Run">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_interface.html#aa1696bde7c44d86f69e4d5de173c3299" title="Returns the ITGSService component for the service &#160;" alt="" coords="268,5,455,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="263,71,460,112"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="263,5,460,47"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="TGServiceInterface.Components.ITGInstanceManager.ImportInstance" name="TGServiceInterface.Components.ITGInstanceManager.ImportInstance">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#a045e1131381ad714d6a85fc9c1abb07d" title="Prompts the user for parameters to ITGInstanceManager.ImportInstance(string) " alt="" coords="284,5,503,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#a6c3c23e146d0c198edd58f7a67bb4b62" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="551,5,769,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#ad1b5884cdf446fbb792c03871b50c664" title="Construct an InstanceSelector " alt="" coords="817,5,1036,47"/>
+</map>

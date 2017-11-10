@@ -9,6 +9,7 @@ var searchData=
   ['installcancelbutton',['InstallCancelButton',['../class_t_g_installer_wrapper_1_1_main.html#a06644cdb790bb2e593538edccb05636a',1,'TGInstallerWrapper::Main']]],
   ['installing',['installing',['../class_t_g_installer_wrapper_1_1_main.html#a771dc8fdebb85288e5a5f5215ee035c5',1,'TGInstallerWrapper::Main']]],
   ['installinglabel',['InstallingLabel',['../class_t_g_installer_wrapper_1_1_main.html#ac7ce91edb9e698504a92860af3eeb65c',1,'TGInstallerWrapper::Main']]],
+  ['instanceauthmanagers',['InstanceAuthManagers',['../class_t_g_server_service_1_1_root_authorization_manager.html#a883617a894518a6c21b9511cbfaf323b',1,'TGServerService::RootAuthorizationManager']]],
   ['instancedata',['InstanceData',['../class_t_g_control_panel_1_1_instance_selector.html#ac3f50702fde494b5c70748eb3c64c628',1,'TGControlPanel::InstanceSelector']]],
   ['instanceinterfacename',['InstanceInterfaceName',['../class_t_g_service_interface_1_1_interface.html#a4f396e87dea799dd730d59c6fc2e36ef',1,'TGServiceInterface::Interface']]],
   ['instancelistbox',['InstanceListBox',['../class_t_g_control_panel_1_1_instance_selector.html#aa4650a907953579bb644b6b42ab5194d',1,'TGControlPanel::InstanceSelector']]],

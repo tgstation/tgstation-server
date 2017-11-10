@@ -1,14 +1,12 @@
 <map id="TGInstallerWrapper.Main.InitializeComponent" name="TGInstallerWrapper.Main.InitializeComponent">
 <area shape="rect" id="node2" href="$class_t_g_installer_wrapper_1_1_main.html#a69f017b7e1ab25a56c23a5819e703343" title="TGInstallerWrapper.Main.\lCancelButton_Click" alt="" coords="223,5,392,47"/>
 <area shape="rect" id="node3" href="$class_t_g_installer_wrapper_1_1_main.html#a798cbc98544fdf0cb71f05f2ee463438" title="TGInstallerWrapper.Main.\lInstallButton_Click" alt="" coords="223,71,392,112"/>
-<area shape="rect" id="node12" href="$class_t_g_installer_wrapper_1_1_main.html#a173dce057e551c1a7c63ec8fa20edecd" title="TGInstallerWrapper.Main.\lMain_FormClosing" alt="" coords="223,136,392,177"/>
-<area shape="rect" id="node13" href="$class_t_g_installer_wrapper_1_1_main.html#a8756f42424d4462351faca59391ba418" title="TGInstallerWrapper.Main.\lSelectPathButton_Click" alt="" coords="223,201,392,243"/>
+<area shape="rect" id="node10" href="$class_t_g_installer_wrapper_1_1_main.html#a173dce057e551c1a7c63ec8fa20edecd" title="TGInstallerWrapper.Main.\lMain_FormClosing" alt="" coords="223,136,392,177"/>
+<area shape="rect" id="node11" href="$class_t_g_installer_wrapper_1_1_main.html#a8756f42424d4462351faca59391ba418" title="TGInstallerWrapper.Main.\lSelectPathButton_Click" alt="" coords="223,201,392,243"/>
 <area shape="rect" id="node4" href="$class_t_g_installer_wrapper_1_1_main.html#a79cc96c2183230e094b73e388e64585b" title="TGInstallerWrapper.Main.\lDoInstall" alt="" coords="440,71,609,112"/>
 <area shape="rect" id="node5" href="$class_t_g_installer_wrapper_1_1_main.html#a12888c2a8c8758555dd3497d5432ab99" title="TGInstallerWrapper.Main.\lOnUIUpdate" alt="" coords="678,5,847,47"/>
 <area shape="rect" id="node6" href="$class_t_g_installer_wrapper_1_1_main.html#a7ebbf1725d5a650b127ed0e27b1d771f" title="TGInstallerWrapper.Main.\lPromptKillProcesses" alt="" coords="678,71,847,112"/>
 <area shape="rect" id="node7" href="$class_t_g_installer_wrapper_1_1_main.html#ae06c0eea3d92868ed601fc39246cc2d7" title="TGInstallerWrapper.Main.\lTellServiceWereComingForThem" alt="" coords="657,136,868,177"/>
-<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="926,37,1117,79"/>
-<area shape="rect" id="node9" href="$interface_t_g_service_interface_1_1_i_interface.html#ada45ab47bbbe2a93e69dfc79c8a57cbe" title="Returns the ITGSService component for the service " alt="" coords="926,103,1117,144"/>
-<area shape="rect" id="node10" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html#a88575a80e50322643d7b456239bde90d" title="Next stop of the service will not close DD and sets a flag for it to reattach once it restarts ..." alt="" coords="916,168,1127,209"/>
-<area shape="rect" id="node11" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="933,233,1109,275"/>
+<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="916,103,1107,144"/>
+<area shape="rect" id="node9" href="$class_t_g_installer_wrapper_1_1_main.html#adcf84cc78228a948690f538cc6722698" title="TGInstallerWrapper.Main.\lConfirmDangerousUpgrade" alt="" coords="923,168,1099,209"/>
 </map>

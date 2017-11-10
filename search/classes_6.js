@@ -29,7 +29,9 @@ var searchData=
   ['itgconnectivity',['ITGConnectivity',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html',1,'TGServiceInterface::Components']]],
   ['itgdreamdaemon',['ITGDreamDaemon',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html',1,'TGServiceInterface::Components']]],
   ['itginstance',['ITGInstance',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance.html',1,'TGServiceInterface::Components']]],
+  ['itginstancemanager',['ITGInstanceManager',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance_manager.html',1,'TGServiceInterface::Components']]],
   ['itginterop',['ITGInterop',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_interop.html',1,'TGServiceInterface::Components']]],
+  ['itglanding',['ITGLanding',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_landing.html',1,'TGServiceInterface::Components']]],
   ['itgrepository',['ITGRepository',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html',1,'TGServiceInterface::Components']]],
   ['itgsservice',['ITGSService',['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html',1,'TGServiceInterface::Components']]]
 ];

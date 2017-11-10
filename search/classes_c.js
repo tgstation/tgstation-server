@@ -18,6 +18,7 @@ var searchData=
   ['repoupdatecommand',['RepoUpdateCommand',['../class_t_g_command_line_1_1_repo_update_command.html',1,'TGCommandLine']]],
   ['repoupdatejsoncommand',['RepoUpdateJsonCommand',['../class_t_g_command_line_1_1_repo_update_json_command.html',1,'TGCommandLine']]],
   ['revisioncommand',['RevisionCommand',['../class_t_g_server_service_1_1_chat_commands_1_1_revision_command.html',1,'TGServerService::ChatCommands']]],
+  ['rootauthorizationmanager',['RootAuthorizationManager',['../class_t_g_server_service_1_1_root_authorization_manager.html',1,'TGServerService']]],
   ['rootchatcommand',['RootChatCommand',['../class_t_g_server_service_1_1_chat_commands_1_1_root_chat_command.html',1,'TGServerService::ChatCommands']]],
   ['rootcommand',['RootCommand',['../class_t_g_service_interface_1_1_root_command.html',1,'TGServiceInterface']]]
 ];

@@ -1,10 +1,11 @@
 <map id="TGServerService.ServerInstance.Dispose" name="TGServerService.ServerInstance.Dispose">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="264,452,475,493"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#aea7eda46fd144259303499dfa412f1ac" title="Cleans up the ServerInstance " alt="" coords="264,485,475,527"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a901e893be86572cf6a8d539e83de4b2c" title="Either let go of Proc for reattachment or terminate it, depending on InstanceConfig.ReattachRequired of Config " alt="" coords="781,201,992,243"/>
 <area shape="rect" id="node16" href="$class_t_g_server_service_1_1_server_instance.html#a46ed0d7dc832756ebf66a79ab2435f7f" title="TGServerService.ServerInstance.\lDisposeCompiler" alt="" coords="523,387,733,428"/>
 <area shape="rect" id="node19" href="$class_t_g_server_service_1_1_server_instance.html#a0ae469ca70e8869f5f5ed794d7fe4ce5" title="Called when the ServerInstance is shutdown " alt="" coords="523,452,733,493"/>
 <area shape="rect" id="node24" href="$class_t_g_server_service_1_1_server_instance.html#a9b46135f61615923db5e302d3553e1fa" title="Cleans up Repo " alt="" coords="523,517,733,559"/>
 <area shape="rect" id="node25" href="$class_t_g_server_service_1_1_server_instance.html#a37ece8a590016ff653791e76d926b49f" title="Properly shuts down all ChatProviders " alt="" coords="523,583,733,624"/>
+<area shape="rect" id="node27" href="$class_t_g_server_service_1_1_server_instance.html#a8e6da866500ef91e5786cfa7b4246801" title="Cleans up the ITGAdministration component " alt="" coords="523,648,733,689"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ab39a3abd504c56e0d217a7ad475506e4" title="Gets the status of DreamDaemon &#160;" alt="" coords="1053,5,1264,47"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a989bcee76648cec9c7e52a5d33217e90" title="Sends a message to everyone on the server &#160;" alt="" coords="1053,71,1264,112"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="1053,136,1264,177"/>

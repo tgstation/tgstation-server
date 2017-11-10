@@ -45,7 +45,7 @@ var searchData=
   ['testmergeselector',['TestmergeSelector',['../class_t_g_control_panel_1_1_control_panel.html#a5dcdefd44104929b85a6e7e4fdc5693c',1,'TGControlPanel::ControlPanel']]],
   ['testnetconfigisalwaysprepped',['TestNETConfigIsAlwaysPrepped',['../class_t_g_server_service_1_1_tests_1_1_test_service.html#aabf5960ed516745814962145e7231a0c',1,'TGServerService::Tests::TestService']]],
   ['testpr',['TestPR',['../class_t_g_control_panel_1_1_control_panel.html#a06bcc4ad07db830ef0de22547b4d8deb',1,'TGControlPanel::ControlPanel']]],
-  ['testpushtestmergecommits',['TestPushTestMergeCommits',['../class_t_g_server_service_1_1_tests_1_1_test_server_instance.html#a4f2430f94e03cc485d49556eddb3772e',1,'TGServerService.Tests.TestServerInstance.TestPushTestMergeCommits()'],['../class_t_g_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_status_command.html#a96f5a285d2580f0f4a93d12cfc2f1c67',1,'TGCommandLine.Commands.Repository.Tests.TestRepoStatusCommand.TestPushTestmergeCommits()']]],
+  ['testpushtestmergecommits',['TestPushTestmergeCommits',['../class_t_g_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_status_command.html#a96f5a285d2580f0f4a93d12cfc2f1c67',1,'TGCommandLine.Commands.Repository.Tests.TestRepoStatusCommand.TestPushTestmergeCommits()'],['../class_t_g_server_service_1_1_tests_1_1_test_server_instance.html#a4f2430f94e03cc485d49556eddb3772e',1,'TGServerService.Tests.TestServerInstance.TestPushTestMergeCommits()']]],
   ['testremoteaccessinterfaceallowswindowsimpersonation',['TestRemoteAccessInterfaceAllowsWindowsImpersonation',['../class_t_g_service_interface_1_1_tests_1_1_test_interface.html#a5bcb939f688da0a8c3cfef0ab218e0f6',1,'TGServiceInterface::Tests::TestInterface']]],
   ['testremoteinstatiation',['TestRemoteInstatiation',['../class_t_g_service_interface_1_1_tests_1_1_test_interface.html#a0e130709c59e2eb942ceca6907578e5a',1,'TGServiceInterface::Tests::TestInterface']]],
   ['testreposetpushtestmergecommitscommand',['TestRepoSetPushTestmergeCommitsCommand',['../class_t_g_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_set_push_testmerge_commits_command.html',1,'TGCommandLine::Commands::Repository::Tests']]],
@@ -84,5 +84,5 @@ var searchData=
   ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_service_interface_1_1_interface.html#aa5ccca53bb7e2bd6fd609ee68099bbd2',1,'TGServiceInterface::Interface']]],
   ['transferlimitremote',['TransferLimitRemote',['../class_t_g_service_interface_1_1_interface.html#a00d88d167689139612f0e7c4444eb35d',1,'TGServiceInterface::Interface']]],
   ['trusted',['Trusted',['../namespace_t_g_service_interface.html#a82f76b01f699bef8336537255d268118ac0405d71f21e769c787a10b9620f11ea',1,'TGServiceInterface']]],
-  ['tryconnecttoinstance',['TryConnectToInstance',['../class_t_g_control_panel_1_1_instance_selector.html#a38f8e902c62f985c1660661b4ab08efe',1,'TGControlPanel::InstanceSelector']]]
+  ['tryconnecttoindexinstance',['TryConnectToIndexInstance',['../class_t_g_control_panel_1_1_instance_selector.html#a463acf31a9f4d87568a92b0a1f68c14c',1,'TGControlPanel::InstanceSelector']]]
 ];

@@ -1,0 +1,4 @@
+<map id="TGServiceInterface.Components.ITGLanding" name="TGServiceInterface.Components.ITGLanding">
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html" title="The windows service the application runs as " alt="" coords="29,95,192,121"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_tests_1_1_service_accessor.html" title="For accessing service control methods of Service " alt="" coords="11,169,210,211"/>
+</map>

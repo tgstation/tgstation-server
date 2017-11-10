@@ -128,11 +128,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9b6c6257b149ce75f9e38c77fadebcde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns  if the <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html" title="Main  for communicating the ITGSService ">IInterface</a> interface being used to connect to a service does not have the same release version as the service  <a href="#a9b6c6257b149ce75f9e38c77fadebcde">More...</a><br /></td></tr>
 <tr class="separator:a9b6c6257b149ce75f9e38c77fadebcde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd69aece294962165ecfd29ea406cd29"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#acd69aece294962165ecfd29ea406cd29">GetComponent&lt; T &gt;</a> ()</td></tr>
-<tr class="memdesc:acd69aece294962165ecfd29ea406cd29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the requested <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html" title="Main  for communicating the ITGSService ">IInterface</a> component  for the instance <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#ad2c4757dc797ff56ca55b15bfe88661b" title="The name of the current instance in use. Defaults to  ">InstanceName</a>. This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage  <a href="#acd69aece294962165ecfd29ea406cd29">More...</a><br /></td></tr>
+<tr class="memdesc:acd69aece294962165ecfd29ea406cd29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the requested <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html" title="Main  for communicating the ITGSService ">IInterface</a> component  for the instance <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#ad2c4757dc797ff56ca55b15bfe88661b" title="The name of the current instance in use. Defaults to  ">InstanceName</a>. This does not guarantee a successful connection.  <a href="#acd69aece294962165ecfd29ea406cd29">More...</a><br /></td></tr>
 <tr class="separator:acd69aece294962165ecfd29ea406cd29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada45ab47bbbe2a93e69dfc79c8a57cbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html">ITGSService</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#ada45ab47bbbe2a93e69dfc79c8a57cbe">GetService</a> ()</td></tr>
-<tr class="memdesc:ada45ab47bbbe2a93e69dfc79c8a57cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ITGSService component for the service  <a href="#ada45ab47bbbe2a93e69dfc79c8a57cbe">More...</a><br /></td></tr>
-<tr class="separator:ada45ab47bbbe2a93e69dfc79c8a57cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb034e1043d2a5efa257b2dbb0eb51f0"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#afb034e1043d2a5efa257b2dbb0eb51f0">GetServiceComponent&lt; T &gt;</a> ()</td></tr>
+<tr class="memdesc:afb034e1043d2a5efa257b2dbb0eb51f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a root service component  <a href="#afb034e1043d2a5efa257b2dbb0eb51f0">More...</a><br /></td></tr>
+<tr class="separator:afb034e1043d2a5efa257b2dbb0eb51f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abeec8d18460e1ebf304d0fd63c309dbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_t_g_service_interface.html#acaf0524ae14529619dd7b58bb50d89fd">ConnectivityLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb">ConnectionStatus</a> ()</td></tr>
 <tr class="memdesc:abeec8d18460e1ebf304d0fd63c309dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors  <a href="#abeec8d18460e1ebf304d0fd63c309dbb">More...</a><br /></td></tr>
 <tr class="separator:abeec8d18460e1ebf304d0fd63c309dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,7 +178,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a621f4b2c043853c14dd8311008d24e7c">TGServiceInterface.Interface</a>.</p>
 
-<p>Referenced by <a class="el" href="_main_8cs_source.html#l00071">TGInstallerWrapper.Main.CheckForExistingVersion()</a>, <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_interface_8cs_source.html#l00406">TGServiceInterface.Interface.ConnectionStatus()</a>, <a class="el" href="_interface_8cs_source.html#l00217">TGServiceInterface.Interface.ConnectToInstance()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00177">TGCommandLine.Program.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00014">TGCommandLine.Program.RunCommandLine()</a>, <a class="el" href="_main_8cs_source.html#l00096">TGInstallerWrapper.Main.TellServiceWereComingForThem()</a>, and <a class="el" href="_login_8cs_source.html#l00061">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
+<p>Referenced by <a class="el" href="_main_8cs_source.html#l00071">TGInstallerWrapper.Main.CheckForExistingVersion()</a>, <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_interface_8cs_source.html#l00414">TGServiceInterface.Interface.ConnectionStatus()</a>, <a class="el" href="_interface_8cs_source.html#l00222">TGServiceInterface.Interface.ConnectToInstance()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00177">TGCommandLine.Program.Main()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00014">TGCommandLine.Program.RunCommandLine()</a>, <a class="el" href="_main_8cs_source.html#l00096">TGInstallerWrapper.Main.TellServiceWereComingForThem()</a>, and <a class="el" href="_login_8cs_source.html#l00061">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -272,7 +272,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a55ac73b5d78b94a214713f5ab5a5a5e3">TGServiceInterface.Interface</a>.</p>
 
-<p>Referenced by <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00161">TGCommandLine.Program.CheckInstanceConnectivity()</a>, <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, <a class="el" href="_instance_root_command_8cs_source.html#l00009">TGCommandLine.InstanceRootCommand.DoRun()</a>, and <a class="el" href="_login_8cs_source.html#l00061">TGControlPanel.Login.VerifyAndConnect()</a>.</p>
+<p>Referenced by <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00161">TGCommandLine.Program.CheckInstanceConnectivity()</a>, <a class="el" href="_root_commands_8cs_source.html#l00010">TGCommandLine.CLICommand.CLICommand()</a>, and <a class="el" href="_instance_root_command_8cs_source.html#l00009">TGCommandLine.InstanceRootCommand.DoRun()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -282,12 +282,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="class_t_g_command_line_1_1_program.html#a04591dc018f6fb3a4c991537605576df" title="Tries to set currentInterface&#39;s ITGInstance to instanceName , outputting appropriate messages ..." alt="" coords="244,5,460,47"/>
 <area shape="rect" id="node4" href="class_t_g_command_line_1_1_c_l_i_command.html#aebb5bac08688ad34e40b1cf6c6ced992" title="TGCommandLine.CLICommand.\lCLICommand" alt="" coords="248,71,456,112"/>
 <area shape="rect" id="node5" href="class_t_g_command_line_1_1_instance_root_command.html#ad49dde82f04f021d8b817cafd0f60866" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="251,136,453,177"/>
-<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="259,201,445,243"/>
 <area shape="rect" id="node3" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="508,13,715,39"/>
-<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86" title="TGControlPanel.Login.Local\lLoginButton_Click" alt="" coords="520,168,703,209"/>
-<area shape="rect" id="node10" href="class_t_g_control_panel_1_1_login.html#a4181c17c7aa95cf06910f328df06654a" title="TGControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="513,233,710,275"/>
-<area shape="rect" id="node8" href="class_t_g_control_panel_1_1_login.html#ac0254d6d771c3c8d32214cc1b835b7c5" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="763,201,961,243"/>
-<area shape="rect" id="node9" href="class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="1009,209,1192,235"/>
 </map>
 </div>
 </p>
@@ -307,7 +302,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the requested <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html" title="Main  for communicating the ITGSService ">IInterface</a> component  for the instance <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#ad2c4757dc797ff56ca55b15bfe88661b" title="The name of the current instance in use. Defaults to  ">InstanceName</a>. This does not guarantee a successful connection. ChannelFactory&lt;TChannel&gt;s created this way are recycled for minimum latency and bandwidth usage </p>
+<p>Returns the requested <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html" title="Main  for communicating the ITGSService ">IInterface</a> component  for the instance <a class="el" href="interface_t_g_service_interface_1_1_i_interface.html#ad2c4757dc797ff56ca55b15bfe88661b" title="The name of the current instance in use. Defaults to  ">InstanceName</a>. This does not guarantee a successful connection. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The component  to retrieve</td></tr>
@@ -320,12 +315,12 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="ada45ab47bbbe2a93e69dfc79c8a57cbe"></a>
+<a class="anchor" id="afb034e1043d2a5efa257b2dbb0eb51f0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html">ITGSService</a> TGServiceInterface.IInterface.GetService </td>
+          <td class="memname">T TGServiceInterface.IInterface.GetServiceComponent&lt; T &gt; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -333,31 +328,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the ITGSService component for the service </p>
+<p>Returns a root service component </p>
 <dl class="section return"><dt>Returns</dt><dd>The ITGSService component for the service</dd></dl>
 
-<p>Implemented in <a class="el" href="class_t_g_service_interface_1_1_interface.html#aa1696bde7c44d86f69e4d5de173c3299">TGServiceInterface.Interface</a>.</p>
-
-<p>Referenced by <a class="el" href="_main_8cs_source.html#l00071">TGInstallerWrapper.Main.CheckForExistingVersion()</a>, <a class="el" href="_interface_8cs_source.html#l00412">TGServiceInterface.Interface.ConnectionStatus()</a>, <a class="el" href="_t_g_command_line_2_program_8cs_source.html#l00014">TGCommandLine.Program.RunCommandLine()</a>, <a class="el" href="_main_8cs_source.html#l00096">TGInstallerWrapper.Main.TellServiceWereComingForThem()</a>, and <a class="el" href="_interface_8cs_source.html#l00289">TGServiceInterface.Interface.VersionMismatch()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_t_g_service_interface_1_1_i_interface_ada45ab47bbbe2a93e69dfc79c8a57cbe_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_i_interface_ada45ab47bbbe2a93e69dfc79c8a57cbe_icgraph" alt=""/></div>
-<map name="interface_t_g_service_interface_1_1_i_interface_ada45ab47bbbe2a93e69dfc79c8a57cbe_icgraph" id="interface_t_g_service_interface_1_1_i_interface_ada45ab47bbbe2a93e69dfc79c8a57cbe_icgraph">
-<area shape="rect" id="node2" href="class_t_g_installer_wrapper_1_1_main.html#a983e1b8b4a7c19c0060ebe24c2301380" title="TGInstallerWrapper.Main.\lCheckForExistingVersion" alt="" coords="757,23,927,64"/>
-<area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#a3930591b87c7bfb0f21df293c6ecec35" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="256,52,443,94"/>
-<area shape="rect" id="node5" href="class_t_g_command_line_1_1_program.html#a586b4991128c36c95981968d6596789e" title="TGCommandLine.Program.Run\lCommandLine" alt="" coords="248,118,451,159"/>
-<area shape="rect" id="node7" href="class_t_g_installer_wrapper_1_1_main.html#ae06c0eea3d92868ed601fc39246cc2d7" title="TGInstallerWrapper.Main.\lTellServiceWereComingForThem" alt="" coords="244,183,455,224"/>
-<area shape="rect" id="node11" href="class_t_g_service_interface_1_1_interface.html#aa917a2e4f95d7fd2c5b1fc0d143280b8" title="Returns &#160;if the IInterface interface being used to connect to a service does not have the same releas..." alt="" coords="256,248,443,290"/>
-<area shape="rect" id="node3" href="class_t_g_installer_wrapper_1_1_main.html#a6926b27f02b3ca671a3b7321ce311f25" title="Construct an installer form " alt="" coords="1192,74,1389,101"/>
-<area shape="rect" id="node6" href="class_t_g_command_line_1_1_program.html#aca3f6d37f2a3702b71c3cc3aed69d8bf" title="TGCommandLine.Program.Main" alt="" coords="503,125,709,152"/>
-<area shape="rect" id="node8" href="class_t_g_installer_wrapper_1_1_main.html#a79cc96c2183230e094b73e388e64585b" title="TGInstallerWrapper.Main.\lDoInstall" alt="" coords="521,180,691,222"/>
-<area shape="rect" id="node9" href="class_t_g_installer_wrapper_1_1_main.html#a798cbc98544fdf0cb71f05f2ee463438" title="TGInstallerWrapper.Main.\lInstallButton_Click" alt="" coords="757,119,927,160"/>
-<area shape="rect" id="node10" href="class_t_g_installer_wrapper_1_1_main.html#a287aaf65d0f232a61f4b3f233fc38238" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="975,100,1144,142"/>
-</map>
-</div>
-</p>
+<p>Implemented in <a class="el" href="class_t_g_service_interface_1_1_interface.html#a8234c5013c0313b9ae501704081ce38d">TGServiceInterface.Interface</a>.</p>
 
 </div>
 </div>
@@ -424,7 +398,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00032">32</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00371">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00379">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
@@ -450,7 +424,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00027">27</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00371">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00379">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
@@ -476,7 +450,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00022">22</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00217">TGServiceInterface.Interface.ConnectToInstance()</a>, <a class="el" href="_control_panel_8cs_source.html#l00029">TGControlPanel.ControlPanel.ControlPanel()</a>, <a class="el" href="_instance_root_command_8cs_source.html#l00009">TGCommandLine.InstanceRootCommand.DoRun()</a>, and <a class="el" href="_interface_8cs_source.html#l00328">TGServiceInterface.Interface.GetComponentImpl&lt; T &gt;()</a>.</p>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00222">TGServiceInterface.Interface.ConnectToInstance()</a>, <a class="el" href="_control_panel_8cs_source.html#l00029">TGControlPanel.ControlPanel.ControlPanel()</a>, <a class="el" href="_instance_root_command_8cs_source.html#l00009">TGCommandLine.InstanceRootCommand.DoRun()</a>, and <a class="el" href="_interface_8cs_source.html#l00333">TGServiceInterface.Interface.GetComponentImpl&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
@@ -502,7 +476,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_interface_8cs_source.html#l00037">37</a> of file <a class="el" href="_interface_8cs_source.html">Interface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00371">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
+<p>Referenced by <a class="el" href="_interface_8cs_source.html#l00379">TGServiceInterface.Interface.CreateChannel&lt; T &gt;()</a>.</p>
 
 </div>
 </div>

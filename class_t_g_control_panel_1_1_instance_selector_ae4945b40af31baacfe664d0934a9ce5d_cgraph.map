@@ -1,0 +1,5 @@
+<map id="TGControlPanel.InstanceSelector.EnabledCheckBox_CheckedChanged" name="TGControlPanel.InstanceSelector.EnabledCheckBox_CheckedChanged">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using ITGLanding.ListInstances " alt="" coords="313,5,532,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#aa765d5b8f1eb1acfafb6016755c5cbc4" title="Used to wrap Interface calls in a non&#45;blocking fashion " alt="" coords="601,35,820,76"/>
+<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance_manager.html#a6f18c614d241f6f68011933960fa8e64" title="Sets an instance&#39;s enabled status " alt="" coords="292,123,553,164"/>
+</map>

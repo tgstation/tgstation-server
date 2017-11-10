@@ -1,5 +1,3 @@
 <map id="TGControlPanel.Login.VerifyAndConnect" name="TGControlPanel.Login.VerifyAndConnect">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="241,5,431,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_interface.html#a30ef594b73a7f049fbcfc4cf1d4e0ea1" title="Targets instanceName &#160;as the instance to use with GetComponent&lt;T&gt;. Closes all connections to any prev..." alt="" coords="241,71,431,112"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="239,136,433,177"/>
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="239,5,429,47"/>
 </map>

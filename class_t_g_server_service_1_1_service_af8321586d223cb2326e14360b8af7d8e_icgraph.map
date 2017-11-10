@@ -3,7 +3,7 @@
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#ab74c8e27919681ca6333d98088e482b9" title="Creates ServiceHosts for all ServerInstances as listed in Properties.Settings.InstancePaths, detaches bad ones " alt="" coords="435,23,601,64"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#aee995f06ba36b0d2313b610fac064346" title="Starts and onlines an instance located at config &#160;" alt="" coords="435,120,601,161"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e" title="Called by the Windows service manager. Initializes and starts configured ServerInstances ..." alt="" coords="649,5,816,47"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new server instance &#160;" alt="" coords="649,71,816,112"/>
+<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a44796f0b39871f5104d4a08b0f6c890b" title="Creates a new ITGInstance &#160;" alt="" coords="649,71,816,112"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a602684a72a2b6c933779ed5682d432c6" title="Registers an existing server instance &#160;" alt="" coords="649,136,816,177"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_service.html#a4a985af3b9cd637f80b406c0395599f2" title="Sets a ServerInstance&#39;s enabled status " alt="" coords="649,201,816,243"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#a3198184dea17357f249757cba2647c77" title="Sets an instance&#39;s enabled status &#160;" alt="" coords="864,168,1031,209"/>
