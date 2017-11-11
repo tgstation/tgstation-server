@@ -71,8 +71,11 @@
     <Error Text="The WiX Toolset v3 build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="AfterResolveReferences">
-    <Exec Command="powershell -Command &quot;$(SolutionDir)Tools/SignBasics.ps1&quot;" />
+    <Exec Command="$(PreBuildEventCommand)" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEventCommand>powershell -Command "&amp; \"$(SolutionDir)Tools/SignMSI.ps1\""</PreBuildEventCommand>
+  </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>powershell -Command "$(SolutionDir)Tools/SignMSI.ps1"</PostBuildEvent>
   </PropertyGroup>
