@@ -57,11 +57,13 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine\Commands\Repository\RepositoryCommandTest.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
+    <Compile Include="ControlPanel\TestInstanceSelector.cs" />
     <Compile Include="Interface\TestHelpers.cs" />
     <Compile Include="Interface\TestInterface.cs" />
     <Compile Include="OutputProcOverriderTest.cs" />
@@ -83,6 +85,14 @@
     <ProjectReference Include="..\TGCommandLine\TGCommandLine.csproj">
       <Project>{89191f69-b18e-4b59-b72e-e12f9b6811a0}</Project>
       <Name>TGCommandLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TGControlPanel\TGControlPanel.csproj">
+      <Project>{394e7643-6b8c-416f-ab18-95ac12648cdc}</Project>
+      <Name>TGControlPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TGInstallerWrapper\TGInstallerWrapper.csproj">
+      <Project>{8956d4c3-bfb9-448e-bf5f-ee7e6f9996f9}</Project>
+      <Name>TGInstallerWrapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\TGServerService\TGServerService.csproj">
       <Project>{f32eda25-0855-411c-af5e-f0d042917e2d}</Project>

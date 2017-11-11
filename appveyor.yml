@@ -28,7 +28,7 @@ before_build:
   - nuget restore TGStationServer3.sln
 build:
   project: TGStationServer3.sln
-  parallel: true
+  parallel: false
   verbosity: minimal
   publish_nuget: true
 after_build:
