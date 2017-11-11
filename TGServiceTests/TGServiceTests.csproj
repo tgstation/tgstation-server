@@ -57,11 +57,13 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine\Commands\Repository\RepositoryCommandTest.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
+    <Compile Include="ControlPanel\TestInstanceSelector.cs" />
     <Compile Include="Interface\TestHelpers.cs" />
     <Compile Include="Interface\TestInterface.cs" />
     <Compile Include="OutputProcOverriderTest.cs" />
