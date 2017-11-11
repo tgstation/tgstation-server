@@ -77,7 +77,7 @@
     <PreBuildEventCommand>powershell -Command "&amp; \"$(SolutionDir)Tools/SignMSI.ps1\""</PreBuildEventCommand>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>powershell -Command "$(SolutionDir)Tools/SignMSI.ps1"</PostBuildEvent>
+    <PostBuildEvent>powershell -Command "&amp; \"$(SolutionDir)Tools/SignMSI.ps1\""</PostBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
