@@ -10,6 +10,7 @@ var searchData=
   ['repository',['Repository',['../namespace_t_g_command_line_1_1_commands_1_1_repository.html',1,'TGCommandLine::Commands']]],
   ['tests',['Tests',['../namespace_t_g_service_interface_1_1_tests.html',1,'TGServiceInterface']]],
   ['tests',['Tests',['../namespace_t_g_command_line_1_1_commands_1_1_repository_1_1_tests.html',1,'TGCommandLine::Commands::Repository']]],
+  ['tests',['Tests',['../namespace_t_g_control_panel_1_1_tests.html',1,'TGControlPanel']]],
   ['tests',['Tests',['../namespace_t_g_server_service_1_1_tests.html',1,'TGServerService']]],
   ['tgcommandline',['TGCommandLine',['../namespace_t_g_command_line.html',1,'']]],
   ['tgcontrolpanel',['TGControlPanel',['../namespace_t_g_control_panel.html',1,'']]],
