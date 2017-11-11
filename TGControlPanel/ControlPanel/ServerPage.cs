@@ -409,7 +409,8 @@ namespace TGControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void TestmergeButton_Click(object sender, System.EventArgs e)
 		{
-			new TestMergeManager(Interface).ShowDialog();
+			using (var TMM = new TestMergeManager(Interface))
+				TMM.ShowDialog();
 			LoadServerPage();
 		}
 
