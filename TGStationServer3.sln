@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServerService", "TGServerService\TGServerService.csproj", "{F32EDA25-0855-411C-AF5E-F0D042917E2D}"
 EndProject
@@ -74,15 +74,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB-2E84-47D4-9419-A2AB8E814ABF}"
 	ProjectSection(SolutionItems) = preProject
 		Tools\build_byond.sh = Tools\build_byond.sh
+		Tools\BuildDox.ps1 = Tools\BuildDox.ps1
 		Tools\Config.dm = Tools\Config.dm
 		Tools\CoverageExclusions.runsettings = Tools\CoverageExclusions.runsettings
 		Tools\DMAPITravisTester.dme = Tools\DMAPITravisTester.dme
 		Tools\Doxyfile = Tools\Doxyfile
 		Tools\install_byond.sh = Tools\install_byond.sh
+		Tools\PostCIBuild.ps1 = Tools\PostCIBuild.ps1
 		Tools\SignBasics.ps1 = Tools\SignBasics.ps1
 		Tools\SignMSI.ps1 = Tools\SignMSI.ps1
 		Tools\Test.dm = Tools\Test.dm
-		Tools\TGS3Build.ps1 = Tools\TGS3Build.ps1
 		Tools\tgstation13.org.pfx = Tools\tgstation13.org.pfx
 		Tools\UploadCoverage.ps1 = Tools\UploadCoverage.ps1
 	EndProjectSection
