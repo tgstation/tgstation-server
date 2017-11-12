@@ -37,8 +37,8 @@ namespace TGServerService
 			InitChat();
 			InitRepo();
 			InitByond();
-			InitCompiler();
 			InitDreamDaemon();
+			InitCompiler();
 		}
 
 		/// <summary>
