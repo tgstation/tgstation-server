@@ -42,14 +42,19 @@ namespace TGControlPanel
 		{
 			LoginButton.Text = "Logging in...";
 			Enabled = false;
+			UseWaitCursor = true;
 			var APIKey = await GetAPIKey();
 			if(APIKey == null)
 			{
 				MessageBox.Show("Authentication failure!");
 				Enabled = true;
+				UseWaitCursor = false;
 				LoginButton.Text = "Login";
 				return;
 			}
+			if (String.IsNullOrWhiteSpace(APIKeyTextBox.Text))
+				//They used username authentication, let them know we made a token
+				MessageBox.Show("A personal access token has been created on your account for use with the Control Panel");
 
 			//Encrypt it and let's be on our way
 			var Config = Properties.Settings.Default;
