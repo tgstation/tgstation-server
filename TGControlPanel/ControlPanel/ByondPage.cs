@@ -30,7 +30,7 @@ namespace TGControlPanel
 				}
 			}
 
-			var latestVer = Interface.GetComponent<ITGByond>().GetVersion(ByondVersion.Latest);
+			var latestVer = BYOND.GetVersion(ByondVersion.Latest);
 			LatestVersionLabel.Text = latestVer;
 
 			try
@@ -41,8 +41,6 @@ namespace TGControlPanel
 				MajorVersionNumeric.Value = maj;
 			}
 			catch { }
-
-			UpdateBYONDButtons();
 		}
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
