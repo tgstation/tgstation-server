@@ -193,7 +193,6 @@
 			this.Controls.Add(this.UpdateToRemoteRadioButton);
 			this.Controls.Add(this.ApplyButton);
 			this.Controls.Add(this.PullRequestListBox);
-			this.Enabled = false;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "TestMergeManager";

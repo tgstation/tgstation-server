@@ -164,16 +164,13 @@ namespace TGControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void PullRequestManager_Load(object sender, EventArgs e)
 		{
+			Enabled = false;
 			var repo = currentInterface.GetComponent<ITGRepository>();
 			if(!Program.GetRepositoryRemote(repo, out repoOwner, out repoName))
 			{
 				Close();
 				return;
 			}
-
-			Enabled = true;
-			UseWaitCursor = true;
-
 			LoadPullRequests();
 		}
 
