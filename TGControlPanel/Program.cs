@@ -108,7 +108,7 @@ namespace TGControlPanel
 			}
 			if (!remote.Contains("github.com"))
 			{
-				MessageBox.Show("Pull request support is only available for github based repositories!", "Error");
+				MessageBox.Show("Pull request support is only available for GitHub based repositories!", "Error");
 				owner = null;
 				name = null;
 				return false;
