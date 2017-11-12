@@ -44,6 +44,7 @@
 			// 
 			// PullRequestListBox
 			// 
+			this.PullRequestListBox.CheckOnClick = true;
 			this.PullRequestListBox.FormattingEnabled = true;
 			this.PullRequestListBox.Location = new System.Drawing.Point(13, 13);
 			this.PullRequestListBox.Name = "PullRequestListBox";
