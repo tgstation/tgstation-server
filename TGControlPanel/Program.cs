@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using TGServiceInterface;
+using TGServiceInterface.Components;
 
 namespace TGControlPanel
 {
@@ -72,6 +73,52 @@ namespace TGControlPanel
 			prompt.AcceptButton = confirmation;
 
 			return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : null;
+		}
+
+		/// <summary>
+		/// Prompts the user to open the <see cref="GitHubLoginPrompt"/> explaining the API rate limit
+		/// </summary>
+		/// <param name="client">The <see cref="Octokit.GitHubClient"/> to use</param>
+		/// <returns><see langword="true"/> if the <see cref="GitHubLoginPrompt"/> ran and returned a <see cref="DialogResult.OK"/>, <see langword="false"/> otherwise</returns>
+		public static bool RateLimitPrompt(Octokit.GitHubClient client)
+		{
+			if (MessageBox.Show("You seem to have hit the rate limit of 60 requests per hour of the GitHub API for anonymous requests. Would you like to enter credentials to bypass this?", "Rate limited", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				return false;
+			using (var D = new GitHubLoginPrompt(client))
+				return D.ShowDialog() == DialogResult.OK;
+		}
+
+		/// <summary>
+		/// Gets the <paramref name="owner"/> and <paramref name="name"/> of a given <paramref name="repo"/>'s remote. Shows an error if the target remote isn't GitHub
+		/// </summary>
+		/// <param name="repo">The <see cref="ITGRepository"/> to get the remote of</param>
+		/// <param name="owner">The owner of the remote <see cref="Octokit.Repository"/></param>
+		/// <param name="name">The remote <see cref="Octokit.Repository.Name"/></param>
+		/// <returns><see langword="true"/> if <paramref name="repo"/>'s remote was a valid GitHub <see cref="Octokit.Repository"/>, <see langword="false"/> otherwise and the user was prompted</returns>
+		public static bool GetRepositoryRemote(ITGRepository repo, out string owner, out string name)
+		{
+			string remote = null;
+			remote = repo.GetRemote(out string error);
+			if (remote == null)
+			{
+				MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
+				owner = null;
+				name = null;
+				return false;
+			}
+			if (!remote.Contains("github.com"))
+			{
+				MessageBox.Show("Pull request support is only available for GitHub based repositories!", "Error");
+				owner = null;
+				name = null;
+				return false;
+			}
+
+			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+			var splits = remote.Split('/');
+			name = splits[splits.Length - 1];
+			owner = splits[splits.Length - 2].Split('.')[0];
+			return true;
 		}
 	}
 }

@@ -5,7 +5,11 @@ namespace TGControlPanel
 	/// <summary>
 	/// Calls <see cref="Application.Exit()"/> when all <see cref="CountedForm"/>s are <see cref="Form.Close"/>d
 	/// </summary>
-	abstract class CountedForm : Form
+#if !DEBUG
+	abstract class CountedForm : ServerOpForm
+#else
+	class CountedForm : ServerOpForm
+#endif
 	{
 		/// <summary>
 		/// The current number of active <see cref="CountedForm"/>s

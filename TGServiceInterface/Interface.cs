@@ -271,6 +271,7 @@ namespace TGServiceInterface
 			string[] RootThings = { typeof(ITGSService).Name, 'S' + typeof(ITGConnectivity).Name };
 			lock (ChannelFactoryCache)
 			{
+				var toRemove = new List<string>();
 				foreach (var I in ChannelFactoryCache)
 				{
 					if (RootThings.Contains(I.Key))
@@ -285,8 +286,10 @@ namespace TGServiceInterface
 					{
 						cf.Abort();
 					}
-					ChannelFactoryCache.Remove(I);
+					toRemove.Add(I.Key);
 				}
+				foreach (var I in toRemove)
+					ChannelFactoryCache.Remove(I);
 			}
 		}
 

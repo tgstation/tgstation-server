@@ -866,14 +866,14 @@ namespace TGServerService
 		}
 
 		/// <inheritdoc />
-		public string MergePullRequest(int PRNumber)
+		public string MergePullRequest(int PRNumber, string atSHA)
 		{
 			lock (RepoLock)
 			{
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Merging PR #{0}...", PRNumber), MessageType.DeveloperInfo);
+				SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRNumber, atSHA != null ? String.Format(" at commit {0}", atSHA): ""), MessageType.DeveloperInfo);
 				result = ResetNoLock(null);
 				if (result != null)
 					return result;
@@ -910,8 +910,28 @@ namespace TGServerService
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRNumber);
 					}
 
+					if (atSHA != null)
+					{
+						//find the commit
+						Commit commit = null;
+						string error = null;
+						try
+						{
+							commit = Repo.Lookup<Commit>(atSHA);
+						}
+						catch (Exception e)
+						{
+							error = e.ToString();
+						}
+						if (commit == null)
+						{
+							SendMessage("REPO: Commit could not be found, aborting!", MessageType.DeveloperInfo);
+							return error ?? String.Format("Commit {0} could not be found in the repository!", atSHA);
+						}
+					}
+
 					//so we'll know if this fails
-					var Result = MergeBranch(LocalBranchName, String.Format("Testmerge commit for pull request #{0}", PRNumber));
+					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("Testmerge commit for pull request #{0}", PRNumber));
 
 					if (Result == null)
 						try
@@ -950,7 +970,7 @@ namespace TGServerService
 							var dick = Deserializer.DeserializeObject(json) as IDictionary<string, object>;
 							var user = dick["user"] as IDictionary<string, object>;
 
-							newPR.Add("commit", branch.Tip.Sha);
+							newPR.Add("commit", atSHA ?? branch.Tip.Sha);
 							newPR.Add("author", (string)user["login"]);
 							newPR.Add("title", (string)dick["title"]);
 							CurrentPRs.Add(PRNumberString, newPR);
@@ -976,7 +996,7 @@ namespace TGServerService
 		}
 
 		/// <inheritdoc />
-		public IList<PullRequestInfo> MergedPullRequests(out string error)
+		public List<PullRequestInfo> MergedPullRequests(out string error)
 		{
 			lock (RepoLock)
 			{
@@ -989,7 +1009,7 @@ namespace TGServerService
 				try
 				{
 					var PRRawData = GetCurrentPRList();
-					IList<PullRequestInfo> output = new List<PullRequestInfo>();
+					var output = new List<PullRequestInfo>();
 					foreach (var I in GetCurrentPRList())
 						output.Add(new PullRequestInfo(Convert.ToInt32(I.Key), I.Value["author"], I.Value["title"], I.Value["commit"]));
 					error = null;

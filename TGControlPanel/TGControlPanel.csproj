@@ -43,6 +43,9 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Octokit, Version=0.28.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.28.0\lib\net45\Octokit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -60,6 +63,12 @@
     </Compile>
     <Compile Include="CountedForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GitHubLoginPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GitHubLoginPrompt.Designer.cs">
+      <DependentUpon>GitHubLoginPrompt.cs</DependentUpon>
     </Compile>
     <Compile Include="InstanceSelector.cs">
       <SubType>Form</SubType>
@@ -96,6 +105,18 @@
     <Compile Include="ControlPanel\StaticPage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TestMergeManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestMergeManager.Designer.cs">
+      <DependentUpon>TestMergeManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServerOpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="GithubLoginPrompt.resx">
+      <DependentUpon>GitHubLoginPrompt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InstanceSelector.resx">
       <DependentUpon>InstanceSelector.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,9 +126,13 @@
     <EmbeddedResource Include="ControlPanel\ControlPanel.resx">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TestMergeManager.resx">
+      <DependentUpon>TestMergeManager.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

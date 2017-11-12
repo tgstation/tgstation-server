@@ -38,25 +38,6 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Used to wrap <see cref="Interface"/> calls in a non-blocking fashion
-		/// </summary>
-		/// <param name="action">The <see cref="Interface"/> operation to wrap</param>
-		Task WrapServerOp(Action action)
-		{
-			Enabled = false;
-			UseWaitCursor = true;
-			try
-			{
-				return Task.Factory.StartNew(action);
-			}
-			finally
-			{
-				Enabled = true;
-				UseWaitCursor = false;
-			}
-		}
-
-		/// <summary>
 		/// Connects to a <see cref="ITGInstance"/> if it is double clicked in <see cref="InstanceListBox"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
