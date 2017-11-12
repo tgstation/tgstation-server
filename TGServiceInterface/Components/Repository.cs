@@ -102,7 +102,7 @@ namespace TGServiceInterface.Components
 		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
 		/// <returns>A <see cref="IList{T}"/> of <see cref="PullRequestInfo"/></returns>
 		[OperationContract]
-		IList<PullRequestInfo> MergedPullRequests(out string error);
+		List<PullRequestInfo> MergedPullRequests(out string error);
 
 		/// <summary>
 		/// Gets the name of the configured git committer

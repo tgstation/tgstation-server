@@ -971,7 +971,7 @@ namespace TGServerService
 		}
 
 		/// <inheritdoc />
-		public IList<PullRequestInfo> MergedPullRequests(out string error)
+		public List<PullRequestInfo> MergedPullRequests(out string error)
 		{
 			lock (RepoLock)
 			{
@@ -984,7 +984,7 @@ namespace TGServerService
 				try
 				{
 					var PRRawData = GetCurrentPRList();
-					IList<PullRequestInfo> output = new List<PullRequestInfo>();
+					var output = new List<PullRequestInfo>();
 					foreach (var I in GetCurrentPRList())
 						output.Add(new PullRequestInfo(Convert.ToInt32(I.Key), I.Value["author"], I.Value["title"], I.Value["commit"]));
 					error = null;
