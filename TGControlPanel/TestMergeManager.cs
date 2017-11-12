@@ -67,7 +67,7 @@ namespace TGControlPanel
 
 					var repo = currentInterface.GetComponent<ITGRepository>();
 					string error = null;
-					IList<PullRequestInfo> pulls = null;
+					List<PullRequestInfo> pulls = null;
 					
 					//get started on this while we're processing here
 					var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error));
@@ -96,8 +96,13 @@ namespace TGControlPanel
 					if (pulls == null)
 						MessageBox.Show(String.Format(MergedPullsError, error));
 
+					//insert the open pull requests, checking already merged once
 					foreach (var I in result.Items)
-						InsertPullRequest(I, pulls.Any(x => x.Number == I.Number));
+						InsertPullRequest(I, pulls.RemoveAll(x => x.Number == I.Number) > 0);
+
+					//insert remaining merged pulls
+					foreach (var I in pulls)
+						InsertItem(String.Format("#{0} - {1}", I.Number, I.Title), true, true);
 				}
 				finally
 				{
@@ -120,6 +125,11 @@ namespace TGControlPanel
 			}
 		}
 
+		/// <summary>
+		/// Format an entry for <paramref name="I"/> and insert it into <see cref="PullRequestListBox"/>
+		/// </summary>
+		/// <param name="I">The <see cref="Issue"/> to format</param>
+		/// <param name="isChecked">If the item should be checked</param>
 		void InsertPullRequest(Issue I, bool isChecked)
 		{
 			bool needsTesting = false;
@@ -130,7 +140,19 @@ namespace TGControlPanel
 					break;
 				}
 			var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, needsTesting ? " - TESTING REQUESTED" : "");
-			if (needsTesting || isChecked)
+			InsertItem(itemString, needsTesting, isChecked);
+		}
+
+		/// <summary>
+		/// Insert an <paramref name="itemString"/> into <see cref="PullRequestListBox"/>
+		/// </summary>
+		/// <param name="itemString">The <see cref="string"/> to insert</param>
+		/// <param name="prioritize">If this or <paramref name="isChecked"/> is <see langword="true"/>, <paramref name="itemString"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
+		/// <param name="isChecked">If the item should be checked</param>
+		void InsertItem(string itemString, bool prioritize, bool isChecked)
+		{
+			prioritize = prioritize || isChecked;
+			if (prioritize)
 			{
 				PullRequestListBox.Items.Insert(0, itemString);
 				if (isChecked)
