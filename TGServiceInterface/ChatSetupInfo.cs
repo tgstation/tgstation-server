@@ -103,7 +103,7 @@ namespace TGServiceInterface
 		/// <summary>
 		/// Sanitizes a list of <paramref name="channelnames"/>
 		/// </summary>
-		/// <param name="channelnames">An <see cref="IList{T}"/> of strings</param>
+		/// <param name="channelnames">A <see cref="List{T}"/> of strings</param>
 		void SanitizeChannelNames(IList<string> channelnames)
 		{
 			for (var I = 0; I < channelnames.Count; ++I)
@@ -129,9 +129,9 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The list of admin entries
 		/// </summary>
-		public IList<string> AdminList
+		public List<string> AdminList
 		{
-			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[AdminListIndex]); }
+			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[AdminListIndex]); }
 			set { DataFields[AdminListIndex] = new JavaScriptSerializer().Serialize(value); }
 		}
 		/// <summary>
@@ -145,9 +145,9 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The channels from which admin commands/messages can be sent/received
 		/// </summary>
-		public IList<string> AdminChannels
+		public List<string> AdminChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[AdminChannelIndex]); }
+			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[AdminChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
@@ -157,9 +157,9 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The channels to which repo and compile messages are sent
 		/// </summary>
-		public IList<string> DevChannels
+		public List<string> DevChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[DevChannelIndex]); }
+			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[DevChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
@@ -169,9 +169,9 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The channels to which watchdog messages are sent
 		/// </summary>
-		public IList<string> WatchdogChannels
+		public List<string> WatchdogChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[WDChannelIndex]); }
+			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[WDChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
@@ -181,9 +181,9 @@ namespace TGServiceInterface
 		/// <summary>
 		/// The channels to which game messages are sent
 		/// </summary>
-		public IList<string> GameChannels
+		public List<string> GameChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<IList<string>>(DataFields[GameChannelIndex]); }
+			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[GameChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
