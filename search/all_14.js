@@ -27,6 +27,7 @@ var searchData=
   ['updaterepobutton',['UpdateRepoButton',['../class_t_g_control_panel_1_1_control_panel.html#a40767bf5707b1c261ef60455f7c310a8',1,'TGControlPanel::ControlPanel']]],
   ['updaterepobutton_5fclick',['UpdateRepoButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#af4228692d422fe7090d454d6840ed431',1,'TGControlPanel::ControlPanel']]],
   ['updaterequest',['UpdateRequest',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398aefad7a9368eed6405ebb24db9017299c',1,'TGServerService']]],
+  ['updateselectedpanel',['UpdateSelectedPanel',['../class_t_g_control_panel_1_1_control_panel.html#a7eaa79b5c4b28a894008e14e6b9a7485',1,'TGControlPanel::ControlPanel']]],
   ['updatestaged',['UpdateStaged',['../class_t_g_server_service_1_1_server_instance.html#aaff75bb9874194c398f76a60c494bbdf',1,'TGServerService::ServerInstance']]],
   ['updatestat',['updateStat',['../class_t_g_server_service_1_1_server_instance.html#a773bda7930c58a1def918b077efcf2a1',1,'TGServerService::ServerInstance']]],
   ['updatesubmodules',['UpdateSubmodules',['../class_t_g_server_service_1_1_server_instance.html#a95d603da4a4dcd14255f39bbf59931ad',1,'TGServerService::ServerInstance']]],

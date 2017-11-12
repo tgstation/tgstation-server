@@ -1,11 +1,12 @@
 <map id="TGControlPanel.ControlPanel.Panels_SelectedIndexChanged" name="TGControlPanel.ControlPanel.Panels_SelectedIndexChanged">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595" title="TGControlPanel.ControlPanel.\lLoadChatPage" alt="" coords="256,37,451,79"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a" title="TGControlPanel.ControlPanel.\lLoadServerPage" alt="" coords="256,103,451,144"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#abea4930015a884e9b0c38dac029e9524" title="TGControlPanel.ControlPanel.\lPopulateRepoFields" alt="" coords="256,168,451,209"/>
-<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_control_panel.html#a4f5df7b59d056c744953d7cd4547c0c6" title="TGControlPanel.ControlPanel.\lUpdateBYONDButtons" alt="" coords="256,233,451,275"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a8f1a1772fbab5ff05473625ed995c598" title="TGControlPanel.ControlPanel.\lAssignListToTextbox" alt="" coords="507,5,701,47"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html#aa875f5edaee37201ade100e943faf434" title="Returns ChatSetupInfo for all ChatProviders " alt="" coords="499,71,709,112"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a6e2d041a46bbda54bb6e70dab696c3dc" title="TGControlPanel.ControlPanel.\lRepoBusyCheck" alt="" coords="507,168,701,209"/>
-<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="757,103,984,144"/>
-<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_control_panel.html#a4c31730c223827ee9aa0f961b3c6bcbd" title="TGControlPanel.ControlPanel.\lDoAsyncOp" alt="" coords="773,168,968,209"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a7eaa79b5c4b28a894008e14e6b9a7485" title="Updates the content of TabControl.SelectedTab of Panels " alt="" coords="256,169,451,211"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#abea4930015a884e9b0c38dac029e9524" title="TGControlPanel.ControlPanel.\lPopulateRepoFields" alt="" coords="499,71,693,112"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a4f5df7b59d056c744953d7cd4547c0c6" title="TGControlPanel.ControlPanel.\lUpdateBYONDButtons" alt="" coords="499,136,693,177"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a" title="TGControlPanel.ControlPanel.\lLoadServerPage" alt="" coords="499,201,693,243"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595" title="TGControlPanel.ControlPanel.\lLoadChatPage" alt="" coords="499,267,693,308"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6e2d041a46bbda54bb6e70dab696c3dc" title="TGControlPanel.ControlPanel.\lRepoBusyCheck" alt="" coords="749,71,944,112"/>
+<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="1000,5,1227,47"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a4c31730c223827ee9aa0f961b3c6bcbd" title="TGControlPanel.ControlPanel.\lDoAsyncOp" alt="" coords="1016,71,1211,112"/>
+<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_control_panel.html#a8f1a1772fbab5ff05473625ed995c598" title="TGControlPanel.ControlPanel.\lAssignListToTextbox" alt="" coords="749,233,944,275"/>
+<area shape="rect" id="node11" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html#aa875f5edaee37201ade100e943faf434" title="Returns ChatSetupInfo for all ChatProviders " alt="" coords="741,299,952,340"/>
 </map>

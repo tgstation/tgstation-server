@@ -1,6 +1,5 @@
 <map id="TGServiceInterface.Components.ITGByond.GetVersion" name="TGServiceInterface.Components.ITGByond.GetVersion">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#ae1b8b2837423c84480d995f71e9be67f" title="TGControlPanel.ControlPanel.\lInitBYONDPage" alt="" coords="306,5,501,47"/>
-<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_b_y_o_n_d_version_command.html#a9bfc5fd351789036fadd01b18b908599" title="Override to do the actions of the Command " alt="" coords="295,71,511,112"/>
-<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_d_m_compile_command.html#a79e830b609c3ce2918cfd1b4ae776b38" title="Override to do the actions of the Command " alt="" coords="264,137,543,163"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="591,5,785,47"/>
+<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_b_y_o_n_d_version_command.html#a9bfc5fd351789036fadd01b18b908599" title="Override to do the actions of the Command " alt="" coords="295,71,511,112"/>
+<area shape="rect" id="node4" href="$class_t_g_command_line_1_1_d_m_compile_command.html#a79e830b609c3ce2918cfd1b4ae776b38" title="Override to do the actions of the Command " alt="" coords="264,137,543,163"/>
 </map>
