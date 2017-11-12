@@ -2,7 +2,7 @@ var searchData=
 [
   ['wait',['Wait',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476aa0f68101772bd5397ef8eb1b632798652',1,'TGControlPanel::ControlPanel']]],
   ['watchdog',['Watchdog',['../class_t_g_server_service_1_1_server_instance.html#ab76e4c626e2b38e75781aaad0b7809a9',1,'TGServerService::ServerInstance']]],
-  ['watchdogchannels',['WatchdogChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#af27e3e8438c9f4d0f0badb376d008306',1,'TGServiceInterface::ChatSetupInfo']]],
+  ['watchdogchannels',['WatchdogChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#aa0a85d305b0e8480d475c2a06b6e67a0',1,'TGServiceInterface::ChatSetupInfo']]],
   ['watchdoginfo',['WatchdogInfo',['../namespace_t_g_server_service.html#a77ffb8da5e77d0173c9a1a3b8ba0b110abe3ab5555c1e2ddd963f53b1dc361d5f',1,'TGServerService']]],
   ['watchdoglock',['watchdogLock',['../class_t_g_server_service_1_1_server_instance.html#aac9358eb96d27250fb77c78695e90128',1,'TGServerService::ServerInstance']]],
   ['wdchannelindex',['WDChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#a2f9899e91d03db2cf5dc5f6aa332744d',1,'TGServiceInterface::ChatSetupInfo']]],

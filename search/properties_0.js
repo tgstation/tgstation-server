@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['adminchannels',['AdminChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#ab469e1c4e7ab1aa9047818400cb51bde',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['adminlist',['AdminList',['../class_t_g_service_interface_1_1_chat_setup_info.html#a3db52960b8349d5af2d9a62d30e26ee0',1,'TGServiceInterface::ChatSetupInfo']]],
+  ['adminchannels',['AdminChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#a7618d40a8b36a7eaef9e8de68327d683',1,'TGServiceInterface::ChatSetupInfo']]],
+  ['adminlist',['AdminList',['../class_t_g_service_interface_1_1_chat_setup_info.html#ad7ae84252d7379542b55f99974417f5e',1,'TGServiceInterface::ChatSetupInfo']]],
   ['adminsarespecial',['AdminsAreSpecial',['../class_t_g_service_interface_1_1_chat_setup_info.html#ab32ea0b5008445696dc9a3a84d04c037',1,'TGServiceInterface::ChatSetupInfo']]],
   ['authlevel',['AuthLevel',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a845fd7339bf6a12da91a104e161bb68f',1,'TGServiceInterface::IRCSetupInfo']]],
   ['authmessage',['AuthMessage',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ae0babac07ba1ce7a6ec6137846732cd9',1,'TGServiceInterface::IRCSetupInfo']]],

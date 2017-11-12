@@ -51,7 +51,7 @@ var searchData=
   ['detachinstancebutton',['DetachInstanceButton',['../class_t_g_control_panel_1_1_instance_selector.html#af05158bc938aba0e047cd885926f9e46',1,'TGControlPanel::InstanceSelector']]],
   ['detachinstancebutton_5fclick',['DetachInstanceButton_Click',['../class_t_g_control_panel_1_1_instance_selector.html#adfd6ea3a3ec162841758ebeeb3aa1b63',1,'TGControlPanel::InstanceSelector']]],
   ['devchannelindex',['DevChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#addb2a809de12be2e723d2e4f2d54b571',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['devchannels',['DevChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#a7bc09dd64238edefade920a349f48fb4',1,'TGServiceInterface::ChatSetupInfo']]],
+  ['devchannels',['DevChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#ab18dec27c25a186a5dd39a2da3d1b113',1,'TGServiceInterface::ChatSetupInfo']]],
   ['devchannelstextbox',['DevChannelsTextbox',['../class_t_g_control_panel_1_1_control_panel.html#ad14a811c22fc6de1dfb965db9c527b9c',1,'TGControlPanel::ControlPanel']]],
   ['developerinfo',['DeveloperInfo',['../namespace_t_g_server_service.html#a77ffb8da5e77d0173c9a1a3b8ba0b110ab28b88939859e1c74cdc1dadbf2cd222',1,'TGServerService']]],
   ['diagnosticsdir',['DiagnosticsDir',['../class_t_g_server_service_1_1_server_instance.html#a9fc559e696e31c09e9d88ca4c1571fbc',1,'TGServerService::ServerInstance']]],
