@@ -134,6 +134,18 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
+		/// Calls <see cref="ITGRepository.GenerateChangelog(out string)"/> and shows the user an error prompt if it fails
+		/// </summary>
+		/// <param name="repo">The <see cref="ITGRepository"/> to call <see cref="ITGRepository.GenerateChangelog(out string)"/> on</param>
+		async void GenerateChangelog(ITGRepository repo)
+		{
+			string error = null;
+			await WrapServerOp(() => repo.GenerateChangelog(out error));
+			if (error != null)
+				MessageBox.Show(String.Format("Error generating changelog: {0}", error));
+		}
+
+		/// <summary>
 		/// Called when the <see cref="ApplyButton"/> is clicked. Calls <see cref="ITGRepository.Update(bool)"/> if necessary, merge pull requests, and call <see cref="ITGCompiler.Compile(bool)"/>. Closes the <see cref="TestMergeManager"/> if appropriate
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
@@ -167,12 +179,9 @@ namespace TGControlPanel
 					return;
 				}
 
-				await WrapServerOp(() => repo.GenerateChangelog(out error));
-				if (error != null)
-					MessageBox.Show(String.Format("Error generating changelog: {0}", error));
-
 				if (UpdateToRemoteRadioButton.Checked)
 				{
+					GenerateChangelog(repo);
 					await WrapServerOp(() => error = repo.SynchronizePush());
 					if (error != null)
 						MessageBox.Show(String.Format("Error sychronizing repo: {0}", error));
@@ -196,6 +205,10 @@ namespace TGControlPanel
 					MessageBox.Show(I);
 				if (errors.Count != 0)
 					return;
+
+				if (pulls.Count > 0)
+					//regen the changelog
+					GenerateChangelog(repo);
 
 				//Start the compile
 				if (!currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1))
