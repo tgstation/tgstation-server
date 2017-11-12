@@ -63,6 +63,7 @@ namespace TGControlPanel
 		/// </summary>
 		void Cleanup()
 		{
+			InstancesInUse.Remove(Interface.InstanceName);
 			Interface.Dispose();
 		}
 
