@@ -21,7 +21,6 @@ namespace TGControlPanel
 
 		void InitServerPage()
 		{
-			LoadServerPage();
 			projectNameText.LostFocus += ProjectNameText_LostFocus;
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
 			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;

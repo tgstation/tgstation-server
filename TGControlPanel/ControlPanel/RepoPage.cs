@@ -33,7 +33,6 @@ namespace TGControlPanel
 			RepoBGW.RunWorkerCompleted += RepoBGW_RunWorkerCompleted;
 			RepoBGW.DoWork += RepoBGW_DoWork;
 			BackupTagsList.MouseDoubleClick += BackupTagsList_MouseDoubleClick;
-			PopulateRepoFields();
 		}
 
 		private void BackupTagsList_MouseDoubleClick(object sender, MouseEventArgs e)
