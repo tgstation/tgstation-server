@@ -660,7 +660,7 @@ namespace TGServerService
 					if (!successOnUpToDate && Repo.Head.Tip.Sha == originBranch.Tip.Sha)
 						return RepoErrorUpToDate;
 
-					SendMessage(String.Format("REPO: Updating origin branch...({0})", reset ? "Hard Reset" : "Merge"), MessageType.DeveloperInfo);
+					SendMessage(String.Format("REPO: Updating origin branch...{0}", reset ? "" : "(Merge)"), MessageType.DeveloperInfo);
 
 					if (reset)
 					{
