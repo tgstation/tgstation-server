@@ -92,9 +92,10 @@ namespace TGServiceInterface.Components
 		/// Merges the target pull request into the current branch if the remote is a github repository
 		/// </summary>
 		/// <param name="PRnumber">The github pull request number in the remote repository</param>
+		/// <param name="atSHA">The SHA of the pull request to merge</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
-		string MergePullRequest(int PRnumber);
+		string MergePullRequest(int PRnumber, string atSHA = null);
 
 		/// <summary>
 		/// Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it
