@@ -43,11 +43,7 @@ namespace TGControlPanel
 			}
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
 			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
-			InitRepoPage();
-			InitBYONDPage();
-			InitServerPage();
-			LoadChatPage();
-			InitStaticPage();
+			UpdateSelectedPanel();
 			InstancesInUse.Add(I.InstanceName, this);
 		}
 		
@@ -67,7 +63,10 @@ namespace TGControlPanel
 			Panels.Height = ClientSize.Height - 20;
 		}
 
-		private void Panels_SelectedIndexChanged(object sender, EventArgs e)
+		/// <summary>
+		/// Updates the content of <see cref="TabControl.SelectedTab"/> of <see cref="Panels"/>
+		/// </summary>
+		void UpdateSelectedPanel()
 		{
 			switch (Panels.SelectedIndex)
 			{
@@ -85,6 +84,11 @@ namespace TGControlPanel
 					break;
 			}
 			Properties.Settings.Default.LastPageIndex = Panels.SelectedIndex;
+		}
+
+		void Panels_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateSelectedPanel();
 		}
 
 		bool CheckAdminWithWarning()
