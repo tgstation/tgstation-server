@@ -1,4 +1,6 @@
 <map id="TGServiceInterface.Interface.ConnectToInstance" name="TGServiceInterface.Interface.ConnectToInstance">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#acff60868ed9882eb00b12ece6e108865" title="TGControlPanel.ControlPanel.\lInitStaticPage" alt="" coords="240,5,435,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="483,5,677,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a7eaa79b5c4b28a894008e14e6b9a7485" title="Updates the content of TabControl.SelectedTab of Panels " alt="" coords="483,5,677,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="976,5,1171,47"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a8f584adc45468984e0b0cfedcd3de73e" title="TGControlPanel.ControlPanel.\lPanels_SelectedIndexChanged" alt="" coords="725,35,928,76"/>
 </map>
