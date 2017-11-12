@@ -1,7 +1,7 @@
 <map id="TGControlPanel.InstanceSelector.RenameInstanceButton_Click" name="TGControlPanel.InstanceSelector.RenameInstanceButton_Click">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#af7e65a3c999af0027e3d48fd55b5a1b1" title="Returns the InstanceMetadata associated with InstanceListBox&#39;s current selected index ..." alt="" coords="284,5,503,47"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using ITGLanding.ListInstances " alt="" coords="284,71,503,112"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#aa765d5b8f1eb1acfafb6016755c5cbc4" title="Used to wrap Interface calls in a non&#45;blocking fashion " alt="" coords="563,100,781,141"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="563,100,767,141"/>
 <area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance_manager.html#aeac25f242619432abb245e0279081d46" title="Renames an instance, this will restart the instance if it is enabled " alt="" coords="272,188,515,229"/>
 <area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="296,253,491,295"/>
 </map>

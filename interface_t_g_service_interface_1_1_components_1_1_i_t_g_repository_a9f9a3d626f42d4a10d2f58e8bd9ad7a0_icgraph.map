@@ -1,5 +1,11 @@
 <map id="TGServiceInterface.Components.ITGRepository.GetRemote" name="TGServiceInterface.Components.ITGRepository.GetRemote">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a9a36a69d6abdde297a1447cb465926ba" title="TGControlPanel.ControlPanel.\lRepoApplyButton_Click" alt="" coords="264,5,459,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="507,5,701,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="749,5,944,47"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_program.html#a09daa452484c1f3a789ce66c4b2f370b" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="266,85,457,127"/>
+<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_control_panel.html#a9a36a69d6abdde297a1447cb465926ba" title="TGControlPanel.ControlPanel.\lRepoApplyButton_Click" alt="" coords="264,165,459,207"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a77e0e99cf564e2a9f56f76b767602290" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="507,13,737,55"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a01f65e4b66e4cc886a1ccd2298fc595b" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="525,85,719,127"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="805,5,991,47"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a8e513d52fdcac052c9cea516cd3f71b1" title="Calls ITGRepository.Reset(bool) with a &#160;parameter, calls ITGRepository.GenerateChangelog(out string)..." alt="" coords="785,71,1011,112"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_control_panel.html#ac4816ff2879cbcf43bc349dfa34bd731" title="Calls UpdateServer " alt="" coords="801,136,995,177"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="1059,136,1253,177"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1301,136,1496,177"/>
 </map>

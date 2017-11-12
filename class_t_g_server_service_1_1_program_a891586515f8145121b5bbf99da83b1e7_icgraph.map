@@ -30,6 +30,6 @@
 <area shape="rect" id="node28" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="1228,344,1439,385"/>
 <area shape="rect" id="node31" href="$class_t_g_server_service_1_1_server_instance.html#abb15a58ceeba5348ec583a2df907350f" title="Hard checks out the passed object name &#160;" alt="" coords="711,436,921,477"/>
 <area shape="rect" id="node32" href="$class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a" title="Fetches the origin and merges it into the current branch " alt="" coords="711,567,921,608"/>
-<area shape="rect" id="node34" href="$class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="711,501,921,543"/>
+<area shape="rect" id="node34" href="$class_t_g_server_service_1_1_server_instance.html#a30623d09726033240093822016dd8535" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="711,501,921,543"/>
 <area shape="rect" id="node33" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="969,567,1180,608"/>
 </map>

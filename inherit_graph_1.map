@@ -1,8 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_form.html" title="Form" alt="" coords="5,81,57,108"/>
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="105,56,300,83"/>
-<area shape="rect" id="node6" href="$class_t_g_installer_wrapper_1_1_main.html" title="TGInstallerWrapper.Main" alt="" coords="120,107,285,133"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="360,5,551,32"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="348,56,563,83"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html" title="TGControlPanel.Login" alt="" coords="381,107,529,133"/>
+<area shape="rect" id="node1" href="$class_form.html" title="Form" alt="" coords="5,85,57,112"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_git_hub_login_prompt.html" title="Used for recieving a GitHub API key for use in Credentials " alt="" coords="111,19,299,61"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGServiceInterface.IInterface " alt="" coords="105,85,305,112"/>
+<area shape="rect" id="node9" href="$class_t_g_installer_wrapper_1_1_main.html" title="TGInstallerWrapper.Main" alt="" coords="123,136,288,163"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="353,56,548,83"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_test_merge_manager.html" title="TGControlPanel.TestMerge\lManager" alt="" coords="361,107,540,149"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="608,5,799,32"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="596,56,811,83"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html" title="TGControlPanel.Login" alt="" coords="629,107,777,133"/>
 </map>

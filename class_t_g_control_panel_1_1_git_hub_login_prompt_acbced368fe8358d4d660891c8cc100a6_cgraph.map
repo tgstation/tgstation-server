@@ -1,0 +1,5 @@
+<map id="TGControlPanel.GitHubLoginPrompt.InitializeComponent" name="TGControlPanel.GitHubLoginPrompt.InitializeComponent">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_git_hub_login_prompt.html#a4614d682c8ed581ef5b93bb413a7b041" title="Calls GetAPIKey. On success, encrypts it&#39;s return value, saves it in Properties.Settings.GitHubAPIKey and Properties.Settings.GitHubAPIKeyEntropy, and closes the GitHubLoginPrompt. On failure, shows a MessageBox and exits " alt="" coords="241,39,429,80"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_git_hub_login_prompt.html#ac82d0281b63c159085dc0c4f177285b2" title="Retrieves an API key from GitHub based on login information or from the APIKeyTextBox and verifies it..." alt="" coords="477,5,665,47"/>
+<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="480,71,663,112"/>
+</map>

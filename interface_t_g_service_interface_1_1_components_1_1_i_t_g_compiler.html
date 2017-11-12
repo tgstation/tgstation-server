@@ -182,17 +182,22 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#afdd737c980b2c078c2de10a57dc4ad40">TGServerService.ServerInstance</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_page_8cs_source.html#l00258">TGControlPanel.ControlPanel.CompileButton_Click()</a>, and <a class="el" href="_server_page_8cs_source.html#l00328">TGControlPanel.ControlPanel.FullUpdateWorker_DoWork()</a>.</p>
+<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00206">TGControlPanel.TestMergeManager.ApplyButton_Click()</a>, <a class="el" href="_server_page_8cs_source.html#l00219">TGControlPanel.ControlPanel.CompileButton_Click()</a>, <a class="el" href="_server_page_8cs_source.html#l00413">TGControlPanel.ControlPanel.RemoveAllTestMergesButton_Click()</a>, and <a class="el" href="_server_page_8cs_source.html#l00313">TGControlPanel.ControlPanel.UpdateServer()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler_a207b7a54fba9717c46abec8709f1d01d_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler_a207b7a54fba9717c46abec8709f1d01d_icgraph" alt=""/></div>
 <map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler_a207b7a54fba9717c46abec8709f1d01d_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler_a207b7a54fba9717c46abec8709f1d01d_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_control_panel.html#a99eafbffa2444d18479a783eba651b19" title="TGControlPanel.ControlPanel.\lCompileButton_Click" alt="" coords="264,5,459,47"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_control_panel.html#a0487c053eae698fec43881bff4d29f8f" title="TGControlPanel.ControlPanel.\lFullUpdateWorker_DoWork" alt="" coords="264,71,459,112"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="507,39,701,80"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="749,39,944,80"/>
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_test_merge_manager.html#a2066080a3af9d4a2f0a28ef08f8f7597" title="Called when the ApplyButton is clicked. Calls ITGRepository.Update(bool) if necessary, merge pull requests, and call ITGCompiler.Compile(bool). Closes the TestMergeManager if appropriate " alt="" coords="270,5,453,47"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_control_panel.html#a99eafbffa2444d18479a783eba651b19" title="TGControlPanel.ControlPanel.\lCompileButton_Click" alt="" coords="264,71,459,112"/>
+<area shape="rect" id="node8" href="class_t_g_control_panel_1_1_control_panel.html#a8e513d52fdcac052c9cea516cd3f71b1" title="Calls ITGRepository.Reset(bool) with a &#160;parameter, calls ITGRepository.GenerateChangelog(out string)..." alt="" coords="507,129,732,171"/>
+<area shape="rect" id="node9" href="class_t_g_control_panel_1_1_control_panel.html#a01f65e4b66e4cc886a1ccd2298fc595b" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="264,188,459,229"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="525,5,714,47"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="784,5,971,47"/>
+<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="780,129,975,171"/>
+<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1023,129,1217,171"/>
+<area shape="rect" id="node10" href="class_t_g_control_panel_1_1_control_panel.html#ac4816ff2879cbcf43bc349dfa34bd731" title="Calls UpdateServer " alt="" coords="522,195,717,236"/>
 </map>
 </div>
 </p>
@@ -270,7 +275,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a427984d1cb5c60f217967795c9695998">TGServerService.ServerInstance</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_page_8cs_source.html#l00252">TGControlPanel.ControlPanel.InitializeButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_server_page_8cs_source.html#l00213">TGControlPanel.ControlPanel.InitializeButton_Click()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

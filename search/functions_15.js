@@ -5,7 +5,7 @@ var searchData=
   ['webclientcheckbox_5fcheckedchanged',['WebclientCheckBox_CheckedChanged',['../class_t_g_control_panel_1_1_control_panel.html#ae8ba02c97bd4bb67add4a6114b93de9e',1,'TGControlPanel::ControlPanel']]],
   ['worldannounce',['WorldAnnounce',['../class_t_g_server_service_1_1_server_instance.html#a989bcee76648cec9c7e52a5d33217e90',1,'TGServerService.ServerInstance.WorldAnnounce()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a632f5682a16fefcd665e20bfc371a09c',1,'TGServiceInterface.Components.ITGDreamDaemon.WorldAnnounce()']]],
   ['worldannouncebutton_5fclick',['WorldAnnounceButton_Click',['../class_t_g_control_panel_1_1_control_panel.html#aaeddf021047986e9245e6252d828fa21',1,'TGControlPanel::ControlPanel']]],
-  ['wrapserverop',['WrapServerOp',['../class_t_g_control_panel_1_1_instance_selector.html#aa765d5b8f1eb1acfafb6016755c5cbc4',1,'TGControlPanel::InstanceSelector']]],
+  ['wrapserverop',['WrapServerOp',['../class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52',1,'TGControlPanel::ServerOpForm']]],
   ['writeaccess',['WriteAccess',['../class_t_g_server_service_1_1_server_instance.html#a17e839a5b09406af80bcf253cfc0c2be',1,'TGServerService::ServerInstance']]],
   ['writecurrentddlog',['WriteCurrentDDLog',['../class_t_g_server_service_1_1_server_instance.html#ac66b59d813dcc51bf26bd90f3b812e8d',1,'TGServerService::ServerInstance']]],
   ['writeentry',['WriteEntry',['../class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57',1,'TGServerService::Service']]],

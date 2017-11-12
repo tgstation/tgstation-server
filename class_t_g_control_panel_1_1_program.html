@@ -112,6 +112,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a9d4b71099fb0fad441b4eb428718a956"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b586d2d467f8a2cf69d01ab03a2eac6"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6">TextPrompt</a> (string caption, string text)</td></tr>
 <tr class="separator:a6b586d2d467f8a2cf69d01ab03a2eac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee7afc07b1fe605aefee8a57598f5a70"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_control_panel_1_1_program.html#aee7afc07b1fe605aefee8a57598f5a70">RateLimitPrompt</a> (Octokit.GitHubClient client)</td></tr>
+<tr class="memdesc:aee7afc07b1fe605aefee8a57598f5a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prompts the user to open the <a class="el" href="class_t_g_control_panel_1_1_git_hub_login_prompt.html" title="Used for recieving a GitHub API key for use in Credentials ">GitHubLoginPrompt</a> explaining the API rate limit  <a href="#aee7afc07b1fe605aefee8a57598f5a70">More...</a><br /></td></tr>
+<tr class="separator:aee7afc07b1fe605aefee8a57598f5a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09daa452484c1f3a789ce66c4b2f370b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_control_panel_1_1_program.html#a09daa452484c1f3a789ce66c4b2f370b">GetRepositoryRemote</a> (<a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html">ITGRepository</a> repo, out string owner, out string name)</td></tr>
+<tr class="memdesc:a09daa452484c1f3a789ce66c4b2f370b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <em>owner</em>  and <em>name</em>  of a given <em>repo</em> 's remote. Shows an error if the target remote isn't GitHub  <a href="#a09daa452484c1f3a789ce66c4b2f370b">More...</a><br /></td></tr>
+<tr class="separator:a09daa452484c1f3a789ce66c4b2f370b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -127,7 +133,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00007">7</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00008">8</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a74cc27ca07e27dbb28401ab5afbe24f0"></a>
 <div class="memitem">
@@ -151,10 +157,10 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00037">37</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00038">38</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00010">TGControlPanel.Program.Main()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_t_g_control_panel_1_1_program.html#a3b8cb0ada155c47ef6e405375877e22b">SSLErrorPromptResult</a>)</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                var result = MessageBox.Show(message + <span class="stringliteral">&quot; IT IS HIGHLY RECCOMENDED YOU DO NOT PROCEED! Continue?&quot;</span>, <span class="stringliteral">&quot;SSL Error&quot;</span>, MessageBoxButtons.YesNo) == DialogResult.Yes;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <a class="code" href="class_t_g_control_panel_1_1_program.html#a3b8cb0ada155c47ef6e405375877e22b">SSLErrorPromptResult</a> = result;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">return</span> result;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div><div class="ttc" id="class_t_g_control_panel_1_1_program_html_a3b8cb0ada155c47ef6e405375877e22b"><div class="ttname"><a href="class_t_g_control_panel_1_1_program.html#a3b8cb0ada155c47ef6e405375877e22b">TGControlPanel.Program.SSLErrorPromptResult</a></div><div class="ttdeci">static bool SSLErrorPromptResult</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_control_panel_2_program_8cs_source.html#l00036">Program.cs:36</a></div></div>
+<p>Referenced by <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00011">TGControlPanel.Program.Main()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_t_g_control_panel_1_1_program.html#a3b8cb0ada155c47ef6e405375877e22b">SSLErrorPromptResult</a>)</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                var result = MessageBox.Show(message + <span class="stringliteral">&quot; IT IS HIGHLY RECCOMENDED YOU DO NOT PROCEED! Continue?&quot;</span>, <span class="stringliteral">&quot;SSL Error&quot;</span>, MessageBoxButtons.YesNo) == DialogResult.Yes;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <a class="code" href="class_t_g_control_panel_1_1_program.html#a3b8cb0ada155c47ef6e405375877e22b">SSLErrorPromptResult</a> = result;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keywordflow">return</span> result;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="class_t_g_control_panel_1_1_program_html_a3b8cb0ada155c47ef6e405375877e22b"><div class="ttname"><a href="class_t_g_control_panel_1_1_program.html#a3b8cb0ada155c47ef6e405375877e22b">TGControlPanel.Program.SSLErrorPromptResult</a></div><div class="ttdeci">static bool SSLErrorPromptResult</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_control_panel_2_program_8cs_source.html#l00037">Program.cs:37</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -162,6 +168,90 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_t_g_control_panel_1_1_program_a74cc27ca07e27dbb28401ab5afbe24f0_icgraph.png" border="0" usemap="#class_t_g_control_panel_1_1_program_a74cc27ca07e27dbb28401ab5afbe24f0_icgraph" alt=""/></div>
 <map name="class_t_g_control_panel_1_1_program_a74cc27ca07e27dbb28401ab5afbe24f0_icgraph" id="class_t_g_control_panel_1_1_program_a74cc27ca07e27dbb28401ab5afbe24f0_icgraph">
 <area shape="rect" id="node2" href="class_t_g_control_panel_1_1_program.html#a7c082331085691218882730365ce60f0" title="TGControlPanel.Program.Main" alt="" coords="247,13,445,39"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a09daa452484c1f3a789ce66c4b2f370b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool TGControlPanel.Program.GetRepositoryRemote </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html">ITGRepository</a>&#160;</td>
+          <td class="paramname"><em>repo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out string&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out string&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the <em>owner</em>  and <em>name</em>  of a given <em>repo</em> 's remote. Shows an error if the target remote isn't GitHub </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">repo</td><td>The ITGRepository to get the remote of</td></tr>
+    <tr><td class="paramname">owner</td><td>The owner of the remote Octokit.Repository</td></tr>
+    <tr><td class="paramname">name</td><td>The remote Octokit.Repository.Name</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if <em>repo</em> 's remote was a valid GitHub Octokit.Repository,  otherwise and the user was prompted</dd></dl>
+
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00098">98</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+
+<p>References <a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a9f9a3d626f42d4a10d2f58e8bd9ad7a0">TGServiceInterface.Components.ITGRepository.GetRemote()</a>.</p>
+
+<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00177">TGControlPanel.TestMergeManager.PullRequestManager_Load()</a>, and <a class="el" href="_server_page_8cs_source.html#l00313">TGControlPanel.ControlPanel.UpdateServer()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordtype">string</span> remote = null;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            remote = repo.<a class="code" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a9f9a3d626f42d4a10d2f58e8bd9ad7a0">GetRemote</a>(out <span class="keywordtype">string</span> error);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">if</span> (remote == null)</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                MessageBox.Show(String.Format(<span class="stringliteral">&quot;Error retrieving remote repository: {0}&quot;</span>, error));</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                owner = null;</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                name = null;</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            }</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">if</span> (!remote.Contains(<span class="stringliteral">&quot;github.com&quot;</span>))</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                MessageBox.Show(<span class="stringliteral">&quot;Pull request support is only available for GitHub based repositories!&quot;</span>, <span class="stringliteral">&quot;Error&quot;</span>);</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                owner = null;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                name = null;</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            }</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="comment">//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]</span></div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            var splits = remote.Split(<span class="charliteral">&#39;/&#39;</span>);</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            name = splits[splits.Length - 1];</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            owner = splits[splits.Length - 2].Split(<span class="charliteral">&#39;.&#39;</span>)[0];</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        }</div><div class="ttc" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_html_a9f9a3d626f42d4a10d2f58e8bd9ad7a0"><div class="ttname"><a href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a9f9a3d626f42d4a10d2f58e8bd9ad7a0">TGServiceInterface.Components.ITGRepository.GetRemote</a></div><div class="ttdeci">string GetRemote(out string error)</div><div class="ttdoc">Gets the url of the current origin </div></div>
+</div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_cgraph.png" border="0" usemap="#class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_cgraph" alt=""/></div>
+<map name="class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_cgraph" id="class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_cgraph">
+<area shape="rect" id="node2" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a9f9a3d626f42d4a10d2f58e8bd9ad7a0" title="Gets the url of the current origin " alt="" coords="244,5,455,47"/>
+</map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_icgraph.png" border="0" usemap="#class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_icgraph" alt=""/></div>
+<map name="class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_icgraph" id="class_t_g_control_panel_1_1_program_a09daa452484c1f3a789ce66c4b2f370b_icgraph">
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_test_merge_manager.html#a77e0e99cf564e2a9f56f76b767602290" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="244,5,475,47"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_control_panel.html#a01f65e4b66e4cc886a1ccd2298fc595b" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="262,71,457,112"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="542,5,729,47"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_control_panel.html#a8e513d52fdcac052c9cea516cd3f71b1" title="Calls ITGRepository.Reset(bool) with a &#160;parameter, calls ITGRepository.GenerateChangelog(out string)..." alt="" coords="523,71,748,112"/>
+<area shape="rect" id="node8" href="class_t_g_control_panel_1_1_control_panel.html#ac4816ff2879cbcf43bc349dfa34bd731" title="Calls UpdateServer " alt="" coords="538,136,733,177"/>
+<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="796,104,991,145"/>
+<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1039,104,1233,145"/>
 </map>
 </div>
 </p>
@@ -190,12 +280,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00010">10</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00011">11</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
 
-<p>References <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00037">TGControlPanel.Program.BadCertificateHandler()</a>, <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00048">TGControlPanel.Program.ServiceDisconnectException()</a>, and <a class="el" href="_interface_8cs_source.html#l00168">TGServiceInterface.Interface.SetBadCertificateHandler()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        {</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            {</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                <span class="keywordflow">if</span> (Properties.Settings.Default.UpgradeRequired)</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                    Properties.Settings.Default.Upgrade();</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                    Properties.Settings.Default.UpgradeRequired = <span class="keyword">false</span>;</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                    Properties.Settings.Default.Save();</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                }</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                Application.EnableVisualStyles();</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                Application.SetCompatibleTextRenderingDefault(<span class="keyword">false</span>);</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_interface.html">Interface</a>.<a class="code" href="class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882">SetBadCertificateHandler</a>(<a class="code" href="class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0">BadCertificateHandler</a>);</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                var login = <span class="keyword">new</span> Login();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                login.Show();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                Application.Run();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            }</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <a class="code" href="class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956">ServiceDisconnectException</a>(e);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            }</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">finally</span></div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            {</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                Properties.Settings.Default.Save();</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            }</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa32780160cb085b1e39ec637cca40882"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882">TGServiceInterface.Interface.SetBadCertificateHandler</a></div><div class="ttdeci">static void SetBadCertificateHandler(Func&lt; string, bool &gt; handler)</div><div class="ttdoc">Sets the function called when a remote login fails due to the server having an invalid SSL cert ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00168">Interface.cs:168</a></div></div>
-<div class="ttc" id="class_t_g_control_panel_1_1_program_html_a74cc27ca07e27dbb28401ab5afbe24f0"><div class="ttname"><a href="class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0">TGControlPanel.Program.BadCertificateHandler</a></div><div class="ttdeci">static bool BadCertificateHandler(string message)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_control_panel_2_program_8cs_source.html#l00037">Program.cs:37</a></div></div>
-<div class="ttc" id="class_t_g_control_panel_1_1_program_html_a9d4b71099fb0fad441b4eb428718a956"><div class="ttname"><a href="class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956">TGControlPanel.Program.ServiceDisconnectException</a></div><div class="ttdeci">static void ServiceDisconnectException(Exception e)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_control_panel_2_program_8cs_source.html#l00048">Program.cs:48</a></div></div>
+<p>References <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00038">TGControlPanel.Program.BadCertificateHandler()</a>, <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00049">TGControlPanel.Program.ServiceDisconnectException()</a>, and <a class="el" href="_interface_8cs_source.html#l00168">TGServiceInterface.Interface.SetBadCertificateHandler()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        {</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            {</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                <span class="keywordflow">if</span> (Properties.Settings.Default.UpgradeRequired)</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                    Properties.Settings.Default.Upgrade();</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                    Properties.Settings.Default.UpgradeRequired = <span class="keyword">false</span>;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                    Properties.Settings.Default.Save();</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                }</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                Application.EnableVisualStyles();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                Application.SetCompatibleTextRenderingDefault(<span class="keyword">false</span>);</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <a class="code" href="class_t_g_service_interface_1_1_interface.html">Interface</a>.<a class="code" href="class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882">SetBadCertificateHandler</a>(<a class="code" href="class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0">BadCertificateHandler</a>);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                var login = <span class="keyword">new</span> Login();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                login.Show();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                Application.Run();</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <a class="code" href="class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956">ServiceDisconnectException</a>(e);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">finally</span></div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                Properties.Settings.Default.Save();</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div><div class="ttc" id="class_t_g_service_interface_1_1_interface_html_aa32780160cb085b1e39ec637cca40882"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882">TGServiceInterface.Interface.SetBadCertificateHandler</a></div><div class="ttdeci">static void SetBadCertificateHandler(Func&lt; string, bool &gt; handler)</div><div class="ttdoc">Sets the function called when a remote login fails due to the server having an invalid SSL cert ...</div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00168">Interface.cs:168</a></div></div>
+<div class="ttc" id="class_t_g_control_panel_1_1_program_html_a74cc27ca07e27dbb28401ab5afbe24f0"><div class="ttname"><a href="class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0">TGControlPanel.Program.BadCertificateHandler</a></div><div class="ttdeci">static bool BadCertificateHandler(string message)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_control_panel_2_program_8cs_source.html#l00038">Program.cs:38</a></div></div>
+<div class="ttc" id="class_t_g_control_panel_1_1_program_html_a9d4b71099fb0fad441b4eb428718a956"><div class="ttname"><a href="class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956">TGControlPanel.Program.ServiceDisconnectException</a></div><div class="ttdeci">static void ServiceDisconnectException(Exception e)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_control_panel_2_program_8cs_source.html#l00049">Program.cs:49</a></div></div>
 <div class="ttc" id="class_t_g_service_interface_1_1_interface_html"><div class="ttname"><a href="class_t_g_service_interface_1_1_interface.html">TGServiceInterface.Interface</a></div><div class="ttdef"><b>Definition:</b> <a href="_interface_8cs_source.html#l00082">Interface.cs:82</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
@@ -206,6 +296,62 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="class_t_g_control_panel_1_1_program.html#a74cc27ca07e27dbb28401ab5afbe24f0" title="TGControlPanel.Program.Bad\lCertificateHandler" alt="" coords="261,5,455,47"/>
 <area shape="rect" id="node3" href="class_t_g_control_panel_1_1_program.html#a9d4b71099fb0fad441b4eb428718a956" title="TGControlPanel.Program.Service\lDisconnectException" alt="" coords="252,71,464,112"/>
 <area shape="rect" id="node4" href="class_t_g_service_interface_1_1_interface.html#aa32780160cb085b1e39ec637cca40882" title="Sets the function called when a remote login fails due to the server having an invalid SSL cert ..." alt="" coords="265,136,451,177"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aee7afc07b1fe605aefee8a57598f5a70"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool TGControlPanel.Program.RateLimitPrompt </td>
+          <td>(</td>
+          <td class="paramtype">Octokit.GitHubClient&#160;</td>
+          <td class="paramname"><em>client</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prompts the user to open the <a class="el" href="class_t_g_control_panel_1_1_git_hub_login_prompt.html" title="Used for recieving a GitHub API key for use in Credentials ">GitHubLoginPrompt</a> explaining the API rate limit </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">client</td><td>The Octokit.GitHubClient to use</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if the <a class="el" href="class_t_g_control_panel_1_1_git_hub_login_prompt.html" title="Used for recieving a GitHub API key for use in Credentials ">GitHubLoginPrompt</a> ran and returned a DialogResult.OK,  otherwise</dd></dl>
+
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00083">83</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00056">TGControlPanel.TestMergeManager.LoadPullRequests()</a>, <a class="el" href="_server_page_8cs_source.html#l00413">TGControlPanel.ControlPanel.RemoveAllTestMergesButton_Click()</a>, and <a class="el" href="_server_page_8cs_source.html#l00313">TGControlPanel.ControlPanel.UpdateServer()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">if</span> (MessageBox.Show(<span class="stringliteral">&quot;You seem to have hit the rate limit of 60 requests per hour of the GitHub API for anonymous requests. Would you like to enter credentials to bypass this?&quot;</span>, <span class="stringliteral">&quot;Rate limited&quot;</span>, MessageBoxButtons.YesNo) != DialogResult.Yes)</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keyword">using</span> (var D = <span class="keyword">new</span> GitHubLoginPrompt(client))</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="keywordflow">return</span> D.ShowDialog() == DialogResult.OK;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div></div><!-- fragment -->
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_t_g_control_panel_1_1_program_aee7afc07b1fe605aefee8a57598f5a70_icgraph.png" border="0" usemap="#class_t_g_control_panel_1_1_program_aee7afc07b1fe605aefee8a57598f5a70_icgraph" alt=""/></div>
+<map name="class_t_g_control_panel_1_1_program_aee7afc07b1fe605aefee8a57598f5a70_icgraph" id="class_t_g_control_panel_1_1_program_aee7afc07b1fe605aefee8a57598f5a70_icgraph">
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_test_merge_manager.html#abbf6cece99d79482f460f4cb24cce41f" title="Populate PullRequestListBox with PullRequestInfo from github and check off ones that are currently me..." alt="" coords="257,68,439,109"/>
+<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_control_panel.html#a8e513d52fdcac052c9cea516cd3f71b1" title="Calls ITGRepository.Reset(bool) with a &#160;parameter, calls ITGRepository.GenerateChangelog(out string)..." alt="" coords="493,133,719,175"/>
+<area shape="rect" id="node10" href="class_t_g_control_panel_1_1_control_panel.html#a01f65e4b66e4cc886a1ccd2298fc595b" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="251,189,445,231"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_test_merge_manager.html#a77e0e99cf564e2a9f56f76b767602290" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="767,5,997,47"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_test_merge_manager.html#aebd4998173ab2c9838bcd4594fd9eb36" title="Called when the RefreshButton is clicked " alt="" coords="509,68,703,109"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="1049,71,1236,112"/>
+<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="787,71,977,112"/>
+<area shape="rect" id="node8" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="785,167,979,208"/>
+<area shape="rect" id="node9" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1045,167,1240,208"/>
+<area shape="rect" id="node11" href="class_t_g_control_panel_1_1_control_panel.html#ac4816ff2879cbcf43bc349dfa34bd731" title="Calls UpdateServer " alt="" coords="509,199,703,240"/>
 </map>
 </div>
 </p>
@@ -234,19 +380,16 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00048">48</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00049">49</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_page_8cs_source.html#l00328">TGControlPanel.ControlPanel.FullUpdateWorker_DoWork()</a>, and <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00010">TGControlPanel.Program.Main()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            MessageBox.Show(<span class="stringliteral">&quot;An unhandled exception occurred. This usually means we lost connection to the service. Error&quot;</span> + e.ToString());</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div></div><!-- fragment -->
+<p>Referenced by <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00011">TGControlPanel.Program.Main()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            MessageBox.Show(<span class="stringliteral">&quot;An unhandled exception occurred. This usually means we lost connection to the service. Error&quot;</span> + e.ToString());</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_t_g_control_panel_1_1_program_a9d4b71099fb0fad441b4eb428718a956_icgraph.png" border="0" usemap="#class_t_g_control_panel_1_1_program_a9d4b71099fb0fad441b4eb428718a956_icgraph" alt=""/></div>
 <map name="class_t_g_control_panel_1_1_program_a9d4b71099fb0fad441b4eb428718a956_icgraph" id="class_t_g_control_panel_1_1_program_a9d4b71099fb0fad441b4eb428718a956_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_control_panel.html#a0487c053eae698fec43881bff4d29f8f" title="TGControlPanel.ControlPanel.\lFullUpdateWorker_DoWork" alt="" coords="267,5,462,47"/>
-<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_program.html#a7c082331085691218882730365ce60f0" title="TGControlPanel.Program.Main" alt="" coords="265,71,464,98"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="512,5,707,47"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="755,5,949,47"/>
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_program.html#a7c082331085691218882730365ce60f0" title="TGControlPanel.Program.Main" alt="" coords="265,13,464,39"/>
 </map>
 </div>
 </p>
@@ -285,10 +428,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00053">53</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00054">54</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_instance_selector_8cs_source.html#l00217">TGControlPanel.InstanceSelector.CreateInstanceButton_Click()</a>, <a class="el" href="_instance_selector_8cs_source.html#l00200">TGControlPanel.InstanceSelector.ImportInstanceButton_Click()</a>, <a class="el" href="_instance_selector_8cs_source.html#l00178">TGControlPanel.InstanceSelector.RenameInstanceButton_Click()</a>, and <a class="el" href="_static_page_8cs_source.html#l00215">TGControlPanel.ControlPanel.StaticFileCreateButton_Click()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <a class="code" href="class_form.html">Form</a> prompt = <span class="keyword">new</span> <a class="code" href="class_form.html">Form</a>()</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                Width = 500,</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                Height = 150,</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                FormBorderStyle = FormBorderStyle.FixedDialog,</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                Text = caption,</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                StartPosition = FormStartPosition.CenterScreen,</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                MaximizeBox = <span class="keyword">false</span>,</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                MinimizeBox = <span class="keyword">false</span>,</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            };</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            Label textLabel = <span class="keyword">new</span> Label() { Left = 50, Top = 20, Text = text, AutoSize = <span class="keyword">true</span> };</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            TextBox textBox = <span class="keyword">new</span> TextBox() { Left = 50, Top = 50, Width = 400 };</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            Button confirmation = <span class="keyword">new</span> Button() { Text = <span class="stringliteral">&quot;Ok&quot;</span>, Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            confirmation.Click += (sender, e) =&gt; { prompt.Close(); };</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            prompt.Controls.Add(textBox);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            prompt.Controls.Add(confirmation);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            prompt.Controls.Add(textLabel);</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            prompt.AcceptButton = confirmation;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">return</span> prompt.ShowDialog() == DialogResult.OK ? textBox.Text : null;</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div><div class="ttc" id="class_form_html"><div class="ttname"><a href="class_form.html">Form</a></div></div>
+<p>Referenced by <a class="el" href="_instance_selector_8cs_source.html#l00198">TGControlPanel.InstanceSelector.CreateInstanceButton_Click()</a>, <a class="el" href="_instance_selector_8cs_source.html#l00181">TGControlPanel.InstanceSelector.ImportInstanceButton_Click()</a>, <a class="el" href="_instance_selector_8cs_source.html#l00159">TGControlPanel.InstanceSelector.RenameInstanceButton_Click()</a>, and <a class="el" href="_static_page_8cs_source.html#l00215">TGControlPanel.ControlPanel.StaticFileCreateButton_Click()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <a class="code" href="class_form.html">Form</a> prompt = <span class="keyword">new</span> <a class="code" href="class_form.html">Form</a>()</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                Width = 500,</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                Height = 150,</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                FormBorderStyle = FormBorderStyle.FixedDialog,</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                Text = caption,</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                StartPosition = FormStartPosition.CenterScreen,</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                MaximizeBox = <span class="keyword">false</span>,</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                MinimizeBox = <span class="keyword">false</span>,</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            };</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            Label textLabel = <span class="keyword">new</span> Label() { Left = 50, Top = 20, Text = text, AutoSize = <span class="keyword">true</span> };</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            TextBox textBox = <span class="keyword">new</span> TextBox() { Left = 50, Top = 50, Width = 400 };</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            Button confirmation = <span class="keyword">new</span> Button() { Text = <span class="stringliteral">&quot;Ok&quot;</span>, Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            confirmation.Click += (sender, e) =&gt; { prompt.Close(); };</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            prompt.Controls.Add(textBox);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            prompt.Controls.Add(confirmation);</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            prompt.Controls.Add(textLabel);</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            prompt.AcceptButton = confirmation;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">return</span> prompt.ShowDialog() == DialogResult.OK ? textBox.Text : null;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div><div class="ttc" id="class_form_html"><div class="ttname"><a href="class_form.html">Form</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -328,7 +471,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00036">36</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00037">37</a> of file <a class="el" href="_t_g_control_panel_2_program_8cs_source.html">Program.cs</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,4 @@
+<map id="TGControlPanel.TestMergeManager.GenerateChangelog" name="TGControlPanel.TestMergeManager.GenerateChangelog">
+<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aabfae3c0473947b35a55514adbbcf910" title="Updates the html changelog " alt="" coords="244,5,467,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="253,71,457,112"/>
+</map>

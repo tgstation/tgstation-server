@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pkilltype',['PKillType',['../class_t_g_installer_wrapper_1_1_main.html#aa67361671616f31eb31395aa988529b8',1,'TGInstallerWrapper::Main']]]
+  ['repoaction',['RepoAction',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476a',1,'TGControlPanel::ControlPanel']]]
 ];

@@ -16,7 +16,7 @@ var searchData=
   ['worldannouncefield',['WorldAnnounceField',['../class_t_g_control_panel_1_1_control_panel.html#a3bddc71cc6fea0d65753e1916a93a433',1,'TGControlPanel::ControlPanel']]],
   ['worldannouncelabel',['WorldAnnounceLabel',['../class_t_g_control_panel_1_1_control_panel.html#a3988c7ca432fcffb3e2b3398392002b7',1,'TGControlPanel::ControlPanel']]],
   ['worldreboot',['WorldReboot',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398af513c748a1d521e163a78e4f299a3fea',1,'TGServerService']]],
-  ['wrapserverop',['WrapServerOp',['../class_t_g_control_panel_1_1_instance_selector.html#aa765d5b8f1eb1acfafb6016755c5cbc4',1,'TGControlPanel::InstanceSelector']]],
+  ['wrapserverop',['WrapServerOp',['../class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52',1,'TGControlPanel::ServerOpForm']]],
   ['writeaccess',['WriteAccess',['../class_t_g_server_service_1_1_server_instance.html#a17e839a5b09406af80bcf253cfc0c2be',1,'TGServerService::ServerInstance']]],
   ['writecurrentddlog',['WriteCurrentDDLog',['../class_t_g_server_service_1_1_server_instance.html#ac66b59d813dcc51bf26bd90f3b812e8d',1,'TGServerService::ServerInstance']]],
   ['writeentry',['WriteEntry',['../class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57',1,'TGServerService::Service']]],

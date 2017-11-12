@@ -1,9 +1,0 @@
-<map id="TGControlPanel.ControlPanel.RunServerUpdate" name="TGControlPanel.ControlPanel.RunServerUpdate">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a8fbbf6cb3bbd524124ede7edca400bad" title="TGControlPanel.ControlPanel.\lResetTestmerge_Click" alt="" coords="250,5,445,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a5fd257a72a8eaacd28e6f8454ddeb389" title="TGControlPanel.ControlPanel.\lTestmergeButton_Click" alt="" coords="250,71,445,112"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#aafa8eb0380979fe7a5c2a0d2dfc31f8d" title="TGControlPanel.ControlPanel.\lUpdateHardButton_Click" alt="" coords="250,136,445,177"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a175e0bc674d224fd38adec40aa3dfc46" title="TGControlPanel.ControlPanel.\lUpdateMergeButton_Click" alt="" coords="250,201,445,243"/>
-<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#a561db6c97615610d9d7e607759e8fc89" title="TGControlPanel.ControlPanel.\lUpdateTestmergeButton_Click" alt="" coords="248,267,447,308"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="495,136,689,177"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="737,136,932,177"/>
-</map>

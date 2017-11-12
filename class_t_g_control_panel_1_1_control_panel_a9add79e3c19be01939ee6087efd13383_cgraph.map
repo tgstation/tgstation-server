@@ -1,8 +1,8 @@
 <map id="TGControlPanel.ControlPanel.InitServerPage" name="TGControlPanel.ControlPanel.InitServerPage">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#acdbf071340e7b9091e5c85e3533efd16" title="TGControlPanel.ControlPanel.\lFullUpdateWorker_RunWorkerCompleted" alt="" coords="248,5,508,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a5a8e1588c50b0228a7e36e8b61f701b3" title="TGControlPanel.ControlPanel.\lProjectNameText_KeyDown" alt="" coords="281,136,475,177"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a1a435ec5d43eafc7c8002dd2ed79561c" title="TGControlPanel.ControlPanel.\lProjectNameText_LostFocus" alt="" coords="281,201,475,243"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a5124dac696b2e88cb0ff26c71b5fc9ac" title="TGControlPanel.ControlPanel.\lServerStartBGW_RunWorkerCompleted" alt="" coords="252,71,504,112"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a" title="TGControlPanel.ControlPanel.\lLoadServerPage" alt="" coords="556,55,751,96"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#ad3392c89236dc8608478b82bf8df78c6" title="TGControlPanel.ControlPanel.\lUpdateProjectName" alt="" coords="556,152,751,193"/>
+<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_helpers.html#a81f38322a0d94f1bbeab703eef6902d2" title="Takes ciphertext and entropy from EncryptData(string, out string) and returns the cleartext..." alt="" coords="283,5,465,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a5a8e1588c50b0228a7e36e8b61f701b3" title="TGControlPanel.ControlPanel.\lProjectNameText_KeyDown" alt="" coords="277,71,471,112"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a1a435ec5d43eafc7c8002dd2ed79561c" title="TGControlPanel.ControlPanel.\lProjectNameText_LostFocus" alt="" coords="277,136,471,177"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a5124dac696b2e88cb0ff26c71b5fc9ac" title="TGControlPanel.ControlPanel.\lServerStartBGW_RunWorkerCompleted" alt="" coords="248,201,500,243"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#ad3392c89236dc8608478b82bf8df78c6" title="TGControlPanel.ControlPanel.\lUpdateProjectName" alt="" coords="548,104,743,145"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a" title="TGControlPanel.ControlPanel.\lLoadServerPage" alt="" coords="548,201,743,243"/>
 </map>

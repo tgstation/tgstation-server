@@ -31,6 +31,6 @@
 <area shape="rect" id="node29" href="$class_t_g_server_service_1_1_server_instance.html#aeb8f7b25f00c15aed0b80f2e0cff6ef4" title="Renames the current static folder to a backup name and recreates is from the current repo using TGS3..." alt="" coords="933,697,1144,739"/>
 <area shape="rect" id="node31" href="$class_t_g_server_service_1_1_server_instance.html#abb15a58ceeba5348ec583a2df907350f" title="Hard checks out the passed object name &#160;" alt="" coords="933,436,1144,477"/>
 <area shape="rect" id="node32" href="$class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a" title="Fetches the origin and merges it into the current branch " alt="" coords="933,567,1144,608"/>
-<area shape="rect" id="node34" href="$class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="933,501,1144,543"/>
+<area shape="rect" id="node34" href="$class_t_g_server_service_1_1_server_instance.html#a30623d09726033240093822016dd8535" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="933,501,1144,543"/>
 <area shape="rect" id="node33" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="1192,567,1403,608"/>
 </map>

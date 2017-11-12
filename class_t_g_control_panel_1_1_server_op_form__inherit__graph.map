@@ -1,0 +1,8 @@
+<map id="TGControlPanel.ServerOpForm" name="TGControlPanel.ServerOpForm">
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="230,162,425,189"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_test_merge_manager.html" title="TGControlPanel.TestMerge\lManager" alt="" coords="449,155,627,196"/>
+<area shape="rect" id="node2" href="$class_form.html" title="Form" alt="" coords="407,5,459,32"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="5,244,196,271"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="220,244,435,271"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html" title="TGControlPanel.Login" alt="" coords="459,244,607,271"/>
+</map>

@@ -1,6 +1,7 @@
 var searchData=
 [
   ['addendpoint',['AddEndpoint',['../class_t_g_server_service_1_1_service.html#a70efdca1b28c2d1a30df7e46bd48bc40',1,'TGServerService::Service']]],
+  ['addprbutton_5fclick',['AddPRButton_Click',['../class_t_g_control_panel_1_1_test_merge_manager.html#ad3731dd6aa6a28c797f0a11a72bc7dd4',1,'TGControlPanel::TestMergeManager']]],
   ['admincleargroupcommand',['AdminClearGroupCommand',['../class_t_g_command_line_1_1_admin_clear_group_command.html#ad9cce4b2a92f980dadbbb7ec3146cb1e',1,'TGCommandLine::AdminClearGroupCommand']]],
   ['admincommand',['AdminCommand',['../class_t_g_command_line_1_1_admin_command.html#a11d4707466c743a8213c048acc970d5a',1,'TGCommandLine::AdminCommand']]],
   ['adminmodenormal_5fcheckedchanged',['AdminModeNormal_CheckedChanged',['../class_t_g_control_panel_1_1_control_panel.html#aa410f798df904be90896e5f82b82e6e5',1,'TGControlPanel::ControlPanel']]],
@@ -8,6 +9,7 @@ var searchData=
   ['adminrecreatestaticcommand',['AdminRecreateStaticCommand',['../class_t_g_command_line_1_1_admin_recreate_static_command.html#a44aea068d5ec96d5f6b1ccc59104bad4',1,'TGCommandLine::AdminRecreateStaticCommand']]],
   ['adminsetgroupcommand',['AdminSetGroupCommand',['../class_t_g_command_line_1_1_admin_set_group_command.html#ab95743995991ce144bb888f1c5de96d4',1,'TGCommandLine::AdminSetGroupCommand']]],
   ['adminviewgroupcommand',['AdminViewGroupCommand',['../class_t_g_command_line_1_1_admin_view_group_command.html#a84aec8dd2e5ef8671dd50eba97d9ff86',1,'TGCommandLine::AdminViewGroupCommand']]],
+  ['applybutton_5fclick',['ApplyButton_Click',['../class_t_g_control_panel_1_1_test_merge_manager.html#a2066080a3af9d4a2f0a28ef08f8f7597',1,'TGControlPanel::TestMergeManager']]],
   ['applystagedupdate',['ApplyStagedUpdate',['../class_t_g_server_service_1_1_server_instance.html#a28e22392a22a56807a3c3a6a3a366860',1,'TGServerService::ServerInstance']]],
   ['assertencryptdata',['AssertEncryptData',['../class_t_g_service_interface_1_1_tests_1_1_test_helpers.html#a969eb86d2854e9f1db554f1fe49d827a',1,'TGServiceInterface::Tests::TestHelpers']]],
   ['assignlisttotextbox',['AssignListToTextbox',['../class_t_g_control_panel_1_1_control_panel.html#a8f1a1772fbab5ff05473625ed995c598',1,'TGControlPanel::ControlPanel']]],

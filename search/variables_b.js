@@ -16,5 +16,6 @@ var searchData=
   ['livefile',['LiveFile',['../class_t_g_server_service_1_1_server_instance.html#a857c11bb60033e231f050145493ca3b8',1,'TGServerService::ServerInstance']]],
   ['livetrackingbranch',['LiveTrackingBranch',['../class_t_g_server_service_1_1_server_instance.html#a6940fb33b38a22d9b7b5d55d5e17dbfd',1,'TGServerService::ServerInstance']]],
   ['localloginbutton',['LocalLoginButton',['../class_t_g_control_panel_1_1_login.html#a8d0efee314893e1ae202f19d67e76d47',1,'TGControlPanel::Login']]],
-  ['loggingid',['LoggingID',['../class_t_g_server_service_1_1_server_instance.html#afbfb768a2d7c05237dd2650892cf6266',1,'TGServerService.ServerInstance.LoggingID()'],['../class_t_g_server_service_1_1_service.html#a6e95310be3be5a0cebd4f0c00fc83123',1,'TGServerService.Service.LoggingID()']]]
+  ['loggingid',['LoggingID',['../class_t_g_server_service_1_1_server_instance.html#afbfb768a2d7c05237dd2650892cf6266',1,'TGServerService.ServerInstance.LoggingID()'],['../class_t_g_server_service_1_1_service.html#a6e95310be3be5a0cebd4f0c00fc83123',1,'TGServerService.Service.LoggingID()']]],
+  ['loginbutton',['LoginButton',['../class_t_g_control_panel_1_1_git_hub_login_prompt.html#aba6b1383a566ab292ba4601ac8c07dc6',1,'TGControlPanel::GitHubLoginPrompt']]]
 ];

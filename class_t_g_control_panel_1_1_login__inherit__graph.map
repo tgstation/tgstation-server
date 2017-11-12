@@ -1,4 +1,5 @@
 <map id="TGControlPanel.Login" name="TGControlPanel.Login">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="29,80,129,107"/>
-<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="53,5,105,32"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="29,155,129,181"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGServiceInterface.IInterface " alt="" coords="27,80,132,107"/>
+<area shape="rect" id="node4" href="$class_form.html" title="Form" alt="" coords="53,5,105,32"/>
 </map>

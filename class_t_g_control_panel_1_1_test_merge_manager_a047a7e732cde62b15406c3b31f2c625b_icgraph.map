@@ -1,0 +1,5 @@
+<map id="TGControlPanel.TestMergeManager.GenerateChangelog" name="TGControlPanel.TestMergeManager.GenerateChangelog">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a2066080a3af9d4a2f0a28ef08f8f7597" title="Called when the ApplyButton is clicked. Calls ITGRepository.Update(bool) if necessary, merge pull requests, and call ITGCompiler.Compile(bool). Closes the TestMergeManager if appropriate " alt="" coords="244,5,427,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="475,5,664,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="712,5,899,47"/>
+</map>

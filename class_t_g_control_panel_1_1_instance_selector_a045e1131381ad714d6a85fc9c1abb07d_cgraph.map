@@ -1,6 +1,6 @@
 <map id="TGControlPanel.InstanceSelector.ImportInstanceButton_Click" name="TGControlPanel.InstanceSelector.ImportInstanceButton_Click">
 <area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance_manager.html#a005b29d6cf610e08e5fa7ef43f0cf6a2" title="Registers an existing server instance " alt="" coords="272,5,503,47"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using ITGLanding.ListInstances " alt="" coords="278,71,497,112"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#aa765d5b8f1eb1acfafb6016755c5cbc4" title="Used to wrap Interface calls in a non&#45;blocking fashion " alt="" coords="551,100,769,141"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="551,100,755,141"/>
 <area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_program.html#a6b586d2d467f8a2cf69d01ab03a2eac6" title="TGControlPanel.Program.Text\lPrompt" alt="" coords="290,188,485,229"/>
 </map>

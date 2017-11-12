@@ -3,6 +3,7 @@ var searchData=
   ['identitylabel',['IdentityLabel',['../class_t_g_control_panel_1_1_control_panel.html#add908d5e5f26c49bb802ed88b14e1534',1,'TGControlPanel::ControlPanel']]],
   ['importinstancebutton',['ImportInstanceButton',['../class_t_g_control_panel_1_1_instance_selector.html#aa6d53b66ba858ef2268cf6bd1e821498',1,'TGControlPanel::InstanceSelector']]],
   ['indexestopaths',['IndexesToPaths',['../class_t_g_control_panel_1_1_control_panel.html#a14ca8b8814be8f8912c03591c161bf30',1,'TGControlPanel::ControlPanel']]],
+  ['initalloginbuttontext',['InitalLoginButtonText',['../class_t_g_control_panel_1_1_git_hub_login_prompt.html#a724752f9fb0de5729ebf219e92488e90',1,'TGControlPanel::GitHubLoginPrompt']]],
   ['initializebutton',['initializeButton',['../class_t_g_control_panel_1_1_control_panel.html#a7fb56f9b40fb088465c9bf1ae6c17480',1,'TGControlPanel::ControlPanel']]],
   ['initializefields',['InitializeFields',['../class_t_g_service_interface_1_1_chat_setup_info.html#a065ea657bcf0f8f76fd877cba8d6e996',1,'TGServiceInterface::ChatSetupInfo']]],
   ['installbutton',['InstallButton',['../class_t_g_installer_wrapper_1_1_main.html#a17eca3d87d5a9b04f30ea50fe455c739',1,'TGInstallerWrapper::Main']]],

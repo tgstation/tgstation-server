@@ -1,0 +1,6 @@
+<map id="TGServiceInterface.Components.ITGRepository.GenerateChangelog" name="TGServiceInterface.Components.ITGRepository.GenerateChangelog">
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a047a7e732cde62b15406c3b31f2c625b" title="Calls ITGRepository.GenerateChangelog(out string) and shows the user an error prompt if it fails ..." alt="" coords="276,5,467,47"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a2066080a3af9d4a2f0a28ef08f8f7597" title="Called when the ApplyButton is clicked. Calls ITGRepository.Update(bool) if necessary, merge pull requests, and call ITGCompiler.Compile(bool). Closes the TestMergeManager if appropriate " alt="" coords="515,5,697,47"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="745,5,935,47"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="983,5,1169,47"/>
+</map>

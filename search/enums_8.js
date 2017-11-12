@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['repoaction',['RepoAction',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476a',1,'TGControlPanel::ControlPanel']]]
+  ['shutdownrequestphase',['ShutdownRequestPhase',['../class_t_g_server_service_1_1_server_instance.html#ad1ddb778169e3f37504360e6850f3b10',1,'TGServerService::ServerInstance']]],
+  ['symboliclink',['SymbolicLink',['../class_t_g_server_service_1_1_server_instance.html#af30b33f85b47517c591e0a2ea5b88fa9',1,'TGServerService::ServerInstance']]]
 ];

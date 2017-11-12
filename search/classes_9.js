@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main',['Main',['../class_t_g_installer_wrapper_1_1_main.html',1,'TGInstallerWrapper']]]
+  ['login',['Login',['../class_t_g_control_panel_1_1_login.html',1,'TGControlPanel']]]
 ];

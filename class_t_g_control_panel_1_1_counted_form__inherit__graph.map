@@ -1,6 +1,7 @@
 <map id="TGControlPanel.CountedForm" name="TGControlPanel.CountedForm">
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="5,155,196,181"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="220,155,435,181"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html" title="TGControlPanel.Login" alt="" coords="459,155,607,181"/>
-<area shape="rect" id="node2" href="$class_form.html" title="Form" alt="" coords="301,5,353,32"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="5,229,196,256"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="220,229,435,256"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_login.html" title="TGControlPanel.Login" alt="" coords="459,229,607,256"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGServiceInterface.IInterface " alt="" coords="275,80,380,107"/>
+<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="301,5,353,32"/>
 </map>

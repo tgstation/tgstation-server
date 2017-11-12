@@ -1,7 +1,9 @@
 <map id="TGServiceInterface.Helpers.DecryptData" name="TGServiceInterface.Helpers.DecryptData">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a773aa236fa08157b085162e7c2bdd846" title="Returns a list of ChatSetupInfos loaded from the config or the defaults if none are set ..." alt="" coords="246,5,457,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="260,71,443,98"/>
-<area shape="rect" id="node6" href="$class_t_g_service_interface_1_1_tests_1_1_test_helpers.html#a3c24d38b98b3b0600ec036fabf546529" title="Tests that Helpers.DecryptData(string, string) can execute successfully " alt="" coords="236,123,467,164"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="254,71,449,112"/>
+<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce" title="Create a Login form " alt="" coords="260,137,443,163"/>
+<area shape="rect" id="node8" href="$class_t_g_service_interface_1_1_tests_1_1_test_helpers.html#a3c24d38b98b3b0600ec036fabf546529" title="Tests that Helpers.DecryptData(string, string) can execute successfully " alt="" coords="236,188,467,229"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a61c197535442dd090e429de96abe5466" title="Set up the ChatProviders for the ServerInstance " alt="" coords="515,5,725,47"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="773,5,984,47"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="523,71,717,112"/>
 </map>

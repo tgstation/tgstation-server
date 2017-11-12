@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['helpers',['Helpers',['../class_t_g_service_interface_1_1_helpers.html',1,'TGServiceInterface']]]
+  ['githubloginprompt',['GitHubLoginPrompt',['../class_t_g_control_panel_1_1_git_hub_login_prompt.html',1,'TGControlPanel']]]
 ];

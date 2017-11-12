@@ -26,5 +26,5 @@ var searchData=
   ['reporesettracked',['RepoResetTracked',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a2f53c569d343db7849491cc6d6530126',1,'TGServerService']]],
   ['reporesettrackedfail',['RepoResetTrackedFail',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a7085fb7cd4f9d8aff5f7261ee21fe3d0',1,'TGServerService']]],
   ['requested',['Requested',['../class_t_g_server_service_1_1_server_instance.html#ad1ddb778169e3f37504360e6850f3b10afcdf8a82eba24e303b63b2e49a507ecb',1,'TGServerService::ServerInstance']]],
-  ['reset',['Reset',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476aa526d688f37a86d3c3f27d0c5016eb71d',1,'TGControlPanel.ControlPanel.Reset()'],['../class_t_g_control_panel_1_1_control_panel.html#a47420c27d232b802a07c3feed6dbdf5ea526d688f37a86d3c3f27d0c5016eb71d',1,'TGControlPanel.ControlPanel.Reset()']]]
+  ['reset',['Reset',['../class_t_g_control_panel_1_1_control_panel.html#a6c194b2412356fd4a11f46eca0a5476aa526d688f37a86d3c3f27d0c5016eb71d',1,'TGControlPanel::ControlPanel']]]
 ];

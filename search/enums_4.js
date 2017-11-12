@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fullupdateaction',['FullUpdateAction',['../class_t_g_control_panel_1_1_control_panel.html#a47420c27d232b802a07c3feed6dbdf5e',1,'TGControlPanel::ControlPanel']]]
+  ['ircmode',['IRCMode',['../namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8',1,'TGServiceInterface']]]
 ];

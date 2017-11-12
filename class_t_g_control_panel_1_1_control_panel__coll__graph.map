@@ -1,6 +1,7 @@
 <map id="TGControlPanel.ControlPanel" name="TGControlPanel.ControlPanel">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="255,31,355,57"/>
-<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="24,5,76,32"/>
-<area shape="rect" id="node13" href="$interface_t_g_service_interface_1_1_i_interface.html" title="Main &#160;for communicating the ITGSService " alt="" coords="212,545,399,572"/>
-<area shape="rect" id="node14" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,545,95,572"/>
+<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="373,35,473,61"/>
+<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGServiceInterface.IInterface " alt="" coords="107,5,212,32"/>
+<area shape="rect" id="node4" href="$class_form.html" title="Form" alt="" coords="5,5,57,32"/>
+<area shape="rect" id="node13" href="$interface_t_g_service_interface_1_1_i_interface.html" title="Main &#160;for communicating the ITGSService " alt="" coords="329,484,516,511"/>
+<area shape="rect" id="node14" href="$class_i_disposable.html" title="IDisposable" alt="" coords="115,484,204,511"/>
 </map>

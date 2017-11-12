@@ -12,6 +12,7 @@ var searchData=
   ['operationinprogress',['OperationInProgress',['../class_t_g_server_service_1_1_server_instance.html#a366db6a24e005771f49cca17a373c490',1,'TGServerService.ServerInstance.OperationInProgress()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7',1,'TGServiceInterface.Components.ITGRepository.OperationInProgress()']]],
   ['operator_21_3d',['operator!=',['../class_t_g_server_service_1_1_repo_config.html#a75f6fa709eb4839c2f0bcf6d5a30cc3c',1,'TGServerService::RepoConfig']]],
   ['operator_3d_3d',['operator==',['../class_t_g_server_service_1_1_repo_config.html#a2193bf192d92368ba3b99ba6f66096d9',1,'TGServerService::RepoConfig']]],
+  ['orlabel',['OrLabel',['../class_t_g_control_panel_1_1_git_hub_login_prompt.html#a0933bae4f8acbc67fcf8af937a188b30',1,'TGControlPanel::GitHubLoginPrompt']]],
   ['outputproc',['OutputProc',['../class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047',1,'TGServiceInterface.Command.OutputProc()'],['../class_t_g_service_tests_1_1_output_proc_overrider_test.html#a68af15b083b21d9ac84f55baa81824fa',1,'TGServiceTests.OutputProcOverriderTest.OutputProc()']]],
   ['outputprocoverridertest',['OutputProcOverriderTest',['../class_t_g_service_tests_1_1_output_proc_overrider_test.html',1,'TGServiceTests']]],
   ['outputprocoverridertest_2ecs',['OutputProcOverriderTest.cs',['../_output_proc_overrider_test_8cs.html',1,'']]],

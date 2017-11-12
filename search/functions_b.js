@@ -10,6 +10,7 @@ var searchData=
   ['loadchatpage',['LoadChatPage',['../class_t_g_control_panel_1_1_control_panel.html#aaa666d763ad730b9a26fb560e5613595',1,'TGControlPanel::ControlPanel']]],
   ['loadlibrary',['LoadLibrary',['../class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03',1,'Common.LoadLibrary(string dllToLoad)'],['../class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03',1,'Common.LoadLibrary(string dllToLoad)']]],
   ['loadpreviousnetpropertyordefault_3c_20t_20_3e',['LoadPreviousNetPropertyOrDefault&lt; T &gt;',['../class_t_g_server_service_1_1_deprecated_instance_config.html#a85ff213c3b2a9560db9787cbd52d4877',1,'TGServerService::DeprecatedInstanceConfig']]],
+  ['loadpullrequests',['LoadPullRequests',['../class_t_g_control_panel_1_1_test_merge_manager.html#abbf6cece99d79482f460f4cb24cce41f',1,'TGControlPanel::TestMergeManager']]],
   ['loadrepo',['LoadRepo',['../class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30',1,'TGServerService::ServerInstance']]],
   ['loadserverchatcommands',['LoadServerChatCommands',['../class_t_g_server_service_1_1_server_instance.html#a3a991f102faacdca2faec4a3fd92d9a9',1,'TGServerService::ServerInstance']]],
   ['loadserverpage',['LoadServerPage',['../class_t_g_control_panel_1_1_control_panel.html#a2b924b528326db900a6584280cb08d3a',1,'TGControlPanel::ControlPanel']]],
@@ -18,5 +19,6 @@ var searchData=
   ['localloginbutton_5fclick',['LocalLoginButton_Click',['../class_t_g_control_panel_1_1_login.html#a0ed230de5a23e96e98bae4ecf0cbbc86',1,'TGControlPanel::Login']]],
   ['lockloggingid',['LockLoggingID',['../class_t_g_server_service_1_1_service.html#af8321586d223cb2326e14360b8af7d8e',1,'TGServerService::Service']]],
   ['log',['Log',['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)'],['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)']]],
-  ['login',['Login',['../class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce',1,'TGControlPanel.Login.Login()'],['../class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a8c480508ff5dbb3d0a4416381753bc24',1,'TGServerService.ChatProviders.IRCChatProvider.Login()']]]
+  ['login',['Login',['../class_t_g_control_panel_1_1_login.html#aa0ddeafe9061e9698e521f7c83cabbce',1,'TGControlPanel.Login.Login()'],['../class_t_g_server_service_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a8c480508ff5dbb3d0a4416381753bc24',1,'TGServerService.ChatProviders.IRCChatProvider.Login()']]],
+  ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_control_panel_1_1_git_hub_login_prompt.html#a4614d682c8ed581ef5b93bb413a7b041',1,'TGControlPanel::GitHubLoginPrompt']]]
 ];

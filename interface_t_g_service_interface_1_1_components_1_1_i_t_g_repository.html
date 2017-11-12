@@ -140,12 +140,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aac1806ff64278e53594ac6eef667f51b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aac1806ff64278e53594ac6eef667f51b">Reset</a> (bool tracked)</td></tr>
 <tr class="memdesc:aac1806ff64278e53594ac6eef667f51b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs git reset &ndash;hard  <a href="#aac1806ff64278e53594ac6eef667f51b">More...</a><br /></td></tr>
 <tr class="separator:aac1806ff64278e53594ac6eef667f51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a763d4bab7df28454c63510f25bdb31ab"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a763d4bab7df28454c63510f25bdb31ab">MergePullRequest</a> (int PRnumber)</td></tr>
-<tr class="memdesc:a763d4bab7df28454c63510f25bdb31ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges the target pull request into the current branch if the remote is a github repository  <a href="#a763d4bab7df28454c63510f25bdb31ab">More...</a><br /></td></tr>
-<tr class="separator:a763d4bab7df28454c63510f25bdb31ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa15ff5c498d885f5f7b44273e83b0aef"><td class="memItemLeft" align="right" valign="top">IList&lt; <a class="el" href="class_t_g_service_interface_1_1_pull_request_info.html">PullRequestInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aa15ff5c498d885f5f7b44273e83b0aef">MergedPullRequests</a> (out string error)</td></tr>
-<tr class="memdesc:aa15ff5c498d885f5f7b44273e83b0aef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it  <a href="#aa15ff5c498d885f5f7b44273e83b0aef">More...</a><br /></td></tr>
-<tr class="separator:aa15ff5c498d885f5f7b44273e83b0aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e591b08e9baa0bd1656a77095bec937"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1e591b08e9baa0bd1656a77095bec937">MergePullRequest</a> (int PRnumber, string atSHA=null)</td></tr>
+<tr class="memdesc:a1e591b08e9baa0bd1656a77095bec937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges the target pull request into the current branch if the remote is a github repository  <a href="#a1e591b08e9baa0bd1656a77095bec937">More...</a><br /></td></tr>
+<tr class="separator:a1e591b08e9baa0bd1656a77095bec937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81e31c9379fad4e4a9aa51d0004ce9a2"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_t_g_service_interface_1_1_pull_request_info.html">PullRequestInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a81e31c9379fad4e4a9aa51d0004ce9a2">MergedPullRequests</a> (out string error)</td></tr>
+<tr class="memdesc:a81e31c9379fad4e4a9aa51d0004ce9a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it  <a href="#a81e31c9379fad4e4a9aa51d0004ce9a2">More...</a><br /></td></tr>
+<tr class="separator:a81e31c9379fad4e4a9aa51d0004ce9a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a156404374f360c0b9cf49c88a3ec3f17"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a156404374f360c0b9cf49c88a3ec3f17">GetCommitterName</a> ()</td></tr>
 <tr class="memdesc:a156404374f360c0b9cf49c88a3ec3f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the name of the configured git committer  <a href="#a156404374f360c0b9cf49c88a3ec3f17">More...</a><br /></td></tr>
 <tr class="separator:a156404374f360c0b9cf49c88a3ec3f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -300,6 +300,21 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#adbff0b841a8e339a79890a1a91be1fef">TGServerService.ServerInstance</a>.</p>
 
+<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00193">TGControlPanel.TestMergeManager.GenerateChangelog()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_aabfae3c0473947b35a55514adbbcf910_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_aabfae3c0473947b35a55514adbbcf910_icgraph" alt=""/></div>
+<map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_aabfae3c0473947b35a55514adbbcf910_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_aabfae3c0473947b35a55514adbbcf910_icgraph">
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_test_merge_manager.html#a047a7e732cde62b15406c3b31f2c625b" title="Calls ITGRepository.GenerateChangelog(out string) and shows the user an error prompt if it fails ..." alt="" coords="276,5,467,47"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_test_merge_manager.html#a2066080a3af9d4a2f0a28ef08f8f7597" title="Called when the ApplyButton is clicked. Calls ITGRepository.Update(bool) if necessary, merge pull requests, and call ITGCompiler.Compile(bool). Closes the TestMergeManager if appropriate " alt="" coords="515,5,697,47"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="745,5,935,47"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="983,5,1169,47"/>
+</map>
+</div>
+</p>
+
 </div>
 </div>
 <a class="anchor" id="acd42fb75b462c54acb4834c6f49c4c60"></a>
@@ -432,16 +447,22 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#aac376ed040ee3efc2ef5173339baf723">TGServerService.ServerInstance</a>.</p>
 
-<p>Referenced by <a class="el" href="_repo_page_8cs_source.html#l00274">TGControlPanel.ControlPanel.RepoApplyButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_t_g_control_panel_2_program_8cs_source.html#l00098">TGControlPanel.Program.GetRepositoryRemote()</a>, and <a class="el" href="_repo_page_8cs_source.html#l00274">TGControlPanel.ControlPanel.RepoApplyButton_Click()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a9f9a3d626f42d4a10d2f58e8bd9ad7a0_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a9f9a3d626f42d4a10d2f58e8bd9ad7a0_icgraph" alt=""/></div>
 <map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a9f9a3d626f42d4a10d2f58e8bd9ad7a0_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a9f9a3d626f42d4a10d2f58e8bd9ad7a0_icgraph">
-<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_control_panel.html#a9a36a69d6abdde297a1447cb465926ba" title="TGControlPanel.ControlPanel.\lRepoApplyButton_Click" alt="" coords="264,5,459,47"/>
-<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="507,5,701,47"/>
-<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="749,5,944,47"/>
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_program.html#a09daa452484c1f3a789ce66c4b2f370b" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="266,85,457,127"/>
+<area shape="rect" id="node10" href="class_t_g_control_panel_1_1_control_panel.html#a9a36a69d6abdde297a1447cb465926ba" title="TGControlPanel.ControlPanel.\lRepoApplyButton_Click" alt="" coords="264,165,459,207"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_test_merge_manager.html#a77e0e99cf564e2a9f56f76b767602290" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="507,13,737,55"/>
+<area shape="rect" id="node5" href="class_t_g_control_panel_1_1_control_panel.html#a01f65e4b66e4cc886a1ccd2298fc595b" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="525,85,719,127"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="805,5,991,47"/>
+<area shape="rect" id="node6" href="class_t_g_control_panel_1_1_control_panel.html#a8e513d52fdcac052c9cea516cd3f71b1" title="Calls ITGRepository.Reset(bool) with a &#160;parameter, calls ITGRepository.GenerateChangelog(out string)..." alt="" coords="785,71,1011,112"/>
+<area shape="rect" id="node9" href="class_t_g_control_panel_1_1_control_panel.html#ac4816ff2879cbcf43bc349dfa34bd731" title="Calls UpdateServer " alt="" coords="801,136,995,177"/>
+<area shape="rect" id="node7" href="class_t_g_control_panel_1_1_control_panel.html#a5eae9ec9e0434f083a451d63269c1cbd" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="1059,136,1253,177"/>
+<area shape="rect" id="node8" href="class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="1301,136,1496,177"/>
 </map>
 </div>
 </p>
@@ -475,12 +496,12 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="aa15ff5c498d885f5f7b44273e83b0aef"></a>
+<a class="anchor" id="a81e31c9379fad4e4a9aa51d0004ce9a2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">IList&lt;<a class="el" href="class_t_g_service_interface_1_1_pull_request_info.html">PullRequestInfo</a>&gt; TGServiceInterface.Components.ITGRepository.MergedPullRequests </td>
+          <td class="memname">List&lt;<a class="el" href="class_t_g_service_interface_1_1_pull_request_info.html">PullRequestInfo</a>&gt; TGServiceInterface.Components.ITGRepository.MergedPullRequests </td>
           <td>(</td>
           <td class="paramtype">out string&#160;</td>
           <td class="paramname"><em>error</em></td><td>)</td>
@@ -498,11 +519,25 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A IList&lt;T&gt; of <a class="el" href="class_t_g_service_interface_1_1_pull_request_info.html" title="Information about a pull request ">PullRequestInfo</a></dd></dl>
 
-<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a5eb674c9b1ad47e3965a23ee8bb1c226">TGServerService.ServerInstance</a>.</p>
+<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a84cbad777eaa7c161415fb84a77448ff">TGServerService.ServerInstance</a>.</p>
+
+<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00318">TGControlPanel.TestMergeManager.AddPRButton_Click()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a81e31c9379fad4e4a9aa51d0004ce9a2_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a81e31c9379fad4e4a9aa51d0004ce9a2_icgraph" alt=""/></div>
+<map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a81e31c9379fad4e4a9aa51d0004ce9a2_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a81e31c9379fad4e4a9aa51d0004ce9a2_icgraph">
+<area shape="rect" id="node2" href="class_t_g_control_panel_1_1_test_merge_manager.html#ad3731dd6aa6a28c797f0a11a72bc7dd4" title="Called when the AddPRButton is clicked. Adds the PR with the number in AddPRNumericUpDown to PullRequ..." alt="" coords="281,5,472,47"/>
+<area shape="rect" id="node3" href="class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="520,5,709,47"/>
+<area shape="rect" id="node4" href="class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="757,5,944,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
-<a class="anchor" id="a763d4bab7df28454c63510f25bdb31ab"></a>
+<a class="anchor" id="a1e591b08e9baa0bd1656a77095bec937"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -510,8 +545,18 @@ Here is the caller graph for this function:</div>
           <td class="memname">string TGServiceInterface.Components.ITGRepository.MergePullRequest </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>PRnumber</em></td><td>)</td>
+          <td class="paramname"><em>PRnumber</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>atSHA</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -520,20 +565,21 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">PRnumber</td><td>The github pull request number in the remote repository</td></tr>
+    <tr><td class="paramname">atSHA</td><td>The SHA of the pull request to merge</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>on success, error message on failure</dd></dl>
 
-<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#ac69d8bdd66e3ba416de9412ca82a92ed">TGServerService.ServerInstance</a>.</p>
+<p>Implemented in <a class="el" href="class_t_g_server_service_1_1_server_instance.html#a30623d09726033240093822016dd8535">TGServerService.ServerInstance</a>.</p>
 
 <p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00152">TGCommandLine.TestmergeCommand.Run()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a763d4bab7df28454c63510f25bdb31ab_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a763d4bab7df28454c63510f25bdb31ab_icgraph" alt=""/></div>
-<map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a763d4bab7df28454c63510f25bdb31ab_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a763d4bab7df28454c63510f25bdb31ab_icgraph">
+<div class="center"><img src="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a1e591b08e9baa0bd1656a77095bec937_icgraph.png" border="0" usemap="#interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a1e591b08e9baa0bd1656a77095bec937_icgraph" alt=""/></div>
+<map name="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a1e591b08e9baa0bd1656a77095bec937_icgraph" id="interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository_a1e591b08e9baa0bd1656a77095bec937_icgraph">
 <area shape="rect" id="node2" href="class_t_g_command_line_1_1_testmerge_command.html#ae1949aaf91d14d2577369f313924635f" title="Override to do the actions of the Command " alt="" coords="268,13,541,39"/>
 </map>
 </div>
