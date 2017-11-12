@@ -47,7 +47,6 @@ namespace TGControlPanel
 			InitRepoPage();
 			InitBYONDPage();
 			InitServerPage();
-			InitStaticPage();
 			UpdateSelectedPanel();
 			InstancesInUse.Add(I.InstanceName, this);
 		}
@@ -96,6 +95,9 @@ namespace TGControlPanel
 					break;
 				case 3: //chat
 					LoadChatPage();
+					break;
+				case 4: //static
+					InitStaticPage();
 					break;
 			}
 			Properties.Settings.Default.LastPageIndex = Panels.SelectedIndex;

@@ -12,6 +12,10 @@ namespace TGControlPanel
 		IDictionary<int, string> IndexesToPaths = new Dictionary<int, string>();
 		IList<string> EnumeratedPaths = new List<string>() { "" };
 		bool enumerating = false;
+		/// <summary>
+		/// Whether or not the static page has been initialized yet
+		/// </summary>
+		bool initializedStaticPage = false;
 
 		enum EnumResult
 		{
@@ -23,9 +27,12 @@ namespace TGControlPanel
 
 		void InitStaticPage()
 		{
+			if (initializedStaticPage)
+				return;
 			if(!Interface.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
 				RecreateStaticButton.Visible = false;
 			BuildFileList();
+			initializedStaticPage = true;
 		}
 
 		void BuildFileList()
