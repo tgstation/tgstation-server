@@ -31,7 +31,6 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlPanel));
 			this.RepoBGW = new System.ComponentModel.BackgroundWorker();
-			this.FullUpdateWorker = new System.ComponentModel.BackgroundWorker();
 			this.ServerStartBGW = new System.ComponentModel.BackgroundWorker();
 			this.ChatPanel = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
@@ -83,15 +82,14 @@
 			this.WorldAnnounceLabel = new System.Windows.Forms.Label();
 			this.SecuritySelector = new System.Windows.Forms.ComboBox();
 			this.SecurityTitle = new System.Windows.Forms.Label();
-			this.ResetTestmerge = new System.Windows.Forms.Button();
+			this.RemoveAllTestMergesButton = new System.Windows.Forms.Button();
 			this.ServerPathLabel = new System.Windows.Forms.Label();
 			this.CompileCancelButton = new System.Windows.Forms.Button();
 			this.ProjectPathLabel = new System.Windows.Forms.Label();
 			this.PortLabel = new System.Windows.Forms.Label();
 			this.PortSelector = new System.Windows.Forms.NumericUpDown();
-			this.TestmergeButton = new System.Windows.Forms.Button();
-			this.UpdateMergeButton = new System.Windows.Forms.Button();
-			this.UpdateHardButton = new System.Windows.Forms.Button();
+			this.TestMergeManagerButton = new System.Windows.Forms.Button();
+			this.UpdateServerButton = new System.Windows.Forms.Button();
 			this.ServerGRestartButton = new System.Windows.Forms.Button();
 			this.ServerGStopButton = new System.Windows.Forms.CheckBox();
 			this.ServerRestartButton = new System.Windows.Forms.Button();
@@ -174,10 +172,6 @@
 			// 
 			this.RepoBGW.WorkerReportsProgress = true;
 			this.RepoBGW.WorkerSupportsCancellation = true;
-			// 
-			// FullUpdateWorker
-			// 
-			this.FullUpdateWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FullUpdateWorker_DoWork);
 			// 
 			// ServerStartBGW
 			// 
@@ -642,15 +636,14 @@
 			this.ServerPanel.Controls.Add(this.WorldAnnounceLabel);
 			this.ServerPanel.Controls.Add(this.SecuritySelector);
 			this.ServerPanel.Controls.Add(this.SecurityTitle);
-			this.ServerPanel.Controls.Add(this.ResetTestmerge);
+			this.ServerPanel.Controls.Add(this.RemoveAllTestMergesButton);
 			this.ServerPanel.Controls.Add(this.ServerPathLabel);
 			this.ServerPanel.Controls.Add(this.CompileCancelButton);
 			this.ServerPanel.Controls.Add(this.ProjectPathLabel);
 			this.ServerPanel.Controls.Add(this.PortLabel);
 			this.ServerPanel.Controls.Add(this.PortSelector);
-			this.ServerPanel.Controls.Add(this.TestmergeButton);
-			this.ServerPanel.Controls.Add(this.UpdateMergeButton);
-			this.ServerPanel.Controls.Add(this.UpdateHardButton);
+			this.ServerPanel.Controls.Add(this.TestMergeManagerButton);
+			this.ServerPanel.Controls.Add(this.UpdateServerButton);
 			this.ServerPanel.Controls.Add(this.ServerGRestartButton);
 			this.ServerPanel.Controls.Add(this.ServerGStopButton);
 			this.ServerPanel.Controls.Add(this.ServerRestartButton);
@@ -828,16 +821,16 @@
 			this.SecurityTitle.Text = "Security:";
 			this.SecurityTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// ResetTestmerge
+			// RemoveAllTestMergesButton
 			// 
-			this.ResetTestmerge.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.ResetTestmerge.Location = new System.Drawing.Point(602, 95);
-			this.ResetTestmerge.Name = "ResetTestmerge";
-			this.ResetTestmerge.Size = new System.Drawing.Size(142, 28);
-			this.ResetTestmerge.TabIndex = 36;
-			this.ResetTestmerge.Text = "Reset and Recompile";
-			this.ResetTestmerge.UseVisualStyleBackColor = true;
-			this.ResetTestmerge.Click += new System.EventHandler(this.ResetTestmerge_Click);
+			this.RemoveAllTestMergesButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.RemoveAllTestMergesButton.Location = new System.Drawing.Point(489, 94);
+			this.RemoveAllTestMergesButton.Name = "RemoveAllTestMergesButton";
+			this.RemoveAllTestMergesButton.Size = new System.Drawing.Size(142, 28);
+			this.RemoveAllTestMergesButton.TabIndex = 36;
+			this.RemoveAllTestMergesButton.Text = "Remove All Test Merges";
+			this.RemoveAllTestMergesButton.UseVisualStyleBackColor = true;
+			this.RemoveAllTestMergesButton.Click += new System.EventHandler(this.RemoveAllTestMergesButton_Click);
 			// 
 			// ServerPathLabel
 			// 
@@ -912,38 +905,27 @@
             0});
 			this.PortSelector.ValueChanged += new System.EventHandler(this.PortSelector_ValueChanged);
 			// 
-			// TestmergeButton
+			// TestMergeManagerButton
 			// 
-			this.TestmergeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.TestmergeButton.Location = new System.Drawing.Point(456, 95);
-			this.TestmergeButton.Name = "TestmergeButton";
-			this.TestmergeButton.Size = new System.Drawing.Size(142, 28);
-			this.TestmergeButton.TabIndex = 24;
-			this.TestmergeButton.Text = "Test Merge Manager";
-			this.TestmergeButton.UseVisualStyleBackColor = true;
-			this.TestmergeButton.Click += new System.EventHandler(this.TestmergeButton_Click);
+			this.TestMergeManagerButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.TestMergeManagerButton.Location = new System.Drawing.Point(343, 94);
+			this.TestMergeManagerButton.Name = "TestMergeManagerButton";
+			this.TestMergeManagerButton.Size = new System.Drawing.Size(142, 28);
+			this.TestMergeManagerButton.TabIndex = 24;
+			this.TestMergeManagerButton.Text = "Test Merge Manager";
+			this.TestMergeManagerButton.UseVisualStyleBackColor = true;
+			this.TestMergeManagerButton.Click += new System.EventHandler(this.TestMergeManagerButton_Click);
 			// 
-			// UpdateMergeButton
+			// UpdateServerButton
 			// 
-			this.UpdateMergeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.UpdateMergeButton.Location = new System.Drawing.Point(293, 95);
-			this.UpdateMergeButton.Name = "UpdateMergeButton";
-			this.UpdateMergeButton.Size = new System.Drawing.Size(157, 28);
-			this.UpdateMergeButton.TabIndex = 22;
-			this.UpdateMergeButton.Text = "Update (Keep Test Merges)";
-			this.UpdateMergeButton.UseVisualStyleBackColor = true;
-			this.UpdateMergeButton.Click += new System.EventHandler(this.UpdateMergeButton_Click);
-			// 
-			// UpdateHardButton
-			// 
-			this.UpdateHardButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.UpdateHardButton.Location = new System.Drawing.Point(130, 95);
-			this.UpdateHardButton.Name = "UpdateHardButton";
-			this.UpdateHardButton.Size = new System.Drawing.Size(157, 28);
-			this.UpdateHardButton.TabIndex = 21;
-			this.UpdateHardButton.Text = "Update (Reset Test Merges)";
-			this.UpdateHardButton.UseVisualStyleBackColor = true;
-			this.UpdateHardButton.Click += new System.EventHandler(this.UpdateHardButton_Click);
+			this.UpdateServerButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.UpdateServerButton.Location = new System.Drawing.Point(180, 94);
+			this.UpdateServerButton.Name = "UpdateServerButton";
+			this.UpdateServerButton.Size = new System.Drawing.Size(157, 28);
+			this.UpdateServerButton.TabIndex = 21;
+			this.UpdateServerButton.Text = "Update Server";
+			this.UpdateServerButton.UseVisualStyleBackColor = true;
+			this.UpdateServerButton.Click += new System.EventHandler(this.UpdateServerButton_Click);
 			// 
 			// ServerGRestartButton
 			// 
@@ -1775,7 +1757,6 @@
 
 		#endregion
 		private System.ComponentModel.BackgroundWorker RepoBGW;
-		private System.ComponentModel.BackgroundWorker FullUpdateWorker;
 		private System.ComponentModel.BackgroundWorker ServerStartBGW;
 		private System.Windows.Forms.TabPage ChatPanel;
 		private System.Windows.Forms.Label label5;
@@ -1822,15 +1803,14 @@
 		private System.Windows.Forms.Label WorldAnnounceLabel;
 		private System.Windows.Forms.ComboBox SecuritySelector;
 		private System.Windows.Forms.Label SecurityTitle;
-		private System.Windows.Forms.Button ResetTestmerge;
+		private System.Windows.Forms.Button RemoveAllTestMergesButton;
 		private System.Windows.Forms.Label ServerPathLabel;
 		private System.Windows.Forms.Button CompileCancelButton;
 		private System.Windows.Forms.Label ProjectPathLabel;
 		private System.Windows.Forms.Label PortLabel;
 		private System.Windows.Forms.NumericUpDown PortSelector;
-		private System.Windows.Forms.Button TestmergeButton;
-		private System.Windows.Forms.Button UpdateMergeButton;
-		private System.Windows.Forms.Button UpdateHardButton;
+		private System.Windows.Forms.Button TestMergeManagerButton;
+		private System.Windows.Forms.Button UpdateServerButton;
 		private System.Windows.Forms.Button ServerGRestartButton;
 		private System.Windows.Forms.CheckBox ServerGStopButton;
 		private System.Windows.Forms.Button ServerRestartButton;

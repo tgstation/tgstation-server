@@ -1,5 +1,9 @@
-﻿﻿﻿using System;
+﻿using Octokit;
+﻿﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGServiceInterface;
 using TGServiceInterface.Components;
@@ -8,27 +12,23 @@ namespace TGControlPanel
 {
 	partial class ControlPanel
 	{
-		enum FullUpdateAction
-		{
-			UpdateHard,
-			UpdateMerge,
-			UpdateHardTestmerge,
-			Reset,
-			Testmerge,
-		}
-
-		FullUpdateAction fuAction;
-		ushort testmergePR;
-		string updateError;
 		bool updatingFields = false;
+
+		/// <summary>
+		/// <see cref="GitHubClient"/> used for checking the merged state of <see cref="PullRequest"/>s
+		/// </summary>
+		GitHubClient ghclient;
 
 		void InitServerPage()
 		{
 			LoadServerPage();
-			FullUpdateWorker.RunWorkerCompleted += FullUpdateWorker_RunWorkerCompleted;
 			projectNameText.LostFocus += ProjectNameText_LostFocus;
 			projectNameText.KeyDown += ProjectNameText_KeyDown;
 			ServerStartBGW.RunWorkerCompleted += ServerStartBGW_RunWorkerCompleted;
+			ghclient = new GitHubClient(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name));
+			var config = Properties.Settings.Default;
+			if (!String.IsNullOrWhiteSpace(config.GitHubAPIKey))
+				ghclient.Credentials = new Credentials(Helpers.DecryptData(config.GitHubAPIKey, config.GitHubAPIKeyEntropy));
 		}
 
 		private void ServerStartBGW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -42,16 +42,6 @@ namespace TGControlPanel
 		{
 			if (e.KeyCode == Keys.Enter)
 				UpdateProjectName();
-		}
-
-		private void FullUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			if (updateError != null)
-				MessageBox.Show(updateError);
-			UpdateHardButton.Enabled = true;
-			UpdateMergeButton.Enabled = true;
-			TestmergeButton.Enabled = true;
-			LoadServerPage();
 		}
 
 		private void CompileCancelButton_Click(object sender, EventArgs e)
@@ -82,10 +72,9 @@ namespace TGControlPanel
 			ServerRestartButton.Visible = RepoExists;
 			PortLabel.Visible = RepoExists;
 			ServerStopButton.Visible = RepoExists;
-			TestmergeButton.Visible = RepoExists;
-			UpdateHardButton.Visible = RepoExists;
-			UpdateMergeButton.Visible = RepoExists;
-			ResetTestmerge.Visible = RepoExists;
+			TestMergeManagerButton.Visible = RepoExists;
+			UpdateServerButton.Visible = RepoExists;
+			RemoveAllTestMergesButton.Visible = RepoExists;
 			WorldAnnounceField.Visible = RepoExists;
 			WorldAnnounceButton.Visible = RepoExists;
 			WorldAnnounceLabel.Visible = RepoExists;
@@ -151,6 +140,9 @@ namespace TGControlPanel
 				if (!projectNameText.Focused)
 					projectNameText.Text = DM.ProjectName();
 
+				UpdateServerButton.Enabled = false;
+				TestMergeManagerButton.Enabled = false;
+				RemoveAllTestMergesButton.Enabled = false;
 				switch (DM.GetStatus())
 				{
 					case CompilerStatus.Compiling:
@@ -170,6 +162,9 @@ namespace TGControlPanel
 						initializeButton.Enabled = true;
 						compileButton.Enabled = true;
 						CompileCancelButton.Enabled = false;
+						UpdateServerButton.Enabled = true;
+						TestMergeManagerButton.Enabled = true;
+						RemoveAllTestMergesButton.Enabled = true;
 						break;
 					case CompilerStatus.Uninitialized:
 						CompilerStatusLabel.Text = "Uninitialized";
@@ -209,35 +204,6 @@ namespace TGControlPanel
 		{
 			if (!updatingFields)
 				Interface.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
-		}
-
-		private void RunServerUpdate(FullUpdateAction fua, ushort tm = 0)
-		{
-			if (FullUpdateWorker.IsBusy)
-				return;
-			testmergePR = tm;
-			fuAction = fua;
-			initializeButton.Enabled = false;
-			compileButton.Enabled = false;
-			UpdateHardButton.Enabled = false;
-			UpdateMergeButton.Enabled = false;
-			TestmergeButton.Enabled = false;
-			switch (fuAction)
-			{
-				case FullUpdateAction.Testmerge:
-					CompilerStatusLabel.Text = String.Format("Testmerging pull request #{0}...", testmergePR);
-					break;
-				case FullUpdateAction.UpdateHard:
-					CompilerStatusLabel.Text = String.Format("Updating Server (RESET)...");
-					break;
-				case FullUpdateAction.UpdateMerge:
-					CompilerStatusLabel.Text = String.Format("Updating Server (MERGE)...");
-					break;
-				case FullUpdateAction.UpdateHardTestmerge:
-					CompilerStatusLabel.Text = String.Format("Updating and testmerging pull request #{0}...", testmergePR);
-					break;
-			}
-			FullUpdateWorker.RunWorkerAsync();
 		}
 
 		private void ServerPageRefreshButton_Click(object sender, EventArgs e)
@@ -320,97 +286,178 @@ namespace TGControlPanel
 			Interface.GetComponent<ITGDreamDaemon>().RequestRestart();
 		}
 
-
-		private void FullUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			try
-			{
-				var Repo = Interface.GetComponent<ITGRepository>();
-				var DM = Interface.GetComponent<ITGCompiler>();
-				switch (fuAction)
-				{
-					case FullUpdateAction.Testmerge:
-						updateError = Repo.MergePullRequest(testmergePR);
-						if (updateError == null)
-						{
-							Repo.GenerateChangelog(out updateError);
-							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-						}
-						break;
-					case FullUpdateAction.UpdateHard:
-						updateError = Repo.Update(true);
-						if (updateError == null)
-						{
-							Repo.GenerateChangelog(out updateError);
-							if (updateError == null)
-								updateError = Repo.SynchronizePush();
-							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-						}
-						break;
-					case FullUpdateAction.UpdateHardTestmerge:
-						updateError = Repo.Update(true);
-						if (updateError == null)
-						{
-							Repo.GenerateChangelog(out updateError);
-							if (updateError == null)
-								updateError = Repo.SynchronizePush();
-							updateError = Repo.MergePullRequest(testmergePR);
-							if (updateError == null)
-							{
-								Repo.GenerateChangelog(out updateError);
-								updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-							}
-						}
-						break;
-					case FullUpdateAction.UpdateMerge:
-						updateError = Repo.Update(false);
-						if (updateError == null)
-						{
-							Repo.GenerateChangelog(out updateError);
-							if (updateError == null)
-								Repo.SynchronizePush();   //not an error 99% of the time if this fails, just a dirty tree
-							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-						}
-						break;
-					case FullUpdateAction.Reset:
-						updateError = Repo.Reset(true);
-						if (updateError == null)
-						{
-							Repo.GenerateChangelog(out updateError);
-							updateError = DM.Compile(true) ? updateError : "Compilation failed!";
-						}
-						break;
-				}
-			}
-			catch (Exception ex)
-			{
-				Program.ServiceDisconnectException(ex);
-			}
-		}
-		private void ResetTestmerge_Click(object sender, EventArgs e)
-		{
-			RunServerUpdate(FullUpdateAction.Reset);
-		}
-
-		private void UpdateHardButton_Click(object sender, System.EventArgs e)
-		{
-			RunServerUpdate(FullUpdateAction.UpdateHard);
-		}
-
-		private void UpdateMergeButton_Click(object sender, System.EventArgs e)
-		{
-			RunServerUpdate(FullUpdateAction.UpdateMerge);
-		}
-
 		/// <summary>
 		/// Launches the <see cref="TestMergeManager"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
-		void TestmergeButton_Click(object sender, System.EventArgs e)
+		void TestMergeManagerButton_Click(object sender, System.EventArgs e)
 		{
-			using (var TMM = new TestMergeManager(Interface))
+			using (var TMM = new TestMergeManager(Interface, ghclient))
 				TMM.ShowDialog();
+			LoadServerPage();
+		}
+
+		/// <summary>
+		/// Calls <see cref="UpdateServer"/>
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		void UpdateServerButton_Click(object sender, EventArgs e)
+		{
+			UpdateServer();
+		}
+
+		/// <summary>
+		/// Calls <see cref="ITGRepository.Update(bool)"/> with a <see langword="true"/> parameter, re-merging any current <see cref="PullRequest"/>s at their current commit, calls <see cref="ITGRepository.GenerateChangelog(out string)"/> and <see cref="ITGRepository.SynchronizePush"/>, and starts the <see cref="ITGCompiler.Compile(bool)"/> prompting the user with any errors that may occur. Merged <see cref="PullRequest"/>s are not remerged
+		/// </summary>
+		async void UpdateServer()
+		{
+			try
+			{
+				UseWaitCursor = true;
+				Enabled = false;
+				try
+				{
+					string res = null;
+					var repo = Interface.GetComponent<ITGRepository>();
+					var pulls = await Task.Factory.StartNew(() => repo.MergedPullRequests(out res));
+
+					if (pulls == null)
+					{
+						MessageBox.Show(res);
+						return;
+					}
+					
+					List<Task<PullRequest>> pullsRequests = null;
+					if(Program.GetRepositoryRemote(repo, out string remoteOwner, out string remoteName)) { 
+						//find out which of the PRs have been merged
+						pullsRequests = new List<Task<PullRequest>>();
+						foreach (var I in pulls)
+							pullsRequests.Add(ghclient.PullRequest.Get(remoteOwner, remoteName, I.Number));
+					}
+
+					res = await Task.Factory.StartNew(() => repo.Update(true));
+
+					if(res != null)
+					{
+						MessageBox.Show(res, "Error updating repository");
+						return;
+					}
+
+					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
+					
+					if (res != null)
+					{
+						MessageBox.Show(res, "Error generating changelog");
+						return;
+					}
+
+					res = await Task.Factory.StartNew(() => repo.SynchronizePush());
+
+					if (res != null)
+					{
+						MessageBox.Show(res, "Error synchronizing commits");
+						return;
+					}
+
+					if (pullsRequests != null)
+						Task.WaitAll(pullsRequests.ToArray());
+
+					foreach (var I in pullsRequests)
+						if (I.Result.Merged)
+							pulls.RemoveAll(x => x.Number == I.Result.Number);
+
+					var results = new List<string>();
+					foreach (var I in pulls) {
+						retry:
+						await Task.Factory.StartNew(() => res = repo.MergePullRequest(I.Number, I.Sha));
+						if (res != null)
+							switch(MessageBox.Show(res, "Error Re-merging Pull Request", MessageBoxButtons.AbortRetryIgnore))
+							{
+								case DialogResult.Abort:
+									return;
+								case DialogResult.Retry:
+									goto retry;
+							}
+					}
+
+					await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(pulls.Count != 1));
+					if (res != null)
+						MessageBox.Show(res, "Error starting compile!");
+				}
+				finally
+				{
+					UseWaitCursor = false;
+					Enabled = true;
+				}
+			}
+			catch (ForbiddenException)
+			{
+				if (ghclient.Credentials.AuthenticationType == AuthenticationType.Anonymous)
+				{
+					if (Program.RateLimitPrompt(ghclient))
+						UpdateServer();
+					return;
+				}
+				else
+					throw;
+			}
+			LoadServerPage();
+		}
+
+		/// <summary>
+		/// Calls <see cref="ITGRepository.Reset(bool)"/> with a <see langword="true"/> parameter, calls <see cref="ITGRepository.GenerateChangelog(out string)"/>, and starts the <see cref="ITGCompiler.Compile(bool)"/> prompting the user with any errors that may occur.
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		async void RemoveAllTestMergesButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				UseWaitCursor = true;
+				Enabled = false;
+				try
+				{
+					var repo = Interface.GetComponent<ITGRepository>();
+
+					var res = await Task.Factory.StartNew(() => repo.Reset(true));
+
+					if (res != null)
+					{
+						MessageBox.Show(res, "Error resetting repository");
+						return;
+					}
+
+					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
+
+					if (res != null)
+					{
+						MessageBox.Show(res, "Error generating changelog");
+						return;
+					}
+
+					await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(false));
+					if (res != null)
+						MessageBox.Show(res, "Error starting compile!");
+				}
+				finally
+				{
+					UseWaitCursor = false;
+					Enabled = true;
+				}
+			}
+			catch (ForbiddenException)
+			{
+				if (ghclient.Credentials.AuthenticationType == AuthenticationType.Anonymous)
+				{
+					if (Program.RateLimitPrompt(ghclient))
+						UpdateServer();
+					return;
+				}
+				else
+					throw;
+			}
 			LoadServerPage();
 		}
 

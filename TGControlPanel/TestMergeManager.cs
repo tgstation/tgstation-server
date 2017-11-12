@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGServiceInterface;
@@ -39,13 +38,15 @@ namespace TGControlPanel
 		/// <summary>
 		/// Construct a <see cref="TestMergeManager"/>
 		/// </summary>
-		public TestMergeManager(IInterface interfaceToUse)
+		/// <param name="interfaceToUse">The <see cref="IInterface"/> to use for managing the <see cref="ITGInstance"/></param>
+		/// <param name="clientToUse">The <see cref="GitHubClient"/> to use for getting pull request information</param>
+		public TestMergeManager(IInterface interfaceToUse, GitHubClient clientToUse)
 		{
 			InitializeComponent();
 			DialogResult = DialogResult.Cancel;
 			UpdateToRemoteRadioButton.Checked = true;
 			currentInterface = interfaceToUse;
-			client = new GitHubClient(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name));
+			client = clientToUse;
 			Load += PullRequestManager_Load;
 		}
 
@@ -54,9 +55,6 @@ namespace TGControlPanel
 		/// </summary>
 		async void LoadPullRequests()
 		{
-			var config = Properties.Settings.Default;
-			if (!String.IsNullOrWhiteSpace(config.GitHubAPIKey))
-				client.Credentials = new Credentials(Helpers.DecryptData(config.GitHubAPIKey, config.GitHubAPIKeyEntropy));
 			try
 			{
 				Enabled = false;
@@ -112,13 +110,10 @@ namespace TGControlPanel
 			}
 			catch (ForbiddenException)
 			{
-				if (client.Credentials.AuthenticationType == AuthenticationType.Anonymous)	//assume request limit hit
+				if (client.Credentials.AuthenticationType == AuthenticationType.Anonymous)  //assume request limit hit
 				{
-					if (MessageBox.Show("You seem to have hit the rate limit of 60 requests per hour of the GitHub API for anonymous requests. Would you like to enter credentials to bypass this?", "Rate limited", MessageBoxButtons.YesNo) != DialogResult.Yes)
-						return;
-					using (var D = new GitHubLoginPrompt(client))
-						if (D.ShowDialog() == DialogResult.OK)
-							LoadPullRequests();
+					if(Program.RateLimitPrompt(client))
+						LoadPullRequests();
 				}
 				else
 					throw;
@@ -167,28 +162,14 @@ namespace TGControlPanel
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
-		async void PullRequestManager_Load(object sender, EventArgs e)
+		void PullRequestManager_Load(object sender, EventArgs e)
 		{
 			var repo = currentInterface.GetComponent<ITGRepository>();
-			string remote = null, error = null;
-			await WrapServerOp(() => remote = repo.GetRemote(out error));
-			if (remote == null)
+			if(!Program.GetRepositoryRemote(repo, out repoOwner, out repoName))
 			{
-				MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
 				Close();
 				return;
 			}
-			if (!remote.Contains("github.com"))
-			{
-				MessageBox.Show("Pull request support is only available for github based repositories!", "Error");
-				Close();
-				return;
-			}
-
-			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-			var splits = remote.Split('/');
-			repoName = splits[splits.Length - 1];
-			repoOwner = splits[splits.Length - 2];
 
 			Enabled = true;
 			UseWaitCursor = true;
