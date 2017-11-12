@@ -29,6 +29,7 @@ namespace TGControlPanel
 		public ControlPanel(IInterface I)
 		{
 			InitializeComponent();
+			FormClosed += ControlPanel_FormClosed;
 			Interface = I;
 			if (Interface.IsRemoteConnection)
 			{
@@ -46,7 +47,17 @@ namespace TGControlPanel
 			UpdateSelectedPanel();
 			InstancesInUse.Add(I.InstanceName, this);
 		}
-		
+
+		/// <summary>
+		/// Called when the <see cref="ControlPanel"/> is closed
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		void ControlPanel_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			InstancesInUse.Remove(Interface.InstanceName);
+		}
+
 		/// <summary>
 		/// Called from <see cref="Dispose(bool)"/>
 		/// </summary>
