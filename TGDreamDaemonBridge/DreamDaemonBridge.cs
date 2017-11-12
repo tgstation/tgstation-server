@@ -21,7 +21,6 @@ namespace TGDreamDaemonBridge
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
 		public static int DDEntryPoint(int argc, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 0)]string[] args)
 		{
-			System.Diagnostics.Debugger.Launch();
 			try
 			{
 				var parsedArgs = new List<string>();
