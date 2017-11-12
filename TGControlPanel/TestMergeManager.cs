@@ -106,7 +106,7 @@ namespace TGControlPanel
 							if (alreadyMerged)
 								pulls.Remove(pull);
 						}
-						InsertPullRequest(I, alreadyMerged);
+						InsertPullRequest(I, false, alreadyMerged);
 					}
 
 					//insert remaining merged pulls
@@ -132,23 +132,22 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Format an entry for <paramref name="I"/> and insert it into <see cref="PullRequestListBox"/>
+		/// Format an entry for <paramref name="issue"/> and insert it into <see cref="PullRequestListBox"/>
 		/// </summary>
-		/// <param name="I">The <see cref="Issue"/> to format</param>
+		/// <param name="issue">The <see cref="Issue"/> to format, must contain a <see cref="PullRequest"/></param>
+		/// <param name="prioritize">If this or <paramref name="isChecked"/> is <see langword="true"/>, <paramref name="issue"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
 		/// <param name="isChecked">If the item should be checked</param>
-		void InsertPullRequest(Issue I, bool isChecked)
+		void InsertPullRequest(Issue issue, bool prioritize, bool isChecked)
 		{
-			if (I == null)
-				return;
 			bool needsTesting = false;
-			foreach (var J in I.Labels)
+			foreach (var J in issue.Labels)
 				if (J.Name.ToLower().Contains("test"))
 				{
 					needsTesting = true;
 					break;
 				}
-			var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, I.PullRequest.Merged ? " - MERGED ON REMOTE" : needsTesting ? " - TESTING REQUESTED" : "");
-			InsertItem(itemString, needsTesting, isChecked);
+			var itemString = String.Format("#{0} - {1}{2}", issue.Number, issue.Title, issue.PullRequest != null && issue.PullRequest.Merged ? " - MERGED ON REMOTE" : needsTesting ? " - TESTING REQUESTED" : "");
+			InsertItem(itemString, prioritize || needsTesting, isChecked);
 		}
 
 		/// <summary>
@@ -355,7 +354,13 @@ namespace TGControlPanel
 				if (pulls == null)
 					MessageBox.Show(String.Format(MergedPullsError, error));
 				//get the PR in question
-				InsertPullRequest(await client.Issue.Get(repoName, repoOwner, PRNumber), pulls == null || pulls.Any(x => x.Number == PRNumber));
+				var PR = await client.Issue.Get(repoName, repoOwner, PRNumber);
+				if(PR == null ||PR.PullRequest == null)
+				{
+					MessageBox.Show("That doesn't seem to be a valid PR!");
+					return;
+				}
+				InsertPullRequest(PR, true, pulls == null || pulls.Any(x => x.Number == PRNumber));
 			}
 			finally
 			{
