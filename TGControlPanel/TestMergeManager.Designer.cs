@@ -47,6 +47,7 @@
 			this.PullRequestListBox.Name = "PullRequestListBox";
 			this.PullRequestListBox.Size = new System.Drawing.Size(588, 199);
 			this.PullRequestListBox.TabIndex = 0;
+			this.PullRequestListBox.ThreeDCheckBoxes = true;
 			// 
 			// ApplyButton
 			// 
