@@ -96,11 +96,22 @@ namespace TGControlPanel
 
 					//insert the open pull requests, checking already merged once
 					foreach (var I in result.Items)
-						InsertPullRequest(I, pulls.RemoveAll(x => x.Number == I.Number) > 0);
+					{
+						bool alreadyMerged = false;
+						var pull = pulls.Where(x => x.Number == I.Number).FirstOrDefault();
+						if (pull != null)
+						{
+							//we need the full info for this PR
+							alreadyMerged = (await client.PullRequest.Get(repoOwner, repoName, I.Number)).Head.Sha == pull.Sha;
+							if (alreadyMerged)
+								pulls.Remove(pull);
+						}
+						InsertPullRequest(I, alreadyMerged);
+					}
 
 					//insert remaining merged pulls
 					foreach (var I in pulls)
-						InsertItem(String.Format("#{0} - {1}", I.Number, I.Title), true, true);
+						InsertItem(String.Format("#{0} - {1} - OUTDATED: {2}", I.Number, I.Title, I.Sha), true, true);
 				}
 				finally
 				{
@@ -201,9 +212,25 @@ namespace TGControlPanel
 			try
 			{
 				//so first collect a list of pulls that are checked
-				var pulls = new List<int>();
+				var pulls = new Dictionary<int, string>();
 				foreach (var I in PullRequestListBox.CheckedItems)
-					pulls.Add(Convert.ToInt32(((string)I).Split(' ')[0].Substring(1)));
+				{
+					var S = (string)I;
+					string mergedSha = null;
+					var splits = S.Split(' ');
+					if(S.Contains(" - OUTDATED: "))
+						mergedSha = splits[splits.Length - 1];
+					var key = Convert.ToInt32((splits[0].Substring(1)));
+					try
+					{
+						pulls.Add(key, mergedSha);
+					}
+					catch
+					{
+						MessageBox.Show(String.Format("Checked both keep and update option for #{0}", key), "Error");
+						return;
+					}
+				}
 
 				var repo = currentInterface.GetComponent<ITGRepository>();
 
@@ -235,7 +262,7 @@ namespace TGControlPanel
 					errors = new List<string>();
 					foreach (var I in pulls)
 					{
-						var res = repo.MergePullRequest(I);
+						var res = repo.MergePullRequest(I.Key, I.Value);
 						if (res != null)
 							errors.Add(String.Format("Error merging PR #{0}: {1}", I, res));
 					}
