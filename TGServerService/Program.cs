@@ -79,6 +79,7 @@ namespace TGServerService
 		/// </summary>
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty</param>
 		/// <param name="excludeRoot">Lowercase file and directory names to skip while emptying this level. Not passed forward</param>
+		/// <param name="deleteRoot">If <see langword="true"/>, <paramref name="dir"/> will be deleted before the function exits</param>
 		static async Task NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot, bool deleteRoot)
 		{
 			var tasks = new List<Task> { Task.Factory.StartNew(() =>
