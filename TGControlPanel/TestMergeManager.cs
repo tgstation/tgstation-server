@@ -138,6 +138,8 @@ namespace TGControlPanel
 		/// <param name="isChecked">If the item should be checked</param>
 		void InsertPullRequest(Issue I, bool isChecked)
 		{
+			if (I == null)
+				return;
 			bool needsTesting = false;
 			foreach (var J in I.Labels)
 				if (J.Name.ToLower().Contains("test"))
