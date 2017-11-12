@@ -117,7 +117,7 @@ namespace TGControlPanel
 			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
 			var splits = remote.Split('/');
 			name = splits[splits.Length - 1];
-			owner = splits[splits.Length - 2];
+			owner = splits[splits.Length - 2].Split('.')[0];
 			return true;
 		}
 	}
