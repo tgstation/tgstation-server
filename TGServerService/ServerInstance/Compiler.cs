@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -118,7 +119,7 @@ namespace TGServerService
 		//what is says on the tin
 		CompilerStatus IsInitialized()
 		{
-			if (File.Exists(RelativePath(Path.Combine(GameDirLive, BridgeDLLName))))	//its a good tell, jim
+			if (File.Exists(RelativePath(Path.Combine(GameDirLive, BridgeDLLName))) || File.Exists(RelativePath(Path.Combine(GameDirLive, Assembly.GetAssembly(typeof(IInterface)).GetName().Name + ".dll"))))	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}
