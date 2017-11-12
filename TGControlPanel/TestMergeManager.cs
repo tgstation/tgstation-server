@@ -30,78 +30,96 @@ namespace TGControlPanel
 		}
 
 		/// <summary>
-		/// Populate <see cref="PullRequestListBox"/> with <see cref="PullRequestInfo"/> from github and check off ones that are currently merged
+		/// Populate <see cref="PullRequestListBox"/> with <see cref="PullRequestInfo"/> from github and check off ones that are currently merged. Prompts the user to login to GitHub if they hit the rate limit
 		/// </summary>
-		async void LoadPullRequests()
+		/// <param name="client">The <see cref="GitHubClient"/> to use. If <see langword="null"/>, one will be created</param>
+		async void LoadPullRequests(GitHubClient client)
 		{
-			Enabled = false;
-			UseWaitCursor = true;
+			if(client == null)
+				client = new GitHubClient(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name));
+			var config = Properties.Settings.Default;
+			if (!String.IsNullOrWhiteSpace(config.GitHubAPIKey))
+				client.Credentials = new Credentials(Helpers.DecryptData(config.GitHubAPIKey, config.GitHubAPIKeyEntropy));
 			try
 			{
-				PullRequestListBox.Items.Clear();
-
-				var repo = currentInterface.GetComponent<ITGRepository>();
-				string remote = null, error = null, error2 = null;
-				IList<PullRequestInfo> pulls = null;
-
-				var remoteRequest = WrapServerOp(() => remote = repo.GetRemote(out error));
-
-				//get started on this while we're processing here
-				var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error2));
-
-				await remoteRequest;
-
-				if (remote == null)
-				{
-					MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
-					return;
-				}
-				if (!remote.Contains("github.com"))
-				{
-					MessageBox.Show("Pull request support is only available for github based repositories!", "Error");
-					return;
-				}
-
-				//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-				var splits = remote.Split('/');
-				var repoName = splits[splits.Length - 1];
-				var repoOwner = splits[splits.Length - 2];
-
-				//Search for open PRs
-				var client = new GitHubClient(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name));
 				Enabled = false;
 				UseWaitCursor = true;
-				SearchIssuesResult result;
 				try
 				{
-					result = await client.Search.SearchIssues(new SearchIssuesRequest
+					PullRequestListBox.Items.Clear();
+
+					var repo = currentInterface.GetComponent<ITGRepository>();
+					string remote = null, error = null, error2 = null;
+					IList<PullRequestInfo> pulls = null;
+
+					var remoteRequest = WrapServerOp(() => remote = repo.GetRemote(out error));
+
+					//get started on this while we're processing here
+					var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error2));
+
+					await remoteRequest;
+
+					if (remote == null)
 					{
-						Repos = new RepositoryCollection
-				{
-					{ repoOwner, repoName }
-				},
-						State = ItemState.Open,
-						Type = IssueTypeQualifier.PullRequest
-					});
+						MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
+						return;
+					}
+					if (!remote.Contains("github.com"))
+					{
+						MessageBox.Show("Pull request support is only available for github based repositories!", "Error");
+						return;
+					}
+
+					//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+					var splits = remote.Split('/');
+					var repoName = splits[splits.Length - 1];
+					var repoOwner = splits[splits.Length - 2];
+
+					//Search for open PRs
+					Enabled = false;
+					UseWaitCursor = true;
+					SearchIssuesResult result;
+					try
+					{
+						result = await client.Search.SearchIssues(new SearchIssuesRequest
+						{
+							Repos = new RepositoryCollection { { repoOwner, repoName } },
+							State = ItemState.Open,
+							Type = IssueTypeQualifier.PullRequest
+						});
+					}
+					finally
+					{
+						Enabled = true;
+						UseWaitCursor = false;
+					}
+
+					//now we need to know what's merged
+					await WrapServerOp(() => pullsRequest.Wait());
+					if (pulls == null)
+						MessageBox.Show(String.Format("Error retrieving currently merged pull requests: {0}", error2));
+
+					foreach (var I in result.Items)
+						PullRequestListBox.Items.Add(String.Format("#{0} - {1}", I.Number, I.Title), pulls.Any(x => x.Number == I.Number));
 				}
 				finally
 				{
 					Enabled = true;
 					UseWaitCursor = false;
 				}
-
-				//now we need to know what's merged
-				await WrapServerOp(() => pullsRequest.Wait());
-				if (pulls == null)
-					MessageBox.Show(String.Format("Error retrieving currently merged pull requests: {0}", error2));
-
-				foreach (var I in result.Items)
-					PullRequestListBox.Items.Add(String.Format("#{0} - {1}", I.Number, I.Title), pulls.Any(x => x.Number == I.Number));
 			}
-			finally
+			catch (ForbiddenException)
 			{
-				Enabled = true;
-				UseWaitCursor = false;
+				if (client.Credentials.AuthenticationType == AuthenticationType.Anonymous)	//assume request limit hit
+				{
+					if (MessageBox.Show("You seem to have hit the rate limit of 60 requests per hour of the GitHub API for anonymous requests. Would you like to enter credentials to bypass this?", "Rate limited", MessageBoxButtons.YesNo) != DialogResult.Yes)
+						return;
+					using (var D = new GitHubLoginPrompt(client))
+						if (D.ShowDialog() == DialogResult.OK)
+							LoadPullRequests(client);
+				}
+				else
+					throw;
 			}
 		}
 
@@ -112,7 +130,7 @@ namespace TGControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void PullRequestManager_Load(object sender, EventArgs e)
 		{
-			LoadPullRequests();
+			LoadPullRequests(null);
 		}
 
 		/// <summary>
@@ -202,7 +220,7 @@ namespace TGControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void RefreshButton_Click(object sender, EventArgs e)
 		{
-			LoadPullRequests();
+			LoadPullRequests(null);
 		}
 	}
 }
