@@ -1,4 +1,4 @@
-﻿using RGiesecke.DllExport;
+using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -21,13 +21,15 @@ namespace TGDreamDaemonBridge
 		[DllExport("DDEntryPoint", CallingConvention = CallingConvention.Cdecl)]
 		public static int DDEntryPoint(int argc, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 0)]string[] args)
 		{
+			System.Diagnostics.Debugger.Launch();
 			try
 			{
 				var parsedArgs = new List<string>();
 				parsedArgs.AddRange(args);
+				var instance = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
 				using (var I = new Interface())
-					if(I.ConnectToInstance(parsedArgs[0], true).HasFlag(ConnectivityLevel.Connected))
+					if(I.ConnectToInstance(instance, true).HasFlag(ConnectivityLevel.Connected))
 						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }
