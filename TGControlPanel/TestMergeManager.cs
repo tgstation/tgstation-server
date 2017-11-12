@@ -13,9 +13,28 @@ namespace TGControlPanel
 	sealed partial class TestMergeManager : ServerOpForm
 	{
 		/// <summary>
+		/// Error message format used when <see cref="ITGRepository.MergedPullRequests(out string)"/> fails
+		/// </summary>
+		const string MergedPullsError = "Error retrieving currently merged pull requests: {0}";
+
+		/// <summary>
 		/// The <see cref="IInterface"/> connected to an <see cref="ITGInstance"/> to handle the pull requests for
 		/// </summary>
 		readonly IInterface currentInterface;
+
+		/// <summary>
+		/// The <see cref="GitHubClient"/> to use to read PR lists
+		/// </summary>
+		readonly GitHubClient client;
+
+		/// <summary>
+		/// The owner of the target <see cref="Repository"/>
+		/// </summary>
+		string repoOwner;
+		/// <summary>
+		/// The name of the target <see cref="Repository"/>
+		/// </summary>
+		string repoName;
 
 		/// <summary>
 		/// Construct a <see cref="TestMergeManager"/>
@@ -23,20 +42,18 @@ namespace TGControlPanel
 		public TestMergeManager(IInterface interfaceToUse)
 		{
 			InitializeComponent();
-			Load += PullRequestManager_Load;
 			DialogResult = DialogResult.Cancel;
 			UpdateToRemoteRadioButton.Checked = true;
 			currentInterface = interfaceToUse;
+			client = new GitHubClient(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name));
+			Load += PullRequestManager_Load;
 		}
 
 		/// <summary>
 		/// Populate <see cref="PullRequestListBox"/> with <see cref="PullRequestInfo"/> from github and check off ones that are currently merged. Prompts the user to login to GitHub if they hit the rate limit
 		/// </summary>
-		/// <param name="client">The <see cref="GitHubClient"/> to use. If <see langword="null"/>, one will be created</param>
-		async void LoadPullRequests(GitHubClient client)
+		async void LoadPullRequests()
 		{
-			if(client == null)
-				client = new GitHubClient(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name));
 			var config = Properties.Settings.Default;
 			if (!String.IsNullOrWhiteSpace(config.GitHubAPIKey))
 				client.Credentials = new Credentials(Helpers.DecryptData(config.GitHubAPIKey, config.GitHubAPIKeyEntropy));
@@ -49,31 +66,11 @@ namespace TGControlPanel
 					PullRequestListBox.Items.Clear();
 
 					var repo = currentInterface.GetComponent<ITGRepository>();
-					string remote = null, error = null, error2 = null;
+					string error = null;
 					IList<PullRequestInfo> pulls = null;
-
-					var remoteRequest = WrapServerOp(() => remote = repo.GetRemote(out error));
-
+					
 					//get started on this while we're processing here
-					var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error2));
-
-					await remoteRequest;
-
-					if (remote == null)
-					{
-						MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
-						return;
-					}
-					if (!remote.Contains("github.com"))
-					{
-						MessageBox.Show("Pull request support is only available for github based repositories!", "Error");
-						return;
-					}
-
-					//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-					var splits = remote.Split('/');
-					var repoName = splits[splits.Length - 1];
-					var repoOwner = splits[splits.Length - 2];
+					var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error));
 
 					//Search for open PRs
 					Enabled = false;
@@ -95,30 +92,12 @@ namespace TGControlPanel
 					}
 
 					//now we need to know what's merged
-					await WrapServerOp(() => pullsRequest.Wait());
+					await pullsRequest;
 					if (pulls == null)
-						MessageBox.Show(String.Format("Error retrieving currently merged pull requests: {0}", error2));
+						MessageBox.Show(String.Format(MergedPullsError, error));
 
 					foreach (var I in result.Items)
-					{
-						bool needsTesting = false;
-						foreach(var J in I.Labels)
-							if (J.Name.ToLower().Contains("test"))
-							{
-								needsTesting = true;
-								break;
-							}
-						var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, needsTesting ? " - TESTING REQUESTED" : "");
-						var isChecked = pulls.Any(x => x.Number == I.Number);
-						if (needsTesting || isChecked)
-						{
-							PullRequestListBox.Items.Insert(0, itemString);
-							if(isChecked)
-								PullRequestListBox.SetItemChecked(0, true);
-						}
-						else
-							PullRequestListBox.Items.Add(itemString, isChecked);
-					}
+						InsertPullRequest(I, pulls.Any(x => x.Number == I.Number));
 				}
 				finally
 				{
@@ -134,21 +113,65 @@ namespace TGControlPanel
 						return;
 					using (var D = new GitHubLoginPrompt(client))
 						if (D.ShowDialog() == DialogResult.OK)
-							LoadPullRequests(client);
+							LoadPullRequests();
 				}
 				else
 					throw;
 			}
 		}
 
+		void InsertPullRequest(Issue I, bool isChecked)
+		{
+			bool needsTesting = false;
+			foreach (var J in I.Labels)
+				if (J.Name.ToLower().Contains("test"))
+				{
+					needsTesting = true;
+					break;
+				}
+			var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, needsTesting ? " - TESTING REQUESTED" : "");
+			if (needsTesting || isChecked)
+			{
+				PullRequestListBox.Items.Insert(0, itemString);
+				if (isChecked)
+					PullRequestListBox.SetItemChecked(0, true);
+			}
+			else
+				PullRequestListBox.Items.Add(itemString, isChecked);
+		}
+
 		/// <summary>
-		/// Called when the <see cref="TestMergeManager"/> is loaded
+		/// Called when the <see cref="TestMergeManager"/> is loaded. Sets <see cref="repoOwner"/> and <see cref="repoName"/>
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="EventArgs"/></param>
-		void PullRequestManager_Load(object sender, EventArgs e)
+		async void PullRequestManager_Load(object sender, EventArgs e)
 		{
-			LoadPullRequests(null);
+			var repo = currentInterface.GetComponent<ITGRepository>();
+			string remote = null, error = null;
+			await WrapServerOp(() => remote = repo.GetRemote(out error));
+			if (remote == null)
+			{
+				MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
+				Close();
+				return;
+			}
+			if (!remote.Contains("github.com"))
+			{
+				MessageBox.Show("Pull request support is only available for github based repositories!", "Error");
+				Close();
+				return;
+			}
+
+			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+			var splits = remote.Split('/');
+			repoName = splits[splits.Length - 1];
+			repoOwner = splits[splits.Length - 2];
+
+			Enabled = true;
+			UseWaitCursor = true;
+
+			LoadPullRequests();
 		}
 
 		/// <summary>
@@ -251,7 +274,65 @@ namespace TGControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void RefreshButton_Click(object sender, EventArgs e)
 		{
-			LoadPullRequests(null);
+			LoadPullRequests();
+		}
+
+		bool PullRequestsStringsListContainsPRNumber(CheckedListBox.ObjectCollection items, int PRNumber)
+		{
+			return false;
+		}
+
+		/// <summary>
+		/// Called when the <see cref="AddPRButton"/> is clicked. Adds the PR with the number in <see cref="AddPRNumericUpDown"/> to <see cref="PullRequestListBox"/> or shows an error prompt if it doesn't/already exists
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="EventArgs"/></param>
+		async void AddPRButton_Click(object sender, EventArgs e)
+		{
+
+			Enabled = false;
+			UseWaitCursor = true;
+			try
+			{
+				IList<PullRequestInfo> pulls = null;
+				string error = null;
+				var mergedPullsTask = WrapServerOp(() => pulls = currentInterface.GetComponent<ITGRepository>().MergedPullRequests(out error));
+
+				int PRNumber;
+				try
+				{
+					PRNumber = Convert.ToInt32(AddPRNumericUpDown.Value);
+				}
+				catch
+				{
+					MessageBox.Show("Invalid PR number!");
+					return;
+				}
+				var found = false;
+				var asString = PRNumber.ToString();
+				foreach (var I in PullRequestListBox.Items)
+					if (((string)I).Split(' ')[0].Substring(1) == asString)
+					{
+						found = true;
+						break;
+					}
+				if (found)
+				{
+					MessageBox.Show("That PR is already in the list!");
+					return;
+				}
+
+				await mergedPullsTask;
+				if (pulls == null)
+					MessageBox.Show(String.Format(MergedPullsError, error));
+				//get the PR in question
+				InsertPullRequest(await client.Issue.Get(repoName, repoOwner, PRNumber), pulls == null || pulls.Any(x => x.Number == PRNumber));
+			}
+			finally
+			{
+				UseWaitCursor = false;
+				Enabled = true;
+			}
 		}
 	}
 }
