@@ -900,9 +900,6 @@ namespace TGServerService
 
 					currentProgress = -1;
 
-					var Config = Properties.Settings.Default;
-
-
 					branch = Repo.Branches[LocalBranchName];
 					if (branch == null)
 					{
