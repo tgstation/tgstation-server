@@ -80,7 +80,7 @@ namespace TGCommandLine
 		{
 			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
-			IList<string> channels;
+			List<string> channels;
 
 			switch (parameters[1].ToLower())
 			{
@@ -158,7 +158,7 @@ namespace TGCommandLine
 		{
 			var IRC = Interface.GetComponent<ITGChat>();
 			var info = IRC.ProviderInfos()[providerIndex];
-			IList<string> channels;
+			List<string> channels;
 
 			switch (parameters[1].ToLower())
 			{
