@@ -521,6 +521,11 @@ namespace TGServerService
 						else if (result != null)
 							return result;
 					}
+
+					//if this is a tracked branch, we need to reset to remote first and delete the PR list
+					ResetNoLock(Repo.Head.TrackedBranch ?? Repo.Head);
+					DeletePRList();
+
 					var Opts = new CheckoutOptions()
 					{
 						CheckoutModifiers = CheckoutModifiers.Force,
