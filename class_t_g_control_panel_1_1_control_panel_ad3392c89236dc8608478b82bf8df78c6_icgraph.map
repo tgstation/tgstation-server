@@ -1,5 +1,6 @@
 <map id="TGControlPanel.ControlPanel.UpdateProjectName" name="TGControlPanel.ControlPanel.UpdateProjectName">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a5a8e1588c50b0228a7e36e8b61f701b3" title="TGControlPanel.ControlPanel.\lProjectNameText_KeyDown" alt="" coords="248,5,443,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a1a435ec5d43eafc7c8002dd2ed79561c" title="TGControlPanel.ControlPanel.\lProjectNameText_LostFocus" alt="" coords="248,71,443,112"/>
+<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a1a435ec5d43eafc7c8002dd2ed79561c" title="TGControlPanel.ControlPanel.\lProjectNameText_LostFocus" alt="" coords="248,71,443,112"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a9add79e3c19be01939ee6087efd13383" title="TGControlPanel.ControlPanel.\lInitServerPage" alt="" coords="491,39,685,80"/>
+<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="733,39,928,80"/>
 </map>

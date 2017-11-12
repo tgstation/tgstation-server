@@ -1,11 +1,11 @@
 <map id="TGControlPanel.ControlPanel.InitRepoPage" name="TGControlPanel.ControlPanel.InitRepoPage">
 <area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#ae78a814091f297009537cade56383588" title="TGControlPanel.ControlPanel.\lBackupTagsList_MouseDoubleClick" alt="" coords="248,5,479,47"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#abea4930015a884e9b0c38dac029e9524" title="TGControlPanel.ControlPanel.\lPopulateRepoFields" alt="" coords="535,136,729,177"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_control_panel.html#aed15a98189efa3d18132bbe9e7c751b4" title="TGControlPanel.ControlPanel.\lRepoBGW_DoWork" alt="" coords="266,71,461,112"/>
-<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_control_panel.html#aa2f90ee401d749cf81f4bfb8b61b757c" title="TGControlPanel.ControlPanel.\lRepoBGW_ProgressChanged" alt="" coords="266,188,461,229"/>
-<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_control_panel.html#a51633063f897ad3eba164102fc2dfd85" title="TGControlPanel.ControlPanel.\lRepoBGW_RunWorkerCompleted" alt="" coords="254,253,473,295"/>
+<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#aed15a98189efa3d18132bbe9e7c751b4" title="TGControlPanel.ControlPanel.\lRepoBGW_DoWork" alt="" coords="266,71,461,112"/>
+<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_control_panel.html#aa2f90ee401d749cf81f4bfb8b61b757c" title="TGControlPanel.ControlPanel.\lRepoBGW_ProgressChanged" alt="" coords="266,136,461,177"/>
+<area shape="rect" id="node9" href="$class_t_g_control_panel_1_1_control_panel.html#a51633063f897ad3eba164102fc2dfd85" title="TGControlPanel.ControlPanel.\lRepoBGW_RunWorkerCompleted" alt="" coords="254,201,473,243"/>
 <area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a4c31730c223827ee9aa0f961b3c6bcbd" title="TGControlPanel.ControlPanel.\lDoAsyncOp" alt="" coords="535,5,729,47"/>
 <area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6e2d041a46bbda54bb6e70dab696c3dc" title="TGControlPanel.ControlPanel.\lRepoBusyCheck" alt="" coords="785,5,980,47"/>
 <area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="1028,5,1255,47"/>
-<area shape="rect" id="node8" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1ba91e01239633db1ea8e7c20a954b9e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="527,71,737,112"/>
+<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a1ba91e01239633db1ea8e7c20a954b9e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="527,71,737,112"/>
+<area shape="rect" id="node10" href="$class_t_g_control_panel_1_1_control_panel.html#abea4930015a884e9b0c38dac029e9524" title="TGControlPanel.ControlPanel.\lPopulateRepoFields" alt="" coords="535,169,729,211"/>
 </map>
