@@ -100,7 +100,25 @@ namespace TGControlPanel
 						MessageBox.Show(String.Format("Error retrieving currently merged pull requests: {0}", error2));
 
 					foreach (var I in result.Items)
-						PullRequestListBox.Items.Add(String.Format("#{0} - {1}", I.Number, I.Title), pulls.Any(x => x.Number == I.Number));
+					{
+						bool needsTesting = false;
+						foreach(var J in I.Labels)
+							if (J.Name.ToLower().Contains("test"))
+							{
+								needsTesting = true;
+								break;
+							}
+						var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, needsTesting ? " - TESTING REQUESTED" : "");
+						var isChecked = pulls.Any(x => x.Number == I.Number);
+						if (needsTesting)
+						{
+							PullRequestListBox.Items.Insert(0, itemString);
+							if(isChecked)
+								PullRequestListBox.SetItemChecked(0, true);
+						}
+						else
+							PullRequestListBox.Items.Add(itemString, isChecked);
+					}
 				}
 				finally
 				{
