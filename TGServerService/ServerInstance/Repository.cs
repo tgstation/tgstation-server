@@ -931,7 +931,7 @@ namespace TGServerService
 					}
 
 					//so we'll know if this fails
-					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("Testmerge commit for pull request #{0}", PRNumber));
+					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("Test merge commit for pull request #{0}{1}Server Instance: {2}", PRNumber, Config.Name));
 
 					if (Result == null)
 						try
