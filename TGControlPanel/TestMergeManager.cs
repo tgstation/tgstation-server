@@ -139,7 +139,7 @@ namespace TGControlPanel
 					needsTesting = true;
 					break;
 				}
-			var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, needsTesting ? " - TESTING REQUESTED" : "");
+			var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, I.PullRequest.Merged ? " - MERGED ON REMOTE" : needsTesting ? " - TESTING REQUESTED" : "");
 			InsertItem(itemString, needsTesting, isChecked);
 		}
 
