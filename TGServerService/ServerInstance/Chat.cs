@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using TGServerService.ChatCommands;
@@ -174,6 +175,11 @@ namespace TGServerService
 		/// <inheritdoc />
 		public string SetProviderInfo(ChatSetupInfo info)
 		{
+			info.AdminList.RemoveAll(x => String.IsNullOrWhiteSpace(x));
+			info.AdminChannels.RemoveAll(x => String.IsNullOrWhiteSpace(x));
+			info.GameChannels.RemoveAll(x => String.IsNullOrWhiteSpace(x));
+			info.DevChannels.RemoveAll(x => String.IsNullOrWhiteSpace(x));
+			info.WatchdogChannels.RemoveAll(x => String.IsNullOrWhiteSpace(x));
 			try
 			{
 				lock (ChatLock)
