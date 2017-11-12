@@ -217,11 +217,11 @@ namespace TGServerService
 		/// </summary>
 		RepoPRListError = 4900,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="TGServiceInterface.Components.ITGRepository.MergePullRequest(int)"/> operation
+		/// Info: Successful completion of a <see cref="TGServiceInterface.Components.ITGRepository.MergePullRequest(int, string)"/> operation
 		/// </summary>
 		RepoPRMerge = 5000,
 		/// <summary>
-		/// Warning: An error occurred during a <see cref="TGServiceInterface.Components.ITGRepository.MergePullRequest(int)"/> operation
+		/// Warning: An error occurred during a <see cref="TGServiceInterface.Components.ITGRepository.MergePullRequest(int, string)"/> operation
 		/// </summary>
 		RepoPRMergeFail = 5100,
 		/// <summary>
