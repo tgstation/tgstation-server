@@ -10,9 +10,9 @@
 <area shape="rect" id="node15" href="$class_t_g_server_service_1_1_server_instance.html#abc4aea21aa8dfb0039d9e384458b037e" title="Writes an error to the Windows event log " alt="" coords="781,299,992,341"/>
 <area shape="rect" id="node16" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="781,234,992,275"/>
 <area shape="rect" id="node17" href="$class_t_g_server_service_1_1_server_instance.html#a2e6fa52a6bc2f17eedd4c5d62f13063f" title="Restart the server after the currently running world reboots. Has no effect if the server isn&#39;t runni..." alt="" coords="523,547,733,589"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="799,169,974,210"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="799,169,974,210"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1317,151,1491,193"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1058,122,1233,163"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="1058,122,1233,163"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="1321,299,1487,341"/>
 <area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#ae64d03735cb348d0d162e493bf9b3f68" title="Get the currently installed version as a string formatted as Major.Minor &#160;" alt="" coords="781,103,992,145"/>
 <area shape="rect" id="node18" href="$class_t_g_server_service_1_1_server_instance.html#aaa392248d5913143b6537352190e75e6" title="TGServerService.ServerInstance.\lSendCommand" alt="" coords="781,547,992,589"/>

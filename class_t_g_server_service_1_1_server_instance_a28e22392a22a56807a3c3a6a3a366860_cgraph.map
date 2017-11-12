@@ -1,12 +1,12 @@
 <map id="TGServerService.ServerInstance.ApplyStagedUpdate" name="TGServerService.ServerInstance.ApplyStagedUpdate">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="282,23,457,64"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="282,23,457,64"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ae64d03735cb348d0d162e493bf9b3f68" title="Get the currently installed version as a string formatted as Major.Minor &#160;" alt="" coords="264,88,475,129"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,111,733,152"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,205,475,247"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#abc4aea21aa8dfb0039d9e384458b037e" title="Writes an error to the Windows event log " alt="" coords="523,264,733,305"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="264,323,475,364"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="781,5,956,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="541,35,715,76"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="541,35,715,76"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="523,199,733,240"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="785,264,952,305"/>
 </map>

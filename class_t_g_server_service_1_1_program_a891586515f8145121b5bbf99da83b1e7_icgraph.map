@@ -1,5 +1,5 @@
 <map id="TGServerService.Program.NormalizeAndDelete" name="TGServerService.Program.NormalizeAndDelete">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="228,420,403,461"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="228,420,403,461"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a28e22392a22a56807a3c3a6a3a366860" title="Attempts to move the staged update from StagingDirectory to ByondDirectory. Sets lastError on failure..." alt="" coords="451,123,662,164"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#a15a3ebcbd0237e65264d9ca2533291ce" title="Copies the Static directory to the first available Static_BACKUP path in the ServerInstance then dele..." alt="" coords="451,567,663,608"/>
 <area shape="rect" id="node15" href="$class_t_g_server_service_1_1_server_instance.html#a14f34e7f968afb1ad7f77d8813d5799b" title="Backups up the StaticDirs and deletes the current RepoPath if they exist. Clones the given branch of ..." alt="" coords="711,697,921,739"/>

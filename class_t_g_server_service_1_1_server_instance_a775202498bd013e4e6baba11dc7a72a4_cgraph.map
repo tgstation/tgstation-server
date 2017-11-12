@@ -21,8 +21,8 @@
 <area shape="rect" id="node17" href="$class_t_g_server_service_1_1_server_instance.html#ad6f61d0895428e85ec403dbfd0afe744" title="TGServerService.ServerInstance.\lInitCompiler" alt="" coords="781,387,992,428"/>
 <area shape="rect" id="node18" href="$class_t_g_server_service_1_1_server_instance.html#a8445f34deceaaa76a7c2088f8c7f1991" title="TGServerService.ServerInstance.\lIsInitialized" alt="" coords="1053,420,1264,461"/>
 <area shape="rect" id="node20" href="$class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6" title="Cleans the BYOND staging directory " alt="" coords="781,479,992,520"/>
-<area shape="rect" id="node21" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="1071,537,1246,579"/>
+<area shape="rect" id="node21" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="1071,537,1246,579"/>
 <area shape="rect" id="node22" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1602,537,1777,579"/>
-<area shape="rect" id="node23" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1343,567,1518,608"/>
+<area shape="rect" id="node23" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="1343,567,1518,608"/>
 <area shape="rect" id="node26" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="795,583,978,624"/>
 </map>

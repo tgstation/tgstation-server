@@ -1,5 +1,5 @@
 <map id="TGServerService.Program.CopyDirectoryImpl" name="TGServerService.Program.CopyDirectoryImpl">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="228,71,403,112"/>
+<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a55aec12486c94d7e70bb2ad57f36a595" title="Recusively copy a directory " alt="" coords="228,71,403,112"/>
 <area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a15a3ebcbd0237e65264d9ca2533291ce" title="Copies the Static directory to the first available Static_BACKUP path in the ServerInstance then dele..." alt="" coords="451,71,663,112"/>
 <area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a591be0739a0ebf1c70fa2d0615262324" title="TGServerService.ServerInstance.\lCompileImpl" alt="" coords="451,136,662,177"/>
 <area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#a5ce4ab9dd00a38f8e434a54ef8978dde" title="Initial setup for the StaticDirs and CachedTGS3SettingsPath " alt="" coords="451,5,662,47"/>

@@ -11,8 +11,8 @@
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="1299,1233,1509,1274"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#af4f0d76eb19015bd076df3f3aa28e526" title="TGServerService.ServerInstance.\lGetStagingDir" alt="" coords="781,474,992,516"/>
 <area shape="rect" id="node15" href="$class_t_g_server_service_1_1_server_instance.html#a9f987c1a8b05d222f908674c813ec918" title="TGServerService.ServerInstance.\lCreateSymlink" alt="" coords="1040,422,1251,464"/>
-<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="1058,670,1233,712"/>
-<area shape="rect" id="node20" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="799,357,974,398"/>
+<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="1058,670,1233,712"/>
+<area shape="rect" id="node20" href="$class_t_g_server_service_1_1_program.html#a55aec12486c94d7e70bb2ad57f36a595" title="Recusively copy a directory " alt="" coords="799,357,974,398"/>
 <area shape="rect" id="node22" href="$class_t_g_server_service_1_1_server_instance.html#abefd625f907f5e953509baa1c6da9a07" title="Gets the sha of the current HEAD &#160;" alt="" coords="781,773,992,814"/>
 <area shape="rect" id="node24" href="$class_t_g_server_service_1_1_server_instance.html#ae69e75b4b1379d03852e6bef850dfcc4" title="Creates a date and timestamped tag of the current HEAD " alt="" coords="1040,1057,1251,1098"/>
 <area shape="rect" id="node25" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="1299,1072,1509,1113"/>
@@ -27,8 +27,8 @@
 <area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#af1a8a673b30cc996fc7251de037732fc" title="TGServerService.ServerInstance.\lInvertDirectory" alt="" coords="1040,540,1251,581"/>
 <area shape="rect" id="node16" href="$class_t_g_server_service_1_1_server_instance.html#a6842952e4558a97fc0b9612c5cfc5088" title="TGServerService.ServerInstance.\lCreateSymbolicLink" alt="" coords="1299,422,1509,464"/>
 <area shape="rect" id="node18" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1575,672,1750,713"/>
-<area shape="rect" id="node19" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1317,657,1491,698"/>
-<area shape="rect" id="node21" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="1058,357,1233,398"/>
+<area shape="rect" id="node19" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="1317,657,1491,698"/>
+<area shape="rect" id="node21" href="$class_t_g_server_service_1_1_program.html#ad1237f807c2d8bcc0087bea86a7842e6" title="Recusively copy a directory " alt="" coords="1058,357,1233,398"/>
 <area shape="rect" id="node23" href="$class_t_g_server_service_1_1_server_instance.html#a848b2e594808b20d91c9d9b273edd8f1" title="Gets the SHA or branch name of the Repo&#39;s HEAD " alt="" coords="1040,788,1251,829"/>
 <area shape="rect" id="node29" href="$class_t_g_server_service_1_1_server_instance.html#a3ccef305da6b6b218054c1287ba7086b" title="Runs an event named eventName &#160;if it exists " alt="" coords="1040,605,1251,646"/>
 <area shape="rect" id="node30" href="$class_t_g_server_service_1_1_server_instance.html#ae35924a25d2d0fcfb0124ad21ecb421f" title="Check if an event handler for eventName &#160;exists " alt="" coords="1299,540,1509,581"/>

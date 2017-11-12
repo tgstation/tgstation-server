@@ -1,12 +1,12 @@
 <map id="TGServerService.ServerInstance.RecreateStaticFolder" name="TGServerService.ServerInstance.RecreateStaticFolder">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a15a3ebcbd0237e65264d9ca2533291ce" title="Copies the Static directory to the first available Static_BACKUP path in the ServerInstance then dele..." alt="" coords="264,123,476,164"/>
 <area shape="rect" id="node9" href="$class_t_g_server_service_1_1_server_instance.html#a5ce4ab9dd00a38f8e434a54ef8978dde" title="Initial setup for the StaticDirs and CachedTGS3SettingsPath " alt="" coords="265,320,475,361"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="542,152,717,193"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="542,35,717,76"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a55aec12486c94d7e70bb2ad57f36a595" title="Recusively copy a directory " alt="" coords="542,152,717,193"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="542,35,717,76"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="783,320,993,361"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="801,152,975,193"/>
+<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#ad1237f807c2d8bcc0087bea86a7842e6" title="Recusively copy a directory " alt="" coords="801,152,975,193"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1041,35,1216,76"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="801,5,975,47"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="801,5,975,47"/>
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_program.html#aef2a6a2e44bad48a223197b153734b06" title="Copy a file from source &#160;to dest , but first ensure the destination directory exists ..." alt="" coords="542,451,717,492"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a460f7422c8ca2c016df6d18a6c64e287" title="Gets the RepoConfig for CachedTGS3SettingsPath " alt="" coords="524,385,735,427"/>
 <area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#ac8e5fb51cbd79f58097ce777d2caf7a9" title="Copies BridgeDLLName from the program directory to the the ServerInstance directory ..." alt="" coords="524,516,735,557"/>

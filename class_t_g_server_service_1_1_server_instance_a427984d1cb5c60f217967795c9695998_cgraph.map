@@ -9,7 +9,7 @@
 <area shape="rect" id="node10" href="$class_t_g_server_service_1_1_server_instance.html#a460f7422c8ca2c016df6d18a6c64e287" title="Gets the RepoConfig for CachedTGS3SettingsPath " alt="" coords="1040,325,1251,366"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="781,1178,992,1220"/>
 <area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#af08b470db051748bc99e830bd263d215" title="TGServerService.ServerInstance.\lCleanGameFolder" alt="" coords="523,126,733,168"/>
-<area shape="rect" id="node15" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="799,1412,974,1453"/>
+<area shape="rect" id="node15" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="799,1412,974,1453"/>
 <area shape="rect" id="node18" href="$class_t_g_server_service_1_1_server_instance.html#a9f987c1a8b05d222f908674c813ec918" title="TGServerService.ServerInstance.\lCreateSymlink" alt="" coords="1040,1302,1251,1344"/>
 <area shape="rect" id="node20" href="$class_t_g_server_service_1_1_server_instance.html#abc4aea21aa8dfb0039d9e384458b037e" title="Writes an error to the Windows event log " alt="" coords="781,477,992,518"/>
 <area shape="rect" id="node21" href="$class_t_g_server_service_1_1_server_instance.html#a591be0739a0ebf1c70fa2d0615262324" title="TGServerService.ServerInstance.\lCompileImpl" alt="" coords="523,762,733,804"/>
@@ -17,9 +17,9 @@
 <area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="1299,989,1509,1030"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="1579,924,1746,965"/>
 <area shape="rect" id="node16" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1317,1418,1491,1460"/>
-<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1058,1389,1233,1430"/>
+<area shape="rect" id="node17" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="1058,1389,1233,1430"/>
 <area shape="rect" id="node19" href="$class_t_g_server_service_1_1_server_instance.html#a6842952e4558a97fc0b9612c5cfc5088" title="TGServerService.ServerInstance.\lCreateSymbolicLink" alt="" coords="1299,1302,1509,1344"/>
-<area shape="rect" id="node22" href="$class_t_g_server_service_1_1_program.html#ae1290ddee2583742124827bad8d68f23" title="Recusively copy a directory " alt="" coords="799,762,974,804"/>
+<area shape="rect" id="node22" href="$class_t_g_server_service_1_1_program.html#a55aec12486c94d7e70bb2ad57f36a595" title="Recusively copy a directory " alt="" coords="799,762,974,804"/>
 <area shape="rect" id="node24" href="$class_t_g_server_service_1_1_server_instance.html#ae69e75b4b1379d03852e6bef850dfcc4" title="Creates a date and timestamped tag of the current HEAD " alt="" coords="1040,928,1251,969"/>
 <area shape="rect" id="node25" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="1299,924,1509,965"/>
 <area shape="rect" id="node26" href="$class_t_g_server_service_1_1_server_instance.html#abefd625f907f5e953509baa1c6da9a07" title="Gets the sha of the current HEAD &#160;" alt="" coords="781,645,992,686"/>
@@ -29,7 +29,7 @@
 <area shape="rect" id="node35" href="$class_t_g_server_service_1_1_server_instance.html#af19d01601edb8beb1e78ffdcaf572c47" title="Run the &quot;precompile&quot; event " alt="" coords="781,1048,992,1089"/>
 <area shape="rect" id="node36" href="$class_t_g_server_service_1_1_server_instance.html#a724c7681dbfd9bfc0128392e92f8cfae" title="Returns the relative path of the dme the compiler will look for without the .dme part &#160;..." alt="" coords="781,880,992,921"/>
 <area shape="rect" id="node37" href="$class_t_g_server_service_1_1_server_instance.html#aeb0cb7b5664b4796ef9aa9082bbce424" title="Updates LiveTrackingBranch with the staged Compile(bool)&#39;s SHA " alt="" coords="1040,710,1251,752"/>
-<area shape="rect" id="node23" href="$class_t_g_server_service_1_1_program.html#a7c18e20067d3cacdea766f96e140456c" title="Recusively copy a directory " alt="" coords="1058,776,1233,817"/>
+<area shape="rect" id="node23" href="$class_t_g_server_service_1_1_program.html#ad1237f807c2d8bcc0087bea86a7842e6" title="Recusively copy a directory " alt="" coords="1058,776,1233,817"/>
 <area shape="rect" id="node27" href="$class_t_g_server_service_1_1_server_instance.html#a848b2e594808b20d91c9d9b273edd8f1" title="Gets the SHA or branch name of the Repo&#39;s HEAD " alt="" coords="1040,645,1251,686"/>
 <area shape="rect" id="node29" href="$class_t_g_server_service_1_1_server_instance.html#af1a8a673b30cc996fc7251de037732fc" title="TGServerService.ServerInstance.\lInvertDirectory" alt="" coords="1040,1185,1251,1226"/>
 <area shape="rect" id="node32" href="$class_t_g_server_service_1_1_server_instance.html#a3ccef305da6b6b218054c1287ba7086b" title="Runs an event named eventName &#160;if it exists " alt="" coords="1040,1048,1251,1089"/>

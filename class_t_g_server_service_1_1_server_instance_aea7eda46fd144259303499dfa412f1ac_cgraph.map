@@ -6,10 +6,10 @@
 <area shape="rect" id="node14" href="$class_t_g_server_service_1_1_server_instance.html#a901e893be86572cf6a8d539e83de4b2c" title="Either let go of Proc for reattachment or terminate it, depending on InstanceConfig.ReattachRequired of Config " alt="" coords="523,376,733,417"/>
 <area shape="rect" id="node26" href="$class_t_g_server_service_1_1_server_instance.html#a9b46135f61615923db5e302d3553e1fa" title="Cleans up Repo " alt="" coords="264,319,475,360"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6" title="Cleans the BYOND staging directory " alt="" coords="523,71,733,112"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="813,33,987,75"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="813,33,987,75"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="1067,201,1277,243"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1343,33,1518,75"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1085,63,1259,104"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="1085,63,1259,104"/>
 <area shape="rect" id="node10" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="537,136,719,177"/>
 <area shape="rect" id="node12" href="$class_t_g_server_service_1_1_server_instance.html#ad6f61d0895428e85ec403dbfd0afe744" title="TGServerService.ServerInstance.\lInitCompiler" alt="" coords="523,201,733,243"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#a8445f34deceaaa76a7c2088f8c7f1991" title="TGServerService.ServerInstance.\lIsInitialized" alt="" coords="795,201,1005,243"/>

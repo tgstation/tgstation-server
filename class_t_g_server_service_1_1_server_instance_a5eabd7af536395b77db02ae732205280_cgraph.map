@@ -9,9 +9,9 @@
 <area shape="rect" id="node3" href="$interface_t_g_server_service_1_1_i_instance_config.html#a6603d839cc98813cf3c7c11035080693" title="Saves the IInstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="543,291,717,332"/>
 <area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6" title="Cleans the BYOND staging directory " alt="" coords="785,64,996,105"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="1307,459,1517,500"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="1062,5,1237,47"/>
+<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="1062,5,1237,47"/>
 <area shape="rect" id="node8" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1592,5,1767,47"/>
-<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="1325,35,1499,76"/>
+<area shape="rect" id="node9" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="1325,35,1499,76"/>
 <area shape="rect" id="node11" href="$class_t_g_server_service_1_1_server_instance.html#a773aa236fa08157b085162e7c2bdd846" title="Returns a list of ChatSetupInfos loaded from the config or the defaults if none are set ..." alt="" coords="1044,1616,1255,1657"/>
 <area shape="rect" id="node13" href="$class_t_g_server_service_1_1_server_instance.html#abc4aea21aa8dfb0039d9e384458b037e" title="Writes an error to the Windows event log " alt="" coords="1307,1013,1517,1055"/>
 <area shape="rect" id="node15" href="$class_t_g_server_service_1_1_server_instance.html#a74914da816161c02d9833216fbcb0e25" title="Implementation of OnChatMessage that recieves messages from all channels of all connected ChatProvide..." alt="" coords="1044,1747,1255,1788"/>

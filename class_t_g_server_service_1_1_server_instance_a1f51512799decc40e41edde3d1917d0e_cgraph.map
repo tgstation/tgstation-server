@@ -1,7 +1,7 @@
 <map id="TGServerService.ServerInstance.InitByond" name="TGServerService.ServerInstance.InitByond">
 <area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a1540f43c11b3123d35007af7d56567b6" title="Cleans the BYOND staging directory " alt="" coords="264,39,475,80"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#af23c01e40193036d8b54ca95efb5b229" title="Recursive directory deleter " alt="" coords="541,5,715,47"/>
+<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="541,5,715,47"/>
 <area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,71,733,112"/>
 <area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="1004,5,1179,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a5c4a7dc8a00f19a4a085a0bffd8d89d7" title="Recursively empty a directory " alt="" coords="781,35,956,76"/>
+<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="781,35,956,76"/>
 </map>
