@@ -49,7 +49,7 @@ namespace TGServerService
 					excludeRoot[I] = excludeRoot[I].ToLower();
 			if (CheckDeleteSymlinkDir(di))
 				return;
-			await NormalizeAndDelete(di, excludeRoot);
+			await NormalizeAndDelete(di, excludeRoot, false);
 			if (!ContentsOnly)
 			{
 				if (excludeRoot != null && excludeRoot.Count > 0)
@@ -79,10 +79,10 @@ namespace TGServerService
 		/// </summary>
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty</param>
 		/// <param name="excludeRoot">Lowercase file and directory names to skip while emptying this level. Not passed forward</param>
-		static async Task NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot)
+		static async Task NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot, bool deleteRoot)
 		{
-			var fileTask = Task.Factory.StartNew(() =>
-			 {
+			var tasks = new List<Task> { Task.Factory.StartNew(() =>
+			{
 				 foreach (var file in dir.GetFiles())
 				 {
 					 if (excludeRoot != null && excludeRoot.Contains(file.Name.ToLower()))
@@ -90,17 +90,19 @@ namespace TGServerService
 					 file.Attributes = FileAttributes.Normal;
 					 file.Delete();
 				 }
-			 });
+			}) };
+		
 			foreach (var subDir in dir.GetDirectories())
 			{
 				if (excludeRoot != null && excludeRoot.Contains(subDir.Name.ToLower()))
 					continue;
 				if (CheckDeleteSymlinkDir(subDir))
 					continue;
-				await NormalizeAndDelete(subDir, null);
-				subDir.Delete(true);
+				tasks.Add(NormalizeAndDelete(subDir, null, true));
 			}
-			await fileTask;
+			await Task.WhenAll(tasks);
+			if(deleteRoot)
+				dir.Delete(true);
 		}
 
 		/// <summary>
