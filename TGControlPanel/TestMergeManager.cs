@@ -110,7 +110,7 @@ namespace TGControlPanel
 							}
 						var itemString = String.Format("#{0} - {1}{2}", I.Number, I.Title, needsTesting ? " - TESTING REQUESTED" : "");
 						var isChecked = pulls.Any(x => x.Number == I.Number);
-						if (needsTesting)
+						if (needsTesting || isChecked)
 						{
 							PullRequestListBox.Items.Insert(0, itemString);
 							if(isChecked)
