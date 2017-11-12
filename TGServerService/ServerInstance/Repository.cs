@@ -965,7 +965,7 @@ namespace TGServerService
 							var dick = Deserializer.DeserializeObject(json) as IDictionary<string, object>;
 							var user = dick["user"] as IDictionary<string, object>;
 
-							newPR.Add("commit", branch.Tip.Sha);
+							newPR.Add("commit", atSHA ?? branch.Tip.Sha);
 							newPR.Add("author", (string)user["login"]);
 							newPR.Add("title", (string)dick["title"]);
 							CurrentPRs.Add(PRNumberString, newPR);
