@@ -1,4 +1,5 @@
 ﻿using LibGit2Sharp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using System.Web.Script.Serialization;
 using TGS.Interface;
 using TGS.Interface.Components;
 
@@ -850,8 +850,7 @@ namespace TGS.Server
 			if (!File.Exists(RelativePath(PRJobFile)))
 				return new Dictionary<string, IDictionary<string, string>>();
 			var rawdata = File.ReadAllText(RelativePath(PRJobFile));
-			var Deserializer = new JavaScriptSerializer();
-			return Deserializer.Deserialize<IDictionary<string, IDictionary<string, string>>>(rawdata);
+			return JsonConvert.DeserializeObject<IDictionary<string, IDictionary<string, string>>>(rawdata);
 		}
 
 		/// <summary>
@@ -860,8 +859,7 @@ namespace TGS.Server
 		/// <param name="list"></param>
 		void SetCurrentPRList(IDictionary<string, IDictionary<string, string>> list)
 		{
-			var Serializer = new JavaScriptSerializer();
-			var rawdata = Serializer.Serialize(list);
+			var rawdata = JsonConvert.SerializeObject(list);
 			File.WriteAllText(RelativePath(PRJobFile), rawdata);
 		}
 
@@ -963,8 +961,7 @@ namespace TGS.Server
 								json = wc.DownloadString(prAPI);
 							}
 
-							var Deserializer = new JavaScriptSerializer();
-							var dick = Deserializer.DeserializeObject(json) as IDictionary<string, object>;
+							var dick = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 							var user = dick["user"] as IDictionary<string, object>;
 
 							newPR.Add("commit", atSHA ?? branch.Tip.Sha);

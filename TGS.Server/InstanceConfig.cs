@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Web.Script.Serialization;
+﻿using Newtonsoft.Json;
+using System.IO;
 using TGS.Interface;
 
 namespace TGS.Server
@@ -125,17 +125,17 @@ namespace TGS.Server
 		/// <summary>
 		/// The name the file is saved as in the <see cref="Directory"/>
 		/// </summary>
-		[ScriptIgnore]
+		[JsonIgnore]
 		public const string JSONFilename = "Instance.json";
 
 		/// <summary>
 		/// The current version of the config
 		/// </summary>
-		[ScriptIgnore]
+		[JsonIgnore]
 		protected const ulong CurrentVersion = 0;   //Literally any time you add/deprecated a field, this number needs to be bumped
 
 		/// <inheritdoc />
-		[ScriptIgnore]
+		[JsonIgnore]
 		public string Directory { get; private set; }
 
 		/// <inheritdoc />
@@ -210,7 +210,7 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public void Save()
 		{
-			var data = new JavaScriptSerializer().Serialize(this);
+			var data = JsonConvert.SerializeObject(this);
 			var path = Path.Combine(Directory, JSONFilename);
 			File.WriteAllText(path, data);
 		}
@@ -223,7 +223,7 @@ namespace TGS.Server
 		public static IInstanceConfig Load(string path)
 		{
 			var configtext = File.ReadAllText(Path.Combine(path, JSONFilename));
-			var res = new JavaScriptSerializer().Deserialize<DeprecatedInstanceConfig>(configtext);
+			var res = JsonConvert.DeserializeObject<DeprecatedInstanceConfig>(configtext);
 			res.Directory = path;
 			res.MigrateToCurrentVersion();
 			return res;

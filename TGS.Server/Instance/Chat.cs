@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using TGS.Server.ChatCommands;
 using TGS.Server.ChatProviders;
 using TGS.Interface;
@@ -112,7 +112,7 @@ namespace TGS.Server
 			}
 			ChatProviders = null;
 
-			var rawdata = new JavaScriptSerializer().Serialize(infosList);
+			var rawdata = JsonConvert.SerializeObject(infosList);
 
 			Config.ChatProviderData = Interface.Helpers.EncryptData(rawdata, out string entrp);
 			Config.ChatProviderEntropy = entrp;
@@ -144,7 +144,7 @@ namespace TGS.Server
 				{
 					plaintext = Interface.Helpers.DecryptData(rawdata, Config.ChatProviderEntropy);
 					
-					var lists = new JavaScriptSerializer().Deserialize<List<List<string>>>(plaintext);
+					var lists = JsonConvert.DeserializeObject<List<List<string>>>(plaintext);
 					var output = new List<ChatSetupInfo>(lists.Count);
 					var foundirc = 0;
 					var founddiscord = 0;

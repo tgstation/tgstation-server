@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Web.Script.Serialization;
 using System.Web.Security;
 using TGS.Server.ChatCommands;
 using TGS.Interface;
@@ -74,7 +74,7 @@ namespace TGS.Server
 			List<Command> tmp = new List<Command>();
 			try
 			{
-				foreach(var I in new JavaScriptSerializer().Deserialize<IDictionary<string, IDictionary<string, object>>>(json))
+				foreach(var I in JsonConvert.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(json))
 					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], ((int)I.Value[CCPAdminOnly]) == 1, (int)I.Value[CCPRequiredParameters]));
 				ServerChatCommands = tmp;
 			}

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
-using System.Web.Script.Serialization;
 
 namespace TGS.Server
 {
@@ -12,12 +12,12 @@ namespace TGS.Server
 		/// <summary>
 		/// The filename to save the <see cref="ServerConfig"/> as
 		/// </summary>
-		[ScriptIgnore]
+		[JsonIgnore]
 		const string JSONFilename = "ServerConfig.json";
 		/// <summary>
 		/// The most recent version of the config file
 		/// </summary>
-		[ScriptIgnore]
+		[JsonIgnore]
 		const ulong CurrentVersion = 8;
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace TGS.Server
 		/// <param name="directory">The directory in which to save the <see cref="ServerConfig"/></param>
 		public void Save(string directory)
 		{
-			var data = new JavaScriptSerializer().Serialize(this);
+			var data = JsonConvert.SerializeObject(this);
 			var path = Path.Combine(directory, JSONFilename);
 			File.WriteAllText(path, data);
 		}
@@ -59,7 +59,7 @@ namespace TGS.Server
 		public static ServerConfig Load(string directory)
 		{
 			var configtext = File.ReadAllText(Path.Combine(directory, JSONFilename));
-			return new JavaScriptSerializer().Deserialize<ServerConfig>(configtext);
+			return JsonConvert.DeserializeObject<ServerConfig>(configtext);
 		}
 	}
 }

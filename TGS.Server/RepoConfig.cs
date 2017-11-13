@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Script.Serialization;
 
 namespace TGS.Server
 {
@@ -49,11 +49,10 @@ namespace TGS.Server
 			if (!File.Exists(path))
 				return;
 			var rawdata = File.ReadAllText(path);
-			var Deserializer = new JavaScriptSerializer();
-			var json = Deserializer.Deserialize<IDictionary<string, object>>(rawdata);
+			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);
 			try
 			{
-				var details = (IDictionary<string, object>)json["changelog"];
+				var details = json["changelog"] as IDictionary<string, object>;
 				PathToChangelogPy = (string)details["script"];
 				ChangelogPyArguments = (string)details["arguments"];
 				ChangelogSupport = true;
