@@ -28,6 +28,7 @@
 		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		/// <param name="loggingID">The 0-99 ID of the log source</param>
 		void WriteWarning(string message, EventID id, byte loggingID);
+
 		/// <summary>
 		/// Writes an access event to the log
 		/// </summary>

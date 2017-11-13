@@ -61,13 +61,13 @@ namespace TGS.Server.Console
 		/// <inheritdoc />
 		public void WriteInfo(string message, EventID id, byte loggingID)
 		{
-			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: Warning: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
+			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
 		}
 
 		/// <inheritdoc />
 		public void WriteWarning(string message, EventID id, byte loggingID)
 		{
-			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
+			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: Warning: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
 		}
 	}
 }

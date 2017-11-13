@@ -45,6 +45,13 @@ Copy-Item "$bf\TGS.ControlPanel\bin\Release\TGControlPanel.exe" "$src3\TGControl
 Copy-Item "$bf\TGS.ControlPanel\bin\Release\Octokit.dll" "$src3\Octokit.dll"
 Copy-Item "$bf\TGS.Interface\bin\Release\TGServiceInterface.dll" "$src3\TGServiceInterface.dll"
 Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\TGS.Server.dll" "$src3\TGS.Server.dll"
 Copy-Item "$bf\TGS.Server.Console\bin\Release\TGS.Server.Console.exe" "$src3\TGS.Server.Console.exe"
 
 $dest3 = "$bf\TGS3-ServerConsole-v$version.zip"
