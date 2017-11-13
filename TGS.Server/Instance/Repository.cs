@@ -1,5 +1,6 @@
 ﻿using LibGit2Sharp;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -962,7 +963,7 @@ namespace TGS.Server
 							}
 
 							var dick = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
-							var user = JsonConvert.DeserializeObject<IDictionary<string, object>>((string)dick["user"]);
+							var user = ((JObject)dick["user"]).ToObject<IDictionary<string, object>>();
 
 							newPR.Add("commit", atSHA ?? branch.Tip.Sha);
 							newPR.Add("author", (string)user["login"]);

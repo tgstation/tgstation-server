@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +53,7 @@ namespace TGS.Server
 			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);
 			try
 			{
-				var details = JsonConvert.DeserializeObject<IDictionary<string, object>>((string)json["changelog"]);
+				var details = ((JObject)json["changelog"]).ToObject<IDictionary<string, object>>();
 				PathToChangelogPy = (string)details["script"];
 				ChangelogPyArguments = (string)details["arguments"];
 				ChangelogSupport = true;
