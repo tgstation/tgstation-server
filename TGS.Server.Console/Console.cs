@@ -49,25 +49,25 @@ namespace TGS.Server.Console
 		/// <inheritdoc />
 		public void WriteAccess(string username, bool authSuccess, byte loggingID)
 		{
-			System.Console.WriteLine(String.Format("[{0}]: {1}: Authentication {3} from {2}", DateTime.UtcNow.ToString(), EventID.Authentication + loggingID, username, authSuccess ? "success" : "fail"));
+			System.Console.WriteLine(String.Format("[{0}]: {1}-{4}: Authentication {3} from {2}", DateTime.UtcNow.ToString(), EventID.Authentication, username, authSuccess ? "success" : "fail", loggingID));
 		}
 
 		/// <inheritdoc />
 		public void WriteError(string message, EventID id, byte loggingID)
 		{
-			System.Console.WriteLine(String.Format("[{0}]: {1}: ERROR: {2}", DateTime.UtcNow.ToString(), id + loggingID, message));
+			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: ERROR: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
 		}
 
 		/// <inheritdoc />
 		public void WriteInfo(string message, EventID id, byte loggingID)
 		{
-			System.Console.WriteLine(String.Format("[{0}]: {1}: Warning: {2}", DateTime.UtcNow.ToString(), id + loggingID, message));
+			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: Warning: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
 		}
 
 		/// <inheritdoc />
 		public void WriteWarning(string message, EventID id, byte loggingID)
 		{
-			System.Console.WriteLine(String.Format("[{0}]: {1}: {2}", DateTime.UtcNow.ToString(), id + loggingID, message));
+			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: {2}", DateTime.UtcNow.ToString(), id, message, loggingID));
 		}
 	}
 }
