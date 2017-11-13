@@ -1,0 +1,11 @@
+<map id="TGS.Server.Helpers.DeleteDirectory" name="TGS.Server.Helpers.DeleteDirectory">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#ac318b9e316c87b79912f3e6551f1ec3e" title="Attempts to move the staged update from StagingDirectory to ByondDirectory. Sets lastError on failure..." alt="" coords="249,5,428,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_instance.html#a5956aa08c166860be43e49e2378cd383" title="Copies the Static directory to the first available Static_BACKUP path in the Instance then deleted th..." alt="" coords="244,71,433,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_instance.html#a159ebf40e20cc296bbb2bc2a0986a8ac" title="Cleans the BYOND staging directory " alt="" coords="249,136,428,177"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_server_1_1_instance.html#a3443b6d7f6b2481e21e8c7a63c429221" title="Backups up the StaticDirs and deletes the current RepoPath if they exist. Clones the given branch of ..." alt="" coords="249,202,428,229"/>
+<area shape="rect" id="node6" href="$class_t_g_s_1_1_server_1_1_instance.html#afa79ac78da881640ab95b4774701d2a2" title="TGS.Server.Instance.CompileImpl" alt="" coords="231,253,447,279"/>
+<area shape="rect" id="node7" href="$class_t_g_s_1_1_server_1_1_instance.html#a232046a10167c8b30bedf068284c2857" title="Deletes the target static file &#160;" alt="" coords="237,303,440,330"/>
+<area shape="rect" id="node8" href="$class_t_g_s_1_1_server_1_1_instance.html#a0b0722550ec5420578e4201ad41eebab" title="TGS.Server.Instance.InitializeImpl" alt="" coords="231,354,447,381"/>
+<area shape="rect" id="node9" href="$class_t_g_s_1_1_server_1_1_server.html#ab1a4188b85e8aea3a1ce2f0394007a38" title="Upgrades up the service configuration " alt="" coords="237,405,440,431"/>
+<area shape="rect" id="node10" href="$class_t_g_s_1_1_server_1_1_instance.html#afa3c2cfeebe2079f6d35ae257d13fbe4" title="Properly updates any git submodules in the repository " alt="" coords="245,456,432,497"/>
+</map>

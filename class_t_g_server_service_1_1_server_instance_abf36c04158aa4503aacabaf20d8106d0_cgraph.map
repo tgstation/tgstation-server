@@ -1,8 +1,0 @@
-<map id="TGServerService.ServerInstance.LocalIsRemote" name="TGServerService.ServerInstance.LocalIsRemote">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#af8f4334b030e4cddf3f643aedc84f59e" title="Fetches origin " alt="" coords="264,67,475,108"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#ac88dc1ac835d1b41b5a7c0310cf2bd30" title="Initializes Repo " alt="" coords="523,129,733,171"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ab56ecfc17b45a4658e0a676402b634e3" title="Create FetchOptions that Prune and have the appropriate credentials and progress handler ..." alt="" coords="523,64,733,105"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a895420e900c51183a28580f3a3ab3039" title="SSH credentials callback. Properly sets up SSH keys for an authorization operation ..." alt="" coords="781,5,992,47"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a445215ce9af4a260d0ec5cf1a88210df" title="Updates currentProgress with the progess of the current Repo transfer operation " alt="" coords="781,71,992,112"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="1040,68,1251,109"/>
-</map>

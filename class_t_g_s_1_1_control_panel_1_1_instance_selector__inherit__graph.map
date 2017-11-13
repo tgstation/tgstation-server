@@ -1,0 +1,5 @@
+<map id="TGS.ControlPanel.InstanceSelector" name="TGS.ControlPanel.InstanceSelector">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="45,155,145,181"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IServerInterface " alt="" coords="42,80,147,107"/>
+<area shape="rect" id="node4" href="$class_form.html" title="Form" alt="" coords="69,5,121,32"/>
+</map>

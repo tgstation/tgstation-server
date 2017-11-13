@@ -1,9 +1,0 @@
-<map id="TGServerService.ServerInstance.GenerateChangelog" name="TGServerService.ServerInstance.GenerateChangelog">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ab71908fe1713eaf7f806a52b5608aa60" title="Updates the html changelog " alt="" coords="264,123,475,164"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a460f7422c8ca2c016df6d18a6c64e287" title="Gets the RepoConfig for CachedTGS3SettingsPath " alt="" coords="523,5,733,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="781,64,992,105"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ace81439a32bd7252f187ff607a071e07" title="Check if the repository is valid, if not Setup(string, string) must be called &#160;" alt="" coords="523,123,733,164"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="523,188,733,229"/>
-<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="523,253,733,295"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="803,220,970,261"/>
-</map>

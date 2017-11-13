@@ -1,6 +1,0 @@
-<map id="TGControlPanel.InstanceSelector.DetachInstanceButton_Click" name="TGControlPanel.InstanceSelector.DetachInstanceButton_Click">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance_manager.html#a84c6a509367ccde368a46ba72fe3006e" title="Disables and unregisters an instance, allowing the folder and data to be manipulated manually ..." alt="" coords="272,5,507,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_instance_selector.html#af7e65a3c999af0027e3d48fd55b5a1b1" title="Returns the InstanceMetadata associated with InstanceListBox&#39;s current selected index ..." alt="" coords="280,71,499,112"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using ITGLanding.ListInstances " alt="" coords="280,136,499,177"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="555,165,759,207"/>
-</map>

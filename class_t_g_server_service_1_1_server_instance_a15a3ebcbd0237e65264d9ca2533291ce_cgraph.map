@@ -1,8 +1,0 @@
-<map id="TGServerService.ServerInstance.BackupAndDeleteStaticDirectory" name="TGServerService.ServerInstance.BackupAndDeleteStaticDirectory">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a55aec12486c94d7e70bb2ad57f36a595" title="Recusively copy a directory " alt="" coords="283,5,458,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="283,71,458,112"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="265,136,476,177"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ad1237f807c2d8bcc0087bea86a7842e6" title="Recusively copy a directory " alt="" coords="524,5,699,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="747,97,921,139"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="524,127,699,168"/>
-</map>

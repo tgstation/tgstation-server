@@ -1,0 +1,6 @@
+<map id="TGS.Interface.ServerInterface.SetBadCertificateHandler" name="TGS.Interface.ServerInterface.SetBadCertificateHandler">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_program.html#a9e421ddd752be8810e6f9f3ebea1afaf" title="TGS.ControlPanel.Program.Main" alt="" coords="253,5,463,32"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_program.html#a8d307d7d1d437c89c501ad3737e45576" title="TGS.CommandLine.Program.Main" alt="" coords="248,56,468,83"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#a853ef704bcf8206667da592c9c213feb" title="Test that Interface.SetBadCertificateHandler(Func&lt;string, bool&gt;) properly sets ServicePointManager.ServerCertificateValidationCallback " alt="" coords="267,107,449,163"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#a785788af9c94216bf087234761c93bf2" title="Test that Interface.SetBadCertificateHandler(Func&lt;string, bool&gt;) can execute successfully ..." alt="" coords="257,187,459,243"/>
+</map>

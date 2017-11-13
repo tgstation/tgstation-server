@@ -1,8 +1,0 @@
-<map id="TGControlPanel.TestMergeManager.PullRequestManager_Load" name="TGControlPanel.TestMergeManager.PullRequestManager_Load">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_program.html#a09daa452484c1f3a789ce66c4b2f370b" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="284,19,475,60"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#abbf6cece99d79482f460f4cb24cce41f" title="Populate PullRequestListBox with PullRequestInfo from github and check off ones that are currently me..." alt="" coords="289,109,470,151"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a9f9a3d626f42d4a10d2f58e8bd9ad7a0" title="Gets the url of the current origin " alt="" coords="523,5,733,47"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aa08e14e40c79af7db03ab299af759dca" title="Insert an itemString &#160;into PullRequestListBox " alt="" coords="781,93,960,135"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_test_merge_manager.html#add948a997b0af25634ae845e3902ba7b" title="Format an entry for issue &#160;and insert it into PullRequestListBox " alt="" coords="539,123,717,164"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_program.html#aee7afc07b1fe605aefee8a57598f5a70" title="Prompts the user to open the GitHubLoginPrompt explaining the API rate limit " alt="" coords="529,188,727,229"/>
-</map>

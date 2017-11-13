@@ -1,6 +1,0 @@
-<map id="TGControlPanel.TestMergeManager.ApplyButton_Click" name="TGControlPanel.TestMergeManager.ApplyButton_Click">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_compiler.html#a207b7a54fba9717c46abec8709f1d01d" title="Does all the necessary actions to take the revision currently in the repository and compile it to be ..." alt="" coords="236,5,447,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a047a7e732cde62b15406c3b31f2c625b" title="Calls ITGRepository.GenerateChangelog(out string) and shows the user an error prompt if it fails ..." alt="" coords="246,123,437,164"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="504,64,708,105"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#aabfae3c0473947b35a55514adbbcf910" title="Updates the html changelog " alt="" coords="495,129,717,171"/>
-</map>

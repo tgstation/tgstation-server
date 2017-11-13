@@ -1,0 +1,6 @@
+<map id="TGS.Interface.Components.ITGRepository.GetRemote" name="TGS.Interface.Components.ITGRepository.GetRemote">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_program.html#ae8851f29469b8abe6ef584a238fdeccf" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="243,37,425,79"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#af5909e656d3416ecd8290d41b8ec2ecd" title="TGS.ControlPanel.Control\lPanel.RepoApplyButton_Click" alt="" coords="236,103,432,144"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a8a23b7638beef8f08bfb2f3821f47809" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="480,5,711,47"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0f2e21132cb68dab2188888322cfd32f" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="510,71,681,112"/>
+</map>

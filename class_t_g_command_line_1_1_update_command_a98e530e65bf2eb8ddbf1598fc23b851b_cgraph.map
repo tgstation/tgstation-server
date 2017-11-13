@@ -1,4 +1,0 @@
-<map id="TGCommandLine.UpdateCommand.Run" name="TGCommandLine.UpdateCommand.Run">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="313,5,511,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a7797519d602c97c02ec9b2145b277867" title="Fetches the origin and merges it into the current branch " alt="" coords="307,71,517,112"/>
-</map>

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['security',['Security',['../interface_t_g_server_service_1_1_i_instance_config.html#a91ae4f86fdcf5035fecc4f57259db6b2',1,'TGServerService.IInstanceConfig.Security()'],['../class_t_g_server_service_1_1_instance_config.html#a8fb73127553999c3975b13388798a165',1,'TGServerService.InstanceConfig.Security()']]],
-  ['server',['Server',['../class_t_g_server_service_1_1_chat_commands_1_1_command_info.html#ae148b7477797612770374deb47c3c0e3',1,'TGServerService::ChatCommands::CommandInfo']]],
-  ['sha',['Sha',['../class_t_g_service_interface_1_1_pull_request_info.html#a2071d80fadfc389d093ba14e9cd9495a',1,'TGServiceInterface::PullRequestInfo']]],
-  ['speaker',['Speaker',['../class_t_g_server_service_1_1_chat_commands_1_1_command_info.html#ada7caee737dd9fb6624bea3c0d495bd6',1,'TGServerService::ChatCommands::CommandInfo']]]
+  ['security',['Security',['../interface_t_g_s_1_1_server_1_1_i_instance_config.html#a329d8bb2a8d1d4d92600d4198095a5b9',1,'TGS.Server.IInstanceConfig.Security()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#a3c91f8658d3aabe65c43c778b1eed439',1,'TGS.Server.InstanceConfig.Security()']]],
+  ['server',['Server',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_command_info.html#aafe755c47429856698e0faad05230f48',1,'TGS::Server::ChatCommands::CommandInfo']]],
+  ['sha',['Sha',['../class_t_g_s_1_1_interface_1_1_pull_request_info.html#a52c246288773b4caf56886e5623d95bb',1,'TGS::Interface::PullRequestInfo']]],
+  ['speaker',['Speaker',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_command_info.html#acb640d964ead31a84cfe0eb6bce746bb',1,'TGS::Server::ChatCommands::CommandInfo']]]
 ];

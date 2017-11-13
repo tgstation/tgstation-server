@@ -1,6 +1,0 @@
-<map id="TGServerService.ServerInstance.UpdateTGS3Json" name="TGServerService.ServerInstance.UpdateTGS3Json">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a5ce4ab9dd00a38f8e434a54ef8978dde" title="Initial setup for the StaticDirs and CachedTGS3SettingsPath " alt="" coords="264,39,475,80"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a14f34e7f968afb1ad7f77d8813d5799b" title="Backups up the StaticDirs and deletes the current RepoPath if they exist. Clones the given branch of ..." alt="" coords="523,5,733,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#aeb8f7b25f00c15aed0b80f2e0cff6ef4" title="Renames the current static folder to a backup name and recreates is from the current repo using TGS3..." alt="" coords="523,71,733,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="781,5,992,47"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="TGServerService.Service.CancelImpersonation" name="TGServerService.Service.CancelImpersonation">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#acf09f63e7c88913016493dc9b487f902" title="Deletes the target static file &#160;" alt="" coords="220,5,431,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a5b2fcd99212aba5406674cdf3175b9a1" title="Read from a static file &#160;" alt="" coords="220,71,431,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#abdf26641e717823f8958ac46db3c0cc8" title="Write to a static file &#160;" alt="" coords="220,136,431,177"/>
-</map>

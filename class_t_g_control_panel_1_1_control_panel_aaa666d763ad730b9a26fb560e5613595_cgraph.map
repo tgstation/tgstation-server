@@ -1,4 +1,0 @@
-<map id="TGControlPanel.ControlPanel.LoadChatPage" name="TGControlPanel.ControlPanel.LoadChatPage">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a8f1a1772fbab5ff05473625ed995c598" title="TGControlPanel.ControlPanel.\lAssignListToTextbox" alt="" coords="256,5,451,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_chat.html#aa875f5edaee37201ade100e943faf434" title="Returns ChatSetupInfo for all ChatProviders " alt="" coords="248,71,459,112"/>
-</map>

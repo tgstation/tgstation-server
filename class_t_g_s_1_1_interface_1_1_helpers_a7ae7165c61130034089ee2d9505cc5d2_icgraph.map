@@ -1,0 +1,5 @@
+<map id="TGS.Interface.Helpers.EncryptData" name="TGS.Interface.Helpers.EncryptData">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#a5b762ac4ed32812cc8bae65f101dd990" title="Run assertions for a successful call to Helpers.EncryptData(string, out string) " alt="" coords="294,5,474,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62" title="Calls GetAPIKey. On success, encrypts it&#39;s return value, saves it in Properties.Settings.GitHubAPIKey and Properties.Settings.GitHubAPIKeyEntropy, and closes the GitHubLoginPrompt. On failure, shows a MessageBox and exits " alt="" coords="283,71,485,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_login.html#a858c119337fb2c8c9ce94e827d652799" title="TGS.ControlPanel.Login.Remote\lLoginButton_Click" alt="" coords="279,136,489,177"/>
+</map>

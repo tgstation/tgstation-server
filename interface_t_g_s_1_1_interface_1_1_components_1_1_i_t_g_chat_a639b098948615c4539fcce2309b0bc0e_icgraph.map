@@ -1,0 +1,13 @@
+<map id="TGS.Interface.Components.ITGChat.ProviderInfos" name="TGS.Interface.Components.ITGChat.ProviderInfos">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a906d8b9d4113cc940998b5930625c6d1" title="TGS.ControlPanel.Control\lPanel.LoadChatPage" alt="" coords="260,5,431,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_chat_join_command.html#aa4e12cd0cad65852d406143d7fd47c6c" title="Override to do the actions of the Command " alt="" coords="251,71,440,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_chat_part_command.html#a8350053097a14b98b27482c885324f69" title="Override to do the actions of the Command " alt="" coords="250,136,441,177"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_command_line_1_1_chat_addmin_command.html#aac6835255d1988f703b6cbe775a9c5f2" title="Override to do the actions of the Command " alt="" coords="240,201,451,243"/>
+<area shape="rect" id="node6" href="$class_t_g_s_1_1_command_line_1_1_i_r_c_auth_mode_command.html#ab14dfcb59d978ec1033b74df984978c9" title="Override to do the actions of the Command " alt="" coords="236,267,455,308"/>
+<area shape="rect" id="node7" href="$class_t_g_s_1_1_command_line_1_1_discord_auth_mode_command.html#aa05a6b8c1730ce665c871a7ac013689c" title="Override to do the actions of the Command " alt="" coords="240,332,451,373"/>
+<area shape="rect" id="node8" href="$class_t_g_s_1_1_command_line_1_1_chat_deadmin_command.html#af24674d7fd50263937cdf83b019374ac" title="Override to do the actions of the Command " alt="" coords="237,397,454,439"/>
+<area shape="rect" id="node9" href="$class_t_g_s_1_1_command_line_1_1_chat_status_command.html#a0225ed50ddc96e97bf390c19b0d36089" title="Override to do the actions of the Command " alt="" coords="243,463,447,504"/>
+<area shape="rect" id="node10" href="$class_t_g_s_1_1_command_line_1_1_chat_enable_command.html#a25be15085372ce4543c807cf8421e212" title="Override to do the actions of the Command " alt="" coords="242,528,449,569"/>
+<area shape="rect" id="node11" href="$class_t_g_s_1_1_command_line_1_1_chat_disable_command.html#a4272c844500aeffd7810db31eba409ed" title="Override to do the actions of the Command " alt="" coords="241,593,450,635"/>
+<area shape="rect" id="node12" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#ac22e219bdaff5284bbec1c8683e37e1e" title="TGS.ControlPanel.Control\lPanel.SetAdminsAreSpecial" alt="" coords="252,659,439,700"/>
+</map>

@@ -1,0 +1,3 @@
+<map id="TGS.Server.ChatCommands.PullRequestsCommand.Run" name="TGS.Server.ChatCommands.PullRequestsCommand.Run">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#a2dc1986bc65a5297fa100f84bc2bd3c2" title="Get the currently merged pull requests. Note that switching branches will delete this list and switch..." alt="" coords="243,5,431,47"/>
+</map>

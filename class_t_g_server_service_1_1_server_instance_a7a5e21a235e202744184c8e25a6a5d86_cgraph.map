@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.CheckAccessCore" name="TGServerService.ServerInstance.CheckAccessCore">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a17e839a5b09406af80bcf253cfc0c2be" title="Writes an access event to the Windows event log " alt="" coords="264,29,475,71"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="523,29,689,71"/>
-</map>

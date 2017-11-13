@@ -1,0 +1,6 @@
+<map id="TGS.Interface.Components.ITGCompiler.Compile" name="TGS.Interface.Components.ITGCompiler.Compile">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a1c456b6f2a839884b51a0a0f4da2c854" title="Called when the ApplyButton is clicked. Calls ITGRepository.Update(bool) if necessary, merge pull requests, and call ITGCompiler.Compile(bool). Closes the TestMergeManager if appropriate " alt="" coords="272,5,463,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a24425b61fc87507b7f509343bac2a858" title="TGS.ControlPanel.Control\lPanel.CompileButton_Click" alt="" coords="277,71,457,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#af6c05671f246ee4ba83caa044fbd1a4b" title="Calls ITGRepository.Reset(bool) with a &#160;parameter, calls ITGRepository.GenerateChangelog(out string)..." alt="" coords="236,136,499,177"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0f2e21132cb68dab2188888322cfd32f" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="282,201,453,243"/>
+</map>

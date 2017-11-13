@@ -1,4 +1,0 @@
-<map id="TGControlPanel.Login.LocalLoginButton_Click" name="TGControlPanel.Login.LocalLoginButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="236,5,421,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="469,5,660,47"/>
-</map>

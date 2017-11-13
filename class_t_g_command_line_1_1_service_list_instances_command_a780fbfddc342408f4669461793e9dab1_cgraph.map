@@ -1,4 +1,0 @@
-<map id="TGCommandLine.ServiceListInstancesCommand.Run" name="TGCommandLine.ServiceListInstancesCommand.Run">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_landing.html#a168e0aee08ec49bdf5d5338594478318" title="List instances that the caller can access " alt="" coords="243,5,453,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047" title="Write output to the Command invoker " alt="" coords="249,71,447,112"/>
-</map>

@@ -1,0 +1,4 @@
+<map id="TGS.Interface.Components.ITGCompiler.GetStatus" name="TGS.Interface.Components.ITGCompiler.GetStatus">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_d_m_compile_command.html#ad495939fc80746aa31e6c9ff292c155a" title="Override to do the actions of the Command " alt="" coords="236,5,443,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_d_m_initialize_command.html#a6d9d639df0f514fdba441e1a87bf859b" title="Override to do the actions of the Command " alt="" coords="236,71,443,112"/>
+</map>

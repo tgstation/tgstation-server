@@ -1,5 +1,0 @@
-<map id="TGServerService.ServerInstance.Reattach" name="TGServerService.ServerInstance.Reattach">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,29,475,71"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="523,29,733,71"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="781,29,948,71"/>
-</map>

@@ -1,3 +1,0 @@
-<map id="TGServerService.ServerInstance.SetCurrentPRList" name="TGServerService.ServerInstance.SetCurrentPRList">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a30623d09726033240093822016dd8535" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="264,5,475,47"/>
-</map>

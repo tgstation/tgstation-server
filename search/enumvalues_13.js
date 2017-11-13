@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['voice',['Voice',['../namespace_t_g_service_interface.html#af168318ccd202f2bf82e69656a2c09b8ad7a3fdf1351b72249a47454751549deb',1,'TGServiceInterface']]]
+  ['voice',['Voice',['../namespace_t_g_s_1_1_interface.html#a9fe0194a21bc57adc211b9f4cf0d1f8dad7a3fdf1351b72249a47454751549deb',1,'TGS::Interface']]]
 ];

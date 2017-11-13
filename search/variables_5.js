@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['enabledcheckbox',['EnabledCheckBox',['../class_t_g_control_panel_1_1_instance_selector.html#a8a0f2860a1887ca231d3c84e653b82a6',1,'TGControlPanel::InstanceSelector']]],
-  ['enabledindex',['EnabledIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#ad0b54239f4f4688e1ec14d89a65ff31b',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['enumeratedpaths',['EnumeratedPaths',['../class_t_g_control_panel_1_1_control_panel.html#a6b87bc7f77ee587c54e4301004898ffd',1,'TGControlPanel::ControlPanel']]],
-  ['enumerating',['enumerating',['../class_t_g_control_panel_1_1_control_panel.html#a5101702eacaa2759178d6b4fa61a4581',1,'TGControlPanel::ControlPanel']]],
-  ['eventfolder',['EventFolder',['../class_t_g_server_service_1_1_server_instance.html#a1b7519bc4b8c9476fcd9699385535533',1,'TGServerService::ServerInstance']]]
+  ['enabledcheckbox',['EnabledCheckBox',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#abc35e5219efde453dc31a06cc24e32c6',1,'TGS::ControlPanel::InstanceSelector']]],
+  ['enabledindex',['EnabledIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#aba5f643340fa879380df55a42e1498dd',1,'TGS::Interface::ChatSetupInfo']]],
+  ['enumeratedpaths',['EnumeratedPaths',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a180319ad6c904b7007cff1387336d9d0',1,'TGS::ControlPanel::ControlPanel']]],
+  ['enumerating',['enumerating',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a42a9fea110983801057e86c0983ca0a4',1,'TGS::ControlPanel::ControlPanel']]],
+  ['eventfolder',['EventFolder',['../class_t_g_s_1_1_server_1_1_instance.html#ab11cde4315f36ebad3ce66512c57deb1',1,'TGS::Server::Instance']]]
 ];

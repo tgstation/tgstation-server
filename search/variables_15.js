@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['watchdoglock',['watchdogLock',['../class_t_g_server_service_1_1_server_instance.html#aac9358eb96d27250fb77c78695e90128',1,'TGServerService::ServerInstance']]],
-  ['wdchannelindex',['WDChannelIndex',['../class_t_g_service_interface_1_1_chat_setup_info.html#a2f9899e91d03db2cf5dc5f6aa332744d',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['wdchannelstextbox',['WDChannelsTextbox',['../class_t_g_control_panel_1_1_control_panel.html#ae1b0b469b163fc7271d5a8cdd99fcdad',1,'TGControlPanel::ControlPanel']]],
-  ['webclientcheckbox',['WebclientCheckBox',['../class_t_g_control_panel_1_1_control_panel.html#a482f4ba997fc513cf5b414f45c512e90',1,'TGControlPanel::ControlPanel']]],
-  ['worldannouncebutton',['WorldAnnounceButton',['../class_t_g_control_panel_1_1_control_panel.html#ad1d9a19947dde4b655a0721cf2006cdb',1,'TGControlPanel::ControlPanel']]],
-  ['worldannouncefield',['WorldAnnounceField',['../class_t_g_control_panel_1_1_control_panel.html#a3bddc71cc6fea0d65753e1916a93a433',1,'TGControlPanel::ControlPanel']]],
-  ['worldannouncelabel',['WorldAnnounceLabel',['../class_t_g_control_panel_1_1_control_panel.html#a3988c7ca432fcffb3e2b3398392002b7',1,'TGControlPanel::ControlPanel']]]
+  ['watchdoglock',['watchdogLock',['../class_t_g_s_1_1_server_1_1_instance.html#af229871e1f4694c13d25a062502c2318',1,'TGS::Server::Instance']]],
+  ['wdchannelindex',['WDChannelIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#ac68aec3abf218e47b8dd03b61ed9c4db',1,'TGS::Interface::ChatSetupInfo']]],
+  ['wdchannelstextbox',['WDChannelsTextbox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a33860297810cd7120e4cf96fb182a5e4',1,'TGS::ControlPanel::ControlPanel']]],
+  ['webclientcheckbox',['WebclientCheckBox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a522f8858278888fba50388483b815768',1,'TGS::ControlPanel::ControlPanel']]],
+  ['worldannouncebutton',['WorldAnnounceButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a98e71f7be61c94b16682bf30f29d2b6c',1,'TGS::ControlPanel::ControlPanel']]],
+  ['worldannouncefield',['WorldAnnounceField',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a4d63a8a5d6b88a100cd98beb83da1775',1,'TGS::ControlPanel::ControlPanel']]],
+  ['worldannouncelabel',['WorldAnnounceLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a746a622568b99c7804e01b5347b76803',1,'TGS::ControlPanel::ControlPanel']]]
 ];

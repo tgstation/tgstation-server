@@ -1,3 +1,0 @@
-<map id="TGServerService.ChatCommands.ServerChatCommand.Run" name="TGServerService.ChatCommands.ServerChatCommand.Run">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a7c301d450202a1f0ef212beabb74de5b" title="Properly escapes characters for a BYOND Topic() packet. See http://www.byond.com/docs/ref/info.html#/proc/list2params " alt="" coords="272,5,447,47"/>
-</map>

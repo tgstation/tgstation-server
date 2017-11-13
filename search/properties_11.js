@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['version',['Version',['../interface_t_g_server_service_1_1_i_instance_config.html#a86132fb42371a111e2a4ce950cb7fa46',1,'TGServerService.IInstanceConfig.Version()'],['../class_t_g_server_service_1_1_instance_config.html#a0008bd94f0c2d8784a2e996795ec74b7',1,'TGServerService.InstanceConfig.Version()']]]
+  ['version',['Version',['../interface_t_g_s_1_1_server_1_1_i_instance_config.html#ad4e2454430bce0b8c511d63b53e64f02',1,'TGS.Server.IInstanceConfig.Version()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#abb1b444e056d95f1cf07117151b8eb75',1,'TGS.Server.InstanceConfig.Version()'],['../class_t_g_s_1_1_server_1_1_server_config.html#a5e232db09c726569e19bb0e9963f1652',1,'TGS.Server.ServerConfig.Version()']]]
 ];

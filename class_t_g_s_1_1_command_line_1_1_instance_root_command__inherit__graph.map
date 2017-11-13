@@ -1,0 +1,11 @@
+<map id="TGS.CommandLine.InstanceRootCommand" name="TGS.CommandLine.InstanceRootCommand">
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_admin_command.html" title="TGS.CommandLine.AdminCommand" alt="" coords="531,5,766,32"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_command_line_1_1_b_y_o_n_d_command.html" title="TGS.CommandLine.BYONDCommand" alt="" coords="527,56,771,83"/>
+<area shape="rect" id="node6" href="$class_t_g_s_1_1_command_line_1_1_config_command.html" title="TGS.CommandLine.ConfigCommand" alt="" coords="531,107,766,133"/>
+<area shape="rect" id="node7" href="$class_t_g_s_1_1_command_line_1_1_d_d_command.html" title="TGS.CommandLine.DDCommand" alt="" coords="541,157,757,184"/>
+<area shape="rect" id="node8" href="$class_t_g_s_1_1_command_line_1_1_discord_command.html" title="TGS.CommandLine.DiscordCommand" alt="" coords="527,208,770,235"/>
+<area shape="rect" id="node9" href="$class_t_g_s_1_1_command_line_1_1_d_m_command.html" title="TGS.CommandLine.DMCommand" alt="" coords="539,259,758,285"/>
+<area shape="rect" id="node10" href="$class_t_g_s_1_1_command_line_1_1_i_r_c_command.html" title="TGS.CommandLine.IRCCommand" alt="" coords="539,309,758,336"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="135,157,243,184"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,157,87,184"/>
+</map>

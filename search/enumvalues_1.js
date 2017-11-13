@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['badcommand',['BadCommand',['../class_t_g_service_interface_1_1_command.html#aa9ed97e9e1139f15e8e6b3556bfdc810aa8a531d11db80cfc1fe739df02353193',1,'TGServiceInterface::Command']]],
-  ['bridgedllupdated',['BridgeDLLUpdated',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a6b72095c13bae4ec9c8397ebaf390a87',1,'TGServerService']]],
-  ['bridgedllupdatefail',['BridgeDLLUpdateFail',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a3cbc4d485a0f0dec176f75379f979226',1,'TGServerService']]],
-  ['byondupdatecomplete',['BYONDUpdateComplete',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398ace7efc1da3c4e2a8a2ac5ce22c2ad81d',1,'TGServerService']]],
-  ['byondupdatefail',['BYONDUpdateFail',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398aa152096d72a4aefc3f81099b9d07086d',1,'TGServerService']]],
-  ['byondupdatestaged',['BYONDUpdateStaged',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398abdf25bc6920808a89bd2d16fb4dc20d9',1,'TGServerService']]]
+  ['badcommand',['BadCommand',['../class_t_g_s_1_1_interface_1_1_command.html#ae21716f032d9a454736f4ef2f7e9590faa8a531d11db80cfc1fe739df02353193',1,'TGS::Interface::Command']]],
+  ['bridgedllupdated',['BridgeDLLUpdated',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a6b72095c13bae4ec9c8397ebaf390a87',1,'TGS::Server']]],
+  ['bridgedllupdatefail',['BridgeDLLUpdateFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a3cbc4d485a0f0dec176f75379f979226',1,'TGS::Server']]],
+  ['byondupdatecomplete',['BYONDUpdateComplete',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ace7efc1da3c4e2a8a2ac5ce22c2ad81d',1,'TGS::Server']]],
+  ['byondupdatefail',['BYONDUpdateFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311aa152096d72a4aefc3f81099b9d07086d',1,'TGS::Server']]],
+  ['byondupdatestaged',['BYONDUpdateStaged',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311abdf25bc6920808a89bd2d16fb4dc20d9',1,'TGS::Server']]]
 ];

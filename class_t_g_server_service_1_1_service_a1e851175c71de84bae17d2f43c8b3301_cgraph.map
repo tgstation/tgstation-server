@@ -1,4 +1,0 @@
-<map id="TGServerService.Service.SetupService" name="TGServerService.Service.SetupService">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a70efdca1b28c2d1a30df7e46bd48bc40" title="Adds a WCF endpoint for a component typetype &#160;" alt="" coords="220,5,387,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#abd51696063d87ec7fc00054a19b345d9" title="Creates a ServiceHost for singleton &#160;using the default pipe, CloseTimeout for the ServiceHost..." alt="" coords="220,71,387,112"/>
-</map>

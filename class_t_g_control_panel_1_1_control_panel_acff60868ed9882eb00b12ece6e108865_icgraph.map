@@ -1,5 +1,0 @@
-<map id="TGControlPanel.ControlPanel.InitStaticPage" name="TGControlPanel.ControlPanel.InitStaticPage">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#a7eaa79b5c4b28a894008e14e6b9a7485" title="Updates the content of TabControl.SelectedTab of Panels " alt="" coords="248,5,443,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a17fa29b8a820e3cea35812022d6640b7" title="Constructs a ControlPanel " alt="" coords="741,5,936,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a8f584adc45468984e0b0cfedcd3de73e" title="TGControlPanel.ControlPanel.\lPanels_SelectedIndexChanged" alt="" coords="491,35,693,76"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="TGControlPanel.InstanceSelector.InstanceListBox_MouseDoubleClick" name="TGControlPanel.InstanceSelector.InstanceListBox_MouseDoubleClick">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#a463acf31a9f4d87568a92b0a1f68c14c" title="Tries to start a ControlPanel for a given InstanceListBox index &#160;" alt="" coords="284,35,503,76"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="817,5,1021,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using ITGLanding.ListInstances " alt="" coords="551,35,769,76"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#acce61389dee2a45c04ceb23c3ee013d1" title="Clean up any resources being used. " alt="" coords="563,100,757,141"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_control_panel.html#a33801d039794821afb4d35a592199960" title="Called from Dispose(bool) " alt="" coords="822,100,1017,141"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="TGServerService.ServerInstance.DisableGarbageCollectionNoLock" name="TGServerService.ServerInstance.DisableGarbageCollectionNoLock">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a14f34e7f968afb1ad7f77d8813d5799b" title="Backups up the StaticDirs and deletes the current RepoPath if they exist. Clones the given branch of ..." alt="" coords="268,5,479,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="268,71,479,112"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a3a8f527d1b8aef7962a482d8e66b370e" title="Deletes whatever may be left over and clones the repo at remote &#160;and checks out branch ..." alt="" coords="527,5,737,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="527,71,737,112"/>
-</map>

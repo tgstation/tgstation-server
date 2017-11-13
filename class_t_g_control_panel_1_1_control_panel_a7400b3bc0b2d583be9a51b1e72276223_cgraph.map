@@ -1,6 +1,0 @@
-<map id="TGControlPanel.ControlPanel.CloneRepositoryButton_Click" name="TGControlPanel.ControlPanel.CloneRepositoryButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#aff73fe7bed37b8732a330b8559e3a550" title="TGControlPanel.ControlPanel.\lCloneRepo" alt="" coords="248,5,443,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a4c31730c223827ee9aa0f961b3c6bcbd" title="TGControlPanel.ControlPanel.\lDoAsyncOp" alt="" coords="491,5,685,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#a6e2d041a46bbda54bb6e70dab696c3dc" title="TGControlPanel.ControlPanel.\lRepoBusyCheck" alt="" coords="733,5,928,47"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7" title="If the repo is currently undergoing an operation " alt="" coords="976,5,1203,47"/>
-</map>

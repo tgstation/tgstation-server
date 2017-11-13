@@ -1,0 +1,4 @@
+<map id="TGS.Server.ILogger.WriteAccess" name="TGS.Server.ILogger.WriteAccess">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_root_authorization_manager.html#aa25df850f70b5c4e117cbabc9a9a2f7f" title="TGS.Server.RootAuthorization\lManager.CheckAccessCore" alt="" coords="223,5,417,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_instance.html#a09d2c1cff6528a0588dc873cc0b070ae" title="Writes an access event to the Windows event log " alt="" coords="232,71,408,112"/>
+</map>

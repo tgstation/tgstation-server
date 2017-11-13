@@ -1,8 +1,0 @@
-<map id="TGServerService.ServerInstance.MergeBranch" name="TGServerService.ServerInstance.MergeBranch">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a30623d09726033240093822016dd8535" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#aa1258b6c6ba7f13a930e4f1c892e5b2a" title="Fetches the origin and merges it into the current branch " alt="" coords="264,71,475,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a68bcfbe8d302b30339c00ab664112037" title="Fetches the origin and merges it into the current branch &#160;" alt="" coords="523,37,733,79"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#af0d1ea78a382258b4ddcf815cb23f7ba" title="Runs on the configured InstanceConfig.AutoUpdateInterval of Config and tries to Update(bool) and Comp..." alt="" coords="523,103,733,144"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#ac4444f5e9e540e4d8222da5d9ff42940" title="Initializes the repository " alt="" coords="781,103,992,144"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="1040,103,1251,144"/>
-</map>

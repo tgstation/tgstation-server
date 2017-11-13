@@ -1,0 +1,5 @@
+<map id="TGS.CommandLine.Program.Main" name="TGS.CommandLine.Program.Main">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html#af1dc3f018b2c8a794059eed8a905566b" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="273,5,471,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_server_interface.html#aacf6bab5594df0576a24b85ac6565b0f" title="Sets the function called when a remote login fails due to the server having an invalid SSL cert ..." alt="" coords="275,71,469,112"/>
+<area shape="rect" id="node4" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html#ae57597960cbb4775905c1bfcbe898c54" title="Returns &#160;if the IServerInterface interface being used to connect to a service does not have the same ..." alt="" coords="273,136,471,177"/>
+</map>

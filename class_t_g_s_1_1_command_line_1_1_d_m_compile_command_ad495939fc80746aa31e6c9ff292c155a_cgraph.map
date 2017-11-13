@@ -1,0 +1,4 @@
+<map id="TGS.CommandLine.DMCompileCommand.Run" name="TGS.CommandLine.DMCompileCommand.Run">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_compiler.html#ad09bc56c6dddb2c812a1a47488dddeef" title="Returns the current compiler status " alt="" coords="260,5,443,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_byond.html#a7182de6422b6ebf72a8b94ad6d13f399" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="260,71,443,112"/>
+</map>

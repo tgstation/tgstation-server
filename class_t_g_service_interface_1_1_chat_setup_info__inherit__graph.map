@@ -1,4 +1,0 @@
-<map id="TGServiceInterface.ChatSetupInfo" name="TGServiceInterface.ChatSetupInfo">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_discord_setup_info.html" title="Chat provider for Discord. Admin entires should be user ids in normal mode or group ids in special mo..." alt="" coords="5,80,184,121"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_i_r_c_setup_info.html" title="Chat provider for IRC. Admin entries should be user nicknames in normal mode or required channel flag..." alt="" coords="209,87,418,114"/>
-</map>

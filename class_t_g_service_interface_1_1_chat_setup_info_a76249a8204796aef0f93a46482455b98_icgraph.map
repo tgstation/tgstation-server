@@ -1,5 +1,0 @@
-<map id="TGServiceInterface.ChatSetupInfo.Specialize" name="TGServiceInterface.ChatSetupInfo.Specialize">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_chat_setup_info.html#a399f64656ad06e8026f335c591baeda7" title="Constructs a ChatSetupInfo from a data list " alt="" coords="248,5,443,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_chat_setup_info.html#afa4f1fdc3024cb00143acc44ff65a292" title="Properly formats a channel &#160;name for the ChatProvider " alt="" coords="248,95,443,136"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_chat_setup_info.html#afd80a887842fd1c6ce1cf1335598bf54" title="Sanitizes a list of channelnames &#160;" alt="" coords="491,95,685,136"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="TGControlPanel.Login.RemoteLoginButton_Click" name="TGControlPanel.Login.RemoteLoginButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_service_interface_1_1_helpers.html#a4f047ed34d25452f624f09d3c2037d96" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="252,5,435,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_login.html#a23a4a7971beea55ee324d91207e68807" title="TGControlPanel.Login.Verify\lAndConnect" alt="" coords="251,71,436,112"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="484,71,675,112"/>
-</map>

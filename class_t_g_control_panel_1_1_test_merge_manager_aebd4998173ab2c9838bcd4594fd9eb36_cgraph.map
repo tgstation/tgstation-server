@@ -1,6 +1,0 @@
-<map id="TGControlPanel.TestMergeManager.RefreshButton_Click" name="TGControlPanel.TestMergeManager.RefreshButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#abbf6cece99d79482f460f4cb24cce41f" title="Populate PullRequestListBox with PullRequestInfo from github and check off ones that are currently me..." alt="" coords="248,35,429,76"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aa08e14e40c79af7db03ab299af759dca" title="Insert an itemString &#160;into PullRequestListBox " alt="" coords="723,5,901,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#add948a997b0af25634ae845e3902ba7b" title="Format an entry for issue &#160;and insert it into PullRequestListBox " alt="" coords="487,35,665,76"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_program.html#aee7afc07b1fe605aefee8a57598f5a70" title="Prompts the user to open the GitHubLoginPrompt explaining the API rate limit " alt="" coords="477,100,675,141"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="TGControlPanel.ControlPanel.StaticFileListBox_SelectedIndexChanged" name="TGControlPanel.ControlPanel.StaticFileListBox_SelectedIndexChanged">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_control_panel.html#ac9c290ca54dfe68bd42b610814014580" title="TGControlPanel.ControlPanel.\lUpdateEditText" alt="" coords="264,39,459,80"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_control_panel.html#a67f69fe751d361325d87e5614797ec9f" title="TGControlPanel.ControlPanel.\lBuildFileList" alt="" coords="507,39,701,80"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_control_panel.html#ad915cc66d166da5b44380f42b945832d" title="TGControlPanel.ControlPanel.\lEnumeratePath" alt="" coords="749,39,944,80"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_control_panel.html#a600c48516804105326cf74e580cec691" title="TGControlPanel.ControlPanel.\lDSNTimes" alt="" coords="1000,5,1195,47"/>
-<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_config.html#a153ca6f4076fa415232c74ee4999a8bd" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="992,71,1203,112"/>
-</map>

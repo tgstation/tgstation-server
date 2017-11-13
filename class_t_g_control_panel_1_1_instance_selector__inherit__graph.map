@@ -1,5 +1,0 @@
-<map id="TGControlPanel.InstanceSelector" name="TGControlPanel.InstanceSelector">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="63,155,163,181"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGServiceInterface.IInterface " alt="" coords="60,80,165,107"/>
-<area shape="rect" id="node4" href="$class_form.html" title="Form" alt="" coords="87,5,139,32"/>
-</map>

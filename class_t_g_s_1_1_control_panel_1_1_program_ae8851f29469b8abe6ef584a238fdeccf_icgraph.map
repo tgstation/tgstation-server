@@ -1,0 +1,4 @@
+<map id="TGS.ControlPanel.Program.GetRepositoryRemote" name="TGS.ControlPanel.Program.GetRepositoryRemote">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a8a23b7638beef8f08bfb2f3821f47809" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="236,5,467,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0f2e21132cb68dab2188888322cfd32f" title="Calls ITGRepository.Update(bool) with a &#160;parameter, re&#45;merging any current PullRequests at their curr..." alt="" coords="266,71,437,112"/>
+</map>

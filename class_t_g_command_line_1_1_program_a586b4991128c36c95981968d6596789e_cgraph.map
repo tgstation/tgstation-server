@@ -1,8 +1,0 @@
-<map id="TGCommandLine.Program.RunCommandLine" name="TGCommandLine.Program.RunCommandLine">
-<area shape="rect" id="node2" href="$interface_t_g_service_interface_1_1_i_interface.html#abeec8d18460e1ebf304d0fd63c309dbb" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="274,5,465,47"/>
-<area shape="rect" id="node3" href="$class_t_g_service_interface_1_1_command.html#a47f562a0eb5fb90e46cc5be013a23d03" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="271,71,468,112"/>
-<area shape="rect" id="node5" href="$class_t_g_command_line_1_1_program.html#a871956e508e9c91a510f76945a4201b1" title="TGCommandLine.Program.Replace\lInterface" alt="" coords="256,136,483,177"/>
-<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_landing.html#a9053ef7bc76e3f66be89eb4ed32d76f2" title="Retrieve&#39;s the service&#39;s version " alt="" coords="264,201,475,243"/>
-<area shape="rect" id="node7" href="$interface_t_g_service_interface_1_1_i_interface.html#a9b6c6257b149ce75f9e38c77fadebcde" title="Returns &#160;if the IInterface interface being used to connect to a service does not have the same releas..." alt="" coords="274,267,465,308"/>
-<area shape="rect" id="node4" href="$class_t_g_service_interface_1_1_command.html#a3f1078fdaf3e09f73b1c66cc6fd41da5" title="Override to do the actions of the Command " alt="" coords="531,78,751,105"/>
-</map>

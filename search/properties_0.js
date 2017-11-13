@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['adminchannels',['AdminChannels',['../class_t_g_service_interface_1_1_chat_setup_info.html#a7618d40a8b36a7eaef9e8de68327d683',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['adminlist',['AdminList',['../class_t_g_service_interface_1_1_chat_setup_info.html#ad7ae84252d7379542b55f99974417f5e',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['adminsarespecial',['AdminsAreSpecial',['../class_t_g_service_interface_1_1_chat_setup_info.html#ab32ea0b5008445696dc9a3a84d04c037',1,'TGServiceInterface::ChatSetupInfo']]],
-  ['authlevel',['AuthLevel',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a845fd7339bf6a12da91a104e161bb68f',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['authmessage',['AuthMessage',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ae0babac07ba1ce7a6ec6137846732cd9',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['author',['Author',['../class_t_g_service_interface_1_1_pull_request_info.html#ab48b7764b4016b52323423bb331f9094',1,'TGServiceInterface::PullRequestInfo']]],
-  ['authorizedusergroupsid',['AuthorizedUserGroupSID',['../interface_t_g_server_service_1_1_i_instance_config.html#a88425526c9b03de78b2fdbc67c0506cc',1,'TGServerService.IInstanceConfig.AuthorizedUserGroupSID()'],['../class_t_g_server_service_1_1_instance_config.html#af87fd6c14c27323ab6b92df1e4d7af25',1,'TGServerService.InstanceConfig.AuthorizedUserGroupSID()']]],
-  ['authtarget',['AuthTarget',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ac0e73fcef87cade10406b787893f4fc1',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['autostart',['Autostart',['../interface_t_g_server_service_1_1_i_instance_config.html#a45d6610be671be9eacb3eea47850a1dd',1,'TGServerService.IInstanceConfig.Autostart()'],['../class_t_g_server_service_1_1_instance_config.html#a9bcb4ab19f2695db4b995b815ceda889',1,'TGServerService.InstanceConfig.Autostart()']]],
-  ['autoupdateinterval',['AutoUpdateInterval',['../interface_t_g_server_service_1_1_i_instance_config.html#a02765deb14225a98ddbfac088e7a09d2',1,'TGServerService.IInstanceConfig.AutoUpdateInterval()'],['../class_t_g_server_service_1_1_instance_config.html#a61dffa75357f6e6b1325765c3a4eba47',1,'TGServerService.InstanceConfig.AutoUpdateInterval()']]]
+  ['adminchannels',['AdminChannels',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a7773ef4bf249fd77b610af017a8b19ec',1,'TGS::Interface::ChatSetupInfo']]],
+  ['adminlist',['AdminList',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#ace510c77103bff0d709cc753e05cb2af',1,'TGS::Interface::ChatSetupInfo']]],
+  ['adminsarespecial',['AdminsAreSpecial',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a40ab6c5e171d79e90acfdbc6e79768ca',1,'TGS::Interface::ChatSetupInfo']]],
+  ['authlevel',['AuthLevel',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#ae4a436ccb9eb9512f8f44390beca1b99',1,'TGS::Interface::IRCSetupInfo']]],
+  ['authmessage',['AuthMessage',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a939291d5bfbec6260ee708c2d4064daf',1,'TGS::Interface::IRCSetupInfo']]],
+  ['author',['Author',['../class_t_g_s_1_1_interface_1_1_pull_request_info.html#adc05015d3cd79c7e0f0232314912f451',1,'TGS::Interface::PullRequestInfo']]],
+  ['authorizedusergroupsid',['AuthorizedUserGroupSID',['../interface_t_g_s_1_1_server_1_1_i_instance_config.html#aaea363c5691a7b10964e7f390b3a8799',1,'TGS.Server.IInstanceConfig.AuthorizedUserGroupSID()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#a546d4502c419aa11e3939dd2fb7b54a3',1,'TGS.Server.InstanceConfig.AuthorizedUserGroupSID()']]],
+  ['authtarget',['AuthTarget',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a732a309381039602f3a5b73903847323',1,'TGS::Interface::IRCSetupInfo']]],
+  ['autostart',['Autostart',['../interface_t_g_s_1_1_server_1_1_i_instance_config.html#a045bd73be1503f1a09f35a9aec231e32',1,'TGS.Server.IInstanceConfig.Autostart()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#ab9ab15ff6d9991bfb87dd8e9a9eb6527',1,'TGS.Server.InstanceConfig.Autostart()']]],
+  ['autoupdateinterval',['AutoUpdateInterval',['../interface_t_g_s_1_1_server_1_1_i_instance_config.html#a5283565a099ab2de0f8f362f1ea34c56',1,'TGS.Server.IInstanceConfig.AutoUpdateInterval()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#a07e066bf038a4ea4934bcf5d1d6beb71',1,'TGS.Server.InstanceConfig.AutoUpdateInterval()']]]
 ];

@@ -1,0 +1,4 @@
+<map id="TGS.Server.Instance.ChatProvider_OnChatMessage" name="TGS.Server.Instance.ChatProvider_OnChatMessage">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_interface_1_1_command.html#ad3b7f770775f3ad709530c32955796e7" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="231,5,438,32"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_server_1_1_chat_providers_1_1_i_chat_provider.html#a65a8ad08f620f56df83c338e6e9862c9" title="Send a message &#160;to a channel &#160;" alt="" coords="225,57,444,98"/>
+</map>

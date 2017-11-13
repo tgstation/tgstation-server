@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.Commit" name="TGServerService.ServerInstance.Commit">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a30623d09726033240093822016dd8535" title="Merges the target pull request into the current branch if the remote is a github repository &#160;..." alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7e077da7a7def0afaa4ac78d4d0a25ce" title="Pushes the paths listed in TGS3.json to the currentl git remote. No other commit differences may exis..." alt="" coords="264,71,475,112"/>
-</map>

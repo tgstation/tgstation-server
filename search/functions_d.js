@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['normalizeanddelete',['NormalizeAndDelete',['../class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7',1,'TGServerService::Program']]],
-  ['normalizepath',['NormalizePath',['../class_t_g_server_service_1_1_program.html#a6420e768ee1d50084da8d47b98c01897',1,'TGServerService::Program']]]
+  ['normalizeanddelete',['NormalizeAndDelete',['../class_t_g_s_1_1_server_1_1_helpers.html#a7843e08b347f198bde5661fb87283e19',1,'TGS::Server::Helpers']]],
+  ['normalizepath',['NormalizePath',['../class_t_g_s_1_1_server_1_1_helpers.html#a735e80586fa986522b778d7bf5401b90',1,'TGS::Server::Helpers']]]
 ];

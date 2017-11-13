@@ -1,9 +1,0 @@
-<map id="TGServerService.ServerInstance.UpdateSubmodules" name="TGServerService.ServerInstance.UpdateSubmodules">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_program.html#a88920433735e74713fe39703251c4c57" title="Recursive directory deleter " alt="" coords="282,5,457,47"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#ae6ea9140e5cf33703628ac25700bc556" title="Broadcast a message to appropriate channels based on the message type " alt="" coords="264,71,475,112"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="523,115,733,156"/>
-<area shape="rect" id="node8" href="$class_t_g_server_service_1_1_server_instance.html#abc4aea21aa8dfb0039d9e384458b037e" title="Writes an error to the Windows event log " alt="" coords="523,180,733,221"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_program.html#ada7765f3ea8bc2f9241f6871fcfe784e" title="Properly unlinks directory di &#160;if it is a symlink " alt="" coords="781,19,956,60"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7" title="Recursively empty a directory " alt="" coords="541,37,715,79"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="785,135,952,176"/>
-</map>

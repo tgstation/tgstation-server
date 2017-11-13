@@ -1,18 +1,18 @@
 var searchData=
 [
-  ['name',['Name',['../interface_t_g_server_service_1_1_i_instance_config.html#ab6c542abe8aea2f9e7029ad6597fbb81',1,'TGServerService.IInstanceConfig.Name()'],['../class_t_g_server_service_1_1_instance_config.html#a7da592ea91a0b4ddf0806e25aa5d3b77',1,'TGServerService.InstanceConfig.Name()'],['../class_t_g_service_interface_1_1_instance_metadata.html#aa4e0f82b2fef9af8fe214531d1951c9b',1,'TGServiceInterface.InstanceMetadata.Name()']]],
-  ['nickindex',['NickIndex',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#a234f7c160cd2a98485e856c7cdb34489',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['nickname',['Nickname',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#aade2c7fa428105a2d4af7c75acecf000',1,'TGServiceInterface::IRCSetupInfo']]],
-  ['none',['None',['../class_t_g_server_service_1_1_server_instance.html#ad1ddb778169e3f37504360e6850f3b10a6adf97f83acf6453d4a6a4b1070f3754',1,'TGServerService.ServerInstance.None()'],['../namespace_t_g_service_interface.html#acaf0524ae14529619dd7b58bb50d89fda6adf97f83acf6453d4a6a4b1070f3754',1,'TGServiceInterface.None()']]],
-  ['nonefound',['NoneFound',['../class_t_g_installer_wrapper_1_1_main.html#aa67361671616f31eb31395aa988529b8a07da250b04008f15a0214bf3068257fa',1,'TGInstallerWrapper::Main']]],
-  ['normal',['Normal',['../class_t_g_service_interface_1_1_command.html#aa9ed97e9e1139f15e8e6b3556bfdc810a960b44c579bc2f6818d2daaf9e4c16f0',1,'TGServiceInterface::Command']]],
-  ['normalizeanddelete',['NormalizeAndDelete',['../class_t_g_server_service_1_1_program.html#a891586515f8145121b5bbf99da83b1e7',1,'TGServerService::Program']]],
-  ['normalizepath',['NormalizePath',['../class_t_g_server_service_1_1_program.html#a6420e768ee1d50084da8d47b98c01897',1,'TGServerService::Program']]],
-  ['notenumerated',['NotEnumerated',['../class_t_g_control_panel_1_1_control_panel.html#a11e64e10ecd2e5625563b5a5df609440a826419781ba14110c75331b8380251e4',1,'TGControlPanel::ControlPanel']]],
-  ['noupdateradiobutton',['NoUpdateRadioButton',['../class_t_g_control_panel_1_1_test_merge_manager.html#a000ccc6c3e4519e2cdb6ba9fb078dd72',1,'TGControlPanel::TestMergeManager']]],
-  ['nudgecrash',['NudgeCrash',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398ae82db03684b17dae8c4f074098a14603',1,'TGServerService']]],
-  ['nudgestartfail',['NudgeStartFail',['../namespace_t_g_server_service.html#a98d8f6303b894422167c743e15185398a36238c2ed2fdcccd2eb9b8fbdef4fc3b',1,'TGServerService']]],
+  ['name',['Name',['../class_t_g_s_1_1_interface_1_1_instance_metadata.html#a16436484e29caf5ef4581cb04615be06',1,'TGS.Interface.InstanceMetadata.Name()'],['../interface_t_g_s_1_1_server_1_1_i_instance_config.html#a3833c4e4629bced994a5d641f49d1e13',1,'TGS.Server.IInstanceConfig.Name()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#a157cc0930e5e2e0c686081a563baa4d1',1,'TGS.Server.InstanceConfig.Name()']]],
+  ['nickindex',['NickIndex',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a0103a89ed904c632791248cef3ee8ef6',1,'TGS::Interface::IRCSetupInfo']]],
+  ['nickname',['Nickname',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a02e75f806fc7abb9ea6178cd94c92a68',1,'TGS::Interface::IRCSetupInfo']]],
+  ['none',['None',['../class_t_g_s_1_1_server_1_1_instance.html#a24619e3847ca6f303773c3c667a0c644a6adf97f83acf6453d4a6a4b1070f3754',1,'TGS.Server.Instance.None()'],['../namespace_t_g_s_1_1_interface.html#a6aba89d82a2fad3044034cdca1060c4fa6adf97f83acf6453d4a6a4b1070f3754',1,'TGS.Interface.None()']]],
+  ['nonefound',['NoneFound',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a5ff9f14c4e0132d0a29c4cb95aad370aa07da250b04008f15a0214bf3068257fa',1,'TGS::Installer::UI::Main']]],
+  ['normal',['Normal',['../class_t_g_s_1_1_interface_1_1_command.html#ae21716f032d9a454736f4ef2f7e9590fa960b44c579bc2f6818d2daaf9e4c16f0',1,'TGS::Interface::Command']]],
+  ['normalizeanddelete',['NormalizeAndDelete',['../class_t_g_s_1_1_server_1_1_helpers.html#a7843e08b347f198bde5661fb87283e19',1,'TGS::Server::Helpers']]],
+  ['normalizepath',['NormalizePath',['../class_t_g_s_1_1_server_1_1_helpers.html#a735e80586fa986522b778d7bf5401b90',1,'TGS::Server::Helpers']]],
+  ['notenumerated',['NotEnumerated',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf1586e54d2b750d2f2ecfdee208ad9da826419781ba14110c75331b8380251e4',1,'TGS::ControlPanel::ControlPanel']]],
+  ['noupdateradiobutton',['NoUpdateRadioButton',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a6874d7119af6e12c68f03849218b4207',1,'TGS::ControlPanel::TestMergeManager']]],
+  ['nudgecrash',['NudgeCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ae82db03684b17dae8c4f074098a14603',1,'TGS::Server']]],
+  ['nudgestartfail',['NudgeStartFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a36238c2ed2fdcccd2eb9b8fbdef4fc3b',1,'TGS::Server']]],
   ['nullcache',['nullCache',['../class_i_l_template.html#a5cd94e546a3da8206c53f20870ed9b65',1,'ILTemplate']]],
   ['nullcachelock',['nullCacheLock',['../class_i_l_template.html#a5f187dc9e73311fd3da527dc0ebe6de2',1,'ILTemplate']]],
-  ['number',['Number',['../class_t_g_service_interface_1_1_pull_request_info.html#a157fe222d1ded599ede3e754fe795287',1,'TGServiceInterface::PullRequestInfo']]]
+  ['number',['Number',['../class_t_g_s_1_1_interface_1_1_pull_request_info.html#a9b7a3115c94e422f62cde419665e282f',1,'TGS::Interface::PullRequestInfo']]]
 ];

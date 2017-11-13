@@ -1,8 +1,0 @@
-<map id="TGServerService.ServerInstance.PushTestmergeCommit" name="TGServerService.ServerInstance.PushTestmergeCommit">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a895420e900c51183a28580f3a3ab3039" title="SSH credentials callback. Properly sets up SSH keys for an authorization operation ..." alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_server_instance.html#a3fa2414f020ebecc7b1470e12a243d09" title="Check if the ServerInstance is configured for SSH pushing " alt="" coords="264,71,475,112"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_server_instance.html#a33c09fd7ed6d0907549e1cc08ad74562" title="Writes information to the Windows event log " alt="" coords="264,136,475,177"/>
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_server_instance.html#a9f6e141cd76aa497dcf72f14c1219017" title="Writes a warning to the Windows event log " alt="" coords="264,201,475,243"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,49,733,91"/>
-<area shape="rect" id="node6" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="545,159,711,200"/>
-</map>

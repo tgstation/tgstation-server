@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['offline',['Offline',['../class_t_g_server_service_1_1_server_instance.html#a50cee8b27ee9aba8ab71e9c0e3aae47a',1,'TGServerService::ServerInstance']]],
-  ['onchatmessage',['OnChatMessage',['../namespace_t_g_server_service_1_1_chat_providers.html#ad45a8eb27f10ef48d2473cc64840656b',1,'TGServerService::ChatProviders']]],
-  ['onlineallhosts',['OnlineAllHosts',['../class_t_g_server_service_1_1_service.html#a6a61f954b4c3ea04d88d73bfb095ead6',1,'TGServerService::Service']]],
-  ['onstart',['OnStart',['../class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e',1,'TGServerService::Service']]],
-  ['onstop',['OnStop',['../class_t_g_server_service_1_1_service.html#a2dbfb4436b03982b6d7e466fde1763d7',1,'TGServerService::Service']]],
-  ['onuiupdate',['OnUIUpdate',['../class_t_g_installer_wrapper_1_1_main.html#a12888c2a8c8758555dd3497d5432ab99',1,'TGInstallerWrapper::Main']]],
-  ['openthread',['OpenThread',['../class_t_g_server_service_1_1_process_extension.html#abf00122f52237a7be1252d19976b36a0',1,'TGServerService::ProcessExtension']]],
-  ['operationinprogress',['OperationInProgress',['../class_t_g_server_service_1_1_server_instance.html#a366db6a24e005771f49cca17a373c490',1,'TGServerService.ServerInstance.OperationInProgress()'],['../interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a3a5a530b74f7bcaa10755d65ffde22c7',1,'TGServiceInterface.Components.ITGRepository.OperationInProgress()']]],
-  ['operator_21_3d',['operator!=',['../class_t_g_server_service_1_1_repo_config.html#a75f6fa709eb4839c2f0bcf6d5a30cc3c',1,'TGServerService::RepoConfig']]],
-  ['operator_3d_3d',['operator==',['../class_t_g_server_service_1_1_repo_config.html#a2193bf192d92368ba3b99ba6f66096d9',1,'TGServerService::RepoConfig']]],
-  ['outputproc',['OutputProc',['../class_t_g_service_interface_1_1_command.html#aa157626ffb8ef1c4c2d8350954c2f047',1,'TGServiceInterface.Command.OutputProc()'],['../class_t_g_service_tests_1_1_output_proc_overrider_test.html#a68af15b083b21d9ac84f55baa81824fa',1,'TGServiceTests.OutputProcOverriderTest.OutputProc()']]]
+  ['offline',['Offline',['../class_t_g_s_1_1_server_1_1_instance.html#a914861dfc8cc51138398add5530ce315',1,'TGS::Server::Instance']]],
+  ['onchatmessage',['OnChatMessage',['../namespace_t_g_s_1_1_server_1_1_chat_providers.html#adf51bce2778ce50edab293ce1f07f246',1,'TGS::Server::ChatProviders']]],
+  ['onlineallhosts',['OnlineAllHosts',['../class_t_g_s_1_1_server_1_1_server.html#a41adf96032cfab1b226192fe3c3b0924',1,'TGS::Server::Server']]],
+  ['onstart',['OnStart',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html#a18dc084393124aad338e1367958f4c72',1,'TGS::Server::Service::Service']]],
+  ['onstop',['OnStop',['../class_t_g_s_1_1_server_1_1_server.html#ad953f35dc952e06223e9504941b7c6ee',1,'TGS.Server.Server.OnStop()'],['../class_t_g_s_1_1_server_1_1_service_1_1_service.html#a1ae0d4d9bb9690920d5757e8889e23e1',1,'TGS.Server.Service.Service.OnStop()']]],
+  ['onuiupdate',['OnUIUpdate',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a0f9dc5f7ce940e62a1e5b0247758a6b3',1,'TGS::Installer::UI::Main']]],
+  ['openthread',['OpenThread',['../class_t_g_s_1_1_server_1_1_process_extension.html#ae97f041b08865c55b386c8135a0a32bc',1,'TGS::Server::ProcessExtension']]],
+  ['operationinprogress',['OperationInProgress',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#ac6273a2cb476e6ae1aff1d98098892ec',1,'TGS.Interface.Components.ITGRepository.OperationInProgress()'],['../class_t_g_s_1_1_server_1_1_instance.html#ac3c034d54751b0cc2c76a77232e4a15e',1,'TGS.Server.Instance.OperationInProgress()']]],
+  ['operator_21_3d',['operator!=',['../class_t_g_s_1_1_server_1_1_repo_config.html#a98a24cdd24745418beb1cb941ca5dda8',1,'TGS::Server::RepoConfig']]],
+  ['operator_3d_3d',['operator==',['../class_t_g_s_1_1_server_1_1_repo_config.html#acdf685967fb94c09b1cd92118c94e774',1,'TGS::Server::RepoConfig']]],
+  ['outputproc',['OutputProc',['../class_t_g_s_1_1_interface_1_1_command.html#a48e479c6e68dbda2f07b65d301286873',1,'TGS.Interface.Command.OutputProc()'],['../class_t_g_service_tests_1_1_output_proc_overrider_test.html#a68af15b083b21d9ac84f55baa81824fa',1,'TGServiceTests.OutputProcOverriderTest.OutputProc()']]]
 ];

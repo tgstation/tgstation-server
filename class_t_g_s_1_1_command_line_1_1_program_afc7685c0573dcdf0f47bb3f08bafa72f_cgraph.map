@@ -1,0 +1,6 @@
+<map id="TGS.CommandLine.Program.RunCommandLine" name="TGS.CommandLine.Program.RunCommandLine">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html#af1dc3f018b2c8a794059eed8a905566b" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="250,5,447,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_command.html#ad3b7f770775f3ad709530c32955796e7" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="245,71,452,98"/>
+<area shape="rect" id="node4" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html#a130ad7e3c681dbf4286a799c1c64cf43" title="Retrieve&#39;s the service&#39;s version " alt="" coords="257,123,440,164"/>
+<area shape="rect" id="node5" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html#ae57597960cbb4775905c1bfcbe898c54" title="Returns &#160;if the IServerInterface interface being used to connect to a service does not have the same ..." alt="" coords="250,188,447,229"/>
+</map>

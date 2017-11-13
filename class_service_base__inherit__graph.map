@@ -1,4 +1,3 @@
 <map id="ServiceBase" name="ServiceBase">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html" title="The windows service the application runs as " alt="" coords="23,80,186,107"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_tests_1_1_service_accessor.html" title="For accessing service control methods of Service " alt="" coords="5,155,204,196"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_service_1_1_service.html" title="Windows ServiceBase adapter for Server " alt="" coords="5,80,185,107"/>
 </map>

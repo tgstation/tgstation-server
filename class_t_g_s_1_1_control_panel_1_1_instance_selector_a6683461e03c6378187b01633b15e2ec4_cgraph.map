@@ -1,0 +1,4 @@
+<map id="TGS.ControlPanel.InstanceSelector.CreateInstanceButton_Click" name="TGS.ControlPanel.InstanceSelector.CreateInstanceButton_Click">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_instance_manager.html#aa92519588145ac9d786deea0143d8f67" title="Creates a new ITGInstance " alt="" coords="288,5,520,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_program.html#aae22a01c312debe70c8f0dd2cea2c07d" title="TGS.ControlPanel.Program.\lTextPrompt" alt="" coords="313,71,495,112"/>
+</map>

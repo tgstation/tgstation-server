@@ -1,6 +1,0 @@
-<map id="TGControlPanel.TestMergeManager.AddPRButton_Click" name="TGControlPanel.TestMergeManager.AddPRButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#add948a997b0af25634ae845e3902ba7b" title="Format an entry for issue &#160;and insert it into PullRequestListBox " alt="" coords="269,5,447,47"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_repository.html#a81e31c9379fad4e4a9aa51d0004ce9a2" title="Get the currently merged pull requests. Note that switching branches will delete this list and switch..." alt="" coords="244,71,472,112"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="256,136,460,177"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aa08e14e40c79af7db03ab299af759dca" title="Insert an itemString &#160;into PullRequestListBox " alt="" coords="520,5,699,47"/>
-</map>

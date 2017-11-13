@@ -1,8 +1,0 @@
-<map id="TGServerService.Service" name="TGServerService.Service">
-<area shape="rect" id="node7" href="$class_t_g_server_service_1_1_tests_1_1_service_accessor.html" title="For accessing service control methods of Service " alt="" coords="199,155,397,196"/>
-<area shape="rect" id="node2" href="$class_service_base.html" title="ServiceBase" alt="" coords="5,5,100,32"/>
-<area shape="rect" id="node3" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service " alt="" coords="125,5,218,32"/>
-<area shape="rect" id="node4" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_connectivity.html" title="Used for testing connections to the service without authentication " alt="" coords="242,5,354,32"/>
-<area shape="rect" id="node5" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_landing.html" title="Used for general authentication and listing ITGInstances " alt="" coords="379,5,465,32"/>
-<area shape="rect" id="node6" href="$interface_t_g_service_interface_1_1_components_1_1_i_t_g_instance_manager.html" title="Used for managing ITGInstances " alt="" coords="490,5,631,32"/>
-</map>

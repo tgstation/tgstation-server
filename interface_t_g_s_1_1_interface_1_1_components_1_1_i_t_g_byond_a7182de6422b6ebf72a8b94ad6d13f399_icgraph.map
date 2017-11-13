@@ -1,0 +1,6 @@
+<map id="TGS.Interface.Components.ITGByond.GetVersion" name="TGS.Interface.Components.ITGByond.GetVersion">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a9138f1e2b3c5ca0e073508b4c8c0fae7" title="TGS.ControlPanel.Control\lPanel.InitBYONDPage" alt="" coords="265,5,436,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_b_y_o_n_d_version_command.html#af1288a87f5a3d06325e800330db9bb98" title="Override to do the actions of the Command " alt="" coords="236,71,465,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_d_m_compile_command.html#ad495939fc80746aa31e6c9ff292c155a" title="Override to do the actions of the Command " alt="" coords="247,136,454,177"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#aa392d2e8a83c10762368e8978e713612" title="TGS.ControlPanel.Control\lPanel.UpdateBYONDButtons" alt="" coords="255,201,446,243"/>
+</map>

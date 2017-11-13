@@ -1,0 +1,5 @@
+<map id="TGS.CommandLine.AdminCommand" name="TGS.CommandLine.AdminCommand">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_instance_root_command.html" title="InstanceRootCommand" alt="" coords="44,155,201,181"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="69,80,177,107"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="82,5,163,32"/>
+</map>

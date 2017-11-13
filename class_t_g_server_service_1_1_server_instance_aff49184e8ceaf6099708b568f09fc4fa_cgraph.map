@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.ChatConnectivityCheck" name="TGServerService.ServerInstance.ChatConnectivityCheck">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a0e0f4e5e2bc887424d28ee1d69739259" title="Checks connection status &#160;" alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#ae7c04a7b9b01bd0a9bf1a329c9643eaa" title="Reconnect a specific providerType &#160;to it&#39;s chat service &#160;" alt="" coords="264,71,475,112"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="TGControlPanel.TestMergeManager.InsertItem" name="TGControlPanel.TestMergeManager.InsertItem">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#add948a997b0af25634ae845e3902ba7b" title="Format an entry for issue &#160;and insert it into PullRequestListBox " alt="" coords="232,123,411,164"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#abbf6cece99d79482f460f4cb24cce41f" title="Populate PullRequestListBox with PullRequestInfo from github and check off ones that are currently me..." alt="" coords="459,64,640,105"/>
-<area shape="rect" id="node8" href="$class_t_g_control_panel_1_1_test_merge_manager.html#ad3731dd6aa6a28c797f0a11a72bc7dd4" title="Called when the AddPRButton is clicked. Adds the PR with the number in AddPRNumericUpDown to PullRequ..." alt="" coords="690,129,881,171"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a77e0e99cf564e2a9f56f76b767602290" title="Called when the TestMergeManager is loaded. Sets repoOwner and repoName " alt="" coords="931,5,1161,47"/>
-<area shape="rect" id="node6" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aebd4998173ab2c9838bcd4594fd9eb36" title="Called when the RefreshButton is clicked " alt="" coords="688,64,883,105"/>
-<area shape="rect" id="node5" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="1209,39,1396,80"/>
-<area shape="rect" id="node7" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="951,71,1141,112"/>
-</map>

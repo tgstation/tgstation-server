@@ -1,6 +1,0 @@
-<map id="TGServerService.Service.SetupInstance" name="TGServerService.Service.SetupInstance">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a70efdca1b28c2d1a30df7e46bd48bc40" title="Adds a WCF endpoint for a component typetype &#160;" alt="" coords="220,5,387,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#abd51696063d87ec7fc00054a19b345d9" title="Creates a ServiceHost for singleton &#160;using the default pipe, CloseTimeout for the ServiceHost..." alt="" coords="220,71,387,112"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#af8321586d223cb2326e14360b8af7d8e" title="Gets and locks a ServerInstance.LoggingID " alt="" coords="220,136,387,177"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="220,225,387,267"/>
-</map>

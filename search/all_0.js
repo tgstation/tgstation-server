@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_5fhttpsport',['_HTTPSPort',['../class_t_g_service_interface_1_1_interface.html#a1852b8a82d890b0023fb15d265ed77c9',1,'TGServiceInterface::Interface']]],
-  ['_5fhttpsurl',['_HTTPSURL',['../class_t_g_service_interface_1_1_interface.html#a19464ee6a0e6949f6dcc45520fc05f7f',1,'TGServiceInterface::Interface']]]
+  ['_5fhttpsport',['_HTTPSPort',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a2f5d62fda46acf6612154755a5da1fc4',1,'TGS::Interface::ServerInterface']]],
+  ['_5fhttpsurl',['_HTTPSURL',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a6113595e78cf86c6c238274ce0a20675',1,'TGS::Interface::ServerInterface']]]
 ];

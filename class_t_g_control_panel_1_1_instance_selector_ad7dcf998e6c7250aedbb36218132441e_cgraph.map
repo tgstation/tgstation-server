@@ -1,4 +1,0 @@
-<map id="TGControlPanel.InstanceSelector.RefreshButton_Click" name="TGControlPanel.InstanceSelector.RefreshButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_instance_selector.html#ad7f87e35616c98ca2c197954b1bf3fa8" title="Loads the InstanceListBox using ITGLanding.ListInstances " alt="" coords="272,5,491,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_server_op_form.html#ac4cf1bf638d34c26d04d3ed78c812e52" title="Used to wrap TGServiceInterface.IInterface calls in a non&#45;blocking fashion while disabling the Form a..." alt="" coords="539,5,743,47"/>
-</map>

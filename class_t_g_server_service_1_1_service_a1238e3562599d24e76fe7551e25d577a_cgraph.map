@@ -1,5 +1,0 @@
-<map id="TGServerService.Service.ListInstances" name="TGServerService.Service.ListInstances">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_service.html#a35b2af5c3e94d08b1d7caf118c1c0aac" title="Enumerates configured IInstanceConfigs. Detaches those that fail to load " alt="" coords="220,51,387,92"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_instance_config.html#a0b97b4c09f7ceeb88a2fcba8c0c4a0cf" title="Loads and migrates an IInstanceConfig from a ServerInstance at path &#160;" alt="" coords="435,5,605,47"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="437,95,603,136"/>
-</map>

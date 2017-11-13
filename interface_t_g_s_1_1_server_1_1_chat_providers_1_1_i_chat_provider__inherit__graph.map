@@ -1,0 +1,5 @@
+<map id="TGS.Server.ChatProviders.IChatProvider" name="TGS.Server.ChatProviders.IChatProvider">
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html" title="IChatProvider for Discord: https://discordapp.com/ " alt="" coords="367,5,543,47"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html" title="IChatProvider for internet relay chat " alt="" coords="367,71,543,112"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,46,95,73"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="TGS.ControlPanel.InstanceSelector.RenameInstanceButton_Click" name="TGS.ControlPanel.InstanceSelector.RenameInstanceButton_Click">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_instance_manager.html#a7b5de127d27931ae95404faa3aa55a72" title="Renames an instance, this will restart the instance if it is enabled " alt="" coords="299,5,541,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_program.html#aae22a01c312debe70c8f0dd2cea2c07d" title="TGS.ControlPanel.Program.\lTextPrompt" alt="" coords="329,71,511,112"/>
+</map>

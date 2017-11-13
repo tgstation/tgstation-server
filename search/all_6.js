@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['fakestart',['FakeStart',['../class_t_g_server_service_1_1_tests_1_1_service_accessor.html#a16ec2c83d5db6c4fad4729ee1b6fc9ee',1,'TGServerService::Tests::ServiceAccessor']]],
-  ['fakestop',['FakeStop',['../class_t_g_server_service_1_1_tests_1_1_service_accessor.html#a0dc9a9b7ef0625f607a3d6593b482955',1,'TGServerService::Tests::ServiceAccessor']]],
-  ['fetch',['Fetch',['../class_t_g_server_service_1_1_server_instance.html#af8f4334b030e4cddf3f643aedc84f59e',1,'TGServerService::ServerInstance']]],
-  ['fieldslen',['FieldsLen',['../class_t_g_service_interface_1_1_i_r_c_setup_info.html#ad9cc0f4f8ba087c06c05768e935a703f',1,'TGServiceInterface.IRCSetupInfo.FieldsLen()'],['../class_t_g_service_interface_1_1_discord_setup_info.html#ad64f39e1a4fdaeb9651f7af50f4c3222',1,'TGServiceInterface.DiscordSetupInfo.FieldsLen()']]],
-  ['file',['File',['../class_t_g_server_service_1_1_server_instance.html#af30b33f85b47517c591e0a2ea5b88fa9a0b27918290ff5323bea1e3b78a9cf04e',1,'TGServerService::ServerInstance']]],
-  ['findthedroidswerelookingfor',['FindTheDroidsWereLookingFor',['../class_t_g_server_service_1_1_server_instance.html#a2e5dea27fe5ea99beb0b1911eaffdaf7',1,'TGServerService::ServerInstance']]],
+  ['fetch',['Fetch',['../class_t_g_s_1_1_server_1_1_instance.html#a2d148a0b4c82814e214f51401ca0626e',1,'TGS::Server::Instance']]],
+  ['fieldslen',['FieldsLen',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a85ccfa869f81f59f91e5e042ce122cba',1,'TGS.Interface.IRCSetupInfo.FieldsLen()'],['../class_t_g_s_1_1_interface_1_1_discord_setup_info.html#a5f0a8ab2bd6775d175b9dfafea43cbde',1,'TGS.Interface.DiscordSetupInfo.FieldsLen()']]],
+  ['file',['File',['../class_t_g_s_1_1_server_1_1_instance.html#abac0e3ddd1419ccf23e1a40f4d387c8fa0b27918290ff5323bea1e3b78a9cf04e',1,'TGS::Server::Instance']]],
+  ['findthedroidswerelookingfor',['FindTheDroidsWereLookingFor',['../class_t_g_s_1_1_server_1_1_instance.html#a0f7563f9db47ae1cfb2716377bd9a624',1,'TGS::Server::Instance']]],
   ['form',['Form',['../class_form.html',1,'']]],
-  ['formcount',['FormCount',['../class_t_g_control_panel_1_1_counted_form.html#a9b230d7540de47f6a81773987c5a9bd2',1,'TGControlPanel::CountedForm']]]
+  ['formcount',['FormCount',['../class_t_g_s_1_1_control_panel_1_1_counted_form.html#a8181ce0327ddb50ba88f58f8e749c5e5',1,'TGS::ControlPanel::CountedForm']]]
 ];

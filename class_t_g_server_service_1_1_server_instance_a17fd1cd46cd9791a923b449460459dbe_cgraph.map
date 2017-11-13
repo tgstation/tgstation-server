@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.SetAuthorizedGroup" name="TGServerService.ServerInstance.SetAuthorizedGroup">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a2e5dea27fe5ea99beb0b1911eaffdaf7" title="Set TheDroidsWereLookingFor based off either an search ed name or a string SecurityIdentifier from th..." alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_server_service_1_1_i_instance_config.html#a6603d839cc98813cf3c7c11035080693" title="Saves the IInstanceConfig to it&#39;s ServerInstance Directory " alt="" coords="523,35,696,76"/>
-</map>

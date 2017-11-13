@@ -1,4 +1,0 @@
-<map id="TGServerService.Service.GetInstanceConfigs" name="TGServerService.Service.GetInstanceConfigs">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_instance_config.html#a0b97b4c09f7ceeb88a2fcba8c0c4a0cf" title="Loads and migrates an IInstanceConfig from a ServerInstance at path &#160;" alt="" coords="220,5,391,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#a7c4beb99d9b8b74015aef3ea5e7c0a57" title="Writes an event to Windows the event log " alt="" coords="222,95,389,136"/>
-</map>

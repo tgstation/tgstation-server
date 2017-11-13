@@ -1,17 +1,17 @@
 var searchData=
 [
-  ['targetversionlabel',['TargetVersionLabel',['../class_t_g_installer_wrapper_1_1_main.html#aae664d1202d822f1b7ada4e4fa15038a',1,'TGInstallerWrapper::Main']]],
-  ['tempdir',['tempDir',['../class_t_g_installer_wrapper_1_1_main.html#aacbf363631ccc172a3754453cba23b8c',1,'TGInstallerWrapper::Main']]],
+  ['targetversionlabel',['TargetVersionLabel',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ade6c84f61726313b39ed6202b6048b71',1,'TGS::Installer::UI::Main']]],
+  ['tempdir',['tempDir',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ab6b87ba8fae7b84bc33ded501c96cd72',1,'TGS::Installer::UI::Main']]],
   ['temppath',['TempPath',['../class_t_g_service_tests_1_1_temp_directory_required_test.html#ae4f1cdcc6c9a0b4b3b978f198d2ce08b',1,'TGServiceTests::TempDirectoryRequiredTest']]],
-  ['testinstancename',['TestInstanceName',['../class_t_g_service_interface_1_1_tests_1_1_test_interface.html#ac36014f1860faa602fb1cbe2b89e7d87',1,'TGServiceInterface::Tests::TestInterface']]],
-  ['testmergelistlabel',['TestMergeListLabel',['../class_t_g_control_panel_1_1_control_panel.html#a0dae2cd1ec1bfb41c136c0d4f584aa8b',1,'TGControlPanel::ControlPanel']]],
-  ['testmergelisttitle',['TestMergeListTitle',['../class_t_g_control_panel_1_1_control_panel.html#a1f9ff258d52ddf528fb62b9c848353ea',1,'TGControlPanel::ControlPanel']]],
-  ['testmergemanagerbutton',['TestMergeManagerButton',['../class_t_g_control_panel_1_1_control_panel.html#a130316730c8c5690d2ff0df75ab4d95d',1,'TGControlPanel::ControlPanel']]],
-  ['testmergeselector',['TestmergeSelector',['../class_t_g_control_panel_1_1_control_panel.html#a5dcdefd44104929b85a6e7e4fdc5693c',1,'TGControlPanel::ControlPanel']]],
-  ['testpr',['TestPR',['../class_t_g_control_panel_1_1_control_panel.html#a06bcc4ad07db830ef0de22547b4d8deb',1,'TGControlPanel::ControlPanel']]],
-  ['tgsjsonupdate',['TGSJsonUpdate',['../class_t_g_control_panel_1_1_control_panel.html#aa2e9826c562bcde98d832eb664675b90',1,'TGControlPanel::ControlPanel']]],
-  ['thedroidswerelookingfor',['TheDroidsWereLookingFor',['../class_t_g_server_service_1_1_server_instance.html#a099e2fa5d7fe81467538a56467c9906c',1,'TGServerService::ServerInstance']]],
-  ['topiclock',['topicLock',['../class_t_g_server_service_1_1_server_instance.html#a8875aeb516888e8ed1007c14302076a1',1,'TGServerService::ServerInstance']]],
-  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_service_interface_1_1_interface.html#aa5ccca53bb7e2bd6fd609ee68099bbd2',1,'TGServiceInterface::Interface']]],
-  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_service_interface_1_1_interface.html#a00d88d167689139612f0e7c4444eb35d',1,'TGServiceInterface::Interface']]]
+  ['testinstancename',['TestInstanceName',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#aa7c95a39e167a34f4012e8e675092964',1,'TGS::Interface::Tests::TestInterface']]],
+  ['testmergelistlabel',['TestMergeListLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#adc60b6d168a54f9d3fee641185965ca6',1,'TGS::ControlPanel::ControlPanel']]],
+  ['testmergelisttitle',['TestMergeListTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aa083ce064f4f661ef7dd4bbebb2eeb77',1,'TGS::ControlPanel::ControlPanel']]],
+  ['testmergemanagerbutton',['TestMergeManagerButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a31a0699f4737cae6c08a034eba9cf25c',1,'TGS::ControlPanel::ControlPanel']]],
+  ['testmergeselector',['TestmergeSelector',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a834895ffb4f07e2b2f315e0f50d89d9e',1,'TGS::ControlPanel::ControlPanel']]],
+  ['testpr',['TestPR',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a838ee70bd1b5c4b1e0c5fdbdd2a6e5b4',1,'TGS::ControlPanel::ControlPanel']]],
+  ['tgsjsonupdate',['TGSJsonUpdate',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aa4ab727ff87986acc8d37d2d9e45aa48',1,'TGS::ControlPanel::ControlPanel']]],
+  ['thedroidswerelookingfor',['TheDroidsWereLookingFor',['../class_t_g_s_1_1_server_1_1_instance.html#a122dbae4ff3d9cae4370490c8c3f6627',1,'TGS::Server::Instance']]],
+  ['topiclock',['topicLock',['../class_t_g_s_1_1_server_1_1_instance.html#a935cbfa1c54a330b8afd2ff1a2709cca',1,'TGS::Server::Instance']]],
+  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_s_1_1_interface_1_1_server_interface.html#aa20b13c8a2a112a4fd1897553c41dfd5',1,'TGS::Interface::ServerInterface']]],
+  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a19b590791a617e650ad2809d4d735743',1,'TGS::Interface::ServerInterface']]]
 ];

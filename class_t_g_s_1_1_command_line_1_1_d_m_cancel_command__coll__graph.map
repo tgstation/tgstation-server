@@ -1,0 +1,6 @@
+<map id="TGS.CommandLine.DMCancelCommand" name="TGS.CommandLine.DMCancelCommand">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_console_command.html" title="ConsoleCommand" alt="" coords="105,199,233,225"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
+<area shape="rect" id="node5" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html" title="Main &#160;for communicating the ITGSService " alt="" coords="139,109,333,136"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="191,13,281,39"/>
+</map>

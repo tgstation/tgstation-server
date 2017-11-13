@@ -1,0 +1,4 @@
+<map id="TGS.ControlPanel.TestMergeManager.PullRequestManager_Load" name="TGS.ControlPanel.TestMergeManager.PullRequestManager_Load">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_program.html#ae8851f29469b8abe6ef584a238fdeccf" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="284,5,467,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a52fa2a5aff75c7524c180d4e92ae9110" title="Gets the url of the current origin " alt="" coords="515,5,697,47"/>
+</map>

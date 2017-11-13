@@ -1,6 +1,0 @@
-<map id="TGServerService.DeprecatedInstanceConfig.DeprecatedInstanceConfig" name="TGServerService.DeprecatedInstanceConfig.DeprecatedInstanceConfig">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_deprecated_instance_config.html#afba21ee7d48c8ce87cd3a87969d0d2f2" title="Convert the settings version 6 .NET settings file to a config json " alt="" coords="280,13,532,54"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_service.html#aa6dedd0eb3bb12503c8bbbc6cb76f3f7" title="Migrates the .NET config from oldVersion &#160;to oldVersion &#160;+ 1 " alt="" coords="580,13,747,54"/>
-<area shape="rect" id="node4" href="$class_t_g_server_service_1_1_service.html#a3ed52895c6c15b9f1270f73369958347" title="Upgrades up the service configuration " alt="" coords="795,13,961,54"/>
-<area shape="rect" id="node5" href="$class_t_g_server_service_1_1_service.html#a4bb8fb7f15c6f001175ce52d70ef903e" title="Called by the Windows service manager. Initializes and starts configured ServerInstances ..." alt="" coords="1009,13,1176,54"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="TGServiceInterface.Components.ITGCompiler.GetStatus" name="TGServiceInterface.Components.ITGCompiler.GetStatus">
-<area shape="rect" id="node2" href="$class_t_g_command_line_1_1_d_m_compile_command.html#a79e830b609c3ce2918cfd1b4ae776b38" title="Override to do the actions of the Command " alt="" coords="264,5,543,32"/>
-<area shape="rect" id="node3" href="$class_t_g_command_line_1_1_d_m_initialize_command.html#afb9b4b2706f63076e7599bc7533b47cc" title="Override to do the actions of the Command " alt="" coords="307,57,500,98"/>
-</map>

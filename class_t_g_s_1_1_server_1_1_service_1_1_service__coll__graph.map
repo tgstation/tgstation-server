@@ -1,0 +1,10 @@
+<map id="TGS.Server.Service.Service" name="TGS.Server.Service.Service">
+<area shape="rect" id="node2" href="$class_service_base.html" title="ServiceBase" alt="" coords="353,171,447,197"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_server_1_1_i_logger.html" title="Used for writing logs to a provider " alt="" coords="368,221,432,248"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_server.html" title="The windows service the application runs as " alt="" coords="336,272,464,299"/>
+<area shape="rect" id="node5" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_s_service.html" title="Interface for managing the service " alt="" coords="29,5,123,32"/>
+<area shape="rect" id="node6" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_connectivity.html" title="Used for testing connections to the service without authentication " alt="" coords="20,56,132,83"/>
+<area shape="rect" id="node7" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html" title="Used for general authentication and listing ITGInstances " alt="" coords="33,107,119,133"/>
+<area shape="rect" id="node8" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_instance_manager.html" title="Used for managing ITGInstances " alt="" coords="5,157,147,184"/>
+<area shape="rect" id="node9" href="$class_i_disposable.html" title="IDisposable" alt="" coords="31,208,121,235"/>
+</map>

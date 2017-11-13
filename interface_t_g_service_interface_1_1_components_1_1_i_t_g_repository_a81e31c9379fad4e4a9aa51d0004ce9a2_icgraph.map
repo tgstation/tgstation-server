@@ -1,5 +1,0 @@
-<map id="TGServiceInterface.Components.ITGRepository.MergedPullRequests" name="TGServiceInterface.Components.ITGRepository.MergedPullRequests">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#ad3731dd6aa6a28c797f0a11a72bc7dd4" title="Called when the AddPRButton is clicked. Adds the PR with the number in AddPRNumericUpDown to PullRequ..." alt="" coords="281,5,472,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#a47f6bb34b3bfcb3caa217b37034bc0ff" title="Required method for Designer support &#45; do not modify the contents of this method with the code editor..." alt="" coords="520,5,709,47"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aeb4c456b3c523e806ef1a96a042f2be3" title="Construct a TestMergeManager " alt="" coords="757,5,944,47"/>
-</map>

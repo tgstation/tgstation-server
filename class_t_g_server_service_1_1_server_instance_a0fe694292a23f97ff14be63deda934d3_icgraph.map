@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.Reattach" name="TGServerService.ServerInstance.Reattach">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a8fa16abc1470f3a09b8c5da998ad03a9" title="Setup or reattach the watchdog, depending on InstanceConfig.ReattachRequired of Config, and create the DiagnosticsDir " alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a5eabd7af536395b77db02ae732205280" title="Constructs and a ServerInstance " alt="" coords="523,5,733,47"/>
-</map>

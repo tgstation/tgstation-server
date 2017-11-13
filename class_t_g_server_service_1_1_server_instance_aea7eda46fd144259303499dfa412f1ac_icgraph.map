@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.RunDisposals" name="TGServerService.ServerInstance.RunDisposals">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#a775202498bd013e4e6baba11dc7a72a4" title="Implements the IDisposable pattern. Calls RunDisposals " alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_tests_1_1_test_server_instance.html#ab460e1bcdc346f16d0479df4154f804f" title="Test a ServerInstance can be created and destroyed successfully with a basic InstanceConfig ..." alt="" coords="523,5,761,47"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="TGServerService.ServerInstance.CanStart" name="TGServerService.ServerInstance.CanStart">
-<area shape="rect" id="node2" href="$class_t_g_server_service_1_1_server_instance.html#ae64d03735cb348d0d162e493bf9b3f68" title="Get the currently installed version as a string formatted as Major.Minor &#160;" alt="" coords="264,5,475,47"/>
-<area shape="rect" id="node3" href="$class_t_g_server_service_1_1_server_instance.html#a7d6b306dbbaec279da07bdffc641cd17" title="Converts relative paths to full ServerInstance directory paths " alt="" coords="523,35,733,76"/>
-</map>

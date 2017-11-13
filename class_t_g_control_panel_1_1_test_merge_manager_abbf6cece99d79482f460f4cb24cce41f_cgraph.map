@@ -1,5 +1,0 @@
-<map id="TGControlPanel.TestMergeManager.LoadPullRequests" name="TGControlPanel.TestMergeManager.LoadPullRequests">
-<area shape="rect" id="node2" href="$class_t_g_control_panel_1_1_test_merge_manager.html#aa08e14e40c79af7db03ab299af759dca" title="Insert an itemString &#160;into PullRequestListBox " alt="" coords="480,5,659,47"/>
-<area shape="rect" id="node3" href="$class_t_g_control_panel_1_1_test_merge_manager.html#add948a997b0af25634ae845e3902ba7b" title="Format an entry for issue &#160;and insert it into PullRequestListBox " alt="" coords="244,35,423,76"/>
-<area shape="rect" id="node4" href="$class_t_g_control_panel_1_1_program.html#aee7afc07b1fe605aefee8a57598f5a70" title="Prompts the user to open the GitHubLoginPrompt explaining the API rate limit " alt="" coords="235,100,432,141"/>
-</map>
