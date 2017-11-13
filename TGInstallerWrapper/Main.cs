@@ -69,7 +69,7 @@ namespace TGInstallerWrapper
 		}
 
 		void CheckForExistingVersion() {
-			Interface = new Interface();
+			Interface = new ServerInterface();
 			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{

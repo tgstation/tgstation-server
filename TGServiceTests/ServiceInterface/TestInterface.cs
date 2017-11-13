@@ -27,7 +27,7 @@ namespace TGServiceInterface.Tests
 				Assert.IsFalse(String.IsNullOrWhiteSpace(message));
 				return true;
 			};
-			Interface.SetBadCertificateHandler(func);
+			ServerInterface.SetBadCertificateHandler(func);
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace TGServiceInterface.Tests
 		public void TestBadCertificateHandler()
 		{
 			var ran = false;
-			Interface.SetBadCertificateHandler(_ =>
+			ServerInterface.SetBadCertificateHandler(_ =>
 			{
 				ran = true;
 				return true;
@@ -50,9 +50,9 @@ namespace TGServiceInterface.Tests
 		/// Creates a remote configured <see cref="Interface"/> pointing at an invalid address
 		/// </summary>
 		/// <returns>The created <see cref="Interface"/></returns>
-		Interface CreateFakeRemoteInterface()
+		ServerInterface CreateFakeRemoteInterface()
 		{
-			return new Interface("some.fake.url.420", 34752, "user", "password");
+			return new ServerInterface("some.fake.url.420", 34752, "user", "password");
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace TGServiceInterface.Tests
 		[TestMethod]
 		public void TestLocalInstantiation()
 		{
-			Assert.IsFalse(new Interface().IsRemoteConnection);
+			Assert.IsFalse(new ServerInterface().IsRemoteConnection);
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace TGServiceInterface.Tests
 		public void TestCopyRemoteInterface()
 		{
 			var first = CreateFakeRemoteInterface();
-			var second = new Interface(first);
+			var second = new ServerInterface(first);
 			Assert.AreEqual(first.HTTPSURL, second.HTTPSURL);
 			Assert.AreEqual(first.HTTPSPort, second.HTTPSPort);
 			Assert.IsTrue(second.IsRemoteConnection);

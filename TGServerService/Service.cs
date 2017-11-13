@@ -234,8 +234,8 @@ namespace TGServerService
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this, Interface.MasterInterfaceName);
-			foreach (var I in Interface.ValidServiceInterfaces)
+			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
+			foreach (var I in ServerInterface.ValidServiceInterfaces)
 				AddEndpoint(serviceHost, I);
 			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager();	//only admins can diddle us
 		}
@@ -348,10 +348,10 @@ namespace TGServerService
 				return null;
 			}
 
-			var host = CreateHost(instance, String.Format("{0}/{1}", Interface.InstanceInterfaceName, instanceName));
+			var host = CreateHost(instance, String.Format("{0}/{1}", ServerInterface.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
 			
-			foreach (var J in Interface.ValidInstanceInterfaces)
+			foreach (var J in ServerInterface.ValidInstanceInterfaces)
 				AddEndpoint(host, J);
 
 			host.Authorization.ServiceAuthorizationManager = instance;
@@ -366,11 +366,11 @@ namespace TGServerService
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Interface.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = Interface.TransferLimitRemote
+				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;

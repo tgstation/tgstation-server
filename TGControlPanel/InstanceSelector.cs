@@ -100,7 +100,7 @@ namespace TGControlPanel
 				activeCP.BringToFront();
 				return;
 			}
-			var InstanceAccessor = new Interface(masterInterface as Interface);
+			var InstanceAccessor = new ServerInterface(masterInterface as ServerInterface);
 			try
 			{
 				ConnectivityLevel res = ConnectivityLevel.None;

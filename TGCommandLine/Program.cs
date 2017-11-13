@@ -6,7 +6,6 @@ using TGServiceInterface.Components;
 
 namespace TGCommandLine
 {
-
 	class Program
 	{
 		static bool interactive = false, saidSrvVersion = false;
@@ -53,7 +52,7 @@ namespace TGCommandLine
 					}
 					argsAsList.RemoveAt(I);
 					argsAsList.RemoveAt(I);
-					ReplaceInterface(new Interface(address, port, username, password));
+					ReplaceInterface(new ServerInterface(address, port, username, password));
 					break;
 				}
 			}
@@ -176,7 +175,7 @@ namespace TGCommandLine
 
 		static int Main(string[] args)
 		{
-			ReplaceInterface(new Interface());
+			ReplaceInterface(new ServerInterface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 			{
@@ -194,13 +193,13 @@ namespace TGCommandLine
 					{
 						argsAsList.RemoveAt(I);
 						--I;
-						Interface.SetBadCertificateHandler(_ => false);
+						ServerInterface.SetBadCertificateHandler(_ => false);
 					}
 				}
 				return (int)RunCommandLine(argsAsList);
 			}
 			//interactive mode
-			Interface.SetBadCertificateHandler(BadCertificateInteractive);
+			ServerInterface.SetBadCertificateHandler(BadCertificateInteractive);
 			Console.WriteLine("Type 'instance' to connect to a server instance");
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			while (true)
@@ -231,17 +230,17 @@ namespace TGCommandLine
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
-						ReplaceInterface(new Interface(address, port, username, password));
+						ReplaceInterface(new ServerInterface(address, port, username, password));
 						var res = currentInterface.ConnectionStatus(out string error);
 						if (!res.HasFlag(ConnectivityLevel.Connected))
 						{
 							Console.WriteLine("Unable to connect: " + error);
-							ReplaceInterface(new Interface());
+							ReplaceInterface(new ServerInterface());
 						}
 						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							ReplaceInterface(new Interface());
+							ReplaceInterface(new ServerInterface());
 						}
 						else
 						{
@@ -256,7 +255,7 @@ namespace TGCommandLine
 						break;
 					case "disconnect":
 						SentVMMWarning = false;
-						ReplaceInterface(new Interface());
+						ReplaceInterface(new ServerInterface());
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":

@@ -27,7 +27,7 @@ namespace TGDreamDaemonBridge
 				parsedArgs.AddRange(args);
 				var instance = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
-				using (var I = new Interface())
+				using (var I = new ServerInterface())
 					if(I.ConnectToInstance(instance, true).HasFlag(ConnectivityLevel.Connected))
 						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}

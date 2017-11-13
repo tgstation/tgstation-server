@@ -31,7 +31,7 @@ namespace TGControlPanel
 		{
 			IPTextBox.Text = IPTextBox.Text.Trim();
 			UsernameTextBox.Text = UsernameTextBox.Text.Trim();
-			using (var I = new Interface(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text))
+			using (var I = new ServerInterface(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text))
 			{
 				var Config = Properties.Settings.Default;
 				Config.RemoteIP = IPTextBox.Text;
@@ -55,7 +55,7 @@ namespace TGControlPanel
 		private void LocalLoginButton_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.RemoteDefault = false;
-			VerifyAndConnect(new Interface());
+			VerifyAndConnect(new ServerInterface());
 		}
 
 		void VerifyAndConnect(IServerInterface I)

@@ -66,7 +66,7 @@
     <Compile Include="Components\Repository.cs" />
     <Compile Include="PullRequestInfo.cs" />
     <Compile Include="RootCommand.cs" />
-    <Compile Include="Interface.cs" />
+    <Compile Include="ServerInterface.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Components\Service.cs" />
     <Compile Include="Components\Interop.cs" />

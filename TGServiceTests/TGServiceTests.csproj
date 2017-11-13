@@ -64,10 +64,10 @@
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
     <Compile Include="ControlPanel\TestInstanceSelector.cs" />
-    <Compile Include="Interface\TestHelpers.cs" />
-    <Compile Include="Interface\TestInterface.cs" />
     <Compile Include="OutputProcOverriderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInterface\TestHelpers.cs" />
+    <Compile Include="ServiceInterface\TestInterface.cs" />
     <Compile Include="Service\ServiceAccessor.cs">
       <SubType>Component</SubType>
     </Compile>
