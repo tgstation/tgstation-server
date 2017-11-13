@@ -5,7 +5,8 @@ namespace TGS.Interface
 	/// <summary>
 	/// Metadata about an <see cref="Components.ITGInstance"/>
 	/// </summary>
-	[DataContract]
+	//Namespace required for compatibility reasons
+	[DataContract(Namespace = "http://schemas.datacontract.org/2004/07/TGServiceInterface")]
 	public sealed class InstanceMetadata
 	{
 		/// <summary>
