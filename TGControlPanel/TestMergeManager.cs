@@ -17,9 +17,9 @@ namespace TGControlPanel
 		const string MergedPullsError = "Error retrieving currently merged pull requests: {0}";
 
 		/// <summary>
-		/// The <see cref="IInterface"/> connected to an <see cref="ITGInstance"/> to handle the pull requests for
+		/// The <see cref="IServerInterface"/> connected to an <see cref="ITGInstance"/> to handle the pull requests for
 		/// </summary>
-		readonly IInterface currentInterface;
+		readonly IServerInterface currentInterface;
 
 		/// <summary>
 		/// The <see cref="GitHubClient"/> to use to read PR lists
@@ -38,9 +38,9 @@ namespace TGControlPanel
 		/// <summary>
 		/// Construct a <see cref="TestMergeManager"/>
 		/// </summary>
-		/// <param name="interfaceToUse">The <see cref="IInterface"/> to use for managing the <see cref="ITGInstance"/></param>
+		/// <param name="interfaceToUse">The <see cref="IServerInterface"/> to use for managing the <see cref="ITGInstance"/></param>
 		/// <param name="clientToUse">The <see cref="GitHubClient"/> to use for getting pull request information</param>
-		public TestMergeManager(IInterface interfaceToUse, GitHubClient clientToUse)
+		public TestMergeManager(IServerInterface interfaceToUse, GitHubClient clientToUse)
 		{
 			InitializeComponent();
 			DialogResult = DialogResult.Cancel;

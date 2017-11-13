@@ -13,9 +13,9 @@ namespace TGControlPanel
 	sealed partial class InstanceSelector : CountedForm
 	{
 		/// <summary>
-		/// The <see cref="IInterface"/> we build instance connections from
+		/// The <see cref="IServerInterface"/> we build instance connections from
 		/// </summary>
-		readonly IInterface masterInterface;
+		readonly IServerInterface masterInterface;
 		/// <summary>
 		/// List of <see cref="InstanceMetadata"/> from <see cref="masterInterface"/>
 		/// </summary>
@@ -28,8 +28,8 @@ namespace TGControlPanel
 		/// <summary>
 		/// Construct an <see cref="InstanceSelector"/>
 		/// </summary>
-		/// <param name="I">An <see cref="IInterface"/> connected a the <see cref="ITGSService"/></param>
-		public InstanceSelector(IInterface I)
+		/// <param name="I">An <see cref="IServerInterface"/> connected a the <see cref="ITGSService"/></param>
+		public InstanceSelector(IServerInterface I)
 		{
 			InitializeComponent();
 			InstanceListBox.MouseDoubleClick += InstanceListBox_MouseDoubleClick;

@@ -14,7 +14,7 @@ namespace TGServiceInterface
 	/// <summary>
 	/// Main <see langword="interface"/> for communicating the <see cref="ITGSService"/>
 	/// </summary>
-	public interface IInterface : IDisposable
+	public interface IServerInterface : IDisposable
 	{
 		/// <summary>
 		/// The name of the current instance in use. Defaults to <see langword="null"/>
@@ -32,7 +32,7 @@ namespace TGServiceInterface
 		ushort HTTPSPort { get; }
 
 		/// <summary>
-		/// Checks if the <see cref="IInterface"/> is setup for a remote connection
+		/// Checks if the <see cref="IServerInterface"/> is setup for a remote connection
 		/// </summary>
 		bool IsRemoteConnection { get; }
 
@@ -45,14 +45,14 @@ namespace TGServiceInterface
 		ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false);
 
 		/// <summary>
-		/// Returns <see langword="true"/> if the <see cref="IInterface"/> interface being used to connect to a service does not have the same release version as the service
+		/// Returns <see langword="true"/> if the <see cref="IServerInterface"/> interface being used to connect to a service does not have the same release version as the service
 		/// </summary>
 		/// <param name="errorMessage">An error message to display to the user should this function return <see langword="true"/></param>
-		/// <returns><see langword="true"/> if the <see cref="IInterface"/> interface being used to connect to a service does not have the same release version as the service</returns>
+		/// <returns><see langword="true"/> if the <see cref="IServerInterface"/> interface being used to connect to a service does not have the same release version as the service</returns>
 		bool VersionMismatch(out string errorMessage);
 
 		/// <summary>
-		/// Returns the requested <see cref="IInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection.
+		/// Returns the requested <see cref="IServerInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection.
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <returns>The correct component <see langword="interface"/></returns>
@@ -79,7 +79,7 @@ namespace TGServiceInterface
 	}
 
 	/// <inheritdoc />
-	sealed public class Interface : IInterface
+	sealed public class Interface : IServerInterface
 	{
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetServiceComponent{T}"/>

@@ -18,15 +18,15 @@ namespace TGControlPanel
 		public static IDictionary<string, ControlPanel> InstancesInUse { get; private set; } = new Dictionary<string, ControlPanel>();
 
 		/// <summary>
-		/// The <see cref="IInterface"/> instance for this <see cref="ControlPanel"/>
+		/// The <see cref="IServerInterface"/> instance for this <see cref="ControlPanel"/>
 		/// </summary>
-		readonly IInterface Interface;
+		readonly IServerInterface Interface;
 
 		/// <summary>
 		/// Constructs a <see cref="ControlPanel"/>
 		/// </summary>
-		/// <param name="I">The <see cref="IInterface"/> for the <see cref="ControlPanel"/></param>
-		public ControlPanel(IInterface I)
+		/// <param name="I">The <see cref="IServerInterface"/> for the <see cref="ControlPanel"/></param>
+		public ControlPanel(IServerInterface I)
 		{
 			InitializeComponent();
 			FormClosed += ControlPanel_FormClosed;

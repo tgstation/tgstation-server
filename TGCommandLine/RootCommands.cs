@@ -7,7 +7,7 @@ namespace TGCommandLine
 {
 	class CLICommand : RootCommand
 	{
-		public CLICommand(IInterface I)
+		public CLICommand(IServerInterface I)
 		{
 			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
 			if (I.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
