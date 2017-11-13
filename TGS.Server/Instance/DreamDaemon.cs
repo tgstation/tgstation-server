@@ -542,7 +542,7 @@ namespace TGS.Server
 			try
 			{
 				//Use reflection to ensure these are the droids we're looking for
-				Assembly.ReflectionOnlyLoadFrom(BridgePath).GetType(DreamDaemonBridgeType, true);
+				Assembly.ReflectionOnlyLoadFrom(BridgePath).GetType(String.Format("{0}.{1}.{2}.{3}", nameof(TGS), nameof(Interface), DreamDaemonBridgeNamespace, DreamDaemonBridgeType), true);
 			}
 			catch (Exception e)
 			{

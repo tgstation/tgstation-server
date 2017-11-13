@@ -56,11 +56,11 @@ namespace TGS.Server
 		/// <summary>
 		/// The namespace that contains the <see cref="ITGInterop"/> bridge class. Used for reflection
 		/// </summary>
-		const string DreamDaemonBridgeNamespace = "TGDreamDaemonBridge";
+		const string DreamDaemonBridgeNamespace = "Bridge";
 		/// <summary>
 		/// The <see cref="ITGInterop"/> bridge class. Used for reflection
 		/// </summary>
-		const string DreamDaemonBridgeType = DreamDaemonBridgeNamespace + ".DreamDaemonBridge";
+		const string DreamDaemonBridgeType = "DreamDaemonBridge";
 
 		List<Command> ServerChatCommands;
 
