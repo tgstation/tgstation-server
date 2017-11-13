@@ -10,7 +10,7 @@
             <!-- Match the path of the source files in which each method is defined: -->
             <Sources>
               <Exclude>
-                <Source>.*\\TGServiceTests\\.*</Source>
+                <Source>.*\\TGS.Tests\\.*</Source>
               </Exclude>
             </Sources>
 

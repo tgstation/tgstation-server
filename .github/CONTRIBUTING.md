@@ -28,29 +28,11 @@ Visual Studio comes with the nuget package manager. To install the dependencies,
 
 ##### (Optional) Installing WiX Toolset and Visual Studio Extension
 
-The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. You can download the Wix Toolset and Visual studio extension [here](http://wixtoolset.org/releases/). This will allow you to build `TGServiceInstaller.wixproj` just like all the other projects.
+The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. You can download the Wix Toolset and Visual studio extension [here](http://wixtoolset.org/releases/). This will allow you to build `TGS.Installer.wixproj` just like all the other projects.
 
-#### Debugging
+##### Debugging
 
-So you've built the project and everything's good, right? Now you have to debug it. Debugging the command line and control panel are easy enough, just launch them like any other process. Debugging the TGServerService itself though requires a bit of finagling due to how Windows services work.
-
-1. Uninstall any release versions of TG Station Server 3 you may have on your machine
-1. Open an administrative Windows cmd prompt
-1. Run `sc delete "TG Station Server"` for sanity
-1. Build the service in debug mode
-1. Navigate to `C:\Windows\Microsoft.NET\Framework\v4.0.30319`
-1. Run `InstallUtil.exe` with the path to your debug `TGServerService.exe` as an argument. This will register your debug build as a Windows service. 
-
-If the command runs successfully you're all set up. Now, here is the debugging process.
-
-1. BEFORE BUILDING. Stop `TG Station Server` from the Windows Services control panel
-1. Build your new Debug version
-1. Set your breakpoints
-1. Start the service
-1. Use your environment to attach to `TGServerService.exe` for debugging
-1. If you need to debug startup, you'll have to add `System.Diagnostics.Debugger.Start()` where you want the service to wait for you. Do not write a constructor for the Service classas Windows will not let you debug it properly
-
-Now be careful while debugging. The service runs with root level privileges and you wouldn't want any [accidents](http://i.imgur.com/zvGEpJD.png) to happen, would you?
+Be careful while debugging. The service runs with root level privileges and you wouldn't want any [accidents](http://i.imgur.com/zvGEpJD.png) to happen, would you?
 
 ## Meet the Team
 

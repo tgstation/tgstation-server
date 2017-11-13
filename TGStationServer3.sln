@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServerService", "TGServerService\TGServerService.csproj", "{F32EDA25-0855-411C-AF5E-F0D042917E2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Server", "TGS.Server\TGS.Server.csproj", "{F32EDA25-0855-411C-AF5E-F0D042917E2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGControlPanel", "TGControlPanel\TGControlPanel.csproj", "{394E7643-6B8C-416F-AB18-95AC12648CDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.ControlPanel", "TGS.ControlPanel\TGS.ControlPanel.csproj", "{394E7643-6B8C-416F-AB18-95AC12648CDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGCommandLine", "TGCommandLine\TGCommandLine.csproj", "{89191F69-B18E-4B59-B72E-E12F9B6811A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.CommandLine", "TGS.CommandLine\TGS.CommandLine.csproj", "{89191F69-B18E-4B59-B72E-E12F9B6811A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServiceInterface", "TGServiceInterface\TGServiceInterface.csproj", "{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Interface", "TGS.Interface\TGS.Interface.csproj", "{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TGServiceInstaller", "TGServiceInstaller\TGServiceInstaller.wixproj", "{154435F6-0890-42D4-9AEC-B743D4FBC1CB}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TGS.Installer", "TGS.Installer\TGS.Installer.wixproj", "{154435F6-0890-42D4-9AEC-B743D4FBC1CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D8FC6AA-1D33-44B6-81C2-35ED7A87EDBC}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		tgs.ico = tgs.ico
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGInstallerWrapper", "TGInstallerWrapper\TGInstallerWrapper.csproj", "{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Installer.UI", "TGS.Installer.UI\TGS.Installer.UI.csproj", "{8956D4C3-BFB9-448E-BF5F-EE7E6F9996F9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB} = {AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB} = {154435F6-0890-42D4-9AEC-B743D4FBC1CB}
@@ -93,9 +93,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{287B
 		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGDreamDaemonBridge", "TGDreamDaemonBridge\TGDreamDaemonBridge.csproj", "{9A01EF03-8EAE-45CB-8B87-4A17BD904557}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Interface.Bridge", "TGS.Interface.Bridge\TGS.Interface.Bridge.csproj", "{9A01EF03-8EAE-45CB-8B87-4A17BD904557}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGServiceTests", "TGServiceTests\TGServiceTests.csproj", "{FB693FFB-17E3-4E84-8CBF-6FFA9C8FD971}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Tests", "TGS.Tests\TGS.Tests.csproj", "{FB693FFB-17E3-4E84-8CBF-6FFA9C8FD971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Server.Service", "TGS.Server.Service\TGS.Server.Service.csproj", "{3F81E398-B223-4006-B40C-C2800714CE29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Server.Console", "TGS.Server.Console\TGS.Server.Console.csproj", "{509433F6-AEFB-44CA-BFE3-C782166D2CC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +163,22 @@ Global
 		{FB693FFB-17E3-4E84-8CBF-6FFA9C8FD971}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB693FFB-17E3-4E84-8CBF-6FFA9C8FD971}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB693FFB-17E3-4E84-8CBF-6FFA9C8FD971}.Release-Client|Any CPU.ActiveCfg = Release|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Debug-Client|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Debug-Client|Any CPU.Build.0 = Debug|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Release-Client|Any CPU.ActiveCfg = Release|Any CPU
+		{3F81E398-B223-4006-B40C-C2800714CE29}.Release-Client|Any CPU.Build.0 = Release|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Debug-Client|Any CPU.ActiveCfg = Debug|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Debug-Client|Any CPU.Build.0 = Debug|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Release-Client|Any CPU.ActiveCfg = Release|Any CPU
+		{509433F6-AEFB-44CA-BFE3-C782166D2CC3}.Release-Client|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

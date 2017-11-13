@@ -7,4 +7,4 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyFileVersion("3.2.0.6")]
 [assembly: AssemblyInformationalVersion("3.2.0.6")]
 
-[assembly: InternalsVisibleTo("TGServiceTests")]
+[assembly: InternalsVisibleTo("TGS.Tests")]
