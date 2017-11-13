@@ -19,7 +19,7 @@ namespace TGS.Server
 		/// <returns>An <see cref="IInstanceConfig"/> based off the old .NET setting file</returns>
 		public static IInstanceConfig CreateFromNETSettings()
 		{
-			var Config = TGServerService.Properties.Settings.Default;
+			var Config = Properties.Settings.Default;
 			var result = new DeprecatedInstanceConfig(Helpers.NormalizePath(LoadPreviousNetPropertyOrDefault("ServerDirectory", "C:\\tgstation-server-3")));
 			// using nameof for sanity where possible
 			result.ProjectName = LoadPreviousNetPropertyOrDefault(nameof(ProjectName), result.ProjectName);
@@ -53,7 +53,7 @@ namespace TGS.Server
 			//try it the simple way first
 			try
 			{
-				var result = (T)TGServerService.Properties.Settings.Default.GetPreviousVersion(property);
+				var result = (T)Properties.Settings.Default.GetPreviousVersion(property);
 				return result == null ? defaultValue : result;
 			}
 			catch
@@ -65,7 +65,7 @@ namespace TGS.Server
 					//Which means we can never fucking delete config settings
 					//Which is fucking retarded
 					//This hooks into the settings provider and forces it to load it anyway
-					var Config = TGServerService.Properties.Settings.Default;
+					var Config = Properties.Settings.Default;
 					var Provider = Config.Properties[nameof(Config.SettingsVersion)].Provider;	//nameof for sanity
 
 					var sp = new SettingsProperty(property)

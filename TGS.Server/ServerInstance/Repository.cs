@@ -1271,7 +1271,7 @@ namespace TGS.Server
 					return null;
 				}
 
-				var Config = TGServerService.Properties.Settings.Default;
+				var Config = Properties.Settings.Default;
 
 				var PythonFile = Path.Combine(Config.PythonPath, "python.exe");
 				if (!File.Exists(PythonFile))
