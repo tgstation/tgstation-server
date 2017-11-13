@@ -5,19 +5,19 @@ namespace TGS.Server.Console
 	/// <summary>
 	/// Console runner for a <see cref="Server"/>
 	/// </summary>
-	sealed class Program : ILogger
+	sealed class Console : ILogger
 	{
 		/// <summary>
-		/// Entry point to the <see cref="Program"/>
+		/// Entry point to the <see cref="Console"/>
 		/// </summary>
 		/// <param name="args"></param>
-		static void Main(string[] args) => new Program(args);
+		static void Main(string[] args) => new Console(args);
 
 		/// <summary>
-		/// Construct and run a <see cref="Program"/>
+		/// Construct and run a <see cref="Console"/>
 		/// </summary>
 		/// <param name="args">Command line arguments</param>
-		Program(string[] args)
+		Console(string[] args)
 		{
 			System.Console.WriteLine("Starting server...");
 			var server = new Server(args, this);	//no using to avoid including more references
