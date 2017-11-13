@@ -962,7 +962,7 @@ namespace TGS.Server
 							}
 
 							var dick = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
-							var user = dick["user"] as IDictionary<string, object>;
+							var user = JsonConvert.DeserializeObject<IDictionary<string, object>>((string)dick["user"]);
 
 							newPR.Add("commit", atSHA ?? branch.Tip.Sha);
 							newPR.Add("author", (string)user["login"]);

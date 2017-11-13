@@ -52,7 +52,7 @@ namespace TGS.Server
 			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);
 			try
 			{
-				var details = json["changelog"] as IDictionary<string, object>;
+				var details = JsonConvert.DeserializeObject<IDictionary<string, object>>((string)json["changelog"]);
 				PathToChangelogPy = (string)details["script"];
 				ChangelogPyArguments = (string)details["arguments"];
 				ChangelogSupport = true;
