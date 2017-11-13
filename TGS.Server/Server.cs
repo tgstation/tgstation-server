@@ -174,7 +174,8 @@ namespace TGS.Server
 				{
 					//assume we're upgrading
 					Config = ServerConfig.Load(MigrationConfigDirectory);
-					Directory.Delete(MigrationConfigDirectory, true);
+					Config.Save(DefaultConfigDirectory);
+					Helpers.DeleteDirectory(MigrationConfigDirectory);
 				}
 				catch
 				{
