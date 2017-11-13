@@ -30,7 +30,7 @@ namespace TGS.Server
 		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
 		/// </summary>
-		public static readonly string VersionString = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+		public static readonly string VersionString = "/tg/station 13 Server v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		/// <summary>
 		/// Singleton <see cref="ILogger"/>
