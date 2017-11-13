@@ -89,6 +89,8 @@ namespace TGS.Server
 		/// <param name="logger">The <see cref="ILogger"/> to use</param>
 		public Server(string[] args, ILogger logger)
 		{
+			Logger = logger;
+
 			Environment.CurrentDirectory = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Assembly.GetExecutingAssembly().GetName().Name)).FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
 
 			SetupConfig();
