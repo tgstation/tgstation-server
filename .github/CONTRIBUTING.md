@@ -32,7 +32,7 @@ The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .ms
 
 #### Debugging
 
-So you've built the project and everything's good, right? Now you have to debug it. Debugging the command line and control panel are easy enough, just launch them like any other process. Debugging the TGS.Server.Service itself though requires a bit of finagling due to how Windows services work.
+So you've built the project and everything's good, right? Now you have to debug it. Debugging the command line and control panel are easy enough, just launch them like any other process. Debugging the TGS.Server itself though requires a bit of finagling due to how Windows services work.
 
 1. Uninstall any release versions of TG Station Server 3 you may have on your machine
 1. Open an administrative Windows cmd prompt

@@ -84,37 +84,40 @@
         <File Source="$(var.TGS.CommandLine.TargetPath)" />
         <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]" Permanent="no" Part="last" Action="set" System="yes" />
       </Component>
+      <Component Id="TGS.Server" Guid="*">
+        <File Source="$(var.TGS.Server.TargetPath)" />
+      </Component>
       <Component Id="TGS.Server.Service" Guid="*">
         <File Source="$(var.TGS.Server.Service.TargetPath)" Id="ServiceExecutable" />
         <ServiceInstall Id="ServiceInstaller" Name="TG Station Server" Type="ownProcess" EraseDescription="no" ErrorControl="normal" Start="auto" Vital="yes" />
         <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="TG Station Server" Wait="yes" />
       </Component>
       <Component Id="DiscordNetCore" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/Discord.Net.Core.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/Discord.Net.Core.dll" />
       </Component>
       <Component Id="DiscordNetRest" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/Discord.Net.Rest.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/Discord.Net.Rest.dll" />
       </Component>
       <Component Id="DiscordNetWebSocket" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/Discord.Net.WebSocket.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/Discord.Net.WebSocket.dll" />
       </Component>
       <Component Id="LibGit2Sharp" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/LibGit2Sharp.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/LibGit2Sharp.dll" />
       </Component>
       <Component Id="Octokit" Guid="*">
         <File Source="$(var.TGS.ControlPanel.TargetDir)/Octokit.dll" />
       </Component>
       <Component Id="MeebeySmartIrc4net" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/Meebey.SmartIrc4net.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/Meebey.SmartIrc4net.dll" />
       </Component>
       <Component Id="NewtonsoftJson" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/Newtonsoft.Json.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/Newtonsoft.Json.dll" />
       </Component>
       <Component Id="SystemCollectionsImmutable" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/System.Collections.Immutable.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/System.Collections.Immutable.dll" />
       </Component>
       <Component Id="SystemInteractiveAsync" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)/System.Interactive.Async.dll" />
+        <File Source="$(var.TGS.Server.TargetDir)/System.Interactive.Async.dll" />
       </Component>
       <Component Id="TGS.ControlPanel" Guid="*">
         <File Source="$(var.TGS.ControlPanel.TargetPath)" KeyPath="yes" />
@@ -128,24 +131,24 @@
     </ComponentGroup>
     <ComponentGroup Id="Gitx86Components" Directory="x86Folder">
       <Component Id="LibGit2Sharpx86" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)lib\win32\x86\git2-ssh-baa87df.dll" Id="LibGit2Sharpx86dll"/>
+        <File Source="$(var.TGS.Server.TargetDir)lib\win32\x86\git2-ssh-baa87df.dll" Id="LibGit2Sharpx86dll"/>
       </Component>
       <Component Id="LibGit2Sharpx86SSH" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)lib\win32\x86\libssh2.dll" Id="LibGit2Sharpx86SSHdll"/>
+        <File Source="$(var.TGS.Server.TargetDir)lib\win32\x86\libssh2.dll" Id="LibGit2Sharpx86SSHdll"/>
       </Component>
       <Component Id="LibGit2Sharpx86Z" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)lib\win32\x86\zlib.dll" Id="LibGit2Sharpx86Zdll"/>
+        <File Source="$(var.TGS.Server.TargetDir)lib\win32\x86\zlib.dll" Id="LibGit2Sharpx86Zdll"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="Gitx64Components" Directory="x64Folder">
       <Component Id="LibGit2Sharpx64" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)lib\win32\x64\git2-ssh-baa87df.dll" Id="LibGit2Sharpx64dll" />
+        <File Source="$(var.TGS.Server.TargetDir)lib\win32\x64\git2-ssh-baa87df.dll" Id="LibGit2Sharpx64dll" />
       </Component>
       <Component Id="LibGit2Sharpx64SSH" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)lib\win32\x64\libssh2.dll" Id="LibGit2Sharpx64SSHdll"/>
+        <File Source="$(var.TGS.Server.TargetDir)lib\win32\x64\libssh2.dll" Id="LibGit2Sharpx64SSHdll"/>
       </Component>
       <Component Id="LibGit2Sharpx64Z" Guid="*">
-        <File Source="$(var.TGS.Server.Service.TargetDir)lib\win32\x64\zlib.dll" Id="LibGit2Sharpx64Zdll"/>
+        <File Source="$(var.TGS.Server.TargetDir)lib\win32\x64\zlib.dll" Id="LibGit2Sharpx64Zdll"/>
       </Component>
     </ComponentGroup>
   </Fragment>

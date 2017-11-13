@@ -11,6 +11,7 @@ if (Test-Path env:snk_passphrase)
 {
 	CodeSign "$bf/TGS.CommandLine/bin/Release/TGCommandLine.exe"
 	CodeSign "$bf/TGS.ControlPanel/bin/Release/TGControlPanel.exe"
+	CodeSign "$bf/TGS.Server/bin/Release/TGS.Server.dll"
 	CodeSign "$bf/TGS.Server.Service/bin/Release/TGServerService.exe"
 	CodeSign "$bf/TGS.Interface.Bridge/bin/x86/Release/TGDreamDaemonBridge.dll"
 	CodeSign "$bf/TGS.Interface/bin/Release/TGServiceInterface.dll"

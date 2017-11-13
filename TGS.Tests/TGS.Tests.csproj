@@ -68,12 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInterface\TestHelpers.cs" />
     <Compile Include="ServiceInterface\TestInterface.cs" />
-    <Compile Include="Service\ServiceAccessor.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Service\TestInstanceConfig.cs" />
-    <Compile Include="Service\TestServerInstance.cs" />
-    <Compile Include="Service\TestService.cs" />
     <Compile Include="TempDirectoryRequiredTest.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
   </ItemGroup>
@@ -94,7 +88,7 @@
       <Project>{8956d4c3-bfb9-448e-bf5f-ee7e6f9996f9}</Project>
       <Name>TGInstallerWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TGS.Server.Service\TGS.Server.Service.csproj">
+    <ProjectReference Include="..\TGS.Server\TGS.Server.csproj">
       <Project>{f32eda25-0855-411c-af5e-f0d042917e2d}</Project>
       <Name>TGServerService</Name>
     </ProjectReference>

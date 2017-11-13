@@ -34,7 +34,7 @@ build:
 after_build:
   - ps: Tools/PostCIBuild.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
-  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGS.Server.Service/bin/Release/TGS.Server.Service.exe").FileVersion
+  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGS.Server/bin/Release/TGS.Server.dll").FileVersion
 test_script:
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
   - copy "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\appveyor.*" "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions" /y
