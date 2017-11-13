@@ -9,7 +9,7 @@ using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	sealed partial class ServerInstance : ITGChat
+	sealed partial class Instance : ITGChat
 	{
 		/// <summary>
 		/// Used for indicating unintialized encrypted data
@@ -17,7 +17,7 @@ namespace TGS.Server
 		public const string UninitializedString = "NEEDS INITIALIZING";
 
 		/// <summary>
-		/// List of <see cref="IChatProvider"/>s for the <see cref="ServerInstance"/>
+		/// List of <see cref="IChatProvider"/>s for the <see cref="Instance"/>
 		/// </summary>
 		IList<IChatProvider> ChatProviders;
 		/// <summary>
@@ -26,7 +26,7 @@ namespace TGS.Server
 		object ChatLock = new object();
 
 		/// <summary>
-		/// Set up the <see cref="ChatProviders"/> for the <see cref="ServerInstance"/>
+		/// Set up the <see cref="ChatProviders"/> for the <see cref="Instance"/>
 		/// </summary>
 		public void InitChat()
 		{

@@ -5,7 +5,7 @@ using System.IO;
 namespace TGS.Server
 {
 	// Some useful functions for triggering pre action events
-	sealed partial class ServerInstance
+	sealed partial class Instance
 	{
 		/// <summary>
 		/// The instance directory for Preaction handlers

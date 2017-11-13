@@ -97,26 +97,26 @@
     <Compile Include="InstanceConfig.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="RepoConfig.cs" />
-    <Compile Include="ServerInstance\Administration.cs" />
-    <Compile Include="ServerInstance\Byond.cs" />
-    <Compile Include="ServerInstance\Chat.cs" />
+    <Compile Include="Instance\Administration.cs" />
+    <Compile Include="Instance\Byond.cs" />
+    <Compile Include="Instance\Chat.cs" />
     <Compile Include="ChatProviders\ChatProvider.cs" />
-    <Compile Include="ServerInstance\Compiler.cs" />
-    <Compile Include="ServerInstance\Config.cs" />
+    <Compile Include="Instance\Compiler.cs" />
+    <Compile Include="Instance\Config.cs" />
     <Compile Include="ChatProviders\DiscordChatProvider.cs" />
-    <Compile Include="ServerInstance\DreamDaemon.cs" />
+    <Compile Include="Instance\DreamDaemon.cs" />
     <Compile Include="EventID.cs" />
-    <Compile Include="ServerInstance\ServerInstance.cs" />
+    <Compile Include="Instance\Instance.cs" />
     <Compile Include="ChatProviders\IRCChatProvider.cs" />
-    <Compile Include="ServerInstance\Interop.cs" />
-    <Compile Include="ServerInstance\PreactionHandler.cs" />
+    <Compile Include="Instance\Interop.cs" />
+    <Compile Include="Instance\PreactionHandler.cs" />
     <Compile Include="ProcessExtension.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ServerInstance\Repository.cs" />
+    <Compile Include="Instance\Repository.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />

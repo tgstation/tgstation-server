@@ -11,7 +11,7 @@ using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	sealed partial class ServerInstance : ITGCompiler
+	sealed partial class Instance : ITGCompiler
 	{
 		#region Win32 Shit
 		[DllImport("kernel32.dll", SetLastError = true)]

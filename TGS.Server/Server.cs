@@ -43,7 +43,7 @@ namespace TGS.Server
 		/// <summary>
 		/// Checks an <paramref name="instanceName"/> for illegal characters
 		/// </summary>
-		/// <param name="instanceName">The <see cref="ServerInstance"/> name to check</param>
+		/// <param name="instanceName">The <see cref="Instance"/> name to check</param>
 		/// <returns><see langword="null"/> if <paramref name="instanceName"/> contains no illegal characters, error message otherwise</returns>
 		static string CheckInstanceName(string instanceName)
 		{
@@ -59,11 +59,11 @@ namespace TGS.Server
 		/// </summary>
 		ServiceHost serviceHost;
 		/// <summary>
-		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref="ServiceHost"/> hosting the <see cref="ServerInstance"/>
+		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref="ServiceHost"/> hosting the <see cref="Instance"/>
 		/// </summary>
 		IDictionary<string, ServiceHost> hosts;
 		/// <summary>
-		/// List of <see cref="ServerInstance.LoggingID"/>s in use
+		/// List of <see cref="Instance.LoggingID"/>s in use
 		/// </summary>
 		IList<int> UsedLoggingIDs = new List<int>();
 
@@ -233,7 +233,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Creates <see cref="ServiceHost"/>s for all <see cref="ServerInstance"/>s as listed in <see cref="Properties.Settings.InstancePaths"/>, detaches bad ones
+		/// Creates <see cref="ServiceHost"/>s for all <see cref="Instance"/>s as listed in <see cref="Properties.Settings.InstancePaths"/>, detaches bad ones
 		/// </summary>
 		void SetupInstances()
 		{
@@ -257,9 +257,9 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Unlocks a <see cref="ServerInstance.LoggingID"/> acquired with <see cref="LockLoggingID"/>
+		/// Unlocks a <see cref="Instance.LoggingID"/> acquired with <see cref="LockLoggingID"/>
 		/// </summary>
-		/// <param name="ID">The <see cref="ServerInstance.LoggingID"/> to unlock</param>
+		/// <param name="ID">The <see cref="Instance.LoggingID"/> to unlock</param>
 		void UnlockLoggingID(byte ID)
 		{
 			lock (UsedLoggingIDs)
@@ -269,9 +269,9 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Gets and locks a <see cref="ServerInstance.LoggingID"/>
+		/// Gets and locks a <see cref="Instance.LoggingID"/>
 		/// </summary>
-		/// <returns>A logging ID for the <see cref="ServerInstance"/> must be released using <see cref="UnlockLoggingID(byte)"/></returns>
+		/// <returns>A logging ID for the <see cref="Instance"/> must be released using <see cref="UnlockLoggingID(byte)"/></returns>
 		byte LockLoggingID()
 		{
 			lock (UsedLoggingIDs)
@@ -287,19 +287,19 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Creates and starts a <see cref="ServiceHost"/> for a <see cref="ServerInstance"/> at <paramref name="config"/>
+		/// Creates and starts a <see cref="ServiceHost"/> for a <see cref="Instance"/> at <paramref name="config"/>
 		/// </summary>
-		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="ServerInstance"/></param>
+		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="Instance"/></param>
 		/// <returns>The inactive <see cref="ServiceHost"/> on success, <see langword="null"/> on failure</returns>
 		ServiceHost SetupInstance(IInstanceConfig config)
 		{
-			ServerInstance instance;
+			Instance instance;
 			string instanceName;
 			try
 			{
 				if (hosts.ContainsKey(config.Directory))
 				{
-					var datInstance = ((ServerInstance)hosts[config.Directory].SingletonInstance);
+					var datInstance = ((Instance)hosts[config.Directory].SingletonInstance);
 					Logger.WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, LoggingID);
 					return null;
 				}
@@ -308,7 +308,7 @@ namespace TGS.Server
 				var ID = LockLoggingID();
 				Logger.WriteInfo(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, config.Directory, ID), EventID.InstanceIDAssigned, ID);
 				instanceName = config.Name;
-				instance = new ServerInstance(config, ID);
+				instance = new Instance(config, ID);
 			}
 			catch (Exception e)
 			{
@@ -348,7 +348,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Shuts down all active <see cref="ServiceHost"/>s and calls <see cref="IDisposable.Dispose"/> on it's <see cref="ServerInstance"/>
+		/// Shuts down all active <see cref="ServiceHost"/>s and calls <see cref="IDisposable.Dispose"/> on it's <see cref="Instance"/>
 		/// </summary>
 		void OnStop()
 		{
@@ -359,7 +359,7 @@ namespace TGS.Server
 					foreach (var I in hosts)
 					{
 						var host = I.Value;
-						var instance = (ServerInstance)host.SingletonInstance;
+						var instance = (Instance)host.SingletonInstance;
 						host.Close();
 						instance.Dispose();
 						UnlockLoggingID(instance.LoggingID);
@@ -381,7 +381,7 @@ namespace TGS.Server
 		public void PrepareForUpdate()
 		{
 			foreach (var I in hosts)
-				((ServerInstance)I.Value.SingletonInstance).Reattach(false);
+				((Instance)I.Value.SingletonInstance).Reattach(false);
 		}
 
 		/// <inheritdoc />
@@ -431,7 +431,7 @@ namespace TGS.Server
 						Name = ic.Name,
 						Path = ic.Directory,
 						Enabled = ic.Enabled,
-						LoggingID = (byte)(ic.Enabled ? ((ServerInstance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
+						LoggingID = (byte)(ic.Enabled ? ((Instance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
 					});
 			return result;
 		}
@@ -475,7 +475,7 @@ namespace TGS.Server
 		/// <summary>
 		/// Starts and onlines an instance located at <paramref name="config"/>
 		/// </summary>
-		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="ServerInstance"/></param>
+		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="Instance"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string SetupOneInstance(IInstanceConfig config)
 		{
@@ -543,11 +543,11 @@ namespace TGS.Server
 
 
 		/// <summary>
-		/// Sets a <see cref="ServerInstance"/>'s enabled status
+		/// Sets a <see cref="Instance"/>'s enabled status
 		/// </summary>
-		/// <param name="Name">The <see cref="ServerInstance"/> whom's status should be changed</param>
-		/// <param name="enabled"><see langword="true"/> to enable the <see cref="ServerInstance"/>, <see langword="false"/> to disable it</param>
-		/// <param name="path">The path to the modified <see cref="ServerInstance"/></param>
+		/// <param name="Name">The <see cref="Instance"/> whom's status should be changed</param>
+		/// <param name="enabled"><see langword="true"/> to enable the <see cref="Instance"/>, <see langword="false"/> to disable it</param>
+		/// <param name="path">The path to the modified <see cref="Instance"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string SetInstanceEnabledImpl(string Name, bool enabled, out string path)
 		{
@@ -575,7 +575,7 @@ namespace TGS.Server
 						return null;
 					var host = hosts[Name];
 					hosts.Remove(Name);
-					var inst = (ServerInstance)host.SingletonInstance;
+					var inst = (Instance)host.SingletonInstance;
 					host.Close();
 					path = inst.ServerDirectory();
 					inst.Offline();

@@ -9,7 +9,7 @@ namespace TGS.Server
 	class DeprecatedInstanceConfig : InstanceConfig
 	{
 		/// <summary>
-		/// The default <see cref="ServerInstance"/> directory
+		/// The default <see cref="Instance"/> directory
 		/// </summary>
 		const string DefaultInstallationPath = "C:\\tgstation-server-3";
 
@@ -94,9 +94,9 @@ namespace TGS.Server
 		public DeprecatedInstanceConfig() : base(DefaultInstallationPath) { }
 
 		/// <summary>
-		/// Construct a <see cref="DeprecatedInstanceConfig"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// Construct a <see cref="DeprecatedInstanceConfig"/> for a <see cref="Instance"/> at <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
+		/// <param name="path">The path to the <see cref="Instance"/></param>
 		public DeprecatedInstanceConfig(string path) : base(path) { }
 
 		/// <summary>

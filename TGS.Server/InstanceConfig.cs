@@ -5,12 +5,12 @@ using TGS.Interface;
 namespace TGS.Server
 {
 	/// <summary>
-	/// Configuration settings for a <see cref="ServerInstance"/>
+	/// Configuration settings for a <see cref="Instance"/>
 	/// </summary>
 	public interface IInstanceConfig
 	{
 		/// <summary>
-		/// The <see cref="ServerInstance"/> directory this <see cref="IInstanceConfig"/> is for
+		/// The <see cref="Instance"/> directory this <see cref="IInstanceConfig"/> is for
 		/// </summary>
 		string Directory { get; }
 
@@ -20,32 +20,32 @@ namespace TGS.Server
 		ulong Version { get; }
 
 		/// <summary>
-		/// The name of the <see cref="ServerInstance"/>
+		/// The name of the <see cref="Instance"/>
 		/// </summary>
 		string Name { get; set; }
 
 		/// <summary>
-		/// If the <see cref="ServerInstance"/> is active
+		/// If the <see cref="Instance"/> is active
 		/// </summary>
 		bool Enabled { get; set; }
 
 		/// <summary>
-		/// The name of the .dme/.dmb the <see cref="ServerInstance"/> uses
+		/// The name of the .dme/.dmb the <see cref="Instance"/> uses
 		/// </summary>
 		string ProjectName { get; set; }
 
 		/// <summary>
-		/// The port the <see cref="ServerInstance"/> runs on
+		/// The port the <see cref="Instance"/> runs on
 		/// </summary>
 		ushort Port { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="ServerInstance"/>
+		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="Instance"/>
 		/// </summary>
 		DreamDaemonSecurity Security { get; set; }
 
 		/// <summary>
-		/// Whether or not the <see cref="ServerInstance"/> should immediately start DreamDaemon when activated
+		/// Whether or not the <see cref="Instance"/> should immediately start DreamDaemon when activated
 		/// </summary>
 		bool Autostart { get; set; }
 
@@ -74,7 +74,7 @@ namespace TGS.Server
 		string ChatProviderEntropy { get; set; }
 
 		/// <summary>
-		/// If the <see cref="ServerInstance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
+		/// If the <see cref="Instance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
 		/// </summary>
 		bool ReattachRequired { get; set; }
 
@@ -99,12 +99,12 @@ namespace TGS.Server
 		string ReattachAPIVersion { get; set; }
 
 		/// <summary>
-		/// The user group allowed to use the <see cref="ServerInstance"/>
+		/// The user group allowed to use the <see cref="Instance"/>
 		/// </summary>
 		string AuthorizedUserGroupSID { get; set; }
 
 		/// <summary>
-		/// The auto update interval for the <see cref="ServerInstance"/>
+		/// The auto update interval for the <see cref="Instance"/>
 		/// </summary>
 		ulong AutoUpdateInterval { get; set; }
 
@@ -114,7 +114,7 @@ namespace TGS.Server
 		bool PushTestmergeCommits { get; set; }
 
 		/// <summary>
-		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="ServerInstance"/> <see cref="Directory"/>
+		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Instance"/> <see cref="Directory"/>
 		/// </summary>
 		void Save();
 	}
@@ -169,7 +169,7 @@ namespace TGS.Server
 		public string CommitterEmail { get; set; } = "tgstation-server@tgstation13.org";
 
 		/// <inheritdoc />
-		public string ChatProviderData { get; set; } = ServerInstance.UninitializedString;
+		public string ChatProviderData { get; set; } = Instance.UninitializedString;
 
 		/// <inheritdoc />
 		public string ChatProviderEntropy { get; set; }
@@ -199,9 +199,9 @@ namespace TGS.Server
 		public bool PushTestmergeCommits { get; set; } = false;
 
 		/// <summary>
-		/// Construct a <see cref="InstanceConfig"/> for a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// Construct a <see cref="InstanceConfig"/> for a <see cref="Instance"/> at <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path to the <see cref="ServerInstance"/></param>
+		/// <param name="path">The path to the <see cref="Instance"/></param>
 		public InstanceConfig(string path)
 		{
 			Directory = path;
@@ -216,9 +216,9 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Loads and migrates an <see cref="IInstanceConfig"/> from a <see cref="ServerInstance"/> at <paramref name="path"/>
+		/// Loads and migrates an <see cref="IInstanceConfig"/> from a <see cref="Instance"/> at <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path to the <see cref="ServerInstance"/> directory</param>
+		/// <param name="path">The path to the <see cref="Instance"/> directory</param>
 		/// <returns>The migrated <see cref="IInstanceConfig"/></returns>
 		public static IInstanceConfig Load(string path)
 		{

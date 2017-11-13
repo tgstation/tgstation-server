@@ -12,10 +12,10 @@ using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	sealed partial class ServerInstance : ITGRepository, IDisposable
+	sealed partial class Instance : ITGRepository, IDisposable
 	{
 		/// <summary>
-		/// The <see cref="ServerInstance"/> directory for the repository
+		/// The <see cref="Instance"/> directory for the repository
 		/// </summary>
 		const string RepoPath = "Repository";
 		/// <summary>
@@ -27,7 +27,7 @@ namespace TGS.Server
 		/// </summary>
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
 		/// <summary>
-		/// Path to the <see cref="ServerInstance"/>'s <see cref="RepoConfig"/> json
+		/// Path to the <see cref="Instance"/>'s <see cref="RepoConfig"/> json
 		/// </summary>
 		const string CachedTGS3SettingsPath = "TGS3.json";
 		/// <summary>
@@ -39,7 +39,7 @@ namespace TGS.Server
 		/// </summary>
 		const string SSHPushRemote = "ssh_push_target";
 		/// <summary>
-		/// The <see cref="ServerInstance"/> directory for the repository SSH keys
+		/// The <see cref="Instance"/> directory for the repository SSH keys
 		/// </summary>
 		const string RepoKeyDir = "RepoKey/";
 		/// <summary>
@@ -86,7 +86,7 @@ namespace TGS.Server
 		int currentProgress = -1;
 
 		/// <summary>
-		/// Used for automatically updating the <see cref="ServerInstance"/>
+		/// Used for automatically updating the <see cref="Instance"/>
 		/// </summary>
 		System.Timers.Timer autoUpdateTimer = new System.Timers.Timer()
 		{
@@ -292,7 +292,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Copies the Static directory to the first available Static_BACKUP path in the <see cref="ServerInstance"/> then deleted the old directory
+		/// Copies the Static directory to the first available Static_BACKUP path in the <see cref="Instance"/> then deleted the old directory
 		/// </summary>
 		void BackupAndDeleteStaticDirectory()
 		{
@@ -769,7 +769,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Lists tags in the repository created by the <see cref="ServerInstance"/>
+		/// Lists tags in the repository created by the <see cref="Instance"/>
 		/// </summary>
 		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
 		/// <returns>A dictionary of tag title -> commit SHA on success, <see langword="null"/> on failure</returns>
@@ -826,7 +826,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Deletes the <see cref="ServerInstance"/>'s <see cref="PRJobFile"/>
+		/// Deletes the <see cref="Instance"/>'s <see cref="PRJobFile"/>
 		/// </summary>
 		void DeletePRList()
 		{
@@ -1193,9 +1193,9 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Check if the <see cref="ServerInstance"/> is configured for SSH pushing
+		/// Check if the <see cref="Instance"/> is configured for SSH pushing
 		/// </summary>
-		/// <returns><see langword="true"/> if the see cref="ServerInstance"/> is configured for SSH pushing, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the see cref="Instance"/> is configured for SSH pushing, <see langword="false"/> otherwise</returns>
 		bool SSHAuth()
 		{
 			return File.Exists(RelativePath(PrivateKeyPath)) && File.Exists(RelativePath(PublicKeyPath));
@@ -1365,7 +1365,7 @@ namespace TGS.Server
 		}
 		
 		/// <summary>
-		/// Runs on the configured <see cref="InstanceConfig.AutoUpdateInterval"/> of <see cref="Config"/> and tries to <see cref="Update(bool)"/> and <see cref="Compile(bool)"/> the <see cref="ServerInstance"/>
+		/// Runs on the configured <see cref="InstanceConfig.AutoUpdateInterval"/> of <see cref="Config"/> and tries to <see cref="Update(bool)"/> and <see cref="Compile(bool)"/> the <see cref="Instance"/>
 		/// </summary>
 		/// <param name="sender">A <see cref="System.Timers.Timer"/></param>
 		/// <param name="e">The event arguments</param>

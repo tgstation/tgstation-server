@@ -10,10 +10,10 @@ namespace TGS.Server
 {
 	//note this only works with MACHINE LOCAL groups and admins for now
 	//if someone wants AD shit, code it yourself
-	sealed partial class ServerInstance : ServiceAuthorizationManager, ITGAdministration
+	sealed partial class Instance : ServiceAuthorizationManager, ITGAdministration
 	{
 		/// <summary>
-		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="ServerInstance"/>
+		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="Instance"/>
 		/// </summary>
 		SecurityIdentifier TheDroidsWereLookingFor;
 		/// <summary>
@@ -21,7 +21,7 @@ namespace TGS.Server
 		/// </summary>
 		object authLock = new object();
 		/// <summary>
-		/// The <see cref="WindowsIdentity.Name"/> of the last <see cref="WindowsIdentity"/> to attempt to access the <see cref="ServerInstance"/>
+		/// The <see cref="WindowsIdentity.Name"/> of the last <see cref="WindowsIdentity"/> to attempt to access the <see cref="Instance"/>
 		/// </summary>
 		string LastSeenUser;
 
@@ -70,7 +70,7 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="search">The name of the group to search for</param>
 		/// <param name="useDomain">Recursive parameter used to check for the group using <see cref="ContextType.Domain"/> instead of <see cref="ContextType.Machine"/></param>
-		/// <returns>The name of the group allowed to access the <see cref="ServerInstance"/> if it could be found, <see langword="null"/> otherwise</returns>
+		/// <returns>The name of the group allowed to access the <see cref="Instance"/> if it could be found, <see langword="null"/> otherwise</returns>
 		string FindTheDroidsWereLookingFor(string search = null, bool useDomain = false)
 		{
 			RootAuthorizationManager.InstanceAuthManagers.Add(this);

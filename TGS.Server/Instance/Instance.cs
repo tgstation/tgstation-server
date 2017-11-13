@@ -15,7 +15,7 @@ namespace TGS.Server
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed partial class ServerInstance : IDisposable, ITGConnectivity, ITGInstance
+	sealed partial class Instance : IDisposable, ITGConnectivity, ITGInstance
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -26,9 +26,9 @@ namespace TGS.Server
 		/// </summary>
 		readonly IInstanceConfig Config;
 		/// <summary>
-		/// Constructs and a <see cref="ServerInstance"/>
+		/// Constructs and a <see cref="Instance"/>
 		/// </summary>
-		public ServerInstance(IInstanceConfig config, byte logID)
+		public Instance(IInstanceConfig config, byte logID)
 		{
 			LoggingID = logID;
 			Config = config;
@@ -42,7 +42,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Cleans up the <see cref="ServerInstance"/>
+		/// Cleans up the <see cref="Instance"/>
 		/// </summary>
 		void RunDisposals()
 		{
@@ -96,7 +96,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Converts relative paths to full <see cref="ServerInstance"/> directory paths
+		/// Converts relative paths to full <see cref="Instance"/> directory paths
 		/// </summary>
 		/// <returns></returns>
 		string RelativePath(string path)

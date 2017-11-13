@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 namespace TGS.Server
 {
 	/// <summary>
-	/// Repository specific information for a <see cref="ServerInstance"/>
+	/// Repository specific information for a <see cref="Instance"/>
 	/// </summary>
 	sealed class RepoConfig : IEquatable<RepoConfig>
 	{
@@ -32,7 +32,7 @@ namespace TGS.Server
 		/// </summary>
 		public readonly IList<string> PathsToStage = new List<string>();
 		/// <summary>
-		/// Directory's whose contents should not be touched when the <see cref="ServerInstance"/> updates
+		/// Directory's whose contents should not be touched when the <see cref="Instance"/> updates
 		/// </summary>
 		public readonly IList<string> StaticDirectoryPaths = new List<string>();
 		/// <summary>

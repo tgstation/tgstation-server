@@ -18,8 +18,8 @@
 		/// </summary>
 		public string Speaker { get; set; }
 		/// <summary>
-		/// A reference to the <see cref="ServerInstance"/> that runs the <see cref="ChatProviders.IChatProvider"/> that heard the <see cref="ChatCommand"/>
+		/// A reference to the <see cref="Instance"/> that runs the <see cref="ChatProviders.IChatProvider"/> that heard the <see cref="ChatCommand"/>
 		/// </summary>
-		public ServerInstance Server { get; set; }
+		public Instance Server { get; set; }
 	}
 }

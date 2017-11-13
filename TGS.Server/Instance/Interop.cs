@@ -13,7 +13,7 @@ using TGS.Interface.Components;
 namespace TGS.Server
 {
 	//handles talking between the world and us
-	sealed partial class ServerInstance : ITGInterop
+	sealed partial class Instance : ITGInterop
 	{
 
 		object topicLock = new object();

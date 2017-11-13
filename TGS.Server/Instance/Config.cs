@@ -7,7 +7,7 @@ using TGS.Interface.Components;
 namespace TGS.Server
 {
 	//knobs and such
-	sealed partial class ServerInstance : ITGConfig
+	sealed partial class Instance : ITGConfig
 	{
 		/// <summary>
 		/// Used for multithreading safety

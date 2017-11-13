@@ -20,7 +20,7 @@ namespace TGS.Server.ChatCommands
 		/// <summary>
 		/// Shorthand for accessing <see cref="CommandInfo.Server"/>
 		/// </summary>
-		protected ServerInstance Instance { get { return CommandInfo.Value.Server; } }
+		protected Instance Instance { get { return CommandInfo.Value.Server; } }
 
 		/// <inheritdoc />
 		public override ExitCode DoRun(IList<string> parameters)

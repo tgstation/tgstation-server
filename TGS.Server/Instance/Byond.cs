@@ -10,7 +10,7 @@ using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	sealed partial class ServerInstance : ITGByond
+	sealed partial class Instance : ITGByond
 	{
 		/// <summary>
 		/// The instance directory to store the BYOND installation
@@ -72,7 +72,7 @@ namespace TGS.Server
 		Thread RevisionStaging;
 
 		/// <summary>
-		/// Called when the <see cref="ServerInstance"/> is setup. Prepares the BYOND updater
+		/// Called when the <see cref="Instance"/> is setup. Prepares the BYOND updater
 		/// </summary>
 		void InitByond()
 		{
@@ -92,7 +92,7 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Called when the <see cref="ServerInstance"/> is shutdown
+		/// Called when the <see cref="Instance"/> is shutdown
 		/// </summary>
 		void DisposeByond()
 		{
@@ -194,7 +194,7 @@ namespace TGS.Server
 		}
 		
 		/// <summary>
-		/// Downloads and unzips a BYOND revision. Calls <see cref="ApplyStagedUpdate"/> afterwards if the <see cref="ServerInstance"/> isn't running, otherwise, calls <see cref="RequestRestart"/>. Sets <see cref="lastError"/> on failure
+		/// Downloads and unzips a BYOND revision. Calls <see cref="ApplyStagedUpdate"/> afterwards if the <see cref="Instance"/> isn't running, otherwise, calls <see cref="RequestRestart"/>. Sets <see cref="lastError"/> on failure
 		/// </summary>
 		/// <param name="param">Stringified BYOND revision</param>
 		public void UpdateToVersionImpl(object param)

@@ -12,7 +12,7 @@ namespace TGS.Server
 {
 	//manages the dd window.
 	//It's not possible to actually click it while starting it in CL mode, so in order to change visibility, security, etc. It restarts the process when the world reboots
-	sealed partial class ServerInstance : ITGDreamDaemon
+	sealed partial class Instance : ITGDreamDaemon
 	{
 		enum ShutdownRequestPhase
 		{
@@ -519,9 +519,9 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Copies <see cref="BridgeDLLName"/> from the program directory to the the <see cref="ServerInstance"/> directory
+		/// Copies <see cref="BridgeDLLName"/> from the program directory to the the <see cref="Instance"/> directory
 		/// </summary>
-		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="ServerInstance"/>'s current interface .dll if it exists</param>
+		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="Instance"/>'s current interface .dll if it exists</param>
 		void UpdateBridgeDll(bool overwrite)
 		{
 			var rbdlln = RelativePath(BridgeDLLName);
