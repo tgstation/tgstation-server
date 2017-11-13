@@ -42,7 +42,7 @@ namespace TGS.Server.Console
 
 		void ExitPrompt()
 		{
-			System.Console.Write("Press any key to exit...");
+			System.Console.WriteLine("Press any key to exit...");
 			System.Console.ReadKey();
 		}
 
