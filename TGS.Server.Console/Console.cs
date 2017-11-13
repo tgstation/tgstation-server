@@ -19,18 +19,31 @@ namespace TGS.Server.Console
 		/// <param name="args">Command line arguments</param>
 		Console(string[] args)
 		{
-			System.Console.WriteLine("Starting server...");
-			var server = new Server(args, this);	//no using to avoid including more references
 			try
 			{
-				System.Console.WriteLine("Server started!");
-				System.Console.Write("Press any key to exit...");
-				System.Console.ReadKey();
+				System.Console.WriteLine("Starting server...");
+				var server = new Server(args, this);    //no using to avoid including more references
+				try
+				{
+					System.Console.WriteLine("Server started!");
+					ExitPrompt();
+				}
+				finally
+				{
+					server.Dispose();
+				}
 			}
-			finally
+			catch (Exception e)
 			{
-				server.Dispose();
+				System.Console.WriteLine(String.Format("Unhandled exception: {0}", e.ToString()));
+				ExitPrompt();
 			}
+		}
+
+		void ExitPrompt()
+		{
+			System.Console.Write("Press any key to exit...");
+			System.Console.ReadKey();
 		}
 
 		/// <inheritdoc />
