@@ -9,5 +9,5 @@ function CodeSign
 #Sign the output files
 if (Test-Path env:snk_passphrase)
 {
-	CodeSign "$bf/TGServiceInstaller/bin/Release/TGServiceInstaller.msi"
+	CodeSign "$bf/TGS.Installer/bin/Release/TGServiceInstaller.msi"
 }

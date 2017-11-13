@@ -34,11 +34,11 @@ build:
 after_build:
   - ps: Tools/PostCIBuild.ps1
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
-  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGServerService/bin/Release/TGServerService.exe").FileVersion
+  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGS.Server.Service/bin/Release/TGS.Server.Service.exe").FileVersion
 test_script:
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
   - copy "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\appveyor.*" "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions" /y
-  - vstest.console /logger:Appveyor "TGServiceTests\bin\Release\TGServiceTests.dll" /Enablecodecoverage /Settings:"Tools/CoverageExclusions.runsettings" /inIsolation /Platform:x64
+  - vstest.console /logger:Appveyor "TGS.Tests\bin\Release\TGS.Tests.dll" /Enablecodecoverage /Settings:"Tools/CoverageExclusions.runsettings" /inIsolation /Platform:x64
 after_test:
   - ps: Tools/UploadCoverage.ps1
   - ps: Tools/BuildDox.ps1

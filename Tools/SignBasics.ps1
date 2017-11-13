@@ -9,9 +9,9 @@ function CodeSign
 #Sign the output files
 if (Test-Path env:snk_passphrase)
 {
-	CodeSign "$bf/TGCommandLine/bin/Release/TGCommandLine.exe"
-	CodeSign "$bf/TGControlPanel/bin/Release/TGControlPanel.exe"
-	CodeSign "$bf/TGServerService/bin/Release/TGServerService.exe"
-	CodeSign "$bf/TGDreamDaemonBridge/bin/x86/Release/TGDreamDaemonBridge.dll"
-	CodeSign "$bf/TGServiceInterface/bin/Release/TGServiceInterface.dll"
+	CodeSign "$bf/TGS.CommandLine/bin/Release/TGCommandLine.exe"
+	CodeSign "$bf/TGS.ControlPanel/bin/Release/TGControlPanel.exe"
+	CodeSign "$bf/TGS.Server.Service/bin/Release/TGServerService.exe"
+	CodeSign "$bf/TGS.Interface.Bridge/bin/x86/Release/TGDreamDaemonBridge.dll"
+	CodeSign "$bf/TGS.Interface/bin/Release/TGServiceInterface.dll"
 }

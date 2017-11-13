@@ -28,11 +28,11 @@ Visual Studio comes with the nuget package manager. To install the dependencies,
 
 ##### (Optional) Installing WiX Toolset and Visual Studio Extension
 
-The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. You can download the Wix Toolset and Visual studio extension [here](http://wixtoolset.org/releases/). This will allow you to build `TGServiceInstaller.wixproj` just like all the other projects.
+The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. You can download the Wix Toolset and Visual studio extension [here](http://wixtoolset.org/releases/). This will allow you to build `TGS.Installer.wixproj` just like all the other projects.
 
 #### Debugging
 
-So you've built the project and everything's good, right? Now you have to debug it. Debugging the command line and control panel are easy enough, just launch them like any other process. Debugging the TGServerService itself though requires a bit of finagling due to how Windows services work.
+So you've built the project and everything's good, right? Now you have to debug it. Debugging the command line and control panel are easy enough, just launch them like any other process. Debugging the TGS.Server.Service itself though requires a bit of finagling due to how Windows services work.
 
 1. Uninstall any release versions of TG Station Server 3 you may have on your machine
 1. Open an administrative Windows cmd prompt

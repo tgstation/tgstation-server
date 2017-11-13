@@ -10,12 +10,12 @@ function CodeSign
 #Sign the output files
 if (Test-Path env:snk_passphrase)
 {
-	CodeSign "$bf/TGServiceTests/bin/Release/TGServiceTests.dll"
-	CodeSign "$bf/TGInstallerWrapper/bin/Release/TG Station Server Installer.exe"
+	CodeSign "$bf/TGS.Tests/bin/Release/TGS.Tests.dll"
+	CodeSign "$bf/TGS.Installer.UI/bin/Release/TG Station Server Installer.exe"
 	$env:snk_passphrase = ""
 }
 
-$src = "$bf\TGInstallerWrapper\bin\Release"
+$src = "$bf\TGS.Installer.UI\bin\Release"
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$src\TG Station Server Installer.exe").FileVersion
 
 $destination = "$bf\TGS3-Server-v$version.exe"
@@ -28,10 +28,10 @@ $destination_md5sha = "$bf\MD5-SHA1-Server-v$version.txt"
 
 $src2 = "$bf\ClientApps"
 [system.io.directory]::CreateDirectory($src2)
-Copy-Item "$bf\TGCommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
-Copy-Item "$bf\TGControlPanel\bin\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
-Copy-Item "$bf\TGControlPanel\bin\Release\Octokit.dll" "$src2\Octokit.dll"
-Copy-Item "$bf\TGServiceInterface\bin\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
+Copy-Item "$bf\TGS.CommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
+Copy-Item "$bf\TGS.ControlPanel\bin\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
+Copy-Item "$bf\TGS.ControlPanel\bin\Release\Octokit.dll" "$src2\Octokit.dll"
+Copy-Item "$bf\TGS.Interface\bin\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
 
 $dest2 = "$bf\TGS3-Client-v$version.zip"
 
