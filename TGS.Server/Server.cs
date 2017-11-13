@@ -23,6 +23,11 @@ namespace TGS.Server
 		public const byte LoggingID = 0;
 
 		/// <summary>
+		/// The directory to use when importing a .NET settings based config
+		/// </summary>
+		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
+
+		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
 		/// </summary>
 		public static readonly string VersionString = "/tg/station 13 Server Service v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
@@ -31,6 +36,16 @@ namespace TGS.Server
 		/// Singleton <see cref="ILogger"/>
 		/// </summary>
 		public static ILogger Logger { get; private set; }
+
+		/// <summary>
+		/// The <see cref="ServerConfig"/> for the <see cref="Server"/>
+		/// </summary>
+		public static ServerConfig Config { get; private set; }
+
+		/// <summary>
+		/// The directory to load and save <see cref="ServerConfig"/>s to
+		/// </summary>
+		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
 
 		/// <summary>
 		/// Cancels WCF's user impersonation to allow clean access to writing log files
@@ -88,23 +103,6 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Migrates the .NET config from <paramref name="oldVersion"/> to <paramref name="oldVersion"/> + 1
-		/// </summary>
-		/// <param name="oldVersion">The version to migrate from</param>
-		void MigrateSettings(int oldVersion)
-		{
-			var Config = Properties.Settings.Default;
-			switch (oldVersion)
-			{
-				case 6: //switch to per-instance configs
-					var IC = DeprecatedInstanceConfig.CreateFromNETSettings();
-					IC.Save();
-					Config.InstancePaths.Add(IC.Directory);
-					break;
-			}
-		}
-
-		/// <summary>
 		/// Enumerates configured <see cref="IInstanceConfig"/>s. Detaches those that fail to load
 		/// </summary>
 		/// <returns>Each configured <see cref="IInstanceConfig"/></returns>
@@ -113,7 +111,7 @@ namespace TGS.Server
 			var pathsToRemove = new List<string>();
 			lock (this)
 			{
-				var IPS = Properties.Settings.Default.InstancePaths;
+				var IPS = Config.InstancePaths;
 				foreach (var I in IPS)
 				{
 					IInstanceConfig ic;
@@ -135,13 +133,11 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Overrides and saves the configured <see cref="Properties.Settings.RemoteAccessPort"/> if requested by command line parameters
+		/// Overrides and saves the configured <see cref="ServerConfig.RemoteAccessPort"/> if requested by command line parameters
 		/// </summary>
 		/// <param name="args">The command line parameters for the <see cref="Server"/></param>
 		void ChangePortFromCommandLine(string[] args)
 		{
-			var Config = Properties.Settings.Default;
-
 			for (var I = 0; I < args.Length - 1; ++I)
 				if (args[I].ToLower() == "-port")
 				{
@@ -156,20 +152,9 @@ namespace TGS.Server
 					{
 						throw new Exception("Invalid argument for \"-port\"", e);
 					}
-					Config.Save();
+					Config.Save(DefaultConfigDirectory);
 					break;
 				}
-		}
-
-		/// <summary>
-		/// Writes some changes to the <see cref="Properties.Settings"/> that always need to be done.
-		/// </summary>
-		void PrePrepConfig()
-		{
-			var Config = Properties.Settings.Default;
-
-			if (Config.InstancePaths == null)
-				Config.InstancePaths = new StringCollection();
 		}
 
 		/// <summary>
@@ -177,24 +162,24 @@ namespace TGS.Server
 		/// </summary>
 		void SetupConfig()
 		{
-			var Config = Properties.Settings.Default;
-			if (Config.UpgradeRequired)
+			try
 			{
-				var newVersion = Config.SettingsVersion;
-				Config.Upgrade();
-				
-				PrePrepConfig();
-				
-				for (var oldVersion = Config.SettingsVersion; oldVersion < newVersion; ++oldVersion)
-					MigrateSettings(oldVersion);
-
-				Config.SettingsVersion = newVersion;
-
-				Config.UpgradeRequired = false;
-				Config.Save();
+				Config = ServerConfig.Load(DefaultConfigDirectory);
 			}
-			else
-				PrePrepConfig();
+			catch (FileNotFoundException)
+			{
+				try
+				{
+					//assume we're upgrading
+					Config = ServerConfig.Load(MigrationConfigDirectory);
+					Directory.Delete(MigrationConfigDirectory, true);
+				}
+				catch(FileNotFoundException)
+				{
+					//new baby
+					Config = new ServerConfig();
+				}
+			}
 		}
 
 		/// <summary>
@@ -219,21 +204,21 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, CloseTimeout for the <see cref="ServiceHost"/>, and the configured <see cref="Properties.Settings.RemoteAccessPort"/>
+		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, CloseTimeout for the <see cref="ServiceHost"/>, and the configured <see cref="ServerConfig.RemoteAccessPort"/>
 		/// </summary>
 		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
 		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
 		static ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
-			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Properties.Settings.Default.RemoteAccessPort, endpointPostfix)) })
+			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
 		}
 
 		/// <summary>
-		/// Creates <see cref="ServiceHost"/>s for all <see cref="Instance"/>s as listed in <see cref="Properties.Settings.InstancePaths"/>, detaches bad ones
+		/// Creates <see cref="ServiceHost"/>s for all <see cref="Instance"/>s as listed in <see cref="ServerConfig.InstancePaths"/>, detaches bad ones
 		/// </summary>
 		void SetupInstances()
 		{
@@ -253,7 +238,7 @@ namespace TGS.Server
 					seenNames.Add(I.Name);
 			}
 			foreach (var I in pathsToRemove)
-				Properties.Settings.Default.InstancePaths.Remove(I);
+				Config.InstancePaths.Remove(I);
 		}
 
 		/// <summary>
@@ -371,7 +356,7 @@ namespace TGS.Server
 				}
 				serviceHost.Close();
 			}
-			Properties.Settings.Default.Save();
+			Config.Save(DefaultConfigDirectory);
 		}
 
 		/// <inheritdoc />
@@ -387,7 +372,7 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public ushort RemoteAccessPort()
 		{
-			return Properties.Settings.Default.RemoteAccessPort;
+			return Config.RemoteAccessPort;
 		}
 
 		/// <inheritdoc />
@@ -395,7 +380,7 @@ namespace TGS.Server
 		{
 			if (port == 0)
 				return "Cannot bind to port 0";
-			Properties.Settings.Default.RemoteAccessPort = port;
+			Config.RemoteAccessPort = port;
 			return null;
 		}
 
@@ -410,14 +395,14 @@ namespace TGS.Server
 		{
 			if (!Directory.Exists(path))
 				return false;
-			Properties.Settings.Default.PythonPath = Path.GetFullPath(path);
+			Config.PythonPath = Path.GetFullPath(path);
 			return true;
 		}
 
 		/// <inheritdoc />
 		public string PythonPath()
 		{
-			return Properties.Settings.Default.PythonPath;
+			return Config.PythonPath;
 		}
 
 		/// <inheritdoc />
@@ -445,7 +430,6 @@ namespace TGS.Server
 				return res;
 			if (File.Exists(path) || Directory.Exists(path))
 				return "Cannot create instance at pre-existing path!";
-			var Config = Properties.Settings.Default;
 			lock (this)
 			{
 				if (Config.InstancePaths.Contains(path))
@@ -462,7 +446,7 @@ namespace TGS.Server
 					};
 					Directory.CreateDirectory(path);
 					ic.Save();
-					Properties.Settings.Default.InstancePaths.Add(path);
+					Config.InstancePaths.Add(path);
 				}
 				catch (Exception e)
 				{
@@ -488,7 +472,7 @@ namespace TGS.Server
 					host.Open();
 				else
 					lock (this)
-						Properties.Settings.Default.InstancePaths.Remove(config.Directory);
+						Config.InstancePaths.Remove(config.Directory);
 				return null;
 			}
 			catch (Exception e)
@@ -501,7 +485,6 @@ namespace TGS.Server
 		public string ImportInstance(string path)
 		{
 			path = Helpers.NormalizePath(path);
-			var Config = Properties.Settings.Default;
 			lock (this)
 			{
 				if (Config.InstancePaths.Contains(path))
@@ -516,7 +499,7 @@ namespace TGS.Server
 						if(ic.Name == oic.Name)
 							return String.Format("Instance named {0} already exists!", oic.Name);
 					ic.Save();
-					Properties.Settings.Default.InstancePaths.Add(path);
+					Config.InstancePaths.Add(path);
 				}
 				catch (Exception e)
 				{
@@ -652,7 +635,7 @@ namespace TGS.Server
 						}
 				if (path == null)
 					return String.Format("No instance named {0} exists!", name);
-				Properties.Settings.Default.InstancePaths.Remove(path);
+				Config.InstancePaths.Remove(path);
 				return null;
 			}
 		}

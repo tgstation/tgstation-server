@@ -66,7 +66,7 @@ namespace TGS.Server
 					//Which is fucking retarded
 					//This hooks into the settings provider and forces it to load it anyway
 					var Config = Properties.Settings.Default;
-					var Provider = Config.Properties[nameof(Config.SettingsVersion)].Provider;	//nameof for sanity
+					var Provider = Config.Properties["SettingsVersion"].Provider;
 
 					var sp = new SettingsProperty(property)
 					{

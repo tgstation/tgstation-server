@@ -1271,9 +1271,8 @@ namespace TGS.Server
 					return null;
 				}
 
-				var Config = Properties.Settings.Default;
-
-				var PythonFile = Path.Combine(Config.PythonPath, "python.exe");
+				var pp = Server.Config.PythonPath;
+				var PythonFile = Path.Combine(pp, "python.exe");
 				if (!File.Exists(PythonFile))
 				{
 					error = "Cannot locate python!";
@@ -1308,7 +1307,7 @@ namespace TGS.Server
 						}
 						//update pip deps and try again
 
-						string PipFile = Config.PythonPath + "/scripts/pip.exe";
+						string PipFile = Path.Combine(pp, "scripts", "pip.exe");
 						foreach(var I in RConfig.PipDependancies)
 							using (var pip = new Process())
 							{
