@@ -15,7 +15,7 @@ namespace TGS.Server
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed partial class Instance : IDisposable, ITGConnectivity, ITGInstance
+	sealed partial class Instance : IDisposable, ITGConnectivity, ITGInstance, IInstanceLogger
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -83,42 +83,26 @@ namespace TGS.Server
 			LoggingIDProvider.Release(LoggingID);
 		}
 
-		/// <summary>
-		/// Writes information to the Windows event log
-		/// </summary>
-		/// <param name="message">The log message</param>
-		/// <param name="id">The <see cref="EventID"/> of the message</param>
-		void WriteInfo(string message, EventID id)
+		/// <inheritdoc />
+		public void WriteInfo(string message, EventID id)
 		{
 			Logger.WriteInfo(message, id, LoggingID);
 		}
 
-		/// <summary>
-		/// Writes an error to the Windows event log
-		/// </summary>
-		/// <param name="message">The log message</param>
-		/// <param name="id">The <see cref="EventID"/> of the message</param>
-		void WriteError(string message, EventID id)
+		/// <inheritdoc />
+		public void WriteError(string message, EventID id)
 		{
 			Logger.WriteError(message, id, LoggingID);
 		}
 
-		/// <summary>
-		/// Writes a warning to the Windows event log
-		/// </summary>
-		/// <param name="message">The log message</param>
-		/// <param name="id">The <see cref="EventID"/> of the message</param>
-		void WriteWarning(string message, EventID id)
+		/// <inheritdoc />
+		public void WriteWarning(string message, EventID id)
 		{
 			Logger.WriteWarning(message, id, LoggingID);
 		}
 
-		/// <summary>
-		/// Writes an access event to the Windows event log
-		/// </summary>
-		/// <param name="username">The (un)authenticated Windows user's name</param>
-		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
-		void WriteAccess(string username, bool authSuccess)
+		/// <inheritdoc />
+		public void WriteAccess(string username, bool authSuccess)
 		{
 			Logger.WriteAccess(String.Format("Access from: {0}", username), authSuccess, LoggingID);
 		}

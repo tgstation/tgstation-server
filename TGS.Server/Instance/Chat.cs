@@ -9,7 +9,7 @@ using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	sealed partial class Instance : ITGChat
+	sealed partial class Instance : ITGChat, IChatBroadcaster
 	{
 		/// <summary>
 		/// Used for indicating unintialized encrypted data

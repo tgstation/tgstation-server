@@ -93,9 +93,13 @@
     <Compile Include="ChatCommands\ServerChatCommand.cs" />
     <Compile Include="ChatCommands\VersionCommand.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="IChatBroadcaster.cs" />
+    <Compile Include="IInstanceLogger.cs" />
+    <Compile Include="IIOManager.cs" />
     <Compile Include="IInstanceConfig.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="ILoggingIDProvider.cs" />
+    <Compile Include="Instance\ByondManager.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerConfig.cs" />
     <Compile Include="RootAuthorizationManager.cs" />
