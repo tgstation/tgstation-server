@@ -93,6 +93,10 @@
       <Project>{ac4e7e8b-f83a-481c-a8b0-8fa4e8ae59ab}</Project>
       <Name>TGS.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TGS.Server\TGS.Server.csproj">
+      <Project>{f32eda25-0855-411c-af5e-f0d042917e2d}</Project>
+      <Name>TGS.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.0\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\dotnet\Fody.targets')" />

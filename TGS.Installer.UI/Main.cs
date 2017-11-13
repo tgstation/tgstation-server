@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGS.Interface;
 using TGS.Interface.Components;
+using TGS.Server;
 
 namespace TGS.Installer.UI
 {
@@ -19,6 +20,15 @@ namespace TGS.Installer.UI
 		bool installing = false;
 		bool cancelled = false;
 		bool pathIsDefault = true;
+		/// <summary>
+		/// If we should attempt to make a <see cref="ServerConfig"/> for the new install
+		/// </summary>
+		bool attemptNetSettingsMigration = false;
+		/// <summary>
+		/// If the service we are upgrading is confirmed to be less than version 3.2
+		/// </summary>
+		bool isUnderV2 = false;
+
 
 		IServerInterface Interface;
 
@@ -74,12 +84,16 @@ namespace TGS.Installer.UI
 			try
 			{
 				VersionLabel.Text = Interface.GetServiceComponent<ITGSService>().Version();
-				var isV0 = VersionLabel.Text.Contains("v3.0");
+				var splits = VersionLabel.Text.Split(' ');
+				var realVersion = new Version(splits[splits.Length - 1].Substring(1));
+				var isV0 = realVersion < new Version(3, 1, 0, 0);
 				if (isV0) //OH GOD!!!!
 					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
-				if (isV0 || VersionLabel.Text.Contains("v3.1"))
+				isUnderV2 = isV0 || realVersion < new Version(3, 2, 0, 0);
+				if (isUnderV2)
 					//Friendly reminger
 					MessageBox.Show("Upgrading to service version 3.2 will break the 3.1 DMAPI. It is recommended you update your game to the 3.2 API before updating the servive to avoid having to trigger hard restarts.", "Note");
+				attemptNetSettingsMigration = realVersion < new Version(3, 2, 1, 0);
 			}
 			catch
 			{
@@ -142,6 +156,39 @@ namespace TGS.Installer.UI
 			return PKillType.NoneFound;
 		}
 
+		/// <summary>
+		/// Migrate to the new <see cref="ServerConfig"/> since the <see cref="Server.Server"/> won't know about it until it's upgraded
+		/// </summary>
+		void AttemptMigrationOfNetSettings()
+		{
+			if (!attemptNetSettingsMigration)
+				return;
+			var sc = new ServerConfig();
+			try
+			{
+				sc.PythonPath = Interface.GetServiceComponent<ITGSService>().PythonPath();
+			}
+			catch { }
+			try
+			{
+				sc.RemoteAccessPort = Interface.GetServiceComponent<ITGSService>().RemoteAccessPort();
+			}
+			catch { }
+			try
+			{
+				foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
+					sc.InstancePaths.Add(I.Path);
+			}
+			catch { }
+
+
+			if (sc.InstancePaths.Count == 0 && isUnderV2)
+				//add the default ip as a last resort
+				sc.InstancePaths.Add("C:\\TGSTATION-SERVER-3"); //normalized
+
+			sc.Save(Server.Server.MigrationConfigDirectory);
+		}
+
 		async void DoInstall()
 		{
 			string logfile = null;
@@ -182,6 +229,8 @@ namespace TGS.Installer.UI
 				InstallButton.Enabled = false;
 				ShowLogCheckbox.Enabled = false;
 				InstallButton.Text = "Installing...";
+
+				AttemptMigrationOfNetSettings();
 
 				var msipath = Path.Combine(tempDir, "TGS.Installer.msi");
 				File.WriteAllBytes(msipath, Properties.Resources.TGSInstaller);
