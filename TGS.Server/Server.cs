@@ -166,7 +166,7 @@ namespace TGS.Server
 			{
 				Config = ServerConfig.Load(DefaultConfigDirectory);
 			}
-			catch (FileNotFoundException)
+			catch
 			{
 				try
 				{
@@ -174,7 +174,7 @@ namespace TGS.Server
 					Config = ServerConfig.Load(MigrationConfigDirectory);
 					Directory.Delete(MigrationConfigDirectory, true);
 				}
-				catch(FileNotFoundException)
+				catch
 				{
 					//new baby
 					Config = new ServerConfig();
