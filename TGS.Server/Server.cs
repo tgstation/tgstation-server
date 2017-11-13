@@ -15,7 +15,7 @@ namespace TGS.Server
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	public sealed class Server : ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager, IDisposable
+	public sealed class Server : ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager, IServer, ILoggingIDProvider
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events
@@ -23,29 +23,9 @@ namespace TGS.Server
 		public const byte LoggingID = 0;
 
 		/// <summary>
-		/// The directory to use when importing a .NET settings based config
-		/// </summary>
-		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
-
-		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
 		/// </summary>
 		public static readonly string VersionString = "/tg/station 13 Server v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-
-		/// <summary>
-		/// Singleton <see cref="ILogger"/>
-		/// </summary>
-		public static ILogger Logger { get; private set; }
-
-		/// <summary>
-		/// The <see cref="ServerConfig"/> for the <see cref="Server"/>
-		/// </summary>
-		public static ServerConfig Config { get; private set; }
-
-		/// <summary>
-		/// The directory to load and save <see cref="ServerConfig"/>s to
-		/// </summary>
-		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
 
 		/// <summary>
 		/// Cancels WCF's user impersonation to allow clean access to writing log files
@@ -73,6 +53,7 @@ namespace TGS.Server
 		/// The WCF host that contains <see cref="ITGSService"/> connects to
 		/// </summary>
 		ServiceHost serviceHost;
+
 		/// <summary>
 		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref="ServiceHost"/> hosting the <see cref="Instance"/>
 		/// </summary>
@@ -83,18 +64,34 @@ namespace TGS.Server
 		IList<int> UsedLoggingIDs = new List<int>();
 
 		/// <summary>
+		/// <see cref="ILogger"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly ILogger Logger;
+
+		/// <summary>
+		/// The <see cref="IServerConfig"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IServerConfig Config;
+
+		/// <summary>
 		/// Construct a <see cref="Server"/>
 		/// </summary>
-		/// <param name="args">Command line arguments for the <see cref="Server"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> to use</param>
-		public Server(string[] args, ILogger logger)
+		/// <param name="logger">The value for <see cref="Logger"/></param>
+		/// <param name="config">The value for <see cref="Config"/></param>
+		public Server(ILogger logger, IServerConfig config)
 		{
 			Logger = logger;
+			Config = config;
+		}
 
-			Environment.CurrentDirectory = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Assembly.GetExecutingAssembly().GetName().Name)).FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
-
-			SetupConfig();
-
+		/// <inheritdoc />
+		public void Start(string[] args)
+		{
+			if (disposedValue)
+				throw new ObjectDisposedException(nameof(Server));
+			if (serviceHost != null)
+				throw new InvalidOperationException(String.Format("{0} is already running!", nameof(Server)));
+			
 			ChangePortFromCommandLine(args);
 
 			SetupService();
@@ -154,35 +151,9 @@ namespace TGS.Server
 					{
 						throw new Exception("Invalid argument for \"-port\"", e);
 					}
-					Config.Save(DefaultConfigDirectory);
+					Config.Save();
 					break;
 				}
-		}
-
-		/// <summary>
-		/// Upgrades up the service configuration
-		/// </summary>
-		void SetupConfig()
-		{
-			try
-			{
-				Config = ServerConfig.Load(DefaultConfigDirectory);
-			}
-			catch
-			{
-				try
-				{
-					//assume we're upgrading
-					Config = ServerConfig.Load(MigrationConfigDirectory);
-					Config.Save(DefaultConfigDirectory);
-					Helpers.DeleteDirectory(MigrationConfigDirectory);
-				}
-				catch
-				{
-					//new baby
-					Config = new ServerConfig();
-				}
-			}
 		}
 
 		/// <summary>
@@ -193,7 +164,7 @@ namespace TGS.Server
 			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
 			foreach (var I in ServerInterface.ValidServiceInterfaces)
 				AddEndpoint(serviceHost, I);
-			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager();	//only admins can diddle us
+			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(Logger);	//only admins can diddle us
 		}
 
 		/// <summary>
@@ -212,7 +183,7 @@ namespace TGS.Server
 		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
 		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
-		static ServiceHost CreateHost(object singleton, string endpointPostfix)
+		ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
 			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
 			{
@@ -244,11 +215,8 @@ namespace TGS.Server
 				Config.InstancePaths.Remove(I);
 		}
 
-		/// <summary>
-		/// Unlocks a <see cref="Instance.LoggingID"/> acquired with <see cref="LockLoggingID"/>
-		/// </summary>
-		/// <param name="ID">The <see cref="Instance.LoggingID"/> to unlock</param>
-		void UnlockLoggingID(byte ID)
+		/// <inheritdoc />
+		public void Release(byte ID)
 		{
 			lock (UsedLoggingIDs)
 			{
@@ -256,11 +224,8 @@ namespace TGS.Server
 			}
 		}
 
-		/// <summary>
-		/// Gets and locks a <see cref="Instance.LoggingID"/>
-		/// </summary>
-		/// <returns>A logging ID for the <see cref="Instance"/> must be released using <see cref="UnlockLoggingID(byte)"/></returns>
-		byte LockLoggingID()
+		/// <inheritdoc />
+		public byte Get()
 		{
 			lock (UsedLoggingIDs)
 			{
@@ -293,10 +258,8 @@ namespace TGS.Server
 				}
 				if (!config.Enabled)
 					return null;
-				var ID = LockLoggingID();
-				Logger.WriteInfo(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, config.Directory, ID), EventID.InstanceIDAssigned, ID);
 				instanceName = config.Name;
-				instance = new Instance(config, ID);
+				instance = new Instance(config, Logger, this, Config);
 			}
 			catch (Exception e)
 			{
@@ -335,10 +298,8 @@ namespace TGS.Server
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 
-		/// <summary>
-		/// Shuts down all active <see cref="ServiceHost"/>s and calls <see cref="IDisposable.Dispose"/> on it's <see cref="Instance"/>
-		/// </summary>
-		void OnStop()
+		/// <inheritdoc />
+		public void Stop()
 		{
 			lock (this)
 			{
@@ -350,7 +311,6 @@ namespace TGS.Server
 						var instance = (Instance)host.SingletonInstance;
 						host.Close();
 						instance.Dispose();
-						UnlockLoggingID(instance.LoggingID);
 					}
 				}
 				catch (Exception e)
@@ -359,7 +319,8 @@ namespace TGS.Server
 				}
 				serviceHost.Close();
 			}
-			Config.Save(DefaultConfigDirectory);
+			Config.Save();
+			serviceHost = null;
 		}
 
 		/// <inheritdoc />
@@ -566,7 +527,6 @@ namespace TGS.Server
 					path = inst.ServerDirectory();
 					inst.Offline();
 					inst.Dispose();
-					UnlockLoggingID(inst.LoggingID);
 					return null;
 				}
 			}
@@ -650,7 +610,7 @@ namespace TGS.Server
 		private bool disposedValue = false;
 
 		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="OnStop"/>
+		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="Stop"/>
 		/// </summary>
 		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
 		void Dispose(bool disposing)
@@ -659,7 +619,8 @@ namespace TGS.Server
 			{
 				if (disposing)
 				{
-					OnStop();
+					if(serviceHost != null)
+						Stop();
 				}
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

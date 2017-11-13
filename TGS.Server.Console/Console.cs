@@ -5,24 +5,37 @@ namespace TGS.Server.Console
 	/// <summary>
 	/// Console runner for a <see cref="Server"/>
 	/// </summary>
-	sealed class Console : ILogger
+	sealed class Console : ILogger, IDisposable
 	{
 		/// <summary>
 		/// Entry point to the <see cref="Console"/>
 		/// </summary>
 		/// <param name="args"></param>
-		static void Main(string[] args) => new Console(args);
+		static void Main(string[] args) => new Console().Run(args);
+
+		/// <summary>
+		/// The <see cref="IServer"/> the <see cref="Console"/> manages
+		/// </summary>
+		IServer activeServer;
+
+		/// <summary>
+		/// Construct a <see cref="Console"/>
+		/// </summary>
+		Console()
+		{
+			activeServer = new Server(this, ServerConfig.LoadServerConfig());
+		}
 
 		/// <summary>
 		/// Construct and run a <see cref="Console"/>
 		/// </summary>
 		/// <param name="args">Command line arguments</param>
-		Console(string[] args)
+		void Run(string[] args)
 		{
 			try
 			{
 				System.Console.WriteLine("Starting server...");
-				var server = new Server(args, this);    //no using to avoid including more references
+				activeServer.Start(args);
 				try
 				{
 					System.Console.WriteLine("Server started!");
@@ -30,7 +43,7 @@ namespace TGS.Server.Console
 				}
 				finally
 				{
-					server.Dispose();
+					activeServer.Stop();
 				}
 			}
 			catch (Exception e)
@@ -68,6 +81,14 @@ namespace TGS.Server.Console
 		public void WriteWarning(string message, EventID id, byte loggingID)
 		{
 			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: Warning: {2}", DateTime.Now.ToString(), id, message, loggingID));
+		}
+
+		/// <summary>
+		/// Disposes <see cref="activeServer"/>
+		/// </summary>
+		public void Dispose()
+		{
+			activeServer.Dispose();
 		}
 	}
 }

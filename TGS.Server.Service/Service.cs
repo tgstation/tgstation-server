@@ -15,9 +15,17 @@ namespace TGS.Server.Service
 		public static void Main() => Run(new Service());
 
 		/// <summary>
-		/// The <see cref="Server"/> the <see cref="Service"/> manages
+		/// The <see cref="IServer"/> the <see cref="Service"/> manages
 		/// </summary>
-		Server activeServer;
+		readonly IServer activeServer;
+
+		/// <summary>
+		/// Construct a <see cref="Service"/>
+		/// </summary>
+		Service()
+		{
+			activeServer = new Server(this, ServerConfig.LoadServerConfig());
+		}
 
 		/// <inheritdoc />
 		public void WriteAccess(string username, bool authSuccess, byte loggingID)
@@ -49,7 +57,7 @@ namespace TGS.Server.Service
 		/// <param name="args">The service start arguments</param>
 		protected override void OnStart(string[] args)
 		{
-			activeServer = new Server(args, this);
+			activeServer.Start(args);
 		}
 
 		/// <summary>
@@ -57,7 +65,17 @@ namespace TGS.Server.Service
 		/// </summary>
 		protected override void OnStop()
 		{
+			activeServer.Stop();
+		}
+
+		/// <summary>
+		/// Cleans up <see cref="activeServer"/>
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
+		protected override void Dispose(bool disposing)
+		{
 			activeServer.Dispose();
+			base.Dispose(disposing);
 		}
 	}
 }

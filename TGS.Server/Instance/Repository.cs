@@ -1269,7 +1269,7 @@ namespace TGS.Server
 					return null;
 				}
 
-				var pp = Server.Config.PythonPath;
+				var pp = ServerConfig.PythonPath;
 				var PythonFile = Path.Combine(pp, "python.exe");
 				if (!File.Exists(PythonFile))
 				{

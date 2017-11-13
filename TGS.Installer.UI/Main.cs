@@ -186,7 +186,7 @@ namespace TGS.Installer.UI
 				//add the default ip as a last resort
 				sc.InstancePaths.Add("C:\\TGSTATION-SERVER-3"); //normalized
 
-			sc.Save(Server.Server.MigrationConfigDirectory);
+			sc.Save(ServerConfig.MigrationConfigDirectory);
 		}
 
 		async void DoInstall()

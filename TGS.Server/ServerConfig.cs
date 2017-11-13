@@ -1,14 +1,25 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace TGS.Server
 {
-	/// <summary>
-	/// Class for storing server wide settings
-	/// </summary>
-	public sealed class ServerConfig
+	/// <inheritdoc />
+	public sealed class ServerConfig : IServerConfig
 	{
+		/// <summary>
+		/// The directory to load and save <see cref="ServerConfig"/>s to
+		/// </summary>
+		[JsonIgnore]
+		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
+
+		/// <summary>
+		/// The directory to use when importing a .NET settings based config
+		/// </summary>
+		[JsonIgnore]
+		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
+
 		/// <summary>
 		/// The filename to save the <see cref="ServerConfig"/> as
 		/// </summary>
@@ -20,30 +31,25 @@ namespace TGS.Server
 		[JsonIgnore]
 		const ulong CurrentVersion = 8;
 
-		/// <summary>
-		/// The version of the <see cref="ServerConfig"/>
-		/// </summary>
+		/// <inheritdoc />
 		public ulong Version { get; private set; } = CurrentVersion;
 
-		/// <summary>
-		/// List of paths that contain <see cref="Instance"/>s
-		/// </summary>
-		public List<string> InstancePaths { get; private set; } = new List<string>();
+		/// <inheritdoc />
+		public IList<string> InstancePaths { get; private set; } = new List<string>();
 
-		/// <summary>
-		/// Port used to access the <see cref="Server"/> remotely
-		/// </summary>
+		/// <inheritdoc />
 		public ushort RemoteAccessPort { get; set; } = 38607;
 
-		/// <summary>
-		/// Path to the directory containing the Python2.7 installation
-		/// </summary>
+		/// <inheritdoc />
 		public string PythonPath { get; set; } = "C:\\Python27";
 
-		/// <summary>
-		/// Saves the <see cref="ServerConfig"/> to a target <paramref name="directory"/>
-		/// </summary>
-		/// <param name="directory">The directory in which to save the <see cref="ServerConfig"/></param>
+		/// <inheritdoc />
+		public void Save()
+		{
+			Save(DefaultConfigDirectory);
+		}
+
+		/// <inheritdoc />
 		public void Save(string directory)
 		{
 			var data = JsonConvert.SerializeObject(this);
@@ -56,10 +62,38 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="directory">The directory containing the <see cref="JSONFilename"/></param>
 		/// <returns>The loaded <see cref="ServerConfig"/></returns>
-		public static ServerConfig Load(string directory)
+		static ServerConfig Load(string directory)
 		{
 			var configtext = File.ReadAllText(Path.Combine(directory, JSONFilename));
 			return JsonConvert.DeserializeObject<ServerConfig>(configtext);
+		}
+
+		/// <summary>
+		/// Loads the correct <see cref="ServerConfig"/>
+		/// </summary>
+		/// <returns>The correct <see cref="ServerConfig"/></returns>
+		public static IServerConfig LoadServerConfig()
+		{
+			try
+			{
+				return Load(DefaultConfigDirectory);
+			}
+			catch
+			{
+				try
+				{
+					//assume we're upgrading
+					var res = Load(MigrationConfigDirectory);
+					res.Save(DefaultConfigDirectory);
+					Helpers.DeleteDirectory(MigrationConfigDirectory);
+					return res;
+				}
+				catch
+				{
+					//new baby
+					return new ServerConfig();
+				}
+			}
 		}
 	}
 }

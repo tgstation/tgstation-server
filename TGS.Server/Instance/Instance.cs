@@ -21,17 +21,44 @@ namespace TGS.Server
 		/// Used to assign the instance to event IDs
 		/// </summary>
 		public readonly byte LoggingID;
+
 		/// <summary>
-		/// The configuration settings for the instance
+		/// The configuration settings for the <see cref="Instance"/>
 		/// </summary>
 		readonly IInstanceConfig Config;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly ILogger Logger;
+
+		/// <summary>
+		/// The <see cref="ILoggingIDProvider"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly ILoggingIDProvider LoggingIDProvider;
+
+		/// <summary>
+		/// The <see cref="IServerConfig"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IServerConfig ServerConfig;
+
 		/// <summary>
 		/// Constructs and a <see cref="Instance"/>
 		/// </summary>
-		public Instance(IInstanceConfig config, byte logID)
+		/// <param name="config">The value for <see cref="Config"/></param>
+		/// <param name="logger">The value for <see cref="Logger"/></param>
+		/// <param name="loggingIDProvider">The value for <see cref="LoggingIDProvider"/></param>
+		/// <param name="serverConfig">The value for <see cref="ServerConfig"/></param>
+		public Instance(IInstanceConfig config, ILogger logger, ILoggingIDProvider loggingIDProvider, IServerConfig serverConfig)
 		{
-			LoggingID = logID;
+			LoggingIDProvider = loggingIDProvider;
+			LoggingID = loggingIDProvider.Get();
+			Logger = logger;
 			Config = config;
+			ServerConfig = serverConfig;
+
+			WriteInfo(String.Format("Instance {0} ({1}) assigned logging ID", Config.Name, Config.Directory), EventID.InstanceIDAssigned);
+
 			FindTheDroidsWereLookingFor();
 			InitEventHandlers();
 			InitChat();
@@ -53,6 +80,7 @@ namespace TGS.Server
 			DisposeChat();
 			DisposeAdministration();
 			Config.Save();
+			LoggingIDProvider.Release(LoggingID);
 		}
 
 		/// <summary>
@@ -62,7 +90,7 @@ namespace TGS.Server
 		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		void WriteInfo(string message, EventID id)
 		{
-			Server.Logger.WriteInfo(message, id, LoggingID);
+			Logger.WriteInfo(message, id, LoggingID);
 		}
 
 		/// <summary>
@@ -72,7 +100,7 @@ namespace TGS.Server
 		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		void WriteError(string message, EventID id)
 		{
-			Server.Logger.WriteError(message, id, LoggingID);
+			Logger.WriteError(message, id, LoggingID);
 		}
 
 		/// <summary>
@@ -82,7 +110,7 @@ namespace TGS.Server
 		/// <param name="id">The <see cref="EventID"/> of the message</param>
 		void WriteWarning(string message, EventID id)
 		{
-			Server.Logger.WriteWarning(message, id, LoggingID);
+			Logger.WriteWarning(message, id, LoggingID);
 		}
 
 		/// <summary>
@@ -92,7 +120,7 @@ namespace TGS.Server
 		/// <param name="authSuccess"><see langword="true"/> if <paramref name="username"/> authenticated sucessfully, <see langword="false"/> otherwise</param>
 		void WriteAccess(string username, bool authSuccess)
 		{
-			Server.Logger.WriteAccess(String.Format("Access from: {0}", username), authSuccess, LoggingID);
+			Logger.WriteAccess(String.Format("Access from: {0}", username), authSuccess, LoggingID);
 		}
 
 		/// <summary>
