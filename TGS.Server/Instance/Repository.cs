@@ -957,7 +957,7 @@ namespace TGS.Server
 							string json;
 							using (var wc = new WebClient())
 							{
-								wc.Headers.Add("user-agent", "TGStationServerService");
+								wc.Headers.Add("user-agent", "TGS.Server");
 								json = wc.DownloadString(prAPI);
 							}
 
