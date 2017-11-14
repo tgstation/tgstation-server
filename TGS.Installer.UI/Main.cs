@@ -282,7 +282,7 @@ namespace TGS.Installer.UI
 
 					var instanceConfigPath = Path.Combine(tempDir, "Instance.json");
 
-					if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\" or \"Name\" fields at all.", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
+					if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\", \"Enabled\", or \"Name\" fields at all.", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
 					{
 						controller.Start();
 						return false;
@@ -306,7 +306,16 @@ namespace TGS.Installer.UI
 						return false;
 					}
 					//validate it for good measure
-					InstanceConfig.Load(tempDir);
+					try
+					{
+						InstanceConfig.Load(tempDir);
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(String.Format("JSON Validation Error: {0}", e.Message));
+						controller.Start();
+						return false;
+					}
 					File.Copy(instanceConfigPath, Path.Combine(name, "Instance.json"), true);
 					return true;
 				}
