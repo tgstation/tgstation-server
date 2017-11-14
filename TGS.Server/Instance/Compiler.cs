@@ -309,16 +309,13 @@ namespace TGS.Server
 				}
 				string resurrectee;
 				bool repobusy_check = false;
-				if (!Monitor.TryEnter(RepoLock))
-					repobusy_check = true;
 
-				if (!repobusy_check)
+				lock (RepoLock)
 				{
 					if (RepoBusy)
 						repobusy_check = true;
 					else
 						RepoBusy = true;
-					Monitor.Exit(RepoLock);
 				}
 
 				if (repobusy_check)
@@ -331,6 +328,7 @@ namespace TGS.Server
 						return;
 					}
 				}
+
 				string CurrentSha;
 				try
 				{
@@ -344,7 +342,7 @@ namespace TGS.Server
 					if (!silent)
 						SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
 
-					resurrectee = GetStagingDir();	//non-relative
+					resurrectee = GetStagingDir();  //non-relative
 
 					var Config = GetCachedRepoConfig();
 					var deleteExcludeList = new List<string> { BridgeDLLName };
@@ -386,9 +384,7 @@ namespace TGS.Server
 				finally
 				{
 					lock (RepoLock)
-					{
 						RepoBusy = false;
-					}
 				}
 
 				var res = CreateBackup();
