@@ -261,11 +261,9 @@ namespace TGS.CommandLine
 					case "quit":
 					case "exit":
 						return (int)Command.ExitCode.Normal;
-#if DEBUG
 					case "debug-upgrade":
-						currentInterface.GetComponent<ITGSService>().PrepareForUpdate();
+						currentInterface.GetServiceComponent<ITGSService>().PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
-#endif
 					default:
 						//linq voodoo to get quoted strings
 						var formattedCommand = NextCommand.Split('"')
