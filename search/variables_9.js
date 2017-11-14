@@ -23,6 +23,5 @@ var searchData=
   ['irclock',['IRCLock',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a423d62023d8e430f7e448f6c05bad995',1,'TGS::Server::ChatProviders::IRCChatProvider']]],
   ['ircmodescombobox',['IRCModesComboBox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a392c8b0dfd441384ae7082e7484160d0',1,'TGS::ControlPanel::ControlPanel']]],
   ['ircproviderswitch',['IRCProviderSwitch',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#abbc67d7f0a85bdf4dee642e2582543e0',1,'TGS::ControlPanel::ControlPanel']]],
-  ['isattached',['isAttached',['../class_i_l_template.html#ab9a47664076c02171c81d6ec947d0d13',1,'ILTemplate']]],
-  ['isunderv2',['isUnderV2',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ab83d845d07bcbe3fa28c9f478e5dabbd',1,'TGS::Installer::UI::Main']]]
+  ['isattached',['isAttached',['../class_i_l_template.html#ab9a47664076c02171c81d6ec947d0d13',1,'ILTemplate']]]
 ];

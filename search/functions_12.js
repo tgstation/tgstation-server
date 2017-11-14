@@ -18,7 +18,7 @@ var searchData=
   ['testsetbadcertificatehandler',['TestSetBadCertificateHandler',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#a785788af9c94216bf087234761c93bf2',1,'TGS::Interface::Tests::TestInterface']]],
   ['testturnoff',['TestTurnOff',['../class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_set_push_testmerge_commits_command.html#a7dd5ca555bf859796687b267240ba182',1,'TGS::CommandLine::Commands::Repository::Tests::TestRepoSetPushTestmergeCommitsCommand']]],
   ['testturnon',['TestTurnOn',['../class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_set_push_testmerge_commits_command.html#a166c2aeb29e04c968c4583809109b6bf',1,'TGS::CommandLine::Commands::Repository::Tests::TestRepoSetPushTestmergeCommitsCommand']]],
-  ['textprompt',['TextPrompt',['../class_t_g_s_1_1_control_panel_1_1_program.html#aae22a01c312debe70c8f0dd2cea2c07d',1,'TGS::ControlPanel::Program']]],
+  ['textprompt',['TextPrompt',['../class_t_g_s_1_1_control_panel_1_1_program.html#aae22a01c312debe70c8f0dd2cea2c07d',1,'TGS.ControlPanel.Program.TextPrompt()'],['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ab54c8d8db7e670510d6088da61ab93dc',1,'TGS.Installer.UI.Main.TextPrompt()']]],
   ['tgsjsonupdate_5fclick',['TGSJsonUpdate_Click',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aeaddbbecd1a0b77a8b536ac4dd66e344',1,'TGS::ControlPanel::ControlPanel']]],
   ['tryconnecttoindexinstance',['TryConnectToIndexInstance',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#aecea986f7bf64f92184ea3e45c943010',1,'TGS::ControlPanel::InstanceSelector']]]
 ];
