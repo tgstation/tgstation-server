@@ -282,7 +282,7 @@ namespace TGS.Installer.UI
 
 					var instanceConfigPath = Path.Combine(tempDir, "Instance.json");
 
-					if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\", \"Enabled\", or \"Name\" fields at all.", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
+					if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\", \"Enabled\", or \"Name\" fields at all. See field mappings here: https://github.com/tgstation/tgstation-server/blob/a372b22fd3367dd60ee0cbebd9210f4b072c952d/TGServerService/DeprecatedInstanceConfig.cs#L23-L39", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
 					{
 						controller.Start();
 						return false;
