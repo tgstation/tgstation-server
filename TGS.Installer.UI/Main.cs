@@ -288,7 +288,7 @@ namespace TGS.Installer.UI
 						return false;
 					}
 
-					var name = TextPrompt("Set Instance Directory", String.Format("Please enter the ServerDirectory entry from the original config here.{0}Use backslashes and uppercase letters. Leave this blank if the it is not present.", Environment.NewLine));
+					var name = TextPrompt("Set Instance Directory", String.Format("Please enter the ServerDirectory entry from the original config here.{0}Use backslashes and uppercase letters. Leave this blank if it is not present.", Environment.NewLine));
 					if (name == null)
 					{
 						controller.Start();
