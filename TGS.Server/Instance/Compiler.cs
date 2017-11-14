@@ -309,16 +309,12 @@ namespace TGS.Server
 				}
 				string resurrectee;
 				bool repobusy_check = false;
-				if (!Monitor.TryEnter(RepoLock))
-					repobusy_check = true;
-
-				if (!repobusy_check)
+				lock (RepoLock)
 				{
 					if (RepoBusy)
 						repobusy_check = true;
 					else
 						RepoBusy = true;
-					Monitor.Exit(RepoLock);
 				}
 
 				if (repobusy_check)
