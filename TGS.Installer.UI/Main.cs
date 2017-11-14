@@ -217,68 +217,108 @@ namespace TGS.Installer.UI
 					return true;
 
 				//stopping the service here is MANDATORY to get the correct reattach values
-				var controller = new ServiceController("TG Station Server");
-				controller.Stop();
-				controller.WaitForStatus(ServiceControllerStatus.Stopped);
-
-				//we need to find the old user.config
-				//check wow64 first
-				var path = @"C:\Windows\SysWOW64\config\systemprofile\AppData\Local\TGServerService";
-				if (!Directory.Exists(path))
+				using (var controller = new ServiceController("TG Station Server"))
 				{
-					//ok... check the System32 path
-					path = @"C:\Windows\System32\config\systemprofile\AppData\Local\TGServerService";
+					controller.Stop();
+					controller.WaitForStatus(ServiceControllerStatus.Stopped);
+					//we need to find the old user.config
+					//check wow64 first
+					var path = @"C:\Windows\SysWOW64\config\systemprofile\AppData\Local\TGServerService";
 					if (!Directory.Exists(path))
 					{
-						//well, i'm out of ideas, just use the default location
-						return HandleNoConfigMigration(sc);
+						//ok... check the System32 path
+						path = @"C:\Windows\System32\config\systemprofile\AppData\Local\TGServerService";
+						if (!Directory.Exists(path))
+						{
+							//well, i'm out of ideas, just use the default location
+							var res = HandleNoConfigMigration(sc);
+							if(!res)
+							{
+								controller.Start();
+								return false;
+							}
+						}
 					}
+
+					//now who knows wtf windows calls the damn folder
+					//take our best guess based on last modified time
+					DirectoryInfo lastModified = null;
+					foreach (var D in new DirectoryInfo(path).GetDirectories())
+						if (lastModified == null || D.LastWriteTime > lastModified.LastWriteTime)
+							lastModified = D;
+
+					if (lastModified == null)
+					{
+						//well, i'm out of ideas, just use the default location
+						var res = HandleNoConfigMigration(sc);
+						if (!res)
+						{
+							controller.Start();
+							return false;
+						}
+					}
+
+					var next = lastModified;
+					lastModified = null;
+					foreach (var D in next.GetDirectories())
+						if (lastModified == null || D.LastWriteTime > lastModified.LastWriteTime)
+							lastModified = D;
+
+					if (lastModified == null)
+					{
+						//well, i'm out of ideas, just use the default location
+						var res = HandleNoConfigMigration(sc);
+						if (!res)
+						{
+							controller.Start();
+							return false;
+						}
+					}
+
+					path = Path.Combine(tempDir, "user.config");
+					var netConfigPath = Path.Combine(lastModified.FullName, "user.config");
+					File.Copy(netConfigPath, path, true);
+					new InstanceConfig(tempDir).Save();
+
+					var instanceConfigPath = Path.Combine(tempDir, "Instance.json");
+
+					if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\", \"Enabled\", or \"Name\" fields at all. See field mappings here: https://github.com/tgstation/tgstation-server/blob/a372b22fd3367dd60ee0cbebd9210f4b072c952d/TGServerService/DeprecatedInstanceConfig.cs#L23-L39", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
+					{
+						controller.Start();
+						return false;
+					}
+
+					var name = TextPrompt("Set Instance Directory", String.Format("Please enter the ServerDirectory entry from the original config here.{0}Use backslashes and uppercase letters. Leave this blank if the it is not present.", Environment.NewLine));
+					if (name == null)
+					{
+						controller.Start();
+						return false;
+					}
+
+					if (String.IsNullOrWhiteSpace(name))
+						name = @"C:\TGSTATION-SERVER-3";
+
+					sc.InstancePaths.Add(name);
+
+					if (MessageBox.Show(String.Format("Please confirm you have finished copying settings from \"{0}\" to \"{1}\"!", path, instanceConfigPath), "Last Confirmation", MessageBoxButtons.OKCancel) != DialogResult.OK)
+					{
+						controller.Start();
+						return false;
+					}
+					//validate it for good measure
+					try
+					{
+						InstanceConfig.Load(tempDir);
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(String.Format("JSON Validation Error: {0}", e.Message));
+						controller.Start();
+						return false;
+					}
+					File.Copy(instanceConfigPath, Path.Combine(name, "Instance.json"), true);
+					return true;
 				}
-
-				//now who knows wtf windows calls the damn folder
-				//take our best guess based on last modified time
-				DirectoryInfo lastModified = null;
-				foreach (var D in new DirectoryInfo(path).GetDirectories())
-					if (lastModified == null || D.LastWriteTime > lastModified.LastWriteTime)
-						lastModified = D;
-
-				if (lastModified == null)
-					return HandleNoConfigMigration(sc);
-
-				var next = lastModified;
-				lastModified = null;
-				foreach (var D in next.GetDirectories())
-					if (lastModified == null || D.LastWriteTime > lastModified.LastWriteTime)
-						lastModified = D;
-
-				if (lastModified == null)
-					return HandleNoConfigMigration(sc);
-
-				path = Path.Combine(tempDir, "user.config");
-				var netConfigPath = Path.Combine(lastModified.FullName, "user.config");
-				File.Copy(netConfigPath, path, true);
-				new InstanceConfig(tempDir).Save();
-
-				var instanceConfigPath = Path.Combine(tempDir, "Instance.json");
-
-				if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\" or \"Name\" fields at all.", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
-					return false;
-
-				var name = TextPrompt("Set Instance Directory", String.Format("Please enter the ServerDirectory entry from the original config here.{0}Use backslashes and uppercase letters. Leave this blank if the it is not present.", Environment.NewLine));
-				if (name == null)
-					return false;
-
-				if (String.IsNullOrWhiteSpace(name))
-					name = @"C:\TGSTATION-SERVER-3";
-
-				sc.InstancePaths.Add(name);
-
-				if (MessageBox.Show(String.Format("Please confirm you have finished copying settings from \"{0}\" to \"{1}\"!", path, instanceConfigPath), "Last Confirmation", MessageBoxButtons.OKCancel) != DialogResult.OK)
-					return false;
-				//validate it for good measure
-				InstanceConfig.Load(tempDir);
-				File.Copy(instanceConfigPath, Path.Combine(name, "Instance.json"), true);
-				return true;
 			}
 			finally
 			{
@@ -294,12 +334,12 @@ namespace TGS.Installer.UI
 			{
 				while (true)
 				{
-					var res = PromptKillProcesses("TGCommandLine");
+					var res = PromptKillProcesses("TGS.CommandLine");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
 						continue;
-					res = PromptKillProcesses("TGControlPanel");
+					res = PromptKillProcesses("TGS.ControlPanel");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
