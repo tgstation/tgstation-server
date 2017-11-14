@@ -112,7 +112,7 @@ namespace TGS.Server
 			}
 			ChatProviders = null;
 
-			var rawdata = JsonConvert.SerializeObject(infosList);
+			var rawdata = JsonConvert.SerializeObject(infosList, Formatting.Indented);
 
 			Config.ChatProviderData = Interface.Helpers.EncryptData(rawdata, out string entrp);
 			Config.ChatProviderEntropy = entrp;

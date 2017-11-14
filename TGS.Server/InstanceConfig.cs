@@ -120,7 +120,7 @@ namespace TGS.Server
 	}
 
 	/// <inheritdoc />
-	class InstanceConfig : IInstanceConfig
+	public class InstanceConfig : IInstanceConfig
 	{
 		/// <summary>
 		/// The name the file is saved as in the <see cref="Directory"/>
@@ -210,7 +210,7 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public void Save()
 		{
-			var data = JsonConvert.SerializeObject(this);
+			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
 			var path = Path.Combine(Directory, JSONFilename);
 			File.WriteAllText(path, data);
 		}
