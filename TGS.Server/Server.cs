@@ -319,13 +319,13 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="host">The service host to add the component to</param>
 		/// <param name="typetype">The type of the component</param>
-		void AddEndpoint(ServiceHost host, Type typetype)
+		static void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, ServerInterface.DefaultTimeout), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
 			var httpsBinding = new WSHttpBinding()
 			{
-				SendTimeout = new TimeSpan(0, 0, 40),
+				SendTimeout = new TimeSpan(0, 0, ServerInterface.DefaultTimeout),
 				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;

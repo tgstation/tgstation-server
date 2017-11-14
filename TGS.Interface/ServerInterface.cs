@@ -37,6 +37,11 @@ namespace TGS.Interface
 		bool IsRemoteConnection { get; }
 
 		/// <summary>
+		/// The timeout for all operations in seconds
+		/// </summary>
+		int Timeout { get; set; }
+
+		/// <summary>
 		/// Targets <paramref name="instanceName"/> as the instance to use with <see cref="GetComponent{T}"/>. Closes all connections to any previous instance
 		/// </summary>
 		/// <param name="instanceName">The name of the instance to connect to</param>
@@ -102,6 +107,11 @@ namespace TGS.Interface
 		public const long TransferLimitRemote = 10485760;   //10 MB
 
 		/// <summary>
+		/// The default <see cref="Timeout"/> for all operations
+		/// </summary>
+		public const int DefaultTimeout = 40;
+
+		/// <summary>
 		/// Base name of communication URLs
 		/// </summary>
 		public const string MasterInterfaceName = "TGStationServerService";
@@ -138,6 +148,9 @@ namespace TGS.Interface
 		/// Password for remote operations
 		/// </summary>
 		readonly string HTTPSPassword;
+
+		/// <inheritdoc />
+		public int Timeout { get; set; } = DefaultTimeout;
 
 		/// <summary>
 		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
@@ -387,7 +400,7 @@ namespace TGS.Interface
 			if (!IsRemoteConnection)
 			{
 				var res2 = new ChannelFactory<T>(
-				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, InterfaceName)));														//10 megs
+				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, Timeout), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, InterfaceName)));														//10 megs
 				res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 				return res2;
 			}
@@ -395,7 +408,7 @@ namespace TGS.Interface
 			//okay we're going over
 			var binding = new WSHttpBinding()
 			{
-				SendTimeout = new TimeSpan(0, 0, 40),
+				SendTimeout = new TimeSpan(0, 0, Timeout),
 				MaxReceivedMessageSize = TransferLimitRemote
 			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
