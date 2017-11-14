@@ -46,7 +46,7 @@ namespace TGS.Server
 		/// <param name="directory">The directory in which to save the <see cref="ServerConfig"/></param>
 		public void Save(string directory)
 		{
-			var data = JsonConvert.SerializeObject(this);
+			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
 			var path = Path.Combine(directory, JSONFilename);
 			File.WriteAllText(path, data);
 		}

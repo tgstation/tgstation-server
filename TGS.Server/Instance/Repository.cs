@@ -860,7 +860,7 @@ namespace TGS.Server
 		/// <param name="list"></param>
 		void SetCurrentPRList(IDictionary<string, IDictionary<string, string>> list)
 		{
-			var rawdata = JsonConvert.SerializeObject(list);
+			var rawdata = JsonConvert.SerializeObject(list, Formatting.Indented);
 			File.WriteAllText(RelativePath(PRJobFile), rawdata);
 		}
 
