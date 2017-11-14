@@ -9,7 +9,6 @@ var searchData=
   ['service_2ecs',['Service.cs',['../_t_g_s_8_server_8_service_2_service_8cs.html',1,'']]],
   ['service_2ecs',['Service.cs',['../_t_g_s_8_interface_2_components_2_service_8cs.html',1,'']]],
   ['servicecommands_2ecs',['ServiceCommands.cs',['../_service_commands_8cs.html',1,'']]],
-  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_t_g_s_8_control_panel_2_properties_2_settings_8_designer_8cs.html',1,'']]],
-  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_t_g_s_8_server_2_properties_2_settings_8_designer_8cs.html',1,'']]],
+  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_settings_8_designer_8cs.html',1,'']]],
   ['staticpage_2ecs',['StaticPage.cs',['../_static_page_8cs.html',1,'']]]
 ];

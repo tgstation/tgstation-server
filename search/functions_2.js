@@ -76,7 +76,6 @@ var searchData=
   ['createchannel_3c_20t_20_3e',['CreateChannel&lt; T &gt;',['../class_t_g_s_1_1_interface_1_1_server_interface.html#aff2efc92c0e99760d59859be68bfc2e6',1,'TGS::Interface::ServerInterface']]],
   ['createdirectory',['CreateDirectory',['../class_common.html#af06d3ae24d5e59a164e3309b56d8834a',1,'Common.CreateDirectory(string tempBasePath)'],['../class_common.html#af06d3ae24d5e59a164e3309b56d8834a',1,'Common.CreateDirectory(string tempBasePath)']]],
   ['createfakeremoteinterface',['CreateFakeRemoteInterface',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#ac2ebe6a7a80d2be027cd0a9678c4ee0f',1,'TGS::Interface::Tests::TestInterface']]],
-  ['createfromnetsettings',['CreateFromNETSettings',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html#a405a759f75d289e0176fe8269556e5cd',1,'TGS::Server::DeprecatedInstanceConfig']]],
   ['createhost',['CreateHost',['../class_t_g_s_1_1_server_1_1_server.html#a761439cde270c74bcf338b83806859ca',1,'TGS::Server::Server']]],
   ['createinstance',['CreateInstance',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_instance_manager.html#aa92519588145ac9d786deea0143d8f67',1,'TGS.Interface.Components.ITGInstanceManager.CreateInstance()'],['../class_t_g_s_1_1_server_1_1_server.html#a1fd633ced6347516d4d115a65addf78a',1,'TGS.Server.Server.CreateInstance()']]],
   ['createinstancebutton_5fclick',['CreateInstanceButton_Click',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a6683461e03c6378187b01633b15e2ec4',1,'TGS::ControlPanel::InstanceSelector']]],
