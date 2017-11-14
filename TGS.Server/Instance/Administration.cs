@@ -150,8 +150,12 @@ namespace TGS.Server
 
 		public string RecreateStaticFolder()
 		{
-			if (!Monitor.TryEnter(RepoLock))
-				return "Repo locked!";
+			lock (RepoLock)
+			{
+				if (RepoBusy)
+					return "Repo locked!";
+				RepoBusy = true;
+			}
 			try
 			{
 				if (!Monitor.TryEnter(watchdogLock))
@@ -183,7 +187,8 @@ namespace TGS.Server
 			}
 			finally
 			{
-				Monitor.Exit(RepoLock);
+				lock (RepoLock)
+					RepoBusy = false;
 			}
 			return null;
 		}

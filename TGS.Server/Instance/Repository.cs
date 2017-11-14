@@ -69,11 +69,11 @@ namespace TGS.Server
 		/// </summary>
 		object RepoLock = new object();
 		/// <summary>
-		/// Used in conjunction with <see cref="RepoLock"/> for multithreading safety
+		/// Used for multithreading safety. You may not use the repo if this is not locked or <see cref="RepoBusy"/>. Either old the lock while you do work or set <see cref="RepoBusy"/> to <see langword="true"/> then release it, do your work, reaquire it, and set <see cref="RepoBusy"/> back to <see langword="false"/>
 		/// </summary>
 		bool RepoBusy = false;
 		/// <summary>
-		/// Whether or not a git clone operation is in progress
+		/// Whether or not a git operation is in progress. See <see cref="RepoLock"/>
 		/// </summary>
 		bool Cloning = false;
 
@@ -118,10 +118,8 @@ namespace TGS.Server
 			//this should never be called while the repo is busy
 			RepoConfig I = null;
 			lock (RepoLock)
-			{
 				if (!RepoBusy && LoadRepo() == null)
 					I = new RepoConfig(RelativePath(RepoTGS3SettingsPath));
-			}
 			if (I == null)
 				throw new Exception("Unable to load TGS3.json from repo!");
 			var J = GetCachedRepoConfig();
@@ -141,9 +139,7 @@ namespace TGS.Server
 		public bool OperationInProgress()
 		{
 			lock (RepoLock)
-			{
 				return RepoBusy;
-			}
 		}
 
 		/// <inheritdoc />
@@ -189,9 +185,7 @@ namespace TGS.Server
 		public bool Exists()
 		{
 			lock (RepoLock)
-			{
 				return !Cloning && Repository.IsValid(RelativePath(RepoPath));
-			}
 		}
 
 		/// <summary>
@@ -419,6 +413,11 @@ namespace TGS.Server
 		{
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+				{
+					error = "Repo is busy!";
+					return null;
+				}
 				var result = LoadRepo();
 				if (result != null)
 				{
@@ -502,6 +501,8 @@ namespace TGS.Server
 				return "I'm sorry Dave, I'm afraid I can't do that...";
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+					return "Repo is busy!";
 				var result = LoadRepo();
 				if (result != null)
 					return result;
@@ -645,6 +646,8 @@ namespace TGS.Server
 		{
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+					return "Repo is busy!";
 				var result = LoadRepo();
 				if (result != null)
 					return result;
@@ -741,6 +744,8 @@ namespace TGS.Server
 			{
 				lock (RepoLock)
 				{
+					if (RepoBusy)
+						return "Repo is busy!";
 					var res = LoadRepo();
 					if (res != null)
 						return res;
@@ -780,6 +785,11 @@ namespace TGS.Server
 			{
 				lock (RepoLock)
 				{
+					if (RepoBusy)
+					{
+						error = "Repo is busy!";
+						return null;
+					}
 					error = LoadRepo();
 					if (error != null)
 						return null;
@@ -803,6 +813,8 @@ namespace TGS.Server
 		{
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+					return "Repo is busy!";
 				var res = LoadRepo() ?? ResetNoLock(trackedBranch ? (Repo.Head.TrackedBranch ?? Repo.Head) : Repo.Head);
 				if (res == null)
 				{
@@ -869,6 +881,8 @@ namespace TGS.Server
 		{
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+					return "Repo is busy!";
 				var result = LoadRepo();
 				if (result != null)
 					return result;
@@ -995,6 +1009,11 @@ namespace TGS.Server
 		{
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+				{
+					error = "Repo is busy!";
+					return null;
+				}
 				var result = LoadRepo();
 				if (result != null)
 				{
@@ -1021,48 +1040,44 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string GetCommitterName()
 		{
-			lock (RepoLock)
-			{
-				return Config.CommitterName;
-			}
+			return Config.CommitterName;
 		}
 
 		/// <inheritdoc />
 		public void SetCommitterName(string newName)
 		{
-			lock (RepoLock)
-			{
-				Config.CommitterName = newName;
-			}
+			Config.CommitterName = newName;
 		}
 
 		/// <inheritdoc />
 		public string GetCommitterEmail()
 		{
-			lock (RepoLock)
-			{
-				return Config.CommitterEmail;
-			}
+			return Config.CommitterEmail;
 		}
 
 		/// <inheritdoc />
 		public void SetCommitterEmail(string newEmail)
 		{
-			lock (RepoLock)
-			{
-				Config.CommitterEmail = newEmail;
-			}
+			Config.CommitterEmail = newEmail;
 		}
 
 		/// <inheritdoc />
 		public string SynchronizePush()
 		{
-			var Config = GetCachedRepoConfig();
-			if (Config == null)
-				return "Error reading changelog configuration";
-			if(!Config.ChangelogSupport || !SSHAuth())
-				return null;
-			return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
+			lock (RepoLock)
+			{
+				if (RepoBusy)
+					return "Repo is busy!";
+				var Config = GetCachedRepoConfig();
+				if (Config == null)
+					return "Error reading changelog configuration";
+				if (!Config.ChangelogSupport || !SSHAuth())
+					return null;
+				var res = LoadRepo();
+				if (res != null)
+					return res;
+				return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
+			}
 		}
 
 		/// <summary>
@@ -1107,6 +1122,8 @@ namespace TGS.Server
 		{
 			lock (RepoLock)
 			{
+				if (RepoBusy)
+					return false;
 				if (LoadRepo() != null)
 					return false;
 				if (Fetch() != null)
@@ -1123,70 +1140,56 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Create a commit based on a <paramref name="Config"/>
+		/// Create a commit based on a <paramref name="Config"/>. Requires <see cref="RepoLock"/> and <see cref="LoadRepo"/>
 		/// </summary>
 		/// <param name="Config">A <see cref="RepoConfig"/> with <see cref="RepoConfig.PathsToStage"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string Commit(RepoConfig Config)
 		{
-			lock (RepoLock)
+			try
 			{
-				var result = LoadRepo();
-				if (result != null)
-					return result;
-				try
-				{
-					// Stage the file
-					foreach(var I in Config.PathsToStage)
-						Commands.Stage(Repo, I);
+				// Stage the file
+				foreach (var I in Config.PathsToStage)
+					Commands.Stage(Repo, I);
 
-					if (Repo.RetrieveStatus().Staged.Count() == 0)   //nothing to commit
-						return null;
-
-					// Create the committer's signature and commit
-					var authorandcommitter = MakeSig();
-
-					// Commit to the repository
-					WriteInfo(String.Format("Commit {0} created from changelogs", Repo.Commit(CommitMessage, authorandcommitter, authorandcommitter)), EventID.RepoCommit);
-					DeletePRList();
+				if (Repo.RetrieveStatus().Staged.Count() == 0)   //nothing to commit
 					return null;
-				}
-				catch (Exception e)
-				{
-					WriteWarning("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
-					return e.ToString();
-				}
+
+				// Create the committer's signature and commit
+				var authorandcommitter = MakeSig();
+
+				// Commit to the repository
+				WriteInfo(String.Format("Commit {0} created from changelogs", Repo.Commit(CommitMessage, authorandcommitter, authorandcommitter)), EventID.RepoCommit);
+				DeletePRList();
+				return null;
+			}
+			catch (Exception e)
+			{
+				WriteWarning("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
+				return e.ToString();
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Push HEAD to <see cref="SSHPushRemote"/>. Requires repo be locked, <see cref="LoadRepo"/>, <see cref="LocalIsRemote"/>, and <see cref="SSHAuth"/>
+		/// </summary>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string Push()
 		{
-			if (LocalIsRemote())    //nothing to push
-				return null;
-			lock (RepoLock)
+			try
 			{
-				var result = LoadRepo();
-				if (result != null)
-					return result;
-				try
+				var options = new PushOptions()
 				{
-					if (!SSHAuth())
-						return String.Format("Either {0} or {1} is missing from the server directory. Unable to push!", PrivateKeyPath, PublicKeyPath);
-
-					var options = new PushOptions()
-					{
-						CredentialsProvider = GenerateGitCredentials,
-					};
-					Repo.Network.Push(Repo.Network.Remotes[SSHPushRemote], Repo.Head.CanonicalName, options);
-					WriteInfo("Repo pushed up to commit: " + Repo.Head.Tip.Sha, EventID.RepoPush);
-					return null;
-				}
-				catch (Exception e)
-				{
-					WriteWarning("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
-					return e.ToString();
-				}
+					CredentialsProvider = GenerateGitCredentials,
+				};
+				Repo.Network.Push(Repo.Network.Remotes[SSHPushRemote], Repo.Head.CanonicalName, options);
+				WriteInfo("Repo pushed up to commit: " + Repo.Head.Tip.Sha, EventID.RepoPush);
+				return null;
+			}
+			catch (Exception e)
+			{
+				WriteWarning("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
+				return e.ToString();
 			}
 		}
 
