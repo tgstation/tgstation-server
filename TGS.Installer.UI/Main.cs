@@ -294,12 +294,12 @@ namespace TGS.Installer.UI
 			{
 				while (true)
 				{
-					var res = PromptKillProcesses("TGS.CommandLine");
+					var res = PromptKillProcesses("TGCommandLine");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
 						continue;
-					res = PromptKillProcesses("TGS.ControlPanel");
+					res = PromptKillProcesses("TGControlPanel");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
