@@ -418,25 +418,37 @@ namespace TGS.Server
 					error = "Repo is busy!";
 					return null;
 				}
-				var result = LoadRepo();
-				if (result != null)
-				{
-					error = result;
-					return null;
-				}
+				return GetShaOrBranchNoLock(out error, branch, tracked);
+			}
+		}
 
-				try
-				{
-					error = null;
-					if (tracked && Repo.Head.TrackedBranch != null)
-						return Repo.Head.TrackedBranch.Tip.Sha;
-					return branch ? Repo.Head.FriendlyName : Repo.Head.Tip.Sha;
-				}
-				catch (Exception e)
-				{
-					error = e.ToString();
-					return null;
-				}
+		/// <summary>
+		/// Gets the SHA or branch name of the <see cref="Repo"/>'s HEAD. Requires <see cref="RepoLock"/>
+		/// </summary>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <param name="branch">If <see langword="true"/>, returns the branch name instead of the SHA</param>
+		/// <param name="tracked">If <see langword="true"/>, returns the tracked branch SHA and ignores <paramref name="branch"/></param>
+		/// <returns>The SHA or branch name of the <see cref="Repo"/>'s HEAD</returns>
+		string GetShaOrBranchNoLock(out string error, bool branch, bool tracked)
+		{
+			var result = LoadRepo();
+			if (result != null)
+			{
+				error = result;
+				return null;
+			}
+
+			try
+			{
+				error = null;
+				if (tracked && Repo.Head.TrackedBranch != null)
+					return Repo.Head.TrackedBranch.Tip.Sha;
+				return branch ? Repo.Head.FriendlyName : Repo.Head.Tip.Sha;
+			}
+			catch (Exception e)
+			{
+				error = e.ToString();
+				return null;
 			}
 		}
 		
