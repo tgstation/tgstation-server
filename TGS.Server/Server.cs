@@ -164,6 +164,7 @@ namespace TGS.Server
 		/// </summary>
 		void SetupConfig()
 		{
+			Directory.CreateDirectory(DefaultConfigDirectory);
 			try
 			{
 				Config = ServerConfig.Load(DefaultConfigDirectory);
