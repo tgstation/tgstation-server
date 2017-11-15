@@ -384,7 +384,9 @@ namespace TGS.Installer.UI
 					Microsoft.Deployment.WindowsInstaller.Installer.EnableLog(InstallLogModes.Verbose | InstallLogModes.PropertyDump, logfile);
 				}
 				var cl = String.Join(" ", args);
-				Microsoft.Deployment.WindowsInstaller.Installer.SetInternalUI(InstallUIOptions.Silent);
+
+				// TODO: Uncomment this when OnUIUpdate is more robust
+				// Microsoft.Deployment.WindowsInstaller.Installer.SetInternalUI(InstallUIOptions.Silent);
 				Microsoft.Deployment.WindowsInstaller.Installer.SetExternalUI(OnUIUpdate, InstallLogModes.Progress);
 
 				await Task.Factory.StartNew(() => Microsoft.Deployment.WindowsInstaller.Installer.InstallProduct(msipath, cl));
