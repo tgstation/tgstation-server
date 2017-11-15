@@ -19,6 +19,14 @@ namespace TGS.Server.Service
 		/// </summary>
 		Server activeServer;
 
+		/// <summary>
+		/// Constructs a <see cref="Service"/>
+		/// </summary>
+		Service()
+		{
+			ServiceName = "TG Station Server";
+		}
+
 		/// <inheritdoc />
 		public void WriteAccess(string username, bool authSuccess, byte loggingID)
 		{
