@@ -371,7 +371,7 @@ namespace TGS.Server
 
 					deleteExcludeList.Add(".git");
 					Helpers.CopyDirectory(RelativePath(RepoPath), resurrectee, deleteExcludeList);
-					CurrentSha = GetHead(false, out string error);
+					CurrentSha = GetShaOrBranchNoLock(out string error, false, false);
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
 					Helpers.CopyDirectory(RelativePath(RepoPath + GitLogsDir), resurrectee + GitLogsDir);
