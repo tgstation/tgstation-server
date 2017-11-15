@@ -92,6 +92,8 @@
     <Compile Include="ChatCommands\RootChatCommand.cs" />
     <Compile Include="ChatCommands\ServerChatCommand.cs" />
     <Compile Include="ChatCommands\VersionCommand.cs" />
+    <Compile Include="Components\DreamDaemonManager.cs" />
+    <Compile Include="Components\IInteropManager.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IChatBroadcaster.cs" />
     <Compile Include="IInstanceLogger.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="ILoggingIDProvider.cs" />
     <Compile Include="Components\ByondManager.cs" />
     <Compile Include="Components\IByondManager.cs" />
+    <Compile Include="InteropCommand.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerConfig.cs" />
     <Compile Include="RootAuthorizationManager.cs" />

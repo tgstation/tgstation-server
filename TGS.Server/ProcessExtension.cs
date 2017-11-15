@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TGS.Server
 {
@@ -67,6 +69,21 @@ namespace TGS.Server
 				ResumeThread(pOpenThread);
 				CloseHandle(pOpenThread);
 			}
+		}
+
+		/// <summary>
+		/// Waits asynchronously for the <see cref="Process"/> to exit
+		/// </summary>
+		/// <param name="process">The <see cref="Process"/> to wait for cancellation</param>
+		/// <param name="cancellationToken">A cancellation token. If invoked, the <see cref="Task"/> will return immediately as canceled</param>
+		/// <returns>A <see cref="Task"/> representing waiting for the <see cref="Process"/> to end</returns>
+		public static Task WaitForExitAsync(this Process process, CancellationToken cancellationToken)
+		{
+			var tcs = new TaskCompletionSource<object>();
+			process.EnableRaisingEvents = true;
+			process.Exited += (sender, args) => tcs.TrySetResult(null);
+			cancellationToken.Register(tcs.SetCanceled);
+			return tcs.Task;
 		}
 	}
 }

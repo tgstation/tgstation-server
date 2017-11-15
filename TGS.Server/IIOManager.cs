@@ -20,6 +20,7 @@ namespace TGS.Server
 		bool FileExists(string path);
 		void DeleteFile(string path);
 		void CopyFile(string src, string dest);
+		void MoveFile(string src, string dest);
 		void CreateDirectory(string path);
 		bool DirectoryExists(string path);
 		void DeleteDirectory(string path, bool ContentsOnly = false, IEnumerable<string> excludeRoot = null);

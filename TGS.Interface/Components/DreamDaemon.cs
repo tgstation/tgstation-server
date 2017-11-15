@@ -4,7 +4,7 @@ namespace TGS.Interface.Components
 {
 	
 	/// <summary>
-	/// Interface for managing the actual BYOND game server
+	/// Interface for managing DreamDaemon.exe
 	/// </summary>
 	[ServiceContract]
 	public interface ITGDreamDaemon
@@ -127,20 +127,5 @@ namespace TGS.Interface.Components
 		/// <returns><see langword="true"/> if <see cref="RequestStop"/> has been called since the last server start, <see langword="false"/> otherwise</returns>
 		[OperationContract]
 		bool ShutdownInProgress();
-
-		/// <summary>
-		/// Sends a message to everyone on the server
-		/// </summary>
-		/// <param name="msg">The message to send</param>
-		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		[OperationContract]
-		string WorldAnnounce(string msg);
-
-		/// <summary>
-		/// Returns the number of connected players. Requires game to use API version >= 3.1.0.1
-		/// </summary>
-		/// <returns>The number of connected players or -1 on error</returns>
-		[OperationContract]
-		int PlayerCount();
 	}
 }

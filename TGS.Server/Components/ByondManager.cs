@@ -79,61 +79,60 @@ namespace TGS.Server.Components
 		/// The <see cref="IInstanceLogger"/> for the <see cref="ByondManager"/>
 		/// </summary>
 		readonly IInstanceLogger Logger;
-
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ByondManager"/>
 		/// </summary>
-		readonly IIOManager IOManager;
-
+		readonly IIOManager IO;
 		/// <summary>
 		/// The <see cref="IChatBroadcaster"/> for the <see cref="ByondManager"/>
 		/// </summary>
-		readonly IChatBroadcaster ChatBroadcaster;
-
+		readonly IChatBroadcaster Chat;
 		/// <summary>
 		/// The <see cref="ITGDreamDaemon"/> for the <see cref="ByondManager"/>
 		/// </summary>
 		readonly ITGDreamDaemon DreamDaemon;
 
 		/// <summary>
+		/// <see cref="Task"/> used for updating revision
+		/// </summary>
+		Task updateTask;
+		/// <summary>
+		/// <see cref="CancellationTokenSource"/> for <see cref="updateTask"/>
+		/// </summary>
+		CancellationTokenSource updateCancellationTokenSource;
+
+		/// <summary>
 		/// The status of the BYOND updater
 		/// </summary>
-		ByondStatus updateStat = ByondStatus.Idle;
-
+		ByondStatus updateStat;
 		/// <summary>
 		/// The number of times <see cref="LockDMExecutable(bool, out string)"/> has been successfully called.
 		/// </summary>
 		ulong DMLockCount;
-
 		/// <summary>
 		/// The number of times <see cref="LockDDExecutable(out string)"/> has been successfully called.
 		/// </summary>
 		ulong DDLockCount;
-
 		/// <summary>
 		/// The last error the BYOND updater encountered
 		/// </summary>
 		string lastError;
 
 		/// <summary>
-		/// Thread used for staging BYOND revisions
-		/// </summary>
-		CancellationTokenSource RevisionStagingCanceller;
-
-		/// <summary>
 		/// Construct a <see cref="ByondManager"/>
 		/// </summary>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
-		/// <param name="ioManager">The value of <see cref="IOManager"/></param>
-		/// <param name="chatBroadcaster">The value of <see cref="ChatBroadcaster"/></param>
+		/// <param name="ioManager">The value of <see cref="IO"/></param>
+		/// <param name="chatBroadcaster">The value of <see cref="Chat"/></param>
 		/// <param name="dreamDaemon">The value of <see cref="DreamDaemon"/></param>
 		public ByondManager(IInstanceLogger logger, IIOManager ioManager, IChatBroadcaster chatBroadcaster, ITGDreamDaemon dreamDaemon)
 		{
 			Logger = logger;
-			IOManager = ioManager;
-			ChatBroadcaster = chatBroadcaster;
+			IO = ioManager;
+			Chat = chatBroadcaster;
 			DreamDaemon = dreamDaemon;
 			CleanStaging();
+			updateStat = ByondStatus.Idle;
 		}
 
 		/// <summary>
@@ -142,19 +141,25 @@ namespace TGS.Server.Components
 		void CleanStaging()
 		{
 			//linger not
-			IOManager.DeleteFile(RevisionDownloadPath);
-			IOManager.DeleteDirectory(StagingDirectory);
+			IO.DeleteFile(RevisionDownloadPath);
+			IO.DeleteDirectory(StagingDirectory);
 		}
 
 		/// <summary>
 		/// Cleans up the <see cref="ByondManager"/>
 		/// </summary>
-		void Cleanup()
+		public void Dispose()
 		{
-			if (RevisionStagingCanceller != null)
+			if (updateCancellationTokenSource != null)
 			{
-				RevisionStagingCanceller.Cancel();
-				RevisionStagingCanceller = null;
+				updateCancellationTokenSource.Dispose();
+				updateCancellationTokenSource = null;
+			}
+			if (updateTask != null)
+			{
+				updateTask.Wait();
+				updateTask.Dispose();
+				updateTask = null;
 			}
 			CleanStaging();
 		}
@@ -227,12 +232,12 @@ namespace TGS.Server.Components
 					else
 					{
 						var DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
-						if (IOManager.DirectoryExists(DirToUse))
+						if (IO.DirectoryExists(DirToUse))
 						{
 							var file = Path.Combine(DirToUse, VersionFile);
 							lock (this)
-								if (IOManager.FileExists(file))
-									return IOManager.ReadAllText(file);
+								if (IO.FileExists(file))
+									return IO.ReadAllText(file);
 						}
 					}
 					return null;
@@ -269,7 +274,7 @@ namespace TGS.Server.Components
 				if (cancellationToken.IsCancellationRequested)
 					return;
 
-				ChatBroadcaster.SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
+				Chat.SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
 
 				//DOWNLOADING
 
@@ -297,7 +302,7 @@ namespace TGS.Server.Components
 				}
 				catch
 				{
-					ChatBroadcaster.SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
+					Chat.SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
 					Logger.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
 					lock (this)
 					{
@@ -312,15 +317,15 @@ namespace TGS.Server.Components
 
 				//STAGING
 
-				ZipFile.ExtractToDirectory(IOManager.ResolvePath(RevisionDownloadPath), IOManager.ResolvePath(StagingDirectory));
+				ZipFile.ExtractToDirectory(IO.ResolvePath(RevisionDownloadPath), IO.ResolvePath(StagingDirectory));
 
 				lock (this)
-					IOManager.WriteAllText(Path.Combine(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor));
+					IO.WriteAllText(Path.Combine(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor));
 
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
-				IOManager.CreateDirectory(ByondConfigDir);
-				IOManager.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
-				IOManager.DeleteFile(RevisionDownloadPath);
+				IO.CreateDirectory(ByondConfigDir);
+				IO.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
+				IO.DeleteFile(RevisionDownloadPath);
 
 				lock (this)
 					updateStat = ByondStatus.Staged;
@@ -340,7 +345,7 @@ namespace TGS.Server.Components
 				{
 					DreamDaemon.RequestRestart();
 					lastError = "Update staged. Awaiting server restart...";
-					ChatBroadcaster.SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
+					Chat.SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
 					Logger.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
 				}
 			}
@@ -356,7 +361,10 @@ namespace TGS.Server.Components
 			finally
 			{
 				lock (this)
-					RevisionStagingCanceller = null;
+				{
+					updateCancellationTokenSource.Dispose();
+					updateCancellationTokenSource = null;
+				}
 			}
 		}
 
@@ -371,10 +379,10 @@ namespace TGS.Server.Components
 			}
 			try
 			{
-				IOManager.DeleteDirectory(ByondDirectory);
-				IOManager.MoveDirectory(StagingDirectoryInner, ByondDirectory);
-				IOManager.DeleteDirectory(StagingDirectory);
-				ChatBroadcaster.SendMessage("BYOND: Update completed!", MessageType.DeveloperInfo);
+				IO.DeleteDirectory(ByondDirectory);
+				IO.MoveDirectory(StagingDirectoryInner, ByondDirectory);
+				IO.DeleteDirectory(StagingDirectory);
+				Chat.SendMessage("BYOND: Update completed!", MessageType.DeveloperInfo);
 				Logger.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);
 				lock (this)
 					lastError = null;
@@ -382,7 +390,7 @@ namespace TGS.Server.Components
 			}
 			catch (Exception e)
 			{
-				ChatBroadcaster.SendMessage("BYOND: Update failed!", MessageType.DeveloperInfo);
+				Chat.SendMessage("BYOND: Update failed!", MessageType.DeveloperInfo);
 				Logger.WriteError("BYOND update failed! Error: " + e.ToString(), EventID.BYONDUpdateFail);
 				lock (this)
 					lastError = e.ToString();
@@ -402,8 +410,8 @@ namespace TGS.Server.Components
 				if (!BusyCheck())
 				{
 					updateStat = ByondStatus.Starting;
-					RevisionStagingCanceller = new CancellationTokenSource();
-					Task.Factory.StartNew(() => UpdateToVersionImpl(major, minor, RevisionStagingCanceller.Token));
+					updateCancellationTokenSource = new CancellationTokenSource();
+					updateTask = Task.Factory.StartNew(() => UpdateToVersionImpl(major, minor, updateCancellationTokenSource.Token));
 					return true;
 				}
 			return false;
@@ -447,7 +455,7 @@ namespace TGS.Server.Components
 				var pathToUse = updateStat == ByondStatus.Staged && useStagedIfPossible ? StagingDirectoryInner : ByondDirectory;
 				++DMLockCount;
 				error = null;
-				return IOManager.ResolvePath(Path.Combine(pathToUse, DMExecutable));
+				return IO.ResolvePath(Path.Combine(pathToUse, DMExecutable));
 			}
 		}
 
@@ -468,7 +476,7 @@ namespace TGS.Server.Components
 				}
 				++DDLockCount;
 				error = null;
-				return IOManager.ResolvePath(DreamDaemonPath);
+				return IO.ResolvePath(DreamDaemonPath);
 			}
 		}
 
@@ -483,49 +491,5 @@ namespace TGS.Server.Components
 		{
 			CheckUnlock(ref DMLockCount, DreamDaemonExecutable);
 		}
-
-		#region IDisposable Support
-		/// <summary>
-		/// To detect redundant <see cref="Dispose()"/> calls
-		/// </summary>
-		private bool disposedValue = false;
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="Cleanup"/>
-		/// </summary>
-		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					Cleanup();
-					// TODO: dispose managed state (managed objects).
-				}
-
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
-
-				disposedValue = true;
-			}
-		}
-
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-		// ~TGDiscordChatProvider() {
-		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-		//   Dispose(false);
-		// }
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
-		/// </summary>
-		public void Dispose()
-		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
-		}
-		#endregion
 	}
 }

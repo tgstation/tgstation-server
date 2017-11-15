@@ -15,5 +15,20 @@ namespace TGS.Interface.Components
 		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
 		[OperationContract]
 		bool InteropMessage(string command);
+
+		/// <summary>
+		/// Sends a message to everyone on the server
+		/// </summary>
+		/// <param name="msg">The message to send</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		[OperationContract]
+		string WorldAnnounce(string msg);
+
+		/// <summary>
+		/// Returns the number of connected players. Requires game to use API version >= 3.1.0.1
+		/// </summary>
+		/// <returns>The number of connected players or -1 on error</returns>
+		[OperationContract]
+		int PlayerCount();
 	}
 }
