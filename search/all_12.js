@@ -68,6 +68,7 @@ var searchData=
   ['serverstopbutton',['ServerStopButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0032b5d97dc221490abed1b2be9ddf8d',1,'TGS::ControlPanel::ControlPanel']]],
   ['serverstopbutton_5fclick',['ServerStopButton_Click',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a8b381ce50dcb96fccca03ed4ab78fd6e',1,'TGS::ControlPanel::ControlPanel']]],
   ['serverupdateapplied',['ServerUpdateApplied',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311afd8f9d8fe17b37ddfadb01d2f310e120',1,'TGS::Server']]],
+  ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html#ac6439b90f7bec025e8a71849b5174710',1,'TGS::Server::Service::Service']]],
   ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html',1,'TGS::Server::Service']]],
   ['service_2ecs',['Service.cs',['../_t_g_s_8_interface_2_components_2_service_8cs.html',1,'']]],
   ['service_2ecs',['Service.cs',['../_t_g_s_8_server_8_service_2_service_8cs.html',1,'']]],

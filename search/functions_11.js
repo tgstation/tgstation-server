@@ -25,6 +25,7 @@ var searchData=
   ['serverstartbgw_5frunworkercompleted',['ServerStartBGW_RunWorkerCompleted',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a30168d16a19736eb95bfc49b5bc84541',1,'TGS::ControlPanel::ControlPanel']]],
   ['serverstartbutton_5fclick',['ServerStartButton_Click',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1b8fb9d1ccf504bfa7ee687b14ac0a9a',1,'TGS::ControlPanel::ControlPanel']]],
   ['serverstopbutton_5fclick',['ServerStopButton_Click',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a8b381ce50dcb96fccca03ed4ab78fd6e',1,'TGS::ControlPanel::ControlPanel']]],
+  ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html#ac6439b90f7bec025e8a71849b5174710',1,'TGS::Server::Service::Service']]],
   ['servicecommand',['ServiceCommand',['../class_t_g_s_1_1_command_line_1_1_service_command.html#a771115b4b41ab87ca5aebe62ce402ef8',1,'TGS::CommandLine::ServiceCommand']]],
   ['servicecreateinstancecommand',['ServiceCreateInstanceCommand',['../class_t_g_s_1_1_command_line_1_1_service_create_instance_command.html#a07b008136af043434ebb22b3b81c1e71',1,'TGS::CommandLine::ServiceCreateInstanceCommand']]],
   ['servicedetachinstancecommand',['ServiceDetachInstanceCommand',['../class_t_g_s_1_1_command_line_1_1_service_detach_instance_command.html#a22bcb267d855b49cbcf042788156c008',1,'TGS::CommandLine::ServiceDetachInstanceCommand']]],
