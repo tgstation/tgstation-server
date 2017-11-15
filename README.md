@@ -1,6 +1,6 @@
 # Tgstation Toolkit:
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7t1h7bvuha0p9j5f?svg=true)](https://ci.appveyor.com/project/Cyberboss/tgstation-server-tools) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
+[![Build status](https://ci.appveyor.com/api/projects/status/7t1h7bvuha0p9j5f?svg=true)](https://ci.appveyor.com/project/Cyberboss/tgstation-server-tools) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server) [![Waffle.io - Columns and their card count](https://badge.waffle.io/tgstation/tgstation-server.png?columns=all)](https://waffle.io/tgstation/tgstation-server?utm_source=badge)
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](https://github.com/tgstation/tgstation-server/blob/master/LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://badge.fury.io/nu/TTGServiceInterface.svg)](https://badge.fury.io/nu/TGServiceInterface)
 
