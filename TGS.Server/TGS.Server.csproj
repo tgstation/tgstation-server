@@ -99,7 +99,8 @@
     <Compile Include="IInstanceConfig.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="ILoggingIDProvider.cs" />
-    <Compile Include="Instance\ByondManager.cs" />
+    <Compile Include="Components\ByondManager.cs" />
+    <Compile Include="Components\IByondManager.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerConfig.cs" />
     <Compile Include="RootAuthorizationManager.cs" />
@@ -107,26 +108,26 @@
     <Compile Include="InstanceConfig.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="RepoConfig.cs" />
-    <Compile Include="Instance\Administration.cs" />
-    <Compile Include="Instance\Byond.cs" />
-    <Compile Include="Instance\Chat.cs" />
+    <Compile Include="Components\Administration.cs" />
+    <Compile Include="Components\Byond.cs" />
+    <Compile Include="Components\Chat.cs" />
     <Compile Include="ChatProviders\ChatProvider.cs" />
-    <Compile Include="Instance\Compiler.cs" />
-    <Compile Include="Instance\Config.cs" />
+    <Compile Include="Components\Compiler.cs" />
+    <Compile Include="Components\Config.cs" />
     <Compile Include="ChatProviders\DiscordChatProvider.cs" />
-    <Compile Include="Instance\DreamDaemon.cs" />
+    <Compile Include="Components\DreamDaemon.cs" />
     <Compile Include="EventID.cs" />
-    <Compile Include="Instance\Instance.cs" />
+    <Compile Include="Components\Instance.cs" />
     <Compile Include="ChatProviders\IRCChatProvider.cs" />
-    <Compile Include="Instance\Interop.cs" />
-    <Compile Include="Instance\PreactionHandler.cs" />
+    <Compile Include="Components\Interop.cs" />
+    <Compile Include="Components\PreactionHandler.cs" />
     <Compile Include="ProcessExtension.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Instance\Repository.cs" />
+    <Compile Include="Components\Repository.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />

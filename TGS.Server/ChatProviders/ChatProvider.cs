@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using TGS.Interface;
 
 namespace TGS.Server.ChatProviders
@@ -72,6 +73,6 @@ namespace TGS.Server.ChatProviders
 		/// </summary>
 		/// <param name="message">The message to send</param>
 		/// <param name="mt">The <see cref="MessageType"/></param>
-		void SendMessage(string message, MessageType mt);
+		Task SendMessage(string message, MessageType mt);
 	}
 }

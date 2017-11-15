@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TGS.Server.ChatCommands;
 using TGS.Server.ChatProviders;
 using TGS.Interface;
@@ -223,26 +223,32 @@ namespace TGS.Server
 					return I.Reconnect();
 			return "Could not find specified provider!";
 		}
-		
+
 		/// <summary>
 		/// Broadcast a message to appropriate channels based on the message type
 		/// </summary>
 		/// <param name="msg">The message to send</param>
 		/// <param name="mt">The message type</param>
-		public void SendMessage(string msg, MessageType mt)
+		public Task SendMessage(string msg, MessageType mt)
 		{
-			lock (ChatLock)
+			return Task.Factory.StartNew(() =>
 			{
-				foreach (var ChatProvider in ChatProviders)
-					try
-					{
-						ChatProvider.SendMessage(msg, mt);
-					}
-					catch (Exception e)
-					{
-						WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), ChatProvider.ProviderInfo().Provider), EventID.ChatBroadcastFail);
-					}
-			}
+				lock (ChatLock)
+				{
+					var tasks = new Dictionary<ChatProvider, Task>();
+					foreach (var ChatProvider in ChatProviders)
+						tasks.Add(ChatProvider.ProviderInfo().Provider, ChatProvider.SendMessage(msg, mt));
+					foreach (var T in tasks)
+						try
+						{
+							T.Value.Wait();
+						}
+						catch (Exception e)
+						{
+							WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), T.Key), EventID.ChatBroadcastFail);
+						}
+				}
+			});
 		}
 	}
 }

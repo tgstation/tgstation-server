@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using TGS.Interface;
 using Meebey.SmartIrc4net;
 
@@ -292,32 +293,32 @@ namespace TGS.Server.ChatProviders
 		public bool Connected()
 		{
 			lock (IRCLock)
-			{
 				return irc != null && irc.IsConnected;
-			}
 		}
 		/// <inheritdoc />
-		public void SendMessage(string message, MessageType mt)
+		public Task SendMessage(string message, MessageType mt)
 		{
-			if (!Connected())
-				return;
-			lock (IRCLock)
+			return Task.Factory.StartNew(() =>
 			{
-				string cids = "";
-				for (var I = 0; I < irc.JoinedChannels.Count; ++I)
+				lock (IRCLock)
 				{
-					var cid = irc.JoinedChannels[I];
-					bool SendToThisChannel = (mt.HasFlag(MessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
-						|| (mt.HasFlag(MessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
-						|| (mt.HasFlag(MessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
-						|| (mt.HasFlag(MessageType.WatchdogInfo) && IRCConfig.WatchdogChannels.Contains(cid));
-					if (SendToThisChannel)
-						cids += I > 0 ? ',' + cid : cid;
+					if (!Connected())
+						return;
+					string cids = "";
+					for (var I = 0; I < irc.JoinedChannels.Count; ++I)
+					{
+						var cid = irc.JoinedChannels[I];
+						bool SendToThisChannel = (mt.HasFlag(MessageType.AdminInfo) && IRCConfig.AdminChannels.Contains(cid))
+							|| (mt.HasFlag(MessageType.DeveloperInfo) && IRCConfig.DevChannels.Contains(cid))
+							|| (mt.HasFlag(MessageType.GameInfo) && IRCConfig.GameChannels.Contains(cid))
+							|| (mt.HasFlag(MessageType.WatchdogInfo) && IRCConfig.WatchdogChannels.Contains(cid));
+						if (SendToThisChannel)
+							cids += I > 0 ? ',' + cid : cid;
+					}
+					irc.SendMessage(SendType.Message, cids, message);
 				}
-				irc.SendMessage(SendType.Message, cids, message);
-			}
+			});
 		}
-
 
 		#region IDisposable Support
 		/// <summary>

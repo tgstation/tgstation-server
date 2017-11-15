@@ -5,12 +5,13 @@ using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
-	sealed class ByondManager : ITGByond, IDisposable
+	sealed class ByondManager : IByondManager, IDisposable
 	{
 		/// <summary>
 		/// The instance directory to store the BYOND installation
@@ -20,10 +21,6 @@ namespace TGS.Server.Components
 		/// The instance directory to use when updating the BYOND installation
 		/// </summary>
 		const string StagingDirectory = "BYOND_staged";
-		/// <summary>
-		/// Path to the actual BYOND installation within the <see cref="StagingDirectory"/>
-		/// </summary>
-		const string StagingDirectoryInner = StagingDirectory + "/byond";
 		/// <summary>
 		/// The path in the instance directory to store the downloaded BYOND revision
 		/// </summary>
@@ -41,17 +38,42 @@ namespace TGS.Server.Components
 		/// </summary>
 		const string ByondLatestURL = "https://secure.byond.com/download/build/LATEST/";
 		/// <summary>
-		/// The instance directory to modify the BYOND cfg before installation
-		/// </summary>
-		const string ByondConfigDir = StagingDirectory + "/BYOND/cfg";
-		/// <summary>
-		/// BYOND's DreamDaemon config file in the cfg modification directory
-		/// </summary>
-		const string ByondDDConfig = ByondConfigDir + "/daemon.txt";
-		/// <summary>
 		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb
 		/// </summary>
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
+		/// <summary>
+		/// The executable for DreamDaemon
+		/// </summary>
+		const string DreamDaemonExecutable = "dreamdaemon.exe";
+		/// <summary>
+		/// The executable for DM
+		/// </summary>
+		const string DMExecutable = "dm.exe";
+		/// <summary>
+		/// The bin folder in a BYOND installation
+		/// </summary>
+		const string BinDirectory = "bin";
+
+		/// <summary>
+		/// Path to the actual BYOND installation within the <see cref="StagingDirectory"/>
+		/// </summary>
+		static readonly string StagingDirectoryInner = Path.Combine(StagingDirectory, "byond");
+		/// <summary>
+		/// The instance directory to modify the BYOND cfg before installation
+		/// </summary>
+		static readonly string ByondConfigDir = Path.Combine(StagingDirectoryInner, "cfg");
+		/// <summary>
+		/// BYOND's DreamDaemon config file in the cfg modification directory
+		/// </summary>
+		static readonly string ByondDDConfig = Path.Combine(ByondConfigDir, "daemon.txt");
+		/// <summary>
+		/// The path to <see cref="DreamDaemonExecutable"/> in a BYOND installation
+		/// </summary>
+		static readonly string DreamDaemonPath = Path.Combine(ByondDirectory, BinDirectory, DreamDaemonExecutable);
+		/// <summary>
+		/// The path to <see cref="DMExecutable"/> in a BYOND installation
+		/// </summary>
+		static readonly string DMPath = Path.Combine(BinDirectory, DMExecutable);
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="ByondManager"/>
@@ -79,6 +101,16 @@ namespace TGS.Server.Components
 		ByondStatus updateStat = ByondStatus.Idle;
 
 		/// <summary>
+		/// The number of times <see cref="LockDMExecutable(bool, out string)"/> has been successfully called.
+		/// </summary>
+		ulong DMLockCount;
+
+		/// <summary>
+		/// The number of times <see cref="LockDDExecutable(out string)"/> has been successfully called.
+		/// </summary>
+		ulong DDLockCount;
+
+		/// <summary>
 		/// The last error the BYOND updater encountered
 		/// </summary>
 		string lastError;
@@ -86,7 +118,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Thread used for staging BYOND revisions
 		/// </summary>
-		Thread RevisionStaging;
+		CancellationTokenSource RevisionStagingCanceller;
 
 		/// <summary>
 		/// Construct a <see cref="ByondManager"/>
@@ -119,8 +151,11 @@ namespace TGS.Server.Components
 		/// </summary>
 		void Cleanup()
 		{
-			if (RevisionStaging != null)
-				RevisionStaging.Abort();
+			if (RevisionStagingCanceller != null)
+			{
+				RevisionStagingCanceller.Cancel();
+				RevisionStagingCanceller = null;
+			}
 			CleanStaging();
 		}
 		
@@ -212,8 +247,10 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Downloads and unzips a BYOND revision. Calls <see cref="ApplyStagedUpdate"/> afterwards if the <see cref="Instance"/> isn't running, otherwise, calls <see cref="ITGDreamDaemon.RequestRestart"/>. Sets <see cref="lastError"/> on failure
 		/// </summary>
-		/// <param name="param">Stringified BYOND revision</param>
-		void UpdateToVersionImpl(object param)
+		/// <param name="major">The major BYOND version to update to</param>
+		/// <param name="minor">The minor BYOND version to update to</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for cancelling this function</param>
+		void UpdateToVersionImpl(int major, int minor, CancellationToken cancellationToken)
 		{
 			lock (this)
 			{
@@ -224,70 +261,88 @@ namespace TGS.Server.Components
 
 			try
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
 				CleanStaging();
 
-				var vi = ((string)param).Split('.');
-				var major = Convert.ToInt32(vi[0]);
-				var minor = Convert.ToInt32(vi[1]);
-				using (var client = new WebClient())
+				if (cancellationToken.IsCancellationRequested)
+					return;
+
+				ChatBroadcaster.SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
+
+				//DOWNLOADING
+
+				try
 				{
-					ChatBroadcaster.SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
-
-					//DOWNLOADING
-
-					try
+					Exception failed = null;
+					using (var client = new WebClient())
+					using (var waitHandle = new ManualResetEvent(false))
 					{
-						client.DownloadFile(String.Format(ByondRevisionsURL, major, minor), RevisionDownloadPath);
-					}
-					catch
-					{
-						ChatBroadcaster.SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
-						Logger.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
-						lock (this)
+						client.DownloadFileCompleted += (a, b) =>
 						{
-							lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", major, minor);
-							updateStat = ByondStatus.Idle;
+							failed = b.Error;
+							waitHandle.Set();
+						};
+						client.DownloadFileAsync(new Uri(String.Format(ByondRevisionsURL, major, minor)), RevisionDownloadPath);
+						WaitHandle.WaitAny(new WaitHandle[] { waitHandle, cancellationToken.WaitHandle });
+						if (cancellationToken.IsCancellationRequested)
+						{
+							client.CancelAsync();
+							return;
 						}
-						return;
 					}
+					if (failed != null)
+						throw failed;
 				}
+				catch
+				{
+					ChatBroadcaster.SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
+					Logger.WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
+					lock (this)
+					{
+						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", major, minor);
+						updateStat = ByondStatus.Idle;
+					}
+					return;
+				}
+
 				lock (this)
 					updateStat = ByondStatus.Staging;
 
 				//STAGING
 
 				ZipFile.ExtractToDirectory(IOManager.ResolvePath(RevisionDownloadPath), IOManager.ResolvePath(StagingDirectory));
+
 				lock (this)
 					IOManager.WriteAllText(Path.Combine(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor));
-				
+
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
 				IOManager.CreateDirectory(ByondConfigDir);
-					IOManager.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
-
+				IOManager.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
 				IOManager.DeleteFile(RevisionDownloadPath);
 
 				lock (this)
 					updateStat = ByondStatus.Staged;
 
-				switch (DreamDaemon.DaemonStatus())
+				if (DreamDaemon.DaemonStatus() == DreamDaemonStatus.Offline)
 				{
-					case DreamDaemonStatus.Offline:
-						if (ApplyStagedUpdate())
+					var res = ApplyStagedUpdate();
+					lock (this)
+					{
+						if (res)
 							lastError = null;
 						else
 							lastError = "Failed to apply update!";
-						break;
-					default:
-						DreamDaemon.RequestRestart();
-						lastError = "Update staged. Awaiting server restart...";
-						ChatBroadcaster.SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
-						Logger.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
-						break;
+					}
 				}
-			}
-			catch (ThreadAbortException)
-			{
-				return;
+				else
+				{
+					DreamDaemon.RequestRestart();
+					lastError = "Update staged. Awaiting server restart...";
+					ChatBroadcaster.SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
+					Logger.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
+				}
 			}
 			catch (Exception e)
 			{
@@ -301,19 +356,16 @@ namespace TGS.Server.Components
 			finally
 			{
 				lock (this)
-					RevisionStaging = null;
+					RevisionStagingCanceller = null;
 			}
 		}
 
-		/// <summary>
-		/// Attempts to move the staged update from <see cref="StagingDirectory"/> to <see cref="ByondDirectory"/>. Sets <see cref="lastError"/> on failure
-		/// </summary>
-		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
-		bool ApplyStagedUpdate()
+		/// <inheritdoc />
+		public bool ApplyStagedUpdate()
 		{
 			lock (this)
 			{
-				if (updateStat != ByondStatus.Staged)
+				if (updateStat != ByondStatus.Staged || DMLockCount > 0 || DDLockCount > 0)
 					return false;
 				updateStat = ByondStatus.Updating;
 			}
@@ -350,12 +402,86 @@ namespace TGS.Server.Components
 				if (!BusyCheck())
 				{
 					updateStat = ByondStatus.Starting;
-					RevisionStaging = new Thread(new ParameterizedThreadStart(UpdateToVersionImpl));
-					RevisionStaging.Start(String.Format("{0}.{1}", major, minor));
+					RevisionStagingCanceller = new CancellationTokenSource();
+					Task.Factory.StartNew(() => UpdateToVersionImpl(major, minor, RevisionStagingCanceller.Token));
 					return true;
 				}
 			return false;
 
+		}
+		
+		/// <summary>
+		/// Tries to decrement <paramref name="theLock"/>. Calls <see cref="ApplyStagedUpdate"/> if it reaches zero
+		/// </summary>
+		/// <param name="theLock">The lock counter to decrement</param>
+		/// <param name="exceptionFileName">The filename to in the posible <see cref="InvalidOperationException"/></param>
+		void CheckUnlock(ref ulong theLock, string exceptionFileName)
+		{
+			lock (this)
+				switch (theLock)
+				{
+					case 0:
+						throw new InvalidOperationException(String.Format("{0} is already fully unlocked!", exceptionFileName));
+					case 1:
+						theLock = 0;
+						Task.Factory.StartNew(ApplyStagedUpdate);	//async so we can leave this lock
+						break;
+					default:
+						--theLock;
+						break;
+				}
+		}
+
+		/// <inheritdoc />
+		public string LockDMExecutable(bool useStagedIfPossible, out string error)
+		{
+			lock (this)
+			{
+				if (BusyCheck())
+				{
+					error = "Error, update operation in progress!";
+					return null;
+				}
+				//have to use the staged one if nothing is installed
+				useStagedIfPossible |= GetVersion(ByondVersion.Installed) == null;
+				var pathToUse = updateStat == ByondStatus.Staged && useStagedIfPossible ? StagingDirectoryInner : ByondDirectory;
+				++DMLockCount;
+				error = null;
+				return IOManager.ResolvePath(Path.Combine(pathToUse, DMExecutable));
+			}
+		}
+
+		/// <inheritdoc />
+		public string LockDDExecutable(out string error)
+		{
+			lock (this)
+			{
+				if (updateStat == ByondStatus.Updating)
+				{
+					error = "Error, update operation in progress!";
+					return null;
+				}
+				if(GetVersion(ByondVersion.Installed) == null)
+				{
+					error = String.Format("Error, {0} not installed!", DreamDaemonExecutable);
+					return null;
+				}
+				++DDLockCount;
+				error = null;
+				return IOManager.ResolvePath(DreamDaemonPath);
+			}
+		}
+
+		/// <inheritdoc />
+		public void UnlockDMExecutable()
+		{
+			CheckUnlock(ref DMLockCount, DMExecutable);
+		}
+
+		/// <inheritdoc />
+		public void UnlockDDExecutable()
+		{
+			CheckUnlock(ref DMLockCount, DreamDaemonExecutable);
 		}
 
 		#region IDisposable Support

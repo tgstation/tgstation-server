@@ -172,13 +172,12 @@ namespace TGS.Server.ChatProviders
 		}
 
 		/// <inheritdoc />
-		public void SendMessage(string msg, MessageType mt)
+		public async Task SendMessage(string msg, MessageType mt)
 		{
 			if (!Connected())
 				return;
+			var tasks = new List<Task>();
 			lock (DiscordLock)
-			{
-				var tasks = new List<Task>();
 				foreach (var I in client.Guilds)
 					foreach (var J in I.TextChannels)
 					{
@@ -192,9 +191,7 @@ namespace TGS.Server.ChatProviders
 						if (SendToThisChannel)
 							tasks.Add(J.SendMessageAsync(msg));
 					}
-				foreach (var I in tasks)
-					I.Wait();
-			}
+			await Task.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />

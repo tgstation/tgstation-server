@@ -1,4 +1,6 @@
-﻿namespace TGS.Server
+﻿using System.Threading.Tasks;
+
+namespace TGS.Server
 {
 	/// <summary>
 	/// Interface for allowing <see cref="TGS.Server.Components"/> to sends chat messages
@@ -10,6 +12,6 @@
 		/// </summary>
 		/// <param name="message">The message to send</param>
 		/// <param name="messageType">The <see cref="MessageType"/> of the <paramref name="message"/></param>
-		void SendMessage(string message, MessageType messageType);
+		Task SendMessage(string message, MessageType messageType);
 	}
 }
