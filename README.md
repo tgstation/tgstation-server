@@ -77,7 +77,7 @@ This process is identical to the above steps in command line mode. You can alway
 1. Create windows accounts for those you wish to have access to the service
 1. Join them in a common windows group
 1. Run TGCommandLine.exe as an administrator
-1. `admin set-group <Name of the group you created> --instanceName "<instance>"`
+1. `admin set-group <Name of the group you created> --instanceName "<instance name>"`
 
 Note: Due to internal functionality, a user who has access to at least one server instance will be able to view the metadata (Name, path, Logging ID, and Enabled status) of all instances.
 
@@ -221,7 +221,7 @@ Just tick the `Webclient` option in the `Server` tab or run `dd webclient on` on
 * An instance can push branchless test merge commits to GitHub if the `RepoKey` folder is setup
 * This pushes all test merge commits to the remote branch `___TGS3TempBranch` and then deletes it
 * This provides public reference information about the test merge commit and time since it will appear in the PR in questing
-* To enable this, check the `Sync Commits` button on the `Repository` page of the control panel or run `repo push-testmerges on --instanceName <instance name>` from TGCommandLine
+* To enable this, check the `Sync Commits` button on the `Repository` page of the control panel or run `repo push-testmerges on --instanceName "<instance name>"` from TGCommandLine
 
 ## CONTRIBUTING
 
