@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
+using TGS.Interface.Components;
 
-namespace TGS.Server
+namespace TGS.Server.Components
 {
-	/// <summary>
-	/// Interface for allowing <see cref="TGS.Server.Components"/> to sends chat messages
-	/// </summary>
-	interface IChatBroadcaster
+	/// <inheritdoc />
+	interface IChatManager : ITGChat
 	{
 		/// <summary>
 		/// Sends a <paramref name="message"/>

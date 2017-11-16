@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using TGS.Interface;
@@ -11,6 +12,7 @@ using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class ByondManager : IByondManager, IDisposable
 	{
 		/// <summary>
@@ -84,9 +86,9 @@ namespace TGS.Server.Components
 		/// </summary>
 		readonly IIOManager IO;
 		/// <summary>
-		/// The <see cref="IChatBroadcaster"/> for the <see cref="ByondManager"/>
+		/// The <see cref="IChatManager"/> for the <see cref="ByondManager"/>
 		/// </summary>
-		readonly IChatBroadcaster Chat;
+		readonly IChatManager Chat;
 		/// <summary>
 		/// The <see cref="ITGDreamDaemon"/> for the <see cref="ByondManager"/>
 		/// </summary>
@@ -125,7 +127,7 @@ namespace TGS.Server.Components
 		/// <param name="ioManager">The value of <see cref="IO"/></param>
 		/// <param name="chatBroadcaster">The value of <see cref="Chat"/></param>
 		/// <param name="dreamDaemon">The value of <see cref="DreamDaemon"/></param>
-		public ByondManager(IInstanceLogger logger, IIOManager ioManager, IChatBroadcaster chatBroadcaster, ITGDreamDaemon dreamDaemon)
+		public ByondManager(IInstanceLogger logger, IIOManager ioManager, IChatManager chatBroadcaster, ITGDreamDaemon dreamDaemon)
 		{
 			Logger = logger;
 			IO = ioManager;

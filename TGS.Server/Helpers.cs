@@ -171,16 +171,6 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Properly escapes characters for a BYOND Topic() packet. See http://www.byond.com/docs/ref/info.html#/proc/list2params
-		/// </summary>
-		/// <param name="input">The <see cref="string"/> to sanitize</param>
-		/// <returns>The sanitized string</returns>
-		public static string SanitizeTopicString(string input)
-		{
-			return input.Replace("%", "%25").Replace("=", "%3d").Replace(";", "%3b").Replace("&", "%26").Replace("+", "%2b");
-		}
-
-		/// <summary>
 		/// Normalizes different versions of a path <see cref="string"/>
 		/// </summary>
 		/// <param name="path">The path to normalize</param>

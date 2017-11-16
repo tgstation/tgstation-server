@@ -1,8 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using SimpleInjector;
+using System;
 using System.IO;
 using System.ServiceModel;
 using TGS.Interface.Components;
+using TGS.Server.Components;
 
 namespace TGS.Server
 {
@@ -20,7 +21,7 @@ namespace TGS.Server
 		/// <summary>
 		/// Used to assign the instance to event IDs
 		/// </summary>
-		public readonly byte LoggingID;
+		readonly byte LoggingID;
 
 		/// <summary>
 		/// The configuration settings for the <see cref="Instance"/>
@@ -43,6 +44,11 @@ namespace TGS.Server
 		readonly IServerConfig ServerConfig;
 
 		/// <summary>
+		/// Container for <see cref="Components"/> of this instance
+		/// </summary>
+		Container container;
+
+		/// <summary>
 		/// Constructs and a <see cref="Instance"/>
 		/// </summary>
 		/// <param name="config">The value for <see cref="Config"/></param>
@@ -51,36 +57,53 @@ namespace TGS.Server
 		/// <param name="serverConfig">The value for <see cref="ServerConfig"/></param>
 		public Instance(IInstanceConfig config, ILogger logger, ILoggingIDProvider loggingIDProvider, IServerConfig serverConfig)
 		{
-			LoggingIDProvider = loggingIDProvider;
 			LoggingID = loggingIDProvider.Get();
 			Logger = logger;
 			Config = config;
 			ServerConfig = serverConfig;
 
+			LoggingIDProvider = loggingIDProvider;
 			WriteInfo(String.Format("Instance {0} ({1}) assigned logging ID", Config.Name, Config.Directory), EventID.InstanceIDAssigned);
 
-			FindTheDroidsWereLookingFor();
-			InitEventHandlers();
-			InitChat();
-			InitRepo();
-			InitByond();
-			InitDreamDaemon();
-			InitCompiler();
+			try
+			{
+				container = new Container();
+
+				container.Options.DefaultLifestyle = Lifestyle.Singleton;
+
+				container.RegisterSingleton(ServerConfig);
+				container.RegisterSingleton(Config);
+
+				container.RegisterSingleton<IInstanceLogger>(this);
+				container.RegisterSingleton<ITGConnectivity>(this);
+				container.RegisterSingleton<ITGInstance>(this);
+
+				container.Register<IByondManager, ByondManager>();
+				container.Register<IDreamDaemonManager, DreamDaemonManager>();
+				container.Register<IInteropManager, InteropManager>();
+				container.Register<IChatManager, ChatManager>();
+
+				container.Verify();
+			}
+			catch
+			{
+				loggingIDProvider.Release(LoggingID);
+				throw;
+			}
 		}
 
 		/// <summary>
 		/// Cleans up the <see cref="Instance"/>
 		/// </summary>
-		void RunDisposals()
+		public void Dispose()
 		{
-			DisposeDreamDaemon();
-			DisposeCompiler();
-			DisposeByond();
-			DisposeRepo();
-			DisposeChat();
-			DisposeAdministration();
-			Config.Save();
-			LoggingIDProvider.Release(LoggingID);
+			if (container != null)
+			{
+				container.Dispose();
+				container = null;
+				Config.Save();
+				LoggingIDProvider.Release(LoggingID);
+			}
 		}
 
 		/// <inheritdoc />
@@ -147,52 +170,9 @@ namespace TGS.Server
 			Config.Enabled = false;
 		}
 
-		//mostly generated code with a call to RunDisposals()
-		//you don't need to open this
-		#region IDisposable Support
-		/// <summary>
-		/// To detect redundant <see cref="Dispose()"/> calls
-		/// </summary>
-		private bool disposedValue = false;
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="RunDisposals"/>
-		/// </summary>
-		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		void Dispose(bool disposing)
+		public T GetComponent<T>() where T : class
 		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					RunDisposals();
-					// TODO: dispose managed state (managed objects).
-				}
-
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
-
-				disposedValue = true;
-			}
+			return container.GetInstance<T>();
 		}
-
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-		// ~TGStationServer() {
-		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-		//   Dispose(false);
-		// }
-
-		// This code added to correctly implement the disposable pattern.
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
-		/// </summary>
-		public void Dispose()
-		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
-		}
-		#endregion
 	}
 }

@@ -75,7 +75,7 @@ namespace TGS.Server
 		/// Waits asynchronously for the <see cref="Process"/> to exit
 		/// </summary>
 		/// <param name="process">The <see cref="Process"/> to wait for cancellation</param>
-		/// <param name="cancellationToken">A cancellation token. If invoked, the <see cref="Task"/> will return immediately as canceled</param>
+		/// <param name="cancellationToken">If invoked, the <see cref="Task"/> will return immediately as canceled</param>
 		/// <returns>A <see cref="Task"/> representing waiting for the <see cref="Process"/> to end</returns>
 		public static Task WaitForExitAsync(this Process process, CancellationToken cancellationToken)
 		{

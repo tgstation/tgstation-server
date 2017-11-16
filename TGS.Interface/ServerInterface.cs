@@ -56,13 +56,13 @@ namespace TGS.Interface
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <returns>The correct component <see langword="interface"/></returns>
-		T GetComponent<T>();
+		T GetComponent<T>() where T : class;
 
 		/// <summary>
 		/// Returns a root service component
 		/// </summary>
 		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
-		T GetServiceComponent<T>();
+		T GetServiceComponent<T>() where T : class;
 
 		/// <summary>
 		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
@@ -319,7 +319,7 @@ namespace TGS.Interface
 		}
 
 		/// <inheritdoc />
-		public T GetComponent<T>()
+		public T GetComponent<T>() where T : class
 		{
 			var ToT = typeof(T);
 			if (!ValidInstanceInterfaces.Contains(ToT))
@@ -333,7 +333,7 @@ namespace TGS.Interface
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <param name="useInstanceName">If <see cref="InstanceName"/> should be used to connect</param>
 		/// <returns>The correct component <see langword="interface"/></returns>
-		T GetComponentImpl<T>(bool useInstanceName)
+		T GetComponentImpl<T>(bool useInstanceName) where T : class
 		{
 			if (useInstanceName & InstanceName == null)
 				throw new Exception("Instance not selected!");
@@ -365,7 +365,7 @@ namespace TGS.Interface
 		}
 
 		/// <inheritdoc />
-		public T GetServiceComponent<T>()
+		public T GetServiceComponent<T>() where T : class
 		{
 			var ToT = typeof(T);
 			if (!ValidServiceInterfaces.Contains(ToT))

@@ -5,25 +5,43 @@ using System.Threading.Tasks;
 using TGS.Server.ChatCommands;
 using TGS.Server.ChatProviders;
 using TGS.Interface;
-using TGS.Interface.Components;
 
-namespace TGS.Server
+namespace TGS.Server.Components
 {
-	sealed partial class Instance : ITGChat, IChatBroadcaster
+	/// <inheritdoc />
+	sealed class ChatManager : IChatManager
 	{
 		/// <summary>
 		/// Used for indicating unintialized encrypted data
 		/// </summary>
-		public const string UninitializedString = "NEEDS INITIALIZING";
+		const string UninitializedString = "NEEDS INITIALIZING";
+		
+		// Topic command return parameters
+		const string TCPHelpText = "help_text";
+		const string TCPAdminOnly = "admin_only";
+		const string TCPRequiredParameters = "required_parameters";
 
 		/// <summary>
 		/// List of <see cref="IChatProvider"/>s for the <see cref="Instance"/>
 		/// </summary>
 		IList<IChatProvider> ChatProviders;
-		/// <summary>
-		/// Used for multithreading safety
-		/// </summary>
-		object ChatLock = new object();
+
+		IReadOnlyList<Command> serverChatCommands;
+
+		/// <inheritdoc />
+		public void LoadServerChatCommands(string json)
+		{
+			if (String.IsNullOrWhiteSpace(json))
+				return;
+			List<Command> tmp = new List<Command>();
+			try
+			{
+				foreach (var I in JsonConvert.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(json))
+					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], ((int)I.Value[CCPAdminOnly]) == 1, (int)I.Value[CCPRequiredParameters]));
+				serverChatCommands = tmp;
+			}
+			catch { }
+		}
 
 		/// <summary>
 		/// Set up the <see cref="ChatProviders"/> for the <see cref="Instance"/>

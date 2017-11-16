@@ -25,13 +25,6 @@ namespace TGS.Interface.Components
 		string StatusString(bool includeMetaInfo);
 
 		/// <summary>
-		/// Check if a call to <see cref="Start"/> will fail. Of course, be aware of race conditions with other interfaces
-		/// </summary>
-		/// <returns>The error that would occur, <see langword="null"/> otherwise</returns>
-		[OperationContract]
-		string CanStart();
-
-		/// <summary>
 		/// Starts the server if it isn't running
 		/// </summary>
 		/// <returns><see langword="null"/> on success or error message on failure</returns>

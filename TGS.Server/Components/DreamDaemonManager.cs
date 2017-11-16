@@ -2,17 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using TGS.Interface;
 using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	sealed class DreamDaemonManager : ITGDreamDaemon, IDisposable
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
+	sealed class DreamDaemonManager : IDreamDaemonManager, IDisposable
 	{
 		/// <summary>
 		/// Graceful shutdown state used with <see cref="RequestRestart"/>
@@ -60,9 +60,9 @@ namespace TGS.Server.Components
 		/// </summary>
 		readonly IIOManager IO;
 		/// <summary>
-		/// The <see cref="IChatBroadcaster"/> for the <see cref="DreamDaemonManager"/>
+		/// The <see cref="IChatManager"/> for the <see cref="DreamDaemonManager"/>
 		/// </summary>
-		readonly IChatBroadcaster Chat;
+		readonly IChatManager Chat;
 		/// <summary>
 		/// The <see cref="IInstanceConfig"/> for the <see cref="DreamDaemonManager"/>
 		/// </summary>
@@ -71,6 +71,9 @@ namespace TGS.Server.Components
 		/// The <see cref="IInteropManager"/> for the <see cref="DreamDaemonManager"/>
 		/// </summary>
 		readonly IInteropManager Interop;
+		/// <summary>
+		/// The <see cref="IByondManager"/> for the <see cref="DreamDaemonManager"/>
+		/// </summary>
 		readonly IByondManager Byond;
 
 		/// <summary>
@@ -107,10 +110,6 @@ namespace TGS.Server.Components
 		/// </summary>
 		string CurrentDDLog;
 		/// <summary>
-		/// Current port DreamDaemon is running on
-		/// </summary>
-		ushort currentPort;
-		/// <summary>
 		/// Used to indicate if an intentional restart is in progress on the watchdog
 		/// </summary>
 		bool RestartInProgress;
@@ -127,7 +126,7 @@ namespace TGS.Server.Components
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="config">The value of <see cref="Config"/></param>
 		/// <param name="interop">The value of <see cref="Interop"/></param>
-		public DreamDaemonManager(IInstanceLogger logger, IIOManager io, IChatBroadcaster chat, IInstanceConfig config, IInteropManager interop)
+		public DreamDaemonManager(IInstanceLogger logger, IIOManager io, IChatManager chat, IInstanceConfig config, IInteropManager interop)
 		{
 			Logger = logger;
 			IO = io;
@@ -135,7 +134,8 @@ namespace TGS.Server.Components
 			Config = config;
 			Interop = interop;
 
-			Interop.OnKillRequest += () => HandleKillRequest();
+			Interop.OnKillRequest += (a, b) => HandleKillRequest();
+			Interop.OnWorldReboot += (a, b) => WriteCurrentDDLog("World rebooted.");
 
 			IO.CreateDirectory(DiagnosticsDir);
 			IO.CreateDirectory(ResourceDiagnosticsDir);
@@ -150,7 +150,7 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
-		/// Attempts to reattach to a running DreamDaemon executable
+		/// Attempts to reattach to a running DreamDaemon executable. Not thread safe
 		/// </summary>
 		/// <returns><see langword="true"/> on successful reattach, <see langword="false"/> otherwise</returns>
 		bool HandleReattach()
@@ -163,8 +163,7 @@ namespace TGS.Server.Components
 
 				RestartInProgress = true;
 				ReattachInsteadOfRestart = true;
-				currentPort = Config.ReattachPort;
-				Interop.CommunicationsKey = Config.ReattachCommsKey;
+				Interop.SetCommunicationsKey(Config.ReattachCommsKey);
 				currentStatus = DreamDaemonStatus.Online;
 
 				StartWatchdogTask();
@@ -204,7 +203,7 @@ namespace TGS.Server.Components
 			{
 				if (!Detach)
 				{
-					WorldAnnounce("Server service stopped");
+					Interop.WorldAnnounce("Server service stopped");
 					Task.Delay(1000);
 				}
 				else
@@ -294,8 +293,12 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public void SetPort(ushort new_port)
 		{
-			Config.Port = new_port;
-			RequestRestart();
+			lock (this)
+				if (Config.Port != new_port)
+				{
+					Config.Port = new_port;
+					RequestRestart();
+				}
 		}
 
 		/// <summary>
@@ -319,18 +322,22 @@ namespace TGS.Server.Components
 		{
 			lock (this)
 			{
-				if (DaemonStatus() == DreamDaemonStatus.Offline)
+				if (currentStatus == DreamDaemonStatus.Offline)
 					return Start();
+
 				if (RestartInProgress)
 					return "Restart already in progress";
 				RestartInProgress = true;
+
+				Chat.SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
+
+				Stop();
+
+				var res = Start();
+				if (res != null)
+					RestartInProgress = false;
+				return res;
 			}
-			Chat.SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
-			Stop();
-			var res = Start();
-			if (res != null)
-				RestartInProgress = false;
-			return res;
 		}
 
 		/// <summary>
@@ -339,33 +346,33 @@ namespace TGS.Server.Components
 		/// <param name="message">The message to log</param>
 		void WriteCurrentDDLog(string message)
 		{
-			lock (watchdogLock)
+			lock (this)
 			{
 				if (currentStatus != DreamDaemonStatus.Online || CurrentDDLog == null)
 					return;
-				File.AppendAllText(Path.Combine(RelativePath(ResourceDiagnosticsDir), CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
+				IO.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
 			}
 		}
 
 		/// <summary>
-		/// Threaded loop that keeps DreamDaemon from unintentionally stopping
+		/// Loop that keeps DreamDaemon from unintentionally stopping
 		/// </summary>
-		void Watchdog()
+		void Watchdog(CancellationToken cancellationToken)
 		{
 			try
 			{
-				lock (restartLock)
+				lock (this)
 				{
 					if (!RestartInProgress)
 					{
-						SendMessage("DD: Server started, watchdog active...", MessageType.WatchdogInfo);
-						WriteInfo("Watchdog started", EventID.DDWatchdogStarted);
+						Chat.SendMessage("DD: Server started, watchdog active...", MessageType.WatchdogInfo);
+						Logger.WriteInfo("Watchdog started", EventID.DDWatchdogStarted);
 					}
 					else
 					{
 						RestartInProgress = false;
 						if (!ReattachInsteadOfRestart)
-							WriteInfo("Watchdog restarted", EventID.DDWatchdogRestarted);
+							Logger.WriteInfo("Watchdog restarted", EventID.DDWatchdogRestarted);
 						else
 							ReattachInsteadOfRestart = false;
 					}
@@ -377,45 +384,42 @@ namespace TGS.Server.Components
 					AutoReset = true,
 					Interval = 5000 //every 5 seconds
 				};
-				MemTrackTimer.Elapsed += MemTrackTimer_Elapsed;
+				MemTrackTimer.Elapsed += (a, b) => LogCurrentResoruceUsage();
 				while (true)
 				{
 					var starttime = DateTime.Now;
 
-					lock (watchdogLock)
+					lock (this)
 					{
 						if (AwaitingShutdown == ShutdownRequestPhase.Requested)
-							SendCommand(SCGracefulShutdown);
-					}
+							Interop.SendCommand(InteropCommand.ShutdownOnWorldReboot);
 
-					//all good to go, let's start monitoring
-					var Now = DateTime.Now;
-					lock (watchdogLock)
-					{
 						CurrentDDLog = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ");
 						WriteCurrentDDLog("Starting monitoring...");
 					}
+
 					pcpu = new PerformanceCounter("Process", "% Processor Time", process.ProcessName, true);
 					MemTrackTimer.Start();
+
 					try
 					{
-						process.WaitForExit();
+						process.WaitForExitAsync(cancellationToken);
+						cancellationToken.ThrowIfCancellationRequested();
 					}
 					finally
 					{
-						lock (watchdogLock) //synchronize
+						lock (this) //synchronize
 						{
 							MemTrackTimer.Stop();
 							pcpu.Dispose();
 						}
 					}
 
-					WriteCurrentDDLog("Crash detected!");
-
-					lock (watchdogLock)
+					lock (this)
 					{
+						WriteCurrentDDLog("Crash detected!");
 						currentStatus = DreamDaemonStatus.HardRebooting;
-						currentPort = 0;
+						Interop.ResetDMAPIVersion();
 						process.Close();
 
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
@@ -425,15 +429,15 @@ namespace TGS.Server.Components
 						{
 							++retries;
 							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
-							SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time), MessageType.WatchdogInfo);
+							Chat.SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time), MessageType.WatchdogInfo);
 							Thread.Sleep(sleep_time * 1000);
 						}
 						else
 						{
 							retries = 0;
 							var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
-							SendMessage(msg, MessageType.WatchdogInfo);
-							WriteWarning(msg, EventID.DDWatchdogRebootingServer);
+							Chat.SendMessage(msg, MessageType.WatchdogInfo);
+							Logger.WriteWarning(msg, EventID.DDWatchdogRebootingServer);
 						}
 					}
 
@@ -442,7 +446,7 @@ namespace TGS.Server.Components
 						throw new Exception("Hard restart failed: " + res);
 				}
 			}
-			catch (ThreadAbortException)
+			catch (OperationCanceledException)
 			{
 				//No Mr bond, I expect you to die
 				try
@@ -455,12 +459,8 @@ namespace TGS.Server.Components
 					else
 					{
 						Config.ReattachProcessID = process.Id;
-						Config.ReattachPort = currentPort;
-						Config.ReattachCommsKey = serviceCommsKey;
-						lock (restartLock)
-						{
+						lock (this)
 							RestartInProgress = true;
-						}
 					}
 					process.Close();
 				}
@@ -469,27 +469,25 @@ namespace TGS.Server.Components
 			}
 			catch (Exception e)
 			{
-				SendMessage("DD: Watchdog thread crashed!", MessageType.WatchdogInfo);
-				WriteError("Watch dog thread crashed: " + e.ToString(), EventID.DDWatchdogCrash);
+				Chat.SendMessage("DD: Watchdog thread crashed!", MessageType.WatchdogInfo);
+				Logger.WriteError("Watch dog thread crashed: " + e.ToString(), EventID.DDWatchdogCrash);
 			}
 			finally
 			{
-				lock (watchdogLock)
+				lock (this)
 				{
 					currentStatus = DreamDaemonStatus.Offline;
-					currentPort = 0;
+					Interop.ResetDMAPIVersion();
 					AwaitingShutdown = ShutdownRequestPhase.None;
-					lock (restartLock)
+
+					if (!RestartInProgress)
 					{
-						if (!RestartInProgress)
-						{
-							if (!Config.ReattachRequired)
-								SendMessage("DD: Server stopped, watchdog exiting...", MessageType.WatchdogInfo);
-							WriteInfo("Watch dog exited", EventID.DDWatchdogExit);
-						}
-						else
-							WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
+						if (!Config.ReattachRequired)
+							Chat.SendMessage("DD: Server stopped, watchdog exiting...", MessageType.WatchdogInfo);
+						Logger.WriteInfo("Watch dog exited", EventID.DDWatchdogExit);
 					}
+					else
+						Logger.WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
 				}
 			}
 		}
@@ -497,63 +495,59 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Called every five seconds while DreamDaemon is running to log it's current state to the <see cref="DiagnosticsDir"/>
 		/// </summary>
-		/// <param name="sender">The event sender, an instance of <see cref="System.Timers.Timer"/></param>
-		/// <param name="e">The <see cref="ElapsedEventArgs"/></param>
-		private void MemTrackTimer_Elapsed(object sender, ElapsedEventArgs e)
+		void LogCurrentResoruceUsage()
 		{
 			ulong megamem;
 			float cputime;
-			lock (watchdogLock)
+			lock (this)
 			{
 				cputime = pcpu.NextValue();
 				using (var pcm = new PerformanceCounter("Process", "Working Set - Private", process.ProcessName, true))
 					megamem = Convert.ToUInt64(pcm.NextValue()) / 1024;
+				var PercentCpuTime = (int)Math.Round((Decimal)cputime);
+				WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}MB", megamem, PercentCpuTime.ToString("D3")));
 			}
-			var PercentCpuTime = (int)Math.Round((Decimal)cputime);
-			WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}MB", megamem, PercentCpuTime.ToString("D3")));
 		}
-
-		/// <inheritdoc />
-		public string CanStart()
+		
+		/// <summary>
+		/// Check if a call to <see cref="Start"/> will fail. Of course, be aware of race conditions with other interfaces
+		/// </summary>
+		/// <returns>The error that would occur, <see langword="null"/> otherwise</returns>
+		string CanStart()
 		{
-			if (GetVersion(ByondVersion.Installed) == null)
+			if (Byond.GetVersion(ByondVersion.Installed) == null)
 				return "Byond is not installed!";
-			var DMB = RelativePath(GameDirLive + "/" + Config.ProjectName + ".dmb");
-			if (!File.Exists(DMB))
+			var DMB = Path.Combine(GameDirLive , String.Format("{0}.dmb", Config.ProjectName));
+			if (!IO.FileExists(DMB))
 				return String.Format("Unable to find {0}!", DMB);
+			if(DaemonStatus() != DreamDaemonStatus.Offline)
+				return "Server already running";
 			return null;
 		}
 
 		/// <inheritdoc />
 		public string Start()
 		{
-			if (CurrentStatus() == ByondStatus.Staged)
+			if (Byond.CurrentStatus() == ByondStatus.Staged)
 			{
 				//IMPORTANT: SLEEP FOR A MOMENT OR WONDOWS WON'T RELEASE THE FUCKING BYOND DLL HANDLES!!!! REEEEEEE
 				Thread.Sleep(3000);
-				ApplyStagedUpdate();
+				Byond.ApplyStagedUpdate();
 			}
-			lock (watchdogLock)
+			lock (this)
 			{
-				if (currentStatus != DreamDaemonStatus.Offline)
-					return "Server already running";
-				var res = CanStart();
-				if (res != null)
-					return res;
-				currentPort = 0;
 				currentStatus = DreamDaemonStatus.HardRebooting;
+				return StartImpl(false);
 			}
-			return StartImpl(false);
 		}
 
 		/// <summary>
-		/// Translate the configured <see cref="DreamDaemonSecurity"/> level into a byond command line param
+		/// Translate the <see cref="StartingSecurity"/> level into a BYOND command line param
 		/// </summary>
-		/// <param name="starting">If <see langword="true"/> bases it's result on <see cref="StartingSecurity"/>, uses <see cref="InstanceConfig.Security"/> of <see cref="Config"/> otherwise</param>
-		/// <returns>"safe", "trusted", or "ultrasafe" depending on the <see cref="DreamDaemonSecurity"/> it checks</returns>
-		string SecurityWord(bool starting = false)
+		/// <returns>"safe", "trusted", or "ultrasafe" depending on <see cref="StartingSecurity"/></returns>
+		string SecurityWord()
 		{
-			var level = starting ? StartingSecurity : Config.Security;
+			var level = StartingSecurity;
 			switch (level)
 			{
 				case DreamDaemonSecurity.Safe:
@@ -568,91 +562,31 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
-		/// Copies <see cref="BridgeDLLName"/> from the program directory to the the <see cref="Instance"/> directory
+		/// Calls <see cref="IInteropManager.ResetDMAPIVersion"/>, <see cref="IInteropManager.SetCommunicationsKey(string)"/> with a <see langword="null"/> parameter, and <see cref="IInteropManager.UpdateBridgeDll(bool)"/> with a <see langword="true"/> parameter. Attempts to start the DreamDaemon <see cref="process"/>
 		/// </summary>
-		/// <param name="overwrite">If <see langword="true"/>, overwrites the <see cref="Instance"/>'s current interface .dll if it exists</param>
-		void UpdateBridgeDll(bool overwrite)
-		{
-			var rbdlln = RelativePath(BridgeDLLName);
-			var FileExists = File.Exists(rbdlln);
-			if (FileExists && !overwrite)
-				return;
-			//Copy the interface dll to the static dir
-
-			var InterfacePath = Assembly.GetAssembly(typeof(IServerInterface)).Location;
-			//bridge is installed next to the interface
-			var BridgePath = Path.Combine(Path.GetDirectoryName(InterfacePath), BridgeDLLName);
-#if DEBUG
-			//We could be debugging from the project directory
-			if (!File.Exists(BridgePath))
-				//A little hackish debug mode doctoring never hurt anyone
-				BridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(InterfacePath)))), "TGS.Interface.Bridge/bin/x86/Debug", BridgeDLLName);
-#endif
-			try
-			{
-				//Use reflection to ensure these are the droids we're looking for
-				Assembly.ReflectionOnlyLoadFrom(BridgePath).GetType(String.Format("{0}.{1}.{2}.{3}", nameof(TGS), nameof(Interface), DreamDaemonBridgeNamespace, DreamDaemonBridgeType), true);
-			}
-			catch (Exception e)
-			{
-				WriteError(String.Format("Unable to locate {0}! Error: {1}", BridgeDLLName, e.ToString()), EventID.BridgeDLLUpdateFail);
-				return;
-			}
-
-			try
-			{
-				if (FileExists)
-				{
-					var Old = File.ReadAllBytes(rbdlln);
-					var New = File.ReadAllBytes(BridgePath);
-					if (Old.SequenceEqual(New))
-						return; //no need
-				}
-				File.Copy(BridgePath, rbdlln, overwrite);
-			}
-			catch
-			{
-				try
-				{
-					//ok the things being stupid and hasn't released the dll yet, try ONCE more
-					Thread.Sleep(1000);
-					File.Copy(BridgePath, rbdlln, overwrite);
-				}
-				catch (Exception e)
-				{
-					//intentionally using the fi
-					WriteError("Failed to update bridge DLL! Error: " + e.ToString(), EventID.BridgeDLLUpdateFail);
-					return;
-				}
-			}
-			WriteInfo("Updated interface DLL", EventID.BridgeDLLUpdated);
-		}
-
-		/// <summary>
-		/// Clears the current <see cref="GameAPIVersion"/>, calls <see cref="UpdateBridgeDll(bool)"/> with a <see langword="true"/> parameter, and attempts to start the DreamDaemon <see cref="process"/>
-		/// </summary>
-		/// <param name="watchdog">If <see langword="false"/>, sets <see cref="DDWatchdog"/> to a new <see cref="Thread"/> pointing to <see cref="Watchdog"/> and starts it</param>
+		/// <param name="watchdog">If <see langword="false"/>, calls <see cref="StartWatchdogTask"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string StartImpl(bool watchdog)
 		{
 			try
 			{
-				lock (watchdogLock)
+				lock (this)
 				{
 					var res = CanStart();
 					if (res != null)
 						return res;
 
+					Interop.SetCommunicationsKey();
+					Interop.ResetDMAPIVersion();
+					Interop.UpdateBridgeDll(true);
+
 					var DMB = RelativePath(GameDirLive + "/" + Config.ProjectName + ".dmb");
 
-					GenCommsKey();
 					StartingSecurity = Config.Security;
-					process.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}&{6}={7}\" -{2} -public", DMB, Config.Port, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient " : "", SPInstanceName, Config.Name);
-					UpdateBridgeDll(true);
-					lock (topicLock)
-					{
-						GameAPIVersion = null;  //needs updating
-					}
+
+					process.StartInfo.Arguments = String.Format("{0} -port {1} {4}-close -verbose -params \"{3}\" -{2} -public", DMB, Config.Port, SecurityWord(), Interop.StartParameters(), Config.Webclient ? "-webclient " : "");
+
+					
 					process.Start();
 					process.PriorityClass = ProcessPriorityClass.AboveNormal;
 
@@ -662,16 +596,14 @@ namespace TGS.Server.Components
 						process.WaitForExit();
 						process.Close();
 						currentStatus = DreamDaemonStatus.Offline;
-						currentPort = 0;
 						return String.Format("Server start is taking more than {0}s! Aborting!", DDHangStartTime);
 					}
-					currentPort = Config.Port;
+
+					Interop.TopicPort = Config.Port;
+
 					currentStatus = DreamDaemonStatus.Online;
 					if (!watchdog)
-					{
-						DDWatchdog = new Thread(new ThreadStart(Watchdog));
-						DDWatchdog.Start();
-					}
+						StartWatchdogTask();
 					return null;
 				}
 			}
@@ -685,24 +617,21 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public DreamDaemonSecurity SecurityLevel()
 		{
-			lock (watchdogLock)
-			{
-				return Config.Security;
-			}
+			return Config.Security;
 		}
 
 		/// <inheritdoc />
 		public bool SetSecurityLevel(DreamDaemonSecurity level)
 		{
-			bool needReboot;
-			lock (watchdogLock)
+			lock (this)
 			{
-				needReboot = Config.Security != level;
-				Config.Security = level;
+				if (Config.Security != level)
+				{
+					Config.Security = level;
+					RequestRestart();
+				}
+				return currentStatus != DreamDaemonStatus.Online;
 			}
-			if (needReboot)
-				RequestRestart();
-			return DaemonStatus() != DreamDaemonStatus.Online;
 		}
 
 		/// <inheritdoc />
@@ -720,7 +649,6 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string StatusString(bool includeMetaInfo)
 		{
-			const string visSecStr = " (Sec: {0})";
 			string res;
 			var ds = DaemonStatus();
 			switch (ds)
@@ -733,22 +661,18 @@ namespace TGS.Server.Components
 					break;
 				case DreamDaemonStatus.Online:
 					res = "ONLINE";
-					if (includeMetaInfo)
-					{
-						string secandvis;
-						lock (watchdogLock)
-						{
-							secandvis = String.Format(visSecStr, SecurityWord(true));
-						}
-						res += secandvis;
-					}
 					break;
 				default:
 					res = "NULL AND ERRORS";
 					break;
 			}
-			if (includeMetaInfo && ds != DreamDaemonStatus.Online)
-				res += String.Format(visSecStr, SecurityWord());
+			if (includeMetaInfo)
+			{
+				string sec;
+				lock (this)
+					sec = SecurityWord();
+				res = String.Format("{0} (Sec: {1})", res, sec);
+			}
 			return res;
 		}
 
@@ -761,19 +685,8 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public bool ShutdownInProgress()
 		{
-			lock (watchdogLock)
-			{
+			lock (this)
 				return AwaitingShutdown != ShutdownRequestPhase.None;
-			}
-		}
-
-		/// <inheritdoc />
-		public string WorldAnnounce(string message)
-		{
-			var res = SendCommand(SCWorldAnnounce + ";message=" + Helpers.SanitizeTopicString(message));
-			if (res == "SUCCESS")
-				return null;
-			return res;
 		}
 
 		/// <inheritdoc />
@@ -785,15 +698,12 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public void SetWebclient(bool on)
 		{
-			lock (watchdogLock)
-			{
-				var diff = on != Config.Webclient;
-				if (diff)
+			lock (this)
+				if (on != Config.Webclient)
 				{
 					Config.Webclient = on;
 					RequestRestart();
 				}
-			}
 		}
 	}
 }

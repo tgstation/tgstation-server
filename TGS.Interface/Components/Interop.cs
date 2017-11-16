@@ -9,7 +9,7 @@ namespace TGS.Interface.Components
 	public interface ITGInterop
 	{
 		/// <summary>
-		/// Called from /world/ExportService(command)
+		/// Called from /world/ExportService(command). Can only be used by DreamDaemon
 		/// </summary>
 		/// <param name="command">The command to run</param>
 		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
@@ -20,12 +20,11 @@ namespace TGS.Interface.Components
 		/// Sends a message to everyone on the server
 		/// </summary>
 		/// <param name="msg">The message to send</param>
-		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
-		string WorldAnnounce(string msg);
+		void WorldAnnounce(string msg);
 
 		/// <summary>
-		/// Returns the number of connected players. Requires game to use API version >= 3.1.0.1
+		/// Returns the number of connected players
 		/// </summary>
 		/// <returns>The number of connected players or -1 on error</returns>
 		[OperationContract]
