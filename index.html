@@ -100,14 +100,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Unzip setup files</li>
 </ol>
 <ol type="1">
-<li>Run the installer</li>
+<li>Run the installer or use the console server</li>
 </ol>
 <h2>Installing (GUI):</h2>
 <ol type="1">
-<li>Launch TGControlPanel.exe as an administrator. A shortcut can be found on your desktop</li>
+<li>Launch <code>TGControlPanel.exe</code> as an administrator. A shortcut can be found on your desktop</li>
 </ol>
 <ol type="1">
-<li>Optionally switch to the <code>Server</code> tab and change the Server Path location from <code>C:\\tgstation-server-3</code> to wherever you wish</li>
+<li>Use the <code>Create Instance</code> button to create a new server instance</li>
 </ol>
 <ol type="1">
 <li>Go to the <code>Repository</code> Tab and set the remote address and branch of the git you with to track</li>
@@ -116,7 +116,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Hit the clone button</li>
 </ol>
 <ol type="1">
-<li>While waiting go to the BYOND tab and install the BYOND version you wish</li>
+<li>While waiting go to the <code>BYOND</code> tab and install the BYOND version you wish</li>
 </ol>
 <ol type="1">
 <li>You may also configure an IRC and/or discord bot for the server on the chat tab</li>
@@ -141,7 +141,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Launch TGCommandLine.exe as an administrator (running with no parameters puts you in interactive mode)</li>
 </ol>
 <ol type="1">
-<li><code>config move-server D:\tgstation</code></li>
+<li><code>service set-python-path C:\Python27</code></li>
+</ol>
+<ol type="1">
+<li><code>service create-instance "TGS" D:\tgstation</code></li>
+</ol>
+<ol type="1">
+<li><code>instance</code> And enter <code><a class="el" href="namespace_t_g_s.html">TGS</a></code>. If you aren't using interactive mode, the following commands must be suffixed with <code>--instanceName <a class="el" href="namespace_t_g_s.html">TGS</a></code></li>
 </ol>
 <ol type="1">
 <li><code>repo setup <a href="https://github.com/tgstation/tgstation">https://github.com/tgstation/tgstation</a> master</code></li>
@@ -162,19 +168,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>irc setup-auth NickServ "id hunter2"</code> Yes this is the real password, please use it only for testing</li>
 </ol>
 <ol type="1">
-<li><code>irc join coderbus dev</code></li>
+<li><code>irc join botbus dev</code></li>
 </ol>
 <ol type="1">
-<li><code>irc join devbus dev</code></li>
+<li><code>irc join botbus admin</code></li>
 </ol>
 <ol type="1">
-<li><code>irc join adminbus admin</code></li>
+<li><code>irc join botbus wd</code></li>
 </ol>
 <ol type="1">
-<li><code>irc join adminbus wd</code></li>
-</ol>
-<ol type="1">
-<li><code>irc join tgstation13 game</code></li>
+<li><code>irc join botbus game</code></li>
 </ol>
 <ol type="1">
 <li><code>irc enable</code></li>
@@ -219,9 +222,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>dm project-name tgstation</code></li>
 </ol>
 <ol type="1">
-<li><code>repo python-path C:\Python27</code></li>
-</ol>
-<ol type="1">
 <li><code>dd autostart on</code></li>
 </ol>
 <ol type="1">
@@ -244,8 +244,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Run TGCommandLine.exe as an administrator</li>
 </ol>
 <ol type="1">
-<li><code>admin set-group &lt;Name of the group you created&gt;</code></li>
+<li><code>admin set-group &lt;Name of the group you created&gt; --instanceName "\&lt;instance name\&gt;"</code></li>
 </ol>
+<p>Note: Due to internal functionality, a user who has access to at least one server instance will be able to view the metadata (Name, path, Logging ID, and Enabled status) of all instances.</p>
 <h2>Setting up Remote access</h2>
 <ol type="1">
 <li>Obtain an SSL certificate to secure the connection (this is beyond the scope of this guide)</li>
@@ -276,9 +277,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li><code>Static/</code><ul>
-<li>This contains the <code>data/</code> and <code>config/</code> folders from the code. They are stored here and a symbolic link is created in the <code>gamecode/</code> folders pointing to here.</li>
-<li>This also makes backing them up easy. (you may copy and paste your existing <code>data/</code> and <code>config/</code> folders here after the install script has ran.)</li>
-<li>This folder also contains several .dlls, these are symlinked to from here for BYOND compatibility reasons and should not be tampered with</li>
+<li>This contains the <code>data/</code> and <code>config/</code> folders from the code. They are stored here and a symbolic link is created in the <code>Game</code> folders pointing to here.</li>
 <li>Resetting the repository will create a backup of this and reinitalize it</li>
 </ul>
 </li>
@@ -315,83 +314,108 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>This is a queued update downloaded from BYOND, it will be unzipped into BYOND_staging and deleted. Restarting the service deletes this file</li>
 </ul>
 </li>
+<li><code>TGDreamDaemonBridge.dll</code><ul>
+<li>This is the .dll the TGS3 API <code>call()()</code>s into to RPC the server instance that runs it</li>
+<li>Instance -&gt; DreamDaemon communication is achieved via <code>world/Topic()</code></li>
+</ul>
+</li>
 <li><code>prtestjob.json</code><ul>
 <li>This contains information about current test merged pull requests in the Repository folder</li>
 </ul>
 </li>
 <li><code>TGS3.json</code><ul>
-<li>This is a copy of TGS3.json from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it</li>
+<li>This is a copy of <code>TGS3.json</code> from the Repository. If a repostory change creates differences between the two, update operations will be blocked until the user confirms they want to change it</li>
 </ul>
 </li>
-<li><code>Instance.cfg</code><ul>
-<li>The encrypted internal configuration settings for a server instance. Note that access to this file bypasses API user restrictions</li>
+<li><code>Instance.json</code><ul>
+<li>The internal configuration settings for a server instance. Note that access to this file bypasses API user restrictions</li>
 </ul>
 </li>
 </ul>
 <h3>Codebase integration</h3>
-<p>To get the TGS3 API for your code base, import the 3 .dm files in the <code>DMAPI</code> folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a TGS3.json file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options.</p>
+<p>To get the TGS3 API for your code base, import the 3 .dm files in the <code>DMAPI</code> folder into your include structure, then fill out the configuration as documented in the comments of server_tools.dm. Then, you may want to add a <code>TGS3.json</code> file to specify any static directories and .dlls your codebase uses, along with the optional changelog compile options. Any changes to <code>TGS3.json</code> will block compiler operations until a server operator manually approves them.</p>
 <h3>Starting the game server:</h3>
 <p>To run the game server, open the <code>Server</code> tab of the control panel and click either <code>Start</code></p>
 <p>It will restart the game server if it shutdowns for any reason, giving up after 5 tries in under a minute</p>
 <h3>Updating the server:</h3>
-<p>To update the server, open the <code>Server</code> tab of the control panel. Optionally tick <code>Commit and push Changelogs</code>. Click <code>Update (Reset Testmerge)</code>. (it will git pull, compile, all that jazz)</p>
-<p>(Note: Updating automatically does a code reset, clearing ALL changes to the local git repo, including test merges (explained below) and manual changes (This will not change any configs/settings or clear any data in the <code>gamedata/</code> folder))</p>
+<p>To update the server, open the <code>Server</code> tab of the control panel. Click <code>Update Server</code>. (it will git pull, compile, all that jazz). Note that this button won't clear test merges.</p>
+<p>(Note: Updating automatically does a code reset, clearing ALL changes to the local git repo, including manual changes (This will not change any data in the <code>Static/</code> folder))</p>
 <p>Updates do not require the server to be shutdown, changes will apply next round if the server is currently running.</p>
 <p>All DM compilation will log to the server what commit they happened at and create a backup tag in the local repository.</p>
-<p>There is also a <code>Update (Keep Testmerge)</code> option that does the same without resetting the code, used to update without clearing test merges or local changes. Prone to merge conflicts.</p>
 <h3>Locally merge GitHub Pull Requests (PR test merge):</h3>
-<p>This feature currently only works if github is the remote(git server), it could be adapted for gitlab as well.</p>
+<p>This feature currently only works if github is the remote (git server).</p>
 <p>Running these will merge the pull request then recompile the server, changes take effect the next round if the server is currently running.</p>
-<p>There are multiple flavors in the server tab:</p><ul>
-<li><code>Update and Testmerge</code><ul>
-<li>Updates the server, resetting state, and merges a PR(Pull Request) by number.</li>
+<p>There are two flavors to this.</p><ul>
+<li>The manual method is to use the repo page's merge PR button for fine grain control over PR merging. Each time this button is pressed, the latest commit of the specified PR# will be merged into the repo</li>
+<li>The managed method is the Server page's <code>Test Merge Manager</code> which uses the GitHub API to get information about available PRs.<ul>
+<li>Open PRs are listed by default</li>
+<li>Currently test merged PRs are checked off and listed at the top when it's opened</li>
 </ul>
 </li>
-<li><code>Testmerge</code><ul>
-<li>Merges a PR without updating the server before hand or resetting the state (can be used to test merge multiple PRs).</li>
+<li>If a PR contains a label that contains the text <code>test</code> (case-insensitive) it will be listed on top and marked as <code>TESTING REQUESTED</code><ul>
+<li>If a PR has been updated since it was test merged, two entries for it will appear. One listed as <code>OUTDATED</code> and specifying the commit it was merged at</li>
+<li>You can change the initial update action of the server with the radio buttons in the bottom left. <code>Update to Remote</code> fully resets and updates the server before merging PRs. <code>Update To Origin</code> does the same based off the local repository's <code>origin</code> remote. <code>No Update</code> will merge the PRs without any prior action</li>
+<li>Checking off PRs here and then hitting apply will run the selected update action, optionally generate and push a changelog (see below), merge the PRs, and then compile. <code>Update Server</code> will keep any active merged PRs until they are manually removed or merged on the <code>origin</code> remote.</li>
+<li>Given that the control panel uses GitHub's API to populate the <code>Test Merge Manager</code> you may be prompted for your credentials if you make too many requests. This will create a personal access token with public access on your account specifying its use to bypass the GitHub API rate limit.</li>
 </ul>
 </li>
 </ul>
-<p>You can clear all active test merges using <code>Reset to Origin Branch</code> in the <code>Repository</code> tab and the using <code>Copy from Repo and Compile</code> in the server tab (explained below)</p>
-<h3>Resetting, Recompiling, and troubleshooting.</h3>
+<p>You can clear all active test merges using <code>Reset to Origin Branch</code> in the <code>Repository</code> tab and the using <code>Copy from Repo and Compile</code> in the server tab (explained below). You can also use the <code>Reset All Test Merges</code> button on the server tab for a concise solution.</p>
+<h3>The Compiler</h3>
 <ul>
 <li><code>Server</code> -&gt; <code>Copy from Repo and Compile</code><ul>
-<li>Just recompiles the game code and stages it to apply next round</li>
-</ul>
-</li>
-<li><code>Server</code> -&gt; <code>Reset and Recompile</code><ul>
-<li>Like the above but resets the git repo to the state of the last update operation (clearing any changes or test merges) (Does not reset <code>gamedata/</code> data/settings)</li>
-<li>Generally used to clear out test merges</li>
+<li>Copies the local repository code, compiles it, and stages it to apply next round</li>
 </ul>
 </li>
 <li><code>Server</code> -&gt; <code>Initialize Game Folders</code><ul>
-<li>Requires the server not be running, rebuilds the staging A/B folders and then does <code>Copy from Repo and Compile</code>.</li>
+<li>Requires the server not be running, rebuilds the <code>Game</code> folder and then does <code>Copy from Repo and Compile</code></li>
+<li>Required on first setup</li>
 </ul>
 </li>
 </ul>
 <h3>Starting everything when the computer/server boots</h3>
+<p>Just tick the <code>Autostart</code> option in the <code>Server</code> tab or run <code>dd autostart on</code> on the command line. As it's a windows service, it will automatically run without having to log ing</p>
+<h3>Enabling the BYOND Webclient</h3>
+<p>Just tick the <code>Webclient</code> option in the <code>Server</code> tab or run <code>dd webclient on</code> on the command line.</p>
+<h3>Static Configuration</h3>
 <ul>
-<li>Just tick the <code>Autostart</code> option in the <code>Server</code> tab or run <code>dd autostart on</code> on the command line. As it's a windows service, it will automatically run without having to log ing</li>
+<li>The <code>Static Files</code> page of the control panel lets you modify all files in directories you specified in <code>TGS3.json</code></li>
+<li>The files are modified here using the Windows credentials of the active user, feel free to manually set ACLs on them</li>
+<li>You may optionally rebuild the entire <code>Static</code> folder from the repository using the <code>Recreate Static Directory</code> button. This will copy the original files from the repository based on the current <code>TGS3.json</code>. This requires DreamDaemon not be running</li>
 </ul>
-<h3>Configuring</h3>
+<h3>Moving, Renaming, and Detaching instances</h3>
 <ul>
-<li>The <code>Config</code> panel of the control panel lets you modify nearly all the game configuration settings</li>
-<li>Not all settings can be modified from here. Although, you should never (have to) write to the service's folders directly. Instead you may use the <code>Download</code> button to download a copy of the config file locally, modify it there, then use the <code>Upload</code> button to apply it to the <code>Static/config</code> folder. You may also use the <code>DL Repo</code> button to download from the <code>Repository</code> config folder.</li>
-<li>The above functions are the only ones available in command line mode using <code>config download &lt;Static/config path&gt; &lt;local path&gt;</code>, <code>config upload &lt;Static/config path&gt; &lt;local path&gt;</code>, and <code>config download &lt;Repository/config path&gt; &lt;local path&gt; --repo</code> respectively</li>
+<li>Instances can be renamed, but this requires a temporary offlining of them (this includes interface access, DreamDaemon, and chat bots)</li>
+<li>Detaching an instance simply removes it from the main server's configuration and control, leaving it free for the user to manipulate</li>
+<li>Importing an instance will work as long as<ol type="1">
+<li>No other instance currently in the server has the same name</li>
+</ol>
+<ol type="1">
+<li>It is not the same path as another instance Note that importing an instance as a different windows user (this is always different across machines) will result in a loss of chat configuration due to the encryption scheme</li>
+</ol>
+</li>
 </ul>
 <h3>Viewing Server Logs</h3>
 <ul>
-<li>Logs are stored in the Windows event viewer under <code>Windows Logs</code> -&gt; <code>Application</code>. You'll need to filter this list for <code>TG Station Server</code></li>
-<li>Every event type is keyed with an ID. A complete listing of these IDs and their purpose can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/TGS.Server/EventID.cs">here</a>.</li>
+<li>Service logs are stored in the Windows event viewer under <code>Windows Logs</code> -&gt; <code>Application</code>. You'll need to filter this list for <code>TG Station Server</code></li>
+<li>Every event type is keyed with an ID. A complete listing of these IDs and their purpose can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/TGS.Server/EventID.cs">here</a>. Event IDs from different instances are offset by the logging ID the instance was assigned when it was started.</li>
 <li>You can also import the custom view <code>View TGS3 Logs.xml</code> in this folder to have them automatically filtered</li>
+<li>Servers running in console mode only use std_out</li>
 </ul>
 <h3>Enabling upstream changelog generation</h3>
 <ul>
 <li>The repository will automatically create an ssh version of the initial origin remote and can optionally push generated changelogs to your git through it</li>
 <li>The repository can only authenticate using ssh public key authentication</li>
 <li>To enable this feature, simply create <code>public_key.txt</code> and <code>private_key.txt</code> in a folder called RepoKey in the server directory</li>
-<li>The private key must be in <code>-----BEGIN RSA PRIVATE KEY-----</code> format and the public key must be in <code>ssh-rsa</code> format. See github guidelines for setting this up here: <a href="https://help.github.com/articles/connecting-to-github-with-ssh/">https://help.github.com/articles/connecting-to-github-with-ssh/</a></li>
-<li>The service will be able to read these files regardless of their permissions, so the responsibility is on you to set their ACL's so they can't be read by those that shouldn't</li>
+<li>The private key must be in <code>-----BEGIN RSA PRIVATE KEY-----</code> format and the public key must be in <code>ssh-rsa</code> format. You can generate a keypair like this using the converter in the dropdown menu of PuTTYGen. See github guidelines for setting this up here: <a href="https://help.github.com/articles/connecting-to-github-with-ssh/">https://help.github.com/articles/connecting-to-github-with-ssh/</a></li>
+<li>The server will be able to read these files regardless of their permissions, so the responsibility is on you to set their ACL's so they can't be read by those that shouldn't</li>
+</ul>
+<h3>Synchronized test merge commits</h3>
+<ul>
+<li>An instance can push branchless test merge commits to GitHub if the <code>RepoKey</code> folder is setup</li>
+<li>This pushes all test merge commits to the remote branch <code>___TGS3TempBranch</code> and then deletes it</li>
+<li>This provides public reference information about the test merge commit and time since it will appear in the PR in questing</li>
+<li>To enable this, check the <code>Sync Commits</code> button on the <code>Repository</code> page of the control panel or run <code>repo push-testmerges on --instanceName "\&lt;instance name\&gt;"</code> from TGCommandLine</li>
 </ul>
 <h2>CONTRIBUTING</h2>
 <ul>
