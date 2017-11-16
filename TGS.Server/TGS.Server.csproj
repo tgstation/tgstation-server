@@ -97,8 +97,9 @@
     <Compile Include="Components\IInteropManager.cs" />
     <Compile Include="Components\InteropCommand.cs" />
     <Compile Include="Components\InteropManager.cs" />
+    <Compile Include="Components\PopulateCommandInfoEventArgs.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="Components\IChat.cs" />
+    <Compile Include="Components\IChatManager.cs" />
     <Compile Include="IInstanceLogger.cs" />
     <Compile Include="IIOManager.cs" />
     <Compile Include="IInstanceConfig.cs" />

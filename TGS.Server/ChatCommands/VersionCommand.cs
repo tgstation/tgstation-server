@@ -18,7 +18,7 @@ namespace TGS.Server.ChatCommands
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Instance.Version());
+			OutputProc(Server.VersionString);
 			return ExitCode.Normal;
 		}
 

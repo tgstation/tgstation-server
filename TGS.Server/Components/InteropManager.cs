@@ -55,10 +55,25 @@ namespace TGS.Server.Components
 		const string CLParamInstanceName = "server_instance";
 
 		// Bridge commands
+		/// <summary>
+		/// Raises <see cref="OnKillRequest"/>
+		/// </summary>
 		const string BCKillProcess = "killme";
+		/// <summary>
+		/// Broadcasts the parameter using <see cref="MessageType.GameInfo"/>
+		/// </summary>
 		const string BCChatBroadcast = "irc";
+		/// <summary>
+		/// Broadcasts the parameter using <see cref="MessageType.AdminInfo"/>
+		/// </summary>
 		const string BCAdminChannelMessage = "send2irc";
+		/// <summary>
+		/// Raises <see cref="OnWorldReboot"/> among other things
+		/// </summary>
 		const string BCWorldReboot = "worldreboot";
+		/// <summary>
+		/// Sets <see cref="DMAPIVersion"/> to the parameter
+		/// </summary>
 		const string BCAPIVersion = "api_ver";
 
 		// Topic commands
@@ -125,7 +140,7 @@ namespace TGS.Server.Components
 		/// </summary>
 		/// <param name="input">The <see cref="string"/> to sanitize</param>
 		/// <returns>The sanitized string</returns>
-		static string SanitizeTopicString(string input)
+		public static string SanitizeTopicString(string input)
 		{
 			return input.Replace("%", "%25").Replace("=", "%3d").Replace(";", "%3b").Replace("&", "%26").Replace("+", "%2b");
 		}
@@ -145,6 +160,8 @@ namespace TGS.Server.Components
 			Chat = chat;
 
 			TopicPort = Config.ReattachPort;
+			OnWorldReboot += (a, b) => ResetDMAPIVersion();
+			Chat.OnRequireChatCommands += (a, b) => Chat.LoadChatCommands(SendCommand(InteropCommand.ListCustomCommands));
 		}
 
 		/// <summary>
@@ -177,19 +194,16 @@ namespace TGS.Server.Components
 					break;
 				case BCWorldReboot:
 					Logger.WriteInfo("World Rebooted", EventID.WorldReboot);
+					Chat.ResetChatCommands();
+					Chat.CheckConnectivity();
 					OnWorldReboot(this, new EventArgs());
-					///
-					ServerChatCommands = null;
-					ChatConnectivityCheck();
+
 					lock (CompilerLock)
 					{
 						if (UpdateStaged)
 						{
 							UpdateStaged = false;
 							lock (topicLock)
-							{
-								GameAPIVersion = null;  //needs updating
-							}
 							WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
 						}
 					}
@@ -393,29 +407,33 @@ namespace TGS.Server.Components
 			uint paramsRequired;
 			switch (command)
 			{
-				case InteropCommand.RestartOnWorldReboot:
-					paramsRequired = 0;
-					break;
-				case InteropCommand.ShutdownOnWorldReboot:
-					paramsRequired = 0;
-					break;
+				case InteropCommand.CustomCommand:
 				case InteropCommand.WorldAnnounce:
 					paramsRequired = 1;
 					break;
 				default:
-					throw new InvalidOperationException(String.Format("Invalid value for command! Got {0}", command));
+					paramsRequired = 0;
+					break;
 			}
+
 			var paramCount = parameters != null ? parameters.Count() : 0;
 			if (paramsRequired != paramCount)
 				throw new InvalidOperationException(String.Format("Invalid number of parameters! Expected {0} got {1}", paramsRequired, paramCount));
 
-			var commandText = String.Format("{0}={1};{2}={3}", TCCommsKey, communicationsKey, TCCommand, TopicCommands[command]);
+			string commandText = String.Format("{0}={1}", TCCommsKey, communicationsKey);
+
+			if (command != InteropCommand.CustomCommand)
+				commandText = String.Format("{0};{2}={3}", commandText, TCCommand, TopicCommands[command]);
 
 			switch (command)
 			{
 				case InteropCommand.WorldAnnounce:
 					var message = parameters.First();
-					commandText = String.Format("{0}{1}", commandText, message);
+					commandText = String.Format("{0};message={1}", commandText, message);
+					break;
+				case InteropCommand.CustomCommand:
+					var customCommand = parameters.First();
+					commandText = String.Format("{0}{1}", commandText, customCommand);
 					break;
 			}
 

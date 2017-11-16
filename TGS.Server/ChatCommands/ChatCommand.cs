@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using TGS.Interface;
+using TGS.Server.Components;
 
 namespace TGS.Server.ChatCommands
 {
@@ -12,28 +13,27 @@ namespace TGS.Server.ChatCommands
 		/// <summary>
 		/// <see cref="CommandInfo"/> for the <see cref="ChatCommand"/>
 		/// </summary>
-		public static ThreadLocal<CommandInfo> CommandInfo { get; private set; } = new ThreadLocal<CommandInfo>();
+		public static ThreadLocal<CommandInfo> ThreadCommandInfo { get; private set; } = new ThreadLocal<CommandInfo>();
 		/// <summary>
 		/// If set to <see langword="true"/>, the <see cref="ChatCommand"/> cannot be invoked by a non-admin or outside an admin chat channel
 		/// </summary>
 		public bool RequiresAdmin { get; protected set; }
 		/// <summary>
-		/// Shorthand for accessing <see cref="CommandInfo.Server"/>
+		/// Shorthand for accessing <see cref="ThreadLocal{CommandInfo}.Value"/>
 		/// </summary>
-		protected Instance Instance { get { return CommandInfo.Value.Server; } }
+		protected CommandInfo CommandInfo { get { return ThreadCommandInfo.Value; } }
 
 		/// <inheritdoc />
 		public override ExitCode DoRun(IList<string> parameters)
 		{
 			if (RequiresAdmin)
 			{
-				var Info = CommandInfo.Value;
-				if (!Info.IsAdmin)
+				if (!CommandInfo.IsAdmin)
 				{
 					OutputProc("You are not authorized to use that command!");
 					return ExitCode.BadCommand;
 				}
-				if (!Info.IsAdminChannel)
+				if (!CommandInfo.IsAdminChannel)
 				{
 					OutputProc("Use this command in an admin channel!");
 					return ExitCode.BadCommand;

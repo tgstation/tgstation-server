@@ -1,4 +1,6 @@
-﻿namespace TGS.Server.ChatCommands
+﻿using TGS.Server.Components;
+
+namespace TGS.Server.ChatCommands
 {
 	/// <summary>
 	/// Metadata about the currently running <see cref="ChatCommand"/>
@@ -18,8 +20,16 @@
 		/// </summary>
 		public string Speaker { get; set; }
 		/// <summary>
-		/// A reference to the <see cref="Instance"/> that runs the <see cref="ChatProviders.IChatProvider"/> that heard the <see cref="ChatCommand"/>
+		/// A reference an <see cref="IByondManager"/> to check version information
 		/// </summary>
-		public Instance Server { get; set; }
+		public IByondManager Byond { get; set; }
+		/// <summary>
+		/// A reference an <see cref="IInteropManager"/> to talk to the world
+		/// </summary>
+		public IInteropManager Interop { get; set; }
+		/// <summary>
+		/// A reference an <see cref="IInstanceLogger"/> to log messages
+		/// </summary>
+		public IInstanceLogger Logger { get; set; }
 	}
 }

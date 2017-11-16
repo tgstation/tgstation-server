@@ -29,5 +29,9 @@
 		/// Request the world to return the number of connected clients. No parameters
 		/// </summary>
 		PlayerCount,
+		/// <summary>
+		/// Use a custom command string for the topic. 1 parameter
+		/// </summary>
+		CustomCommand,
 	}
 }

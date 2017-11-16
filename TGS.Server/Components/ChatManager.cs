@@ -9,7 +9,7 @@ using TGS.Interface;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	sealed class ChatManager : IChatManager
+	sealed class ChatManager : IChatManager, IDisposable
 	{
 		/// <summary>
 		/// Used for indicating unintialized encrypted data
@@ -17,37 +17,53 @@ namespace TGS.Server.Components
 		const string UninitializedString = "NEEDS INITIALIZING";
 		
 		// Topic command return parameters
-		const string TCPHelpText = "help_text";
-		const string TCPAdminOnly = "admin_only";
-		const string TCPRequiredParameters = "required_parameters";
+		/// <summary>
+		/// The help text for a <see cref="ServerChatCommand"/>
+		/// </summary>
+		const string CCPHelpText = "help_text";
+		/// <summary>
+		/// Whether or not a <see cref="ServerChatCommand"/> is admin only
+		/// </summary>
+		const string CCPAdminOnly = "admin_only";
+		/// <summary>
+		/// The required parameters for a <see cref="ServerChatCommand"/>
+		/// </summary>
+		const string CCPRequiredParameters = "required_parameters";
+
+		/// <inheritdoc />
+		public event EventHandler OnRequireChatCommands;
+		/// <inheritdoc />
+		public event EventHandler<PopulateCommandInfoEventArgs> OnPopulateCommandInfo;
 
 		/// <summary>
-		/// List of <see cref="IChatProvider"/>s for the <see cref="Instance"/>
+		/// The <see cref="IInstanceLogger"/> for the <see cref="ChatManager"/>
+		/// </summary>
+		readonly IInstanceLogger Logger;
+		/// <summary>
+		/// The <see cref="IInstanceConfig"/> for the <see cref="ChatManager"/>
+		/// </summary>
+		readonly IInstanceConfig Config;
+
+		/// <summary>
+		/// List of <see cref="IChatProvider"/>s under the <see cref="ChatManager"/>
 		/// </summary>
 		IList<IChatProvider> ChatProviders;
 
-		IReadOnlyList<Command> serverChatCommands;
-
-		/// <inheritdoc />
-		public void LoadServerChatCommands(string json)
-		{
-			if (String.IsNullOrWhiteSpace(json))
-				return;
-			List<Command> tmp = new List<Command>();
-			try
-			{
-				foreach (var I in JsonConvert.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(json))
-					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], ((int)I.Value[CCPAdminOnly]) == 1, (int)I.Value[CCPRequiredParameters]));
-				serverChatCommands = tmp;
-			}
-			catch { }
-		}
+		/// <summary>
+		/// List of known <see cref="ServerChatCommand"/>s
+		/// </summary>
+		List<Command> serverChatCommands;
 
 		/// <summary>
-		/// Set up the <see cref="ChatProviders"/> for the <see cref="Instance"/>
+		/// Construct a <see cref="ChatManager"/>
 		/// </summary>
-		public void InitChat()
+		/// <param name="logger">The value of <see cref="Logger"/></param>
+		/// <param name="config">The value of <see cref="Config"/></param>
+		public ChatManager(IInstanceLogger logger, IInstanceConfig config)
 		{
+			Logger = logger;
+			Config = config;
+
 			var infos = InitProviderInfos();
 			ChatProviders = new List<IChatProvider>(infos.Count);
 			foreach (var info in infos)
@@ -64,20 +80,43 @@ namespace TGS.Server.Components
 							chatProvider = new IRCChatProvider(info);
 							break;
 						default:
-							WriteError(String.Format("Invalid chat provider: {0}", info.Provider), EventID.InvalidChatProvider);
+							Logger.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), EventID.InvalidChatProvider);
 							continue;
 					}
 				}
 				catch (Exception e)
 				{
-					WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), EventID.ChatProviderStartFail);
+					Logger.WriteError(String.Format("Failed to start chat provider {0}! Error: {1}", info.Provider, e.ToString()), EventID.ChatProviderStartFail);
 					continue;
 				}
 				chatProvider.OnChatMessage += ChatProvider_OnChatMessage;
 				var res = chatProvider.Connect();
 				if (res != null)
-					WriteWarning(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", chatProvider.GetType().ToString(), res), EventID.ChatConnectFail);
+					Logger.WriteWarning(String.Format("Unable to connect to chat! Provider {0}, Error: {1}", chatProvider.GetType().ToString(), res), EventID.ChatConnectFail);
 				ChatProviders.Add(chatProvider);
+			}
+		}
+
+		/// <summary>
+		/// Properly shuts down all <see cref="ChatProviders"/>
+		/// </summary>
+		public void Dispose()
+		{
+			if (ChatProviders != null)
+			{
+				var infosList = new List<IList<string>>();
+
+				foreach (var ChatProvider in ChatProviders)
+				{
+					infosList.Add(ChatProvider.ProviderInfo().DataFields);
+					ChatProvider.Dispose();
+				}
+				ChatProviders = null;
+
+				var rawdata = JsonConvert.SerializeObject(infosList);
+
+				Config.ChatProviderData = Interface.Helpers.EncryptData(rawdata, out string entrp);
+				Config.ChatProviderEntropy = entrp;
 			}
 		}
 
@@ -90,7 +129,7 @@ namespace TGS.Server.Components
 		/// <param name="message">The recieved message</param>
 		/// <param name="isAdmin"><see langword="true"/> if <paramref name="speaker"/> is considered a chat admin, <see langword="false"/> otherwise</param>
 		/// <param name="isAdminChannel"><see langword="true"/> if <paramref name="channel"/> is an admin channel, <see langword="false"/> otherwise</param>
-		private void ChatProvider_OnChatMessage(IChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
+		void ChatProvider_OnChatMessage(IChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
 
@@ -102,47 +141,26 @@ namespace TGS.Server.Components
 
 			var asList = new List<string>(splits);
 
+			Logger.WriteInfo(String.Format("Chat command from {0} ({2}): {1}", speaker, String.Join(" ", asList), channel), EventID.ChatCommand);
+
 			Command.OutputProcVar.Value = (m) => ChatProvider.SendMessageDirect(m, channel);
-			ChatCommand.CommandInfo.Value = new CommandInfo()
+
+			var CI = new CommandInfo()
 			{
 				IsAdmin = isAdmin,
 				IsAdminChannel = isAdminChannel,
 				Speaker = speaker,
-				Server = this,
+				Logger = Logger,
 			};
-			WriteInfo(String.Format("Chat Command from {0} ({2}): {1}", speaker, String.Join(" ", asList), channel), EventID.ChatCommand);
-			if (ServerChatCommands == null)
-				LoadServerChatCommands();
-			new RootChatCommand(ServerChatCommands).DoRun(asList);
-		}
 
-		/// <summary>
-		/// Properly shuts down all <see cref="ChatProviders"/>
-		/// </summary>
-		void DisposeChat()
-		{
-			var infosList = new List<IList<string>>();
-
-			foreach (var ChatProvider in ChatProviders)
+			lock (this)
 			{
-				infosList.Add(ChatProvider.ProviderInfo().DataFields);
-				ChatProvider.Dispose();
+				OnPopulateCommandInfo(this, new PopulateCommandInfoEventArgs(CI));
+				ChatCommand.ThreadCommandInfo.Value = CI;
+				if (serverChatCommands == null)
+					OnRequireChatCommands(this, new EventArgs());
+				new RootChatCommand(serverChatCommands).DoRun(asList);
 			}
-			ChatProviders = null;
-
-			var rawdata = JsonConvert.SerializeObject(infosList);
-
-			Config.ChatProviderData = Interface.Helpers.EncryptData(rawdata, out string entrp);
-			Config.ChatProviderEntropy = entrp;
-		}
-
-		/// <inheritdoc />
-		public IList<ChatSetupInfo> ProviderInfos()
-		{
-			var infosList = new List<ChatSetupInfo>();
-			foreach (var chatProvider in ChatProviders)
-				infosList.Add(chatProvider.ProviderInfo());
-			return infosList;
 		}
 
 		/// <summary>
@@ -151,7 +169,7 @@ namespace TGS.Server.Components
 		/// <returns>A list of <see cref="ChatSetupInfo"/>s loaded from the config or the defaults if none are set</returns>
 		IList<ChatSetupInfo> InitProviderInfos()
 		{
-			lock (ChatLock)
+			lock (this)
 			{
 				var rawdata = Config.ChatProviderData;
 				if (rawdata == UninitializedString)
@@ -161,7 +179,7 @@ namespace TGS.Server.Components
 				try
 				{
 					plaintext = Interface.Helpers.DecryptData(rawdata, Config.ChatProviderEntropy);
-					
+
 					var lists = JsonConvert.DeserializeObject<List<List<string>>>(plaintext);
 					var output = new List<ChatSetupInfo>(lists.Count);
 					var foundirc = 0;
@@ -178,7 +196,7 @@ namespace TGS.Server.Components
 
 					if (foundirc != 1 || founddiscord != 1)
 						throw new Exception();
-					
+
 					return output;
 				}
 				catch
@@ -191,6 +209,30 @@ namespace TGS.Server.Components
 		}
 
 		/// <inheritdoc />
+		public IList<ChatSetupInfo> ProviderInfos()
+		{
+			var infosList = new List<ChatSetupInfo>();
+			foreach (var chatProvider in ChatProviders)
+				infosList.Add(chatProvider.ProviderInfo());
+			return infosList;
+		}
+
+		/// <inheritdoc />
+		public void LoadServerChatCommands(string json)
+		{
+			if (String.IsNullOrWhiteSpace(json))
+				return;
+			var tmp = new List<Command>();
+			try
+			{
+				foreach (var I in JsonConvert.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(json))
+					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], ((int)I.Value[CCPAdminOnly]) == 1, (int)I.Value[CCPRequiredParameters]));
+				serverChatCommands = tmp;
+			}
+			catch { }
+		}
+
+		/// <inheritdoc />
 		public string SetProviderInfo(ChatSetupInfo info)
 		{
 			info.AdminList.RemoveAll(x => String.IsNullOrWhiteSpace(x));
@@ -200,7 +242,7 @@ namespace TGS.Server.Components
 			info.WatchdogChannels.RemoveAll(x => String.IsNullOrWhiteSpace(x));
 			try
 			{
-				lock (ChatLock)
+				lock (this)
 				{
 					foreach (var ChatProvider in ChatProviders)
 						if (info.Provider == ChatProvider.ProviderInfo().Provider)
@@ -217,16 +259,15 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public bool Connected(ChatProvider providerType)
 		{
-			foreach (var I in ChatProviders)
-				if (I.ProviderInfo().Provider == providerType)
-					return I.Connected();
+			lock (this)
+				foreach (var I in ChatProviders)
+					if (I.ProviderInfo().Provider == providerType)
+						return I.Connected();
 			return false;
 		}
 
-		/// <summary>
-		/// Reconnect servers that are enabled and disconnected. Checked every time DreamDaemon reboots
-		/// </summary>
-		void ChatConnectivityCheck()
+		/// <inheritdoc />
+		public void CheckConnectivity()
 		{
 			foreach (ChatProvider I in Enum.GetValues(typeof(ChatProvider)))
 				if(!Connected(I))
@@ -241,17 +282,13 @@ namespace TGS.Server.Components
 					return I.Reconnect();
 			return "Could not find specified provider!";
 		}
-
-		/// <summary>
-		/// Broadcast a message to appropriate channels based on the message type
-		/// </summary>
-		/// <param name="msg">The message to send</param>
-		/// <param name="mt">The message type</param>
+		
+		/// <inheritdoc />
 		public Task SendMessage(string msg, MessageType mt)
 		{
 			return Task.Factory.StartNew(() =>
 			{
-				lock (ChatLock)
+				lock (this)
 				{
 					var tasks = new Dictionary<ChatProvider, Task>();
 					foreach (var ChatProvider in ChatProviders)
@@ -263,10 +300,16 @@ namespace TGS.Server.Components
 						}
 						catch (Exception e)
 						{
-							WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), T.Key), EventID.ChatBroadcastFail);
+							Logger.WriteWarning(String.Format("Chat broadcast failed (Provider: {3}) (Flags: {0}) (Message: {1}): {2}", mt, msg, e.ToString(), T.Key), EventID.ChatBroadcastFail);
 						}
 				}
 			});
+		}
+
+		public void ResetChatCommands()
+		{
+			lock (this)
+				serverChatCommands = null;
 		}
 	}
 }

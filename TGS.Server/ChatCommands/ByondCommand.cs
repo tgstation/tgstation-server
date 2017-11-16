@@ -25,7 +25,7 @@ namespace TGS.Server.ChatCommands
 					type = ByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = ByondVersion.Latest;
-			OutputProc(Instance.GetVersion(type) ?? "None");
+			OutputProc(CommandInfo.Byond.GetVersion(type) ?? "None");
 			return ExitCode.Normal;
 		}
 

@@ -133,6 +133,9 @@ namespace TGS.Server.Components
 			IO = ioManager;
 			Chat = chatBroadcaster;
 			DreamDaemon = dreamDaemon;
+
+			Chat.OnPopulateCommandInfo += (a, b) => { b.CommandInfo.Byond = this; };
+
 			CleanStaging();
 			updateStat = ByondStatus.Idle;
 		}
