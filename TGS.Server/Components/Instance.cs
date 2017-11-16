@@ -82,6 +82,7 @@ namespace TGS.Server
 				container.Register<IDreamDaemonManager, DreamDaemonManager>();
 				container.Register<IInteropManager, InteropManager>();
 				container.Register<IChatManager, ChatManager>();
+				container.Register<IRepositoryManager, RepositoryManager>();
 
 				container.Verify();
 			}

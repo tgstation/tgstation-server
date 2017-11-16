@@ -15,7 +15,7 @@ using TGS.Interface;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
 	sealed class InteropManager : IInteropManager
 	{
 		/// <summary>
@@ -161,7 +161,7 @@ namespace TGS.Server.Components
 
 			TopicPort = Config.ReattachPort;
 			OnWorldReboot += (a, b) => ResetDMAPIVersion();
-			Chat.OnRequireChatCommands += (a, b) => Chat.LoadChatCommands(SendCommand(InteropCommand.ListCustomCommands));
+			Chat.OnRequireChatCommands += (a, b) => Chat.LoadServerChatCommands(SendCommand(InteropCommand.ListCustomCommands));
 		}
 
 		/// <summary>

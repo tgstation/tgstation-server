@@ -3,7 +3,7 @@ using TGS.Server.ChatCommands;
 
 namespace TGS.Server.Components
 {
-	class PopulateCommandInfoEventArgs : EventArgs
+	sealed class PopulateCommandInfoEventArgs : EventArgs
 	{
 		public CommandInfo CommandInfo{ get { return _commandInfo; } }
 

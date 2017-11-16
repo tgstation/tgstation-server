@@ -9,6 +9,7 @@ using TGS.Interface;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
 	sealed class ChatManager : IChatManager, IDisposable
 	{
 		/// <summary>

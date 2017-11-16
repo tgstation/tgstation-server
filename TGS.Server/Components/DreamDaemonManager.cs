@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
 	sealed class DreamDaemonManager : IDreamDaemonManager, IDisposable
 	{
 		/// <summary>
