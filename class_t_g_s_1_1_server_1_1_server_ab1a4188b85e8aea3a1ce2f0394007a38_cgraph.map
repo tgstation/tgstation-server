@@ -1,5 +1,5 @@
 <map id="TGS.Server.Server.SetupConfig" name="TGS.Server.Server.SetupConfig">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#a5a325797c4813fa29ac0ab812f75eb5d" title="Recursive directory deleter " alt="" coords="265,5,443,47"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#a5b1d1510ab671f24b98ecafa79f98c00" title="Recursive directory deleter " alt="" coords="265,5,443,47"/>
 <area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_server_config.html#a90c7ef7a8c364210e53a88f6ad26ed4d" title="Load a ServerConfig from a given directory &#160;" alt="" coords="256,71,452,98"/>
 <area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_server_config.html#a25367473db0e5b6c8e9e1ba620fa2e85" title="Saves the ServerConfig to a target directory &#160;" alt="" coords="256,122,452,149"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="TGS.Server.Instance.BackupAndDeleteStaticDirectory" name="TGS.Server.Instance.BackupAndDeleteStaticDirectory">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#a3abb1937f3ed267b4a8b5f03f374b156" title="Recusively copy a directory " alt="" coords="243,5,465,32"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_helpers.html#a5a325797c4813fa29ac0ab812f75eb5d" title="Recursive directory deleter " alt="" coords="265,57,443,98"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#a5c7123b266b9815f4ef6247a0b21387c" title="Recusively copy a directory " alt="" coords="243,5,465,32"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_helpers.html#a5b1d1510ab671f24b98ecafa79f98c00" title="Recursive directory deleter " alt="" coords="265,57,443,98"/>
 </map>

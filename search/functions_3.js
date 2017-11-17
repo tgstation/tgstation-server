@@ -13,7 +13,7 @@ var searchData=
   ['ddwebclientcommand',['DDWebclientCommand',['../class_t_g_s_1_1_command_line_1_1_d_d_webclient_command.html#a0a73282e9c0fc310c6de84785ca332fc',1,'TGS::CommandLine::DDWebclientCommand']]],
   ['ddworldannouncecommand',['DDWorldAnnounceCommand',['../class_t_g_s_1_1_command_line_1_1_d_d_world_announce_command.html#a0e11a03d926af0edd19fc1f8658a8b84',1,'TGS::CommandLine::DDWorldAnnounceCommand']]],
   ['decryptdata',['DecryptData',['../class_t_g_s_1_1_interface_1_1_helpers.html#a7e515f8df6a52108ffaaecb536b3a99a',1,'TGS::Interface::Helpers']]],
-  ['deletedirectory',['DeleteDirectory',['../class_t_g_s_1_1_server_1_1_helpers.html#a5a325797c4813fa29ac0ab812f75eb5d',1,'TGS::Server::Helpers']]],
+  ['deletedirectory',['DeleteDirectory',['../class_t_g_s_1_1_server_1_1_helpers.html#a5b1d1510ab671f24b98ecafa79f98c00',1,'TGS::Server::Helpers']]],
   ['deletefile',['DeleteFile',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_config.html#a85076faa53ed34eebed44bd94e7b8881',1,'TGS.Interface.Components.ITGConfig.DeleteFile()'],['../class_t_g_s_1_1_server_1_1_instance.html#a232046a10167c8b30bedf068284c2857',1,'TGS.Server.Instance.DeleteFile()']]],
   ['deleteprlist',['DeletePRList',['../class_t_g_s_1_1_server_1_1_instance.html#a46b377aeb88f2ecc682c545aaacf1b33',1,'TGS::Server::Instance']]],
   ['deprecatedinstanceconfig',['DeprecatedInstanceConfig',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html#a266353ebbf01c405a9f532e1c1880748',1,'TGS.Server.DeprecatedInstanceConfig.DeprecatedInstanceConfig()'],['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html#aed121fee8fd46a597d10a1bc8ddbcde9',1,'TGS.Server.DeprecatedInstanceConfig.DeprecatedInstanceConfig(string path)']]],

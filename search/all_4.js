@@ -41,7 +41,7 @@ var searchData=
   ['defaultinstallationpath',['DefaultInstallationPath',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html#ae4671caa40d0676d10b8bb19c0378713',1,'TGS::Server::DeprecatedInstanceConfig']]],
   ['defaultinstalldir',['DefaultInstallDir',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a296d0585b5cdf852482be0e46682f709',1,'TGS::Installer::UI::Main']]],
   ['delayuntilreboot',['DelayUntilReboot',['../class_common.html#ae381a2885ff40aee615cd9f559ac8270',1,'Common']]],
-  ['deletedirectory',['DeleteDirectory',['../class_t_g_s_1_1_server_1_1_helpers.html#a5a325797c4813fa29ac0ab812f75eb5d',1,'TGS::Server::Helpers']]],
+  ['deletedirectory',['DeleteDirectory',['../class_t_g_s_1_1_server_1_1_helpers.html#a5b1d1510ab671f24b98ecafa79f98c00',1,'TGS::Server::Helpers']]],
   ['deletefile',['DeleteFile',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_config.html#a85076faa53ed34eebed44bd94e7b8881',1,'TGS.Interface.Components.ITGConfig.DeleteFile()'],['../class_t_g_s_1_1_server_1_1_instance.html#a232046a10167c8b30bedf068284c2857',1,'TGS.Server.Instance.DeleteFile()']]],
   ['deleteprlist',['DeletePRList',['../class_t_g_s_1_1_server_1_1_instance.html#a46b377aeb88f2ecc682c545aaacf1b33',1,'TGS::Server::Instance']]],
   ['deprecatedinstanceconfig',['DeprecatedInstanceConfig',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html',1,'TGS::Server']]],
