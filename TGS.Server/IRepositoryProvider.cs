@@ -17,11 +17,24 @@ namespace TGS.Server
 		/// Used for <see cref="FetchOptionsBase.OnTransferProgress"/>
 		/// </summary>
 		event TransferProgressHandler OnTransferProgress;
+
+		/// <summary>
+		/// Used for <see cref="CheckoutOptions.OnCheckoutProgress"/>
+		/// </summary>
+		event CheckoutProgressHandler OnCheckoutProgress;
 		
 		/// <summary>
 		/// Used for <see cref="FetchOptionsBase.CredentialsProvider"/>
 		/// </summary>
 		CredentialsHandler CredentialsProvider { get; set; }
+
+		/// <summary>
+		/// Force checks out <paramref name="targetObject"/> on <paramref name="repositoryToCheckout"/>
+		/// </summary>
+		/// <param name="repositoryToCheckout">The <see cref="IRepository"/> to checkout on</param>
+		/// <param name="targetObject">The commitish to checkout</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string Checkout(IRepository repositoryToCheckout, string targetObject);
 
 		/// <summary>
 		/// Fetches origin of <see cref="Repository"/>

@@ -3,6 +3,7 @@ using LibGit2Sharp.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TGS.Server.Components;
 
 namespace TGS.Server
 {
@@ -13,6 +14,8 @@ namespace TGS.Server
 		public event ProgressHandler OnProgress;
 		/// <inheritdoc />
 		public event TransferProgressHandler OnTransferProgress;
+		/// <inheritdoc />
+		public event CheckoutProgressHandler OnCheckoutProgress;
 
 		/// <inheritdoc />
 		public CredentialsHandler CredentialsProvider { get; set; }
@@ -46,12 +49,30 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
+		public string Checkout(IRepository repositoryToCheckout, string targetObject)
+		{
+			try
+			{
+				Commands.Checkout((Repository)repositoryToCheckout, targetObject, new CheckoutOptions()
+				{
+					CheckoutModifiers = CheckoutModifiers.Force,
+					OnCheckoutProgress = (a, b, c) => OnCheckoutProgress(a, b, c),
+				});
+				return null;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
+		}
+
+		/// <inheritdoc />
 		public string Fetch(IRepository repository)
 		{
 			try
 			{
 				string logMessage = "";
-				var R = repository.Network.Remotes["origin"];
+				var R = repository.Network.Remotes[RepositoryManager.DefaultRemote];
 				IEnumerable<string> refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
 				Commands.Fetch((Repository)repository, R.Name, refSpecs, GenerateFetchOptions(), logMessage);	//unsafe cast is fine
 				return null;

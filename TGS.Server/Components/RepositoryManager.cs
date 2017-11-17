@@ -15,6 +15,10 @@ namespace TGS.Server.Components
 	sealed class RepositoryManager : IRepositoryManager, IDisposable
 	{
 		/// <summary>
+		/// The name of the primary remote used in all operations
+		/// </summary>
+		public const string DefaultRemote = "origin";
+		/// <summary>
 		/// Path to the repository directory in the <see cref="Instance"/> directory
 		/// </summary>
 		const string RepoPath = "Repository";
@@ -437,7 +441,51 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string Checkout(string objectName)
 		{
-			throw new NotImplementedException();
+			if (objectName == RemoteTempBranchName || objectName == LiveTrackingBranch)
+				return "I'm sorry Dave, I'm afraid I can't do that...";
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return RepoBusyMessage;
+				Chat.SendMessage(String.Format("REPO: Checking out object: {0}", objectName), MessageType.DeveloperInfo);
+				try
+				{
+					if (repository.Branches[objectName] == null)
+					{
+						//see if origin has the branch
+						var result = RepositoryProvider.Fetch(repository);
+						var trackedBranch = repository.Branches[String.Format("{0}/{1}", DefaultRemote, objectName)];
+						if (trackedBranch != null)
+						{
+							var newBranch = repository.CreateBranch(objectName, trackedBranch.Tip);
+							//track it
+							repository.Branches.Update(newBranch, b => b.TrackedBranch = trackedBranch.CanonicalName);
+						}
+						else if (result != null)
+							return result;
+					}
+
+					//if this is a tracked branch, we need to reset to remote first and delete the PR list
+					ResetNoLock(repository.Head.TrackedBranch ?? repository.Head);
+					DeletePRList();
+
+					RepositoryProvider.Checkout(repository, objectName);
+
+					var res = ResetNoLock(null);
+
+					UpdateSubmodules();
+
+					Chat.SendMessage("REPO: Checkout complete!", MessageType.DeveloperInfo);
+					Logger.WriteInfo(String.Format("Repo checked out {0}", objectName), EventID.RepoCheckout);
+					return res;
+				}
+				catch (Exception e)
+				{
+					SendMessage("REPO: Checkout failed!", MessageType.DeveloperInfo);
+					WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), EventID.RepoCheckoutFail);
+					return e.ToString();
+				}
+			}
 		}
 
 		/// <inheritdoc />
@@ -567,7 +615,17 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string GetRemote(out string error)
 		{
-			throw new NotImplementedException();
+			lock (this)
+				try
+				{
+					error = null;
+					return repository.Network.Remotes[DefaultRemote].Url;
+				}
+				catch (Exception e)
+				{
+					error = e.ToString();
+					return null;
+				}
 		}
 
 		/// <inheritdoc />
@@ -614,7 +672,7 @@ namespace TGS.Server.Components
 				try
 				{
 					//only supported with github
-					var remoteUrl = repository.Network.Remotes["origin"].Url;
+					var remoteUrl = repository.Network.Remotes[DefaultRemote].Url;
 					if (!remoteUrl.ToLower().Contains("github.com"))
 						return "Only supported with Github based repositories.";
 
@@ -627,14 +685,13 @@ namespace TGS.Server.Components
 					var PRBranchName = String.Format("pr-{0}", PRnumber);
 					var LocalBranchName = String.Format("pull/{0}/headrefs/heads/{1}", PRnumber, PRBranchName);
 					Refspec.Add(String.Format("pull/{0}/head:{1}", PRnumber, PRBranchName));
-					var logMessage = "";
 
 					var branch = repository.Branches[LocalBranchName];
 					if (branch != null)
 						//Need to delete the branch first in case of rebase
 						repository.Branches.Remove(branch);
 
-					RepositoryProvider.Fetch();
+					RepositoryProvider.Fetch(repository);
 
 					currentProgress = -1;
 
