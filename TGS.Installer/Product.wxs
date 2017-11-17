@@ -113,6 +113,12 @@
       <Component Id="NewtonsoftJson" Guid="*">
         <File Source="$(var.TGS.Server.TargetDir)/Newtonsoft.Json.dll" />
       </Component>
+      <Component Id="SimpleInjector" Guid="*">
+        <File Source="$(var.TGS.Server.TargetDir)/SimpleInjector.dll" />
+      </Component>
+      <Component Id="SimpleInjector.Integration.Wcf" Guid="*">
+        <File Source="$(var.TGS.Server.TargetDir)/SimpleInjector.Integration.Wcf.dll" />
+      </Component>
       <Component Id="SystemCollectionsImmutable" Guid="*">
         <File Source="$(var.TGS.Server.TargetDir)/System.Collections.Immutable.dll" />
       </Component>
