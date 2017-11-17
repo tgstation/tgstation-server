@@ -74,8 +74,14 @@ namespace TGS.Server
 			List<Command> tmp = new List<Command>();
 			try
 			{
-				foreach(var I in JsonConvert.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(json))
-					tmp.Add(new ServerChatCommand(I.Key, (string)I.Value[CCPHelpText], ((int)I.Value[CCPAdminOnly]) == 1, (int)I.Value[CCPRequiredParameters]));
+				foreach (var I in JsonConvert.DeserializeObject<IDictionary<string, object>>(json))
+				{
+					var innerDick = ((JObject)I.Value).ToObject<IDictionary<string, object>>();
+					var helpText = (string)innerDick[CCPHelpText];
+					var adminOnly = ((long)innerDick[CCPAdminOnly]) == 1;
+					var requiredParams = (int)((long)innerDick[CCPRequiredParameters]);
+					tmp.Add(new ServerChatCommand(I.Key, helpText, adminOnly, requiredParams));
+				}
 				ServerChatCommands = tmp;
 			}
 			catch { }
