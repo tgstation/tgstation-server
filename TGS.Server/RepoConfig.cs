@@ -91,10 +91,8 @@ namespace TGS.Server
 		/// <returns></returns>
 		private static IList<string> LoadArray(object o)
 		{
-			var array = (object[])o;
-			var res = new List<string>();
-			foreach (var I in array)
-				res.Add((string)I);
+			foreach (var I in ((JArray)o))
+				res.Add(I.ToObject<string>());
 			return res;
 		}
 
