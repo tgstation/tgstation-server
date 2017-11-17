@@ -30,14 +30,16 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Construct a <see cref="RepositoryManager"/>
 		/// </summary>
-		/// <param name="logger"></param>
-		/// <param name="chat"></param>
-		/// <param name="config"></param>
-		public RepositoryManager(IInstanceLogger logger, IChatManager chat, IInstanceConfig config)
+		/// <param name="logger">The value of <see cref="Logger"/></param>
+		/// <param name="chat">The value of <see cref="Chat"/></param>
+		/// <param name="config">The value of <see cref="Config"/></param>
+		/// <param name="io">The value of <see cref="IO"/></param>
+		public RepositoryManager(IInstanceLogger logger, IChatManager chat, IInstanceConfig config, IIOManager io)
 		{
 			Logger = logger;
 			Chat = chat;
 			Config = config;
+			IO = io;
 		}
 	}
 }
