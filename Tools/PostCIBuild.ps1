@@ -55,13 +55,13 @@ Copy-Item "$bf\TGS.Server\bin\Release\System.Collections.Immutable.dll" "$src3\S
 Copy-Item "$bf\TGS.Server\bin\Release\System.Interactive.Async.dll" "$src3\System.Interactive.Async.dll"
 Copy-Item "$bf\TGS.Interface.Bridge\bin\Release\TGS.Interface.Bridge.dll" "$src3\TGS.Interface.Bridge.dll"
 [system.io.directory]::CreateDirectory("$src3\lib\win32\x86")
-Copy-Item "$bf\TGS.ControlPanel\bin\Release\lib\win32\x86\git2-ssh-baa87df.dll" "$src3\lib\win32\x86\git2-ssh-baa87df.dll"
-Copy-Item "$bf\TGS.ControlPanel\bin\Release\lib\win32\x86\libssh2.dll" "$src3\lib\win32\x86\libssh2.dll"
-Copy-Item "$bf\TGS.ControlPanel\bin\Release\lib\win32\x86\zlib.dll" "$src3\lib\win32\x86\zlib.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x86\git2-ssh-baa87df.dll" "$src3\lib\win32\x86\git2-ssh-baa87df.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x86\libssh2.dll" "$src3\lib\win32\x86\libssh2.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x86\zlib.dll" "$src3\lib\win32\x86\zlib.dll"
 [system.io.directory]::CreateDirectory("$src3\lib\win32\x64")
-Copy-Item "$bf\TGS.ControlPanel\bin\Release\lib\win32\x64\git2-ssh-baa87df.dll" "$src3\lib\win32\x64\git2-ssh-baa87df.dll"
-Copy-Item "$bf\TGS.ControlPanel\bin\Release\lib\win32\x64\libssh2.dll" "$src3\lib\win32\x64\libssh2.dll"
-Copy-Item "$bf\TGS.ControlPanel\bin\Release\lib\win32\x64\zlib.dll" "$src3\lib\win32\x86\zlib.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x64\git2-ssh-baa87df.dll" "$src3\lib\win32\x64\git2-ssh-baa87df.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x64\libssh2.dll" "$src3\lib\win32\x64\libssh2.dll"
+Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x64\zlib.dll" "$src3\lib\win32\x86\zlib.dll"
 Copy-Item "$bf\TGS.Server.Console\bin\Release\TGS.Server.Console.exe" "$src3\TGS.Server.Console.exe"
 
 $dest3 = "$bf\TGS3-ServerConsole-v$version.zip"
