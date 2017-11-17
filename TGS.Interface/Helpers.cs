@@ -45,5 +45,19 @@ namespace TGS.Interface
 				return null;
 			}
 		}
+
+		/// <summary>
+		/// Gets the <paramref name="owner"/> and <paramref name="name"/> of a given <paramref name="remote"/>. Shows an error if the target remote isn't GitHub
+		/// </summary>
+		/// <param name="remote">The URL to parse</param>
+		/// <param name="owner">The owner of the <paramref name="remote"/> repository</param>
+		/// <param name="name">The name of the <paramref name="remote"/> repository</param>
+		public static void GetRepositoryRemote(string remote, out string owner, out string name)
+		{
+			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+			var splits = remote.Split('/');
+			name = splits[splits.Length - 1];
+			owner = splits[splits.Length - 2].Split('.')[0];
+		}
 	}
 }

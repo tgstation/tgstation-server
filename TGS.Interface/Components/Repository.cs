@@ -24,7 +24,7 @@ namespace TGS.Interface.Components
 		int CheckoutProgress();
 
 		/// <summary>
-		/// Check if the repository is valid, if not <see cref="Setup(string, string)"/> must be called
+		/// Check if the repository is valid, if not <see cref="Clone(string, string)"/> must be called
 		/// </summary>
 		/// <returns><see langword="true"/> if the repository is valid, <see langword="false"/> otherwise</returns>
 		[OperationContract]
@@ -37,7 +37,7 @@ namespace TGS.Interface.Components
 		/// <param name="branch">The branch of the repo to checkout</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
-		string Setup(string remote, string branch = "master");
+		string Clone(string remote, string branch = "master");
 
 		/// <summary>
 		/// Gets the sha of the current HEAD
@@ -155,27 +155,6 @@ namespace TGS.Interface.Components
 		/// <returns>A <see cref="IDictionary{TKey, TValue}"/> of tag name -> commit on success, <see langword="null"/> on failure</returns>
 		[OperationContract]
 		IDictionary<string, string> ListBackups(out string error);
-
-		/// <summary>
-		/// Updates the cached TGS3.json to the repo's version. Compiles will not succeed if these two to not match
-		/// </summary>
-		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		[OperationContract]
-		string UpdateTGS3Json();
-
-		/// <summary>
-		/// (De)Activate and set the interval for the automatic server updater
-		/// </summary>
-		/// <param name="newInterval">Interval to check for updates in minutes, disables if 0</param>
-		[OperationContract]
-		void SetAutoUpdateInterval(ulong newInterval);
-
-		/// <summary>
-		/// Get the current autoupdate interval
-		/// </summary>
-		/// <returns>The current auto update interval or 0 if it's disabled</returns>
-		[OperationContract]
-		ulong AutoUpdateInterval();
 
 		/// <summary>
 		/// Check if we push a temporary branch to the remote when we make testmerge commits

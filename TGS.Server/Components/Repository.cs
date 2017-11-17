@@ -20,10 +20,6 @@ namespace TGS.Server
 		/// </summary>
 		const string RepoPath = "Repository";
 		/// <summary>
-		/// The branch name used for publishing testmerge commits
-		/// </summary>
-		const string RemoteTempBranchName = "___TGS3TempBranch";
-		/// <summary>
 		/// The path to the Repository's <see cref="RepoConfig"/> json
 		/// </summary>
 		const string RepoTGS3SettingsPath = RepoPath + "/TGS3.json";
@@ -31,14 +27,6 @@ namespace TGS.Server
 		/// Path to the <see cref="Instance"/>'s <see cref="RepoConfig"/> json
 		/// </summary>
 		const string CachedTGS3SettingsPath = "TGS3.json";
-		/// <summary>
-		/// Error message for when a merge operation fails due to the target branch already having the source branch's commits
-		/// </summary>
-		const string RepoErrorUpToDate = "Already up to date!";
-		/// <summary>
-		/// Git remote for push operations
-		/// </summary>
-		const string SSHPushRemote = "ssh_push_target";
 		/// <summary>
 		/// The <see cref="Instance"/> directory for the repository SSH keys
 		/// </summary>
@@ -51,6 +39,18 @@ namespace TGS.Server
 		/// The path to the public ssh-rsa key file
 		/// </summary>
 		const string PublicKeyPath = RepoKeyDir + "public_key.txt";
+		/// <summary>
+		/// Error message for when a merge operation fails due to the target branch already having the source branch's commits
+		/// </summary>
+		const string RepoErrorUpToDate = "Already up to date!";
+		/// <summary>
+		/// The branch name used for publishing testmerge commits
+		/// </summary>
+		const string RemoteTempBranchName = "___TGS3TempBranch";
+		/// <summary>
+		/// Git remote for push operations
+		/// </summary>
+		const string SSHPushRemote = "ssh_push_target";
 		/// <summary>
 		/// File name for monitoring which github pull requests are currently test merged
 		/// </summary>
@@ -1065,19 +1065,6 @@ namespace TGS.Server
 			return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
-		/// <summary>
-		/// Create <see cref="FetchOptions"/> that Prune and have the appropriate credentials and progress handler
-		/// </summary>
-		/// <returns>Properly configured <see cref="FetchOptions"/></returns>
-		FetchOptions GenerateFetchOptions()
-		{
-			return new FetchOptions()
-			{
-				CredentialsProvider = GenerateGitCredentials,
-				OnTransferProgress = HandleTransferProgress,
-				Prune = true,
-			};
-		}
 
 		/// <summary>
 		/// Fetches origin

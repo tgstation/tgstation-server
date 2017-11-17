@@ -12,7 +12,7 @@ namespace TGS.Server
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Instance : IDisposable, ITGConnectivity, ITGInstance, IInstanceLogger
+	sealed class Instance : IDisposable, ITGConnectivity, IInstance, IInstanceLogger
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -71,9 +71,9 @@ namespace TGS.Server
 				container.RegisterSingleton(ServerConfig);
 				container.RegisterSingleton(Config);
 
+				container.RegisterSingleton<IInstance>(this);
 				container.RegisterSingleton<IInstanceLogger>(this);
 				container.RegisterSingleton<ITGConnectivity>(this);
-				container.RegisterSingleton<ITGInstance>(this);
 
 				container.Register<IByondManager, ByondManager>();
 				container.Register<IDreamDaemonManager, DreamDaemonManager>();
