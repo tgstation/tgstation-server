@@ -53,7 +53,7 @@ Copy-Item "$bf\TGS.Server\bin\Release\Meebey.SmartIrc4net.dll" "$src3\Meebey.Sma
 Copy-Item "$bf\TGS.Server\bin\Release\Newtonsoft.Json.dll" "$src3\Newtonsoft.Json.dll"
 Copy-Item "$bf\TGS.Server\bin\Release\System.Collections.Immutable.dll" "$src3\System.Collections.Immutable.dll"
 Copy-Item "$bf\TGS.Server\bin\Release\System.Interactive.Async.dll" "$src3\System.Interactive.Async.dll"
-Copy-Item "$bf\TGS.Interface.Bridge\bin\Release\TGS.Interface.Bridge.dll" "$src3\TGS.Interface.Bridge.dll"
+Copy-Item "$bf\TGS.Interface.Bridge\bin\x86\Release\TGDreamDaemonBridge.dll" "$src3\TGDreamDaemonBridge.dll"
 [system.io.directory]::CreateDirectory("$src3\lib\win32\x86")
 Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x86\git2-ssh-baa87df.dll" "$src3\lib\win32\x86\git2-ssh-baa87df.dll"
 Copy-Item "$bf\TGS.Server\bin\Release\lib\win32\x86\libssh2.dll" "$src3\lib\win32\x86\libssh2.dll"
