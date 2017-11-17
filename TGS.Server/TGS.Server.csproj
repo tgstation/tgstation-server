@@ -116,8 +116,10 @@
     <Compile Include="ILoggingIDProvider.cs" />
     <Compile Include="Components\ByondManager.cs" />
     <Compile Include="Components\IByondManager.cs" />
+    <Compile Include="IRepositoryProvider.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerConfig.cs" />
+    <Compile Include="RepositoryProvider.cs" />
     <Compile Include="RootAuthorizationManager.cs" />
     <Compile Include="DeprecatedInstanceConfig.cs" />
     <Compile Include="InstanceConfig.cs" />

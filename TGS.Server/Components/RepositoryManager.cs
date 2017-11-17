@@ -76,6 +76,10 @@ namespace TGS.Server.Components
 		/// The <see cref="IIOManager"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
 		readonly IIOManager IO;
+		/// <summary>
+		/// The <see cref="IRepositoryProvider"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly IRepositoryProvider RepositoryProvider;
 
 		/// <summary>
 		/// The <see cref="Repository"/> the <see cref="RepositoryManager"/> manages
@@ -111,12 +115,14 @@ namespace TGS.Server.Components
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="config">The value of <see cref="Config"/></param>
 		/// <param name="io">The value of <see cref="IO"/></param>
-		public RepositoryManager(IInstanceLogger logger, IChatManager chat, IInstanceConfig config, IIOManager io)
+		/// <param name="repositoryProvider">The value of <see cref="RepositoryProvider"/></param>
+		public RepositoryManager(IInstanceLogger logger, IChatManager chat, IInstanceConfig config, IIOManager io, IRepositoryProvider repositoryProvider)
 		{
 			Logger = logger;
 			Chat = chat;
 			Config = config;
 			IO = io;
+			RepositoryProvider = repositoryProvider;
 
 			ghClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TGS.Server"));
 
@@ -192,20 +198,6 @@ namespace TGS.Server.Components
 				repository.Dispose();
 				repository = null;
 			}
-		}
-
-		/// <summary>
-		/// Create <see cref="FetchOptions"/> that Prune and have the appropriate credentials and progress handler
-		/// </summary>
-		/// <returns>Properly configured <see cref="FetchOptions"/></returns>
-		FetchOptions GenerateFetchOptions()
-		{
-			return new FetchOptions()
-			{
-				CredentialsProvider = GenerateGitCredentials,
-				OnTransferProgress = HandleTransferProgress,
-				Prune = true,
-			};
 		}
 
 		/// <summary>
@@ -330,10 +322,10 @@ namespace TGS.Server.Components
 				if (IO.DirectoryExists(RepoPath))
 				{
 					var path = IO.ResolvePath(RepoPath);
-					var res = Repository.IsValid(path);
+					var res = RepositoryProvider.IsValid(path);
 					if (res)
 					{
-						repository = new Repository();
+						repository = RepositoryProvider.LoadRepository(path);
 						repository.Config.Set("gc.auto", false);
 					}
 					return res;
@@ -642,7 +634,7 @@ namespace TGS.Server.Components
 						//Need to delete the branch first in case of rebase
 						repository.Branches.Remove(branch);
 
-					Commands.Fetch(repository, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
+					RepositoryProvider.Fetch();
 
 					currentProgress = -1;
 
