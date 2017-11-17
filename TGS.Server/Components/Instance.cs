@@ -1,4 +1,5 @@
 ﻿using SimpleInjector;
+using SimpleInjector.Integration.Wcf;
 using System;
 using System.IO;
 using System.ServiceModel;
@@ -7,16 +8,11 @@ using TGS.Server.Components;
 
 namespace TGS.Server
 {
-	//I know the fact that this is one massive partial class is gonna trigger everyone
-	//There really was no other succinct way to do it (<= He's lying through his teeth, don't listen to him)
-
-	//this line basically says take one instance of the service, use it multithreaded for requests, and never delete it
-
 	/// <summary>
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed partial class Instance : IDisposable, ITGConnectivity, ITGInstance, IInstanceLogger
+	sealed class Instance : IDisposable, ITGConnectivity, ITGInstance, IInstanceLogger
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -24,24 +20,25 @@ namespace TGS.Server
 		readonly byte LoggingID;
 
 		/// <summary>
-		/// The configuration settings for the <see cref="Instance"/>
+		/// The <see cref="IInstanceConfig"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IInstanceConfig Config;
-
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly ILogger Logger;
-
 		/// <summary>
 		/// The <see cref="ILoggingIDProvider"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly ILoggingIDProvider LoggingIDProvider;
-
 		/// <summary>
 		/// The <see cref="IServerConfig"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IServerConfig ServerConfig;
+		/// <summary>
+		/// The <see cref="IChatManager"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IChatManager Chat;
 
 		/// <summary>
 		/// Container for <see cref="Components"/> of this instance
@@ -69,7 +66,7 @@ namespace TGS.Server
 			{
 				container = new Container();
 
-				container.Options.DefaultLifestyle = Lifestyle.Singleton;
+				container.Options.DefaultLifestyle = new WcfOperationLifestyle();
 
 				container.RegisterSingleton(ServerConfig);
 				container.RegisterSingleton(Config);
@@ -85,6 +82,8 @@ namespace TGS.Server
 				container.Register<IRepositoryManager, RepositoryManager>();
 
 				container.Verify();
+
+				Chat = container.GetInstance<IChatManager>();
 			}
 			catch
 			{
@@ -154,7 +153,7 @@ namespace TGS.Server
 		{
 			Config.ReattachRequired = true;
 			if(!silent)
-				SendMessage("SERVICE: Update started...", MessageType.DeveloperInfo);
+				Chat.SendMessage("SERVICE: Update started...", MessageType.DeveloperInfo);
 		}
 
 		/// <inheritdoc />
@@ -171,9 +170,14 @@ namespace TGS.Server
 			Config.Enabled = false;
 		}
 
-		public T GetComponent<T>() where T : class
+		/// <summary>
+		/// Creates a <see cref="SimpleInjectorServiceHost"/> based on <see cref="container"/>
+		/// </summary>
+		/// <param name="baseAddresses">The base addresses for the <see cref="ServiceHost"/></param>
+		/// <returns>The new <see cref="ServiceHost"/></returns>
+		public ServiceHost CreateServiceHost(Uri[] baseAddresses)
 		{
-			return container.GetInstance<T>();
+			return new SimpleInjectorServiceHost(container, this, baseAddresses);
 		}
 	}
 }

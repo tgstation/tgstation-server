@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using TGS.Server.ChatCommands;
 using TGS.Server.ChatProviders;
@@ -9,7 +10,7 @@ using TGS.Interface;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class ChatManager : IChatManager, IDisposable
 	{
 		/// <summary>

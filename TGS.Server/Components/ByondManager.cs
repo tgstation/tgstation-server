@@ -12,7 +12,7 @@ using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class ByondManager : IByondManager, IDisposable
 	{
 		/// <summary>

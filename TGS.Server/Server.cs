@@ -180,15 +180,20 @@ namespace TGS.Server
 		/// <summary>
 		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, CloseTimeout for the <see cref="ServiceHost"/>, and the configured <see cref="ServerConfig.RemoteAccessPort"/>
 		/// </summary>
-		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
+		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/>. If it is an <see cref="Instance"/>, the resulting <see cref="ServiceHost"/> will be created using it's <see cref="Instance.CreateServiceHost(Uri[])"/> method</param>
 		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
 		ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
-			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
-			{
-				CloseTimeout = new TimeSpan(0, 0, 5)
-			};
+			var uris = new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) };
+			var instance = singleton as Instance;
+			ServiceHost res;
+			if (instance != null)
+				res = instance.CreateServiceHost(uris);
+			else
+				res = new ServiceHost(singleton, uris);
+			res.CloseTimeout = new TimeSpan(0, 0, 5);
+			return res;
 		}
 
 		/// <summary>
