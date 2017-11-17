@@ -407,6 +407,7 @@ namespace TGS.Server
 					{
 						Config.ReattachProcessID = Proc.Id;
 						Config.ReattachPort = currentPort;
+						Config.ReattachAPIVersion = GameAPIVersion != null ? GameAPIVersion.ToString() : null;
 						Config.ReattachCommsKey = serviceCommsKey;
 						lock (restartLock)
 						{
