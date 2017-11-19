@@ -8,10 +8,10 @@
 		/// <summary>
 		/// Run before dm.exe is run on the .dme
 		/// </summary>
-		const string Precompile = "precompile";
+		public const string Precompile = "precompile";
 		/// <summary>
 		/// Run after dm.exe is run on the .dme
 		/// </summary>
-		const string Postcompile = "postcompile";
+		public const string Postcompile = "postcompile";
 	}
 }

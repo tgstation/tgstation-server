@@ -1,8 +1,8 @@
 ﻿using SimpleInjector;
 using SimpleInjector.Integration.Wcf;
 using System;
-using System.IO;
 using System.ServiceModel;
+using System.Timers;
 using TGS.Interface.Components;
 using TGS.Server.Components;
 
@@ -14,6 +14,10 @@ namespace TGS.Server
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class Instance : IDisposable, ITGConnectivity, IInstance, IInstanceLogger, IRepoConfigProvider
 	{
+		/// <summary>
+		/// Conversion from minutes to milliseconds
+		/// </summary>
+		const int AutoUpdateTimerMultiplier = 60000;
 		/// <summary>
 		/// Used to assign the instance to event IDs
 		/// </summary>
@@ -39,11 +43,31 @@ namespace TGS.Server
 		/// The <see cref="IChatManager"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IChatManager Chat;
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IIOManager IO;
+		/// <summary>
+		/// The <see cref="IRepositoryManager"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IRepositoryManager Repo;
+		/// <summary>
+		/// The <see cref="ICompilerManager"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly ICompilerManager Compiler;
+		/// <summary>
+		/// The <see cref="IAdministrationManager"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IAdministrationManager Administration;
 
 		/// <summary>
 		/// Container for <see cref="Components"/> of this instance
 		/// </summary>
 		Container container;
+		/// <summary>
+		/// <see cref="Timer"/> used for auto update operations
+		/// </summary>
+		Timer autoUpdateTimer;
 
 		/// <summary>
 		/// Constructs and a <see cref="Instance"/>
@@ -64,6 +88,9 @@ namespace TGS.Server
 
 			try
 			{
+				autoUpdateTimer = new Timer() { AutoReset = true, Enabled = Config.AutoUpdateInterval != 0, Interval = Config.AutoUpdateInterval * AutoUpdateTimerMultiplier };
+				autoUpdateTimer.Elapsed += (a, b) => HandleAutoUpdate();
+
 				container = new Container();
 
 				container.Options.DefaultLifestyle = Lifestyle.Singleton;
@@ -92,6 +119,10 @@ namespace TGS.Server
 				container.Verify();
 
 				Chat = container.GetInstance<IChatManager>();
+				IO = container.GetInstance<IIOManager>();
+				Repo = container.GetInstance<IRepositoryManager>();
+				Compiler = container.GetInstance<ICompilerManager>();
+				Administration = container.GetInstance<IAdministrationManager>();
 			}
 			catch
 			{
@@ -101,10 +132,41 @@ namespace TGS.Server
 		}
 
 		/// <summary>
+		/// Automatically update the server
+		/// </summary>
+		void HandleAutoUpdate()
+		{
+			lock (this)
+			{
+				if (autoUpdateTimer == null)
+					return;
+				autoUpdateTimer.Stop();
+				try
+				{
+					//TODO: Preserve test merges?
+					if(Repo.UpdateImpl(true, false) == null)
+						Compiler.Compile(true);
+				}
+				catch { }
+				finally
+				{
+					if (Config.AutoUpdateInterval != 0)
+						autoUpdateTimer.Start();
+				}
+			}
+		}
+
+		/// <summary>
 		/// Cleans up the <see cref="Instance"/>
 		/// </summary>
 		public void Dispose()
 		{
+			lock(this)
+				if(autoUpdateTimer != null)
+				{
+					autoUpdateTimer.Dispose();
+					autoUpdateTimer = null;
+				}
 			if (container != null)
 			{
 				container.Dispose();
@@ -176,14 +238,53 @@ namespace TGS.Server
 		/// <returns>The new <see cref="ServiceHost"/></returns>
 		public ServiceHost CreateServiceHost(Uri[] baseAddresses)
 		{
-			return new SimpleInjectorServiceHost(container, this, baseAddresses);
+			var res = new SimpleInjectorServiceHost(container, this, baseAddresses);
+			res.Authorization.ServiceAuthorizationManager = (Administration as ServiceAuthorizationManager) ?? res.Authorization.ServiceAuthorizationManager;
+			return res;
 		}
 
 		/// <inheritdoc />
 		public IRepoConfig GetRepoConfig()
 		{
-			var IO = container.GetInstance<IIOManager>();
 			return new RepoConfig(".", IO);
+		}
+
+		/// <inheritdoc />
+		public string UpdateTGS3Json()
+		{
+			try
+			{
+				RepoConfig.Copy(RepositoryManager.RepoPath, ".", IO);
+				return null;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
+		}
+
+		/// <inheritdoc />
+		public void SetAutoUpdateInterval(ulong newInterval)
+		{
+			lock (this)
+			{
+				Config.AutoUpdateInterval = newInterval;
+				if (autoUpdateTimer == null)
+					return;
+				if (Config.AutoUpdateInterval != 0)
+				{
+					autoUpdateTimer.Interval = newInterval * AutoUpdateTimerMultiplier;
+					autoUpdateTimer.Start();
+				}
+				else
+					autoUpdateTimer.Stop();
+			}
+		}
+
+		/// <inheritdoc />
+		public ulong AutoUpdateInterval()
+		{
+			return Config.AutoUpdateInterval;
 		}
 	}
 }

@@ -54,7 +54,7 @@ namespace TGS.Server
 		public string CommitterEmail { get; set; } = "tgstation-server@tgstation13.org";
 
 		/// <inheritdoc />
-		public string ChatProviderData { get; set; } = Instance.UninitializedString;
+		public string ChatProviderData { get; set; } = Components.ChatManager.UninitializedString;
 
 		/// <inheritdoc />
 		public string ChatProviderEntropy { get; set; }

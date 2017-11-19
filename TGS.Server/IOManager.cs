@@ -158,7 +158,7 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public async Task CopyDirectory(string sourceDirName, string destDirName, IList<string> ignore = null, bool ignoreIfNotExists = false)
+		public async Task CopyDirectory(string sourceDirName, string destDirName, IEnumerable<string> ignore = null, bool ignoreIfNotExists = false)
 		{
 			sourceDirName = ResolvePath(sourceDirName);
 			destDirName = ResolvePath(destDirName);

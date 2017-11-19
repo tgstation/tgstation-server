@@ -31,5 +31,9 @@ namespace TGS.Server.ChatCommands
 		/// A reference an <see cref="IInstanceLogger"/> to log messages
 		/// </summary>
 		public IInstanceLogger Logger { get; set; }
+		/// <summary>
+		/// A reference an <see cref="IRepositoryManager"/> to check PRs
+		/// </summary>
+		public IRepositoryManager Repo { get; set; }
 	}
 }

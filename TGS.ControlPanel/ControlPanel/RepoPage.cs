@@ -174,7 +174,7 @@ namespace TGS.ControlPanel
 
 			switch (action) {
 				case RepoAction.Clone:
-					repoError = Repo.Setup(CloneRepoURL, CheckoutBranch);
+					repoError = Repo.Clone(CloneRepoURL, CheckoutBranch);
 					break;
 				case RepoAction.Checkout:
 					repoError = Repo.Checkout(CheckoutBranch);
@@ -344,7 +344,7 @@ namespace TGS.ControlPanel
 		{
 			if (MessageBox.Show("This will update the cached TGS3.json to the current repository version, potentially redefining symlinks. Proceed?", "Json Update", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
-			var res = Interface.GetComponent<ITGRepository>().UpdateTGS3Json();
+			var res = Interface.GetComponent<ITGInstance>().UpdateTGS3Json();
 			if (res != null)
 				MessageBox.Show(res);
 		}

@@ -86,6 +86,8 @@ namespace TGS.ControlPanel
 			var DD = Interface.GetComponent<ITGDreamDaemon>();
 			var Config = Interface.GetComponent<ITGStatic>();
 			var Repo = Interface.GetComponent<ITGRepository>();
+			var Instance = Interface.GetComponent<ITGInstance>();
+			var Interop = Interface.GetComponent<ITGInterop>();
 
 			try
 			{
@@ -98,7 +100,7 @@ namespace TGS.ControlPanel
 				if (!RepoExists)
 					return;
 
-				var interval = Repo.AutoUpdateInterval();
+				var interval = Instance.AutoUpdateInterval();
 				var interval_not_zero = interval != 0;
 				AutoUpdateCheckbox.Checked = interval_not_zero;
 				AutoUpdateInterval.Visible = interval_not_zero;
@@ -124,7 +126,7 @@ namespace TGS.ControlPanel
 						break;
 					case DreamDaemonStatus.Online:
 						ServerStatusLabel.Text = "ONLINE";
-						var pc = DD.PlayerCount();
+						var pc = Interop.PlayerCount();
 						if (pc != -1)
 							ServerStatusLabel.Text += " (" + pc + " players)";
 						break;
@@ -329,7 +331,9 @@ namespace TGS.ControlPanel
 					}
 					
 					List<Task<PullRequest>> pullsRequests = null;
-					if(Program.GetRepositoryRemote(repo, out string remoteOwner, out string remoteName)) { 
+					var remote = repo.GetRemote(out string error);
+					if (error == null && remote.ToLower().Contains("github.com")) {
+						Helpers.GetRepositoryRemote(remote, out string remoteOwner, out string remoteName);
 						//find out which of the PRs have been merged
 						pullsRequests = new List<Task<PullRequest>>();
 						foreach (var I in pulls)
@@ -471,14 +475,7 @@ namespace TGS.ControlPanel
 		{
 			var msg = WorldAnnounceField.Text;
 			if (!String.IsNullOrWhiteSpace(msg))
-			{
-				var res = Interface.GetComponent<ITGDreamDaemon>().WorldAnnounce(msg);
-				if (res != null)
-				{
-					MessageBox.Show(res);
-					return;
-				}
-			}
+				Interface.GetComponent<ITGInterop>().WorldAnnounce(msg);
 			WorldAnnounceField.Text = "";
 		}
 
@@ -491,7 +488,7 @@ namespace TGS.ControlPanel
 		private void AutoUpdateInterval_ValueChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Interface.GetComponent<ITGRepository>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+				Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 
 		private void AutoUpdateCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -502,9 +499,9 @@ namespace TGS.ControlPanel
 			AutoUpdateInterval.Visible = on;
 			AutoUpdateMLabel.Visible = on;
 			if (!on)
-				Interface.GetComponent<ITGRepository>().SetAutoUpdateInterval(0);
+				Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval(0);
 			else
-				Interface.GetComponent<ITGRepository>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+				Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 	}
 }

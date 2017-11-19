@@ -18,7 +18,7 @@ namespace TGS.Server.ChatCommands
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var PRs = Instance.MergedPullRequests(out string res);
+			var PRs = CommandInfo.Repo.MergedPullRequests(out string res);
 			if (PRs == null)
 			{
 				OutputProc(res);

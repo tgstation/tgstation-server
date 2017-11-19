@@ -15,6 +15,10 @@ namespace TGS.Server.Components
 		/// </summary>
 		const string StaticDirs = "Static";
 		/// <summary>
+		/// Backup directory for <see cref="StaticDirs"/>
+		/// </summary>
+		const string StaticBackupDir = "Static_BACKUP";
+		/// <summary>
 		/// Standard parent directory relative path;
 		/// </summary>
 		const string ParentDirectory = "..";
@@ -36,6 +40,10 @@ namespace TGS.Server.Components
 		/// The <see cref="IRepoConfigProvider"/> for the <see cref="StaticManager"/>
 		/// </summary>
 		readonly IRepoConfigProvider RepoConfigProvider;
+		/// <summary>
+		/// The <see cref="IRepositoryManager"/> for the <see cref="StaticManager"/>
+		/// </summary>
+		readonly IRepositoryManager Repo;
 
 		/// <summary>
 		/// Cancels WCF's user impersonation to allow clean access to writing log files
@@ -51,13 +59,39 @@ namespace TGS.Server.Components
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="io">The value of <see cref="IO"/></param>
 		/// <param name="repoConfigProvider">The value of <see cref="RepoConfigProvider"/></param>
-		public StaticManager(IInstanceLogger logger, IIOManager io, IRepoConfigProvider repoConfigProvider)
+		/// <param name="repo">The value of <see cref="Repo"/></param>
+		public StaticManager(IInstanceLogger logger, IIOManager io, IRepoConfigProvider repoConfigProvider, IRepositoryManager repo)
 		{
 			Logger = logger;
 			IO = io;
 			RepoConfigProvider = repoConfigProvider;
+			Repo = repo;
 
 			IO.CreateDirectory(StaticDirs);
+		}
+
+		/// <inheritdoc />
+		public void Recreate()
+		{
+			lock (this)
+			{
+				if (IO.DirectoryExists(StaticDirs))
+				{
+					var count = 0;
+					var newFullPath = StaticBackupDir;
+
+					while (IO.FileExists(newFullPath) || IO.DirectoryExists(newFullPath))
+						newFullPath = String.Format("{0}({1})", StaticBackupDir, ++count);
+
+					IO.MoveDirectory(StaticDirs, newFullPath).Wait();
+				}
+				var repo_config = RepoConfigProvider.GetRepoConfig();
+				var copyPaths = new List<string>();
+				copyPaths.AddRange(repo_config.DLLPaths);
+				copyPaths.AddRange(repo_config.StaticDirectoryPaths);
+				IO.CreateDirectory(StaticDirs);
+				Repo.CopyToRestricted(StaticDirs, copyPaths).Wait();
+			}
 		}
 
 		/// <inheritdoc />

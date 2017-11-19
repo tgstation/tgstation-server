@@ -32,6 +32,39 @@ namespace TGS.Server
 		public IReadOnlyList<string> DLLPaths { get; private set; }
 
 		/// <summary>
+		/// Equality operator for <see cref="RepoConfig"/>s
+		/// </summary>
+		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
+		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
+		/// <returns><see langword="true"/> if <paramref name="config1"/> == <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
+		public static bool operator ==(RepoConfig config1, RepoConfig config2)
+		{
+			return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
+		}
+
+		/// <summary>
+		/// Inequality operator for <see cref="RepoConfig"/>s
+		/// </summary>
+		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
+		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
+		/// <returns><see langword="true"/> if <paramref name="config1"/> != <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
+		public static bool operator !=(RepoConfig config1, RepoConfig config2)
+		{
+			return !(config1 == config2);
+		}
+
+		/// <summary>
+		/// Copies the <see cref="RepoConfig"/> at <paramref name="source"/> to <paramref name="dest"/> overwriting any previous <see cref="RepoConfig"/> at <paramref name="dest"/>
+		/// </summary>
+		/// <param name="source">The source directory</param>
+		/// <param name="dest">The destination directory</param>
+		/// <param name="io">The <see cref="IIOManager"/> to use</param>
+		public static void Copy(string source, string dest, IIOManager io)
+		{
+			io.CopyFile(Path.Combine(source, JSONFilename), Path.Combine(dest, JSONFilename), true);
+		}
+
+		/// <summary>
 		/// Construct a <see cref="RepoConfig"/>
 		/// </summary>
 		/// <param name="path">Directory that contains the config JSON to use</param>
@@ -116,7 +149,7 @@ namespace TGS.Server
 		/// Check if <paramref name="other"/> matches <see langword="this"/> <see cref="RepoConfig"/>
 		/// </summary>
 		/// <param name="other">The other <see cref="IRepoConfig"/> to compare with</param>
-		/// <returns><see langword="true"/> if <paramref name="config1"/> == <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if <paramref name="other"/> == <see langword="this"/>, <see langword="false"/> otherwise</returns>
 		public bool Equals(IRepoConfig other)
 		{
 			return ChangelogSupport == other.ChangelogSupport
@@ -143,28 +176,6 @@ namespace TGS.Server
 			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(StaticDirectoryPaths);
 			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(DLLPaths);
 			return hashCode;
-		}
-
-		/// <summary>
-		/// Equality operator for <see cref="RepoConfig"/>s
-		/// </summary>
-		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
-		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
-		/// <returns><see langword="true"/> if <paramref name="config1"/> == <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
-		public static bool operator ==(RepoConfig config1, RepoConfig config2)
-		{
-			return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
-		}
-
-		/// <summary>
-		/// Inequality operator for <see cref="RepoConfig"/>s
-		/// </summary>
-		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
-		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
-		/// <returns><see langword="true"/> if <paramref name="config1"/> != <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
-		public static bool operator !=(RepoConfig config1, RepoConfig config2)
-		{
-			return !(config1 == config2);
 		}
 	}
 }

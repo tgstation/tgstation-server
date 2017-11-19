@@ -38,9 +38,8 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGDreamDaemon>().WorldAnnounce(String.Join(" ", parameters));
-			OutputProc(res ?? "Success!");
-			return res == null ? ExitCode.Normal : ExitCode.ServerError;
+			Interface.GetComponent<ITGInterop>().WorldAnnounce(String.Join(" ", parameters));
+			return ExitCode.Normal;
 		}
 	}
 
@@ -150,9 +149,6 @@ namespace TGS.CommandLine
 			OutputProc(DD.StatusString(true));
 			if (DD.ShutdownInProgress())
 				OutputProc("The server will shutdown once the current round completes.");
-			var pc = DD.PlayerCount();
-			if (pc != -1)
-				OutputProc(pc + " connected clients");
 			return ExitCode.Normal;
 		}
 	}

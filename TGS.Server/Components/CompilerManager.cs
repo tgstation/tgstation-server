@@ -15,7 +15,10 @@ namespace TGS.Server.Components
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class CompilerManager : ICompilerManager, IDisposable
 	{
-		const string StaticBackupDir = "Static_BACKUP";
+		/// <summary>
+		/// Live directory
+		/// </summary>
+		public static readonly string GameDirLive = Path.Combine(GameDir + "Live");
 
 		/// <summary>
 		/// Path containing production game code
@@ -35,10 +38,6 @@ namespace TGS.Server.Components
 		/// </summary>
 		static readonly string GameDirB = Path.Combine(GameDir, "B");
 		/// <summary>
-		/// Live directory
-		/// </summary>
-		static readonly string GameDirLive = Path.Combine(GameDir + "Live");
-		/// <summary>
 		/// Test file path for checking if if <see cref="GameDirA"/> is <see cref="GameDirLive"/>
 		/// </summary>
 		static readonly string ADirTest = Path.Combine(GameDirA, LiveFile);
@@ -50,6 +49,10 @@ namespace TGS.Server.Components
 		/// Test file path for determining which of <see cref="GameDirA"/> and <see cref="GameDirB"/> is <see cref="GameDirLive"/>
 		/// </summary>
 		static readonly string LiveDirTest = Path.Combine(GameDirLive, LiveFile);
+		/// <summary>
+		/// Directory to find git logfiles in
+		/// </summary>
+		static readonly string GitLogsDir = Path.Combine(".git", "logs");
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="CompilerManager"/>
@@ -91,6 +94,10 @@ namespace TGS.Server.Components
 		/// The <see cref="IByondManager"/> for the <see cref="CompilerManager"/>
 		/// </summary>
 		readonly IByondManager Byond;
+		/// <summary>
+		/// The <see cref="IActionEventManager"/> for the <see cref="CompilerManager"/>
+		/// </summary>
+		readonly IActionEventManager Events;
 
 		/// <summary>
 		/// The current status of the <see cref="CompilerManager"/>
@@ -118,6 +125,10 @@ namespace TGS.Server.Components
 		/// If <see langword="true"/>, <see cref="CompileImpl"/> should not use <see cref="Chat"/>
 		/// </summary>
 		bool silentCompile;
+		/// <summary>
+		/// If <see langword="true"/>, <see cref="currentTaskCanceller"/> will respond promptly, otherwise it may have to wait for file IO
+		/// </summary>
+		bool canCancelCompilation;
 
 		/// <summary>
 		/// Construct a <see cref="CompilerManager"/>
@@ -132,7 +143,8 @@ namespace TGS.Server.Components
 		/// <param name="dreamDaemon">The value of <see cref="DreamDaemon"/></param>
 		/// <param name="_static">The value of <see cref="Static"/></param>
 		/// <param name="byond">The value of <see cref="Byond"/></param>
-		public CompilerManager(IInstanceLogger logger, IRepoConfigProvider repoConfigProvider, IIOManager io, IInstanceConfig config, IChatManager chat, IRepositoryManager repo, IInteropManager interop, IDreamDaemonManager dreamDaemon, IStaticManager _static, IByondManager byond)
+		/// <param name="events">The value of <see cref="Events"/></param>
+		public CompilerManager(IInstanceLogger logger, IRepoConfigProvider repoConfigProvider, IIOManager io, IInstanceConfig config, IChatManager chat, IRepositoryManager repo, IInteropManager interop, IDreamDaemonManager dreamDaemon, IStaticManager _static, IByondManager byond, IActionEventManager events)
 		{
 			Logger = logger;
 			RepoConfigProvider = repoConfigProvider;
@@ -144,6 +156,7 @@ namespace TGS.Server.Components
 			DreamDaemon = dreamDaemon;
 			Static = _static;
 			Byond = byond;
+			Events = events;
 
 			Interop.OnWorldReboot += (a, b) =>
 			{
@@ -167,6 +180,34 @@ namespace TGS.Server.Components
 			IO.DeleteFile(LiveDirTest).Wait();
 		}
 
+		/// <summary>
+		/// Attempts to cancel <see cref="currentTask"/>
+		/// </summary>
+		/// <returns><see langword="true"/> if <see cref="currentTask"/> was waited upon, <see langword="false"/> otherwise</returns>
+		bool CancelImpl() {
+			Task t;
+			CancellationTokenSource cts;
+			lock (this)
+			{
+				t = currentTask;
+				currentTask = null;
+				cts = currentTaskCanceller;
+				currentTaskCanceller = null;
+			}
+			var res = false;
+			if (cts != null)
+				cts.Cancel();
+			if (t != null)
+			{
+				t.Wait();
+				t.Dispose();
+				res = true;
+			}
+			if (cts != null)
+				cts.Dispose();
+			return res;
+		}
+
 		/// <inheritdoc />
 		public CompilerStatus GetStatus()
 		{
@@ -188,12 +229,7 @@ namespace TGS.Server.Components
 		//kills the compiler if its running
 		public void Dispose()
 		{
-			lock (CompilerLock)
-			{
-				if (CompilerThread == null || !CompilerThread.IsAlive)
-					return;
-				CompilerThread.Abort(); //this will safely kill dm
-			}
+			Cancel();
 			CleanLiveDirTest();
 		}
 
@@ -222,8 +258,8 @@ namespace TGS.Server.Components
 					return false;
 				lastCompilerError = null;
 				compilerCurrentStatus = CompilerStatus.Initializing;
-				CompilerThread = new Thread(new ThreadStart(InitializeImpl));
-				CompilerThread.Start();
+				currentTaskCanceller = new CancellationTokenSource();
+				currentTask = Task.Factory.StartNew(() => InitializeImpl(currentTaskCanceller.Token));
 				return true;
 			}
 		}
@@ -277,10 +313,11 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Sets up initial <see cref="GameDir"/> symlinks
 		/// </summary>
-		public void InitializeImpl()
+		public void InitializeImpl(CancellationToken cancellationToken)
 		{
 			try
 			{
+				cancellationToken.ThrowIfCancellationRequested();
 				if (DreamDaemon.DaemonStatus() != DreamDaemonStatus.Offline)
 				{
 					lock (this)
@@ -290,6 +327,7 @@ namespace TGS.Server.Components
 						return;
 					}
 				}
+				cancellationToken.ThrowIfCancellationRequested();
 
 				if (!Repo.Exists()) //repo
 				{
@@ -300,24 +338,35 @@ namespace TGS.Server.Components
 						return;
 					}
 				}
+				cancellationToken.ThrowIfCancellationRequested();
 
 				if (!CheckRepoConfigsMatch())
 					return;
 
+				cancellationToken.ThrowIfCancellationRequested();
 				try
 				{
 					Chat.SendMessage("DM: Setting up symlinks...", MessageType.DeveloperInfo);
+					cancellationToken.ThrowIfCancellationRequested();
 					CleanGameFolder();
+					cancellationToken.ThrowIfCancellationRequested();
 					IO.DeleteDirectory(GameDir).Wait();
+					cancellationToken.ThrowIfCancellationRequested();
 
 					IO.CreateDirectory(GameDirA);
+					cancellationToken.ThrowIfCancellationRequested();
 					IO.CreateDirectory(GameDirB);
+					cancellationToken.ThrowIfCancellationRequested();
 
 					Static.SymlinkTo(GameDirA);
+					cancellationToken.ThrowIfCancellationRequested();
 					Static.SymlinkTo(GameDirB);
-					
+					cancellationToken.ThrowIfCancellationRequested();
+
 					IO.CreateSymlink(Path.Combine(GameDirA, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+					cancellationToken.ThrowIfCancellationRequested();
 					IO.CreateSymlink(Path.Combine(GameDirB, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+					cancellationToken.ThrowIfCancellationRequested();
 
 					IO.CreateSymlink(GameDirLive, GameDirA);
 					
@@ -342,12 +391,17 @@ namespace TGS.Server.Components
 						return;
 					}
 				}
+				cancellationToken.ThrowIfCancellationRequested();
 			}
 			catch (OperationCanceledException)
 			{
-				return;
+				lock (this)
+				{
+					currentTask = null;
+					currentTaskCanceller = null;
+				}
 			}
-			CompileImpl();
+			CompileImpl(cancellationToken);
 		}
 
 		//Returns the A or B dir in which the game is NOT running
@@ -417,10 +471,11 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Copies code from the <see cref="Repo"/>, compiles it, and stages it to go live on the next <see cref="IInteropManager.OnWorldReboot"/>
 		/// </summary>
-		void CompileImpl()
+		void CompileImpl(CancellationToken cancellationToken)
 		{
 			try
 			{
+				cancellationToken.ThrowIfCancellationRequested();
 				if (Byond.GetVersion(ByondVersion.Installed) == null)
 				{
 					lock (this)
@@ -430,99 +485,67 @@ namespace TGS.Server.Components
 						return;
 					}
 				}
+				cancellationToken.ThrowIfCancellationRequested();
 				if (!CheckRepoConfigsMatch())
 					return;
 
-
-				string resurrectee;
-				bool repobusy_check = false;
-				if (!Monitor.TryEnter(RepoLock))
-					repobusy_check = true;
-
-				if (!repobusy_check)
-				{
-					if (RepoBusy)
-						repobusy_check = true;
-					else
-						RepoBusy = true;
-					Monitor.Exit(RepoLock);
-				}
-
-				if (repobusy_check)
-				{
-					SendMessage("DM: Copy aborted, repo locked!", MessageType.DeveloperInfo);
-					lock (CompilerLock)
-					{
-						lastCompilerError = "The repo could not be locked for copying";
-						compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-						return;
-					}
-				}
-				string CurrentSha;
-				try
-				{
+				
 					bool silent;
-					lock (CompilerLock)
+					lock (this)
 					{
 						silent = silentCompile;
 						silentCompile = false;
 					}
 
 					if (!silent)
-						SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
+						Chat.SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
 
-					resurrectee = GetStagingDir();	//non-relative
+					var resurrectee = GetStagingDir();  //non-relative
+				cancellationToken.ThrowIfCancellationRequested();
 
-					var Config = RepoConfigProvider.GetRepoConfig();
+				var Config = RepoConfigProvider.GetRepoConfig();
 					var deleteExcludeList = new List<string> { InteropManager.BridgeDLLName };
 					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
 					deleteExcludeList.AddRange(Config.DLLPaths);
 
 					IO.DeleteDirectory(resurrectee, true, deleteExcludeList).Wait();
-					IO.CreateDirectory(resurrectee + "/.git/logs");
+				cancellationToken.ThrowIfCancellationRequested();
+				IO.CreateDirectory(resurrectee + "/.git/logs");
+				cancellationToken.ThrowIfCancellationRequested();
 
-					Static.SymlinkTo(resurrectee);
+				Static.SymlinkTo(resurrectee);
+				cancellationToken.ThrowIfCancellationRequested();
 
-					if (!File.Exists(Path.Combine(resurrectee, BridgeDLLName)))
-						CreateSymlink(Path.Combine(resurrectee, BridgeDLLName), RelativePath(BridgeDLLName));
+				if (!IO.FileExists(Path.Combine(resurrectee, InteropManager.BridgeDLLName)))
+						IO.CreateSymlink(Path.Combine(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+				cancellationToken.ThrowIfCancellationRequested();
 
-					deleteExcludeList.Add(".git");
-					Helpers.CopyDirectory(RelativePath(RepoPath), resurrectee, deleteExcludeList);
-					CurrentSha = GetHead(false, out string error);
-					//just the tip
-					const string GitLogsDir = "/.git/logs";
-					Helpers.CopyDirectory(RelativePath(RepoPath + GitLogsDir), resurrectee + GitLogsDir);
-					try
-					{
-						File.Copy(RelativePath(PRJobFile), Path.Combine(resurrectee, PRJobFile));
-					}
-					catch { }
-				}
-				finally
+				deleteExcludeList.Add(".git");
+				var CurrentSha = Repo.GetHead(false, out string error);
+				Task.WaitAll(new List<Task>
 				{
-					lock (RepoLock)
-					{
-						RepoBusy = false;
-					}
-				}
+					Repo.CopyTo(resurrectee, deleteExcludeList),
+					Repo.CopyToRestricted(resurrectee, new List<string> { GitLogsDir })
+				}.ToArray());
 
-				var res = CreateBackup();
+				var res = Repo.CreateBackup();
 				if (res != null)
-					lock (CompilerLock)
+					lock (this)
 					{
 						lastCompilerError = res;
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						return;
 					}
+				cancellationToken.ThrowIfCancellationRequested();
 
 				var dmeName = ProjectName() + ".dme";
 				var dmePath = resurrectee + "/" + dmeName;
-				if (!File.Exists(dmePath))
+				if (!IO.FileExists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
-					SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo);
-					WriteError(errorMsg, EventID.DMCompileCrash);
-					lock (CompilerLock)
+					Chat.SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo);
+					Logger.WriteError(errorMsg, EventID.DMCompileCrash);
+					lock (this)
 					{
 						lastCompilerError = errorMsg;
 						compilerCurrentStatus = CompilerStatus.Initialized;
@@ -530,17 +553,26 @@ namespace TGS.Server.Components
 					}
 				}
 
-				if (!PrecompileHook())
+				if (!Events.HandleEvent(ActionEvent.Precompile))
 				{
 					lastCompilerError = "The precompile hook failed";
 					compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-					WriteWarning("Precompile hook failed!", EventID.DMCompileError);
+					Logger.WriteWarning("Precompile hook failed!", EventID.DMCompileError);
 					return;
 				}
 
+				canCancelCompilation = true;
+
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
-					DM.StartInfo.FileName = RelativePath(ByondDirectory + "/bin/dm.exe");
+					DM.StartInfo.FileName = Byond.LockDMExecutable(false, out error);
+					if(error != null)
+						lock (this)
+						{
+							lastCompilerError = error;
+							compilerCurrentStatus = CompilerStatus.Initialized;
+							return;
+						}
 					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
@@ -554,24 +586,11 @@ namespace TGS.Server.Components
 					);
 					try
 					{
-						lock (CompilerLock)
-						{
-							if (compilationCancellationRequestation)
-								return;
-							canCancelCompilation = true;
-						}
-
 						DM.Start();
 						DM.BeginOutputReadLine();
-						while (!DM.HasExited)
-							DM.WaitForExit(100);
+						DM.WaitForExitAsync(cancellationToken).Wait();
+						cancellationToken.ThrowIfCancellationRequested();
 						DM.CancelOutputRead();
-
-						lock (CompilerLock)
-						{
-							canCancelCompilation = false;
-							compilationCancellationRequestation = false;
-						}
 					}
 					catch
 					{
@@ -582,94 +601,67 @@ namespace TGS.Server.Components
 						}
 						throw;
 					}
-					finally
-					{
-						lock (CompilerLock)
-						{
-							canCancelCompilation = false;
-						}
-					}
 
 					if (DM.ExitCode == 0)
 					{
-						lock (watchdogLock)
+						DreamDaemon.RunSuspended(() => {
+							if (IO.DirectoryExists(GameDirLive))
+								//these next two lines should be atomic but this is the best we can do
+								Directory.Delete(IO.ResolvePath(GameDirLive));
+							IO.CreateSymlink(GameDirLive, resurrectee);
+						});
+						var staged = DreamDaemon.DaemonStatus() != DreamDaemonStatus.Offline;
+						if (!Events.HandleEvent(ActionEvent.Postcompile))
 						{
-							//gotta go fast
-							var online = currentStatus == DreamDaemonStatus.Online;
-							if (online)
-								Proc.Suspend();
-							try
-							{
-								var rgdl = RelativePath(GameDirLive);
-								if (Directory.Exists(rgdl))
-									//these next two lines should be atomic but this is the best we can do
-									Directory.Delete(rgdl);
-								CreateSymlink(rgdl, resurrectee);
-							}
-							finally
-							{
-								if (online && !Proc.HasExited)
-									Proc.Resume();
-							}
-						}
-						var staged = DaemonStatus() != DreamDaemonStatus.Offline;
-						if (!PostcompileHook())
-						{
-							lastCompilerError = "The postcompile hook failed";
-							compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-							WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
+							lock(this)
+								lastCompilerError = "The postcompile hook failed";
+							Logger.WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
 							return;
 						}
-						UpdateLiveSha(CurrentSha);
+						Repo.UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
-						SendMessage("DM: " + msg, MessageType.DeveloperInfo);
-						WriteInfo(msg, EventID.DMCompileSuccess);
-						lock (CompilerLock)
+						Chat.SendMessage("DM: " + msg, MessageType.DeveloperInfo);
+						Logger.WriteInfo(msg, EventID.DMCompileSuccess);
+						lock (this)
 						{
 							if (staged)
-								UpdateStaged = true;
+								updateStaged = true;
 							lastCompilerError = null;
-							compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
 						}
 					}
 					else
 					{
-						SendMessage("DM: Compile failed!", MessageType.DeveloperInfo); //Also happens for warnings
-						WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
-						lock (CompilerLock)
-						{
+						Chat.SendMessage("DM: Compile failed!", MessageType.DeveloperInfo); //Also happens for warnings
+						Logger.WriteWarning("Compile error: " + OutputList.ToString(), EventID.DMCompileError);
+						lock (this)
 							lastCompilerError = "DM compile failure";
-							compilerCurrentStatus = CompilerStatus.Initialized;
-						}
 					}
 				}
 
 			}
-			catch (ThreadAbortException)
+			catch (OperationCanceledException)
 			{
 				return;
 			}
 			catch (Exception e)
 			{
-				SendMessage("DM: Compiler thread crashed!", MessageType.DeveloperInfo);
-				WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
-				lock (CompilerLock)
-				{
+				Chat.SendMessage("DM: Compiler thread crashed!", MessageType.DeveloperInfo);
+				Logger.WriteError("Compile manager errror: " + e.ToString(), EventID.DMCompileCrash);
+				lock (this)
 					lastCompilerError = e.ToString();
-					compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
-				}
 			}
 			finally
 			{
-				lock (CompilerLock)
+				canCancelCompilation = false;
+				lock (this)
 				{
-					canCancelCompilation = false;
-					if (compilationCancellationRequestation)
+					currentTask = null;
+					currentTaskCanceller = null;
+					compilerCurrentStatus = CompilerStatus.Initialized;
+					if (cancellationToken.IsCancellationRequested)
 					{
-						compilerCurrentStatus = CompilerStatus.Initialized;
-						compilationCancellationRequestation = false;
-						SendMessage("DM: Compile cancelled!", MessageType.DeveloperInfo);
-						WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
+						Chat.SendMessage("DM: Compile cancelled!", MessageType.DeveloperInfo);
+						Logger.WriteInfo("Compilation cancelled", EventID.DMCompileCancel);
 					}
 				}
 			}
@@ -678,15 +670,15 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public bool Compile(bool silent = false)
 		{
-			lock (CompilerLock)
+			lock (this)
 			{
 				if (compilerCurrentStatus != CompilerStatus.Initialized)
 					return false;
 				silentCompile = silent;
 				lastCompilerError = null;
 				compilerCurrentStatus = CompilerStatus.Compiling;
-				CompilerThread = new Thread(new ThreadStart(CompileImpl));
-				CompilerThread.Start();
+				currentTaskCanceller = new CancellationTokenSource();
+				currentTask = Task.Factory.StartNew(() => CompileImpl(currentTaskCanceller.Token));
 			}
 			return true;
 		}
@@ -694,31 +686,24 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string ProjectName()
 		{
-			lock (CompilerLock)
-			{
-				return Config.ProjectName;
-			}
+			return Config.ProjectName;
 		}
 
 		/// <inheritdoc />
 		public void SetProjectName(string projectName)
 		{
-			lock (CompilerLock)
-			{
+			lock (this)
 				Config.ProjectName = projectName;
-			}
 		}
 
+		/// <inheritdoc />
 		public string Cancel()
 		{
-			lock (CompilerLock)
+			lock (this)
 			{
 				if (compilerCurrentStatus != CompilerStatus.Compiling)
 					return "Invalid state for cancellation!";
-				compilationCancellationRequestation = true;
-				if (canCancelCompilation)
-					CompilerThread.Abort();
-				else
+				if(CancelImpl() && !canCancelCompilation)
 					return "Compilation will be cancelled when the repo copy is complete";
 				return null;
 			}

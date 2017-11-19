@@ -35,6 +35,7 @@ namespace TGS.Server
 			{
 				CredentialsProvider = CredentialsProvider,
 				OnTransferProgress = (a) => OnTransferProgress(a),
+				OnProgress = (a) => OnProgress(a),
 				Prune = true,
 			};
 		}

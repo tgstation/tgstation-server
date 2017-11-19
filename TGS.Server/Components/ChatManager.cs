@@ -16,7 +16,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Used for indicating unintialized encrypted data
 		/// </summary>
-		const string UninitializedString = "NEEDS INITIALIZING";
+		public const string UninitializedString = "NEEDS INITIALIZING";
 		
 		// Topic command return parameters
 		/// <summary>

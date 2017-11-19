@@ -75,7 +75,7 @@ namespace TGS.ControlPanel
 				InstanceData = masterInterface.GetServiceComponent<ITGLanding>().ListInstances();
 			});
 			foreach(var I in InstanceData)
-				InstanceListBox.Items.Add(String.Format("{0}: {1} - {2} - {3}", I.LoggingID, I.Name, I.Path, I.Enabled ? "ONLINE" : "OFFLINE"));
+				InstanceListBox.Items.Add(String.Format("{0}: {1} - {2}", I.Name, I.Path, I.Enabled ? "ONLINE" : "OFFLINE"));
 			var HasServerAdmin = masterInterface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			CreateInstanceButton.Enabled = HasServerAdmin;
 			ImportInstanceButton.Enabled = HasServerAdmin;

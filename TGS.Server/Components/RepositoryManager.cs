@@ -145,6 +145,8 @@ namespace TGS.Server.Components
 			ServerConfig = serverConfig;
 			RepoConfigProvider = repoConfigProvider;
 
+			Chat.OnPopulateCommandInfo += (a, b) => b.CommandInfo.Repo = this;
+
 			ghClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TGS.Server"));
 
 			LoadRepository();
@@ -479,13 +481,8 @@ namespace TGS.Server.Components
 			return true;
 		}
 
-		/// <summary>
-		/// Fetches the origin and merges it into the current branch
-		/// </summary>
-		/// <param name="reset">If <see langword="true"/>, the operation will perform a hard reset instead of a merge</param>
-		/// <param name="successOnUpToDate">If <see langword="true"/>, a return value of <see cref="RepoErrorUpToDate"/> will be changed to <see langword="null"/></param>
-		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string UpdateImpl(bool reset, bool successOnUpToDate)
+		/// <inheritdoc />
+		public string UpdateImpl(bool reset, bool successOnUpToDate)
 		{
 			lock (this)
 			{
@@ -921,14 +918,29 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public async Task<string> CopyTo(string destination, IEnumerable<string> ignorePaths)
 		{
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+				longOperationInProgress = true;
+			}
+
 			try
 			{
 				await IO.CopyDirectory(RepoPath, destination, ignorePaths);
+				IO.CopyFile(PRJobFile, Path.Combine(destination, PRJobFile), false).Wait();
 				return null;
 			}
 			catch (Exception e)
 			{
 				return e.ToString();
+			}
+			finally
+			{
+				lock(this)
+					longOperationInProgress = false;
 			}
 		}
 
@@ -960,7 +972,43 @@ namespace TGS.Server.Components
 				return e.ToString();
 			}
 		}
-		
+
+		/// <inheritdoc />
+		public string CreateBackup()
+		{
+			try
+			{
+				lock (this)
+				{
+					if (longOperationInProgress)
+						return BusyMessage;
+					if (!LoadRepository())
+						return NoRepoMessage;
+
+					//Make sure we don't already have a backup at this commit
+					var HEAD = repository.Head.Tip.Sha;
+					foreach (var T in repository.Tags)
+						if (T.Target.Sha == HEAD)
+							return null;
+
+					var tagName = "TGS-Compile-Backup-" + DateTime.Now.ToString("yyyy-MM-dd--HH.mm.ss");
+					var tag = repository.ApplyTag(tagName);
+
+					if (tag != null)
+					{
+						Logger.WriteInfo("Repo backup created at tag: " + tagName + " commit: " + HEAD, EventID.RepoBackupTag);
+						return null;
+					}
+					throw new Exception("Tag creation failed!");
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.WriteWarning(String.Format("Failed backup tag creation at commit {0}!", repository.Head.Tip.Sha), EventID.RepoBackupTagFail);
+				return e.ToString();
+			}
+		}
+
 		/// <inheritdoc />
 		public string GenerateChangelog(out string error)
 		{
@@ -1264,6 +1312,20 @@ namespace TGS.Server.Components
 				if (longOperationInProgress)
 					return null;
 				return new RepoConfig(RepoPath, IO);
+			}
+		}
+
+		/// <inheritdoc />
+		public void UpdateLiveSha(string newSha)
+		{
+			lock (this)
+			{
+				if (longOperationInProgress || !LoadRepository())
+					return;
+				var B = repository.Branches[LiveTrackingBranch];
+				if (B != null)
+					repository.Branches.Remove(B);
+				repository.CreateBranch(LiveTrackingBranch, newSha);
 			}
 		}
 	}

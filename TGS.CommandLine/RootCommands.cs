@@ -37,7 +37,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGRepository>().AutoUpdateInterval();
+			var res = Interface.GetComponent<ITGInstance>().AutoUpdateInterval();
 			OutputProc(res == 0 ? "OFF" : String.Format("Auto updating every {0} minutes", res));
 			return ExitCode.Normal;
 		}
@@ -76,7 +76,7 @@ namespace TGS.CommandLine
 					return ExitCode.BadCommand;
 				}
 
-			Interface.GetComponent<ITGRepository>().SetAutoUpdateInterval(NewInterval);
+			Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval(NewInterval);
 			return ExitCode.Normal;
 		}
 

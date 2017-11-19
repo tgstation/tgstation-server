@@ -2,8 +2,6 @@
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.ServiceModel;
-using System.Threading;
-using TGS.Interface;
 using TGS.Interface.Components;
 
 namespace TGS.Server.Components
@@ -25,6 +23,10 @@ namespace TGS.Server.Components
 		/// The <see cref="IInstanceConfig"/> for the <see cref="AdministrationManager"/>
 		/// </summary>
 		readonly IInstanceConfig Config;
+		/// <summary>
+		/// The <see cref="IStaticManager"/> for the <see cref="AdministrationManager"/>
+		/// </summary>
+		readonly IStaticManager Static;
 
 		/// <summary>
 		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="Instance"/>
@@ -39,12 +41,14 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Construct a <see cref="AdministrationManager"/>
 		/// </summary>
-		/// <param name="logger"></param>
-		/// <param name="config"></param>
-		public AdministrationManager(IInstanceLogger logger, IInstanceConfig config)
+		/// <param name="logger">The value of <see cref="Logger"/></param>
+		/// <param name="config">The value of <see cref="Config"/></param>
+		/// <param name="_static">The values of <see cref="Static"/></param>
+		public AdministrationManager(IInstanceLogger logger, IInstanceConfig config, IStaticManager _static)
 		{
 			Logger = logger;
 			Config = config;
+			Static = _static;
 
 			FindTheDroidsWereLookingFor();
 		}
@@ -168,44 +172,18 @@ namespace TGS.Server.Components
 			return authSuccess;
 		}
 
+		/// <inheritdoc />
 		public string RecreateStaticFolder()
 		{
-			if (!Monitor.TryEnter(RepoLock))
-				return "Repo locked!";
 			try
 			{
-				if (!Monitor.TryEnter(watchdogLock))
-					return "Watchdog locked!";
-				try
-				{
-					if (!Monitor.TryEnter(configLock))
-						return "Static dir locked!";
-					try
-					{
-						if (currentStatus != DreamDaemonStatus.Offline)
-							return "Watchdog running!";
-						BackupAndDeleteStaticDirectory();
-						InitialConfigureRepository();
-					}
-					finally
-					{
-						Monitor.Exit(configLock);
-					}
-				}
-				finally
-				{
-					Monitor.Exit(watchdogLock);
-				}
+				Static.Recreate();
+				return null;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return e.ToString();
 			}
-			finally
-			{
-				Monitor.Exit(RepoLock);
-			}
-			return null;
 		}
 	}
 }

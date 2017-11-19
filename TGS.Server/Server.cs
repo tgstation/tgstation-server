@@ -269,8 +269,6 @@ namespace TGS.Server
 			
 			foreach (var J in ServerInterface.ValidInstanceInterfaces)
 				AddEndpoint(host, J);
-
-			host.Authorization.ServiceAuthorizationManager = instance;
 			return host;
 		}
 
@@ -377,7 +375,6 @@ namespace TGS.Server
 						Name = ic.Name,
 						Path = ic.Directory,
 						Enabled = ic.Enabled,
-						LoggingID = (byte)(ic.Enabled ? ((Instance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
 					});
 			return result;
 		}
@@ -385,11 +382,12 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
-			path = Helpers.NormalizePath(path);
+			var IO = new IOManager();
+			path = IO.ResolvePath(path);
 			var res = CheckInstanceName(Name);
 			if (res != null)
 				return res;
-			if (File.Exists(path) || Directory.Exists(path))
+			if (IO.FileExists(path) || IO.DirectoryExists(path))
 				return "Cannot create instance at pre-existing path!";
 			lock (this)
 			{
@@ -401,11 +399,11 @@ namespace TGS.Server
 				IInstanceConfig ic;
 				try
 				{
-					ic = new InstanceConfig(path)
+					ic = new InstanceConfig(IO.ResolvePath(path))
 					{
 						Name = Name
 					};
-					Directory.CreateDirectory(path);
+					IO.CreateDirectory(path);
 					ic.Save();
 					Config.InstancePaths.Add(path);
 				}
@@ -445,12 +443,13 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string ImportInstance(string path)
 		{
-			path = Helpers.NormalizePath(path);
+			var IO = new IOManager();
+			path = IO.ResolvePath(path);
 			lock (this)
 			{
 				if (Config.InstancePaths.Contains(path))
 					return String.Format("Instance at {0} already exists!", path);
-				if(!Directory.Exists(path))
+				if(!IO.DirectoryExists(path))
 					return String.Format("There is no instance located at {0}!", path);
 				IInstanceConfig ic;
 				try

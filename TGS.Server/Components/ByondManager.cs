@@ -55,6 +55,10 @@ namespace TGS.Server.Components
 		/// The bin folder in a BYOND installation
 		/// </summary>
 		const string BinDirectory = "bin";
+		/// <summary>
+		/// The message shown when an operation fails due to a BYOND update being in progress
+		/// </summary>
+		const string ErrorUpdateInProgress = "Error, BYOND update operation in progress!";
 
 		/// <summary>
 		/// Path to the actual BYOND installation within the <see cref="StagingDirectory"/>
@@ -450,7 +454,7 @@ namespace TGS.Server.Components
 			{
 				if (BusyCheck())
 				{
-					error = "Error, update operation in progress!";
+					error = ErrorUpdateInProgress;
 					return null;
 				}
 				//have to use the staged one if nothing is installed
@@ -469,7 +473,7 @@ namespace TGS.Server.Components
 			{
 				if (updateStat == ByondStatus.Updating)
 				{
-					error = "Error, update operation in progress!";
+					error = ErrorUpdateInProgress;
 					return null;
 				}
 				if(GetVersion(ByondVersion.Installed) == null)

@@ -124,13 +124,15 @@ namespace TGS.Server.Components
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="config">The value of <see cref="Config"/></param>
 		/// <param name="interop">The value of <see cref="Interop"/></param>
-		public DreamDaemonManager(IInstanceLogger logger, IIOManager io, IChatManager chat, IInstanceConfig config, IInteropManager interop)
+		/// <param name="byond">The value of <see cref="Byond"/></param>
+		public DreamDaemonManager(IInstanceLogger logger, IIOManager io, IChatManager chat, IInstanceConfig config, IInteropManager interop, IByondManager byond)
 		{
 			Logger = logger;
 			IO = io;
 			Chat = chat;
 			Config = config;
 			Interop = interop;
+			Byond = byond;
 
 			Interop.OnKillRequest += (a, b) => HandleKillRequest();
 			Interop.OnWorldReboot += (a, b) => WriteCurrentDDLog("World rebooted.");
@@ -401,7 +403,7 @@ namespace TGS.Server.Components
 
 					try
 					{
-						process.WaitForExitAsync(cancellationToken);
+						process.WaitForExitAsync(cancellationToken).Wait();
 						cancellationToken.ThrowIfCancellationRequested();
 					}
 					finally
@@ -419,6 +421,8 @@ namespace TGS.Server.Components
 						currentStatus = DreamDaemonStatus.HardRebooting;
 						Interop.ResetDMAPIVersion();
 						process.Close();
+
+						Byond.UnlockDDExecutable();
 
 						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
 							return;
@@ -515,7 +519,7 @@ namespace TGS.Server.Components
 		{
 			if (Byond.GetVersion(ByondVersion.Installed) == null)
 				return "Byond is not installed!";
-			var DMB = Path.Combine(GameDirLive , String.Format("{0}.dmb", Config.ProjectName));
+			var DMB = Path.Combine(CompilerManager.GameDirLive, String.Format("{0}.dmb", Config.ProjectName));
 			if (!IO.FileExists(DMB))
 				return String.Format("Unable to find {0}!", DMB);
 			if(DaemonStatus() != DreamDaemonStatus.Offline)
@@ -578,11 +582,14 @@ namespace TGS.Server.Components
 					Interop.ResetDMAPIVersion();
 					Interop.UpdateBridgeDll(true);
 
-					var DMB = RelativePath(GameDirLive + "/" + Config.ProjectName + ".dmb");
+					var DMB = Path.Combine(CompilerManager.GameDirLive, String.Format("{0}.dmb", Config.ProjectName));
 
 					StartingSecurity = Config.Security;
 
-					process.StartInfo.Arguments = String.Format("{0} -port {1} {4}-close -verbose -params \"{3}\" -{2} -public", DMB, Config.Port, SecurityWord(), Interop.StartParameters(), Config.Webclient ? "-webclient " : "");
+					process.StartInfo.FileName = Byond.LockDDExecutable(out string error);
+					if (error != null)
+						return error;
+					process.StartInfo.Arguments = String.Format("{0} -port {1} {4}-close -verbose -params \"{3}\" -{2} -public", IO.ResolvePath(DMB), Config.Port, SecurityWord(), Interop.StartParameters(), Config.Webclient ? "-webclient " : "");
 
 					
 					process.Start();
@@ -702,6 +709,27 @@ namespace TGS.Server.Components
 					Config.Webclient = on;
 					RequestRestart();
 				}
+		}
+
+		/// <inheritdoc />
+		public void RunSuspended(Action action)
+		{
+			lock (this)
+			{
+				//gotta go fast
+				var online = currentStatus == DreamDaemonStatus.Online;
+				if (online)
+					process.Suspend();
+				try
+				{
+					action.Invoke();
+				}
+				finally
+				{
+					if (online && !process.HasExited)
+						process.Resume();
+				}
+			}
 		}
 	}
 }
