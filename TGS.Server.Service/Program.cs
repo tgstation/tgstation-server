@@ -9,7 +9,8 @@ namespace TGS.Server.Service
 		/// </summary>
 		public static void Main()
 		{
-			ServiceBase.Run(new Service(new ServerFactory(new IOManager())));
+			using (var S = new Service(new ServerFactory(new IOManager())))
+				ServiceBase.Run(S);
 		}
 	}
 }
