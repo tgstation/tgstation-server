@@ -462,7 +462,7 @@ namespace TGS.Server
 					megamem = Convert.ToUInt64(pcm.NextValue()) / 1024;
 			}
 			var PercentCpuTime = (int)Math.Round((Decimal)cputime);
-			WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}MB", megamem, PercentCpuTime.ToString("D3")));
+			WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}KB", megamem, PercentCpuTime.ToString("D3")));
 		}
 
 		/// <inheritdoc />
