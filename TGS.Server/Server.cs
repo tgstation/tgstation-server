@@ -82,8 +82,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public void Start(string[] args)
 		{
-			if (disposedValue)
-				throw new ObjectDisposedException(nameof(Server));
 			if (serviceHost != null)
 				throw new InvalidOperationException(String.Format("{0} is already running!", nameof(Server)));
 			
@@ -599,50 +597,14 @@ namespace TGS.Server
 				return null;
 			}
 		}
-
-		#region IDisposable Support
+		
 		/// <summary>
-		/// To detect redundant <see cref="Dispose()"/> calls
-		/// </summary>
-		private bool disposedValue = false;
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="Stop"/>
-		/// </summary>
-		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					if(serviceHost != null)
-						Stop();
-				}
-
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
-
-				disposedValue = true;
-			}
-		}
-
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-		// ~Server() {
-		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-		//   Dispose(false);
-		// }
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
+		/// Calls <see cref="Stop"/> if it hasn't been called already
 		/// </summary>
 		public void Dispose()
 		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
+			if (serviceHost != null)
+				Stop();
 		}
-		#endregion
 	}
 }

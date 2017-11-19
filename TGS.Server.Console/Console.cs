@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TGS.Server.Console
 {
@@ -24,10 +26,10 @@ namespace TGS.Server.Console
 		/// <summary>
 		/// Prompts the user to exit the <see cref="Console"/>
 		/// </summary>
-		void ExitPrompt()
+		Task ExitPrompt()
 		{
 			System.Console.WriteLine("Press any key to exit...");
-			System.Console.ReadKey();
+			return Task.Factory.StartNew(() => System.Console.ReadKey());
 		}
 
 		/// <summary>

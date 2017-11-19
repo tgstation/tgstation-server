@@ -8,8 +8,7 @@
 		/// <param name="args">The arguments for the program</param>
 		public static void Main(string[] args)
 		{
-			using (var C = new Console(new ServerFactory(new IOManager())))
-				C.Run(args);
+			new Console(new ServerFactory(new IOManager())).Run(args);
 		}
 	}
 }
