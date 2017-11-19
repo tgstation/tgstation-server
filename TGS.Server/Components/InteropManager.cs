@@ -21,7 +21,8 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// The filename of the dll that contains the bridge class
 		/// </summary>
-		const string BridgeDLLName = "TGDreamDaemonBridge.dll";
+		public const string BridgeDLLName = "TGDreamDaemonBridge.dll";
+
 		/// <summary>
 		/// The namespace that contains the <see cref="DreamDaemonBridgeType"/>. Used for reflection
 		/// </summary>
@@ -197,16 +198,6 @@ namespace TGS.Server.Components
 					Chat.ResetChatCommands();
 					Chat.CheckConnectivity();
 					OnWorldReboot(this, new EventArgs());
-
-					lock (CompilerLock)
-					{
-						if (UpdateStaged)
-						{
-							UpdateStaged = false;
-							lock (topicLock)
-							WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
-						}
-					}
 					break;
 				case BCAPIVersion:
 					lock (this)

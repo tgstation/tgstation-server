@@ -9,7 +9,7 @@ namespace TGS.Server
 	interface IIOManager
 	{
 		/// <summary>
-		/// Retrieve the full path of some <paramref name="path"/> given a relative path. All other operations in this <see langword="interface"/> call this internally on given paths
+		/// Retrieve the full path of some <paramref name="path"/> given a relative path. Must be used before passing relative paths to other APIs. All other operations in this <see langword="interface"/> call this internally on given paths
 		/// </summary>
 		/// <param name="path">Some path to retrieve the full path of</param>
 		/// <returns><paramref name="path"/> as a full canonical path</returns>

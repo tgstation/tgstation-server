@@ -66,7 +66,7 @@ namespace TGS.Server
 			{
 				container = new Container();
 
-				container.Options.DefaultLifestyle = new WcfOperationLifestyle();
+				container.Options.DefaultLifestyle = Lifestyle.Singleton;
 
 				container.RegisterSingleton(ServerConfig);
 				container.RegisterSingleton(Config);
@@ -76,7 +76,10 @@ namespace TGS.Server
 				container.RegisterSingleton<ITGConnectivity>(this);
 				container.RegisterSingleton<IRepoConfigProvider>(this);
 
+				container.Register<IRepositoryProvider, RepositoryProvider>();
 				container.Register<IIOManager, InstanceIOManager>();
+
+				container.Register<ICompilerManager, CompilerManager>();
 				container.Register<IByondManager, ByondManager>();
 				container.Register<IDreamDaemonManager, DreamDaemonManager>();
 				container.Register<IInteropManager, InteropManager>();
@@ -84,7 +87,7 @@ namespace TGS.Server
 				container.Register<IRepositoryManager, RepositoryManager>();
 				container.Register<IStaticManager, StaticManager>();
 				container.Register<IAdministrationManager, AdministrationManager>();
-				container.Register<IRepositoryProvider, RepositoryProvider>();
+				container.Register<IActionEventManager, ActionEventManager>();
 
 				container.Verify();
 

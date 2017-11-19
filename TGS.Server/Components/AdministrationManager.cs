@@ -8,8 +8,8 @@ using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
-	//note this only works with MACHINE LOCAL groups and admins for now
-	//if someone wants AD shit, code it yourself
+	/// <inheritdoc />
+	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class AdministrationManager : ServiceAuthorizationManager, IAdministrationManager
 	{
 		/// <summary>

@@ -12,7 +12,7 @@ namespace TGS.Server
 	/// </summary>
 	sealed class RootAuthorizationManager : ServiceAuthorizationManager
 	{
-		public static readonly IList<ServiceAuthorizationManager> InstanceAuthManagers = new List<ServiceAuthorizationManager>();
+		public static IList<ServiceAuthorizationManager> InstanceAuthManagers { get; private set; } = new List<ServiceAuthorizationManager>();
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="RootAuthorizationManager"/>

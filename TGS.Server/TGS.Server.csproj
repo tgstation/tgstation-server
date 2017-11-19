@@ -89,6 +89,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionEvent.cs" />
     <Compile Include="ChatCommands\ByondCommand.cs" />
     <Compile Include="ChatCommands\CommandInfo.cs" />
     <Compile Include="ChatCommands\ChatCommand.cs" />
@@ -99,7 +100,9 @@
     <Compile Include="ChatCommands\ServerChatCommand.cs" />
     <Compile Include="ChatCommands\VersionCommand.cs" />
     <Compile Include="Components\DreamDaemonManager.cs" />
+    <Compile Include="Components\IActionEventManager.cs" />
     <Compile Include="Components\IAdministrationManager.cs" />
+    <Compile Include="Components\ICompilerManager.cs" />
     <Compile Include="Components\IDreamDaemonManager.cs" />
     <Compile Include="Components\IInstance.cs" />
     <Compile Include="Components\IInteropManager.cs" />
@@ -134,12 +137,12 @@
     <Compile Include="Components\AdministrationManager.cs" />
     <Compile Include="Components\ChatManager.cs" />
     <Compile Include="ChatProviders\ChatProvider.cs" />
-    <Compile Include="Components\Compiler.cs" />
+    <Compile Include="Components\CompilerManager.cs" />
     <Compile Include="ChatProviders\DiscordChatProvider.cs" />
     <Compile Include="EventID.cs" />
     <Compile Include="Components\Instance.cs" />
     <Compile Include="ChatProviders\IRCChatProvider.cs" />
-    <Compile Include="Components\PreactionHandler.cs" />
+    <Compile Include="Components\ActionEventManager.cs" />
     <Compile Include="ProcessExtension.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

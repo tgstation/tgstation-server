@@ -56,6 +56,8 @@ namespace TGS.Server.Components
 			Logger = logger;
 			IO = io;
 			RepoConfigProvider = repoConfigProvider;
+
+			IO.CreateDirectory(StaticDirs);
 		}
 
 		/// <inheritdoc />
@@ -216,6 +218,27 @@ namespace TGS.Server.Components
 				error = e.ToString();
 				unauthorized = false;
 				return null;
+			}
+		}
+
+		/// <inheritdoc />
+		public void SymlinkTo(string path)
+		{
+			lock (this)
+			{
+				var DI = new DirectoryInfo(IO.ResolvePath(StaticDirs));
+				foreach (var I in DI.GetFiles())
+				{
+					var targetPath = Path.Combine(path, I.Name);
+					if (!IO.FileExists(targetPath))
+						IO.CreateSymlink(targetPath, I.FullName);
+				}
+				foreach (var I in DI.GetDirectories())
+				{
+					var targetPath = Path.Combine(path, I.Name);
+					if (!IO.DirectoryExists(targetPath))
+						IO.CreateSymlink(targetPath, I.FullName);
+				}
 			}
 		}
 	}
