@@ -6,29 +6,48 @@ using System.Threading;
 using TGS.Interface;
 using TGS.Interface.Components;
 
-namespace TGS.Server
+namespace TGS.Server.Components
 {
 	//note this only works with MACHINE LOCAL groups and admins for now
 	//if someone wants AD shit, code it yourself
-	sealed partial class Instance : ServiceAuthorizationManager, ITGAdministration
+	sealed class AdministrationManager : ServiceAuthorizationManager, IAdministrationManager
 	{
+		/// <summary>
+		/// The <see cref="SecurityIdentifier"/> of the account the <see cref="Server"/> is running as
+		/// </summary>
+		static readonly SecurityIdentifier ServerSID = WindowsIdentity.GetCurrent().User;
+
+		/// <summary>
+		/// The <see cref="IInstanceLogger"/> for the <see cref="AdministrationManager"/>
+		/// </summary>
+		readonly IInstanceLogger Logger;
+		/// <summary>
+		/// The <see cref="IInstanceConfig"/> for the <see cref="AdministrationManager"/>
+		/// </summary>
+		readonly IInstanceConfig Config;
+
 		/// <summary>
 		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="Instance"/>
 		/// </summary>
 		SecurityIdentifier TheDroidsWereLookingFor;
-		/// <summary>
-		/// Used for multithreading safety
-		/// </summary>
-		object authLock = new object();
+
 		/// <summary>
 		/// The <see cref="WindowsIdentity.Name"/> of the last <see cref="WindowsIdentity"/> to attempt to access the <see cref="Instance"/>
 		/// </summary>
 		string LastSeenUser;
 
 		/// <summary>
-		/// The <see cref="SecurityIdentifier"/> of the account the <see cref="Server"/> is running as
+		/// Construct a <see cref="AdministrationManager"/>
 		/// </summary>
-		readonly SecurityIdentifier ServiceSID = WindowsIdentity.GetCurrent().User;
+		/// <param name="logger"></param>
+		/// <param name="config"></param>
+		public AdministrationManager(IInstanceLogger logger, IInstanceConfig config)
+		{
+			Logger = logger;
+			Config = config;
+
+			FindTheDroidsWereLookingFor();
+		}
 
 		/// <inheritdoc />
 		public string GetCurrentAuthorizedGroup()
@@ -137,13 +156,13 @@ namespace TGS.Server
 			if (!authSuccess && operationContext.EndpointDispatcher.ContractName != typeof(ITGAdministration).Name && TheDroidsWereLookingFor != null)
 				authSuccess = wp.IsInRole(new SecurityIdentifier(Config.AuthorizedUserGroupSID));
 
-			lock (authLock)
+			lock (this)
 			{
 				var user = windowsIdent.Name;
 				if (LastSeenUser != user)
 				{
 					LastSeenUser = user;
-					WriteAccess(user, authSuccess);
+					Logger.WriteAccess(user, authSuccess);
 				}
 			}
 			return authSuccess;

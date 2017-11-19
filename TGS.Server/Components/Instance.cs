@@ -83,6 +83,7 @@ namespace TGS.Server
 				container.Register<IChatManager, ChatManager>();
 				container.Register<IRepositoryManager, RepositoryManager>();
 				container.Register<IStaticManager, StaticManager>();
+				container.Register<IAdministrationManager, AdministrationManager>();
 				container.Register<IRepositoryProvider, RepositoryProvider>();
 
 				container.Verify();
