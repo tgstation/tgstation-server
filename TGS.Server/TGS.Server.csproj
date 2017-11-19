@@ -102,12 +102,12 @@
     <Compile Include="Components\IDreamDaemonManager.cs" />
     <Compile Include="Components\IInstance.cs" />
     <Compile Include="Components\IInteropManager.cs" />
+    <Compile Include="Components\InstanceIOManager.cs" />
     <Compile Include="Components\InteropCommand.cs" />
     <Compile Include="Components\InteropManager.cs" />
     <Compile Include="Components\IRepositoryManager.cs" />
     <Compile Include="Components\PopulateCommandInfoEventArgs.cs" />
     <Compile Include="Components\RepositoryManager.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="Components\IChatManager.cs" />
     <Compile Include="IInstanceLogger.cs" />
     <Compile Include="IIOManager.cs" />
@@ -116,6 +116,9 @@
     <Compile Include="ILoggingIDProvider.cs" />
     <Compile Include="Components\ByondManager.cs" />
     <Compile Include="Components\IByondManager.cs" />
+    <Compile Include="IOManager.cs" />
+    <Compile Include="IRepoConfig.cs" />
+    <Compile Include="IRepoConfigProvider.cs" />
     <Compile Include="IRepositoryProvider.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerConfig.cs" />

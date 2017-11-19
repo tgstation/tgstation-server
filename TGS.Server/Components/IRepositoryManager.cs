@@ -4,7 +4,7 @@ using TGS.Interface.Components;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	interface IRepositoryManager : ITGRepository
+	interface IRepositoryManager : ITGRepository, IRepoConfigProvider
 	{
 		/// <summary>
 		/// Copy the repository (without the .git folder) to the target <paramref name="destination"/> while excluding <paramref name="ignorePaths"/>

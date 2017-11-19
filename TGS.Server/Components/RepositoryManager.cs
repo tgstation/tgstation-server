@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using TGS.Interface;
 
 namespace TGS.Server.Components
@@ -25,7 +26,11 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Message returned when an operation is aborted due to <see cref="longOperationInProgress"/> being set
 		/// </summary>
-		const string RepoBusyMessage = "Repository is busy with another operation!";
+		const string BusyMessage = "Repository is busy with another operation!";
+		/// <summary>
+		/// Message returned when <see cref="LoadRepository(bool)"/> fails
+		/// </summary>
+		const string NoRepoMessage = "Repository is not in a valid state!";
 		/// <summary>
 		/// The directory for SSH keys
 		/// </summary>
@@ -92,7 +97,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// <see cref="Octokit.GitHubClient"/> used for retrieving pull request information from GitHub
 		/// </summary>
-		Octokit.GitHubClient ghClient;
+		Octokit.IGitHubClient ghClient;
 		/// <summary>
 		/// The currently running long operation
 		/// </summary>
@@ -101,7 +106,6 @@ namespace TGS.Server.Components
 		/// The <see cref="CancellationTokenSource"/> for <see cref="currentOperation"/>
 		/// </summary>
 		CancellationTokenSource currentOperationCanceller;
-
 
 		/// <summary>
 		/// The progress status of a long running operation on a scale of 0 - 100. -1 indicates indefinite
@@ -221,30 +225,65 @@ namespace TGS.Server.Components
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string MergeBranch(string committish, string mergeMessage)
 		{
-			var mo = new MergeOptions()
+			lock (this)
 			{
-				OnCheckoutProgress = HandleCheckoutProgress
-			};
-			if (mergeMessage != null)
-			{
-				mo.CommitOnSuccess = false;
-				mo.FastForwardStrategy = FastForwardStrategy.NoFastForward;
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+				var mo = new MergeOptions()
+				{
+					OnCheckoutProgress = HandleCheckoutProgress
+				};
+				if (mergeMessage != null)
+				{
+					mo.CommitOnSuccess = false;
+					mo.FastForwardStrategy = FastForwardStrategy.NoFastForward;
+				}
+				var sig = MakeSig();
+				var Result = repository.Merge(committish, sig, mo);
+				currentProgress = -1;
+				switch (Result.Status)
+				{
+					case MergeStatus.Conflicts:
+						Reset(null);
+						Chat.SendMessage("REPO: Merge conflicted, aborted.", MessageType.DeveloperInfo);
+						return "Merge conflict occurred.";
+					case MergeStatus.UpToDate:
+						return RepoErrorUpToDate;
+				}
+				if (mergeMessage != null)
+					repository.Commit(mergeMessage, sig, sig);
+				return null;
 			}
-			var sig = MakeSig();
-			var Result = repository.Merge(committish, sig, mo);
-			currentProgress = -1;
-			switch (Result.Status)
+		}
+
+		/// <summary>
+		/// Equivalent of running `git reset --hard` on the repository
+		/// </summary>
+		/// <param name="targetBranch">If not <see langword="null"/>, reset to this branch instead of HEAD</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string Reset(Branch targetBranch)
+		{
+			lock (this)
 			{
-				case MergeStatus.Conflicts:
-					ResetNoLock(null);
-					Chat.SendMessage("REPO: Merge conflicted, aborted.", MessageType.DeveloperInfo);
-					return "Merge conflict occurred.";
-				case MergeStatus.UpToDate:
-					return RepoErrorUpToDate;
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+				try
+				{
+					if (targetBranch != null)
+						repository.Reset(ResetMode.Hard, targetBranch.Tip);
+					else
+						repository.Reset(ResetMode.Hard);
+					return null;
+				}
+				catch (Exception e)
+				{
+					return e.ToString();
+				}
 			}
-			if (mergeMessage != null)
-				repository.Commit(mergeMessage, sig, sig);
-			return null;
 		}
 
 		/// <summary>
@@ -438,6 +477,43 @@ namespace TGS.Server.Components
 			currentProgress = (int)(((float)completedSteps / totalSteps) * 100);
 		}
 
+		/// <summary>
+		/// Gets the SHA or branch name of the <see cref="repository"/>'s HEAD
+		/// </summary>
+		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
+		/// <param name="branch">If <see langword="true"/>, returns the branch name instead of the SHA</param>
+		/// <param name="tracked">If <see langword="true"/>, returns the tracked branch SHA and ignores <paramref name="branch"/></param>
+		/// <returns>The SHA or branch name of the <see cref="repository"/>'s HEAD</returns>
+		string GetShaOrBranch(out string error, bool branch, bool tracked)
+		{
+			lock (this)
+			{
+				if (longOperationInProgress)
+				{
+					error = BusyMessage;
+					return null;
+				}
+				if (!LoadRepository())
+				{
+					error = NoRepoMessage;
+					return null;
+				}
+
+				try
+				{
+					error = null;
+					if (tracked && repository.Head.TrackedBranch != null)
+						return repository.Head.TrackedBranch.Tip.Sha;
+					return branch ? repository.Head.FriendlyName : repository.Head.Tip.Sha;
+				}
+				catch (Exception e)
+				{
+					error = e.ToString();
+					return null;
+				}
+			}
+		}
+
 		/// <inheritdoc />
 		public string Checkout(string objectName)
 		{
@@ -446,7 +522,9 @@ namespace TGS.Server.Components
 			lock (this)
 			{
 				if (longOperationInProgress)
-					return RepoBusyMessage;
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
 				Chat.SendMessage(String.Format("REPO: Checking out object: {0}", objectName), MessageType.DeveloperInfo);
 				try
 				{
@@ -466,12 +544,12 @@ namespace TGS.Server.Components
 					}
 
 					//if this is a tracked branch, we need to reset to remote first and delete the PR list
-					ResetNoLock(repository.Head.TrackedBranch ?? repository.Head);
+					Reset(repository.Head.TrackedBranch ?? repository.Head);
 					DeletePRList();
 
 					RepositoryProvider.Checkout(repository, objectName);
 
-					var res = ResetNoLock(null);
+					var res = Reset(null);
 
 					UpdateSubmodules();
 
@@ -481,8 +559,8 @@ namespace TGS.Server.Components
 				}
 				catch (Exception e)
 				{
-					SendMessage("REPO: Checkout failed!", MessageType.DeveloperInfo);
-					WriteWarning(String.Format("Repo checkout of {0} failed: {1}", sha, e.ToString()), EventID.RepoCheckoutFail);
+					Chat.SendMessage("REPO: Checkout failed!", MessageType.DeveloperInfo);
+					Logger.WriteWarning(String.Format("Repo checkout of {0} failed: {1}", objectName, e.ToString()), EventID.RepoCheckoutFail);
 					return e.ToString();
 				}
 			}
@@ -491,7 +569,7 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public int CheckoutProgress()
 		{
-			throw new NotImplementedException();
+			return currentProgress;
 		}
 
 		/// <inheritdoc />
@@ -500,7 +578,7 @@ namespace TGS.Server.Components
 			lock (this)
 			{
 				if (longOperationInProgress)
-					return RepoBusyMessage;
+					return BusyMessage;
 
 				if (remote.Contains("ssh://") && !SSHAuthAvailable())
 					return String.Format("SSH url specified but either {0} or {1} does not exist in the server directory!", PrivateKeyPath, PublicKeyPath);
@@ -575,13 +653,7 @@ namespace TGS.Server.Components
 		{
 			throw new NotImplementedException();
 		}
-
-		/// <inheritdoc />
-		public bool Exists()
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		/// <inheritdoc />
 		public string GenerateChangelog(out string error)
 		{
@@ -591,25 +663,25 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string GetBranch(out string error)
 		{
-			throw new NotImplementedException();
+			return GetShaOrBranch(out error, true, false);
 		}
 
 		/// <inheritdoc />
 		public string GetCommitterEmail()
 		{
-			throw new NotImplementedException();
+			return Config.CommitterEmail;
 		}
 
 		/// <inheritdoc />
 		public string GetCommitterName()
 		{
-			throw new NotImplementedException();
+			return Config.CommitterName;
 		}
 
 		/// <inheritdoc />
 		public string GetHead(bool useTracked, out string error)
 		{
-			throw new NotImplementedException();
+			return GetShaOrBranch(out error, false, useTracked);
 		}
 
 		/// <inheritdoc />
@@ -631,7 +703,25 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public IDictionary<string, string> ListBackups(out string error)
 		{
-			throw new NotImplementedException();
+			lock (this)
+			{
+				if (longOperationInProgress)
+				{
+					error = BusyMessage;
+					return null;
+				}
+				if (!LoadRepository())
+				{
+					error = NoRepoMessage;
+					return null;
+				}
+				var res = new Dictionary<string, string>();
+				foreach (var T in repository.Tags)
+					if (T.FriendlyName.Contains("TGS"))
+						res.Add(T.FriendlyName, T.Target.Sha);
+				error = null;
+				return res;
+			}
 		}
 
 		/// <inheritdoc />
@@ -641,7 +731,7 @@ namespace TGS.Server.Components
 			{
 				if (longOperationInProgress)
 				{
-					error = RepoBusyMessage;
+					error = BusyMessage;
 					return null;
 				}
 
@@ -663,8 +753,14 @@ namespace TGS.Server.Components
 		{
 			lock (this)
 			{
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+
 				Chat.SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRnumber, atSHA != null ? String.Format(" at commit {0}", atSHA) : ""), MessageType.DeveloperInfo);
-				result = ResetNoLock(null);
+
+				var result = Reset(null);
 				if (result != null)
 					return result;
 
@@ -775,19 +871,40 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public bool OperationInProgress()
 		{
-			throw new NotImplementedException();
+			var res = Monitor.TryEnter(this);
+			if (res)
+			{
+				res = longOperationInProgress;
+				Monitor.Exit(this);
+			}
+			return res;
 		}
 
 		/// <inheritdoc />
 		public bool PushTestmergeCommits()
 		{
-			throw new NotImplementedException();
+			return Config.PushTestmergeCommits;
 		}
 
 		/// <inheritdoc />
 		public string Reset(bool tracked)
 		{
-			throw new NotImplementedException();
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return BusyMessage;
+				var res = Reset(tracked ? (repository.Head.TrackedBranch ?? repository.Head) : repository.Head);
+				if (res != null)
+				{
+					Logger.WriteWarning(String.Format("Failed to reset{0}: {1}", tracked ? " to tracked branch" : "", res), tracked ? EventID.RepoResetTrackedFail : EventID.RepoResetFail);
+					return res;
+				}
+				Chat.SendMessage(String.Format("REPO: Hard reset to {0}branch", tracked ? "tracked " : ""), MessageType.DeveloperInfo);
+				if (tracked)
+					DeletePRList();
+				Logger.WriteInfo(String.Format("Repo branch reset{0}", tracked ? " to tracked branch" : ""), tracked ? EventID.RepoResetTracked : EventID.RepoReset);
+				return null;
+			}
 		}
 
 		/// <inheritdoc />
@@ -805,13 +922,18 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public void SetPushTestmergeCommits(bool newValue)
 		{
-			throw new NotImplementedException();
+			Config.PushTestmergeCommits = newValue;
 		}
 
 		/// <inheritdoc />
 		public string SynchronizePush()
 		{
-			throw new NotImplementedException();
+			var Config = GetCachedRepoConfig();
+			if (Config == null)
+				return "Error reading changelog configuration";
+			if (!Config.ChangelogSupport || !SSHAuth())
+				return null;
+			return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
 
 		/// <inheritdoc />

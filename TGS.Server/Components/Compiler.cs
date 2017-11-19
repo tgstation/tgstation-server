@@ -13,15 +13,6 @@ namespace TGS.Server
 {
 	sealed partial class Instance : ITGCompiler
 	{
-		#region Win32 Shit
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, SymbolicLink dwFlags);
-		enum SymbolicLink
-		{
-			File = 0,
-			Directory = 1
-		}
-		#endregion
 
 		const string StaticDirs = "Static";
 		const string StaticBackupDir = "Static_BACKUP";
@@ -86,13 +77,6 @@ namespace TGS.Server
 				CompilerThread.Abort(); //this will safely kill dm
 				InitCompiler(); //also cleanup
 			}
-		}
-
-		//translates the win32 api call into an exception if it fails
-		static void CreateSymlink(string link, string target)
-		{
-			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
-				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
 		}
 
 		//requires CompilerLock to be locked

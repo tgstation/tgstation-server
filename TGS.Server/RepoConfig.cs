@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace TGS.Server
@@ -10,78 +8,72 @@ namespace TGS.Server
 	/// <summary>
 	/// Repository specific information for a <see cref="Instance"/>
 	/// </summary>
-	sealed class RepoConfig : IEquatable<RepoConfig>
+	sealed class RepoConfig : IRepoConfig
 	{
-		/// <summary>
-		/// If this json is setup to support <see cref="TGS.Interface.Components.ITGRepository.GenerateChangelog(out string)"/>
-		/// </summary>
-		public readonly bool ChangelogSupport;
-		/// <summary>
-		/// Path to the repository's changelog generator script
-		/// </summary>
-		public readonly string PathToChangelogPy;
-		/// <summary>
-		/// Arguments for the changelog gennerator script
-		/// </summary>
-		public readonly string ChangelogPyArguments;
-		/// <summary>
-		/// List of python pip dependencies for the changelog generator script
-		/// </summary>
-		public readonly IList<string> PipDependancies = new List<string>();
-		/// <summary>
-		/// Paths to commit and push to the remote repository
-		/// </summary>
-		public readonly IList<string> PathsToStage = new List<string>();
-		/// <summary>
-		/// Directory's whose contents should not be touched when the <see cref="Instance"/> updates
-		/// </summary>
-		public readonly IList<string> StaticDirectoryPaths = new List<string>();
-		/// <summary>
-		/// DLL's used by DreamDaemon call()() operations. Must be handled as symlinks to avoid lockups during update operations
-		/// </summary>
-		public readonly IList<string> DLLPaths = new List<string>();
+		/// <inheritdoc />
+		public bool ChangelogSupport { get; private set; }
+		/// <inheritdoc />
+		public string PathToChangelogPy { get; private set; }
+		/// <inheritdoc />
+		public string ChangelogPyArguments { get; private set; }
+		/// <inheritdoc />
+		public IReadOnlyList<string> PipDependancies { get; private set; }
+		/// <inheritdoc />
+		public IReadOnlyList<string> PathsToStage { get; private set; }
+		/// <inheritdoc />
+		public IReadOnlyList<string> StaticDirectoryPaths { get; private set; }
+		/// <inheritdoc />
+		public IReadOnlyList<string> DLLPaths { get; private set; }
 
 		/// <summary>
-		/// Construct a RepoConfig
+		/// Construct a <see cref="RepoConfig"/>
 		/// </summary>
 		/// <param name="path">Path to the config JSON to use</param>
-		public RepoConfig(string path)
+		/// <param name="io">The <see cref="IIOManager"/> to use for reading <paramref name="path"/></param>
+		public RepoConfig(string path, IIOManager io)
 		{
-			if (!File.Exists(path))
+			if (!io.FileExists(path))
 				return;
-			var rawdata = File.ReadAllText(path);
-			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);
+			var rawdata = io.ReadAllText(path);
+			rawdata.Wait();
+			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata.Result);
 			try
 			{
 				var details = ((JObject)json["changelog"]).ToObject<IDictionary<string, object>>();
 				PathToChangelogPy = (string)details["script"];
 				ChangelogPyArguments = (string)details["arguments"];
 				ChangelogSupport = true;
-				try
-				{
-					PipDependancies = LoadArray(details["pip_dependancies"]);
-				}
-				catch { }
+				PipDependancies = LoadArray(details["pip_dependancies"]);
 			}
 			catch
 			{
 				ChangelogSupport = false;
+				PipDependancies = new List<string>();
 			}
 			try
 			{
 				PathsToStage = LoadArray(json["synchronize_paths"]);
 			}
-			catch { }
+			catch
+			{
+				PathsToStage = new List<string>();
+			}
 			try
 			{
 				StaticDirectoryPaths = LoadArray(json["static_directories"]);
 			}
-			catch { }
+			catch
+			{
+				StaticDirectoryPaths = new List<string>();
+			}
 			try
 			{
 				DLLPaths = LoadArray(json["dlls"]);
 			}
-			catch { }
+			catch
+			{
+				DLLPaths = new List<string>();
+			}
 		}
 
 		/// <summary>
@@ -89,7 +81,7 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="o">The <see cref="string"/> array to convert</param>
 		/// <returns></returns>
-		private static IList<string> LoadArray(object o)
+		private static IReadOnlyList<string> LoadArray(object o)
 		{
 			var array = (object[])o;
 			var res = new List<string>();
@@ -101,7 +93,7 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public override bool Equals(object obj)
 		{
-			return Equals(obj as RepoConfig);
+			return Equals(obj as IRepoConfig);
 		}
 
 		/// <summary>
@@ -110,12 +102,17 @@ namespace TGS.Server
 		/// <param name="A">The first <see cref="string"/> <see cref="IList{T}"/></param>
 		/// <param name="B">The second <see cref="string"/> <see cref="IList{T}"/></param>
 		/// <returns><see langword="true"/> if the <see cref="string"/> <see cref="IList{T}"/>s match, <see langword="false"/> otherwise</returns>
-		private static bool ListEquals(IList<string> A, IList<string> B)
+		private static bool ListEquals(IReadOnlyList<string> A, IReadOnlyList<string> B)
 		{
 			return A.All(B.Contains) && A.Count == B.Count;
 		}
 
-		public bool Equals(RepoConfig other)
+		/// <summary>
+		/// Check if <paramref name="other"/> matches <see langword="this"/> <see cref="RepoConfig"/>
+		/// </summary>
+		/// <param name="other">The other <see cref="IRepoConfig"/> to compare with</param>
+		/// <returns><see langword="true"/> if <paramref name="config1"/> == <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
+		public bool Equals(IRepoConfig other)
 		{
 			return ChangelogSupport == other.ChangelogSupport
 				&& PathToChangelogPy == other.PathToChangelogPy
@@ -126,24 +123,40 @@ namespace TGS.Server
 				&& ListEquals(DLLPaths, other.DLLPaths);
 		}
 
+		/// <summary>
+		/// Hashing function for the <see cref="RepoConfig"/>
+		/// </summary>
+		/// <returns>An <see langword="int"/> hash of the <see cref="RepoConfig"/></returns>
 		public override int GetHashCode()
 		{
 			var hashCode = 1890628544;
 			hashCode = hashCode * -1521134295 + ChangelogSupport.GetHashCode();
 			hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
 			hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PipDependancies);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(PathsToStage);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(StaticDirectoryPaths);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IList<string>>.Default.GetHashCode(DLLPaths);
+			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(PipDependancies);
+			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(PathsToStage);
+			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(StaticDirectoryPaths);
+			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(DLLPaths);
 			return hashCode;
 		}
 
+		/// <summary>
+		/// Equality operator for <see cref="RepoConfig"/>s
+		/// </summary>
+		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
+		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
+		/// <returns><see langword="true"/> if <paramref name="config1"/> == <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
 		public static bool operator ==(RepoConfig config1, RepoConfig config2)
 		{
 			return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
 		}
 
+		/// <summary>
+		/// Inequality operator for <see cref="RepoConfig"/>s
+		/// </summary>
+		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
+		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
+		/// <returns><see langword="true"/> if <paramref name="config1"/> != <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
 		public static bool operator !=(RepoConfig config1, RepoConfig config2)
 		{
 			return !(config1 == config2);

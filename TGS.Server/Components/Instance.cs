@@ -12,7 +12,7 @@ namespace TGS.Server
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Instance : IDisposable, ITGConnectivity, IInstance, IInstanceLogger
+	sealed class Instance : IDisposable, ITGConnectivity, IInstance, IInstanceLogger, IRepoConfigProvider
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -74,7 +74,9 @@ namespace TGS.Server
 				container.RegisterSingleton<IInstance>(this);
 				container.RegisterSingleton<IInstanceLogger>(this);
 				container.RegisterSingleton<ITGConnectivity>(this);
+				container.RegisterSingleton<IRepoConfigProvider>(this);
 
+				container.Register<IIOManager, InstanceIOManager>();
 				container.Register<IByondManager, ByondManager>();
 				container.Register<IDreamDaemonManager, DreamDaemonManager>();
 				container.Register<IInteropManager, InteropManager>();
@@ -131,15 +133,6 @@ namespace TGS.Server
 			Logger.WriteAccess(String.Format("Access from: {0}", username), authSuccess, LoggingID);
 		}
 
-		/// <summary>
-		/// Converts relative paths to full <see cref="Instance"/> directory paths
-		/// </summary>
-		/// <returns></returns>
-		string RelativePath(string path)
-		{
-			return Path.Combine(Config.Directory, path);
-		}
-
 		/// <inheritdoc />
 		public string Version()
 		{
@@ -179,6 +172,13 @@ namespace TGS.Server
 		public ServiceHost CreateServiceHost(Uri[] baseAddresses)
 		{
 			return new SimpleInjectorServiceHost(container, this, baseAddresses);
+		}
+
+		/// <inheritdoc />
+		public IRepoConfig GetRepoConfig()
+		{
+			var IO = container.GetInstance<IIOManager>();
+			return new RepoConfig(".", IO);
 		}
 	}
 }
