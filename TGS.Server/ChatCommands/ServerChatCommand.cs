@@ -38,7 +38,7 @@ namespace TGS.Server.ChatCommands
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = CommandInfo.Interop.SendCommand(InteropCommand.CustomCommand, new List<string> { String.Format("{0};sender={1};custom={2}", Keyword, CommandInfo.Value.Speaker, InteropManager.SanitizeTopicString(String.Join(" ", parameters))) });
+			var res = CommandInfo.Interop.SendCommand(InteropCommand.CustomCommand, new List<string> { String.Format("{0};sender={1};custom={2}", Keyword, CommandInfo.Speaker, InteropManager.SanitizeTopicString(String.Join(" ", parameters))) });
 			if (res != "SUCCESS" && !String.IsNullOrWhiteSpace(res))
 				OutputProc(res);
 			return ExitCode.Normal;

@@ -3,39 +3,43 @@
 namespace TGS.Server.Console
 {
 	/// <summary>
-	/// Console runner for a <see cref="Server"/>
+	/// Console runner for a <see cref="IServer"/>
 	/// </summary>
 	sealed class Console : ILogger, IDisposable
 	{
 		/// <summary>
-		/// Entry point to the <see cref="Console"/>
+		/// The <see cref="IServer"/> for the <see cref="Console"/>
 		/// </summary>
-		/// <param name="args"></param>
-		static void Main(string[] args) => new Console().Run(args);
-
-		/// <summary>
-		/// The <see cref="IServer"/> the <see cref="Console"/> manages
-		/// </summary>
-		IServer activeServer;
+		readonly IServer Server;
 
 		/// <summary>
 		/// Construct a <see cref="Console"/>
 		/// </summary>
-		Console()
+		/// <param name="serverFactory">The <see cref="IServerFactory"/> for creating <see cref="Server"/></param>
+		public Console(IServerFactory serverFactory)
 		{
-			activeServer = new Server(this, ServerConfig.LoadServerConfig());
+			Server = serverFactory.CreateServer(this);
+		}
+
+		/// <summary>
+		/// Prompts the user to exit the <see cref="Console"/>
+		/// </summary>
+		void ExitPrompt()
+		{
+			System.Console.WriteLine("Press any key to exit...");
+			System.Console.ReadKey();
 		}
 
 		/// <summary>
 		/// Construct and run a <see cref="Console"/>
 		/// </summary>
 		/// <param name="args">Command line arguments</param>
-		void Run(string[] args)
+		public void Run(string[] args)
 		{
 			try
 			{
 				System.Console.WriteLine("Starting server...");
-				activeServer.Start(args);
+				Server.Start(args);
 				try
 				{
 					System.Console.WriteLine("Server started!");
@@ -43,7 +47,7 @@ namespace TGS.Server.Console
 				}
 				finally
 				{
-					activeServer.Stop();
+					Server.Stop();
 				}
 			}
 			catch (Exception e)
@@ -51,12 +55,6 @@ namespace TGS.Server.Console
 				System.Console.WriteLine(String.Format("Unhandled exception: {0}", e.ToString()));
 				ExitPrompt();
 			}
-		}
-
-		void ExitPrompt()
-		{
-			System.Console.WriteLine("Press any key to exit...");
-			System.Console.ReadKey();
 		}
 
 		/// <inheritdoc />
@@ -88,7 +86,7 @@ namespace TGS.Server.Console
 		/// </summary>
 		public void Dispose()
 		{
-			activeServer.Dispose();
+			Server.Dispose();
 		}
 	}
 }

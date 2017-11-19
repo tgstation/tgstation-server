@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace TGS.Server
 {
@@ -12,13 +13,12 @@ namespace TGS.Server
 		/// The directory to load and save <see cref="ServerConfig"/>s to
 		/// </summary>
 		[JsonIgnore]
-		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
-
+		public static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(TGS.Server))).FullName;
 		/// <summary>
 		/// The directory to use when importing a .NET settings based config
 		/// </summary>
 		[JsonIgnore]
-		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
+		public static readonly string MigrationConfigDirectory = Path.Combine(@"C:\", "TGSSettingUpgradeTempDir");
 
 		/// <summary>
 		/// The filename to save the <see cref="ServerConfig"/> as
@@ -44,48 +44,58 @@ namespace TGS.Server
 		public string PythonPath { get; set; } = "C:\\Python27";
 
 		/// <inheritdoc />
-		public void Save()
+		public void Save(IIOManager IO)
 		{
-			Save(DefaultConfigDirectory);
+			Save(DefaultConfigDirectory, IO);
 		}
 
 		/// <inheritdoc />
-		public void Save(string directory)
+		public void Save(string directory, IIOManager IO)
 		{
-			var data = JsonConvert.SerializeObject(this);
+			IO.CreateDirectory(DefaultConfigDirectory);
+			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
 			var path = Path.Combine(directory, JSONFilename);
-			File.WriteAllText(path, data);
+			IO.WriteAllText(path, data).Wait();
 		}
 
 		/// <summary>
 		/// Load a <see cref="ServerConfig"/> from a given <paramref name="directory"/>
 		/// </summary>
 		/// <param name="directory">The directory containing the <see cref="JSONFilename"/></param>
+		/// <param name="IO">The <see cref="IIOManager"/> to use</param>
 		/// <returns>The loaded <see cref="ServerConfig"/></returns>
-		static ServerConfig Load(string directory)
+		public static ServerConfig Load(string directory, IIOManager IO)
 		{
-			var configtext = File.ReadAllText(Path.Combine(directory, JSONFilename));
+			var configtext = IO.ReadAllText(Path.Combine(directory, JSONFilename)).Result;
 			return JsonConvert.DeserializeObject<ServerConfig>(configtext);
 		}
 
 		/// <summary>
 		/// Loads the correct <see cref="ServerConfig"/>
 		/// </summary>
+		/// <param name="IO">The <see cref="IIOManager"/> to use</param>
 		/// <returns>The correct <see cref="ServerConfig"/></returns>
-		public static IServerConfig LoadServerConfig()
+		public static IServerConfig Load(IIOManager IO)
 		{
 			try
 			{
-				return Load(DefaultConfigDirectory);
+				return Load(DefaultConfigDirectory, IO);
 			}
 			catch
 			{
 				try
 				{
 					//assume we're upgrading
-					var res = Load(MigrationConfigDirectory);
-					res.Save(DefaultConfigDirectory);
-					Helpers.DeleteDirectory(MigrationConfigDirectory);
+					var res = Load(MigrationConfigDirectory, IO);
+					res.Save(DefaultConfigDirectory, IO);
+					Task.Factory.StartNew(() =>
+					{
+						try
+						{
+							IO.DeleteDirectory(MigrationConfigDirectory);   //safe to let this one fall out of scope
+						}
+						catch { }
+					});
 					return res;
 				}
 				catch

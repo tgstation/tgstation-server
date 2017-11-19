@@ -18,7 +18,7 @@ namespace TGS.Server.ChatCommands
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Instance.LiveSha();
+			var res = CommandInfo.Repo.LiveSha();
 			if (res == "UNKNOWN")
 			{
 				OutputProc(res);

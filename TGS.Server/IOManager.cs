@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TGS.Server
 {
 	/// <inheritdoc />
-	class IOManager : IIOManager
+	public class IOManager : IIOManager
 	{
 		#region Win32 Shit
 		/// <summary>
@@ -86,19 +86,10 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty</param>
 		/// <param name="excludeRoot">Lowercase file and directory names to skip while emptying this level. Not passed forward</param>
-		/// <param name="deleteRoot">If <see langword="true"/>, <paramref name="dir"/> will be deleted before the function exits</param>
+		/// <param name="deleteRoot">If <see langword="true"/>, <paramref name="dir"/> will be deleted before this function exists</param>
 		static async Task NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot, bool deleteRoot)
 		{
-			var tasks = new List<Task> { Task.Factory.StartNew(() =>
-			{
-				 foreach (var file in dir.GetFiles())
-				 {
-					 if (excludeRoot != null && excludeRoot.Contains(file.Name.ToLower()))
-						 continue;
-					 file.Attributes = FileAttributes.Normal;
-					 file.Delete();
-				 }
-			}) };
+			var tasks = new List<Task>();
 
 			foreach (var subDir in dir.GetDirectories())
 			{
@@ -107,6 +98,13 @@ namespace TGS.Server
 				if (CheckDeleteSymlinkDir(subDir))
 					continue;
 				tasks.Add(NormalizeAndDelete(subDir, null, true));
+			}
+			foreach (var file in dir.GetFiles())
+			{
+				if (excludeRoot != null && excludeRoot.Contains(file.Name.ToLower()))
+					continue;
+				file.Attributes = FileAttributes.Normal;
+				file.Delete();
 			}
 			await Task.WhenAll(tasks);
 			if (deleteRoot)
@@ -139,6 +137,8 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public async Task DeleteDirectory(string path, bool ContentsOnly = false, IList<string> excludeRoot = null)
 		{
+			if (!ContentsOnly && excludeRoot != null && excludeRoot.Count > 0)
+				throw new InvalidOperationException("Cannot fully delete folder with exclusions specified!");
 			path = ResolvePath(path);
 			var di = new DirectoryInfo(path);
 			if (!di.Exists)
@@ -148,13 +148,7 @@ namespace TGS.Server
 					excludeRoot[I] = excludeRoot[I].ToLower();
 			if (CheckDeleteSymlinkDir(di))
 				return;
-			await NormalizeAndDelete(di, excludeRoot, false);
-			if (!ContentsOnly)
-			{
-				if (excludeRoot != null && excludeRoot.Count > 0)
-					throw new Exception("Cannot fully delete folder with exclusions specified!");
-				di.Delete(true);
-			}
+			await NormalizeAndDelete(di, excludeRoot, !ContentsOnly);
 		}
 
 		/// <inheritdoc />

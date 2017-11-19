@@ -143,7 +143,7 @@ namespace TGS.Server
 		[Obsolete("Not in use anymore", true)]
 		TopicFailed = 3100,
 		/// <summary>
-		/// Info: When the <see cref="Instance.serviceCommsKey"/> has been generated
+		/// Info: When the <see cref="Components.InteropManager.communicationsKey"/> has been generated
 		/// </summary>
 		CommsKeySet = 3200,
 		/// <summary>
@@ -157,11 +157,11 @@ namespace TGS.Server
 		[Obsolete("Not in use anymore", true)]
 		NudgeCrash = 3400,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="TGS.Interface.Components.ITGRepository.Setup(string, string)"/> operation
+		/// Info: Successful completion of a <see cref="TGS.Interface.Components.ITGRepository.Clone(string, string)"/> operation
 		/// </summary>
 		RepoClone = 3500,
 		/// <summary>
-		/// Warning: An error occurred during a  <see cref="TGS.Interface.Components.ITGRepository.Setup(string, string)"/> operation
+		/// Warning: An error occurred during a  <see cref="TGS.Interface.Components.ITGRepository.Clone(string, string)"/> operation
 		/// </summary>
 		RepoCloneFail = 3600,
 		/// <summary>
@@ -169,7 +169,7 @@ namespace TGS.Server
 		/// </summary>
 		RepoCheckout = 3700,
 		/// <summary>
-		/// Warning: An error occurred during a <see cref="TGS.Interface.Components.ITGRepository.Setup(string, string)"/> operation
+		/// Warning: An error occurred during a <see cref="TGS.Interface.Components.ITGRepository.Clone(string, string)"/> operation
 		/// </summary>
 		RepoCheckoutFail = 3800,
 		/// <summary>
@@ -273,7 +273,7 @@ namespace TGS.Server
 		/// </summary>
 		ServerUpdateApplied = 6300,
 		/// <summary>
-		/// Warning: When an exception occurs during a <see cref="Instance.SendMessage(string, MessageType)"/> operation
+		/// Warning: When an exception occurs during a <see cref="Components.IChatManager.SendMessage(string, MessageType)"/> operation
 		/// </summary>
 		ChatBroadcastFail = 6400,
 		/// <summary>

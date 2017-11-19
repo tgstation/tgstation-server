@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,11 +25,6 @@ namespace TGS.Installer.UI
 		/// If we should attempt to make a <see cref="ServerConfig"/> for the new install
 		/// </summary>
 		bool attemptNetSettingsMigration = false;
-		/// <summary>
-		/// If the service we are upgrading is confirmed to be less than version 3.2
-		/// </summary>
-		bool isUnderV2 = false;
-
 
 		IServerInterface Interface;
 
@@ -89,11 +85,11 @@ namespace TGS.Installer.UI
 				var isV0 = realVersion < new Version(3, 1, 0, 0);
 				if (isV0) //OH GOD!!!!
 					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
-				isUnderV2 = isV0 || realVersion < new Version(3, 2, 0, 0);
+				var isUnderV2 = isV0 || realVersion < new Version(3, 2, 0, 0);
 				if (isUnderV2)
 					//Friendly reminger
 					MessageBox.Show("Upgrading to service version 3.2 will break the 3.1 DMAPI. It is recommended you update your game to the 3.2 API before updating the servive to avoid having to trigger hard restarts.", "Note");
-				attemptNetSettingsMigration = realVersion < new Version(3, 2, 1, 0);
+				attemptNetSettingsMigration = isUnderV2;
 			}
 			catch
 			{
@@ -155,14 +151,48 @@ namespace TGS.Installer.UI
 			}
 			return PKillType.NoneFound;
 		}
+		static string TextPrompt(string caption, string text)
+		{
+			Form prompt = new Form()
+			{
+				Width = 500,
+				Height = 150,
+				FormBorderStyle = FormBorderStyle.FixedDialog,
+				Text = caption,
+				StartPosition = FormStartPosition.CenterScreen,
+				MaximizeBox = false,
+				MinimizeBox = false,
+			};
+			Label textLabel = new Label() { Left = 50, Top = 20, Text = text, AutoSize = true };
+			TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
+			Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
+			confirmation.Click += (sender, e) => { prompt.Close(); };
+			prompt.Controls.Add(textBox);
+			prompt.Controls.Add(confirmation);
+			prompt.Controls.Add(textLabel);
+			prompt.AcceptButton = confirmation;
+
+			return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : null;
+		}
+
+		bool HandleNoConfigMigration(ServerConfig sc)
+		{
+			var path = @"C:\TGSTATION-SERVER-3";
+			if (Directory.Exists(path)) {
+				sc.InstancePaths.Add(path);
+				new InstanceConfig(path).Save();
+				return MessageBox.Show(String.Format("Unable to migrate settings, default config created at {0}. You will need to reconfigure your server instance. Continue with installation?", path), "Migration Error", MessageBoxButtons.YesNo) == DialogResult.Yes;
+			}
+			return MessageBox.Show("All config migrations have failed. You will need to fully recreate your server. Continue with installation?", "Migration Failure", MessageBoxButtons.YesNo) == DialogResult.Yes;
+		}
 
 		/// <summary>
 		/// Migrate to the new <see cref="ServerConfig"/> since the <see cref="Server.Server"/> won't know about it until it's upgraded
 		/// </summary>
-		void AttemptMigrationOfNetSettings()
+		bool AttemptMigrationOfNetSettings()
 		{
 			if (!attemptNetSettingsMigration)
-				return;
+				return true;
 			var sc = new ServerConfig();
 			try
 			{
@@ -181,12 +211,120 @@ namespace TGS.Installer.UI
 			}
 			catch { }
 
+			try
+			{
+				if (sc.InstancePaths.Count > 0) //nice suprise, this is uneeded
+					return true;
 
-			if (sc.InstancePaths.Count == 0 && isUnderV2)
-				//add the default ip as a last resort
-				sc.InstancePaths.Add("C:\\TGSTATION-SERVER-3"); //normalized
+				//stopping the service here is MANDATORY to get the correct reattach values
+				using (var controller = new ServiceController("TG Station Server"))
+				{
+					controller.Stop();
+					controller.WaitForStatus(ServiceControllerStatus.Stopped);
+					//we need to find the old user.config
+					//check wow64 first
+					var path = @"C:\Windows\SysWOW64\config\systemprofile\AppData\Local\TGServerService";
+					if (!Directory.Exists(path))
+					{
+						//ok... check the System32 path
+						path = @"C:\Windows\System32\config\systemprofile\AppData\Local\TGServerService";
+						if (!Directory.Exists(path))
+						{
+							//well, i'm out of ideas, just use the default location
+							var res = HandleNoConfigMigration(sc);
+							if(!res)
+							{
+								controller.Start();
+								return false;
+							}
+						}
+					}
 
-			sc.Save(ServerConfig.MigrationConfigDirectory);
+					//now who knows wtf windows calls the damn folder
+					//take our best guess based on last modified time
+					DirectoryInfo lastModified = null;
+					foreach (var D in new DirectoryInfo(path).GetDirectories())
+						if (lastModified == null || D.LastWriteTime > lastModified.LastWriteTime)
+							lastModified = D;
+
+					if (lastModified == null)
+					{
+						//well, i'm out of ideas, just use the default location
+						var res = HandleNoConfigMigration(sc);
+						if (!res)
+						{
+							controller.Start();
+							return false;
+						}
+					}
+
+					var next = lastModified;
+					lastModified = null;
+					foreach (var D in next.GetDirectories())
+						if (lastModified == null || D.LastWriteTime > lastModified.LastWriteTime)
+							lastModified = D;
+
+					if (lastModified == null)
+					{
+						//well, i'm out of ideas, just use the default location
+						var res = HandleNoConfigMigration(sc);
+						if (!res)
+						{
+							controller.Start();
+							return false;
+						}
+					}
+
+					path = Path.Combine(tempDir, "user.config");
+					var netConfigPath = Path.Combine(lastModified.FullName, "user.config");
+					File.Copy(netConfigPath, path, true);
+					new InstanceConfig(tempDir).Save();
+
+					var instanceConfigPath = Path.Combine(tempDir, "Instance.json");
+
+					if (MessageBox.Show(String.Format("The 3.2 settings migration is a manual process, please open \"{0}\" with your favorite text editor and copy the values under TGServerService.Properties.Settings to the relevent fields at \"{1}\". If something in the original config appears wrong to you, correct it in the new config, but do not modify the \"Version\", \"Enabled\", or \"Name\" fields at all. See field mappings here: https://github.com/tgstation/tgstation-server/blob/a372b22fd3367dd60ee0cbebd9210f4b072c952d/TGServerService/DeprecatedInstanceConfig.cs#L23-L39", path, instanceConfigPath), "Manual Migration Required", MessageBoxButtons.OKCancel) != DialogResult.OK)
+					{
+						controller.Start();
+						return false;
+					}
+
+					var name = TextPrompt("Set Instance Directory", String.Format("Please enter the ServerDirectory entry from the original config here.{0}Use backslashes and uppercase letters. Leave this blank if it is not present.", Environment.NewLine));
+					if (name == null)
+					{
+						controller.Start();
+						return false;
+					}
+
+					if (String.IsNullOrWhiteSpace(name))
+						name = @"C:\TGSTATION-SERVER-3";
+
+					sc.InstancePaths.Add(name);
+
+					if (MessageBox.Show(String.Format("Please confirm you have finished copying settings from \"{0}\" to \"{1}\"!", path, instanceConfigPath), "Last Confirmation", MessageBoxButtons.OKCancel) != DialogResult.OK)
+					{
+						controller.Start();
+						return false;
+					}
+					//validate it for good measure
+					try
+					{
+						InstanceConfig.Load(tempDir);
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(String.Format("JSON Validation Error: {0}", e.Message));
+						controller.Start();
+						return false;
+					}
+					File.Copy(instanceConfigPath, Path.Combine(name, "Instance.json"), true);
+					return true;
+				}
+			}
+			finally
+			{
+				Directory.CreateDirectory(ServerConfig.MigrationConfigDirectory);
+				sc.Save(ServerConfig.MigrationConfigDirectory, new IOManager());
+			}
 		}
 
 		async void DoInstall()
@@ -196,20 +334,23 @@ namespace TGS.Installer.UI
 			{
 				while (true)
 				{
-					var res = PromptKillProcesses("TGS.CommandLine");
+					var res = PromptKillProcesses("TGCommandLine");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
 						continue;
-					res = PromptKillProcesses("TGS.ControlPanel");
+					res = PromptKillProcesses("TGControlPanel");
 					if (res == PKillType.Aborted)
 						return;
 					else if (res == PKillType.Killed)
 						continue;
 					break;
 				}
-				
+
 				if (!TellServiceWereComingForThem())
+					return;
+
+				if (!AttemptMigrationOfNetSettings())
 					return;
 
 				var args = new List<string>();
@@ -230,8 +371,6 @@ namespace TGS.Installer.UI
 				ShowLogCheckbox.Enabled = false;
 				InstallButton.Text = "Installing...";
 
-				AttemptMigrationOfNetSettings();
-
 				var msipath = Path.Combine(tempDir, "TGS.Installer.msi");
 				File.WriteAllBytes(msipath, Properties.Resources.TGSInstaller);
 				File.WriteAllBytes(Path.Combine(tempDir, "cab1.cab"), Properties.Resources.cab1);
@@ -245,7 +384,9 @@ namespace TGS.Installer.UI
 					Microsoft.Deployment.WindowsInstaller.Installer.EnableLog(InstallLogModes.Verbose | InstallLogModes.PropertyDump, logfile);
 				}
 				var cl = String.Join(" ", args);
-				Microsoft.Deployment.WindowsInstaller.Installer.SetInternalUI(InstallUIOptions.Silent);
+
+				// TODO: Uncomment this when OnUIUpdate is more robust
+				// Microsoft.Deployment.WindowsInstaller.Installer.SetInternalUI(InstallUIOptions.Silent);
 				Microsoft.Deployment.WindowsInstaller.Installer.SetExternalUI(OnUIUpdate, InstallLogModes.Progress);
 
 				await Task.Factory.StartNew(() => Microsoft.Deployment.WindowsInstaller.Installer.InstallProduct(msipath, cl));

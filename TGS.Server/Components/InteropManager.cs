@@ -16,7 +16,7 @@ namespace TGS.Server.Components
 {
 	/// <inheritdoc />
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class InteropManager : IInteropManager
+	sealed class InteropManager : IInteropManager, IDisposable
 	{
 		/// <summary>
 		/// The filename of the dll that contains the bridge class
@@ -163,6 +163,15 @@ namespace TGS.Server.Components
 			TopicPort = Config.ReattachPort;
 			OnWorldReboot += (a, b) => ResetDMAPIVersion();
 			Chat.OnRequireChatCommands += (a, b) => Chat.LoadServerChatCommands(SendCommand(InteropCommand.ListCustomCommands));
+		}
+
+		public void Dispose()
+		{
+			if (Config.ReattachRequired)
+			{
+				Config.ReattachAPIVersion = DMAPIVersion?.ToString();
+				Config.ReattachPort = TopicPort;
+			}
 		}
 
 		/// <summary>
@@ -328,7 +337,7 @@ namespace TGS.Server.Components
 			//We could be debugging from the project directory
 			if (!IO.FileExists(FullBridgePath))
 				//A little hackish debug mode doctoring never hurt anyone
-				FullBridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(InterfacePath)))), "TGS.Interface.Bridge/bin/x86/Debug", BridgeDLLName);
+				FullBridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(FullInterfacePath)))), "TGS.Interface.Bridge/bin/x86/Debug", BridgeDLLName);
 #endif
 			try
 			{

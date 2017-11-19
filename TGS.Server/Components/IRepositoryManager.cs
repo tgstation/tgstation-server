@@ -42,5 +42,11 @@ namespace TGS.Server.Components
 		/// <param name="successOnUpToDate">If <see langword="true"/>, a return value of <see cref="RepositoryManager.RepoErrorUpToDate"/> will be changed to <see langword="null"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string UpdateImpl(bool reset, bool successOnUpToDate);
+
+		/// <summary>
+		/// Returns the last compiled SHA
+		/// </summary>
+		/// <returns>The last compiled SHA or <see langword="null"/> if there isn't one</returns>
+		string LiveSha();
 	}
 }

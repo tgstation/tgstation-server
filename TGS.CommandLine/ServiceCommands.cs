@@ -88,7 +88,7 @@ namespace TGS.CommandLine
 		protected override ExitCode Run(IList<string> parameters)
 		{
 			foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
-				OutputProc(String.Format("{0} ({1}):\t{2}{3}", I.Name, I.Path, I.Enabled ? "Online" : "Offline", I.Enabled ? String.Format(" ({0})", I.LoggingID) : ""));
+				OutputProc(String.Format("{0} ({1}):\t{2}", I.Name, I.Path, I.Enabled ? "Online" : "Offline"));
 			return ExitCode.Normal;
 		}
 	}

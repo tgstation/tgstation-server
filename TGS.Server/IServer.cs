@@ -1,11 +1,10 @@
 ﻿using System;
+using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	/// <summary>
-	/// Interface for starting and stopping a server
-	/// </summary>
-	public interface IServer : IDisposable
+	/// <inheritdoc />
+	public interface IServer : ITGSService, IDisposable
 	{
 		/// <summary>
 		/// Starts the <see cref="IServer"/>

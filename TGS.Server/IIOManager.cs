@@ -6,7 +6,7 @@ namespace TGS.Server
 	/// <summary>
 	/// Interface for managing files ala <see cref="System.IO.File"/> and <see cref="System.IO.Directory"/>
 	/// </summary>
-	interface IIOManager
+	public interface IIOManager
 	{
 		/// <summary>
 		/// Retrieve the full path of some <paramref name="path"/> given a relative path. Must be used before passing relative paths to other APIs. All other operations in this <see langword="interface"/> call this internally on given paths

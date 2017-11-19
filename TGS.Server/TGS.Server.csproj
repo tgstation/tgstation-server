@@ -128,6 +128,7 @@
     <Compile Include="IRepositoryProvider.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerConfig.cs" />
+    <Compile Include="IServerFactory.cs" />
     <Compile Include="RepositoryProvider.cs" />
     <Compile Include="RootAuthorizationManager.cs" />
     <Compile Include="DeprecatedInstanceConfig.cs" />
@@ -144,15 +145,11 @@
     <Compile Include="ChatProviders\IRCChatProvider.cs" />
     <Compile Include="Components\ActionEventManager.cs" />
     <Compile Include="ProcessExtension.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="ServerConfig.cs" />
+    <Compile Include="ServerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -160,10 +157,6 @@
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

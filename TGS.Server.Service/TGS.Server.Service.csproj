@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TGS.Server.Service.Service</StartupObject>
+    <StartupObject>TGS.Server.Service.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>tgs.ico</ApplicationIcon>
@@ -44,6 +44,7 @@
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

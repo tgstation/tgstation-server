@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface;
 using TGS.Interface.Components;
@@ -15,7 +13,7 @@ namespace TGS.Server
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	public sealed class Server : ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager, IServer, ILoggingIDProvider
+	sealed class Server : ITGConnectivity, ITGLanding, ITGInstanceManager, IServer, ILoggingIDProvider
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events
@@ -28,18 +26,17 @@ namespace TGS.Server
 		public static readonly string VersionString = "/tg/station 13 Server v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		/// <summary>
-		/// Checks an <paramref name="instanceName"/> for illegal characters
+		/// <see cref="ILogger"/> for the <see cref="Server"/>
 		/// </summary>
-		/// <param name="instanceName">The <see cref="Instance"/> name to check</param>
-		/// <returns><see langword="null"/> if <paramref name="instanceName"/> contains no illegal characters, error message otherwise</returns>
-		static string CheckInstanceName(string instanceName)
-		{
-			char[] bannedCharacters = { ';', '&', '=', '%' };
-			foreach (var I in bannedCharacters)
-				if (instanceName.Contains(I.ToString()))
-					return "Instance names may not contain the following characters: ';', '&', '=', or '%'";
-			return null;
-		}
+		readonly ILogger Logger;
+		/// <summary>
+		/// The <see cref="IServerConfig"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IServerConfig Config;
+		/// <summary>
+		/// The <see cref="IIOManager"/>  for the <see cref="Server"/>
+		/// </summary>
+		readonly IIOManager IO;
 
 		/// <summary>
 		/// The WCF host that contains <see cref="ITGSService"/> connects to
@@ -56,24 +53,30 @@ namespace TGS.Server
 		IList<int> UsedLoggingIDs = new List<int>();
 
 		/// <summary>
-		/// <see cref="ILogger"/> for the <see cref="Server"/>
+		/// Checks an <paramref name="instanceName"/> for illegal characters
 		/// </summary>
-		readonly ILogger Logger;
-
-		/// <summary>
-		/// The <see cref="IServerConfig"/> for the <see cref="Server"/>
-		/// </summary>
-		readonly IServerConfig Config;
+		/// <param name="instanceName">The <see cref="Instance"/> name to check</param>
+		/// <returns><see langword="null"/> if <paramref name="instanceName"/> contains no illegal characters, error message otherwise</returns>
+		static string CheckInstanceName(string instanceName)
+		{
+			char[] bannedCharacters = { ';', '&', '=', '%' };
+			foreach (var I in bannedCharacters)
+				if (instanceName.Contains(I.ToString()))
+					return "Instance names may not contain the following characters: ';', '&', '=', or '%'";
+			return null;
+		}
 
 		/// <summary>
 		/// Construct a <see cref="Server"/>
 		/// </summary>
 		/// <param name="logger">The value for <see cref="Logger"/></param>
 		/// <param name="config">The value for <see cref="Config"/></param>
-		public Server(ILogger logger, IServerConfig config)
+		/// <param name="io">The value for <see cref="IO"/></param>
+		public Server(ILogger logger, IServerConfig config, IIOManager io)
 		{
 			Logger = logger;
 			Config = config;
+			IO = io;
 		}
 
 		/// <inheritdoc />
@@ -143,7 +146,7 @@ namespace TGS.Server
 					{
 						throw new Exception("Invalid argument for \"-port\"", e);
 					}
-					Config.Save();
+					Config.Save(IO);
 					break;
 				}
 		}
@@ -314,7 +317,7 @@ namespace TGS.Server
 				}
 				serviceHost.Close();
 			}
-			Config.Save();
+			Config.Save(IO);
 			serviceHost = null;
 		}
 
@@ -382,7 +385,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
-			var IO = new IOManager();
 			path = IO.ResolvePath(path);
 			var res = CheckInstanceName(Name);
 			if (res != null)
@@ -443,7 +445,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string ImportInstance(string path)
 		{
-			var IO = new IOManager();
 			path = IO.ResolvePath(path);
 			lock (this)
 			{

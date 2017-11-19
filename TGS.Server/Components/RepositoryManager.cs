@@ -1328,5 +1328,17 @@ namespace TGS.Server.Components
 				repository.CreateBranch(LiveTrackingBranch, newSha);
 			}
 		}
+
+		/// <inheritdoc />
+		public string LiveSha()
+		{
+			lock (this)
+			{
+				if (!LoadRepository())
+					return null;
+				var B = repository.Branches[LiveTrackingBranch];
+				return B?.Tip?.Sha;
+			}
+		}
 	}
 }
