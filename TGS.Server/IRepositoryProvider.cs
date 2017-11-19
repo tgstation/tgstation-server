@@ -37,11 +37,11 @@ namespace TGS.Server
 		string Checkout(IRepository repositoryToCheckout, string targetObject);
 
 		/// <summary>
-		/// Fetches origin of <see cref="Repository"/>
+		/// Fetches origin of a <paramref name="repository"/>
 		/// </summary>
-		/// <param name="repositoryToFetch">The <see cref="IRepository"/> to fetch commits for</param>
+		/// <param name="repository">The <see cref="IRepository"/> to fetch commits for</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string Fetch(IRepository repositoryToFetch);
+		string Fetch(IRepository repository);
 
 		/// <summary>
 		/// Checks if a <see cref="IRepository"/> can be created from <paramref name="path"/>
@@ -51,9 +51,17 @@ namespace TGS.Server
 		bool IsValid(string path);
 
 		/// <summary>
-		/// Returns the provided <see cref="IRepository"/>
+		/// Returns a <see cref="IRepository"/> initialized from <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to the <see cref="IRepository"/></param>
 		IRepository LoadRepository(string path);
+
+		/// <summary>
+		/// Stage a <paramref name="path"/> for commiting to a <paramref name="repository"/>
+		/// </summary>
+		/// <param name="repository"></param>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		string Stage(IRepository repository, string path);
 	}
 }

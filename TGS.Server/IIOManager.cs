@@ -75,7 +75,7 @@ namespace TGS.Server
 		/// <param name="overwrite">If <see langword="true"/> and <paramref name="dest"/> is a file, the file at <paramref name="dest"/> will be deleted instead of throwing an error</param>
 		/// <param name="forceDirectories">If <see langword="true"/>, any directories in <paramref name="dest"/> will be attempted to be created</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CopyFile(string src, string dest, bool overwrite, bool forceDirectories);
+		Task CopyFile(string src, string dest, bool overwrite, bool forceDirectories = false);
 
 		/// <summary>
 		/// Move a file from <paramref name="src"/> to <paramref name="dest"/>
@@ -85,7 +85,7 @@ namespace TGS.Server
 		/// <param name="overwrite">If <see langword="true"/> and <paramref name="dest"/> is a file, the file at <paramref name="dest"/> will be deleted instead of throwing an error</param>
 		/// <param name="forceDirectories">If <see langword="true"/>, any directories in <paramref name="dest"/> will be attempted to be created</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task MoveFile(string src, string dest, bool overwrite, bool forceDirectories);
+		Task MoveFile(string src, string dest, bool overwrite, bool forceDirectories = false);
 
 		/// <summary>
 		/// Create a directory at <paramref name="path"/>

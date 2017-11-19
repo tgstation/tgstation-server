@@ -94,5 +94,20 @@ namespace TGS.Server
 		{
 			return new Repository(IO.ResolvePath(path));
 		}
+
+		/// <inheritdoc />
+		public string Stage(IRepository repository, string path)
+		{
+			path = IO.ResolvePath(path);
+			try
+			{
+				Commands.Stage(repository, path);
+				return null;
+			}
+			catch(Exception e)
+			{
+				return e.ToString();
+			}
+		}
 	}
 }

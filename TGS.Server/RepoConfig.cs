@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace TGS.Server
@@ -10,6 +11,11 @@ namespace TGS.Server
 	/// </summary>
 	sealed class RepoConfig : IRepoConfig
 	{
+		/// <summary>
+		/// Name of the backing file
+		/// </summary>
+		const string JSONFilename = "TGS3.json";
+
 		/// <inheritdoc />
 		public bool ChangelogSupport { get; private set; }
 		/// <inheritdoc />
@@ -28,15 +34,14 @@ namespace TGS.Server
 		/// <summary>
 		/// Construct a <see cref="RepoConfig"/>
 		/// </summary>
-		/// <param name="path">Path to the config JSON to use</param>
+		/// <param name="path">Directory that contains the config JSON to use</param>
 		/// <param name="io">The <see cref="IIOManager"/> to use for reading <paramref name="path"/></param>
 		public RepoConfig(string path, IIOManager io)
 		{
-			if (!io.FileExists(path))
+			if (!io.FileExists(Path.Combine(path, JSONFilename)))
 				return;
-			var rawdata = io.ReadAllText(path);
-			rawdata.Wait();
-			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata.Result);
+			var rawdata = io.ReadAllText(path).Result;
+			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);
 			try
 			{
 				var details = ((JObject)json["changelog"]).ToObject<IDictionary<string, object>>();

@@ -231,7 +231,7 @@ namespace TGS.Server.Components
 			if (RenameLog)
 				try
 				{
-					IO.MoveFile(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), Path.Combine(ResourceDiagnosticsDir, String.Format("SU-{0}", CurrentDDLog)));
+					IO.MoveFile(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), Path.Combine(ResourceDiagnosticsDir, String.Format("SU-{0}", CurrentDDLog)), false).Wait();
 				}
 				catch { }
 		}
@@ -348,7 +348,7 @@ namespace TGS.Server.Components
 			{
 				if (currentStatus != DreamDaemonStatus.Online || CurrentDDLog == null)
 					return;
-				IO.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message));
+				IO.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message)).Wait();
 			}
 		}
 

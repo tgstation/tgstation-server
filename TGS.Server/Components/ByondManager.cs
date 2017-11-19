@@ -146,8 +146,7 @@ namespace TGS.Server.Components
 		void CleanStaging()
 		{
 			//linger not
-			IO.DeleteFile(RevisionDownloadPath);
-			IO.DeleteDirectory(StagingDirectory);
+			Task.WaitAll(new Task[] { IO.DeleteFile(RevisionDownloadPath), IO.DeleteDirectory(StagingDirectory) });
 		}
 
 		/// <summary>
@@ -242,7 +241,7 @@ namespace TGS.Server.Components
 							var file = Path.Combine(DirToUse, VersionFile);
 							lock (this)
 								if (IO.FileExists(file))
-									return IO.ReadAllText(file);
+									return IO.ReadAllText(file).Result;
 						}
 					}
 					return null;
@@ -325,12 +324,11 @@ namespace TGS.Server.Components
 				ZipFile.ExtractToDirectory(IO.ResolvePath(RevisionDownloadPath), IO.ResolvePath(StagingDirectory));
 
 				lock (this)
-					IO.WriteAllText(Path.Combine(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor));
+					IO.WriteAllText(Path.Combine(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor)).Wait();
 
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
 				IO.CreateDirectory(ByondConfigDir);
-				IO.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode);
-				IO.DeleteFile(RevisionDownloadPath);
+				Task.WaitAll(new Task[] { IO.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode), IO.DeleteFile(RevisionDownloadPath) });
 
 				lock (this)
 					updateStat = ByondStatus.Staged;
@@ -384,9 +382,9 @@ namespace TGS.Server.Components
 			}
 			try
 			{
-				IO.DeleteDirectory(ByondDirectory);
-				IO.MoveDirectory(StagingDirectoryInner, ByondDirectory);
-				IO.DeleteDirectory(StagingDirectory);
+				IO.DeleteDirectory(ByondDirectory).Wait();
+				IO.MoveDirectory(StagingDirectoryInner, ByondDirectory).Wait();
+				IO.DeleteDirectory(StagingDirectory).Wait();
 				Chat.SendMessage("BYOND: Update completed!", MessageType.DeveloperInfo);
 				Logger.WriteInfo(String.Format("BYOND update {0} completed!", GetVersion(ByondVersion.Installed)), EventID.BYONDUpdateComplete);
 				lock (this)

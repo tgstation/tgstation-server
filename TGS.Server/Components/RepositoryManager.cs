@@ -4,9 +4,10 @@ using System;
 using System.IO;
 using System.ServiceModel;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using TGS.Interface;
 
 namespace TGS.Server.Components
@@ -89,6 +90,14 @@ namespace TGS.Server.Components
 		/// The <see cref="IRepositoryProvider"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
 		readonly IRepositoryProvider RepositoryProvider;
+		/// <summary>
+		/// The <see cref="IServerConfig"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly IServerConfig ServerConfig;
+		/// <summary>
+		/// The <see cref="IRepoConfigProvider"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly IRepoConfigProvider RepoConfigProvider;
 
 		/// <summary>
 		/// The <see cref="Repository"/> the <see cref="RepositoryManager"/> manages
@@ -124,13 +133,17 @@ namespace TGS.Server.Components
 		/// <param name="config">The value of <see cref="Config"/></param>
 		/// <param name="io">The value of <see cref="IO"/></param>
 		/// <param name="repositoryProvider">The value of <see cref="RepositoryProvider"/></param>
-		public RepositoryManager(IInstanceLogger logger, IChatManager chat, IInstanceConfig config, IIOManager io, IRepositoryProvider repositoryProvider)
+		/// <param name="serverConfig">The value of <see cref="ServerConfig"/></param>
+		/// <param name="repoConfigProvider">The value of <see cref="RepoConfigProvider"/></param>
+		public RepositoryManager(IInstanceLogger logger, IChatManager chat, IInstanceConfig config, IIOManager io, IRepositoryProvider repositoryProvider, IServerConfig serverConfig, IRepoConfigProvider repoConfigProvider)
 		{
 			Logger = logger;
 			Chat = chat;
 			Config = config;
 			IO = io;
 			RepositoryProvider = repositoryProvider;
+			ServerConfig = serverConfig;
+			RepoConfigProvider = repoConfigProvider;
 
 			ghClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TGS.Server"));
 
@@ -308,7 +321,7 @@ namespace TGS.Server.Components
 						//kill off the modules/ folder in .git and try again
 						try
 						{
-							Helpers.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path));
+							IO.DeleteDirectory(String.Format("{0}/.git/modules/{1}", RepoPath, I.Path)).Wait();
 						}
 						catch
 						{
@@ -411,7 +424,7 @@ namespace TGS.Server.Components
 				if (IO.FileExists(PRJobFile))
 					try
 					{
-						IO.DeleteFile(PRJobFile);
+						IO.DeleteFile(PRJobFile).Wait();
 					}
 					catch (Exception e)
 					{
@@ -437,7 +450,7 @@ namespace TGS.Server.Components
 			lock (this)
 				try
 				{
-					return JsonConvert.DeserializeObject<List<PullRequestInfo>>(IO.ReadAllText(PRJobFile));
+					return JsonConvert.DeserializeObject<List<PullRequestInfo>>(IO.ReadAllText(PRJobFile).Result);
 				}
 				catch
 				{
@@ -452,7 +465,7 @@ namespace TGS.Server.Components
 		void SetTestMergeList(List<PullRequestInfo> infos)
 		{
 			lock (this)
-				IO.WriteAllText(PRJobFile, JsonConvert.SerializeObject(infos));
+				IO.WriteAllText(PRJobFile, JsonConvert.SerializeObject(infos)).Wait();
 		}
 
 		/// <summary>
@@ -467,6 +480,64 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
+		/// Fetches the origin and merges it into the current branch
+		/// </summary>
+		/// <param name="reset">If <see langword="true"/>, the operation will perform a hard reset instead of a merge</param>
+		/// <param name="successOnUpToDate">If <see langword="true"/>, a return value of <see cref="RepoErrorUpToDate"/> will be changed to <see langword="null"/></param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string UpdateImpl(bool reset, bool successOnUpToDate)
+		{
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+				try
+				{
+					if (repository.Head == null || !repository.Head.IsTracking)
+						return "Cannot update while not on a tracked branch";
+
+					var res = RepositoryProvider.Fetch(repository);
+					if (res != null)
+						return res;
+
+					var originBranch = repository.Head.TrackedBranch;
+					if (!successOnUpToDate && repository.Head.Tip.Sha == originBranch.Tip.Sha)
+						return RepoErrorUpToDate;
+
+					Chat.SendMessage(String.Format("REPO: Updating origin branch...{0}", reset ? "" : "(Merge)"), MessageType.DeveloperInfo);
+
+					if (reset)
+					{
+						var error = Reset(repository.Head.TrackedBranch);
+						UpdateSubmodules();
+						if (error != null)
+							throw new Exception(error);
+						DeletePRList();
+						Logger.WriteInfo("Repo hard updated to " + originBranch.Tip.Sha, EventID.RepoHardUpdate);
+						return error;
+					}
+
+					res = MergeBranch(originBranch.FriendlyName, "Merge origin into current testmerge");
+					if (!LocalIsRemote())   //might be fast forward
+						PushTestmergeCommit();
+					if (res != null)
+						throw new Exception(res);
+					UpdateSubmodules();
+					Logger.WriteInfo("Repo merge updated to " + originBranch.Tip.Sha, EventID.RepoMergeUpdate);
+					return null;
+				}
+				catch (Exception e)
+				{
+					Chat.SendMessage("REPO: Update failed!", MessageType.DeveloperInfo);
+					Logger.WriteWarning(String.Format("Repo{0} update failed! Error: {1}", reset ? " hard" : "", e.ToString()), reset ? EventID.RepoHardUpdateFail : EventID.RepoMergeUpdateFail);
+					return e.ToString();
+				}
+			}
+		}
+
+		/// <summary>
 		/// Updates <see cref="currentProgress"/> with the progess of the current <see cref="repository"/> checkout operation
 		/// </summary>
 		/// <param name="path">Ignored</param>
@@ -475,6 +546,211 @@ namespace TGS.Server.Components
 		void HandleCheckoutProgress(string path, int completedSteps, int totalSteps)
 		{
 			currentProgress = (int)(((float)completedSteps / totalSteps) * 100);
+		}
+
+		/// <summary>
+		/// Check if the current HEAD matches the tracked remote branch HEAD
+		/// </summary>
+		/// <returns><see langword="true"/> if the current HEAD matches the tracked remote branch HEAD, <see langword="false"/> otherwise</returns>
+		bool LocalIsRemote()
+		{
+			lock (this)
+			{
+				if (longOperationInProgress || !LoadRepository())
+					return false;
+				try
+				{
+					return repository.Head.IsTracking && repository.Head.TrackedBranch.Tip.Sha == repository.Head.Tip.Sha;
+				}
+				catch
+				{
+					return false;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Updates the html changelog
+		/// </summary>
+		/// <param name="error"><see langword="null"/> on success, error on failure</param>
+		/// <param name="recurse">If <see langword="true"/>, prevents a recursive call to this function after updating pip dependencies</param>
+		/// <returns>The output of the python script</returns>
+		public string GenerateChangelogImpl(out string error, bool recurse = false)
+		{
+			var RConfig = RepoConfigProvider.GetRepoConfig();
+			if (RConfig == null)
+			{
+				error = null;
+				return "Error loading changelog config!";
+			}
+			if (!RConfig.ChangelogSupport)
+			{
+				error = null;
+				return null;
+			}
+
+			string ChangelogPy = RConfig.PathToChangelogPy;
+			if (!Exists())
+			{
+				error = "Repo does not exist!";
+				return null;
+			}
+
+			lock (this)
+			{
+				if (longOperationInProgress)
+				{
+					error = BusyMessage;
+					return null;
+				}
+				if (!IO.FileExists(Path.Combine(RepoPath, ChangelogPy)))
+				{
+					error = "Missing changelog generation script!";
+					return null;
+				}
+
+				var pp = ServerConfig.PythonPath;
+				var PythonFile = Path.Combine(pp, "python.exe");
+				if (!File.Exists(PythonFile))
+				{
+					error = "Cannot locate python!";
+					return null;
+				}
+				try
+				{
+					string result;
+					int exitCode;
+					using (var python = new Process())
+					{
+						python.StartInfo.FileName = PythonFile;
+						python.StartInfo.Arguments = String.Format("{0} {1}", ChangelogPy, RConfig.ChangelogPyArguments);
+						python.StartInfo.UseShellExecute = false;
+						python.StartInfo.WorkingDirectory = IO.ResolvePath(RepoPath);
+						python.StartInfo.RedirectStandardOutput = true;
+						python.Start();
+						using (StreamReader reader = python.StandardOutput)
+						{
+							result = reader.ReadToEnd();
+
+						}
+						python.WaitForExit();
+						exitCode = python.ExitCode;
+					}
+					if (exitCode != 0)
+					{
+						if (recurse || RConfig.PipDependancies.Count == 0)
+						{
+							error = "Script failed!";
+							return result;
+						}
+						//update pip deps and try again
+
+						string PipFile = Path.Combine(pp, "scripts", "pip.exe");
+						foreach (var I in RConfig.PipDependancies)
+							using (var pip = new Process())
+							{
+								pip.StartInfo.FileName = PipFile;
+								pip.StartInfo.Arguments = "install " + I;
+								pip.StartInfo.UseShellExecute = false;
+								pip.StartInfo.RedirectStandardOutput = true;
+								pip.Start();
+								using (StreamReader reader = pip.StandardOutput)
+								{
+									result += "\r\n---BEGIN-PIP-OUTPUT---\r\n" + reader.ReadToEnd();
+								}
+								pip.WaitForExit();
+								if (pip.ExitCode != 0)
+								{
+									error = "Script and pip failed!";
+									return result;
+								}
+							}
+						//and recurse
+						return GenerateChangelogImpl(out error, true);
+					}
+					error = null;
+					Logger.WriteInfo("Changelog generated" + error, EventID.RepoChangelog);
+					return result;
+				}
+				catch (Exception e)
+				{
+					error = e.ToString();
+					Logger.WriteWarning("Changelog generation failed: " + error, EventID.RepoChangelogFail);
+					return null;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Create a commit based on a <paramref name="Config"/>
+		/// </summary>
+		/// <param name="Config">A <see cref="IRepoConfig"/> with <see cref="IRepoConfig.PathsToStage"/></param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string Commit(IRepoConfig Config)
+		{
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+				try
+				{
+					// Stage the file
+					foreach (var I in Config.PathsToStage)
+						RepositoryProvider.Stage(repository, I);
+
+					if (repository.RetrieveStatus().Staged.Count() == 0)   //nothing to commit
+						return null;
+
+					// Create the committer's signature and commit
+					var authorandcommitter = MakeSig();
+
+					// Commit to the repository
+					Logger.WriteInfo(String.Format("Commit {0} created from changelogs", repository.Commit(CommitMessage, authorandcommitter, authorandcommitter)), EventID.RepoCommit);
+					return null;
+				}
+				catch (Exception e)
+				{
+					Logger.WriteWarning("Repo commit failed: " + e.ToString(), EventID.RepoCommitFail);
+					return e.ToString();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Pushes HEAD to the remote tracked branch. Only allows fast-forwards
+		/// </summary>
+		/// <returns></returns>
+		string Push()
+		{
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return BusyMessage;
+				if (!LoadRepository())
+					return NoRepoMessage;
+				if (LocalIsRemote())    //nothing to push
+					return null;
+				try
+				{
+					if (!SSHAuthAvailable())
+						return String.Format("Either {0} or {1} is missing from the server directory. Unable to push!", PrivateKeyPath, PublicKeyPath);
+
+					var options = new PushOptions()
+					{
+						CredentialsProvider = GenerateGitCredentials,
+					};
+					repository.Network.Push(repository.Network.Remotes[SSHPushRemote], repository.Head.CanonicalName, options);
+					Logger.WriteInfo("Repo pushed up to commit: " + repository.Head.Tip.Sha, EventID.RepoPush);
+					return null;
+				}
+				catch (Exception e)
+				{
+					Logger.WriteWarning("Repo push failed: " + e.ToString(), EventID.RepoPushFail);
+					return e.ToString();
+				}
+			}
 		}
 
 		/// <summary>
@@ -594,7 +870,7 @@ namespace TGS.Server.Components
 						cancellationToken.ThrowIfCancellationRequested();
 						Chat.SendMessage(String.Format("REPO: Cloning {0} branch of {1} ...", branch, remote), MessageType.DeveloperInfo);
 						DisposeRepo();
-						IO.DeleteDirectory(RepoPath);
+						IO.DeleteDirectory(RepoPath).Wait();
 						DeletePRList();
 
 						Repository.Clone(remote, IO.ResolvePath(RepoPath), new CloneOptions()
@@ -624,7 +900,7 @@ namespace TGS.Server.Components
 						try
 						{
 							DisposeRepo();
-							IO.DeleteDirectory(RepoPath);
+							IO.DeleteDirectory(RepoPath).Wait();
 						}
 						catch { }
 					}
@@ -643,21 +919,52 @@ namespace TGS.Server.Components
 		}
 
 		/// <inheritdoc />
-		public string CopyTo(string destination, IEnumerable<string> ignorePaths)
+		public async Task<string> CopyTo(string destination, IEnumerable<string> ignorePaths)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				await IO.CopyDirectory(RepoPath, destination, ignorePaths);
+				return null;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
 		}
 
 		/// <inheritdoc />
-		public string CopyToRestricted(string destination, IEnumerable<string> onlyPaths)
+		public async Task<string> CopyToRestricted(string destination, IEnumerable<string> onlyPaths)
 		{
-			throw new NotImplementedException();
+			var tasks = new List<Task>();
+			try
+			{
+				foreach (var I in onlyPaths)
+				{
+					var path = Path.Combine(RepoPath, I);
+					var dest = Path.Combine(destination, I);
+					if (IO.FileExists(path))
+						tasks.Add(IO.CopyFile(path, dest, false));
+					else if (IO.DirectoryExists(path))
+						tasks.Add(IO.CopyDirectory(path, dest));
+				}
+				await Task.WhenAll(tasks);
+				return null;
+			}
+			catch(Exception e)
+			{
+				try
+				{
+					Task.WaitAll(tasks.ToArray());
+				}
+				catch { }
+				return e.ToString();
+			}
 		}
 		
 		/// <inheritdoc />
 		public string GenerateChangelog(out string error)
 		{
-			throw new NotImplementedException();
+			return GenerateChangelogImpl(out error);
 		}
 
 		/// <inheritdoc />
@@ -928,10 +1235,10 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string SynchronizePush()
 		{
-			var Config = GetCachedRepoConfig();
+			var Config = GetRepoConfig();
 			if (Config == null)
 				return "Error reading changelog configuration";
-			if (!Config.ChangelogSupport || !SSHAuth())
+			if (!Config.ChangelogSupport || !SSHAuthAvailable())
 				return null;
 			return LocalIsRemote() ? Commit(Config) ?? Push() : "Can't push changelog: HEAD does not match tracked remote branch";
 		}
@@ -939,7 +1246,25 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string Update(bool reset)
 		{
-			throw new NotImplementedException();
+			return UpdateImpl(reset, true);
+		}
+
+		/// <inheritdoc />
+		public bool Exists()
+		{
+			lock (this)
+				return longOperationInProgress || LoadRepository();
+		}
+
+		/// <inheritdoc />
+		public IRepoConfig GetRepoConfig()
+		{
+			lock (this)
+			{
+				if (longOperationInProgress)
+					return null;
+				return new RepoConfig(RepoPath, IO);
+			}
 		}
 	}
 }

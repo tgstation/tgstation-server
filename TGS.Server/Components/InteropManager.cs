@@ -356,10 +356,10 @@ namespace TGS.Server.Components
 				{
 					var Old = IO.ReadAllBytes(BridgeDLLName);
 					var New = IO.ReadAllBytes(FullBridgePath);
-					if (Old.SequenceEqual(New))
+					if (Old.Result.SequenceEqual(New.Result))
 						return; //no need
 				}
-				IO.CopyFile(FullBridgePath, BridgeDLLName, overwrite);
+				IO.CopyFile(FullBridgePath, BridgeDLLName, overwrite).Wait();
 			}
 			catch
 			{
@@ -367,7 +367,7 @@ namespace TGS.Server.Components
 				{
 					//ok the things being stupid and hasn't released the dll yet, try ONCE more
 					Thread.Sleep(1000);
-					IO.CopyFile(FullBridgePath, BridgeDLLName, overwrite);
+					IO.CopyFile(FullBridgePath, BridgeDLLName, overwrite).Wait();
 				}
 				catch (Exception e)
 				{
