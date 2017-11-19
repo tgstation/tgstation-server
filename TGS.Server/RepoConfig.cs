@@ -7,7 +7,7 @@ using System.Linq;
 namespace TGS.Server
 {
 	/// <summary>
-	/// Repository specific information for a <see cref="Instance"/>
+	/// Repository specific information for an <see cref="Components.Instance"/>
 	/// </summary>
 	sealed class RepoConfig : IRepoConfig
 	{

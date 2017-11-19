@@ -3,7 +3,7 @@
 namespace TGS.Server
 {
 	/// <summary>
-	/// Various events and their IDs in no particular order. Found in the Windows event log. These key incremented by 100 and are guaranteed to never be reused in the future. In the windows event viewer, these IDs will be offset by the <see cref="Instance.LoggingID"/> to distinguish events between instances. Each event ID may be information, a warning, or error and will be documented accordingly. Warnings will occur due to user, data, or network errors. Errors will occur due to filesystem errors or hard faults
+	/// Various events and their IDs in no particular order. Found in the Windows event log. These key incremented by 100 and are guaranteed to never be reused in the future. In the windows event viewer, these IDs will be offset by the <see cref="Components.Instance.LoggingID"/> to distinguish events between instances. Each event ID may be information, a warning, or error and will be documented accordingly. Warnings will occur due to user, data, or network errors. Errors will occur due to filesystem errors or hard faults
 	/// </summary>
 	public enum EventID : int
 	{
@@ -33,7 +33,7 @@ namespace TGS.Server
 		/// </summary>
 		BYONDUpdateFail = 600,
 		/// <summary>
-		/// Info: When the BYOND updater successfully staged a revision but could not apply it due to the <see cref="Instance"/> being active
+		/// Info: When the BYOND updater successfully staged a revision but could not apply it due to the <see cref="Components.Instance"/> being active
 		/// </summary>
 		BYONDUpdateStaged = 700,
 		/// <summary>
@@ -41,7 +41,7 @@ namespace TGS.Server
 		/// </summary>
 		BYONDUpdateComplete = 800,
 		/// <summary>
-		/// Error: Failed to move the <see cref="Instance"/> with TGS.Interface.Components.ITGAdministration.MoveServer(string)
+		/// Error: Failed to move the <see cref="Components.Instance"/> with TGS.Interface.Components.ITGAdministration.MoveServer(string)
 		/// </summary>
 		[Obsolete("Not in use anymore", true)]
 		ServerMoveFailed = 900,
@@ -225,11 +225,11 @@ namespace TGS.Server
 		/// </summary>
 		RepoPRMergeFail = 5100,
 		/// <summary>
-		/// Info: Successfully committed the paths specified in the synchronize_directories field of the <see cref="Instance"/>'s TGS3.json
+		/// Info: Successfully committed the paths specified in the synchronize_directories field of the <see cref="Components.Instance"/>'s TGS3.json
 		/// </summary>
 		RepoCommit = 5200,
 		/// <summary>
-		/// Warning: An error occurred while committing the paths specified in the synchronize_directories field of the <see cref="Instance"/>'s TGS3.json
+		/// Warning: An error occurred while committing the paths specified in the synchronize_directories field of the <see cref="Components.Instance"/>'s TGS3.json
 		/// </summary>
 		RepoCommitFail = 5300,
 		/// <summary>
@@ -249,15 +249,15 @@ namespace TGS.Server
 		/// </summary>
 		RepoChangelogFail = 5700,
 		/// <summary>
-		/// Info: When the <see cref="TGS.Interface"/> dll is updated for the <see cref="Instance"/>
+		/// Info: When the <see cref="TGS.Interface"/> dll is updated for the <see cref="Components.Instance"/>
 		/// </summary>
 		BridgeDLLUpdated = 5800,
 		/// <summary>
-		/// Error: An error occurred while updating the <see cref="TGS.Interface"/> dll for the <see cref="Instance"/>
+		/// Error: An error occurred while updating the <see cref="TGS.Interface"/> dll for the <see cref="Components.Instance"/>
 		/// </summary>
 		BridgeDLLUpdateFail = 5900,
 		/// <summary>
-		/// Error: An error occurred while starting the <see cref="Instance"/>
+		/// Error: An error occurred while starting the <see cref="Components.Instance"/>
 		/// </summary>
 		InstanceInitializationFailure = 6000,
 		/// <summary>
@@ -265,11 +265,11 @@ namespace TGS.Server
 		/// </summary>
 		ServiceShutdownFail = 6100,
 		/// <summary>
-		/// Info: When the <see cref="Instance"/> reboots in BYOND
+		/// Info: When the <see cref="Components.Instance"/> reboots in BYOND
 		/// </summary>
 		WorldReboot = 6200,
 		/// <summary>
-		/// Info: When the output of <see cref="TGS.Interface.Components.ITGCompiler.Compile(bool)"/> is applied to the live <see cref="Instance"/>
+		/// Info: When the output of <see cref="TGS.Interface.Components.ITGCompiler.Compile(bool)"/> is applied to the live <see cref="Components.Instance"/>
 		/// </summary>
 		ServerUpdateApplied = 6300,
 		/// <summary>
@@ -287,7 +287,7 @@ namespace TGS.Server
 		/// </summary>
 		Submodule = 6600,
 		/// <summary>
-		/// This event is of type <see cref="System.Diagnostics.EventLogEntryType.SuccessAudit"/> or <see cref="System.Diagnostics.EventLogEntryType.FailureAudit"/>. It occurs when a user different from the previous one tries and either succeeds or fails to access a <see cref="Instance"/>. DreamDaemon itself successfully accessing <see cref="TGS.Interface.Components.ITGInterop"/> will not trigger this
+		/// This event is of type <see cref="System.Diagnostics.EventLogEntryType.SuccessAudit"/> or <see cref="System.Diagnostics.EventLogEntryType.FailureAudit"/>. It occurs when a user different from the previous one tries and either succeeds or fails to access a <see cref="Components.Instance"/>. DreamDaemon itself successfully accessing <see cref="TGS.Interface.Components.ITGInterop"/> will not trigger this
 		/// </summary>
 		Authentication = 6700,
 		/// <summary>
@@ -303,7 +303,7 @@ namespace TGS.Server
 		/// </summary>
 		InteropCallException = 7000,
 		/// <summary>
-		/// Warning: When the running DreamDaemon code does not have the correct API to talk to the <see cref="Instance"/>
+		/// Warning: When the running DreamDaemon code does not have the correct API to talk to the <see cref="Components.Instance"/>
 		/// </summary>
 		APIVersionMismatch = 7100,
 		/// <summary>

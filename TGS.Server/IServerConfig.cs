@@ -13,7 +13,7 @@ namespace TGS.Server
 		ulong Version { get; }
 
 		/// <summary>
-		/// List of paths that contain <see cref="Instance"/>s
+		/// List of paths that contain <see cref="Components.Instance"/>s
 		/// </summary>
 		IList<string> InstancePaths { get; }
 

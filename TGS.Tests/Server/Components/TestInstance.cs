@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Threading;
+using System.ServiceModel;
 
 namespace TGS.Server.Components.Tests
 {
@@ -11,6 +11,8 @@ namespace TGS.Server.Components.Tests
 	[TestClass]
 	public class TestInstance
 	{
+		const string TestJSON = "{}";
+
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
@@ -99,6 +101,121 @@ namespace TGS.Server.Components.Tests
 			mockLogger.Verify(x => x.WriteError("asdf", EventID.APIVersionMismatch, mockLoggingID), Times.Once());
 			mockLogger.Verify(x => x.WriteInfo("asdewf", EventID.BridgeDLLUpdateFail, mockLoggingID), Times.Once());
 			mockLogger.Verify(x => x.WriteWarning("fsad", EventID.BYONDUpdateStaged, mockLoggingID), Times.Once());
+		}
+
+		[TestMethod]
+		public void TestOfflining()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+				I.Offline();
+			mockConfig.VerifySet(x => x.Enabled = false, Times.Once());
+		}
+
+		[TestMethod]
+		public void TestServerDirectory()
+		{
+			const string FakeServerDirectory = "asdfasdfdfjk";
+			var mockConfig = new Mock<IInstanceConfig>();
+			mockConfig.Setup(x => x.Directory).Returns(FakeServerDirectory);
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+				Assert.AreEqual(I.ServerDirectory(), FakeServerDirectory);
+		}
+
+		[TestMethod]
+		public void TestReattach()
+		{
+			const string FakeServerDirectory = "asdfasdfdfjk";
+			var mockConfig = new Mock<IInstanceConfig>();
+			mockConfig.Setup(x => x.Directory).Returns(FakeServerDirectory);
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			var mockChat = new Mock<IChatManager>();
+			mockContainer.Setup(x => x.GetInstance<IChatManager>()).Returns(mockChat.Object);
+
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+			{
+				I.Reattach(false);
+				I.Reattach(true);
+			}
+
+			mockChat.Verify(x => x.SendMessage(It.IsAny<string>(), MessageType.DeveloperInfo), Times.Once());
+			mockConfig.VerifySet(x => x.ReattachRequired = true, Times.Exactly(2));
+		}
+
+		[TestMethod]
+		public void TestUpdateTGS3JSON()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			var mockIO = new Mock<IIOManager>();
+
+			mockContainer.Setup(x => x.GetInstance<IIOManager>()).Returns(mockIO.Object);
+
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+				Assert.IsNull(I.UpdateTGS3Json());
+
+			mockIO.Verify(x => x.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true, false), Times.Once());
+			mockIO.ResetCalls();
+			mockIO.Setup(x => x.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true, false)).Throws(new InternalTestFailureException());
+
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+				Assert.IsNotNull(I.UpdateTGS3Json());
+
+			mockIO.Verify(x => x.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true, false), Times.Once());
+		}
+
+		[TestMethod]
+		public void TestAutoUpdateInterval()
+		{
+			const ulong FakeAAI = 63;
+			var mockConfig = new Mock<IInstanceConfig>();
+			mockConfig.Setup(x => x.AutoUpdateInterval).Returns(FakeAAI);
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+			{
+				mockConfig.ResetCalls();
+				Assert.AreEqual(I.AutoUpdateInterval(), FakeAAI);
+			}
+
+			mockConfig.Verify(x => x.AutoUpdateInterval, Times.Once());
+		}
+
+		[TestMethod]
+		public void TestCreateServiceHost()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+			{
+				var TestSC = new ServiceHost(I, new Uri[] { });
+				mockContainer.Setup(x => x.CreateServiceHost(I, It.IsAny<Uri[]>())).Returns(TestSC);
+				Assert.AreSame(TestSC, I.CreateServiceHost(new Uri[] { }));
+				mockContainer.Verify(x => x.CreateServiceHost(I, It.IsAny<Uri[]>()), Times.Once());
+			}
 		}
 	}
 }

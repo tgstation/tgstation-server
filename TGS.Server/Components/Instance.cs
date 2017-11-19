@@ -225,7 +225,7 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
-		/// Creates a <see cref="SimpleInjectorServiceHost"/> based on <see cref="container"/>
+		/// Returns a configured a <see cref="ServiceHost"/> from <see cref="Container"/>
 		/// </summary>
 		/// <param name="baseAddresses">The base addresses for the <see cref="ServiceHost"/></param>
 		/// <returns>The new <see cref="ServiceHost"/></returns>

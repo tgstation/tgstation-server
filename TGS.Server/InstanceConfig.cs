@@ -84,9 +84,9 @@ namespace TGS.Server
 		public bool PushTestmergeCommits { get; set; } = false;
 
 		/// <summary>
-		/// Construct a <see cref="InstanceConfig"/> for a <see cref="Instance"/> at <paramref name="path"/>
+		/// Construct a <see cref="InstanceConfig"/> for an <see cref="Components.Instance"/> at <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path to the <see cref="Instance"/></param>
+		/// <param name="path">The path to the <see cref="Components.Instance"/></param>
 		public InstanceConfig(string path)
 		{
 			Directory = path;
@@ -101,9 +101,9 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// Loads and migrates an <see cref="IInstanceConfig"/> from a <see cref="Instance"/> at <paramref name="path"/>
+		/// Loads and migrates an <see cref="IInstanceConfig"/> from a <see cref="Components.Instance"/> at <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path to the <see cref="Instance"/> directory</param>
+		/// <param name="path">The path to the <see cref="Components.Instance"/> directory</param>
 		/// <returns>The migrated <see cref="IInstanceConfig"/></returns>
 		public static IInstanceConfig Load(string path)
 		{

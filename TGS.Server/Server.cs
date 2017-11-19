@@ -333,7 +333,7 @@ namespace TGS.Server
 		public void PrepareForUpdate()
 		{
 			foreach (var I in hosts)
-				((Instance)I.Value.SingletonInstance).Reattach(false);
+				((IInstance)I.Value.SingletonInstance).Reattach(false);
 		}
 
 		/// <inheritdoc />

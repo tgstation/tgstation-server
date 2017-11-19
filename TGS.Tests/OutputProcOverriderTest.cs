@@ -13,7 +13,11 @@ namespace TGServiceTests
 		{
 			Command.OutputProcVar.Value = OutputProc;
 		}
-		
+
+		/// <summary>
+		/// Dummy OutputProc implementation
+		/// </summary>
+		/// <param name="message">Unused</param>
 		protected virtual void OutputProc(string message) { }
 	}
 }

@@ -3,12 +3,12 @@
 namespace TGS.Server
 {
 	/// <summary>
-	/// Configuration settings for a <see cref="Instance"/>
+	/// Configuration settings for a <see cref="Components.Instance"/>
 	/// </summary>
 	public interface IInstanceConfig
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> directory this <see cref="IInstanceConfig"/> is for
+		/// The <see cref="Components.Instance"/> directory this <see cref="IInstanceConfig"/> is for
 		/// </summary>
 		string Directory { get; }
 
@@ -18,32 +18,32 @@ namespace TGS.Server
 		ulong Version { get; }
 
 		/// <summary>
-		/// The name of the <see cref="Instance"/>
+		/// The name of the <see cref="Components.Instance"/>
 		/// </summary>
 		string Name { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Instance"/> is active
+		/// If the <see cref="Components.Instance"/> is active
 		/// </summary>
 		bool Enabled { get; set; }
 
 		/// <summary>
-		/// The name of the .dme/.dmb the <see cref="Instance"/> uses
+		/// The name of the .dme/.dmb the <see cref="Components.Instance"/> uses
 		/// </summary>
 		string ProjectName { get; set; }
 
 		/// <summary>
-		/// The port the <see cref="Instance"/> runs on
+		/// The port the <see cref="Components.Instance"/> runs on
 		/// </summary>
 		ushort Port { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="Instance"/>
+		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="Components.Instance"/>
 		/// </summary>
 		DreamDaemonSecurity Security { get; set; }
 
 		/// <summary>
-		/// Whether or not the <see cref="Instance"/> should immediately start DreamDaemon when activated
+		/// Whether or not the <see cref="Components.Instance"/> should immediately start DreamDaemon when activated
 		/// </summary>
 		bool Autostart { get; set; }
 
@@ -72,7 +72,7 @@ namespace TGS.Server
 		string ChatProviderEntropy { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Instance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
+		/// If the <see cref="Components.Instance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
 		/// </summary>
 		bool ReattachRequired { get; set; }
 
@@ -97,12 +97,12 @@ namespace TGS.Server
 		string ReattachAPIVersion { get; set; }
 
 		/// <summary>
-		/// The user group allowed to use the <see cref="Instance"/>
+		/// The user group allowed to use the <see cref="Components.Instance"/>
 		/// </summary>
 		string AuthorizedUserGroupSID { get; set; }
 
 		/// <summary>
-		/// The auto update interval for the <see cref="Instance"/>
+		/// The auto update interval for the <see cref="Components.Instance"/>
 		/// </summary>
 		ulong AutoUpdateInterval { get; set; }
 
@@ -112,7 +112,7 @@ namespace TGS.Server
 		bool PushTestmergeCommits { get; set; }
 
 		/// <summary>
-		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Instance"/> <see cref="Directory"/>
+		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Components.Instance"/> <see cref="Directory"/>
 		/// </summary>
 		void Save();
 	}
