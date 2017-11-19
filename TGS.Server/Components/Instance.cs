@@ -9,7 +9,7 @@ namespace TGS.Server.Components
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Instance : IDisposable, ITGConnectivity, IInstance, IInstanceLogger, IRepoConfigProvider
+	sealed class Instance : IInstance, IDisposable
 	{
 		/// <summary>
 		/// Conversion from minutes to milliseconds
@@ -87,13 +87,12 @@ namespace TGS.Server.Components
 
 			try
 			{
-				autoUpdateTimer = new Timer() { AutoReset = true, Enabled = Config.AutoUpdateInterval != 0, Interval = Math.Max(Config.AutoUpdateInterval * AutoUpdateTimerMultiplier, 1) };
+				autoUpdateTimer = new Timer() { AutoReset = true, Interval = Math.Max(Config.AutoUpdateInterval * AutoUpdateTimerMultiplier, 1) };
 				autoUpdateTimer.Elapsed += (a, b) => HandleAutoUpdate();
 
 				container.Register(ServerConfig);
 				container.Register(Config);
-
-				container.Register<IInstance>(this);
+				
 				container.Register<IInstanceLogger>(this);
 				container.Register<ITGConnectivity>(this);
 				container.Register<IRepoConfigProvider>(this);
@@ -118,6 +117,9 @@ namespace TGS.Server.Components
 				Repo = container.GetInstance<IRepositoryManager>();
 				Compiler = container.GetInstance<ICompilerManager>();
 				Administration = container.GetInstance<IAdministrationManager>();
+
+				if (Config.AutoUpdateInterval != 0)
+					HandleAutoUpdate();
 			}
 			catch
 			{

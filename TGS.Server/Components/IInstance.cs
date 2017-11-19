@@ -3,7 +3,7 @@
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	interface IInstance : ITGInstance
+	interface IInstance : ITGInstance, ITGConnectivity, IInstanceLogger, IRepoConfigProvider
 	{
 	}
 }
