@@ -16,9 +16,7 @@ namespace TGS.Interface.Tests
 		/// Name to use for testing <see cref="ITGInstance"/>s
 		/// </summary>
 		const string TestInstanceName = "TestInstance";
-		/// <summary>
-		/// Test that <see cref="Interface.SetBadCertificateHandler(Func{string, bool})"/> can execute successfully
-		/// </summary>
+
 		[TestMethod]
 		public void TestSetBadCertificateHandler()
 		{
@@ -30,9 +28,6 @@ namespace TGS.Interface.Tests
 			ServerInterface.SetBadCertificateHandler(func);
 		}
 
-		/// <summary>
-		/// Test that <see cref="Interface.SetBadCertificateHandler(Func{string, bool})"/> properly sets <see cref="ServicePointManager.ServerCertificateValidationCallback"/>
-		/// </summary>
 		[TestMethod]
 		public void TestBadCertificateHandler()
 		{
@@ -54,19 +49,13 @@ namespace TGS.Interface.Tests
 		{
 			return new ServerInterface("some.fake.url.420", 34752, "user", "password");
 		}
-
-		/// <summary>
-		/// Test that <see cref="Interface.Interface"/> can execute successfully and creates a local connection
-		/// </summary>
+		
 		[TestMethod]
 		public void TestLocalInstantiation()
 		{
 			Assert.IsFalse(new ServerInterface().IsRemoteConnection);
 		}
 
-		/// <summary>
-		/// Test that <see cref="Interface(string, ushort, string, string)"/> can execute successfully
-		/// </summary>
 		[TestMethod]
 		public void TestRemoteInstatiation()
 		{

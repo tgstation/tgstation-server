@@ -11,9 +11,6 @@ namespace TGS.Server.Components.Tests
 	[TestClass]
 	public class TestInstance
 	{
-		/// <summary>
-		/// Test that a basic <see cref="Instance"/> can be constructed
-		/// </summary>
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
@@ -24,10 +21,7 @@ namespace TGS.Server.Components.Tests
 			var mockContainer = new Mock<IDependencyInjector>();
 			new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object).Dispose();
 		}
-
-		/// <summary>
-		/// Test that exceptions propagate from <see cref="Instance.Instance(IInstanceConfig, ILogger, ILoggingIDProvider, IServerConfig, IDependencyInjector)"/>
-		/// </summary>
+		
 		[TestMethod]
 		public void TestBadDependencyGraph()
 		{
@@ -37,10 +31,7 @@ namespace TGS.Server.Components.Tests
 			var mockServerConfig = new Mock<IServerConfig>();
 			Assert.ThrowsException<NullReferenceException>(() => new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, null));
 		}
-
-		/// <summary>
-		/// Test that <see cref="Instance.AutoUpdateInterval"/> functions correctly
-		/// </summary>
+		
 		[TestMethod]
 		public void TestAutoUpdate()
 		{
@@ -50,21 +41,64 @@ namespace TGS.Server.Components.Tests
 			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
 			var mockServerConfig = new Mock<IServerConfig>();
 			var mockContainer = new Mock<IDependencyInjector>();
-
 			var mockRepo = new Mock<IRepositoryManager>();
-			bool repoCalled = false;
-			mockRepo.Setup(x => x.UpdateImpl(true, false)).Callback(() => repoCalled = true);
-
 			var mockCompiler = new Mock<ICompilerManager>();
-			bool compilerCalled = false;
-			mockCompiler.Setup(x => x.Compile(true)).Callback(() => compilerCalled = true);
 
 			mockContainer.Setup(x => x.GetInstance<IRepositoryManager>()).Returns(mockRepo.Object);
 			mockContainer.Setup(x => x.GetInstance<ICompilerManager>()).Returns(mockCompiler.Object);
 
 			new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object).Dispose();
-			Assert.IsTrue(repoCalled);
-			Assert.IsTrue(compilerCalled);
+			mockRepo.Verify(x => x.UpdateImpl(true, false), Times.Exactly(1));
+			mockCompiler.Verify(x => x.Compile(true), Times.Exactly(1));
+		}
+		
+		[TestMethod]
+		public void TestPostDisposeAutoUpdate()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			var mockRepo = new Mock<IRepositoryManager>();
+
+			mockContainer.Setup(x => x.GetInstance<IRepositoryManager>()).Returns(mockRepo.Object);
+
+			var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object);
+			I.Dispose();
+			var po = new PrivateObject(I);
+			po.Invoke("HandleAutoUpdate", null);
+			Assert.ThrowsException<MockException>(() => mockRepo.Verify(x => x.UpdateImpl(true, false), Times.Once()));
+		}
+		
+		[TestMethod]
+		public void TestLoggingVersionAndVerifyConnection()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			const byte mockLoggingID = 42;
+			mockLoggingIDProvider.Setup(x => x.Get()).Returns(mockLoggingID);
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+			{
+				I.WriteAccess("user", true);
+				I.WriteAccess("useewr", false);
+				I.WriteError("asdf", EventID.APIVersionMismatch);
+				I.WriteInfo("asdewf", EventID.BridgeDLLUpdateFail);
+				I.WriteWarning("fsad", EventID.BYONDUpdateStaged);
+
+				Assert.AreEqual(I.Version(), Server.VersionString);
+				I.VerifyConnection();
+			}
+
+			mockLogger.Verify(x => x.WriteAccess(It.IsAny<string>(), true, mockLoggingID), Times.Once());
+			mockLogger.Verify(x => x.WriteAccess(It.IsAny<string>(), false, mockLoggingID), Times.Once());
+			mockLogger.Verify(x => x.WriteError("asdf", EventID.APIVersionMismatch, mockLoggingID), Times.Once());
+			mockLogger.Verify(x => x.WriteInfo("asdewf", EventID.BridgeDLLUpdateFail, mockLoggingID), Times.Once());
+			mockLogger.Verify(x => x.WriteWarning("fsad", EventID.BYONDUpdateStaged, mockLoggingID), Times.Once());
 		}
 	}
 }
