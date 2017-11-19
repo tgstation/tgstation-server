@@ -8,3 +8,5 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyInformationalVersion("3.2.0.12")]
 
 [assembly: InternalsVisibleTo("TGS.Tests")]
+// For Moqing, see https://stackoverflow.com/questions/17569746/mocking-internal-classes-with-moq-for-unit-testing
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

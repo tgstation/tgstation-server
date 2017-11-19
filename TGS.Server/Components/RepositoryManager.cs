@@ -373,7 +373,7 @@ namespace TGS.Server.Components
 		{
 			lock (this)
 			{
-				if (!bypassSanityCheck || longOperationInProgress)    //sanity check
+				if (!bypassSanityCheck && longOperationInProgress)    //sanity check
 					throw new InvalidOperationException("Cannot LoadRepository while longOperationInProgress is set");
 				if (repository != null)
 					return true;

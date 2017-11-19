@@ -115,6 +115,8 @@
     <Compile Include="Components\RepositoryManager.cs" />
     <Compile Include="Components\IChatManager.cs" />
     <Compile Include="Components\StaticManager.cs" />
+    <Compile Include="DependencyInjector.cs" />
+    <Compile Include="IDependencyInjector.cs" />
     <Compile Include="IInstanceLogger.cs" />
     <Compile Include="IIOManager.cs" />
     <Compile Include="IInstanceConfig.cs" />

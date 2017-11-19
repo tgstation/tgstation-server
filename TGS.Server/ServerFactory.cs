@@ -20,7 +20,7 @@
 		/// <inheritdoc />
 		public IServer CreateServer(ILogger logger)
 		{
-			return new Server(logger, ServerConfig.Load(IO), IO);
+			return new Server(logger, ServerConfig.Load(IO), IO, new DependencyInjector());
 		}
 	}
 }

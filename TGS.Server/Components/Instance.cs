@@ -1,12 +1,9 @@
-﻿using SimpleInjector;
-using SimpleInjector.Integration.Wcf;
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.Timers;
 using TGS.Interface.Components;
-using TGS.Server.Components;
 
-namespace TGS.Server
+namespace TGS.Server.Components
 {
 	/// <summary>
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
@@ -59,11 +56,11 @@ namespace TGS.Server
 		/// The <see cref="IAdministrationManager"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IAdministrationManager Administration;
-
 		/// <summary>
-		/// Container for <see cref="Components"/> of this instance
+		/// The <see cref="IDependencyInjector"/> for the <see cref="Instance"/>
 		/// </summary>
-		Container container;
+		readonly IDependencyInjector Container;
+
 		/// <summary>
 		/// <see cref="Timer"/> used for auto update operations
 		/// </summary>
@@ -76,32 +73,30 @@ namespace TGS.Server
 		/// <param name="logger">The value for <see cref="Logger"/></param>
 		/// <param name="loggingIDProvider">The value for <see cref="LoggingIDProvider"/></param>
 		/// <param name="serverConfig">The value for <see cref="ServerConfig"/></param>
-		public Instance(IInstanceConfig config, ILogger logger, ILoggingIDProvider loggingIDProvider, IServerConfig serverConfig)
+		/// <param name="container">The value of <see cref="Container"/></param>
+		public Instance(IInstanceConfig config, ILogger logger, ILoggingIDProvider loggingIDProvider, IServerConfig serverConfig, IDependencyInjector container)
 		{
 			LoggingID = loggingIDProvider.Get();
 			Logger = logger;
 			Config = config;
 			ServerConfig = serverConfig;
+			Container = container;
 
 			LoggingIDProvider = loggingIDProvider;
 			WriteInfo(String.Format("Instance {0} ({1}) assigned logging ID", Config.Name, Config.Directory), EventID.InstanceIDAssigned);
 
 			try
 			{
-				autoUpdateTimer = new Timer() { AutoReset = true, Enabled = Config.AutoUpdateInterval != 0, Interval = Config.AutoUpdateInterval * AutoUpdateTimerMultiplier };
+				autoUpdateTimer = new Timer() { AutoReset = true, Enabled = Config.AutoUpdateInterval != 0, Interval = Math.Max(Config.AutoUpdateInterval * AutoUpdateTimerMultiplier, 1) };
 				autoUpdateTimer.Elapsed += (a, b) => HandleAutoUpdate();
 
-				container = new Container();
+				container.Register(ServerConfig);
+				container.Register(Config);
 
-				container.Options.DefaultLifestyle = Lifestyle.Singleton;
-
-				container.RegisterSingleton(ServerConfig);
-				container.RegisterSingleton(Config);
-
-				container.RegisterSingleton<IInstance>(this);
-				container.RegisterSingleton<IInstanceLogger>(this);
-				container.RegisterSingleton<ITGConnectivity>(this);
-				container.RegisterSingleton<IRepoConfigProvider>(this);
+				container.Register<IInstance>(this);
+				container.Register<IInstanceLogger>(this);
+				container.Register<ITGConnectivity>(this);
+				container.Register<IRepoConfigProvider>(this);
 
 				container.Register<IRepositoryProvider, RepositoryProvider>();
 				container.Register<IIOManager, InstanceIOManager>();
@@ -116,7 +111,7 @@ namespace TGS.Server
 				container.Register<IAdministrationManager, AdministrationManager>();
 				container.Register<IActionEventManager, ActionEventManager>();
 
-				container.Verify();
+				container.Setup();
 
 				Chat = container.GetInstance<IChatManager>();
 				IO = container.GetInstance<IIOManager>();
@@ -167,13 +162,9 @@ namespace TGS.Server
 					autoUpdateTimer.Dispose();
 					autoUpdateTimer = null;
 				}
-			if (container != null)
-			{
-				container.Dispose();
-				container = null;
-				Config.Save();
-				LoggingIDProvider.Release(LoggingID);
-			}
+			Container.Dispose();
+			Config.Save();
+			LoggingIDProvider.Release(LoggingID);
 		}
 
 		/// <inheritdoc />
@@ -238,7 +229,7 @@ namespace TGS.Server
 		/// <returns>The new <see cref="ServiceHost"/></returns>
 		public ServiceHost CreateServiceHost(Uri[] baseAddresses)
 		{
-			var res = new SimpleInjectorServiceHost(container, this, baseAddresses);
+			var res = Container.CreateServiceHost(this, baseAddresses);
 			res.Authorization.ServiceAuthorizationManager = (Administration as ServiceAuthorizationManager) ?? res.Authorization.ServiceAuthorizationManager;
 			return res;
 		}

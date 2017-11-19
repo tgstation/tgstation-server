@@ -6,6 +6,7 @@ using System.Reflection;
 using System.ServiceModel;
 using TGS.Interface;
 using TGS.Interface.Components;
+using TGS.Server.Components;
 
 namespace TGS.Server
 {
@@ -34,9 +35,13 @@ namespace TGS.Server
 		/// </summary>
 		readonly IServerConfig Config;
 		/// <summary>
-		/// The <see cref="IIOManager"/>  for the <see cref="Server"/>
+		/// The <see cref="IIOManager"/> for the <see cref="Server"/>
 		/// </summary>
 		readonly IIOManager IO;
+		/// <summary>
+		/// The <see cref="IDependencyInjector"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IDependencyInjector Container;
 
 		/// <summary>
 		/// The WCF host that contains <see cref="ITGSService"/> connects to
@@ -72,11 +77,13 @@ namespace TGS.Server
 		/// <param name="logger">The value for <see cref="Logger"/></param>
 		/// <param name="config">The value for <see cref="Config"/></param>
 		/// <param name="io">The value for <see cref="IO"/></param>
-		public Server(ILogger logger, IServerConfig config, IIOManager io)
+		/// <param name="container">The value for <see cref="Container"/></param>
+		public Server(ILogger logger, IServerConfig config, IIOManager io, IDependencyInjector container)
 		{
 			Logger = logger;
 			Config = config;
 			IO = io;
+			Container = container;
 		}
 
 		/// <inheritdoc />
@@ -257,7 +264,7 @@ namespace TGS.Server
 				if (!config.Enabled)
 					return null;
 				instanceName = config.Name;
-				instance = new Instance(config, Logger, this, Config);
+				instance = new Instance(config, Logger, this, Config, Container);
 			}
 			catch (Exception e)
 			{
