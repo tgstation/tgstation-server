@@ -23,7 +23,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Path to the repository directory in the <see cref="Instance"/> directory
 		/// </summary>
-		const string RepoPath = "Repository";
+		public const string RepoPath = "Repository";
 		/// <summary>
 		/// Message returned when an operation is aborted due to <see cref="longOperationInProgress"/> being set
 		/// </summary>

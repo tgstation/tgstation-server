@@ -88,7 +88,7 @@ namespace TGS.Interface.Tests
 		{
 			var inter = CreateFakeRemoteInterface();
 			var po = new PrivateObject(inter);
-			var cf = (ChannelFactory<ITGConfig>)po.Invoke("CreateChannel", new Type[] { typeof(string) }, new object[] { TestInstanceName }, new Type[] { typeof(ITGConfig) });
+			var cf = (ChannelFactory<ITGStatic>)po.Invoke("CreateChannel", new Type[] { typeof(string) }, new object[] { TestInstanceName }, new Type[] { typeof(ITGStatic) });
 			Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, System.Security.Principal.TokenImpersonationLevel.Impersonation);
 		}
 	}

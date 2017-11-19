@@ -28,14 +28,6 @@ namespace TGS.Server
 		public static readonly string VersionString = "/tg/station 13 Server v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
 		/// <summary>
-		/// Cancels WCF's user impersonation to allow clean access to writing log files
-		/// </summary>
-		public static void CancelImpersonation()
-		{
-			WindowsIdentity.Impersonate(IntPtr.Zero);
-		}
-
-		/// <summary>
 		/// Checks an <paramref name="instanceName"/> for illegal characters
 		/// </summary>
 		/// <param name="instanceName">The <see cref="Instance"/> name to check</param>

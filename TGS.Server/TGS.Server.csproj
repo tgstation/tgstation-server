@@ -106,9 +106,11 @@
     <Compile Include="Components\InteropCommand.cs" />
     <Compile Include="Components\InteropManager.cs" />
     <Compile Include="Components\IRepositoryManager.cs" />
+    <Compile Include="Components\IStaticManager.cs" />
     <Compile Include="Components\PopulateCommandInfoEventArgs.cs" />
     <Compile Include="Components\RepositoryManager.cs" />
     <Compile Include="Components\IChatManager.cs" />
+    <Compile Include="Components\StaticManager.cs" />
     <Compile Include="IInstanceLogger.cs" />
     <Compile Include="IIOManager.cs" />
     <Compile Include="IInstanceConfig.cs" />
@@ -133,7 +135,6 @@
     <Compile Include="Components\ChatManager.cs" />
     <Compile Include="ChatProviders\ChatProvider.cs" />
     <Compile Include="Components\Compiler.cs" />
-    <Compile Include="Components\Config.cs" />
     <Compile Include="ChatProviders\DiscordChatProvider.cs" />
     <Compile Include="EventID.cs" />
     <Compile Include="Components\Instance.cs" />

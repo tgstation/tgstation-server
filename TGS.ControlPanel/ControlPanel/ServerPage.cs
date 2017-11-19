@@ -84,7 +84,7 @@ namespace TGS.ControlPanel
 
 			var DM = Interface.GetComponent<ITGCompiler>();
 			var DD = Interface.GetComponent<ITGDreamDaemon>();
-			var Config = Interface.GetComponent<ITGConfig>();
+			var Config = Interface.GetComponent<ITGStatic>();
 			var Repo = Interface.GetComponent<ITGRepository>();
 
 			try
