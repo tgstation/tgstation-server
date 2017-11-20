@@ -48,6 +48,31 @@ namespace TGS.ControlPanel
 			currentInterface = interfaceToUse;
 			client = clientToUse;
 			Load += PullRequestManager_Load;
+			PullRequestListBox.ItemCheck += PullRequestListBox_ItemCheck;
+		}
+
+		/// <summary>
+		/// Called when an item in <see cref="PullRequestListBox"/> is checked or unchecked. Unchecks opposing PRs
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="ItemCheckEventArgs"/></param>
+		void PullRequestListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			if (e.NewValue != CheckState.Checked)
+				return;
+			//let's uncheck the opposing PR# if this is one of the outdated/updated testmerge
+			var item = (string)PullRequestListBox.Items[e.Index];
+			var prefix = item.Split(' ')[0];
+
+			for (var I = 0; I < PullRequestListBox.Items.Count; ++I)
+			{
+				var S = (string)PullRequestListBox.Items[I];
+				if (S.Split(' ')[0] == prefix && S != item)
+				{
+					PullRequestListBox.SetItemChecked(I, false);
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -303,11 +328,6 @@ namespace TGS.ControlPanel
 		void RefreshButton_Click(object sender, EventArgs e)
 		{
 			LoadPullRequests();
-		}
-
-		bool PullRequestsStringsListContainsPRNumber(CheckedListBox.ObjectCollection items, int PRNumber)
-		{
-			return false;
 		}
 
 		/// <summary>
