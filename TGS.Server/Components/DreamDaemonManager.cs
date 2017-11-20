@@ -401,7 +401,11 @@ namespace TGS.Server.Components
 
 					try
 					{
-						process.WaitForExitAsync(cancellationToken).Wait();
+						try
+						{
+							process.WaitForExitAsync(cancellationToken).Wait();
+						}
+						catch { }
 						cancellationToken.ThrowIfCancellationRequested();
 					}
 					finally
@@ -508,22 +512,6 @@ namespace TGS.Server.Components
 				WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}MB", megamem, PercentCpuTime.ToString("D3")));
 			}
 		}
-		
-		/// <summary>
-		/// Check if a call to <see cref="Start"/> will fail. Of course, be aware of race conditions with other interfaces
-		/// </summary>
-		/// <returns>The error that would occur, <see langword="null"/> otherwise</returns>
-		string CanStart()
-		{
-			if (Byond.GetVersion(ByondVersion.Installed) == null)
-				return "Byond is not installed!";
-			var DMB = Path.Combine(CompilerManager.GameDirLive, String.Format("{0}.dmb", Config.ProjectName));
-			if (!IO.FileExists(DMB))
-				return String.Format("Unable to find {0}!", DMB);
-			if(DaemonStatus() != DreamDaemonStatus.Offline)
-				return "Server already running";
-			return null;
-		}
 
 		/// <inheritdoc />
 		public string Start()
@@ -536,6 +524,8 @@ namespace TGS.Server.Components
 			}
 			lock (this)
 			{
+				if(currentStatus != DreamDaemonStatus.Offline)
+					return "Server already running";
 				currentStatus = DreamDaemonStatus.HardRebooting;
 				return StartImpl(false);
 			}
@@ -572,10 +562,7 @@ namespace TGS.Server.Components
 			{
 				lock (this)
 				{
-					var res = CanStart();
-					if (res != null)
-						return res;
-
+					Interop.UpdateBridgeDll(true);
 					Interop.SetCommunicationsKey();
 					Interop.ResetDMAPIVersion();
 					Interop.UpdateBridgeDll(true);

@@ -295,7 +295,7 @@ namespace TGS.Server.Components
 							failed = b.Error;
 							waitHandle.Set();
 						};
-						client.DownloadFileAsync(new Uri(String.Format(ByondRevisionsURL, major, minor)), RevisionDownloadPath);
+						client.DownloadFileAsync(new Uri(String.Format(ByondRevisionsURL, major, minor)), IO.ResolvePath(RevisionDownloadPath));
 						WaitHandle.WaitAny(new WaitHandle[] { waitHandle, cancellationToken.WaitHandle });
 						if (cancellationToken.IsCancellationRequested)
 						{
@@ -461,7 +461,7 @@ namespace TGS.Server.Components
 				var pathToUse = updateStat == ByondStatus.Staged && useStagedIfPossible ? StagingDirectoryInner : ByondDirectory;
 				++DMLockCount;
 				error = null;
-				return IO.ResolvePath(Path.Combine(pathToUse, DMExecutable));
+				return IO.ResolvePath(Path.Combine(pathToUse, DMPath));
 			}
 		}
 

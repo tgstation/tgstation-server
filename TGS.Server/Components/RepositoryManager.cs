@@ -883,6 +883,9 @@ namespace TGS.Server.Components
 
 						//create an ssh remote for pushing
 						repository.Network.Remotes.Add(SSHPushRemote, remote.Replace("git://", "ssh://").Replace("https://", "ssh://").Replace("http://", "ssh://"));
+						
+						lock (this)
+							longOperationInProgress = false;
 
 						Chat.SendMessage("REPO: Clone complete!", MessageType.DeveloperInfo);
 						Logger.WriteInfo("Repository {0}:{1} successfully cloned", EventID.RepoClone);

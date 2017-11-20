@@ -71,7 +71,8 @@ namespace TGS.Server
 		/// <param name="io">The <see cref="IIOManager"/> to use for reading <paramref name="path"/></param>
 		public RepoConfig(string path, IIOManager io)
 		{
-			if (!io.FileExists(Path.Combine(path, JSONFilename)))
+			path = Path.Combine(path, JSONFilename);
+			if (!io.FileExists(path))
 				return;
 			var rawdata = io.ReadAllText(path).Result;
 			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);

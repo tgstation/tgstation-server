@@ -161,6 +161,8 @@ namespace TGS.Server.Components
 			TopicPort = Config.ReattachPort;
 			OnWorldReboot += (a, b) => ResetDMAPIVersion();
 			Chat.OnRequireChatCommands += (a, b) => Chat.LoadServerChatCommands(SendCommand(InteropCommand.ListCustomCommands));
+
+			UpdateBridgeDll(false);
 		}
 
 		public void Dispose()

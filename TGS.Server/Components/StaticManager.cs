@@ -89,7 +89,10 @@ namespace TGS.Server.Components
 				copyPaths.AddRange(repo_config.DLLPaths);
 				copyPaths.AddRange(repo_config.StaticDirectoryPaths);
 				IO.CreateDirectory(StaticDirs);
-				Repo.CopyToRestricted(StaticDirs, copyPaths).Wait();
+				var task = Repo.CopyToRestricted(StaticDirs, copyPaths);
+				foreach (var I in repo_config.StaticDirectoryPaths)
+					IO.CreateDirectory(Path.Combine(StaticDirs, I));
+				task.Wait();
 			}
 		}
 
@@ -229,6 +232,7 @@ namespace TGS.Server.Components
 					return null;
 				}
 
+				subDir = subDir.TrimStart(new char[] { '/', '\\' });
 				var dirToEnum = new DirectoryInfo(IO.ResolvePath(Path.Combine(StaticDirs, subDir ?? ""))); //do not use path.combine or it will try and take the root
 				var result = new List<string>();
 				foreach (var I in dirToEnum.GetFiles())

@@ -36,9 +36,9 @@ namespace TGS.Server.Components
 		/// </summary>
 		readonly ITGDreamDaemon DreamDaemon;
 		/// <summary>
-		/// The <see cref="ITGInstance"/> for the <see cref="WCFContractRelay"/>
+		/// The <see cref="IInstance"/> for the <see cref="WCFContractRelay"/>
 		/// </summary>
-		readonly ITGInstance Instance;
+		readonly IInstance Instance;
 		/// <summary>
 		/// The <see cref="ITGInterop"/> for the <see cref="WCFContractRelay"/>
 		/// </summary>
@@ -77,6 +77,15 @@ namespace TGS.Server.Components
 			Interop = interop;
 			Repository = repository;
 			Static = _static;
+		}
+
+		/// <summary>
+		/// Access the underlying <see cref="IInstance"/>
+		/// </summary>
+		/// <returns><see cref="Instance"/></returns>
+		public IInstance GetInstance()
+		{
+			return Instance;
 		}
 
 		/// <inheritdoc />

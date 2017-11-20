@@ -257,7 +257,7 @@ namespace TGS.Server
 			{
 				if (hosts.ContainsKey(config.Directory))
 				{
-					var datInstance = ((Instance)hosts[config.Directory].SingletonInstance);
+					var datInstance = ((WCFContractRelay)hosts[config.Directory].SingletonInstance).GetInstance();
 					Logger.WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, LoggingID);
 					return null;
 				}
@@ -311,7 +311,7 @@ namespace TGS.Server
 					foreach (var I in hosts)
 					{
 						var host = I.Value;
-						var instance = (Instance)host.SingletonInstance;
+						var instance = ((WCFContractRelay)host.SingletonInstance).GetInstance();
 						host.Close();
 						instance.Dispose();
 					}
@@ -333,7 +333,7 @@ namespace TGS.Server
 		public void PrepareForUpdate()
 		{
 			foreach (var I in hosts)
-				((IInstance)I.Value.SingletonInstance).Reattach(false);
+				((WCFContractRelay)I.Value.SingletonInstance).GetInstance().Reattach(false);
 		}
 
 		/// <inheritdoc />
@@ -524,7 +524,7 @@ namespace TGS.Server
 						return null;
 					var host = hosts[Name];
 					hosts.Remove(Name);
-					var inst = (Instance)host.SingletonInstance;
+					var inst = ((WCFContractRelay)host.SingletonInstance).GetInstance();
 					host.Close();
 					path = inst.ServerDirectory();
 					inst.Offline();

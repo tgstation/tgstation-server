@@ -233,9 +233,7 @@ namespace TGS.Server.Components
 			return Config.Directory;
 		}
 
-		/// <summary>
-		/// Sets <see cref="InstanceConfig.Enabled"/> of <see cref="Config"/> to <see langword="false"/>
-		/// </summary>
+		/// <inheritdoc />
 		public void Offline()
 		{
 			Config.Enabled = false;

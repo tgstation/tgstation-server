@@ -16,7 +16,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Live directory
 		/// </summary>
-		public static readonly string GameDirLive = Path.Combine(GameDir + "Live");
+		public static readonly string GameDirLive = Path.Combine(GameDir, "Live");
 
 		/// <summary>
 		/// Path containing production game code
@@ -296,7 +296,7 @@ namespace TGS.Server.Components
 		/// </summary>
 		/// <returns><see langword="true"/> if the two <see cref="IRepoConfig"/>s match, <see langword="false"/> otherwise</returns>
 		bool CheckRepoConfigsMatch() {
-			if (RepoConfigProvider.GetRepoConfig() != Repo.GetRepoConfig())
+			if (!RepoConfigProvider.GetRepoConfig().Equals(Repo.GetRepoConfig()))
 			{
 				lock (this)
 				{
@@ -571,7 +571,7 @@ namespace TGS.Server.Components
 							compilerCurrentStatus = CompilerStatus.Initialized;
 							return;
 						}
-					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
+					DM.StartInfo.Arguments = String.Format("-clean {0}", IO.ResolvePath(dmePath));
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
 					var OutputList = new StringBuilder();
