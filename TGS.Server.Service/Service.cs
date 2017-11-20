@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.ServiceProcess;
 
 namespace TGS.Server.Service
@@ -54,6 +56,7 @@ namespace TGS.Server.Service
 		/// <param name="args">The service start arguments</param>
 		protected override void OnStart(string[] args)
 		{
+			Environment.CurrentDirectory = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Assembly.GetExecutingAssembly().GetName().Name)).FullName;
 			Server.Start(args);
 		}
 
