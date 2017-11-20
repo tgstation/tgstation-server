@@ -147,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>service create-instance "TGS" D:\tgstation</code></li>
 </ol>
 <ol type="1">
-<li><code>instance</code> And enter <code><a class="el" href="namespace_t_g_s.html">TGS</a></code>. If you aren't using interactive mode, the following commands must be suffixed with <code>--instanceName <a class="el" href="namespace_t_g_s.html">TGS</a></code></li>
+<li><code>instance</code> And enter <code><a class="el" href="namespace_t_g_s.html">TGS</a></code>. If you aren't using interactive mode, the following commands must be suffixed with <code>--instance <a class="el" href="namespace_t_g_s.html">TGS</a></code></li>
 </ol>
 <ol type="1">
 <li><code>repo setup <a href="https://github.com/tgstation/tgstation">https://github.com/tgstation/tgstation</a> master</code></li>
@@ -244,7 +244,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Run TGCommandLine.exe as an administrator</li>
 </ol>
 <ol type="1">
-<li><code>admin set-group &lt;Name of the group you created&gt; --instanceName "\&lt;instance name\&gt;"</code></li>
+<li><code>admin set-group &lt;Name of the group you created&gt; --instance "\&lt;instance name\&gt;"</code></li>
 </ol>
 <p>Note: Due to internal functionality, a user who has access to at least one server instance will be able to view the metadata (Name, path, Logging ID, and Enabled status) of all instances.</p>
 <h2>Setting up Remote access</h2>
@@ -415,7 +415,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>An instance can push branchless test merge commits to GitHub if the <code>RepoKey</code> folder is setup</li>
 <li>This pushes all test merge commits to the remote branch <code>___TGS3TempBranch</code> and then deletes it</li>
 <li>This provides public reference information about the test merge commit and time since it will appear in the PR in questing</li>
-<li>To enable this, check the <code>Sync Commits</code> button on the <code>Repository</code> page of the control panel or run <code>repo push-testmerges on --instanceName "\&lt;instance name\&gt;"</code> from TGCommandLine</li>
+<li>To enable this, check the <code>Sync Commits</code> button on the <code>Repository</code> page of the control panel or run <code>repo push-testmerges on --instance "\&lt;instance name\&gt;"</code> from TGCommandLine</li>
 </ul>
 <h2>CONTRIBUTING</h2>
 <ul>
