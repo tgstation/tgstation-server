@@ -14,7 +14,7 @@ namespace TGS.Server
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Server : ITGConnectivity, ITGLanding, ITGInstanceManager, IServer, ILoggingIDProvider
+	sealed class Server : IServer, ILoggingIDProvider
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events
