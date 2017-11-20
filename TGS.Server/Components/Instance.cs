@@ -89,51 +89,51 @@ namespace TGS.Server.Components
 				autoUpdateTimer = new Timer() { AutoReset = true, Interval = Math.Max(Config.AutoUpdateInterval * AutoUpdateTimerMultiplier, 1) };
 				autoUpdateTimer.Elapsed += (a, b) => HandleAutoUpdate();
 
-				container.Register(ServerConfig);
-				container.Register(Config);
+				Container.Register(ServerConfig);
+				Container.Register(Config);
 
-				container.Register<IInstance>(this);
-				container.Register<IInstanceLogger>(this);
-				container.Register<IRepoConfigProvider>(this);
-				container.Register<IConnectivityManager>(this);
+				Container.Register<IInstance>(this);
+				Container.Register<IInstanceLogger>(this);
+				Container.Register<IRepoConfigProvider>(this);
+				Container.Register<IConnectivityManager>(this);
 
-				container.Register<IRepositoryProvider, RepositoryProvider>();
-				container.Register<IIOManager, InstanceIOManager>();
+				Container.Register<IRepositoryProvider, RepositoryProvider>();
+				Container.Register<IIOManager, InstanceIOManager>();
 
 				//register the internals to the implementations
-				container.Register<ICompilerManager, CompilerManager>();
-				container.Register<IByondManager, ByondManager>();
-				container.Register<IDreamDaemonManager, DreamDaemonManager>();
-				container.Register<IInteropManager, InteropManager>();
-				container.Register<IChatManager, ChatManager>();
-				container.Register<IRepositoryManager, RepositoryManager>();
-				container.Register<IStaticManager, StaticManager>();
-				container.Register<IAdministrationManager, AdministrationManager>();
-				container.Register<IActionEventManager, ActionEventManager>();
+				Container.Register<ICompilerManager, CompilerManager>();
+				Container.Register<IByondManager, ByondManager>();
+				Container.Register<IDreamDaemonManager, DreamDaemonManager>();
+				Container.Register<IInteropManager, InteropManager>();
+				Container.Register<IChatManager, ChatManager>();
+				Container.Register<IRepositoryManager, RepositoryManager>();
+				Container.Register<IStaticManager, StaticManager>();
+				Container.Register<IAdministrationManager, AdministrationManager>();
+				Container.Register<IActionEventManager, ActionEventManager>();
 
 				//now register the interfaces to the aggregator
-				container.Register<ITGAdministration, WCFContractRelay>();
-				container.Register<ITGByond, WCFContractRelay>();
-				container.Register<ITGChat, WCFContractRelay>();
-				container.Register<ITGCompiler, WCFContractRelay>();
-				container.Register<ITGConnectivity, WCFContractRelay>();
-				container.Register<ITGDreamDaemon, WCFContractRelay>();
-				container.Register<ITGInstance, WCFContractRelay>();
-				container.Register<ITGInterop, WCFContractRelay>();
-				container.Register<ITGRepository, WCFContractRelay>();
-				container.Register<ITGStatic, WCFContractRelay>();
+				Container.Register<ITGAdministration, WCFContractRelay>();
+				Container.Register<ITGByond, WCFContractRelay>();
+				Container.Register<ITGChat, WCFContractRelay>();
+				Container.Register<ITGCompiler, WCFContractRelay>();
+				Container.Register<ITGConnectivity, WCFContractRelay>();
+				Container.Register<ITGDreamDaemon, WCFContractRelay>();
+				Container.Register<ITGInstance, WCFContractRelay>();
+				Container.Register<ITGInterop, WCFContractRelay>();
+				Container.Register<ITGRepository, WCFContractRelay>();
+				Container.Register<ITGStatic, WCFContractRelay>();
 
 				//Finally register the aggregator to itself, necessary so the container can resolve it
-				container.Register<WCFContractRelay, WCFContractRelay>();
+				Container.Register<WCFContractRelay, WCFContractRelay>();
 
 				//lock, load, and dependency cycle me daddy
-				container.Setup();
+				Container.Setup();
 
-				Chat = container.GetInstance<IChatManager>();
-				IO = container.GetInstance<IIOManager>();
-				Repo = container.GetInstance<IRepositoryManager>();
-				Compiler = container.GetInstance<ICompilerManager>();
-				Administration = container.GetInstance<IAdministrationManager>();
+				Chat = Container.GetInstance<IChatManager>();
+				IO = Container.GetInstance<IIOManager>();
+				Repo = Container.GetInstance<IRepositoryManager>();
+				Compiler = Container.GetInstance<ICompilerManager>();
+				Administration = Container.GetInstance<IAdministrationManager>();
 
 				if (Config.AutoUpdateInterval != 0)
 					HandleAutoUpdate();

@@ -39,9 +39,9 @@ namespace TGS.Server
 		/// </summary>
 		readonly IIOManager IO;
 		/// <summary>
-		/// The <see cref="IDependencyInjector"/> for the <see cref="Server"/>
+		/// The <see cref="IDependencyInjectorFactory"/> for the <see cref="Server"/>
 		/// </summary>
-		readonly IDependencyInjector Container;
+		readonly IDependencyInjectorFactory ContainerFactory;
 
 		/// <summary>
 		/// The WCF host that contains <see cref="ITGSService"/> connects to
@@ -78,12 +78,12 @@ namespace TGS.Server
 		/// <param name="config">The value for <see cref="Config"/></param>
 		/// <param name="io">The value for <see cref="IO"/></param>
 		/// <param name="container">The value for <see cref="Container"/></param>
-		public Server(ILogger logger, IServerConfig config, IIOManager io, IDependencyInjector container)
+		public Server(ILogger logger, IServerConfig config, IIOManager io, IDependencyInjectorFactory containerFactory)
 		{
 			Logger = logger;
 			Config = config;
 			IO = io;
-			Container = container;
+			ContainerFactory = containerFactory;
 		}
 
 		/// <inheritdoc />
@@ -264,7 +264,16 @@ namespace TGS.Server
 				if (!config.Enabled)
 					return null;
 				instanceName = config.Name;
-				instance = new Instance(config, Logger, this, Config, Container);
+				var DI = ContainerFactory.CreateDependencyInjector();
+				try
+				{
+					instance = new Instance(config, Logger, this, Config, DI);
+				}
+				catch
+				{
+					DI.Dispose();
+					throw;
+				}
 			}
 			catch (Exception e)
 			{
