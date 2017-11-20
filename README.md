@@ -42,7 +42,7 @@ This process is identical to the above steps in command line mode. You can alway
 1. Launch TGCommandLine.exe as an administrator (running with no parameters puts you in interactive mode)
 1. `service set-python-path C:\Python27`
 1. `service create-instance "TGS" D:\tgstation`
-1. `instance` And enter `TGS`. If you aren't using interactive mode, the following commands must be suffixed with `--instanceName TGS`
+1. `instance` And enter `TGS`. If you aren't using interactive mode, the following commands must be suffixed with `--instance TGS`
 1. `repo setup https://github.com/tgstation/tgstation master`
 1. `byond update 511.1385`
 1. `irc nick TGS3Test`
@@ -77,7 +77,7 @@ This process is identical to the above steps in command line mode. You can alway
 1. Create windows accounts for those you wish to have access to the service
 1. Join them in a common windows group
 1. Run TGCommandLine.exe as an administrator
-1. `admin set-group <Name of the group you created> --instanceName "<instance name>"`
+1. `admin set-group <Name of the group you created> --instance "<instance name>"`
 
 Note: Due to internal functionality, a user who has access to at least one server instance will be able to view the metadata (Name, path, Logging ID, and Enabled status) of all instances.
 
@@ -221,7 +221,7 @@ Just tick the `Webclient` option in the `Server` tab or run `dd webclient on` on
 * An instance can push branchless test merge commits to GitHub if the `RepoKey` folder is setup
 * This pushes all test merge commits to the remote branch `___TGS3TempBranch` and then deletes it
 * This provides public reference information about the test merge commit and time since it will appear in the PR in questing
-* To enable this, check the `Sync Commits` button on the `Repository` page of the control panel or run `repo push-testmerges on --instanceName "<instance name>"` from TGCommandLine
+* To enable this, check the `Sync Commits` button on the `Repository` page of the control panel or run `repo push-testmerges on --instance "<instance name>"` from TGCommandLine
 
 ## CONTRIBUTING
 
