@@ -13,7 +13,7 @@ namespace TGS.Server.Components
 		void Reattach(bool silent);
 
 		/// <summary>
-		/// Sets <see cref="InstanceConfig.Enabled"/> of <see cref="Config"/> to <see langword="false"/>
+		/// Disables the <see cref="IInstance"/>
 		/// </summary>
 		void Offline();
 	}
