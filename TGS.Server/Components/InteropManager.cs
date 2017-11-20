@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Reflection;
-using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Security;
@@ -15,7 +14,6 @@ using TGS.Interface;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class InteropManager : IInteropManager, IDisposable
 	{
 		/// <summary>

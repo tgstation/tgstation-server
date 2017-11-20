@@ -6,10 +6,9 @@ using TGS.Interface.Components;
 namespace TGS.Server.Components
 {
 	/// <summary>
-	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
+	/// The root class for a <see cref="Server"/> <see cref="Instance"/>
 	/// </summary>
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Instance : IInstance, IDisposable
+	sealed class Instance : IInstance, IConnectivityManager, IRepoConfigProvider, IInstanceLogger, IDisposable
 	{
 		/// <summary>
 		/// Conversion from minutes to milliseconds
@@ -92,14 +91,16 @@ namespace TGS.Server.Components
 
 				container.Register(ServerConfig);
 				container.Register(Config);
-				
+
+				container.Register<IInstance>(this);
 				container.Register<IInstanceLogger>(this);
-				container.Register<ITGConnectivity>(this);
 				container.Register<IRepoConfigProvider>(this);
+				container.Register<IConnectivityManager>(this);
 
 				container.Register<IRepositoryProvider, RepositoryProvider>();
 				container.Register<IIOManager, InstanceIOManager>();
 
+				//register the internals to the implementations
 				container.Register<ICompilerManager, CompilerManager>();
 				container.Register<IByondManager, ByondManager>();
 				container.Register<IDreamDaemonManager, DreamDaemonManager>();
@@ -110,6 +111,22 @@ namespace TGS.Server.Components
 				container.Register<IAdministrationManager, AdministrationManager>();
 				container.Register<IActionEventManager, ActionEventManager>();
 
+				//now register the interfaces to the aggregator
+				container.Register<ITGAdministration, WCFContractRelay>();
+				container.Register<ITGByond, WCFContractRelay>();
+				container.Register<ITGChat, WCFContractRelay>();
+				container.Register<ITGCompiler, WCFContractRelay>();
+				container.Register<ITGConnectivity, WCFContractRelay>();
+				container.Register<ITGDreamDaemon, WCFContractRelay>();
+				container.Register<ITGInstance, WCFContractRelay>();
+				container.Register<ITGInterop, WCFContractRelay>();
+				container.Register<ITGRepository, WCFContractRelay>();
+				container.Register<ITGStatic, WCFContractRelay>();
+
+				//Finally register the aggregator to itself, necessary so the container can resolve it
+				container.Register<WCFContractRelay, WCFContractRelay>();
+
+				//lock, load, and dependency cycle me daddy
 				container.Setup();
 
 				Chat = container.GetInstance<IChatManager>();
@@ -231,7 +248,7 @@ namespace TGS.Server.Components
 		/// <returns>The new <see cref="ServiceHost"/></returns>
 		public ServiceHost CreateServiceHost(Uri[] baseAddresses)
 		{
-			var res = Container.CreateServiceHost(this, baseAddresses);
+			var res = Container.CreateServiceHost(typeof(WCFContractRelay), baseAddresses);
 			res.Authorization.ServiceAuthorizationManager = (Administration as ServiceAuthorizationManager) ?? res.Authorization.ServiceAuthorizationManager;
 			return res;
 		}

@@ -35,9 +35,9 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public ServiceHost CreateServiceHost(object singleton, Uri[] baseAddresses)
+		public ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
 		{
-			return new SimpleInjectorServiceHost(container, singleton, baseAddresses);
+			return new SimpleInjectorServiceHost(container, container.GetInstance(serviceType), baseAddresses);
 		}
 
 		/// <inheritdoc />

@@ -4,15 +4,13 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.Server.Components
 {
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
+	/// <inheritdoc />
 	sealed class ByondManager : IByondManager, IDisposable
 	{
 		/// <summary>
@@ -94,9 +92,9 @@ namespace TGS.Server.Components
 		/// </summary>
 		readonly IChatManager Chat;
 		/// <summary>
-		/// The <see cref="ITGDreamDaemon"/> for the <see cref="ByondManager"/>
+		/// The <see cref="IInteropManager"/> for the <see cref="ByondManager"/>
 		/// </summary>
-		readonly ITGDreamDaemon DreamDaemon;
+		readonly IInteropManager Interop;
 
 		/// <summary>
 		/// <see cref="Task"/> used for updating revision
@@ -130,13 +128,13 @@ namespace TGS.Server.Components
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="ioManager">The value of <see cref="IO"/></param>
 		/// <param name="chatBroadcaster">The value of <see cref="Chat"/></param>
-		/// <param name="dreamDaemon">The value of <see cref="DreamDaemon"/></param>
-		public ByondManager(IInstanceLogger logger, IIOManager ioManager, IChatManager chatBroadcaster, ITGDreamDaemon dreamDaemon)
+		/// <param name="interop">The value of <see cref="Interop"/></param>
+		public ByondManager(IInstanceLogger logger, IIOManager ioManager, IChatManager chatBroadcaster, IInteropManager interop)
 		{
 			Logger = logger;
 			IO = ioManager;
 			Chat = chatBroadcaster;
-			DreamDaemon = dreamDaemon;
+			Interop = interop;
 
 			Chat.OnPopulateCommandInfo += (a, b) => { b.CommandInfo.Byond = this; };
 
@@ -258,7 +256,7 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
-		/// Downloads and unzips a BYOND revision. Calls <see cref="ApplyStagedUpdate"/> afterwards if the <see cref="Instance"/> isn't running, otherwise, calls <see cref="ITGDreamDaemon.RequestRestart"/>. Sets <see cref="lastError"/> on failure
+		/// Downloads and unzips a BYOND revision. Calls <see cref="ApplyStagedUpdate"/> afterwards if the <see cref="Instance"/> isn't running, otherwise, calls <see cref="IInteropManager.SendCommand(InteropCommand, IEnumerable{string})"/> with a <see cref="InteropCommand.RestartOnWorldReboot"/> parameter. Sets <see cref="lastError"/> on failure
 		/// </summary>
 		/// <param name="major">The major BYOND version to update to</param>
 		/// <param name="minor">The minor BYOND version to update to</param>
@@ -337,20 +335,9 @@ namespace TGS.Server.Components
 				lock (this)
 					updateStat = ByondStatus.Staged;
 
-				if (DreamDaemon.DaemonStatus() == DreamDaemonStatus.Offline)
+				if (!ApplyStagedUpdate())
 				{
-					var res = ApplyStagedUpdate();
-					lock (this)
-					{
-						if (res)
-							lastError = null;
-						else
-							lastError = "Failed to apply update!";
-					}
-				}
-				else
-				{
-					DreamDaemon.RequestRestart();
+					Interop.SendCommand(InteropCommand.RestartOnWorldReboot);
 					lastError = "Update staged. Awaiting server restart...";
 					Chat.SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
 					Logger.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
@@ -424,9 +411,21 @@ namespace TGS.Server.Components
 			return false;
 
 		}
-		
+
 		/// <summary>
-		/// Tries to decrement <paramref name="theLock"/>. Calls <see cref="ApplyStagedUpdate"/> if it reaches zero
+		/// Calls <see cref="ApplyStagedUpdate"/> if both <see cref="DDLockCount"/> and <see cref="DMLockCount"/> are zero
+		/// </summary>
+		/// <returns>The started <see cref="Task"/> on success, <see langword="null"/> on failure</returns>
+		Task ApplyIfUnlocked()
+		{
+			lock (this)
+				if (DDLockCount == 0 && DMLockCount == 0)
+					return Task.Factory.StartNew(ApplyStagedUpdate);   //async so we can leave this lock
+			return null;
+		}
+
+		/// <summary>
+		/// Tries to decrement <paramref name="theLock"/>. Calls <see cref="ApplyIfUnlocked"/>
 		/// </summary>
 		/// <param name="theLock">The lock counter to decrement</param>
 		/// <param name="exceptionFileName">The filename to in the posible <see cref="InvalidOperationException"/></param>
@@ -439,7 +438,7 @@ namespace TGS.Server.Components
 						throw new InvalidOperationException(String.Format("{0} is already fully unlocked!", exceptionFileName));
 					case 1:
 						theLock = 0;
-						Task.Factory.StartNew(ApplyStagedUpdate);	//async so we can leave this lock
+						ApplyIfUnlocked();
 						break;
 					default:
 						--theLock;
@@ -496,7 +495,7 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public void UnlockDDExecutable()
 		{
-			CheckUnlock(ref DMLockCount, DreamDaemonExecutable);
+			CheckUnlock(ref DDLockCount, DreamDaemonExecutable);
 		}
 	}
 }

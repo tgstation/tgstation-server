@@ -240,7 +240,11 @@ namespace TGS.Server
 			return Task.Factory.StartNew(() =>
 			{
 				path = ResolvePath(path);
-				File.Delete(path);
+				try
+				{
+					File.Delete(path);
+				}
+				catch (DirectoryNotFoundException) { }	//don't care
 			});
 		}
 

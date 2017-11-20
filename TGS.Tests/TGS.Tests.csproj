@@ -70,6 +70,7 @@
     <Compile Include="Interface\TestServerInterface.cs" />
     <Compile Include="Server\Components\TestInstance.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
+    <Compile Include="Server\TestDependencyInjector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

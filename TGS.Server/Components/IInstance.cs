@@ -3,7 +3,7 @@
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	interface IInstance : ITGInstance, ITGConnectivity, IInstanceLogger, IRepoConfigProvider
+	interface IInstance : ITGInstance
 	{
 		/// <summary>
 		/// Set the <see cref="IInstance"/> to reattach to a DreamDaemon process when it's disposed

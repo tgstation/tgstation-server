@@ -103,6 +103,7 @@
     <Compile Include="Components\IActionEventManager.cs" />
     <Compile Include="Components\IAdministrationManager.cs" />
     <Compile Include="Components\ICompilerManager.cs" />
+    <Compile Include="Components\IConnectivityManager.cs" />
     <Compile Include="Components\IDreamDaemonManager.cs" />
     <Compile Include="Components\IInstance.cs" />
     <Compile Include="Components\IInteropManager.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Components\RepositoryManager.cs" />
     <Compile Include="Components\IChatManager.cs" />
     <Compile Include="Components\StaticManager.cs" />
+    <Compile Include="Components\WCFContractRelay.cs" />
     <Compile Include="DependencyInjector.cs" />
     <Compile Include="IDependencyInjector.cs" />
     <Compile Include="IInstanceLogger.cs" />

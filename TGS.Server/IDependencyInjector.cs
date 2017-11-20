@@ -11,10 +11,10 @@ namespace TGS.Server
 		/// <summary>
 		/// Creates a <see cref="ServiceHost"/> based on the <see cref="IDependencyInjector"/>
 		/// </summary>
-		/// <param name="singleton">The value of <see cref="ServiceHost.SingletonInstance"/></param>
+		/// <param name="serviceType">The type of the service</param>
 		/// <param name="baseAddresses">The value of <see cref="ServiceHostBase.BaseAddresses"/></param>
 		/// <returns>A new <see cref="ServiceHost"/></returns>
-		ServiceHost CreateServiceHost(object singleton, Uri[] baseAddresses);
+		ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses);
 
 		/// <summary>
 		/// Retrieve an implementation of <typeparamref name="T"/> from the <see cref="IDependencyInjector"/>

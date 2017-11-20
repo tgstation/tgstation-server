@@ -7,7 +7,6 @@ using System.ServiceModel;
 namespace TGS.Server.Components
 {
 	/// <inheritdoc />
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
 	sealed class StaticManager : IStaticManager
 	{
 		/// <summary>

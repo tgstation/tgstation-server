@@ -208,13 +208,14 @@ namespace TGS.Server.Components.Tests
 			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
 			var mockServerConfig = new Mock<IServerConfig>();
 			var mockContainer = new Mock<IDependencyInjector>();
+			var CRT = typeof(object);
+			var TestSC = new ServiceHost(CRT, new Uri[] { });
+			mockContainer.Setup(x => x.CreateServiceHost(It.IsAny<Type>(), It.IsAny<Uri[]>())).Returns(TestSC);
 
 			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
 			{
-				var TestSC = new ServiceHost(I, new Uri[] { });
-				mockContainer.Setup(x => x.CreateServiceHost(I, It.IsAny<Uri[]>())).Returns(TestSC);
 				Assert.AreSame(TestSC, I.CreateServiceHost(new Uri[] { }));
-				mockContainer.Verify(x => x.CreateServiceHost(I, It.IsAny<Uri[]>()), Times.Once());
+				mockContainer.Verify(x => x.CreateServiceHost(It.IsAny<Type>(), It.IsAny<Uri[]>()), Times.Once());
 			}
 		}
 	}
