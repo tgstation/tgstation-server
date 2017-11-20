@@ -1,5 +1,5 @@
-﻿using Octokit;
-﻿﻿using System;
+using Octokit;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
@@ -347,18 +347,12 @@ namespace TGS.ControlPanel
 					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
 					
 					if (res != null)
-					{
 						MessageBox.Show(res, "Error generating changelog");
-						return;
-					}
 
 					res = await Task.Factory.StartNew(() => repo.SynchronizePush());
 
 					if (res != null)
-					{
 						MessageBox.Show(res, "Error synchronizing commits");
-						return;
-					}
 
 					if (pullsRequests != null)
 						Task.WaitAll(pullsRequests.ToArray());
@@ -431,10 +425,7 @@ namespace TGS.ControlPanel
 					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
 
 					if (res != null)
-					{
 						MessageBox.Show(res, "Error generating changelog");
-						return;
-					}
 
 					await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(false));
 					if (res != null)
