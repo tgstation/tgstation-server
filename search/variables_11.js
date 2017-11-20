@@ -60,5 +60,5 @@ var searchData=
   ['statuslabel',['StatusLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a56a61c0200538e53717bf9f26d7ad5cc',1,'TGS::ControlPanel::ControlPanel']]],
   ['symbolnames',['symbolNames',['../class_i_l_template.html#a87f4dab58eac1aaf7fc3b2874c07a98c',1,'ILTemplate']]],
   ['synccommitscheckbox',['SyncCommitsCheckBox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a97ef5ab2c158e3e7c7213d61b401fbf6',1,'TGS::ControlPanel::ControlPanel']]],
-  ['system',['System',['../_t_g_s_8_command_line_2_program_8cs.html#a81a223a02c34d82b47199f08308847f2',1,'System():&#160;Program.cs'],['../_server_page_8cs.html#a4598c6b5042b9ab31ee4f4644765857d',1,'System():&#160;ServerPage.cs']]]
+  ['system',['System',['../_t_g_s_8_command_line_2_program_8cs.html#a81a223a02c34d82b47199f08308847f2',1,'Program.cs']]]
 ];

@@ -197,5 +197,5 @@ var searchData=
   ['symbolnames',['symbolNames',['../class_i_l_template.html#a87f4dab58eac1aaf7fc3b2874c07a98c',1,'ILTemplate']]],
   ['synccommitscheckbox',['SyncCommitsCheckBox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a97ef5ab2c158e3e7c7213d61b401fbf6',1,'TGS::ControlPanel::ControlPanel']]],
   ['synchronizepush',['SynchronizePush',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a40f5f8b961f0df14683cb0502c40090b',1,'TGS.Interface.Components.ITGRepository.SynchronizePush()'],['../class_t_g_s_1_1_server_1_1_instance.html#a8be905dbecf8c22a190e20ab990eded3',1,'TGS.Server.Instance.SynchronizePush()']]],
-  ['system',['System',['../_t_g_s_8_command_line_2_program_8cs.html#a81a223a02c34d82b47199f08308847f2',1,'System():&#160;Program.cs'],['../_server_page_8cs.html#a4598c6b5042b9ab31ee4f4644765857d',1,'System():&#160;ServerPage.cs']]]
+  ['system',['System',['../_t_g_s_8_command_line_2_program_8cs.html#a81a223a02c34d82b47199f08308847f2',1,'Program.cs']]]
 ];
