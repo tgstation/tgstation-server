@@ -30,29 +30,7 @@ namespace TGS.Server
 		public IReadOnlyList<string> StaticDirectoryPaths { get; private set; }
 		/// <inheritdoc />
 		public IReadOnlyList<string> DLLPaths { get; private set; }
-
-		/// <summary>
-		/// Equality operator for <see cref="RepoConfig"/>s
-		/// </summary>
-		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
-		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
-		/// <returns><see langword="true"/> if <paramref name="config1"/> == <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
-		public static bool operator ==(RepoConfig config1, RepoConfig config2)
-		{
-			return EqualityComparer<RepoConfig>.Default.Equals(config1, config2);
-		}
-
-		/// <summary>
-		/// Inequality operator for <see cref="RepoConfig"/>s
-		/// </summary>
-		/// <param name="config1">The first <see cref="RepoConfig"/> to compare</param>
-		/// <param name="config2">The second <see cref="RepoConfig"/> to compare</param>
-		/// <returns><see langword="true"/> if <paramref name="config1"/> != <paramref name="config2"/>, <see langword="false"/> otherwise</returns>
-		public static bool operator !=(RepoConfig config1, RepoConfig config2)
-		{
-			return !(config1 == config2);
-		}
-
+		
 		/// <summary>
 		/// Copies the <see cref="RepoConfig"/> at <paramref name="source"/> to <paramref name="dest"/> overwriting any previous <see cref="RepoConfig"/> at <paramref name="dest"/>
 		/// </summary>
@@ -128,19 +106,14 @@ namespace TGS.Server
 			return res;
 		}
 
-		/// <inheritdoc />
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as IRepoConfig);
-		}
-
 		/// <summary>
 		/// Check if two <see cref="string"/> <see cref="IList{T}"/>s have the same contents
 		/// </summary>
 		/// <param name="A">The first <see cref="string"/> <see cref="IList{T}"/></param>
 		/// <param name="B">The second <see cref="string"/> <see cref="IList{T}"/></param>
 		/// <returns><see langword="true"/> if the <see cref="string"/> <see cref="IList{T}"/>s match, <see langword="false"/> otherwise</returns>
-		private static bool ListEquals(IReadOnlyList<string> A, IReadOnlyList<string> B)
+
+		static bool ListEquals(IReadOnlyList<string> A, IReadOnlyList<string> B)
 		{
 			return A.All(B.Contains) && A.Count == B.Count;
 		}
@@ -152,6 +125,8 @@ namespace TGS.Server
 		/// <returns><see langword="true"/> if <paramref name="other"/> == <see langword="this"/>, <see langword="false"/> otherwise</returns>
 		public bool Equals(IRepoConfig other)
 		{
+			if (other == null)
+				return false;
 			return ChangelogSupport == other.ChangelogSupport
 				&& PathToChangelogPy == other.PathToChangelogPy
 				&& ChangelogPyArguments == other.ChangelogPyArguments
@@ -159,23 +134,6 @@ namespace TGS.Server
 				&& ListEquals(PathsToStage, other.PathsToStage)
 				&& ListEquals(StaticDirectoryPaths, other.StaticDirectoryPaths)
 				&& ListEquals(DLLPaths, other.DLLPaths);
-		}
-
-		/// <summary>
-		/// Hashing function for the <see cref="RepoConfig"/>
-		/// </summary>
-		/// <returns>An <see langword="int"/> hash of the <see cref="RepoConfig"/></returns>
-		public override int GetHashCode()
-		{
-			var hashCode = 1890628544;
-			hashCode = hashCode * -1521134295 + ChangelogSupport.GetHashCode();
-			hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PathToChangelogPy);
-			hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChangelogPyArguments);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(PipDependancies);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(PathsToStage);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(StaticDirectoryPaths);
-			hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<string>>.Default.GetHashCode(DLLPaths);
-			return hashCode;
 		}
 	}
 }
