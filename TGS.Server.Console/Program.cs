@@ -1,5 +1,8 @@
 ﻿namespace TGS.Server.Console
 {
+	/// <summary>
+	/// Entry class for the program
+	/// </summary>
 	public static class Program
 	{
 		/// <summary>
