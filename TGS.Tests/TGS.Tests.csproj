@@ -71,6 +71,7 @@
     <Compile Include="Server\Components\TestInstance.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Server\TestDependencyInjector.cs" />
+    <Compile Include="Server\TestIOManager.cs" />
     <Compile Include="Server\TestRepoConfig.cs" />
   </ItemGroup>
   <ItemGroup>
