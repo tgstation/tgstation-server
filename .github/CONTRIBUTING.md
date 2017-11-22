@@ -26,9 +26,9 @@ We reccommend any Visual Studio version that can support the .NET framework v4.5
 
 Visual Studio comes with the nuget package manager. To install the dependencies, right-click the solution and select `Restore NuGet Packages`. If you are using some other development environment, you can download nuget [here](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) as a single CLI executable. Then simply run `nuget restore TGStationServer3.sln` from the root of the project directory. 
 
-##### (Optional) Installing WiX Toolset and Visual Studio Extension
+##### (Optional) Installing WiX Toolset Visual Studio Extension
 
-The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. You can download the Wix Toolset and Visual studio extension [here](http://wixtoolset.org/releases/). This will allow you to build `TGS.Installer.wixproj` just like all the other projects.
+The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. The WiX toolset is bundled as a nuget package with the solution, all that is required to use it is the VS extension found [here](https://marketplace.visualstudio.com/items?itemName=RobMensching.WixToolsetVisualStudio2017Extension). This will allow you to build `TGS.Installer.wixproj` just like all the other projects.
 
 ##### Debugging
 
