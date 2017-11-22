@@ -31,14 +31,16 @@ namespace TGS.Interface.Tests
 		[TestMethod]
 		public void TestBadCertificateHandler()
 		{
-			var ran = false;
+			int ran = 0;
 			ServerInterface.SetBadCertificateHandler(_ =>
 			{
-				ran = true;
+				++ran;
 				return true;
 			});
-			ServicePointManager.ServerCertificateValidationCallback(this, new System.Security.Cryptography.X509Certificates.X509Certificate(), new System.Security.Cryptography.X509Certificates.X509Chain(), System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors);
-			Assert.IsTrue(ran);
+			foreach (System.Net.Security.SslPolicyErrors error in Enum.GetValues(typeof(System.Net.Security.SslPolicyErrors)))
+				ServicePointManager.ServerCertificateValidationCallback(this, new System.Security.Cryptography.X509Certificates.X509Certificate(), new System.Security.Cryptography.X509Certificates.X509Chain(), error);
+			//-1 for the None error
+			Assert.AreEqual(Enum.GetValues(typeof(System.Net.Security.SslPolicyErrors)).Length - 1, ran);
 		}
 
 		/// <summary>

@@ -27,13 +27,31 @@ namespace TGS.Interface.Tests
 		{
 			AssertEncryptData(out string entropy);
 		}
-		
+
 		[TestMethod]
 		public void TestDecryptDataWorks()
 		{
 			var result = AssertEncryptData(out string entropy);
 			var decrypted = Helpers.DecryptData(result, entropy);
 			Assert.AreEqual(decrypted, PlainText);
+			Assert.AreEqual(null, Helpers.DecryptData(PlainText, entropy));
+		}
+
+		[TestMethod]
+		public void TestGetRepositoryRemote()
+		{
+			Helpers.GetRepositoryRemote("https://github.com/tgstation/tgstation-server", out string owner, out string name);
+			Assert.AreEqual(owner, "tgstation");
+			Assert.AreEqual(name, "tgstation-server");
+			Helpers.GetRepositoryRemote("git://github.com/tgstation/tgstation-server.git", out owner, out name);
+			Assert.AreEqual(owner, "tgstation");
+			Assert.AreEqual(name, "tgstation-server");
+			Helpers.GetRepositoryRemote("github.com/tgstation/tgstation-server/.git", out owner, out name);
+			Assert.AreEqual(owner, "tgstation");
+			Assert.AreEqual(name, "tgstation-server");
+			Helpers.GetRepositoryRemote("ssh://github.com/tgstation/tgstation-server.git/", out owner, out name);
+			Assert.AreEqual(owner, "tgstation");
+			Assert.AreEqual(name, "tgstation-server");
 		}
 	}
 }
