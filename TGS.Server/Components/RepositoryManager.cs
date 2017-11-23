@@ -1178,7 +1178,7 @@ namespace TGS.Server.Components
 					var prInfo = new PullRequestInfo(PRnumber, task.Result.User.Name, task.Result.Title, task.Result.Head.Sha);
 
 					//so we'll know if this fails
-					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("Test merge commit for pull request #{0}{1}Server Instance: {2}", PRnumber, Environment.NewLine, Config.Name));
+					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRnumber, Environment.NewLine, Config.Name));
 
 					if (Result == null)
 						try
