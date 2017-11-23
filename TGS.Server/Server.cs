@@ -77,7 +77,7 @@ namespace TGS.Server
 		/// <param name="logger">The value for <see cref="Logger"/></param>
 		/// <param name="config">The value for <see cref="Config"/></param>
 		/// <param name="io">The value for <see cref="IO"/></param>
-		/// <param name="container">The value for <see cref="Container"/></param>
+		/// <param name="containerFactory">The value for <see cref="ContainerFactory"/></param>
 		public Server(ILogger logger, IServerConfig config, IIOManager io, IDependencyInjectorFactory containerFactory)
 		{
 			Logger = logger;
