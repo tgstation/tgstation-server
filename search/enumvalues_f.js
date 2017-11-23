@@ -1,7 +1,6 @@
 var searchData=
 [
   ['referencepush',['ReferencePush',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a10580fd761f3f8596b0e692de1006c64',1,'TGS::Server']]],
-  ['remoteaccessportchange',['RemoteAccessPortChange',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311abeed9495669dfbaa3e55423b2d52c27b',1,'TGS::Server']]],
   ['repobackuptag',['RepoBackupTag',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a2c84fe924a93cdc8c93c5814860f43cd',1,'TGS::Server']]],
   ['repobackuptagfail',['RepoBackupTagFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a1d282c620d3c0acee8b2e79166b6a2a9',1,'TGS::Server']]],
   ['repochangelog',['RepoChangelog',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a83838594a10da144b9847b3d50f212eb',1,'TGS::Server']]],
@@ -27,6 +26,5 @@ var searchData=
   ['reporesettracked',['RepoResetTracked',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a2f53c569d343db7849491cc6d6530126',1,'TGS::Server']]],
   ['reporesettrackedfail',['RepoResetTrackedFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a7085fb7cd4f9d8aff5f7261ee21fe3d0',1,'TGS::Server']]],
   ['requested',['Requested',['../class_t_g_s_1_1_server_1_1_instance.html#a24619e3847ca6f303773c3c667a0c644afcdf8a82eba24e303b63b2e49a507ecb',1,'TGS::Server::Instance']]],
-  ['reset',['Reset',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a41728b05c20c5f540d0d356f379436ffa526d688f37a86d3c3f27d0c5016eb71d',1,'TGS::ControlPanel::ControlPanel']]],
-  ['roothostrestart',['RootHostRestart',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ad92110a17811fcab4046372c66de52bb',1,'TGS::Server']]]
+  ['reset',['Reset',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a41728b05c20c5f540d0d356f379436ffa526d688f37a86d3c3f27d0c5016eb71d',1,'TGS::ControlPanel::ControlPanel']]]
 ];

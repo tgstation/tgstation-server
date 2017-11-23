@@ -223,6 +223,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:aff2efc92c0e99760d59859be68bfc2e6"><td class="memItemLeft" align="right" valign="top">ChannelFactory&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#aff2efc92c0e99760d59859be68bfc2e6">CreateChannel&lt; T &gt;</a> (string instanceName)</td></tr>
 <tr class="memdesc:aff2efc92c0e99760d59859be68bfc2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directly creates a ChannelFactory&lt;TChannel&gt; for <em>T</em>  without caching. This should be eventually closed by the caller  <a href="#aff2efc92c0e99760d59859be68bfc2e6">More...</a><br /></td></tr>
 <tr class="separator:aff2efc92c0e99760d59859be68bfc2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac83c0f1a6422dbbfe8a3e64dbac778e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac83c0f1a6422dbbfe8a3e64dbac778e1">Dispose</a> (bool disposing)</td></tr>
+<tr class="memdesc:ac83c0f1a6422dbbfe8a3e64dbac778e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern. Calls <a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#a20a7504c8a38ebf9b0876879903eea4b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it ">CloseAllChannels</a>  <a href="#ac83c0f1a6422dbbfe8a3e64dbac778e1">More...</a><br /></td></tr>
+<tr class="separator:ac83c0f1a6422dbbfe8a3e64dbac778e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -250,6 +253,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a16c579231c861131f01ab44d00d3d03e"><td class="memItemLeft" align="right" valign="top">IDictionary&lt; string, ChannelFactory &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#a16c579231c861131f01ab44d00d3d03e">ChannelFactoryCache</a> = new Dictionary&lt;string, ChannelFactory&gt;()</td></tr>
 <tr class="memdesc:a16c579231c861131f01ab44d00d3d03e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associated list of open ChannelFactorys keyed by  type name. A ChannelFactory in this list may close or fault at any time. Must be locked before being accessed  <a href="#a16c579231c861131f01ab44d00d3d03e">More...</a><br /></td></tr>
 <tr class="separator:a16c579231c861131f01ab44d00d3d03e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b38ee8e42ed702b8fc3a38f67d0c93"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#aa1b38ee8e42ed702b8fc3a38f67d0c93">disposedValue</a> = false</td></tr>
+<tr class="memdesc:aa1b38ee8e42ed702b8fc3a38f67d0c93"><td class="mdescLeft">&#160;</td><td class="mdescRight">To detect redundant <a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac83c0f1a6422dbbfe8a3e64dbac778e1" title="Implements the IDisposable pattern. Calls CloseAllChannels ">Dispose(bool)</a> calls  <a href="#aa1b38ee8e42ed702b8fc3a38f67d0c93">More...</a><br /></td></tr>
+<tr class="separator:aa1b38ee8e42ed702b8fc3a38f67d0c93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -398,7 +404,7 @@ Private Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00316">316</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        {</div><div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            (sender as <a class="code" href="class_i_disposable.html">IDisposable</a>).<a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79">Dispose</a>();</div><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_interface_html_ac097a2e2bf850deab07a850725b07e79"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79">TGS.Interface.ServerInterface.Dispose</a></div><div class="ttdeci">void Dispose()</div><div class="ttdoc">Implements the IDisposable pattern </div><div class="ttdef"><b>Definition:</b> <a href="_server_interface_8cs_source.html#l00459">ServerInterface.cs:459</a></div></div>
+<div class="fragment"><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        {</div><div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            (sender as <a class="code" href="class_i_disposable.html">IDisposable</a>).<a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79">Dispose</a>();</div><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_interface_html_ac097a2e2bf850deab07a850725b07e79"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79">TGS.Interface.ServerInterface.Dispose</a></div><div class="ttdeci">void Dispose()</div><div class="ttdoc">Implements the IDisposable pattern </div><div class="ttdef"><b>Definition:</b> <a href="_server_interface_8cs_source.html#l00491">ServerInterface.cs:491</a></div></div>
 <div class="ttc" id="class_i_disposable_html"><div class="ttname"><a href="class_i_disposable.html">IDisposable</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -603,6 +609,42 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="ac83c0f1a6422dbbfe8a3e64dbac778e1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TGS.Interface.ServerInterface.Dispose </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>disposing</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern. Calls <a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#a20a7504c8a38ebf9b0876879903eea4b" title="Closes all ChannelFactorys stored in ChannelFactoryCache and clears it ">CloseAllChannels</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">disposing</td><td>if <a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79" title="Implements the IDisposable pattern ">Dispose()</a> was called manually,  if it was from the finalizer</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00466">466</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        {</div><div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#aa1b38ee8e42ed702b8fc3a38f67d0c93">disposedValue</a>)</div><div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;            {</div><div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                <span class="keywordflow">if</span> (disposing)</div><div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                {</div><div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                    <a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#a20a7504c8a38ebf9b0876879903eea4b">CloseAllChannels</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;                }</div><div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;</div><div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                <span class="comment">// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.</span></div><div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                <span class="comment">// TODO: set large fields to null.</span></div><div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;</div><div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                <a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#aa1b38ee8e42ed702b8fc3a38f67d0c93">disposedValue</a> = <span class="keyword">true</span>;</div><div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;            }</div><div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_interface_html_aa1b38ee8e42ed702b8fc3a38f67d0c93"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server_interface.html#aa1b38ee8e42ed702b8fc3a38f67d0c93">TGS.Interface.ServerInterface.disposedValue</a></div><div class="ttdeci">bool disposedValue</div><div class="ttdoc">To detect redundant Dispose(bool) calls </div><div class="ttdef"><b>Definition:</b> <a href="_server_interface_8cs_source.html#l00460">ServerInterface.cs:460</a></div></div>
+<div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_interface_html_a20a7504c8a38ebf9b0876879903eea4b"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server_interface.html#a20a7504c8a38ebf9b0876879903eea4b">TGS.Interface.ServerInterface.CloseAllChannels</a></div><div class="ttdeci">void CloseAllChannels(bool includingRoot)</div><div class="ttdoc">Closes all ChannelFactorys stored in ChannelFactoryCache and clears it </div><div class="ttdef"><b>Definition:</b> <a href="_server_interface_8cs_source.html#l00269">ServerInterface.cs:269</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="ac097a2e2bf850deab07a850725b07e79"></a>
 <div class="memitem">
 <div class="memproto">
@@ -618,8 +660,8 @@ Private Attributes</h2></td></tr>
 
 <p>Implements the <a class="el" href="class_i_disposable.html">IDisposable</a> pattern </p>
 
-<p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00459">459</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        {</div><div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;            <a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#a20a7504c8a38ebf9b0876879903eea4b">CloseAllChannels</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_interface_html_a20a7504c8a38ebf9b0876879903eea4b"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server_interface.html#a20a7504c8a38ebf9b0876879903eea4b">TGS.Interface.ServerInterface.CloseAllChannels</a></div><div class="ttdeci">void CloseAllChannels(bool includingRoot)</div><div class="ttdoc">Closes all ChannelFactorys stored in ChannelFactoryCache and clears it </div><div class="ttdef"><b>Definition:</b> <a href="_server_interface_8cs_source.html#l00269">ServerInterface.cs:269</a></div></div>
+<p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00491">491</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        {</div><div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;            <span class="comment">// Do not change this code. Put cleanup code in Dispose(bool disposing) above.</span></div><div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;            <a class="code" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79">Dispose</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;            <span class="comment">// TODO: uncomment the following line if the finalizer is overridden above.</span></div><div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;            <span class="comment">// GC.SuppressFinalize(this);</span></div><div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_interface_html_ac097a2e2bf850deab07a850725b07e79"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac097a2e2bf850deab07a850725b07e79">TGS.Interface.ServerInterface.Dispose</a></div><div class="ttdeci">void Dispose()</div><div class="ttdoc">Implements the IDisposable pattern </div><div class="ttdef"><b>Definition:</b> <a href="_server_interface_8cs_source.html#l00491">ServerInterface.cs:491</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -859,6 +901,30 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="aa1b38ee8e42ed702b8fc3a38f67d0c93"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TGS.Interface.ServerInterface.disposedValue = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>To detect redundant <a class="el" href="class_t_g_s_1_1_interface_1_1_server_interface.html#ac83c0f1a6422dbbfe8a3e64dbac778e1" title="Implements the IDisposable pattern. Calls CloseAllChannels ">Dispose(bool)</a> calls </p>
+
+<p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00460">460</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ae9adae2a85d81b880a2afdb91553ff6a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -921,7 +987,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00111">111</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00317">TGS.Server.Server.SetupInstance()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00283">TGS.Server.Server.SetupInstance()</a>.</p>
 
 </div>
 </div>
@@ -939,7 +1005,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00107">107</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00226">TGS.Server.Server.SetupService()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00192">TGS.Server.Server.SetupService()</a>.</p>
 
 </div>
 </div>
@@ -957,7 +1023,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00097">97</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00357">TGS.Server.Server.AddEndpoint()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00323">TGS.Server.Server.AddEndpoint()</a>.</p>
 
 </div>
 </div>
@@ -975,7 +1041,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00102">102</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00357">TGS.Server.Server.AddEndpoint()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00323">TGS.Server.Server.AddEndpoint()</a>.</p>
 
 </div>
 </div>
@@ -1001,7 +1067,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00092">92</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00317">TGS.Server.Server.SetupInstance()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00283">TGS.Server.Server.SetupInstance()</a>.</p>
 
 </div>
 </div>
@@ -1027,7 +1093,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_server_interface_8cs_source.html#l00087">87</a> of file <a class="el" href="_server_interface_8cs_source.html">ServerInterface.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00226">TGS.Server.Server.SetupService()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00192">TGS.Server.Server.SetupService()</a>.</p>
 
 </div>
 </div>

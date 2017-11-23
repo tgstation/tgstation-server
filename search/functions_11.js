@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['safecloseservicehost',['SafeCloseServiceHost',['../class_t_g_s_1_1_server_1_1_server.html#a0f6981e140139aae305b7be6a613f9c9',1,'TGS::Server::Server']]],
   ['sanitizechannelname',['SanitizeChannelName',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a7f0d30c4e3e535aa14fa1f197d08b528',1,'TGS.Interface.ChatSetupInfo.SanitizeChannelName()'],['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#ac6f0608bf1e354c5993f265e6c2a01ad',1,'TGS.Interface.IRCSetupInfo.SanitizeChannelName()'],['../class_t_g_s_1_1_interface_1_1_discord_setup_info.html#afc0a4e401cd751d61b0a4bebcfdfc0f6',1,'TGS.Interface.DiscordSetupInfo.SanitizeChannelName()']]],
   ['sanitizechannelnames',['SanitizeChannelNames',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a463c90dc0488c0e9317150b6d854f721',1,'TGS::Interface::ChatSetupInfo']]],
   ['sanitizetopicstring',['SanitizeTopicString',['../class_t_g_s_1_1_server_1_1_helpers.html#ae0106b61248cd5ae831acd405701dc9b',1,'TGS::Server::Helpers']]],
