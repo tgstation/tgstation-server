@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
-using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 
@@ -102,40 +102,6 @@ namespace TGS.Server
 			SetupInstances();
 
 			OnlineAllHosts();
-		}
-
-		void SafeCloseServiceHost(ServiceHost host)
-		{
-			try
-			{
-				host.Close();
-			}
-			catch
-			{
-				host.Abort();
-			}
-		}
-
-		/// <summary>
-		/// Attempts to reload <see cref="serviceHost"/>
-		/// </summary>
-		/// <returns><see langword="true"/> on success, <see langword="false"/> otherwise</returns>
-		bool RestartHost()
-		{
-			lock (this)
-				try
-				{
-					SafeCloseServiceHost(serviceHost);
-					SetupService();
-					serviceHost.Open();
-					Logger.WriteInfo("Root ServiceHost restarted", EventID.RootHostRestart, LoggingID);
-					return true;
-				}
-				catch (Exception e)
-				{
-					Logger.WriteError(String.Format("An unrecoverable error occurred while attempting to restart the root ServiceHost! Error: {0}", e.ToString()), EventID.RootHostRestart, LoggingID);
-					return false;
-				}
 		}
 
 		/// <summary>
@@ -383,7 +349,7 @@ namespace TGS.Server
 					{
 						var host = I.Value;
 						var instance = (Instance)host.SingletonInstance;
-						SafeCloseServiceHost(host);
+						host.Close();
 						instance.Dispose();
 						UnlockLoggingID(instance.LoggingID);
 					}
@@ -392,9 +358,9 @@ namespace TGS.Server
 				{
 					Logger.WriteError(e.ToString(), EventID.ServiceShutdownFail, LoggingID);
 				}
-				SafeCloseServiceHost(serviceHost);
-				Config.Save(DefaultConfigDirectory);
+				serviceHost.Close();
 			}
+			Config.Save(DefaultConfigDirectory);
 		}
 
 		/// <inheritdoc />
@@ -418,35 +384,7 @@ namespace TGS.Server
 		{
 			if (port == 0)
 				return "Cannot bind to port 0";
-			ushort orig_port;
-			lock (this)
-			{
-				orig_port = Config.RemoteAccessPort;
-				if (port == orig_port)
-					return null;
-				try
-				{
-					//save first just in case
-					Config.Save(DefaultConfigDirectory);
-				}
-				catch (Exception e)
-				{
-					Logger.WriteError(e.ToString(), EventID.RemoteAccessPortChange, LoggingID);
-					return String.Format("An error occurred: {0}", e.ToString());
-				}
-				Logger.WriteInfo(String.Format("Changing remote access port from {0} to {1}", orig_port, port), EventID.RemoteAccessPortChange, LoggingID);
-				Config.RemoteAccessPort = port;
-			}
-			Task.Factory.StartNew(() =>
-			{
-				lock (this)
-					if (!RestartHost())
-					{
-						Logger.WriteWarning(String.Format("Port change to {0} failed, Reverting to port {1}!", port, orig_port), EventID.RemoteAccessPortChange, LoggingID);
-						Config.RemoteAccessPort = orig_port;
-						RestartHost();
-					}
-			});
+			Config.RemoteAccessPort = port;
 			return null;
 		}
 
@@ -625,7 +563,7 @@ namespace TGS.Server
 					var host = hosts[Name];
 					hosts.Remove(Name);
 					var inst = (Instance)host.SingletonInstance;
-					SafeCloseServiceHost(host);
+					host.Close();
 					path = inst.ServerDirectory();
 					inst.Offline();
 					inst.Dispose();
