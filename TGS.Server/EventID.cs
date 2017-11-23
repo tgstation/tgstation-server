@@ -331,5 +331,9 @@ namespace TGS.Server
 		/// Warning: When a testmerge commit failed to be published
 		/// </summary>
 		ReferencePush = 7700,
+		/// <summary>
+		/// Error: When restarting the root service host and an unrecoverable error was encountered
+		/// </summary>
+		RootHostRestartFailure = 7800,
 	}
 }

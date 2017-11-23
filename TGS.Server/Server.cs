@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 
@@ -102,6 +102,25 @@ namespace TGS.Server
 			SetupInstances();
 
 			OnlineAllHosts();
+		}
+
+		/// <summary>
+		/// Attempts to reload <see cref="serviceHost"/>
+		/// </summary>
+		void RestartHost()
+		{
+			lock (this)
+				try
+				{
+					serviceHost.Close();
+					Config.Save(DefaultConfigDirectory);
+					SetupService();
+					serviceHost.Open();
+				}
+				catch (Exception e)
+				{
+					Logger.WriteError(String.Format("An unrecoverable error occurred while attempting to restart the root ServiceHost! Error: {0}", e.ToString()), EventID.RootHostRestartFailure, LoggingID);
+				}
 		}
 
 		/// <summary>
@@ -359,8 +378,8 @@ namespace TGS.Server
 					Logger.WriteError(e.ToString(), EventID.ServiceShutdownFail, LoggingID);
 				}
 				serviceHost.Close();
+				Config.Save(DefaultConfigDirectory);
 			}
-			Config.Save(DefaultConfigDirectory);
 		}
 
 		/// <inheritdoc />
@@ -385,6 +404,7 @@ namespace TGS.Server
 			if (port == 0)
 				return "Cannot bind to port 0";
 			Config.RemoteAccessPort = port;
+			Task.Factory.StartNew(() => RestartHost());
 			return null;
 		}
 
