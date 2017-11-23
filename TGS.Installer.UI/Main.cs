@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGS.Interface;
 using TGS.Interface.Components;
-using TGS.Server;
+using TGS.Server.Configuration;
+using TGS.Server.IO;
 
 namespace TGS.Installer.UI
 {

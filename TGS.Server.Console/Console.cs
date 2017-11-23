@@ -1,4 +1,5 @@
 ﻿using System;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Console
 {

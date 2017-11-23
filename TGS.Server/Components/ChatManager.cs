@@ -3,9 +3,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TGS.Server.ChatCommands;
-using TGS.Server.ChatProviders;
 using TGS.Interface;
+using TGS.Server.Chat;
+using TGS.Server.Chat.Commands;
+using TGS.Server.Chat.Providers;
+using TGS.Server.Configuration;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Components
 {
@@ -48,7 +51,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// List of <see cref="IChatProvider"/>s under the <see cref="ChatManager"/>
 		/// </summary>
-		IList<IChatProvider> ChatProviders;
+		IList<IProvider> ChatProviders;
 
 		/// <summary>
 		/// List of known <see cref="ServerChatCommand"/>s
@@ -66,19 +69,19 @@ namespace TGS.Server.Components
 			Config = config;
 
 			var infos = InitProviderInfos();
-			ChatProviders = new List<IChatProvider>(infos.Count);
+			ChatProviders = new List<IProvider>(infos.Count);
 			foreach (var info in infos)
 			{
-				IChatProvider chatProvider;
+				IProvider chatProvider;
 				try
 				{
 					switch (info.Provider)
 					{
 						case ChatProvider.Discord:
-							chatProvider = new DiscordChatProvider(info);
+							chatProvider = new DiscordProvider(info);
 							break;
 						case ChatProvider.IRC:
-							chatProvider = new IRCChatProvider(info);
+							chatProvider = new IRCProvider(info);
 							break;
 						default:
 							Logger.WriteError(String.Format("Invalid chat provider: {0}", info.Provider), EventID.InvalidChatProvider);
@@ -130,7 +133,7 @@ namespace TGS.Server.Components
 		/// <param name="message">The recieved message</param>
 		/// <param name="isAdmin"><see langword="true"/> if <paramref name="speaker"/> is considered a chat admin, <see langword="false"/> otherwise</param>
 		/// <param name="isAdminChannel"><see langword="true"/> if <paramref name="channel"/> is an admin channel, <see langword="false"/> otherwise</param>
-		void ChatProvider_OnChatMessage(IChatProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
+		void ChatProvider_OnChatMessage(IProvider ChatProvider, string speaker, string channel, string message, bool isAdmin, bool isAdminChannel)
 		{
 			var splits = message.Trim().Split(' ');
 
@@ -232,7 +235,7 @@ namespace TGS.Server.Components
 					var helpText = (string)innerDick[CCPHelpText];
 					var adminOnly = ((long)innerDick[CCPAdminOnly]) == 1;
 					var requiredParams = (int)((long)innerDick[CCPRequiredParameters]);
-					tmp.Add(new ServerChatCommand(I.Key, helpText, adminOnly, requiredParams));
+					tmp.Add(new GameInteropChatCommand(I.Key, helpText, adminOnly, requiredParams));
 				}
 				serverChatCommands = tmp;
 			}

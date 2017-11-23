@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TGS.Server.Tests
+namespace TGS.Server.IoC.Tests
 {
 	/// <summary>
 	/// Unit tests for <see cref="Instance"/>

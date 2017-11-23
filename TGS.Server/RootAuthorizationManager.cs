@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface.Components;
+using TGS.Server.Logging;
 
 namespace TGS.Server
 {

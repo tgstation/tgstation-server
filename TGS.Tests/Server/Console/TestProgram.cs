@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.IO;
+using TGS.Server.Logging;
 using TGS.Tests;
 
 namespace TGS.Server.Console.Tests

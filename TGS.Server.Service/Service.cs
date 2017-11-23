@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Service
 {

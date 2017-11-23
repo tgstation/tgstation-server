@@ -2,6 +2,10 @@
 using System.ServiceModel;
 using System.Timers;
 using TGS.Interface.Components;
+using TGS.Server.IO;
+using TGS.Server.IoC;
+using TGS.Server.Configuration;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Components
 {

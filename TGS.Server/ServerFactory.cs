@@ -1,4 +1,9 @@
-﻿namespace TGS.Server
+﻿using TGS.Server.Configuration;
+using TGS.Server.IO;
+using TGS.Server.IoC;
+using TGS.Server.Logging;
+
+namespace TGS.Server
 {
 	/// <inheritdoc />
 	public sealed class ServerFactory : IServerFactory
@@ -14,7 +19,7 @@
 		/// <param name="io">The value of <see cref="IO"/></param>
 		public ServerFactory(IIOManager io)
 		{
-			IO = new IOManager();
+			IO = io;
 		}
 
 		/// <inheritdoc />

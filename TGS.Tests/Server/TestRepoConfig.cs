@@ -2,8 +2,9 @@
 using Moq;
 using System;
 using System.Threading.Tasks;
+using TGS.Server.IO;
 
-namespace TGS.Server.Tests
+namespace TGS.Server.Configuration.Tests
 {
 	/// <summary>
 	/// Tests for <see cref="RepoConfig"/>

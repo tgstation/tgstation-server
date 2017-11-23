@@ -1,4 +1,6 @@
-﻿namespace TGS.Server.Console
+﻿using TGS.Server.IO;
+
+namespace TGS.Server.Console
 {
 	/// <summary>
 	/// Entry class for the program

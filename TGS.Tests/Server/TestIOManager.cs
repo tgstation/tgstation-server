@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace TGS.Server.Tests
+namespace TGS.Server.IO.Tests
 {
 	/// <summary>
 	/// Tests for <see cref="IOManager"/>

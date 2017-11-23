@@ -3,6 +3,8 @@ using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface.Components;
+using TGS.Server.Configuration;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Components
 {

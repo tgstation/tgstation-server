@@ -1,4 +1,6 @@
-﻿namespace TGS.Server.Service
+﻿using TGS.Server.IO;
+
+namespace TGS.Server.Service
 {
 	/// <summary>
 	/// Entry class for the program

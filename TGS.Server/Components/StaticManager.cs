@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Principal;
 using System.ServiceModel;
+using TGS.Server.Configuration;
+using TGS.Server.IO;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Components
 {

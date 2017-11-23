@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TGS.Interface.Components;
+using TGS.Server.Configuration;
 
 namespace TGS.Server.Components
 {

@@ -2,6 +2,10 @@
 using Moq;
 using System;
 using System.ServiceModel;
+using TGS.Server.Configuration;
+using TGS.Server.IO;
+using TGS.Server.IoC;
+using TGS.Server.Logging;
 using TGS.Tests;
 
 namespace TGS.Server.Components.Tests

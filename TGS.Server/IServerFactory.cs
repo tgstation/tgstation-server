@@ -1,4 +1,6 @@
-﻿namespace TGS.Server
+﻿using TGS.Server.Logging;
+
+namespace TGS.Server
 {
 	/// <summary>
 	/// <see langword="interface"/> for creating a <see cref="IServer"/>

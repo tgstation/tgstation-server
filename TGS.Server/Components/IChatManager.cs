@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using TGS.Interface.Components;
-using TGS.Server.ChatCommands;
+using TGS.Server.Chat;
 
 namespace TGS.Server.Components
 {
