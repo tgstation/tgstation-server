@@ -1,7 +1,7 @@
 ﻿using Moq;
 using TGS.Interface;
 using TGS.Interface.Components;
-using TGServiceTests;
+using TGS.TestHelpers;
 
 namespace TGS.CommandLine.Commands.Repository.Tests
 {

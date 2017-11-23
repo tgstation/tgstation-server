@@ -26,8 +26,8 @@ namespace TGS.Server.Console
 		/// </summary>
 		void ExitPrompt()
 		{
-			System.Console.WriteLine("Press any key to exit...");
-			System.Console.ReadKey();
+			System.Console.WriteLine("Press enter to exit...");
+			System.Console.ReadLine();
 		}
 
 		/// <summary>

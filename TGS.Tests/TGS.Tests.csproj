@@ -7,7 +7,7 @@
     <ProjectGuid>{FB693FFB-17E3-4E84-8CBF-6FFA9C8FD971}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TGS.Tests</RootNamespace>
+    <RootNamespace>TGS.TestHelpers</RootNamespace>
     <AssemblyName>TGS.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,7 +63,10 @@
     <Compile Include="CommandLine\Commands\Repository\RepositoryCommandTest.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
+    <Compile Include="Console\TestConsole.cs" />
+    <Compile Include="Console\TestProgram.cs" />
     <Compile Include="ControlPanel\TestInstanceSelector.cs" />
+    <Compile Include="FakeTextReader.cs" />
     <Compile Include="OutputProcOverriderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interface\TestHelpers.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="Server\TestDependencyInjector.cs" />
     <Compile Include="Server\TestIOManager.cs" />
     <Compile Include="Server\TestRepoConfig.cs" />
+    <Compile Include="TestException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

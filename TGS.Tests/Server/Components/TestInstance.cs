@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.ServiceModel;
+using TGS.TestHelpers;
 
 namespace TGS.Server.Components.Tests
 {
@@ -172,7 +173,7 @@ namespace TGS.Server.Components.Tests
 
 			mockIO.Verify(x => x.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true, false), Times.Once());
 			mockIO.ResetCalls();
-			mockIO.Setup(x => x.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true, false)).Throws(new InternalTestFailureException());
+			mockIO.Setup(x => x.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true, false)).Throws<TestException>();
 
 			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
 				Assert.IsNotNull(I.UpdateTGS3Json());

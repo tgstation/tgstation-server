@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Console.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
