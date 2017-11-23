@@ -2,7 +2,7 @@
 using Moq;
 using System;
 using System.ServiceModel;
-using TGS.TestHelpers;
+using TGS.Tests;
 
 namespace TGS.Server.Components.Tests
 {

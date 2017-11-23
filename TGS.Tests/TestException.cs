@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TGS.TestHelpers
+namespace TGS.Tests
 {
 	/// <summary>
 	/// <see cref="Exception"/> used to test throw cases

@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.IO;
-using TGS.TestHelpers;
+using TGS.Tests;
 
-namespace TGS.Server.Console.Tests
+namespace TGS.Server.Service.Tests
 {
 	/// <summary>
 	/// Tests for <see cref="Program"/>
@@ -30,11 +30,13 @@ namespace TGS.Server.Console.Tests
 		public void TestMain()
 		{
 			var mockServerFactory = new Mock<IServerFactory>();
+			var mockServiceRunner = new Mock<IServiceRunner>();
 			var mockServer = new Mock<IServer>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsAny<ILogger>())).Returns(mockServer.Object);
 			var pt = new PrivateType(typeof(Program));
 			pt.SetStaticField("ServerFactory", mockServerFactory.Object);
-			Program.Main(new string[] { });
+			pt.SetStaticField("ServiceRunner", mockServiceRunner.Object);
+			Program.Main();
 		}
 	}
 }

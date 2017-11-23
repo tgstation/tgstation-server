@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.IO;
-using TGS.TestHelpers;
+using TGS.Tests;
 
 namespace TGS.Server.Console.Tests
 {
@@ -76,7 +76,6 @@ namespace TGS.Server.Console.Tests
 				C.WriteWarning("some warning", EventID.ChatCommand, 2);
 				C.WriteInfo("some info", EventID.BYONDUpdateComplete, 3);
 			}
-
 		}
 	}
 }

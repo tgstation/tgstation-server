@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace TGS.TestHelpers
+namespace TGS.Tests
 {
 	/// <summary>
 	/// Fake implementation of <see cref="TextReader"/>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TGS.Interface;
 
-namespace TGS.TestHelpers
+namespace TGS.Tests
 {
 	/// <summary>
 	/// For tests that need to override <see cref="Command.OutputProcVar"/>
