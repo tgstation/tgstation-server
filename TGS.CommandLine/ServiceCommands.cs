@@ -390,8 +390,7 @@ namespace TGS.CommandLine
 			}
 
 			Interface.Dispose();	//close the channels to prevent holding the service open
-
-			OutputProc("Change will be applied after service restart");
+			
 			return ExitCode.Normal;
 		}
 	}
