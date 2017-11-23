@@ -8,7 +8,7 @@ namespace TGS.Server.Service
 	interface IServiceRunner
 	{
 		/// <summary>
-		/// Runs a <see cref="ServiceBase"/>
+		/// Runs a <paramref name="service"/>
 		/// </summary>
 		/// <param name="service">The <see cref="ServiceBase"/> to run</param>
 		void Run(ServiceBase service);
