@@ -331,5 +331,16 @@ namespace TGS.Server
 		/// Warning: When a testmerge commit failed to be published
 		/// </summary>
 		ReferencePush = 7700,
+		/// <summary>
+		/// Info: When the root ServiceHost has been restarted
+		/// Error: When restarting the root ServiceHost and an unrecoverable error was encountered
+		/// </summary>
+		RootHostRestart = 7800,
+		/// <summary>
+		/// Info: When an operation to change the remote access port begins
+		/// Warning: When a port change operation fails and a revert is attempted
+		/// Error: When the config could not be saved when attempting to change the remote access port
+		/// </summary>
+		RemoteAccessPortChange = 7900,
 	}
 }

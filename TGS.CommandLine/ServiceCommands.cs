@@ -388,7 +388,9 @@ namespace TGS.CommandLine
 				OutputProc(res);
 				return ExitCode.ServerError;
 			}
-			OutputProc("Change will be applied after service restart");
+
+			Interface.Dispose();	//close the channels to prevent holding the service open
+			
 			return ExitCode.Normal;
 		}
 	}
