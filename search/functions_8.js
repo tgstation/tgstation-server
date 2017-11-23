@@ -3,6 +3,7 @@ var searchData=
   ['importinstance',['ImportInstance',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_instance_manager.html#ad463444be8f26b9edc75ddde5ddac1e9',1,'TGS.Interface.Components.ITGInstanceManager.ImportInstance()'],['../class_t_g_s_1_1_server_1_1_server.html#a2d9003533ba8205130476d8e54c1d4a3',1,'TGS.Server.Server.ImportInstance()']]],
   ['importinstancebutton_5fclick',['ImportInstanceButton_Click',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#ac79bae30afdbcecb280eec01317b3d6f',1,'TGS::ControlPanel::InstanceSelector']]],
   ['init',['Init',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html#ad88ff641253b513f23f77bce8d927ac0',1,'TGS::Server::ChatProviders::DiscordChatProvider']]],
+  ['initadministration',['InitAdministration',['../class_t_g_s_1_1_server_1_1_instance.html#a241f46efaa6b53c241f502de9326fb1e',1,'TGS::Server::Instance']]],
   ['initbyond',['InitByond',['../class_t_g_s_1_1_server_1_1_instance.html#a528e107d5b9f90f22ba68a4737e5f850',1,'TGS::Server::Instance']]],
   ['initbyondpage',['InitBYONDPage',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a9138f1e2b3c5ca0e073508b4c8c0fae7',1,'TGS::ControlPanel::ControlPanel']]],
   ['initchat',['InitChat',['../class_t_g_s_1_1_server_1_1_instance.html#a6791c9be7a1f6784b1b84d3365ba5151',1,'TGS::Server::Instance']]],
