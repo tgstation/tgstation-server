@@ -383,6 +383,7 @@ namespace TGS.Server.IO
 					if (cancellationToken.IsCancellationRequested)
 					{
 						client.CancelAsync();
+						waitHandle.WaitOne();
 						return;
 					}
 				}

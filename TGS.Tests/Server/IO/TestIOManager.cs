@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 
 namespace TGS.Server.IO.Tests
 {
@@ -175,6 +176,39 @@ namespace TGS.Server.IO.Tests
 			var res = IO.GetURL(URL).Result;
 
 			Assert.AreEqual(expected, res);
+		}
+
+		[TestMethod]
+		public void TestDownloadFile()
+		{
+			const string URL = "https://raw.githubusercontent.com/Dextraspace/Test/0c81cf5863d98ca9b544086d61c648817af4fb19/README.md";
+			const string expected = "# Test\nThis is a test\n\nThis is another test\n\nThis is a third test\n\nOh look another test\n\nasdf\n\nhonk out date again\n\nhi cyber";
+
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+
+			using (var cts = new CancellationTokenSource())
+				IO.DownloadFile(URL, p1, cts.Token).Wait();
+
+			var res = IO.ReadAllText(p1).Result;
+
+			Assert.AreEqual(expected, res);
+
+			IO.DeleteFile(p1);
+
+
+			using (var cts = new CancellationTokenSource())
+			{
+				cts.Cancel();
+				//very bigly
+				IO.DownloadFile("https://raw.githubusercontent.com/tgstation/tgstation/c1c908fd5810f8e6fe8e78a3c078075b168d3b9a/tgui/assets/tgui.js", p1, cts.Token).Wait();
+			}
+
+			if(IO.FileExists(p1))
+				using(var F = File.Open(IO.ResolvePath(p1), FileMode.Open))
+					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024);
+
+			using (var cts = new CancellationTokenSource())
+				Assert.ThrowsException<AggregateException>(() => IO.DownloadFile("not a url", p1, cts.Token).Wait());
 		}
 	}
 }
