@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 
 namespace TGS.Server.IO.Tests
@@ -33,19 +34,19 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestSymlinkedDirectoriesWontBeRecursivelyDeleted()
 		{
-			IO.CreateDirectory(Path.Combine(tempDir, "FakeStatic"));
-			IO.CreateDirectory(Path.Combine(tempDir, "FakeGame"));
-			IO.WriteAllText(Path.Combine(tempDir, "FakeStatic", "config.txt"), "FakeConfig").Wait();
-			IO.CreateSymlink(Path.Combine(tempDir, "FakeGame", "FakeStatic"), Path.Combine(tempDir, "FakeStatic"));
-			IO.DeleteDirectory(Path.Combine(tempDir, "FakeGame")).Wait();
-			Assert.IsFalse(IO.DirectoryExists(Path.Combine(tempDir, "FakeGame")));
-			Assert.IsTrue(IO.FileExists(Path.Combine(tempDir, "FakeStatic", "config.txt")));
+			IO.CreateDirectory(IOManager.ConcatPath(tempDir, "FakeStatic"));
+			IO.CreateDirectory(IOManager.ConcatPath(tempDir, "FakeGame"));
+			IO.WriteAllText(IOManager.ConcatPath(tempDir, "FakeStatic", "config.txt"), "FakeConfig").Wait();
+			IO.CreateSymlink(IOManager.ConcatPath(tempDir, "FakeGame", "FakeStatic"), IOManager.ConcatPath(tempDir, "FakeStatic"));
+			IO.DeleteDirectory(IOManager.ConcatPath(tempDir, "FakeGame")).Wait();
+			Assert.IsFalse(IO.DirectoryExists(IOManager.ConcatPath(tempDir, "FakeGame")));
+			Assert.IsTrue(IO.FileExists(IOManager.ConcatPath(tempDir, "FakeStatic", "config.txt")));
 		}
 
 		[TestMethod]
 		public void TestCreateDirectoryAndDirectoryExists()
 		{
-			var p = Path.Combine(tempDir, "FakePath");
+			var p = IOManager.ConcatPath(tempDir, "FakePath");
 			Assert.IsFalse(IO.DirectoryExists(p));
 			IO.CreateDirectory(p);
 			Assert.IsTrue(IO.DirectoryExists(p));
@@ -54,7 +55,7 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestFileExistReadAllTextAndWriteAllText()
 		{
-			var p = Path.Combine(tempDir, "FakePath");
+			var p = IOManager.ConcatPath(tempDir, "FakePath");
 			Assert.IsFalse(IO.FileExists(p));
 			Assert.ThrowsException<FileNotFoundException>(() => {
 				try
@@ -74,7 +75,7 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestReadAllBytesAndWriteAllBytes()
 		{
-			var p = Path.Combine(tempDir, "FakePath");
+			var p = IOManager.ConcatPath(tempDir, "FakePath");
 			var bytes = new byte[] { 1, 2, 3, 4 };
 			Assert.IsFalse(IO.FileExists(p));
 			Assert.ThrowsException<FileNotFoundException>(() => {
@@ -95,9 +96,9 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestMoveFile()
 		{
-			var p1 = Path.Combine(tempDir, "FakePath1");
-			var p2 = Path.Combine(tempDir, "FakePath2");
-			var p3 = Path.Combine(tempDir, "dir", "qwre");
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
+			var p3 = IOManager.ConcatPath(tempDir, "dir", "qwre");
 			IO.WriteAllText(p1, "asdf").Wait();
 			IO.MoveFile(p1, p2, false, false).Wait();
 			
@@ -117,7 +118,7 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestTouch()
 		{
-			var p1 = Path.Combine(tempDir, "FakePath1");
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			IO.Touch(p1).Wait();
 			Assert.IsTrue(IO.FileExists(p1));
 		}
@@ -125,9 +126,9 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestUnlink()
 		{
-			var p1 = Path.Combine(tempDir, "FakePath1");
-			var p2 = Path.Combine(tempDir, "FakePath2");
-			var p3 = Path.Combine(tempDir, "FakePath3");
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
+			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
 
 			IO.Touch(p1).Wait();
 			IO.CreateSymlink(p2, p1);
@@ -145,6 +146,24 @@ namespace TGS.Server.IO.Tests
 			IO.Unlink(p3);
 			Assert.IsTrue(IO.DirectoryExists(p2));
 			Assert.IsFalse(IO.DirectoryExists(p3));
+		}
+
+		[TestMethod]
+		public void TestUnzip()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(p1, "FakePath2");
+			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
+			IO.CreateDirectory(p1);
+			IO.WriteAllText(p2, "asdf").Wait();
+			ZipFile.CreateFromDirectory(p1, p3);
+			IO.DeleteDirectory(p1).Wait();
+
+			Assert.IsTrue(IO.FileExists(p3));
+
+			IO.UnzipFile(p3, p1).Wait();
+
+			Assert.AreEqual("asdf", IO.ReadAllText(p2).Result);
 		}
 	}
 }
