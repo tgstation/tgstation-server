@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TGS.Server.IO
@@ -149,5 +151,29 @@ namespace TGS.Server.IO
 		/// <exception cref="System.InvalidOperationException">When <paramref name="path"/> is a concrete file or directory</exception>
 		/// <param name="path">The path to unlink</param>
 		void Unlink(string path);
+
+		/// <summary>
+		/// Downloads a file from <paramref name="url"/> to <paramref name="path"/>
+		/// </summary>
+		/// <param name="url">The URL to download</param>
+		/// <param name="path">The path to save the file at</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the operation</returns>
+		Task DownloadFile(string url, string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Performs an HTTP GET on <paramref name="url"/> and returns the result
+		/// </summary>
+		/// <param name="url">The URL to GET</param>
+		/// <returns>A <see cref="Task"/> that results in the result of the GET</returns>
+		Task<string> GetURL(string url);
+
+		/// <summary>
+		/// Unzips a zip<paramref name="file"/> to a <paramref name="destination"/> folder
+		/// </summary>
+		/// <param name="file">Path to the zipfile</param>
+		/// <param name="destination">Destination path</param>
+		/// <returns>A <see cref="Task"/> representing the operation</returns>
+		Task UnzipFile(string file, string destination);
 	}
 }

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TGS.Server.IO
@@ -358,6 +361,54 @@ namespace TGS.Server.IO
 				path = ResolvePath(path);
 				File.Create(path).Close();
 			});
+		}
+
+		/// <inheritdoc />
+		public Task DownloadFile(string url, string path, CancellationToken cancellationToken)
+		{
+			return Task.Factory.StartNew(() =>
+			{
+				path = ResolvePath(path);
+				Exception failed = null;
+				using (var client = new WebClient())
+				using (var waitHandle = new ManualResetEvent(false))
+				{
+					client.DownloadFileCompleted += (a, b) =>
+					{
+						failed = b.Error;
+						waitHandle.Set();
+					};
+					client.DownloadFileAsync(new Uri(url), path);
+					WaitHandle.WaitAny(new WaitHandle[] { waitHandle, cancellationToken.WaitHandle });
+					if (cancellationToken.IsCancellationRequested)
+					{
+						client.CancelAsync();
+						return;
+					}
+				}
+				if (failed != null)
+					throw failed;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<string> GetURL(string url)
+		{
+			return Task.Factory.StartNew(() =>
+			{
+				//get the latest version from the website
+				var request = WebRequest.Create(url);
+				var results = new List<string>();
+				using (var response = request.GetResponse())
+				using (var reader = new StreamReader(response.GetResponseStream()))
+					return reader.ReadToEnd();
+			});
+		}
+
+		/// <inheritdoc />
+		public Task UnzipFile(string file, string destination)
+		{
+			return Task.Factory.StartNew(() => ZipFile.ExtractToDirectory(ResolvePath(file), ResolvePath(destination)));
 		}
 	}
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using StreamReader = System.IO.StreamReader;
-using System.IO.Compression;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -219,19 +216,14 @@ namespace TGS.Server.Components
 					if (type == ByondVersion.Latest)
 					{
 						//get the latest version from the website
-						var request = (HttpWebRequest)WebRequest.Create(ByondLatestURL);
 						var results = new List<string>();
-						using (var response = (HttpWebResponse)request.GetResponse())
-							using (var reader = new StreamReader(response.GetResponseStream()))
-							{
-								string html = reader.ReadToEnd();
+						string html = IO.GetURL(ByondLatestURL).Result;
 
-								Regex regex = new Regex("\\\"([^\"]*)\\\"");
-								MatchCollection matches = regex.Matches(html);
-								foreach (Match match in matches)
-									if (match.Success && match.Value.Contains("_byond.exe"))
-										results.Add(match.Value.Replace("\"", "").Replace("_byond.exe", ""));
-							}
+						Regex regex = new Regex("\\\"([^\"]*)\\\"");
+						MatchCollection matches = regex.Matches(html);
+						foreach (Match match in matches)
+							if (match.Success && match.Value.Contains("_byond.exe"))
+								results.Add(match.Value.Replace("\"", "").Replace("_byond.exe", ""));
 
 						results.Sort();
 						results.Reverse();
@@ -288,25 +280,7 @@ namespace TGS.Server.Components
 
 				try
 				{
-					Exception failed = null;
-					using (var client = new WebClient())
-					using (var waitHandle = new ManualResetEvent(false))
-					{
-						client.DownloadFileCompleted += (a, b) =>
-						{
-							failed = b.Error;
-							waitHandle.Set();
-						};
-						client.DownloadFileAsync(new Uri(String.Format(ByondRevisionsURL, major, minor)), IO.ResolvePath(RevisionDownloadPath));
-						WaitHandle.WaitAny(new WaitHandle[] { waitHandle, cancellationToken.WaitHandle });
-						if (cancellationToken.IsCancellationRequested)
-						{
-							client.CancelAsync();
-							return;
-						}
-					}
-					if (failed != null)
-						throw failed;
+					IO.DownloadFile(String.Format(ByondRevisionsURL, major, minor), RevisionDownloadPath, cancellationToken).Wait();
 				}
 				catch
 				{
@@ -325,7 +299,7 @@ namespace TGS.Server.Components
 
 				//STAGING
 
-				ZipFile.ExtractToDirectory(IO.ResolvePath(RevisionDownloadPath), IO.ResolvePath(StagingDirectory));
+				IO.UnzipFile(RevisionDownloadPath, StagingDirectory);
 
 				lock (this)
 					IO.WriteAllText(IOManager.ConcatPath(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor)).Wait();
