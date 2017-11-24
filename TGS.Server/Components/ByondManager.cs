@@ -266,13 +266,11 @@ namespace TGS.Server.Components
 
 			try
 			{
-				if (cancellationToken.IsCancellationRequested)
-					return;
+				cancellationToken.ThrowIfCancellationRequested();
 
 				CleanStaging();
 
-				if (cancellationToken.IsCancellationRequested)
-					return;
+				cancellationToken.ThrowIfCancellationRequested();
 
 				Chat.SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
 
@@ -311,6 +309,8 @@ namespace TGS.Server.Components
 				lock (this)
 					updateStat = ByondStatus.Staged;
 
+				cancellationToken.ThrowIfCancellationRequested();
+
 				if (!ApplyStagedUpdate())
 				{
 					Interop.SendCommand(InteropCommand.RestartOnWorldReboot);
@@ -318,6 +318,10 @@ namespace TGS.Server.Components
 					Chat.SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
 					Logger.WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
 				}
+			}
+			catch (OperationCanceledException)
+			{
+				return;
 			}
 			catch (Exception e)
 			{
