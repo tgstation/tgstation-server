@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -335,12 +334,12 @@ namespace TGS.Server.Components
 
 			var FullInterfacePath = Assembly.GetAssembly(typeof(IServerInterface)).Location;
 			//bridge is installed next to the interface
-			var FullBridgePath = Path.Combine(Path.GetDirectoryName(FullInterfacePath), BridgeDLLName);
+			var FullBridgePath = IOManager.ConcatPath(IOManager.GetDirectoryName(FullInterfacePath), BridgeDLLName);
 #if DEBUG
 			//We could be debugging from the project directory
 			if (!IO.FileExists(FullBridgePath))
 				//A little hackish debug mode doctoring never hurt anyone
-				FullBridgePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(FullInterfacePath)))), "TGS.Interface.Bridge/bin/x86/Debug", BridgeDLLName);
+				FullBridgePath = IOManager.ConcatPath(IOManager.GetDirectoryName(IOManager.GetDirectoryName(IOManager.GetDirectoryName(IOManager.GetDirectoryName(FullInterfacePath)))), "TGS.Interface.Bridge/bin/x86/Debug", BridgeDLLName);
 #endif
 			try
 			{

@@ -19,18 +19,18 @@ namespace TGS.Server.Components
 		/// Used for indicating unintialized encrypted data
 		/// </summary>
 		public const string UninitializedString = "NEEDS INITIALIZING";
-		
+
 		// Topic command return parameters
 		/// <summary>
-		/// The help text for a <see cref="ServerChatCommand"/>
+		/// The help text for a <see cref="GameInteropChatCommand"/>
 		/// </summary>
 		const string CCPHelpText = "help_text";
 		/// <summary>
-		/// Whether or not a <see cref="ServerChatCommand"/> is admin only
+		/// Whether or not a <see cref="GameInteropChatCommand"/> is admin only
 		/// </summary>
 		const string CCPAdminOnly = "admin_only";
 		/// <summary>
-		/// The required parameters for a <see cref="ServerChatCommand"/>
+		/// The required parameters for a <see cref="GameInteropChatCommand"/>
 		/// </summary>
 		const string CCPRequiredParameters = "required_parameters";
 
@@ -49,12 +49,12 @@ namespace TGS.Server.Components
 		readonly IInstanceConfig Config;
 
 		/// <summary>
-		/// List of <see cref="IChatProvider"/>s under the <see cref="ChatManager"/>
+		/// List of <see cref="IProvider"/>s under the <see cref="ChatManager"/>
 		/// </summary>
 		IList<IProvider> ChatProviders;
 
 		/// <summary>
-		/// List of known <see cref="ServerChatCommand"/>s
+		/// List of known <see cref="GameInteropChatCommand"/>s
 		/// </summary>
 		List<Command> serverChatCommands;
 
@@ -127,7 +127,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Implementation of <see cref="OnChatMessage"/> that recieves messages from all channels of all connected <see cref="ChatProviders"/>
 		/// </summary>
-		/// <param name="ChatProvider">The <see cref="IChatProvider"/> that heard the <paramref name="message"/></param>
+		/// <param name="ChatProvider">The <see cref="IProvider"/> that heard the <paramref name="message"/></param>
 		/// <param name="speaker">The user who wrote the <paramref name="message"/></param>
 		/// <param name="channel">The channel the <paramref name="message"/> is from</param>
 		/// <param name="message">The recieved message</param>

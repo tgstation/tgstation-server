@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -19,7 +18,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Live directory
 		/// </summary>
-		public static readonly string GameDirLive = Path.Combine(GameDir, "Live");
+		public static readonly string GameDirLive = IOManager.ConcatPath(GameDir, "Live");
 
 		/// <summary>
 		/// Path containing production game code
@@ -33,27 +32,27 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Staging directory A
 		/// </summary>
-		static readonly string GameDirA = Path.Combine(GameDir, "A");
+		static readonly string GameDirA = IOManager.ConcatPath(GameDir, "A");
 		/// <summary>
 		/// Staging directory B
 		/// </summary>
-		static readonly string GameDirB = Path.Combine(GameDir, "B");
+		static readonly string GameDirB = IOManager.ConcatPath(GameDir, "B");
 		/// <summary>
 		/// Test file path for checking if if <see cref="GameDirA"/> is <see cref="GameDirLive"/>
 		/// </summary>
-		static readonly string ADirTest = Path.Combine(GameDirA, LiveFile);
+		static readonly string ADirTest = IOManager.ConcatPath(GameDirA, LiveFile);
 		/// <summary>
 		/// Test file path for checking if if <see cref="GameDirB"/> is <see cref="GameDirLive"/>
 		/// </summary>
-		static readonly string BDirTest = Path.Combine(GameDirB, LiveFile);
+		static readonly string BDirTest = IOManager.ConcatPath(GameDirB, LiveFile);
 		/// <summary>
 		/// Test file path for determining which of <see cref="GameDirA"/> and <see cref="GameDirB"/> is <see cref="GameDirLive"/>
 		/// </summary>
-		static readonly string LiveDirTest = Path.Combine(GameDirLive, LiveFile);
+		static readonly string LiveDirTest = IOManager.ConcatPath(GameDirLive, LiveFile);
 		/// <summary>
 		/// Directory to find git logfiles in
 		/// </summary>
-		static readonly string GitLogsDir = Path.Combine(".git", "logs");
+		static readonly string GitLogsDir = IOManager.ConcatPath(".git", "logs");
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="CompilerManager"/>
@@ -272,7 +271,7 @@ namespace TGS.Server.Components
 		CompilerStatus IsInitialized()
 		{
 			var InterfaceAssemblyName = Assembly.GetAssembly(typeof(IServerInterface)).GetName().Name;
-			if (IO.FileExists(Path.Combine(GameDirLive, InteropManager.BridgeDLLName)) || IO.FileExists(Path.Combine(GameDirLive, InterfaceAssemblyName, ".dll")))	//its a good tell, jim
+			if (IO.FileExists(IOManager.ConcatPath(GameDirLive, InteropManager.BridgeDLLName)) || IO.FileExists(IOManager.ConcatPath(GameDirLive, InterfaceAssemblyName, ".dll")))	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}
@@ -282,16 +281,16 @@ namespace TGS.Server.Components
 		/// </summary>
 		void CleanGameFolder()
 		{
-			var GameDirABridge = Path.Combine(GameDirA, InteropManager.BridgeDLLName);
+			var GameDirABridge = IOManager.ConcatPath(GameDirA, InteropManager.BridgeDLLName);
 			if (IO.DirectoryExists(GameDirABridge))
-				Directory.Delete(IO.ResolvePath(GameDirABridge));
+				IO.Unlink(IO.ResolvePath(GameDirABridge));
 
-			var GameDirBBridge = Path.Combine(GameDirB, InteropManager.BridgeDLLName);
+			var GameDirBBridge = IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName);
 			if (IO.DirectoryExists(GameDirBBridge))
-				Directory.Delete(IO.ResolvePath(GameDirBBridge));
+				IO.Unlink(IO.ResolvePath(GameDirBBridge));
 			
 			if (IO.DirectoryExists(GameDirLive))
-				Directory.Delete(IO.ResolvePath(GameDirLive));
+				IO.Unlink(IO.ResolvePath(GameDirLive));
 		}
 
 		/// <summary>
@@ -364,9 +363,9 @@ namespace TGS.Server.Components
 					Static.SymlinkTo(GameDirB);
 					cancellationToken.ThrowIfCancellationRequested();
 
-					IO.CreateSymlink(Path.Combine(GameDirA, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+					IO.CreateSymlink(IOManager.ConcatPath(GameDirA, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
 					cancellationToken.ThrowIfCancellationRequested();
-					IO.CreateSymlink(Path.Combine(GameDirB, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+					IO.CreateSymlink(IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
 					cancellationToken.ThrowIfCancellationRequested();
 
 					IO.CreateSymlink(GameDirLive, GameDirA);
@@ -417,7 +416,7 @@ namespace TGS.Server.Components
 				TheDir = GameDirA;
 			else
 			{
-				File.Create(IO.ResolvePath(LiveDirTest)).Close();
+				IO.Touch(LiveDirTest).Wait();
 				try
 				{
 					if (IO.FileExists(ADirTest))
@@ -438,7 +437,7 @@ namespace TGS.Server.Components
 			//So TheDir is what the Live folder is NOT pointing to
 			//Now we need to check if DD is running that folder and swap it if necessary
 
-			var rsclock = Path.Combine(TheDir, String.Format("{0}.rsc.lk", Config.ProjectName));
+			var rsclock = IOManager.ConcatPath(TheDir, String.Format("{0}.rsc.lk", Config.ProjectName));
 			if (IO.FileExists(rsclock))
 			{
 				try
@@ -448,7 +447,7 @@ namespace TGS.Server.Components
 				catch   //held open by byond
 				{
 					//This means there is a staged update waiting to be applied, we have to unstage it before we can work
-					Directory.Delete(IO.ResolvePath(GameDirLive));
+					IO.Unlink(GameDirLive);
 					IO.CreateSymlink(GameDirLive, TheDir);
 					return InvertDirectory(TheDir);
 				}
@@ -517,8 +516,8 @@ namespace TGS.Server.Components
 				Static.SymlinkTo(resurrectee);
 				cancellationToken.ThrowIfCancellationRequested();
 
-				if (!IO.FileExists(Path.Combine(resurrectee, InteropManager.BridgeDLLName)))
-						IO.CreateSymlink(Path.Combine(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+				if (!IO.FileExists(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName)))
+						IO.CreateSymlink(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
 				cancellationToken.ThrowIfCancellationRequested();
 
 				deleteExcludeList.Add(".git");
@@ -608,7 +607,7 @@ namespace TGS.Server.Components
 						DreamDaemon.RunSuspended(() => {
 							if (IO.DirectoryExists(GameDirLive))
 								//these next two lines should be atomic but this is the best we can do
-								Directory.Delete(IO.ResolvePath(GameDirLive));
+								IO.Unlink(GameDirLive);
 							IO.CreateSymlink(GameDirLive, resurrectee);
 						});
 						var staged = DreamDaemon.DaemonStatus() != DreamDaemonStatus.Offline;

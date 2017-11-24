@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TGS.Server.IO;
 
@@ -40,7 +39,7 @@ namespace TGS.Server.Configuration
 		/// <param name="io">The <see cref="IIOManager"/> to use</param>
 		public static void Copy(string source, string dest, IIOManager io)
 		{
-			io.CopyFile(Path.Combine(source, JSONFilename), Path.Combine(dest, JSONFilename), true);
+			io.CopyFile(IOManager.ConcatPath(source, JSONFilename), IOManager.ConcatPath(dest, JSONFilename), true);
 		}
 
 		/// <summary>
@@ -50,7 +49,7 @@ namespace TGS.Server.Configuration
 		/// <param name="io">The <see cref="IIOManager"/> to use for reading <paramref name="path"/></param>
 		public RepoConfig(string path, IIOManager io)
 		{
-			path = Path.Combine(path, JSONFilename);
+			path = IOManager.ConcatPath(path, JSONFilename);
 			if (!io.FileExists(path))
 				return;
 			var rawdata = io.ReadAllText(path).Result;

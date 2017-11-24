@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.ServiceModel;
 using TGS.Interface;
@@ -120,7 +119,7 @@ namespace TGS.Server
 					IInstanceConfig ic;
 					try
 					{
-						ic = InstanceConfig.Load(I);
+						ic = InstanceConfig.Load(I, IO);
 					}
 					catch (Exception e)
 					{
@@ -373,9 +372,9 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public bool SetPythonPath(string path)
 		{
-			if (!Directory.Exists(path))
+			if (!IO.DirectoryExists(path))
 				return false;
-			Config.PythonPath = Path.GetFullPath(path);
+			Config.PythonPath = IO.ResolvePath(path);
 			return true;
 		}
 
@@ -419,12 +418,12 @@ namespace TGS.Server
 				IInstanceConfig ic;
 				try
 				{
-					ic = new InstanceConfig(IO.ResolvePath(path))
+					ic = new InstanceConfig(path)
 					{
 						Name = Name
 					};
 					IO.CreateDirectory(path);
-					ic.Save();
+					ic.Save(IO);
 					Config.InstancePaths.Add(path);
 				}
 				catch (Exception e)
@@ -473,11 +472,11 @@ namespace TGS.Server
 				IInstanceConfig ic;
 				try
 				{
-					ic = InstanceConfig.Load(path);
+					ic = InstanceConfig.Load(path, IO);
 					foreach(var oic in GetInstanceConfigs())
 						if(ic.Name == oic.Name)
 							return String.Format("Instance named {0} already exists!", oic.Name);
-					ic.Save();
+					ic.Save(IO);
 					Config.InstancePaths.Add(path);
 				}
 				catch (Exception e)
@@ -526,7 +525,7 @@ namespace TGS.Server
 						{
 							path = ic.Directory;
 							ic.Enabled = true;
-							ic.Save();
+							ic.Save(IO);
 							return SetupOneInstance(ic);
 						}
 					return String.Format("Instance {0} does not exist!", Name);
@@ -576,7 +575,7 @@ namespace TGS.Server
 				string result = "";
 				try
 				{
-					the_droid_were_looking_for.Save();
+					the_droid_were_looking_for.Save(IO);
 					result = null;
 				}
 				catch(Exception e)

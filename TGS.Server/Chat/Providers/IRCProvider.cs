@@ -8,7 +8,7 @@ using Meebey.SmartIrc4net;
 namespace TGS.Server.Chat.Providers
 {
 	/// <summary>
-	/// <see cref="IChatProvider"/> for internet relay chat
+	/// <see cref="IProvider"/> for internet relay chat
 	/// </summary>
 	sealed class IRCProvider : IProvider
 	{
@@ -40,7 +40,7 @@ namespace TGS.Server.Chat.Providers
 		}
 
 		/// <summary>
-		/// Construct a <see cref="IRCChatProvider"/>
+		/// Construct a <see cref="IRCProvider"/>
 		/// </summary>
 		/// <param name="info">The <see cref="ChatSetupInfo"/></param>
 		public IRCProvider(ChatSetupInfo info)

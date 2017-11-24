@@ -32,6 +32,26 @@ namespace TGS.Server.IO
 		#endregion
 
 		/// <summary>
+		/// Wrapper for <see cref="Path.Combine(string[])"/>
+		/// </summary>
+		/// <param name="paths">The paths to combine</param>
+		/// <returns>The combined path</returns>
+		public static string ConcatPath(params string[] paths)
+		{
+			return Path.Combine(paths);
+		}
+
+		/// <summary>
+		/// Wrapper for <see cref="Path.GetDirectoryName(string)"/>
+		/// </summary>
+		/// <param name="path">The path to get the directory name for</param>
+		/// <returns>The path to the directory of <paramref name="path"/></returns>
+		public static string GetDirectoryName(string path)
+		{
+			return Path.GetDirectoryName(path);
+		}
+
+		/// <summary>
 		/// Recusively copy a directory
 		/// </summary>
 		/// <param name="sourceDirName">The directory to copy</param>
@@ -65,7 +85,7 @@ namespace TGS.Server.IO
 			{
 				if (ignore != null && ignore.Contains(file.Name.ToLower()))
 					continue;
-				string temppath = Path.Combine(destDirName, file.Name);
+				string temppath = ConcatPath(destDirName, file.Name);
 				file.CopyTo(temppath, true);
 			}
 
@@ -75,7 +95,7 @@ namespace TGS.Server.IO
 			{
 				if (ignore != null && ignore.Contains(subdir.Name.ToLower()))
 					continue;
-				string temppath = Path.Combine(destDirName, subdir.Name);
+				string temppath = ConcatPath(destDirName, subdir.Name);
 				tasks.Add(CopyDirectoryImpl(subdir.FullName, temppath, ignore, false));
 			}
 			await Task.WhenAll(tasks);
@@ -112,14 +132,29 @@ namespace TGS.Server.IO
 		}
 
 		/// <summary>
+		/// Checks if <paramref name="path"/> is a symlink
+		/// </summary>
+		/// <param name="path">The path to check</param>
+		/// <returns><see langword="true"/> if <paramref name="path"/> is a symlink, <see langword="false"/> otherwise</returns>
+		static bool IsSymlink(string path)
+		{
+			FileAttributes attrsToCheck;
+			if (File.Exists(path))
+				attrsToCheck = new FileInfo(path).Attributes;
+			else
+				attrsToCheck = new DirectoryInfo(path).Attributes;
+			return attrsToCheck.HasFlag(FileAttributes.ReparsePoint);
+		}
+
+		/// <summary>
 		/// Properly unlinks directory <paramref name="di"/> if it is a symlink
 		/// </summary>
 		/// <param name="di"><see cref="DirectoryInfo"/> for the directory in question</param>
 		/// <returns><see langword="true"/> if <paramref name="di"/> was a symlink and deleted, <see langword="false"/> otherwise</returns>
 		static bool CheckDeleteSymlinkDir(DirectoryInfo di)
 		{
-			if (!di.Attributes.HasFlag(FileAttributes.Directory) || di.Attributes.HasFlag(FileAttributes.ReparsePoint))
-			{    //this is probably a symlink
+			if (IsSymlink(di.FullName))
+			{
 				Directory.Delete(di.FullName);
 				return true;
 			}
@@ -277,10 +312,10 @@ namespace TGS.Server.IO
 		}
 
 		/// <inheritdoc />
-		public void CreateDirectory(string path)
+		public DirectoryInfo CreateDirectory(string path)
 		{
 			path = ResolvePath(path);
-			Directory.CreateDirectory(path);
+			return Directory.CreateDirectory(path);
 		}
 
 		/// <inheritdoc />
@@ -298,6 +333,31 @@ namespace TGS.Server.IO
 			if (Path.GetPathRoot(src) != Path.GetPathRoot(dest))
 				return CopyDirectoryImpl(src, dest, null, false);
 			return Task.Factory.StartNew(() => Directory.Move(src, dest));
+		}
+
+		/// <inheritdoc />
+		public void Unlink(string path)
+		{
+			path = ResolvePath(path);
+			var isDir = Directory.Exists(path);
+			if (!isDir && !File.Exists(path))
+				throw new FileNotFoundException(String.Format("File/Directory at {0} not found!", path));
+			if (!IsSymlink(path))
+				throw new InvalidOperationException("Cannot unlink a concrete file/directory!");
+			if (isDir)
+				Directory.Delete(path);
+			else
+				File.Delete(path);
+		}
+
+		/// <inheritdoc />
+		public Task Touch(string path)
+		{
+			return Task.Factory.StartNew(() =>
+			{
+				path = ResolvePath(path);
+				File.Create(path).Close();
+			});
 		}
 	}
 }

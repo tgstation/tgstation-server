@@ -4,7 +4,7 @@ using TGS.Interface.Components;
 namespace TGS.Server
 {
 	/// <inheritdoc />
-	public interface IServer : ITGConnectivity, ITGLanding, ITGInstanceManager, ITGSService, IDisposable
+	public interface IServer : IDisposable
 	{
 		/// <summary>
 		/// Starts the <see cref="IServer"/>

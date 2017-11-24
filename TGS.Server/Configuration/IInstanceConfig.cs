@@ -1,4 +1,5 @@
 ﻿using TGS.Interface;
+using TGS.Server.IO;
 
 namespace TGS.Server.Configuration
 {
@@ -114,6 +115,7 @@ namespace TGS.Server.Configuration
 		/// <summary>
 		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Components.Instance"/> <see cref="Directory"/>
 		/// </summary>
-		void Save();
+		/// <param name="IO">The <see cref="IIOManager"/> to use</param>
+		void Save(IIOManager IO);
 	}
 }

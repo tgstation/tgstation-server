@@ -4,12 +4,12 @@ using TGS.Server.Chat.Commands;
 namespace TGS.Server.Chat
 {
 	/// <summary>
-	/// Used for populating a <see cref="ChatCommands.CommandInfo"/> structure
+	/// Used for populating a <see cref="CommandInfo"/> structure
 	/// </summary>
 	sealed class PopulateCommandInfoEventArgs : EventArgs
 	{
 		/// <summary>
-		/// The <see cref="ChatCommands.CommandInfo"/> to populate
+		/// The <see cref="CommandInfo"/> to populate
 		/// </summary>
 		public CommandInfo CommandInfo{ get { return _commandInfo; } }
 

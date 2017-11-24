@@ -8,7 +8,7 @@ namespace TGS.Server.Chat.Commands
 	sealed class KekChatCommand : ChatCommand
 	{
 		/// <summary>
-		/// Construct a <see cref="KekCommand"/>
+		/// Construct a <see cref="KekChatCommand"/>
 		/// </summary>
 		public KekChatCommand()
 		{

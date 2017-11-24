@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System.IO;
 using TGS.Interface;
+using TGS.Server.IO;
 
 namespace TGS.Server.Configuration
 {
@@ -93,21 +93,22 @@ namespace TGS.Server.Configuration
 		}
 
 		/// <inheritdoc />
-		public void Save()
+		public void Save(IIOManager IO)
 		{
 			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
-			var path = Path.Combine(Directory, JSONFilename);
-			File.WriteAllText(path, data);
+			var path = IOManager.ConcatPath(Directory, JSONFilename);
+			IO.WriteAllText(path, data);
 		}
 
 		/// <summary>
 		/// Loads and migrates an <see cref="IInstanceConfig"/> from a <see cref="Components.Instance"/> at <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to the <see cref="Components.Instance"/> directory</param>
+		/// <param name="IO">The <see cref="IIOManager"/> to use</param>
 		/// <returns>The migrated <see cref="IInstanceConfig"/></returns>
-		public static IInstanceConfig Load(string path)
+		public static IInstanceConfig Load(string path, IIOManager IO)
 		{
-			var configtext = File.ReadAllText(Path.Combine(path, JSONFilename));
+			var configtext = IO.ReadAllText(IOManager.ConcatPath(path, JSONFilename)).Result;
 			var res = JsonConvert.DeserializeObject<DeprecatedInstanceConfig>(configtext);
 			res.Directory = path;
 			res.MigrateToCurrentVersion();

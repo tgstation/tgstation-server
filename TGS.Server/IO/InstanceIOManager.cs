@@ -26,7 +26,7 @@ namespace TGS.Server.IO
 		public override string ResolvePath(string path)
 		{
 			if (!Path.IsPathRooted(path))
-				path = Path.Combine(Config.Directory, path);
+				path = ConcatPath(Config.Directory, path);
 			return base.ResolvePath(path);
 		}
 	}

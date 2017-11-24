@@ -1,7 +1,7 @@
 ﻿namespace TGS.Server
 {
 	/// <summary>
-	/// Commands avaiable to send over <see cref="IInteropManager.SendCommand(InteropCommand, System.Collections.Generic.IEnumerable{string})"/>
+	/// Commands avaiable to send over <see cref="Components.IInteropManager.SendCommand(InteropCommand, System.Collections.Generic.IEnumerable{string})"/>
 	/// </summary>
 	enum InteropCommand
 	{

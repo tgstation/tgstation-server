@@ -1,9 +1,9 @@
 ﻿using LibGit2Sharp;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using StreamReader = System.IO.StreamReader;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,11 +65,11 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// The path to the private ssh-rsa key file
 		/// </summary>
-		static readonly string PrivateKeyPath = Path.Combine(RepoKeyDir, "private_key.txt");
+		static readonly string PrivateKeyPath = IOManager.ConcatPath(RepoKeyDir, "private_key.txt");
 		/// <summary>
 		/// The path to the public ssh-rsa key file
 		/// </summary>
-		static readonly string PublicKeyPath = Path.Combine(RepoKeyDir, "public_key.txt");
+		static readonly string PublicKeyPath = IOManager.ConcatPath(RepoKeyDir, "public_key.txt");
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="RepositoryManager"/>
@@ -601,15 +601,15 @@ namespace TGS.Server.Components
 					error = BusyMessage;
 					return null;
 				}
-				if (!IO.FileExists(Path.Combine(RepoPath, ChangelogPy)))
+				if (!IO.FileExists(IOManager.ConcatPath(RepoPath, ChangelogPy)))
 				{
 					error = "Missing changelog generation script!";
 					return null;
 				}
 
 				var pp = ServerConfig.PythonPath;
-				var PythonFile = Path.Combine(pp, "python.exe");
-				if (!File.Exists(PythonFile))
+				var PythonFile = IOManager.ConcatPath(pp, "python.exe");
+				if (!IO.FileExists(PythonFile))
 				{
 					error = "Cannot locate python!";
 					return null;
@@ -629,7 +629,6 @@ namespace TGS.Server.Components
 						using (StreamReader reader = python.StandardOutput)
 						{
 							result = reader.ReadToEnd();
-
 						}
 						python.WaitForExit();
 						exitCode = python.ExitCode;
@@ -643,7 +642,7 @@ namespace TGS.Server.Components
 						}
 						//update pip deps and try again
 
-						string PipFile = Path.Combine(pp, "scripts", "pip.exe");
+						string PipFile = IOManager.ConcatPath(pp, "scripts", "pip.exe");
 						foreach (var I in RConfig.PipDependancies)
 							using (var pip = new Process())
 							{
@@ -934,7 +933,7 @@ namespace TGS.Server.Components
 			try
 			{
 				await IO.CopyDirectory(RepoPath, destination, ignorePaths);
-				IO.CopyFile(PRJobFile, Path.Combine(destination, PRJobFile), false).Wait();
+				IO.CopyFile(PRJobFile, IOManager.ConcatPath(destination, PRJobFile), false).Wait();
 				return null;
 			}
 			catch (Exception e)
@@ -956,8 +955,8 @@ namespace TGS.Server.Components
 			{
 				foreach (var I in onlyPaths)
 				{
-					var path = Path.Combine(RepoPath, I);
-					var dest = Path.Combine(destination, I);
+					var path = IOManager.ConcatPath(RepoPath, I);
+					var dest = IOManager.ConcatPath(destination, I);
 					if (IO.FileExists(path))
 						tasks.Add(IO.CopyFile(path, dest, false));
 					else if (IO.DirectoryExists(path))

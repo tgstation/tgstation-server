@@ -8,7 +8,7 @@ namespace TGS.Server.Chat.Commands
 	sealed class VersionChatCommand : ChatCommand
 	{
 		/// <summary>
-		/// Construct a <see cref="VersionCommand"/>
+		/// Construct a <see cref="VersionChatCommand"/>
 		/// </summary>
 		public VersionChatCommand()
 		{

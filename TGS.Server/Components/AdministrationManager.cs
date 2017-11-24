@@ -83,7 +83,6 @@ namespace TGS.Server.Components
 			{
 				TheDroidsWereLookingFor = null;
 				Config.AuthorizedUserGroupSID = null;
-				Config.Save();
 				return "ADMIN";
 			}
 			return FindTheDroidsWereLookingFor(groupName);
@@ -114,10 +113,7 @@ namespace TGS.Server.Components
 			}
 			TheDroidsWereLookingFor = gp.Sid;
 			if (search != null)
-			{
 				Config.AuthorizedUserGroupSID = TheDroidsWereLookingFor.Value;
-				Config.Save();
-			}
 			return gp.Name;
 		}
 

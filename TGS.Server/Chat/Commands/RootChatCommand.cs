@@ -11,7 +11,7 @@ namespace TGS.Server.Chat.Commands
 		/// <summary>
 		/// Construct a <see cref="RootChatCommand"/>
 		/// </summary>
-		/// <param name="serverCommands">List of <see cref="ServerChatCommand"/>s supplied by DreamDaemon</param>
+		/// <param name="serverCommands">List of <see cref="GameInteropChatCommand"/>s supplied by DreamDaemon</param>
 		public RootChatCommand(List<Command> serverCommands)
 		{
 			var tmp = new List<Command> { new PullRequestsChatCommand(), new VersionChatCommand(), new RevisionChatCommand(), new ByondChatCommand(), new KekChatCommand() };

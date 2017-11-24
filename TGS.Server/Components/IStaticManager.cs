@@ -12,7 +12,7 @@ namespace TGS.Server.Components
 		void SymlinkTo(string path);
 
 		/// <summary>
-		/// Moves the Static directory to the first available Static_BACKUP path in the <see cref="Instance"/> then deleted the old directory if it exists. Recreates the Static directory from the <see cref="IRepositoryManager"/> based on the <see cref="IRepoConfigProvider"/>
+		/// Moves the Static directory to the first available Static_BACKUP path in the <see cref="Instance"/> then deleted the old directory if it exists and re-copies it from it's source
 		/// </summary>
 		void Recreate();
 	}

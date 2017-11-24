@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using DirectoryInfo = System.IO.DirectoryInfo;
 using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Server.Configuration;
@@ -94,7 +94,7 @@ namespace TGS.Server.Components
 				IO.CreateDirectory(StaticDirs);
 				var task = Repo.CopyToRestricted(StaticDirs, copyPaths);
 				foreach (var I in repo_config.StaticDirectoryPaths)
-					IO.CreateDirectory(Path.Combine(StaticDirs, I));
+					IO.CreateDirectory(IOManager.ConcatPath(StaticDirs, I));
 				task.Wait();
 			}
 		}
@@ -115,7 +115,7 @@ namespace TGS.Server.Components
 
 				var configDir = repo ? RepositoryManager.RepoPath : StaticDirs;
 
-				path = Path.Combine(configDir, staticRelativePath);
+				path = IOManager.ConcatPath(configDir, staticRelativePath);
 
 				string output;
 				lock (this)
@@ -148,7 +148,7 @@ namespace TGS.Server.Components
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
-			var path = Path.Combine(StaticDirs, staticRelativePath);
+			var path = IOManager.ConcatPath(StaticDirs, staticRelativePath);
 			try
 			{
 				if (staticRelativePath.Contains(ParentDirectory))
@@ -186,7 +186,7 @@ namespace TGS.Server.Components
 		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
-			var path = Path.Combine(StaticDirs, staticRelativePath);
+			var path = IOManager.ConcatPath(StaticDirs, staticRelativePath);
 			try
 			{
 				if (staticRelativePath.Contains(ParentDirectory))
@@ -236,7 +236,7 @@ namespace TGS.Server.Components
 				}
 
 				subDir = subDir.TrimStart(new char[] { '/', '\\' });
-				var dirToEnum = new DirectoryInfo(IO.ResolvePath(Path.Combine(StaticDirs, subDir ?? ""))); //do not use path.combine or it will try and take the root
+				var dirToEnum = new DirectoryInfo(IO.ResolvePath(IOManager.ConcatPath(StaticDirs, subDir ?? ""))); //do not use path.combine or it will try and take the root
 				var result = new List<string>();
 				foreach (var I in dirToEnum.GetFiles())
 					result.Add(I.Name);
@@ -269,13 +269,13 @@ namespace TGS.Server.Components
 				var DI = new DirectoryInfo(IO.ResolvePath(StaticDirs));
 				foreach (var I in DI.GetFiles())
 				{
-					var targetPath = Path.Combine(path, I.Name);
+					var targetPath = IOManager.ConcatPath(path, I.Name);
 					if (!IO.FileExists(targetPath))
 						IO.CreateSymlink(targetPath, I.FullName);
 				}
 				foreach (var I in DI.GetDirectories())
 				{
-					var targetPath = Path.Combine(path, I.Name);
+					var targetPath = IOManager.ConcatPath(path, I.Name);
 					if (!IO.DirectoryExists(targetPath))
 						IO.CreateSymlink(targetPath, I.FullName);
 				}

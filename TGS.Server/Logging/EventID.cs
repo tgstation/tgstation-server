@@ -12,11 +12,11 @@ namespace TGS.Server.Logging
 		/// </summary>
 		ChatCommand = 100,
 		/// <summary>
-		/// Warning: When a <see cref="ChatProviders.IChatProvider"/> fails to <see cref="ChatProviders.IChatProvider.Connect"/>
+		/// Warning: When a <see cref="Chat.Providers.IProvider"/> fails to <see cref="Chat.Providers.IProvider.Connect"/>
 		/// </summary>
 		ChatConnectFail = 200,
 		/// <summary>
-		/// Error: When a <see cref="ChatProviders.IChatProvider"/> fails to construct
+		/// Error: When a <see cref="Chat.Providers.IProvider"/> fails to construct
 		/// </summary>
 		ChatProviderStartFail = 300,
 		/// <summary>
@@ -101,24 +101,24 @@ namespace TGS.Server.Logging
 		/// </summary>
 		DDWatchdogRebootingServer = 2200,
 		/// <summary>
-		/// Info: The watchdog is performing a <see cref="TGS.Interface.Components.ITGDreamDaemon.Restart"/> operation
+		/// Info: The watchdog is performing a <see cref="Interface.Components.ITGDreamDaemon.Restart"/> operation
 		/// </summary>
 		DDWatchdogRestart = 2300,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="TGS.Interface.Components.ITGDreamDaemon.Restart"/> operation
+		/// Info: Successful completion of a <see cref="Interface.Components.ITGDreamDaemon.Restart"/> operation
 		/// </summary>
 		DDWatchdogRestarted = 2400,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="TGS.Interface.Components.ITGDreamDaemon.Start"/> operation
+		/// Info: Successful completion of a <see cref="Interface.Components.ITGDreamDaemon.Start"/> operation
 		/// </summary>
 		DDWatchdogStarted = 2500,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="ChatProviders.IChatProvider.SendMessageDirect(string, string)"/> operation
+		/// Info: Successful completion of a <see cref="Chat.Providers.IProvider.SendMessageDirect(string, string)"/> operation
 		/// </summary>
 		[Obsolete("Not in use anymore", true)]
 		ChatSend = 2600,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="ChatProviders.IChatProvider.SendMessage(string, MessageType)"/> operation
+		/// Info: Successful completion of a <see cref="Chat.Providers.IProvider.SendMessage(string, MessageType)"/> operation
 		/// </summary>
 		[Obsolete("Not in use anymore", true)]
 		ChatBroadcast = 2700,
@@ -128,7 +128,7 @@ namespace TGS.Server.Logging
 		[Obsolete("Not in use anymore", true)]
 		ChatAdminBroadcast = 2800,
 		/// <summary>
-		/// Error: When an error occurs during a <see cref="ChatProviders.IChatProvider.Disconnect"/> operation
+		/// Error: When an error occurs during a <see cref="Chat.Providers.IProvider.Disconnect"/> operation
 		/// </summary>
 		[Obsolete("Not in use anymore", true)]
 		ChatDisconnectFail = 2900,

@@ -186,7 +186,7 @@ namespace TGS.Server.Components
 					autoUpdateTimer = null;
 				}
 			Container.Dispose();
-			Config.Save();
+			Config.Save(IO);
 			LoggingIDProvider.Release(LoggingID);
 		}
 

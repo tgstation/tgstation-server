@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using TGS.Server.IO;
 
@@ -14,12 +13,12 @@ namespace TGS.Server.Configuration
 		/// The directory to load and save <see cref="ServerConfig"/>s to
 		/// </summary>
 		[JsonIgnore]
-		public static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(TGS.Server))).FullName;
+		public static readonly string DefaultConfigDirectory = IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(TGS.Server));
 		/// <summary>
 		/// The directory to use when importing a .NET settings based config
 		/// </summary>
 		[JsonIgnore]
-		public static readonly string MigrationConfigDirectory = Path.Combine(@"C:\", "TGSSettingUpgradeTempDir");
+		public static readonly string MigrationConfigDirectory = IOManager.ConcatPath(@"C:\", "TGSSettingUpgradeTempDir");
 
 		/// <summary>
 		/// The filename to save the <see cref="ServerConfig"/> as
@@ -53,9 +52,9 @@ namespace TGS.Server.Configuration
 		/// <inheritdoc />
 		public void Save(string directory, IIOManager IO)
 		{
-			IO.CreateDirectory(DefaultConfigDirectory);
+			IO.CreateDirectory(directory);
 			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
-			var path = Path.Combine(directory, JSONFilename);
+			var path = IOManager.ConcatPath(directory, JSONFilename);
 			IO.WriteAllText(path, data).Wait();
 		}
 
@@ -67,7 +66,7 @@ namespace TGS.Server.Configuration
 		/// <returns>The loaded <see cref="ServerConfig"/></returns>
 		public static ServerConfig Load(string directory, IIOManager IO)
 		{
-			var configtext = IO.ReadAllText(Path.Combine(directory, JSONFilename)).Result;
+			var configtext = IO.ReadAllText(IOManager.ConcatPath(directory, JSONFilename)).Result;
 			return JsonConvert.DeserializeObject<ServerConfig>(configtext);
 		}
 

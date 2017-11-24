@@ -113,5 +113,38 @@ namespace TGS.Server.IO.Tests
 			Assert.IsTrue(IO.DirectoryExists(Path.GetDirectoryName(p3)));
 			Assert.AreEqual("asdf", IO.ReadAllText(p3).Result);
 		}
+
+		[TestMethod]
+		public void TestTouch()
+		{
+			var p1 = Path.Combine(tempDir, "FakePath1");
+			IO.Touch(p1).Wait();
+			Assert.IsTrue(IO.FileExists(p1));
+		}
+
+		[TestMethod]
+		public void TestUnlink()
+		{
+			var p1 = Path.Combine(tempDir, "FakePath1");
+			var p2 = Path.Combine(tempDir, "FakePath2");
+			var p3 = Path.Combine(tempDir, "FakePath3");
+
+			IO.Touch(p1).Wait();
+			IO.CreateSymlink(p2, p1);
+
+			Assert.ThrowsException<FileNotFoundException>(() => IO.Unlink(p3));
+			Assert.ThrowsException<InvalidOperationException>(() => IO.Unlink(p1));
+			IO.Unlink(p2);
+
+			Assert.IsFalse(IO.FileExists(p2));
+			Assert.IsTrue(IO.FileExists(p1));
+
+			IO.CreateDirectory(p2);
+			IO.CreateSymlink(p3, p2);
+			Assert.ThrowsException<InvalidOperationException>(() => IO.Unlink(p1));
+			IO.Unlink(p3);
+			Assert.IsTrue(IO.DirectoryExists(p2));
+			Assert.IsFalse(IO.DirectoryExists(p3));
+		}
 	}
 }

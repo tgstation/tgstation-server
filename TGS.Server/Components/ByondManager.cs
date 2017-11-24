@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using StreamReader = System.IO.StreamReader;
 using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -63,23 +63,23 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Path to the actual BYOND installation within the <see cref="StagingDirectory"/>
 		/// </summary>
-		static readonly string StagingDirectoryInner = Path.Combine(StagingDirectory, "byond");
+		static readonly string StagingDirectoryInner = IOManager.ConcatPath(StagingDirectory, "byond");
 		/// <summary>
 		/// The instance directory to modify the BYOND cfg before installation
 		/// </summary>
-		static readonly string ByondConfigDir = Path.Combine(StagingDirectoryInner, "cfg");
+		static readonly string ByondConfigDir = IOManager.ConcatPath(StagingDirectoryInner, "cfg");
 		/// <summary>
 		/// BYOND's DreamDaemon config file in the cfg modification directory
 		/// </summary>
-		static readonly string ByondDDConfig = Path.Combine(ByondConfigDir, "daemon.txt");
+		static readonly string ByondDDConfig = IOManager.ConcatPath(ByondConfigDir, "daemon.txt");
 		/// <summary>
 		/// The path to <see cref="DreamDaemonExecutable"/> in a BYOND installation
 		/// </summary>
-		static readonly string DreamDaemonPath = Path.Combine(ByondDirectory, BinDirectory, DreamDaemonExecutable);
+		static readonly string DreamDaemonPath = IOManager.ConcatPath(ByondDirectory, BinDirectory, DreamDaemonExecutable);
 		/// <summary>
 		/// The path to <see cref="DMExecutable"/> in a BYOND installation
 		/// </summary>
-		static readonly string DMPath = Path.Combine(BinDirectory, DMExecutable);
+		static readonly string DMPath = IOManager.ConcatPath(BinDirectory, DMExecutable);
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="ByondManager"/>
@@ -242,7 +242,7 @@ namespace TGS.Server.Components
 						var DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
 						if (IO.DirectoryExists(DirToUse))
 						{
-							var file = Path.Combine(DirToUse, VersionFile);
+							var file = IOManager.ConcatPath(DirToUse, VersionFile);
 							lock (this)
 								if (IO.FileExists(file))
 									return IO.ReadAllText(file).Result;
@@ -328,7 +328,7 @@ namespace TGS.Server.Components
 				ZipFile.ExtractToDirectory(IO.ResolvePath(RevisionDownloadPath), IO.ResolvePath(StagingDirectory));
 
 				lock (this)
-					IO.WriteAllText(Path.Combine(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor)).Wait();
+					IO.WriteAllText(IOManager.ConcatPath(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor)).Wait();
 
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
 				IO.CreateDirectory(ByondConfigDir);
@@ -463,7 +463,7 @@ namespace TGS.Server.Components
 				var pathToUse = updateStat == ByondStatus.Staged && useStagedIfPossible ? StagingDirectoryInner : ByondDirectory;
 				++DMLockCount;
 				error = null;
-				return IO.ResolvePath(Path.Combine(pathToUse, DMPath));
+				return IO.ResolvePath(IOManager.ConcatPath(pathToUse, DMPath));
 			}
 		}
 

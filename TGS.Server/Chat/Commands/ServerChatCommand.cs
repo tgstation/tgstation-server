@@ -10,17 +10,17 @@ namespace TGS.Server.Chat.Commands
 	sealed class GameInteropChatCommand : ChatCommand
 	{
 		/// <summary>
-		/// The help text for the <see cref="ServerChatCommand"/>
+		/// The help text for the <see cref="GameInteropChatCommand"/>
 		/// </summary>
 		readonly string HelpText;
 
 		/// <summary>
-		/// Construct a <see cref="ServerChatCommand"/>
+		/// Construct a <see cref="GameInteropChatCommand"/>
 		/// </summary>
-		/// <param name="name">The invocation of the <see cref="ServerChatCommand"/></param>
-		/// <param name="helpText">The help text of the <see cref="ServerChatCommand"/></param>
-		/// <param name="adminOnly">If set to <see langword="true"/>, the <see cref="ServerChatCommand"/> cannot be invoked by a non-admin or outside an admin chat channel</param>
-		/// <param name="requiredParameters">The number of parameters the <see cref="ServerChatCommand"/> requires</param>
+		/// <param name="name">The invocation of the <see cref="GameInteropChatCommand"/></param>
+		/// <param name="helpText">The help text of the <see cref="GameInteropChatCommand"/></param>
+		/// <param name="adminOnly">If set to <see langword="true"/>, the <see cref="GameInteropChatCommand"/> cannot be invoked by a non-admin or outside an admin chat channel</param>
+		/// <param name="requiredParameters">The number of parameters the <see cref="GameInteropChatCommand"/> requires</param>
 		public GameInteropChatCommand(string name, string helpText, bool adminOnly, int requiredParameters)
 		{
 			Keyword = name;

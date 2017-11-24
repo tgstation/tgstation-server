@@ -78,9 +78,9 @@
     <Compile Include="Server\Service\TestProjectInstaller.cs" />
     <Compile Include="Server\Service\TestService.cs" />
     <Compile Include="Server\Service\TestServiceRunner.cs" />
-    <Compile Include="Server\TestDependencyInjector.cs" />
-    <Compile Include="Server\TestIOManager.cs" />
-    <Compile Include="Server\TestRepoConfig.cs" />
+    <Compile Include="Server\IoC\TestDependencyInjector.cs" />
+    <Compile Include="Server\IO\TestIOManager.cs" />
+    <Compile Include="Server\Configuration\TestRepoConfig.cs" />
     <Compile Include="TestException.cs" />
   </ItemGroup>
   <ItemGroup>

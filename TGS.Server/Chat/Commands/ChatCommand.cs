@@ -5,7 +5,7 @@ using TGS.Interface;
 namespace TGS.Server.Chat.Commands
 {
 	/// <summary>
-	/// A command heard by a <see cref="ChatProviders.IChatProvider"/>
+	/// A command heard by a <see cref="Providers.IProvider"/>
 	/// </summary>
 	abstract class ChatCommand : Command
 	{

@@ -9,7 +9,7 @@ using TGS.Interface;
 namespace TGS.Server.Chat.Providers
 {
 	/// <summary>
-	/// <see cref="IChatProvider"/> for Discord: https://discordapp.com/
+	/// <see cref="IProvider"/> for Discord: https://discordapp.com/
 	/// </summary>
 	sealed class DiscordProvider : IProvider
 	{
@@ -34,7 +34,7 @@ namespace TGS.Server.Chat.Providers
 		IDictionary<ulong, ISocketMessageChannel> SeenPrivateChannels = new Dictionary<ulong, ISocketMessageChannel>();
 
 		/// <summary>
-		/// Construct a <see cref="DiscordChatProvider"/>
+		/// Construct a <see cref="DiscordProvider"/>
 		/// </summary>
 		/// <param name="info">The <see cref="ChatSetupInfo"/></param>
 		public DiscordProvider(ChatSetupInfo info)

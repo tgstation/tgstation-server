@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using TGS.Server.IO;
 using TGS.Server.Logging;
 
@@ -43,7 +42,7 @@ namespace TGS.Server.Components
 		/// <returns>The path to the event handler</returns>
 		string GetEventPath(string eventName)
 		{
-			return Path.Combine(EventFolder, String.Format("{0}.bat", eventName));
+			return IOManager.ConcatPath(EventFolder, String.Format("{0}.bat", eventName));
 		}
 
 		/// <summary>

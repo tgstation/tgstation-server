@@ -9,7 +9,7 @@ namespace TGS.Server.Chat.Commands
 	sealed class ByondChatCommand : ChatCommand
 	{
 		/// <summary>
-		/// Construct a <see cref="ByondCommand"/>
+		/// Construct a <see cref="ByondChatCommand"/>
 		/// </summary>
 		public ByondChatCommand()
 		{

@@ -70,10 +70,6 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TGS.Interface\TGS.Interface.csproj">
-      <Project>{AC4E7E8B-F83A-481C-A8B0-8FA4E8AE59AB}</Project>
-      <Name>TGS.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TGS.Server\TGS.Server.csproj">
       <Project>{f32eda25-0855-411c-af5e-f0d042917e2d}</Project>
       <Name>TGS.Server</Name>

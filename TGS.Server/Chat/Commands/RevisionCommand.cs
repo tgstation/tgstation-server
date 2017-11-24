@@ -9,7 +9,7 @@ namespace TGS.Server.Chat.Commands
 	sealed class RevisionChatCommand : ChatCommand
 	{
 		/// <summary>
-		/// Construct a <see cref="RevisionCommand"/>
+		/// Construct a <see cref="RevisionChatCommand"/>
 		/// </summary>
 		public RevisionChatCommand()
 		{

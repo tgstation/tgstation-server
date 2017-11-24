@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using TGS.Interface;
@@ -48,7 +47,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Directory for storing resource usage files
 		/// </summary>
-		static readonly string ResourceDiagnosticsDir = Path.Combine(DiagnosticsDir, "Resources");
+		static readonly string ResourceDiagnosticsDir = IOManager.ConcatPath(DiagnosticsDir, "Resources");
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="DreamDaemonManager"/>
@@ -234,7 +233,7 @@ namespace TGS.Server.Components
 			if (RenameLog)
 				try
 				{
-					IO.MoveFile(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), Path.Combine(ResourceDiagnosticsDir, String.Format("SU-{0}", CurrentDDLog)), false).Wait();
+					IO.MoveFile(IOManager.ConcatPath(ResourceDiagnosticsDir, CurrentDDLog), IOManager.ConcatPath(ResourceDiagnosticsDir, String.Format("SU-{0}", CurrentDDLog)), false).Wait();
 				}
 				catch { }
 		}
@@ -351,7 +350,7 @@ namespace TGS.Server.Components
 			{
 				if (currentStatus != DreamDaemonStatus.Online || CurrentDDLog == null)
 					return;
-				IO.AppendAllText(Path.Combine(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message)).Wait();
+				IO.AppendAllText(IOManager.ConcatPath(ResourceDiagnosticsDir, CurrentDDLog), String.Format("[{0}]: {1}\n", DateTime.Now.ToLongTimeString(), message)).Wait();
 			}
 		}
 
@@ -570,7 +569,7 @@ namespace TGS.Server.Components
 					Interop.ResetDMAPIVersion();
 					Interop.UpdateBridgeDll(true);
 
-					var DMB = Path.Combine(CompilerManager.GameDirLive, String.Format("{0}.dmb", Config.ProjectName));
+					var DMB = IOManager.ConcatPath(CompilerManager.GameDirLive, String.Format("{0}.dmb", Config.ProjectName));
 
 					StartingSecurity = Config.Security;
 

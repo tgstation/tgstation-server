@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace TGS.Server.IO
@@ -21,6 +22,13 @@ namespace TGS.Server.IO
 		/// <param name="path">The path of the file to read</param>
 		/// <returns>A <see cref="Task"/> that results in the contents of a file at <paramref name="path"/></returns>
 		Task<string> ReadAllText(string path);
+
+		/// <summary>
+		/// Attempts to create an empty file at <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to touch</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Touch(string path);
 
 		/// <summary>
 		/// Writes some <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content
@@ -91,7 +99,8 @@ namespace TGS.Server.IO
 		/// Create a directory at <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path of the directory to create</param>
-		void CreateDirectory(string path);
+		/// <returns>The <see cref="DirectoryInfo"/> for the created directory</returns>
+		DirectoryInfo CreateDirectory(string path);
 
 		/// <summary>
 		/// Check if a directory at <paramref name="path"/> exists
@@ -133,5 +142,12 @@ namespace TGS.Server.IO
 		/// <param name="link">The path of the symlink</param>
 		/// <param name="target">The path of the symlink target</param>
 		void CreateSymlink(string link, string target);
+
+		/// <summary>
+		/// Removes the symlink at <paramref name="path"/>
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">When <paramref name="path"/> is a concrete file or directory</exception>
+		/// <param name="path">The path to unlink</param>
+		void Unlink(string path);
 	}
 }

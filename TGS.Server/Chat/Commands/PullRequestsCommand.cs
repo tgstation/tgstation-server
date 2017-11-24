@@ -8,7 +8,7 @@ namespace TGS.Server.Chat.Commands
 	sealed class PullRequestsChatCommand : ChatCommand
 	{
 		/// <summary>
-		/// Construct a <see cref="PullRequestsCommand"/>
+		/// Construct a <see cref="PullRequestsChatCommand"/>
 		/// </summary>
 		public PullRequestsChatCommand()
 		{
