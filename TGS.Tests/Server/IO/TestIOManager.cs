@@ -12,11 +12,11 @@ namespace TGS.Server.IO.Tests
 	[TestClass]
 	public class TestIOManager
 	{
-		IOManager IO;
-		string tempDir;
+		protected IOManager IO;
+		protected string tempDir;
 
 		[TestInitialize]
-		public void Init()
+		public virtual void Init()
 		{
 			tempDir = Path.GetTempFileName();
 			File.Delete(tempDir);
@@ -25,7 +25,7 @@ namespace TGS.Server.IO.Tests
 		}
 
 		[TestCleanup]
-		public void Cleanup()
+		public virtual void Cleanup()
 		{
 			Directory.Delete(tempDir, true);
 		}

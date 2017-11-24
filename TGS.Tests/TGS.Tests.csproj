@@ -75,6 +75,7 @@
     <Compile Include="Interface\TestServerInterface.cs" />
     <Compile Include="Server\Components\TestInstance.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
+    <Compile Include="Server\IO\TestInstanceIOManager.cs" />
     <Compile Include="Server\Service\TestProgram.cs" />
     <Compile Include="Server\Service\TestProjectInstaller.cs" />
     <Compile Include="Server\Service\TestService.cs" />
