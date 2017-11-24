@@ -51,6 +51,9 @@ namespace TGS.Server.Components
 			Config = config;
 			Static = _static;
 
+			lock (RootAuthorizationManager.InstanceAuthManagers)
+				RootAuthorizationManager.InstanceAuthManagers.Add(this);
+
 			FindTheDroidsWereLookingFor();
 		}
 
@@ -96,7 +99,6 @@ namespace TGS.Server.Components
 		/// <returns>The name of the group allowed to access the <see cref="Instance"/> if it could be found, <see langword="null"/> otherwise</returns>
 		string FindTheDroidsWereLookingFor(string search = null, bool useDomain = false)
 		{
-			RootAuthorizationManager.InstanceAuthManagers.Add(this);
 			//find the group that is authorized to use the tools
 			var pc = new PrincipalContext(useDomain ? ContextType.Domain : ContextType.Machine);
 			var groupName = search ?? Config.AuthorizedUserGroupSID;
@@ -122,7 +124,8 @@ namespace TGS.Server.Components
 		/// </summary>
 		void DisposeAdministration()
 		{
-			RootAuthorizationManager.InstanceAuthManagers.Remove(this);
+			lock(RootAuthorizationManager.InstanceAuthManagers)
+				RootAuthorizationManager.InstanceAuthManagers.Remove(this);
 		}
 		
 		/// <summary>
