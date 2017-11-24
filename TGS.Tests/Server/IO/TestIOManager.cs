@@ -165,5 +165,16 @@ namespace TGS.Server.IO.Tests
 
 			Assert.AreEqual("asdf", IO.ReadAllText(p2).Result);
 		}
+
+		[TestMethod]
+		public void TestGetUrl()
+		{
+			const string URL = "https://raw.githubusercontent.com/Dextraspace/Test/0c81cf5863d98ca9b544086d61c648817af4fb19/README.md";
+			const string expected = "# Test\nThis is a test\n\nThis is another test\n\nThis is a third test\n\nOh look another test\n\nasdf\n\nhonk out date again\n\nhi cyber";
+
+			var res = IO.GetURL(URL).Result;
+
+			Assert.AreEqual(expected, res);
+		}
 	}
 }

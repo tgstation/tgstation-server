@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
 using TGS.Server.Configuration;
 
 namespace TGS.Server.IO.Tests
