@@ -193,8 +193,7 @@ namespace TGS.Server.IO.Tests
 
 			Assert.AreEqual(expected, res);
 
-			IO.DeleteFile(p1);
-
+			IO.DeleteFile(p1).Wait();
 
 			using (var cts = new CancellationTokenSource())
 			{
@@ -208,7 +207,7 @@ namespace TGS.Server.IO.Tests
 					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024);
 
 			using (var cts = new CancellationTokenSource())
-				Assert.ThrowsException<AggregateException>(() => IO.DownloadFile("not a url", p1, cts.Token).Wait());
+				Assert.ThrowsException<AggregateException>(() => IO.DownloadFile("http://not.a.url", p1, cts.Token).Wait());
 		}
 	}
 }
