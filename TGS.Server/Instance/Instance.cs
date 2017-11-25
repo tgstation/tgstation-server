@@ -32,7 +32,7 @@ namespace TGS.Server
 		{
 			LoggingID = logID;
 			Config = config;
-			FindTheDroidsWereLookingFor();
+			InitAdministration();
 			InitEventHandlers();
 			InitChat();
 			InitRepo();

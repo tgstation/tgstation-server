@@ -26,7 +26,8 @@ namespace TGS.Server
 			//first allow admins
 			var authSuccess = wp.IsInRole(WindowsBuiltInRole.Administrator);
 			if(!authSuccess && contract == typeof(ITGLanding).Name)
-				return InstanceAuthManagers.Any(x => x.CheckAccess(operationContext));
+				lock(InstanceAuthManagers)
+					return InstanceAuthManagers.Any(x => x.CheckAccess(operationContext));
 
 			var user = windowsIdent.Name;
 			if (LastSeenUser != user)
