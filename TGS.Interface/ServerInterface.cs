@@ -17,6 +17,11 @@ namespace TGS.Interface
 	public interface IServerInterface : IDisposable
 	{
 		/// <summary>
+		/// The <see cref="Version"/> of the connected <see cref="ITGSService"/>
+		/// </summary>
+		Version ServerVersion { get; }
+
+		/// <summary>
 		/// The name of the current instance in use. Defaults to <see langword="null"/>
 		/// </summary>
 		string InstanceName { get; }
@@ -87,6 +92,11 @@ namespace TGS.Interface
 		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGSService), typeof(ITGInstanceManager), typeof(ITGConnectivity), typeof(ITGLanding) };
 
 		/// <summary>
+		/// Version of the interface
+		/// </summary>
+		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+
+		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/>
 		/// </summary>
 		public static readonly IList<Type> ValidInstanceInterfaces = CollectComponents();
@@ -109,6 +119,33 @@ namespace TGS.Interface
 		/// Base name of instance URLs
 		/// </summary>
 		public const string InstanceInterfaceName = MasterInterfaceName + "/Instance";
+
+		/// <summary>
+		/// The <see cref="ServerVersion"/>
+		/// </summary>
+		Version _serverVersion;
+
+		/// <inheritdoc />
+		public Version ServerVersion { get
+			{
+				lock (this)
+					if (_serverVersion == null)
+					{
+						string rawVersion;
+						//check ITGSService first for compatiblity reasons
+						try
+						{
+							rawVersion = GetServiceComponent<ITGSService>().Version();
+						}
+						catch
+						{
+							rawVersion = GetServiceComponent<ITGLanding>().Version();
+						}
+						var splits = rawVersion.Split(' ');
+						_serverVersion = new Version(splits[splits.Length - 1].Substring(1));
+					}
+				return _serverVersion;
+			} }
 
 		/// <inheritdoc />
 		public string InstanceName { get; private set; }
@@ -293,12 +330,9 @@ namespace TGS.Interface
 		/// <inheritdoc />
 		public bool VersionMismatch(out string errorMessage)
 		{
-			var splits = GetServiceComponent<ITGLanding>().Version().Split(' ');
-			var theirs = new Version(splits[splits.Length - 1].Substring(1));
-			var ours = new Version(FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
-			if(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Revision != ours.Revision)	//don't care about the patch level
+			if(ServerVersion.Major != Version.Major || ServerVersion.Minor != Version.Minor || ServerVersion.Build != Version.Build)	//don't care about the patch level
 			{
-				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", ours, theirs);
+				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", Version, ServerVersion);
 				return true;
 			}
 			errorMessage = null;

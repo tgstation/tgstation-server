@@ -27,7 +27,7 @@ namespace TGS.Server
 		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
 		/// </summary>
-		public static readonly string VersionString = "/tg/station 13 Server v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+		public static readonly string VersionString = String.Format("/tg/station 13 Server v{0}", Assembly.GetExecutingAssembly().GetName().Version);
 
 		/// <summary>
 		/// <see cref="ILogger"/> for the <see cref="Server"/>

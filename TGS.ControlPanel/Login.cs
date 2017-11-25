@@ -73,7 +73,10 @@ namespace TGS.ControlPanel
 					MessageBox.Show("Authentication error: Username/password/windows identity is not authorized! Ensure you are a system administrator or in the correct Windows group on the service machine.");
 					return;
 				}
-				
+
+				if (I.VersionMismatch(out error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+					return;
+
 				new InstanceSelector(I).Show();
 				Close();
 			}

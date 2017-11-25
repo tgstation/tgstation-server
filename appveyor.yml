@@ -27,7 +27,7 @@ cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
-  - choco install fciv doxygen.portable graphviz.portable opencover.portable codecov
+  - choco install fciv doxygen.portable graphviz.portable codecov
 before_build:
   - nuget restore TGStationServer3.sln
 build:
@@ -37,7 +37,8 @@ build:
   publish_nuget: true
 after_build:
   - ps: Tools/PostCIBuild.ps1
-  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
+  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ $env:TGSDeploy = "Do it." }}
+  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ $env:NugetDeploy = "Do it." }}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGS.Server/bin/Release/TGS.Server.dll").FileVersion
 test_script:
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
@@ -62,4 +63,4 @@ deploy:
     skip_symbols: true
     artifact: /.*\.nupkg/
     on:
-      TGSDeploy: "Do it."
+      NugetDeploy: "Do it."

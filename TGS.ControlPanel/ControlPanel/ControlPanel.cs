@@ -32,16 +32,8 @@ namespace TGS.ControlPanel
 			FormClosed += ControlPanel_FormClosed;
 			Interface = I;
 			if (Interface.IsRemoteConnection)
-			{
-				var splits = Interface.GetServiceComponent<ITGLanding>().Version().Split(' ');
-				Text = String.Format("TGS {0}: {1}:{2}", splits[splits.Length - 1], Interface.HTTPSURL, Interface.HTTPSPort);
-			}
-			Text += " Instance: " + I.InstanceName;
-			if (Interface.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-			{
-				Close();
-				return;
-			}
+				Text = String.Format("TGS {0}: {1}:{2}", Interface.ServerVersion, Interface.HTTPSURL, Interface.HTTPSPort);
+			Text = String.Format("{0} Instance: {1}", Text, I.InstanceName);
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
 			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
 			InitRepoPage();
