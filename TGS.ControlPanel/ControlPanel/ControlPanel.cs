@@ -34,11 +34,6 @@ namespace TGS.ControlPanel
 			if (Interface.IsRemoteConnection)
 				Text = String.Format("TGS {0}: {1}:{2}", Interface.ServerVersion, Interface.HTTPSURL, Interface.HTTPSPort);
 			Text = String.Format("{0} Instance: {1}", Text, I.InstanceName);
-			if (Interface.VersionMismatch(out string error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-			{
-				Close();
-				return;
-			}
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
 			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
 			InitRepoPage();
