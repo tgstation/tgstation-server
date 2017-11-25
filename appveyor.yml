@@ -27,7 +27,7 @@ cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
-  - choco install fciv doxygen.portable graphviz.portable opencover.portable codecov
+  - choco install fciv doxygen.portable graphviz.portable codecov
 before_build:
   - nuget restore TGStationServer3.sln
 build:
