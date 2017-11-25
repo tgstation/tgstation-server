@@ -79,9 +79,7 @@ namespace TGS.Installer.UI
 			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				VersionLabel.Text = Interface.GetServiceComponent<ITGSService>().Version();
-				var splits = VersionLabel.Text.Split(' ');
-				var realVersion = new Version(splits[splits.Length - 1].Substring(1));
+				var realVersion = Interface.ServerVersion;
 				var isV0 = realVersion < new Version(3, 1, 0, 0);
 				if (isV0) //OH GOD!!!!
 					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
