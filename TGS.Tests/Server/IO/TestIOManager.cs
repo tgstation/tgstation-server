@@ -35,29 +35,29 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestSymlinkedDirectoriesWontBeRecursivelyDeleted()
 		{
-			IO.CreateDirectory(IOManager.ConcatPath(tempDir, "FakeStatic"));
-			IO.CreateDirectory(IOManager.ConcatPath(tempDir, "FakeGame"));
+			IO.CreateDirectory(IOManager.ConcatPath(tempDir, "FakeStatic")).Wait();
+			IO.CreateDirectory(IOManager.ConcatPath(tempDir, "FakeGame")).Wait();
 			IO.WriteAllText(IOManager.ConcatPath(tempDir, "FakeStatic", "config.txt"), "FakeConfig").Wait();
-			IO.CreateSymlink(IOManager.ConcatPath(tempDir, "FakeGame", "FakeStatic"), IOManager.ConcatPath(tempDir, "FakeStatic"));
+			IO.CreateSymlink(IOManager.ConcatPath(tempDir, "FakeGame", "FakeStatic"), IOManager.ConcatPath(tempDir, "FakeStatic")).Wait();
 			IO.DeleteDirectory(IOManager.ConcatPath(tempDir, "FakeGame")).Wait();
-			Assert.IsFalse(IO.DirectoryExists(IOManager.ConcatPath(tempDir, "FakeGame")));
-			Assert.IsTrue(IO.FileExists(IOManager.ConcatPath(tempDir, "FakeStatic", "config.txt")));
+			Assert.IsFalse(IO.DirectoryExists(IOManager.ConcatPath(tempDir, "FakeGame")).Result);
+			Assert.IsTrue(IO.FileExists(IOManager.ConcatPath(tempDir, "FakeStatic", "config.txt")).Result);
 		}
 
 		[TestMethod]
 		public void TestCreateDirectoryAndDirectoryExists()
 		{
 			var p = IOManager.ConcatPath(tempDir, "FakePath");
-			Assert.IsFalse(IO.DirectoryExists(p));
-			IO.CreateDirectory(p);
-			Assert.IsTrue(IO.DirectoryExists(p));
+			Assert.IsFalse(IO.DirectoryExists(p).Result);
+			IO.CreateDirectory(p).Wait();
+			Assert.IsTrue(IO.DirectoryExists(p).Result);
 		}
 
 		[TestMethod]
 		public void TestFileExistReadAllTextAndWriteAllText()
 		{
 			var p = IOManager.ConcatPath(tempDir, "FakePath");
-			Assert.IsFalse(IO.FileExists(p));
+			Assert.IsFalse(IO.FileExists(p).Result);
 			Assert.ThrowsException<FileNotFoundException>(() => {
 				try
 				{
@@ -69,7 +69,7 @@ namespace TGS.Server.IO.Tests
 				}
 			});
 			IO.WriteAllText(p, "test").Wait();
-			Assert.IsTrue(IO.FileExists(p));
+			Assert.IsTrue(IO.FileExists(p).Result);
 			Assert.AreEqual("test", IO.ReadAllText(p).Result);
 		}
 
@@ -78,7 +78,7 @@ namespace TGS.Server.IO.Tests
 		{
 			var p = IOManager.ConcatPath(tempDir, "FakePath");
 			var bytes = new byte[] { 1, 2, 3, 4 };
-			Assert.IsFalse(IO.FileExists(p));
+			Assert.IsFalse(IO.FileExists(p).Result);
 			Assert.ThrowsException<FileNotFoundException>(() => {
 				try
 				{
@@ -90,7 +90,7 @@ namespace TGS.Server.IO.Tests
 				}
 			});
 			IO.WriteAllBytes(p, bytes).Wait();
-			Assert.IsTrue(IO.FileExists(p));
+			Assert.IsTrue(IO.FileExists(p).Result);
 			Assert.IsTrue(bytes.SequenceEqual(IO.ReadAllBytes(p).Result));
 		}
 
@@ -103,7 +103,7 @@ namespace TGS.Server.IO.Tests
 			IO.WriteAllText(p1, "asdf").Wait();
 			IO.MoveFile(p1, p2, false, false).Wait();
 			
-			Assert.IsFalse(IO.FileExists(p1));
+			Assert.IsFalse(IO.FileExists(p1).Result);
 			Assert.AreEqual("asdf", IO.ReadAllText(p2).Result);
 
 			IO.WriteAllText(p1, "fdsa").Wait();
@@ -112,7 +112,7 @@ namespace TGS.Server.IO.Tests
 			Assert.AreEqual("asdf", IO.ReadAllText(p1).Result);
 
 			IO.MoveFile(p1, p3, false, true).Wait();
-			Assert.IsTrue(IO.DirectoryExists(Path.GetDirectoryName(p3)));
+			Assert.IsTrue(IO.DirectoryExists(Path.GetDirectoryName(p3)).Result);
 			Assert.AreEqual("asdf", IO.ReadAllText(p3).Result);
 		}
 
@@ -121,7 +121,7 @@ namespace TGS.Server.IO.Tests
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			IO.Touch(p1).Wait();
-			Assert.IsTrue(IO.FileExists(p1));
+			Assert.IsTrue(IO.FileExists(p1).Result);
 		}
 
 		[TestMethod]
@@ -132,21 +132,21 @@ namespace TGS.Server.IO.Tests
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
 
 			IO.Touch(p1).Wait();
-			IO.CreateSymlink(p2, p1);
+			IO.CreateSymlink(p2, p1).Wait();
 
-			Assert.ThrowsException<FileNotFoundException>(() => IO.Unlink(p3));
-			Assert.ThrowsException<InvalidOperationException>(() => IO.Unlink(p1));
-			IO.Unlink(p2);
+			Assert.ThrowsException<AggregateException>(() => IO.Unlink(p3).Wait());
+			Assert.ThrowsException<AggregateException>(() => IO.Unlink(p1).Wait());
+			IO.Unlink(p2).Wait();
 
-			Assert.IsFalse(IO.FileExists(p2));
-			Assert.IsTrue(IO.FileExists(p1));
+			Assert.IsFalse(IO.FileExists(p2).Result);
+			Assert.IsTrue(IO.FileExists(p1).Result);
 
-			IO.CreateDirectory(p2);
-			IO.CreateSymlink(p3, p2);
-			Assert.ThrowsException<InvalidOperationException>(() => IO.Unlink(p1));
-			IO.Unlink(p3);
-			Assert.IsTrue(IO.DirectoryExists(p2));
-			Assert.IsFalse(IO.DirectoryExists(p3));
+			IO.CreateDirectory(p2).Wait();
+			IO.CreateSymlink(p3, p2).Wait();
+			Assert.ThrowsException<AggregateException>(() => IO.Unlink(p1).Wait());
+			IO.Unlink(p3).Wait();
+			Assert.IsTrue(IO.DirectoryExists(p2).Result);
+			Assert.IsFalse(IO.DirectoryExists(p3).Result);
 		}
 
 		[TestMethod]
@@ -155,12 +155,12 @@ namespace TGS.Server.IO.Tests
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(p1, "FakePath2");
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
-			IO.CreateDirectory(p1);
+			IO.CreateDirectory(p1).Wait();
 			IO.WriteAllText(p2, "asdf").Wait();
 			ZipFile.CreateFromDirectory(p1, p3);
 			IO.DeleteDirectory(p1).Wait();
 
-			Assert.IsTrue(IO.FileExists(p3));
+			Assert.IsTrue(IO.FileExists(p3).Result);
 
 			IO.UnzipFile(p3, p1).Wait();
 
@@ -202,7 +202,7 @@ namespace TGS.Server.IO.Tests
 				IO.DownloadFile("https://raw.githubusercontent.com/tgstation/tgstation/c1c908fd5810f8e6fe8e78a3c078075b168d3b9a/tgui/assets/tgui.js", p1, cts.Token).Wait();
 			}
 
-			if(IO.FileExists(p1))
+			if(IO.FileExists(p1).Result)
 				using(var F = File.Open(IO.ResolvePath(p1), FileMode.Open))
 					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024);
 

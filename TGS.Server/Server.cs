@@ -372,7 +372,7 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public bool SetPythonPath(string path)
 		{
-			if (!IO.DirectoryExists(path))
+			if (!IO.DirectoryExists(path).Result)
 				return false;
 			Config.PythonPath = IO.ResolvePath(path);
 			return true;
@@ -406,7 +406,7 @@ namespace TGS.Server
 			var res = CheckInstanceName(Name);
 			if (res != null)
 				return res;
-			if (IO.FileExists(path) || IO.DirectoryExists(path))
+			if (IO.FileExists(path).Result || IO.DirectoryExists(path).Result)
 				return "Cannot create instance at pre-existing path!";
 			lock (this)
 			{
@@ -422,7 +422,7 @@ namespace TGS.Server
 					{
 						Name = Name
 					};
-					IO.CreateDirectory(path);
+					IO.CreateDirectory(path).Wait();
 					ic.Save(IO);
 					Config.InstancePaths.Add(path);
 				}
@@ -467,7 +467,7 @@ namespace TGS.Server
 			{
 				if (Config.InstancePaths.Contains(path))
 					return String.Format("Instance at {0} already exists!", path);
-				if(!IO.DirectoryExists(path))
+				if(!IO.DirectoryExists(path).Result)
 					return String.Format("There is no instance located at {0}!", path);
 				IInstanceConfig ic;
 				try

@@ -271,7 +271,7 @@ namespace TGS.Server.Components
 		CompilerStatus IsInitialized()
 		{
 			var InterfaceAssemblyName = Assembly.GetAssembly(typeof(IServerInterface)).GetName().Name;
-			if (IO.FileExists(IOManager.ConcatPath(GameDirLive, InteropManager.BridgeDLLName)) || IO.FileExists(IOManager.ConcatPath(GameDirLive, InterfaceAssemblyName, ".dll")))	//its a good tell, jim
+			if (IO.FileExists(IOManager.ConcatPath(GameDirLive, InteropManager.BridgeDLLName)).Result || IO.FileExists(IOManager.ConcatPath(GameDirLive, InterfaceAssemblyName, ".dll")).Result)	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}
@@ -282,15 +282,15 @@ namespace TGS.Server.Components
 		void CleanGameFolder()
 		{
 			var GameDirABridge = IOManager.ConcatPath(GameDirA, InteropManager.BridgeDLLName);
-			if (IO.DirectoryExists(GameDirABridge))
-				IO.Unlink(IO.ResolvePath(GameDirABridge));
+			if (IO.DirectoryExists(GameDirABridge).Result)
+				IO.Unlink(IO.ResolvePath(GameDirABridge)).Wait();
 
 			var GameDirBBridge = IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName);
-			if (IO.DirectoryExists(GameDirBBridge))
-				IO.Unlink(IO.ResolvePath(GameDirBBridge));
+			if (IO.DirectoryExists(GameDirBBridge).Result)
+				IO.Unlink(IO.ResolvePath(GameDirBBridge)).Wait();
 			
-			if (IO.DirectoryExists(GameDirLive))
-				IO.Unlink(IO.ResolvePath(GameDirLive));
+			if (IO.DirectoryExists(GameDirLive).Result)
+				IO.Unlink(IO.ResolvePath(GameDirLive)).Wait();
 		}
 
 		/// <summary>
@@ -353,9 +353,9 @@ namespace TGS.Server.Components
 					IO.DeleteDirectory(GameDir).Wait();
 					cancellationToken.ThrowIfCancellationRequested();
 
-					IO.CreateDirectory(GameDirA);
+					IO.CreateDirectory(GameDirA).Wait();
 					cancellationToken.ThrowIfCancellationRequested();
-					IO.CreateDirectory(GameDirB);
+					IO.CreateDirectory(GameDirB).Wait();
 					cancellationToken.ThrowIfCancellationRequested();
 
 					Static.SymlinkTo(GameDirA);
@@ -363,12 +363,12 @@ namespace TGS.Server.Components
 					Static.SymlinkTo(GameDirB);
 					cancellationToken.ThrowIfCancellationRequested();
 
-					IO.CreateSymlink(IOManager.ConcatPath(GameDirA, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+					IO.CreateSymlink(IOManager.ConcatPath(GameDirA, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName).Wait();
 					cancellationToken.ThrowIfCancellationRequested();
-					IO.CreateSymlink(IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+					IO.CreateSymlink(IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName).Wait();
 					cancellationToken.ThrowIfCancellationRequested();
 
-					IO.CreateSymlink(GameDirLive, GameDirA);
+					IO.CreateSymlink(GameDirLive, GameDirA).Wait();
 					
 					lock (this)
 					{
@@ -412,16 +412,16 @@ namespace TGS.Server.Components
 		string GetStagingDir()
 		{
 			string TheDir;
-			if (!IO.DirectoryExists(GameDirLive))
+			if (!IO.DirectoryExists(GameDirLive).Result)
 				TheDir = GameDirA;
 			else
 			{
 				IO.Touch(LiveDirTest).Wait();
 				try
 				{
-					if (IO.FileExists(ADirTest))
+					if (IO.FileExists(ADirTest).Result)
 						TheDir = GameDirA;
-					else if (IO.FileExists(BDirTest))
+					else if (IO.FileExists(BDirTest).Result)
 						TheDir = GameDirB;
 					else
 						throw new Exception("Unable to determine current live directory!");
@@ -438,7 +438,7 @@ namespace TGS.Server.Components
 			//Now we need to check if DD is running that folder and swap it if necessary
 
 			var rsclock = IOManager.ConcatPath(TheDir, String.Format("{0}.rsc.lk", Config.ProjectName));
-			if (IO.FileExists(rsclock))
+			if (IO.FileExists(rsclock).Result)
 			{
 				try
 				{
@@ -447,8 +447,8 @@ namespace TGS.Server.Components
 				catch   //held open by byond
 				{
 					//This means there is a staged update waiting to be applied, we have to unstage it before we can work
-					IO.Unlink(GameDirLive);
-					IO.CreateSymlink(GameDirLive, TheDir);
+					IO.Unlink(GameDirLive).Wait();
+					IO.CreateSymlink(GameDirLive, TheDir).Wait();
 					return InvertDirectory(TheDir);
 				}
 			}
@@ -510,14 +510,14 @@ namespace TGS.Server.Components
 
 					IO.DeleteDirectory(resurrectee, true, deleteExcludeList).Wait();
 				cancellationToken.ThrowIfCancellationRequested();
-				IO.CreateDirectory(resurrectee + "/.git/logs");
+				IO.CreateDirectory(resurrectee + "/.git/logs").Wait();
 				cancellationToken.ThrowIfCancellationRequested();
 
 				Static.SymlinkTo(resurrectee);
 				cancellationToken.ThrowIfCancellationRequested();
 
-				if (!IO.FileExists(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName)))
-						IO.CreateSymlink(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName);
+				if (!IO.FileExists(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName)).Result)
+						IO.CreateSymlink(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName).Wait();
 				cancellationToken.ThrowIfCancellationRequested();
 
 				deleteExcludeList.Add(".git");
@@ -540,7 +540,7 @@ namespace TGS.Server.Components
 
 				var dmeName = ProjectName() + ".dme";
 				var dmePath = resurrectee + "/" + dmeName;
-				if (!IO.FileExists(dmePath))
+				if (!IO.FileExists(dmePath).Result)
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
 					Chat.SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo);
@@ -605,10 +605,10 @@ namespace TGS.Server.Components
 					if (DM.ExitCode == 0)
 					{
 						DreamDaemon.RunSuspended(() => {
-							if (IO.DirectoryExists(GameDirLive))
+							if (IO.DirectoryExists(GameDirLive).Result)
 								//these next two lines should be atomic but this is the best we can do
-								IO.Unlink(GameDirLive);
-							IO.CreateSymlink(GameDirLive, resurrectee);
+								IO.Unlink(GameDirLive).Wait();
+							IO.CreateSymlink(GameDirLive, resurrectee).Wait();
 						});
 						var staged = DreamDaemon.DaemonStatus() != DreamDaemonStatus.Offline;
 						if (!Events.HandleEvent(ActionEvent.Postcompile))

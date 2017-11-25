@@ -137,8 +137,8 @@ namespace TGS.Server.Components
 			Interop.OnKillRequest += (a, b) => HandleKillRequest();
 			Interop.OnWorldReboot += (a, b) => WriteCurrentDDLog("World rebooted.");
 
-			IO.CreateDirectory(DiagnosticsDir);
-			IO.CreateDirectory(ResourceDiagnosticsDir);
+			IO.CreateDirectory(DiagnosticsDir).Wait();
+			IO.CreateDirectory(ResourceDiagnosticsDir).Wait();
 
 			if (!Config.ReattachRequired || !HandleReattach())
 				process = new Process();

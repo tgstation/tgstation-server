@@ -207,12 +207,15 @@ namespace TGS.Server.IO
 		}
 
 		/// <inheritdoc />
-		public void CreateSymlink(string link, string target)
+		public Task CreateSymlink(string link, string target)
 		{
-			link = ResolvePath(link);
-			target = ResolvePath(target);
-			if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
-				throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
+			return Task.Factory.StartNew(() =>
+			{
+				link = ResolvePath(link);
+				target = ResolvePath(target);
+				if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
+					throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
+			});
 		}
 		
 		/// <inheritdoc />
@@ -266,10 +269,13 @@ namespace TGS.Server.IO
 		}
 
 		/// <inheritdoc />
-		public bool FileExists(string path)
+		public Task<bool> FileExists(string path)
 		{
-			path = ResolvePath(path);
-			return File.Exists(path);
+			return Task.Factory.StartNew(() =>
+			{
+				path = ResolvePath(path);
+				return File.Exists(path);
+			});
 		}
 
 		/// <inheritdoc />
@@ -315,17 +321,23 @@ namespace TGS.Server.IO
 		}
 
 		/// <inheritdoc />
-		public DirectoryInfo CreateDirectory(string path)
+		public Task<DirectoryInfo> CreateDirectory(string path)
 		{
-			path = ResolvePath(path);
-			return Directory.CreateDirectory(path);
+			return Task.Factory.StartNew(() =>
+			{
+				path = ResolvePath(path);
+				return Directory.CreateDirectory(path);
+			});
 		}
 
 		/// <inheritdoc />
-		public bool DirectoryExists(string path)
+		public Task<bool> DirectoryExists(string path)
 		{
-			path = ResolvePath(path);
-			return Directory.Exists(path);
+			return Task.Factory.StartNew(() =>
+			{
+				path = ResolvePath(path);
+				return Directory.Exists(path);
+			});
 		}
 
 		/// <inheritdoc />
@@ -339,18 +351,21 @@ namespace TGS.Server.IO
 		}
 
 		/// <inheritdoc />
-		public void Unlink(string path)
+		public Task Unlink(string path)
 		{
-			path = ResolvePath(path);
-			var isDir = Directory.Exists(path);
-			if (!isDir && !File.Exists(path))
-				throw new FileNotFoundException(String.Format("File/Directory at {0} not found!", path));
-			if (!IsSymlink(path))
-				throw new InvalidOperationException("Cannot unlink a concrete file/directory!");
-			if (isDir)
-				Directory.Delete(path);
-			else
-				File.Delete(path);
+			return Task.Factory.StartNew(() =>
+			{
+				path = ResolvePath(path);
+				var isDir = Directory.Exists(path);
+				if (!isDir && !File.Exists(path))
+					throw new FileNotFoundException(String.Format("File/Directory at {0} not found!", path));
+				if (!IsSymlink(path))
+					throw new InvalidOperationException("Cannot unlink a concrete file/directory!");
+				if (isDir)
+					Directory.Delete(path);
+				else
+					File.Delete(path);
+			});
 		}
 
 		/// <inheritdoc />

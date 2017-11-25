@@ -232,11 +232,11 @@ namespace TGS.Server.Components
 					else
 					{
 						var DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
-						if (IO.DirectoryExists(DirToUse))
+						if (IO.DirectoryExists(DirToUse).Result)
 						{
 							var file = IOManager.ConcatPath(DirToUse, VersionFile);
 							lock (this)
-								if (IO.FileExists(file))
+								if (IO.FileExists(file).Result)
 									return IO.ReadAllText(file).Result;
 						}
 					}
@@ -303,7 +303,7 @@ namespace TGS.Server.Components
 					IO.WriteAllText(IOManager.ConcatPath(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor)).Wait();
 
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
-				IO.CreateDirectory(ByondConfigDir);
+				IO.CreateDirectory(ByondConfigDir).Wait();
 				Task.WaitAll(new Task[] { IO.WriteAllText(ByondDDConfig, ByondNoPromptTrustedMode), IO.DeleteFile(RevisionDownloadPath) });
 
 				lock (this)

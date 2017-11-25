@@ -32,7 +32,7 @@ namespace TGS.Server.Components
 			Logger = logger;
 			IO = io;
 
-			IO.CreateDirectory(EventFolder);
+			IO.CreateDirectory(EventFolder).Wait();
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace TGS.Server.Components
 		/// <returns><see langword="true"/> if the <see cref="ActionEvent"/> handler exists, <see langword="false"/> otherwise</returns>
 		bool EventHandlerExists(string eventName)
 		{
-			return IO.FileExists(GetEventPath(eventName));
+			return IO.FileExists(GetEventPath(eventName)).Result;
 		}
 
 		/// <inheritdoc />

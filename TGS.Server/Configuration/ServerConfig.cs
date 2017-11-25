@@ -52,7 +52,7 @@ namespace TGS.Server.Configuration
 		/// <inheritdoc />
 		public void Save(string directory, IIOManager IO)
 		{
-			IO.CreateDirectory(directory);
+			IO.CreateDirectory(directory).Wait();
 			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
 			var path = IOManager.ConcatPath(directory, JSONFilename);
 			IO.WriteAllText(path, data).Wait();

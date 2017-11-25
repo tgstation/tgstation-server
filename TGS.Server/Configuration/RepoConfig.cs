@@ -50,7 +50,7 @@ namespace TGS.Server.Configuration
 		public RepoConfig(string path, IIOManager io)
 		{
 			path = IOManager.ConcatPath(path, JSONFilename);
-			if (!io.FileExists(path))
+			if (!io.FileExists(path).Result)
 				return;
 			var rawdata = io.ReadAllText(path).Result;
 			var json = JsonConvert.DeserializeObject<IDictionary<string, object>>(rawdata);

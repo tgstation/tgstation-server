@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DirectoryInfo = System.IO.DirectoryInfo;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using TGS.Server.Configuration;
 using TGS.Server.IO;
 using TGS.Server.Logging;
@@ -69,7 +70,7 @@ namespace TGS.Server.Components
 			RepoConfigProvider = repoConfigProvider;
 			Repo = repo;
 
-			IO.CreateDirectory(StaticDirs);
+			IO.CreateDirectory(StaticDirs).Wait();
 		}
 
 		/// <inheritdoc />
@@ -77,12 +78,12 @@ namespace TGS.Server.Components
 		{
 			lock (this)
 			{
-				if (IO.DirectoryExists(StaticDirs))
+				if (IO.DirectoryExists(StaticDirs).Result)
 				{
 					var count = 0;
 					var newFullPath = StaticBackupDir;
 
-					while (IO.FileExists(newFullPath) || IO.DirectoryExists(newFullPath))
+					while (IO.FileExists(newFullPath).Result || IO.DirectoryExists(newFullPath).Result)
 						newFullPath = String.Format("{0}({1})", StaticBackupDir, ++count);
 
 					IO.MoveDirectory(StaticDirs, newFullPath).Wait();
@@ -91,10 +92,10 @@ namespace TGS.Server.Components
 				var copyPaths = new List<string>();
 				copyPaths.AddRange(repo_config.DLLPaths);
 				copyPaths.AddRange(repo_config.StaticDirectoryPaths);
-				IO.CreateDirectory(StaticDirs);
+				IO.CreateDirectory(StaticDirs).Wait();
 				var task = Repo.CopyToRestricted(StaticDirs, copyPaths);
 				foreach (var I in repo_config.StaticDirectoryPaths)
-					IO.CreateDirectory(IOManager.ConcatPath(StaticDirs, I));
+					IO.CreateDirectory(IOManager.ConcatPath(StaticDirs, I)).Wait();
 				task.Wait();
 			}
 		}
@@ -159,7 +160,7 @@ namespace TGS.Server.Components
 
 				lock (this)
 				{
-					IO.CreateDirectory(path);
+					IO.CreateDirectory(path).Wait();
 					IO.WriteAllText(path, data).Wait();
 				}
 
@@ -197,9 +198,9 @@ namespace TGS.Server.Components
 
 				lock (this)
 				{
-					if (IO.FileExists(path))
+					if (IO.FileExists(path).Result)
 						IO.DeleteFile(path).Wait();
-					else if (IO.DirectoryExists(path))
+					else if (IO.DirectoryExists(path).Result)
 						IO.DeleteDirectory(path).Wait();
 				}
 				CancelImpersonation();
@@ -267,18 +268,19 @@ namespace TGS.Server.Components
 			lock (this)
 			{
 				var DI = new DirectoryInfo(IO.ResolvePath(StaticDirs));
+				var tasks = new List<Task>();
 				foreach (var I in DI.GetFiles())
 				{
 					var targetPath = IOManager.ConcatPath(path, I.Name);
-					if (!IO.FileExists(targetPath))
-						IO.CreateSymlink(targetPath, I.FullName);
-				}
+					if (!IO.FileExists(targetPath).Result)
+						tasks.Add(IO.CreateSymlink(targetPath, I.FullName));				}
 				foreach (var I in DI.GetDirectories())
 				{
 					var targetPath = IOManager.ConcatPath(path, I.Name);
-					if (!IO.DirectoryExists(targetPath))
-						IO.CreateSymlink(targetPath, I.FullName);
+					if (!IO.DirectoryExists(targetPath).Result)
+						tasks.Add(IO.CreateSymlink(targetPath, I.FullName));
 				}
+				Task.WaitAll(tasks.ToArray());
 			}
 		}
 	}

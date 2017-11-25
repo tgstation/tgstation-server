@@ -327,7 +327,7 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public void UpdateBridgeDll(bool overwrite)
 		{
-			var FileExists = IO.FileExists(BridgeDLLName);
+			var FileExists = IO.FileExists(BridgeDLLName).Result;
 			if (FileExists && !overwrite)
 				return;
 			//Copy the interface dll to the static dir
@@ -337,7 +337,7 @@ namespace TGS.Server.Components
 			var FullBridgePath = IOManager.ConcatPath(IOManager.GetDirectoryName(FullInterfacePath), BridgeDLLName);
 #if DEBUG
 			//We could be debugging from the project directory
-			if (!IO.FileExists(FullBridgePath))
+			if (!IO.FileExists(FullBridgePath).Result)
 				//A little hackish debug mode doctoring never hurt anyone
 				FullBridgePath = IOManager.ConcatPath(IOManager.GetDirectoryName(IOManager.GetDirectoryName(IOManager.GetDirectoryName(IOManager.GetDirectoryName(FullInterfacePath)))), "TGS.Interface.Bridge/bin/x86/Debug", BridgeDLLName);
 #endif

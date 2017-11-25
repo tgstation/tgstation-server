@@ -67,8 +67,8 @@ namespace TGS.Server.IO
 		/// Check if a file at <paramref name="path"/> exists
 		/// </summary>
 		/// <param name="path">The path of the file to check</param>
-		/// <returns><see langword="true"/> of <paramref name="path"/> is a file</returns>
-		bool FileExists(string path);
+		/// <returns>A <see cref="Task"/> that results in <see langword="true"/> of <paramref name="path"/> is a file</returns>
+		Task<bool> FileExists(string path);
 
 		/// <summary>
 		/// Deletes a file at <paramref name="path"/>
@@ -101,15 +101,15 @@ namespace TGS.Server.IO
 		/// Create a directory at <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path of the directory to create</param>
-		/// <returns>The <see cref="DirectoryInfo"/> for the created directory</returns>
-		DirectoryInfo CreateDirectory(string path);
+		/// <returns>A <see cref="Task"/> that results in the <see cref="DirectoryInfo"/> for the created directory</returns>
+		Task<DirectoryInfo> CreateDirectory(string path);
 
 		/// <summary>
 		/// Check if a directory at <paramref name="path"/> exists
 		/// </summary>
 		/// <param name="path">The path of the file to check</param>
-		/// <returns><see langword="true"/> of <paramref name="path"/> is a directory</returns>
-		bool DirectoryExists(string path);
+		/// <returns>A <see cref="Task"/> that results in <see langword="true"/> of <paramref name="path"/> is a directory</returns>
+		Task<bool> DirectoryExists(string path);
 
 		/// <summary>
 		/// Recursively delete a directory
@@ -143,14 +143,16 @@ namespace TGS.Server.IO
 		/// </summary>
 		/// <param name="link">The path of the symlink</param>
 		/// <param name="target">The path of the symlink target</param>
-		void CreateSymlink(string link, string target);
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task CreateSymlink(string link, string target);
 
 		/// <summary>
 		/// Removes the symlink at <paramref name="path"/>
 		/// </summary>
 		/// <exception cref="System.InvalidOperationException">When <paramref name="path"/> is a concrete file or directory</exception>
 		/// <param name="path">The path to unlink</param>
-		void Unlink(string path);
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Unlink(string path);
 
 		/// <summary>
 		/// Downloads a file from <paramref name="url"/> to <paramref name="path"/>

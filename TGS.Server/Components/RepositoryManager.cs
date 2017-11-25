@@ -378,7 +378,7 @@ namespace TGS.Server.Components
 					throw new InvalidOperationException("Cannot LoadRepository while longOperationInProgress is set");
 				if (repository != null)
 					return true;
-				if (IO.DirectoryExists(RepoPath))
+				if (IO.DirectoryExists(RepoPath).Result)
 				{
 					var path = IO.ResolvePath(RepoPath);
 					var res = RepositoryProvider.IsValid(path);
@@ -389,7 +389,7 @@ namespace TGS.Server.Components
 					}
 					return res;
 				}
-				IO.CreateDirectory(RepoPath);   //nothing here yet
+				IO.CreateDirectory(RepoPath).Wait();   //nothing here yet
 				return false;
 			}
 		}
@@ -424,7 +424,7 @@ namespace TGS.Server.Components
 		void DeletePRList()
 		{
 			lock (this)
-				if (IO.FileExists(PRJobFile))
+				if (IO.FileExists(PRJobFile).Result)
 					try
 					{
 						IO.DeleteFile(PRJobFile).Wait();
@@ -441,7 +441,7 @@ namespace TGS.Server.Components
 		/// <returns><see langword="true"/> if <see cref="RepoKeyDir"/> is populated with correct SSH key files, <see langword="false"/> otherwise</returns>
 		bool SSHAuthAvailable()
 		{
-			return IO.FileExists(PrivateKeyPath) && IO.FileExists(PublicKeyPath);
+			return IO.FileExists(PrivateKeyPath).Result && IO.FileExists(PublicKeyPath).Result;
 		}
 
 		/// <summary>
@@ -601,7 +601,7 @@ namespace TGS.Server.Components
 					error = BusyMessage;
 					return null;
 				}
-				if (!IO.FileExists(IOManager.ConcatPath(RepoPath, ChangelogPy)))
+				if (!IO.FileExists(IOManager.ConcatPath(RepoPath, ChangelogPy)).Result)
 				{
 					error = "Missing changelog generation script!";
 					return null;
@@ -609,7 +609,7 @@ namespace TGS.Server.Components
 
 				var pp = ServerConfig.PythonPath;
 				var PythonFile = IOManager.ConcatPath(pp, "python.exe");
-				if (!IO.FileExists(PythonFile))
+				if (!IO.FileExists(PythonFile).Result)
 				{
 					error = "Cannot locate python!";
 					return null;
@@ -957,9 +957,9 @@ namespace TGS.Server.Components
 				{
 					var path = IOManager.ConcatPath(RepoPath, I);
 					var dest = IOManager.ConcatPath(destination, I);
-					if (IO.FileExists(path))
+					if (IO.FileExists(path).Result)
 						tasks.Add(IO.CopyFile(path, dest, false));
-					else if (IO.DirectoryExists(path))
+					else if (IO.DirectoryExists(path).Result)
 						tasks.Add(IO.CopyDirectory(path, dest));
 				}
 				await Task.WhenAll(tasks);

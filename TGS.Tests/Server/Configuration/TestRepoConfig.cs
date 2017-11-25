@@ -25,18 +25,18 @@ namespace TGS.Server.Configuration.Tests
 		public void TestLoading()
 		{
 			var mockIO = new Mock<IIOManager>();
-			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(false));
 			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(goodJSON));
 			new RepoConfig("asdf", mockIO.Object);
 			mockIO.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once());
 			mockIO.ResetCalls();
-			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
 			var good = new RepoConfig("asdf", mockIO.Object);
 			mockIO.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once());
 			mockIO.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once());
 			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(emptyJSON));
 			mockIO.ResetCalls();
-			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
 			var bad = new RepoConfig("asdf", mockIO.Object);
 			mockIO.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once());
 			mockIO.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once());
@@ -60,7 +60,7 @@ namespace TGS.Server.Configuration.Tests
 		{
 			var mockIO = new Mock<IIOManager>();
 			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(goodJSON));
-			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
 			var e1 = new RepoConfig("asdf", mockIO.Object);
 			var e2 = new RepoConfig("asdf", mockIO.Object);
 			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(emptyJSON));
