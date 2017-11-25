@@ -68,6 +68,7 @@ var searchData=
   ['serverstopbutton',['ServerStopButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0032b5d97dc221490abed1b2be9ddf8d',1,'TGS::ControlPanel::ControlPanel']]],
   ['serverstopbutton_5fclick',['ServerStopButton_Click',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a8b381ce50dcb96fccca03ed4ab78fd6e',1,'TGS::ControlPanel::ControlPanel']]],
   ['serverupdateapplied',['ServerUpdateApplied',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311afd8f9d8fe17b37ddfadb01d2f310e120',1,'TGS::Server']]],
+  ['serverversion',['ServerVersion',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#aa4a31b0e27c954f128795d5c88933d62',1,'TGS.Interface.IServerInterface.ServerVersion()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#adf4a3df74e37dbbfbbe997ccb2d2afc0',1,'TGS.Interface.ServerInterface.ServerVersion()']]],
   ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html#ac6439b90f7bec025e8a71849b5174710',1,'TGS::Server::Service::Service']]],
   ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html',1,'TGS::Server::Service']]],
   ['service_2ecs',['Service.cs',['../_t_g_s_8_interface_2_components_2_service_8cs.html',1,'']]],
