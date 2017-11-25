@@ -298,8 +298,8 @@ namespace TGS.Interface
 		{
 			var splits = GetServiceComponent<ITGLanding>().Version().Split(' ');
 			var theirs = new Version(splits[splits.Length - 1].Substring(1));
-			var ours = new Version(FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
-			if(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Revision != ours.Revision)	//don't care about the patch level
+			var ours = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
+			if(theirs.Major != ours.Major || theirs.Minor != ours.Minor || theirs.Build != ours.Build)	//don't care about the patch level
 			{
 				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", ours, theirs);
 				return true;
