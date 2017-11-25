@@ -37,7 +37,7 @@ build:
   publish_nuget: true
 after_build:
   - ps: Tools/PostCIBuild.ps1
-  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){$env:TGSDeploy = "Do it."}
+  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ $env:TGSDeploy = "Do it." }}
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ $env:NugetDeploy = "Do it." }}
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGS.Server/bin/Release/TGS.Server.dll").FileVersion
 test_script:
