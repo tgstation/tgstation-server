@@ -357,5 +357,31 @@ namespace TGS.Server.IO.Tests
 			var dir = IOManager.ConcatPath("asdf", "fdsa");
 			Assert.AreEqual("asdf", IOManager.GetDirectoryName(dir));
 		}
+
+		[TestMethod]
+		public void TestDeleteFile()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath2");
+
+			IO.Touch(p1).Wait();
+			IO.DeleteFile(p1).Wait();
+			Assert.IsFalse(IO.FileExists(p1).Result);
+
+			IO.DeleteFile(p2).Wait();
+		}
+
+		[TestMethod]
+		public void TestDeleteDirectory()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath2");
+
+			IO.CreateDirectory(p1).Wait();
+			IO.DeleteDirectory(p1).Wait();
+			Assert.IsFalse(IO.DirectoryExists(p1).Result);
+
+			IO.DeleteDirectory(p2).Wait();
+		}
 	}
 }
