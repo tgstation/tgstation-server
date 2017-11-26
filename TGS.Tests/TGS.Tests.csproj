@@ -65,6 +65,7 @@
     <Compile Include="CommandLine\Commands\Repository\RepositoryCommandTest.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
+    <Compile Include="Server\Configuration\TestServerConfig.cs" />
     <Compile Include="Server\Console\TestConsole.cs" />
     <Compile Include="Server\Console\TestProgram.cs" />
     <Compile Include="ControlPanel\TestInstanceSelector.cs" />

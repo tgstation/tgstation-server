@@ -17,12 +17,8 @@ namespace TGS.Server.Configuration.Tests
 		/// </summary>
 		const string goodJSON = "{\"documentation\": \"/tg/station server 3 configuration file\",\"changelog\": {\"script\": \"tools/ss13_genchangelog.py\",\"arguments\": \"html/changelog.html html/changelogs\",\"pip_dependancies\": [\"PyYaml\",\"beautifulsoup4\"]},\"synchronize_paths\": [\"html/changelog.html\",\"html/changelogs/*\"],\"static_directories\": [\"config\",\"data\"],\"dlls\": [\"libmysql.dll\"]}";
 
-		/// <summary>
-		/// Empty JSON string
-		/// </summary>
-		const string emptyJSON = "{}";
 		[TestMethod]
-		public void TestLoading()
+		public void TestLoad()
 		{
 			var mockIO = new Mock<IIOManager>();
 			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(false));
@@ -34,7 +30,7 @@ namespace TGS.Server.Configuration.Tests
 			var good = new RepoConfig("asdf", mockIO.Object);
 			mockIO.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once());
 			mockIO.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once());
-			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(emptyJSON));
+			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult("{}"));
 			mockIO.ResetCalls();
 			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
 			var bad = new RepoConfig("asdf", mockIO.Object);
@@ -63,7 +59,7 @@ namespace TGS.Server.Configuration.Tests
 			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
 			var e1 = new RepoConfig("asdf", mockIO.Object);
 			var e2 = new RepoConfig("asdf", mockIO.Object);
-			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(emptyJSON));
+			mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult(goodJSON.Replace("\"data\"", "\"data\", \"fake\"")));
 			var b = new RepoConfig("asdf", mockIO.Object);
 			Assert.IsTrue(e1.Equals(e2));
 			Assert.IsFalse(e1.Equals(b));
