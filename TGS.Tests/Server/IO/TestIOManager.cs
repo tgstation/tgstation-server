@@ -158,7 +158,7 @@ namespace TGS.Server.IO.Tests
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
 			IO.CreateDirectory(p1).Wait();
 			IO.WriteAllText(p2, "asdf").Wait();
-			ZipFile.CreateFromDirectory(p1, p3);
+			ZipFile.CreateFromDirectory(IO.ResolvePath(p1), IO.ResolvePath(p3));
 			IO.DeleteDirectory(p1).Wait();
 
 			Assert.IsTrue(IO.FileExists(p3).Result);
@@ -183,9 +183,9 @@ namespace TGS.Server.IO.Tests
 		public void TestDownloadFile()
 		{
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
-			IO.WriteAllText(p2, "asdf");
+			IO.WriteAllText(p2, "asdf").Wait();
 
-			var URL = "file:///" + p2.Replace('\\', '/');
+			var URL = "file:///" + IO.ResolvePath(p2).Replace('\\', '/');
 
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			
@@ -205,9 +205,9 @@ namespace TGS.Server.IO.Tests
 				IO.DownloadFile("https://raw.githubusercontent.com/tgstation/tgstation/c1c908fd5810f8e6fe8e78a3c078075b168d3b9a/tgui/assets/tgui.js", p1, cts.Token).Wait();
 			}
 
-			if(IO.FileExists(p1).Result)
-				using(var F = File.Open(IO.ResolvePath(p1), FileMode.Open))
-					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024);
+			if (IO.FileExists(p1).Result)
+				using (var F = File.Open(IO.ResolvePath(p1), FileMode.Open))
+					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024 * 500);
 
 			using (var cts = new CancellationTokenSource())
 				Assert.ThrowsException<AggregateException>(() => IO.DownloadFile("http://not.a.url", p1, cts.Token).Wait());

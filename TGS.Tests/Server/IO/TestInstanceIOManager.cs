@@ -18,6 +18,7 @@ namespace TGS.Server.IO.Tests
 		{
 			base.Init();
 			realTempDir = tempDir;
+			tempDir = ".";
 			var mockInstanceConfig = new Mock<IInstanceConfig>();
 			mockInstanceConfig.Setup(x => x.Directory).Returns(realTempDir);
 			IO = new InstanceIOManager(mockInstanceConfig.Object);
