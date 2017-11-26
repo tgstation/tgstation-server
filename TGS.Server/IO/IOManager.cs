@@ -192,7 +192,7 @@ namespace TGS.Server.IO
 				link = ResolvePath(link);
 				target = ResolvePath(target);
 				if (!NativeMethods.CreateSymbolicLink(link, target, File.Exists(target) ? NativeMethods.SymbolicLink.File : NativeMethods.SymbolicLink.Directory))
-					throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
+					throw new SymlinkException(link, target, Marshal.GetLastWin32Error());
 			});
 		}
 		

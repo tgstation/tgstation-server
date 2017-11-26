@@ -3,8 +3,10 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace TGS.Server.IO.Tests
 {
@@ -126,7 +128,7 @@ namespace TGS.Server.IO.Tests
 		}
 
 		[TestMethod]
-		public void TestUnlink()
+		public async Task TestUnlink()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
@@ -135,8 +137,8 @@ namespace TGS.Server.IO.Tests
 			IO.Touch(p1).Wait();
 			IO.CreateSymlink(p2, p1).Wait();
 
-			Assert.ThrowsException<AggregateException>(() => IO.Unlink(p3).Wait());
-			Assert.ThrowsException<AggregateException>(() => IO.Unlink(p1).Wait());
+			await Assert.ThrowsExceptionAsync<FileNotFoundException>(() => IO.Unlink(p3));
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
 			IO.Unlink(p2).Wait();
 
 			Assert.IsFalse(IO.FileExists(p2).Result);
@@ -144,7 +146,7 @@ namespace TGS.Server.IO.Tests
 
 			IO.CreateDirectory(p2).Wait();
 			IO.CreateSymlink(p3, p2).Wait();
-			Assert.ThrowsException<AggregateException>(() => IO.Unlink(p1).Wait());
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
 			IO.Unlink(p3).Wait();
 			Assert.IsTrue(IO.DirectoryExists(p2).Result);
 			Assert.IsFalse(IO.DirectoryExists(p3).Result);
@@ -180,7 +182,7 @@ namespace TGS.Server.IO.Tests
 		}
 
 		[TestMethod]
-		public void TestDownloadFile()
+		public async Task TestDownloadFile()
 		{
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
 			IO.WriteAllText(p2, "asdf").Wait();
@@ -210,11 +212,11 @@ namespace TGS.Server.IO.Tests
 					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024 * 500);
 
 			using (var cts = new CancellationTokenSource())
-				Assert.ThrowsException<AggregateException>(() => IO.DownloadFile("http://not.a.url", p1, cts.Token).Wait());
+				await Assert.ThrowsExceptionAsync<WebException>(() => IO.DownloadFile("http://not.a.url", p1, cts.Token));
 		}
 
 		[TestMethod]
-		public void TestMoveDirectory()
+		public async Task TestMoveDirectory()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(p1, "FakePath2");
@@ -231,11 +233,11 @@ namespace TGS.Server.IO.Tests
 
 			var p5 = "M:\\FakePath";
 
-			Assert.ThrowsException<AggregateException>(() => IO.MoveDirectory(p3, p5).Wait());
+			await Assert.ThrowsExceptionAsync<DirectoryNotFoundException>(() => IO.MoveDirectory(p3, p5));
 		}
 
 		[TestMethod]
-		public void TestCopyFile()
+		public async Task TestCopyFile()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
@@ -249,7 +251,7 @@ namespace TGS.Server.IO.Tests
 
 			IO.WriteAllText(p2, "asdfg").Wait();
 
-			Assert.ThrowsException<AggregateException>(() => IO.CopyFile(p2, p1, false, false).Wait());
+			await Assert.ThrowsExceptionAsync<IOException>(() => IO.CopyFile(p2, p1, false, false));
 
 			IO.CopyFile(p2, p1, true, false).Wait();
 
@@ -258,7 +260,7 @@ namespace TGS.Server.IO.Tests
 
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3", "File");
 
-			Assert.ThrowsException<AggregateException>(() => IO.CopyFile(p2, p3, false, false).Wait());
+			await Assert.ThrowsExceptionAsync<DirectoryNotFoundException>(() => IO.CopyFile(p2, p3, false, false));
 
 			IO.CopyFile(p2, p3, false, true).Wait();
 
@@ -266,7 +268,7 @@ namespace TGS.Server.IO.Tests
 			
 			IO.WriteAllText(p2, "fasdf").Wait();
 
-			Assert.ThrowsException<AggregateException>(() => IO.CopyFile(p2, p3, false, true).Wait());
+			await Assert.ThrowsExceptionAsync<IOException>(() => IO.CopyFile(p2, p3, false, true));
 			
 			IO.CopyFile(p2, p3, true, true).Wait();
 			Assert.AreEqual("fasdf", IO.ReadAllText(p3).Result);
@@ -310,7 +312,7 @@ namespace TGS.Server.IO.Tests
 
 
 		[TestMethod]
-		public void TestCreateSymlink()
+		public async Task TestCreateSymlink()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
@@ -321,7 +323,7 @@ namespace TGS.Server.IO.Tests
 			{
 				IO = new UnresolvingIOManager();
 				//Intentional weird escape to make the thing error
-				Assert.ThrowsException<AggregateException>(() => IO.CreateSymlink("L\\\\asdf", "M\\\\asdf").Wait());
+				await Assert.ThrowsExceptionAsync<SymlinkException>(() => IO.CreateSymlink("L\\\\asdf", "M\\\\asdf"));
 			}
 			finally
 			{
@@ -382,6 +384,8 @@ namespace TGS.Server.IO.Tests
 			Assert.IsFalse(IO.DirectoryExists(p1).Result);
 
 			IO.DeleteDirectory(p2).Wait();
+
+
 		}
 	}
 }
