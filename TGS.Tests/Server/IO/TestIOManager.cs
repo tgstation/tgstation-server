@@ -271,7 +271,7 @@ namespace TGS.Server.IO.Tests
 		}
 
 		[TestMethod]
-		public void TestWriteReadText()
+		public void TestWriteReadAllText()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			IO.WriteAllText(p1, "asdfasdf").Wait();
@@ -279,13 +279,22 @@ namespace TGS.Server.IO.Tests
 		}
 
 		[TestMethod]
-		public void TestWriteReadBytes()
+		public void TestWriteReadAllBytes()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var bytes = Encoding.UTF8.GetBytes("asdfasdf");
 			IO.WriteAllBytes(p1, bytes).Wait();
 			var res = IO.ReadAllBytes(p1).Result;
 			Assert.IsTrue(bytes.SequenceEqual(res));
+		}
+
+		[TestMethod]
+		public void TestAppendAllText()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			IO.WriteAllText(p1, "asdfasdf").Wait();
+			IO.AppendAllText(p1, "fdsafdsa").Wait();
+			Assert.AreEqual("asdfasdffdsafdsa", IO.ReadAllText(p1).Result);
 		}
 	}
 }
