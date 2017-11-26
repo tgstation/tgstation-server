@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading;
 
 namespace TGS.Server.IO.Tests
@@ -267,6 +268,24 @@ namespace TGS.Server.IO.Tests
 			
 			IO.CopyFile(p2, p3, true, true).Wait();
 			Assert.AreEqual("fasdf", IO.ReadAllText(p3).Result);
+		}
+
+		[TestMethod]
+		public void TestWriteReadText()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			IO.WriteAllText(p1, "asdfasdf").Wait();
+			Assert.AreEqual("asdfasdf", IO.ReadAllText(p1).Result);
+		}
+
+		[TestMethod]
+		public void TestWriteReadBytes()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var bytes = Encoding.UTF8.GetBytes("asdfasdf");
+			IO.WriteAllBytes(p1, bytes).Wait();
+			var res = IO.ReadAllBytes(p1).Result;
+			Assert.IsTrue(bytes.SequenceEqual(res));
 		}
 	}
 }
