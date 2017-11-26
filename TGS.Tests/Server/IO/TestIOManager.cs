@@ -407,5 +407,43 @@ namespace TGS.Server.IO.Tests
 
 			await IO.DeleteDirectory(p1, true, new List<string> { "FakePath2" });
 		}
+
+		[TestMethod]
+		public async Task TestCopyDirectory()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath2");
+			var p3 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath3");
+			var p4 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath4");
+			var p5 = IOManager.ConcatPath(tempDir, "FakePath5");
+			var p6 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath6");
+			var p7 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath7");
+
+			await IO.CreateDirectory(p1);
+			await IO.WriteAllText(p2, "asdf");
+			await IO.Touch(p3);
+			await IO.CreateDirectory(p4);
+			await IO.CreateDirectory(p6);
+			await IO.Touch(p7);
+
+			await IO.CopyDirectory(p1, p5);
+			Assert.IsTrue(await IO.DirectoryExists(p5));
+			Assert.AreEqual("asdf", await IO.ReadAllText(IOManager.ConcatPath(p5, "FakePath2")));
+
+			await IO.DeleteDirectory(p5);
+
+			await IO.CopyDirectory(p1, p5, new List<string> { "FakePath3", "FakePath6" });
+
+			Assert.IsTrue(await IO.DirectoryExists(IOManager.ConcatPath(p5, "FakePath4")));
+			Assert.IsFalse(await IO.FileExists(IOManager.ConcatPath(p5, "FakePath3")));
+			Assert.IsTrue(await IO.FileExists(IOManager.ConcatPath(p5, "FakePath7")));
+			Assert.IsFalse(await IO.DirectoryExists(IOManager.ConcatPath(p5, "FakePath6")));
+
+			await IO.DeleteDirectory(p1);
+			await IO.DeleteDirectory(p5);
+
+			await Assert.ThrowsExceptionAsync<DirectoryNotFoundException>(() => IO.CopyDirectory(p1, p5));
+			await IO.CopyDirectory(p1, p5, null, true);
+		}
 	}
 }
