@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -16,6 +17,15 @@ namespace TGS.Server.IO.Tests
 	[TestClass]
 	public class TestIOManager
 	{
+		//need a special override sometimes
+		sealed class UnresolvingIOManager : IOManager
+		{
+			public override string ResolvePath(string path)
+			{
+				return path;
+			}
+		}
+
 		protected IOManager IO;
 		protected string tempDir;
 
@@ -134,22 +144,22 @@ namespace TGS.Server.IO.Tests
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
 
-			IO.Touch(p1).Wait();
-			IO.CreateSymlink(p2, p1).Wait();
+			await IO.Touch(p1);
+			await IO.CreateSymlink(p2, p1);
 
 			await Assert.ThrowsExceptionAsync<FileNotFoundException>(() => IO.Unlink(p3));
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
 			IO.Unlink(p2).Wait();
 
-			Assert.IsFalse(IO.FileExists(p2).Result);
-			Assert.IsTrue(IO.FileExists(p1).Result);
+			Assert.IsFalse(await IO.FileExists(p2));
+			Assert.IsTrue(await IO.FileExists(p1));
 
-			IO.CreateDirectory(p2).Wait();
-			IO.CreateSymlink(p3, p2).Wait();
+			await IO.CreateDirectory(p2);
+			await IO.CreateSymlink(p3, p2);
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
-			IO.Unlink(p3).Wait();
-			Assert.IsTrue(IO.DirectoryExists(p2).Result);
-			Assert.IsFalse(IO.DirectoryExists(p3).Result);
+			await IO.Unlink(p3);
+			Assert.IsTrue(await IO.DirectoryExists(p2));
+			Assert.IsFalse(await IO.DirectoryExists(p3));
 		}
 
 		[TestMethod]
@@ -194,20 +204,20 @@ namespace TGS.Server.IO.Tests
 			using (var cts = new CancellationTokenSource())
 				IO.DownloadFile(URL, p1, cts.Token).Wait();
 
-			var res = IO.ReadAllText(p1).Result;
+			var res = await IO.ReadAllText(p1);
 
 			Assert.AreEqual("asdf", res);
 
-			IO.DeleteFile(p1).Wait();
+			await IO.DeleteFile(p1);
 
 			using (var cts = new CancellationTokenSource())
 			{
 				cts.Cancel();
 				//very bigly
-				IO.DownloadFile("https://raw.githubusercontent.com/tgstation/tgstation/c1c908fd5810f8e6fe8e78a3c078075b168d3b9a/tgui/assets/tgui.js", p1, cts.Token).Wait();
+				await IO.DownloadFile("https://raw.githubusercontent.com/tgstation/tgstation/c1c908fd5810f8e6fe8e78a3c078075b168d3b9a/tgui/assets/tgui.js", p1, cts.Token);
 			}
 
-			if (IO.FileExists(p1).Result)
+			if (await IO.FileExists(p1))
 				using (var F = File.Open(IO.ResolvePath(p1), FileMode.Open))
 					Assert.IsTrue(F.Seek(0, SeekOrigin.End) < 1024 * 500);
 
@@ -223,13 +233,13 @@ namespace TGS.Server.IO.Tests
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
 			var p4 = IOManager.ConcatPath(p3, "FakePath2");
 
-			IO.CreateDirectory(p1).Wait();
-			IO.WriteAllText(p2, "fasdf").Wait();
+			await IO.CreateDirectory(p1);
+			await IO.WriteAllText(p2, "fasdf");
 
-			IO.MoveDirectory(p1, p3).Wait();
+			await IO.MoveDirectory(p1, p3);
 
-			Assert.IsFalse(IO.DirectoryExists(p1).Result);
-			Assert.AreEqual("fasdf", IO.ReadAllText(p4).Result);
+			Assert.IsFalse(await IO.DirectoryExists(p1));
+			Assert.AreEqual("fasdf", await IO.ReadAllText(p4));
 
 			var p5 = "M:\\FakePath";
 
@@ -242,36 +252,36 @@ namespace TGS.Server.IO.Tests
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
 
-			IO.WriteAllText(p2, "fasdf").Wait();
+			await IO.WriteAllText(p2, "fasdf");
 
 			IO.CopyFile(p2, p1, false, false).Wait();
 
-			Assert.AreEqual("fasdf", IO.ReadAllText(p1).Result);
-			Assert.AreEqual("fasdf", IO.ReadAllText(p2).Result);
+			Assert.AreEqual("fasdf", await IO.ReadAllText(p1));
+			Assert.AreEqual("fasdf", await IO.ReadAllText(p2));
 
-			IO.WriteAllText(p2, "asdfg").Wait();
+			await IO.WriteAllText(p2, "asdfg");
 
 			await Assert.ThrowsExceptionAsync<IOException>(() => IO.CopyFile(p2, p1, false, false));
 
-			IO.CopyFile(p2, p1, true, false).Wait();
+			await IO.CopyFile(p2, p1, true, false);
 
-			Assert.AreEqual("asdfg", IO.ReadAllText(p1).Result);
-			Assert.AreEqual("asdfg", IO.ReadAllText(p2).Result);
+			Assert.AreEqual("asdfg", await IO.ReadAllText(p1));
+			Assert.AreEqual("asdfg", await IO.ReadAllText(p2));
 
 			var p3 = IOManager.ConcatPath(tempDir, "FakePath3", "File");
 
 			await Assert.ThrowsExceptionAsync<DirectoryNotFoundException>(() => IO.CopyFile(p2, p3, false, false));
 
-			IO.CopyFile(p2, p3, false, true).Wait();
+			await IO.CopyFile(p2, p3, false, true);
 
-			Assert.AreEqual("asdfg", IO.ReadAllText(p3).Result);
-			
-			IO.WriteAllText(p2, "fasdf").Wait();
+			Assert.AreEqual("asdfg", await IO.ReadAllText(p3));
+
+			await IO.WriteAllText(p2, "fasdf");
 
 			await Assert.ThrowsExceptionAsync<IOException>(() => IO.CopyFile(p2, p3, false, true));
-			
-			IO.CopyFile(p2, p3, true, true).Wait();
-			Assert.AreEqual("fasdf", IO.ReadAllText(p3).Result);
+
+			await IO.CopyFile(p2, p3, true, true);
+			Assert.AreEqual("fasdf", await IO.ReadAllText(p3));
 		}
 
 		[TestMethod]
@@ -301,16 +311,6 @@ namespace TGS.Server.IO.Tests
 			Assert.AreEqual("asdfasdffdsafdsa", IO.ReadAllText(p1).Result);
 		}
 
-		//need a special override for this one
-		class UnresolvingIOManager : IOManager
-		{
-			public override string ResolvePath(string path)
-			{
-				return path;
-			}
-		}
-
-
 		[TestMethod]
 		public async Task TestCreateSymlink()
 		{
@@ -329,28 +329,28 @@ namespace TGS.Server.IO.Tests
 			{
 				IO = tmpIO;
 			}
-			IO.WriteAllText(p1, "asdf").Wait();
+			await IO.WriteAllText(p1, "asdf");
 
-			IO.CreateSymlink(p2, p1).Wait();
+			await IO.CreateSymlink(p2, p1);
 
-			Assert.AreEqual("asdf", IO.ReadAllText(p2).Result);
+			Assert.AreEqual("asdf", await IO.ReadAllText(p2));
 
-			IO.DeleteFile(p1).Wait();
-			IO.DeleteFile(p2).Wait();
+			await IO.DeleteFile(p1);
+			await IO.DeleteFile(p2);
 
 			var tmpTempDir = IOManager.ConcatPath(tempDir, "Folder");
 			p1 = IOManager.ConcatPath(tmpTempDir, "FakePath1");
 
-			IO.CreateDirectory(tmpTempDir).Wait();
+			await IO.CreateDirectory(tmpTempDir);
 
-			IO.WriteAllText(p1, "asdf").Wait();
+			await IO.WriteAllText(p1, "asdf");
 			tmpTempDir = IOManager.ConcatPath(tempDir, "Folder2");
 
-			IO.CreateSymlink(tmpTempDir, IOManager.ConcatPath(tempDir, "Folder")).Wait();
+			await IO.CreateSymlink(tmpTempDir, IOManager.ConcatPath(tempDir, "Folder"));
 
 			p2 = IOManager.ConcatPath(tmpTempDir, "FakePath1");
 
-			Assert.AreEqual(IO.ReadAllText(p1).Result, IO.ReadAllText(p2).Result);
+			Assert.AreEqual(await IO.ReadAllText(p1), await IO.ReadAllText(p2));
 		}
 
 		[TestMethod]
@@ -374,18 +374,38 @@ namespace TGS.Server.IO.Tests
 		}
 
 		[TestMethod]
-		public void TestDeleteDirectory()
+		public async Task TestDeleteDirectory()
 		{
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
 			var p2 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath2");
+			var p3 = IOManager.ConcatPath(tempDir, "FakePath2");
+			var p4 = IOManager.ConcatPath(tempDir, "FakePath1", "FakePath4");
 
-			IO.CreateDirectory(p1).Wait();
-			IO.DeleteDirectory(p1).Wait();
-			Assert.IsFalse(IO.DirectoryExists(p1).Result);
+			await IO.CreateDirectory(p1);
+			await IO.DeleteDirectory(p1);
+			Assert.IsFalse(await IO.DirectoryExists(p1));
 
-			IO.DeleteDirectory(p2).Wait();
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.DeleteDirectory(p1, false, new List<string> { null }));
 
+			await IO.CreateDirectory(p1);
+			await IO.CreateSymlink(p3, p1);
 
+			//double is intentional
+			await IO.DeleteDirectory(p3);
+			await IO.DeleteDirectory(p3);
+
+			await IO.Touch(p2);
+			await IO.Touch(p4);
+
+			await IO.DeleteDirectory(p1, true, new List<string> { "FakePath4" });
+			Assert.IsFalse(await IO.FileExists(p2));
+			Assert.IsTrue(await IO.FileExists(p4));
+
+			await IO.DeleteFile(p4);
+			await IO.CreateDirectory(p2);
+			await IO.CreateDirectory(p4);
+
+			await IO.DeleteDirectory(p1, true, new List<string> { "FakePath2" });
 		}
 	}
 }
