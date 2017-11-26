@@ -219,16 +219,54 @@ namespace TGS.Server.IO.Tests
 			var p4 = IOManager.ConcatPath(p3, "FakePath2");
 
 			IO.CreateDirectory(p1).Wait();
-			IO.Touch(p2).Wait();
+			IO.WriteAllText(p2, "fasdf").Wait();
 
 			IO.MoveDirectory(p1, p3).Wait();
 
 			Assert.IsFalse(IO.DirectoryExists(p1).Result);
-			Assert.IsTrue(IO.FileExists(p4).Result);
+			Assert.AreEqual("fasdf", IO.ReadAllText(p4).Result);
 
 			var p5 = "M:\\FakePath";
 
 			Assert.ThrowsException<AggregateException>(() => IO.MoveDirectory(p3, p5).Wait());
+		}
+
+		[TestMethod]
+		public void TestCopyFile()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
+
+			IO.WriteAllText(p2, "fasdf").Wait();
+
+			IO.CopyFile(p2, p1, false, false).Wait();
+
+			Assert.AreEqual("fasdf", IO.ReadAllText(p1).Result);
+			Assert.AreEqual("fasdf", IO.ReadAllText(p2).Result);
+
+			IO.WriteAllText(p2, "asdfg").Wait();
+
+			Assert.ThrowsException<AggregateException>(() => IO.CopyFile(p2, p1, false, false).Wait());
+
+			IO.CopyFile(p2, p1, true, false).Wait();
+
+			Assert.AreEqual("asdfg", IO.ReadAllText(p1).Result);
+			Assert.AreEqual("asdfg", IO.ReadAllText(p2).Result);
+
+			var p3 = IOManager.ConcatPath(tempDir, "FakePath3", "File");
+
+			Assert.ThrowsException<AggregateException>(() => IO.CopyFile(p2, p3, false, false).Wait());
+
+			IO.CopyFile(p2, p3, false, true).Wait();
+
+			Assert.AreEqual("asdfg", IO.ReadAllText(p3).Result);
+			
+			IO.WriteAllText(p2, "fasdf").Wait();
+
+			Assert.ThrowsException<AggregateException>(() => IO.CopyFile(p2, p3, false, true).Wait());
+			
+			IO.CopyFile(p2, p3, true, true).Wait();
+			Assert.AreEqual("fasdf", IO.ReadAllText(p3).Result);
 		}
 	}
 }
