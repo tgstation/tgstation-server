@@ -182,17 +182,19 @@ namespace TGS.Server.IO.Tests
 		[TestMethod]
 		public void TestDownloadFile()
 		{
-			const string URL = "https://raw.githubusercontent.com/Dextraspace/Test/0c81cf5863d98ca9b544086d61c648817af4fb19/README.md";
-			const string expected = "# Test\nThis is a test\n\nThis is another test\n\nThis is a third test\n\nOh look another test\n\nasdf\n\nhonk out date again\n\nhi cyber";
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
+			IO.WriteAllText(p2, "asdf");
+
+			var URL = "file:///" + p2.Replace('\\', '/');
 
 			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
-
+			
 			using (var cts = new CancellationTokenSource())
 				IO.DownloadFile(URL, p1, cts.Token).Wait();
 
 			var res = IO.ReadAllText(p1).Result;
 
-			Assert.AreEqual(expected, res);
+			Assert.AreEqual("asdf", res);
 
 			IO.DeleteFile(p1).Wait();
 
@@ -347,6 +349,13 @@ namespace TGS.Server.IO.Tests
 			p2 = IOManager.ConcatPath(tmpTempDir, "FakePath1");
 
 			Assert.AreEqual(IO.ReadAllText(p1).Result, IO.ReadAllText(p2).Result);
+		}
+
+		[TestMethod]
+		public void TestGetDirectoryName()
+		{
+			var dir = IOManager.ConcatPath("asdf", "fdsa");
+			Assert.AreEqual("asdf", IOManager.GetDirectoryName(dir));
 		}
 	}
 }
