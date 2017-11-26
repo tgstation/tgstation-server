@@ -12,28 +12,6 @@ namespace TGS.Server.IO
 	/// <inheritdoc />
 	public class IOManager : IIOManager
 	{
-		#region Win32 Shit
-		/// <summary>
-		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/aa363866(v=vs.85).aspx
-		/// </summary>
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, SymbolicLink dwFlags);
-		/// <summary>
-		/// Type of link to make with <see cref="CreateSymbolicLink(string, string, SymbolicLink)"/>
-		/// </summary>
-		enum SymbolicLink
-		{
-			/// <summary>
-			/// Create a file symlink
-			/// </summary>
-			File = 0,
-			/// <summary>
-			/// Create a directory junction
-			/// </summary>
-			Directory = 1
-		}
-		#endregion
-
 		/// <summary>
 		/// Wrapper for <see cref="Path.Combine(string[])"/>
 		/// </summary>
@@ -213,7 +191,7 @@ namespace TGS.Server.IO
 			{
 				link = ResolvePath(link);
 				target = ResolvePath(target);
-				if (!CreateSymbolicLink(new DirectoryInfo(link).FullName, new DirectoryInfo(target).FullName, File.Exists(target) ? SymbolicLink.File : SymbolicLink.Directory))
+				if (!NativeMethods.CreateSymbolicLink(link, target, File.Exists(target) ? NativeMethods.SymbolicLink.File : NativeMethods.SymbolicLink.Directory))
 					throw new Exception(String.Format("Failed to create symlink from {0} to {1}! Error: {2}", target, link, Marshal.GetLastWin32Error()));
 			});
 		}

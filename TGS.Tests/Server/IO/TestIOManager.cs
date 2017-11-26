@@ -296,5 +296,57 @@ namespace TGS.Server.IO.Tests
 			IO.AppendAllText(p1, "fdsafdsa").Wait();
 			Assert.AreEqual("asdfasdffdsafdsa", IO.ReadAllText(p1).Result);
 		}
+
+		//need a special override for this one
+		class UnresolvingIOManager : IOManager
+		{
+			public override string ResolvePath(string path)
+			{
+				return path;
+			}
+		}
+
+
+		[TestMethod]
+		public void TestCreateSymlink()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(tempDir, "FakePath2");
+
+			var tmpIO = IO;
+
+			try
+			{
+				IO = new UnresolvingIOManager();
+				//Intentional weird escape to make the thing error
+				Assert.ThrowsException<AggregateException>(() => IO.CreateSymlink("L\\\\asdf", "M\\\\asdf").Wait());
+			}
+			finally
+			{
+				IO = tmpIO;
+			}
+			IO.WriteAllText(p1, "asdf").Wait();
+
+			IO.CreateSymlink(p2, p1).Wait();
+
+			Assert.AreEqual("asdf", IO.ReadAllText(p2).Result);
+
+			IO.DeleteFile(p1).Wait();
+			IO.DeleteFile(p2).Wait();
+
+			var tmpTempDir = IOManager.ConcatPath(tempDir, "Folder");
+			p1 = IOManager.ConcatPath(tmpTempDir, "FakePath1");
+
+			IO.CreateDirectory(tmpTempDir).Wait();
+
+			IO.WriteAllText(p1, "asdf").Wait();
+			tmpTempDir = IOManager.ConcatPath(tempDir, "Folder2");
+
+			IO.CreateSymlink(tmpTempDir, IOManager.ConcatPath(tempDir, "Folder")).Wait();
+
+			p2 = IOManager.ConcatPath(tmpTempDir, "FakePath1");
+
+			Assert.AreEqual(IO.ReadAllText(p1).Result, IO.ReadAllText(p2).Result);
+		}
 	}
 }

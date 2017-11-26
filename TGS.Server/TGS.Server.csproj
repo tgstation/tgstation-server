@@ -136,6 +136,7 @@
     <Compile Include="IServer.cs" />
     <Compile Include="Configuration\IServerConfig.cs" />
     <Compile Include="IServerFactory.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="RepositoryProvider.cs" />
     <Compile Include="RootAuthorizationManager.cs" />
     <Compile Include="Configuration\DeprecatedInstanceConfig.cs" />
