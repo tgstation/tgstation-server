@@ -209,5 +209,26 @@ namespace TGS.Server.IO.Tests
 			using (var cts = new CancellationTokenSource())
 				Assert.ThrowsException<AggregateException>(() => IO.DownloadFile("http://not.a.url", p1, cts.Token).Wait());
 		}
+
+		[TestMethod]
+		public void TestMoveDirectory()
+		{
+			var p1 = IOManager.ConcatPath(tempDir, "FakePath1");
+			var p2 = IOManager.ConcatPath(p1, "FakePath2");
+			var p3 = IOManager.ConcatPath(tempDir, "FakePath3");
+			var p4 = IOManager.ConcatPath(p3, "FakePath2");
+
+			IO.CreateDirectory(p1).Wait();
+			IO.Touch(p2).Wait();
+
+			IO.MoveDirectory(p1, p3).Wait();
+
+			Assert.IsFalse(IO.DirectoryExists(p1).Result);
+			Assert.IsTrue(IO.FileExists(p4).Result);
+
+			var p5 = "M:\\FakePath";
+
+			Assert.ThrowsException<AggregateException>(() => IO.MoveDirectory(p3, p5).Wait());
+		}
 	}
 }
