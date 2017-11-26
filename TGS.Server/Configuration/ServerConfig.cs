@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JsonNet.PrivateSettersContractResolvers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace TGS.Server.Configuration
 		public ulong Version { get; private set; } = CurrentVersion;
 
 		/// <inheritdoc />
-		public IList<string> InstancePaths { get; private set; } = new List<string>();
+		public IList<string> InstancePaths { get; } = new List<string>();
 
 		/// <inheritdoc />
 		public ushort RemoteAccessPort { get; set; } = 38607;
@@ -64,10 +65,14 @@ namespace TGS.Server.Configuration
 		/// <param name="directory">The directory containing the <see cref="JSONFilename"/></param>
 		/// <param name="IO">The <see cref="IIOManager"/> to use</param>
 		/// <returns>The loaded <see cref="ServerConfig"/></returns>
-		public static ServerConfig Load(string directory, IIOManager IO)
+		static ServerConfig Load(string directory, IIOManager IO)
 		{
 			var configtext = IO.ReadAllText(IOManager.ConcatPath(directory, JSONFilename)).Result;
-			return JsonConvert.DeserializeObject<ServerConfig>(configtext);
+			var config = JsonConvert.DeserializeObject<ServerConfig>(configtext, new JsonSerializerSettings() { ContractResolver = new PrivateSetterContractResolver() });
+			while (config.Version < CurrentVersion)
+				//TODO: Implement migration when necessary
+				++config.Version;
+			return config;
 		}
 
 		/// <summary>
@@ -88,14 +93,7 @@ namespace TGS.Server.Configuration
 					//assume we're upgrading
 					var res = Load(MigrationConfigDirectory, IO);
 					res.Save(DefaultConfigDirectory, IO);
-					Task.Factory.StartNew(() =>
-					{
-						try
-						{
-							IO.DeleteDirectory(MigrationConfigDirectory);   //safe to let this one fall out of scope
-						}
-						catch { }
-					});
+					IO.DeleteDirectory(MigrationConfigDirectory).Wait();
 					return res;
 				}
 				catch

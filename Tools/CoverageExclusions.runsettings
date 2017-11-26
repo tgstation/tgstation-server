@@ -12,8 +12,8 @@
               <Exclude>
                 <Source>.*\\Program\..*</Source>
                 <Source>.*\\TGS.Tests\\.*</Source>
-              </Exclude>
-            </Sources>
+              </Exclude>   
+             </Sources>
             <!-- Match the public key token of a signed assembly: -->
             <PublicKeyTokens>
               <!-- Exclude Moq: -->
@@ -21,6 +21,13 @@
                 <PublicKeyToken>^69f491c39445e920</PublicKeyToken>
               </Exclude>
             </PublicKeyTokens>
+
+            <Functions>
+              <Exclude>
+                <!-- Exclude methods in the namespace JsonNet: -->
+                <Function>JsonNet\..*</Function>
+              </Exclude>
+            </Functions>
 
             <!-- We recommend you do not change the following values: -->
             <UseVerifiableInstrumentation>True</UseVerifiableInstrumentation>

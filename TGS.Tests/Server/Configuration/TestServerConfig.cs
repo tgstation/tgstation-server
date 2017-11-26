@@ -2,6 +2,7 @@
 using Moq;
 using System.Threading.Tasks;
 using TGS.Server.IO;
+using TGS.Tests;
 
 namespace TGS.Server.Configuration.Tests
 {
@@ -11,7 +12,7 @@ namespace TGS.Server.Configuration.Tests
 	[TestClass]
 	public sealed class TestServerConfig
 	{
-		const string goodJSON = "{\"Version\":8,\"InstancePaths\":[\"asdf\"],\"RemoteAccessPort\":38600,\"PythonPath\":\"C:\\\\Python273\"}";
+		const string goodJSON = "{\"Version\":7,\"InstancePaths\":[\"asdf\"],\"RemoteAccessPort\":38600,\"PythonPath\":\"C:\\\\Python273\"}";
 
 		[TestMethod]
 		public void TestLoad()
@@ -32,7 +33,7 @@ namespace TGS.Server.Configuration.Tests
 			mockIO.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Exactly(2));
 			mockIO.ResetCalls();
 			mockIO.Setup(x => x.ReadAllText(IOManager.ConcatPath(ServerConfig.MigrationConfigDirectory, "ServerConfig.json"))).Returns(Task.FromResult(goodJSON));
-			config = ServerConfig.Load(mockIO.Object);
+			config = ServerConfig.Load(mockIO.Object);;
 			mockIO.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Exactly(2));
 			mockIO.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
 			Assert.AreEqual(1, config.InstancePaths.Count);
