@@ -52,7 +52,7 @@ namespace TGS.CommandLine
 					}
 					argsAsList.RemoveAt(I);
 					argsAsList.RemoveAt(I);
-					ReplaceInterface(new ServerInterface(address, port, username, password));
+					ReplaceInterface(new ServerInterface(new RemoteLoginInfo(address, port, username, password)));
 					break;
 				}
 			}
@@ -230,7 +230,7 @@ namespace TGS.CommandLine
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
-						ReplaceInterface(new ServerInterface(address, port, username, password));
+						ReplaceInterface(new ServerInterface(new RemoteLoginInfo(address, port, username, password)));
 						var res = currentInterface.ConnectionStatus(out string error);
 						if (!res.HasFlag(ConnectivityLevel.Connected))
 						{
