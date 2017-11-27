@@ -21,6 +21,11 @@ namespace TGS.Interface
 		/// </summary>
 		public string Username { get; }
 		/// <summary>
+		/// Check if the <see cref="RemoteLoginInfo"/> has been initialized with a <see cref="Password"/>
+		/// </summary>
+		public bool HasPassword { get { return !String.IsNullOrWhiteSpace(Password); }  }
+
+		/// <summary>
 		/// The Windows password for <see cref="Username"/>
 		/// </summary>
 		internal string Password { get; }
@@ -51,8 +56,14 @@ namespace TGS.Interface
 		/// <param name="password">The value for <see cref="Password"/></param>
 		public RemoteLoginInfo(string ip, ushort port, string username, string password)
 		{
+			if (String.IsNullOrWhiteSpace(ip))
+				throw new InvalidOperationException("ip must be set!");
 			_ip = ip;
+			if(port == 0)
+				throw new InvalidOperationException("port may not be 0!");
 			_port = port;
+			if (String.IsNullOrWhiteSpace(username))
+				throw new InvalidOperationException("username must be set!");
 			_username = username;
 			_password = password;
 		}

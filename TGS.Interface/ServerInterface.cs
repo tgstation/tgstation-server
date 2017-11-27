@@ -216,6 +216,8 @@ namespace TGS.Interface
 		/// <param name="loginInfo">The <see cref="RemoteLoginInfo"/> for a remote connection</param>
 		public ServerInterface(RemoteLoginInfo loginInfo)
 		{
+			if (!loginInfo.HasPassword)
+				throw new InvalidOperationException("password must be set on loginInfo!");
 			_loginInfo = loginInfo;
 		}
 
