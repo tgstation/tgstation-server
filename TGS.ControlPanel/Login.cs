@@ -31,7 +31,7 @@ namespace TGS.ControlPanel
 		{
 			IPTextBox.Text = IPTextBox.Text.Trim();
 			UsernameTextBox.Text = UsernameTextBox.Text.Trim();
-			using (var I = new ServerInterface(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text))
+			using (var I = new ServerInterface(new RemoteLoginInfo(IPTextBox.Text, (ushort)PortSelector.Value, UsernameTextBox.Text, PasswordTextBox.Text)))
 			{
 				var Config = Properties.Settings.Default;
 				Config.RemoteIP = IPTextBox.Text;

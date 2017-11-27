@@ -32,7 +32,7 @@ namespace TGS.ControlPanel
 			FormClosed += ControlPanel_FormClosed;
 			Interface = I;
 			if (Interface.IsRemoteConnection)
-				Text = String.Format("TGS {0}: {1}:{2}", Interface.ServerVersion, Interface.HTTPSURL, Interface.HTTPSPort);
+				Text = String.Format("TGS {0}: {1}:{2}", Interface.ServerVersion, Interface.LoginInfo.IP, Interface.LoginInfo.Port);
 			Text = String.Format("{0} Instance: {1}", Text, I.InstanceName);
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
 			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
