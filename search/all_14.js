@@ -34,10 +34,11 @@ var searchData=
   ['updating',['Updating',['../namespace_t_g_s_1_1_interface.html#a4b94c11ccb4064514452be149335bcb0a6909beea5b50605780e3411f879fe916',1,'TGS::Interface']]],
   ['updatingchat',['updatingChat',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a205d590192c9fce2385626f8f6f109e6',1,'TGS::ControlPanel::ControlPanel']]],
   ['updatingenabledcheckbox',['UpdatingEnabledCheckbox',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a7c474fb3dea9745942b12d4b05795012',1,'TGS::ControlPanel::InstanceSelector']]],
-  ['updatingfields',['updatingFields',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a616f7da4b3ed2ac1a6e301b83c01cd9b',1,'TGS::ControlPanel::ControlPanel']]],
+  ['updatingfields',['updatingFields',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a616f7da4b3ed2ac1a6e301b83c01cd9b',1,'TGS.ControlPanel.ControlPanel.updatingFields()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#a5f11244edba22d52f7d6c7565185a62d',1,'TGS.ControlPanel.Login.updatingFields()']]],
   ['url',['URL',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a7e236f197e5af2d512b099747ad33974',1,'TGS::Interface::IRCSetupInfo']]],
   ['urlindex',['URLIndex',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a2b73cf115e02f78eab7f711d5ae50c28',1,'TGS::Interface::IRCSetupInfo']]],
   ['usedloggingids',['UsedLoggingIDs',['../class_t_g_s_1_1_server_1_1_server.html#a6213ea2ae98c0bd5123ad7602e7fb4c0',1,'TGS::Server::Server']]],
+  ['username',['Username',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a1791629dfd01884e31b6074f61710858',1,'TGS::Interface::RemoteLoginInfo']]],
   ['usernamelabel',['UsernameLabel',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#aed707eae246b74bc30ea4dd4cb1c3782',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
   ['usernametextbox',['UsernameTextBox',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#aa003a0279a28ca0db615d6bd64756379',1,'TGS.ControlPanel.GitHubLoginPrompt.UsernameTextBox()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#ae13ff3b1845593dea35ce0cb26a14496',1,'TGS.ControlPanel.Login.UsernameTextBox()']]]
 ];

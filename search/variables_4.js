@@ -7,6 +7,7 @@ var searchData=
   ['defaultinstallationpath',['DefaultInstallationPath',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html#ae4671caa40d0676d10b8bb19c0378713',1,'TGS::Server::DeprecatedInstanceConfig']]],
   ['defaultinstalldir',['DefaultInstallDir',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a296d0585b5cdf852482be0e46682f709',1,'TGS::Installer::UI::Main']]],
   ['delayuntilreboot',['DelayUntilReboot',['../class_common.html#ae381a2885ff40aee615cd9f559ac8270',1,'Common']]],
+  ['deleteloginbutton',['DeleteLoginButton',['../class_t_g_s_1_1_control_panel_1_1_login.html#aed82304f330c5c9586768a47b48a704b',1,'TGS::ControlPanel::Login']]],
   ['deskshortcutscheckbox',['DeskShortcutsCheckbox',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a8bf7f69bf8d6f97ac62251f9034d97c4',1,'TGS::Installer::UI::Main']]],
   ['detachinstancebutton',['DetachInstanceButton',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#abc117d4133d68df152138bae606cb221',1,'TGS::ControlPanel::InstanceSelector']]],
   ['devchannelindex',['DevChannelIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a13ed26bb6e2e976439ac6c301a1f29db',1,'TGS::Interface::ChatSetupInfo']]],

@@ -17,7 +17,7 @@ var searchData=
   ['instancelistbox',['InstanceListBox',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#ac2a912e5744ef50904e12488be4968ca',1,'TGS::ControlPanel::InstanceSelector']]],
   ['interactive',['interactive',['../class_t_g_s_1_1_command_line_1_1_program.html#a1fcc59d86e39f82bc0379d67eedbe6cb',1,'TGS::CommandLine::Program']]],
   ['interface',['Interface',['../class_t_g_s_1_1_command_line_1_1_console_command.html#a4737f657b7692d447944b75693e42aae',1,'TGS.CommandLine.ConsoleCommand.Interface()'],['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#abd85fadf304934aaee3da66f4fea67e1',1,'TGS.ControlPanel.ControlPanel.Interface()'],['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a26d94ac37e48303729806419d96c6e98',1,'TGS.Installer.UI.Main.Interface()']]],
-  ['iptextbox',['IPTextBox',['../class_t_g_s_1_1_control_panel_1_1_login.html#a2356b5f6a7fea3412be146abdf3ad2a8',1,'TGS::ControlPanel::Login']]],
+  ['ipcombobox',['IPComboBox',['../class_t_g_s_1_1_control_panel_1_1_login.html#a4e2893c2ac2df893e8f57ffe8c3ff96f',1,'TGS::ControlPanel::Login']]],
   ['irc',['irc',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a746b79466d3d07b762eb56934bca0040',1,'TGS::Server::ChatProviders::IRCChatProvider']]],
   ['ircconfig',['IRCConfig',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a116ea605df10946b8e01a87ea4610ee0',1,'TGS::Server::ChatProviders::IRCChatProvider']]],
   ['irclock',['IRCLock',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a423d62023d8e430f7e448f6c05bad995',1,'TGS::Server::ChatProviders::IRCChatProvider']]],

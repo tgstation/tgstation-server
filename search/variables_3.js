@@ -51,6 +51,7 @@ var searchData=
   ['createinstancebutton',['CreateInstanceButton',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a399c29814e9c7e437c97edd5cbd9696e',1,'TGS::ControlPanel::InstanceSelector']]],
   ['currentddlog',['CurrentDDLog',['../class_t_g_s_1_1_server_1_1_instance.html#a068d9bbb0c0d5fe0507e662af2041865',1,'TGS::Server::Instance']]],
   ['currentinterface',['currentInterface',['../class_t_g_s_1_1_command_line_1_1_instance_root_command.html#a6c5dccd32c229cf85ade6c876dca1ab2',1,'TGS.CommandLine.InstanceRootCommand.currentInterface()'],['../class_t_g_s_1_1_command_line_1_1_program.html#a4d38d57ab4bd87d274338b24afeec81c',1,'TGS.CommandLine.Program.currentInterface()'],['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#ae912af0f336cdcd98694b2c9ab0e9f91',1,'TGS.ControlPanel.TestMergeManager.currentInterface()']]],
+  ['currentlogininfo',['currentLoginInfo',['../class_t_g_s_1_1_control_panel_1_1_login.html#a71ef0e9a4b9283e27170e69e7a126be0',1,'TGS::ControlPanel::Login']]],
   ['currentport',['currentPort',['../class_t_g_s_1_1_server_1_1_instance.html#a7bf652d7d02976801c7a4781e65da93f',1,'TGS::Server::Instance']]],
   ['currentprogress',['currentProgress',['../class_t_g_s_1_1_server_1_1_instance.html#af34ec3b6bf17a85bd373018a19cf54da',1,'TGS::Server::Instance']]],
   ['currentrevisionlabel',['CurrentRevisionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#ad4ab96e66c1b6d0342d7eec0e6ffb1e2',1,'TGS::ControlPanel::ControlPanel']]],

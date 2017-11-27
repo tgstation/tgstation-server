@@ -1,6 +1,7 @@
 var searchData=
 [
   ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['remotelogininfo_2ecs',['RemoteLoginInfo.cs',['../_remote_login_info_8cs.html',1,'']]],
   ['repocommands_2ecs',['RepoCommands.cs',['../_repo_commands_8cs.html',1,'']]],
   ['repoconfig_2ecs',['RepoConfig.cs',['../_repo_config_8cs.html',1,'']]],
   ['repopage_2ecs',['RepoPage.cs',['../_repo_page_8cs.html',1,'']]],

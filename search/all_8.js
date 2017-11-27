@@ -9,14 +9,11 @@ var searchData=
   ['hardrebooting',['HardRebooting',['../namespace_t_g_s_1_1_interface.html#a769cbe24216f6ab7cb0cdf2b39177175a6f140364f9894a2f77258f7e81a74703',1,'TGS::Interface']]],
   ['hardreset',['HardReset',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#ae31e22c35fbaba04d2449c947faa02ec',1,'TGS::ControlPanel::ControlPanel']]],
   ['hardreset_5fclick',['HardReset_Click',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a84d81f4b7cbd066faf3de43202c18755',1,'TGS::ControlPanel::ControlPanel']]],
-  ['helpers',['Helpers',['../class_t_g_s_1_1_interface_1_1_helpers.html',1,'TGS::Interface']]],
+  ['haspassword',['HasPassword',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a86834fc8af609b86474fd67e3d3b846e',1,'TGS::Interface::RemoteLoginInfo']]],
   ['helpers',['Helpers',['../class_t_g_s_1_1_server_1_1_helpers.html',1,'TGS::Server']]],
+  ['helpers',['Helpers',['../class_t_g_s_1_1_interface_1_1_helpers.html',1,'TGS::Interface']]],
   ['helpers_2ecs',['Helpers.cs',['../_t_g_s_8_server_2_helpers_8cs.html',1,'']]],
   ['helpers_2ecs',['Helpers.cs',['../_t_g_s_8_interface_2_helpers_8cs.html',1,'']]],
   ['helptext',['HelpText',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_server_chat_command.html#aad7e6582790a2f36c883d3a0d12bbeb0',1,'TGS::Server::ChatCommands::ServerChatCommand']]],
-  ['hosts',['hosts',['../class_t_g_s_1_1_server_1_1_server.html#ac9fd7531267a1affc98b5b3d53b38262',1,'TGS::Server::Server']]],
-  ['httpspassword',['HTTPSPassword',['../class_t_g_s_1_1_interface_1_1_server_interface.html#ae9adae2a85d81b880a2afdb91553ff6a',1,'TGS::Interface::ServerInterface']]],
-  ['httpsport',['HTTPSPort',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#a134fed74b587545db68fc811722ea3e2',1,'TGS.Interface.IServerInterface.HTTPSPort()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#a08eb2d86e78549aab6203970489331c9',1,'TGS.Interface.ServerInterface.HTTPSPort()']]],
-  ['httpsurl',['HTTPSURL',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#a6d564aead55fc83df5d938c1c87aec12',1,'TGS.Interface.IServerInterface.HTTPSURL()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#a37a0642feaf6484b291334ff36540d57',1,'TGS.Interface.ServerInterface.HTTPSURL()']]],
-  ['httpsusername',['HTTPSUsername',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a4b1368ba524f74437d0112e5efb7700c',1,'TGS::Interface::ServerInterface']]]
+  ['hosts',['hosts',['../class_t_g_s_1_1_server_1_1_server.html#ac9fd7531267a1affc98b5b3d53b38262',1,'TGS::Server::Server']]]
 ];

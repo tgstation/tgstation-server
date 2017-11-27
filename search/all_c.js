@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['label1',['label1',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aaa0a22d0e78e8647f4cc7b7680e00d93',1,'TGS.ControlPanel.ControlPanel.label1()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#a9d427b0647b77f7f95e670d1748a57f8',1,'TGS.ControlPanel.Login.label1()'],['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#adf34d7020fa8ffcfd297639b6c22fef2',1,'TGS.Installer.UI.Main.label1()']]],
+  ['label1',['label1',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aaa0a22d0e78e8647f4cc7b7680e00d93',1,'TGS.ControlPanel.ControlPanel.label1()'],['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#adf34d7020fa8ffcfd297639b6c22fef2',1,'TGS.Installer.UI.Main.label1()']]],
   ['label2',['label2',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#ac2321c39e0d62e02db11946e0a4f3bc0',1,'TGS.ControlPanel.ControlPanel.label2()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#af2301ba5b0c824fd9d0f18b25576c310',1,'TGS.ControlPanel.Login.label2()']]],
   ['label3',['label3',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aea1178143fd4a6e08f9e7c80432f64f1',1,'TGS.ControlPanel.ControlPanel.label3()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#ae182fd29c89aa59e1cfe3104ddb88fce',1,'TGS.ControlPanel.Login.label3()']]],
   ['label4',['label4',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aac8c9589f7aa4c70a9aeac13473ece9f',1,'TGS.ControlPanel.ControlPanel.label4()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#a7836fd8ea0658b7614cc16c30a85315d',1,'TGS.ControlPanel.Login.label4()']]],
@@ -38,10 +38,11 @@ var searchData=
   ['log',['Log',['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)'],['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)']]],
   ['logger',['Logger',['../class_t_g_s_1_1_server_1_1_server.html#a1d74616cab26fd2b954f87e6a9b911a6',1,'TGS::Server::Server']]],
   ['loggingid',['LoggingID',['../class_t_g_s_1_1_interface_1_1_instance_metadata.html#ad80756c8515e0b9b3a9373bc5e9f2fb5',1,'TGS.Interface.InstanceMetadata.LoggingID()'],['../class_t_g_s_1_1_server_1_1_instance.html#aed67602a10e95dbf4cd053fb65871ed8',1,'TGS.Server.Instance.LoggingID()'],['../class_t_g_s_1_1_server_1_1_server.html#a702eca8419343fd22ea34a63fc24772e',1,'TGS.Server.Server.LoggingID()']]],
-  ['login',['Login',['../class_t_g_s_1_1_control_panel_1_1_login.html',1,'TGS::ControlPanel']]],
   ['login',['Login',['../class_t_g_s_1_1_control_panel_1_1_login.html#a22b24f587aa87ea802cdd37eb71a1e21',1,'TGS.ControlPanel.Login.Login()'],['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#ae89fc47a4fbcb85dc33372511a370984',1,'TGS.Server.ChatProviders.IRCChatProvider.Login()']]],
+  ['login',['Login',['../class_t_g_s_1_1_control_panel_1_1_login.html',1,'TGS::ControlPanel']]],
   ['login_2ecs',['Login.cs',['../_login_8cs.html',1,'']]],
   ['login_2edesigner_2ecs',['Login.Designer.cs',['../_login_8_designer_8cs.html',1,'']]],
   ['loginbutton',['LoginButton',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#ab7223a489d138aaf8bbd818c93235fd8',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
-  ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62',1,'TGS::ControlPanel::GitHubLoginPrompt']]]
+  ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
+  ['logininfo',['LoginInfo',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#a10fe4036cd095c94ebc20c2aabfb1055',1,'TGS.Interface.IServerInterface.LoginInfo()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#ad475c334855ca719c461ce2328f1aed3',1,'TGS.Interface.ServerInterface.LoginInfo()']]]
 ];

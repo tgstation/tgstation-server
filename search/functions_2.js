@@ -36,6 +36,7 @@ var searchData=
   ['cleangamefolder',['CleanGameFolder',['../class_t_g_s_1_1_server_1_1_instance.html#a1365351782327c0a728b7c13844d5640',1,'TGS::Server::Instance']]],
   ['cleantempdir',['CleanTempDir',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a4f1c68505e66e595f9101800b7f73afa',1,'TGS::Installer::UI::Main']]],
   ['cleanup',['Cleanup',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a4fb8b85c679cef0b6986a59cac5576bc',1,'TGS.ControlPanel.ControlPanel.Cleanup()'],['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a131aa1f242704283f47e48fea0840542',1,'TGS.ControlPanel.InstanceSelector.Cleanup()'],['../class_t_g_service_tests_1_1_temp_directory_required_test.html#af415394fe41d6ea72eec7768c1a1d04d',1,'TGServiceTests.TempDirectoryRequiredTest.Cleanup()']]],
+  ['clearfields',['ClearFields',['../class_t_g_s_1_1_control_panel_1_1_login.html#a6243b0aa38a4efb52a8d563413bd635c',1,'TGS::ControlPanel::Login']]],
   ['clicommand',['CLICommand',['../class_t_g_s_1_1_command_line_1_1_c_l_i_command.html#a048af3faaf256fca03fa0ec4dfa4905b',1,'TGS::CommandLine::CLICommand']]],
   ['client_5fmessagereceived',['Client_MessageReceived',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html#a76bbc2253e6e1db3838189e8112b5b33',1,'TGS::Server::ChatProviders::DiscordChatProvider']]],
   ['clone',['Clone',['../class_t_g_s_1_1_server_1_1_instance.html#a3443b6d7f6b2481e21e8c7a63c429221',1,'TGS::Server::Instance']]],

@@ -4,5 +4,5 @@
 <area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_program.html#a8d307d7d1d437c89c501ad3737e45576" title="TGS.CommandLine.Program.Main" alt="" coords="251,137,471,163"/>
 <area shape="rect" id="node5" href="$class_t_g_s_1_1_command_line_1_1_program.html#afc7685c0573dcdf0f47bb3f08bafa72f" title="TGS.CommandLine.Program.\lRunCommandLine" alt="" coords="265,188,457,229"/>
 <area shape="rect" id="node6" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a9323f3432004b2da5f7370b642f86128" title="TGS.Installer.UI.Main.Tell\lServiceWereComingForThem" alt="" coords="266,253,457,295"/>
-<area shape="rect" id="node7" href="$class_t_g_s_1_1_control_panel_1_1_login.html#acbbb7e34d81d51278a889cd07de78fb6" title="TGS.ControlPanel.Login.Verify\lAndConnect" alt="" coords="262,319,461,360"/>
+<area shape="rect" id="node7" href="$class_t_g_s_1_1_control_panel_1_1_login.html#acc9bc08d032f3d98790a7f95cbe87139" title="Attempts a connection on a given IServerInterface " alt="" coords="262,319,461,360"/>
 </map>
