@@ -402,7 +402,8 @@ namespace TGS.Interface
 			binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
 			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
 			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
-			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Password, accessPath, InterfaceName));
+			var url = String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Port, accessPath, InterfaceName);
+			var address = new EndpointAddress(url);
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
 			{
@@ -426,7 +427,7 @@ namespace TGS.Interface
 			{
 				GetComponentImpl<ITGConnectivity>(false).VerifyConnection();
 			}
-			catch (CommunicationException e)
+			catch (Exception e)
 			{
 				error = e.ToString();
 				return ConnectivityLevel.None;

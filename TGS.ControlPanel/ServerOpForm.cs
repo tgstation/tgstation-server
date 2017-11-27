@@ -8,10 +8,9 @@ namespace TGS.ControlPanel
 	/// Used to provide an ATP function for calls into an <see cref="TGS.Interface.IServerInterface"/>
 	/// </summary>
 #if !DEBUG
-	abstract class ServerOpForm : Form
-#else
-	class ServerOpForm : Form
+	abstract
 #endif
+	class ServerOpForm : Form
 	{
 		/// <summary>
 		/// Used to wrap <see cref="TGS.Interface.IServerInterface"/> calls in a non-blocking fashion while disabling the <see cref="Form"/> and enabling the wait cursor
