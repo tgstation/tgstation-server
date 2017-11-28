@@ -8,6 +8,8 @@ var searchData=
   ['badcommand',['BadCommand',['../class_t_g_s_1_1_interface_1_1_command.html#ae21716f032d9a454736f4ef2f7e9590faa8a531d11db80cfc1fe739df02353193',1,'TGS::Interface::Command']]],
   ['baseindex',['BaseIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a12f6a8a23e36fd2de613d8aaef21217c',1,'TGS::Interface::ChatSetupInfo']]],
   ['bdirtest',['BDirTest',['../class_t_g_s_1_1_server_1_1_instance.html#a04a55046a02e4429bb209033ea330646',1,'TGS::Server::Instance']]],
+  ['beforesendrequest',['BeforeSendRequest',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#ade591ed64c16c17c88efeacf856262b3',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
+  ['beginimpersonation',['BeginImpersonation',['../class_t_g_s_1_1_server_1_1_server.html#a6357fde09e65ef71222045f00094d5ac',1,'TGS::Server::Server']]],
   ['bottoken',['BotToken',['../class_t_g_s_1_1_interface_1_1_discord_setup_info.html#a73011bd4f5e6da2f916c4a259536a686',1,'TGS::Interface::DiscordSetupInfo']]],
   ['bottokenindex',['BotTokenIndex',['../class_t_g_s_1_1_interface_1_1_discord_setup_info.html#a42c65ddd8596cb56927d44439e436108',1,'TGS::Interface::DiscordSetupInfo']]],
   ['branchnametitle',['BranchNameTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#abe7f0a4e23fdfb7795b91a478e60093d',1,'TGS::ControlPanel::ControlPanel']]],

@@ -10,7 +10,7 @@ var searchData=
   ['lastcompilererror',['lastCompilerError',['../class_t_g_s_1_1_server_1_1_instance.html#a7a892be6eee558d2be0006b156153098',1,'TGS::Server::Instance']]],
   ['lasterror',['lastError',['../class_t_g_s_1_1_server_1_1_instance.html#a59a9f31f1b34f1c903b9f1af34e707e7',1,'TGS::Server::Instance']]],
   ['lastreaderror',['lastReadError',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a77171fab17d7f94c1db41810ce912b22',1,'TGS::ControlPanel::ControlPanel']]],
-  ['lastseenuser',['LastSeenUser',['../class_t_g_s_1_1_server_1_1_instance.html#af14a38d1febdad352e36b931dae6b722',1,'TGS.Server.Instance.LastSeenUser()'],['../class_t_g_s_1_1_server_1_1_root_authorization_manager.html#aa8fe0d74d66bd8714af45f2b188fe084',1,'TGS.Server.RootAuthorizationManager.LastSeenUser()']]],
+  ['lastseenuser',['LastSeenUser',['../class_t_g_s_1_1_server_1_1_instance.html#af14a38d1febdad352e36b931dae6b722',1,'TGS.Server.Instance.LastSeenUser()'],['../class_t_g_s_1_1_server_1_1_security_1_1_root_authorization_manager.html#ab8ff42929d16725185b39e0d60024331',1,'TGS.Server.Security.RootAuthorizationManager.LastSeenUser()']]],
   ['latest',['Latest',['../namespace_t_g_s_1_1_interface.html#a1385bc6e3ab604932c185fe8bd6ad008acd118d21c3b0b4762c6e0063661e6e45',1,'TGS::Interface']]],
   ['latestversionlabel',['LatestVersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aca346df233b2a463902a78c31ef4ec2c',1,'TGS::ControlPanel::ControlPanel']]],
   ['latestversiontitle',['LatestVersionTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a3eafa1bef3febc39cdd02605c7414a67',1,'TGS::ControlPanel::ControlPanel']]],
@@ -44,5 +44,6 @@ var searchData=
   ['login_2edesigner_2ecs',['Login.Designer.cs',['../_login_8_designer_8cs.html',1,'']]],
   ['loginbutton',['LoginButton',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#ab7223a489d138aaf8bbd818c93235fd8',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
   ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
-  ['logininfo',['LoginInfo',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#a10fe4036cd095c94ebc20c2aabfb1055',1,'TGS.Interface.IServerInterface.LoginInfo()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#ad475c334855ca719c461ce2328f1aed3',1,'TGS.Interface.ServerInterface.LoginInfo()']]]
+  ['logininfo',['LoginInfo',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#a10fe4036cd095c94ebc20c2aabfb1055',1,'TGS.Interface.IServerInterface.LoginInfo()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#ad475c334855ca719c461ce2328f1aed3',1,'TGS.Interface.ServerInterface.LoginInfo()']]],
+  ['logonuser',['LogonUser',['../class_t_g_s_1_1_server_1_1_security_1_1_authentication_header_decoder.html#af2a6c3a632e8405b9a0099e07cf78f46',1,'TGS::Server::Security::AuthenticationHeaderDecoder']]]
 ];

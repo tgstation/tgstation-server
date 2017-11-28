@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['validate',['Validate',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a3ce04c7fcd71140713c0a80028c64aa8',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
   ['validinstanceinterfaces',['ValidInstanceInterfaces',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a3c113f0786e8e4fdfe12663fe532a501',1,'TGS::Interface::ServerInterface']]],
   ['validserviceinterfaces',['ValidServiceInterfaces',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a4cf872d4ed676b566a12302930113042',1,'TGS::Interface::ServerInterface']]],
   ['verifyandconnect',['VerifyAndConnect',['../class_t_g_s_1_1_control_panel_1_1_login.html#acc9bc08d032f3d98790a7f95cbe87139',1,'TGS::ControlPanel::Login']]],

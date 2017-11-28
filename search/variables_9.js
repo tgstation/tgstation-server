@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['id',['Id',['../class_t_g_s_1_1_server_1_1_security_1_1_windows_authorization_policy.html#ab3e17ef49c1c550685f8c8253f798778',1,'TGS::Server::Security::WindowsAuthorizationPolicy']]],
+  ['identity',['identity',['../class_t_g_s_1_1_server_1_1_security_1_1_windows_authorization_policy.html#ade861e63e72b611e2ac7a1f06d72ec20',1,'TGS::Server::Security::WindowsAuthorizationPolicy']]],
   ['identitylabel',['IdentityLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a15f26223e5e3c158465ac43117ebb428',1,'TGS::ControlPanel::ControlPanel']]],
   ['importinstancebutton',['ImportInstanceButton',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a62be45a725c5c3c4c81d9787aa5473c6',1,'TGS::ControlPanel::InstanceSelector']]],
   ['indexestopaths',['IndexesToPaths',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#ae91e8572387dd34cceb236d63eb4bb61',1,'TGS::ControlPanel::ControlPanel']]],
@@ -11,7 +13,7 @@ var searchData=
   ['installcancelbutton',['InstallCancelButton',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a451b23ee1ca45415b4b4c55dc3f90c30',1,'TGS::Installer::UI::Main']]],
   ['installing',['installing',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a0420f3fc6ff49506491a7b452a7ae420',1,'TGS::Installer::UI::Main']]],
   ['installinglabel',['InstallingLabel',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#afecef28fca9b31d10f98057e25687f5b',1,'TGS::Installer::UI::Main']]],
-  ['instanceauthmanagers',['InstanceAuthManagers',['../class_t_g_s_1_1_server_1_1_root_authorization_manager.html#afacd2300f381182cb80394c3b67b9d81',1,'TGS::Server::RootAuthorizationManager']]],
+  ['instanceauthmanagers',['InstanceAuthManagers',['../class_t_g_s_1_1_server_1_1_security_1_1_root_authorization_manager.html#a9bd81a375303ee52616baba77b1b329e',1,'TGS::Server::Security::RootAuthorizationManager']]],
   ['instancedata',['InstanceData',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#ac0d5fb996e03a3e3a06623006e52fb5c',1,'TGS::ControlPanel::InstanceSelector']]],
   ['instanceinterfacename',['InstanceInterfaceName',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a4d0a8aed008c0e6e0519b1a9049ef6fa',1,'TGS::Interface::ServerInterface']]],
   ['instancelistbox',['InstanceListBox',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#ac2a912e5744ef50904e12488be4968ca',1,'TGS::ControlPanel::InstanceSelector']]],
@@ -23,5 +25,6 @@ var searchData=
   ['irclock',['IRCLock',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#a423d62023d8e430f7e448f6c05bad995',1,'TGS::Server::ChatProviders::IRCChatProvider']]],
   ['ircmodescombobox',['IRCModesComboBox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a392c8b0dfd441384ae7082e7484160d0',1,'TGS::ControlPanel::ControlPanel']]],
   ['ircproviderswitch',['IRCProviderSwitch',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#abbc67d7f0a85bdf4dee642e2582543e0',1,'TGS::ControlPanel::ControlPanel']]],
-  ['isattached',['isAttached',['../class_i_l_template.html#ab9a47664076c02171c81d6ec947d0d13',1,'ILTemplate']]]
+  ['isattached',['isAttached',['../class_i_l_template.html#ab9a47664076c02171c81d6ec947d0d13',1,'ILTemplate']]],
+  ['issuer',['Issuer',['../class_t_g_s_1_1_server_1_1_security_1_1_windows_authorization_policy.html#a5fc408d46e124f622f36e05db8687410',1,'TGS::Server::Security::WindowsAuthorizationPolicy']]]
 ];

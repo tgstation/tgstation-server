@@ -1,6 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_service_tests_1_1_output_proc_overrider_test.html" title="For tests that need to override Command.OutputProcVar " alt="" coords="5,53,188,94"/>
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_repository_command_test.html" title="TGS.CommandLine.Commands.\lRepository.Tests.RepositoryCommandTest" alt="" coords="236,53,507,94"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_set_push_testmerge_commits_command.html" title="Tests for RepoSetPushTestmergeCommitsCommand " alt="" coords="555,5,784,61"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_status_command.html" title="Tests for RepoStatusCommand " alt="" coords="561,85,778,141"/>
+<area shape="rect" id="node1" href="$interface_t_g_s_1_1_server_1_1_i_instance_config.html" title="Configuration settings for a Instance " alt="" coords="5,13,185,39"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance_config.html" title="TGS.Server.InstanceConfig" alt="" coords="233,13,411,39"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="" coords="459,5,665,47"/>
 </map>

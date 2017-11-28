@@ -1,0 +1,6 @@
+<map id="TGS.Interface.AuthenticationHeaderApplicator" name="TGS.Interface.AuthenticationHeaderApplicator">
+<area shape="rect" id="node2" href="$class_i_endpoint_behavior.html" title="IEndpointBehavior" alt="" coords="5,124,131,151"/>
+<area shape="rect" id="node3" href="$class_i_client_message_inspector.html" title="IClientMessageInspector" alt="" coords="155,124,319,151"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_remote_login_info.html" title="Information representing a remote server connection " alt="" coords="343,124,545,151"/>
+<area shape="rect" id="node5" href="$class_i_equatable.html" title="IEquatable\&lt; RemoteLoginInfo \&gt;" alt="" coords="189,5,392,32"/>
+</map>

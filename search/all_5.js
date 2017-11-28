@@ -14,6 +14,7 @@ var searchData=
   ['enumresult',['EnumResult',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf1586e54d2b750d2f2ecfdee208ad9d',1,'TGS::ControlPanel::ControlPanel']]],
   ['equals',['Equals',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a83cc566b70ca3a6fbfd470dc73e00a4c',1,'TGS.Interface.RemoteLoginInfo.Equals()'],['../class_t_g_s_1_1_server_1_1_repo_config.html#a83f77fe741e4d1001503dcc1f3afc69a',1,'TGS.Server.RepoConfig.Equals(object obj)'],['../class_t_g_s_1_1_server_1_1_repo_config.html#a49df5a6099c91054978f38fdf5a53fdf',1,'TGS.Server.RepoConfig.Equals(RepoConfig other)']]],
   ['error',['Error',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf1586e54d2b750d2f2ecfdee208ad9da902b0d55fddef6f8d651fe1035b7d4bd',1,'TGS::ControlPanel::ControlPanel']]],
+  ['evaluate',['Evaluate',['../class_t_g_s_1_1_server_1_1_security_1_1_windows_authorization_policy.html#a1769e9e334c5e4093d813a7eac915d1b',1,'TGS::Server::Security::WindowsAuthorizationPolicy']]],
   ['eventfolder',['EventFolder',['../class_t_g_s_1_1_server_1_1_instance.html#ab11cde4315f36ebad3ce66512c57deb1',1,'TGS::Server::Instance']]],
   ['eventhandlerexists',['EventHandlerExists',['../class_t_g_s_1_1_server_1_1_instance.html#ad6a9c48edf68396150d04640aae4ea5c',1,'TGS::Server::Instance']]],
   ['eventid',['EventID',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311',1,'TGS::Server']]],

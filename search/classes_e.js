@@ -6,6 +6,7 @@ var searchData=
   ['serverinterface',['ServerInterface',['../class_t_g_s_1_1_interface_1_1_server_interface.html',1,'TGS::Interface']]],
   ['serveropform',['ServerOpForm',['../class_t_g_s_1_1_control_panel_1_1_server_op_form.html',1,'TGS::ControlPanel']]],
   ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html',1,'TGS::Server::Service']]],
+  ['serviceauthenticationmanager',['ServiceAuthenticationManager',['../class_service_authentication_manager.html',1,'']]],
   ['serviceauthorizationmanager',['ServiceAuthorizationManager',['../class_service_authorization_manager.html',1,'']]],
   ['servicebase',['ServiceBase',['../class_service_base.html',1,'']]],
   ['servicecommand',['ServiceCommand',['../class_t_g_s_1_1_command_line_1_1_service_command.html',1,'TGS::CommandLine']]],

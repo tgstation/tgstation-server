@@ -19,5 +19,6 @@ var searchData=
   ['lockloggingid',['LockLoggingID',['../class_t_g_s_1_1_server_1_1_server.html#a7939236efbbddb15e9c3684eff4d69a2',1,'TGS::Server::Server']]],
   ['log',['Log',['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)'],['../class_common.html#a092e7fc10aca1741843c4f65a719d3c8',1,'Common.Log(string format, params object[] args)']]],
   ['login',['Login',['../class_t_g_s_1_1_control_panel_1_1_login.html#a22b24f587aa87ea802cdd37eb71a1e21',1,'TGS.ControlPanel.Login.Login()'],['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html#ae89fc47a4fbcb85dc33372511a370984',1,'TGS.Server.ChatProviders.IRCChatProvider.Login()']]],
-  ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62',1,'TGS::ControlPanel::GitHubLoginPrompt']]]
+  ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
+  ['logonuser',['LogonUser',['../class_t_g_s_1_1_server_1_1_security_1_1_authentication_header_decoder.html#af2a6c3a632e8405b9a0099e07cf78f46',1,'TGS::Server::Security::AuthenticationHeaderDecoder']]]
 ];

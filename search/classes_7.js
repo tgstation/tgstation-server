@@ -1,7 +1,10 @@
 var searchData=
 [
+  ['iauthorizationpolicy',['IAuthorizationPolicy',['../class_i_authorization_policy.html',1,'']]],
   ['ichatprovider',['IChatProvider',['../interface_t_g_s_1_1_server_1_1_chat_providers_1_1_i_chat_provider.html',1,'TGS::Server::ChatProviders']]],
+  ['iclientmessageinspector',['IClientMessageInspector',['../class_i_client_message_inspector.html',1,'']]],
   ['idisposable',['IDisposable',['../class_i_disposable.html',1,'']]],
+  ['iendpointbehavior',['IEndpointBehavior',['../class_i_endpoint_behavior.html',1,'']]],
   ['iequatable',['IEquatable',['../class_i_equatable.html',1,'']]],
   ['iinstanceconfig',['IInstanceConfig',['../interface_t_g_s_1_1_server_1_1_i_instance_config.html',1,'TGS::Server']]],
   ['ilogger',['ILogger',['../interface_t_g_s_1_1_server_1_1_i_logger.html',1,'TGS::Server']]],

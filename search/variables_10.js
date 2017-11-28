@@ -5,6 +5,7 @@ var searchData=
   ['recreatestaticbutton',['RecreateStaticButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#af37542f33ac8e119e7edea883db82031',1,'TGS::ControlPanel::ControlPanel']]],
   ['refreshbutton',['RefreshButton',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a724d0b85a28ad9ec4c2da8b21982882f',1,'TGS.ControlPanel.InstanceSelector.RefreshButton()'],['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a0c0516022dfa0037630129724c1e0b80',1,'TGS.ControlPanel.TestMergeManager.RefreshButton()']]],
   ['remoteloginbutton',['RemoteLoginButton',['../class_t_g_s_1_1_control_panel_1_1_login.html#aad6018df18329d028b96d98d40e8f3c2',1,'TGS::ControlPanel::Login']]],
+  ['remotelogininfo',['remoteLoginInfo',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a74d4ff7edfc91713d75f638afcbde8cf',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
   ['remotenametitle',['RemoteNameTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a23d156eb37f6694d2b55dcb2217e28f6',1,'TGS::ControlPanel::ControlPanel']]],
   ['remotetempbranchname',['RemoteTempBranchName',['../class_t_g_s_1_1_server_1_1_instance.html#a92be8ba81fd1326b755a9e0582a958ac',1,'TGS::Server::Instance']]],
   ['removealltestmergesbutton',['RemoveAllTestMergesButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a09b4753e086f703d8e2675a6ff5a4d25',1,'TGS::ControlPanel::ControlPanel']]],

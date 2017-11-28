@@ -13,6 +13,7 @@ var searchData=
   ['properties',['Properties',['../namespace_t_g_s_1_1_installer_1_1_u_i_1_1_properties.html',1,'TGS::Installer::UI']]],
   ['properties',['Properties',['../namespace_t_g_s_1_1_control_panel_1_1_properties.html',1,'TGS::ControlPanel']]],
   ['repository',['Repository',['../namespace_t_g_s_1_1_command_line_1_1_commands_1_1_repository.html',1,'TGS::CommandLine::Commands']]],
+  ['security',['Security',['../namespace_t_g_s_1_1_server_1_1_security.html',1,'TGS::Server']]],
   ['server',['Server',['../namespace_t_g_s_1_1_server.html',1,'TGS']]],
   ['service',['Service',['../namespace_t_g_s_1_1_server_1_1_service.html',1,'TGS::Server']]],
   ['tests',['Tests',['../namespace_t_g_s_1_1_interface_1_1_tests.html',1,'TGS::Interface']]],

@@ -125,8 +125,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abde92e8b25af4840bf1308dcdb9f52d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8f9624bb6c7aa125e5f37141871b598"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#ae8f9624bb6c7aa125e5f37141871b598">TestCopyRemoteInterface</a> ()</td></tr>
 <tr class="separator:ae8f9624bb6c7aa125e5f37141871b598"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab598e7e253fa102c5b4ddc5e29b80e91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#ab598e7e253fa102c5b4ddc5e29b80e91">TestRemoteAccessInterfaceAllowsWindowsImpersonation</a> ()</td></tr>
-<tr class="separator:ab598e7e253fa102c5b4ddc5e29b80e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdb33af1df0e047ff645a9d9f7e4814b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#abdb33af1df0e047ff645a9d9f7e4814b">TestLocalAccessInterfaceAllowsWindowsImpersonation</a> ()</td></tr>
+<tr class="separator:abdb33af1df0e047ff645a9d9f7e4814b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -190,7 +190,7 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_test_interface_8cs_source.html#l00037">37</a> of file <a class="el" href="_test_interface_8cs_source.html">TestInterface.cs</a>.</p>
 
-<p>References <a class="el" href="_server_interface_8cs_source.html#l00181">TGS.Interface.ServerInterface.SetBadCertificateHandler()</a>.</p>
+<p>References <a class="el" href="_server_interface_8cs_source.html#l00183">TGS.Interface.ServerInterface.SetBadCertificateHandler()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            var ran = <span class="keyword">false</span>;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            ServerInterface.SetBadCertificateHandler(_ =&gt;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                ran = <span class="keyword">true</span>;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            });</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            ServicePointManager.ServerCertificateValidationCallback(<span class="keyword">this</span>, <span class="keyword">new</span> <a class="code" href="namespace_system.html">System</a>.Security.Cryptography.X509Certificates.X509Certificate(), <span class="keyword">new</span> <a class="code" href="namespace_system.html">System</a>.Security.Cryptography.X509Certificates.X509Chain(), <a class="code" href="namespace_system.html">System</a>.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            Assert.IsTrue(ran);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
@@ -223,6 +223,24 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="abdb33af1df0e047ff645a9d9f7e4814b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TGS.Interface.Tests.TestInterface.TestLocalAccessInterfaceAllowsWindowsImpersonation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_test_interface_8cs_source.html#l00089">89</a> of file <a class="el" href="_test_interface_8cs_source.html">TestInterface.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            var inter = <span class="keyword">new</span> ServerInterface();</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            var po = <span class="keyword">new</span> PrivateObject(inter);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            var cf = (ChannelFactory&lt;ITGConfig&gt;)po.Invoke(<span class="stringliteral">&quot;CreateChannel&quot;</span>, <span class="keyword">new</span> Type[] { typeof(string) }, <span class="keyword">new</span> <span class="keywordtype">object</span>[] { TestInstanceName }, <span class="keyword">new</span> Type[] { typeof(ITGConfig) });</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, <a class="code" href="namespace_system.html">System</a>.Security.Principal.TokenImpersonationLevel.Impersonation);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div><div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a75c9553e4eb5f6fd908efe1cdbf4c1c8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -240,25 +258,6 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_test_interface_8cs_source.html#l00062">62</a> of file <a class="el" href="_test_interface_8cs_source.html">TestInterface.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        {</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            Assert.IsFalse(<span class="keyword">new</span> ServerInterface().IsRemoteConnection);</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="ab598e7e253fa102c5b4ddc5e29b80e91"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void TGS.Interface.Tests.TestInterface.TestRemoteAccessInterfaceAllowsWindowsImpersonation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_test_interface_8cs_source.html#l00089">89</a> of file <a class="el" href="_test_interface_8cs_source.html">TestInterface.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            var inter = <a class="code" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#ac2ebe6a7a80d2be027cd0a9678c4ee0f">CreateFakeRemoteInterface</a>();</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            var po = <span class="keyword">new</span> PrivateObject(inter);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            var cf = (ChannelFactory&lt;ITGConfig&gt;)po.Invoke(<span class="stringliteral">&quot;CreateChannel&quot;</span>, <span class="keyword">new</span> Type[] { typeof(string) }, <span class="keyword">new</span> <span class="keywordtype">object</span>[] { TestInstanceName }, <span class="keyword">new</span> Type[] { typeof(ITGConfig) });</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, <a class="code" href="namespace_system.html">System</a>.Security.Principal.TokenImpersonationLevel.Impersonation);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div><div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
-<div class="ttc" id="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface_html_ac2ebe6a7a80d2be027cd0a9678c4ee0f"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#ac2ebe6a7a80d2be027cd0a9678c4ee0f">TGS.Interface.Tests.TestInterface.CreateFakeRemoteInterface</a></div><div class="ttdeci">ServerInterface CreateFakeRemoteInterface()</div><div class="ttdoc">Creates a remote configured Interface pointing at an invalid address </div><div class="ttdef"><b>Definition:</b> <a href="_test_interface_8cs_source.html#l00053">TestInterface.cs:53</a></div></div>
-</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="abde92e8b25af4840bf1308dcdb9f52d0"></a>
@@ -298,7 +297,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_test_interface_8cs_source.html#l00023">23</a> of file <a class="el" href="_test_interface_8cs_source.html">TestInterface.cs</a>.</p>
 
-<p>References <a class="el" href="_server_interface_8cs_source.html#l00181">TGS.Interface.ServerInterface.SetBadCertificateHandler()</a>.</p>
+<p>References <a class="el" href="_server_interface_8cs_source.html#l00183">TGS.Interface.ServerInterface.SetBadCertificateHandler()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            Func&lt;string, bool&gt; func = (message) =&gt;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                Assert.IsFalse(String.IsNullOrWhiteSpace(message));</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            };</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            ServerInterface.SetBadCertificateHandler(func);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>

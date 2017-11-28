@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_l_template.html" title="ILTemplate" alt="" coords="5,5,91,32"/>
+<area shape="rect" id="node1" href="$class_i_client_message_inspector.html" title="IClientMessageInspector" alt="" coords="5,5,169,32"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html" title="Used to attach windows credential headers to SOAP messages " alt="" coords="217,23,405,65"/>
+<area shape="rect" id="node3" href="$class_i_endpoint_behavior.html" title="IEndpointBehavior" alt="" coords="25,56,150,83"/>
 </map>
