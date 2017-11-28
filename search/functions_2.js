@@ -79,6 +79,8 @@ var searchData=
   ['createhost',['CreateHost',['../class_t_g_s_1_1_server_1_1_server.html#a761439cde270c74bcf338b83806859ca',1,'TGS::Server::Server']]],
   ['createinstance',['CreateInstance',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_instance_manager.html#aa92519588145ac9d786deea0143d8f67',1,'TGS.Interface.Components.ITGInstanceManager.CreateInstance()'],['../class_t_g_s_1_1_server_1_1_server.html#a1fd633ced6347516d4d115a65addf78a',1,'TGS.Server.Server.CreateInstance()']]],
   ['createinstancebutton_5fclick',['CreateInstanceButton_Click',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a6683461e03c6378187b01633b15e2ec4',1,'TGS::ControlPanel::InstanceSelector']]],
+  ['createlocalchannel_3c_20t_20_3e',['CreateLocalChannel&lt; T &gt;',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a2bb7ad619799bc10887e324b34c93b4e',1,'TGS::Interface::ServerInterface']]],
+  ['createremotechannel_3c_20t_20_3e',['CreateRemoteChannel&lt; T &gt;',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a22940a0d68c18855db2d82bf80650b69',1,'TGS::Interface::ServerInterface']]],
   ['createsymboliclink',['CreateSymbolicLink',['../class_t_g_s_1_1_server_1_1_instance.html#a996e06361e5a0c036de90f9ced74188b',1,'TGS::Server::Instance']]],
   ['createsymlink',['CreateSymlink',['../class_t_g_s_1_1_server_1_1_instance.html#a750a0126077424b663f06be73efe4c77',1,'TGS::Server::Instance']]],
   ['culturetostring',['CultureToString',['../class_common.html#ac106c64e40ba8bdf60460294628f72b8',1,'Common.CultureToString(CultureInfo culture)'],['../class_common.html#ac106c64e40ba8bdf60460294628f72b8',1,'Common.CultureToString(CultureInfo culture)']]],
