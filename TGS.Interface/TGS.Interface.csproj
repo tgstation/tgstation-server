@@ -47,6 +47,7 @@
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationHeaderApplicator.cs" />
     <Compile Include="Components\Administration.cs" />
     <Compile Include="Components\Byond.cs" />
     <Compile Include="ChatSetupInfo.cs" />

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using TGS.Interface.Components;
 
 namespace TGS.Interface
@@ -282,7 +284,6 @@ namespace TGS.Interface
 					var cf = I.Value;
 					try
 					{
-						cf.Closed += ChannelFactory_Closed;
 						cf.Close();
 					}
 					catch
@@ -306,16 +307,6 @@ namespace TGS.Interface
 			}
 			errorMessage = null;
 			return false;
-		}
-
-		/// <summary>
-		/// Disposes a closed <see cref="ChannelFactory"/>
-		/// </summary>
-		/// <param name="sender">The channel factory that was closed</param>
-		/// <param name="e">The event arguments</param>
-		static void ChannelFactory_Closed(object sender, EventArgs e)
-		{
-			(sender as IDisposable).Dispose();
 		}
 
 		/// <inheritdoc />
@@ -393,23 +384,31 @@ namespace TGS.Interface
 			}
 
 			//okay we're going over
-			var binding = new WSHttpBinding()
+			var binding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = TransferLimitRemote
 			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
-			binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
-			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			var url = String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Port, accessPath, InterfaceName);
 			var address = new EndpointAddress(url);
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
 			{
-				res.Credentials.UserName.UserName = LoginInfo.Username;
-				res.Credentials.UserName.Password = LoginInfo.Password;
-				res.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
+				var applicator = new AuthenticationHeaderApplicator(LoginInfo);
+				var t = Type.GetType("Mono.Runtime");
+				KeyedCollection<Type, IEndpointBehavior> behaviours;
+				if (t != null)
+				{
+					var prop = res.Endpoint.GetType()
+					 .GetTypeInfo()
+					 .GetDeclaredProperty("Behaviors");
+					behaviours = (KeyedCollection<Type, IEndpointBehavior>)prop
+									 .GetValue(res.Endpoint);
+				}
+				else
+					behaviours = res.Endpoint.EndpointBehaviors;
+				behaviours.Add(applicator);
 			}
 			return res;
 		}
@@ -454,7 +453,7 @@ namespace TGS.Interface
 			}
 		}
 
-		#region IDisposable Support
+#region IDisposable Support
 		/// <summary>
 		/// To detect redundant <see cref="Dispose(bool)"/> calls
 		/// </summary>
@@ -496,6 +495,6 @@ namespace TGS.Interface
 			// TODO: uncomment the following line if the finalizer is overridden above.
 			// GC.SuppressFinalize(this);
 		}
-		#endregion
+#endregion
 	}
 }
