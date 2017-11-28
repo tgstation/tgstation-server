@@ -407,15 +407,18 @@ namespace TGS.Interface
 			if (requireAuth)
 			{
 				var applicator = new AuthenticationHeaderApplicator(LoginInfo);
-#if __MonoCS__
-				var prop = res.Endpoint.GetType()
-				 .GetTypeInfo()
-				 .GetDeclaredProperty("Behaviors");
-				var behaviours = (KeyedCollection<Type, IEndpointBehavior>)prop
-								 .GetValue(res.Endpoint);
-#else
-				var behaviours = res.Endpoint.EndpointBehaviors;
-#endif
+				var t = Type.GetType("Mono.Runtime");
+				KeyedCollection<Type, IEndpointBehavior> behaviours;
+				if (t != null)
+				{
+					var prop = res.Endpoint.GetType()
+					 .GetTypeInfo()
+					 .GetDeclaredProperty("Behaviors");
+					behaviours = (KeyedCollection<Type, IEndpointBehavior>)prop
+									 .GetValue(res.Endpoint);
+				}
+				else
+					behaviours = res.Endpoint.EndpointBehaviors;
 				behaviours.Add(applicator);
 			}
 			return res;
