@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 
 namespace TGS.Interface
 {
@@ -33,7 +33,7 @@ namespace TGS.Interface
 		/// <summary>
 		/// Check if the <see cref="RemoteLoginInfo"/> has been initialized with a <see cref="Password"/>
 		/// </summary>
-		[ScriptIgnore]
+		[JsonIgnore]
 		public bool HasPassword { get { return !String.IsNullOrWhiteSpace(Password); }  }
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace TGS.Interface
 		/// <param name="json">The result of a call to <see cref="ToJSON"/></param>
 		public RemoteLoginInfo(string json)
 		{
-			var dic = new JavaScriptSerializer().Deserialize<IDictionary<string, object>>(json);
+			var dic = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 			var ip = (string)dic[nameof(IP)];
 			if (String.IsNullOrWhiteSpace(ip))
 				throw new InvalidOperationException("ip must be set!");
@@ -119,15 +119,14 @@ namespace TGS.Interface
 		public string ToJSON()
 		{
 			//serialize it to a dic first so we can store the entropy
-			var serializer = new JavaScriptSerializer();
-			var raw = serializer.Serialize(this);
-			var dic = serializer.Deserialize<IDictionary<string, object>>(raw);
+			var raw = JsonConvert.SerializeObject(this);
+			var dic = JsonConvert.DeserializeObject<IDictionary<string, object>>(raw);
 			if (HasPassword)
 			{
 				dic.Add(nameof(Password), Helpers.EncryptData(Password, out string entropy));
 				dic.Add(String.Format(EntropyFormatter, nameof(Password)), entropy);
 			}
-			return serializer.Serialize(dic);
+			return JsonConvert.SerializeObject(dic);
 		}
 	}
 }
