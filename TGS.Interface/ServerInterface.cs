@@ -284,7 +284,6 @@ namespace TGS.Interface
 					var cf = I.Value;
 					try
 					{
-						cf.Closed += ChannelFactory_Closed;
 						cf.Close();
 					}
 					catch
@@ -308,16 +307,6 @@ namespace TGS.Interface
 			}
 			errorMessage = null;
 			return false;
-		}
-
-		/// <summary>
-		/// Disposes a closed <see cref="ChannelFactory"/>
-		/// </summary>
-		/// <param name="sender">The channel factory that was closed</param>
-		/// <param name="e">The event arguments</param>
-		static void ChannelFactory_Closed(object sender, EventArgs e)
-		{
-			(sender as IDisposable).Dispose();
 		}
 
 		/// <inheritdoc />
