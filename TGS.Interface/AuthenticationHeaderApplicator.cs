@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Description;
@@ -16,7 +18,16 @@ namespace TGS.Interface
 
 		public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
 		{
-			clientRuntime.ClientMessageInspectors.Add(this);
+#if __MonoCS__
+			var prop = clientRuntime.GetType()
+									.GetTypeInfo()
+									.GetDeclaredProperty("MessageInspectors");
+			var inspectors = (ICollection<IClientMessageInspector>)prop
+						.GetValue(clientRuntime);
+#else
+			var inspectors = clientRuntime.ClientMessageInspectors;
+#endif
+			inspectors.Add(this);
 		}
 
 		public object BeforeSendRequest(ref Message request, IClientChannel channel)

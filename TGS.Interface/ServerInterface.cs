@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using TGS.Interface.Components;
 
 namespace TGS.Interface
@@ -403,7 +405,19 @@ namespace TGS.Interface
 			var address = new EndpointAddress(url);
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
-				res.Endpoint.EndpointBehaviors.Add(new AuthenticationHeaderApplicator(LoginInfo));
+			{
+				var applicator = new AuthenticationHeaderApplicator(LoginInfo);
+#if __MonoCS__
+				var prop = res.Endpoint.GetType()
+				 .GetTypeInfo()
+				 .GetDeclaredProperty("Behaviors");
+				var behaviours = (KeyedCollection<Type, IEndpointBehavior>)prop
+								 .GetValue(res.Endpoint);
+#else
+				var behaviours = res.Endpoint.EndpointBehaviors;
+#endif
+				behaviours.Add(applicator);
+			}
 			return res;
 		}
 
@@ -447,7 +461,7 @@ namespace TGS.Interface
 			}
 		}
 
-		#region IDisposable Support
+#region IDisposable Support
 		/// <summary>
 		/// To detect redundant <see cref="Dispose(bool)"/> calls
 		/// </summary>
@@ -489,6 +503,6 @@ namespace TGS.Interface
 			// TODO: uncomment the following line if the finalizer is overridden above.
 			// GC.SuppressFinalize(this);
 		}
-		#endregion
+#endregion
 	}
 }
