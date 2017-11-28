@@ -149,7 +149,7 @@ namespace TGS.Server.IO.Tests
 
 			await Assert.ThrowsExceptionAsync<FileNotFoundException>(() => IO.Unlink(p3));
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
-			IO.Unlink(p2).Wait();
+			await IO.Unlink(p2);
 
 			Assert.IsFalse(await IO.FileExists(p2));
 			Assert.IsTrue(await IO.FileExists(p1));
