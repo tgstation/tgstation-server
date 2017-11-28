@@ -8,8 +8,6 @@ using TGS.Interface.Components;
 
 namespace TGS.Server
 {
-	//note this only works with MACHINE LOCAL groups and admins for now
-	//if someone wants AD shit, code it yourself
 	sealed partial class Instance : ServiceAuthorizationManager, ITGAdministration
 	{
 		/// <summary>
