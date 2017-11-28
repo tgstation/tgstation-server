@@ -27,7 +27,7 @@ namespace TGS.Server
 		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
 
 		/// <summary>
-		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
+		/// The service version <see cref="string"/> based on the <see cref="AssemblyName"/>'s <see cref="System.Version"/>
 		/// </summary>
 		public static readonly string VersionString = String.Format("/tg/station 13 Server v{0}", Assembly.GetExecutingAssembly().GetName().Version);
 
