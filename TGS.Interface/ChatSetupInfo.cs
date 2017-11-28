@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Web.Script.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TGS.Interface
 {
@@ -131,8 +132,8 @@ namespace TGS.Interface
 		/// </summary>
 		public List<string> AdminList
 		{
-			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[AdminListIndex]); }
-			set { DataFields[AdminListIndex] = new JavaScriptSerializer().Serialize(value); }
+			get { return JsonConvert.DeserializeObject<List<string>>(DataFields[AdminListIndex]); }
+			set { DataFields[AdminListIndex] = JsonConvert.SerializeObject(value); }
 		}
 		/// <summary>
 		/// If AdminList corresponds to a Provider specific recognization method
@@ -147,11 +148,11 @@ namespace TGS.Interface
 		/// </summary>
 		public List<string> AdminChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[AdminChannelIndex]); }
+			get { return JsonConvert.DeserializeObject<List<string>>(DataFields[AdminChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
-				DataFields[AdminChannelIndex] = new JavaScriptSerializer().Serialize(value);
+				DataFields[AdminChannelIndex] = JsonConvert.SerializeObject(value);
 			}
 		}
 		/// <summary>
@@ -159,11 +160,11 @@ namespace TGS.Interface
 		/// </summary>
 		public List<string> DevChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[DevChannelIndex]); }
+			get { return JsonConvert.DeserializeObject<List<string>>(DataFields[DevChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
-				DataFields[DevChannelIndex] = new JavaScriptSerializer().Serialize(value);
+				DataFields[DevChannelIndex] = JsonConvert.SerializeObject(value);
 			}
 		}
 		/// <summary>
@@ -171,11 +172,11 @@ namespace TGS.Interface
 		/// </summary>
 		public List<string> WatchdogChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[WDChannelIndex]); }
+			get { return JsonConvert.DeserializeObject<List<string>>(DataFields[WDChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
-				DataFields[WDChannelIndex] = new JavaScriptSerializer().Serialize(value);
+				DataFields[WDChannelIndex] = JsonConvert.SerializeObject(value);
 			}
 		}
 		/// <summary>
@@ -183,11 +184,11 @@ namespace TGS.Interface
 		/// </summary>
 		public List<string> GameChannels
 		{
-			get { return new JavaScriptSerializer().Deserialize<List<string>>(DataFields[GameChannelIndex]); }
+			get { return JsonConvert.DeserializeObject<List<string>>(DataFields[GameChannelIndex]); }
 			set
 			{
 				SanitizeChannelNames(value);
-				DataFields[GameChannelIndex] = new JavaScriptSerializer().Serialize(value);
+				DataFields[GameChannelIndex] = JsonConvert.SerializeObject(value);
 			}
 		}
 		/// <summary>
