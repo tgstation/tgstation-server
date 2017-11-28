@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface;
 using TGS.Interface.Components;
+using TGS.Server.Security;
 
 namespace TGS.Server
 {
@@ -46,6 +45,14 @@ namespace TGS.Server
 		/// The directory to load and save <see cref="ServerConfig"/>s to
 		/// </summary>
 		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
+		
+		/// <summary>
+		/// Begins user impersonation to allow proper restricted file access
+		/// </summary>
+		public static void BeginImpersonation()
+		{
+			WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
+		}
 
 		/// <summary>
 		/// Cancels WCF's user impersonation to allow clean access to writing log files
@@ -194,7 +201,8 @@ namespace TGS.Server
 			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
 			foreach (var I in ServerInterface.ValidServiceInterfaces)
 				AddEndpoint(serviceHost, I);
-			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager();	//only admins can diddle us
+			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(); //only admins can diddle us
+			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
 
 		/// <summary>
@@ -312,6 +320,7 @@ namespace TGS.Server
 				AddEndpoint(host, J);
 
 			host.Authorization.ServiceAuthorizationManager = instance;
+			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 			return host;
 		}
 
@@ -324,15 +333,12 @@ namespace TGS.Server
 		{
 			var bindingName = typetype.Name;
 			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
-			var httpsBinding = new WSHttpBinding()
+			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
-			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
-			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 

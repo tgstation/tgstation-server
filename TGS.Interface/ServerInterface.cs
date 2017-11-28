@@ -393,24 +393,17 @@ namespace TGS.Interface
 			}
 
 			//okay we're going over
-			var binding = new WSHttpBinding()
+			var binding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = TransferLimitRemote
 			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
-			binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
-			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			var url = String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Port, accessPath, InterfaceName);
 			var address = new EndpointAddress(url);
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
-			{
-				res.Credentials.UserName.UserName = LoginInfo.Username;
-				res.Credentials.UserName.Password = LoginInfo.Password;
-				res.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
-			}
+				res.Endpoint.EndpointBehaviors.Add(new AuthenticationHeaderApplicator(LoginInfo));
 			return res;
 		}
 

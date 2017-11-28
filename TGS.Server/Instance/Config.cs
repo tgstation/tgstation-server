@@ -15,9 +15,9 @@ namespace TGS.Server
 		object configLock = new object();	//for atomic reads/writes
 
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string ReadText(string staticRelativePath, bool repo, out string error, out bool unauthorized)
 		{
+			Server.BeginImpersonation();
 			string path = null;
 			try
 			{
@@ -100,9 +100,9 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
+			Server.BeginImpersonation();
 			var path = RelativePath(StaticDirs) + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
 			{
@@ -152,9 +152,9 @@ namespace TGS.Server
 			}
 		}
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
+			Server.BeginImpersonation();
 			var path = RelativePath(StaticDirs + '/' + staticRelativePath);   //do not use path.combine or it will try and take the root
 			try
 			{
@@ -207,9 +207,9 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public IList<string> ListStaticDirectory(string subDir, out string error, out bool unauthorized)
 		{
+			Server.BeginImpersonation();
 			try
 			{
 				if (!Directory.Exists(RelativePath(StaticDirs)))

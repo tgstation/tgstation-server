@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Threading;
 using TGS.Interface;
 using TGS.Interface.Components;
+using TGS.Server.Security;
 
 namespace TGS.Server
 {
