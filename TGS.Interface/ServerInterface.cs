@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using TGS.Interface.Components;
 
 namespace TGS.Interface
@@ -27,14 +28,9 @@ namespace TGS.Interface
 		string InstanceName { get; }
 
 		/// <summary>
-		/// If this is set, we will try and connect to an HTTPS server running at this address
+		/// The <see cref="RemoteLoginInfo"/> for the <see cref="IServerInterface"/>. Is <see langword="null"/> for local connections
 		/// </summary>
-		string HTTPSURL { get; }
-
-		/// <summary>
-		/// The port used to connect to the <see cref="ITGSService"/>
-		/// </summary>
-		ushort HTTPSPort { get; }
+		RemoteLoginInfo LoginInfo { get; }
 
 		/// <summary>
 		/// Checks if the <see cref="IServerInterface"/> is setup for a remote connection
@@ -151,30 +147,12 @@ namespace TGS.Interface
 		public string InstanceName { get; private set; }
 
 		/// <summary>
-		/// If this is set, we will try and connect to an HTTPS server running at this address
+		/// Backing field for <see cref="LoginInfo"/>
 		/// </summary>
-		readonly string _HTTPSURL;
+		readonly RemoteLoginInfo _loginInfo;
 
 		/// <inheritdoc />
-		public string HTTPSURL { get { return _HTTPSURL; } }
-
-		/// <summary>
-		/// The port used to connect to the <see cref="ITGSService"/>
-		/// </summary>
-		readonly ushort _HTTPSPort;
-
-		/// <inheritdoc />
-		public ushort HTTPSPort { get { return _HTTPSPort; } }
-
-		/// <summary>
-		/// Username for remote operations
-		/// </summary>
-		readonly string HTTPSUsername;
-
-		/// <summary>
-		/// Password for remote operations
-		/// </summary>
-		readonly string HTTPSPassword;
+		public RemoteLoginInfo LoginInfo { get { return _loginInfo; } }
 
 		/// <summary>
 		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
@@ -234,23 +212,13 @@ namespace TGS.Interface
 		/// <summary>
 		/// Construct an <see cref="ServerInterface"/> for a remote connection
 		/// </summary>
-		/// <param name="address">The address of the remote server</param>
-		/// <param name="port">The port the remote server runs on</param>
-		/// <param name="username">Windows account username for the remote server</param>
-		/// <param name="password">Windows account password for the remote server</param>
-		public ServerInterface(string address, ushort port, string username, string password)
+		/// <param name="loginInfo">The <see cref="RemoteLoginInfo"/> for a remote connection</param>
+		public ServerInterface(RemoteLoginInfo loginInfo)
 		{
-			_HTTPSURL = address;
-			_HTTPSPort = port;
-			HTTPSUsername = username;
-			HTTPSPassword = password;
+			if (!loginInfo.HasPassword)
+				throw new InvalidOperationException("password must be set on loginInfo!");
+			_loginInfo = loginInfo;
 		}
-
-		/// <summary>
-		/// Constructs an <see cref="ServerInterface"/> that connects to the same <see cref="ITGSService"/> as some <paramref name="other"/> <see cref="ITGInstance"/>
-		/// </summary>
-		/// <param name="other">Another <see cref="ServerInterface"/> to copy settings from</param>
-		public ServerInterface(ServerInterface other) : this(other.HTTPSURL, other.HTTPSPort, other.HTTPSUsername, other.HTTPSPassword) { }
 
 		/// <inheritdoc />
 		public ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false)
@@ -294,7 +262,7 @@ namespace TGS.Interface
 		}
 
 		/// <inheritdoc />
-		public bool IsRemoteConnection { get { return HTTPSURL != null; } }
+		public bool IsRemoteConnection { get { return LoginInfo != null; } }
 
 		/// <summary>
 		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
@@ -313,7 +281,6 @@ namespace TGS.Interface
 					var cf = I.Value;
 					try
 					{
-						cf.Closed += ChannelFactory_Closed;
 						cf.Close();
 					}
 					catch
@@ -337,16 +304,6 @@ namespace TGS.Interface
 			}
 			errorMessage = null;
 			return false;
-		}
-
-		/// <summary>
-		/// Disposes a closed <see cref="ChannelFactory"/>
-		/// </summary>
-		/// <param name="sender">The channel factory that was closed</param>
-		/// <param name="e">The event arguments</param>
-		static void ChannelFactory_Closed(object sender, EventArgs e)
-		{
-			(sender as IDisposable).Dispose();
 		}
 
 		/// <inheritdoc />
@@ -424,22 +381,31 @@ namespace TGS.Interface
 			}
 
 			//okay we're going over
-			var binding = new WSHttpBinding()
+			var binding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = TransferLimitRemote
 			};
 			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
-			binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			binding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;    //do not require auth for a connectivity check
-			binding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
-			var address = new EndpointAddress(String.Format("https://{0}:{1}/{2}/{3}", HTTPSURL, HTTPSPort, accessPath, InterfaceName));
+			var url = String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Port, accessPath, InterfaceName);
+			var address = new EndpointAddress(url);
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)
 			{
-				res.Credentials.UserName.UserName = HTTPSUsername;
-				res.Credentials.UserName.Password = HTTPSPassword;
-				res.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
+				var applicator = new AuthenticationHeaderApplicator(LoginInfo);
+				var t = Type.GetType("Mono.Runtime");
+				KeyedCollection<Type, IEndpointBehavior> behaviours;
+				if (t != null)
+				{
+					var prop = res.Endpoint.GetType()
+					 .GetTypeInfo()
+					 .GetDeclaredProperty("Behaviors");
+					behaviours = (KeyedCollection<Type, IEndpointBehavior>)prop
+									 .GetValue(res.Endpoint);
+				}
+				else
+					behaviours = res.Endpoint.EndpointBehaviors;
+				behaviours.Add(applicator);
 			}
 			return res;
 		}
@@ -457,7 +423,7 @@ namespace TGS.Interface
 			{
 				GetComponentImpl<ITGConnectivity>(false).VerifyConnection();
 			}
-			catch (CommunicationException e)
+			catch (Exception e)
 			{
 				error = e.ToString();
 				return ConnectivityLevel.None;
@@ -484,7 +450,7 @@ namespace TGS.Interface
 			}
 		}
 
-		#region IDisposable Support
+#region IDisposable Support
 		/// <summary>
 		/// To detect redundant <see cref="Dispose(bool)"/> calls
 		/// </summary>
@@ -526,6 +492,6 @@ namespace TGS.Interface
 			// TODO: uncomment the following line if the finalizer is overridden above.
 			// GC.SuppressFinalize(this);
 		}
-		#endregion
+#endregion
 	}
 }

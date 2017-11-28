@@ -5,6 +5,7 @@ using System.ServiceModel;
 using TGS.Interface.Components;
 using TGS.Server.Configuration;
 using TGS.Server.Logging;
+using TGS.Server.Security;
 
 namespace TGS.Server.Components
 {

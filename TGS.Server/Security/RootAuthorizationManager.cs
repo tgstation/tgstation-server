@@ -6,7 +6,7 @@ using System.ServiceModel;
 using TGS.Interface.Components;
 using TGS.Server.Logging;
 
-namespace TGS.Server
+namespace TGS.Server.Security
 {
 	/// <summary>
 	/// A <see cref="ServiceAuthorizationManager"/> used to determine only if the caller is an admin

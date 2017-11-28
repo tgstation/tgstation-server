@@ -100,7 +100,7 @@ namespace TGS.ControlPanel
 				activeCP.BringToFront();
 				return;
 			}
-			var InstanceAccessor = new ServerInterface(masterInterface as ServerInterface);
+			var InstanceAccessor = masterInterface.IsRemoteConnection ? new ServerInterface(masterInterface.LoginInfo) : new ServerInterface();
 			try
 			{
 				ConnectivityLevel res = ConnectivityLevel.None;

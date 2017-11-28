@@ -49,11 +49,11 @@ namespace TGS.Server.Components
 		readonly IRepositoryManager Repo;
 
 		/// <summary>
-		/// Cancels WCF's user impersonation to allow clean access to writing log files
+		/// Begins user impersonation to allow proper restricted file access
 		/// </summary>
-		static void CancelImpersonation()
+		static WindowsImpersonationContext BeginImpersonation()
 		{
-			WindowsIdentity.Impersonate(IntPtr.Zero);
+			return OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Impersonate();
 		}
 
 		/// <summary>
@@ -101,7 +101,6 @@ namespace TGS.Server.Components
 		}
 
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string ReadText(string staticRelativePath, bool repo, out string error, out bool unauthorized)
 		{
 			string path = null;
@@ -120,9 +119,9 @@ namespace TGS.Server.Components
 
 				string output;
 				lock (this)
-					output = IO.ReadAllText(path).Result;
+					using (var ctx = BeginImpersonation())
+						output = IO.ReadAllText(path).Result;
 
-				CancelImpersonation();
 				Logger.WriteInfo("Read of " + path, EventID.StaticRead);
 				error = null;
 				unauthorized = false;
@@ -138,7 +137,6 @@ namespace TGS.Server.Components
 			catch (Exception e)
 			{
 				error = e.ToString();
-				CancelImpersonation();
 				Logger.WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				unauthorized = false;
 				return null;
@@ -146,9 +144,9 @@ namespace TGS.Server.Components
 		}
 
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
+			BeginImpersonation();
 			var path = IOManager.ConcatPath(StaticDirs, staticRelativePath);
 			try
 			{
@@ -158,13 +156,13 @@ namespace TGS.Server.Components
 					return ParentAccessError;
 				}
 
-				lock (this)
-				{
-					IO.CreateDirectory(path).Wait();
-					IO.WriteAllText(path, data).Wait();
-				}
+				using (var ctx = BeginImpersonation())
+					lock (this)
+					{
+						IO.CreateDirectory(path).Wait();
+						IO.WriteAllText(path, data).Wait();
+					}
 
-				CancelImpersonation();
 				Logger.WriteInfo("Write to " + path, EventID.StaticWrite);
 				unauthorized = false;
 				return null;
@@ -178,13 +176,11 @@ namespace TGS.Server.Components
 			catch (Exception e)
 			{
 				unauthorized = false;
-				CancelImpersonation();
 				Logger.WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
 			var path = IOManager.ConcatPath(StaticDirs, staticRelativePath);
@@ -196,14 +192,15 @@ namespace TGS.Server.Components
 					return ParentAccessError;
 				}
 
-				lock (this)
-				{
-					if (IO.FileExists(path).Result)
-						IO.DeleteFile(path).Wait();
-					else if (IO.DirectoryExists(path).Result)
-						IO.DeleteDirectory(path).Wait();
-				}
-				CancelImpersonation();
+				using (var ctx = BeginImpersonation())
+					lock (this)
+					{
+						if (IO.FileExists(path).Result)
+							IO.DeleteFile(path).Wait();
+						else if (IO.DirectoryExists(path).Result)
+							IO.DeleteDirectory(path).Wait();
+					}
+
 				Logger.WriteInfo("Delete of " + path, EventID.StaticDelete);
 				unauthorized = false;
 				return null;
@@ -217,14 +214,12 @@ namespace TGS.Server.Components
 			catch (Exception e)
 			{
 				unauthorized = false;
-				CancelImpersonation();
 				Logger.WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
 		}
 
 		/// <inheritdoc />
-		[OperationBehavior(Impersonation = ImpersonationOption.Required)]
 		public IList<string> ListStaticDirectory(string subDir, out string error, out bool unauthorized)
 		{
 			try
@@ -237,12 +232,15 @@ namespace TGS.Server.Components
 				}
 
 				subDir = subDir.TrimStart(new char[] { '/', '\\' });
-				var dirToEnum = new DirectoryInfo(IO.ResolvePath(IOManager.ConcatPath(StaticDirs, subDir ?? ""))); //do not use path.combine or it will try and take the root
 				var result = new List<string>();
-				foreach (var I in dirToEnum.GetFiles())
-					result.Add(I.Name);
-				foreach (var I in dirToEnum.GetDirectories())
-					result.Add('/' + I.Name);
+				using (var ctx = BeginImpersonation())
+				{
+					var dirToEnum = new DirectoryInfo(IO.ResolvePath(IOManager.ConcatPath(StaticDirs, subDir ?? ""))); //do not use path.combine or it will try and take the root
+					foreach (var I in dirToEnum.GetFiles())
+						result.Add(I.Name);
+					foreach (var I in dirToEnum.GetDirectories())
+						result.Add('/' + I.Name);
+				}
 				error = null;
 				unauthorized = false;
 				return result;

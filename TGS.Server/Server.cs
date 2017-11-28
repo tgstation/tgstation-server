@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.ServiceModel;
 using TGS.Interface;
@@ -10,6 +12,7 @@ using TGS.Server.Configuration;
 using TGS.Server.IO;
 using TGS.Server.IoC;
 using TGS.Server.Logging;
+using TGS.Server.Security;
 
 namespace TGS.Server
 {
@@ -25,7 +28,7 @@ namespace TGS.Server
 		public const byte LoggingID = 0;
 
 		/// <summary>
-		/// The service version <see cref="string"/> based on the <see cref="FileVersionInfo"/>
+		/// The service version <see cref="string"/> based on the <see cref="AssemblyName"/>'s <see cref="System.Version"/>
 		/// </summary>
 		public static readonly string VersionString = String.Format("/tg/station 13 Server v{0}", Assembly.GetExecutingAssembly().GetName().Version);
 
@@ -167,7 +170,8 @@ namespace TGS.Server
 			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
 			foreach (var I in ServerInterface.ValidServiceInterfaces)
 				AddEndpoint(serviceHost, I);
-			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(Logger);	//only admins can diddle us
+			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(Logger); //only admins can diddle us
+			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
 
 		/// <summary>
@@ -289,6 +293,8 @@ namespace TGS.Server
 			
 			foreach (var J in ServerInterface.ValidInstanceInterfaces)
 				AddEndpoint(host, J);
+			
+			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 			return host;
 		}
 
@@ -301,15 +307,12 @@ namespace TGS.Server
 		{
 			var bindingName = typetype.Name;
 			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
-			var httpsBinding = new WSHttpBinding()
+			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
-			httpsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-			httpsBinding.Security.Mode = requireAuth ? SecurityMode.TransportWithMessageCredential : SecurityMode.Transport;	//do not require auth for a connectivity check
-			httpsBinding.Security.Message.ClientCredentialType = requireAuth ? MessageCredentialType.UserName : MessageCredentialType.None;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 

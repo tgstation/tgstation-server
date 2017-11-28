@@ -73,37 +73,12 @@ namespace TGS.ControlPanel.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RemoteIP {
+        public global::System.Collections.Specialized.StringCollection RemoteLoginInfo {
             get {
-                return ((string)(this["RemoteIP"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["RemoteLoginInfo"]));
             }
             set {
-                this["RemoteIP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RemoteUsername {
-            get {
-                return ((string)(this["RemoteUsername"]));
-            }
-            set {
-                this["RemoteUsername"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("38607")]
-        public ushort RemotePort {
-            get {
-                return ((ushort)(this["RemotePort"]));
-            }
-            set {
-                this["RemotePort"] = value;
+                this["RemoteLoginInfo"] = value;
             }
         }
         
@@ -116,30 +91,6 @@ namespace TGS.ControlPanel.Properties {
             }
             set {
                 this["RemoteDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RemotePassword {
-            get {
-                return ((string)(this["RemotePassword"]));
-            }
-            set {
-                this["RemotePassword"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RemoteEntropy {
-            get {
-                return ((string)(this["RemoteEntropy"]));
-            }
-            set {
-                this["RemoteEntropy"] = value;
             }
         }
         

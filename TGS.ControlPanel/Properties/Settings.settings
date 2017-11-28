@@ -14,23 +14,11 @@
     <Setting Name="LastChatProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="RemoteIP" Type="System.String" Scope="User">
+    <Setting Name="RemoteLoginInfo" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RemoteUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RemotePort" Type="System.UInt16" Scope="User">
-      <Value Profile="(Default)">38607</Value>
     </Setting>
     <Setting Name="RemoteDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="RemotePassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RemoteEntropy" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="GitHubAPIKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

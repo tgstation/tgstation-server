@@ -49,7 +49,7 @@ namespace TGS.Interface.Tests
 		/// <returns>The created <see cref="Interface"/></returns>
 		ServerInterface CreateFakeRemoteInterface()
 		{
-			return new ServerInterface("some.fake.url.420", 34752, "user", "password");
+			return new ServerInterface(new RemoteLoginInfo("some.fake.url.420", 34752, "user", "password"));
 		}
 		
 		[TestMethod]
@@ -68,16 +68,18 @@ namespace TGS.Interface.Tests
 		public void TestCopyRemoteInterface()
 		{
 			var first = CreateFakeRemoteInterface();
-			var second = new ServerInterface(first);
-			Assert.AreEqual(first.HTTPSURL, second.HTTPSURL);
-			Assert.AreEqual(first.HTTPSPort, second.HTTPSPort);
+			var second = new ServerInterface(first.LoginInfo);
+			Assert.AreEqual(first.LoginInfo.IP, second.LoginInfo.IP);
+			Assert.AreEqual(first.LoginInfo.Port, second.LoginInfo.Port);
+			Assert.AreEqual(first.LoginInfo.Username, second.LoginInfo.Username);
+			Assert.AreEqual(first.LoginInfo.Password, second.LoginInfo.Password);
 			Assert.IsTrue(second.IsRemoteConnection);
 		}
 
 		[TestMethod]
-		public void TestRemoteAccessInterfaceAllowsWindowsImpersonation()
+		public void TestLocalAccessInterfaceAllowsWindowsImpersonation()
 		{
-			var inter = CreateFakeRemoteInterface();
+			var inter = new ServerInterface();
 			var po = new PrivateObject(inter);
 			var cf = (ChannelFactory<ITGStatic>)po.Invoke("CreateChannel", new Type[] { typeof(string) }, new object[] { TestInstanceName }, new Type[] { typeof(ITGStatic) });
 			Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, System.Security.Principal.TokenImpersonationLevel.Impersonation);
