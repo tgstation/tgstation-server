@@ -44,6 +44,6 @@ var searchData=
   ['ghclient',['ghclient',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1aa281725822ceba3302c7fdb0de060e',1,'TGS::ControlPanel::ControlPanel']]],
   ['githubloginprompt',['GitHubLoginPrompt',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#aea8f28b6c06f73e4f26ff0c85f8e5e85',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
   ['githubloginprompt',['GitHubLoginPrompt',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html',1,'TGS::ControlPanel']]],
-  ['githubloginprompt_2ecs',['GithubLoginPrompt.cs',['../_github_login_prompt_8cs.html',1,'']]],
-  ['githubloginprompt_2edesigner_2ecs',['GithubLoginPrompt.Designer.cs',['../_github_login_prompt_8_designer_8cs.html',1,'']]]
+  ['githubloginprompt_2ecs',['GitHubLoginPrompt.cs',['../_git_hub_login_prompt_8cs.html',1,'']]],
+  ['githubloginprompt_2edesigner_2ecs',['GitHubLoginPrompt.Designer.cs',['../_git_hub_login_prompt_8_designer_8cs.html',1,'']]]
 ];
