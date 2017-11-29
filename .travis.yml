@@ -1,4 +1,4 @@
-language: generic
+language: csharp
 sudo: false
 
 env:
@@ -6,6 +6,9 @@ env:
     - BYOND_MAJOR="511"
     - BYOND_MINOR="1385"
     - DMEName="Tools/DMAPITravisTester.dme"
+    matrix:
+    - BUILD_CLIENT=true
+    - BUILD_CLIENT=false
 
 cache:
   directories:
@@ -18,7 +21,7 @@ addons:
       - libstdc++6:i386
 
 install:
-    - ./Tools/install_byond.sh
+  - if [ "$BUILD_CLIENT" = true ]; then nuget restore; else ./Tools/install_byond.sh; fi
 
 script:
-    - ./Tools/build_byond.sh
+  - if [ "$BUILD_CLIENT" = true ]; then msbuild /p:Configuration=Release-Client TGStationServer3.sln; else ./Tools/build_byond.sh; fi
