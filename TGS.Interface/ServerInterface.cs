@@ -365,29 +365,53 @@ namespace TGS.Interface
 		/// Directly creates a <see cref="ChannelFactory{TChannel}"/> for <typeparamref name="T"/> without caching. This should be eventually closed by the caller
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
+		/// <param name="instanceName">The instance to connect to, if any</param>
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
-		/// <exception cref="Exception">Thrown if <typeparamref name="T"/> isn't a valid component <see langword="interface"/></exception>
 		ChannelFactory<T> CreateChannel<T>(string instanceName)
 		{
 			var accessPath = instanceName == null ? MasterInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
-
-			var InterfaceName = typeof(T).Name;
 			if (!IsRemoteConnection)
-			{
-				var res2 = new ChannelFactory<T>(
-				new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, InterfaceName)));														//10 megs
-				res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
-				return res2;
-			}
+				return CreateLocalChannel<T>(instanceName, accessPath);
+			return CreateRemoteChannel<T>(instanceName, accessPath);
+		}
 
+		//NOTE: This needs to be kept seperate from CreateRemoteChannel because not all our client implementations have NetNamedPipeBinding and attempting to call this function on those platforms will throw an exception
+
+		/// <summary>
+		/// Directly creates a <see cref="ChannelFactory{TChannel}"/> for on a local connection <typeparamref name="T"/> without caching. This should be eventually closed by the caller
+		/// </summary>
+		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
+		/// <param name="instanceName">The instance to connect to, if any</param>
+		/// <param name="accessPath">The URL of the interface to connect to</param>
+		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
+		ChannelFactory<T> CreateLocalChannel<T>(string instanceName, string accessPath)
+		{
+			var interfaceName = typeof(T).Name;
+			var res2 = new ChannelFactory<T>(
+			new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, interfaceName)));                                                      //10 megs
+			res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
+			return res2;
+		}
+
+		/// <summary>
+		/// Directly creates a <see cref="ChannelFactory{TChannel}"/> for on a remote connection <typeparamref name="T"/> without caching. This should be eventually closed by the caller
+		/// </summary>
+		/// <typeparam name="T">The component <see langword="interface"/> of the channel to be created</typeparam>
+		/// <param name="instanceName">The instance to connect to, if any</param>
+		/// <param name="accessPath">The URL of the interface to connect to</param>
+		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
+		ChannelFactory<T> CreateRemoteChannel<T>(string instanceName, string accessPath)
+		{
 			//okay we're going over
 			var binding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = TransferLimitRemote
 			};
-			var requireAuth = InterfaceName != typeof(ITGConnectivity).Name;
-			var url = String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Port, accessPath, InterfaceName);
+
+			var interfaceName = typeof(T).Name;
+			var requireAuth = interfaceName != typeof(ITGConnectivity).Name;
+			var url = String.Format("https://{0}:{1}/{2}/{3}", LoginInfo.IP, LoginInfo.Port, accessPath, interfaceName);
 			var address = new EndpointAddress(url);
 			var res = new ChannelFactory<T>(binding, address);
 			if (requireAuth)

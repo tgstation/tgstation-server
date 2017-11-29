@@ -33,6 +33,7 @@ Copy-Item "$bf\TGS.CommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLi
 Copy-Item "$bf\TGS.ControlPanel\bin\Release\TGControlPanel.exe" "$src2\TGControlPanel.exe"
 Copy-Item "$bf\TGS.ControlPanel\bin\Release\Octokit.dll" "$src2\Octokit.dll"
 Copy-Item "$bf\TGS.Interface\bin\Release\TGServiceInterface.dll" "$src2\TGServiceInterface.dll"
+Copy-Item "$bf\TGS.Interface\bin\Release\Newtonsoft.Json.dll" "$src2\Newtonsoft.Json.dll"
 
 $dest2 = "$bf\TGS3-Client-v$version.zip"
 
