@@ -19,7 +19,6 @@ addons:
     packages:
       - libc6-i386
       - libstdc++6:i386
-      - nuget
 
 install:
   - if [ "$BUILD_CLIENT" = true ]; then nuget restore else ./Tools/install_byond.sh fi
