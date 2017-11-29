@@ -51,8 +51,8 @@ namespace TGS.Server.Components.Tests
 			var mockRepo = new Mock<IRepositoryManager>();
 			var mockCompiler = new Mock<ICompilerManager>();
 
-			mockContainer.Setup(x => x.GetInstance<IRepositoryManager>()).Returns(mockRepo.Object);
-			mockContainer.Setup(x => x.GetInstance<ICompilerManager>()).Returns(mockCompiler.Object);
+			mockContainer.Setup(x => x.GetComponent<IRepositoryManager>()).Returns(mockRepo.Object);
+			mockContainer.Setup(x => x.GetComponent<ICompilerManager>()).Returns(mockCompiler.Object);
 
 			new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object).Dispose();
 			mockRepo.Verify(x => x.UpdateImpl(true, false), Times.Exactly(1));
@@ -70,7 +70,7 @@ namespace TGS.Server.Components.Tests
 
 			var mockRepo = new Mock<IRepositoryManager>();
 
-			mockContainer.Setup(x => x.GetInstance<IRepositoryManager>()).Returns(mockRepo.Object);
+			mockContainer.Setup(x => x.GetComponent<IRepositoryManager>()).Returns(mockRepo.Object);
 
 			var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object);
 			I.Dispose();
@@ -147,7 +147,7 @@ namespace TGS.Server.Components.Tests
 			var mockContainer = new Mock<IDependencyInjector>();
 
 			var mockChat = new Mock<IChatManager>();
-			mockContainer.Setup(x => x.GetInstance<IChatManager>()).Returns(mockChat.Object);
+			mockContainer.Setup(x => x.GetComponent<IChatManager>()).Returns(mockChat.Object);
 
 			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
 			{
@@ -170,7 +170,7 @@ namespace TGS.Server.Components.Tests
 
 			var mockIO = new Mock<IIOManager>();
 
-			mockContainer.Setup(x => x.GetInstance<IIOManager>()).Returns(mockIO.Object);
+			mockContainer.Setup(x => x.GetComponent<IIOManager>()).Returns(mockIO.Object);
 
 			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
 				Assert.IsNull(I.UpdateTGS3Json());

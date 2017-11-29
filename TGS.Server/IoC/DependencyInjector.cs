@@ -41,12 +41,6 @@ namespace TGS.Server.IoC
 		}
 
 		/// <inheritdoc />
-		public T GetInstance<T>() where T : class
-		{
-			return container.GetInstance<T>();
-		}
-
-		/// <inheritdoc />
 		public void Register<T>(T instance) where T : class
 		{
 			container.RegisterSingleton(instance);

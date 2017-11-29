@@ -21,7 +21,7 @@ namespace TGS.Server.IoC
 		/// </summary>
 		/// <typeparam name="T">The type to retrieve</typeparam>
 		/// <returns>An implementation of <typeparamref name="T"/></returns>
-		T GetInstance<T>() where T : class;
+		T GetComponent<T>() where T : class;
 
 		/// <summary>
 		/// Register a singleton <paramref name="instance"/> of <typeparamref name="T"/>

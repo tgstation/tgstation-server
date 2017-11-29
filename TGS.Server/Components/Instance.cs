@@ -133,11 +133,11 @@ namespace TGS.Server.Components
 				//lock, load, and dependency cycle me daddy
 				Container.Setup();
 
-				Chat = Container.GetInstance<IChatManager>();
-				IO = Container.GetInstance<IIOManager>();
-				Repo = Container.GetInstance<IRepositoryManager>();
-				Compiler = Container.GetInstance<ICompilerManager>();
-				Administration = Container.GetInstance<IAdministrationManager>();
+				Chat = Container.GetComponent<IChatManager>();
+				IO = Container.GetComponent<IIOManager>();
+				Repo = Container.GetComponent<IRepositoryManager>();
+				Compiler = Container.GetComponent<ICompilerManager>();
+				Administration = Container.GetComponent<IAdministrationManager>();
 
 				if (Config.AutoUpdateInterval != 0)
 					HandleAutoUpdate();
