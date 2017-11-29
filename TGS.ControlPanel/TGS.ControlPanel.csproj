@@ -114,7 +114,7 @@
     <Compile Include="ServerOpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="GithubLoginPrompt.resx">
+    <EmbeddedResource Include="GitHubLoginPrompt.resx">
       <DependentUpon>GitHubLoginPrompt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstanceSelector.resx">
