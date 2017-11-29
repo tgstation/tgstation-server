@@ -21,7 +21,7 @@ addons:
       - libstdc++6:i386
 
 install:
-  - if [ "$BUILD_CLIENT" = true ]; then nuget restore else ./Tools/install_byond.sh fi
+  - if [ "$BUILD_CLIENT" = true ]; then nuget restore; else ./Tools/install_byond.sh; fi
 
 script:
-  - if [ "$BUILD_CLIENT" = true ]; then xbuild /p:Configuration=Release-Client else ./Tools/build_byond.sh fi
+  - if [ "$BUILD_CLIENT" = true ]; then xbuild /p:Configuration=Release-Client; else ./Tools/build_byond.sh; fi
