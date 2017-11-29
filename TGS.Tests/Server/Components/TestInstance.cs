@@ -75,7 +75,7 @@ namespace TGS.Server.Components.Tests
 			var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object);
 			I.Dispose();
 			var po = new PrivateObject(I);
-			po.Invoke("HandleAutoUpdate", null);
+			po.Invoke("HandleAutoUpdate", new object[] { this, new EventArgs() });
 			Assert.ThrowsException<MockException>(() => mockRepo.Verify(x => x.UpdateImpl(true, false), Times.Once()));
 		}
 		
@@ -222,6 +222,51 @@ namespace TGS.Server.Components.Tests
 				Assert.AreSame(TestSC, I.CreateServiceHost(new Uri[] { }));
 				mockContainer.Verify(x => x.CreateServiceHost(It.IsAny<Type>(), It.IsAny<Uri[]>()), Times.Once());
 			}
+		}
+
+		[TestMethod]
+		public void TestGetRepoConfig()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			var mockIO = new Mock<IIOManager>();
+			mockContainer.Setup(x => x.GetComponent<IIOManager>()).Returns(mockIO.Object);
+
+			using (var I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+			{
+				Assert.IsTrue(I.GetRepoConfig() is IRepoConfig);
+				mockIO.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once());
+			}
+		}
+
+		[TestMethod]
+		public void TestSetAutoUpdateInterval()
+		{
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockLogger = new Mock<ILogger>();
+			var mockLoggingIDProvider = new Mock<ILoggingIDProvider>();
+			var mockServerConfig = new Mock<IServerConfig>();
+			var mockContainer = new Mock<IDependencyInjector>();
+
+			mockConfig.SetupAllProperties();
+
+			Instance I;
+			using (I = new Instance(mockConfig.Object, mockLogger.Object, mockLoggingIDProvider.Object, mockServerConfig.Object, mockContainer.Object))
+			{
+				mockConfig.ResetCalls();
+				I.SetAutoUpdateInterval(1);
+				mockConfig.VerifySet(x => x.AutoUpdateInterval = 1, Times.Once());
+				mockConfig.VerifyGet(x => x.AutoUpdateInterval, Times.Once());
+				mockConfig.ResetCalls();
+				I.SetAutoUpdateInterval(0);
+				mockConfig.VerifySet(x => x.AutoUpdateInterval = 0, Times.Once());
+				mockConfig.VerifyGet(x => x.AutoUpdateInterval, Times.Once());
+			}
+			I.SetAutoUpdateInterval(1);
 		}
 	}
 }

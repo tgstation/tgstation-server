@@ -91,7 +91,7 @@ namespace TGS.Server.Components
 			try
 			{
 				autoUpdateTimer = new Timer() { AutoReset = true, Interval = Math.Max(Config.AutoUpdateInterval * AutoUpdateTimerMultiplier, 1) };
-				autoUpdateTimer.Elapsed += (a, b) => HandleAutoUpdate();
+				autoUpdateTimer.Elapsed += HandleAutoUpdate;
 
 				Container.Register(ServerConfig);
 				Container.Register(Config);
@@ -140,7 +140,7 @@ namespace TGS.Server.Components
 				Administration = Container.GetComponent<IAdministrationManager>();
 
 				if (Config.AutoUpdateInterval != 0)
-					HandleAutoUpdate();
+					HandleAutoUpdate(this, new EventArgs());
 			}
 			catch
 			{
@@ -152,7 +152,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Automatically update the server
 		/// </summary>
-		void HandleAutoUpdate()
+		void HandleAutoUpdate(object sender, EventArgs args)
 		{
 			lock (this)
 			{
