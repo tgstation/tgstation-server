@@ -60,7 +60,7 @@ var searchData=
   ['providerinfos',['ProviderInfos',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_chat.html#a639b098948615c4539fcce2309b0bc0e',1,'TGS.Interface.Components.ITGChat.ProviderInfos()'],['../class_t_g_s_1_1_server_1_1_instance.html#afa2e889e6de36dee6c8becad099272b4',1,'TGS.Server.Instance.ProviderInfos()']]],
   ['publickeypath',['PublicKeyPath',['../class_t_g_s_1_1_server_1_1_instance.html#aaadb267170db9b85e56b13136a93da15',1,'TGS::Server::Instance']]],
   ['pullrequestinfo',['PullRequestInfo',['../class_t_g_s_1_1_interface_1_1_pull_request_info.html',1,'TGS::Interface']]],
-  ['pullrequestinfo',['PullRequestInfo',['../class_t_g_s_1_1_interface_1_1_pull_request_info.html#ad4c89cd3f31ca15455ee312a86f5a16d',1,'TGS::Interface::PullRequestInfo']]],
+  ['pullrequestinfo',['PullRequestInfo',['../class_t_g_s_1_1_interface_1_1_pull_request_info.html#ad4c89cd3f31ca15455ee312a86f5a16d',1,'TGS.Interface.PullRequestInfo.PullRequestInfo(int number, string author, string title, string sha)'],['../class_t_g_s_1_1_interface_1_1_pull_request_info.html#ae2519aabb2d7183f080ad47eed8049a7',1,'TGS.Interface.PullRequestInfo.PullRequestInfo(int number, string sha=null)']]],
   ['pullrequestinfo_2ecs',['PullRequestInfo.cs',['../_pull_request_info_8cs.html',1,'']]],
   ['pullrequestlistbox',['PullRequestListBox',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#aa895ece920fb676313050bebdbd45b88',1,'TGS::ControlPanel::TestMergeManager']]],
   ['pullrequestlistbox_5fitemcheck',['PullRequestListBox_ItemCheck',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a8ad13368a354de9d321d5b9093660929',1,'TGS::ControlPanel::TestMergeManager']]],

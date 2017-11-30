@@ -140,9 +140,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a44ad7dca69280d37aa4cd905815594e4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a44ad7dca69280d37aa4cd905815594e4">Reset</a> (bool tracked)</td></tr>
 <tr class="memdesc:a44ad7dca69280d37aa4cd905815594e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs git reset &ndash;hard  <a href="#a44ad7dca69280d37aa4cd905815594e4">More...</a><br /></td></tr>
 <tr class="separator:a44ad7dca69280d37aa4cd905815594e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f3dd5430b4a29c61234215270f3414a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a6f3dd5430b4a29c61234215270f3414a">MergePullRequest</a> (int PRnumber, string atSHA=null)</td></tr>
-<tr class="memdesc:a6f3dd5430b4a29c61234215270f3414a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges the target pull request into the current branch if the remote is a github repository  <a href="#a6f3dd5430b4a29c61234215270f3414a">More...</a><br /></td></tr>
-<tr class="separator:a6f3dd5430b4a29c61234215270f3414a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab67b81965fd04a36d5f56813b6170c2"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#aab67b81965fd04a36d5f56813b6170c2">MergePullRequest</a> (int PRnumber, string atSHA=null, bool silent=false)</td></tr>
+<tr class="memdesc:aab67b81965fd04a36d5f56813b6170c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges the target pull request into the current branch if the remote is a github repository  <a href="#aab67b81965fd04a36d5f56813b6170c2">More...</a><br /></td></tr>
+<tr class="separator:aab67b81965fd04a36d5f56813b6170c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7df98cddf3c75aa2df56f3e61b1717e"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#ad7df98cddf3c75aa2df56f3e61b1717e">MergePullRequests</a> (IEnumerable&lt; <a class="el" href="class_t_g_s_1_1_interface_1_1_pull_request_info.html">PullRequestInfo</a> &gt; pullRequestInfos, bool silent=false)</td></tr>
+<tr class="memdesc:ad7df98cddf3c75aa2df56f3e61b1717e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges the target pull requests into the current branch if the remote is a github repository  <a href="#ad7df98cddf3c75aa2df56f3e61b1717e">More...</a><br /></td></tr>
+<tr class="separator:ad7df98cddf3c75aa2df56f3e61b1717e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a238df6f480799f74b5e469359425b18e"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_t_g_s_1_1_interface_1_1_pull_request_info.html">PullRequestInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a238df6f480799f74b5e469359425b18e">MergedPullRequests</a> (out string error)</td></tr>
 <tr class="memdesc:a238df6f480799f74b5e469359425b18e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it  <a href="#a238df6f480799f74b5e469359425b18e">More...</a><br /></td></tr>
 <tr class="separator:a238df6f480799f74b5e469359425b18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -513,7 +516,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#a2dc1986bc65a5297fa100f84bc2bd3c2">TGS.Server.Instance</a>.</p>
 
-<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00338">TGS.ControlPanel.TestMergeManager.AddPRButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_test_merge_manager_8cs_source.html#l00336">TGS.ControlPanel.TestMergeManager.AddPRButton_Click()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -527,7 +530,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a6f3dd5430b4a29c61234215270f3414a"></a>
+<a class="anchor" id="aab67b81965fd04a36d5f56813b6170c2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -541,7 +544,13 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>atSHA</em> = <code>null</code>&#160;</td>
+          <td class="paramname"><em>atSHA</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>silent</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -556,24 +565,63 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">PRnumber</td><td>The github pull request number in the remote repository</td></tr>
     <tr><td class="paramname">atSHA</td><td>The SHA of the pull request to merge</td></tr>
+    <tr><td class="paramname">silent</td><td>Suppresses chat messages if </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>on success, error message on failure</dd></dl>
 
-<p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#a3aec8f4bc9ffca3c05895f097c21635d">TGS.Server.Instance</a>.</p>
+<p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#a22931c5f84cb3691e73c4531d6279f8f">TGS.Server.Instance</a>.</p>
 
 <p>Referenced by <a class="el" href="_root_commands_8cs_source.html#l00152">TGS.CommandLine.TestmergeCommand.Run()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_a6f3dd5430b4a29c61234215270f3414a_icgraph.png" border="0" usemap="#interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_a6f3dd5430b4a29c61234215270f3414a_icgraph" alt=""/></div>
-<map name="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_a6f3dd5430b4a29c61234215270f3414a_icgraph" id="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_a6f3dd5430b4a29c61234215270f3414a_icgraph">
+<div class="center"><img src="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_aab67b81965fd04a36d5f56813b6170c2_icgraph.png" border="0" usemap="#interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_aab67b81965fd04a36d5f56813b6170c2_icgraph" alt=""/></div>
+<map name="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_aab67b81965fd04a36d5f56813b6170c2_icgraph" id="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_aab67b81965fd04a36d5f56813b6170c2_icgraph">
 <area shape="rect" id="node2" href="class_t_g_s_1_1_command_line_1_1_testmerge_command.html#a3a95ee23aa8c91ec21e689cf73ef3c4e" title="Override to do the actions of the Command " alt="" coords="268,5,468,47"/>
 </map>
 </div>
 </p>
+
+</div>
+</div>
+<a class="anchor" id="ad7df98cddf3c75aa2df56f3e61b1717e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IEnumerable&lt;string&gt; TGS.Interface.Components.ITGRepository.MergePullRequests </td>
+          <td>(</td>
+          <td class="paramtype">IEnumerable&lt; <a class="el" href="class_t_g_s_1_1_interface_1_1_pull_request_info.html">PullRequestInfo</a> &gt;&#160;</td>
+          <td class="paramname"><em>pullRequestInfos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>silent</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Merges the target pull requests into the current branch if the remote is a github repository </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pullRequestInfos</td><td>IEnumerable&lt;T&gt; of <a class="el" href="class_t_g_s_1_1_interface_1_1_pull_request_info.html" title="Information about a pull request ">PullRequestInfo</a>s containing pull request numbers and shas in the remote repository</td></tr>
+    <tr><td class="paramname">silent</td><td>Suppresses chat messages if </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>on success, list of error messages if any fail failure. Those with indexes of those that succeed will have null entries</dd></dl>
+
+<p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#abf72ba5cdfd2d87d2c9f6030f4cafb20">TGS.Server.Instance</a>.</p>
 
 </div>
 </div>
