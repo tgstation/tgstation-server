@@ -263,7 +263,7 @@ namespace TGS.Server.Components
 				{
 					case MergeStatus.Conflicts:
 						Reset(null);
-						Chat.SendMessage("REPO: Merge conflicted, aborted.", MessageType.DeveloperInfo);
+						Chat.SendMessage(String.Format("REPO: Merge of {0} conflicted, aborted.", committish), MessageType.DeveloperInfo);
 						return "Merge conflict occurred.";
 					case MergeStatus.UpToDate:
 						return RepoErrorUpToDate;
@@ -1107,7 +1107,37 @@ namespace TGS.Server.Components
 		}
 
 		/// <inheritdoc />
-		public string MergePullRequest(int PRnumber, string atSHA = null)
+		public IEnumerable<string> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent)
+		{
+			var results = new List<string>();
+			var amount = pullRequestInfos.Count();
+			if (amount < 1)
+				return results;
+
+			if (!silent)
+			{
+				var messages = new List<string>();
+				foreach (var I in pullRequestInfos)
+				{
+					var shortSha = I.Sha?.Substring(0, Math.Min(I.Sha.Length, 7));
+					messages.Add(String.Format("#{0}{1}", I.Number, shortSha != null ? String.Format(" at commit {0}", shortSha) : shortSha));
+				}
+				Chat.SendMessage(String.Format("REPO: Merging PR{0} {1}...", amount == 1 ? "" : "s", String.Join(", ", messages)), MessageType.DeveloperInfo);
+			}
+
+			bool foundBad = false;
+			foreach (var I in pullRequestInfos)
+			{
+				var res = MergePullRequest(I.Number, I.Sha, true);
+				if (res != null)
+					foundBad = true;
+				results.Add(res);
+			}
+			return foundBad ? results : null;
+		}
+
+		/// <inheritdoc />
+		public string MergePullRequest(int PRnumber, string atSHA, bool silent)
 		{
 			lock (this)
 			{
@@ -1116,7 +1146,8 @@ namespace TGS.Server.Components
 				if (!LoadRepository())
 					return NoRepoMessage;
 
-				Chat.SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRnumber, atSHA != null ? String.Format(" at commit {0}", atSHA) : ""), MessageType.DeveloperInfo);
+				if(!silent)
+					Chat.SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRnumber, atSHA != null ? String.Format(" at commit {0}", atSHA) : ""), MessageType.DeveloperInfo);
 
 				var result = Reset(null);
 				if (result != null)
@@ -1132,7 +1163,7 @@ namespace TGS.Server.Components
 
 
 					//first we need to get the info before allowing the merge
-					Interface.Helpers.GetRepositoryRemote(remoteUrl, out string owner, out string name);
+					Helpers.GetRepositoryRemote(remoteUrl, out string owner, out string name);
 					task = ghClient.PullRequest.Get(owner, name, PRnumber);
 
 					var Refspec = new List<string>();
@@ -1140,21 +1171,24 @@ namespace TGS.Server.Components
 					var LocalBranchName = String.Format("pull/{0}/headrefs/heads/{1}", PRnumber, PRBranchName);
 					Refspec.Add(String.Format("pull/{0}/head:{1}", PRnumber, PRBranchName));
 
-					var branch = repository.Branches[LocalBranchName];
-					if (branch != null)
-						//Need to delete the branch first in case of rebase
-						repository.Branches.Remove(branch);
+					//Need to delete the branch first in case of rebase
+					repository.Branches.Remove(LocalBranchName);
+					repository.Branches.Remove(PRBranchName);
 
-					RepositoryProvider.Fetch(repository);
+					RepositoryProvider.Fetch(repository, Refspec);
 
 					currentProgress = -1;
 
-					branch = repository.Branches[LocalBranchName];
+					var branch = repository.Branches[LocalBranchName];
 					if (branch == null)
 					{
-						Chat.SendMessage("REPO: PR could not be fetched. Does it exist?", MessageType.DeveloperInfo);
+						Chat.SendMessage(String.Format("REPO: PR {0}could not be fetched. Does it exist?", silent ? String.Format("#{0} ", PRnumber) : ""), MessageType.DeveloperInfo);
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRnumber);
 					}
+
+					//give it a better name
+					branch = repository.CreateBranch(PRBranchName, branch.Tip);
+					repository.Branches.Remove(LocalBranchName);
 
 					if (atSHA != null)
 					{
@@ -1180,7 +1214,7 @@ namespace TGS.Server.Components
 					var prInfo = new PullRequestInfo(PRnumber, task.Result.User.Name, task.Result.Title, task.Result.Head.Sha);
 
 					//so we'll know if this fails
-					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRnumber, Environment.NewLine, Config.Name));
+					var Result = MergeBranch(atSHA ?? branch.CanonicalName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRnumber, Environment.NewLine, Config.Name));
 
 					if (Result == null)
 						try

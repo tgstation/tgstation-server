@@ -81,7 +81,7 @@ namespace TGS.Interface
 			if (String.IsNullOrWhiteSpace(ip))
 				throw new InvalidOperationException("ip must be set!");
 			_ip = ip;
-			var port = (ushort)(int)dic[nameof(Port)];
+			var port = (ushort)(long)dic[nameof(Port)];
 			if (port == 0)
 				throw new InvalidOperationException("port may not be 0!");
 			_port = port;

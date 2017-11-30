@@ -73,10 +73,24 @@ namespace TGS.Server
 		{
 			try
 			{
+				var R = repository.Network.Remotes[RepositoryManager.DefaultRemote];
+				var refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
+				return Fetch(repository, refSpecs);
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
+		}
+
+		/// <inheritdoc />
+		public string Fetch(IRepository repository, IEnumerable<string> refSpecs)
+		{
+			try
+			{
 				string logMessage = "";
 				var R = repository.Network.Remotes[RepositoryManager.DefaultRemote];
-				IEnumerable<string> refSpecs = R.FetchRefSpecs.Select(X => X.Specification);
-				Commands.Fetch((Repository)repository, R.Name, refSpecs, GenerateFetchOptions(), logMessage);	//unsafe cast is fine
+				Commands.Fetch((Repository)repository, R.Name, refSpecs, GenerateFetchOptions(), logMessage);   //unsafe cast is fine
 				return null;
 			}
 			catch (Exception e)

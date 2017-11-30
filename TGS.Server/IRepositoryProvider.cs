@@ -1,4 +1,5 @@
-﻿using LibGit2Sharp;
+﻿using System.Collections.Generic;
+using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 
 namespace TGS.Server
@@ -42,6 +43,14 @@ namespace TGS.Server
 		/// <param name="repository">The <see cref="IRepository"/> to fetch commits for</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		string Fetch(IRepository repository);
+
+		/// <summary>
+		/// Fetches the specified <paramref name="refSpecs"/> of a <paramref name="repository"/>
+		/// </summary>
+		/// <param name="repository">The <see cref="IRepository"/> to fetch commits for</param>
+		/// <param name="refSpecs">The refspecs to fetch</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string Fetch(IRepository repository, IEnumerable<string> refSpecs);
 
 		/// <summary>
 		/// Checks if a <see cref="IRepository"/> can be created from <paramref name="path"/>

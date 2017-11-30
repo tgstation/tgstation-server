@@ -2,6 +2,7 @@ using Octokit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -329,7 +330,7 @@ namespace TGS.ControlPanel
 						MessageBox.Show(res);
 						return;
 					}
-					
+
 					List<Task<PullRequest>> pullsRequests = null;
 					var remote = repo.GetRemote(out string error);
 					if (error == null && remote.ToLower().Contains("github.com")) {
@@ -342,14 +343,14 @@ namespace TGS.ControlPanel
 
 					res = await Task.Factory.StartNew(() => repo.Update(true));
 
-					if(res != null)
+					if (res != null)
 					{
 						MessageBox.Show(res, "Error updating repository");
 						return;
 					}
 
 					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
-					
+
 					if (res != null)
 						MessageBox.Show(res, "Error generating changelog");
 
@@ -365,22 +366,18 @@ namespace TGS.ControlPanel
 						if (I.Result.Merged)
 							pulls.RemoveAll(x => x.Number == I.Result.Number);
 
-					var results = new List<string>();
-					foreach (var I in pulls) {
-						retry:
-						await Task.Factory.StartNew(() => res = repo.MergePullRequest(I.Number, I.Sha));
-						if (res != null)
-							switch(MessageBox.Show(res, "Error Re-merging Pull Request", MessageBoxButtons.AbortRetryIgnore))
-							{
-								case DialogResult.Abort:
-									return;
-								case DialogResult.Retry:
-									goto retry;
-							}
+					var mergeResults = await Task.Factory.StartNew(() => repo.MergePullRequests(pulls, true));
+					var compileStartResult = await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(true));
+
+					//Show any errors
+					for (var I = 0; I < mergeResults.Count(); ++I)
+					{
+						var err = mergeResults.ElementAt(I);
+						if (err != null)
+							MessageBox.Show(err, String.Format("Error re-merging PR #{0}", pulls[I].Number));
 					}
 
-					await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(pulls.Count != 1));
-					if (res != null)
+					if (!compileStartResult)
 						MessageBox.Show(res, "Error starting compile!");
 				}
 				finally

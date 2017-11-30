@@ -217,11 +217,11 @@ namespace TGS.Server.Logging
 		/// </summary>
 		RepoPRListError = 4900,
 		/// <summary>
-		/// Info: Successful completion of a <see cref="TGS.Interface.Components.ITGRepository.MergePullRequest(int, string)"/> operation
+		/// Info: Successful completion of a <see cref="TGS.Interface.Components.ITGRepository.MergePullRequest"/> operation
 		/// </summary>
 		RepoPRMerge = 5000,
 		/// <summary>
-		/// Warning: An error occurred during a <see cref="TGS.Interface.Components.ITGRepository.MergePullRequest(int, string)"/> operation
+		/// Warning: An error occurred during a <see cref="TGS.Interface.Components.ITGRepository.MergePullRequest"/> operation
 		/// </summary>
 		RepoPRMergeFail = 5100,
 		/// <summary>
