@@ -203,7 +203,7 @@ namespace TGS.CommandLine
 					OutputProc("Invalid parameter: " + parameters[0]);
 					return ExitCode.BadCommand;
 			}
-			var res = Interface.GetComponent<ITGRepository>().Update(hard);
+			var res = Interface.GetComponent<ITGRepository>().Update(hard).Result;
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}

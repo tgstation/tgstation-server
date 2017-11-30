@@ -263,7 +263,7 @@ namespace TGS.ControlPanel
 				string error = null;
 				//Do standard repo updates
 				if (UpdateToRemoteRadioButton.Checked)
-					await WrapServerOp(() => error = repo.Update(true));
+					error = await repo.Update(true);
 				else if (UpdateToOriginRadioButton.Checked)
 					await WrapServerOp(() => error = repo.Reset(true));
 
@@ -280,7 +280,7 @@ namespace TGS.ControlPanel
 				}
 
 				//Merge the PRs, collect errors
-				var errors = await Task.Factory.StartNew(() => repo.MergePullRequests(pulls, false));
+				var errors = await repo.MergePullRequests(pulls, false);
 
 				//Show any errors
 				for (var I = 0; I < errors.Count(); ++I)

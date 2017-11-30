@@ -7,6 +7,7 @@ using System.ServiceModel;
 using TGS.Interface;
 using TGS.Interface.Components;
 using TGS.Server.Security;
+using TGS.Server.Proxying;
 
 namespace TGS.Server
 {
@@ -198,7 +199,7 @@ namespace TGS.Server
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
+			serviceHost = CreateHost(this, Definitions.MasterInterfaceName);
 			foreach (var I in ServerInterface.ValidServiceInterfaces)
 				AddEndpoint(serviceHost, I);
 			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(); //only admins can diddle us
@@ -223,7 +224,7 @@ namespace TGS.Server
 		/// <returns>The created <see cref="ServiceHost"/></returns>
 		static ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
-			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
+			return new ServiceHost(new RequestManager(singleton), new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
@@ -296,7 +297,7 @@ namespace TGS.Server
 			{
 				if (hosts.ContainsKey(config.Directory))
 				{
-					var datInstance = ((Instance)hosts[config.Directory].SingletonInstance);
+					var datInstance = Helpers.ServiceHostToInstance(hosts[config.Directory]);
 					Logger.WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, LoggingID);
 					return null;
 				}
@@ -313,7 +314,7 @@ namespace TGS.Server
 				return null;
 			}
 
-			var host = CreateHost(instance, String.Format("{0}/{1}", ServerInterface.InstanceInterfaceName, instanceName));
+			var host = CreateHost(instance, String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
 			
 			foreach (var J in ServerInterface.ValidInstanceInterfaces)
@@ -332,11 +333,11 @@ namespace TGS.Server
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
 			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
+				MaxReceivedMessageSize = Definitions.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
@@ -354,7 +355,7 @@ namespace TGS.Server
 					foreach (var I in hosts)
 					{
 						var host = I.Value;
-						var instance = (Instance)host.SingletonInstance;
+						var instance = Helpers.ServiceHostToInstance(host);
 						host.Close();
 						instance.Dispose();
 						UnlockLoggingID(instance.LoggingID);
@@ -376,7 +377,7 @@ namespace TGS.Server
 		public void PrepareForUpdate()
 		{
 			foreach (var I in hosts)
-				((Instance)I.Value.SingletonInstance).Reattach(false);
+				Helpers.ServiceHostToInstance(I.Value).Reattach(false);
 		}
 
 		/// <inheritdoc />
@@ -426,7 +427,7 @@ namespace TGS.Server
 						Name = ic.Name,
 						Path = ic.Directory,
 						Enabled = ic.Enabled,
-						LoggingID = (byte)(ic.Enabled ? ((Instance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
+						LoggingID = (byte)(ic.Enabled ? Helpers.ServiceHostToInstance(hosts[ic.Name]).LoggingID : 0)
 					});
 			return result;
 		}
@@ -568,7 +569,7 @@ namespace TGS.Server
 						return null;
 					var host = hosts[Name];
 					hosts.Remove(Name);
-					var inst = (Instance)host.SingletonInstance;
+					var inst = Helpers.ServiceHostToInstance(host);
 					host.Close();
 					path = inst.ServerDirectory();
 					inst.Offline();

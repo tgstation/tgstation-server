@@ -95,7 +95,7 @@ namespace TGS.CommandLine
 			switch (parameters[0].ToLower())
 			{
 				case "hard":
-					var res = Repo.Update(true);
+					var res = Repo.Update(true).Result;
 					if (res != null)
 					{
 						OutputProc(res);
@@ -103,7 +103,7 @@ namespace TGS.CommandLine
 					}
 					break;
 				case "merge":
-					res = Repo.Update(false);
+					res = Repo.Update(false).Result;
 					if (res != null)
 					{
 						OutputProc(res);

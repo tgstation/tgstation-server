@@ -180,7 +180,7 @@ namespace TGS.ControlPanel
 					repoError = Repo.Checkout(CheckoutBranch);
 					break;
 				case RepoAction.Merge:
-					repoError = Repo.Update(false);
+					repoError = Repo.Update(false).Result;
 					break;
 				case RepoAction.Reset:
 					repoError = Repo.Reset(true);
@@ -189,7 +189,7 @@ namespace TGS.ControlPanel
 					repoError = Repo.MergePullRequest(TestPR);
 					break;
 				case RepoAction.Update:
-					repoError = Repo.Update(true);
+					repoError = Repo.Update(true).Result;
 					break;
 				case RepoAction.Wait:
 					break;

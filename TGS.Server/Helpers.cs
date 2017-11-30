@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.ServiceModel;
+using TGS.Server.Proxying;
 
 namespace TGS.Server
 {
@@ -23,6 +25,11 @@ namespace TGS.Server
 			}
 			catch { }   //we don't care if the above errors
 			File.Copy(source, dest, overwrite);    //if this throws errors thats all we care about
+		}
+
+		public static Instance ServiceHostToInstance(ServiceHost serviceHost)
+		{
+			return (Instance)((RequestManager)serviceHost.SingletonInstance).Implementation;
 		}
 
 		//http://stackoverflow.com/questions/1701457/directory-delete-doesnt-work-access-denied-error-but-under-windows-explorer-it
