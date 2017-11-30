@@ -288,7 +288,7 @@ namespace TGS.ControlPanel
 					errors = new List<string>();
 					foreach (var I in pulls)
 					{
-						var res = repo.MergePullRequest(I.Key, I.Value);
+						var res = repo.MergePullRequest(I.Key, I.Value, true);
 						if (res != null)
 							errors.Add(String.Format("Error merging PR #{0}: {1}", I, res));
 					}

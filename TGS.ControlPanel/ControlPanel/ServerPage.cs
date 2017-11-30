@@ -364,7 +364,7 @@ namespace TGS.ControlPanel
 					var results = new List<string>();
 					foreach (var I in pulls) {
 						retry:
-						await Task.Factory.StartNew(() => res = repo.MergePullRequest(I.Number, I.Sha));
+						await Task.Factory.StartNew(() => res = repo.MergePullRequest(I.Number, I.Sha, true));
 						if (res != null)
 							switch(MessageBox.Show(res, "Error Re-merging Pull Request", MessageBoxButtons.AbortRetryIgnore))
 							{
