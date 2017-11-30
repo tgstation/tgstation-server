@@ -100,9 +100,9 @@ namespace TGS.Server
 		void InitRepo()
 		{
 			Directory.CreateDirectory(RelativePath(RepoKeyDir));
-			if(Exists())
+			if (Exists())
 				UpdateBridgeDll(false);
-			if(LoadRepo() == null)
+			if (LoadRepo() == null)
 				DisableGarbageCollectionNoLock();
 			//start the autoupdate timer
 			autoUpdateTimer.Elapsed += AutoUpdateTimer_Elapsed;
@@ -195,7 +195,7 @@ namespace TGS.Server
 		/// <returns><see langword="true"/></returns>
 		bool HandleTransferProgress(TransferProgress progress)
 		{
-			currentProgress = ((int)(((float)progress.ReceivedObjects / progress.TotalObjects) * 100) / 2) +( (int)(((float)progress.IndexedObjects / progress.TotalObjects) * 100) / 2);
+			currentProgress = ((int)(((float)progress.ReceivedObjects / progress.TotalObjects) * 100) / 2) + ((int)(((float)progress.IndexedObjects / progress.TotalObjects) * 100) / 2);
 			return true;
 		}
 
@@ -276,7 +276,7 @@ namespace TGS.Server
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Turns off the gc.auto git config setting
 		/// </summary>
@@ -324,7 +324,7 @@ namespace TGS.Server
 				else if (File.Exists(RelativePath(CachedTGS3SettingsPath)))
 					File.Delete(RelativePath(CachedTGS3SettingsPath));
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return e.ToString();
 			}
@@ -339,8 +339,8 @@ namespace TGS.Server
 			Directory.CreateDirectory(RelativePath(StaticDirs));
 			UpdateBridgeDll(false);
 			UpdateTGS3Json();
-			var Config = GetCachedRepoConfig();	//RepoBusy is set if we're here
-			foreach(var I in Config.StaticDirectoryPaths)
+			var Config = GetCachedRepoConfig(); //RepoBusy is set if we're here
+			foreach (var I in Config.StaticDirectoryPaths)
 			{
 				try
 				{
@@ -356,7 +356,7 @@ namespace TGS.Server
 					WriteError("Could not setup static directory: " + I, EventID.RepoConfigurationFail);
 				}
 			}
-			foreach(var I in Config.DLLPaths)
+			foreach (var I in Config.DLLPaths)
 			{
 				try
 				{
@@ -375,7 +375,7 @@ namespace TGS.Server
 				}
 			}
 		}
-		
+
 		/// <inheritdoc />
 		public string Setup(string RepoURL, string BranchName)
 		{
@@ -451,7 +451,7 @@ namespace TGS.Server
 				return null;
 			}
 		}
-		
+
 		/// <inheritdoc />
 		public string GetHead(bool useTracked, out string error)
 		{
@@ -585,12 +585,12 @@ namespace TGS.Server
 			{
 				case MergeStatus.Conflicts:
 					ResetNoLock(null);
-					SendMessage("REPO: Merge conflicted, aborted.", MessageType.DeveloperInfo);
+					SendMessage(String.Format("REPO: Merge of {0} conflicted, aborted.", committish), MessageType.DeveloperInfo);
 					return "Merge conflict occurred.";
 				case MergeStatus.UpToDate:
 					return RepoErrorUpToDate;
 			}
-			if(mergeMessage != null)
+			if (mergeMessage != null)
 				Repo.Commit(mergeMessage, sig, sig);
 			return null;
 		}
@@ -689,7 +689,7 @@ namespace TGS.Server
 						return error;
 					}
 					res = MergeBranch(originBranch.FriendlyName, "Merge origin into current testmerge");
-					if (!LocalIsRemote())	//might be fast forward
+					if (!LocalIsRemote())   //might be fast forward
 						PushTestmergeCommit();
 					if (res != null)
 						throw new Exception(res);
@@ -840,7 +840,7 @@ namespace TGS.Server
 				return res;
 			}
 		}
-		
+
 		/// <summary>
 		/// Creates a commit <see cref="LibGit2Sharp.Signature"/> based off of the configured name and e-mail
 		/// </summary>
@@ -889,7 +889,36 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string MergePullRequest(int PRNumber, string atSHA)
+		public IEnumerable<string> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent)
+		{
+			var results = new List<string>();
+			var amount = pullRequestInfos.Count();
+			if (amount < 1)
+				return results;
+
+			if (!silent) {
+				var messages = new List<string>();
+				foreach (var I in pullRequestInfos)
+				{
+					var shortSha = I.Sha?.Substring(0, Math.Min(I.Sha.Length, 7));
+					messages.Add(String.Format("#{0}{1}", I.Number, shortSha != null ? String.Format(" at commit {0}", shortSha) : shortSha));
+				}
+				SendMessage(String.Format("REPO: Merging PR{0} {1}...", amount == 1 ? "" : "s", String.Join(", ", messages)), MessageType.DeveloperInfo);
+			}
+
+			bool foundBad = false;
+			foreach (var I in pullRequestInfos)
+			{
+				var res = MergePullRequest(I.Number, I.Sha, true);
+				if (res != null)
+					foundBad = true;
+				results.Add(res);
+			}
+			return foundBad ? results : null;
+		}
+
+		/// <inheritdoc />
+		public string MergePullRequest(int PRNumber, string atSHA, bool silent)
 		{
 			lock (RepoLock)
 			{
@@ -898,7 +927,8 @@ namespace TGS.Server
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRNumber, atSHA != null ? String.Format(" at commit {0}", atSHA): ""), MessageType.DeveloperInfo);
+				if(!silent)
+					SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRNumber, atSHA != null ? String.Format(" at commit {0}", atSHA): ""), MessageType.DeveloperInfo);
 				result = ResetNoLock(null);
 				if (result != null)
 					return result;
@@ -915,22 +945,25 @@ namespace TGS.Server
 					var LocalBranchName = String.Format("pull/{0}/headrefs/heads/{1}", PRNumber, PRBranchName);
 					Refspec.Add(String.Format("pull/{0}/head:{1}", PRNumber, PRBranchName));
 					var logMessage = "";
-
-					var branch = Repo.Branches[LocalBranchName];
-					if (branch != null)
-						//Need to delete the branch first in case of rebase
-						Repo.Branches.Remove(branch);
+					
+					//Need to delete the branch first in case of rebase
+					Repo.Branches.Remove(LocalBranchName);
+					Repo.Branches.Remove(PRBranchName);
 
 					Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
 
 					currentProgress = -1;
 
-					branch = Repo.Branches[LocalBranchName];
+					var branch = Repo.Branches[LocalBranchName];
 					if (branch == null)
 					{
-						SendMessage("REPO: PR could not be fetched. Does it exist?", MessageType.DeveloperInfo);
+						SendMessage(String.Format("REPO: PR {0}could not be fetched. Does it exist?", silent ? String.Format("#{0} ", PRNumber) : ""), MessageType.DeveloperInfo);
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRNumber);
 					}
+
+					//give it a better name
+					branch = Repo.CreateBranch(PRBranchName, branch.Tip);
+					Repo.Branches.Remove(LocalBranchName);
 
 					if (atSHA != null)
 					{
@@ -953,7 +986,7 @@ namespace TGS.Server
 					}
 
 					//so we'll know if this fails
-					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRNumber, Environment.NewLine, Config.Name));
+					var Result = MergeBranch(atSHA ?? branch.CanonicalName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRNumber, Environment.NewLine, Config.Name));
 
 					if (Result == null)
 						try

@@ -238,7 +238,7 @@ namespace TGS.ControlPanel
 			try
 			{
 				//so first collect a list of pulls that are checked
-				var pulls = new Dictionary<int, string>();
+				var pulls = new List<PullRequestInfo>();
 				foreach (var I in PullRequestListBox.CheckedItems)
 				{
 					var S = (string)I;
@@ -249,7 +249,7 @@ namespace TGS.ControlPanel
 					var key = Convert.ToInt32((splits[0].Substring(1)));
 					try
 					{
-						pulls.Add(key, mergedSha);
+						pulls.Add(new PullRequestInfo(key, mergedSha));
 					}
 					catch
 					{
@@ -276,28 +276,21 @@ namespace TGS.ControlPanel
 				if (UpdateToRemoteRadioButton.Checked)
 				{
 					GenerateChangelog(repo);
-					await WrapServerOp(() => error = repo.SynchronizePush());
-					if (error != null)
-						MessageBox.Show(String.Format("Error sychronizing repo: {0}", error));
+					error = await Task.Factory.StartNew(() => repo.SynchronizePush());
 				}
 
 				//Merge the PRs, collect errors
-				IList<string> errors = null;
-				await WrapServerOp(() =>
-				{
-					errors = new List<string>();
-					foreach (var I in pulls)
-					{
-						var res = repo.MergePullRequest(I.Key, I.Value);
-						if (res != null)
-							errors.Add(String.Format("Error merging PR #{0}: {1}", I, res));
-					}
-				});
+				var errors = await Task.Factory.StartNew(() => repo.MergePullRequests(pulls, false));
 
 				//Show any errors
-				foreach (var I in errors)
-					MessageBox.Show(I);
-				if (errors.Count != 0)
+				for (var I = 0; I < errors.Count(); ++I)
+				{
+					var err = errors.ElementAt(I);
+					if (err != null)
+						MessageBox.Show(err, String.Format("Error merging PR #{0}", pulls[I].Number));
+				}
+
+				if (errors.Count() != 0)
 					return;
 
 				if (pulls.Count > 0)
@@ -305,7 +298,12 @@ namespace TGS.ControlPanel
 					GenerateChangelog(repo);
 
 				//Start the compile
-				if (!currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1))
+				var compileStarted = await Task.Factory.StartNew(() => currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1));
+				
+				if (error != null)
+					MessageBox.Show(String.Format("Error sychronizing repo: {0}", error));
+
+				if (!compileStarted)
 					MessageBox.Show("Could not start compilation!");
 				else
 					MessageBox.Show("Test merges updated and compilation started!");
