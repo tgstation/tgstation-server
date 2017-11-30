@@ -585,7 +585,7 @@ namespace TGS.Server
 			{
 				case MergeStatus.Conflicts:
 					ResetNoLock(null);
-					SendMessage("REPO: Merge conflicted, aborted.", MessageType.DeveloperInfo);
+					SendMessage(String.Format("REPO: Merge of {0} conflicted, aborted.", committish), MessageType.DeveloperInfo);
 					return "Merge conflict occurred.";
 				case MergeStatus.UpToDate:
 					return RepoErrorUpToDate;
@@ -945,22 +945,25 @@ namespace TGS.Server
 					var LocalBranchName = String.Format("pull/{0}/headrefs/heads/{1}", PRNumber, PRBranchName);
 					Refspec.Add(String.Format("pull/{0}/head:{1}", PRNumber, PRBranchName));
 					var logMessage = "";
-
-					var branch = Repo.Branches[LocalBranchName];
-					if (branch != null)
-						//Need to delete the branch first in case of rebase
-						Repo.Branches.Remove(branch);
+					
+					//Need to delete the branch first in case of rebase
+					Repo.Branches.Remove(LocalBranchName);
+					Repo.Branches.Remove(PRBranchName);
 
 					Commands.Fetch(Repo, "origin", Refspec, GenerateFetchOptions(), logMessage);  //shitty api has no failure state for this
 
 					currentProgress = -1;
 
-					branch = Repo.Branches[LocalBranchName];
+					var branch = Repo.Branches[LocalBranchName];
 					if (branch == null)
 					{
 						SendMessage(String.Format("REPO: PR {0}could not be fetched. Does it exist?", silent ? String.Format("#{0} ", PRNumber) : ""), MessageType.DeveloperInfo);
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRNumber);
 					}
+
+					//give it a better name
+					branch = Repo.CreateBranch(PRBranchName, branch.Tip);
+					Repo.Branches.Remove(LocalBranchName);
 
 					if (atSHA != null)
 					{
@@ -983,7 +986,7 @@ namespace TGS.Server
 					}
 
 					//so we'll know if this fails
-					var Result = MergeBranch(atSHA ?? LocalBranchName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRNumber, Environment.NewLine, Config.Name));
+					var Result = MergeBranch(atSHA ?? branch.CanonicalName, String.Format("[ci skip] Test merge commit for pull request #{0}{1}Server Instance: {2}", PRNumber, Environment.NewLine, Config.Name));
 
 					if (Result == null)
 						try

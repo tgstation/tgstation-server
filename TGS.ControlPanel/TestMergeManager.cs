@@ -283,8 +283,12 @@ namespace TGS.ControlPanel
 				var errors = await Task.Factory.StartNew(() => repo.MergePullRequests(pulls, false));
 
 				//Show any errors
-				foreach (var I in errors)
-					MessageBox.Show(I);
+				for (var I = 0; I < errors.Count(); ++I)
+				{
+					var err = errors.ElementAt(I);
+					if (err != null)
+						MessageBox.Show(err, String.Format("Error merging PR #{0}", pulls[I].Number));
+				}
 
 				if (errors.Count() != 0)
 					return;

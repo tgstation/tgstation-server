@@ -2,6 +2,7 @@ using Octokit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -365,9 +366,13 @@ namespace TGS.ControlPanel
 					var mergeResults = await Task.Factory.StartNew(() => repo.MergePullRequests(pulls, true));
 					var compileStartResult = await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(true));
 
-					foreach (var I in mergeResults)
-						if (I != null)
-							MessageBox.Show(res, "Error Re-merging Pull Request");
+					//Show any errors
+					for (var I = 0; I < mergeResults.Count(); ++I)
+					{
+						var err = mergeResults.ElementAt(I);
+						if (err != null)
+							MessageBox.Show(err, String.Format("Error re-merging PR #{0}", pulls[I].Number));
+					}
 
 					if (!compileStartResult)
 						MessageBox.Show(res, "Error starting compile!");
