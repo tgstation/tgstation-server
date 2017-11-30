@@ -889,7 +889,7 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string MergePullRequest(int PRNumber, string atSHA)
+		public string MergePullRequest(int PRNumber, string atSHA, bool silent)
 		{
 			lock (RepoLock)
 			{
@@ -898,7 +898,8 @@ namespace TGS.Server
 				var result = LoadRepo();
 				if (result != null)
 					return result;
-				SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRNumber, atSHA != null ? String.Format(" at commit {0}", atSHA): ""), MessageType.DeveloperInfo);
+				if(!silent)
+					SendMessage(String.Format("REPO: Merging PR #{0}{1}...", PRNumber, atSHA != null ? String.Format(" at commit {0}", atSHA): ""), MessageType.DeveloperInfo);
 				result = ResetNoLock(null);
 				if (result != null)
 					return result;
@@ -928,7 +929,7 @@ namespace TGS.Server
 					branch = Repo.Branches[LocalBranchName];
 					if (branch == null)
 					{
-						SendMessage("REPO: PR could not be fetched. Does it exist?", MessageType.DeveloperInfo);
+						SendMessage(String.Format("REPO: PR {0}could not be fetched. Does it exist?", silent ? String.Format("#{0} ", PRNumber) : ""), MessageType.DeveloperInfo);
 						return String.Format("PR #{0} could not be fetched. Does it exist?", PRNumber);
 					}
 
