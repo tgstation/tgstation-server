@@ -99,6 +99,15 @@ namespace TGS.Interface.Components
 		string MergePullRequest(int PRnumber, string atSHA = null, bool silent = false);
 
 		/// <summary>
+		/// Merges the target pull requests into the current branch if the remote is a github repository
+		/// </summary>
+		/// <param name="PRnumbers"><see cref="IEnumerable{T}"/> of github pull request numbers and shas in the remote repository</param>
+		/// <param name="silent">Suppresses chat messages if <see langword="true"/></param>
+		/// <returns><see langword="null"/> on success, list of error messages if any fail failure. Those with indexes of those that succeed will have null entries</returns>
+		[OperationContract]
+		IEnumerable<string> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent = false);
+
+		/// <summary>
 		/// Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it
 		/// </summary>
 		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
