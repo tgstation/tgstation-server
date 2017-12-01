@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JsonNet.PrivateSettersContractResolvers;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -46,7 +48,7 @@ namespace TGS.Server.Proxying
 			garbageCollectionTimer.Dispose();
 		}
 
-		RequestInfo CreateRequest(MethodInfo methodInfo, object result)
+		RequestInfo CreateRequest(MethodInfo methodInfo, Task result)
 		{
 			Request req;
 			if (methodInfo.ReturnType == typeof(void))
@@ -55,7 +57,7 @@ namespace TGS.Server.Proxying
 			{
 				var ourType = GetType();
 				var taskType = result.GetType().GenericTypeArguments[0];
-				var resultingRequestConstructor = ourType.GetMethod(nameof(CreateResultingRequest)).MakeGenericMethod(new Type[] { taskType });
+				var resultingRequestConstructor = ourType.GetMethod(nameof(CreateResultingRequest), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(new Type[] { taskType });
 				req = (Request)resultingRequestConstructor.Invoke(this, new object[] { result });
 			}
 
@@ -75,7 +77,7 @@ namespace TGS.Server.Proxying
 			return new ResultingRequest<T>(task);
 		}
 
-		public RequestInfo BeginRequest(string componentName, string methodName, object[] parameters, string user, string password)
+		public RequestInfo BeginRequest(string componentName, string methodName, IEnumerable<string> parameters, string user, string password)
 		{
 			//Check if the requested component is actually a component
 			componentName = String.Format("{0}.{1}.{2}.{3}", nameof(TGS), nameof(Interface), nameof(Interface.Components), componentName);
@@ -83,7 +85,22 @@ namespace TGS.Server.Proxying
 			{
 				var componentType = interfaceAssembly.GetType(componentName, true);
 				var methodType = componentType.GetMethod(methodName);
-				return CreateRequest(methodType, methodType.Invoke(Implementation, parameters));
+
+				var deserializedParams = new List<object>();
+				var paras = methodType.GetParameters();
+
+
+				foreach (var I in paras.Zip(parameters, (a, p) => new { ParameterType = a.ParameterType, Value = p }))
+					if (I.ParameterType == typeof(string))
+						deserializedParams.Add(I.Value);
+					else if (I.ParameterType.IsValueType)
+						deserializedParams.Add(Convert.ChangeType(I.Value, I.ParameterType));
+					else
+						deserializedParams.Add(JsonConvert.DeserializeObject(I.Value, I.ParameterType, new JsonSerializerSettings { ContractResolver = new PrivateSetterContractResolver() }));
+
+				var resultTask = (Task)methodType.Invoke(Implementation, deserializedParams.ToArray());
+
+				return CreateRequest(methodType, resultTask);
 			}
 			catch
 			{
@@ -96,7 +113,8 @@ namespace TGS.Server.Proxying
 			Request req;
 			lock (requests)
 			{
-				req = requests[requestInfo.RequestID];
+				if (!requests.TryGetValue(requestInfo.RequestID, out req))
+					return null;
 				if (req.ValidateToken(requestInfo.RequestToken))
 					requests.Remove(requestInfo.RequestID);
 			}
@@ -109,8 +127,10 @@ namespace TGS.Server.Proxying
 			lock(requests)
 				foreach(var I in requestInfos)
 				{
-					var req = requests[I.RequestID];
-					newReqInfo.Add(req.GetRequestInfo(I.RequestID, I.RequestToken));
+					if (requests.TryGetValue(I.RequestID, out Request req))
+						newReqInfo.Add(req.GetRequestInfo(I.RequestID, I.RequestToken));
+					else
+						newReqInfo.Add(new RequestInfo(RequestState.Invalid, I.RequestID, null));
 				}
 			return newReqInfo;
 		}

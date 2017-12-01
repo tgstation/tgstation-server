@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security.Principal;
@@ -30,6 +31,7 @@ namespace TGS.Interface.Proxying
 		public ServerConnection(RemoteLoginInfo loginInfo, string InstanceName)
 		{
 			results = new Dictionary<UInt64, Action<object>>();
+			onGoingRequests = new List<RequestInfo>();
 			_loginInfo = loginInfo;
 			instanceName = InstanceName;
 			RebuildConnection();
@@ -63,7 +65,7 @@ namespace TGS.Interface.Proxying
 
 		bool QueryRequests()
 		{
-			lock (onGoingRequests)
+			lock (this)
 			{
 				try
 				{
@@ -94,10 +96,8 @@ namespace TGS.Interface.Proxying
 		{
 			Action<object> finisher;
 			lock (results)
-			{
-				finisher = results[request.RequestID];
-				results.Remove(request.RequestID);
-			}
+				if(results.TryGetValue(request.RequestID, out finisher))
+					results.Remove(request.RequestID);
 
 			//always call into the server regardless of finisher to remove the request result so it doesn't hang around
 			object result;
@@ -109,6 +109,7 @@ namespace TGS.Interface.Proxying
 			{
 				result = e;
 			}
+
 			finisher?.Invoke(result);
 		}
 		
@@ -118,27 +119,34 @@ namespace TGS.Interface.Proxying
 
 			while (true)
 			{
-				lock (onGoingRequests)
-				{
+				lock (this)
 					if (QueryRequests())
 					{
 						queryThread = null;
 						break;
 					}
-				}
 				Thread.Sleep(RequeryRate);
 			}
 		}
 
-		public Task<T> HandleCall<T>(string componentName, string methodName, object[] args)
+		public Task<T> HandleCall<T>(string componentName, MethodInfo method, object[] args)
 		{
 			if (channelFactory == null)
 				throw new ObjectDisposedException(nameof(ServerConnection));
 
-			var request = WrapServerOp(() => Connection.BeginRequest(componentName, methodName, args, LoginInfo?.Username, LoginInfo?.Password));
+			var serializedArgs = new List<string>();
+			foreach(var I in args)
+				if (I is string asString)
+					serializedArgs.Add(asString);
+				else if (I.GetType().IsValueType)
+					serializedArgs.Add(I.ToString());
+				else
+					serializedArgs.Add(JsonConvert.SerializeObject(I));
+
+			var request = WrapServerOp(() => Connection.BeginRequest(componentName, method.Name, serializedArgs, LoginInfo?.Username, LoginInfo?.Password));
 
 			if (request.RequestState == RequestState.Invalid || request.RequestState == RequestState.BadToken)
-				throw new CommunicationException(String.Format("Unable to begin request: {0}.{1}({2})", componentName, methodName, args));
+				throw new CommunicationException(String.Format("Unable to begin request: {0}.{1}({2}) -> {3}", componentName, method.Name, args, request.RequestState));
 
 			var tcs = new TaskCompletionSource<T>();
 			lock (results)
@@ -150,7 +158,7 @@ namespace TGS.Interface.Proxying
 						tcs.SetResult((T)obj);
 				});
 
-			lock (onGoingRequests)
+			lock (this)
 			{
 				onGoingRequests.Add(request);
 				if (queryThread == null)
@@ -172,8 +180,7 @@ namespace TGS.Interface.Proxying
 		{
 			if (channelFactory == null)
 				throw new ObjectDisposedException(nameof(ServerConnection));
-			dynamic proxy = new ComponentProxy(typeof(T), this);
-			return proxy;
+			return new ComponentProxy(typeof(T), this).ToComponent<T>();
 		}
 
 		/// <summary>
@@ -184,7 +191,7 @@ namespace TGS.Interface.Proxying
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
 		ChannelFactory<ITGRequestManager> CreateChannel()
 		{
-			var accessPath = instanceName == null ? Definitions.MasterInterfaceName : String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName);
+			var accessPath = String.Format("{0}/{1}", instanceName == null ? Definitions.MasterInterfaceName : String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName), nameof(ITGRequestManager));
 			if (!IsRemoteConnection)
 				return CreateLocalChannel(accessPath);
 			return CreateRemoteChannel(accessPath);

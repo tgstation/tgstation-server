@@ -7,7 +7,7 @@ namespace TGS.Interface.Proxying
 	public interface ITGRequestManager
 	{
 		[OperationContract]
-		RequestInfo BeginRequest(string componentName, string methodName, object[] parameters, string user, string password);
+		RequestInfo BeginRequest(string componentName, string methodName, IEnumerable<string> parameters, string user, string password);
 
 		[OperationContract]
 		List<RequestInfo> QueryRequests(IEnumerable<RequestInfo> requestInfos);

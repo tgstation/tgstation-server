@@ -346,10 +346,10 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var data = Interface.GetComponent<ITGRepository>().MergedPullRequests(out string error);
+			var data = Interface.GetComponent<ITGRepository>().MergedPullRequests().Result;
 			if (data == null)
 			{
-				OutputProc(error);
+				//OutputProc(error);
 				return ExitCode.ServerError;
 			}
 			if (data.Count == 0)

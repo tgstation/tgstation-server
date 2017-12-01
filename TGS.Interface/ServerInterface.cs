@@ -119,7 +119,10 @@ namespace TGS.Interface
 		/// <summary>
 		/// Construct an <see cref="ServerInterface"/> for a local connection
 		/// </summary>
-		public ServerInterface() { }
+		public ServerInterface()
+		{
+			serverConnection = new ServerConnection(null, null);
+		}
 
 		/// <summary>
 		/// Construct an <see cref="ServerInterface"/> for a remote connection

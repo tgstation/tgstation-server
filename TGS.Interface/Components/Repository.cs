@@ -114,7 +114,7 @@ namespace TGS.Interface.Components
 		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
 		/// <returns>A <see cref="IList{T}"/> of <see cref="PullRequestInfo"/></returns>
 		[OperationContract]
-		List<PullRequestInfo> MergedPullRequests(out string error);
+		Task<List<PullRequestInfo>> MergedPullRequests();
 
 		/// <summary>
 		/// Gets the name of the configured git committer

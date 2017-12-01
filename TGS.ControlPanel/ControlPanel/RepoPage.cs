@@ -133,7 +133,7 @@ namespace TGS.ControlPanel
 				else
 					BackupTagsList.Items.Add("Unknown");
 
-				var PRs = Repo.MergedPullRequests(out error);
+				var PRs = Repo.MergedPullRequests().Result;
 				TestMergeListLabel.Items.Clear();
 				if (PRs != null)
 					if (PRs.Count == 0)

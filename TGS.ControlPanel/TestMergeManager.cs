@@ -89,11 +89,10 @@ namespace TGS.ControlPanel
 					PullRequestListBox.Items.Clear();
 
 					var repo = currentInterface.GetComponent<ITGRepository>();
-					string error = null;
 					List<PullRequestInfo> pulls = null;
 					
 					//get started on this while we're processing here
-					var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error));
+					var pullsRequest = repo.MergedPullRequests();
 
 					//Search for open PRs
 					Enabled = false;
@@ -115,9 +114,9 @@ namespace TGS.ControlPanel
 					}
 
 					//now we need to know what's merged
-					await pullsRequest;
+					pulls = await pullsRequest;
 					if (pulls == null)
-						MessageBox.Show(String.Format(MergedPullsError, error));
+						MessageBox.Show(String.Format(MergedPullsError));
 
 					//insert the open pull requests, checking already merged once
 					foreach (var I in result.Items)
@@ -340,9 +339,8 @@ namespace TGS.ControlPanel
 			UseWaitCursor = true;
 			try
 			{
-				IList<PullRequestInfo> pulls = null;
-				string error = null;
-				var mergedPullsTask = WrapServerOp(() => pulls = currentInterface.GetComponent<ITGRepository>().MergedPullRequests(out error));
+				IList<PullRequestInfo> pulls;
+				var mergedPullsTask = currentInterface.GetComponent<ITGRepository>().MergedPullRequests();
 
 				int PRNumber;
 				try
@@ -368,9 +366,9 @@ namespace TGS.ControlPanel
 					return;
 				}
 
-				await mergedPullsTask;
+				pulls = await mergedPullsTask;
 				if (pulls == null)
-					MessageBox.Show(String.Format(MergedPullsError, error));
+					MessageBox.Show(String.Format(MergedPullsError));
 				//get the PR in question
 				var PR = await client.Issue.Get(repoName, repoOwner, PRNumber);
 				if(PR == null ||PR.PullRequest == null)

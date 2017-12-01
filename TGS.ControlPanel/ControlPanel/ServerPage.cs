@@ -321,7 +321,7 @@ namespace TGS.ControlPanel
 				{
 					string res = null;
 					var repo = Interface.GetComponent<ITGRepository>();
-					var pulls = await Task.Factory.StartNew(() => repo.MergedPullRequests(out res));
+					var pulls = await repo.MergedPullRequests();
 
 					if (pulls == null)
 					{

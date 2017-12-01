@@ -1055,36 +1055,31 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public List<PullRequestInfo> MergedPullRequests(out string error)
+		public Task<List<PullRequestInfo>> MergedPullRequests()
 		{
-			lock (RepoLock)
+			return Task.Run(() =>
 			{
-				if (RepoBusy)
+				lock (RepoLock)
 				{
-					error = "Repo is busy!";
-					return null;
+					if (RepoBusy)
+						return null;
+					var result = LoadRepo();
+					if (result != null)
+						return null;
+					try
+					{
+						var PRRawData = GetCurrentPRList();
+						var output = new List<PullRequestInfo>();
+						foreach (var I in GetCurrentPRList())
+							output.Add(new PullRequestInfo(Convert.ToInt32(I.Key), I.Value["author"], I.Value["title"], I.Value["commit"]));
+						return output;
+					}
+					catch
+					{
+						return null;
+					}
 				}
-				var result = LoadRepo();
-				if (result != null)
-				{
-					error = result;
-					return null;
-				}
-				try
-				{
-					var PRRawData = GetCurrentPRList();
-					var output = new List<PullRequestInfo>();
-					foreach (var I in GetCurrentPRList())
-						output.Add(new PullRequestInfo(Convert.ToInt32(I.Key), I.Value["author"], I.Value["title"], I.Value["commit"]));
-					error = null;
-					return output;
-				}
-				catch (Exception e)
-				{
-					error = e.ToString();
-					return null;
-				}
-			}
+			});
 		}
 
 		/// <inheritdoc />

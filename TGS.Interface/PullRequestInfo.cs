@@ -1,32 +1,27 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TGS.Interface
 {
 	/// <summary>
 	/// Information about a pull request
 	/// </summary>
-	[DataContract]
 	public sealed class PullRequestInfo
 	{
 		/// <summary>
 		/// The PR number
 		/// </summary>
-		[DataMember]
 		public int Number { get; private set; }
 		/// <summary>
 		/// The PR's author
 		/// </summary>
-		[DataMember]
 		public string Author { get; private set; }
 		/// <summary>
 		/// The PR's title
 		/// </summary>
-		[DataMember]
 		public string Title { get; private set; }
 		/// <summary>
 		/// The commit the PR was merged locally at
 		/// </summary>
-		[DataMember]
 		public string Sha { get; private set; }
 
 		/// <summary>
@@ -54,5 +49,8 @@ namespace TGS.Interface
 			Number = number;
 			Sha = sha;
 		}
+
+		[JsonConstructor]
+		private PullRequestInfo() { }
 	}
 }

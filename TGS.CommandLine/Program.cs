@@ -175,6 +175,13 @@ namespace TGS.CommandLine
 
 		static int Main(string[] args)
 		{
+			using (var si = new ServerInterface())
+			{
+				si.ConnectToInstance("tgstation", true);
+				var prs = si.GetComponent<ITGRepository>().MergedPullRequests().Result;
+				return 0;
+			}
+
 			ReplaceInterface(new ServerInterface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)

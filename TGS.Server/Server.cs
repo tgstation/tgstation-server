@@ -6,6 +6,7 @@ using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface;
 using TGS.Interface.Components;
+using TGS.Interface.Proxying;
 using TGS.Server.Security;
 using TGS.Server.Proxying;
 
@@ -200,8 +201,9 @@ namespace TGS.Server
 		void SetupService()
 		{
 			serviceHost = CreateHost(this, Definitions.MasterInterfaceName);
-			foreach (var I in ServerInterface.ValidServiceInterfaces)
-				AddEndpoint(serviceHost, I);
+			//foreach (var I in ServerInterface.ValidServiceInterfaces)
+			//AddEndpoint(serviceHost, I);
+			AddEndpoint(serviceHost, typeof(ITGRequestManager));
 			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(); //only admins can diddle us
 			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
@@ -316,9 +318,10 @@ namespace TGS.Server
 
 			var host = CreateHost(instance, String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
-			
-			foreach (var J in ServerInterface.ValidInstanceInterfaces)
-				AddEndpoint(host, J);
+
+			//foreach (var J in ServerInterface.ValidInstanceInterfaces)
+			//AddEndpoint(host, J);
+			AddEndpoint(host, typeof(ITGRequestManager));
 
 			host.Authorization.ServiceAuthorizationManager = instance;
 			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();

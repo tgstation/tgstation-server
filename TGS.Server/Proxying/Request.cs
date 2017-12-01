@@ -11,9 +11,9 @@ namespace TGS.Server.Proxying
 	class Request
 	{
 		const int TokenLength = 7;
-		const int RequestTimeoutInterval = 60000;
+		const int RequestTimeoutInterval = 60;
 
-		static readonly TimeSpan RequestTimeout = new TimeSpan(RequestTimeoutInterval);
+		static readonly TimeSpan RequestTimeout = new TimeSpan(0, 0, RequestTimeoutInterval);
 
 		public string Token => token;
 
@@ -31,7 +31,8 @@ namespace TGS.Server.Proxying
 
 		public bool TimedOut()
 		{
-			return (DateTime.UtcNow - lastQueried) > RequestTimeout;
+			var sinceQuery = DateTime.UtcNow - lastQueried;
+			return sinceQuery > RequestTimeout;
 		}
 
 		public bool ValidateToken(string providedToken)
