@@ -5,21 +5,17 @@ namespace TGS.Interface.Proxying
 {
 	public static class Serializer
 	{
-		public static object DeserializeObject(string json, Type outputType)
+		public static object DeserializeObject(object obj, Type outputType)
 		{
-			if (outputType == typeof(string))
-				return json;
-			if (outputType.IsValueType)
-				return Convert.ChangeType(json, outputType);
-			return JsonConvert.DeserializeObject(json, outputType);
+			if (outputType.IsValueType || outputType == typeof(string))
+				return obj;
+			return JsonConvert.DeserializeObject((string)obj, outputType);
 		}
 
-		public static string SerializeObject(object obj)
+		public static object SerializeObject(object obj)
 		{
-			if (obj is string asString)
-				return asString;
-			if (obj.GetType().IsValueType)
-				return obj.ToString();
+			if (obj is string asString || obj.GetType().IsValueType)
+				return obj;
 			return JsonConvert.SerializeObject(obj);
 		}
 	}

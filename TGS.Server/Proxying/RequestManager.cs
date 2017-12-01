@@ -76,7 +76,7 @@ namespace TGS.Server.Proxying
 			return new ResultingRequest<T>(task);
 		}
 
-		public RequestInfo BeginRequest(string componentName, string methodName, IEnumerable<string> parameters, string user, string password)
+		public RequestInfo BeginRequest(string componentName, string methodName, IEnumerable<object> parameters, string user, string password)
 		{
 			//Check if the requested component is actually a component
 			componentName = String.Format("{0}.{1}.{2}.{3}", nameof(TGS), nameof(Interface), nameof(Interface.Components), componentName);
@@ -88,8 +88,8 @@ namespace TGS.Server.Proxying
 				var deserializedParams = new List<object>();
 				var paras = methodType.GetParameters();
 
-				foreach (var I in paras.Zip(parameters, (a, p) => new { ParameterType = a.ParameterType, JSON = p }))
-					deserializedParams.Add(Serializer.DeserializeObject(I.JSON, I.ParameterType));
+				foreach (var I in paras.Zip(parameters, (a, p) => new { ParameterType = a.ParameterType, Value = p }))
+					deserializedParams.Add(Serializer.DeserializeObject(I.Value, I.ParameterType));
 
 				var resultTask = (Task)methodType.Invoke(Implementation, deserializedParams.ToArray());
 
@@ -101,7 +101,7 @@ namespace TGS.Server.Proxying
 			}
 		}
 
-		public string EndRequest(RequestInfo requestInfo)
+		public object EndRequest(RequestInfo requestInfo)
 		{
 			Request req;
 			lock (requests)

@@ -134,7 +134,7 @@ namespace TGS.Interface.Proxying
 			if (channelFactory == null)
 				throw new ObjectDisposedException(nameof(ServerConnection));
 
-			var serializedArgs = new List<string>();
+			var serializedArgs = new List<object>();
 			foreach (var I in args)
 				serializedArgs.Add(Serializer.SerializeObject(I));
 
@@ -150,7 +150,7 @@ namespace TGS.Interface.Proxying
 					if (obj is Exception asException)
 						tcs.SetException(asException);
 					else
-						tcs.SetResult((T)Serializer.DeserializeObject((string)obj, typeof(T)));
+						tcs.SetResult((T)Serializer.DeserializeObject(obj, typeof(T)));
 				});
 
 			lock (this)
