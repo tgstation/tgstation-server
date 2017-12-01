@@ -16,7 +16,7 @@ namespace TGS.Interface
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetServiceComponent{T}"/>
 		/// </summary>
-		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGSService), typeof(ITGInstanceManager), typeof(ITGConnectivity), typeof(ITGLanding) };
+		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGServer), typeof(ITGInstanceManager), typeof(ITGConnectivity), typeof(ITGLanding) };
 
 		/// <summary>
 		/// Version of the interface
@@ -43,11 +43,11 @@ namespace TGS.Interface
 						//check ITGSService first for compatiblity reasons
 						try
 						{
-							rawVersion = GetServiceComponent<ITGSService>().Version();
+							rawVersion = GetServiceComponent<ITGServer>().Version().Result;
 						}
 						catch
 						{
-							rawVersion = GetServiceComponent<ITGLanding>().Version();
+							rawVersion = GetServiceComponent<ITGLanding>().Version().Result;
 						}
 						var splits = rawVersion.Split(' ');
 						_serverVersion = new Version(splits[splits.Length - 1].Substring(1));
@@ -240,7 +240,7 @@ namespace TGS.Interface
 			}
 			try
 			{
-				GetServiceComponent<ITGSService>().Version();
+				GetServiceComponent<ITGServer>().Version().Wait();
 				error = null;
 				return ConnectivityLevel.Administrator;
 			}

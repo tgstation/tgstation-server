@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Security.Principal;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 using TGS.Interface.Proxying;
@@ -15,8 +15,7 @@ namespace TGS.Server
 	/// <summary>
 	/// The windows service the application runs as
 	/// </summary>
-	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	public sealed class Server : ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager, IDisposable
+	public sealed class Server : ITGServer, ITGConnectivity, ITGLanding, ITGInstanceManager, IDisposable
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events
@@ -47,22 +46,6 @@ namespace TGS.Server
 		/// The directory to load and save <see cref="ServerConfig"/>s to
 		/// </summary>
 		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
-		
-		/// <summary>
-		/// Begins user impersonation to allow proper restricted file access
-		/// </summary>
-		public static void BeginImpersonation()
-		{
-			WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
-		}
-
-		/// <summary>
-		/// Cancels WCF's user impersonation to allow clean access to writing log files
-		/// </summary>
-		public static void CancelImpersonation()
-		{
-			WindowsIdentity.Impersonate(IntPtr.Zero);
-		}
 
 		/// <summary>
 		/// Checks an <paramref name="instanceName"/> for illegal characters
@@ -200,12 +183,10 @@ namespace TGS.Server
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this, Definitions.MasterInterfaceName);
+			serviceHost = CreateHost(this, Definitions.MasterInterfaceName, new RootAuthorizationManager());
 			//foreach (var I in ServerInterface.ValidServiceInterfaces)
 			//AddEndpoint(serviceHost, I);
 			AddEndpoint(serviceHost, typeof(ITGRequestManager));
-			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(); //only admins can diddle us
-			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
 
 		/// <summary>
@@ -223,10 +204,11 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
 		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
+		/// <param name="authorizationManager">The <see cref="IAuthorizationManager"/> for the <see cref="RequestManager"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
-		static ServiceHost CreateHost(object singleton, string endpointPostfix)
+		static ServiceHost CreateHost(object singleton, string endpointPostfix, IAuthorizationManager authorizationManager)
 		{
-			return new ServiceHost(new RequestManager(singleton), new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
+			return new ServiceHost(new RequestManager(singleton, authorizationManager), new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
 			{
 				CloseTimeout = new TimeSpan(0, 0, 5)
 			};
@@ -316,15 +298,11 @@ namespace TGS.Server
 				return null;
 			}
 
-			var host = CreateHost(instance, String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName));
+			var host = CreateHost(instance, String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName), instance);
 			hosts.Add(instanceName, host);
-
-			//foreach (var J in ServerInterface.ValidInstanceInterfaces)
-			//AddEndpoint(host, J);
+			
 			AddEndpoint(host, typeof(ITGRequestManager));
 
-			host.Authorization.ServiceAuthorizationManager = instance;
-			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 			return host;
 		}
 
@@ -377,62 +355,74 @@ namespace TGS.Server
 		public void VerifyConnection() { }
 
 		/// <inheritdoc />
-		public void PrepareForUpdate()
+		public Task PrepareForUpdate()
 		{
-			foreach (var I in hosts)
-				Helpers.ServiceHostToInstance(I.Value).Reattach(false);
+			return Task.Run(() =>
+			{
+				foreach (var I in hosts)
+					Helpers.ServiceHostToInstance(I.Value).Reattach(false);
+			});
 		}
 
 		/// <inheritdoc />
-		public ushort RemoteAccessPort()
+		public Task<ushort> RemoteAccessPort()
 		{
-			return Config.RemoteAccessPort;
+			return Task.Run(() => Config.RemoteAccessPort);
 		}
 
 		/// <inheritdoc />
-		public string SetRemoteAccessPort(ushort port)
+		public Task<string> SetRemoteAccessPort(ushort port)
 		{
-			if (port == 0)
-				return "Cannot bind to port 0";
-			Config.RemoteAccessPort = port;
-			return null;
+			return Task.Run(() =>
+			{
+				if (port == 0)
+					return "Cannot bind to port 0";
+				Config.RemoteAccessPort = port;
+				return null;
+			});
 		}
 
 		/// <inheritdoc />
-		public string Version()
+		public Task<string> Version()
 		{
-			return VersionString;
+			return Task.Run(() => VersionString);
 		}
 
 		/// <inheritdoc />
-		public bool SetPythonPath(string path)
+		public Task<bool> SetPythonPath(string path)
 		{
-			if (!Directory.Exists(path))
-				return false;
-			Config.PythonPath = Path.GetFullPath(path);
-			return true;
+			return Task.Run(() =>
+			{
+				if (!Directory.Exists(path))
+					return false;
+				Config.PythonPath = Path.GetFullPath(path);
+				return true;
+			});
 		}
 
 		/// <inheritdoc />
-		public string PythonPath()
+		public Task<string> PythonPath()
 		{
-			return Config.PythonPath;
+			return Task.Run(() => Config.PythonPath);
 		}
 
 		/// <inheritdoc />
-		public IList<InstanceMetadata> ListInstances()
+		public Task<IList<InstanceMetadata>> ListInstances()
 		{
-			var result = new List<InstanceMetadata>();
-			lock (this)
-				foreach (var ic in GetInstanceConfigs()) 
-					result.Add(new InstanceMetadata
-					{
-						Name = ic.Name,
-						Path = ic.Directory,
-						Enabled = ic.Enabled,
-						LoggingID = (byte)(ic.Enabled ? Helpers.ServiceHostToInstance(hosts[ic.Name]).LoggingID : 0)
-					});
-			return result;
+			return Task.Run(() =>
+			{
+				IList<InstanceMetadata> result = new List<InstanceMetadata>();
+				lock (this)
+					foreach (var ic in GetInstanceConfigs())
+						result.Add(new InstanceMetadata
+						{
+							Name = ic.Name,
+							Path = ic.Directory,
+							Enabled = ic.Enabled,
+							LoggingID = (byte)(ic.Enabled ? Helpers.ServiceHostToInstance(hosts[ic.Name]).LoggingID : 0)
+						});
+				return result;
+			});
 		}
 
 		/// <inheritdoc />

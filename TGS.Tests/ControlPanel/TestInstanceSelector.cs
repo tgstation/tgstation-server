@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 
@@ -19,7 +20,7 @@ namespace TGS.ControlPanel.Tests
 		public void TestInstatiation()
 		{
 			var mockLanding = new Mock<ITGLanding>();
-			mockLanding.Setup(x => x.ListInstances()).Returns(new List<InstanceMetadata>());
+			mockLanding.Setup(x => x.ListInstances()).Returns(Task.FromResult((IList<InstanceMetadata>)new List<InstanceMetadata>()));
 			var mockInter = new Mock<IServerInterface>();
 			mockInter.Setup(x => x.GetComponent<ITGLanding>()).Returns(mockLanding.Object);
 		

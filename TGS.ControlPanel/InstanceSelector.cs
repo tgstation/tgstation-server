@@ -72,7 +72,7 @@ namespace TGS.ControlPanel
 		{
 			InstanceListBox.Items.Clear();
 			await WrapServerOp(() => {
-				InstanceData = masterInterface.GetServiceComponent<ITGLanding>().ListInstances();
+				InstanceData = masterInterface.GetServiceComponent<ITGLanding>().ListInstances().Result;
 			});
 			foreach(var I in InstanceData)
 				InstanceListBox.Items.Add(String.Format("{0}: {1} - {2} - {3}", I.LoggingID, I.Name, I.Path, I.Enabled ? "ONLINE" : "OFFLINE"));

@@ -53,11 +53,13 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationException.cs" />
     <Compile Include="AuthenticationHeaderApplicator.cs" />
+    <Compile Include="Components\ITGComponent.cs" />
     <Compile Include="Proxying\Serializer.cs" />
     <Compile Include="Proxying\ServerConnection.cs" />
     <Compile Include="Proxying\ComponentProxy.cs" />
-    <Compile Include="Components\Administration.cs" />
+    <Compile Include="Components\ITGAdministration.cs" />
     <Compile Include="Components\Byond.cs" />
     <Compile Include="ChatSetupInfo.cs" />
     <Compile Include="Command.cs" />
@@ -68,7 +70,7 @@
     <Compile Include="Components\Chat.cs" />
     <Compile Include="Components\Instance.cs" />
     <Compile Include="Components\InstanceManager.cs" />
-    <Compile Include="Components\Landing.cs" />
+    <Compile Include="Components\ITGLanding.cs" />
     <Compile Include="Definitions.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Helpers.cs" />
@@ -87,7 +89,7 @@
     <Compile Include="RootCommand.cs" />
     <Compile Include="ServerInterface.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
-    <Compile Include="Components\Service.cs" />
+    <Compile Include="Components\ITGServer.cs" />
     <Compile Include="Components\Interop.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -175,13 +175,6 @@ namespace TGS.CommandLine
 
 		static int Main(string[] args)
 		{
-			using (var si = new ServerInterface())
-			{
-				si.ConnectToInstance("TG Station Server", true);
-				var prs = si.GetComponent<ITGRepository>().MergedPullRequests().Result;
-				return 0;
-			}
-
 			ReplaceInterface(new ServerInterface());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
@@ -269,7 +262,7 @@ namespace TGS.CommandLine
 					case "exit":
 						return (int)Command.ExitCode.Normal;
 					case "debug-upgrade":
-						currentInterface.GetServiceComponent<ITGSService>().PrepareForUpdate();
+						currentInterface.GetServiceComponent<ITGServer>().PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
 					default:
 						//linq voodoo to get quoted strings

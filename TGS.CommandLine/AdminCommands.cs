@@ -26,7 +26,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder().Result;
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -50,7 +50,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var group = Interface.GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+			var group = Interface.GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup().Result;
 			OutputProc(group ?? "ERROR");
 			return group != null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -103,7 +103,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGAdministration>().SetAuthorizedGroup(null);
+			var res = Interface.GetComponent<ITGAdministration>().SetAuthorizedGroup(null).Result;
 			if(res != "ADMIN")
 			{
 				OutputProc("Failed to clear the group??? We are currently set to: " + res);

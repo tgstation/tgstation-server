@@ -1,15 +1,16 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
-using System.ServiceModel;
+using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 using TGS.Server.Security;
 
 namespace TGS.Server
 {
-	sealed partial class Instance : ServiceAuthorizationManager, ITGAdministration
+	sealed partial class Instance : IAuthorizationManager, ITGAdministration
 	{
 		/// <summary>
 		/// The <see cref="SecurityIdentifier"/> of the Windows group authorized to access the <see cref="Instance"/>
@@ -37,38 +38,44 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string GetCurrentAuthorizedGroup()
+		public Task<string> GetCurrentAuthorizedGroup()
 		{
-			try
+			return Task.Run(() =>
 			{
-				if (TheDroidsWereLookingFor == null)
-					return "ADMIN";
-				
-				string res = null;
 				try
 				{
-					res = GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Machine), IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
+					if (TheDroidsWereLookingFor == null)
+						return "ADMIN";
+
+					string res = null;
+					try
+					{
+						res = GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Machine), IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
+					}
+					catch { }
+					return res ?? GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain), IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
 				}
-				catch { }
-				return res ?? GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain), IdentityType.Sid, TheDroidsWereLookingFor.Value).Name;
-			}
-			catch
-			{
-				return null;
-			}
+				catch
+				{
+					return null;
+				}
+			});
 		}
 
 		/// <inheritdoc />
-		public string SetAuthorizedGroup(string groupName)
+		public Task<string> SetAuthorizedGroup(string groupName)
 		{
-			if (groupName == null)
+			return Task.Run(() =>
 			{
-				TheDroidsWereLookingFor = null;
-				Config.AuthorizedUserGroupSID = null;
-				Config.Save();
-				return "ADMIN";
-			}
-			return FindTheDroidsWereLookingFor(groupName);
+				if (groupName == null)
+				{
+					TheDroidsWereLookingFor = null;
+					Config.AuthorizedUserGroupSID = null;
+					Config.Save();
+					return "ADMIN";
+				}
+				return FindTheDroidsWereLookingFor(groupName);
+			});
 		}
 
 		/// <summary>
@@ -116,35 +123,31 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="operationContext">Various parameters about the operation supplied by WCF</param>
 		/// <returns><see langword="true"/> if the supplied user account may use the requested component, <see langword="false"/> otherwise</returns>
-		protected override bool CheckAccessCore(OperationContext operationContext)
+		public bool CheckAccess(WindowsIdentity identity, Type componentType, MethodInfo methodInfo)
 		{
-			var contract = operationContext.EndpointDispatcher.ContractName;
-
-			if (contract == typeof(ITGConnectivity).Name)   //always allow connectivity checks
+			if (componentType == typeof(ITGConnectivity))   //always allow connectivity checks
 				return true;
 
-			var windowsIdent = operationContext.ServiceSecurityContext.WindowsIdentity;
-
-			if (contract == typeof(ITGInterop).Name)
+			if (componentType == typeof(ITGInterop))
 			{    
 				//only allow the same user the service is running as to use interop, because that's what DD is running as, and don't spam the logs with it unless it fails
-				var result = windowsIdent.User == ServiceSID;
+				var result = identity.User == ServiceSID;
 				if(!result)
-					WriteAccess(windowsIdent.Name, false);
+					WriteAccess(identity.Name, false);
 				return result;
 			}
 
-			var wp = new WindowsPrincipal(windowsIdent);
+			var wp = new WindowsPrincipal(identity);
 			//first allow admins
 			var authSuccess = wp.IsInRole(WindowsBuiltInRole.Administrator);
 
 			//if we're not an admin, check that we aren't trying to access the admin interface
-			if (!authSuccess && operationContext.EndpointDispatcher.ContractName != typeof(ITGAdministration).Name && TheDroidsWereLookingFor != null)
+			if (!authSuccess && componentType != typeof(ITGAdministration) && TheDroidsWereLookingFor != null)
 				authSuccess = wp.IsInRole(new SecurityIdentifier(Config.AuthorizedUserGroupSID));
 
 			lock (authLock)
 			{
-				var user = windowsIdent.Name;
+				var user = identity.Name;
 				if (LastSeenUser != user)
 				{
 					LastSeenUser = user;
@@ -154,49 +157,52 @@ namespace TGS.Server
 			return authSuccess;
 		}
 
-		public string RecreateStaticFolder()
+		public Task<string> RecreateStaticFolder()
 		{
-			lock (RepoLock)
+			return Task.Run(() =>
 			{
-				if (RepoBusy)
-					return "Repo locked!";
-				RepoBusy = true;
-			}
-			try
-			{
-				if (!Monitor.TryEnter(watchdogLock))
-					return "Watchdog locked!";
+				lock (RepoLock)
+				{
+					if (RepoBusy)
+						return "Repo locked!";
+					RepoBusy = true;
+				}
 				try
 				{
-					if (!Monitor.TryEnter(configLock))
-						return "Static dir locked!";
+					if (!Monitor.TryEnter(watchdogLock))
+						return "Watchdog locked!";
 					try
 					{
-						if (currentStatus != DreamDaemonStatus.Offline)
-							return "Watchdog running!";
-						BackupAndDeleteStaticDirectory();
-						InitialConfigureRepository();
+						if (!Monitor.TryEnter(configLock))
+							return "Static dir locked!";
+						try
+						{
+							if (currentStatus != DreamDaemonStatus.Offline)
+								return "Watchdog running!";
+							BackupAndDeleteStaticDirectory();
+							InitialConfigureRepository();
+						}
+						finally
+						{
+							Monitor.Exit(configLock);
+						}
 					}
 					finally
 					{
-						Monitor.Exit(configLock);
+						Monitor.Exit(watchdogLock);
 					}
+				}
+				catch (Exception e)
+				{
+					return e.ToString();
 				}
 				finally
 				{
-					Monitor.Exit(watchdogLock);
+					lock (RepoLock)
+						RepoBusy = false;
 				}
-			}
-			catch(Exception e)
-			{
-				return e.ToString();
-			}
-			finally
-			{
-				lock (RepoLock)
-					RepoBusy = false;
-			}
-			return null;
+				return null;
+			});
 		}
 	}
 }

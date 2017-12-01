@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +7,7 @@ using System.Timers;
 using System.Threading.Tasks;
 using TGS.Interface.Components;
 using TGS.Interface.Proxying;
+using TGS.Server.Security;
 
 namespace TGS.Server.Proxying
 {
@@ -16,19 +16,21 @@ namespace TGS.Server.Proxying
 	{
 		const int GCInterval = 10000;
 
-		static readonly Assembly interfaceAssembly = Assembly.GetAssembly(typeof(ITGSService));
+		static readonly Assembly interfaceAssembly = Assembly.GetAssembly(typeof(ITGComponent));
 
 		public object Implementation => _implementation;
 
 		readonly object _implementation;
+		readonly IAuthorizationManager authorizationManager;
 		readonly IDictionary<UInt64, Request> requests;
 		readonly Timer garbageCollectionTimer;
 
 		UInt64 nextRequest;
 
-		public RequestManager(object implementation)
+		public RequestManager(object implementation, IAuthorizationManager _authorizationManager)
 		{
 			_implementation = implementation;
+			authorizationManager = _authorizationManager;
 			requests = new Dictionary<UInt64, Request>();
 			garbageCollectionTimer = new Timer(GCInterval);
 			garbageCollectionTimer.Elapsed += GarbageCollectionTimer_Elapsed;
@@ -50,7 +52,7 @@ namespace TGS.Server.Proxying
 		RequestInfo CreateRequest(MethodInfo methodInfo, Task result)
 		{
 			Request req;
-			if (methodInfo.ReturnType == typeof(void))
+			if (methodInfo.ReturnType == typeof(Task))
 				req = new Request(result);
 			else
 			{
@@ -64,7 +66,7 @@ namespace TGS.Server.Proxying
 			lock (requests)
 			{
 				id = ++nextRequest;
-				//not handling if the Dictionary gets full because it's fucking impossible
+				//not handling if the ids overflow because it's fucking impossible
 				requests.Add(id, req);
 			}
 
@@ -91,7 +93,15 @@ namespace TGS.Server.Proxying
 				foreach (var I in paras.Zip(parameters, (a, p) => new { ParameterType = a.ParameterType, Value = p }))
 					deserializedParams.Add(Serializer.DeserializeObject(I.Value, I.ParameterType));
 
-				var resultTask = (Task)methodType.Invoke(Implementation, deserializedParams.ToArray());
+				Task resultTask;
+				using (var ident = IdentityManager.SetIdentityForOperation(user, password))
+				{
+					if (ident.IsAnonymous)
+						return new RequestInfo(RequestState.Unauthenticated, 0, null);
+					if (!authorizationManager.CheckAccess(ident, componentType, methodType))
+						return new RequestInfo(RequestState.Unauthorized, 0, null);
+					resultTask = (Task)methodType.Invoke(Implementation, deserializedParams.ToArray());
+				}
 
 				return CreateRequest(methodType, resultTask);
 			}

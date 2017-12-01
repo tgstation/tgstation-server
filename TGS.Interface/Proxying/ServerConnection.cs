@@ -140,6 +140,17 @@ namespace TGS.Interface.Proxying
 
 			var request = WrapServerOp(() => Connection.BeginRequest(componentName, method.Name, serializedArgs, LoginInfo?.Username, LoginInfo?.Password));
 
+			switch (request.RequestState)
+			{
+				case RequestState.Invalid:
+				case RequestState.BadToken:
+					throw new CommunicationException(String.Format("Unable to begin request: {0}.{1}({2}) -> {3}", componentName, method.Name, args, request.RequestState));
+				case RequestState.Unauthenticated:
+					throw new AuthenticationException(LoginInfo?.Username);
+				case RequestState.Unauthorized:
+					throw new UnauthorizedAccessException(String.Format("The current user is unauthorized to use {0}.{1}", componentName, method));
+			}
+
 			if (request.RequestState == RequestState.Invalid || request.RequestState == RequestState.BadToken)
 				throw new CommunicationException(String.Format("Unable to begin request: {0}.{1}({2}) -> {3}", componentName, method.Name, args, request.RequestState));
 

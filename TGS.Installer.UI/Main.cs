@@ -106,7 +106,7 @@ namespace TGS.Installer.UI
 			var connectionVerified = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				Interface.GetServiceComponent<ITGSService>().PrepareForUpdate();
+				Interface.GetServiceComponent<ITGServer>().PrepareForUpdate();
 				Thread.Sleep(3000); //chat messages
 				return true;
 			}
@@ -194,17 +194,17 @@ namespace TGS.Installer.UI
 			var sc = new ServerConfig();
 			try
 			{
-				sc.PythonPath = Interface.GetServiceComponent<ITGSService>().PythonPath();
+				sc.PythonPath = Interface.GetServiceComponent<ITGServer>().PythonPath().Result;
 			}
 			catch { }
 			try
 			{
-				sc.RemoteAccessPort = Interface.GetServiceComponent<ITGSService>().RemoteAccessPort();
+				sc.RemoteAccessPort = Interface.GetServiceComponent<ITGServer>().RemoteAccessPort().Result;
 			}
 			catch { }
 			try
 			{
-				foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
+				foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances().Result)
 					sc.InstancePaths.Add(I.Path);
 			}
 			catch { }
