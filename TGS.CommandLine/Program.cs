@@ -177,7 +177,7 @@ namespace TGS.CommandLine
 		{
 			using (var si = new ServerInterface())
 			{
-				si.ConnectToInstance("tgstation", true);
+				si.ConnectToInstance("TG Station Server", true);
 				var prs = si.GetComponent<ITGRepository>().MergedPullRequests().Result;
 				return 0;
 			}

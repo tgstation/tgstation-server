@@ -10,18 +10,22 @@ namespace TGS.Interface
 		/// <summary>
 		/// The PR number
 		/// </summary>
+		[JsonProperty]
 		public int Number { get; private set; }
 		/// <summary>
 		/// The PR's author
 		/// </summary>
+		[JsonProperty]
 		public string Author { get; private set; }
 		/// <summary>
 		/// The PR's title
 		/// </summary>
+		[JsonProperty]
 		public string Title { get; private set; }
 		/// <summary>
 		/// The commit the PR was merged locally at
 		/// </summary>
+		[JsonProperty]
 		public string Sha { get; private set; }
 
 		/// <summary>
@@ -50,7 +54,10 @@ namespace TGS.Interface
 			Sha = sha;
 		}
 
+		/// <summary>
+		/// Constructor used by deserializer
+		/// </summary>
 		[JsonConstructor]
-		private PullRequestInfo() { }
+		PullRequestInfo() { }
 	}
 }

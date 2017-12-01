@@ -135,13 +135,8 @@ namespace TGS.Interface.Proxying
 				throw new ObjectDisposedException(nameof(ServerConnection));
 
 			var serializedArgs = new List<string>();
-			foreach(var I in args)
-				if (I is string asString)
-					serializedArgs.Add(asString);
-				else if (I.GetType().IsValueType)
-					serializedArgs.Add(I.ToString());
-				else
-					serializedArgs.Add(JsonConvert.SerializeObject(I));
+			foreach (var I in args)
+				serializedArgs.Add(Serializer.SerializeObject(I));
 
 			var request = WrapServerOp(() => Connection.BeginRequest(componentName, method.Name, serializedArgs, LoginInfo?.Username, LoginInfo?.Password));
 
@@ -155,7 +150,7 @@ namespace TGS.Interface.Proxying
 					if (obj is Exception asException)
 						tcs.SetException(asException);
 					else
-						tcs.SetResult((T)obj);
+						tcs.SetResult((T)Serializer.DeserializeObject((string)obj, typeof(T)));
 				});
 
 			lock (this)

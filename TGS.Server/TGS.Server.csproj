@@ -81,7 +81,6 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonNet.PrivateSettersContractResolvers\PrivateSettersContractResolvers.cs" />
     <Compile Include="Proxying\Request.cs" />
     <Compile Include="Proxying\RequestManager.cs" />
     <Compile Include="Proxying\ResultingRequest.cs" />

@@ -1,5 +1,4 @@
-﻿using JsonNet.PrivateSettersContractResolvers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +51,7 @@ namespace TGS.Server.Proxying
 		{
 			Request req;
 			if (methodInfo.ReturnType == typeof(void))
-				req = new Request((Task)result);
+				req = new Request(result);
 			else
 			{
 				var ourType = GetType();
@@ -89,14 +88,8 @@ namespace TGS.Server.Proxying
 				var deserializedParams = new List<object>();
 				var paras = methodType.GetParameters();
 
-
-				foreach (var I in paras.Zip(parameters, (a, p) => new { ParameterType = a.ParameterType, Value = p }))
-					if (I.ParameterType == typeof(string))
-						deserializedParams.Add(I.Value);
-					else if (I.ParameterType.IsValueType)
-						deserializedParams.Add(Convert.ChangeType(I.Value, I.ParameterType));
-					else
-						deserializedParams.Add(JsonConvert.DeserializeObject(I.Value, I.ParameterType, new JsonSerializerSettings { ContractResolver = new PrivateSetterContractResolver() }));
+				foreach (var I in paras.Zip(parameters, (a, p) => new { ParameterType = a.ParameterType, JSON = p }))
+					deserializedParams.Add(Serializer.DeserializeObject(I.JSON, I.ParameterType));
 
 				var resultTask = (Task)methodType.Invoke(Implementation, deserializedParams.ToArray());
 
@@ -108,7 +101,7 @@ namespace TGS.Server.Proxying
 			}
 		}
 
-		public object EndRequest(RequestInfo requestInfo)
+		public string EndRequest(RequestInfo requestInfo)
 		{
 			Request req;
 			lock (requests)
@@ -118,7 +111,7 @@ namespace TGS.Server.Proxying
 				if (req.ValidateToken(requestInfo.RequestToken))
 					requests.Remove(requestInfo.RequestID);
 			}
-			return req.GetResult(requestInfo.RequestToken);
+			return Serializer.SerializeObject(req.GetResult(requestInfo.RequestToken));
 		}
 
 		public List<RequestInfo> QueryRequests(IEnumerable<RequestInfo> requestInfos)

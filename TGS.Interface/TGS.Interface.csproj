@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationHeaderApplicator.cs" />
+    <Compile Include="Proxying\Serializer.cs" />
     <Compile Include="Proxying\ServerConnection.cs" />
     <Compile Include="Proxying\ComponentProxy.cs" />
     <Compile Include="Components\Administration.cs" />

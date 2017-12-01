@@ -13,6 +13,6 @@ namespace TGS.Interface.Proxying
 		List<RequestInfo> QueryRequests(IEnumerable<RequestInfo> requestInfos);
 
 		[OperationContract]
-		object EndRequest(RequestInfo requestInfo);
+		string EndRequest(RequestInfo requestInfo);
 	}
 }
