@@ -1,7 +1,4 @@
-﻿using JsonNet.PrivateSettersContractResolvers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Reflection;
+﻿using Newtonsoft.Json;
 using TGS.Interface;
 using TGS.Server.IO;
 
@@ -27,6 +24,7 @@ namespace TGS.Server.Configuration
 		public string Directory { get; private set; }
 
 		/// <inheritdoc />
+		[JsonProperty]
 		public ulong Version { get; protected set; } = CurrentVersion;
 
 		/// <inheritdoc />
@@ -112,7 +110,7 @@ namespace TGS.Server.Configuration
 		public static IInstanceConfig Load(string path, IIOManager IO)
 		{
 			var configtext = IO.ReadAllText(IOManager.ConcatPath(path, JSONFilename)).Result;
-			var res = JsonConvert.DeserializeObject<DeprecatedInstanceConfig>(configtext, new JsonSerializerSettings() { ContractResolver = new PrivateSetterContractResolver() });
+			var res = JsonConvert.DeserializeObject<DeprecatedInstanceConfig>(configtext);
 			res.Directory = path;
 			res.MigrateToCurrentVersion();
 			return res;

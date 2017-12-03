@@ -12,7 +12,7 @@ namespace TGS.Server.Configuration.Tests
 	[TestClass]
 	public sealed class TestServerConfig
 	{
-		const string goodJSON = "{\"Version\":7,\"InstancePaths\":[\"asdf\"],\"RemoteAccessPort\":38600,\"PythonPath\":\"C:\\\\Python273\"}";
+		const string goodJSON = "{\"Version\":784,\"InstancePaths\":[\"asdf\"],\"RemoteAccessPort\":38600,\"PythonPath\":\"C:\\\\Python273\"}";
 
 		[TestMethod]
 		public void TestLoad()
@@ -27,6 +27,7 @@ namespace TGS.Server.Configuration.Tests
 			Assert.AreEqual("asdf", config.InstancePaths[0]);
 			Assert.AreEqual(38600, config.RemoteAccessPort);
 			Assert.AreEqual("C:\\Python273", config.PythonPath);
+			Assert.AreEqual<ulong>(784, config.Version);
 
 			mockIO.Setup(x => x.ReadAllText(IOManager.ConcatPath(ServerConfig.DefaultConfigDirectory, "ServerConfig.json"))).Returns(Task.FromResult("{"));
 			ServerConfig.Load(mockIO.Object);
@@ -40,6 +41,7 @@ namespace TGS.Server.Configuration.Tests
 			Assert.AreEqual("asdf", config.InstancePaths[0]);
 			Assert.AreEqual(38600, config.RemoteAccessPort);
 			Assert.AreEqual("C:\\Python273", config.PythonPath);
+			Assert.AreEqual<ulong>(784, config.Version);
 		}
 
 		[TestMethod]

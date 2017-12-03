@@ -1,8 +1,6 @@
-﻿using JsonNet.PrivateSettersContractResolvers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TGS.Server.IO;
 
 namespace TGS.Server.Configuration
@@ -33,6 +31,7 @@ namespace TGS.Server.Configuration
 		const ulong CurrentVersion = 8;
 
 		/// <inheritdoc />
+		[JsonProperty]
 		public ulong Version { get; private set; } = CurrentVersion;
 
 		/// <inheritdoc />
@@ -68,7 +67,7 @@ namespace TGS.Server.Configuration
 		static ServerConfig Load(string directory, IIOManager IO)
 		{
 			var configtext = IO.ReadAllText(IOManager.ConcatPath(directory, JSONFilename)).Result;
-			var config = JsonConvert.DeserializeObject<ServerConfig>(configtext, new JsonSerializerSettings() { ContractResolver = new PrivateSetterContractResolver() });
+			var config = JsonConvert.DeserializeObject<ServerConfig>(configtext);
 			while (config.Version < CurrentVersion)
 				//TODO: Implement migration when necessary
 				++config.Version;

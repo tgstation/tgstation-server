@@ -257,9 +257,9 @@ namespace TGS.Server.Components
 		}
 
 		/// <inheritdoc />
-		public string MergePullRequest(int PRnumber, string atSHA = null)
+		public string MergePullRequest(int PRnumber, string atSHA = null, bool silent = false)
 		{
-			return Repository.MergePullRequest(PRnumber, atSHA);
+			return Repository.MergePullRequest(PRnumber, atSHA, silent);
 		}
 
 		/// <inheritdoc />
@@ -494,6 +494,12 @@ namespace TGS.Server.Components
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
 			return Static.WriteText(staticRelativePath, data, out unauthorized);
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<string> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent = false)
+		{
+			return Repository.MergePullRequests(pullRequestInfos, silent);
 		}
 	}
 }
