@@ -620,6 +620,7 @@ namespace TGS.Server.Components
 						}
 						Repo.UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
+						Interop.WorldAnnounce("Server updated, changes will be applied on reboot...");
 						Chat.SendMessage("DM: " + msg, MessageType.DeveloperInfo);
 						Logger.WriteInfo(msg, EventID.DMCompileSuccess);
 						lock (this)
