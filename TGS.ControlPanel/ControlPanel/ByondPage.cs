@@ -11,9 +11,9 @@ namespace TGS.ControlPanel
 		void InitBYONDPage()
 		{
 			var BYOND = Interface.GetComponent<ITGByond>();
-			var CV = BYOND.GetVersion(ByondVersion.Installed);
+			var CV = BYOND.GetVersion(ByondVersion.Installed).Result;
 			if (CV == null)
-				CV = BYOND.GetVersion(ByondVersion.Staged);
+				CV = BYOND.GetVersion(ByondVersion.Staged).Result;
 			if (CV != null)
 			{
 				var splits = CV.Split('.');
@@ -30,7 +30,7 @@ namespace TGS.ControlPanel
 				}
 			}
 
-			var latestVer = BYOND.GetVersion(ByondVersion.Latest);
+			var latestVer = BYOND.GetVersion(ByondVersion.Latest).Result;
 			LatestVersionLabel.Text = latestVer;
 
 			try
@@ -45,7 +45,7 @@ namespace TGS.ControlPanel
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			UpdateBYONDButtons();
-			if (!Interface.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
+			if (!Interface.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value).Result)
 				MessageBox.Show("Unable to begin update, there is another operation in progress.");
 		}
 		
@@ -57,11 +57,11 @@ namespace TGS.ControlPanel
 		{
 			var BYOND = Interface.GetComponent<ITGByond>();
 
-			VersionLabel.Text = BYOND.GetVersion(ByondVersion.Installed) ?? "Not Installed";
+			VersionLabel.Text = BYOND.GetVersion(ByondVersion.Installed).Result ?? "Not Installed";
 
 			StagedVersionTitle.Visible = false;
 			StagedVersionLabel.Visible = false;
-			switch (BYOND.CurrentStatus())
+			switch (BYOND.CurrentStatus().Result)
 			{
 				case ByondStatus.Idle:
 				case ByondStatus.Starting:
@@ -79,7 +79,7 @@ namespace TGS.ControlPanel
 				case ByondStatus.Staged:
 					StagedVersionTitle.Visible = true;
 					StagedVersionLabel.Visible = true;
-					StagedVersionLabel.Text = BYOND.GetVersion(ByondVersion.Staged) ?? "Unknown";
+					StagedVersionLabel.Text = BYOND.GetVersion(ByondVersion.Staged).Result ?? "Unknown";
 					StatusLabel.Text = "Staged and waiting for BYOND to shutdown...";
 					UpdateButton.Enabled = true;
 					break;
@@ -88,7 +88,7 @@ namespace TGS.ControlPanel
 					UpdateButton.Enabled = false;
 					break;
 			}
-			var error = Interface.GetComponent<ITGByond>().GetError();
+			var error = Interface.GetComponent<ITGByond>().GetError().Result;
 			if (error != lastReadError)
 			{
 				lastReadError = error;

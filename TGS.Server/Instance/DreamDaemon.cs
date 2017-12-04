@@ -479,7 +479,7 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string Start()
 		{
-			if (CurrentStatus() == ByondStatus.Staged)
+			if (updateStat == ByondStatus.Staged)
 			{
 				//IMPORTANT: SLEEP FOR A MOMENT OR WONDOWS WON'T RELEASE THE FUCKING BYOND DLL HANDLES!!!! REEEEEEE
 				Thread.Sleep(3000);

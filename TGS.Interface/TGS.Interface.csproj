@@ -60,7 +60,7 @@
     <Compile Include="Proxying\ServerConnection.cs" />
     <Compile Include="Proxying\ComponentProxy.cs" />
     <Compile Include="Components\ITGAdministration.cs" />
-    <Compile Include="Components\Byond.cs" />
+    <Compile Include="Components\ITGByond.cs" />
     <Compile Include="ChatSetupInfo.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Components\Compiler.cs" />

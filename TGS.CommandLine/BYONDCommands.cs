@@ -33,7 +33,7 @@ namespace TGS.CommandLine
 					type = ByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = ByondVersion.Latest;
-			OutputProc(Interface.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+			OutputProc(Interface.GetComponent<ITGByond>().GetVersion(type).Result ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -56,7 +56,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			switch (Interface.GetComponent<ITGByond>().CurrentStatus())
+			switch (Interface.GetComponent<ITGByond>().CurrentStatus().Result)
 			{
 				case ByondStatus.Downloading:
 					OutputProc("Downloading update...");
@@ -110,20 +110,20 @@ namespace TGS.CommandLine
 			}
 
 			var BYOND = Interface.GetComponent<ITGByond>();
-			if (!BYOND.UpdateToVersion(Major, Minor))
+			if (!BYOND.UpdateToVersion(Major, Minor).Result)
 
 			{
 				OutputProc("Failed to begin update!");
 				return ExitCode.ServerError;
 			}
 			
-			var stat = BYOND.CurrentStatus();
+			var stat = BYOND.CurrentStatus().Result;
 			while (stat != ByondStatus.Idle && stat != ByondStatus.Staged)
 			{
 				Thread.Sleep(100);
-				stat = BYOND.CurrentStatus();
+				stat = BYOND.CurrentStatus().Result;
 			}
-			var res = BYOND.GetError();
+			var res = BYOND.GetError().Result;
 			OutputProc(res ?? (stat == ByondStatus.Staged ? "Update staged and will apply next DD reboot" : "Update finished"));
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
