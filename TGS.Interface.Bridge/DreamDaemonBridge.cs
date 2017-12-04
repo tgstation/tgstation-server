@@ -2,7 +2,7 @@ using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using TGS.Interface;
+using System.Threading.Tasks;
 using TGS.Interface.Components;
 
 namespace TGS.Interface.Bridge
@@ -27,9 +27,10 @@ namespace TGS.Interface.Bridge
 				parsedArgs.AddRange(args);
 				var instance = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
+				var invocationString = String.Join(" ", parsedArgs);
 				using (var I = new ServerInterface())
-					if(I.ConnectToInstance(instance, true).HasFlag(ConnectivityLevel.Connected))
-						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
+					if (I.ConnectToInstance(instance, true).HasFlag(ConnectivityLevel.Connected))
+						I.GetComponent<ITGInterop>().InteropMessage(invocationString).ContinueWith(t => { var ignored = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 			}
 			catch { }
 			return 0;

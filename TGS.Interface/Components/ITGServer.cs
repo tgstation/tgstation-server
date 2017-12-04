@@ -28,12 +28,6 @@ namespace TGS.Interface.Components
 		Task<string> SetRemoteAccessPort(ushort port);
 
 		/// <summary>
-		/// Retrieve's the service's version
-		/// </summary>
-		/// <returns>A <see cref="Task"/> that results in the server's version <see cref="string"/></returns>
-		Task<string> Version();
-
-		/// <summary>
 		/// Sets the path to the python 2.7 installation
 		/// </summary>
 		/// <param name="path">The new path</param>

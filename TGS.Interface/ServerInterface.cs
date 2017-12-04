@@ -14,14 +14,14 @@ namespace TGS.Interface
 	sealed public class ServerInterface : IServerInterface
 	{
 		/// <summary>
-		/// List of <see langword="interface"/>s that can be used with <see cref="GetServiceComponent{T}"/>
-		/// </summary>
-		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGServer), typeof(ITGInstanceManager), typeof(ITGConnectivity), typeof(ITGLanding) };
-
-		/// <summary>
 		/// Version of the interface
 		/// </summary>
 		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+
+		/// <summary>
+		/// List of <see langword="interface"/>s that can be used with <see cref="GetServiceComponent{T}"/>
+		/// </summary>
+		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGLanding), typeof(ITGServer), typeof(ITGInstanceManager) };
 
 		/// <summary>
 		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/>
@@ -34,26 +34,7 @@ namespace TGS.Interface
 		Version _serverVersion;
 
 		/// <inheritdoc />
-		public Version ServerVersion { get
-			{
-				lock (this)
-					if (_serverVersion == null)
-					{
-						string rawVersion;
-						//check ITGSService first for compatiblity reasons
-						try
-						{
-							rawVersion = GetServiceComponent<ITGServer>().Version().Result;
-						}
-						catch
-						{
-							rawVersion = GetServiceComponent<ITGLanding>().Version().Result;
-						}
-						var splits = rawVersion.Split(' ');
-						_serverVersion = new Version(splits[splits.Length - 1].Substring(1));
-					}
-				return _serverVersion;
-			} }
+		public Version ServerVersion => serverConnection.ServerVersion;
 
 		/// <inheritdoc />
 		public string InstanceName { get; private set; }
@@ -74,7 +55,7 @@ namespace TGS.Interface
 		/// <returns>A <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service</returns>
 		static IList<Type> CollectComponents()
 		{
-			var ConnectivityComponent = typeof(ITGConnectivity);
+			var ConnectivityComponent = typeof(ITGComponent);
 																   //find all interfaces in this assembly in this namespace that have the service contract attribute
 			var query = from t in Assembly.GetExecutingAssembly().GetTypes()
 						where t.IsInterface
@@ -150,7 +131,7 @@ namespace TGS.Interface
 				return ConnectivityLevel.Connected;
 			try
 			{
-				GetComponent<ITGConnectivity>().VerifyConnection();
+				GetComponent<ITGInstance>().VerifyConnection();
 			}
 			catch
 			{

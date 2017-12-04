@@ -65,10 +65,9 @@
     <Compile Include="Command.cs" />
     <Compile Include="Components\Compiler.cs" />
     <Compile Include="Components\Config.cs" />
-    <Compile Include="Components\Connectivity.cs" />
     <Compile Include="Components\DreamDaemon.cs" />
     <Compile Include="Components\Chat.cs" />
-    <Compile Include="Components\Instance.cs" />
+    <Compile Include="Components\ITGInstance.cs" />
     <Compile Include="Components\InstanceManager.cs" />
     <Compile Include="Components\ITGLanding.cs" />
     <Compile Include="Definitions.cs" />
@@ -90,7 +89,7 @@
     <Compile Include="ServerInterface.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Components\ITGServer.cs" />
-    <Compile Include="Components\Interop.cs" />
+    <Compile Include="Components\ITGInterop.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />

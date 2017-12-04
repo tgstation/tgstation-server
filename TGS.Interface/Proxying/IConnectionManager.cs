@@ -4,6 +4,8 @@ namespace TGS.Interface.Proxying
 {
 	interface IConnectionManager : IRemoteConnectionProvider, IDisposable
 	{
+		Version ServerVersion { get; }
+
 		/// <summary>
 		/// Returns the requested <see cref="ServerInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>

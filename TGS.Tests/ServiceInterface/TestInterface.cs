@@ -84,14 +84,5 @@ namespace TGS.Interface.Tests
 			Assert.AreEqual(first.LoginInfo.Password, second.LoginInfo.Password);
 			Assert.IsTrue(second.IsRemoteConnection);
 		}
-
-		[TestMethod]
-		public void TestLocalAccessInterfaceAllowsWindowsImpersonation()
-		{
-			var inter = new ServerInterface();
-			var po = new PrivateObject(inter);
-			var cf = (ChannelFactory<ITGConfig>)po.Invoke("CreateChannel", new Type[] { typeof(string) }, new object[] { TestInstanceName }, new Type[] { typeof(ITGConfig) });
-			Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, System.Security.Principal.TokenImpersonationLevel.Impersonation);
-		}
 	}
 }

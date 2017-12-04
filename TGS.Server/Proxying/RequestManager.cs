@@ -137,5 +137,10 @@ namespace TGS.Server.Proxying
 				}
 			return newReqInfo;
 		}
+
+		public Version Version()
+		{
+			return Server.Version;
+		}
 	}
 }

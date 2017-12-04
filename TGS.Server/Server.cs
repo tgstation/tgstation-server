@@ -15,7 +15,7 @@ namespace TGS.Server
 	/// <summary>
 	/// The windows service the application runs as
 	/// </summary>
-	public sealed class Server : ITGServer, ITGConnectivity, ITGLanding, ITGInstanceManager, IDisposable
+	public sealed class Server : ITGServer, ITGLanding, ITGInstanceManager, IDisposable
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events
@@ -27,10 +27,11 @@ namespace TGS.Server
 		/// </summary>
 		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
 
+		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
 		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="AssemblyName"/>'s <see cref="System.Version"/>
 		/// </summary>
-		public static readonly string VersionString = String.Format("/tg/station 13 Server v{0}", Assembly.GetExecutingAssembly().GetName().Version);
+		public static readonly string VersionString = String.Format("/tg/station 13 Server v{0}", Version);
 
 		/// <summary>
 		/// Singleton <see cref="ILogger"/>
@@ -320,7 +321,6 @@ namespace TGS.Server
 				SendTimeout = new TimeSpan(0, 0, 40),
 				MaxReceivedMessageSize = Definitions.TransferLimitRemote
 			};
-			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 
@@ -352,9 +352,6 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public void VerifyConnection() { }
-
-		/// <inheritdoc />
 		public Task PrepareForUpdate()
 		{
 			return Task.Run(() =>
@@ -380,12 +377,6 @@ namespace TGS.Server
 				Config.RemoteAccessPort = port;
 				return null;
 			});
-		}
-
-		/// <inheritdoc />
-		public Task<string> Version()
-		{
-			return Task.Run(() => VersionString);
 		}
 
 		/// <inheritdoc />
@@ -426,108 +417,120 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string CreateInstance(string Name, string path)
+		public Task<string> CreateInstance(string Name, string path)
 		{
-			path = Helpers.NormalizePath(path);
-			var res = CheckInstanceName(Name);
-			if (res != null)
-				return res;
-			if (File.Exists(path) || Directory.Exists(path))
-				return "Cannot create instance at pre-existing path!";
-			lock (this)
+			return Task.Run(() =>
 			{
-				if (Config.InstancePaths.Contains(path))
-					return String.Format("Instance at {0} already exists!", path);
-				foreach (var oic in GetInstanceConfigs())
-					if (Name == oic.Name)
-						return String.Format("Instance named {0} already exists!", oic.Name);
-				IInstanceConfig ic;
-				try
+				path = Helpers.NormalizePath(path);
+				var res = CheckInstanceName(Name);
+				if (res != null)
+					return res;
+				if (File.Exists(path) || Directory.Exists(path))
+					return "Cannot create instance at pre-existing path!";
+				lock (this)
 				{
-					ic = new InstanceConfig(path)
+					if (Config.InstancePaths.Contains(path))
+						return String.Format("Instance at {0} already exists!", path);
+					foreach (var oic in GetInstanceConfigs())
+						if (Name == oic.Name)
+							return String.Format("Instance named {0} already exists!", oic.Name);
+					IInstanceConfig ic;
+					try
 					{
-						Name = Name
-					};
-					Directory.CreateDirectory(path);
-					ic.Save();
-					Config.InstancePaths.Add(path);
+						ic = new InstanceConfig(path)
+						{
+							Name = Name
+						};
+						Directory.CreateDirectory(path);
+						ic.Save();
+						Config.InstancePaths.Add(path);
+					}
+					catch (Exception e)
+					{
+						return e.ToString();
+					}
+					return SetupOneInstance(ic).Result;
 				}
-				catch (Exception e)
-				{
-					return e.ToString();
-				}
-				return SetupOneInstance(ic);
-			}
+			});
 		}
+			
 
 		/// <summary>
 		/// Starts and onlines an instance located at <paramref name="config"/>
 		/// </summary>
 		/// <param name="config">The <see cref="IInstanceConfig"/> for the <see cref="Instance"/></param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
-		string SetupOneInstance(IInstanceConfig config)
+		Task<string> SetupOneInstance(IInstanceConfig config)
 		{
-			if (!config.Enabled)
-				return null;
-			try
+			return Task.Run(() =>
 			{
-				var host = SetupInstance(config);
-				if (host != null)
-					host.Open();
-				else
-					lock (this)
-						Config.InstancePaths.Remove(config.Directory);
-				return null;
-			}
-			catch (Exception e)
-			{
-				return "Instance set up but an error occurred while starting it: " + e.ToString();
-			}
-		}
-
-		/// <inheritdoc />
-		public string ImportInstance(string path)
-		{
-			path = Helpers.NormalizePath(path);
-			lock (this)
-			{
-				if (Config.InstancePaths.Contains(path))
-					return String.Format("Instance at {0} already exists!", path);
-				if(!Directory.Exists(path))
-					return String.Format("There is no instance located at {0}!", path);
-				IInstanceConfig ic;
+				if (!config.Enabled)
+					return null;
 				try
 				{
-					ic = InstanceConfig.Load(path);
-					foreach(var oic in GetInstanceConfigs())
-						if(ic.Name == oic.Name)
-							return String.Format("Instance named {0} already exists!", oic.Name);
-					ic.Save();
-					Config.InstancePaths.Add(path);
+					var host = SetupInstance(config);
+					if (host != null)
+						host.Open();
+					else
+						lock (this)
+							Config.InstancePaths.Remove(config.Directory);
+					return null;
 				}
 				catch (Exception e)
 				{
-					return e.ToString();
+					return "Instance set up but an error occurred while starting it: " + e.ToString();
 				}
-				return SetupOneInstance(ic);
-			}
+			});
 		}
 
 		/// <inheritdoc />
-		public bool InstanceEnabled(string Name)
+		public Task<string> ImportInstance(string path)
 		{
-			lock(this)
+			return Task.Run(() =>
 			{
-				return hosts.ContainsKey(Name);
-			}
+				path = Helpers.NormalizePath(path);
+				lock (this)
+				{
+					if (Config.InstancePaths.Contains(path))
+						return String.Format("Instance at {0} already exists!", path);
+					if (!Directory.Exists(path))
+						return String.Format("There is no instance located at {0}!", path);
+					IInstanceConfig ic;
+					try
+					{
+						ic = InstanceConfig.Load(path);
+						foreach (var oic in GetInstanceConfigs())
+							if (ic.Name == oic.Name)
+								return String.Format("Instance named {0} already exists!", oic.Name);
+						ic.Save();
+						Config.InstancePaths.Add(path);
+					}
+					catch (Exception e)
+					{
+						return e.ToString();
+					}
+					return SetupOneInstance(ic).Result;
+				}
+			});
 		}
 
 		/// <inheritdoc />
-		public string SetInstanceEnabled(string Name, bool enabled)
+		public Task<bool> InstanceEnabled(string Name)
 		{
-			return SetInstanceEnabledImpl(Name, enabled, out string path);
+			return Task.Run(() =>
+			{
+				lock (this)
+				{
+					return hosts.ContainsKey(Name);
+				}
+			});
 		}
 
+		/// <inheritdoc />
+		public Task<string> SetInstanceEnabled(string Name, bool enabled)
+		{
+			return Task.Run(() => SetInstanceEnabledImpl(Name, enabled, out string path));
+		}
 
 		/// <summary>
 		/// Sets a <see cref="Instance"/>'s enabled status
@@ -552,7 +555,7 @@ namespace TGS.Server
 							path = ic.Directory;
 							ic.Enabled = true;
 							ic.Save();
-							return SetupOneInstance(ic);
+							return SetupOneInstance(ic).Result;
 						}
 					return String.Format("Instance {0} does not exist!", Name);
 				}
@@ -564,7 +567,7 @@ namespace TGS.Server
 					hosts.Remove(Name);
 					var inst = Helpers.ServiceHostToInstance(host);
 					host.Close();
-					path = inst.ServerDirectory();
+					path = inst.ServerDirectory().Result;
 					inst.Offline();
 					inst.Dispose();
 					UnlockLoggingID(inst.LoggingID);
@@ -574,74 +577,80 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string RenameInstance(string name, string new_name)
+		public Task<string> RenameInstance(string name, string new_name)
 		{
-			if (name == new_name)
-				return null;
-			var res = CheckInstanceName(new_name);
-			if (res != null)
-				return res;
-			lock (this)
+			return Task.Run(() =>
 			{
-				//we have to check em all anyway
-				IInstanceConfig the_droid_were_looking_for = null;
-				foreach (var ic in GetInstanceConfigs())
-					if (ic.Name == name)
-					{
-						the_droid_were_looking_for = ic;
-						break;
-					}
-					else if (ic.Name == new_name)
-						return String.Format("There is already another instance named {0}!", new_name);
-				if (the_droid_were_looking_for == null)
-					return String.Format("There is no instance named {0}!", name);
-				var ie = InstanceEnabled(name);
-				if(ie)
-					SetInstanceEnabled(name, false);
-				the_droid_were_looking_for.Name = new_name;
-				string result = "";
-				try
-				{
-					the_droid_were_looking_for.Save();
-					result = null;
-				}
-				catch(Exception e)
-				{
-					result = "Could not save instance config! Error: " + e.ToString();
-				}
-				finally
-				{
-					if (ie)
-					{
-						var resRestore = SetInstanceEnabled(new_name, true);
-						if (resRestore != null)
-							result = (result + " " + resRestore).Trim();
-					}
-				}
-				return result;
-			}
-		}
-
-		/// <inheritdoc />
-		public string DetachInstance(string name)
-		{
-			lock (this)
-			{
-				var res = SetInstanceEnabledImpl(name, false, out string path);
+				if (name == new_name)
+					return null;
+				var res = CheckInstanceName(new_name);
 				if (res != null)
 					return res;
-				if (path == null)    //gotta find it ourselves
+				lock (this)
+				{
+					//we have to check em all anyway
+					IInstanceConfig the_droid_were_looking_for = null;
 					foreach (var ic in GetInstanceConfigs())
 						if (ic.Name == name)
 						{
-							path = ic.Directory;
+							the_droid_were_looking_for = ic;
 							break;
 						}
-				if (path == null)
-					return String.Format("No instance named {0} exists!", name);
-				Config.InstancePaths.Remove(path);
-				return null;
-			}
+						else if (ic.Name == new_name)
+							return String.Format("There is already another instance named {0}!", new_name);
+					if (the_droid_were_looking_for == null)
+						return String.Format("There is no instance named {0}!", name);
+					var ie = InstanceEnabled(name).Result;
+					if (ie)
+						SetInstanceEnabled(name, false);
+					the_droid_were_looking_for.Name = new_name;
+					string result = "";
+					try
+					{
+						the_droid_were_looking_for.Save();
+						result = null;
+					}
+					catch (Exception e)
+					{
+						result = "Could not save instance config! Error: " + e.ToString();
+					}
+					finally
+					{
+						if (ie)
+						{
+							var resRestore = SetInstanceEnabled(new_name, true);
+							if (resRestore != null)
+								result = (result + " " + resRestore).Trim();
+						}
+					}
+					return result;
+				}
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<string> DetachInstance(string name)
+		{
+			return Task.Run(() =>
+			{
+				lock (this)
+				{
+					var res = SetInstanceEnabledImpl(name, false, out string path);
+					if (res != null)
+						return res;
+					if (path == null)    //gotta find it ourselves
+						foreach (var ic in GetInstanceConfigs())
+							if (ic.Name == name)
+							{
+								path = ic.Directory;
+								break;
+							}
+					if (path == null)
+						return String.Format("No instance named {0} exists!", name);
+					Config.InstancePaths.Remove(path);
+					return null;
+				}
+			});
 		}
 
 		#region IDisposable Support
