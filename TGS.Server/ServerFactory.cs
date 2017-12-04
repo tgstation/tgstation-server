@@ -22,7 +22,6 @@ namespace TGS.Server
 		/// Construct a <see cref="ServerFactory"/>
 		/// </summary>
 		/// <param name="io">The value of <see cref="IO"/></param>
-		/// <param name="serverConfig">The value of <see cref="ServerConfig"/></param>
 		public ServerFactory(IIOManager io)
 		{
 			IO = io;
