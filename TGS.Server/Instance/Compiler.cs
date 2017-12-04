@@ -503,6 +503,7 @@ namespace TGS.Server
 						}
 						UpdateLiveSha(CurrentSha);
 						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
+						WorldAnnounce("Server updated, changes will be applied on reboot...");
 						SendMessage("DM: " + msg, MessageType.DeveloperInfo);
 						WriteInfo(msg, EventID.DMCompileSuccess);
 						lock (CompilerLock)

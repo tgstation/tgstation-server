@@ -275,7 +275,7 @@ namespace TGS.ControlPanel
 				if (UpdateToRemoteRadioButton.Checked)
 				{
 					GenerateChangelog(repo);
-					error = await Task.Factory.StartNew(() => repo.SynchronizePush());
+					error = await Task.Run(() => repo.SynchronizePush());
 				}
 
 				//Merge the PRs, collect errors
@@ -297,7 +297,7 @@ namespace TGS.ControlPanel
 					GenerateChangelog(repo);
 
 				//Start the compile
-				var compileStarted = await Task.Factory.StartNew(() => currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1));
+				var compileStarted = await Task.Run(() => currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1));
 				
 				if (error != null)
 					MessageBox.Show(String.Format("Error sychronizing repo: {0}", error));

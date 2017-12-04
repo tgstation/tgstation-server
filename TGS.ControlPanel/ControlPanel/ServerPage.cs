@@ -346,12 +346,12 @@ namespace TGS.ControlPanel
 						return;
 					}
 
-					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
+					await Task.Run(() => repo.GenerateChangelog(out res));
 
 					if (res != null)
 						MessageBox.Show(res, "Error generating changelog");
 
-					res = await Task.Factory.StartNew(() => repo.SynchronizePush());
+					res = await Task.Run(() => repo.SynchronizePush());
 
 					if (res != null)
 						MessageBox.Show(res, "Error synchronizing commits");
@@ -364,7 +364,7 @@ namespace TGS.ControlPanel
 							pulls.RemoveAll(x => x.Number == I.Result.Number);
 
 					var mergeResults = await repo.MergePullRequests(pulls, true);
-					var compileStartResult = await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(true));
+					var compileStartResult = await Task.Run(() => Interface.GetComponent<ITGCompiler>().Compile(true));
 
 					//Show any errors
 					for (var I = 0; I < mergeResults.Count(); ++I)
@@ -412,7 +412,7 @@ namespace TGS.ControlPanel
 				{
 					var repo = Interface.GetComponent<ITGRepository>();
 
-					var res = await Task.Factory.StartNew(() => repo.Reset(true));
+					var res = await Task.Run(() => repo.Reset(true));
 
 					if (res != null)
 					{
@@ -420,12 +420,12 @@ namespace TGS.ControlPanel
 						return;
 					}
 
-					await Task.Factory.StartNew(() => repo.GenerateChangelog(out res));
+					await Task.Run(() => repo.GenerateChangelog(out res));
 
 					if (res != null)
 						MessageBox.Show(res, "Error generating changelog");
 
-					await Task.Factory.StartNew(() => Interface.GetComponent<ITGCompiler>().Compile(false));
+					await Task.Run(() => Interface.GetComponent<ITGCompiler>().Compile(false));
 					if (res != null)
 						MessageBox.Show(res, "Error starting compile!");
 				}
