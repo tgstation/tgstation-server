@@ -23,7 +23,7 @@ namespace TGS.ControlPanel
 			UseWaitCursor = true;
 			try
 			{
-				return Task.Factory.StartNew(action);
+				return Task.Run(action);
 			}
 			finally
 			{
