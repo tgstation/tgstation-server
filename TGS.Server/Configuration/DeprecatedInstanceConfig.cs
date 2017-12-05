@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TGS.Server.Configuration
 {
@@ -15,8 +16,8 @@ namespace TGS.Server.Configuration
 		/// <summary>
 		/// Construct a <see cref="DeprecatedInstanceConfig"/>. Used by the deserializer
 		/// </summary>
-		[Obsolete("This method is for use by the deserializer only.", true)]
-		public DeprecatedInstanceConfig() : base(DefaultInstallationPath) { }
+		[JsonConstructor]
+		DeprecatedInstanceConfig() : base(DefaultInstallationPath) { }
 
 		/// <summary>
 		/// Construct a <see cref="DeprecatedInstanceConfig"/> for a <see cref="Components.Instance"/> at <paramref name="path"/>
@@ -29,7 +30,7 @@ namespace TGS.Server.Configuration
 		/// </summary>
 		public void MigrateToCurrentVersion()
 		{
-			for (; Version < CurrentVersion; ++Version)
+			//for (; Version < CurrentVersion; ++Version)
 				Migrate();
 		}
 
