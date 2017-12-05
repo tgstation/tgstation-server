@@ -3,30 +3,6 @@
 namespace TGS.Interface
 {
 	/// <summary>
-	/// Description of the connectivity level to an <see cref="Components.ITGInstance"/> or the <see cref="Components.ITGSService"/>
-	/// </summary>
-	[Flags]
-	public enum ConnectivityLevel
-	{
-		/// <summary>
-		/// The connection could not be made, either a communication error occurred or the specified <see cref="Components.ITGInstance"/> does not exist
-		/// </summary>
-		None = 0,
-		/// <summary>
-		/// The connection could be made
-		/// </summary>
-		Connected = 1,
-		/// <summary>
-		/// The connected user is authenticated
-		/// </summary>
-		Authenticated = 2 | Connected,
-		/// <summary>
-		/// The connected user is an administrator
-		/// </summary>
-		Administrator = 4 | Authenticated,
-	}
-
-	/// <summary>
 	/// The status of a BYOND update job
 	/// </summary>
 	public enum ByondStatus

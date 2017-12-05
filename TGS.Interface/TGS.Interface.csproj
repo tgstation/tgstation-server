@@ -65,10 +65,10 @@
     <Compile Include="Command.cs" />
     <Compile Include="Components\Compiler.cs" />
     <Compile Include="Components\Config.cs" />
-    <Compile Include="Components\DreamDaemon.cs" />
+    <Compile Include="Components\ITGDreamDaemon.cs" />
     <Compile Include="Components\Chat.cs" />
     <Compile Include="Components\ITGInstance.cs" />
-    <Compile Include="Components\InstanceManager.cs" />
+    <Compile Include="Components\ITGInstanceManager.cs" />
     <Compile Include="Components\ITGLanding.cs" />
     <Compile Include="Definitions.cs" />
     <Compile Include="Enumerations.cs" />

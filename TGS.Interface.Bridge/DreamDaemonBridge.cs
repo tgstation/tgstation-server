@@ -29,7 +29,7 @@ namespace TGS.Interface.Bridge
 				parsedArgs.RemoveAt(0);
 				var invocationString = String.Join(" ", parsedArgs);
 				using (var I = new ServerInterface())
-					if (I.ConnectToInstance(instance, true).HasFlag(ConnectivityLevel.Connected))
+					if (I.ConnectToInstance(instance, true))
 						I.GetComponent<ITGInterop>().InteropMessage(invocationString).ContinueWith(t => { var ignored = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 			}
 			catch { }

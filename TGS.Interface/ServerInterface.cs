@@ -28,11 +28,6 @@ namespace TGS.Interface
 		/// </summary>
 		public static readonly IList<Type> ValidInstanceInterfaces = CollectComponents();
 
-		/// <summary>
-		/// The <see cref="ServerVersion"/>
-		/// </summary>
-		Version _serverVersion;
-
 		/// <inheritdoc />
 		public Version ServerVersion => serverConnection.ServerVersion;
 
@@ -117,43 +112,27 @@ namespace TGS.Interface
 		}
 
 		/// <inheritdoc />
-		public ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false)
+		public bool ConnectToInstance(string instanceName = null, bool skipChecks = false)
 		{
 			if (instanceName == null)
 				instanceName = InstanceName;
-			if (!skipChecks && !ConnectionStatus().HasFlag(ConnectivityLevel.Connected))
-				return ConnectivityLevel.None;
 			var prevInstance = InstanceName;
 			if (prevInstance != instanceName)
+			{
 				instanceConnection?.Dispose();
+				instanceConnection = null;
+			}
 			InstanceName = instanceName;
 			if (skipChecks)
-				return ConnectivityLevel.Connected;
-			try
-			{
-				GetComponent<ITGInstance>().VerifyConnection();
-			}
-			catch
-			{
-				InstanceName = prevInstance;
-				return ConnectivityLevel.None;
-			}
+				return true;
 			try
 			{
 				GetComponent<ITGInstance>().ServerDirectory();
+				return true;
 			}
 			catch
 			{
-				return ConnectivityLevel.Connected;
-			}
-			try
-			{
-				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
-				return ConnectivityLevel.Administrator;
-			}
-			catch
-			{
-				return ConnectivityLevel.Authenticated;
+				return false;
 			}
 		}
 
@@ -190,46 +169,6 @@ namespace TGS.Interface
 			if (!ValidServiceInterfaces.Contains(ToT))
 				throw new Exception("Invalid type!");
 			return serverConnection.GetComponent<T>();
-		}
-
-		/// <inheritdoc />
-		public ConnectivityLevel ConnectionStatus()
-		{
-			return ConnectionStatus(out string unused);
-		}
-
-		/// <inheritdoc />
-		public ConnectivityLevel ConnectionStatus(out string error)
-		{
-			try
-			{
-				GetServiceComponent<ITGConnectivity>().VerifyConnection();
-			}
-			catch (Exception e)
-			{
-				error = e.ToString();
-				return ConnectivityLevel.None;
-			}
-			try
-			{
-				GetServiceComponent<ITGLanding>().Version();
-			}
-			catch(Exception e)
-			{
-				error = e.ToString();
-				return ConnectivityLevel.Connected;
-			}
-			try
-			{
-				GetServiceComponent<ITGServer>().Version().Wait();
-				error = null;
-				return ConnectivityLevel.Administrator;
-			}
-			catch(Exception e)
-			{
-				error = e.ToString();
-				return ConnectivityLevel.Authenticated;
-			}
 		}
 		
 		public void Dispose()
