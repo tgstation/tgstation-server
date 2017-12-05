@@ -93,7 +93,7 @@ namespace TGS.ControlPanel
 					List<PullRequestInfo> pulls = null;
 					
 					//get started on this while we're processing here
-					var pullsRequest = Task.Factory.StartNew(() => pulls = repo.MergedPullRequests(out error));
+					var pullsRequest = Task.Run(() => pulls = repo.MergedPullRequests(out error));
 
 					//Search for open PRs
 					Enabled = false;
@@ -280,11 +280,11 @@ namespace TGS.ControlPanel
 				if (UpdateToRemoteRadioButton.Checked)
 				{
 					GenerateChangelog(repo);
-					error = await Task.Factory.StartNew(() => repo.SynchronizePush());
+					error = await Task.Run(() => repo.SynchronizePush());
 				}
 
 				//Merge the PRs, collect errors
-				var errors = await Task.Factory.StartNew(() => repo.MergePullRequests(pulls, false));
+				var errors = await Task.Run(() => repo.MergePullRequests(pulls, false));
 
 				//Show any errors
 				for (var I = 0; I < errors.Count(); ++I)
@@ -302,7 +302,7 @@ namespace TGS.ControlPanel
 					GenerateChangelog(repo);
 
 				//Start the compile
-				var compileStarted = await Task.Factory.StartNew(() => currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1));
+				var compileStarted = await Task.Run(() => currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1));
 				
 				if (error != null)
 					MessageBox.Show(String.Format("Error sychronizing repo: {0}", error));

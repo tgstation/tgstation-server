@@ -388,7 +388,7 @@ namespace TGS.Installer.UI
 				// Microsoft.Deployment.WindowsInstaller.Installer.SetInternalUI(InstallUIOptions.Silent);
 				Microsoft.Deployment.WindowsInstaller.Installer.SetExternalUI(OnUIUpdate, InstallLogModes.Progress);
 
-				await Task.Factory.StartNew(() => Microsoft.Deployment.WindowsInstaller.Installer.InstallProduct(msipath, cl));
+				await Task.Run(() => Microsoft.Deployment.WindowsInstaller.Installer.InstallProduct(msipath, cl));
 
 				if (cancelled)
 				{
