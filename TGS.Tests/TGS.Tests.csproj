@@ -65,6 +65,7 @@
     <Compile Include="CommandLine\Commands\Repository\RepositoryCommandTest.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
+    <Compile Include="Server\Components\TestByondManager.cs" />
     <Compile Include="Server\Configuration\TestDeprecatedInstanceConfig.cs" />
     <Compile Include="Server\Configuration\TestServerConfig.cs" />
     <Compile Include="Server\Console\TestConsole.cs" />
@@ -87,12 +88,22 @@
     <Compile Include="Server\IO\TestIOManager.cs" />
     <Compile Include="Server\Configuration\TestRepoConfig.cs" />
     <Compile Include="Server\TestServerFactory.cs" />
+    <Compile Include="TestData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestData.resx</DependentUpon>
+    </Compile>
     <Compile Include="TestException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="TestData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TGS.CommandLine\TGS.CommandLine.csproj">
       <Project>{89191f69-b18e-4b59-b72e-e12f9b6811a0}</Project>

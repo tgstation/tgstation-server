@@ -155,18 +155,33 @@ namespace TGS.Server.Components
 		/// </summary>
 		public void Dispose()
 		{
-			if (updateCancellationTokenSource != null)
+			CleanTask(true);
+			CleanStaging();
+		}
+
+		/// <summary>
+		/// Cancels and joins <see cref="updateTask"/> if it's running
+		/// </summary>
+		/// <param name="wait">If <see langword="true"/>, <see cref="Task.Wait"/> and <see cref="Task.Dispose"/> is called on <see cref="updateTask"/> if it's set</param>
+		void CleanTask(bool wait)
+		{
+			Task toWait = null;
+			lock (this)
 			{
-				updateCancellationTokenSource.Dispose();
-				updateCancellationTokenSource = null;
-			}
-			if (updateTask != null)
-			{
-				updateTask.Wait();
-				updateTask.Dispose();
+				if (updateCancellationTokenSource != null)
+				{
+					updateCancellationTokenSource.Dispose();
+					updateCancellationTokenSource = null;
+				}
+				if (wait)
+					toWait = updateTask;
 				updateTask = null;
 			}
-			CleanStaging();
+			if (toWait != null)
+			{
+				toWait.Wait();
+				toWait.Dispose();
+			}
 		}
 		
 		/// <summary>
@@ -297,7 +312,7 @@ namespace TGS.Server.Components
 
 				//STAGING
 
-				IO.UnzipFile(RevisionDownloadPath, StagingDirectory);
+				IO.UnzipFile(RevisionDownloadPath, StagingDirectory).Wait();
 
 				lock (this)
 					IO.WriteAllText(IOManager.ConcatPath(StagingDirectoryInner, VersionFile), String.Format("{0}.{1}", major, minor)).Wait();
@@ -334,11 +349,7 @@ namespace TGS.Server.Components
 			}
 			finally
 			{
-				lock (this)
-				{
-					updateCancellationTokenSource.Dispose();
-					updateCancellationTokenSource = null;
-				}
+				CleanTask(false);
 			}
 		}
 

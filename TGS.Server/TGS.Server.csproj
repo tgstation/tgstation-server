@@ -114,7 +114,7 @@
     <Compile Include="Components\InteropManager.cs" />
     <Compile Include="Components\IRepositoryManager.cs" />
     <Compile Include="Components\IStaticManager.cs" />
-    <Compile Include="Chat\PopulateCommandInfoEventArgs.cs" />
+    <Compile Include="Chat\Commands\PopulateCommandInfoEventArgs.cs" />
     <Compile Include="Components\RepositoryManager.cs" />
     <Compile Include="Components\IChatManager.cs" />
     <Compile Include="Components\StaticManager.cs" />

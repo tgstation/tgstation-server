@@ -1,7 +1,6 @@
 ﻿using System;
-using TGS.Server.Chat.Commands;
 
-namespace TGS.Server.Chat
+namespace TGS.Server.Chat.Commands
 {
 	/// <summary>
 	/// Used for populating a <see cref="CommandInfo"/> structure

@@ -146,11 +146,11 @@ namespace TGS.Server.IO.Tests
 
 			await IO.Touch(p1);
 			await IO.CreateSymlink(p2, p1);
-
+			
 			await Assert.ThrowsExceptionAsync<FileNotFoundException>(() => IO.Unlink(p3));
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
 			await IO.Unlink(p2);
-
+			
 			Assert.IsFalse(await IO.FileExists(p2));
 			Assert.IsTrue(await IO.FileExists(p1));
 
@@ -159,6 +159,7 @@ namespace TGS.Server.IO.Tests
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => IO.Unlink(p1));
 			await IO.Unlink(p3);
 			Assert.IsTrue(await IO.DirectoryExists(p2));
+			
 			Assert.IsFalse(await IO.DirectoryExists(p3));
 		}
 
@@ -254,7 +255,7 @@ namespace TGS.Server.IO.Tests
 
 			await IO.WriteAllText(p2, "fasdf");
 
-			IO.CopyFile(p2, p1, false, false).Wait();
+			await IO.CopyFile(p2, p1, false, false);
 
 			Assert.AreEqual("fasdf", await IO.ReadAllText(p1));
 			Assert.AreEqual("fasdf", await IO.ReadAllText(p2));

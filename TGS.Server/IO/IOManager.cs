@@ -352,7 +352,7 @@ namespace TGS.Server.IO
 			return Task.Factory.StartNew(() =>
 			{
 				path = ResolvePath(path);
-				File.Create(path).Close();
+				File.Create(path).Dispose();
 			});
 		}
 
