@@ -268,7 +268,7 @@ namespace TGS.Server
 				{
 					//This means there is a staged update waiting to be applied, we have to unstage it before we can work
 					Directory.Delete(RelativePath(GameDirLive));
-					CreateSymlink(RelativePath(GameDirLive), TheDir);
+					CreateSymlink(RelativePath(GameDirLive), RelativePath(TheDir));
 					return RelativePath(InvertDirectory(TheDir));
 				}
 			}
