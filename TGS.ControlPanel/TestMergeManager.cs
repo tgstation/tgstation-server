@@ -282,16 +282,17 @@ namespace TGS.ControlPanel
 				//Merge the PRs, collect errors
 				var errors = await Task.Run(() => repo.MergePullRequests(pulls, false));
 
-				//Show any errors
-				for (var I = 0; I < errors.Count(); ++I)
+				if (errors != null)
 				{
-					var err = errors.ElementAt(I);
-					if (err != null)
-						MessageBox.Show(err, String.Format("Error merging PR #{0}", pulls[I].Number));
-				}
-
-				if (errors.Count() != 0)
+					//Show any errors
+					for (var I = 0; I < errors.Count(); ++I)
+					{
+						var err = errors.ElementAt(I);
+						if (err != null)
+							MessageBox.Show(err, String.Format("Error merging PR #{0}", pulls[I].Number));
+					}
 					return;
+				}
 
 				if (pulls.Count > 0)
 					//regen the changelog
