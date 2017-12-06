@@ -346,8 +346,12 @@ namespace TGS.Server
 						CurrentDDLog = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ");
 						WriteCurrentDDLog("Starting monitoring...");
 					}
-					pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
-					MemTrackTimer.Start();
+					try
+					{
+						pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
+						MemTrackTimer.Start();
+					}
+					catch (InvalidOperationException) { /*process already exited*/ }
 					try
 					{
 						Proc.WaitForExit();
@@ -357,7 +361,7 @@ namespace TGS.Server
 						lock (watchdogLock) //synchronize
 						{
 							MemTrackTimer.Stop();
-							pcpu.Dispose();
+							pcpu?.Dispose();
 						}
 					}
 
