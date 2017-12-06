@@ -55,6 +55,10 @@ namespace TGS.Interface
 		/// Revision is being applied
 		/// </summary>
 		Updating,
+		/// <summary>
+		/// Running game code is being recompiled under staged update
+		/// </summary>
+		CompilingStaged,
 	}
 	/// <summary>
 	/// Type of byond version

@@ -421,7 +421,14 @@ namespace TGS.Server
 
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
-					DM.StartInfo.FileName = RelativePath(ByondDirectory + "/bin/dm.exe");
+					bool stagedBuild;
+					lock (ByondLock)
+					{
+						stagedBuild = updateStat == ByondStatus.Staged;
+						if (stagedBuild)
+							updateStat = ByondStatus.CompilingStaged;
+					}
+					DM.StartInfo.FileName = RelativePath(Path.Combine(stagedBuild ? StagingDirectoryInner : ByondDirectory, "bin/dm.exe"));
 					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
 					DM.StartInfo.RedirectStandardOutput = true;
 					DM.StartInfo.UseShellExecute = false;
@@ -468,6 +475,12 @@ namespace TGS.Server
 						lock (CompilerLock)
 						{
 							canCancelCompilation = false;
+						}
+						if (stagedBuild)
+						{
+							lock (ByondLock)
+								updateStat = ByondStatus.Staged;
+							RequestRestart();
 						}
 					}
 
@@ -525,7 +538,6 @@ namespace TGS.Server
 						}
 					}
 				}
-
 			}
 			catch (ThreadAbortException)
 			{
@@ -564,6 +576,9 @@ namespace TGS.Server
 			{
 				if (compilerCurrentStatus != CompilerStatus.Initialized)
 					return false;
+				lock (ByondLock)
+					if (updateStat == ByondStatus.Staged)
+						return false;
 				silentCompile = silent;
 				lastCompilerError = null;
 				compilerCurrentStatus = CompilerStatus.Compiling;
