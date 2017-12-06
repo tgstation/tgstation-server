@@ -32,6 +32,7 @@ namespace TGS.Interface.Bridge
 						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }
+			GC.Collect();
 			return 0;
 		}
 	}
