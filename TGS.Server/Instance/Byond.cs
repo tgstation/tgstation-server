@@ -118,6 +118,7 @@ namespace TGS.Server
 					case ByondStatus.Downloading:
 					case ByondStatus.Staging:
 					case ByondStatus.Updating:
+					case ByondStatus.CompilingStaged:
 						return true;
 					case ByondStatus.Idle:
 					case ByondStatus.Staged:
@@ -204,7 +205,7 @@ namespace TGS.Server
 					return;
 				updateStat = ByondStatus.Downloading;
 			}
-
+			bool staged = false;
 			try
 			{
 				CleanByondStaging();
@@ -266,10 +267,11 @@ namespace TGS.Server
 							lastError = "Failed to apply update!";
 						break;
 					default:
-						RequestRestart();
+						//Compile() will call RequestRestart()
 						lastError = "Update staged. Awaiting server restart...";
 						SendMessage(String.Format("BYOND: Staging complete. Awaiting server restart...", major, minor), MessageType.DeveloperInfo);
 						WriteInfo(String.Format("BYOND update {0}.{1} staged", major, minor), EventID.BYONDUpdateStaged);
+						staged = true;
 						break;
 				}
 			}
@@ -287,6 +289,8 @@ namespace TGS.Server
 					RevisionStaging = null;
 				}
 			}
+			if(staged)
+				Compile();
 		}
 		/// <inheritdoc />
 		public bool UpdateToVersion(int major, int minor)
