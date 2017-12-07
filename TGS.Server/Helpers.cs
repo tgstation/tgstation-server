@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TGS.Server
 {
@@ -34,6 +36,8 @@ namespace TGS.Server
 		/// <param name="excludeRoot">If any files or directories in the root level of <paramref name="path"/> match anything in this <see cref="IList{T}"/> of <see cref="string"/>s, they won't be deleted. Incompatible with <paramref name="ContentsOnly"/></param>
 		public static void DeleteDirectory(string path, bool ContentsOnly = false, IList<string> excludeRoot = null)
 		{
+			if (!ContentsOnly && excludeRoot != null && excludeRoot.Count > 0)
+				throw new ArgumentException("Cannot fully delete folder with exclusions specified!");
 			var di = new DirectoryInfo(path);
 			if (!di.Exists)
 				return;
@@ -42,13 +46,7 @@ namespace TGS.Server
 					excludeRoot[I] = excludeRoot[I].ToLower();
 			if (CheckDeleteSymlinkDir(di))
 				return;
-			NormalizeAndDelete(di, excludeRoot);
-			if (!ContentsOnly)
-			{
-				if (excludeRoot != null && excludeRoot.Count > 0)
-					throw new Exception("Cannot fully delete folder with exclusions specified!");
-				di.Delete(true);
-			}
+			NormalizeAndDelete(di, excludeRoot, !ContentsOnly).Wait();
 		}
 
 
@@ -72,24 +70,31 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty</param>
 		/// <param name="excludeRoot">Lowercase file and directory names to skip while emptying this level. Not passed forward</param>
-		static void NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot)
+		/// <param name="deleteRoot">If <see langword="true"/>, deletes <paramref name="dir"/> on completion</param>
+		/// <returns>A <see cref="Task"/> representing the operation</returns>
+		static async Task NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot, bool deleteRoot)
 		{
+			var tasks = new List<Task>();
 			foreach (var subDir in dir.GetDirectories())
 			{
-				if (excludeRoot != null && excludeRoot.Contains(subDir.Name.ToLower()))
+				var upperName = subDir.Name.ToUpperInvariant();
+				if (excludeRoot != null && excludeRoot.Any(x => x.ToUpperInvariant() == upperName))
 					continue;
 				if (CheckDeleteSymlinkDir(subDir))
 					continue;
-				NormalizeAndDelete(subDir, null);
-				subDir.Delete(true);
+				tasks.Add(NormalizeAndDelete(subDir, null, true));
 			}
 			foreach (var file in dir.GetFiles())
 			{
-				if (excludeRoot != null && excludeRoot.Contains(file.Name.ToLower()))
+				var upperName = file.Name.ToUpperInvariant();
+				if (excludeRoot != null && excludeRoot.Any(x => x.ToUpperInvariant() == upperName))
 					continue;
 				file.Attributes = FileAttributes.Normal;
 				file.Delete();
 			}
+			await Task.WhenAll(tasks);
+			if(deleteRoot)
+				dir.Delete(true);
 		}
 
 		/// <summary>
@@ -110,7 +115,7 @@ namespace TGS.Server
 			}
 			else
 				realIgnore = null;
-			CopyDirectoryImpl(sourceDirName, destDirName, realIgnore, ignoreIfNotExists);				
+			CopyDirectoryImpl(sourceDirName, destDirName, realIgnore, ignoreIfNotExists).Wait();				
 		}
 
 		/// <summary>
@@ -120,12 +125,10 @@ namespace TGS.Server
 		/// <param name="destDirName">The destination directory</param>
 		/// <param name="ignore">List of lowercase files and directories to ignore while copying</param>
 		/// <param name="ignoreIfNotExists">If <see langword="true"/> no error will be thrown if <paramref name="sourceDirName"/> does not exist</param>
-		static void CopyDirectoryImpl(string sourceDirName, string destDirName, IList<string> ignore, bool ignoreIfNotExists) { 
+		/// <returns>A <see cref="Task"/> representing the operation</returns>
+		static async Task CopyDirectoryImpl(string sourceDirName, string destDirName, IList<string> ignore, bool ignoreIfNotExists) { 
 			// If the destination directory doesn't exist, create it.
-			if (!Directory.Exists(destDirName))
-			{
-				Directory.CreateDirectory(destDirName);
-			}
+			Directory.CreateDirectory(destDirName);
 			// Get the subdirectories for the specified directory.
 			DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
@@ -138,26 +141,30 @@ namespace TGS.Server
 					+ sourceDirName);
 			}
 
+			var tasks = new List<Task>();
 			DirectoryInfo[] dirs = dir.GetDirectories();
+			// copy them and their contents to new location.
+			foreach (DirectoryInfo subdir in dirs)
+			{
+				var upperName = subdir.Name.ToUpperInvariant();
+				if (ignore != null && ignore.Any(x => x.ToUpperInvariant() == upperName))
+					continue;
+				string temppath = Path.Combine(destDirName, subdir.Name);
+				tasks.Add(CopyDirectoryImpl(subdir.FullName, temppath, ignore, false));
+			}
 
 			// Get the files in the directory and copy them to the new location.
 			FileInfo[] files = dir.GetFiles();
 			foreach (FileInfo file in files)
 			{
-				if (ignore != null && ignore.Contains(file.Name.ToLower()))
+				var upperName = file.Name.ToUpperInvariant();
+				if (ignore != null && ignore.Any(x => x.ToUpperInvariant() == upperName))
 					continue;
 				string temppath = Path.Combine(destDirName, file.Name);
 				file.CopyTo(temppath, true);
 			}
 
-			// copy them and their contents to new location.
-			foreach (DirectoryInfo subdir in dirs)
-			{
-				if (ignore != null && ignore.Contains(subdir.Name.ToLower()))
-					continue;
-				string temppath = Path.Combine(destDirName, subdir.Name);
-				CopyDirectoryImpl(subdir.FullName, temppath, ignore, false);
-			}
+			await Task.WhenAll(tasks);
 		}
 
 		/// <summary>
