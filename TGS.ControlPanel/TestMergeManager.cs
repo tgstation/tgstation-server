@@ -155,7 +155,7 @@ namespace TGS.ControlPanel
 		/// Format an entry for <paramref name="issue"/> and insert it into <see cref="PullRequestListBox"/>
 		/// </summary>
 		/// <param name="issue">The <see cref="Issue"/> to format, must contain a <see cref="PullRequest"/></param>
-		/// <param name="prioritize">If this or <paramref name="isChecked"/> is <see langword="true"/>, <paramref name="issue"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
+		/// <param name="prioritize">If this or <paramref name="checkState"/> is mpt <see cref="CheckState.Unchecked"/>, <paramref name="issue"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
 		/// <param name="checkState">The <see cref="CheckState"/> of the item</param>
 		void InsertPullRequest(Issue issue, bool prioritize, CheckState checkState)
 		{
@@ -175,7 +175,7 @@ namespace TGS.ControlPanel
 		/// Insert an <paramref name="itemString"/> into <see cref="PullRequestListBox"/>
 		/// </summary>
 		/// <param name="itemString">The <see cref="string"/> to insert</param>
-		/// <param name="prioritize">If this or <paramref name="isChecked"/> is <see langword="true"/>, <paramref name="itemString"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
+		/// <param name="prioritize">If this or <paramref name="checkState"/> is not <see cref="CheckState.Unchecked"/>, <paramref name="itemString"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
 		/// <param name="checkState">The <see cref="CheckState"/> of the item</param>
 		void InsertItem(string itemString, bool prioritize, CheckState checkState)
 		{
