@@ -121,22 +121,17 @@ namespace TGS.ControlPanel
 
 					//insert the open pull requests, checking already merged once
 					foreach (var I in result.Items)
-					{
-						bool alreadyMerged = false;
-						var pull = pulls.Where(x => x.Number == I.Number).FirstOrDefault();
-						if (pull != null)
-						{
-							//we need the full info for this PR
-							alreadyMerged = (await client.PullRequest.Get(repoOwner, repoName, I.Number)).Head.Sha == pull.Sha;
-							if (alreadyMerged)
-								pulls.Remove(pull);
-						}
-						InsertPullRequest(I, false, alreadyMerged);
-					}
+						if (!pulls.Any(x => x.Number == I.Number))
+							InsertPullRequest(I, false, CheckState.Unchecked);
 
 					//insert remaining merged pulls
 					foreach (var I in pulls)
-						InsertItem(String.Format("#{0} - {1} - OUTDATED: {2}", I.Number, I.Title, I.Sha), true, true);
+					{
+						var pr = await client.PullRequest.Get(repoOwner, repoName, I.Number);
+						var outdated = pr.Head.Sha != I.Sha;
+						var mergedOrOutdated = pr.Merged || outdated;
+						InsertItem(String.Format("#{0} - {1}{3}{2}", I.Number, I.Title, mergedOrOutdated ? I.Sha : String.Empty, pr.Merged ? " - MERGED ON REMOTE: " : (outdated ? " - OUTDATED: " : String.Empty)), true, mergedOrOutdated ? CheckState.Indeterminate : CheckState.Checked);
+					}
 				}
 				finally
 				{
@@ -161,18 +156,19 @@ namespace TGS.ControlPanel
 		/// </summary>
 		/// <param name="issue">The <see cref="Issue"/> to format, must contain a <see cref="PullRequest"/></param>
 		/// <param name="prioritize">If this or <paramref name="isChecked"/> is <see langword="true"/>, <paramref name="issue"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
-		/// <param name="isChecked">If the item should be checked</param>
-		void InsertPullRequest(Issue issue, bool prioritize, bool isChecked)
+		/// <param name="checkState">The <see cref="CheckState"/> of the item</param>
+		void InsertPullRequest(Issue issue, bool prioritize, CheckState checkState)
 		{
 			bool needsTesting = false;
 			foreach (var J in issue.Labels)
 				if (J.Name.ToLower().Contains("test"))
 				{
 					needsTesting = true;
+					prioritize = true;
 					break;
 				}
-			var itemString = String.Format("#{0} - {1}{2}", issue.Number, issue.Title, issue.PullRequest != null && issue.PullRequest.Merged ? " - MERGED ON REMOTE" : needsTesting ? " - TESTING REQUESTED" : "");
-			InsertItem(itemString, prioritize || needsTesting, isChecked);
+			var itemString = String.Format("#{0} - {1}", issue.Number, issue.Title, needsTesting ? " - TESTING REQUESTED" : "");
+			InsertItem(itemString, prioritize, checkState);
 		}
 
 		/// <summary>
@@ -180,18 +176,17 @@ namespace TGS.ControlPanel
 		/// </summary>
 		/// <param name="itemString">The <see cref="string"/> to insert</param>
 		/// <param name="prioritize">If this or <paramref name="isChecked"/> is <see langword="true"/>, <paramref name="itemString"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
-		/// <param name="isChecked">If the item should be checked</param>
-		void InsertItem(string itemString, bool prioritize, bool isChecked)
+		/// <param name="checkState">The <see cref="CheckState"/> of the item</param>
+		void InsertItem(string itemString, bool prioritize, CheckState checkState)
 		{
-			prioritize = prioritize || isChecked;
+			prioritize = prioritize || checkState != CheckState.Unchecked;
 			if (prioritize)
 			{
 				PullRequestListBox.Items.Insert(0, itemString);
-				if (isChecked)
-					PullRequestListBox.SetItemChecked(0, true);
+				PullRequestListBox.SetItemCheckState(0, checkState);
 			}
 			else
-				PullRequestListBox.Items.Add(itemString, isChecked);
+				PullRequestListBox.Items.Add(itemString, checkState);
 		}
 
 		/// <summary>
@@ -239,12 +234,12 @@ namespace TGS.ControlPanel
 			{
 				//so first collect a list of pulls that are checked
 				var pulls = new List<PullRequestInfo>();
-				foreach (var I in PullRequestListBox.CheckedItems)
+				foreach (int I in PullRequestListBox.CheckedIndices)
 				{
-					var S = (string)I;
+					var S = (string)PullRequestListBox.Items[I];
 					string mergedSha = null;
 					var splits = S.Split(' ');
-					if(S.Contains(" - OUTDATED: "))
+					if((S.Contains(" - OUTDATED: " ) || S.Contains(" - MERGED ON REMOTE: ")) && PullRequestListBox.GetItemCheckState(I) == CheckState.Indeterminate)
 						mergedSha = splits[splits.Length - 1];
 					var key = Convert.ToInt32((splits[0].Substring(1)));
 					try
@@ -379,7 +374,7 @@ namespace TGS.ControlPanel
 					MessageBox.Show("That doesn't seem to be a valid PR!");
 					return;
 				}
-				InsertPullRequest(PR, true, pulls == null || pulls.Any(x => x.Number == PRNumber));
+				InsertPullRequest(PR, true, CheckState.Unchecked);
 			}
 			finally
 			{
