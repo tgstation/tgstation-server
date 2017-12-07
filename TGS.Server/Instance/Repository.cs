@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 
@@ -643,9 +644,9 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string Update(bool reset)
+		public Task<string> Update(bool reset)
 		{
-			return UpdateImpl(reset, true);
+			return Task.Run(() => UpdateImpl(reset, true));
 		}
 
 		/// <summary>
@@ -889,32 +890,36 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public IEnumerable<string> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent)
+		public Task<IEnumerable<string>> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent)
 		{
-			var results = new List<string>();
-			var amount = pullRequestInfos.Count();
-			if (amount < 1)
-				return results;
+			return Task.Run(() =>
+			{
+				var results = new List<string>();
+				var amount = pullRequestInfos.Count();
+				if (amount < 1)
+					return (IEnumerable<string>)results;
 
-			if (!silent) {
-				var messages = new List<string>();
+				if (!silent)
+				{
+					var messages = new List<string>();
+					foreach (var I in pullRequestInfos)
+					{
+						var shortSha = I.Sha?.Substring(0, Math.Min(I.Sha.Length, 7));
+						messages.Add(String.Format("#{0}{1}", I.Number, shortSha != null ? String.Format(" at commit {0}", shortSha) : shortSha));
+					}
+					SendMessage(String.Format("REPO: Merging PR{0} {1}...", amount == 1 ? "" : "s", String.Join(", ", messages)), MessageType.DeveloperInfo);
+				}
+
+				bool foundBad = false;
 				foreach (var I in pullRequestInfos)
 				{
-					var shortSha = I.Sha?.Substring(0, Math.Min(I.Sha.Length, 7));
-					messages.Add(String.Format("#{0}{1}", I.Number, shortSha != null ? String.Format(" at commit {0}", shortSha) : shortSha));
+					var res = MergePullRequest(I.Number, I.Sha, true);
+					if (res != null)
+						foundBad = true;
+					results.Add(res);
 				}
-				SendMessage(String.Format("REPO: Merging PR{0} {1}...", amount == 1 ? "" : "s", String.Join(", ", messages)), MessageType.DeveloperInfo);
-			}
-
-			bool foundBad = false;
-			foreach (var I in pullRequestInfos)
-			{
-				var res = MergePullRequest(I.Number, I.Sha, true);
-				if (res != null)
-					foundBad = true;
-				results.Add(res);
-			}
-			return foundBad ? results : null;
+				return foundBad ? (IEnumerable<string>)results : null;
+			});
 		}
 
 		/// <inheritdoc />
@@ -1050,36 +1055,31 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public List<PullRequestInfo> MergedPullRequests(out string error)
+		public Task<List<PullRequestInfo>> MergedPullRequests()
 		{
-			lock (RepoLock)
+			return Task.Run(() =>
 			{
-				if (RepoBusy)
+				lock (RepoLock)
 				{
-					error = "Repo is busy!";
-					return null;
+					if (RepoBusy)
+						return null;
+					var result = LoadRepo();
+					if (result != null)
+						return null;
+					try
+					{
+						var PRRawData = GetCurrentPRList();
+						var output = new List<PullRequestInfo>();
+						foreach (var I in GetCurrentPRList())
+							output.Add(new PullRequestInfo(Convert.ToInt32(I.Key), I.Value["author"], I.Value["title"], I.Value["commit"]));
+						return output;
+					}
+					catch
+					{
+						return null;
+					}
 				}
-				var result = LoadRepo();
-				if (result != null)
-				{
-					error = result;
-					return null;
-				}
-				try
-				{
-					var PRRawData = GetCurrentPRList();
-					var output = new List<PullRequestInfo>();
-					foreach (var I in GetCurrentPRList())
-						output.Add(new PullRequestInfo(Convert.ToInt32(I.Key), I.Value["author"], I.Value["title"], I.Value["commit"]));
-					error = null;
-					return output;
-				}
-				catch (Exception e)
-				{
-					error = e.ToString();
-					return null;
-				}
-			}
+			});
 		}
 
 		/// <inheritdoc />
@@ -1390,17 +1390,21 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public void SetAutoUpdateInterval(ulong newInterval)
+		public Task SetAutoUpdateInterval(ulong newInterval)
 		{
-			lock (autoUpdateTimer)
+			return Task.Run(() =>
 			{
-				autoUpdateTimer.Stop();
-				if (newInterval > 0) {
-					autoUpdateTimer.Interval = newInterval * 60 * 1000;	//convert from minutes to ms
-					autoUpdateTimer.Start();
+				lock (autoUpdateTimer)
+				{
+					autoUpdateTimer.Stop();
+					if (newInterval > 0)
+					{
+						autoUpdateTimer.Interval = newInterval * 60 * 1000; //convert from minutes to ms
+						autoUpdateTimer.Start();
+					}
 				}
-			}
-			Config.AutoUpdateInterval = newInterval;
+				Config.AutoUpdateInterval = newInterval;
+			});
 		}
 
 		/// <inheritdoc />

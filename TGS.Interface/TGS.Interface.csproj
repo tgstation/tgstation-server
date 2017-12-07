@@ -40,6 +40,10 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImpromptuInterface, Version=6.2.2.0, Culture=neutral, PublicKeyToken=0b1781c923b2975b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImpromptuInterface.6.2.2\lib\net40\ImpromptuInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -49,31 +53,43 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationException.cs" />
     <Compile Include="AuthenticationHeaderApplicator.cs" />
-    <Compile Include="Components\Administration.cs" />
-    <Compile Include="Components\Byond.cs" />
+    <Compile Include="Components\ITGComponent.cs" />
+    <Compile Include="Proxying\Serializer.cs" />
+    <Compile Include="Proxying\ServerConnection.cs" />
+    <Compile Include="Proxying\ComponentProxy.cs" />
+    <Compile Include="Components\ITGAdministration.cs" />
+    <Compile Include="Components\ITGByond.cs" />
     <Compile Include="ChatSetupInfo.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Components\Compiler.cs" />
     <Compile Include="Components\Config.cs" />
-    <Compile Include="Components\Connectivity.cs" />
-    <Compile Include="Components\DreamDaemon.cs" />
+    <Compile Include="Components\ITGDreamDaemon.cs" />
     <Compile Include="Components\Chat.cs" />
-    <Compile Include="Components\Instance.cs" />
-    <Compile Include="Components\InstanceManager.cs" />
-    <Compile Include="Components\Landing.cs" />
+    <Compile Include="Components\ITGInstance.cs" />
+    <Compile Include="Components\ITGInstanceManager.cs" />
+    <Compile Include="Components\ITGLanding.cs" />
+    <Compile Include="Definitions.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="Proxying\ICallBinder.cs" />
+    <Compile Include="Proxying\IConnectionManager.cs" />
     <Compile Include="InstanceMetadata.cs" />
+    <Compile Include="IRemoteConnectionProvider.cs" />
+    <Compile Include="IServerInterface.cs" />
+    <Compile Include="Proxying\ITGRequestManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\Repository.cs" />
     <Compile Include="PullRequestInfo.cs" />
     <Compile Include="RemoteLoginInfo.cs" />
+    <Compile Include="Proxying\RequestInfo.cs" />
+    <Compile Include="Proxying\RequestState.cs" />
     <Compile Include="RootCommand.cs" />
     <Compile Include="ServerInterface.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
-    <Compile Include="Components\Service.cs" />
-    <Compile Include="Components\Interop.cs" />
+    <Compile Include="Components\ITGServer.cs" />
+    <Compile Include="Components\ITGInterop.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />

@@ -321,7 +321,7 @@ namespace TGS.ControlPanel
 				{
 					string res = null;
 					var repo = Interface.GetComponent<ITGRepository>();
-					var pulls = await Task.Run(() => repo.MergedPullRequests(out res));
+					var pulls = await repo.MergedPullRequests();
 
 					if (pulls == null)
 					{
@@ -338,7 +338,7 @@ namespace TGS.ControlPanel
 							pullsRequests.Add(ghclient.PullRequest.Get(remoteOwner, remoteName, I.Number));
 					}
 
-					res = await Task.Run(() => repo.Update(true));
+					res = await repo.Update(true);
 
 					if (res != null)
 					{
@@ -363,7 +363,7 @@ namespace TGS.ControlPanel
 						if (I.Result.Merged)
 							pulls.RemoveAll(x => x.Number == I.Result.Number);
 
-					var mergeResults = await Task.Run(() => repo.MergePullRequests(pulls, true));
+					var mergeResults = await repo.MergePullRequests(pulls, true);
 					var compileStartResult = await Task.Run(() => Interface.GetComponent<ITGCompiler>().Compile(true));
 
 					//Show any errors

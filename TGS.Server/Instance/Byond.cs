@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using TGS.Interface;
 using TGS.Interface.Components;
 
@@ -127,71 +128,74 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public ByondStatus CurrentStatus()
+		public Task<ByondStatus> CurrentStatus()
 		{
-			lock (ByondLock)
-			{
-				return updateStat;
-			}
+			return Task.Run(() => updateStat);
 		}
-
+		
 		/// <inheritdoc />
-		public string GetError()
+		public Task<string> GetError()
 		{
-			lock (ByondLock)
-			{
-				var error = lastError;
-				lastError = null;
-				return error;
-			}
-		}
-
-		/// <inheritdoc />
-		public string GetVersion(ByondVersion type)
-		{
-			try
+			return Task.Run(() =>
 			{
 				lock (ByondLock)
 				{
-					if (type == ByondVersion.Latest)
-					{
-						//get the latest version from the website
-						HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ByondLatestURL);
-						var results = new List<string>();
-						using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-						{
-							using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-							{
-								string html = reader.ReadToEnd();
+					var error = lastError;
+					lastError = null;
+					return error;
+				}
+			});
+		}
 
-								Regex regex = new Regex("\\\"([^\"]*)\\\"");
-								MatchCollection matches = regex.Matches(html);
-								foreach (Match match in matches)
-									if (match.Success && match.Value.Contains("_byond.exe"))
-										results.Add(match.Value.Replace("\"", "").Replace("_byond.exe", ""));
+		/// <inheritdoc />
+		public Task<string> GetVersion(ByondVersion type)
+		{
+			return Task.Run(() =>
+			{
+				try
+				{
+					lock (ByondLock)
+					{
+						if (type == ByondVersion.Latest)
+						{
+							//get the latest version from the website
+							HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ByondLatestURL);
+							var results = new List<string>();
+							using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+							{
+								using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+								{
+									string html = reader.ReadToEnd();
+
+									Regex regex = new Regex("\\\"([^\"]*)\\\"");
+									MatchCollection matches = regex.Matches(html);
+									foreach (Match match in matches)
+										if (match.Success && match.Value.Contains("_byond.exe"))
+											results.Add(match.Value.Replace("\"", "").Replace("_byond.exe", ""));
+								}
+							}
+							results.Sort();
+							results.Reverse();
+							return results.Count > 0 ? results[0] : null;
+						}
+						else
+						{
+							string DirToUse = RelativePath(type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory);
+							if (Directory.Exists(DirToUse))
+							{
+								string file = DirToUse + VersionFile;
+								if (File.Exists(file))
+									return File.ReadAllText(file);
 							}
 						}
-						results.Sort();
-						results.Reverse();
-						return results.Count > 0 ? results[0] : null;
+						return null;
 					}
-					else
-					{
-						string DirToUse = RelativePath(type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory);
-						if (Directory.Exists(DirToUse))
-						{
-							string file = DirToUse + VersionFile;
-							if (File.Exists(file))
-								return File.ReadAllText(file);
-						}
-					}
-					return null;
 				}
-			}
-			catch (Exception e)
-			{
-				return "Error: " + e.ToString();
-			}
+				catch (Exception e)
+				{
+					return "Error: " + e.ToString();
+				}
+			});
 		}
 		
 		/// <summary>
@@ -293,22 +297,25 @@ namespace TGS.Server
 				Compile();
 		}
 		/// <inheritdoc />
-		public bool UpdateToVersion(int major, int minor)
+		public Task<bool> UpdateToVersion(int major, int minor)
 		{
-			lock (ByondLock)
+			return Task.Run(() =>
 			{
-				if (!BusyCheck())
+				lock (ByondLock)
 				{
-					updateStat = ByondStatus.Starting;
-					RevisionStaging = new Thread(new ParameterizedThreadStart(UpdateToVersionImpl))
+					if (!BusyCheck())
 					{
-						IsBackground = true //don't slow me down
-					};
-					RevisionStaging.Start(String.Format("{0}.{1}", major, minor));
-					return true;
+						updateStat = ByondStatus.Starting;
+						RevisionStaging = new Thread(new ParameterizedThreadStart(UpdateToVersionImpl))
+						{
+							IsBackground = true //don't slow me down
+						};
+						RevisionStaging.Start(String.Format("{0}.{1}", major, minor));
+						return true;
+					}
+					return false;
 				}
-				return false; 
-			}
+			});
 		}
 
 		/// <summary>

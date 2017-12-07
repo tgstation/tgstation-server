@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Security;
 using TGS.Server.ChatCommands;
 using TGS.Interface;
@@ -259,18 +260,19 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public bool InteropMessage(string command)
+		public Task InteropMessage(string command)
 		{
-			try
+			return Task.Run(() =>
 			{
-				HandleCommand(command);
-				return true;
-			}
-			catch(Exception e)
-			{
-				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
-				return false;
-			}
+				try
+				{
+					HandleCommand(command);
+				}
+				catch (Exception e)
+				{
+					WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
+				}
+			});
 		}
 	}
 }

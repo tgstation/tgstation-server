@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using TGS.Interface;
 using TGS.Interface.Components;
@@ -150,8 +151,7 @@ namespace TGS.Server
 
 			//autostart the server
 			if (Config.Autostart)
-				//break this off so we don't hold up starting the service
-				ThreadPool.QueueUserWorkItem(_ => { Start(); });
+				Start();
 		}
 
 		/// <summary>
@@ -161,11 +161,11 @@ namespace TGS.Server
 		{
 			var Detach = Config.ReattachRequired;
 			bool RenameLog = false;
-			if (DaemonStatus() == DreamDaemonStatus.Online)
+			if (currentStatus == DreamDaemonStatus.Online)
 			{
 				if (!Detach)
 				{
-					WorldAnnounce("Server service stopped");
+					WorldAnnounce("Server service stopped").Wait();
 					Thread.Sleep(1000);
 				}
 				else
@@ -177,7 +177,7 @@ namespace TGS.Server
 			}
 			else if (Detach)
 				Config.ReattachRequired = false;
-			Stop();
+			Stop().Wait();
 			if (pcpu != null)
 				pcpu.Dispose();
 			if (RenameLog)
@@ -190,59 +190,74 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public DreamDaemonStatus DaemonStatus()
+		public Task<DreamDaemonStatus> DaemonStatus()
 		{
-			lock (watchdogLock)
+			return Task.Run(() =>
 			{
-				return currentStatus;
-			}
+				lock (watchdogLock)
+				{
+					return currentStatus;
+				}
+			});
 		}
 
 		/// <inheritdoc />
-		public void RequestRestart()
+		public Task RequestRestart()
 		{
-			SendCommand(SCHardReboot);
+			return Task.Run(() =>
+			{
+				SendCommand(SCHardReboot);
+			});
 		}
 
 		/// <inheritdoc />
-		public void RequestStop()
+		public Task RequestStop()
 		{
-			lock (watchdogLock)
+			return Task.Run(() =>
 			{
-				if (currentStatus != DreamDaemonStatus.Online || AwaitingShutdown != ShutdownRequestPhase.None)
-					return;
-				AwaitingShutdown = ShutdownRequestPhase.Pinged;
-			}
-			SendCommand(SCGracefulShutdown);
+				lock (watchdogLock)
+				{
+					if (currentStatus != DreamDaemonStatus.Online || AwaitingShutdown != ShutdownRequestPhase.None)
+						return;
+					AwaitingShutdown = ShutdownRequestPhase.Pinged;
+				}
+				SendCommand(SCGracefulShutdown);
+			});
 		}
 
 		/// <inheritdoc />
-		public string Stop()
+		public Task<string> Stop()
 		{
-			Thread t;
-			lock (watchdogLock)
+			return Task.Run(() =>
 			{
-				t = DDWatchdog;
-				DDWatchdog = null;
-			}
-			if (t != null && t.IsAlive)
-			{
-				t.Abort();
-				t.Join();
-				return null;
-			}
-			else
-				return "Server not running";
+				Thread t;
+				lock (watchdogLock)
+				{
+					t = DDWatchdog;
+					DDWatchdog = null;
+				}
+				if (t != null && t.IsAlive)
+				{
+					t.Abort();
+					t.Join();
+					return null;
+				}
+				else
+					return "Server not running";
+			});
 		}
 
 		/// <inheritdoc />
-		public void SetPort(ushort new_port)
+		public Task SetPort(ushort new_port)
 		{
-			lock (watchdogLock)
+			return Task.Run(() =>
 			{
-				Config.Port = new_port;
-				RequestRestart();
-			}
+				lock (watchdogLock)
+				{
+					Config.Port = new_port;
+					RequestRestart();
+				}
+			});
 		}
 
 		//handle a kill request from the server
@@ -257,31 +272,34 @@ namespace TGS.Server
 			}
 			//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
 			if (DoRestart)
-				ThreadPool.QueueUserWorkItem(_ => { Restart(); });
+				Restart();
 			else
-				ThreadPool.QueueUserWorkItem(_ => { Stop(); });
+				Stop();
 		}
 
 		/// <inheritdoc />
-		public string Restart()
+		public Task<string> Restart()
 		{
-			if (DaemonStatus() == DreamDaemonStatus.Offline)
-				return Start();
-			lock (restartLock)
+			return Task.Run(() =>
 			{
-				if (RestartInProgress)
-					return "Restart already in progress";
-				RestartInProgress = true;
-			}
-			SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
-			Stop();
-			var res = Start();
-			if (res != null)
+				if (DaemonStatus() == DreamDaemonStatus.Offline)
+					return Start();
 				lock (restartLock)
 				{
-					RestartInProgress = false;
+					if (RestartInProgress)
+						return "Restart already in progress";
+					RestartInProgress = true;
 				}
-			return res;
+				SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
+				Stop();
+				var res = Start();
+				if (res != null)
+					lock (restartLock)
+					{
+						RestartInProgress = false;
+					}
+				return res;
+			});
 		}
 
 		/// <summary>
@@ -455,7 +473,7 @@ namespace TGS.Server
 		/// </summary>
 		/// <param name="sender">The event sender, an instance of <see cref="System.Timers.Timer"/></param>
 		/// <param name="e">The <see cref="ElapsedEventArgs"/></param>
-		private void MemTrackTimer_Elapsed(object sender, ElapsedEventArgs e)
+		void MemTrackTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			ulong megamem;
 			float cputime;
@@ -469,8 +487,11 @@ namespace TGS.Server
 			WriteCurrentDDLog(String.Format("CPU: {1}% Memory: {0}KB", megamem, PercentCpuTime.ToString("D3")));
 		}
 
-		/// <inheritdoc />
-		public string CanStart()
+		/// <summary>
+		/// Check if DD can be started
+		/// </summary>
+		/// <returns><see langword="null"/> if DD can be started, error message otherwise</returns>
+		string CanStart()
 		{
 			if (GetVersion(ByondVersion.Installed) == null)
 				return "Byond is not installed!";
@@ -481,25 +502,28 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string Start()
+		public Task<string> Start()
 		{
-			if (CurrentStatus() == ByondStatus.Staged)
+			return Task.Run(() =>
 			{
-				//IMPORTANT: SLEEP FOR A MOMENT OR WONDOWS WON'T RELEASE THE FUCKING BYOND DLL HANDLES!!!! REEEEEEE
-				Thread.Sleep(3000);
-				ApplyStagedUpdate();
-			}
-			lock (watchdogLock)
-			{
-				if (currentStatus != DreamDaemonStatus.Offline)
-					return "Server already running";
-				var res = CanStart();
-				if (res != null)
-					return res;
-				currentPort = 0;
-				currentStatus = DreamDaemonStatus.HardRebooting;
-			}
-			return StartImpl(false);
+				if (updateStat == ByondStatus.Staged)
+				{
+									//IMPORTANT: SLEEP FOR A MOMENT OR WONDOWS WON'T RELEASE THE FUCKING BYOND DLL HANDLES!!!! REEEEEEE
+									Thread.Sleep(3000);
+					ApplyStagedUpdate();
+				}
+				lock (watchdogLock)
+				{
+					if (currentStatus != DreamDaemonStatus.Offline)
+						return "Server already running";
+					var res = CanStart();
+					if (res != null)
+						return res;
+					currentPort = 0;
+					currentStatus = DreamDaemonStatus.HardRebooting;
+				}
+				return StartImpl(false);
+			});
 		}
 
 		/// <summary>
@@ -598,7 +622,7 @@ namespace TGS.Server
 					var res = CanStart();
 					if (res != null)
 						return res;
-					
+
 					var DMB = RelativePath(GameDirLive + "/" + Config.ProjectName + ".dmb");
 
 					GenCommsKey();
@@ -639,117 +663,149 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public DreamDaemonSecurity SecurityLevel()
+		public Task<DreamDaemonSecurity> SecurityLevel()
 		{
-			lock (watchdogLock)
+			return Task.Run(() =>
 			{
-				return Config.Security;
-			}
-		}
-
-		/// <inheritdoc />
-		public bool SetSecurityLevel(DreamDaemonSecurity level)
-		{
-			bool needReboot;
-			lock (watchdogLock)
-			{
-				needReboot = Config.Security != level;
-				Config.Security = level;
-			}
-			if (needReboot)
-				RequestRestart();
-			return DaemonStatus() != DreamDaemonStatus.Online;
-		}
-
-		/// <inheritdoc />
-		public bool Autostart()
-		{
-			return Config.Autostart;
-		}
-
-		/// <inheritdoc />
-		public void SetAutostart(bool on)
-		{
-			Config.Autostart = on;
-		}
-
-		/// <inheritdoc />
-		public string StatusString(bool includeMetaInfo)
-		{
-			const string visSecStr = " (Sec: {0})";
-			string res;
-			var ds = DaemonStatus();
-			switch (ds)
-			{
-				case DreamDaemonStatus.Offline:
-					res = "OFFLINE";
-					break;
-				case DreamDaemonStatus.HardRebooting:
-					res = "REBOOTING";
-					break;
-				case DreamDaemonStatus.Online:
-					res = "ONLINE";
-					if (includeMetaInfo)
-					{
-						string secandvis;
-						lock (watchdogLock)
-						{
-							secandvis = String.Format(visSecStr, SecurityWord(true));
-						}
-						res += secandvis;
-					}
-					break;
-				default:
-					res = "NULL AND ERRORS";
-					break;
-			}
-			if (includeMetaInfo && ds != DreamDaemonStatus.Online)
-				res += String.Format(visSecStr, SecurityWord());
-			return res;
-		}
-
-		/// <inheritdoc />
-		public ushort Port()
-		{
-			return Config.Port;
-		}
-
-		/// <inheritdoc />
-		public bool ShutdownInProgress()
-		{
-			lock (watchdogLock)
-			{
-				return AwaitingShutdown != ShutdownRequestPhase.None;
-			}
-		}
-
-		/// <inheritdoc />
-		public string WorldAnnounce(string message)
-		{
-			var res = SendCommand(SCWorldAnnounce + ";message=" + Helpers.SanitizeTopicString(message));
-			if (res == "SUCCESS")
-				return null;
-			return res;
-		}
-
-		/// <inheritdoc />
-		public bool Webclient()
-		{
-			return Config.Webclient;
-		}
-
-		/// <inheritdoc />
-		public void SetWebclient(bool on)
-		{
-			lock (watchdogLock)
-			{
-				var diff = on != Config.Webclient;
-				if (diff)
+				lock (watchdogLock)
 				{
-					Config.Webclient = on;
-					RequestRestart();
+					return Config.Security;
 				}
-			}
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<bool> SetSecurityLevel(DreamDaemonSecurity level)
+		{
+			return Task.Run(() =>
+			{
+				bool needReboot;
+				lock (watchdogLock)
+				{
+					needReboot = Config.Security != level;
+					Config.Security = level;
+				}
+				if (needReboot)
+					RequestRestart();
+				return DaemonStatus() != DreamDaemonStatus.Online;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<bool> Autostart()
+		{
+			return Task.Run(() =>
+			{
+				return Config.Autostart;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task SetAutostart(bool on)
+		{
+			return Task.Run(() =>
+			{
+				Config.Autostart = on;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<string> StatusString(bool includeMetaInfo)
+		{
+			return Task.Run(() =>
+			{
+				const string visSecStr = " (Sec: {0})";
+				string res;
+				DreamDaemonStatus ds;
+				lock (watchdogLock)
+					ds = currentStatus;
+				switch (ds)
+				{
+					case DreamDaemonStatus.Offline:
+						res = "OFFLINE";
+						break;
+					case DreamDaemonStatus.HardRebooting:
+						res = "REBOOTING";
+						break;
+					case DreamDaemonStatus.Online:
+						res = "ONLINE";
+						if (includeMetaInfo)
+						{
+							string secandvis;
+							lock (watchdogLock)
+							{
+								secandvis = String.Format(visSecStr, SecurityWord(true));
+							}
+							res += secandvis;
+						}
+						break;
+					default:
+						res = "NULL AND ERRORS";
+						break;
+				}
+				if (includeMetaInfo && ds != DreamDaemonStatus.Online)
+					res += String.Format(visSecStr, SecurityWord());
+				return res;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<ushort> Port()
+		{
+			return Task.Run(() =>
+			{
+				return Config.Port;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<bool> ShutdownInProgress()
+		{
+			return Task.Run(() =>
+			{
+				lock (watchdogLock)
+				{
+					return AwaitingShutdown != ShutdownRequestPhase.None;
+				}
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<string> WorldAnnounce(string message)
+		{
+			return Task.Run(() =>
+			{
+				var res = SendCommand(SCWorldAnnounce + ";message=" + Helpers.SanitizeTopicString(message));
+				if (res == "SUCCESS")
+					return null;
+				return res;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task<bool> Webclient()
+		{
+			return Task.Run(() =>
+			{
+				return Config.Webclient;
+			});
+		}
+
+		/// <inheritdoc />
+		public Task SetWebclient(bool on)
+		{
+			return Task.Run(() =>
+			{
+				lock (watchdogLock)
+				{
+					var diff = on != Config.Webclient;
+					if (diff)
+					{
+						Config.Webclient = on;
+						RequestRestart();
+					}
+				}
+			});
 		}
 	}
 }

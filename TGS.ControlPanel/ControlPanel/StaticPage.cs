@@ -344,7 +344,7 @@ namespace TGS.ControlPanel
 				RecreateStaticButton.Visible = false;
 				return;
 			}
-			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder().Result;
 			if (res != null)
 				MessageBox.Show(res);
 			BuildFileList();

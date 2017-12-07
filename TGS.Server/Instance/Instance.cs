@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using TGS.Interface.Components;
 
 namespace TGS.Server
@@ -15,7 +15,7 @@ namespace TGS.Server
 	/// The class which holds all interface components. There are no safeguards for call race conditions so these must be guarded against internally
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed partial class Instance : IDisposable, ITGConnectivity, ITGInstance
+	sealed partial class Instance : IDisposable, ITGInstance
 	{
 		/// <summary>
 		/// Used to assign the instance to event IDs
@@ -105,13 +105,10 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string Version()
+		public Task<string> Version()
 		{
-			return Server.VersionString;
+			return Task.Run(() => Server.VersionString);
 		}
-
-		/// <inheritdoc />
-		public void VerifyConnection() { }
 
 		/// <inheritdoc />
 		public void Reattach(bool silent)
@@ -122,9 +119,9 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string ServerDirectory()
+		public Task<string> ServerDirectory()
 		{
-			return Config.Directory;
+			return Task.Run(() => Config.Directory);
 		}
 
 		/// <summary>

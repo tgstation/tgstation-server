@@ -87,7 +87,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
+			foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances().Result)
 				OutputProc(String.Format("{0} ({1}):\t{2}{3}", I.Name, I.Path, I.Enabled ? "Online" : "Offline", I.Enabled ? String.Format(" ({0})", I.LoggingID) : ""));
 			return ExitCode.Normal;
 		}
@@ -193,7 +193,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGSService>().PythonPath();
+			var res = Interface.GetServiceComponent<ITGServer>().PythonPath().Result;
 			if (res != null)
 			{
 				OutputProc(res);
@@ -232,7 +232,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Interface.GetServiceComponent<ITGSService>().SetPythonPath(parameters[0]);
+			Interface.GetServiceComponent<ITGServer>().SetPythonPath(parameters[0]).Wait();
 			return ExitCode.Normal;
 		}
 	}
@@ -337,7 +337,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Interface.GetServiceComponent<ITGSService>().RemoteAccessPort().ToString());
+			OutputProc(Interface.GetServiceComponent<ITGServer>().RemoteAccessPort().Result.ToString());
 			return ExitCode.Normal;
 		}
 	}
@@ -382,7 +382,7 @@ namespace TGS.CommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var res = Interface.GetServiceComponent<ITGSService>().SetRemoteAccessPort(port);
+			var res = Interface.GetServiceComponent<ITGServer>().SetRemoteAccessPort(port).Result;
 			if (res != null)
 			{
 				OutputProc(res);

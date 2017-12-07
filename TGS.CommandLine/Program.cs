@@ -262,7 +262,7 @@ namespace TGS.CommandLine
 					case "exit":
 						return (int)Command.ExitCode.Normal;
 					case "debug-upgrade":
-						currentInterface.GetServiceComponent<ITGSService>().PrepareForUpdate();
+						currentInterface.GetServiceComponent<ITGServer>().PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
 					default:
 						//linq voodoo to get quoted strings

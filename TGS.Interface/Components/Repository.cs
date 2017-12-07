@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace TGS.Interface.Components
 {
@@ -78,7 +79,7 @@ namespace TGS.Interface.Components
 		/// <param name="reset">If <see langword="true"/>, the operation will perform a hard reset instead of a merge</param>
 		/// <returns><see langword="null"/> on success, error message on failure</returns>
 		[OperationContract]
-		string Update(bool reset);
+		Task<string> Update(bool reset);
 
 		/// <summary>
 		/// Runs git reset --hard
@@ -105,7 +106,7 @@ namespace TGS.Interface.Components
 		/// <param name="silent">Suppresses chat messages if <see langword="true"/></param>
 		/// <returns><see langword="null"/> on success, list of error messages if any fail failure. Those with indexes of those that succeed will have null entries</returns>
 		[OperationContract]
-		IEnumerable<string> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent = false);
+		Task<IEnumerable<string>> MergePullRequests(IEnumerable<PullRequestInfo> pullRequestInfos, bool silent = false);
 
 		/// <summary>
 		/// Get the currently merged pull requests. Note that switching branches will delete this list and switching back won't restore it
@@ -113,7 +114,7 @@ namespace TGS.Interface.Components
 		/// <param name="error"><see langword="null"/> on success, error message on failure</param>
 		/// <returns>A <see cref="IList{T}"/> of <see cref="PullRequestInfo"/></returns>
 		[OperationContract]
-		List<PullRequestInfo> MergedPullRequests(out string error);
+		Task<List<PullRequestInfo>> MergedPullRequests();
 
 		/// <summary>
 		/// Gets the name of the configured git committer
@@ -178,7 +179,7 @@ namespace TGS.Interface.Components
 		/// </summary>
 		/// <param name="newInterval">Interval to check for updates in minutes, disables if 0</param>
 		[OperationContract]
-		void SetAutoUpdateInterval(ulong newInterval);
+		Task SetAutoUpdateInterval(ulong newInterval);
 
 		/// <summary>
 		/// Get the current autoupdate interval

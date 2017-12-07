@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Reflection;
 using System.ServiceModel;
 using TGS.Interface.Components;
 
@@ -10,30 +11,27 @@ namespace TGS.Server.Security
 	/// <summary>
 	/// A <see cref="ServiceAuthorizationManager"/> used to determine only if the caller is an admin
 	/// </summary>
-	sealed class RootAuthorizationManager : ServiceAuthorizationManager
+	sealed class RootAuthorizationManager : IAuthorizationManager
 	{
 		string LastSeenUser;
-		public static readonly IList<ServiceAuthorizationManager> InstanceAuthManagers = new List<ServiceAuthorizationManager>();
-		protected override bool CheckAccessCore(OperationContext operationContext)
+		public static readonly IList<IAuthorizationManager> InstanceAuthManagers = new List<IAuthorizationManager>();
+		public bool CheckAccess(WindowsIdentity identity, Type componentType, MethodInfo methodInfo)
 		{
-			var contract = operationContext.EndpointDispatcher.ContractName;
-			if (contract == typeof(ITGConnectivity).Name)   //always allow connectivity checks
+			if (componentType == typeof(ITGConnectivity))   //always allow connectivity checks
 				return true;
-			
-			var windowsIdent = operationContext.ServiceSecurityContext.WindowsIdentity;
 
-			var wp = new WindowsPrincipal(windowsIdent);
+			var wp = new WindowsPrincipal(identity);
 			//first allow admins
 			var authSuccess = wp.IsInRole(WindowsBuiltInRole.Administrator);
-			if(!authSuccess && contract == typeof(ITGLanding).Name)
+			if(!authSuccess && componentType == typeof(ITGLanding))
 				lock(InstanceAuthManagers)
-					return InstanceAuthManagers.Any(x => x.CheckAccess(operationContext));
+					return InstanceAuthManagers.Any(x => x.CheckAccess(identity, componentType, methodInfo));
 
-			var user = windowsIdent.Name;
+			var user = identity.Name;
 			if (LastSeenUser != user)
 			{
 				LastSeenUser = user;
-				Server.Logger.WriteAccess(String.Format("Root access from: {0}", user), authSuccess, Server.LoggingID);
+				Server.Logger.WriteAccess(String.Format("Root: {0}", user), authSuccess, Server.LoggingID);
 			}
 			return authSuccess;
 		}

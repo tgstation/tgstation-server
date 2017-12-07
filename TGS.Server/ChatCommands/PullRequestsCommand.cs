@@ -18,17 +18,17 @@ namespace TGS.Server.ChatCommands
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var PRs = Instance.MergedPullRequests(out string res);
+			var PRs = Instance.MergedPullRequests().Result;
 			if (PRs == null)
 			{
-				OutputProc(res);
+				//OutputProc(res);
 				return ExitCode.ServerError;
 			}
 			if (PRs.Count == 0)
 				OutputProc("None!");
 			else
 			{
-				res = "";
+				var res = "";
 				foreach (var I in PRs)
 					res += "#" + I.Number + " ";
 				OutputProc(res);
