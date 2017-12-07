@@ -6,6 +6,7 @@ var searchData=
   ['bottokenindex',['BotTokenIndex',['../class_t_g_s_1_1_interface_1_1_discord_setup_info.html#a42c65ddd8596cb56927d44439e436108',1,'TGS::Interface::DiscordSetupInfo']]],
   ['branchnametitle',['BranchNameTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#abe7f0a4e23fdfb7795b91a478e60093d',1,'TGS::ControlPanel::ControlPanel']]],
   ['bridgedllname',['BridgeDLLName',['../class_t_g_s_1_1_server_1_1_instance.html#ac6267c88a28d1fdc4987103c97b401c7',1,'TGS::Server::Instance']]],
+  ['byondcachedirectory',['ByondCacheDirectory',['../class_t_g_s_1_1_server_1_1_instance.html#a6e43e2a1ac79154cf38602dbf3ae8f14',1,'TGS::Server::Instance']]],
   ['byondconfigdir',['ByondConfigDir',['../class_t_g_s_1_1_server_1_1_instance.html#acd58b7f32bd652601bf7adc38e5b5d1a',1,'TGS::Server::Instance']]],
   ['byondddconfig',['ByondDDConfig',['../class_t_g_s_1_1_server_1_1_instance.html#a2345519c680d34ee237e471cda72a7cc',1,'TGS::Server::Instance']]],
   ['byonddirectory',['ByondDirectory',['../class_t_g_s_1_1_server_1_1_instance.html#a9efa4ea461f8ca8f1c1f10b59dc4bc66',1,'TGS::Server::Instance']]],

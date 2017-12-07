@@ -20,6 +20,7 @@ var searchData=
   ['busycheck',['BusyCheck',['../class_t_g_s_1_1_server_1_1_instance.html#accd844ee6162c4270fec7671e706439c',1,'TGS::Server::Instance']]],
   ['byond_2ecs',['Byond.cs',['../_t_g_s_8_interface_2_components_2_byond_8cs.html',1,'']]],
   ['byond_2ecs',['Byond.cs',['../_t_g_s_8_server_2_instance_2_byond_8cs.html',1,'']]],
+  ['byondcachedirectory',['ByondCacheDirectory',['../class_t_g_s_1_1_server_1_1_instance.html#a6e43e2a1ac79154cf38602dbf3ae8f14',1,'TGS::Server::Instance']]],
   ['byondcommand',['BYONDCommand',['../class_t_g_s_1_1_command_line_1_1_b_y_o_n_d_command.html',1,'TGS::CommandLine']]],
   ['byondcommand',['ByondCommand',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_byond_command.html',1,'TGS::Server::ChatCommands']]],
   ['byondcommand',['ByondCommand',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_byond_command.html#a6f4a0ed2b2ce7e363bca1ef72cbcd817',1,'TGS.Server.ChatCommands.ByondCommand.ByondCommand()'],['../class_t_g_s_1_1_command_line_1_1_b_y_o_n_d_command.html#a016e5b0e992a15428a2bbf5f993f54d9',1,'TGS.CommandLine.BYONDCommand.BYONDCommand()']]],
