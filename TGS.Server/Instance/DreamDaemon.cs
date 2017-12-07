@@ -605,6 +605,7 @@ namespace TGS.Server
 					StartingSecurity = Config.Security;
 					Proc.StartInfo.Arguments = String.Format("{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}&{6}={7}\" -{2} -public", DMB, Config.Port, SecurityWord(), serviceCommsKey, Version(), Config.Webclient ? "-webclient " : "", SPInstanceName, Config.Name);
 					UpdateBridgeDll(true);
+					ClearCacheFolder();
 					lock (topicLock)
 					{
 						GameAPIVersion = null;  //needs updating

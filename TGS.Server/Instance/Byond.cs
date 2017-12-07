@@ -54,6 +54,11 @@ namespace TGS.Server
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
 
 		/// <summary>
+		/// Contains cache shit that needs to be cleared out every startup
+		/// </summary>
+		static readonly string ByondCacheDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ByondDirectory, "cache");
+
+		/// <summary>
 		/// The status of the BYOND updater
 		/// </summary>
 		ByondStatus updateStat = ByondStatus.Idle;
@@ -102,6 +107,18 @@ namespace TGS.Server
 					RevisionStaging.Abort();
 				CleanByondStaging();
 			}
+		}
+		
+		/// <summary>
+		/// Attempts to clear the <see cref="ByondCacheDirectory"/>
+		/// </summary>
+		void ClearCacheFolder()
+		{
+			try
+			{
+				Helpers.DeleteDirectory(ByondCacheDirectory, true, null);
+			}
+			catch { }
 		}
 
 		/// <summary>
