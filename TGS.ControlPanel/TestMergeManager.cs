@@ -239,7 +239,10 @@ namespace TGS.ControlPanel
 					var S = (string)PullRequestListBox.Items[I];
 					string mergedSha = null;
 					var splits = S.Split(' ');
-					if((S.Contains(" - OUTDATED: " ) || S.Contains(" - MERGED ON REMOTE: ")) && PullRequestListBox.GetItemCheckState(I) == CheckState.Indeterminate)
+					var mergedOnRemote = S.Contains(" - MERGED ON REMOTE: ");
+					if (mergedOnRemote && UpdateToRemoteRadioButton.Checked)
+						continue;
+					if ((S.Contains(" - OUTDATED: " ) || mergedOnRemote) && PullRequestListBox.GetItemCheckState(I) == CheckState.Indeterminate)
 						mergedSha = splits[splits.Length - 1];
 					var key = Convert.ToInt32((splits[0].Substring(1)));
 					try
