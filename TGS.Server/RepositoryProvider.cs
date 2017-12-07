@@ -12,8 +12,6 @@ namespace TGS.Server
 	sealed class RepositoryProvider : IRepositoryProvider
 	{
 		/// <inheritdoc />
-		public event ProgressHandler OnProgress;
-		/// <inheritdoc />
 		public event TransferProgressHandler OnTransferProgress;
 		/// <inheritdoc />
 		public event CheckoutProgressHandler OnCheckoutProgress;
@@ -35,8 +33,7 @@ namespace TGS.Server
 			return new FetchOptions()
 			{
 				CredentialsProvider = CredentialsProvider,
-				OnTransferProgress = (a) => OnTransferProgress(a),
-				OnProgress = (a) => OnProgress(a),
+				OnTransferProgress = OnTransferProgress,
 				Prune = true,
 			};
 		}

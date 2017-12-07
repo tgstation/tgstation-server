@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.ServiceModel;
 using TGS.Interface;
@@ -20,7 +17,7 @@ namespace TGS.Server
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	sealed class Server : IServer, ILoggingIDProvider
+	sealed class Server : IServer, ILoggingIDProvider, ITGSService, ITGConnectivity, ITGInstanceManager, ITGLanding
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events

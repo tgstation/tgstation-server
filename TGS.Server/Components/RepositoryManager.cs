@@ -148,6 +148,9 @@ namespace TGS.Server.Components
 
 			Chat.OnPopulateCommandInfo += (a, b) => b.CommandInfo.Repo = this;
 
+			RepositoryProvider.CredentialsProvider = GenerateGitCredentials;
+			RepositoryProvider.OnCheckoutProgress += HandleCheckoutProgress;
+
 			ghClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("TGS.Server"));
 
 			LoadRepository();

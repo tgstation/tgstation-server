@@ -10,11 +10,6 @@ namespace TGS.Server
 	interface IRepositoryProvider
 	{
 		/// <summary>
-		/// Used for <see cref="FetchOptionsBase.OnProgress"/>
-		/// </summary>
-		event ProgressHandler OnProgress;
-
-		/// <summary>
 		/// Used for <see cref="FetchOptionsBase.OnTransferProgress"/>
 		/// </summary>
 		event TransferProgressHandler OnTransferProgress;

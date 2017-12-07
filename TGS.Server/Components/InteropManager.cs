@@ -425,7 +425,7 @@ namespace TGS.Server.Components
 			string commandText = String.Format("{0}={1}", TCCommsKey, communicationsKey);
 
 			if (command != InteropCommand.CustomCommand)
-				commandText = String.Format("{0};{2}={3}", commandText, TCCommand, TopicCommands[command]);
+				commandText = String.Format("{0};{1}={2}", commandText, TCCommand, TopicCommands[command]);
 
 			switch (command)
 			{
