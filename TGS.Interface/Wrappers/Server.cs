@@ -35,10 +35,37 @@ namespace TGS.Interface.Wrappers
 		/// <inheritdoc />
 		public ITGInstanceManager InstanceManager => serverInterface.GetComponent<ITGInstanceManager>(null);
 
+		/// <inheritdoc />
+		public ITGSService Management
+		{
+			get
+			{
+				var component = serverInterface.GetComponent<ITGSService>(null);
+				lock (this)
+				{
+					if (!userIsAdministrator)
+						try
+						{
+							var test = component.Version();
+							userIsAdministrator = true;
+						}
+						catch
+						{
+							return null;
+						}
+				}
+				return component;
+			}
+		}
+
 		/// <summary>
 		/// The backing <see cref="ServerInterface"/>
 		/// </summary>
 		readonly ServerInterface serverInterface;
+		/// <summary>
+		/// If the connected user is an administrator of the <see cref="IServer"/>
+		/// </summary>
+		bool userIsAdministrator;
 
 		/// <summary>
 		/// Result of a call to <see cref="ITGLanding.ListInstances"/>
@@ -58,42 +85,6 @@ namespace TGS.Interface.Wrappers
 		public IInstance GetInstance(string name)
 		{
 			return new Instance(serverInterface, new InstanceMetadata { Name = name, Enabled = false });
-		}
-
-		/// <inheritdoc />
-		public void PrepareForUpdate()
-		{
-			serverInterface.GetComponent<ITGSService>(null).PrepareForUpdate();
-		}
-
-		/// <inheritdoc />
-		public string PythonPath()
-		{
-			return serverInterface.GetComponent<ITGSService>(null).PythonPath();
-		}
-
-		/// <inheritdoc />
-		public ushort RemoteAccessPort()
-		{
-			return serverInterface.GetComponent<ITGSService>(null).RemoteAccessPort();
-		}
-
-		/// <inheritdoc />
-		public bool SetPythonPath(string path)
-		{
-			return serverInterface.GetComponent<ITGSService>(null).SetPythonPath(path);
-		}
-
-		/// <inheritdoc />
-		public string SetRemoteAccessPort(ushort port)
-		{
-			return serverInterface.GetComponent<ITGSService>(null).SetRemoteAccessPort(port);
-		}
-
-		/// <inheritdoc />
-		string ITGSService.Version()
-		{
-			return serverInterface.GetComponent<ITGSService>(null).Version();
 		}
 	}
 }

@@ -13,7 +13,12 @@ namespace TGS.Interface.Wrappers
 		InstanceMetadata Metadata { get; }
 
 		/// <summary>
-		/// The <see cref="ITGAdministration"/> component
+		/// Check if the connected user is an administrator of the <see cref="IInstance"/>
+		/// </summary>
+		bool UserIsAdministrator { get; }
+
+		/// <summary>
+		/// The <see cref="ITGAdministration"/> component. Will be <see langword="null"/> if <see cref="UserIsAdministrator"/> is <see langword="false"/>
 		/// </summary>
 		ITGAdministration Administration { get; }
 

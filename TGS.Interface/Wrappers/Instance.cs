@@ -14,6 +14,10 @@ namespace TGS.Interface.Wrappers
 		/// The name of the <see cref="IInstance"/>
 		/// </summary>
 		InstanceMetadata metadata;
+		/// <summary>
+		/// Whether or not the current user is known to be an administrator of the <see cref="IInstance"/>
+		/// </summary>
+		bool isAdministrator;
 
 		/// <summary>
 		/// Construct an <see cref="Instance"/>
@@ -41,8 +45,28 @@ namespace TGS.Interface.Wrappers
 			}
 		}
 
+		public bool UserIsAdministrator { get
+			{
+				lock (this)
+				{
+					if (isAdministrator)
+						return true;
+					try
+					{
+						Administration.GetCurrentAuthorizedGroup();
+						isAdministrator = true;
+						return true;
+					}
+					catch
+					{
+						return false;
+					}
+				}
+			}
+		}
+
 		/// <inheritdoc />
-		public ITGAdministration Administration => serverInterface.GetComponent<ITGAdministration>(metadata.Name);
+		public ITGAdministration Administration => UserIsAdministrator ? serverInterface.GetComponent<ITGAdministration>(metadata.Name) : null;
 
 		/// <inheritdoc />
 		public ITGByond Byond => serverInterface.GetComponent<ITGByond>(metadata.Name);

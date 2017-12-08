@@ -7,12 +7,12 @@ namespace TGS.Interface.Wrappers
 	/// <summary>
 	/// Wrapper representing a <see cref="ITGSService"/>
 	/// </summary>
-	public interface IServer : ITGSService
+	public interface IServer
 	{
 		/// <summary>
 		/// The <see cref="System.Version"/> of the <see cref="IServer"/>
 		/// </summary>
-		new Version Version { get; }
+		Version Version { get; }
 		
 		/// <summary>
 		/// Get the <see cref="IInstance"/>s the <see cref="IServer"/> contains that the current user can access and connect to
@@ -20,9 +20,14 @@ namespace TGS.Interface.Wrappers
 		IEnumerable<IInstance> Instances { get; }
 
 		/// <summary>
-		/// The <see cref="ITGInstanceManager"/> component
+		/// The <see cref="ITGInstanceManager"/> component. Will be <see langword="null"/> if the connected user is not an administrator of the <see cref="IServer"/>
 		/// </summary>
 		ITGInstanceManager InstanceManager { get; }
+
+		/// <summary>
+		/// The <see cref="ITGSService"/> component. Will be <see langword="null"/> if the connected user is not an administrator of the <see cref="IServer"/>
+		/// </summary>
+		ITGSService Management { get; }
 
 		/// <summary>
 		/// Gets the specified <see cref="IInstance"/> without connectivity checks
