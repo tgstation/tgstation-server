@@ -130,7 +130,7 @@ namespace TGS.ControlPanel
 						var pr = await client.PullRequest.Get(repoOwner, repoName, I.Number);
 						var outdated = pr.Head.Sha != I.Sha;
 						var mergedOrOutdated = pr.Merged || outdated;
-						InsertItem(String.Format("#{0} - {1}{3}{2}", I.Number, I.Title, mergedOrOutdated ? I.Sha : String.Empty, pr.Merged ? " - MERGED ON REMOTE: " : (outdated ? " - OUTDATED: " : String.Empty)), true, mergedOrOutdated ? CheckState.Indeterminate : CheckState.Checked);
+						InsertPullRequest(await client.Issue.Get(repoOwner, repoName, I.Number), true, mergedOrOutdated ? CheckState.Indeterminate : CheckState.Checked, String.Format("{1}{0}", mergedOrOutdated ? String.Format(" - {0}", I.Sha) : String.Empty, pr.Merged ? " - MERGED ON REMOTE: " : (outdated ? " - OUTDATED: " : String.Empty)));
 					}
 				}
 				finally
@@ -157,17 +157,12 @@ namespace TGS.ControlPanel
 		/// <param name="issue">The <see cref="Issue"/> to format, must contain a <see cref="PullRequest"/></param>
 		/// <param name="prioritize">If this or <paramref name="checkState"/> is mpt <see cref="CheckState.Unchecked"/>, <paramref name="issue"/> will be inserted at the top of <see cref="PullRequestListBox"/> as opposed to the bottom</param>
 		/// <param name="checkState">The <see cref="CheckState"/> of the item</param>
-		void InsertPullRequest(Issue issue, bool prioritize, CheckState checkState)
+		/// <param name="append">An optional <see cref="string"/> to append to the entry before it's inserted</param>
+		void InsertPullRequest(Issue issue, bool prioritize, CheckState checkState, string append = null)
 		{
-			bool needsTesting = false;
-			foreach (var J in issue.Labels)
-				if (J.Name.ToLower().Contains("test"))
-				{
-					needsTesting = true;
-					prioritize = true;
-					break;
-				}
-			var itemString = String.Format("#{0} - {1}", issue.Number, issue.Title, needsTesting ? " - TESTING REQUESTED" : "");
+			bool needsTesting = issue.Labels.Any(x => x.Name.ToLower().Contains("test"));
+			prioritize |= needsTesting;
+			var itemString = String.Format("#{0} - {1}{2}{3}", issue.Number, issue.Title, needsTesting ? " - TESTING REQUESTED" : String.Empty, append ?? String.Empty);
 			InsertItem(itemString, prioritize, checkState);
 		}
 
