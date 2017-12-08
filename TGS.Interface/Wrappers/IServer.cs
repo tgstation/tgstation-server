@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TGS.Interface.Components;
 
-namespace TGS.Interface
+namespace TGS.Interface.Wrappers
 {
 	/// <summary>
 	/// Wrapper representing a <see cref="ITGSService"/>
