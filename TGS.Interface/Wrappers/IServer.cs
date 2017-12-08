@@ -15,7 +15,7 @@ namespace TGS.Interface.Wrappers
 		new Version Version { get; }
 		
 		/// <summary>
-		/// Get the <see cref="IInstance"/>s the <see cref="IServer"/> contains that the current user can access
+		/// Get the <see cref="IInstance"/>s the <see cref="IServer"/> contains that the current user can access and connect to
 		/// </summary>
 		IEnumerable<IInstance> Instances { get; }
 

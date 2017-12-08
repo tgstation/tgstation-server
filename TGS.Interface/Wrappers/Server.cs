@@ -14,10 +14,21 @@ namespace TGS.Interface.Wrappers
 		public IEnumerable<IInstance> Instances { get
 			{
 				lock (this)
-					if(knownInstances == null)
+					if (knownInstances == null)
 						knownInstances = serverInterface.GetComponent<ITGLanding>(null).ListInstances();
-				foreach(var I in knownInstances)
-					yield return new Instance(serverInterface, I);
+				foreach (var I in knownInstances)
+				{
+					IInstance nextInstance;
+					try
+					{
+						nextInstance = new Instance(serverInterface, I);
+					}
+					catch
+					{
+						continue;
+					}
+					yield return nextInstance;
+				}
 			}
 		}
 

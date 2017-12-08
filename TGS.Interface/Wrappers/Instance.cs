@@ -24,6 +24,9 @@ namespace TGS.Interface.Wrappers
 		{
 			serverInterface = _serverInterface;
 			metadata = _metadata;
+			if (metadata.Enabled)
+				//run a connectivity check
+				serverInterface.GetComponent<ITGConnectivity>(metadata.Name).VerifyConnection();
 		}
 
 		/// <inheritdoc />
