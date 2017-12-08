@@ -3,12 +3,12 @@
 namespace TGS.Interface
 {
 	/// <summary>
-	/// Main <see langword="interface"/> for communicating the <see cref="ITGSService"/>
+	/// Main <see langword="interface"/> for communicating the <see cref="Components.ITGSService"/>
 	/// </summary>
 	public interface IServerInterface : IDisposable
 	{
 		/// <summary>
-		/// The <see cref="Version"/> of the connected <see cref="ITGSService"/>
+		/// The <see cref="Version"/> of the connected <see cref="Components.ITGSService"/>
 		/// </summary>
 		Version ServerVersion { get; }
 
@@ -52,17 +52,17 @@ namespace TGS.Interface
 		/// <summary>
 		/// Returns a root service component
 		/// </summary>
-		/// <returns>The <see cref="ITGSService"/> component for the service</returns>
+		/// <returns>The <see cref="Components.ITGSService"/> component for the service</returns>
 		T GetServiceComponent<T>();
 
 		/// <summary>
-		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
+		/// Used to test if the <see cref="Components.ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
 		/// </summary>
 		/// <returns><see langword="null"/> on successful connection, error message <see cref="string"/> on failure</returns>
 		ConnectivityLevel ConnectionStatus();
 
 		/// <summary>
-		/// Used to test if the <see cref="ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
+		/// Used to test if the <see cref="Components.ITGSService"/> is avaiable on the target machine. Note that state can change at any time and any call into the may throw an exception because of communcation errors
 		/// </summary>
 		/// <param name="error">String of the error that prevented an elevated connectivity level</param>
 		/// <returns>The apporopriate <see cref="ConnectivityLevel"/></returns>

@@ -15,39 +15,6 @@ namespace TGS.Interface
 	/// <inheritdoc />
 	sealed public class ServerInterface : IServerInterface
 	{
-		/// <summary>
-		/// List of <see langword="interface"/>s that can be used with <see cref="GetServiceComponent{T}"/>
-		/// </summary>
-		public static readonly IList<Type> ValidServiceInterfaces = new List<Type> { typeof(ITGSService), typeof(ITGInstanceManager), typeof(ITGConnectivity), typeof(ITGLanding) };
-
-		/// <summary>
-		/// Version of the interface
-		/// </summary>
-		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
-
-		/// <summary>
-		/// List of <see langword="interface"/>s that can be used with <see cref="GetComponent{T}"/>
-		/// </summary>
-		public static readonly IList<Type> ValidInstanceInterfaces = CollectComponents();
-
-		/// <summary>
-		/// The maximum message size to and from a local server 
-		/// </summary>
-		public const long TransferLimitLocal = Int32.MaxValue;   //2GB can't go higher
-
-		/// <summary>
-		/// The maximum message size to and from a remote server
-		/// </summary>
-		public const long TransferLimitRemote = 10485760;   //10 MB
-
-		/// <summary>
-		/// Base name of communication URLs
-		/// </summary>
-		public const string MasterInterfaceName = "TGStationServerService";
-		/// <summary>
-		/// Base name of instance URLs
-		/// </summary>
-		public const string InstanceInterfaceName = MasterInterfaceName + "/Instance";
 
 		/// <summary>
 		/// The <see cref="ServerVersion"/>
@@ -91,23 +58,6 @@ namespace TGS.Interface
 		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
 		/// </summary>
 		IDictionary<string, ChannelFactory> ChannelFactoryCache = new Dictionary<string, ChannelFactory>();
-
-		/// <summary>
-		/// Returns a <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service
-		/// </summary>
-		/// <returns>A <see cref="IList{T}"/> of <see langword="interface"/> <see cref="Type"/>s that can be used with the service</returns>
-		static IList<Type> CollectComponents()
-		{
-			var ConnectivityComponent = typeof(ITGConnectivity);
-																   //find all interfaces in this assembly in this namespace that have the service contract attribute
-			var query = from t in Assembly.GetExecutingAssembly().GetTypes()
-						where t.IsInterface
-						&& t.Namespace == ConnectivityComponent.Namespace
-						&& t.GetCustomAttribute(typeof(ServiceContractAttribute)) != null
-						&& (t == ConnectivityComponent || !ValidServiceInterfaces.Contains(t))
-						select t;
-			return query.ToList();
-		}
 
 		/// <summary>
 		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
@@ -233,9 +183,10 @@ namespace TGS.Interface
 		/// <inheritdoc />
 		public bool VersionMismatch(out string errorMessage)
 		{
-			if(ServerVersion.Major != Version.Major || ServerVersion.Minor != Version.Minor || ServerVersion.Build != Version.Build)	//don't care about the patch level
+			var version = Definitions.Version;
+			if (ServerVersion.Major != version.Major || ServerVersion.Minor != version.Minor || ServerVersion.Build != version.Build)	//don't care about the patch level
 			{
-				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", Version, ServerVersion);
+				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", version, ServerVersion);
 				return true;
 			}
 			errorMessage = null;
@@ -246,8 +197,6 @@ namespace TGS.Interface
 		public T GetComponent<T>()
 		{
 			var ToT = typeof(T);
-			if (!ValidInstanceInterfaces.Contains(ToT))
-				throw new Exception("Invalid type!");
 			return GetComponentImpl<T>(true);
 		}
 
@@ -292,8 +241,6 @@ namespace TGS.Interface
 		public T GetServiceComponent<T>()
 		{
 			var ToT = typeof(T);
-			if (!ValidServiceInterfaces.Contains(ToT))
-				throw new Exception("Invalid type!");
 			return GetComponentImpl<T>(false);
 		}
 
@@ -305,7 +252,7 @@ namespace TGS.Interface
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
 		ChannelFactory<T> CreateChannel<T>(string instanceName)
 		{
-			var accessPath = instanceName == null ? MasterInterfaceName : String.Format("{0}/{1}", InstanceInterfaceName, instanceName);
+			var accessPath = instanceName == null ? Definitions.MasterInterfaceName : String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName);
 			if (!IsRemoteConnection)
 				return CreateLocalChannel<T>(instanceName, accessPath);
 			return CreateRemoteChannel<T>(instanceName, accessPath);
@@ -324,7 +271,7 @@ namespace TGS.Interface
 		{
 			var interfaceName = typeof(T).Name;
 			var res2 = new ChannelFactory<T>(
-			new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, interfaceName)));                                                      //10 megs
+			new NetNamedPipeBinding { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, new EndpointAddress(String.Format("net.pipe://localhost/{0}/{1}", accessPath, interfaceName)));                                                      //10 megs
 			res2.Credentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
 			return res2;
 		}
@@ -342,7 +289,7 @@ namespace TGS.Interface
 			var binding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = TransferLimitRemote
+				MaxReceivedMessageSize = Definitions.TransferLimitRemote
 			};
 
 			var interfaceName = typeof(T).Name;

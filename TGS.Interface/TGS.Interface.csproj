@@ -62,6 +62,7 @@
     <Compile Include="Components\Instance.cs" />
     <Compile Include="Components\InstanceManager.cs" />
     <Compile Include="Components\Landing.cs" />
+    <Compile Include="Definitions.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="InstanceMetadata.cs" />
