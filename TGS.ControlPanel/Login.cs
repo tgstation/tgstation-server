@@ -5,7 +5,7 @@ using TGS.Interface;
 
 namespace TGS.ControlPanel
 {
-	sealed partial class Login : CountedForm
+	sealed partial class Login : Form
 	{
 		/// <summary>
 		/// Currently selected saved <see cref="RemoteLoginInfo"/>
@@ -92,39 +92,37 @@ namespace TGS.ControlPanel
 					loginInfo.Password = PasswordTextBox.Text;
 			}
 
-			using (var I = new ServerInterface(loginInfo))
+			var I = new Client(loginInfo);
+			var Config = Properties.Settings.Default;
+			//This needs to be read here because V&C Closing us will corrupt the data
+			var savePassword = SavePasswordCheckBox.Checked;
+			if (VerifyAndConnect(I))
 			{
-				var Config = Properties.Settings.Default;
-				//This needs to be read here because V&C Closing us will corrupt the data
-				var savePassword = SavePasswordCheckBox.Checked;
-				if (VerifyAndConnect(I))
-				{
-					Config.RemoteDefault = true;
+				Config.RemoteDefault = true;
 
-					if (!savePassword)
-						loginInfo.Password = null;
-					
-					Config.RemoteLoginInfo = new StringCollection { loginInfo.ToJSON() };
-					
-					foreach (RemoteLoginInfo info in IPComboBox.Items)
-						if (!info.Equals(loginInfo))
-							Config.RemoteLoginInfo.Add(info.ToJSON());
-				}
+				if (!savePassword)
+					loginInfo.Password = null;
+
+				Config.RemoteLoginInfo = new StringCollection { loginInfo.ToJSON() };
+
+				foreach (RemoteLoginInfo info in IPComboBox.Items)
+					if (!info.Equals(loginInfo))
+						Config.RemoteLoginInfo.Add(info.ToJSON());
 			}
 		}
 
 		void LocalLoginButton_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.RemoteDefault = false;
-			VerifyAndConnect(new ServerInterface());
+			VerifyAndConnect(new Client());
 		}
 
 		/// <summary>
-		/// Attempts a connection on a given <see cref="IServerInterface"/>
+		/// Attempts a connection on a given <see cref="IClient"/>
 		/// </summary>
-		/// <param name="I">The <see cref="IServerInterface"/> to attempt a connection on</param>
+		/// <param name="I">The <see cref="IClient"/> to attempt a connection on</param>
 		/// <returns><see langword="true"/> if the connection was made and authenticated, <see langword="false"/> otherwise</returns>
-		bool VerifyAndConnect(IServerInterface I)
+		bool VerifyAndConnect(IClient I)
 		{
 			try
 			{
@@ -143,8 +141,8 @@ namespace TGS.ControlPanel
 				if (I.VersionMismatch(out error) && MessageBox.Show(error, "Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
 					return true;
 
-				new InstanceSelector(I).Show();
 				Close();
+				Program.ServerInterface = I;
 				return true;
 			}
 			catch

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
-	class IRCCommand : InstanceRootCommand
+	class IRCCommand : RootCommand
 	{
 		public IRCCommand()
 		{
@@ -17,7 +16,7 @@ namespace TGS.CommandLine
 			return "Manages the IRC bot";
 		}
 	}
-	class DiscordCommand : InstanceRootCommand
+	class DiscordCommand : RootCommand
 	{
 		public DiscordCommand()
 		{
@@ -48,7 +47,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Interface.GetComponent<ITGChat>();
+			var Chat = Instance.Chat;
 			Chat.SetProviderInfo(new IRCSetupInfo(Chat.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				Nickname = parameters[0],
@@ -78,7 +77,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[providerIndex];
 			List<string> channels;
 
@@ -156,7 +155,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[providerIndex];
 			List<string> channels;
 
@@ -222,7 +221,7 @@ namespace TGS.CommandLine
 		
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var info = Interface.GetComponent<ITGChat>().ProviderInfos()[providerIndex];
+			var info = Instance.Chat.ProviderInfos()[providerIndex];
 			string authType;
 			switch ((ChatProvider)providerIndex)
 			{
@@ -281,7 +280,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGChat>().Reconnect(providerIndex);
+			var res = Instance.Chat.Reconnect(providerIndex);
 			if (res != null)
 			{
 				OutputProc("Error: " + res);
@@ -310,7 +309,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[providerIndex];
 			var newmin = parameters[0].ToLower();
 
@@ -355,7 +354,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[(int)ChatProvider.IRC];
 			var lowerparam = parameters[0].ToLower();
 			if (lowerparam == "channel-mode")
@@ -394,7 +393,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[(int)ChatProvider.Discord];
 			var lowerparam = parameters[0].ToLower();
 			if (lowerparam == "role-id")
@@ -433,7 +432,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = new IRCSetupInfo(IRC.ProviderInfos()[(int)ChatProvider.IRC]);
 			switch (parameters[0])
 			{
@@ -482,7 +481,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[providerIndex];
 			var newmin = parameters[0].ToLower();
 			
@@ -529,7 +528,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			IRC.SetProviderInfo(new IRCSetupInfo(IRC.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				AuthTarget = parameters[0],
@@ -551,7 +550,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			IRC.SetProviderInfo(new IRCSetupInfo(IRC.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				AuthTarget = null,
@@ -575,7 +574,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var IRC = Interface.GetComponent<ITGChat>();
+			var IRC = Instance.Chat;
 			var info = IRC.ProviderInfos()[providerIndex];
 			OutputProc("Currently configured channels:");
 			OutputProc("Admin:");
@@ -610,7 +609,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Interface.GetComponent<ITGChat>();
+			var Chat = Instance.Chat;
 			var info = Chat.ProviderInfos()[providerIndex];
 			info.Enabled = true;
 			var res = Chat.SetProviderInfo(info);
@@ -638,7 +637,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Interface.GetComponent<ITGChat>();
+			var Chat = Instance.Chat;
 			var info = Chat.ProviderInfos()[providerIndex];
 			info.Enabled = false;
 			var res = Chat.SetProviderInfo(info);
@@ -675,7 +674,7 @@ namespace TGS.CommandLine
 				OutputProc("Invalid parameter!");
 				return ExitCode.BadCommand;
 			}
-			var Chat = Interface.GetComponent<ITGChat>();
+			var Chat = Instance.Chat;
 			var PI = new IRCSetupInfo(Chat.ProviderInfos()[(int)ChatProvider.IRC])
 			{
 				URL = splits[0]
@@ -713,7 +712,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Chat = Interface.GetComponent<ITGChat>();
+			var Chat = Instance.Chat;
 			var res = Chat.SetProviderInfo(new DiscordSetupInfo(Chat.ProviderInfos()[(int)ChatProvider.Discord]) { BotToken = parameters[0] });
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;

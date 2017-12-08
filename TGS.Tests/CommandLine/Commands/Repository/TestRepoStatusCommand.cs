@@ -32,13 +32,13 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 			var ran = false;
 			var mock = GetDefaultMock();
 			mock.Setup(foo => foo.PushTestmergeCommits()).Returns(false).Callback(() => ran = true);
-			ConsoleCommand.Interface = MockInterfaceToRepo(mock.Object);
+			ConsoleCommand.Instance = MockInterfaceToRepo(mock.Object);
 			Assert.AreEqual(new RepoStatusCommand().DoRun(new List<string> { }), Command.ExitCode.Normal);
 			Assert.IsTrue(ran);
 
 			ran = false;
 			mock.Setup(foo => foo.PushTestmergeCommits()).Returns(true).Callback(() => ran = true);
-			ConsoleCommand.Interface = MockInterfaceToRepo(mock.Object);
+			ConsoleCommand.Instance = MockInterfaceToRepo(mock.Object);
 			Assert.AreEqual(new RepoStatusCommand().DoRun(new List<string> { }), Command.ExitCode.Normal);
 			Assert.IsTrue(ran);
 		}

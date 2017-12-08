@@ -76,7 +76,7 @@ namespace TGS.ControlPanel
 			if (RepoBusyCheck())
 				return;
 
-			var Repo = Interface.GetComponent<ITGRepository>();
+			var Repo = Instance.Repository;
 
 			RepoProgressBar.Style = ProgressBarStyle.Marquee;
 			RepoProgressBar.Visible = false;
@@ -148,7 +148,7 @@ namespace TGS.ControlPanel
 
 		bool RepoBusyCheck()
 		{
-			if (Interface.GetComponent<ITGRepository>().OperationInProgress())
+			if (Instance.Repository.OperationInProgress())
 			{
 				DoAsyncOp(RepoAction.Wait, "Waiting for repository to finish another action...");
 				return true;
@@ -170,7 +170,7 @@ namespace TGS.ControlPanel
 		private void RepoBGW_DoWork(object sender, DoWorkEventArgs e)
 		{
 			//Only for clones
-			var Repo = Interface.GetComponent<ITGRepository>();
+			var Repo = Instance.Repository;
 
 			switch (action) {
 				case RepoAction.Clone:
@@ -273,7 +273,7 @@ namespace TGS.ControlPanel
 		}
 		private void RepoApplyButton_Click(object sender, EventArgs e)
 		{
-			var Repo = Interface.GetComponent<ITGRepository>();
+			var Repo = Instance.Repository;
 
 			if (RepoBusyCheck())
 				return;
@@ -344,7 +344,7 @@ namespace TGS.ControlPanel
 		{
 			if (MessageBox.Show("This will update the cached TGS3.json to the current repository version, potentially redefining symlinks. Proceed?", "Json Update", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
-			var res = Interface.GetComponent<ITGRepository>().UpdateTGS3Json();
+			var res = Instance.Repository.UpdateTGS3Json();
 			if (res != null)
 				MessageBox.Show(res);
 		}

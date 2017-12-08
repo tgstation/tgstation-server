@@ -9,7 +9,7 @@ namespace TGS.CommandLine
 	class Program
 	{
 		static bool interactive = false, saidSrvVersion = false;
-		static IServerInterface currentInterface;
+		static IClient currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			//first lookup the connection string
@@ -52,7 +52,7 @@ namespace TGS.CommandLine
 					}
 					argsAsList.RemoveAt(I);
 					argsAsList.RemoveAt(I);
-					ReplaceInterface(new ServerInterface(new RemoteLoginInfo(address, port, username, password)));
+					ReplaceInterface(new Client(new RemoteLoginInfo(address, port, username, password)));
 					break;
 				}
 			}
@@ -84,7 +84,7 @@ namespace TGS.CommandLine
 			}
 			else if (interactive && !saidSrvVersion)
 			{
-				Console.WriteLine("Connectd to service version: " + currentInterface.GetServiceComponent<ITGLanding>().Version());
+				Console.WriteLine("Connectd to service version: " + currentInterface.Server.Version);
 				saidSrvVersion = true;
 			}
 
@@ -99,11 +99,11 @@ namespace TGS.CommandLine
 			};
 		}
 
-		static void ReplaceInterface(IServerInterface I)
+		static void ReplaceInterface(IClient I)
 		{
 			currentInterface = I;
-			ConsoleCommand.Interface = I;
-			InstanceRootCommand.currentInterface = I;
+			ConsoleCommand.Server = I.Server;
+			ConsoleCommand.Instance = null;
 			saidSrvVersion = false;
 		}
 
@@ -156,26 +156,24 @@ namespace TGS.CommandLine
 		/// </summary>
 		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to test</param>
 		/// <param name="silentSuccess">If <see langword="true"/>, does not output on success</param>
-		/// <returns><see langword="true"/> if a <see cref="ConnectivityLevel.Authenticated"/> was achieved with <see cref="IServerInterface.ConnectToInstance(string, bool)"/>, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the connection was made, <see langword="false"/> otherwise</returns>
 		static bool CheckInstanceConnectivity(string instanceName, bool silentSuccess)
 		{
-			var res = currentInterface.ConnectToInstance(instanceName);
-			if (!res.HasFlag(ConnectivityLevel.Connected))
-				Console.WriteLine("Unable to connect to instance! Does it exist?");
-			else if (!res.HasFlag(ConnectivityLevel.Authenticated))
-				Console.WriteLine("The current user is not authorized to use this instance!");
-			else
+			var res = currentInterface.Server.Instances.Where(x => x.Metadata.Name == instanceName).FirstOrDefault();
+			if (res != null)
 			{
-				if(!silentSuccess)
+				ConsoleCommand.Instance = res;
+				if (!silentSuccess)
 					Console.WriteLine("Successfully conected to instance!");
 				return true;
 			}
+			Console.WriteLine("Unable to connect to instance! Does it exist?");
 			return false;
 		}
 
 		static int Main(string[] args)
 		{
-			ReplaceInterface(new ServerInterface());
+			ReplaceInterface(new Client());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 			{
@@ -193,13 +191,13 @@ namespace TGS.CommandLine
 					{
 						argsAsList.RemoveAt(I);
 						--I;
-						ServerInterface.SetBadCertificateHandler(_ => false);
+						Client.SetBadCertificateHandler(_ => false);
 					}
 				}
 				return (int)RunCommandLine(argsAsList);
 			}
 			//interactive mode
-			ServerInterface.SetBadCertificateHandler(BadCertificateInteractive);
+			Client.SetBadCertificateHandler(BadCertificateInteractive);
 			Console.WriteLine("Type 'instance' to connect to a server instance");
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			while (true)
@@ -230,17 +228,17 @@ namespace TGS.CommandLine
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
-						ReplaceInterface(new ServerInterface(new RemoteLoginInfo(address, port, username, password)));
+						ReplaceInterface(new Client(new RemoteLoginInfo(address, port, username, password)));
 						var res = currentInterface.ConnectionStatus(out string error);
 						if (!res.HasFlag(ConnectivityLevel.Connected))
 						{
 							Console.WriteLine("Unable to connect: " + error);
-							ReplaceInterface(new ServerInterface());
+							ReplaceInterface(new Client());
 						}
 						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							ReplaceInterface(new ServerInterface());
+							ReplaceInterface(new Client());
 						}
 						else
 						{
@@ -255,14 +253,14 @@ namespace TGS.CommandLine
 						break;
 					case "disconnect":
 						SentVMMWarning = false;
-						ReplaceInterface(new ServerInterface());
+						ReplaceInterface(new Client());
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":
 					case "exit":
 						return (int)Command.ExitCode.Normal;
 					case "debug-upgrade":
-						currentInterface.GetServiceComponent<ITGSService>().PrepareForUpdate();
+						currentInterface.Server.Management.PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
 					default:
 						//linq voodoo to get quoted strings

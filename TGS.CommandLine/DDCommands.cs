@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
-	class DDCommand : InstanceRootCommand
+	class DDCommand : RootCommand
 	{
 		public DDCommand()
 		{
@@ -38,7 +37,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGDreamDaemon>().WorldAnnounce(String.Join(" ", parameters));
+			var res = Instance.DreamDaemon.WorldAnnounce(String.Join(" ", parameters));
 			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -58,7 +57,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGDreamDaemon>().Start();
+			var res = Instance.DreamDaemon.Start();
 			OutputProc(res ?? "Success!");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -82,7 +81,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Interface.GetComponent<ITGDreamDaemon>();
+			var DD = Instance.DreamDaemon;
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
 				if (DD.DaemonStatus() != DreamDaemonStatus.Online)
@@ -111,7 +110,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Interface.GetComponent<ITGDreamDaemon>();
+			var DD = Instance.DreamDaemon;
 			if (parameters.Count > 0 && parameters[0].ToLower() == "--graceful")
 			{
 				if (DD.DaemonStatus() != DreamDaemonStatus.Online)
@@ -146,7 +145,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Interface.GetComponent<ITGDreamDaemon>();
+			var DD = Instance.DreamDaemon;
 			OutputProc(DD.StatusString(true));
 			if (DD.ShutdownInProgress())
 				OutputProc("The server will shutdown once the current round completes.");
@@ -167,7 +166,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Interface.GetComponent<ITGDreamDaemon>();
+			var DD = Instance.DreamDaemon;
 			switch (parameters[0].ToLower())
 			{
 				case "on":
@@ -205,7 +204,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DD = Interface.GetComponent<ITGDreamDaemon>();
+			var DD = Instance.DreamDaemon;
 			switch (parameters[0].ToLower())
 			{
 				case "on":
@@ -255,7 +254,7 @@ namespace TGS.CommandLine
 				return ExitCode.BadCommand;
 			}
 
-			Interface.GetComponent<ITGDreamDaemon>().SetPort(port);
+			Instance.DreamDaemon.SetPort(port);
 			return ExitCode.Normal;
 		}
 
@@ -298,7 +297,7 @@ namespace TGS.CommandLine
 					OutputProc("Invalid security word!");
 					return ExitCode.BadCommand;
 			}
-			Interface.GetComponent<ITGDreamDaemon>().SetSecurityLevel(sec);
+			Instance.DreamDaemon.SetSecurityLevel(sec);
 			return ExitCode.Normal;
 		}
 

@@ -27,7 +27,7 @@ namespace TGS.Interface.Tests
 				Assert.IsFalse(String.IsNullOrWhiteSpace(message));
 				return true;
 			};
-			ServerInterface.SetBadCertificateHandler(func);
+			Client.SetBadCertificateHandler(func);
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace TGS.Interface.Tests
 		public void TestBadCertificateHandler()
 		{
 			var ran = false;
-			ServerInterface.SetBadCertificateHandler(_ =>
+			Client.SetBadCertificateHandler(_ =>
 			{
 				ran = true;
 				return true;
@@ -50,9 +50,9 @@ namespace TGS.Interface.Tests
 		/// Creates a remote configured <see cref="Interface"/> pointing at an invalid address
 		/// </summary>
 		/// <returns>The created <see cref="Interface"/></returns>
-		ServerInterface CreateFakeRemoteInterface()
+		Client CreateFakeRemoteInterface()
 		{
-			return new ServerInterface(new RemoteLoginInfo("some.fake.url.420", 34752, "user", "password"));
+			return new Client(new RemoteLoginInfo("some.fake.url.420", 34752, "user", "password"));
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace TGS.Interface.Tests
 		[TestMethod]
 		public void TestLocalInstantiation()
 		{
-			Assert.IsFalse(new ServerInterface().IsRemoteConnection);
+			Assert.IsFalse(new Client().IsRemoteConnection);
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace TGS.Interface.Tests
 		public void TestCopyRemoteInterface()
 		{
 			var first = CreateFakeRemoteInterface();
-			var second = new ServerInterface(first.LoginInfo);
+			var second = new Client(first.LoginInfo);
 			Assert.AreEqual(first.LoginInfo.IP, second.LoginInfo.IP);
 			Assert.AreEqual(first.LoginInfo.Port, second.LoginInfo.Port);
 			Assert.AreEqual(first.LoginInfo.Username, second.LoginInfo.Username);
@@ -88,7 +88,7 @@ namespace TGS.Interface.Tests
 		[TestMethod]
 		public void TestLocalAccessInterfaceAllowsWindowsImpersonation()
 		{
-			var inter = new ServerInterface();
+			var inter = new Client();
 			var po = new PrivateObject(inter);
 			var cf = (ChannelFactory<ITGConfig>)po.Invoke("CreateChannel", new Type[] { typeof(string) }, new object[] { TestInstanceName }, new Type[] { typeof(ITGConfig) });
 			Assert.AreEqual(cf.Credentials.Windows.AllowedImpersonationLevel, System.Security.Principal.TokenImpersonationLevel.Impersonation);

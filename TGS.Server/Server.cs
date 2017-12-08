@@ -198,9 +198,11 @@ namespace TGS.Server
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
-			foreach (var I in ServerInterface.ValidServiceInterfaces)
-				AddEndpoint(serviceHost, I);
+			serviceHost = CreateHost(this, Definitions.MasterInterfaceName);
+			AddEndpoint(serviceHost, typeof(ITGConnectivity));
+			AddEndpoint(serviceHost, typeof(ITGInstanceManager));
+			AddEndpoint(serviceHost, typeof(ITGLanding));
+			AddEndpoint(serviceHost, typeof(ITGSService));
 			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(); //only admins can diddle us
 			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
@@ -313,11 +315,19 @@ namespace TGS.Server
 				return null;
 			}
 
-			var host = CreateHost(instance, String.Format("{0}/{1}", ServerInterface.InstanceInterfaceName, instanceName));
+			var host = CreateHost(instance, String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
-			
-			foreach (var J in ServerInterface.ValidInstanceInterfaces)
-				AddEndpoint(host, J);
+
+			AddEndpoint(host, typeof(ITGConnectivity));
+			AddEndpoint(host, typeof(ITGAdministration));
+			AddEndpoint(host, typeof(ITGChat));
+			AddEndpoint(host, typeof(ITGCompiler));
+			AddEndpoint(host, typeof(ITGConfig));
+			AddEndpoint(host, typeof(ITGConnectivity));
+			AddEndpoint(host, typeof(ITGDreamDaemon));
+			AddEndpoint(host, typeof(ITGInstance));
+			AddEndpoint(host, typeof(ITGInterop));
+			AddEndpoint(host, typeof(ITGRepository));
 
 			host.Authorization.ServiceAuthorizationManager = instance;
 			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
@@ -332,11 +342,11 @@ namespace TGS.Server
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
 			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
+				MaxReceivedMessageSize = Definitions.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);

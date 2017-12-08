@@ -10,7 +10,7 @@ namespace TGS.ControlPanel
 		string lastReadError = null;
 		void InitBYONDPage()
 		{
-			var BYOND = Interface.GetComponent<ITGByond>();
+			var BYOND = Instance.Byond;
 			var CV = BYOND.GetVersion(ByondVersion.Installed);
 			if (CV == null)
 				CV = BYOND.GetVersion(ByondVersion.Staged);
@@ -45,7 +45,7 @@ namespace TGS.ControlPanel
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			UpdateBYONDButtons();
-			if (!Interface.GetComponent<ITGByond>().UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
+			if (!Instance.Byond.UpdateToVersion((int)MajorVersionNumeric.Value, (int)MinorVersionNumeric.Value))
 				MessageBox.Show("Unable to begin update, there is another operation in progress.");
 		}
 		
@@ -55,7 +55,7 @@ namespace TGS.ControlPanel
 		}
 		void UpdateBYONDButtons()
 		{
-			var BYOND = Interface.GetComponent<ITGByond>();
+			var BYOND = Instance.Byond;
 
 			VersionLabel.Text = BYOND.GetVersion(ByondVersion.Installed) ?? "Not Installed";
 
@@ -88,7 +88,7 @@ namespace TGS.ControlPanel
 					UpdateButton.Enabled = false;
 					break;
 			}
-			var error = Interface.GetComponent<ITGByond>().GetError();
+			var error = Instance.Byond.GetError();
 			if (error != lastReadError)
 			{
 				lastReadError = error;

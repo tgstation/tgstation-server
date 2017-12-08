@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
 	class CLICommand : RootCommand
 	{
-		public CLICommand(IServerInterface I)
+		public CLICommand(IClient I)
 		{
 			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
-			if (I.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
+			if (ConsoleCommand.Instance.Administration != null)
 				tmp.Add(new AdminCommand());
-			if (I.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator))
+			if (ConsoleCommand.Server.Management != null)
 				tmp.Add(new ServiceCommand());
 			Children = tmp.ToArray();
 		}
@@ -37,7 +36,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGRepository>().AutoUpdateInterval();
+			var res = Instance.Repository.AutoUpdateInterval();
 			OutputProc(res == 0 ? "OFF" : String.Format("Auto updating every {0} minutes", res));
 			return ExitCode.Normal;
 		}
@@ -76,7 +75,7 @@ namespace TGS.CommandLine
 					return ExitCode.BadCommand;
 				}
 
-			Interface.GetComponent<ITGRepository>().SetAutoUpdateInterval(NewInterval);
+			Instance.Repository.SetAutoUpdateInterval(NewInterval);
 			return ExitCode.Normal;
 		}
 
@@ -91,7 +90,7 @@ namespace TGS.CommandLine
 		protected override ExitCode Run(IList<string> parameters)
 		{
 			var gen_cl = parameters.Count > 1 && parameters[1].ToLower() == "--cl";
-			var Repo = Interface.GetComponent<ITGRepository>();
+			var Repo = Instance.Repository;
 			switch (parameters[0].ToLower())
 			{
 				case "hard":
@@ -126,7 +125,7 @@ namespace TGS.CommandLine
 						OutputProc(res);
 				}
 			}
-			var resu = Interface.GetComponent<ITGCompiler>().Compile(true);
+			var resu = Instance.Compiler.Compile(true);
 			OutputProc(resu ? "Compilation started!" : "Compilation could not be started!");
 			return resu ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -163,7 +162,7 @@ namespace TGS.CommandLine
 				OutputProc("Invalid tesmerge #: " + parameters[0]);
 				return ExitCode.BadCommand;
 			}
-			var Repo = Interface.GetComponent<ITGRepository>();
+			var Repo = Instance.Repository;
 			var res = Repo.MergePullRequest(tm);
 			if (res != null)
 			{
@@ -176,7 +175,7 @@ namespace TGS.CommandLine
 				OutputProc(res);
 				return ExitCode.ServerError;
 			}
-			var resu = Interface.GetComponent<ITGCompiler>().Compile(true);
+			var resu = Instance.Compiler.Compile(true);
 			OutputProc(resu ? "Compilation started!" : "Compilation could not be started!");
 			return resu ? ExitCode.Normal : ExitCode.ServerError;
 		}

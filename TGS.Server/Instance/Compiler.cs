@@ -119,7 +119,7 @@ namespace TGS.Server
 		//what is says on the tin
 		CompilerStatus IsInitialized()
 		{
-			if (File.Exists(RelativePath(Path.Combine(GameDirLive, BridgeDLLName))) || File.Exists(RelativePath(Path.Combine(GameDirLive, Assembly.GetAssembly(typeof(IServerInterface)).GetName().Name + ".dll"))))	//its a good tell, jim
+			if (File.Exists(RelativePath(Path.Combine(GameDirLive, BridgeDLLName))) || File.Exists(RelativePath(Path.Combine(GameDirLive, Assembly.GetAssembly(typeof(IClient)).GetName().Name + ".dll"))))	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}

@@ -17,9 +17,9 @@ namespace TGS.ControlPanel
 		const string MergedPullsError = "Error retrieving currently merged pull requests: {0}";
 
 		/// <summary>
-		/// The <see cref="IServerInterface"/> connected to an <see cref="ITGInstance"/> to handle the pull requests for
+		/// The <see cref="IInstance"/>to handle pull requests for
 		/// </summary>
-		readonly IServerInterface currentInterface;
+		readonly IInstance currentInterface;
 
 		/// <summary>
 		/// The <see cref="GitHubClient"/> to use to read PR lists
@@ -38,9 +38,9 @@ namespace TGS.ControlPanel
 		/// <summary>
 		/// Construct a <see cref="TestMergeManager"/>
 		/// </summary>
-		/// <param name="interfaceToUse">The <see cref="IServerInterface"/> to use for managing the <see cref="ITGInstance"/></param>
+		/// <param name="interfaceToUse">The <see cref="IInstance"/> to manage pull requests for</param>
 		/// <param name="clientToUse">The <see cref="GitHubClient"/> to use for getting pull request information</param>
-		public TestMergeManager(IServerInterface interfaceToUse, GitHubClient clientToUse)
+		public TestMergeManager(IInstance interfaceToUse, GitHubClient clientToUse)
 		{
 			InitializeComponent();
 			DialogResult = DialogResult.Cancel;
@@ -88,7 +88,7 @@ namespace TGS.ControlPanel
 				{
 					PullRequestListBox.Items.Clear();
 
-					var repo = currentInterface.GetComponent<ITGRepository>();
+					var repo = currentInterface.Repository;
 					string error = null;
 					List<PullRequestInfo> pulls = null;
 					
@@ -197,7 +197,7 @@ namespace TGS.ControlPanel
 		void PullRequestManager_Load(object sender, EventArgs e)
 		{
 			Enabled = false;
-			var repo = currentInterface.GetComponent<ITGRepository>();
+			var repo = currentInterface.Repository;
 			if(!Program.GetRepositoryRemote(repo, out repoOwner, out repoName))
 			{
 				Close();
@@ -256,7 +256,7 @@ namespace TGS.ControlPanel
 					}
 				}
 
-				var repo = currentInterface.GetComponent<ITGRepository>();
+				var repo = currentInterface.Repository;
 
 				string error = null;
 				//Do standard repo updates
@@ -297,7 +297,7 @@ namespace TGS.ControlPanel
 					GenerateChangelog(repo);
 
 				//Start the compile
-				var compileStarted = await Task.Run(() => currentInterface.GetComponent<ITGCompiler>().Compile(pulls.Count == 1));
+				var compileStarted = await Task.Run(() => currentInterface.Compiler.Compile(pulls.Count == 1));
 				
 				if (error != null)
 					MessageBox.Show(String.Format("Error sychronizing repo: {0}", error));
@@ -341,7 +341,7 @@ namespace TGS.ControlPanel
 			{
 				IList<PullRequestInfo> pulls = null;
 				string error = null;
-				var mergedPullsTask = WrapServerOp(() => pulls = currentInterface.GetComponent<ITGRepository>().MergedPullRequests(out error));
+				var mergedPullsTask = WrapServerOp(() => pulls = currentInterface.Repository.MergedPullRequests(out error));
 
 				int PRNumber;
 				try
