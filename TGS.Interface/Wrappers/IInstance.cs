@@ -8,6 +8,11 @@ namespace TGS.Interface.Wrappers
 	public interface IInstance : ITGInstance
 	{
 		/// <summary>
+		/// Get the <see cref="InstanceMetadata"/> for the <see cref="IInstance"/>
+		/// </summary>
+		InstanceMetadata Metadata { get; }
+
+		/// <summary>
 		/// The <see cref="ITGAdministration"/> component
 		/// </summary>
 		ITGAdministration Administration { get; }

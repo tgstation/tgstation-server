@@ -79,6 +79,7 @@
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Components\Service.cs" />
     <Compile Include="Components\Interop.cs" />
+    <Compile Include="Wrappers\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />
