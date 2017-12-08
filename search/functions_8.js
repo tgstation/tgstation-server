@@ -21,7 +21,7 @@ var searchData=
   ['initserverpage',['InitServerPage',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a03916364dc8fe6053795770bee92c8f7',1,'TGS::ControlPanel::ControlPanel']]],
   ['initstaticpage',['InitStaticPage',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a4acb715988ae799739b75ea34dba713f',1,'TGS::ControlPanel::ControlPanel']]],
   ['insertitem',['InsertItem',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a440d52a06dbc86ab317ffe0b50a81abc',1,'TGS::ControlPanel::TestMergeManager']]],
-  ['insertpullrequest',['InsertPullRequest',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a2d7bd4154090948b254c1fd7fd5d5e15',1,'TGS::ControlPanel::TestMergeManager']]],
+  ['insertpullrequest',['InsertPullRequest',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a65c757b3bf35106770727bb3fe00f880',1,'TGS::ControlPanel::TestMergeManager']]],
   ['installbutton_5fclick',['InstallButton_Click',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a0b28294a88847f6a9d50605cdfc17904',1,'TGS::Installer::UI::Main']]],
   ['instance',['Instance',['../class_t_g_s_1_1_interface_1_1_instance.html#ab76eaa1f228ea88b042322688e7bd7e9',1,'TGS.Interface.Instance.Instance()'],['../class_t_g_s_1_1_server_1_1_instance.html#a3324d5c44b33771c86fe738b0593a136',1,'TGS.Server.Instance.Instance()']]],
   ['instanceconfig',['InstanceConfig',['../class_t_g_s_1_1_server_1_1_instance_config.html#ac71dca83e0d0c1c7e5b12d8a549c5e66',1,'TGS::Server::InstanceConfig']]],
