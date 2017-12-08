@@ -12,10 +12,10 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 		/// </summary>
 		/// <param name="repo">The <see cref="ITGRepository"/> the resulting <see cref="IServerInterface.GetComponent{T}"/> should return</param>
 		/// <returns>A mock <see cref="IServerInterface"/></returns>
-		protected IServerInterface MockInterfaceToRepo(ITGRepository repo)
+		protected IInstance MockInterfaceToRepo(ITGRepository repo)
 		{
-			var mock = new Mock<IServerInterface>();
-			mock.Setup(foo => foo.GetComponent<ITGRepository>()).Returns(repo);
+			var mock = new Mock<IInstance>();
+			mock.Setup(foo => foo.Repository).Returns(repo);
 			return mock.Object;
 		}
 	}

@@ -84,7 +84,7 @@ namespace TGS.CommandLine
 			}
 			else if (interactive && !saidSrvVersion)
 			{
-				Console.WriteLine("Connectd to service version: " + currentInterface.GetServiceComponent<ITGLanding>().Version());
+				Console.WriteLine("Connectd to service version: " + currentInterface.Server.Version);
 				saidSrvVersion = true;
 			}
 
@@ -102,8 +102,8 @@ namespace TGS.CommandLine
 		static void ReplaceInterface(IServerInterface I)
 		{
 			currentInterface = I;
-			ConsoleCommand.Interface = I;
-			InstanceRootCommand.currentInterface = I;
+			ConsoleCommand.Server = I.Server;
+			ConsoleCommand.Instance = null;
 			saidSrvVersion = false;
 		}
 
@@ -156,20 +156,18 @@ namespace TGS.CommandLine
 		/// </summary>
 		/// <param name="instanceName">The name of the <see cref="ITGInstance"/> to test</param>
 		/// <param name="silentSuccess">If <see langword="true"/>, does not output on success</param>
-		/// <returns><see langword="true"/> if a <see cref="ConnectivityLevel.Authenticated"/> was achieved with <see cref="IServerInterface.ConnectToInstance(string, bool)"/>, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the connection was made, <see langword="false"/> otherwise</returns>
 		static bool CheckInstanceConnectivity(string instanceName, bool silentSuccess)
 		{
-			var res = currentInterface.ConnectToInstance(instanceName);
-			if (!res.HasFlag(ConnectivityLevel.Connected))
-				Console.WriteLine("Unable to connect to instance! Does it exist?");
-			else if (!res.HasFlag(ConnectivityLevel.Authenticated))
-				Console.WriteLine("The current user is not authorized to use this instance!");
-			else
+			var res = currentInterface.Server.Instances.Where(x => x.Metadata.Name == instanceName).FirstOrDefault();
+			if (res != null)
 			{
-				if(!silentSuccess)
+				ConsoleCommand.Instance = res;
+				if (!silentSuccess)
 					Console.WriteLine("Successfully conected to instance!");
 				return true;
 			}
+			Console.WriteLine("Unable to connect to instance! Does it exist?");
 			return false;
 		}
 
@@ -262,7 +260,7 @@ namespace TGS.CommandLine
 					case "exit":
 						return (int)Command.ExitCode.Normal;
 					case "debug-upgrade":
-						currentInterface.GetServiceComponent<ITGSService>().PrepareForUpdate();
+						currentInterface.Server.Management.PrepareForUpdate();
 						return (int)Command.ExitCode.Normal;
 					default:
 						//linq voodoo to get quoted strings

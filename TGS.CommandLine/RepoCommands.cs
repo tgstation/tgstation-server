@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
@@ -40,10 +39,10 @@ namespace TGS.CommandLine
 			switch (parameters[0].ToLower())
 			{
 				case "on":
-					Interface.GetComponent<ITGRepository>().SetPushTestmergeCommits(true);
+					Instance.Repository.SetPushTestmergeCommits(true);
 					break;
 				case "off":
-					Interface.GetComponent<ITGRepository>().SetPushTestmergeCommits(false);
+					Instance.Repository.SetPushTestmergeCommits(false);
 					break;
 				default:
 					OutputProc("Invalid option!");
@@ -67,7 +66,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGRepository>().UpdateTGS3Json();
+			var res = Instance.Repository.UpdateTGS3Json();
 			if (res != null)
 			{
 				OutputProc(res);
@@ -86,7 +85,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGRepository>().Setup(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
+			var res = Instance.Repository.Setup(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
 			if (res != null)
 			{
 				OutputProc("Error: " + res);
@@ -113,7 +112,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var Repo = Interface.GetComponent<ITGRepository>();
+			var Repo = Instance.Repository;
 			var busy = Repo.OperationInProgress();
 			if (!busy)
 			{
@@ -167,7 +166,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Interface.GetComponent<ITGRepository>().Reset(parameters.Count > 0 && parameters[0].ToLower() == "--origin");
+			var result = Instance.Repository.Reset(parameters.Count > 0 && parameters[0].ToLower() == "--origin");
 			OutputProc(result ?? "Success!");
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -203,7 +202,7 @@ namespace TGS.CommandLine
 					OutputProc("Invalid parameter: " + parameters[0]);
 					return ExitCode.BadCommand;
 			}
-			var res = Interface.GetComponent<ITGRepository>().Update(hard);
+			var res = Instance.Repository.Update(hard);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -224,7 +223,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Interface.GetComponent<ITGRepository>().GenerateChangelog(out string error);
+			var result = Instance.Repository.GenerateChangelog(out string error);
 			OutputProc(error ?? "Success!");
 			if (result != null)
 				OutputProc(result);
@@ -244,7 +243,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Interface.GetComponent<ITGRepository>().SynchronizePush();
+			var result = Instance.Repository.SynchronizePush();
 			if(result != null)
 				OutputProc(result);
 			return result == null ? ExitCode.Normal : ExitCode.ServerError;
@@ -264,7 +263,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Interface.GetComponent<ITGRepository>().SetCommitterEmail(parameters[0]);
+			Instance.Repository.SetCommitterEmail(parameters[0]);
 			return ExitCode.Normal;
 		}
 
@@ -286,7 +285,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Interface.GetComponent<ITGRepository>().SetCommitterName(parameters[0]);
+			Instance.Repository.SetCommitterName(parameters[0]);
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -319,7 +318,7 @@ namespace TGS.CommandLine
 				OutputProc("Invalid PR Number!");
 				return ExitCode.BadCommand;
 			}
-			var res = Interface.GetComponent<ITGRepository>().MergePullRequest(PR);
+			var res = Instance.Repository.MergePullRequest(PR);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -346,7 +345,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var data = Interface.GetComponent<ITGRepository>().MergedPullRequests(out string error);
+			var data = Instance.Repository.MergedPullRequests(out string error);
 			if (data == null)
 			{
 				OutputProc(error);
@@ -373,7 +372,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var data = Interface.GetComponent<ITGRepository>().ListBackups(out string error);
+			var data = Instance.Repository.ListBackups(out string error);
 			if (data == null)
 			{
 				OutputProc(error);
@@ -400,7 +399,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGRepository>().Checkout(parameters[0]);
+			var res = Instance.Repository.Checkout(parameters[0]);
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}

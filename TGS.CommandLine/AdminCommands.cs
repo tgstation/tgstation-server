@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
-	class AdminCommand : InstanceRootCommand
+	sealed class AdminCommand : RootCommand
 	{
 		public AdminCommand()
 		{
@@ -26,7 +25,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			var res = Instance.Administration.RecreateStaticFolder();
 			OutputProc(res ?? "Success");
 			return res == null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -50,7 +49,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var group = Interface.GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
+			var group = Instance.Administration.GetCurrentAuthorizedGroup();
 			OutputProc(group ?? "ERROR");
 			return group != null ? ExitCode.Normal : ExitCode.ServerError;
 		}
@@ -75,7 +74,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var result = Interface.GetComponent<ITGAdministration>().SetAuthorizedGroup(parameters[0]);
+			var result = Instance.Administration.SetAuthorizedGroup(parameters[0]);
 			if(result != null)
 			{
 				OutputProc("Group set to: " + result);
@@ -103,7 +102,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGAdministration>().SetAuthorizedGroup(null);
+			var res = Instance.Administration.SetAuthorizedGroup(null);
 			if(res != "ADMIN")
 			{
 				OutputProc("Failed to clear the group??? We are currently set to: " + res);
