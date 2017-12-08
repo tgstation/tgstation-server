@@ -12,6 +12,7 @@ var searchData=
   ['chatsetupinfo',['ChatSetupInfo',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html',1,'TGS::Interface']]],
   ['chatstatuscommand',['ChatStatusCommand',['../class_t_g_s_1_1_command_line_1_1_chat_status_command.html',1,'TGS::CommandLine']]],
   ['clicommand',['CLICommand',['../class_t_g_s_1_1_command_line_1_1_c_l_i_command.html',1,'TGS::CommandLine']]],
+  ['client',['Client',['../class_t_g_s_1_1_interface_1_1_client.html',1,'TGS::Interface']]],
   ['command',['Command',['../class_t_g_s_1_1_interface_1_1_command.html',1,'TGS::Interface']]],
   ['commandinfo',['CommandInfo',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_command_info.html',1,'TGS::Server::ChatCommands']]],
   ['common',['Common',['../class_common.html',1,'']]],

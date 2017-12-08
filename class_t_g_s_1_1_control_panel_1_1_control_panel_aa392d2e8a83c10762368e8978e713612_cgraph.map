@@ -1,3 +1,4 @@
 <map id="TGS.ControlPanel.ControlPanel.UpdateBYONDButtons" name="TGS.ControlPanel.ControlPanel.UpdateBYONDButtons">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_byond.html#a7182de6422b6ebf72a8b94ad6d13f399" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="244,5,427,47"/>
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_byond.html#a7521723a6adddd5038fa1db21d6f707c" title="Check the last update error. Checking this will clear the value " alt="" coords="244,5,427,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_byond.html#a7182de6422b6ebf72a8b94ad6d13f399" title="Get the currently installed version as a string formatted as Major.Minor " alt="" coords="244,71,427,112"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="TGS.Interface.Components.ITGConfig.WriteText" name="TGS.Interface.Components.ITGConfig.WriteText">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1a33f94544e25daa6f666076f50e1502" title="TGS.ControlPanel.Control\lPanel.StaticFileCreateButton_Click" alt="" coords="236,5,463,47"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1a33f94544e25daa6f666076f50e1502" title="TGS.ControlPanel.Control\lPanel.StaticFileCreateButton_Click" alt="" coords="237,5,463,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#acda8f6ceb929d35c508dc217c94d4c4f" title="TGS.ControlPanel.Control\lPanel.StaticFileSaveButton_Click" alt="" coords="242,71,458,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#aaa4d5fa8500dafe0c1789b66c1d5c681" title="TGS.ControlPanel.Control\lPanel.StaticFileUploadButton_Click" alt="" coords="236,136,464,177"/>
 </map>

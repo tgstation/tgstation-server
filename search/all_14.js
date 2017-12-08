@@ -38,6 +38,7 @@ var searchData=
   ['url',['URL',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a7e236f197e5af2d512b099747ad33974',1,'TGS::Interface::IRCSetupInfo']]],
   ['urlindex',['URLIndex',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a2b73cf115e02f78eab7f711d5ae50c28',1,'TGS::Interface::IRCSetupInfo']]],
   ['usedloggingids',['UsedLoggingIDs',['../class_t_g_s_1_1_server_1_1_server.html#a6213ea2ae98c0bd5123ad7602e7fb4c0',1,'TGS::Server::Server']]],
+  ['userisadministrator',['UserIsAdministrator',['../class_t_g_s_1_1_interface_1_1_instance.html#ae77ff821390b3ffa6e1b0a1370d8daa6',1,'TGS.Interface.Instance.UserIsAdministrator()'],['../class_t_g_s_1_1_interface_1_1_server.html#af11845dce12ec8da199eaa005f4400dc',1,'TGS.Interface.Server.UserIsAdministrator()']]],
   ['username',['Username',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a1791629dfd01884e31b6074f61710858',1,'TGS::Interface::RemoteLoginInfo']]],
   ['usernamelabel',['UsernameLabel',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#aed707eae246b74bc30ea4dd4cb1c3782',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
   ['usernametextbox',['UsernameTextBox',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#aa003a0279a28ca0db615d6bd64756379',1,'TGS.ControlPanel.GitHubLoginPrompt.UsernameTextBox()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#ae13ff3b1845593dea35ce0cb26a14496',1,'TGS.ControlPanel.Login.UsernameTextBox()']]]

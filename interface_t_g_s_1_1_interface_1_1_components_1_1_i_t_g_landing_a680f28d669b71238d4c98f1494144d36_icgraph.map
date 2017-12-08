@@ -1,4 +1,0 @@
-<map id="TGS.Interface.Components.ITGLanding.ListInstances" name="TGS.Interface.Components.ITGLanding.ListInstances">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#aff423624d970045456299a73efa4fcf9" title="Migrate to the new ServerConfig since the Server.Server won&#39;t know about it until it&#39;s upgraded ..." alt="" coords="240,5,435,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_service_list_instances_command.html#abd0cbb1f1e490b4fa26ed16eb9a1ce28" title="Override to do the actions of the Command &#160;" alt="" coords="236,71,439,112"/>
-</map>

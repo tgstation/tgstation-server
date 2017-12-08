@@ -1,9 +1,9 @@
 var searchData=
 [
+  ['server',['Server',['../class_t_g_s_1_1_interface_1_1_server.html',1,'TGS::Interface']]],
   ['server',['Server',['../class_t_g_s_1_1_server_1_1_server.html',1,'TGS::Server']]],
   ['serverchatcommand',['ServerChatCommand',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_server_chat_command.html',1,'TGS::Server::ChatCommands']]],
   ['serverconfig',['ServerConfig',['../class_t_g_s_1_1_server_1_1_server_config.html',1,'TGS::Server']]],
-  ['serverinterface',['ServerInterface',['../class_t_g_s_1_1_interface_1_1_server_interface.html',1,'TGS::Interface']]],
   ['serveropform',['ServerOpForm',['../class_t_g_s_1_1_control_panel_1_1_server_op_form.html',1,'TGS::ControlPanel']]],
   ['service',['Service',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html',1,'TGS::Server::Service']]],
   ['serviceauthenticationmanager',['ServiceAuthenticationManager',['../class_service_authentication_manager.html',1,'']]],

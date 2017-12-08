@@ -1,3 +1,0 @@
-<map id="TGS.CommandLine.DDStatusCommand.Run" name="TGS.CommandLine.DDStatusCommand.Run">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a18331beabd9029eff16d2e6cdf8bb93f" title="Returns the number of connected players. Requires game to use API version &gt;= 3.1.0.1 " alt="" coords="248,5,451,47"/>
-</map>

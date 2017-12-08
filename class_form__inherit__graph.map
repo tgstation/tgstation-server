@@ -1,10 +1,10 @@
 <map id="Form" name="Form">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html" title="Used for recieving a GitHub API key for use in Credentials " alt="" coords="111,41,313,83"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IServerInterface " alt="" coords="105,107,319,134"/>
-<area shape="rect" id="node9" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html" title="TGS.Installer.UI.Main" alt="" coords="139,158,285,185"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="367,78,575,105"/>
-<area shape="rect" id="node8" href="$class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html" title="TGS.ControlPanel.TestMerge\lManager" alt="" coords="375,129,566,171"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="627,5,797,47"/>
-<area shape="rect" id="node6" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="623,71,801,112"/>
-<area shape="rect" id="node7" href="$class_t_g_s_1_1_control_panel_1_1_login.html" title="TGS.ControlPanel.Login" alt="" coords="631,137,793,163"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html" title="Used for recieving a GitHub API key for use in Credentials " alt="" coords="111,5,313,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_login.html" title="TGS.ControlPanel.Login" alt="" coords="131,71,293,98"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IClient " alt="" coords="105,122,319,149"/>
+<area shape="rect" id="node9" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html" title="TGS.Installer.UI.Main" alt="" coords="139,173,285,199"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="367,93,575,119"/>
+<area shape="rect" id="node8" href="$class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html" title="TGS.ControlPanel.TestMerge\lManager" alt="" coords="375,144,566,185"/>
+<area shape="rect" id="node6" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="627,52,797,93"/>
+<area shape="rect" id="node7" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances " alt="" coords="623,117,801,159"/>
 </map>

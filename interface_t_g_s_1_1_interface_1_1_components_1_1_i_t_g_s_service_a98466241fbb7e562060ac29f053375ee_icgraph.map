@@ -1,0 +1,4 @@
+<map id="TGS.Interface.Components.ITGSService.PythonPath" name="TGS.Interface.Components.ITGSService.PythonPath">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#aff423624d970045456299a73efa4fcf9" title="Migrate to the new ServerConfig since the Server.Server won&#39;t know about it until it&#39;s upgraded ..." alt="" coords="250,5,445,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_service_python_path_command.html#a82c7b714b9a534af4b9c0a8107c37b6e" title="Override to do the actions of the Command &#160;" alt="" coords="236,71,459,112"/>
+</map>

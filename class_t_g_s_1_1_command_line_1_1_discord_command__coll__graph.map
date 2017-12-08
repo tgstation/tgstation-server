@@ -1,7 +1,4 @@
 <map id="TGS.CommandLine.DiscordCommand" name="TGS.CommandLine.DiscordCommand">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_instance_root_command.html" title="InstanceRootCommand" alt="" coords="148,288,305,315"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="70,199,178,225"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
-<area shape="rect" id="node7" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html" title="Main &#160;for communicating the ITGSService " alt="" coords="202,199,395,225"/>
-<area shape="rect" id="node8" href="$class_i_disposable.html" title="IDisposable" alt="" coords="254,109,343,136"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="86,199,194,225"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="34,109,115,136"/>
 </map>

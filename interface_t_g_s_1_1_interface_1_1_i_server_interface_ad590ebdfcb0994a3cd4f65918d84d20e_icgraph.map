@@ -1,5 +1,0 @@
-<map id="TGS.Interface.IServerInterface.ConnectToInstance" name="TGS.Interface.IServerInterface.ConnectToInstance">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_program.html#ae8dcb24e3eac974e42fd5b2dfaf2dd5b" title="Tries to set currentInterface&#39;s ITGInstance to instanceName , outputting appropriate messages ..." alt="" coords="265,5,457,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_c_l_i_command.html#a048af3faaf256fca03fa0ec4dfa4905b" title="TGS.CommandLine.CLICommand.\lCLICommand" alt="" coords="251,71,472,112"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_instance_root_command.html#a6b03125e6b8048e2da6a90024bc7d5c1" title="Caller of Run(IList&lt;string&gt;), can be used to modify the root behaviour of the Command ..." alt="" coords="267,136,455,177"/>
-</map>

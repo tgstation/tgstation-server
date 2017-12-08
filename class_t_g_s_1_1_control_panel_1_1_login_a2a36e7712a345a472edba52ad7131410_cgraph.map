@@ -1,0 +1,4 @@
+<map id="TGS.ControlPanel.Login.VerifyAndConnect" name="TGS.ControlPanel.Login.VerifyAndConnect">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_client.html#a7ecc3dc7919ee9ace462f298ed35081d" title="See ConnectionStatus(out string) without the error argument " alt="" coords="252,5,463,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_interface_1_1_i_client.html#a6a54e510d6a1e7b195bda3639e025041" title="Returns &#160;if the IClient interface being used to connect to a service does not have the same release v..." alt="" coords="263,71,452,112"/>
+</map>

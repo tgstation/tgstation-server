@@ -9,6 +9,7 @@ var searchData=
   ['adirtest',['ADirTest',['../class_t_g_s_1_1_server_1_1_instance.html#a1d2612772994bc1fd21832808f33fa81',1,'TGS::Server::Instance']]],
   ['adminchannelindex',['AdminChannelIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a161092089bf5d799c80d2fdab642ead7',1,'TGS::Interface::ChatSetupInfo']]],
   ['adminchannelstextbox',['AdminChannelsTextbox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a277783fe76d8efe9bd0e74212af2d3df',1,'TGS::ControlPanel::ControlPanel']]],
+  ['administration',['Administration',['../class_t_g_s_1_1_interface_1_1_instance.html#a4b6751a58ac00b5ad06bf8219185d5e3',1,'TGS::Interface::Instance']]],
   ['adminlistindex',['AdminListIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a39fa1d36796de1245c5af967a42c6266',1,'TGS::Interface::ChatSetupInfo']]],
   ['adminmodeindex',['AdminModeIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a4f67dcde7472d8660712e66f054eedc3',1,'TGS::Interface::ChatSetupInfo']]],
   ['adminmodenormal',['AdminModeNormal',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a56ef1d27e94963f5ba1dd1bdb7350ffa',1,'TGS::ControlPanel::ControlPanel']]],

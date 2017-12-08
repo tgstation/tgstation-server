@@ -1,0 +1,3 @@
+<map id="TGS.ControlPanel.ControlPanel.PortSelector_ValueChanged" name="TGS.ControlPanel.ControlPanel.PortSelector_ValueChanged">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a403afe61674400a53f09bb42fe576b13" title="Set the port to host DD on. Requires reboot to apply. Calls RequestRestart. " alt="" coords="276,5,459,47"/>
+</map>

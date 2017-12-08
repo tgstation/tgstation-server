@@ -97,17 +97,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="namespace_t_g_s_1_1_control_panel_1_1_tests.html">Tests</a> for <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions ">InstanceSelector</a>  
+<p><a class="el" href="namespace_t_g_s_1_1_control_panel_1_1_tests.html">Tests</a> for <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances ">InstanceSelector</a>  
  <a href="class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a0104abaf3884d79de07d9e5b68d68fb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector.html#a0104abaf3884d79de07d9e5b68d68fb3">TestInstatiation</a> ()</td></tr>
-<tr class="memdesc:a0104abaf3884d79de07d9e5b68d68fb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test that an <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions ">InstanceSelector</a> can be created without issue  <a href="#a0104abaf3884d79de07d9e5b68d68fb3">More...</a><br /></td></tr>
+<tr class="memdesc:a0104abaf3884d79de07d9e5b68d68fb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test that an <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances ">InstanceSelector</a> can be created without issue  <a href="#a0104abaf3884d79de07d9e5b68d68fb3">More...</a><br /></td></tr>
 <tr class="separator:a0104abaf3884d79de07d9e5b68d68fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="namespace_t_g_s_1_1_control_panel_1_1_tests.html">Tests</a> for <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions ">InstanceSelector</a> </p>
+<div class="textblock"><p><a class="el" href="namespace_t_g_s_1_1_control_panel_1_1_tests.html">Tests</a> for <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances ">InstanceSelector</a> </p>
 
 <p>Definition at line <a class="el" href="_test_instance_selector_8cs_source.html#l00013">13</a> of file <a class="el" href="_test_instance_selector_8cs_source.html">TestInstanceSelector.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -124,13 +124,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Test that an <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions ">InstanceSelector</a> can be created without issue </p>
+<p>Test that an <a class="el" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances ">InstanceSelector</a> can be created without issue </p>
 
 <p>Definition at line <a class="el" href="_test_instance_selector_8cs_source.html#l00019">19</a> of file <a class="el" href="_test_instance_selector_8cs_source.html">TestInstanceSelector.cs</a>.</p>
 
 <p>References <a class="el" href="_instance_selector_8_designer_8cs_source.html#l00014">TGS.ControlPanel.InstanceSelector.Dispose()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            var mockLanding = <span class="keyword">new</span> Mock&lt;ITGLanding&gt;();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            mockLanding.Setup(x =&gt; x.ListInstances()).Returns(<span class="keyword">new</span> List&lt;InstanceMetadata&gt;());</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            var mockInter = <span class="keyword">new</span> Mock&lt;IServerInterface&gt;();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            mockInter.Setup(x =&gt; x.GetComponent&lt;<a class="code" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html">ITGLanding</a>&gt;()).Returns(mockLanding.Object);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        </div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">new</span> InstanceSelector(mockInter.Object).Dispose();</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div><div class="ttc" id="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing_html"><div class="ttname"><a href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html">TGS.Interface.Components.ITGLanding</a></div><div class="ttdoc">Used for general authentication and listing ITGInstances </div><div class="ttdef"><b>Definition:</b> <a href="_landing_8cs_source.html#l00010">Landing.cs:10</a></div></div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            var mockLanding = <span class="keyword">new</span> Mock&lt;ITGLanding&gt;();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            mockLanding.Setup(x =&gt; x.ListInstances()).Returns(<span class="keyword">new</span> List&lt;InstanceMetadata&gt;());</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            var mockInter = <span class="keyword">new</span> Mock&lt;IServer&gt;();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        </div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">new</span> InstanceSelector(mockInter.Object).Dispose();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

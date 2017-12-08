@@ -20,6 +20,7 @@ var searchData=
   ['admincommand',['AdminCommand',['../class_t_g_s_1_1_command_line_1_1_admin_command.html#a187ecf98c4fbbe81ebaf9add7af1d55a',1,'TGS::CommandLine::AdminCommand']]],
   ['admincommands_2ecs',['AdminCommands.cs',['../_admin_commands_8cs.html',1,'']]],
   ['admininfo',['AdminInfo',['../namespace_t_g_s_1_1_server.html#ac244e362b52b9feac67ac6c2ca27f522a2c71a21d34cca17a5d95658044fe8a8f',1,'TGS::Server']]],
+  ['administration',['Administration',['../interface_t_g_s_1_1_interface_1_1_i_instance.html#a55a9b544c6932bbf89c4e9fd34b49941',1,'TGS.Interface.IInstance.Administration()'],['../class_t_g_s_1_1_interface_1_1_instance.html#a4b6751a58ac00b5ad06bf8219185d5e3',1,'TGS.Interface.Instance.Administration()']]],
   ['administration_2ecs',['Administration.cs',['../_t_g_s_8_interface_2_components_2_administration_8cs.html',1,'']]],
   ['administration_2ecs',['Administration.cs',['../_t_g_s_8_server_2_instance_2_administration_8cs.html',1,'']]],
   ['administrator',['Administrator',['../namespace_t_g_s_1_1_interface.html#a6aba89d82a2fad3044034cdca1060c4fa7b7bc2512ee1fedcd76bdc68926d4f7b',1,'TGS::Interface']]],

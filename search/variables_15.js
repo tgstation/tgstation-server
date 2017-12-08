@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['watchdoglock',['watchdogLock',['../class_t_g_s_1_1_server_1_1_instance.html#af229871e1f4694c13d25a062502c2318',1,'TGS::Server::Instance']]],
-  ['wdchannelindex',['WDChannelIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#ac68aec3abf218e47b8dd03b61ed9c4db',1,'TGS::Interface::ChatSetupInfo']]],
-  ['wdchannelstextbox',['WDChannelsTextbox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a33860297810cd7120e4cf96fb182a5e4',1,'TGS::ControlPanel::ControlPanel']]],
-  ['webclientcheckbox',['WebclientCheckBox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a522f8858278888fba50388483b815768',1,'TGS::ControlPanel::ControlPanel']]],
-  ['worldannouncebutton',['WorldAnnounceButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a98e71f7be61c94b16682bf30f29d2b6c',1,'TGS::ControlPanel::ControlPanel']]],
-  ['worldannouncefield',['WorldAnnounceField',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a4d63a8a5d6b88a100cd98beb83da1775',1,'TGS::ControlPanel::ControlPanel']]],
-  ['worldannouncelabel',['WorldAnnounceLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a746a622568b99c7804e01b5347b76803',1,'TGS::ControlPanel::ControlPanel']]]
+  ['version',['Version',['../class_t_g_s_1_1_interface_1_1_client.html#a180c285623a5e274a04da67c6df6aa77',1,'TGS.Interface.Client.Version()'],['../class_t_g_s_1_1_interface_1_1_server.html#aa497e61f2e7d839344b0eb3222efa9f2',1,'TGS.Interface.Server.Version()']]],
+  ['versionfile',['VersionFile',['../class_t_g_s_1_1_server_1_1_instance.html#ad58e7e902f1ae8301a067051c5b8479c',1,'TGS::Server::Instance']]],
+  ['versionlabel',['VersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a06d4ef7ce260acf35c9263b9b99c2c90',1,'TGS.ControlPanel.ControlPanel.VersionLabel()'],['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a498b57c259c3b0a570d2f8b3a4c713d1',1,'TGS.Installer.UI.Main.VersionLabel()']]],
+  ['versionstring',['VersionString',['../class_t_g_s_1_1_server_1_1_server.html#a822f4126695b19deb476485057021851',1,'TGS::Server::Server']]],
+  ['versiontitle',['VersionTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acaa2077e886a81b45aed07b3877584ff',1,'TGS::ControlPanel::ControlPanel']]]
 ];

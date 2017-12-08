@@ -1,7 +1,8 @@
 <map id="TGS.Installer.UI.Main.AttemptMigrationOfNetSettings" name="TGS.Installer.UI.Main.AttemptMigrationOfNetSettings">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html#a680f28d669b71238d4c98f1494144d36" title="List instances that the caller can access " alt="" coords="263,5,445,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_instance_config.html#ab2d62660500deb534464b1f71f5cbd77" title="Loads and migrates an IInstanceConfig from a Instance at path &#160;" alt="" coords="249,71,459,98"/>
-<area shape="rect" id="node4" href="$interface_t_g_s_1_1_server_1_1_i_instance_config.html#a8456c8ae4b83292059709e1d4dcbcce0" title="Saves the IInstanceConfig to it&#39;s Instance Directory " alt="" coords="248,122,460,149"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_server_1_1_instance_config.html#ad9e8dbc6130f257820189c7653aea306" title="Saves the IInstanceConfig to it&#39;s Instance Directory &#160;" alt="" coords="249,173,459,199"/>
-<area shape="rect" id="node6" href="$class_t_g_s_1_1_server_1_1_server.html#ac4176ac33c52820ff6179dba92f1b092" title="Construct a Server " alt="" coords="270,223,438,250"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance_config.html#ab2d62660500deb534464b1f71f5cbd77" title="Loads and migrates an IInstanceConfig from a Instance at path &#160;" alt="" coords="249,5,459,32"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_s_service.html#a98466241fbb7e562060ac29f053375ee" title="Gets the path to the python 2.7 installation " alt="" coords="263,57,445,98"/>
+<area shape="rect" id="node4" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_s_service.html#a4996970c3ab95eaf285582643fa1c14e" title="Get the port used for remote operation " alt="" coords="249,122,459,163"/>
+<area shape="rect" id="node5" href="$interface_t_g_s_1_1_server_1_1_i_instance_config.html#a8456c8ae4b83292059709e1d4dcbcce0" title="Saves the IInstanceConfig to it&#39;s Instance Directory " alt="" coords="248,188,460,215"/>
+<area shape="rect" id="node6" href="$class_t_g_s_1_1_server_1_1_instance_config.html#ad9e8dbc6130f257820189c7653aea306" title="Saves the IInstanceConfig to it&#39;s Instance Directory &#160;" alt="" coords="249,239,459,265"/>
+<area shape="rect" id="node7" href="$class_t_g_s_1_1_interface_1_1_server.html#a1a863a1eb0c99b0450eba98cda03e3f0" title="Construct an Server " alt="" coords="263,289,445,316"/>
 </map>

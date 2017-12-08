@@ -1,2 +1,4 @@
 <map id="TGS.ControlPanel.Program" name="TGS.ControlPanel.Program">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_client.html" title="Main &#160;for communicating the Components.ITGSService " alt="" coords="5,81,147,108"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="31,5,121,32"/>
 </map>

@@ -10,6 +10,7 @@ var searchData=
   ['ddstopcommand',['DDStopCommand',['../class_t_g_s_1_1_command_line_1_1_d_d_stop_command.html',1,'TGS::CommandLine']]],
   ['ddwebclientcommand',['DDWebclientCommand',['../class_t_g_s_1_1_command_line_1_1_d_d_webclient_command.html',1,'TGS::CommandLine']]],
   ['ddworldannouncecommand',['DDWorldAnnounceCommand',['../class_t_g_s_1_1_command_line_1_1_d_d_world_announce_command.html',1,'TGS::CommandLine']]],
+  ['definitions',['Definitions',['../class_t_g_s_1_1_interface_1_1_definitions.html',1,'TGS::Interface']]],
   ['deprecatedinstanceconfig',['DeprecatedInstanceConfig',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html',1,'TGS::Server']]],
   ['discordauthmodecommand',['DiscordAuthModeCommand',['../class_t_g_s_1_1_command_line_1_1_discord_auth_mode_command.html',1,'TGS::CommandLine']]],
   ['discordchatprovider',['DiscordChatProvider',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html',1,'TGS::Server::ChatProviders']]],

@@ -117,9 +117,9 @@ Collaboration diagram for TGS.CommandLine.Commands.Repository.Tests.RepositoryCo
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a6374ce88e50e14f71d605dc04270e732"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_t_g_s_1_1_interface_1_1_i_server_interface.html">IServerInterface</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_repository_command_test.html#a6374ce88e50e14f71d605dc04270e732">MockInterfaceToRepo</a> (<a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html">ITGRepository</a> repo)</td></tr>
-<tr class="memdesc:a6374ce88e50e14f71d605dc04270e732"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a mock IServerInterface that returns a specific ITGRepository when that component is requested  <a href="#a6374ce88e50e14f71d605dc04270e732">More...</a><br /></td></tr>
-<tr class="separator:a6374ce88e50e14f71d605dc04270e732"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e24456de48702008437ae71a5ae33a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_t_g_s_1_1_interface_1_1_i_instance.html">IInstance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_repository_command_test.html#a5e24456de48702008437ae71a5ae33a4">MockInterfaceToRepo</a> (<a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html">ITGRepository</a> repo)</td></tr>
+<tr class="memdesc:a5e24456de48702008437ae71a5ae33a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a mock IClient that returns a specific ITGRepository when that component is requested  <a href="#a5e24456de48702008437ae71a5ae33a4">More...</a><br /></td></tr>
+<tr class="separator:a5e24456de48702008437ae71a5ae33a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_t_g_service_tests_1_1_output_proc_overrider_test"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_t_g_service_tests_1_1_output_proc_overrider_test')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_t_g_service_tests_1_1_output_proc_overrider_test.html">TGServiceTests.OutputProcOverriderTest</a></td></tr>
 <tr class="memitem:a68af15b083b21d9ac84f55baa81824fa inherit pro_methods_class_t_g_service_tests_1_1_output_proc_overrider_test"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_service_tests_1_1_output_proc_overrider_test.html#a68af15b083b21d9ac84f55baa81824fa">OutputProc</a> (string message)</td></tr>
 <tr class="memdesc:a68af15b083b21d9ac84f55baa81824fa inherit pro_methods_class_t_g_service_tests_1_1_output_proc_overrider_test"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whe  <a href="#a68af15b083b21d9ac84f55baa81824fa">More...</a><br /></td></tr>
@@ -136,7 +136,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="_repository_command_test_8cs_source.html#l00008">8</a> of file <a class="el" href="_repository_command_test_8cs_source.html">RepositoryCommandTest.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a6374ce88e50e14f71d605dc04270e732"></a>
+<a class="anchor" id="a5e24456de48702008437ae71a5ae33a4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -144,7 +144,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_t_g_s_1_1_interface_1_1_i_server_interface.html">IServerInterface</a> TGS.CommandLine.Commands.Repository.Tests.RepositoryCommandTest.MockInterfaceToRepo </td>
+          <td class="memname"><a class="el" href="interface_t_g_s_1_1_interface_1_1_i_instance.html">IInstance</a> TGS.CommandLine.Commands.Repository.Tests.RepositoryCommandTest.MockInterfaceToRepo </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html">ITGRepository</a>&#160;</td>
           <td class="paramname"><em>repo</em></td><td>)</td>
@@ -158,18 +158,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a mock IServerInterface that returns a specific ITGRepository when that component is requested </p>
+<p>Creates a mock IClient that returns a specific ITGRepository when that component is requested </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">repo</td><td>The ITGRepository the resulting IServerInterface.GetComponent&lt;T&gt; should return</td></tr>
+    <tr><td class="paramname">repo</td><td>The ITGRepository the resulting IClient.GetComponent&lt;T&gt; should return</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A mock IServerInterface</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A mock IClient</dd></dl>
 
 <p>Definition at line <a class="el" href="_repository_command_test_8cs_source.html#l00015">15</a> of file <a class="el" href="_repository_command_test_8cs_source.html">RepositoryCommandTest.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            var mock = <span class="keyword">new</span> Mock&lt;IServerInterface&gt;();</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            mock.Setup(foo =&gt; foo.GetComponent&lt;<a class="code" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html">ITGRepository</a>&gt;()).Returns(repo);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">return</span> mock.Object;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div><div class="ttc" id="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_html"><div class="ttname"><a href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html">TGS.Interface.Components.ITGRepository</a></div><div class="ttdoc">Interface for managing the code repository </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_interface_2_components_2_repository_8cs_source.html#l00010">Repository.cs:10</a></div></div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            var mock = <span class="keyword">new</span> Mock&lt;IInstance&gt;();</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            mock.Setup(foo =&gt; foo.Repository).Returns(repo);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">return</span> mock.Object;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

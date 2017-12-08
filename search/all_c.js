@@ -44,6 +44,6 @@ var searchData=
   ['login_2edesigner_2ecs',['Login.Designer.cs',['../_login_8_designer_8cs.html',1,'']]],
   ['loginbutton',['LoginButton',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#ab7223a489d138aaf8bbd818c93235fd8',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
   ['loginbutton_5fclick',['LoginButton_Click',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a395d5e947a4d2b572929642935163f62',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
-  ['logininfo',['LoginInfo',['../interface_t_g_s_1_1_interface_1_1_i_server_interface.html#a10fe4036cd095c94ebc20c2aabfb1055',1,'TGS.Interface.IServerInterface.LoginInfo()'],['../class_t_g_s_1_1_interface_1_1_server_interface.html#ad475c334855ca719c461ce2328f1aed3',1,'TGS.Interface.ServerInterface.LoginInfo()']]],
+  ['logininfo',['LoginInfo',['../class_t_g_s_1_1_interface_1_1_client.html#a631f1d459c206aa244885dd642f090e1',1,'TGS.Interface.Client.LoginInfo()'],['../interface_t_g_s_1_1_interface_1_1_i_client.html#a0be92b3eb2e7f44e15ba4f6a7da57665',1,'TGS.Interface.IClient.LoginInfo()']]],
   ['logonuser',['LogonUser',['../class_t_g_s_1_1_server_1_1_security_1_1_authentication_header_decoder.html#af2a6c3a632e8405b9a0099e07cf78f46',1,'TGS::Server::Security::AuthenticationHeaderDecoder']]]
 ];

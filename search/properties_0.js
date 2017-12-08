@@ -1,6 +1,7 @@
 var searchData=
 [
   ['adminchannels',['AdminChannels',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a7773ef4bf249fd77b610af017a8b19ec',1,'TGS::Interface::ChatSetupInfo']]],
+  ['administration',['Administration',['../interface_t_g_s_1_1_interface_1_1_i_instance.html#a55a9b544c6932bbf89c4e9fd34b49941',1,'TGS::Interface::IInstance']]],
   ['adminlist',['AdminList',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#ace510c77103bff0d709cc753e05cb2af',1,'TGS::Interface::ChatSetupInfo']]],
   ['adminsarespecial',['AdminsAreSpecial',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a40ab6c5e171d79e90acfdbc6e79768ca',1,'TGS::Interface::ChatSetupInfo']]],
   ['authlevel',['AuthLevel',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#ae4a436ccb9eb9512f8f44390beca1b99',1,'TGS::Interface::IRCSetupInfo']]],

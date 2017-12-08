@@ -1,5 +1,6 @@
 <map id="TGS.CommandLine.Program.Main" name="TGS.CommandLine.Program.Main">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html#af1dc3f018b2c8a794059eed8a905566b" title="Used to test if the ITGSService is avaiable on the target machine. Note that state can change at any ..." alt="" coords="273,5,471,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_server_interface.html#aacf6bab5594df0576a24b85ac6565b0f" title="Sets the function called when a remote login fails due to the server having an invalid SSL cert ..." alt="" coords="275,71,469,112"/>
-<area shape="rect" id="node4" href="$interface_t_g_s_1_1_interface_1_1_i_server_interface.html#ae57597960cbb4775905c1bfcbe898c54" title="Returns &#160;if the IServerInterface interface being used to connect to a service does not have the same ..." alt="" coords="273,136,471,177"/>
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_client.html#a7ecc3dc7919ee9ace462f298ed35081d" title="See ConnectionStatus(out string) without the error argument " alt="" coords="273,5,484,47"/>
+<area shape="rect" id="node3" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_s_service.html#a6a5acc88735ed311b26bb700ee779e6a" title="Next stop of the service will not close DD and sets a flag for it to reattach once it restarts ..." alt="" coords="277,71,480,112"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_client.html#a478b38926281f4c828405337f81d0af0" title="Sets the function called when a remote login fails due to the server having an invalid SSL cert ..." alt="" coords="297,136,460,177"/>
+<area shape="rect" id="node5" href="$interface_t_g_s_1_1_interface_1_1_i_client.html#a6a54e510d6a1e7b195bda3639e025041" title="Returns &#160;if the IClient interface being used to connect to a service does not have the same release v..." alt="" coords="284,201,473,243"/>
 </map>

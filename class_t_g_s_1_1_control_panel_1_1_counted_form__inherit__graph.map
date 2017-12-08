@@ -1,7 +1,6 @@
 <map id="TGS.ControlPanel.CountedForm" name="TGS.ControlPanel.CountedForm">
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="519,5,689,47"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing ITGSService ITGInstance manipulation functions " alt="" coords="515,71,693,112"/>
-<area shape="rect" id="node6" href="$class_t_g_s_1_1_control_panel_1_1_login.html" title="TGS.ControlPanel.Login" alt="" coords="523,137,685,163"/>
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IServerInterface " alt="" coords="105,78,211,105"/>
-<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="5,78,57,105"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="5,229,176,271"/>
+<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances " alt="" coords="200,229,379,271"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IClient " alt="" coords="137,80,242,107"/>
+<area shape="rect" id="node3" href="$class_form.html" title="Form" alt="" coords="163,5,215,32"/>
 </map>

@@ -1,8 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,4746,169,4773"/>
+<area shape="rect" id="node1" href="$class_t_g_s_1_1_interface_1_1_command.html" title="Helper for creating a text Command tree " alt="" coords="5,4882,169,4909"/>
 <area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_console_command.html" title="TGS.CommandLine.ConsoleCommand" alt="" coords="217,2325,463,2351"/>
-<area shape="rect" id="node75" href="$class_t_g_s_1_1_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="245,4746,435,4773"/>
-<area shape="rect" id="node88" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_chat_command.html" title="A command heard by a ChatProviders.IChatProvider " alt="" coords="245,5044,435,5085"/>
+<area shape="rect" id="node75" href="$class_t_g_s_1_1_interface_1_1_root_command.html" title="Helper for creating commands that contain sub commands " alt="" coords="245,4882,435,4909"/>
+<area shape="rect" id="node87" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_chat_command.html" title="A command heard by a ChatProviders.IChatProvider " alt="" coords="245,5332,435,5373"/>
 <area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_admin_clear_group_command.html" title="TGS.CommandLine.AdminClear\lGroupCommand" alt="" coords="535,5,741,47"/>
 <area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_admin_recreate_static_command.html" title="TGS.CommandLine.AdminRecreate\lStaticCommand" alt="" coords="524,71,752,112"/>
 <area shape="rect" id="node5" href="$class_t_g_s_1_1_command_line_1_1_admin_set_group_command.html" title="TGS.CommandLine.AdminSet\lGroupCommand" alt="" coords="540,136,736,177"/>
@@ -68,29 +68,28 @@
 <area shape="rect" id="node65" href="$class_t_g_s_1_1_command_line_1_1_service_import_instance_command.html" title="Command for calling ITGInstanceManager.ImportInstance(string) " alt="" coords="529,3989,747,4031"/>
 <area shape="rect" id="node66" href="$class_t_g_s_1_1_command_line_1_1_service_list_instances_command.html" title="Command for calling ITGLanding.ListInstances " alt="" coords="537,4055,739,4096"/>
 <area shape="rect" id="node67" href="$class_t_g_s_1_1_command_line_1_1_service_python_path_command.html" title="Command for calling ITGSService.PythonPath " alt="" coords="527,4120,749,4161"/>
-<area shape="rect" id="node68" href="$class_t_g_s_1_1_command_line_1_1_service_remote_access_port_command.html" title="Command for calling TGS.Interface.Components.ITGSService.RemoteAccessPort " alt="" coords="525,4185,751,4227"/>
+<area shape="rect" id="node68" href="$class_t_g_s_1_1_command_line_1_1_service_remote_access_port_command.html" title="Command for calling ITGSService.RemoteAccessPort " alt="" coords="525,4185,751,4227"/>
 <area shape="rect" id="node69" href="$class_t_g_s_1_1_command_line_1_1_service_rename_instance_command.html" title="Command for calling ITGInstanceManager.RenameInstance(string, string) " alt="" coords="523,4251,753,4292"/>
 <area shape="rect" id="node70" href="$class_t_g_s_1_1_command_line_1_1_service_set_python_path_command.html" title="Command for calling ITGSService.SetPythonPath(string) " alt="" coords="537,4316,739,4357"/>
 <area shape="rect" id="node71" href="$class_t_g_s_1_1_command_line_1_1_service_set_remote_access_port_command.html" title="Command for calling TGS.Interface.Components.ITGSService.SetRemoteAccessPort(ushort) ..." alt="" coords="537,4381,739,4423"/>
 <area shape="rect" id="node72" href="$class_t_g_s_1_1_command_line_1_1_set_auto_update_command.html" title="TGS.CommandLine.SetAutoUpdate\lCommand" alt="" coords="525,4447,751,4488"/>
 <area shape="rect" id="node73" href="$class_t_g_s_1_1_command_line_1_1_testmerge_command.html" title="TGS.CommandLine.Testmerge\lCommand" alt="" coords="538,4512,738,4553"/>
 <area shape="rect" id="node74" href="$class_t_g_s_1_1_command_line_1_1_update_command.html" title="TGS.CommandLine.UpdateCommand" alt="" coords="519,4578,757,4605"/>
-<area shape="rect" id="node76" href="$class_t_g_s_1_1_command_line_1_1_c_l_i_command.html" title="TGS.CommandLine.CLICommand" alt="" coords="529,4629,747,4655"/>
-<area shape="rect" id="node77" href="$class_t_g_s_1_1_command_line_1_1_instance_root_command.html" title="TGS.CommandLine.Instance\lRootCommand" alt="" coords="544,4680,732,4721"/>
-<area shape="rect" id="node85" href="$class_t_g_s_1_1_command_line_1_1_repo_command.html" title="TGS.CommandLine.RepoCommand" alt="" coords="524,4746,752,4773"/>
-<area shape="rect" id="node86" href="$class_t_g_s_1_1_command_line_1_1_service_command.html" title="Used for managing the ITGSService components " alt="" coords="518,4797,758,4823"/>
-<area shape="rect" id="node87" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_root_chat_command.html" title="The main root chat command " alt="" coords="543,4848,733,4889"/>
-<area shape="rect" id="node78" href="$class_t_g_s_1_1_command_line_1_1_admin_command.html" title="TGS.CommandLine.AdminCommand" alt="" coords="818,4535,1053,4562"/>
-<area shape="rect" id="node79" href="$class_t_g_s_1_1_command_line_1_1_b_y_o_n_d_command.html" title="TGS.CommandLine.BYONDCommand" alt="" coords="813,4586,1057,4613"/>
-<area shape="rect" id="node80" href="$class_t_g_s_1_1_command_line_1_1_config_command.html" title="TGS.CommandLine.ConfigCommand" alt="" coords="818,4637,1053,4663"/>
-<area shape="rect" id="node81" href="$class_t_g_s_1_1_command_line_1_1_d_d_command.html" title="TGS.CommandLine.DDCommand" alt="" coords="827,4687,1043,4714"/>
-<area shape="rect" id="node82" href="$class_t_g_s_1_1_command_line_1_1_discord_command.html" title="TGS.CommandLine.DiscordCommand" alt="" coords="814,4738,1057,4765"/>
-<area shape="rect" id="node83" href="$class_t_g_s_1_1_command_line_1_1_d_m_command.html" title="TGS.CommandLine.DMCommand" alt="" coords="826,4789,1045,4815"/>
-<area shape="rect" id="node84" href="$class_t_g_s_1_1_command_line_1_1_i_r_c_command.html" title="TGS.CommandLine.IRCCommand" alt="" coords="826,4839,1045,4866"/>
-<area shape="rect" id="node89" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_byond_command.html" title="Retrieve the installed, staged, or latest availab " alt="" coords="543,4913,733,4955"/>
-<area shape="rect" id="node90" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_kek_command.html" title="kek " alt="" coords="543,4979,733,5020"/>
-<area shape="rect" id="node91" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_pull_requests_command.html" title="Retrieve the list of test&#45;merged github pull requests " alt="" coords="543,5044,733,5085"/>
-<area shape="rect" id="node92" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_revision_command.html" title="Retrieves the git SHA of the live DreamDaemon code " alt="" coords="543,5109,733,5151"/>
-<area shape="rect" id="node93" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_server_chat_command.html" title="ChatCommands generated by DreamDaemon via the API " alt="" coords="543,5175,733,5216"/>
-<area shape="rect" id="node94" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_version_command.html" title="Retrieve the current service version " alt="" coords="543,5240,733,5281"/>
+<area shape="rect" id="node76" href="$class_t_g_s_1_1_command_line_1_1_admin_command.html" title="TGS.CommandLine.AdminCommand" alt="" coords="521,4629,755,4655"/>
+<area shape="rect" id="node77" href="$class_t_g_s_1_1_command_line_1_1_b_y_o_n_d_command.html" title="TGS.CommandLine.BYONDCommand" alt="" coords="516,4679,760,4706"/>
+<area shape="rect" id="node78" href="$class_t_g_s_1_1_command_line_1_1_c_l_i_command.html" title="TGS.CommandLine.CLICommand" alt="" coords="529,4730,747,4757"/>
+<area shape="rect" id="node79" href="$class_t_g_s_1_1_command_line_1_1_config_command.html" title="TGS.CommandLine.ConfigCommand" alt="" coords="521,4781,755,4807"/>
+<area shape="rect" id="node80" href="$class_t_g_s_1_1_command_line_1_1_d_d_command.html" title="TGS.CommandLine.DDCommand" alt="" coords="530,4831,746,4858"/>
+<area shape="rect" id="node81" href="$class_t_g_s_1_1_command_line_1_1_discord_command.html" title="TGS.CommandLine.DiscordCommand" alt="" coords="517,4882,759,4909"/>
+<area shape="rect" id="node82" href="$class_t_g_s_1_1_command_line_1_1_d_m_command.html" title="TGS.CommandLine.DMCommand" alt="" coords="529,4933,747,4959"/>
+<area shape="rect" id="node83" href="$class_t_g_s_1_1_command_line_1_1_i_r_c_command.html" title="TGS.CommandLine.IRCCommand" alt="" coords="529,4983,747,5010"/>
+<area shape="rect" id="node84" href="$class_t_g_s_1_1_command_line_1_1_repo_command.html" title="TGS.CommandLine.RepoCommand" alt="" coords="524,5034,752,5061"/>
+<area shape="rect" id="node85" href="$class_t_g_s_1_1_command_line_1_1_service_command.html" title="Used for managing the ITGSService components " alt="" coords="518,5085,758,5111"/>
+<area shape="rect" id="node86" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_root_chat_command.html" title="The main root chat command " alt="" coords="543,5136,733,5177"/>
+<area shape="rect" id="node88" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_byond_command.html" title="Retrieve the installed, staged, or latest availab " alt="" coords="543,5201,733,5243"/>
+<area shape="rect" id="node89" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_kek_command.html" title="kek " alt="" coords="543,5267,733,5308"/>
+<area shape="rect" id="node90" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_pull_requests_command.html" title="Retrieve the list of test&#45;merged github pull requests " alt="" coords="543,5332,733,5373"/>
+<area shape="rect" id="node91" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_revision_command.html" title="Retrieves the git SHA of the live DreamDaemon code " alt="" coords="543,5397,733,5439"/>
+<area shape="rect" id="node92" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_server_chat_command.html" title="ChatCommands generated by DreamDaemon via the API " alt="" coords="543,5463,733,5504"/>
+<area shape="rect" id="node93" href="$class_t_g_s_1_1_server_1_1_chat_commands_1_1_version_command.html" title="Retrieve the current service version " alt="" coords="543,5528,733,5569"/>
 </map>

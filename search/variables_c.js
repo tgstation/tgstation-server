@@ -1,12 +1,21 @@
 var searchData=
 [
-  ['majorversionlabel',['MajorVersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1f8e88989bb9fbdfcadc8c057d6c381a',1,'TGS::ControlPanel::ControlPanel']]],
-  ['majorversionnumeric',['MajorVersionNumeric',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0e299e4dcec6f52f76dfbb153ef0c11c',1,'TGS::ControlPanel::ControlPanel']]],
-  ['masterinterface',['masterInterface',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a6d45782a5eecb7c018ebe9e62d135571',1,'TGS::ControlPanel::InstanceSelector']]],
-  ['masterinterfacename',['MasterInterfaceName',['../class_t_g_s_1_1_interface_1_1_server_interface.html#ae235c7242d31b38108af1b131af18360',1,'TGS::Interface::ServerInterface']]],
-  ['mergedpullserror',['MergedPullsError',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a87d52c62cb692a4b422b6b22c1a3031b',1,'TGS::ControlPanel::TestMergeManager']]],
-  ['mergeprbutton',['MergePRButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acee5119e735cf63e43115b899d61fd5a',1,'TGS::ControlPanel::ControlPanel']]],
-  ['migrationconfigdirectory',['MigrationConfigDirectory',['../class_t_g_s_1_1_server_1_1_server.html#ad2024354f2377a559194c252eec1611c',1,'TGS::Server::Server']]],
-  ['minorversionlabel',['MinorVersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf8536d52f45df45f5cf64f48d3afc22',1,'TGS::ControlPanel::ControlPanel']]],
-  ['minorversionnumeric',['MinorVersionNumeric',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aba61afc9b784a3c7cd2d9eea3aacc7c4',1,'TGS::ControlPanel::ControlPanel']]]
+  ['label1',['label1',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aaa0a22d0e78e8647f4cc7b7680e00d93',1,'TGS.ControlPanel.ControlPanel.label1()'],['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#adf34d7020fa8ffcfd297639b6c22fef2',1,'TGS.Installer.UI.Main.label1()']]],
+  ['label2',['label2',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#ac2321c39e0d62e02db11946e0a4f3bc0',1,'TGS.ControlPanel.ControlPanel.label2()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#af2301ba5b0c824fd9d0f18b25576c310',1,'TGS.ControlPanel.Login.label2()']]],
+  ['label3',['label3',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aea1178143fd4a6e08f9e7c80432f64f1',1,'TGS.ControlPanel.ControlPanel.label3()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#ae182fd29c89aa59e1cfe3104ddb88fce',1,'TGS.ControlPanel.Login.label3()']]],
+  ['label4',['label4',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aac8c9589f7aa4c70a9aeac13473ece9f',1,'TGS.ControlPanel.ControlPanel.label4()'],['../class_t_g_s_1_1_control_panel_1_1_login.html#a7836fd8ea0658b7614cc16c30a85315d',1,'TGS.ControlPanel.Login.label4()']]],
+  ['label5',['label5',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a13c852990bf23ea69cb6093d7cf097a7',1,'TGS::ControlPanel::ControlPanel']]],
+  ['label6',['label6',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a358970c31fd73eaab520d93ab056e492',1,'TGS::ControlPanel::ControlPanel']]],
+  ['lastcompilererror',['lastCompilerError',['../class_t_g_s_1_1_server_1_1_instance.html#a7a892be6eee558d2be0006b156153098',1,'TGS::Server::Instance']]],
+  ['lasterror',['lastError',['../class_t_g_s_1_1_server_1_1_instance.html#a59a9f31f1b34f1c903b9f1af34e707e7',1,'TGS::Server::Instance']]],
+  ['lastreaderror',['lastReadError',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a77171fab17d7f94c1db41810ce912b22',1,'TGS::ControlPanel::ControlPanel']]],
+  ['lastseenuser',['LastSeenUser',['../class_t_g_s_1_1_server_1_1_instance.html#af14a38d1febdad352e36b931dae6b722',1,'TGS.Server.Instance.LastSeenUser()'],['../class_t_g_s_1_1_server_1_1_security_1_1_root_authorization_manager.html#ab8ff42929d16725185b39e0d60024331',1,'TGS.Server.Security.RootAuthorizationManager.LastSeenUser()']]],
+  ['latestversionlabel',['LatestVersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aca346df233b2a463902a78c31ef4ec2c',1,'TGS::ControlPanel::ControlPanel']]],
+  ['latestversiontitle',['LatestVersionTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a3eafa1bef3febc39cdd02605c7414a67',1,'TGS::ControlPanel::ControlPanel']]],
+  ['livedirtest',['LiveDirTest',['../class_t_g_s_1_1_server_1_1_instance.html#a353cd56720d611c08c54d3ca058227ea',1,'TGS::Server::Instance']]],
+  ['livefile',['LiveFile',['../class_t_g_s_1_1_server_1_1_instance.html#ae70ee1f4b0575d3c75a1a14e9029863c',1,'TGS::Server::Instance']]],
+  ['livetrackingbranch',['LiveTrackingBranch',['../class_t_g_s_1_1_server_1_1_instance.html#ac5c950acf89122f63e09ca01c495f647',1,'TGS::Server::Instance']]],
+  ['localloginbutton',['LocalLoginButton',['../class_t_g_s_1_1_control_panel_1_1_login.html#a611e22c17f6cbd84beee383018bb35c6',1,'TGS::ControlPanel::Login']]],
+  ['loggingid',['LoggingID',['../class_t_g_s_1_1_server_1_1_instance.html#aed67602a10e95dbf4cd053fb65871ed8',1,'TGS.Server.Instance.LoggingID()'],['../class_t_g_s_1_1_server_1_1_server.html#a702eca8419343fd22ea34a63fc24772e',1,'TGS.Server.Server.LoggingID()']]],
+  ['loginbutton',['LoginButton',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#ab7223a489d138aaf8bbd818c93235fd8',1,'TGS::ControlPanel::GitHubLoginPrompt']]]
 ];

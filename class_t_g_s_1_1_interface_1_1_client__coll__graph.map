@@ -1,0 +1,7 @@
+<map id="TGS.Interface.Client" name="TGS.Interface.Client">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_client.html" title="Main &#160;for communicating the Components.ITGSService " alt="" coords="429,21,487,48"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="62,5,151,32"/>
+<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_remote_login_info.html" title="Information representing a remote server connection " alt="" coords="357,104,559,131"/>
+<area shape="rect" id="node5" href="$class_i_equatable.html" title="IEquatable\&lt; RemoteLoginInfo \&gt;" alt="" coords="5,56,208,83"/>
+<area shape="rect" id="node11" href="$interface_t_g_s_1_1_interface_1_1_i_server.html" title="Wrapper representing a ITGSService " alt="" coords="386,327,530,353"/>
+</map>

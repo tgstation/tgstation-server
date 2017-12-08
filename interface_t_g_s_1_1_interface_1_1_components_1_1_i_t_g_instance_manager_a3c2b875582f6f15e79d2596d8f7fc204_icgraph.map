@@ -1,3 +1,4 @@
 <map id="TGS.Interface.Components.ITGInstanceManager.SetInstanceEnabled" name="TGS.Interface.Components.ITGInstanceManager.SetInstanceEnabled">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a1823d12162e6534e8949027400e9dc85" title="Prompts the user if they want to call ITGInstanceManager.SetInstanceEnabled(string, bool) to either online or offline an ITGInstance based on its current state " alt="" coords="268,5,449,61"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_service_enable_instance_command.html#a86ce29fcb714813a3062d9b07d30eb95" title="Override to do the actions of the Command &#160;" alt="" coords="269,5,491,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_service_disable_instance_command.html#af1f8d805c5acb5a89141761815c064df" title="Override to do the actions of the Command &#160;" alt="" coords="268,71,492,112"/>
 </map>

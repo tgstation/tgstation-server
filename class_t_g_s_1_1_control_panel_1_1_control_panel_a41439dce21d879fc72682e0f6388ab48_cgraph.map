@@ -1,0 +1,4 @@
+<map id="TGS.ControlPanel.ControlPanel.LoadServerPage" name="TGS.ControlPanel.ControlPanel.LoadServerPage">
+<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#ae646f483b7f5ca736a7a9de14bdcd687" title="Check if the repository is valid, if not Setup(string, string) must be called " alt="" coords="230,5,413,47"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_instance.html#a52d0bd9fc8d42ce049d7a7608ddf5bfe" title="Return the directory of the server on the host machine &#160;" alt="" coords="224,71,419,112"/>
+</map>

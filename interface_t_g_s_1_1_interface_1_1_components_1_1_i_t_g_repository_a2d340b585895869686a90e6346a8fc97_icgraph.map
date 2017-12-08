@@ -1,0 +1,4 @@
+<map id="TGS.Interface.Components.ITGRepository.SetAutoUpdateInterval" name="TGS.Interface.Components.ITGRepository.SetAutoUpdateInterval">
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#aae161b3f7481f71374baec0a40498a3b" title="TGS.ControlPanel.Control\lPanel.AutoUpdateCheckbox\l_CheckedChanged" alt="" coords="289,5,475,61"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#ac12a319da2382889383fa6d9ebe294b8" title="TGS.ControlPanel.Control\lPanel.AutoUpdateInterval\l_ValueChanged" alt="" coords="297,85,467,141"/>
+</map>

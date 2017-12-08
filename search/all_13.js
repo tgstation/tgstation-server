@@ -45,7 +45,7 @@ var searchData=
   ['testmergelistlabel',['TestMergeListLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#adc60b6d168a54f9d3fee641185965ca6',1,'TGS::ControlPanel::ControlPanel']]],
   ['testmergelisttitle',['TestMergeListTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aa083ce064f4f661ef7dd4bbebb2eeb77',1,'TGS::ControlPanel::ControlPanel']]],
   ['testmergemanager',['TestMergeManager',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html',1,'TGS::ControlPanel']]],
-  ['testmergemanager',['TestMergeManager',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#aaab89db42a45fd65c4d7d3d84438038d',1,'TGS::ControlPanel::TestMergeManager']]],
+  ['testmergemanager',['TestMergeManager',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#ac99143c0585a1f336630991c199e1bf4',1,'TGS::ControlPanel::TestMergeManager']]],
   ['testmergemanager_2ecs',['TestMergeManager.cs',['../_test_merge_manager_8cs.html',1,'']]],
   ['testmergemanager_2edesigner_2ecs',['TestMergeManager.Designer.cs',['../_test_merge_manager_8_designer_8cs.html',1,'']]],
   ['testmergemanagerbutton',['TestMergeManagerButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a31a0699f4737cae6c08a034eba9cf25c',1,'TGS::ControlPanel::ControlPanel']]],
@@ -76,10 +76,10 @@ var searchData=
   ['topicfailed',['TopicFailed',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a0769e8aedf47fd802e91ac2a9384db10',1,'TGS::Server']]],
   ['topiclock',['topicLock',['../class_t_g_s_1_1_server_1_1_instance.html#a935cbfa1c54a330b8afd2ff1a2709cca',1,'TGS::Server::Instance']]],
   ['topicsent',['TopicSent',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a39a05d55f8b4e872296ccf1f1deec76b',1,'TGS::Server']]],
-  ['tostring',['ToString',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#ae654e0c8a2ec1fc981e7f4eed77c18bd',1,'TGS::Interface::RemoteLoginInfo']]],
-  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_s_1_1_interface_1_1_server_interface.html#aa20b13c8a2a112a4fd1897553c41dfd5',1,'TGS::Interface::ServerInterface']]],
-  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_s_1_1_interface_1_1_server_interface.html#a19b590791a617e650ad2809d4d735743',1,'TGS::Interface::ServerInterface']]],
+  ['tostring',['ToString',['../class_t_g_s_1_1_interface_1_1_instance.html#a4657bb2ed8bf70ff658f9cab5f2a2960',1,'TGS.Interface.Instance.ToString()'],['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#ae654e0c8a2ec1fc981e7f4eed77c18bd',1,'TGS.Interface.RemoteLoginInfo.ToString()']]],
+  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_s_1_1_interface_1_1_definitions.html#a9cbf8326b94fc958f8a24e42bedfac13',1,'TGS::Interface::Definitions']]],
+  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_s_1_1_interface_1_1_definitions.html#ae6060d0444a8adfddeb0ca1a9bc7c5de',1,'TGS::Interface::Definitions']]],
   ['trusted',['Trusted',['../namespace_t_g_s_1_1_interface.html#a97d3a0f74c35081df4416cd97291bc1dac0405d71f21e769c787a10b9620f11ea',1,'TGS::Interface']]],
-  ['tryconnecttoindexinstance',['TryConnectToIndexInstance',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#aecea986f7bf64f92184ea3e45c943010',1,'TGS::ControlPanel::InstanceSelector']]],
+  ['tryconnecttoindexinstance',['TryConnectToIndexInstance',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html#ab9b6670fe090116ff9e931e4388fc0ec',1,'TGS::ControlPanel::InstanceSelector']]],
   ['ui',['UI',['../namespace_t_g_s_1_1_installer_1_1_u_i.html',1,'TGS::Installer']]]
 ];

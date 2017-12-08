@@ -1,3 +1,3 @@
 <map id="TGS.Interface.Components.ITGInstanceManager.CreateInstance" name="TGS.Interface.Components.ITGInstanceManager.CreateInstance">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a6683461e03c6378187b01633b15e2ec4" title="Prompts the user for parameters to ITGInstanceManager.CreateInstance(string, string) ..." alt="" coords="285,5,520,47"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_command_line_1_1_service_create_instance_command.html#a38fbf92be64d4faa11ad64ed392cf88b" title="Override to do the actions of the Command &#160;" alt="" coords="285,5,504,47"/>
 </map>
