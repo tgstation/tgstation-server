@@ -170,22 +170,23 @@ namespace TGS.Server.Components
 		void CleanTask(bool wait)
 		{
 			Task toWait = null;
+			CancellationTokenSource toCancel;
 			lock (this)
 			{
-				if (updateCancellationTokenSource != null)
-				{
-					updateCancellationTokenSource.Dispose();
-					updateCancellationTokenSource = null;
-				}
-				if (wait)
-					toWait = updateTask;
+				toCancel = updateCancellationTokenSource;
+				toWait = updateTask;
 				updateTask = null;
+				updateCancellationTokenSource = null;
+				if (!wait)
+					return;
 			}
+			toCancel?.Cancel();
 			if (toWait != null)
 			{
 				toWait.Wait();
 				toWait.Dispose();
 			}
+			toCancel?.Dispose();
 		}
 		
 		/// <summary>
