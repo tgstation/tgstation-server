@@ -15,14 +15,14 @@ namespace TGS.Interface.Wrappers
 			{
 				lock (this)
 					if(knownInstances == null)
-						knownInstances = serverInterface.GetComponent<ITGLanding>().ListInstances();
+						knownInstances = serverInterface.GetComponent<ITGLanding>(null).ListInstances();
 				foreach(var I in knownInstances)
 					yield return new Instance(serverInterface, I);
 			}
 		}
 
 		/// <inheritdoc />
-		public ITGInstanceManager InstanceManager => serverInterface.GetComponent<ITGInstanceManager>();
+		public ITGInstanceManager InstanceManager => serverInterface.GetComponent<ITGInstanceManager>(null);
 
 		/// <summary>
 		/// The backing <see cref="ServerInterface"/>
@@ -52,37 +52,37 @@ namespace TGS.Interface.Wrappers
 		/// <inheritdoc />
 		public void PrepareForUpdate()
 		{
-			serverInterface.GetComponent<ITGSService>().PrepareForUpdate();
+			serverInterface.GetComponent<ITGSService>(null).PrepareForUpdate();
 		}
 
 		/// <inheritdoc />
 		public string PythonPath()
 		{
-			return serverInterface.GetComponent<ITGSService>().PythonPath();
+			return serverInterface.GetComponent<ITGSService>(null).PythonPath();
 		}
 
 		/// <inheritdoc />
 		public ushort RemoteAccessPort()
 		{
-			return serverInterface.GetComponent<ITGSService>().RemoteAccessPort();
+			return serverInterface.GetComponent<ITGSService>(null).RemoteAccessPort();
 		}
 
 		/// <inheritdoc />
 		public bool SetPythonPath(string path)
 		{
-			return serverInterface.GetComponent<ITGSService>().SetPythonPath(path);
+			return serverInterface.GetComponent<ITGSService>(null).SetPythonPath(path);
 		}
 
 		/// <inheritdoc />
 		public string SetRemoteAccessPort(ushort port)
 		{
-			return serverInterface.GetComponent<ITGSService>().SetRemoteAccessPort(port);
+			return serverInterface.GetComponent<ITGSService>(null).SetRemoteAccessPort(port);
 		}
 
 		/// <inheritdoc />
 		string ITGSService.Version()
 		{
-			return serverInterface.GetComponent<ITGSService>().Version();
+			return serverInterface.GetComponent<ITGSService>(null).Version();
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace TGS.Interface.Wrappers
 		ITGInstanceManager InstanceManager { get; }
 
 		/// <summary>
-		/// Gets the specified <see cref="IInstance"/>
+		/// Gets the specified <see cref="IInstance"/> without connectivity checks
 		/// </summary>
 		/// <param name="name">The name of the <see cref="IInstance"/> to get</param>
 		/// <returns>The <see cref="IInstance"/> named <paramref name="name"/> on success, <see langword="null"/> on failure</returns>
