@@ -9,6 +9,7 @@ using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using TGS.Interface.Components;
+using TGS.Interface.Wrappers;
 
 namespace TGS.Interface
 {
@@ -196,23 +197,24 @@ namespace TGS.Interface
 		/// <inheritdoc />
 		public T GetComponent<T>()
 		{
-			var ToT = typeof(T);
-			return GetComponentImpl<T>(true);
+			if(InstanceName == null)
+				throw new InvalidOperationException("Instance not selected!");
+			return GetComponent<T>(InstanceName);
 		}
 
 		/// <summary>
 		/// Returns the requested <see cref="ServerInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
-		/// <param name="useInstanceName">If <see cref="InstanceName"/> should be used to connect</param>
+		/// <param name="instanceName">The name of the <see cref="IInstance"/> to use</param>
 		/// <returns>The correct component <see langword="interface"/></returns>
-		T GetComponentImpl<T>(bool useInstanceName)
+		internal T GetComponent<T>(string instanceName)
 		{
-			if (useInstanceName & InstanceName == null)
-				throw new Exception("Instance not selected!");
+			if (disposedValue)
+				throw new ObjectDisposedException(GetType().Name);
 			var actualToT = typeof(T);
 			var tot = actualToT.Name;
-			if (actualToT == typeof(ITGConnectivity) && !useInstanceName)
+			if (actualToT == typeof(ITGConnectivity) && instanceName == null)
 				tot = 'S' + tot; 
 			ChannelFactory<T> cf;
 
@@ -231,7 +233,7 @@ namespace TGS.Interface
 						ChannelFactoryCache[tot].Abort();
 						ChannelFactoryCache.Remove(tot);
 					}
-				cf = CreateChannel<T>(useInstanceName ? InstanceName : null);
+				cf = CreateChannel<T>(instanceName);
 				ChannelFactoryCache[tot] = cf;
 			}
 			return cf.CreateChannel();
@@ -241,7 +243,7 @@ namespace TGS.Interface
 		public T GetServiceComponent<T>()
 		{
 			var ToT = typeof(T);
-			return GetComponentImpl<T>(false);
+			return GetComponent<T>(null);
 		}
 
 		/// <summary>
@@ -328,7 +330,7 @@ namespace TGS.Interface
 		{
 			try
 			{
-				GetComponentImpl<ITGConnectivity>(false).VerifyConnection();
+				GetComponent<ITGConnectivity>(null).VerifyConnection();
 			}
 			catch (Exception e)
 			{

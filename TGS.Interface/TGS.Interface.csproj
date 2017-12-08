@@ -67,6 +67,7 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="Wrappers\IInstance.cs" />
     <Compile Include="InstanceMetadata.cs" />
+    <Compile Include="Wrappers\Instance.cs" />
     <Compile Include="Wrappers\IServer.cs" />
     <Compile Include="IServerInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
