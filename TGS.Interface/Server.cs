@@ -64,9 +64,9 @@ namespace TGS.Interface
 		}
 
 		/// <summary>
-		/// The backing <see cref="ServerInterface"/>
+		/// The backing <see cref="Client"/>
 		/// </summary>
-		readonly ServerInterface serverInterface;
+		readonly Client serverInterface;
 
 		/// <summary>
 		/// Result of a call to <see cref="ITGLanding.ListInstances"/>
@@ -81,8 +81,8 @@ namespace TGS.Interface
 		/// <summary>
 		/// Construct an <see cref="Server"/>
 		/// </summary>
-		/// <param name="_serverInterface">The <see cref="ServerInterface"/> to use</param>
-		public Server(ServerInterface _serverInterface)
+		/// <param name="_serverInterface">The <see cref="Client"/> to use</param>
+		public Server(Client _serverInterface)
 		{
 			serverInterface = _serverInterface;
 		}

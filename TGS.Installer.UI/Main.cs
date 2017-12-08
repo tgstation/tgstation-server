@@ -26,7 +26,7 @@ namespace TGS.Installer.UI
 		/// </summary>
 		bool attemptNetSettingsMigration = false;
 
-		IServerInterface Interface;
+		IClient Interface;
 
 		/// <summary>
 		/// Construct an installer form
@@ -75,7 +75,7 @@ namespace TGS.Installer.UI
 		}
 
 		void CheckForExistingVersion() {
-			Interface = new ServerInterface();
+			Interface = new Client();
 			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{

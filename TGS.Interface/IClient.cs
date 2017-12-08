@@ -5,28 +5,28 @@ namespace TGS.Interface
 	/// <summary>
 	/// Main <see langword="interface"/> for communicating the <see cref="Components.ITGSService"/>
 	/// </summary>
-	public interface IServerInterface : IDisposable
+	public interface IClient : IDisposable
 	{
 		/// <summary>
-		/// The <see cref="IServer"/> the <see cref="IServerInterface"/> connects to
+		/// The <see cref="IServer"/> the <see cref="IClient"/> connects to
 		/// </summary>
 		IServer Server { get; }
 
 		/// <summary>
-		/// The <see cref="RemoteLoginInfo"/> for the <see cref="IServerInterface"/>. Is <see langword="null"/> for local connections
+		/// The <see cref="RemoteLoginInfo"/> for the <see cref="IClient"/>. Is <see langword="null"/> for local connections
 		/// </summary>
 		RemoteLoginInfo LoginInfo { get; }
 
 		/// <summary>
-		/// Checks if the <see cref="IServerInterface"/> is setup for a remote connection
+		/// Checks if the <see cref="IClient"/> is setup for a remote connection
 		/// </summary>
 		bool IsRemoteConnection { get; }
 
 		/// <summary>
-		/// Returns <see langword="true"/> if the <see cref="IServerInterface"/> interface being used to connect to a service does not have the same release version as the service
+		/// Returns <see langword="true"/> if the <see cref="IClient"/> interface being used to connect to a service does not have the same release version as the service
 		/// </summary>
 		/// <param name="errorMessage">An error message to display to the user should this function return <see langword="true"/></param>
-		/// <returns><see langword="true"/> if the <see cref="IServerInterface"/> interface being used to connect to a service does not have the same release version as the service</returns>
+		/// <returns><see langword="true"/> if the <see cref="IClient"/> interface being used to connect to a service does not have the same release version as the service</returns>
 		bool VersionMismatch(out string errorMessage);
 
 		/// <summary>

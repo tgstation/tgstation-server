@@ -45,9 +45,9 @@ namespace TGS.Interface
 		}
 
 		/// <summary>
-		/// The backing <see cref="ServerInterface"/>
+		/// The backing <see cref="Client"/>
 		/// </summary>
-		readonly ServerInterface serverInterface;
+		readonly Client serverInterface;
 		/// <summary>
 		/// The name of the <see cref="IInstance"/>
 		/// </summary>
@@ -60,9 +60,9 @@ namespace TGS.Interface
 		/// <summary>
 		/// Construct an <see cref="Instance"/>
 		/// </summary>
-		/// <param name="_serverInterface">The <see cref="ServerInterface"/> to use</param>
+		/// <param name="_serverInterface">The <see cref="Client"/> to use</param>
 		/// <param name="_metadata">The <see cref="InstanceMetadata"/> for the <see cref="IInstance"/></param>
-		public Instance(ServerInterface _serverInterface, InstanceMetadata _metadata)
+		public Instance(Client _serverInterface, InstanceMetadata _metadata)
 		{
 			serverInterface = _serverInterface;
 			metadata = _metadata;

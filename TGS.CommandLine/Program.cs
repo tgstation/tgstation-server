@@ -9,7 +9,7 @@ namespace TGS.CommandLine
 	class Program
 	{
 		static bool interactive = false, saidSrvVersion = false;
-		static IServerInterface currentInterface;
+		static IClient currentInterface;
 		static Command.ExitCode RunCommandLine(IList<string> argsAsList)
 		{
 			//first lookup the connection string
@@ -52,7 +52,7 @@ namespace TGS.CommandLine
 					}
 					argsAsList.RemoveAt(I);
 					argsAsList.RemoveAt(I);
-					ReplaceInterface(new ServerInterface(new RemoteLoginInfo(address, port, username, password)));
+					ReplaceInterface(new Client(new RemoteLoginInfo(address, port, username, password)));
 					break;
 				}
 			}
@@ -99,7 +99,7 @@ namespace TGS.CommandLine
 			};
 		}
 
-		static void ReplaceInterface(IServerInterface I)
+		static void ReplaceInterface(IClient I)
 		{
 			currentInterface = I;
 			ConsoleCommand.Server = I.Server;
@@ -173,7 +173,7 @@ namespace TGS.CommandLine
 
 		static int Main(string[] args)
 		{
-			ReplaceInterface(new ServerInterface());
+			ReplaceInterface(new Client());
 			Command.OutputProcVar.Value = Console.WriteLine;
 			if (args.Length != 0)
 			{
@@ -191,13 +191,13 @@ namespace TGS.CommandLine
 					{
 						argsAsList.RemoveAt(I);
 						--I;
-						ServerInterface.SetBadCertificateHandler(_ => false);
+						Client.SetBadCertificateHandler(_ => false);
 					}
 				}
 				return (int)RunCommandLine(argsAsList);
 			}
 			//interactive mode
-			ServerInterface.SetBadCertificateHandler(BadCertificateInteractive);
+			Client.SetBadCertificateHandler(BadCertificateInteractive);
 			Console.WriteLine("Type 'instance' to connect to a server instance");
 			Console.WriteLine("Type 'remote' to connect to a remote service");
 			while (true)
@@ -228,17 +228,17 @@ namespace TGS.CommandLine
 						var username = Console.ReadLine();
 						Console.Write("Enter password: ");
 						var password = ReadLineSecure();
-						ReplaceInterface(new ServerInterface(new RemoteLoginInfo(address, port, username, password)));
+						ReplaceInterface(new Client(new RemoteLoginInfo(address, port, username, password)));
 						var res = currentInterface.ConnectionStatus(out string error);
 						if (!res.HasFlag(ConnectivityLevel.Connected))
 						{
 							Console.WriteLine("Unable to connect: " + error);
-							ReplaceInterface(new ServerInterface());
+							ReplaceInterface(new Client());
 						}
 						else if (!res.HasFlag(ConnectivityLevel.Authenticated))
 						{
 							Console.WriteLine("Authentication error: Username/password/windows identity is not authorized! Returning to local mode...");
-							ReplaceInterface(new ServerInterface());
+							ReplaceInterface(new Client());
 						}
 						else
 						{
@@ -253,7 +253,7 @@ namespace TGS.CommandLine
 						break;
 					case "disconnect":
 						SentVMMWarning = false;
-						ReplaceInterface(new ServerInterface());
+						ReplaceInterface(new Client());
 						Console.WriteLine("Switch to local mode");
 						break;
 					case "quit":

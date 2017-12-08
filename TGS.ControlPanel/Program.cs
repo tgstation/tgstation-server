@@ -7,7 +7,7 @@ namespace TGS.ControlPanel
 {
 	static class Program
 	{
-		public static IServerInterface ServerInterface;
+		public static IClient ServerInterface;
 		[STAThread]
 		static void Main(string[] args)
 		{
@@ -21,7 +21,7 @@ namespace TGS.ControlPanel
 				}
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Interface.ServerInterface.SetBadCertificateHandler(BadCertificateHandler);
+				Interface.Client.SetBadCertificateHandler(BadCertificateHandler);
 				Application.Run(new Login());
 				if(ServerInterface != null)
 				{

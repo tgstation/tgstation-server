@@ -6,7 +6,7 @@ namespace TGS.CommandLine
 {
 	class CLICommand : RootCommand
 	{
-		public CLICommand(IServerInterface I)
+		public CLICommand(IClient I)
 		{
 			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
 			if (ConsoleCommand.Instance.Administration != null)

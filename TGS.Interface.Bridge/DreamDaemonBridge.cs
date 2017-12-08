@@ -25,7 +25,7 @@ namespace TGS.Interface.Bridge
 				parsedArgs.AddRange(args);
 				var instance = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
-				using (var I = new ServerInterface())
+				using (var I = new Client())
 					I.Server.GetInstance(instance).Interop.InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }

@@ -92,7 +92,7 @@ namespace TGS.ControlPanel
 					loginInfo.Password = PasswordTextBox.Text;
 			}
 
-			var I = new ServerInterface(loginInfo);
+			var I = new Client(loginInfo);
 			var Config = Properties.Settings.Default;
 			//This needs to be read here because V&C Closing us will corrupt the data
 			var savePassword = SavePasswordCheckBox.Checked;
@@ -114,15 +114,15 @@ namespace TGS.ControlPanel
 		void LocalLoginButton_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.RemoteDefault = false;
-			VerifyAndConnect(new ServerInterface());
+			VerifyAndConnect(new Client());
 		}
 
 		/// <summary>
-		/// Attempts a connection on a given <see cref="IServerInterface"/>
+		/// Attempts a connection on a given <see cref="IClient"/>
 		/// </summary>
-		/// <param name="I">The <see cref="IServerInterface"/> to attempt a connection on</param>
+		/// <param name="I">The <see cref="IClient"/> to attempt a connection on</param>
 		/// <returns><see langword="true"/> if the connection was made and authenticated, <see langword="false"/> otherwise</returns>
-		bool VerifyAndConnect(IServerInterface I)
+		bool VerifyAndConnect(IClient I)
 		{
 			try
 			{

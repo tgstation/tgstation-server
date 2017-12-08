@@ -12,7 +12,7 @@ using TGS.Interface.Components;
 namespace TGS.Interface
 {
 	/// <inheritdoc />
-	sealed public class ServerInterface : IServerInterface
+	sealed public class Client : IClient
 	{
 		/// <inheritdoc />
 		public IServer Server => server;
@@ -97,19 +97,19 @@ namespace TGS.Interface
 		}
 
 		/// <summary>
-		/// Construct an <see cref="ServerInterface"/> for a local connection
+		/// Construct an <see cref="Client"/> for a local connection
 		/// </summary>
-		public ServerInterface()
+		public Client()
 		{
 			ChannelFactoryCache = new Dictionary<string, ChannelFactory>();
 			server = new Server(this);
 		}
 
 		/// <summary>
-		/// Construct an <see cref="ServerInterface"/> for a remote connection
+		/// Construct an <see cref="Client"/> for a remote connection
 		/// </summary>
 		/// <param name="loginInfo">The <see cref="RemoteLoginInfo"/> for a remote connection</param>
-		public ServerInterface(RemoteLoginInfo loginInfo) : this()
+		public Client(RemoteLoginInfo loginInfo) : this()
 		{
 			if (!loginInfo.HasPassword)
 				throw new InvalidOperationException("password must be set on loginInfo!");
@@ -158,7 +158,7 @@ namespace TGS.Interface
 		}
 
 		/// <summary>
-		/// Returns the requested <see cref="ServerInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
+		/// Returns the requested <see cref="Client"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>
 		/// <typeparam name="T">The component <see langword="interface"/> to retrieve</typeparam>
 		/// <param name="instanceName">The name of the <see cref="IInstance"/> to use</param>
