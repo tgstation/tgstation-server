@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
-	class BYONDCommand : InstanceRootCommand
+	class BYONDCommand : RootCommand
 	{
 		public BYONDCommand()
 		{
@@ -33,7 +32,7 @@ namespace TGS.CommandLine
 					type = ByondVersion.Staged;
 				else if (parameters[0].ToLower() == "--latest")
 					type = ByondVersion.Latest;
-			OutputProc(Interface.GetComponent<ITGByond>().GetVersion(type) ?? "Unistalled");
+			OutputProc(Instance.Byond.GetVersion(type) ?? "Unistalled");
 			return ExitCode.Normal;
 		}
 		public override string GetArgumentString()
@@ -56,7 +55,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			switch (Interface.GetComponent<ITGByond>().CurrentStatus())
+			switch (Instance.Byond.CurrentStatus())
 			{
 				case ByondStatus.Downloading:
 					OutputProc("Downloading update...");
@@ -109,7 +108,7 @@ namespace TGS.CommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var BYOND = Interface.GetComponent<ITGByond>();
+			var BYOND = Instance.Byond;
 			if (!BYOND.UpdateToVersion(Major, Minor))
 
 			{

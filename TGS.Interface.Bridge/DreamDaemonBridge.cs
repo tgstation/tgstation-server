@@ -2,8 +2,6 @@ using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.Interface.Bridge
 {
@@ -27,9 +25,8 @@ namespace TGS.Interface.Bridge
 				parsedArgs.AddRange(args);
 				var instance = parsedArgs[0];
 				parsedArgs.RemoveAt(0);
-				using (var I = new ServerInterface())
-					if(I.ConnectToInstance(instance, true).HasFlag(ConnectivityLevel.Connected))
-						I.GetComponent<ITGInterop>().InteropMessage(String.Join(" ", parsedArgs));
+				using (var I = new Client())
+					I.Server.GetInstance(instance).Interop.InteropMessage(String.Join(" ", parsedArgs));
 			}
 			catch { }
 			return 0;

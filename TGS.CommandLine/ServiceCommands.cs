@@ -55,7 +55,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGInstanceManager>().CreateInstance(parameters[0], parameters[1]);
+			var res = Server.InstanceManager.CreateInstance(parameters[0], parameters[1]);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -87,8 +87,8 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
-				OutputProc(String.Format("{0} ({1}):\t{2}", I.Name, I.Path, I.Enabled ? "Online" : "Offline"));
+			foreach (var I in Server.Instances)
+				OutputProc(I.ToString());
 			return ExitCode.Normal;
 		}
 	}
@@ -122,7 +122,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGInstanceManager>().DetachInstance(parameters[0]);
+			var res = Server.InstanceManager.DetachInstance(parameters[0]);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -161,7 +161,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGInstanceManager>().ImportInstance(parameters[0]);
+			var res = Server.InstanceManager.ImportInstance(parameters[0]);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -193,7 +193,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGSService>().PythonPath();
+			var res = Server.Management.PythonPath();
 			if (res != null)
 			{
 				OutputProc(res);
@@ -232,7 +232,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Interface.GetServiceComponent<ITGSService>().SetPythonPath(parameters[0]);
+			Server.Management.SetPythonPath(parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
@@ -266,7 +266,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(parameters[0], true);
+			var res = Server.InstanceManager.SetInstanceEnabled(parameters[0], true);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -305,7 +305,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGInstanceManager>().SetInstanceEnabled(parameters[0], false);
+			var res = Server.InstanceManager.SetInstanceEnabled(parameters[0], false);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -316,7 +316,7 @@ namespace TGS.CommandLine
 	}
 
 	/// <summary>
-	/// Command for calling <see cref="TGS.Interface.Components.ITGSService.RemoteAccessPort"/>
+	/// Command for calling <see cref="ITGSService.RemoteAccessPort"/>
 	/// </summary>
 	class ServiceRemoteAccessPortCommand : ConsoleCommand
 	{
@@ -337,7 +337,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			OutputProc(Interface.GetServiceComponent<ITGSService>().RemoteAccessPort().ToString());
+			OutputProc(Server.Management.RemoteAccessPort().ToString());
 			return ExitCode.Normal;
 		}
 	}
@@ -382,7 +382,7 @@ namespace TGS.CommandLine
 				return ExitCode.BadCommand;
 			}
 
-			var res = Interface.GetServiceComponent<ITGSService>().SetRemoteAccessPort(port);
+			var res = Server.Management.SetRemoteAccessPort(port);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -422,7 +422,7 @@ namespace TGS.CommandLine
 		/// <inheritdoc />
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetServiceComponent<ITGInstanceManager>().RenameInstance(parameters[0], parameters[1]);
+			var res = Server.InstanceManager.RenameInstance(parameters[0], parameters[1]);
 			if (res != null)
 			{
 				OutputProc(res);

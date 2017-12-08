@@ -332,7 +332,7 @@ namespace TGS.Server.Components
 				return;
 			//Copy the interface dll to the static dir
 
-			var FullInterfacePath = Assembly.GetAssembly(typeof(IServerInterface)).Location;
+			var FullInterfacePath = Assembly.GetAssembly(typeof(IClient)).Location;
 			//bridge is installed next to the interface
 			var FullBridgePath = IOManager.ConcatPath(IOManager.GetDirectoryName(FullInterfacePath), BridgeDLLName);
 #if DEBUG

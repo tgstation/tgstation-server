@@ -56,7 +56,7 @@ namespace TGS.Server
 		/// </summary>
 		IDictionary<string, ServiceHost> hosts;
 		/// <summary>
-		/// List of <see cref="Instance.LoggingID"/>s in use
+		/// List of LoggingIDs in use
 		/// </summary>
 		IList<int> UsedLoggingIDs = new List<int>();
 
@@ -164,9 +164,11 @@ namespace TGS.Server
 		/// </summary>
 		void SetupService()
 		{
-			serviceHost = CreateHost(this, ServerInterface.MasterInterfaceName);
-			foreach (var I in ServerInterface.ValidServiceInterfaces)
-				AddEndpoint(serviceHost, I);
+			serviceHost = CreateHost(this, Definitions.MasterInterfaceName);
+			AddEndpoint(serviceHost, typeof(ITGConnectivity));
+			AddEndpoint(serviceHost, typeof(ITGInstanceManager));
+			AddEndpoint(serviceHost, typeof(ITGLanding));
+			AddEndpoint(serviceHost, typeof(ITGSService));
 			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(Logger); //only admins can diddle us
 			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
@@ -184,7 +186,7 @@ namespace TGS.Server
 		/// <summary>
 		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, CloseTimeout for the <see cref="ServiceHost"/>, and the configured <see cref="ServerConfig.RemoteAccessPort"/>
 		/// </summary>
-		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/>. If it is an <see cref="Instance"/>, the resulting <see cref="ServiceHost"/> will be created using it's <see cref="Instance.CreateServiceHost(Uri[])"/> method</param>
+		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/>. If it is an <see cref="Instance"/>, the resulting <see cref="ServiceHost"/> will be created using it's <see cref="Components.Instance.CreateServiceHost(Uri[])"/> method</param>
 		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
 		ServiceHost CreateHost(object singleton, string endpointPostfix)
@@ -285,11 +287,19 @@ namespace TGS.Server
 				return null;
 			}
 
-			var host = CreateHost(instance, String.Format("{0}/{1}", ServerInterface.InstanceInterfaceName, instanceName));
+			var host = CreateHost(instance, String.Format("{0}/{1}", Definitions.InstanceInterfaceName, instanceName));
 			hosts.Add(instanceName, host);
-			
-			foreach (var J in ServerInterface.ValidInstanceInterfaces)
-				AddEndpoint(host, J);
+
+			AddEndpoint(host, typeof(ITGConnectivity));
+			AddEndpoint(host, typeof(ITGAdministration));
+			AddEndpoint(host, typeof(ITGChat));
+			AddEndpoint(host, typeof(ITGCompiler));
+			AddEndpoint(host, typeof(ITGStatic));
+			AddEndpoint(host, typeof(ITGConnectivity));
+			AddEndpoint(host, typeof(ITGDreamDaemon));
+			AddEndpoint(host, typeof(ITGInstance));
+			AddEndpoint(host, typeof(ITGInterop));
+			AddEndpoint(host, typeof(ITGRepository));
 			
 			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 			return host;
@@ -303,11 +313,11 @@ namespace TGS.Server
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = ServerInterface.TransferLimitLocal }, bindingName);
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
 			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
-				MaxReceivedMessageSize = ServerInterface.TransferLimitRemote
+				MaxReceivedMessageSize = Definitions.TransferLimitRemote
 			};
 			var requireAuth = typetype.Name != typeof(ITGConnectivity).Name;
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);

@@ -166,7 +166,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Cancels and joins <see cref="updateTask"/> if it's running
 		/// </summary>
-		/// <param name="wait">If <see langword="true"/>, <see cref="Task.Wait"/> and <see cref="Task.Dispose"/> is called on <see cref="updateTask"/> if it's set</param>
+		/// <param name="wait">If <see langword="true"/>, <see cref="Task.Wait()"/> and <see cref="Task.Dispose()"/> is called on <see cref="updateTask"/> if it's set</param>
 		void CleanTask(bool wait)
 		{
 			Task toWait = null;

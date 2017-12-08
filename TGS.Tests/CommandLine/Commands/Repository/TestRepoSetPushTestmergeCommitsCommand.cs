@@ -18,7 +18,7 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 			var ran = false;
 			var repo = new Mock<ITGRepository>();
 			repo.Setup(foo => foo.SetPushTestmergeCommits(true)).Callback(() => { ran = true; });
-			ConsoleCommand.Interface = MockInterfaceToRepo(repo.Object);
+			ConsoleCommand.Instance = MockInterfaceToRepo(repo.Object);
 			Assert.AreEqual(new RepoSetPushTestmergeCommitsCommand().DoRun(new List<string> { "on" }), Command.ExitCode.Normal);
 			Assert.IsTrue(ran);
 		}
@@ -30,7 +30,7 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 			var ran = false;
 			var repo = new Mock<ITGRepository>();
 			repo.Setup(foo => foo.SetPushTestmergeCommits(false)).Callback(() => { ran = true; });
-			ConsoleCommand.Interface = MockInterfaceToRepo(repo.Object);
+			ConsoleCommand.Instance = MockInterfaceToRepo(repo.Object);
 			Assert.AreEqual(new RepoSetPushTestmergeCommitsCommand().DoRun(new List<string> { "off" }), Command.ExitCode.Normal);
 			Assert.IsTrue(ran);
 		}

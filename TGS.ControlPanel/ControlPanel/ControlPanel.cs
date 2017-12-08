@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.ControlPanel
 {
@@ -18,29 +17,34 @@ namespace TGS.ControlPanel
 		public static IDictionary<string, ControlPanel> InstancesInUse { get; private set; } = new Dictionary<string, ControlPanel>();
 
 		/// <summary>
-		/// The <see cref="IServerInterface"/> instance for this <see cref="ControlPanel"/>
+		/// The <see cref="IInstance"/> for this <see cref="ControlPanel"/>
 		/// </summary>
-		readonly IServerInterface Interface;
+		readonly IInstance Instance;
 
 		/// <summary>
 		/// Constructs a <see cref="ControlPanel"/>
 		/// </summary>
-		/// <param name="I">The <see cref="IServerInterface"/> for the <see cref="ControlPanel"/></param>
-		public ControlPanel(IServerInterface I)
+		/// <param name="server">The <see cref="IServer"/> to use</param>
+		/// <param name="instance">The <see cref="IInstance"/> to use</param>
+		public ControlPanel(IServer server, IInstance instance)
 		{
 			InitializeComponent();
+
 			FormClosed += ControlPanel_FormClosed;
-			Interface = I;
-			if (Interface.IsRemoteConnection)
-				Text = String.Format("TGS {0}: {1}:{2}", Interface.ServerVersion, Interface.LoginInfo.IP, Interface.LoginInfo.Port);
-			Text = String.Format("{0} Instance: {1}", Text, I.InstanceName);
 			Panels.SelectedIndexChanged += Panels_SelectedIndexChanged;
 			Panels.SelectedIndex += Math.Min(Properties.Settings.Default.LastPageIndex, Panels.TabCount - 1);
+
+			Instance = instance;
+
+			InstancesInUse.Add(Instance.Metadata.Name, this);
+			
+			Text = String.Format("TGS {0} Instance: {1}", server.Version, Instance.Metadata.Name);
+
 			InitRepoPage();
 			InitBYONDPage();
 			InitServerPage();
+
 			UpdateSelectedPanel();
-			InstancesInUse.Add(I.InstanceName, this);
 		}
 
 		/// <summary>
@@ -50,7 +54,7 @@ namespace TGS.ControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void ControlPanel_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			InstancesInUse.Remove(Interface.InstanceName);
+			InstancesInUse.Remove(Instance.Metadata.Name);
 		}
 
 		/// <summary>
@@ -58,8 +62,7 @@ namespace TGS.ControlPanel
 		/// </summary>
 		void Cleanup()
 		{
-			InstancesInUse.Remove(Interface.InstanceName);
-			Interface.Dispose();
+			InstancesInUse.Remove(Instance.Metadata.Name);
 		}
 
 		private void Main_Resize(object sender, EventArgs e)
@@ -102,7 +105,7 @@ namespace TGS.ControlPanel
 
 		bool CheckAdminWithWarning()
 		{
-			if (!Interface.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
+			if (Instance.Administration != null)
 			{
 				MessageBox.Show("Only system administrators may use this command!");
 				return false;

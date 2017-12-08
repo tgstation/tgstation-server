@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using TGS.Interface;
-using TGS.Interface.Components;
 
 namespace TGS.CommandLine
 {
-	class DMCommand : InstanceRootCommand
+	class DMCommand : RootCommand
 	{
 		public DMCommand()
 		{
@@ -28,7 +27,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Interface.GetComponent<ITGCompiler>();
+			var DM = Instance.Compiler;
 			var stat = DM.GetStatus();
 			if (stat != CompilerStatus.Initialized)
 			{
@@ -36,7 +35,7 @@ namespace TGS.CommandLine
 				return ExitCode.ServerError;
 			}
 
-			if (Interface.GetComponent<ITGByond>().GetVersion(ByondVersion.Installed) == null)
+			if (Instance.Byond.GetVersion(ByondVersion.Installed) == null)
 			{
 				Console.Write("Error: BYOND is not installed!");
 				return ExitCode.ServerError;
@@ -84,14 +83,14 @@ namespace TGS.CommandLine
 
 		void ShowError()
 		{
-			var error = Interface.GetComponent<ITGCompiler>().CompileError();
+			var error = Instance.Compiler.CompileError();
 			if (error != null)
 				OutputProc("Last error: " + error);
 		}
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Interface.GetComponent<ITGCompiler>();
+			var DM = Instance.Compiler;
 			OutputProc(String.Format("Target Project: /{0}.dme", DM.ProjectName()));
 			Console.Write("Compilier is currently: ");
 			switch (DM.GetStatus())
@@ -142,7 +141,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			Interface.GetComponent<ITGCompiler>().SetProjectName(parameters[0]);
+			Instance.Compiler.SetProjectName(parameters[0]);
 			return ExitCode.Normal;
 		}
 	}
@@ -166,7 +165,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var DM = Interface.GetComponent<ITGCompiler>();
+			var DM = Instance.Compiler;
 			var stat = DM.GetStatus();
 			if (stat == CompilerStatus.Compiling || stat == CompilerStatus.Initializing)
 			{
@@ -206,7 +205,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Interface.GetComponent<ITGCompiler>().Cancel();
+			var res = Instance.Compiler.Cancel();
 			OutputProc(res ?? "Success!");
 			return ExitCode.Normal;	//because failing cancellation implys it's already cancelled
 		}

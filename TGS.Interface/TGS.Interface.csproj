@@ -62,18 +62,24 @@
     <Compile Include="Components\Instance.cs" />
     <Compile Include="Components\InstanceManager.cs" />
     <Compile Include="Components\Landing.cs" />
+    <Compile Include="Definitions.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="IInstance.cs" />
     <Compile Include="InstanceMetadata.cs" />
+    <Compile Include="Instance.cs" />
+    <Compile Include="IServer.cs" />
+    <Compile Include="IClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\Repository.cs" />
     <Compile Include="PullRequestInfo.cs" />
     <Compile Include="RemoteLoginInfo.cs" />
     <Compile Include="RootCommand.cs" />
-    <Compile Include="ServerInterface.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Components\Service.cs" />
     <Compile Include="Components\Interop.cs" />
+    <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tgs.ico" />

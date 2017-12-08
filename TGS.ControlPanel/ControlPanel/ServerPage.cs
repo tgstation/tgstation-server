@@ -46,7 +46,7 @@ namespace TGS.ControlPanel
 
 		private void CompileCancelButton_Click(object sender, EventArgs e)
 		{
-			var res = Interface.GetComponent<ITGCompiler>().Cancel();
+			var res = Instance.Compiler.Cancel();
 			if (res != null)
 				MessageBox.Show(res);
 			LoadServerPage();
@@ -54,7 +54,7 @@ namespace TGS.ControlPanel
 
 		void LoadServerPage()
 		{
-			var RepoExists = Interface.GetComponent<ITGRepository>().Exists();
+			var RepoExists = Instance.Repository.Exists();
 			compileButton.Visible = RepoExists;
 			AutoUpdateCheckbox.Visible = RepoExists;
 			initializeButton.Visible = RepoExists;
@@ -83,18 +83,17 @@ namespace TGS.ControlPanel
 			if (updatingFields)
 				return;
 
-			var DM = Interface.GetComponent<ITGCompiler>();
-			var DD = Interface.GetComponent<ITGDreamDaemon>();
-			var Config = Interface.GetComponent<ITGStatic>();
-			var Repo = Interface.GetComponent<ITGRepository>();
-			var Instance = Interface.GetComponent<ITGInstance>();
-			var Interop = Interface.GetComponent<ITGInterop>();
+			var DM = Instance.Compiler;
+			var DD = Instance.DreamDaemon;
+			var Config = Instance.StaticFiles;
+			var Repo = Instance.Repository;
+			var Interop = Instance.Interop;
 
 			try
 			{
 				updatingFields = true;
 				
-				ServerPathLabel.Text = "Server Path: " + Interface.GetComponent<ITGInstance>().ServerDirectory();
+				ServerPathLabel.Text = "Server Path: " + Instance.ServerDirectory();
 
 				SecuritySelector.SelectedIndex = (int)DD.SecurityLevel();
 
@@ -199,13 +198,13 @@ namespace TGS.ControlPanel
 		void UpdateProjectName()
 		{
 			if (!updatingFields)
-				Interface.GetComponent<ITGCompiler>().SetProjectName(projectNameText.Text);
+				Instance.Compiler.SetProjectName(projectNameText.Text);
 		}
 
 		private void PortSelector_ValueChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Interface.GetComponent<ITGDreamDaemon>().SetPort((ushort)PortSelector.Value);
+				Instance.DreamDaemon.SetPort((ushort)PortSelector.Value);
 		}
 
 		private void ServerPageRefreshButton_Click(object sender, EventArgs e)
@@ -215,13 +214,13 @@ namespace TGS.ControlPanel
 
 		private void InitializeButton_Click(object sender, EventArgs e)
 		{
-			if (!Interface.GetComponent<ITGCompiler>().Initialize())
+			if (!Instance.Compiler.Initialize())
 				MessageBox.Show("Unable to start initialization!");
 			LoadServerPage();
 		}
 		private void CompileButton_Click(object sender, EventArgs e)
 		{
-			if (!Interface.GetComponent<ITGCompiler>().Compile())
+			if (!Instance.Compiler.Compile())
 				MessageBox.Show("Unable to start compilation!");
 			LoadServerPage();
 		}
@@ -229,7 +228,7 @@ namespace TGS.ControlPanel
 		private void AutostartCheckbox_CheckedChanged(object sender, System.EventArgs e)
 		{
 			if (!updatingFields)
-				Interface.GetComponent<ITGDreamDaemon>().SetAutostart(AutostartCheckbox.Checked);
+				Instance.DreamDaemon.SetAutostart(AutostartCheckbox.Checked);
 		}
 		private void ServerStartButton_Click(object sender, System.EventArgs e)
 		{
@@ -241,7 +240,7 @@ namespace TGS.ControlPanel
 		{
 			try
 			{
-				e.Result = Interface.GetComponent<ITGDreamDaemon>().Start();
+				e.Result = Instance.DreamDaemon.Start();
 			}
 			catch (Exception ex)
 			{
@@ -254,7 +253,7 @@ namespace TGS.ControlPanel
 			var DialogResult = MessageBox.Show("This will immediately shut down the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			var res = Interface.GetComponent<ITGDreamDaemon>().Stop();
+			var res = Instance.DreamDaemon.Stop();
 			if (res != null)
 				MessageBox.Show(res);
 		}
@@ -264,7 +263,7 @@ namespace TGS.ControlPanel
 			var DialogResult = MessageBox.Show("This will immediately restart the server. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			var res = Interface.GetComponent<ITGDreamDaemon>().Restart();
+			var res = Instance.DreamDaemon.Restart();
 			if (res != null)
 				MessageBox.Show(res);
 		}
@@ -276,7 +275,7 @@ namespace TGS.ControlPanel
 			var DialogResult = MessageBox.Show("This will shut down the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			Interface.GetComponent<ITGDreamDaemon>().RequestStop();
+			Instance.DreamDaemon.RequestStop();
 			LoadServerPage();
 		}
 
@@ -285,7 +284,7 @@ namespace TGS.ControlPanel
 			var DialogResult = MessageBox.Show("This will restart the server when the current round ends. Continue?", "Confim", MessageBoxButtons.YesNo);
 			if (DialogResult == DialogResult.No)
 				return;
-			Interface.GetComponent<ITGDreamDaemon>().RequestRestart();
+			Instance.DreamDaemon.RequestRestart();
 		}
 
 		/// <summary>
@@ -295,7 +294,7 @@ namespace TGS.ControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		void TestMergeManagerButton_Click(object sender, System.EventArgs e)
 		{
-			using (var TMM = new TestMergeManager(Interface, ghclient))
+			using (var TMM = new TestMergeManager(Instance, ghclient))
 				TMM.ShowDialog();
 			LoadServerPage();
 		}
@@ -322,7 +321,7 @@ namespace TGS.ControlPanel
 				try
 				{
 					string res = null;
-					var repo = Interface.GetComponent<ITGRepository>();
+					var repo = Instance.Repository;
 					var pulls = await Task.Run(() => repo.MergedPullRequests(out res));
 
 					if (pulls == null)
@@ -367,7 +366,7 @@ namespace TGS.ControlPanel
 							pulls.RemoveAll(x => x.Number == I.Result.Number);
 
 					var mergeResults = await Task.Run(() => repo.MergePullRequests(pulls, true));
-					var compileStartResult = await Task.Run(() => Interface.GetComponent<ITGCompiler>().Compile(true));
+					var compileStartResult = await Task.Run(() => Instance.Compiler.Compile(true));
 
 					//Show any errors
 					for (var I = 0; I < mergeResults.Count(); ++I)
@@ -413,7 +412,7 @@ namespace TGS.ControlPanel
 				Enabled = false;
 				try
 				{
-					var repo = Interface.GetComponent<ITGRepository>();
+					var repo = Instance.Repository;
 
 					var res = await Task.Run(() => repo.Reset(true));
 
@@ -428,7 +427,7 @@ namespace TGS.ControlPanel
 					if (res != null)
 						MessageBox.Show(res, "Error generating changelog");
 
-					await Task.Run(() => Interface.GetComponent<ITGCompiler>().Compile(false));
+					await Task.Run(() => Instance.Compiler.Compile(false));
 					if (res != null)
 						MessageBox.Show(res, "Error starting compile!");
 				}
@@ -455,7 +454,7 @@ namespace TGS.ControlPanel
 		private void SecuritySelector_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				if (!Interface.GetComponent<ITGDreamDaemon>().SetSecurityLevel((DreamDaemonSecurity)SecuritySelector.SelectedIndex))
+				if (!Instance.DreamDaemon.SetSecurityLevel((DreamDaemonSecurity)SecuritySelector.SelectedIndex))
 					MessageBox.Show("Security change will be applied after next server reboot.");
 		}
 
@@ -463,20 +462,20 @@ namespace TGS.ControlPanel
 		{
 			var msg = WorldAnnounceField.Text;
 			if (!String.IsNullOrWhiteSpace(msg))
-				Interface.GetComponent<ITGInterop>().WorldAnnounce(msg);
+				Instance.Interop.WorldAnnounce(msg);
 			WorldAnnounceField.Text = "";
 		}
 
 		private void WebclientCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Interface.GetComponent<ITGDreamDaemon>().SetWebclient(WebclientCheckBox.Checked);
+				Instance.DreamDaemon.SetWebclient(WebclientCheckBox.Checked);
 		}
 
 		private void AutoUpdateInterval_ValueChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+				Instance.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 
 		private void AutoUpdateCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -487,9 +486,9 @@ namespace TGS.ControlPanel
 			AutoUpdateInterval.Visible = on;
 			AutoUpdateMLabel.Visible = on;
 			if (!on)
-				Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval(0);
+				Instance.SetAutoUpdateInterval(0);
 			else
-				Interface.GetComponent<ITGInstance>().SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+				Instance.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 	}
 }

@@ -270,7 +270,7 @@ namespace TGS.Server.Components
 		/// <returns><see cref="CompilerStatus.Initialized"/> if the <see cref="CompilerManager"/> is initialized, <see cref="CompilerStatus.Uninitialized"/> otherwise</returns>
 		CompilerStatus IsInitialized()
 		{
-			var InterfaceAssemblyName = Assembly.GetAssembly(typeof(IServerInterface)).GetName().Name;
+			var InterfaceAssemblyName = Assembly.GetAssembly(typeof(IClient)).GetName().Name;
 			if (IO.FileExists(IOManager.ConcatPath(GameDirLive, InteropManager.BridgeDLLName)).Result || IO.FileExists(IOManager.ConcatPath(GameDirLive, InterfaceAssemblyName, ".dll")).Result)	//its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;

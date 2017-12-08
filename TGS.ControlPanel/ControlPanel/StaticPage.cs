@@ -29,7 +29,7 @@ namespace TGS.ControlPanel
 		{
 			if (initializedStaticPage)
 				return;
-			if(!Interface.ConnectToInstance().HasFlag(ConnectivityLevel.Administrator))
+			if(Instance.Administration != null)
 				RecreateStaticButton.Visible = false;
 			BuildFileList();
 			initializedStaticPage = true;
@@ -41,7 +41,7 @@ namespace TGS.ControlPanel
 			IndexesToPaths.Clear();
 			StaticFileListBox.Items.Clear();
 			IndexesToPaths.Add(StaticFileListBox.Items.Add("/"), "/");
-			if (EnumeratePath("", Interface.GetComponent<ITGStatic>(), 1) == EnumResult.Unauthorized)
+			if (EnumeratePath("", Instance.StaticFiles, 1) == EnumResult.Unauthorized)
 			{
 				StaticFileListBox.Items[0] += " (UNAUTHORIZED)";
 				IndexesToPaths[0] = null;
@@ -147,7 +147,7 @@ namespace TGS.ControlPanel
 			if (error == null)
 				try
 				{
-					error = Interface.GetComponent<ITGStatic>().WriteText(FileName, fileContents, out bool unauthorized);
+					error = Instance.StaticFiles.WriteText(FileName, fileContents, out bool unauthorized);
 				}
 				catch (Exception ex)
 				{
@@ -171,7 +171,7 @@ namespace TGS.ControlPanel
 			string text, error;
 			try
 			{
-				text = Interface.GetComponent<ITGStatic>().ReadText(remotePath, false, out error, out bool unauthorized);
+				text = Instance.StaticFiles.ReadText(remotePath, false, out error, out bool unauthorized);
 			}
 			catch (Exception ex)
 			{
@@ -213,7 +213,7 @@ namespace TGS.ControlPanel
 		{
 			if (MessageBox.Show("Are you sure you want to delete " + ((string)StaticFileListBox.SelectedItem).Trim() + "?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
-			var res = Interface.GetComponent<ITGStatic>().DeleteFile(IndexesToPaths[StaticFileListBox.SelectedIndex], out bool unauthorized);
+			var res = Instance.StaticFiles.DeleteFile(IndexesToPaths[StaticFileListBox.SelectedIndex], out bool unauthorized);
 			if (res != null)
 				MessageBox.Show(res);
 			BuildFileList();
@@ -236,7 +236,7 @@ namespace TGS.ControlPanel
 			var FullFileName = Path.Combine(IndexesToPaths[StaticFileListBox.SelectedIndex], FileName);
 			if (resu == DialogResult.Yes)
 				FullFileName = Path.Combine(FullFileName, "__TGS3_CP_DIRECTORY_CREATOR__");
-			var config = Interface.GetComponent<ITGStatic>();
+			var config = Instance.StaticFiles;
 			var res = config.WriteText(FullFileName, "", out bool unauthorized);
 			if (res != null)
 				MessageBox.Show(res);
@@ -255,7 +255,7 @@ namespace TGS.ControlPanel
 			bool unauthorized;
 			try
 			{
-				res = Interface.GetComponent<ITGStatic>().WriteText(IndexesToPaths[index], StaticFileEditTextbox.Text, out unauthorized);
+				res = Instance.StaticFiles.WriteText(IndexesToPaths[index], StaticFileEditTextbox.Text, out unauthorized);
 			}
 			catch (Exception ex)
 			{
@@ -307,7 +307,7 @@ namespace TGS.ControlPanel
 				bool unauthorized;
 				try
 				{
-					entry = Interface.GetComponent<ITGStatic>().ReadText(path, false, out error, out unauthorized);
+					entry = Instance.StaticFiles.ReadText(path, false, out error, out unauthorized);
 				}
 				catch(Exception e)
 				{
@@ -344,7 +344,7 @@ namespace TGS.ControlPanel
 				RecreateStaticButton.Visible = false;
 				return;
 			}
-			var res = Interface.GetComponent<ITGAdministration>().RecreateStaticFolder();
+			var res = Instance.Administration.RecreateStaticFolder();
 			if (res != null)
 				MessageBox.Show(res);
 			BuildFileList();
