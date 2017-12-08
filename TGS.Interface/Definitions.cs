@@ -28,10 +28,5 @@ namespace TGS.Interface
 		/// Base name of instance URLs
 		/// </summary>
 		public const string InstanceInterfaceName = MasterInterfaceName + "/Instance";
-
-		/// <summary>
-		/// Version of the interface
-		/// </summary>
-		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
 	}
 }

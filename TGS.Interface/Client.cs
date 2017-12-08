@@ -14,6 +14,11 @@ namespace TGS.Interface
 	/// <inheritdoc />
 	sealed public class Client : IClient
 	{
+		/// <summary>
+		/// Version of the <see cref="Client"/>
+		/// </summary>
+		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+
 		/// <inheritdoc />
 		public IServer Server => server;
 
@@ -147,10 +152,9 @@ namespace TGS.Interface
 		/// <inheritdoc />
 		public bool VersionMismatch(out string errorMessage)
 		{
-			var version = Definitions.Version;
-			if (ServerVersion.Major != version.Major || ServerVersion.Minor != version.Minor || ServerVersion.Build != version.Build)	//don't care about the patch level
+			if (ServerVersion.Major != Version.Major || ServerVersion.Minor != Version.Minor || ServerVersion.Build != Version.Build)	//don't care about the patch level
 			{
-				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", version, ServerVersion);
+				errorMessage = String.Format("Version mismatch between interface version ({0}) and service version ({1}). Some functionality may crash this program.", Version, ServerVersion);
 				return true;
 			}
 			errorMessage = null;
