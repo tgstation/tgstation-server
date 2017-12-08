@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Reflection;
@@ -9,7 +8,6 @@ using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using TGS.Interface.Components;
-using TGS.Interface.Wrappers;
 
 namespace TGS.Interface
 {
@@ -29,11 +27,11 @@ namespace TGS.Interface
 						//check ITGSService first for compatiblity reasons
 						try
 						{
-							rawVersion = GetServiceComponent<ITGSService>().Version();
+							rawVersion = GetComponent<ITGSService>(null).Version();
 						}
 						catch
 						{
-							rawVersion = GetServiceComponent<ITGLanding>().Version();
+							rawVersion = GetComponent<ITGLanding>(null).Version();
 						}
 						var splits = rawVersion.Split(' ');
 						_serverVersion = new Version(splits[splits.Length - 1].Substring(1));
@@ -63,9 +61,9 @@ namespace TGS.Interface
 		Version _serverVersion;
 
 		/// <summary>
-		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
+		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. <see langword="this"/> must be locked before being accessed
 		/// </summary>
-		IDictionary<string, ChannelFactory> ChannelFactoryCache = new Dictionary<string, ChannelFactory>();
+		IDictionary<string, ChannelFactory> ChannelFactoryCache;
 
 		/// <summary>
 		/// Sets the function called when a remote login fails due to the server having an invalid SSL cert
@@ -103,6 +101,7 @@ namespace TGS.Interface
 		/// </summary>
 		public ServerInterface()
 		{
+			ChannelFactoryCache = new Dictionary<string, ChannelFactory>();
 			server = new Server(this);
 		}
 
@@ -118,63 +117,19 @@ namespace TGS.Interface
 		}
 
 		/// <inheritdoc />
-		public ConnectivityLevel ConnectToInstance(string instanceName = null, bool skipChecks = false)
-		{
-			if (instanceName == null)
-				instanceName = InstanceName;
-			if (!skipChecks && !ConnectionStatus().HasFlag(ConnectivityLevel.Connected))
-				return ConnectivityLevel.None;
-			var prevInstance = InstanceName;
-			if (prevInstance != instanceName)
-				CloseAllChannels(false);
-			InstanceName = instanceName;
-			if (skipChecks)
-				return ConnectivityLevel.Connected;
-			try
-			{
-				GetComponent<ITGConnectivity>().VerifyConnection();
-			}
-			catch
-			{
-				InstanceName = prevInstance;
-				return ConnectivityLevel.None;
-			}
-			try
-			{
-				GetComponent<ITGInstance>().ServerDirectory();
-			}
-			catch
-			{
-				return ConnectivityLevel.Connected;
-			}
-			try
-			{
-				GetComponent<ITGAdministration>().GetCurrentAuthorizedGroup();
-				return ConnectivityLevel.Administrator;
-			}
-			catch
-			{
-				return ConnectivityLevel.Authenticated;
-			}
-		}
-
-		/// <inheritdoc />
 		public bool IsRemoteConnection { get { return LoginInfo != null; } }
 
 		/// <summary>
-		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and clears it
+		/// Closes all <see cref="ChannelFactory"/>s stored in <see cref="ChannelFactoryCache"/> and <see langword="nulls"/> it
 		/// </summary>
-		/// <param name="includingRoot">If set to <see langword="false"/>, doesn't clear the channels that are used by <see cref="ITGSService"/></param>
-		void CloseAllChannels(bool includingRoot)
+		public void Dispose()
 		{
-			string[] RootThings = { typeof(ITGSService).Name, 'S' + typeof(ITGConnectivity).Name };
-			lock (ChannelFactoryCache)
+			lock (this)
 			{
-				var toRemove = new List<string>();
+				if (ChannelFactoryCache == null)
+					return;
 				foreach (var I in ChannelFactoryCache)
 				{
-					if (RootThings.Contains(I.Key))
-						continue;
 					var cf = I.Value;
 					try
 					{
@@ -184,10 +139,8 @@ namespace TGS.Interface
 					{
 						cf.Abort();
 					}
-					toRemove.Add(I.Key);
 				}
-				foreach (var I in toRemove)
-					ChannelFactoryCache.Remove(I);
+				ChannelFactoryCache = null;
 			}
 		}
 
@@ -204,14 +157,6 @@ namespace TGS.Interface
 			return false;
 		}
 
-		/// <inheritdoc />
-		public T GetComponent<T>()
-		{
-			if(InstanceName == null)
-				throw new InvalidOperationException("Instance not selected!");
-			return GetComponent<T>(InstanceName);
-		}
-
 		/// <summary>
 		/// Returns the requested <see cref="ServerInterface"/> component <see langword="interface"/> for the instance <see cref="InstanceName"/>. This does not guarantee a successful connection. <see cref="ChannelFactory{TChannel}"/>s created this way are recycled for minimum latency and bandwidth usage
 		/// </summary>
@@ -220,16 +165,16 @@ namespace TGS.Interface
 		/// <returns>The correct component <see langword="interface"/></returns>
 		internal T GetComponent<T>(string instanceName)
 		{
-			if (disposedValue)
-				throw new ObjectDisposedException(GetType().Name);
 			var actualToT = typeof(T);
 			var tot = actualToT.Name;
-			if (actualToT == typeof(ITGConnectivity) && instanceName == null)
-				tot = 'S' + tot; 
+			if (instanceName != null)
+				tot = instanceName + tot; 
 			ChannelFactory<T> cf;
 
-			lock (ChannelFactoryCache)
+			lock (this)
 			{
+				if (ChannelFactoryCache == null)
+					throw new ObjectDisposedException(GetType().Name);
 				if (ChannelFactoryCache.ContainsKey(tot))
 					try
 					{
@@ -247,13 +192,6 @@ namespace TGS.Interface
 				ChannelFactoryCache[tot] = cf;
 			}
 			return cf.CreateChannel();
-		}
-
-		/// <inheritdoc />
-		public T GetServiceComponent<T>()
-		{
-			var ToT = typeof(T);
-			return GetComponent<T>(null);
 		}
 
 		/// <summary>
@@ -347,18 +285,20 @@ namespace TGS.Interface
 				error = e.ToString();
 				return ConnectivityLevel.None;
 			}
+
 			try
 			{
-				GetServiceComponent<ITGLanding>().Version();
+				GetComponent<ITGLanding>(null).Version();
 			}
 			catch(Exception e)
 			{
 				error = e.ToString();
 				return ConnectivityLevel.Connected;
 			}
+
 			try
 			{
-				GetServiceComponent<ITGSService>().Version();
+				GetComponent<ITGSService>(null).Version();
 				error = null;
 				return ConnectivityLevel.Administrator;
 			}
@@ -368,49 +308,5 @@ namespace TGS.Interface
 				return ConnectivityLevel.Authenticated;
 			}
 		}
-
-#region IDisposable Support
-		/// <summary>
-		/// To detect redundant <see cref="Dispose(bool)"/> calls
-		/// </summary>
-		private bool disposedValue = false;
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="CloseAllChannels"/>
-		/// </summary>
-		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					CloseAllChannels(true);
-				}
-
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
-
-				disposedValue = true;
-			}
-		}
-
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-		// ~Interface() {
-		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-		//   Dispose(false);
-		// }
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
-		/// </summary>
-		public void Dispose()
-		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
-		}
-#endregion
 	}
 }

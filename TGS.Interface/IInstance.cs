@@ -1,6 +1,6 @@
 ﻿using TGS.Interface.Components;
 
-namespace TGS.Interface.Wrappers
+namespace TGS.Interface
 {
 	/// <summary>
 	/// Wrapper for <see cref="ITGInstance"/> components

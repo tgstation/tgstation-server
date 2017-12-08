@@ -2,7 +2,7 @@
 using System.Linq;
 using TGS.Interface.Components;
 
-namespace TGS.Interface.Wrappers
+namespace TGS.Interface
 {
 	/// <inheritdoc />
 	sealed class Instance : IInstance
