@@ -33,28 +33,33 @@ namespace TGS.Interface.Wrappers
 		}
 
 		/// <inheritdoc />
-		public ITGInstanceManager InstanceManager => serverInterface.GetComponent<ITGInstanceManager>(null);
+		public ITGInstanceManager InstanceManager => UserIsAdministrator ? serverInterface.GetComponent<ITGInstanceManager>(null) : null;
 
 		/// <inheritdoc />
-		public ITGSService Management
+		public ITGSService Management => UserIsAdministrator ? serverInterface.GetComponent<ITGSService>(null) : null;
+
+		/// <summary>
+		/// If the connected user is an administrator of the <see cref="IServer"/>
+		/// </summary>
+		bool UserIsAdministrator
 		{
 			get
 			{
-				var component = serverInterface.GetComponent<ITGSService>(null);
 				lock (this)
 				{
-					if (!userIsAdministrator)
-						try
-						{
-							var test = component.Version();
-							userIsAdministrator = true;
-						}
-						catch
-						{
-							return null;
-						}
+					if (isAdministrator)
+						return true;
+					try
+					{
+						serverInterface.GetComponent<ITGSService>(null).Version();
+						isAdministrator = true;
+						return true;
+					}
+					catch
+					{
+						return false;
+					}
 				}
-				return component;
 			}
 		}
 
@@ -62,15 +67,16 @@ namespace TGS.Interface.Wrappers
 		/// The backing <see cref="ServerInterface"/>
 		/// </summary>
 		readonly ServerInterface serverInterface;
-		/// <summary>
-		/// If the connected user is an administrator of the <see cref="IServer"/>
-		/// </summary>
-		bool userIsAdministrator;
 
 		/// <summary>
 		/// Result of a call to <see cref="ITGLanding.ListInstances"/>
 		/// </summary>
 		IList<InstanceMetadata> knownInstances;
+
+		/// <summary>
+		/// Backing field for <see cref="UserIsAdministrator"/>
+		/// </summary>
+		bool isAdministrator;
 
 		/// <summary>
 		/// Construct an <see cref="Server"/>

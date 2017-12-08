@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TGS.Interface.Components;
 
 namespace TGS.Interface.Wrappers
@@ -6,6 +7,43 @@ namespace TGS.Interface.Wrappers
 	/// <inheritdoc />
 	sealed class Instance : IInstance
 	{
+		/// <inheritdoc />
+		public InstanceMetadata Metadata
+		{
+			get
+			{
+				if (!metadata.Enabled)
+					//metadata needs populating
+					metadata = serverInterface.GetComponent<ITGLanding>(null).ListInstances().Where(x => x.Name == metadata.Name).First();
+				return metadata;
+			}
+		}
+
+		/// <summary>
+		/// Whether or not the current user is known to be an administrator of the <see cref="IInstance"/>
+		/// </summary>
+		bool UserIsAdministrator
+		{
+			get
+			{
+				lock (this)
+				{
+					if (isAdministrator)
+						return true;
+					try
+					{
+						serverInterface.GetComponent<ITGAdministration>(metadata.Name).GetCurrentAuthorizedGroup();
+						isAdministrator = true;
+						return true;
+					}
+					catch
+					{
+						return false;
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// The backing <see cref="ServerInterface"/>
 		/// </summary>
@@ -15,7 +53,7 @@ namespace TGS.Interface.Wrappers
 		/// </summary>
 		InstanceMetadata metadata;
 		/// <summary>
-		/// Whether or not the current user is known to be an administrator of the <see cref="IInstance"/>
+		/// Backing field for <see cref="UserIsAdministrator"/>
 		/// </summary>
 		bool isAdministrator;
 
@@ -31,38 +69,6 @@ namespace TGS.Interface.Wrappers
 			if (metadata.Enabled)
 				//run a connectivity check
 				serverInterface.GetComponent<ITGConnectivity>(metadata.Name).VerifyConnection();
-		}
-
-		/// <inheritdoc />
-		public InstanceMetadata Metadata
-		{
-			get
-			{
-				if (!metadata.Enabled)
-					//metadata needs populating
-					metadata = serverInterface.GetComponent<ITGLanding>(null).ListInstances().Where(x => x.Name == metadata.Name).First();
-				return metadata;
-			}
-		}
-
-		public bool UserIsAdministrator { get
-			{
-				lock (this)
-				{
-					if (isAdministrator)
-						return true;
-					try
-					{
-						Administration.GetCurrentAuthorizedGroup();
-						isAdministrator = true;
-						return true;
-					}
-					catch
-					{
-						return false;
-					}
-				}
-			}
 		}
 
 		/// <inheritdoc />
@@ -99,6 +105,15 @@ namespace TGS.Interface.Wrappers
 		public string Version()
 		{
 			return serverInterface.GetComponent<ITGInstance>(metadata.Name).Version();
+		}
+
+		/// <summary>
+		/// Get a string representation of the <see cref="Instance"/>
+		/// </summary>
+		/// <returns>A string representation of the <see cref="Instance"/></returns>
+		public override string ToString()
+		{
+			return String.Format("{0}: {1} - {2} - {3}", metadata.LoggingID, metadata.Name, metadata.Path, metadata.Enabled ? "ONLINE" : "OFFLINE");
 		}
 	}
 }
