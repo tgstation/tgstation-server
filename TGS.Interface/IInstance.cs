@@ -1,0 +1,50 @@
+﻿using TGS.Interface.Components;
+
+namespace TGS.Interface
+{
+	/// <summary>
+	/// Wrapper for <see cref="ITGInstance"/> components
+	/// </summary>
+	public interface IInstance : ITGInstance
+	{
+		/// <summary>
+		/// The <see cref="ITGAdministration"/> component
+		/// </summary>
+		ITGAdministration Administration { get; }
+
+		/// <summary>
+		/// The <see cref="ITGByond"/> component
+		/// </summary>
+		ITGByond Byond { get; }
+
+		/// <summary>
+		/// The <see cref="ITGChat"/> component
+		/// </summary>
+		ITGChat Chat { get; }
+
+		/// <summary>
+		/// The <see cref="ITGCompiler"/> component
+		/// </summary>
+		ITGCompiler Compiler { get; }
+
+		/// <summary>
+		/// The <see cref="ITGConfig"/> component
+		/// </summary>
+		ITGConfig Config { get; }
+
+		/// <summary>
+		/// The <see cref="ITGDreamDaemon"/> component
+		/// </summary>
+		ITGDreamDaemon DreamDaemon { get; }
+
+		/// <summary>
+		/// The <see cref="ITGInterop"/> component
+		/// </summary>
+		ITGInterop Interop { get; }
+
+		/// <summary>
+		/// The <see cref="ITGRepository"/> component
+		/// </summary>
+		ITGRepository Repository { get; }
+	}
+}
