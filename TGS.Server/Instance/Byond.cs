@@ -306,8 +306,15 @@ namespace TGS.Server
 					RevisionStaging = null;
 				}
 			}
-			if(staged)
-				Compile();
+			if (staged)
+				lock (ByondLock)
+				{
+					//Some fuckery to trick the compiler into starting even though we're staged
+					//Won't fuck up the actual compiler thread though
+					updateStat = ByondStatus.Idle;
+					Compile();
+					updateStat = ByondStatus.Staged;
+				}
 		}
 		/// <inheritdoc />
 		public bool UpdateToVersion(int major, int minor)

@@ -289,15 +289,6 @@ namespace TGS.Server
 		{
 			try
 			{
-				if (GetVersion(ByondVersion.Installed) == null)
-				{
-					lock (CompilerLock)
-					{
-						lastCompilerError = "BYOND not installed!";
-						compilerCurrentStatus = CompilerStatus.Initialized;
-						return;
-					}
-				}
 				if (!RepoConfigsMatch())
 				{
 					lock (CompilerLock)
@@ -419,15 +410,23 @@ namespace TGS.Server
 					return;
 				}
 
+				bool stagedBuild;
+				lock (ByondLock)
+				{
+					stagedBuild = updateStat == ByondStatus.Staged;
+					if (stagedBuild)
+						updateStat = ByondStatus.CompilingStaged;
+					else if (GetVersion(ByondVersion.Installed) == null)
+						lock (CompilerLock)
+						{
+							lastCompilerError = "BYOND not installed!";
+							compilerCurrentStatus = CompilerStatus.Initialized;
+							return;
+						}
+				}
+
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
-					bool stagedBuild;
-					lock (ByondLock)
-					{
-						stagedBuild = updateStat == ByondStatus.Staged;
-						if (stagedBuild)
-							updateStat = ByondStatus.CompilingStaged;
-					}
 					DM.StartInfo.FileName = RelativePath(Path.Combine(stagedBuild ? StagingDirectoryInner : ByondDirectory, "bin/dm.exe"));
 					DM.StartInfo.Arguments = String.Format("-clean {0}", dmePath);
 					DM.StartInfo.RedirectStandardOutput = true;
