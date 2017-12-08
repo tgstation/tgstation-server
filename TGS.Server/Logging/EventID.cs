@@ -331,5 +331,9 @@ namespace TGS.Server.Logging
 		/// Warning: When a testmerge commit failed to be published
 		/// </summary>
 		ReferencePush = 7700,
+		/// <summary>
+		/// Warning: When diagnostics for a process fail to start
+		/// </summary>
+		ProcessDiagnosticsFail = 7800,
 	}
 }

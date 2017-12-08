@@ -37,5 +37,10 @@ namespace TGS.Server.Components
 		/// Unlocks an executable retrieved from <see cref="LockDDExecutable(out string)"/>. That path must not be used again after calling this function
 		/// </summary>
 		void UnlockDDExecutable();
+
+		/// <summary>
+		/// Attempts to clear the BYOND cache folder in Documents
+		/// </summary>
+		void ClearCache();
 	}
 }

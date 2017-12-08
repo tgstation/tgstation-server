@@ -398,8 +398,16 @@ namespace TGS.Server.Components
 						WriteCurrentDDLog("Starting monitoring...");
 					}
 
-					pcpu = new PerformanceCounter("Process", "% Processor Time", process.ProcessName, true);
-					MemTrackTimer.Start();
+					try
+					{
+						pcpu = new PerformanceCounter("Process", "% Processor Time", process.ProcessName, true);
+						MemTrackTimer.Start();
+					}
+					//process already exited or sum shit
+					catch (InvalidOperationException e)
+					{
+						Logger.WriteWarning(String.Format("Unable to begin process diagnostics: {0}", e.ToString()), EventID.ProcessDiagnosticsFail);
+					}
 
 					try
 					{
@@ -415,7 +423,7 @@ namespace TGS.Server.Components
 						lock (this) //synchronize
 						{
 							MemTrackTimer.Stop();
-							pcpu.Dispose();
+							pcpu?.Dispose();
 						}
 					}
 
@@ -568,6 +576,8 @@ namespace TGS.Server.Components
 					Interop.SetCommunicationsKey();
 					Interop.ResetDMAPIVersion();
 					Interop.UpdateBridgeDll(true);
+
+					Byond.ClearCache();
 
 					var DMB = IOManager.ConcatPath(CompilerManager.GameDirLive, String.Format("{0}.dmb", Config.ProjectName));
 

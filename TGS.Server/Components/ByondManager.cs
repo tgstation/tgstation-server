@@ -77,6 +77,10 @@ namespace TGS.Server.Components
 		/// The path to <see cref="DMExecutable"/> in a BYOND installation
 		/// </summary>
 		static readonly string DMPath = IOManager.ConcatPath(BinDirectory, DMExecutable);
+		/// <summary>
+		/// The path to the BYOND cache
+		/// </summary>
+		static readonly string ByondCacheDirectory = IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ByondDirectory, "cache");
 
 		/// <summary>
 		/// The <see cref="IInstanceLogger"/> for the <see cref="ByondManager"/>
@@ -487,6 +491,16 @@ namespace TGS.Server.Components
 		public void UnlockDDExecutable()
 		{
 			CheckUnlock(ref DDLockCount, DreamDaemonExecutable);
+		}
+
+		/// <inheritdoc />
+		public void ClearCache()
+		{
+			try
+			{
+				IO.DeleteDirectory(ByondCacheDirectory, true).Wait();
+			}
+			catch { }
 		}
 	}
 }
