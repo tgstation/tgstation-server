@@ -20,8 +20,7 @@ namespace TGS.ControlPanel.Tests
 		{
 			var mockLanding = new Mock<ITGLanding>();
 			mockLanding.Setup(x => x.ListInstances()).Returns(new List<InstanceMetadata>());
-			var mockInter = new Mock<IServerInterface>();
-			mockInter.Setup(x => x.GetComponent<ITGLanding>()).Returns(mockLanding.Object);
+			var mockInter = new Mock<IServer>();
 		
 			new InstanceSelector(mockInter.Object).Dispose();
 		}

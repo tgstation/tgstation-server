@@ -79,7 +79,7 @@ namespace TGS.Installer.UI
 			var verifiedConnection = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				var realVersion = Interface.ServerVersion;
+				var realVersion = Interface.Server.Version;
 				var isV0 = realVersion < new Version(3, 1, 0, 0);
 				if (isV0) //OH GOD!!!!
 					MessageBox.Show("Upgrading from version 3.0 may trigger a bug that can delete /config and /data. IT IS STRONGLY RECCOMMENDED THAT YOU BACKUP THESE FOLDERS BEFORE UPDATING!", "Warning");
@@ -106,7 +106,7 @@ namespace TGS.Installer.UI
 			var connectionVerified = Interface.ConnectionStatus().HasFlag(ConnectivityLevel.Administrator);
 			try
 			{
-				Interface.GetServiceComponent<ITGSService>().PrepareForUpdate();
+				Interface.Server.Management.PrepareForUpdate();
 				Thread.Sleep(3000); //chat messages
 				return true;
 			}
@@ -194,18 +194,18 @@ namespace TGS.Installer.UI
 			var sc = new ServerConfig();
 			try
 			{
-				sc.PythonPath = Interface.GetServiceComponent<ITGSService>().PythonPath();
+				sc.PythonPath = Interface.Server.Management.PythonPath();
 			}
 			catch { }
 			try
 			{
-				sc.RemoteAccessPort = Interface.GetServiceComponent<ITGSService>().RemoteAccessPort();
+				sc.RemoteAccessPort = Interface.Server.Management.RemoteAccessPort();
 			}
 			catch { }
 			try
 			{
-				foreach (var I in Interface.GetServiceComponent<ITGLanding>().ListInstances())
-					sc.InstancePaths.Add(I.Path);
+				foreach (var I in Interface.Server.Instances)
+					sc.InstancePaths.Add(I.Metadata.Path);
 			}
 			catch { }
 
