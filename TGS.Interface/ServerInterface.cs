@@ -16,11 +16,8 @@ namespace TGS.Interface
 	/// <inheritdoc />
 	sealed public class ServerInterface : IServerInterface
 	{
-
-		/// <summary>
-		/// The <see cref="ServerVersion"/>
-		/// </summary>
-		Version _serverVersion;
+		/// <inheritdoc />
+		public IServer Server => server;
 
 		/// <inheritdoc />
 		public Version ServerVersion { get
@@ -47,13 +44,23 @@ namespace TGS.Interface
 		/// <inheritdoc />
 		public string InstanceName { get; private set; }
 
+		/// <inheritdoc />
+		public RemoteLoginInfo LoginInfo { get { return _loginInfo; } }
+
+		/// <summary>
+		/// Backing field for <see cref="Server"/>
+		/// </summary>
+		readonly IServer server;
+
 		/// <summary>
 		/// Backing field for <see cref="LoginInfo"/>
 		/// </summary>
 		readonly RemoteLoginInfo _loginInfo;
 
-		/// <inheritdoc />
-		public RemoteLoginInfo LoginInfo { get { return _loginInfo; } }
+		/// <summary>
+		/// The <see cref="ServerVersion"/>
+		/// </summary>
+		Version _serverVersion;
 
 		/// <summary>
 		/// Associated list of open <see cref="ChannelFactory"/>s keyed by <see langword="interface"/> type name. A <see cref="ChannelFactory"/> in this list may close or fault at any time. Must be locked before being accessed
@@ -94,13 +101,16 @@ namespace TGS.Interface
 		/// <summary>
 		/// Construct an <see cref="ServerInterface"/> for a local connection
 		/// </summary>
-		public ServerInterface() { }
+		public ServerInterface()
+		{
+			server = new Server(this);
+		}
 
 		/// <summary>
 		/// Construct an <see cref="ServerInterface"/> for a remote connection
 		/// </summary>
 		/// <param name="loginInfo">The <see cref="RemoteLoginInfo"/> for a remote connection</param>
-		public ServerInterface(RemoteLoginInfo loginInfo)
+		public ServerInterface(RemoteLoginInfo loginInfo) : this()
 		{
 			if (!loginInfo.HasPassword)
 				throw new InvalidOperationException("password must be set on loginInfo!");

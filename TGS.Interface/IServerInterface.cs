@@ -1,4 +1,5 @@
 ﻿using System;
+using TGS.Interface.Wrappers;
 
 namespace TGS.Interface
 {
@@ -7,6 +8,11 @@ namespace TGS.Interface
 	/// </summary>
 	public interface IServerInterface : IDisposable
 	{
+		/// <summary>
+		/// The <see cref="IServer"/> the <see cref="IServerInterface"/> connects to
+		/// </summary>
+		IServer Server { get; }
+
 		/// <summary>
 		/// The <see cref="Version"/> of the connected <see cref="Components.ITGSService"/>
 		/// </summary>
