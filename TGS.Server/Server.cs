@@ -323,7 +323,6 @@ namespace TGS.Server
 			AddEndpoint(host, typeof(ITGChat));
 			AddEndpoint(host, typeof(ITGCompiler));
 			AddEndpoint(host, typeof(ITGConfig));
-			AddEndpoint(host, typeof(ITGConnectivity));
 			AddEndpoint(host, typeof(ITGDreamDaemon));
 			AddEndpoint(host, typeof(ITGInstance));
 			AddEndpoint(host, typeof(ITGInterop));
