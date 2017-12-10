@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Security;
 using TGS.Server.ChatCommands;
 using TGS.Interface;
@@ -16,7 +17,6 @@ namespace TGS.Server
 	//handles talking between the world and us
 	sealed partial class Instance : ITGInterop
 	{
-
 		object topicLock = new object();
 		const int CommsKeyLen = 64;
 		string serviceCommsKey; //regenerated every DD restart
@@ -89,70 +89,73 @@ namespace TGS.Server
 		}
 
 		//raw command string sent here via world.ExportService
-		void HandleCommand(string cmd)
+		Task HandleCommand(string cmd)
 		{
-			var splits = new List<string>(cmd.Split(' '));
-			cmd = splits[0];
-			splits.RemoveAt(0);
-
-			bool APIValid;
-			lock (topicLock)
+			return Task.Run(() =>
 			{
-				APIValid = CheckAPIVersionConstraints();
-			}
+				var splits = new List<string>(cmd.Split(' '));
+				cmd = splits[0];
+				splits.RemoveAt(0);
 
-			if (!APIValid && cmd != SRAPIVersion)
-				return;	//SPEAK THE LANGUAGE!!!
+				bool APIValid;
+				lock (topicLock)
+				{
+					APIValid = CheckAPIVersionConstraints();
+				}
 
-			switch (cmd)
-			{
-				case SRIRCBroadcast:
-					SendMessage("GAME: " + String.Join(" ", splits), MessageType.GameInfo);
-					break;
-				case SRKillProcess:
-					KillMe();
-					break;
-				case SRIRCAdminChannelMessage:
-					SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
-					break;
-				case SRWorldReboot:
-					WriteInfo("World Rebooted", EventID.WorldReboot);
-					WriteCurrentDDLog("World rebooted");
-					ServerChatCommands = null;
-					ChatConnectivityCheck();
-					lock (CompilerLock)
-					{
-						if (UpdateStaged)
+				if (!APIValid && cmd != SRAPIVersion)
+					return; //SPEAK THE LANGUAGE!!!
+
+				switch (cmd)
+				{
+					case SRIRCBroadcast:
+						SendMessage("GAME: " + String.Join(" ", splits), MessageType.GameInfo);
+						break;
+					case SRKillProcess:
+						KillMe();
+						break;
+					case SRIRCAdminChannelMessage:
+						SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
+						break;
+					case SRWorldReboot:
+						WriteInfo("World Rebooted", EventID.WorldReboot);
+						WriteCurrentDDLog("World rebooted");
+						ServerChatCommands = null;
+						ChatConnectivityCheck();
+						lock (CompilerLock)
 						{
-							UpdateStaged = false;
-							lock (topicLock)
+							if (UpdateStaged)
 							{
-								GameAPIVersion = null;  //needs updating
+								UpdateStaged = false;
+								lock (topicLock)
+								{
+									GameAPIVersion = null;  //needs updating
+								}
+								WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
 							}
-							WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
 						}
-					}
-					break;
-				case SRAPIVersion:
-					lock (topicLock)
-					{
-						try
+						break;
+					case SRAPIVersion:
+						lock (topicLock)
 						{
-							GameAPIVersion = new Version(splits[0]);
-							if (!CheckAPIVersionConstraints())
-								throw new Exception();
+							try
+							{
+								GameAPIVersion = new Version(splits[0]);
+								if (!CheckAPIVersionConstraints())
+									throw new Exception();
+							}
+							catch
+							{
+								WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
+								GameAPIVersion = null;
+								break;
+							}
 						}
-						catch
-						{
-							WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
-							GameAPIVersion = null;
-							break;
-						}
-					}
-					//This needs to be done asyncronously otherwise DD won't be able to process it, because it's waiting for THIS THREAD to return
-					ThreadPool.QueueUserWorkItem(_ => SendCommand(SCAPICompat));
-					break;
-			}
+						//This needs to be done asyncronously otherwise DD won't be able to process it, because it's waiting for THIS THREAD to return
+						ThreadPool.QueueUserWorkItem(_ => SendCommand(SCAPICompat));
+						break;
+				}
+			});
 		}
 
 		public string SendCommand(string cmd)
@@ -261,16 +264,11 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public bool InteropMessage(string command)
 		{
-			try
+			HandleCommand(command).ContinueWith((t) =>
 			{
-				HandleCommand(command);
-				return true;
-			}
-			catch(Exception e)
-			{
-				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
-				return false;
-			}
+				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, t.Exception.ToString()), EventID.InteropCallException);
+			}, TaskContinuationOptions.OnlyOnFaulted);
+			return true;
 		}
 	}
 }
