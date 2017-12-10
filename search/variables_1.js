@@ -2,6 +2,7 @@ var searchData=
 [
   ['acceptedbadcert',['AcceptedBadCert',['../class_t_g_s_1_1_command_line_1_1_program.html#afcd3f13f16a7402b83ef33b97bb4b70e',1,'TGS::CommandLine::Program']]],
   ['action',['action',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aec8fdc2b38dacad0f17eac7cec907cad',1,'TGS::ControlPanel::ControlPanel']]],
+  ['activecalls',['ActiveCalls',['../class_t_g_s_1_1_server_1_1_call_logger.html#a4f12633b1a91321a1013562a4634d24c',1,'TGS::Server::CallLogger']]],
   ['activeserver',['activeServer',['../class_t_g_s_1_1_server_1_1_service_1_1_service.html#ab5fec892fdcf64809d41d6d7483659e6',1,'TGS::Server::Service::Service']]],
   ['addprbutton',['AddPRButton',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a7ed87f5eb6cea6004c423c86f805b9d3',1,'TGS::ControlPanel::TestMergeManager']]],
   ['addprnumericupdown',['AddPRNumericUpDown',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a72a258bcfec1fec5d6f2634cb0422dc2',1,'TGS::ControlPanel::TestMergeManager']]],

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['calllogger',['CallLogger',['../class_t_g_s_1_1_server_1_1_call_logger.html',1,'TGS::Server']]],
   ['chataddmincommand',['ChatAddminCommand',['../class_t_g_s_1_1_command_line_1_1_chat_addmin_command.html',1,'TGS::CommandLine']]],
   ['chatcommand',['ChatCommand',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_chat_command.html',1,'TGS::Server::ChatCommands']]],
   ['chatdeadmincommand',['ChatDeadminCommand',['../class_t_g_s_1_1_command_line_1_1_chat_deadmin_command.html',1,'TGS::CommandLine']]],

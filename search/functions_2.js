@@ -29,6 +29,7 @@ var searchData=
   ['checkforexistingversion',['CheckForExistingVersion',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ab6781b4ecdab49b32c2733186498d2fc',1,'TGS::Installer::UI::Main']]],
   ['checkinstanceconnectivity',['CheckInstanceConnectivity',['../class_t_g_s_1_1_command_line_1_1_program.html#ae8dcb24e3eac974e42fd5b2dfaf2dd5b',1,'TGS::CommandLine::Program']]],
   ['checkinstancename',['CheckInstanceName',['../class_t_g_s_1_1_server_1_1_server.html#a8af19f53ce6ebfba60a09817af26a667',1,'TGS::Server::Server']]],
+  ['checklocked',['CheckLocked',['../class_t_g_s_1_1_server_1_1_instance.html#af99f3b1fc96ea32705dd57a23500d1b3',1,'TGS::Server::Instance']]],
   ['checkout',['Checkout',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#aa0910cf15f3d3773e651757628e3cc40',1,'TGS.Interface.Components.ITGRepository.Checkout()'],['../class_t_g_s_1_1_server_1_1_instance.html#ac49fce1ca9d542dca6992318c1c94855',1,'TGS.Server.Instance.Checkout()']]],
   ['checkoutprogress',['CheckoutProgress',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#ae96140536dbff81640d16801d916612c',1,'TGS.Interface.Components.ITGRepository.CheckoutProgress()'],['../class_t_g_s_1_1_server_1_1_instance.html#a6388054e24e414ef49593fa51ce0ae24',1,'TGS.Server.Instance.CheckoutProgress()']]],
   ['cleanbyondstaging',['CleanByondStaging',['../class_t_g_s_1_1_server_1_1_instance.html#a159ebf40e20cc296bbb2bc2a0986a8ac',1,'TGS::Server::Instance']]],

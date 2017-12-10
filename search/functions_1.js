@@ -4,6 +4,7 @@ var searchData=
   ['backuptagslist_5fmousedoubleclick',['BackupTagsList_MouseDoubleClick',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a6599cf8a95f3f0472b7619d5f833d4b3',1,'TGS::ControlPanel::ControlPanel']]],
   ['badcertificatehandler',['BadCertificateHandler',['../class_t_g_s_1_1_control_panel_1_1_program.html#a6afe0f915d0d6176e97498dddecfeda1',1,'TGS::ControlPanel::Program']]],
   ['badcertificateinteractive',['BadCertificateInteractive',['../class_t_g_s_1_1_command_line_1_1_program.html#aa57edfe22914d254946fdf3277a8a969',1,'TGS::CommandLine::Program']]],
+  ['beforecall',['BeforeCall',['../class_t_g_s_1_1_server_1_1_call_logger.html#a532c166d1839ee3cf00ad735c9c80208',1,'TGS::Server::CallLogger']]],
   ['beforesendrequest',['BeforeSendRequest',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#ade591ed64c16c17c88efeacf856262b3',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
   ['beginimpersonation',['BeginImpersonation',['../class_t_g_s_1_1_server_1_1_server.html#a6357fde09e65ef71222045f00094d5ac',1,'TGS::Server::Server']]],
   ['buildfilelist',['BuildFileList',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#ab49e8a8547782865999a739d920fa525',1,'TGS::ControlPanel::ControlPanel']]],

@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_g_s_1_1_server_1_1_server_config.html" title="Class for storing server wide settings " alt="" coords="5,5,169,32"/>
+<area shape="rect" id="node1" href="$interface_t_g_s_1_1_server_1_1_i_instance_config.html" title="Configuration settings for a Instance " alt="" coords="5,13,185,39"/>
+<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance_config.html" title="TGS.Server.InstanceConfig" alt="" coords="233,13,411,39"/>
+<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="" coords="459,5,665,47"/>
 </map>
