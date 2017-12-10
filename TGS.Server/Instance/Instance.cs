@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
+using System.Threading;
 using TGS.Interface.Components;
 
 namespace TGS.Server
@@ -102,6 +102,23 @@ namespace TGS.Server
 		string RelativePath(string path)
 		{
 			return Path.Combine(Config.Directory, path);
+		}
+
+		/// <summary>
+		/// Dumps the status of all locks in the <see cref="Instance"/>
+		/// </summary>
+		public void DumpLocks()
+		{
+			var res = Monitor.TryEnter(RepoLock);
+			string rb;
+			if (res)
+			{
+				rb = RepoBusy.ToString();
+				Monitor.Exit(RepoLock);
+			}
+			else
+				rb = "UNKNOWN";
+			Server.Logger.WriteWarning(String.Format("Started HandleCommand with others running! Active locks: Repo: {0}, Byond: {1}, Compiler: {2}, Topic: {3}, Config: {4}, Watchdog: {5}, Chat: {6}, this: {7}, restartLock: {8}, autoUpdateLock: {9}, RepoBusy: {10}", !res, CheckLocked(ByondLock), CheckLocked(CompilerLock), CheckLocked(topicLock), CheckLocked(configLock), CheckLocked(watchdogLock), CheckLocked(ChatLock), CheckLocked(this), CheckLocked(restartLock), CheckLocked(autoUpdateTimer), rb), EventID.CallTracking, LoggingID);
 		}
 
 		/// <inheritdoc />
