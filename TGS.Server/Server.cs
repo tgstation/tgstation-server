@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using TGS.Interface;
 using TGS.Interface.Components;
 using TGS.Server.Security;
@@ -342,7 +343,9 @@ namespace TGS.Server
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
+			var endpint = host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
+			foreach (OperationDescription od in endpint.Contract.Operations)
+				od.OperationBehaviors.Add(new AddCallLoggerBehavior());
 			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),
