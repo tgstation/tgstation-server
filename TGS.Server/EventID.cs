@@ -331,5 +331,9 @@ namespace TGS.Server
 		/// Warning: When a testmerge commit failed to be published
 		/// </summary>
 		ReferencePush = 7700,
+		/// <summary>
+		/// Info: When a call starts and another call hasn't completed
+		/// </summary>
+		CallTracking = 7800,
 	}
 }
