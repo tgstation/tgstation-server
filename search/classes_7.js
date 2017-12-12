@@ -17,8 +17,6 @@ var searchData=
   ['instanceconfig',['InstanceConfig',['../class_t_g_s_1_1_server_1_1_instance_config.html',1,'TGS::Server']]],
   ['instancemetadata',['InstanceMetadata',['../class_t_g_s_1_1_interface_1_1_instance_metadata.html',1,'TGS::Interface']]],
   ['instanceselector',['InstanceSelector',['../class_t_g_s_1_1_control_panel_1_1_instance_selector.html',1,'TGS::ControlPanel']]],
-  ['ioperationbehavior',['IOperationBehavior',['../class_i_operation_behavior.html',1,'']]],
-  ['iparameterinspector',['IParameterInspector',['../class_i_parameter_inspector.html',1,'']]],
   ['ircauthcommand',['IRCAuthCommand',['../class_t_g_s_1_1_command_line_1_1_i_r_c_auth_command.html',1,'TGS::CommandLine']]],
   ['ircauthlevelcommand',['IRCAuthLevelCommand',['../class_t_g_s_1_1_command_line_1_1_i_r_c_auth_level_command.html',1,'TGS::CommandLine']]],
   ['ircauthmodecommand',['IRCAuthModeCommand',['../class_t_g_s_1_1_command_line_1_1_i_r_c_auth_mode_command.html',1,'TGS::CommandLine']]],

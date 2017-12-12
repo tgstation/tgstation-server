@@ -35,6 +35,5 @@ var searchData=
   ['restartinprogress',['RestartInProgress',['../class_t_g_s_1_1_server_1_1_instance.html#a5863c8e752bf5bf1c25fa4aedad37378',1,'TGS::Server::Instance']]],
   ['restartlock',['restartLock',['../class_t_g_s_1_1_server_1_1_instance.html#a4e1de416ca840519b72c26d3018afeaa',1,'TGS::Server::Instance']]],
   ['revisiondownloadpath',['RevisionDownloadPath',['../class_t_g_s_1_1_server_1_1_instance.html#a2ed6a913422799be709b9bc96079843a',1,'TGS::Server::Instance']]],
-  ['revisionstaging',['RevisionStaging',['../class_t_g_s_1_1_server_1_1_instance.html#a05106e6dc12c2e62d28555ea51f7ce7b',1,'TGS::Server::Instance']]],
-  ['runningcommandhandlers',['RunningCommandHandlers',['../class_t_g_s_1_1_server_1_1_instance.html#aef927fd3392a1d591e9aa102c60298d0',1,'TGS::Server::Instance']]]
+  ['revisionstaging',['RevisionStaging',['../class_t_g_s_1_1_server_1_1_instance.html#a05106e6dc12c2e62d28555ea51f7ce7b',1,'TGS::Server::Instance']]]
 ];

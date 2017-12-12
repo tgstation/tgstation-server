@@ -45,6 +45,5 @@ var searchData=
   ['doasyncop',['DoAsyncOp',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#af93df657d753b7d2266d9e924b3e390e',1,'TGS::ControlPanel::ControlPanel']]],
   ['doinstall',['DoInstall',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#aa4b9c0e14a5bb5b8aaf7d22d45cc1a20',1,'TGS::Installer::UI::Main']]],
   ['dorun',['DoRun',['../class_t_g_s_1_1_interface_1_1_command.html#ad3b7f770775f3ad709530c32955796e7',1,'TGS.Interface.Command.DoRun()'],['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_chat_command.html#a706c8a3afc8590e4511011fb7c37a796',1,'TGS.Server.ChatCommands.ChatCommand.DoRun()']]],
-  ['dsntimes',['DSNTimes',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a8074f34b1f0d56e97f0390c7d20aa12a',1,'TGS::ControlPanel::ControlPanel']]],
-  ['dumplocks',['DumpLocks',['../class_t_g_s_1_1_server_1_1_instance.html#acdad577ff7852e562ac59a67eb31dd7c',1,'TGS::Server::Instance']]]
+  ['dsntimes',['DSNTimes',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a8074f34b1f0d56e97f0390c7d20aa12a',1,'TGS::ControlPanel::ControlPanel']]]
 ];

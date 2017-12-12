@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['calllogger_2ecs',['CallLogger.cs',['../_call_logger_8cs.html',1,'']]],
   ['chat_2ecs',['Chat.cs',['../_t_g_s_8_interface_2_components_2_chat_8cs.html',1,'']]],
   ['chat_2ecs',['Chat.cs',['../_t_g_s_8_server_2_instance_2_chat_8cs.html',1,'']]],
   ['chatcommand_2ecs',['ChatCommand.cs',['../_chat_command_8cs.html',1,'']]],
@@ -15,8 +14,8 @@ var searchData=
   ['common_2ecs',['Common.cs',['../_t_g_s_8_interface_8_bridge_2obj_2x86_2_release_2_common_8cs.html',1,'']]],
   ['compiler_2ecs',['Compiler.cs',['../_t_g_s_8_server_2_instance_2_compiler_8cs.html',1,'']]],
   ['compiler_2ecs',['Compiler.cs',['../_t_g_s_8_interface_2_components_2_compiler_8cs.html',1,'']]],
-  ['config_2ecs',['Config.cs',['../_t_g_s_8_interface_2_components_2_config_8cs.html',1,'']]],
   ['config_2ecs',['Config.cs',['../_t_g_s_8_server_2_instance_2_config_8cs.html',1,'']]],
+  ['config_2ecs',['Config.cs',['../_t_g_s_8_interface_2_components_2_config_8cs.html',1,'']]],
   ['configcommands_2ecs',['ConfigCommands.cs',['../_config_commands_8cs.html',1,'']]],
   ['connectivity_2ecs',['Connectivity.cs',['../_connectivity_8cs.html',1,'']]],
   ['console_2ecs',['Console.cs',['../_console_8cs.html',1,'']]],

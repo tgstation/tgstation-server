@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['calltracking',['CallTracking',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a7c453f4f9c60269b26a047d8c43b16ec',1,'TGS::Server']]],
   ['chatadminbroadcast',['ChatAdminBroadcast',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ae5a2fd702aecd51c476a9675986bb4df',1,'TGS::Server']]],
   ['chatbroadcast',['ChatBroadcast',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ad2e71273a51c0df317ed991861e6394f',1,'TGS::Server']]],
   ['chatbroadcastfail',['ChatBroadcastFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311af593a11d2b2d5496161097c7097c5d0d',1,'TGS::Server']]],

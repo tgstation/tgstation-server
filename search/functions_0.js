@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['addbindingparameters',['AddBindingParameters',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#aa6c198a7ae29ee7b927bf8f4b39d3dba',1,'TGS.Interface.AuthenticationHeaderApplicator.AddBindingParameters()'],['../class_t_g_s_1_1_server_1_1_add_call_logger_behavior.html#a80b7b8b480e72b6236190e5110dd6082',1,'TGS.Server.AddCallLoggerBehavior.AddBindingParameters()']]],
+  ['addbindingparameters',['AddBindingParameters',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#aa6c198a7ae29ee7b927bf8f4b39d3dba',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
   ['addendpoint',['AddEndpoint',['../class_t_g_s_1_1_server_1_1_server.html#ae6005800bd27448325d4b80cd0b1ee72',1,'TGS::Server::Server']]],
   ['addprbutton_5fclick',['AddPRButton_Click',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a93ccea89289c6869a8e96825126d752c',1,'TGS::ControlPanel::TestMergeManager']]],
   ['admincleargroupcommand',['AdminClearGroupCommand',['../class_t_g_s_1_1_command_line_1_1_admin_clear_group_command.html#a67cf800ac95a75086abe74728a644630',1,'TGS::CommandLine::AdminClearGroupCommand']]],
@@ -10,11 +10,10 @@ var searchData=
   ['adminrecreatestaticcommand',['AdminRecreateStaticCommand',['../class_t_g_s_1_1_command_line_1_1_admin_recreate_static_command.html#a03aef3b41ceb1e785c7de49acb12f70a',1,'TGS::CommandLine::AdminRecreateStaticCommand']]],
   ['adminsetgroupcommand',['AdminSetGroupCommand',['../class_t_g_s_1_1_command_line_1_1_admin_set_group_command.html#ae8dbc043bdcc10bf05ad40995e34311f',1,'TGS::CommandLine::AdminSetGroupCommand']]],
   ['adminviewgroupcommand',['AdminViewGroupCommand',['../class_t_g_s_1_1_command_line_1_1_admin_view_group_command.html#a2ec57176e0556719032bd22f24cac867',1,'TGS::CommandLine::AdminViewGroupCommand']]],
-  ['aftercall',['AfterCall',['../class_t_g_s_1_1_server_1_1_call_logger.html#aced410e63352d7060c76cb3b24fd70b0',1,'TGS::Server::CallLogger']]],
   ['afterreceivereply',['AfterReceiveReply',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a4eddc08092eff9ab9a081e02a7be05ce',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
   ['applybutton_5fclick',['ApplyButton_Click',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a1c456b6f2a839884b51a0a0f4da2c854',1,'TGS::ControlPanel::TestMergeManager']]],
-  ['applyclientbehavior',['ApplyClientBehavior',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a754231991908f2ecd8d260eed7950cd3',1,'TGS.Interface.AuthenticationHeaderApplicator.ApplyClientBehavior()'],['../class_t_g_s_1_1_server_1_1_add_call_logger_behavior.html#a901bfa1213f6f7c674a6d2f849e3e110',1,'TGS.Server.AddCallLoggerBehavior.ApplyClientBehavior()']]],
-  ['applydispatchbehavior',['ApplyDispatchBehavior',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a732a6ccebd55a083629a9695b2d98f94',1,'TGS.Interface.AuthenticationHeaderApplicator.ApplyDispatchBehavior()'],['../class_t_g_s_1_1_server_1_1_add_call_logger_behavior.html#a4430a16fad14d44a89a5b54d4de188f5',1,'TGS.Server.AddCallLoggerBehavior.ApplyDispatchBehavior()']]],
+  ['applyclientbehavior',['ApplyClientBehavior',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a754231991908f2ecd8d260eed7950cd3',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
+  ['applydispatchbehavior',['ApplyDispatchBehavior',['../class_t_g_s_1_1_interface_1_1_authentication_header_applicator.html#a732a6ccebd55a083629a9695b2d98f94',1,'TGS::Interface::AuthenticationHeaderApplicator']]],
   ['applystagedupdate',['ApplyStagedUpdate',['../class_t_g_s_1_1_server_1_1_instance.html#ac318b9e316c87b79912f3e6551f1ec3e',1,'TGS::Server::Instance']]],
   ['assertencryptdata',['AssertEncryptData',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#a5b762ac4ed32812cc8bae65f101dd990',1,'TGS::Interface::Tests::TestHelpers']]],
   ['assignlisttotextbox',['AssignListToTextbox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a589bee16efe0661fbb829f5a5b2dbf2a',1,'TGS::ControlPanel::ControlPanel']]],
