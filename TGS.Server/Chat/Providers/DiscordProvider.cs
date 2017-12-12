@@ -105,6 +105,19 @@ namespace TGS.Server.Chat.Providers
 						break;
 					}
 
+				if (!found)
+				{
+					var splits = formattedMessage.Split(' ');
+					found = splits[0].ToLower() == "!tgs";
+					if (found)
+					{
+						var asList = new List<string>();
+						asList.AddRange(splits);
+						asList.RemoveAt(0);
+						formattedMessage = String.Join(" ", asList);
+					}
+				}
+
 				if (!found && !pm)
 					return;
 
