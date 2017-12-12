@@ -257,6 +257,7 @@ namespace TGS.Server.ChatProviders
 		/// </summary>
 		void IRCListen()
 		{
+			Thread.CurrentThread.Name = "IRC Listener Thread";
 			while (irc != null && Connected())
 				try
 				{

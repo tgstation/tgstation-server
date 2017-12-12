@@ -143,6 +143,7 @@ namespace TGS.Server
 		//Initializing thread
 		public void InitializeImpl()
 		{
+			Thread.CurrentThread.Name = "Initialization Thread";
 			try
 			{
 				if (DaemonStatus() != DreamDaemonStatus.Offline)
@@ -287,6 +288,8 @@ namespace TGS.Server
 		//Compiler thread
 		void CompileImpl()
 		{
+			if(Thread.CurrentThread.Name == null)
+				Thread.CurrentThread.Name = "Compiler Thread";
 			try
 			{
 				if (!RepoConfigsMatch())
