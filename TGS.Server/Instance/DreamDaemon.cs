@@ -303,6 +303,7 @@ namespace TGS.Server
 		/// </summary>
 		void Watchdog()
 		{
+			Thread.CurrentThread.Name = "Watchdog Thread";
 			try
 			{
 				lock (restartLock)
