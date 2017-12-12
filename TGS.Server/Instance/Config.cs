@@ -17,7 +17,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string ReadText(string staticRelativePath, bool repo, out string error, out bool unauthorized)
 		{
-			Server.BeginImpersonation();
 			string path = null;
 			try
 			{
@@ -74,8 +73,9 @@ namespace TGS.Server
 						return null;
 					}
 
-					var output = File.ReadAllText(path);
-					Server.CancelImpersonation();
+					string output;
+					using (Server.BeginImpersonation())
+						output = File.ReadAllText(path);
 					WriteInfo("Read of " + path, EventID.StaticRead);
 					error = null;
 					unauthorized = false;
@@ -92,7 +92,6 @@ namespace TGS.Server
 			catch (Exception e)
 			{
 				error = e.ToString();
-				Server.CancelImpersonation();
 				WriteWarning(String.Format("Read of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				unauthorized = false;
 				return null;
@@ -102,7 +101,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
 		{
-			Server.BeginImpersonation();
 			var path = RelativePath(StaticDirs) + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
 			{
@@ -129,9 +127,11 @@ namespace TGS.Server
 						return "Cannot write above static directories!";
 					}
 
-					Directory.CreateDirectory(destdir);
-					File.WriteAllText(path, data);
-					Server.CancelImpersonation();
+					using (Server.BeginImpersonation())
+					{
+						Directory.CreateDirectory(destdir);
+						File.WriteAllText(path, data);
+					}
 					WriteInfo("Write to " + path, EventID.StaticWrite);
 					unauthorized = false;
 					return null;
@@ -146,7 +146,6 @@ namespace TGS.Server
 			catch (Exception e)
 			{
 				unauthorized = false;
-				Server.CancelImpersonation();
 				WriteWarning(String.Format("Write of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
@@ -154,7 +153,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string DeleteFile(string staticRelativePath, out bool unauthorized)
 		{
-			Server.BeginImpersonation();
 			var path = RelativePath(StaticDirs + '/' + staticRelativePath);   //do not use path.combine or it will try and take the root
 			try
 			{
@@ -181,11 +179,11 @@ namespace TGS.Server
 						return "Cannot delete above static directories!";
 					}
 
-					if (fi.Exists)
-						File.Delete(path);
-					else if (Directory.Exists(path))
-						Helpers.DeleteDirectory(path);
-					Server.CancelImpersonation();
+					using (Server.BeginImpersonation())
+						if (fi.Exists)
+							File.Delete(path);
+						else if (Directory.Exists(path))
+							Helpers.DeleteDirectory(path);
 					WriteInfo("Delete of " + path, EventID.StaticDelete);
 					unauthorized = false;
 					return null;
@@ -200,7 +198,6 @@ namespace TGS.Server
 			catch (Exception e)
 			{
 				unauthorized = false;
-				Server.CancelImpersonation();
 				WriteWarning(String.Format("Delete of {0} failed! Error: {1}", path, e.ToString()), EventID.StaticRead);
 				return e.ToString();
 			}
@@ -209,7 +206,6 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public IList<string> ListStaticDirectory(string subDir, out string error, out bool unauthorized)
 		{
-			Server.BeginImpersonation();
 			try
 			{
 				if (!Directory.Exists(RelativePath(StaticDirs)))
@@ -218,15 +214,18 @@ namespace TGS.Server
 					unauthorized = false;
 					return new List<string>();
 				}
-				DirectoryInfo dirToEnum = new DirectoryInfo(RelativePath(StaticDirs) + '/' + subDir ?? "");	//do not use path.combine or it will try and take the root
-				var result = new List<string>();
-				foreach (var I in dirToEnum.GetFiles())
-					result.Add(I.Name);
-				foreach (var I in dirToEnum.GetDirectories())
-					result.Add('/' + I.Name);
-				error = null;
-				unauthorized = false;
-				return result;
+				using (Server.BeginImpersonation())
+				{
+					DirectoryInfo dirToEnum = new DirectoryInfo(RelativePath(StaticDirs) + '/' + subDir ?? ""); //do not use path.combine or it will try and take the root
+					var result = new List<string>();
+					foreach (var I in dirToEnum.GetFiles())
+						result.Add(I.Name);
+					foreach (var I in dirToEnum.GetDirectories())
+						result.Add('/' + I.Name);
+					error = null;
+					unauthorized = false;
+					return result;
+				}
 			}
 			catch (UnauthorizedAccessException e)
 			{

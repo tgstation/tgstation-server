@@ -50,17 +50,10 @@ namespace TGS.Server
 		/// <summary>
 		/// Begins user impersonation to allow proper restricted file access
 		/// </summary>
-		public static void BeginImpersonation()
+		/// <returns>A <see cref="WindowsImpersonationContext"/> representing the impersonation</returns>
+		public static WindowsImpersonationContext BeginImpersonation()
 		{
-			WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
-		}
-
-		/// <summary>
-		/// Cancels WCF's user impersonation to allow clean access to writing log files
-		/// </summary>
-		public static void CancelImpersonation()
-		{
-			WindowsIdentity.Impersonate(IntPtr.Zero);
+			return WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
 		}
 
 		/// <summary>
