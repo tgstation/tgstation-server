@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using TGS.Interface;
 using TGS.Interface.Components;
 using TGS.Server.Security;
@@ -50,17 +49,10 @@ namespace TGS.Server
 		/// <summary>
 		/// Begins user impersonation to allow proper restricted file access
 		/// </summary>
-		public static void BeginImpersonation()
+		/// <returns>A <see cref="WindowsImpersonationContext"/> representing the impersonation</returns>
+		public static WindowsImpersonationContext BeginImpersonation()
 		{
-			WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
-		}
-
-		/// <summary>
-		/// Cancels WCF's user impersonation to allow clean access to writing log files
-		/// </summary>
-		public static void CancelImpersonation()
-		{
-			WindowsIdentity.Impersonate(IntPtr.Zero);
+			return WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
 		}
 
 		/// <summary>
@@ -343,9 +335,7 @@ namespace TGS.Server
 		void AddEndpoint(ServiceHost host, Type typetype)
 		{
 			var bindingName = typetype.Name;
-			var endpint = host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
-			foreach (OperationDescription od in endpint.Contract.Operations)
-				od.OperationBehaviors.Add(new AddCallLoggerBehavior());
+			host.AddServiceEndpoint(typetype, new NetNamedPipeBinding() { SendTimeout = new TimeSpan(0, 0, 30), MaxReceivedMessageSize = Definitions.TransferLimitLocal }, bindingName);
 			var httpsBinding = new BasicHttpsBinding()
 			{
 				SendTimeout = new TimeSpan(0, 0, 40),

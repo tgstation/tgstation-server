@@ -12,7 +12,7 @@ namespace TGS.Interface.Components
 		/// Called from /world/ExportService(command)
 		/// </summary>
 		/// <param name="command">The command to run</param>
-		/// <returns><see langword="true"/></returns>
+		/// <returns><see langword="true"/> on success, <see langword="false"/> on failure</returns>
 		[OperationContract]
 		bool InteropMessage(string command);
 	}
