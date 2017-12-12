@@ -81,7 +81,6 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CallLogger.cs" />
     <Compile Include="Security\AuthenticationHeaderDecoder.cs" />
     <Compile Include="ChatCommands\ByondCommand.cs" />
     <Compile Include="ChatCommands\CommandInfo.cs" />

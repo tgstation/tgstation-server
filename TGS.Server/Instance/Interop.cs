@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Security;
 using TGS.Server.ChatCommands;
 using TGS.Interface;
@@ -17,6 +16,7 @@ namespace TGS.Server
 	//handles talking between the world and us
 	sealed partial class Instance : ITGInterop
 	{
+
 		object topicLock = new object();
 		const int CommsKeyLen = 64;
 		string serviceCommsKey; //regenerated every DD restart
@@ -65,8 +65,6 @@ namespace TGS.Server
 
 		List<Command> ServerChatCommands;
 
-		int RunningCommandHandlers = 0;
-
 		void LoadServerChatCommands()
 		{
 			if (DaemonStatus() != DreamDaemonStatus.Online)
@@ -90,91 +88,71 @@ namespace TGS.Server
 			catch { }
 		}
 
-		static bool CheckLocked(object o)
-		{
-			var res = Monitor.TryEnter(o);
-			if (res)
-				Monitor.Exit(o);
-			return !res;
-		}
-
 		//raw command string sent here via world.ExportService
-		Task HandleCommand(string cmd)
+		void HandleCommand(string cmd)
 		{
-			return Task.Run(() =>
+			var splits = new List<string>(cmd.Split(' '));
+			cmd = splits[0];
+			splits.RemoveAt(0);
+
+			bool APIValid;
+			lock (topicLock)
 			{
-				if (Interlocked.Increment(ref RunningCommandHandlers) > 1)
-					DumpLocks();
-				try
-				{
-					var splits = new List<string>(cmd.Split(' '));
-					cmd = splits[0];
-					splits.RemoveAt(0);
+				APIValid = CheckAPIVersionConstraints();
+			}
 
-					bool APIValid;
-					lock (topicLock)
+			if (!APIValid && cmd != SRAPIVersion)
+				return;	//SPEAK THE LANGUAGE!!!
+
+			switch (cmd)
+			{
+				case SRIRCBroadcast:
+					SendMessage("GAME: " + String.Join(" ", splits), MessageType.GameInfo);
+					break;
+				case SRKillProcess:
+					KillMe();
+					break;
+				case SRIRCAdminChannelMessage:
+					SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
+					break;
+				case SRWorldReboot:
+					WriteInfo("World Rebooted", EventID.WorldReboot);
+					WriteCurrentDDLog("World rebooted");
+					ServerChatCommands = null;
+					ChatConnectivityCheck();
+					lock (CompilerLock)
 					{
-						APIValid = CheckAPIVersionConstraints();
-					}
-
-					if (!APIValid && cmd != SRAPIVersion)
-						return; //SPEAK THE LANGUAGE!!!
-
-					switch (cmd)
-					{
-						case SRIRCBroadcast:
-							SendMessage("GAME: " + String.Join(" ", splits), MessageType.GameInfo);
-							break;
-						case SRKillProcess:
-							KillMe();
-							break;
-						case SRIRCAdminChannelMessage:
-							SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
-							break;
-						case SRWorldReboot:
-							WriteInfo("World Rebooted", EventID.WorldReboot);
-							WriteCurrentDDLog("World rebooted");
-							ServerChatCommands = null;
-							ChatConnectivityCheck();
-							lock (CompilerLock)
-							{
-								if (UpdateStaged)
-								{
-									UpdateStaged = false;
-									lock (topicLock)
-									{
-										GameAPIVersion = null;  //needs updating
-									}
-									WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
-								}
-							}
-							break;
-						case SRAPIVersion:
+						if (UpdateStaged)
+						{
+							UpdateStaged = false;
 							lock (topicLock)
 							{
-								try
-								{
-									GameAPIVersion = new Version(splits[0]);
-									if (!CheckAPIVersionConstraints())
-										throw new Exception();
-								}
-								catch
-								{
-									WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
-									GameAPIVersion = null;
-									break;
-								}
+								GameAPIVersion = null;  //needs updating
 							}
-							//This needs to be done asyncronously otherwise DD won't be able to process it, because it's waiting for THIS THREAD to return
-							ThreadPool.QueueUserWorkItem(_ => SendCommand(SCAPICompat));
-							break;
+							WriteInfo("Staged update applied", EventID.ServerUpdateApplied);
+						}
 					}
-				}
-				finally
-				{
-					Interlocked.Decrement(ref RunningCommandHandlers);
-				}
-			});
+					break;
+				case SRAPIVersion:
+					lock (topicLock)
+					{
+						try
+						{
+							GameAPIVersion = new Version(splits[0]);
+							if (!CheckAPIVersionConstraints())
+								throw new Exception();
+						}
+						catch
+						{
+							WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
+							GameAPIVersion = null;
+							break;
+						}
+					}
+					//This needs to be done asyncronously otherwise DD won't be able to process it, because it's waiting for THIS THREAD to return
+					ThreadPool.QueueUserWorkItem(_ => SendCommand(SCAPICompat));
+					break;
+			}
 		}
 
 		public string SendCommand(string cmd)
@@ -283,11 +261,16 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public bool InteropMessage(string command)
 		{
-			HandleCommand(command).ContinueWith((t) =>
+			try
 			{
-				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, t.Exception.ToString()), EventID.InteropCallException);
-			}, TaskContinuationOptions.OnlyOnFaulted);
-			return true;
+				HandleCommand(command);
+				return true;
+			}
+			catch(Exception e)
+			{
+				WriteWarning(String.Format("Handle command for \"{0}\" failed: {1}", command, e.ToString()), EventID.InteropCallException);
+				return false;
+			}
 		}
 	}
 }
