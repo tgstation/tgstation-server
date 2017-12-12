@@ -259,7 +259,8 @@ namespace TGS.Server.Components
 				lastCompilerError = null;
 				compilerCurrentStatus = CompilerStatus.Initializing;
 				currentTaskCanceller = new CancellationTokenSource();
-				currentTask = Task.Factory.StartNew(() => InitializeImpl(currentTaskCanceller.Token), TaskCreationOptions.LongRunning);
+				var token = currentTaskCanceller.Token;
+				currentTask = Task.Factory.StartNew(() => InitializeImpl(token), TaskCreationOptions.LongRunning);
 				return true;
 			}
 		}
@@ -679,7 +680,8 @@ namespace TGS.Server.Components
 				lastCompilerError = null;
 				compilerCurrentStatus = CompilerStatus.Compiling;
 				currentTaskCanceller = new CancellationTokenSource();
-				currentTask = Task.Factory.StartNew(() => CompileImpl(currentTaskCanceller.Token), TaskCreationOptions.LongRunning);
+				var token = currentTaskCanceller.Token;
+				currentTask = Task.Factory.StartNew(() => CompileImpl(token), TaskCreationOptions.LongRunning);
 			}
 			return true;
 		}
