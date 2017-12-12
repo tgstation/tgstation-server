@@ -402,7 +402,7 @@ namespace TGS.Server.Components
 					updateStat = ByondStatus.Starting;
 					updateCancellationTokenSource = new CancellationTokenSource();
 					var token = updateCancellationTokenSource.Token;
-					updateTask = Task.Run(() => UpdateToVersionImpl(major, minor, token));
+					updateTask = Task.Factory.StartNew(() => UpdateToVersionImpl(major, minor, token), TaskCreationOptions.LongRunning);
 					return true;
 				}
 			return false;

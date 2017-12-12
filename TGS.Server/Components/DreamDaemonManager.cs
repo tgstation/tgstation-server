@@ -189,7 +189,7 @@ namespace TGS.Server.Components
 		void StartWatchdogTask()
 		{
 			watchdogCancellationToken = new CancellationTokenSource();
-			watchdogTask = Task.Run(() => Watchdog(watchdogCancellationToken.Token));
+			watchdogTask = Task.Factory.StartNew(() => Watchdog(watchdogCancellationToken.Token), TaskCreationOptions.LongRunning);
 		}
 
 		/// <summary>

@@ -863,7 +863,7 @@ namespace TGS.Server.Components
 
 				currentOperationCanceller = new CancellationTokenSource();
 				var cancellationToken = currentOperationCanceller.Token;
-				currentOperation = Task.Run(() =>
+				currentOperation = Task.Factory.StartNew(() =>
 				{
 					try
 					{
@@ -916,7 +916,7 @@ namespace TGS.Server.Components
 							currentOperationCanceller = null;
 						}
 					}
-				});
+				}, TaskCreationOptions.LongRunning);
 				return null;
 			}
 		}
