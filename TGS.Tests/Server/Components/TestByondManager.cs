@@ -58,6 +58,51 @@ namespace TGS.Server.Components.Tests
 		}
 
 		[TestMethod]
+		public void TestGetLastError()
+		{
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockIO = new Mock<IIOManager>();
+			mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+			mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+			var mockChat = new Mock<IChatManager>();
+			var mockInterop = new Mock<IInteropManager>();
+
+			ByondManager b;
+			using (b = new ByondManager(mockLogger.Object, mockIO.Object, mockChat.Object, mockInterop.Object))
+			{
+				Assert.IsNull(b.GetError());
+				var tcs = new TaskCompletionSource<bool>();
+				mockIO.Setup(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromException(new TestException())).Callback(() => tcs.SetResult(true));
+				b.UpdateToVersion(511, 1395);
+				tcs.Task.Wait();
+			}
+			Assert.IsNotNull(b.GetError());
+			Assert.IsNull(b.GetError());
+		}
+
+		[TestMethod]
+		public void TestBadUpdateStart()
+		{
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockIO = new Mock<IIOManager>();
+			mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+			mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+			var mockChat = new Mock<IChatManager>();
+			var mockInterop = new Mock<IInteropManager>();
+
+			ByondManager b;
+			using (b = new ByondManager(mockLogger.Object, mockIO.Object, mockChat.Object, mockInterop.Object))
+				lock (b)
+				{
+					b.UpdateToVersion(511, 1395);
+					var po = new PrivateObject(b);
+					po.SetField("updateStat", ByondStatus.Idle);
+				}
+			mockIO.Verify(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
+			Assert.AreEqual(ByondStatus.Idle, b.CurrentStatus());
+		}
+
+		[TestMethod]
 		public void TestGetVersion()
 		{
 			var mockLogger = new Mock<IInstanceLogger>();
@@ -129,7 +174,7 @@ namespace TGS.Server.Components.Tests
 				Assert.IsNull(b.LockDMExecutable(false, out error));
 				Assert.IsNull(b.LockDMExecutable(true, out error));
 				tcs2 = new TaskCompletionSource<bool>();
-				mockIO.Setup(x => x.UnzipFile(It.IsAny<string>(), It.IsAny<string>())).Callback(() =>
+				mockIO.Setup(x => x.UnzipFile(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask).Callback(() =>
 				{
 					tcs2.SetResult(true);
 					tcs1.Task.Wait();
@@ -145,7 +190,7 @@ namespace TGS.Server.Components.Tests
 				tcs1.SetResult(true);
 				//let it cancel
 			}
-			Assert.AreEqual(ByondStatus.Idle, b.CurrentStatus());
+			Assert.AreEqual(ByondStatus.Staged, b.CurrentStatus());
 		}
 
 		[TestMethod]

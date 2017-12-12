@@ -401,7 +401,8 @@ namespace TGS.Server.Components
 				{
 					updateStat = ByondStatus.Starting;
 					updateCancellationTokenSource = new CancellationTokenSource();
-					updateTask = Task.Factory.StartNew(() => UpdateToVersionImpl(major, minor, updateCancellationTokenSource.Token));
+					var token = updateCancellationTokenSource.Token;
+					updateTask = Task.Run(() => UpdateToVersionImpl(major, minor, token));
 					return true;
 				}
 			return false;
