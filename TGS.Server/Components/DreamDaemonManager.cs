@@ -189,7 +189,7 @@ namespace TGS.Server.Components
 		void StartWatchdogTask()
 		{
 			watchdogCancellationToken = new CancellationTokenSource();
-			watchdogTask = Task.Factory.StartNew(() => Watchdog(watchdogCancellationToken.Token));
+			watchdogTask = Task.Run(() => Watchdog(watchdogCancellationToken.Token));
 		}
 
 		/// <summary>
@@ -314,7 +314,7 @@ namespace TGS.Server.Components
 					AwaitingShutdown = ShutdownRequestPhase.Pinged;
 			}
 			//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
-			Task.Factory.StartNew(() => DoRestart ? Restart() : Stop());
+			Task.Run(() => DoRestart ? Restart() : Stop());
 		}
 
 		/// <inheritdoc />

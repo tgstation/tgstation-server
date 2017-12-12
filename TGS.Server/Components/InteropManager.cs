@@ -225,7 +225,7 @@ namespace TGS.Server.Components
 							break;
 						}
 					//This needs to be done asyncronously otherwise DD won't be able to process it, because it's waiting for THIS THREAD to return
-					Task.Factory.StartNew(() => SendCommand(InteropCommand.DMAPIIsCompatible));
+					Task.Run(() => SendCommand(InteropCommand.DMAPIIsCompatible));
 					break;
 			}
 		}

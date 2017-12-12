@@ -20,7 +20,7 @@ namespace TGS.Tests
 		}
 		public override Task<int> ReadAsync(char[] buffer, int index, int count)
 		{
-			return Task.Factory.StartNew(() => Read());
+			return Task.Run(() => Read());
 		}
 		public override int ReadBlock(char[] buffer, int index, int count)
 		{
@@ -36,7 +36,7 @@ namespace TGS.Tests
 		}
 		public override Task<string> ReadLineAsync()
 		{
-			return Task.Factory.StartNew(() => ReadLine());
+			return Task.Run(() => ReadLine());
 		}
 		public override string ReadToEnd()
 		{

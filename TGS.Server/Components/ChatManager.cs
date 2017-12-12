@@ -296,7 +296,7 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public Task SendMessage(string msg, MessageType mt)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				lock (this)
 				{

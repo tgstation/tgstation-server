@@ -187,7 +187,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task CreateSymlink(string link, string target)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				link = ResolvePath(link);
 				target = ResolvePath(target);
@@ -199,7 +199,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task<string> ReadAllText(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				return File.ReadAllText(path);
@@ -209,7 +209,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task WriteAllText(string path, string contents)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				File.WriteAllText(path, contents);
@@ -219,7 +219,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task AppendAllText(string path, string additional_contents)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				File.AppendAllText(path, additional_contents);
@@ -229,7 +229,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task<byte[]> ReadAllBytes(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				return File.ReadAllBytes(path);
@@ -239,7 +239,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task WriteAllBytes(string path, byte[] contents)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				File.WriteAllBytes(path, contents);
@@ -249,7 +249,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task<bool> FileExists(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				return File.Exists(path);
@@ -259,7 +259,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task DeleteFile(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				try
@@ -273,7 +273,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task CopyFile(string src, string dest, bool overwrite, bool forceDirectories)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				src = ResolvePath(src);
 				dest = ResolvePath(dest);
@@ -286,7 +286,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task MoveFile(string src, string dest, bool overwrite, bool forceDirectories)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				src = ResolvePath(src);
 				dest = ResolvePath(dest);
@@ -301,7 +301,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task<DirectoryInfo> CreateDirectory(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				return Directory.CreateDirectory(path);
@@ -311,7 +311,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task<bool> DirectoryExists(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				return Directory.Exists(path);
@@ -325,13 +325,13 @@ namespace TGS.Server.IO
 			dest = ResolvePath(dest);
 			if (Path.GetPathRoot(src) != Path.GetPathRoot(dest))
 				return CopyDirectoryImpl(src, dest, null, false);
-			return Task.Factory.StartNew(() => Directory.Move(src, dest));
+			return Task.Run(() => Directory.Move(src, dest));
 		}
 
 		/// <inheritdoc />
 		public Task Unlink(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				var isDir = Directory.Exists(path);
@@ -349,7 +349,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task Touch(string path)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				File.Create(path).Dispose();
@@ -359,7 +359,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task DownloadFile(string url, string path, CancellationToken cancellationToken)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				path = ResolvePath(path);
 				Exception failed = null;
@@ -388,7 +388,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task<string> GetURL(string url)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				//get the latest version from the website
 				var request = WebRequest.Create(url);
@@ -402,7 +402,7 @@ namespace TGS.Server.IO
 		/// <inheritdoc />
 		public Task UnzipFile(string file, string destination)
 		{
-			return Task.Factory.StartNew(() => ZipFile.ExtractToDirectory(ResolvePath(file), ResolvePath(destination)));
+			return Task.Run(() => ZipFile.ExtractToDirectory(ResolvePath(file), ResolvePath(destination)));
 		}
 	}
 }

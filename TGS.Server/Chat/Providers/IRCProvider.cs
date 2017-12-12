@@ -298,7 +298,7 @@ namespace TGS.Server.Chat.Providers
 		/// <inheritdoc />
 		public Task SendMessage(string message, MessageType mt)
 		{
-			return Task.Factory.StartNew(() =>
+			return Task.Run(() =>
 			{
 				lock (IRCLock)
 				{

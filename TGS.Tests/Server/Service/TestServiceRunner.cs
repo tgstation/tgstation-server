@@ -44,7 +44,7 @@ namespace TGS.Server.Service.Tests
 		public void TestRun()
 		{
 			var SR = new ServiceRunner();
-			var task = Task.Factory.StartNew(() => SR.Run(new ServiceBase()));
+			var task = Task.Run(() => SR.Run(new ServiceBase()));
 			while (!task.IsCompleted)
 			{
 				bool foundAny = false;

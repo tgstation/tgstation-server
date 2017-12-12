@@ -417,7 +417,7 @@ namespace TGS.Server.Components
 		{
 			lock (this)
 				if (DDLockCount == 0 && DMLockCount == 0)
-					return Task.Factory.StartNew(ApplyStagedUpdate);   //async so we can leave this lock
+					return Task.Run(() => ApplyStagedUpdate());   //async so we can leave this lock
 			return null;
 		}
 
