@@ -284,15 +284,18 @@ namespace TGS.Server.Components
 		void CleanGameFolder()
 		{
 			var GameDirABridge = IOManager.ConcatPath(GameDirA, InteropManager.BridgeDLLName);
+			var tasks = new List<Task>();
 			if (IO.DirectoryExists(GameDirABridge).Result)
-				IO.Unlink(IO.ResolvePath(GameDirABridge)).Wait();
+				tasks.Add(IO.Unlink(IO.ResolvePath(GameDirABridge)));
 
 			var GameDirBBridge = IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName);
 			if (IO.DirectoryExists(GameDirBBridge).Result)
-				IO.Unlink(IO.ResolvePath(GameDirBBridge)).Wait();
+				tasks.Add(IO.Unlink(IO.ResolvePath(GameDirBBridge)));
 
 			if (IO.DirectoryExists(GameDirLive).Result)
-				IO.Unlink(IO.ResolvePath(GameDirLive)).Wait();
+				tasks.Add(IO.Unlink(IO.ResolvePath(GameDirLive)));
+
+			Task.WhenAll(tasks).Wait();
 		}
 
 		/// <summary>
@@ -318,36 +321,17 @@ namespace TGS.Server.Components
 		{
 			try
 			{
-				cancellationToken.ThrowIfCancellationRequested();
 				if (DreamDaemon.DaemonStatus() != DreamDaemonStatus.Offline)
-				{
 					lock (this)
 					{
 						lastCompilerError = "Dream daemon must not be running";
 						compilerCurrentStatus = IsInitialized();
 						return;
 					}
-				}
-				cancellationToken.ThrowIfCancellationRequested();
 
-				if (!Repo.Exists()) //repo
-				{
-					lock (this)
-					{
-						lastCompilerError = "Repository is not setup!";
-						compilerCurrentStatus = IsInitialized();
-						return;
-					}
-				}
-				cancellationToken.ThrowIfCancellationRequested();
-
-				if (!CheckRepoConfigsMatch())
-					return;
-
-				cancellationToken.ThrowIfCancellationRequested();
+				Chat.SendMessage("DM: Setting up symlinks...", MessageType.DeveloperInfo);
 				try
 				{
-					Chat.SendMessage("DM: Setting up symlinks...", MessageType.DeveloperInfo);
 					cancellationToken.ThrowIfCancellationRequested();
 					CleanGameFolder();
 					cancellationToken.ThrowIfCancellationRequested();

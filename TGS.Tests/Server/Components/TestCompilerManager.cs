@@ -47,5 +47,43 @@ namespace TGS.Server.Components.Tests
 			using (var c = new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object))
 				Assert.AreEqual(CompilerStatus.Initialized, c.GetStatus());
 		}
+
+		[TestMethod]
+		public void TestBasicInitialization()
+		{
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockRepoConfigProvider = new Mock<IRepoConfigProvider>();
+			var mockIO = new Mock<IIOManager>();
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockChat = new Mock<IChatManager>();
+			var mockRepo = new Mock<IRepositoryManager>();
+			var mockInterop = new Mock<IInteropManager>();
+			var mockDD = new Mock<IDreamDaemonManager>();
+			var mockStatic = new Mock<IStaticManager>();
+			var mockByond = new Mock<IByondManager>();
+			var mockEvents = new Mock<IActionEventManager>();
+			CompilerManager c;
+			using (c = new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object))
+			{
+				var tcs = new TaskCompletionSource<bool>();
+
+				mockByond.Setup(x => x.GetVersion(ByondVersion.Installed)).Callback(() => tcs.SetResult(true));
+				mockDD.Setup(x => x.DaemonStatus()).Returns(DreamDaemonStatus.Offline);
+				mockIO.Setup(x => x.DirectoryExists(It.IsAny<string>())).Returns(Task.FromResult(false));
+				mockIO.Setup(x => x.CreateDirectory(It.IsAny<string>())).Returns(Task.FromResult(new DirectoryInfo(".")));
+				mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.CreateSymlink(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+
+				lock (c)
+				{
+					Assert.IsTrue(c.Initialize());
+					Assert.IsFalse(c.Initialize());
+					Assert.IsFalse(c.Compile());
+				}
+				tcs.Task.Wait();
+			}
+			Assert.AreEqual(CompilerStatus.Initialized, c.GetStatus());
+			Assert.IsNotNull(c.CompileError());
+		}
 	}
 }
