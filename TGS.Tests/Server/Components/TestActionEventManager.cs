@@ -1,11 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using TGS.Interface;
-using TGS.Server.Chat.Commands;
 using TGS.Server.IO;
 using TGS.Server.Logging;
 using TGS.Tests;
@@ -18,9 +14,6 @@ namespace TGS.Server.Components.Tests
 	[TestClass]
 	public sealed class TestActionEventManager
 	{
-		const string GoodBatch = "EXIT /B 0";
-		const string BadBatch = "EXIT /B 1";
-
 		[TestMethod]
 		public void TestInstatiation()
 		{
@@ -41,23 +34,15 @@ namespace TGS.Server.Components.Tests
 
 			Assert.IsTrue(aem.HandleEvent("x"));
 
-			var tempFile = Path.GetTempFileName();
-			try
+			using (var t = new TestProcessPath())
 			{
-				File.WriteAllText(tempFile, GoodBatch);
-				var t2 = tempFile + ".bat";
-				File.Move(tempFile, t2);
-				tempFile = t2;
-				mockIO.Setup(x => x.ResolvePath(It.IsAny<string>())).Returns(tempFile);
-				mockIO.Setup(x => x.FileExists(tempFile)).Returns(Task.FromResult(true));
+				mockIO.Setup(x => x.ResolvePath(It.IsAny<string>())).Returns(t.Path);
+				mockIO.Setup(x => x.FileExists(t.Path)).Returns(Task.FromResult(true));
 
+				t.ExitCode = 0;
 				Assert.IsTrue(aem.HandleEvent("x"));
-				File.WriteAllText(tempFile, BadBatch);
+				t.ExitCode = 1;
 				Assert.IsFalse(aem.HandleEvent("x"));
-			}
-			finally
-			{
-				File.Delete(tempFile);
 			}
 		}
 	}

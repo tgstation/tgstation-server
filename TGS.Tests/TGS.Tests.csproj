@@ -66,6 +66,7 @@
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
     <Compile Include="Server\Components\TestActionEventManager.cs" />
     <Compile Include="Server\Components\TestByondManager.cs" />
+    <Compile Include="Server\Components\TestCompilerManager.cs" />
     <Compile Include="Server\Configuration\TestDeprecatedInstanceConfig.cs" />
     <Compile Include="Server\Configuration\TestServerConfig.cs" />
     <Compile Include="Server\Console\TestConsole.cs" />
@@ -94,6 +95,7 @@
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
     <Compile Include="TestException.cs" />
+    <Compile Include="TestProcessPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
