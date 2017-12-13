@@ -240,14 +240,15 @@ namespace TGS.Server.Components
 		/// <returns><see langword="true"/> if the <see cref="CompilerManager"/> is idle, <see langword="false"/> otherwise</returns>
 		bool Idle()
 		{
-			switch (compilerCurrentStatus)
-			{
-				case CompilerStatus.Uninitialized:
-				case CompilerStatus.Initialized:
-					return true;
-				default:
-					return false;
-			}
+			lock(this)
+				switch (compilerCurrentStatus)
+				{
+					case CompilerStatus.Uninitialized:
+					case CompilerStatus.Initialized:
+						return true;
+					default:
+						return false;
+				}
 		}
 
 		/// <inheritdoc />

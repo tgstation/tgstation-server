@@ -69,7 +69,8 @@ namespace TGS.Server.Components.Tests
 
 				mockByond.Setup(x => x.GetVersion(ByondVersion.Installed)).Callback(() => tcs.SetResult(true));
 				mockDD.Setup(x => x.DaemonStatus()).Returns(DreamDaemonStatus.Offline);
-				mockIO.Setup(x => x.DirectoryExists(It.IsAny<string>())).Returns(Task.FromResult(false));
+				mockIO.Setup(x => x.DirectoryExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+				mockIO.Setup(x => x.Unlink(It.IsAny<string>())).Returns(Task.CompletedTask);
 				mockIO.Setup(x => x.CreateDirectory(It.IsAny<string>())).Returns(Task.FromResult(new DirectoryInfo(".")));
 				mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
 				mockIO.Setup(x => x.CreateSymlink(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
@@ -84,6 +85,24 @@ namespace TGS.Server.Components.Tests
 			}
 			Assert.AreEqual(CompilerStatus.Initialized, c.GetStatus());
 			Assert.IsNotNull(c.CompileError());
+
+			//do some basic verifications cause this is what initialization really is
+			var gameA = IOManager.ConcatPath("Game", "A");
+			var gameB = IOManager.ConcatPath("Game", "B");
+			var gameLive = IOManager.ConcatPath("Game", "Live");
+			var bridgeA = IOManager.ConcatPath(gameA, InteropManager.BridgeDLLName);
+			var bridgeB = IOManager.ConcatPath(gameB, InteropManager.BridgeDLLName);
+			mockIO.Verify(x => x.DeleteDirectory("Game", false, null));
+			mockIO.Verify(x => x.CreateDirectory(gameA));
+			mockIO.Verify(x => x.CreateDirectory(gameB));
+			mockIO.Verify(x => x.Unlink(gameLive));
+			mockIO.Verify(x => x.Unlink(bridgeA));
+			mockIO.Verify(x => x.Unlink(bridgeB));
+			mockIO.Verify(x => x.CreateSymlink(gameLive, gameA));
+			mockStatic.Verify(x => x.SymlinkTo(gameA));
+			mockStatic.Verify(x => x.SymlinkTo(gameB));
+			mockIO.Verify(x => x.CreateSymlink(bridgeA, InteropManager.BridgeDLLName));
+			mockIO.Verify(x => x.CreateSymlink(bridgeB, InteropManager.BridgeDLLName));
 		}
 	}
 }
