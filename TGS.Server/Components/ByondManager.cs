@@ -242,24 +242,17 @@ namespace TGS.Server.Components
 						Regex regex = new Regex("\\\"([^\"]*)\\\"");
 						MatchCollection matches = regex.Matches(html);
 						foreach (Match match in matches)
-							if (match.Success && match.Value.Contains("_byond.exe"))
+							if (match.Value.Contains("_byond.exe"))
 								results.Add(match.Value.Replace("\"", "").Replace("_byond.exe", ""));
 
 						results.Sort();
 						results.Reverse();
 						return results.Count > 0 ? results[0] : null;
 					}
-					else
-					{
-						var DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
-						if (IO.DirectoryExists(DirToUse).Result)
-						{
-							var file = IOManager.ConcatPath(DirToUse, VersionFile);
-							lock (this)
-								if (IO.FileExists(file).Result)
-									return IO.ReadAllText(file).Result;
-						}
-					}
+					var DirToUse = type == ByondVersion.Staged ? StagingDirectoryInner : ByondDirectory;
+					if (IO.DirectoryExists(DirToUse).Result)
+						lock (this)
+							return IO.ReadAllText(IOManager.ConcatPath(DirToUse, VersionFile)).Result;
 					return null;
 				}
 			}
@@ -448,13 +441,19 @@ namespace TGS.Server.Components
 		{
 			lock (this)
 			{
-				if (BusyCheck())
+				if (updateStat == ByondStatus.Updating)
 				{
 					error = ErrorUpdateInProgress;
 					return null;
 				}
 				//have to use the staged one if nothing is installed
-				useStagedIfPossible |= GetVersion(ByondVersion.Installed) == null;
+				var notInstalled = GetVersion(ByondVersion.Installed) == null;
+				if (notInstalled && GetVersion(ByondVersion.Staged) == null)
+				{
+					error = String.Format("Error, {0} not installed!", DMExecutable);
+					return null;
+				}
+				useStagedIfPossible |= notInstalled;
 				var pathToUse = updateStat == ByondStatus.Staged && useStagedIfPossible ? StagingDirectoryInner : ByondDirectory;
 				++DMLockCount;
 				error = null;
@@ -498,11 +497,7 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public void ClearCache()
 		{
-			try
-			{
-				IO.DeleteDirectory(ByondCacheDirectory, true).Wait();
-			}
-			catch { }
+			IO.DeleteDirectory(ByondCacheDirectory, true).ContinueWith((t) => t.Exception, TaskContinuationOptions.OnlyOnFaulted);
 		}
 	}
 }
