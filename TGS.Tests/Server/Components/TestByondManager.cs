@@ -17,6 +17,12 @@ namespace TGS.Server.Components.Tests
 	[TestClass]
 	public sealed class TestByondManager
 	{
+		void SetUpdateStat(ByondManager b, ByondStatus stat)
+		{
+			var po = new PrivateObject(b);
+			po.SetField("updateStat", stat);
+		}
+
 		[TestMethod]
 		public void TestBasics()
 		{
@@ -99,8 +105,81 @@ namespace TGS.Server.Components.Tests
 				b.UpdateToVersion(511, 1395);
 				tcs.Task.Wait();
 			}
+
 			Assert.IsNotNull(b.GetError());
 			Assert.IsNull(b.GetError());
+		}
+
+		[TestMethod]
+		public void TestApplyStagedUpdate()
+		{
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockIO = new Mock<IIOManager>();
+			mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+			mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+			var mockChat = new Mock<IChatManager>();
+			var mockInterop = new Mock<IInteropManager>();
+
+			ByondManager b;
+			using (b = new ByondManager(mockLogger.Object, mockIO.Object, mockChat.Object, mockInterop.Object))
+			{
+				Assert.IsFalse(b.ApplyStagedUpdate());
+				Assert.IsNull(b.GetError());
+
+				var tcs1 = new TaskCompletionSource<bool>();
+				var tcs2 = new TaskCompletionSource<bool>();
+				mockIO.Setup(x => x.MoveDirectory(It.IsAny<string>(), It.IsAny<string>())).Callback(() =>
+				{
+					tcs1.SetResult(true);
+					tcs2.Task.Wait();
+				}).Returns(Task.CompletedTask);
+				SetUpdateStat(b, ByondStatus.Staged);
+				var updateTask = Task.Run(() => b.ApplyStagedUpdate());
+				tcs1.Task.Wait();
+				Assert.AreEqual(ByondStatus.Updating, b.CurrentStatus());
+				tcs2.SetResult(true);
+				Assert.IsTrue(updateTask.Result);
+				Assert.AreEqual(ByondStatus.Idle, b.CurrentStatus());
+				Assert.IsNull(b.GetError());
+
+				SetUpdateStat(b, ByondStatus.Staged);
+				mockIO.Setup(x => x.MoveDirectory(It.IsAny<string>(), It.IsAny<string>())).Throws(new TestException());
+				Assert.IsFalse(b.ApplyStagedUpdate());
+				Assert.IsNotNull(b.GetError());
+				Assert.IsNull(b.GetError());
+			}
+		}
+
+		[TestMethod]
+		public void TestUpdateWithoutApply()
+		{
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockIO = new Mock<IIOManager>();
+			mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+			mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+			var mockChat = new Mock<IChatManager>();
+			var mockInterop = new Mock<IInteropManager>();
+
+			ByondManager b;
+			using (b = new ByondManager(mockLogger.Object, mockIO.Object, mockChat.Object, mockInterop.Object))
+			{
+				mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.UnzipFile(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.CreateDirectory(It.IsAny<string>())).Returns(Task.FromResult(new DirectoryInfo(".")));
+				mockIO.Setup(x => x.MoveDirectory(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.DirectoryExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+				mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+				mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult("511.1394"));
+				b.LockDDExecutable(out string error);
+				var tcs = new TaskCompletionSource<bool>();
+				mockInterop.Setup(x => x.SendCommand(InteropCommand.RestartOnWorldReboot, null)).Callback(() => tcs.SetResult(true));
+				b.UpdateToVersion(511, 1395);
+				tcs.Task.Wait();
+			}
+			Assert.IsNotNull(b.GetError());
 		}
 		
 		[TestMethod]
@@ -118,8 +197,7 @@ namespace TGS.Server.Components.Tests
 				lock (b)
 				{
 					b.UpdateToVersion(511, 1395);
-					var po = new PrivateObject(b);
-					po.SetField("updateStat", ByondStatus.Idle);
+					SetUpdateStat(b, ByondStatus.Idle);
 				}
 			mockIO.Verify(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
 			Assert.AreEqual(ByondStatus.Idle, b.CurrentStatus());
