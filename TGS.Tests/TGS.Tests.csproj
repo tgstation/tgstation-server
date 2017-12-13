@@ -64,6 +64,7 @@
     <Compile Include="CommandLine\Commands\Repository\RepositoryCommandTest.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoSetPushTestmergeCommitsCommand.cs" />
     <Compile Include="CommandLine\Commands\Repository\TestRepoStatusCommand.cs" />
+    <Compile Include="Server\Components\TestActionEventManager.cs" />
     <Compile Include="Server\Components\TestByondManager.cs" />
     <Compile Include="Server\Configuration\TestDeprecatedInstanceConfig.cs" />
     <Compile Include="Server\Configuration\TestServerConfig.cs" />

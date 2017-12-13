@@ -42,7 +42,7 @@ namespace TGS.Server.Components
 		/// <returns>The path to the event handler</returns>
 		string GetEventPath(string eventName)
 		{
-			return IOManager.ConcatPath(EventFolder, String.Format("{0}.bat", eventName));
+			return IO.ResolvePath(IOManager.ConcatPath(EventFolder, String.Format("{0}.bat", eventName)));
 		}
 
 		/// <summary>
