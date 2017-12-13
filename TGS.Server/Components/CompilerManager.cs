@@ -184,7 +184,8 @@ namespace TGS.Server.Components
 		/// Attempts to cancel <see cref="currentTask"/>
 		/// </summary>
 		/// <returns><see langword="true"/> if <see cref="currentTask"/> was waited upon, <see langword="false"/> otherwise</returns>
-		bool CancelImpl() {
+		bool CancelImpl()
+		{
 			Task t;
 			CancellationTokenSource cts;
 			lock (this)
@@ -272,11 +273,11 @@ namespace TGS.Server.Components
 		CompilerStatus IsInitialized()
 		{
 			var InterfaceAssemblyName = Assembly.GetAssembly(typeof(IClient)).GetName().Name;
-			if (IO.FileExists(IOManager.ConcatPath(GameDirLive, InteropManager.BridgeDLLName)).Result || IO.FileExists(IOManager.ConcatPath(GameDirLive, InterfaceAssemblyName, ".dll")).Result)	//its a good tell, jim
+			if (IO.FileExists(IOManager.ConcatPath(GameDirLive, InteropManager.BridgeDLLName)).Result || IO.FileExists(IOManager.ConcatPath(GameDirLive, InterfaceAssemblyName, ".dll")).Result)    //its a good tell, jim
 				return CompilerStatus.Initialized;
 			return CompilerStatus.Uninitialized;
 		}
-		
+
 		/// <summary>
 		/// Removes bridge symlinks from <see cref="GameDir"/>s
 		/// </summary>
@@ -289,7 +290,7 @@ namespace TGS.Server.Components
 			var GameDirBBridge = IOManager.ConcatPath(GameDirB, InteropManager.BridgeDLLName);
 			if (IO.DirectoryExists(GameDirBBridge).Result)
 				IO.Unlink(IO.ResolvePath(GameDirBBridge)).Wait();
-			
+
 			if (IO.DirectoryExists(GameDirLive).Result)
 				IO.Unlink(IO.ResolvePath(GameDirLive)).Wait();
 		}
@@ -298,16 +299,15 @@ namespace TGS.Server.Components
 		/// Check that the <see cref="IRepoConfig"/> provided by the <see cref="RepoConfigProvider"/> and <see cref="Repo"/> match
 		/// </summary>
 		/// <returns><see langword="true"/> if the two <see cref="IRepoConfig"/>s match, <see langword="false"/> otherwise</returns>
-		bool CheckRepoConfigsMatch() {
+		bool CheckRepoConfigsMatch()
+		{
 			if (!RepoConfigProvider.GetRepoConfig().Equals(Repo.GetRepoConfig()))
-			{
 				lock (this)
 				{
 					lastCompilerError = "Repository TGS3.json does not match cached version! Please update the config appropriately!";
 					compilerCurrentStatus = IsInitialized();
 					return false;
 				}
-			}
 			return true;
 		}
 
@@ -370,7 +370,7 @@ namespace TGS.Server.Components
 					cancellationToken.ThrowIfCancellationRequested();
 
 					IO.CreateSymlink(GameDirLive, GameDirA).Wait();
-					
+
 					lock (this)
 					{
 						compilerCurrentStatus = CompilerStatus.Compiling;
@@ -476,40 +476,39 @@ namespace TGS.Server.Components
 		{
 			try
 			{
-				cancellationToken.ThrowIfCancellationRequested();
 				if (Byond.GetVersion(ByondVersion.Installed) == null)
-				{
 					lock (this)
 					{
 						lastCompilerError = "BYOND not installed!";
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						return;
 					}
-				}
+
 				cancellationToken.ThrowIfCancellationRequested();
+
 				if (!CheckRepoConfigsMatch())
 					return;
 
-				
-					bool silent;
-					lock (this)
-					{
-						silent = silentCompile;
-						silentCompile = false;
-					}
 
-					if (!silent)
-						Chat.SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
+				bool silent;
+				lock (this)
+				{
+					silent = silentCompile;
+					silentCompile = false;
+				}
 
-					var resurrectee = GetStagingDir();  //non-relative
+				if (!silent)
+					Chat.SendMessage("DM: Compiling...", MessageType.DeveloperInfo);
+
+				var resurrectee = GetStagingDir();  //non-relative
 				cancellationToken.ThrowIfCancellationRequested();
 
 				var Config = RepoConfigProvider.GetRepoConfig();
-					var deleteExcludeList = new List<string> { InteropManager.BridgeDLLName };
-					deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
-					deleteExcludeList.AddRange(Config.DLLPaths);
+				var deleteExcludeList = new List<string> { InteropManager.BridgeDLLName };
+				deleteExcludeList.AddRange(Config.StaticDirectoryPaths);
+				deleteExcludeList.AddRange(Config.DLLPaths);
 
-					IO.DeleteDirectory(resurrectee, true, deleteExcludeList).Wait();
+				IO.DeleteDirectory(resurrectee, true, deleteExcludeList).Wait();
 				cancellationToken.ThrowIfCancellationRequested();
 				IO.CreateDirectory(resurrectee + "/.git/logs").Wait();
 				cancellationToken.ThrowIfCancellationRequested();
@@ -518,7 +517,7 @@ namespace TGS.Server.Components
 				cancellationToken.ThrowIfCancellationRequested();
 
 				if (!IO.FileExists(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName)).Result)
-						IO.CreateSymlink(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName).Wait();
+					IO.CreateSymlink(IOManager.ConcatPath(resurrectee, InteropManager.BridgeDLLName), InteropManager.BridgeDLLName).Wait();
 				cancellationToken.ThrowIfCancellationRequested();
 
 				deleteExcludeList.Add(".git");
@@ -567,7 +566,7 @@ namespace TGS.Server.Components
 				using (var DM = new Process())  //will kill the process if the thread is terminated
 				{
 					DM.StartInfo.FileName = Byond.LockDMExecutable(false, out error);
-					if(error != null)
+					if (error != null)
 						lock (this)
 						{
 							lastCompilerError = error;
@@ -605,7 +604,8 @@ namespace TGS.Server.Components
 
 					if (DM.ExitCode == 0)
 					{
-						DreamDaemon.RunSuspended(() => {
+						DreamDaemon.RunSuspended(() =>
+						{
 							if (IO.DirectoryExists(GameDirLive).Result)
 								//these next two lines should be atomic but this is the best we can do
 								IO.Unlink(GameDirLive).Wait();
@@ -614,7 +614,7 @@ namespace TGS.Server.Components
 						var staged = DreamDaemon.DaemonStatus() != DreamDaemonStatus.Offline;
 						if (!Events.HandleEvent(ActionEvent.Postcompile))
 						{
-							lock(this)
+							lock (this)
 								lastCompilerError = "The postcompile hook failed";
 							Logger.WriteWarning("Postcompile hook failed!", EventID.DMCompileError);
 							return;
@@ -706,7 +706,7 @@ namespace TGS.Server.Components
 			{
 				if (compilerCurrentStatus != CompilerStatus.Compiling)
 					return "Invalid state for cancellation!";
-				if(CancelImpl() && !canCancelCompilation)
+				if (CancelImpl() && !canCancelCompilation)
 					return "Compilation will be cancelled when the repo copy is complete";
 				return null;
 			}

@@ -20,7 +20,7 @@ namespace TGS.Server.Components.Tests
 	public sealed class TestCompilerManager
 	{
 		[TestMethod]
-		public void TestInstantiation()
+		public void TestBasics()
 		{
 			var mockLogger = new Mock<IInstanceLogger>();
 			var mockRepoConfigProvider = new Mock<IRepoConfigProvider>();
@@ -33,7 +33,19 @@ namespace TGS.Server.Components.Tests
 			var mockStatic = new Mock<IStaticManager>();
 			var mockByond = new Mock<IByondManager>();
 			var mockEvents = new Mock<IActionEventManager>();
-			new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object).Dispose();
+			using (var c = new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object))
+			{
+				Assert.IsNotNull(c.Cancel());
+				Assert.AreEqual(CompilerStatus.Uninitialized, c.GetStatus());
+				mockConfig.SetupGet(x => x.ProjectName).Returns("asdf");
+				Assert.AreEqual("asdf", c.ProjectName());
+				c.SetProjectName("fdsa");
+				mockConfig.VerifySet(x => x.ProjectName = "fdsa", Times.Once());
+				Assert.IsNull(c.CompileError());
+			}
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+			using (var c = new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object))
+				Assert.AreEqual(CompilerStatus.Initialized, c.GetStatus());
 		}
 	}
 }
