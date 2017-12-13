@@ -295,10 +295,10 @@ namespace TGS.Server.Components
 				Chat.SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
 
 				//DOWNLOADING
-
+				var downloadTask = IO.DownloadFile(String.Format(ByondRevisionsURL, major, minor), RevisionDownloadPath, cancellationToken);
 				try
 				{
-					IO.DownloadFile(String.Format(ByondRevisionsURL, major, minor), RevisionDownloadPath, cancellationToken).Wait();
+					downloadTask.Wait();
 				}
 				catch
 				{

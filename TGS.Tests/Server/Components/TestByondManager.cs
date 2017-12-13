@@ -81,6 +81,29 @@ namespace TGS.Server.Components.Tests
 		}
 
 		[TestMethod]
+		public void TestBadUpdate()
+		{
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockIO = new Mock<IIOManager>();
+			mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+			mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), false, null)).Returns(Task.CompletedTask);
+			var mockChat = new Mock<IChatManager>();
+			var mockInterop = new Mock<IInteropManager>();
+			
+			ByondManager b;
+			using (b = new ByondManager(mockLogger.Object, mockIO.Object, mockChat.Object, mockInterop.Object))
+			{
+				Assert.IsNull(b.GetError());
+				var tcs = new TaskCompletionSource<bool>();
+				mockIO.Setup(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Callback(() => tcs.SetResult(true)).Throws(new TestException());
+				b.UpdateToVersion(511, 1395);
+				tcs.Task.Wait();
+			}
+			Assert.IsNotNull(b.GetError());
+			Assert.IsNull(b.GetError());
+		}
+		
+		[TestMethod]
 		public void TestBadUpdateStart()
 		{
 			var mockLogger = new Mock<IInstanceLogger>();
