@@ -181,7 +181,7 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
-		/// Attempts to cancel <see cref="currentTask"/>
+		/// Attempts to cancel <see cref="currentTask"/>. Do not call from a locked state
 		/// </summary>
 		/// <returns><see langword="true"/> if <see cref="currentTask"/> was waited upon, <see langword="false"/> otherwise</returns>
 		bool CancelImpl()
@@ -507,11 +507,22 @@ namespace TGS.Server.Components
 
 				deleteExcludeList.Add(".git");
 				var CurrentSha = Repo.GetHead(false, out string error);
-				Task.WaitAll(new List<Task>
+				var taskList = new List<Task<string>>
 				{
 					Repo.CopyTo(resurrectee, deleteExcludeList),
 					Repo.CopyToRestricted(resurrectee, new List<string> { GitLogsDir })
-				}.ToArray());
+				};
+				Task.WaitAll(taskList.ToArray());
+
+				foreach (var t in taskList)
+					if (t.Result != null)
+						lock (this)
+						{
+							lastCompilerError = t.Result;
+							compilerCurrentStatus = CompilerStatus.Initialized;
+							return;
+						}
+				cancellationToken.ThrowIfCancellationRequested();
 
 				var res = Repo.CreateBackup();
 				if (res != null)
@@ -687,14 +698,11 @@ namespace TGS.Server.Components
 		/// <inheritdoc />
 		public string Cancel()
 		{
-			lock (this)
-			{
-				if (compilerCurrentStatus != CompilerStatus.Compiling)
-					return "Invalid state for cancellation!";
-				if (CancelImpl() && !canCancelCompilation)
-					return "Compilation will be cancelled when the repo copy is complete";
-				return null;
-			}
+			if (GetStatus() != CompilerStatus.Compiling)
+				return "Invalid state for cancellation!";
+			if (CancelImpl() && !canCancelCompilation)
+				return "Compilation will be cancelled when the repo copy is complete";
+			return null;
 		}
 	}
 }

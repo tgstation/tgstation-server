@@ -18,8 +18,7 @@ namespace TGS.Tests
 		}
 
 		readonly string filePath;
-
-		int exitCode;
+		
 		bool disposedValue;
 
 		public TestProcessPath()
