@@ -50,6 +50,54 @@ namespace TGS.Server.Components.Tests
 		}
 
 		[TestMethod]
+		public void TestCompileWithMismatchedConfigs()
+		{
+
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockRepoConfigProvider = new Mock<IRepoConfigProvider>();
+			var mockIO = new Mock<IIOManager>();
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockChat = new Mock<IChatManager>();
+			var mockRepo = new Mock<IRepositoryManager>();
+			var mockInterop = new Mock<IInteropManager>();
+			var mockDD = new Mock<IDreamDaemonManager>();
+			var mockStatic = new Mock<IStaticManager>();
+			var mockByond = new Mock<IByondManager>();
+			var mockEvents = new Mock<IActionEventManager>();
+			CompilerManager c;
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+			using (c = new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object))
+			{
+				//byond install check
+				mockByond.Setup(x => x.GetVersion(ByondVersion.Installed)).Returns("511.1385").Verifiable();
+
+				//repo config check
+				mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+				bool first = true;
+				mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(() =>
+				{
+					if (first)
+					{
+						first = false;
+						return Task.FromResult("{}");
+					}
+					return Task.FromResult("{\"synchronize_paths\": [\"html/changelog.html\", \"html/changelogs/*\"]}");
+				}).Verifiable();
+				mockRepo.Setup(x => x.GetRepoConfig()).Returns(new RepoConfig("", mockIO.Object)).Verifiable();
+				mockRepoConfigProvider.Setup(x => x.GetRepoConfig()).Returns(new RepoConfig("", mockIO.Object)).Verifiable();
+
+				Assert.IsTrue(c.Compile());
+			}
+			Assert.IsNotNull(c.CompileError());
+			Assert.IsNull(c.CompileError());
+			mockIO.VerifyAll();
+			mockRepo.VerifyAll();
+			mockRepoConfigProvider.VerifyAll();
+			mockByond.VerifyAll();
+			mockChat.Verify(x => x.SendMessage(It.IsAny<string>(), MessageType.DeveloperInfo), Times.AtMostOnce());
+		}
+
+		[TestMethod]
 		public void TestBasicInitialization()
 		{
 			var mockLogger = new Mock<IInstanceLogger>();
@@ -101,8 +149,6 @@ namespace TGS.Server.Components.Tests
 			mockIO.Verify(x => x.Unlink(bridgeA));
 			mockIO.Verify(x => x.Unlink(bridgeB));
 			mockIO.Verify(x => x.CreateSymlink(gameLive, gameA));
-			mockStatic.Verify(x => x.SymlinkTo(gameA));
-			mockStatic.Verify(x => x.SymlinkTo(gameB));
 			mockIO.Verify(x => x.CreateSymlink(bridgeA, InteropManager.BridgeDLLName));
 			mockIO.Verify(x => x.CreateSymlink(bridgeB, InteropManager.BridgeDLLName));
 		}
@@ -148,17 +194,17 @@ namespace TGS.Server.Components.Tests
 				mockIO.Setup(x => x.CreateDirectory(It.IsAny<string>())).Returns(Task.FromResult(new DirectoryInfo(".")));
 
 				//repo copy
-				string stagingdir = null;
-				mockStatic.Setup(x => x.SymlinkTo(It.IsNotNull<string>())).Callback((string x) => stagingdir = x);
-				mockIO.Setup(x => x.CreateSymlink(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
-				mockRepo.Setup(x => x.CopyTo(stagingdir, It.IsNotNull<IEnumerable<string>>())).Returns(Task.FromResult<string>(null));
-				mockRepo.Setup(x => x.CopyToRestricted(stagingdir, It.IsNotNull<IEnumerable<string>>())).Returns(Task.FromResult<string>(null));
+				mockStatic.Setup(x => x.SymlinkTo(It.IsNotNull<string>())).Verifiable();
+				mockIO.Setup(x => x.CreateSymlink(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask).Verifiable();
+				mockRepo.Setup(x => x.CopyTo(It.IsNotNull<string>(), It.IsNotNull<IEnumerable<string>>())).Returns(Task.FromResult<string>(null)).Verifiable();
+				mockRepo.Setup(x => x.CopyToRestricted(It.IsNotNull<string>(), It.IsNotNull<IEnumerable<string>>())).Returns(Task.FromResult<string>(null)).Verifiable();
 				mockRepo.Setup(x => x.GetHead(false, out error)).Returns("gottenSha").Verifiable();
+				mockIO.Setup(x => x.FileExists(It.Is<string>(y => y.Contains(InteropManager.BridgeDLLName)))).Returns(Task.FromResult(false)).Verifiable();
 
 				//precompile
 				mockConfig.SetupGet(x => x.ProjectName).Returns("tgstation").Verifiable();
 				mockEvents.Setup(x => x.HandleEvent(ActionEvent.Precompile)).Returns(true).Verifiable();
-				
+
 				using (var tp = new TestProcessPath())
 				{
 					tp.ExitCode = 0;
@@ -172,7 +218,7 @@ namespace TGS.Server.Components.Tests
 					var tcs = new TaskCompletionSource<bool>();
 
 					mockLogger.Setup(x => x.WriteInfo(It.IsNotNull<string>(), EventID.DMCompileSuccess)).Callback(() => tcs.SetResult(true)).Verifiable();
-					
+
 					lock (c)
 					{
 						Assert.IsTrue(c.Compile());
@@ -192,6 +238,86 @@ namespace TGS.Server.Components.Tests
 			mockLogger.VerifyAll();
 			mockRepoConfigProvider.VerifyAll();
 			mockByond.VerifyAll();
+			mockStatic.VerifyAll();
+		}
+
+		[TestMethod]
+		public void TestCompileCancellation()
+		{
+
+			var mockLogger = new Mock<IInstanceLogger>();
+			var mockRepoConfigProvider = new Mock<IRepoConfigProvider>();
+			var mockIO = new Mock<IIOManager>();
+			var mockConfig = new Mock<IInstanceConfig>();
+			var mockChat = new Mock<IChatManager>();
+			var mockRepo = new Mock<IRepositoryManager>();
+			var mockInterop = new Mock<IInteropManager>();
+			var mockDD = new Mock<IDreamDaemonManager>();
+			var mockStatic = new Mock<IStaticManager>();
+			var mockByond = new Mock<IByondManager>();
+			var mockEvents = new Mock<IActionEventManager>();
+
+			mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+			CompilerManager c;
+
+			using (var tp = new TestInfiniteProcessPath())
+			using (c = new CompilerManager(mockLogger.Object, mockRepoConfigProvider.Object, mockIO.Object, mockConfig.Object, mockChat.Object, mockRepo.Object, mockInterop.Object, mockDD.Object, mockStatic.Object, mockByond.Object, mockEvents.Object))
+			{
+				string error = null;
+				//byond install check
+				mockByond.Setup(x => x.GetVersion(ByondVersion.Installed)).Returns("511.1385").Verifiable();
+
+				//repo config check
+				mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+				mockIO.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(Task.FromResult("{}"));
+				mockRepo.Setup(x => x.GetRepoConfig()).Returns(new RepoConfig("", mockIO.Object)).Verifiable();
+				mockRepoConfigProvider.Setup(x => x.GetRepoConfig()).Returns(new RepoConfig("", mockIO.Object)).Verifiable();
+
+				//staging dir lookup
+				mockIO.Setup(x => x.DirectoryExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+				mockIO.Setup(x => x.Touch(It.IsAny<string>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.FileExists(It.IsAny<string>())).Returns(Task.FromResult(true));
+
+				//staging directory cleanup
+				mockIO.Setup(x => x.DeleteDirectory(It.IsAny<string>(), true, It.IsNotNull<IList<string>>())).Returns(Task.CompletedTask);
+				mockIO.Setup(x => x.CreateDirectory(It.IsAny<string>())).Returns(Task.FromResult(new DirectoryInfo(".")));
+
+				//repo copy
+				mockStatic.Setup(x => x.SymlinkTo(It.IsNotNull<string>())).Verifiable();
+				mockIO.Setup(x => x.CreateSymlink(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask).Verifiable();
+				mockRepo.Setup(x => x.CopyTo(It.IsNotNull<string>(), It.IsNotNull<IEnumerable<string>>())).Returns(Task.FromResult<string>(null)).Verifiable();
+				mockRepo.Setup(x => x.CopyToRestricted(It.IsNotNull<string>(), It.IsNotNull<IEnumerable<string>>())).Returns(Task.FromResult<string>(null)).Verifiable();
+				mockRepo.Setup(x => x.GetHead(false, out error)).Returns("gottenSha").Verifiable();
+				mockIO.Setup(x => x.FileExists(It.Is<string>(y => y.Contains(InteropManager.BridgeDLLName)))).Returns(Task.FromResult(false)).Verifiable();
+
+				//precompile
+				mockConfig.SetupGet(x => x.ProjectName).Returns("tgstation").Verifiable();
+				mockEvents.Setup(x => x.HandleEvent(ActionEvent.Precompile)).Returns(true).Verifiable();
+				var tcs = new TaskCompletionSource<bool>();
+				mockByond.Setup(x => x.LockDMExecutable(false, out error)).Returns(tp.Path).Callback(() => tcs.SetResult(true)).Verifiable();
+
+				mockLogger.Setup(x => x.WriteInfo(It.IsNotNull<string>(), EventID.DMCompileCancel)).Verifiable();
+
+				lock (c)
+				{
+					Assert.IsTrue(c.Compile());
+					Assert.IsFalse(c.Compile());
+					Assert.IsFalse(c.Initialize());
+				}
+				tcs.Task.Wait();
+			}
+			Assert.IsNull(c.CompileError());
+			mockRepo.Verify(x => x.UpdateLiveSha("gottenSha"), Times.Never());
+			mockInterop.Verify(x => x.WorldAnnounce(It.IsNotNull<string>()), Times.Never());
+			mockChat.Verify(x => x.SendMessage(It.IsNotNull<string>(), MessageType.DeveloperInfo), Times.Exactly(2));
+			mockIO.VerifyAll();
+			mockEvents.VerifyAll();
+			mockDD.VerifyAll();
+			mockLogger.VerifyAll();
+			mockRepoConfigProvider.VerifyAll();
+			mockByond.VerifyAll();
+			mockStatic.VerifyAll();
 		}
 	}
 }

@@ -95,6 +95,7 @@
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
     <Compile Include="TestException.cs" />
+    <Compile Include="TestInfiniteProcessPath.cs" />
     <Compile Include="TestProcessPath.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -33,12 +33,26 @@ namespace TGS.Server.IO
 		}
 
 		/// <summary>
+		/// Copies a file at <paramref name="sourcePath"/> to <paramref name="destinationPath"/>
+		/// </summary>
+		/// <param name="sourcePath">The source <see cref="File"/></param>
+		/// <param name="destinationPath">The destination <see cref="File"/></param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		static async Task CopyFileAsync(string sourcePath, string destinationPath)
+		{
+			using (Stream source = File.Open(sourcePath, FileMode.Open, FileAccess.Read))
+			using (Stream destination = File.Open(destinationPath, FileMode.Create))
+				await source.CopyToAsync(destination);
+		}
+
+		/// <summary>
 		/// Recusively copy a directory
 		/// </summary>
 		/// <param name="sourceDirName">The directory to copy</param>
 		/// <param name="destDirName">The destination directory</param>
 		/// <param name="ignore">List of lowercase files and directories to ignore while copying</param>
 		/// <param name="ignoreIfNotExists">If <see langword="true"/> no error will be thrown if <paramref name="sourceDirName"/> does not exist</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		static async Task CopyDirectoryImpl(string sourceDirName, string destDirName, IList<string> ignore, bool ignoreIfNotExists)
 		{
 			// If the destination directory doesn't exist, create it.
@@ -62,21 +76,21 @@ namespace TGS.Server.IO
 
 			// Get the files in the directory and copy them to the new location.
 			FileInfo[] files = dir.GetFiles();
+			var tasks = new List<Task>();
 			foreach (FileInfo file in files)
 			{
 				if (ignore != null && ignore.Contains(file.Name.ToLower()))
 					continue;
-				string temppath = ConcatPath(destDirName, file.Name);
-				file.CopyTo(temppath, true);
+				var temppath = ConcatPath(destDirName, file.Name);
+				tasks.Add(CopyFileAsync(file.FullName, temppath));
 			}
 
-			var tasks = new List<Task>();
 			// copy them and their contents to new location.
 			foreach (DirectoryInfo subdir in dirs)
 			{
 				if (ignore != null && ignore.Contains(subdir.Name.ToLower()))
 					continue;
-				string temppath = ConcatPath(destDirName, subdir.Name);
+				var temppath = ConcatPath(destDirName, subdir.Name);
 				tasks.Add(CopyDirectoryImpl(subdir.FullName, temppath, ignore, false));
 			}
 			await Task.WhenAll(tasks);
@@ -88,6 +102,7 @@ namespace TGS.Server.IO
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty</param>
 		/// <param name="excludeRoot">Lowercase file and directory names to skip while emptying this level. Not passed forward</param>
 		/// <param name="deleteRoot">If <see langword="true"/>, <paramref name="dir"/> will be deleted before this function exists</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		static async Task NormalizeAndDelete(DirectoryInfo dir, IList<string> excludeRoot, bool deleteRoot)
 		{
 			var tasks = new List<Task>();

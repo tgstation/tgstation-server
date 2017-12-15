@@ -6,20 +6,20 @@ namespace TGS.Tests
 	/// <summary>
 	/// Used for providing an executable path for a quick mock <see cref="System.Diagnostics.Process"/>
 	/// </summary>
-	sealed class TestProcessPath : IDisposable
+	class TestProcessPath : IDisposable
 	{
 		public string Path => filePath;
 
-		public int ExitCode {
-			set
-			{
-				File.WriteAllText(filePath, String.Format("EXIT /B {0}", value));
-			}
-		}
+		public int ExitCode { set => SetExitCode(value); }
 
-		readonly string filePath;
+		protected readonly string filePath;
 		
 		bool disposedValue;
+
+		protected virtual void SetExitCode(int value)
+		{
+			File.WriteAllText(filePath, String.Format("EXIT /B {0}", value));
+		}
 
 		public TestProcessPath()
 		{
