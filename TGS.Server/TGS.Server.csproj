@@ -152,7 +152,7 @@
     <Compile Include="Components\Instance.cs" />
     <Compile Include="Chat\Providers\IRCProvider.cs" />
     <Compile Include="Components\ActionEventManager.cs" />
-    <Compile Include="ProcessExtension.cs" />
+    <Compile Include="ProcessExtensions.cs" />
     <Compile Include="Security\RootAuthorizationManager.cs" />
     <Compile Include="Security\WindowsAuthorizationPolicy.cs" />
     <Compile Include="Server.cs" />

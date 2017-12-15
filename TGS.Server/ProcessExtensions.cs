@@ -1,14 +1,13 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace TGS.Server
 {
 	/// <summary>
-	/// Helpers to <see cref="Suspend(Process)"/>ing and <see cref="Resume(Process)"/> a <see cref="Process"/>. Lightly massaged code from https://stackoverflow.com/a/13109774. Documentation linked from MSDN on 20/10/2017
+	/// <see cref="Process"/> helper functions
 	/// </summary>
-	static class ProcessExtension
+	static class ProcessExtensions
 	{
 		/// <summary>
 		/// Suspends all threads for a running <see cref="Process"/>
@@ -19,8 +18,6 @@ namespace TGS.Server
 			foreach (ProcessThread thread in process.Threads)
 			{
 				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SUSPEND_RESUME, false, (uint)thread.Id);
-				if (pOpenThread == IntPtr.Zero)
-					continue;
 				NativeMethods.SuspendThread(pOpenThread);
 				NativeMethods.CloseHandle(pOpenThread);
 			}
@@ -35,8 +32,6 @@ namespace TGS.Server
 			foreach (ProcessThread thread in process.Threads)
 			{
 				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SUSPEND_RESUME, false, (uint)thread.Id);
-				if (pOpenThread == IntPtr.Zero)
-					continue;
 				NativeMethods.ResumeThread(pOpenThread);
 				NativeMethods.CloseHandle(pOpenThread);
 			}

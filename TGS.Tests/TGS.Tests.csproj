@@ -88,6 +88,7 @@
     <Compile Include="Server\IoC\TestDependencyInjector.cs" />
     <Compile Include="Server\IO\TestIOManager.cs" />
     <Compile Include="Server\Configuration\TestRepoConfig.cs" />
+    <Compile Include="Server\TestProcessExtensions.cs" />
     <Compile Include="Server\TestServerFactory.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>

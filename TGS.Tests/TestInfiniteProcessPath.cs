@@ -12,11 +12,12 @@ namespace TGS.Tests
 		{
 			try
 			{
-				File.WriteAllText(filePath, ":loop" + Environment.NewLine + "goto loop");
+				File.WriteAllText(filePath, "@echo off" + Environment.NewLine + ":loop" + Environment.NewLine + "goto loop");
 			}
 			catch
 			{
 				Dispose();
+				throw;
 			}
 		}
 		protected override void SetExitCode(int value)
