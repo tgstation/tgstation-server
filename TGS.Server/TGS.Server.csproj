@@ -160,7 +160,7 @@
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Configuration\ServerConfig.cs" />
     <Compile Include="ServerFactory.cs" />
-    <Compile Include="SymlinkException.cs" />
+    <Compile Include="IO\SymlinkException.cs" />
     <Compile Include="Security\AuthenticationHeaderDecoder.cs" />
   </ItemGroup>
   <ItemGroup>

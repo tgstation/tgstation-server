@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 
-namespace TGS.Server
+namespace TGS.Server.IO
 {
 	/// <summary>
-	/// <see cref="Exception"/> <see cref="Type"/> to be thrown when <see cref="NativeMethods.CreateSymbolicLink(string, string, NativeMethods.SymbolicLink)"/> fails
+	/// <see cref="Exception"/> to be thrown when <see cref="NativeMethods.CreateSymbolicLink(string, string, NativeMethods.SymbolicLink)"/> fails
 	/// </summary>
 	sealed class SymlinkException : IOException
 	{
