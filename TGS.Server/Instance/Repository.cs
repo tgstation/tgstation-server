@@ -608,7 +608,7 @@ namespace TGS.Server
 				try
 				{
 					//now try and push the commit to the remote so they can be referenced
-					NewB = Repo.CreateBranch(RemoteTempBranchName).CanonicalName;
+					NewB = Repo.CreateBranch(RemoteTempBranchName + Config.Name).CanonicalName;
 					Repo.Network.Push(targetRemote, NewB, options); //push the branch
 					Repo.Branches.Remove(NewB);
 					var removalString = String.Format(":{0}", NewB);
