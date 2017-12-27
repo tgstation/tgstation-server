@@ -92,6 +92,11 @@ namespace TGS.Server
 		ShutdownRequestPhase AwaitingShutdown;
 
 		/// <summary>
+		/// Number of failed <see cref="Heartbeat"/>s
+		/// </summary>
+		int FailedHeartbeatCount;
+
+		/// <summary>
 		/// Setup or reattach the watchdog, depending on <see cref="InstanceConfig.ReattachRequired"/> of <see cref="Config"/>, and create the <see cref="DiagnosticsDir"/>
 		/// </summary>
 		void InitDreamDaemon()
@@ -324,78 +329,91 @@ namespace TGS.Server
 				}
 				var retries = 0;
 
-				var MemTrackTimer = new System.Timers.Timer
+				using (var MemTrackTimer = new System.Timers.Timer
 				{
 					AutoReset = true,
 					Interval = 5000 //every 5 seconds
-				};
-				MemTrackTimer.Elapsed += MemTrackTimer_Elapsed;
-				while (true)
+				})
+				using (var HeartBeatTimer = new System.Timers.Timer
 				{
-					var starttime = DateTime.Now;
+					AutoReset = true,
+					Interval = 10000,
+				})
+				{
+					HeartBeatTimer.Elapsed += HeartBeatTimer_Elapsed;
+					MemTrackTimer.Elapsed += MemTrackTimer_Elapsed;
+					while (true)
+					{
+						var starttime = DateTime.Now;
 
-					lock (watchdogLock)
-					{
-						if (AwaitingShutdown == ShutdownRequestPhase.Requested)
-							SendCommand(SCGracefulShutdown);
-					}
+						lock (watchdogLock)
+						{
+							if (AwaitingShutdown == ShutdownRequestPhase.Requested)
+								SendCommand(SCGracefulShutdown);
+						}
 
-					//all good to go, let's start monitoring
-					var Now = DateTime.Now;
-					lock (watchdogLock)
-					{
-						CurrentDDLog = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ");
-						WriteCurrentDDLog("Starting monitoring...");
-					}
-					try
-					{
-						pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
+						//all good to go, let's start monitoring
+						var Now = DateTime.Now;
+						lock (watchdogLock)
+						{
+							CurrentDDLog = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ");
+							WriteCurrentDDLog("Starting monitoring...");
+						}
+						try
+						{
+							pcpu = new PerformanceCounter("Process", "% Processor Time", Proc.ProcessName, true);
+						}
+						catch (InvalidOperationException) { /*process already exited*/ }
+
 						MemTrackTimer.Start();
-					}
-					catch (InvalidOperationException) { /*process already exited*/ }
-					try
-					{
-						Proc.WaitForExit();
-					}
-					finally
-					{
-						lock (watchdogLock) //synchronize
+						FailedHeartbeatCount = 0;
+						HeartBeatTimer.Start();
+
+						try
 						{
-							MemTrackTimer.Stop();
-							pcpu?.Dispose();
+							Proc.WaitForExit();
 						}
-					}
-
-					WriteCurrentDDLog("Crash detected!");
-
-					lock (watchdogLock)
-					{
-						currentStatus = DreamDaemonStatus.HardRebooting;
-						currentPort = 0;
-						Proc.Close();
-
-						if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
-							return;
-						var BadStart = (DateTime.Now - starttime).TotalSeconds < DDBadStartTime;
-						if (BadStart)
+						finally
 						{
-							++retries;
-							var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
-							SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time), MessageType.WatchdogInfo);
-							Thread.Sleep(sleep_time * 1000);
+							lock (watchdogLock) //synchronize
+							{
+								HeartBeatTimer.Stop();
+								MemTrackTimer.Stop();
+								pcpu?.Dispose();
+							}
 						}
-						else
-						{
-							retries = 0;
-							var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
-							SendMessage(msg, MessageType.WatchdogInfo);
-							WriteWarning(msg, EventID.DDWatchdogRebootingServer);
-						}
-					}
 
-					var res = StartImpl(true);
-					if (res != null)
-						throw new Exception("Hard restart failed: " + res);
+						WriteCurrentDDLog("Crash detected!");
+
+						lock (watchdogLock)
+						{
+							currentStatus = DreamDaemonStatus.HardRebooting;
+							currentPort = 0;
+							Proc.Close();
+
+							if (AwaitingShutdown == ShutdownRequestPhase.Pinged)
+								return;
+							var BadStart = (DateTime.Now - starttime).TotalSeconds < DDBadStartTime;
+							if (BadStart)
+							{
+								++retries;
+								var sleep_time = (int)Math.Min(Math.Pow(2, retries), 3600); //max of one hour
+								SendMessage(String.Format("DD: Watchdog server startup failed! Retrying in {0} seconds...", sleep_time), MessageType.WatchdogInfo);
+								Thread.Sleep(sleep_time * 1000);
+							}
+							else
+							{
+								retries = 0;
+								var msg = "DD: DreamDaemon crashed! Watchdog rebooting DD...";
+								SendMessage(msg, MessageType.WatchdogInfo);
+								WriteWarning(msg, EventID.DDWatchdogRebootingServer);
+							}
+						}
+
+						var res = StartImpl(true);
+						if (res != null)
+							throw new Exception("Hard restart failed: " + res);
+					}
 				}
 			}
 			catch (ThreadAbortException)
@@ -447,6 +465,44 @@ namespace TGS.Server
 						else
 							WriteInfo("Watch dog restarting...", EventID.DDWatchdogRestart);
 					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Calls <see cref="Heartbeat"/> every 10s. If 10 fail in a row, <see cref="Restart()"/> is called
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="ElapsedEventArgs"/></param>
+		void HeartBeatTimer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			lock (watchdogLock)
+			{
+				if (Heartbeat())
+				{
+					FailedHeartbeatCount = 0;
+					return;
+				}
+				switch (++FailedHeartbeatCount)
+				{
+					case 5:
+						SendMessage("DD: Warning: 5 heartbeats failed!", MessageType.AdminInfo);
+						break;
+					case 6:
+						SendMessage("DD: Defcon 4: 6 heartbeats failed!", MessageType.AdminInfo);
+						break;
+					case 7:
+						SendMessage("DD: Defcon 3: 7 heartbeats failed! Watchdog will reboot at 10 failed heartbeats!", MessageType.AdminInfo);
+						break;
+					case 8:
+						SendMessage("DD: Defcon 2: 8 heartbeats failed!", MessageType.AdminInfo);
+						break;
+					case 9:
+						SendMessage("DD: Defcon 1: Watchdog will reboot in 10s if the next heartbeat fails!", MessageType.AdminInfo);
+						break;
+					case 10:
+						Restart();
+						break;
 				}
 			}
 		}
