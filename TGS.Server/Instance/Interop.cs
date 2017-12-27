@@ -34,6 +34,7 @@ namespace TGS.Server
 		const string SCListCustomCommands = "list_custom_commands"; //Get a list of commands supported by the server
 		const string SCAPICompat = "api_compat";    //Tells the server we understand each other
 		const string SCPlayerCount = "client_count";    //Gets the number of connected client
+		const string SCPing = "pingerino";	//Used as a heartbeat topic for the watchdog
 
 		/// <summary>
 		/// String returned when a command completes successfully with no output
@@ -144,7 +145,7 @@ namespace TGS.Server
 						}
 						catch
 						{
-							WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
+							WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{1}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
 							GameAPIVersion = null;
 							break;
 						}
@@ -175,6 +176,17 @@ namespace TGS.Server
 			{
 				return -1;
 			}
+		}
+
+		/// <summary>
+		/// Pings DD. Requires DMAPI version >= 3.2.1.0
+		/// </summary>
+		/// <returns><see langword="true"/> on success or if <see cref="GameAPIVersion"/> is too low, <see langword="false"/> otherwise</returns>
+		bool Heartbeat()
+		{
+			if (GameAPIVersion?.Minor < 2 || GameAPIVersion?.Build < 1)
+				return true;
+			return SendCommand(SCPing) == SRetSuccess;
 		}
 
 		//requires topiclock
