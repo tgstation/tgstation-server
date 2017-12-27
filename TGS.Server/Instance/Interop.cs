@@ -184,7 +184,7 @@ namespace TGS.Server
 		/// <returns><see langword="true"/> on success or if <see cref="GameAPIVersion"/> is too low, <see langword="false"/> otherwise</returns>
 		bool Heartbeat()
 		{
-			if (GameAPIVersion?.Minor < 2 || GameAPIVersion?.Revision < 1)
+			if (GameAPIVersion?.Minor < 2 || GameAPIVersion?.Build < 1)
 				return true;
 			return SendCommand(SCPing) == SRetSuccess;
 		}
