@@ -383,6 +383,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>The files are modified here using the Windows credentials of the active user, feel free to manually set ACLs on them</li>
 <li>You may optionally rebuild the entire <code>Static</code> folder from the repository using the <code>Recreate Static Directory</code> button. This will copy the original files from the repository based on the current <code>TGS3.json</code>. This requires DreamDaemon not be running</li>
 </ul>
+<h3>Modifying Your Code</h3>
+<p>Any <code>.dm</code> files included in the root level of the <code>Static</code> directory are automatically copied over and included before anything else in your <code>.dme</code> for compilation. Use this to configure compile options as you see fit.</p>
 <h3>Moving, Renaming, and Detaching instances</h3>
 <ul>
 <li>Instances can be renamed, but this requires a temporary offlining of them (this includes interface access, DreamDaemon, and chat bots)</li>
