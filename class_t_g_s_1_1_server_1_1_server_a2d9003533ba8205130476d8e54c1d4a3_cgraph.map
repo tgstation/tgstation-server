@@ -1,5 +1,0 @@
-<map id="TGS.Server.Server.ImportInstance" name="TGS.Server.Server.ImportInstance">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance_config.html#ab2d62660500deb534464b1f71f5cbd77" title="Loads and migrates an IInstanceConfig from a Instance at path &#160;" alt="" coords="229,5,439,32"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_helpers.html#a735e80586fa986522b778d7bf5401b90" title="Normalizes different versions of a path string " alt="" coords="221,56,447,83"/>
-<area shape="rect" id="node4" href="$interface_t_g_s_1_1_server_1_1_i_instance_config.html#a8456c8ae4b83292059709e1d4dcbcce0" title="Saves the IInstanceConfig to it&#39;s Instance Directory " alt="" coords="228,107,440,133"/>
-</map>

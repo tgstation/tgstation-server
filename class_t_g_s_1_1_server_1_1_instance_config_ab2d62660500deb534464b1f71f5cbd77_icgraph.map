@@ -1,5 +1,0 @@
-<map id="TGS.Server.InstanceConfig.Load" name="TGS.Server.InstanceConfig.Load">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#aff423624d970045456299a73efa4fcf9" title="Migrate to the new ServerConfig since the Server.Server won&#39;t know about it until it&#39;s upgraded ..." alt="" coords="267,5,461,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_server.html#aca3e4b51f2911f5adab680ee1788075e" title="Enumerates configured IInstanceConfigs. Detaches those that fail to load " alt="" coords="263,71,465,112"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_server.html#a2d9003533ba8205130476d8e54c1d4a3" title="Registers an existing server instance &#160;" alt="" coords="280,136,448,177"/>
-</map>

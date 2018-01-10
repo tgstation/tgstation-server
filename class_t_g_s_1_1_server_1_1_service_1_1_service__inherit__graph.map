@@ -1,4 +1,0 @@
-<map id="TGS.Server.Service.Service" name="TGS.Server.Service.Service">
-<area shape="rect" id="node2" href="$class_service_base.html" title="ServiceBase" alt="" coords="5,5,100,32"/>
-<area shape="rect" id="node3" href="$interface_t_g_s_1_1_server_1_1_i_logger.html" title="Used for writing logs to a provider " alt="" coords="125,5,189,32"/>
-</map>

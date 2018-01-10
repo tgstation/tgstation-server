@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -130,16 +130,6 @@ Public Member Functions</h2></td></tr>
 
 <p>References <a class="el" href="_instance_selector_8_designer_8cs_source.html#l00014">TGS.ControlPanel.InstanceSelector.Dispose()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            var mockLanding = <span class="keyword">new</span> Mock&lt;ITGLanding&gt;();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            mockLanding.Setup(x =&gt; x.ListInstances()).Returns(<span class="keyword">new</span> List&lt;InstanceMetadata&gt;());</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            var mockInter = <span class="keyword">new</span> Mock&lt;IServer&gt;();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        </div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">new</span> InstanceSelector(mockInter.Object).Dispose();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector_a0104abaf3884d79de07d9e5b68d68fb3_cgraph.png" border="0" usemap="#class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector_a0104abaf3884d79de07d9e5b68d68fb3_cgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector_a0104abaf3884d79de07d9e5b68d68fb3_cgraph" id="class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector_a0104abaf3884d79de07d9e5b68d68fb3_cgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a3af6ccba530b6501e5e14f2fbda51dcf" title="Clean up any resources being used. " alt="" coords="264,5,443,47"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

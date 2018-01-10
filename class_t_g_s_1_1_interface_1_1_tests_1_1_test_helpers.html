@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -101,13 +101,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><a class="el" href="namespace_t_g_s_1_1_interface_1_1_tests.html">Tests</a> for <a class="el" href="class_t_g_s_1_1_interface_1_1_helpers.html" title="Helper functions used across the server suite ">Helpers</a>  
  <a href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#details">More...</a></p>
-<div class="dynheader">
-Collaboration diagram for TGS.Interface.Tests.TestHelpers:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers__coll__graph.png" border="0" usemap="#_t_g_s_8_interface_8_tests_8_test_helpers_coll__map" alt="Collaboration graph"/></div>
-<map name="_t_g_s_8_interface_8_tests_8_test_helpers_coll__map" id="_t_g_s_8_interface_8_tests_8_test_helpers_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -171,16 +164,6 @@ Private Attributes</h2></td></tr>
 <p>References <a class="el" href="_t_g_s_8_interface_2_helpers_8cs_source.html#l00018">TGS.Interface.Helpers.EncryptData()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            var result = Helpers.EncryptData(<a class="code" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#aa45e9d070893e4f5705404cc630f5ba8">PlainText</a>, out entropy);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            Assert.AreNotEqual(<a class="code" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#aa45e9d070893e4f5705404cc630f5ba8">PlainText</a>, entropy);</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            Assert.AreNotEqual(<a class="code" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#aa45e9d070893e4f5705404cc630f5ba8">PlainText</a>, result);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            Assert.AreNotEqual(result, entropy);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            Assert.IsFalse(String.IsNullOrWhiteSpace(result));</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            Assert.IsFalse(String.IsNullOrWhiteSpace(entropy));</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">return</span> result;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_html_aa45e9d070893e4f5705404cc630f5ba8"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#aa45e9d070893e4f5705404cc630f5ba8">TGS.Interface.Tests.TestHelpers.PlainText</a></div><div class="ttdeci">const string PlainText</div><div class="ttdoc">Sample cleartext </div><div class="ttdef"><b>Definition:</b> <a href="_test_helpers_8cs_source.html#l00015">TestHelpers.cs:15</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_a5b762ac4ed32812cc8bae65f101dd990_cgraph.png" border="0" usemap="#class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_a5b762ac4ed32812cc8bae65f101dd990_cgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_a5b762ac4ed32812cc8bae65f101dd990_cgraph" id="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_a5b762ac4ed32812cc8bae65f101dd990_cgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_interface_1_1_helpers.html#a7ae7165c61130034089ee2d9505cc5d2" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="233,13,459,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ad996d0c45e0791736bf3ea034dde66b2"></a>
@@ -204,16 +187,6 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            var result = <a class="code" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#a5b762ac4ed32812cc8bae65f101dd990">AssertEncryptData</a>(out <span class="keywordtype">string</span> entropy);</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            var decrypted = Helpers.DecryptData(result, entropy);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            Assert.AreEqual(decrypted, <a class="code" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#aa45e9d070893e4f5705404cc630f5ba8">PlainText</a>);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_html_a5b762ac4ed32812cc8bae65f101dd990"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#a5b762ac4ed32812cc8bae65f101dd990">TGS.Interface.Tests.TestHelpers.AssertEncryptData</a></div><div class="ttdeci">string AssertEncryptData(out string entropy)</div><div class="ttdoc">Run assertions for a successful call to Helpers.EncryptData(string, out string) </div><div class="ttdef"><b>Definition:</b> <a href="_test_helpers_8cs_source.html#l00022">TestHelpers.cs:22</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_html_aa45e9d070893e4f5705404cc630f5ba8"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#aa45e9d070893e4f5705404cc630f5ba8">TGS.Interface.Tests.TestHelpers.PlainText</a></div><div class="ttdeci">const string PlainText</div><div class="ttdoc">Sample cleartext </div><div class="ttdef"><b>Definition:</b> <a href="_test_helpers_8cs_source.html#l00015">TestHelpers.cs:15</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_ad996d0c45e0791736bf3ea034dde66b2_cgraph.png" border="0" usemap="#class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_ad996d0c45e0791736bf3ea034dde66b2_cgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_ad996d0c45e0791736bf3ea034dde66b2_cgraph" id="class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers_ad996d0c45e0791736bf3ea034dde66b2_cgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_interface_1_1_helpers.html#a7e515f8df6a52108ffaaecb536b3a99a" title="Takes ciphertext and entropy from EncryptData(string, out string) and returns the cleartext..." alt="" coords="259,13,484,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ab238111277e6e8af2d3744d39979ec14"></a>

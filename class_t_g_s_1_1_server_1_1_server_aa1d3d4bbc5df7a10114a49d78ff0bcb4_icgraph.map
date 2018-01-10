@@ -1,3 +1,0 @@
-<map id="TGS.Server.Server.Dispose" name="TGS.Server.Server.Dispose">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_service_1_1_service.html#a1ae0d4d9bb9690920d5757e8889e23e1" title="Called when the Service is stopped. Calls IDisposable.Dispose on activeServer " alt="" coords="232,5,416,47"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="TGS.ControlPanel.ControlPanel.RemoveAllTestMergesButton_Click" name="TGS.ControlPanel.ControlPanel.RemoveAllTestMergesButton_Click">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_compiler.html#a7831773a46f543558be9a2c10d8f81c6" title="Does all the necessary actions to take the revision currently in the repository and compile it to be ..." alt="" coords="316,5,499,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_program.html#aec1b565fc6eb93f130a5d80f41578cba" title="Prompts the user to open the GitHubLoginPrompt explaining the API rate limit " alt="" coords="316,71,499,112"/>
-</map>

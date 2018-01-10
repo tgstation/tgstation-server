@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -95,13 +95,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Common Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Collaboration diagram for Common:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common__coll__graph.png" border="0" usemap="#_common_coll__map" alt="Collaboration graph"/></div>
-<map name="_common_coll__map" id="_common_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -215,17 +208,6 @@ Private Attributes</h2></td></tr>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">using</span> (var fs = <span class="keyword">new</span> FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">using</span> (var bs = <span class="keyword">new</span> BufferedStream(fs))</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">using</span> (var sha1 = <span class="keyword">new</span> SHA1CryptoServiceProvider())</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            var hash = sha1.ComputeHash(bs);</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            var formatted = <span class="keyword">new</span> StringBuilder(2 * hash.Length);</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">foreach</span> (var b <span class="keywordflow">in</span> hash)</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            {</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                formatted.AppendFormat(<span class="stringliteral">&quot;{0:X2}&quot;</span>, b);</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordflow">return</span> formatted.ToString();</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_adfd070f9a744e4501390a3532c33ffa0_icgraph.png" border="0" usemap="#class_common_adfd070f9a744e4501390a3532c33ffa0_icgraph" alt=""/></div>
-<map name="class_common_adfd070f9a744e4501390a3532c33ffa0_icgraph" id="class_common_adfd070f9a744e4501390a3532c33ffa0_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="248,5,481,47"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="529,13,769,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="adfd070f9a744e4501390a3532c33ffa0"></a>
@@ -290,18 +272,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>, and <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00172">LoadStream()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        var array = <span class="keyword">new</span> byte[81920];</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">int</span> count;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">while</span> ((count = source.Read(array, 0, array.Length)) != 0)</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            destination.Write(array, 0, count);</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a2dece1f9abc6e173d1685dcdb0d208d7_icgraph.png" border="0" usemap="#class_common_a2dece1f9abc6e173d1685dcdb0d208d7_icgraph" alt=""/></div>
-<map name="class_common_a2dece1f9abc6e173d1685dcdb0d208d7_icgraph" id="class_common_a2dece1f9abc6e173d1685dcdb0d208d7_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="176,5,409,47"/>
-<area shape="rect" id="node4" href="class_common.html#aa3f1ba52591640ea0850dbb46f47324d" title="Common.LoadStream" alt="" coords="219,71,367,98"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="457,13,697,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a2dece1f9abc6e173d1685dcdb0d208d7"></a>
@@ -392,16 +362,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00192">PreloadUnmanagedLibraries()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">if</span> (!Directory.Exists(tempBasePath))</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            Directory.CreateDirectory(tempBasePath);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_af06d3ae24d5e59a164e3309b56d8834a_icgraph.png" border="0" usemap="#class_common_af06d3ae24d5e59a164e3309b56d8834a_icgraph" alt=""/></div>
-<map name="class_common_af06d3ae24d5e59a164e3309b56d8834a_icgraph" id="class_common_af06d3ae24d5e59a164e3309b56d8834a_icgraph">
-<area shape="rect" id="node2" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="221,5,461,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ac106c64e40ba8bdf60460294628f72b8"></a>
@@ -430,18 +390,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00077">ReadExistingAssembly()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span> (culture == null)</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">return</span> culture.Name;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_ac106c64e40ba8bdf60460294628f72b8_icgraph.png" border="0" usemap="#class_common_ac106c64e40ba8bdf60460294628f72b8_icgraph" alt=""/></div>
-<map name="class_common_ac106c64e40ba8bdf60460294628f72b8_icgraph" id="class_common_ac106c64e40ba8bdf60460294628f72b8_icgraph">
-<area shape="rect" id="node2" href="class_common.html#a710e1dd5feaf74e91e88cc1417e13a3a" title="Common.ReadExistingAssembly" alt="" coords="220,5,433,32"/>
-<area shape="rect" id="node3" href="class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="481,5,673,32"/>
-<area shape="rect" id="node4" href="class_i_l_template.html#af322f7d9db90887dd087d2551671bda0" title="ILTemplate.Attach" alt="" coords="721,5,848,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ac106c64e40ba8bdf60460294628f72b8"></a>
@@ -522,32 +470,6 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="class_common_html_a2992ffd10039b6dbd7ad443f0d1d3a03"><div class="ttname"><a href="class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03">Common.LoadLibrary</a></div><div class="ttdeci">static IntPtr LoadLibrary(string dllToLoad)</div></div>
 <div class="ttc" id="class_common_html_a55331a7ea1201c5a64471fed25b76a1a"><div class="ttname"><a href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">Common.LoadStream</a></div><div class="ttdeci">static Stream LoadStream(Dictionary&lt; string, string &gt; resourceNames, string name)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">Common.cs:163</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_acbb38451bd48d4428214d117e156dbde_cgraph.png" border="0" usemap="#class_common_acbb38451bd48d4428214d117e156dbde_cgraph" alt=""/></div>
-<map name="class_common_acbb38451bd48d4428214d117e156dbde_cgraph" id="class_common_acbb38451bd48d4428214d117e156dbde_cgraph">
-<area shape="rect" id="node2" href="class_common.html#adfd070f9a744e4501390a3532c33ffa0" title="Common.CalculateChecksum" alt="" coords="293,5,488,32"/>
-<area shape="rect" id="node3" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="329,56,452,83"/>
-<area shape="rect" id="node4" href="class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03" title="Common.LoadLibrary" alt="" coords="318,107,463,133"/>
-<area shape="rect" id="node5" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="317,157,465,184"/>
-<area shape="rect" id="node6" href="class_common.html#a80aef2baf693b0b9479103fe477f2b28" title="Common.MoveFileEx" alt="" coords="318,208,463,235"/>
-<area shape="rect" id="node7" href="class_common.html#a17842afc6e42e650325e6ce5d1ff0868" title="Common.ResourceNameToPath" alt="" coords="287,259,495,285"/>
-<area shape="rect" id="node8" href="class_common.html#ae755d665523d0877b8363f447dacd5af" title="Common.SetDllDirectory" alt="" coords="308,309,473,336"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_acbb38451bd48d4428214d117e156dbde_icgraph.png" border="0" usemap="#class_common_acbb38451bd48d4428214d117e156dbde_icgraph" alt=""/></div>
-<map name="class_common_acbb38451bd48d4428214d117e156dbde_icgraph" id="class_common_acbb38451bd48d4428214d117e156dbde_icgraph">
-<area shape="rect" id="node2" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="287,13,527,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="acbb38451bd48d4428214d117e156dbde"></a>
@@ -600,22 +522,6 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="class_common_html_a2992ffd10039b6dbd7ad443f0d1d3a03"><div class="ttname"><a href="class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03">Common.LoadLibrary</a></div><div class="ttdeci">static IntPtr LoadLibrary(string dllToLoad)</div></div>
 <div class="ttc" id="class_common_html_a55331a7ea1201c5a64471fed25b76a1a"><div class="ttname"><a href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">Common.LoadStream</a></div><div class="ttdeci">static Stream LoadStream(Dictionary&lt; string, string &gt; resourceNames, string name)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">Common.cs:163</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_acbb38451bd48d4428214d117e156dbde_cgraph.png" border="0" usemap="#class_common_acbb38451bd48d4428214d117e156dbde_cgraph" alt=""/></div>
-<map name="class_common_acbb38451bd48d4428214d117e156dbde_cgraph" id="class_common_acbb38451bd48d4428214d117e156dbde_cgraph">
-<area shape="rect" id="node2" href="class_common.html#adfd070f9a744e4501390a3532c33ffa0" title="Common.CalculateChecksum" alt="" coords="293,5,488,32"/>
-<area shape="rect" id="node3" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="329,56,452,83"/>
-<area shape="rect" id="node4" href="class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03" title="Common.LoadLibrary" alt="" coords="318,107,463,133"/>
-<area shape="rect" id="node5" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="317,157,465,184"/>
-<area shape="rect" id="node6" href="class_common.html#a80aef2baf693b0b9479103fe477f2b28" title="Common.MoveFileEx" alt="" coords="318,208,463,235"/>
-<area shape="rect" id="node7" href="class_common.html#a17842afc6e42e650325e6ce5d1ff0868" title="Common.ResourceNameToPath" alt="" coords="287,259,495,285"/>
-<area shape="rect" id="node8" href="class_common.html#ae755d665523d0877b8363f447dacd5af" title="Common.SetDllDirectory" alt="" coords="308,309,473,336"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a2992ffd10039b6dbd7ad443f0d1d3a03"></a>
@@ -641,17 +547,6 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a2992ffd10039b6dbd7ad443f0d1d3a03_icgraph.png" border="0" usemap="#class_common_a2992ffd10039b6dbd7ad443f0d1d3a03_icgraph" alt=""/></div>
-<map name="class_common_a2992ffd10039b6dbd7ad443f0d1d3a03_icgraph" id="class_common_a2992ffd10039b6dbd7ad443f0d1d3a03_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="199,5,432,47"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="480,13,720,39"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -716,20 +611,6 @@ Here is the caller graph for this function:</div>
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>, <a class="el" href="_t_g_s_8_interface_8_bridge_2obj_2x86_2_release_2_common_8cs_source.html#l00163">LoadStream()</a>, and <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00134">ReadFromEmbeddedResources()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    {</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordtype">string</span> value;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">if</span> (resourceNames.TryGetValue(name, out value))</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">LoadStream</a>(value);</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    }</div><div class="ttc" id="class_common_html_a55331a7ea1201c5a64471fed25b76a1a"><div class="ttname"><a href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">Common.LoadStream</a></div><div class="ttdeci">static Stream LoadStream(Dictionary&lt; string, string &gt; resourceNames, string name)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">Common.cs:163</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a55331a7ea1201c5a64471fed25b76a1a_icgraph.png" border="0" usemap="#class_common_a55331a7ea1201c5a64471fed25b76a1a_icgraph" alt=""/></div>
-<map name="class_common_a55331a7ea1201c5a64471fed25b76a1a_icgraph" id="class_common_a55331a7ea1201c5a64471fed25b76a1a_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="216,5,449,47"/>
-<area shape="rect" id="node4" href="class_common.html#a125562bcb6af91929b850b0b5e63b090" title="Common.ReadFromEmbeddedResources" alt="" coords="201,71,464,98"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="512,13,752,39"/>
-<area shape="rect" id="node5" href="class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="536,71,728,98"/>
-<area shape="rect" id="node6" href="class_i_l_template.html#af322f7d9db90887dd087d2551671bda0" title="ILTemplate.Attach" alt="" coords="800,71,927,98"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a55331a7ea1201c5a64471fed25b76a1a"></a>
@@ -769,15 +650,6 @@ Here is the caller graph for this function:</div>
 <p>References <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">LoadStream()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    {</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordtype">string</span> value;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">if</span> (resourceNames.TryGetValue(name, out value))</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">LoadStream</a>(value);</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    }</div><div class="ttc" id="class_common_html_a55331a7ea1201c5a64471fed25b76a1a"><div class="ttname"><a href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">Common.LoadStream</a></div><div class="ttdeci">static Stream LoadStream(Dictionary&lt; string, string &gt; resourceNames, string name)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">Common.cs:163</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a55331a7ea1201c5a64471fed25b76a1a_cgraph.png" border="0" usemap="#class_common_a55331a7ea1201c5a64471fed25b76a1a_cgraph" alt=""/></div>
-<map name="class_common_a55331a7ea1201c5a64471fed25b76a1a_cgraph" id="class_common_a55331a7ea1201c5a64471fed25b76a1a_cgraph">
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="aa3f1ba52591640ea0850dbb46f47324d"></a>
@@ -807,16 +679,6 @@ Here is the call graph for this function:</div>
 <p>References <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00036">CopyTo()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    {</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        var executingAssembly = Assembly.GetExecutingAssembly();</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">if</span> (fullname.EndsWith(<span class="stringliteral">&quot;.compressed&quot;</span>))</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        {</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keyword">using</span> (var stream = executingAssembly.GetManifestResourceStream(fullname))</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keyword">using</span> (var compressStream = <span class="keyword">new</span> DeflateStream(stream, CompressionMode.Decompress))</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            {</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                var memStream = <span class="keyword">new</span> MemoryStream();</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <a class="code" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7">CopyTo</a>(compressStream, memStream);</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                memStream.Position = 0;</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                <span class="keywordflow">return</span> memStream;</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            }</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        }</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">return</span> executingAssembly.GetManifestResourceStream(fullname);</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    }</div><div class="ttc" id="class_common_html_a2dece1f9abc6e173d1685dcdb0d208d7"><div class="ttname"><a href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7">Common.CopyTo</a></div><div class="ttdeci">static void CopyTo(Stream source, Stream destination)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00036">Common.cs:36</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph.png" border="0" usemap="#class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph" alt=""/></div>
-<map name="class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph" id="class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph">
-<area shape="rect" id="node2" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="201,5,324,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="aa3f1ba52591640ea0850dbb46f47324d"></a>
@@ -846,16 +708,6 @@ Here is the call graph for this function:</div>
 <p>References <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00036">CopyTo()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    {</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        var executingAssembly = Assembly.GetExecutingAssembly();</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">if</span> (fullname.EndsWith(<span class="stringliteral">&quot;.compressed&quot;</span>))</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        {</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keyword">using</span> (var stream = executingAssembly.GetManifestResourceStream(fullname))</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keyword">using</span> (var compressStream = <span class="keyword">new</span> DeflateStream(stream, CompressionMode.Decompress))</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            {</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                var memStream = <span class="keyword">new</span> MemoryStream();</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <a class="code" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7">CopyTo</a>(compressStream, memStream);</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                memStream.Position = 0;</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                <span class="keywordflow">return</span> memStream;</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            }</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        }</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">return</span> executingAssembly.GetManifestResourceStream(fullname);</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    }</div><div class="ttc" id="class_common_html_a2dece1f9abc6e173d1685dcdb0d208d7"><div class="ttname"><a href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7">Common.CopyTo</a></div><div class="ttdeci">static void CopyTo(Stream source, Stream destination)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00036">Common.cs:36</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph.png" border="0" usemap="#class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph" alt=""/></div>
-<map name="class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph" id="class_common_aa3f1ba52591640ea0850dbb46f47324d_cgraph">
-<area shape="rect" id="node2" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="201,5,324,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a092e7fc10aca1741843c4f65a719d3c8"></a>
@@ -894,18 +746,6 @@ Here is the call graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00077">ReadExistingAssembly()</a>, and <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_i_l_template_8cs_source.html#l00027">ILTemplate.ResolveAssembly()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">// Should this be trace?</span></div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        Debug.WriteLine(<span class="stringliteral">&quot;=== COSTURA === &quot;</span> + <span class="keywordtype">string</span>.Format(format, args));</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a092e7fc10aca1741843c4f65a719d3c8_icgraph.png" border="0" usemap="#class_common_a092e7fc10aca1741843c4f65a719d3c8_icgraph" alt=""/></div>
-<map name="class_common_a092e7fc10aca1741843c4f65a719d3c8_icgraph" id="class_common_a092e7fc10aca1741843c4f65a719d3c8_icgraph">
-<area shape="rect" id="node2" href="class_common.html#a710e1dd5feaf74e91e88cc1417e13a3a" title="Common.ReadExistingAssembly" alt="" coords="152,5,365,32"/>
-<area shape="rect" id="node3" href="class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="413,31,605,57"/>
-<area shape="rect" id="node4" href="class_i_l_template.html#af322f7d9db90887dd087d2551671bda0" title="ILTemplate.Attach" alt="" coords="653,31,780,57"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a092e7fc10aca1741843c4f65a719d3c8"></a>
@@ -1024,17 +864,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>.</p>
 
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a80aef2baf693b0b9479103fe477f2b28_icgraph.png" border="0" usemap="#class_common_a80aef2baf693b0b9479103fe477f2b28_icgraph" alt=""/></div>
-<map name="class_common_a80aef2baf693b0b9479103fe477f2b28_icgraph" id="class_common_a80aef2baf693b0b9479103fe477f2b28_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="199,5,432,47"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="480,13,720,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a45420c8355d33840f8de0a7300349761"></a>
@@ -1087,24 +916,6 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    {</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        var mutexId = $<span class="stringliteral">&quot;Global\\Costura{hash}&quot;</span>;</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keyword">using</span> (var mutex = <span class="keyword">new</span> Mutex(<span class="keyword">false</span>, mutexId))</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        {</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            var allowEveryoneRule = <span class="keyword">new</span> MutexAccessRule(<span class="keyword">new</span> SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            var securitySettings = <span class="keyword">new</span> MutexSecurity();</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            securitySettings.AddAccessRule(allowEveryoneRule);</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            mutex.SetAccessControl(securitySettings);</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            var hasHandle = <span class="keyword">false</span>;</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            {</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                {</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    hasHandle = mutex.WaitOne(60000, <span class="keyword">false</span>);</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    <span class="keywordflow">if</span> (hasHandle == <span class="keyword">false</span>)</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> TimeoutException(<span class="stringliteral">&quot;Timeout waiting for exclusive access&quot;</span>);</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                }</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="keywordflow">catch</span> (AbandonedMutexException)</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                {</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                    hasHandle = <span class="keyword">true</span>;</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                }</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                var bittyness = IntPtr.Size == 8 ? <span class="stringliteral">&quot;64&quot;</span> : <span class="stringliteral">&quot;32&quot;</span>;</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                <a class="code" href="class_common.html#af06d3ae24d5e59a164e3309b56d8834a">CreateDirectory</a>(Path.Combine(tempBasePath, bittyness));</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <a class="code" href="class_common.html#acbb38451bd48d4428214d117e156dbde">InternalPreloadUnmanagedLibraries</a>(tempBasePath, libs, checksums);</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            }</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">finally</span></div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            {</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                <span class="keywordflow">if</span> (hasHandle)</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    mutex.ReleaseMutex();</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            }</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        }</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    }</div><div class="ttc" id="class_common_html_af06d3ae24d5e59a164e3309b56d8834a"><div class="ttname"><a href="class_common.html#af06d3ae24d5e59a164e3309b56d8834a">Common.CreateDirectory</a></div><div class="ttdeci">static void CreateDirectory(string tempBasePath)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00046">Common.cs:46</a></div></div>
 <div class="ttc" id="class_common_html_acbb38451bd48d4428214d117e156dbde"><div class="ttname"><a href="class_common.html#acbb38451bd48d4428214d117e156dbde">Common.InternalPreloadUnmanagedLibraries</a></div><div class="ttdeci">static void InternalPreloadUnmanagedLibraries(string tempBasePath, IEnumerable&lt; string &gt; libs, Dictionary&lt; string, string &gt; checksums)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">Common.cs:229</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a45420c8355d33840f8de0a7300349761_cgraph.png" border="0" usemap="#class_common_a45420c8355d33840f8de0a7300349761_cgraph" alt=""/></div>
-<map name="class_common_a45420c8355d33840f8de0a7300349761_cgraph" id="class_common_a45420c8355d33840f8de0a7300349761_cgraph">
-<area shape="rect" id="node2" href="class_common.html#af06d3ae24d5e59a164e3309b56d8834a" title="Common.CreateDirectory" alt="" coords="326,99,494,125"/>
-<area shape="rect" id="node3" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="293,150,527,191"/>
-<area shape="rect" id="node4" href="class_common.html#adfd070f9a744e4501390a3532c33ffa0" title="Common.CalculateChecksum" alt="" coords="581,5,776,32"/>
-<area shape="rect" id="node5" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="617,56,740,83"/>
-<area shape="rect" id="node6" href="class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03" title="Common.LoadLibrary" alt="" coords="606,107,751,133"/>
-<area shape="rect" id="node7" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="605,157,753,184"/>
-<area shape="rect" id="node8" href="class_common.html#a80aef2baf693b0b9479103fe477f2b28" title="Common.MoveFileEx" alt="" coords="606,208,751,235"/>
-<area shape="rect" id="node9" href="class_common.html#a17842afc6e42e650325e6ce5d1ff0868" title="Common.ResourceNameToPath" alt="" coords="575,259,783,285"/>
-<area shape="rect" id="node10" href="class_common.html#ae755d665523d0877b8363f447dacd5af" title="Common.SetDllDirectory" alt="" coords="596,309,761,336"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a45420c8355d33840f8de0a7300349761"></a>
@@ -1157,24 +968,6 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    {</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        var mutexId = $<span class="stringliteral">&quot;Global\\Costura{hash}&quot;</span>;</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keyword">using</span> (var mutex = <span class="keyword">new</span> Mutex(<span class="keyword">false</span>, mutexId))</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        {</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            var allowEveryoneRule = <span class="keyword">new</span> MutexAccessRule(<span class="keyword">new</span> SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            var securitySettings = <span class="keyword">new</span> MutexSecurity();</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            securitySettings.AddAccessRule(allowEveryoneRule);</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            mutex.SetAccessControl(securitySettings);</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            var hasHandle = <span class="keyword">false</span>;</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            {</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                {</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    hasHandle = mutex.WaitOne(60000, <span class="keyword">false</span>);</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    <span class="keywordflow">if</span> (hasHandle == <span class="keyword">false</span>)</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> TimeoutException(<span class="stringliteral">&quot;Timeout waiting for exclusive access&quot;</span>);</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                }</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="keywordflow">catch</span> (AbandonedMutexException)</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                {</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                    hasHandle = <span class="keyword">true</span>;</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                }</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                var bittyness = IntPtr.Size == 8 ? <span class="stringliteral">&quot;64&quot;</span> : <span class="stringliteral">&quot;32&quot;</span>;</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                <a class="code" href="class_common.html#af06d3ae24d5e59a164e3309b56d8834a">CreateDirectory</a>(Path.Combine(tempBasePath, bittyness));</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <a class="code" href="class_common.html#acbb38451bd48d4428214d117e156dbde">InternalPreloadUnmanagedLibraries</a>(tempBasePath, libs, checksums);</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            }</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">finally</span></div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            {</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                <span class="keywordflow">if</span> (hasHandle)</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    mutex.ReleaseMutex();</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            }</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        }</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    }</div><div class="ttc" id="class_common_html_af06d3ae24d5e59a164e3309b56d8834a"><div class="ttname"><a href="class_common.html#af06d3ae24d5e59a164e3309b56d8834a">Common.CreateDirectory</a></div><div class="ttdeci">static void CreateDirectory(string tempBasePath)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00046">Common.cs:46</a></div></div>
 <div class="ttc" id="class_common_html_acbb38451bd48d4428214d117e156dbde"><div class="ttname"><a href="class_common.html#acbb38451bd48d4428214d117e156dbde">Common.InternalPreloadUnmanagedLibraries</a></div><div class="ttdeci">static void InternalPreloadUnmanagedLibraries(string tempBasePath, IEnumerable&lt; string &gt; libs, Dictionary&lt; string, string &gt; checksums)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">Common.cs:229</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a45420c8355d33840f8de0a7300349761_cgraph.png" border="0" usemap="#class_common_a45420c8355d33840f8de0a7300349761_cgraph" alt=""/></div>
-<map name="class_common_a45420c8355d33840f8de0a7300349761_cgraph" id="class_common_a45420c8355d33840f8de0a7300349761_cgraph">
-<area shape="rect" id="node2" href="class_common.html#af06d3ae24d5e59a164e3309b56d8834a" title="Common.CreateDirectory" alt="" coords="326,99,494,125"/>
-<area shape="rect" id="node3" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="293,150,527,191"/>
-<area shape="rect" id="node4" href="class_common.html#adfd070f9a744e4501390a3532c33ffa0" title="Common.CalculateChecksum" alt="" coords="581,5,776,32"/>
-<area shape="rect" id="node5" href="class_common.html#a2dece1f9abc6e173d1685dcdb0d208d7" title="Common.CopyTo" alt="" coords="617,56,740,83"/>
-<area shape="rect" id="node6" href="class_common.html#a2992ffd10039b6dbd7ad443f0d1d3a03" title="Common.LoadLibrary" alt="" coords="606,107,751,133"/>
-<area shape="rect" id="node7" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="605,157,753,184"/>
-<area shape="rect" id="node8" href="class_common.html#a80aef2baf693b0b9479103fe477f2b28" title="Common.MoveFileEx" alt="" coords="606,208,751,235"/>
-<area shape="rect" id="node9" href="class_common.html#a17842afc6e42e650325e6ce5d1ff0868" title="Common.ResourceNameToPath" alt="" coords="575,259,783,285"/>
-<area shape="rect" id="node10" href="class_common.html#ae755d665523d0877b8363f447dacd5af" title="Common.SetDllDirectory" alt="" coords="596,309,761,336"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a710e1dd5feaf74e91e88cc1417e13a3a"></a>
@@ -1207,28 +1000,6 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        var currentDomain = AppDomain.CurrentDomain;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        var assemblies = currentDomain.GetAssemblies();</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">foreach</span> (var assembly <span class="keywordflow">in</span> assemblies)</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            var currentName = assembly.GetName();</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.Equals(currentName.Name, name.Name, StringComparison.InvariantCultureIgnoreCase) &amp;&amp;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordtype">string</span>.Equals(<a class="code" href="class_common.html#ac106c64e40ba8bdf60460294628f72b8">CultureToString</a>(currentName.CultureInfo), <a class="code" href="class_common.html#ac106c64e40ba8bdf60460294628f72b8">CultureToString</a>(name.CultureInfo), StringComparison.InvariantCultureIgnoreCase))</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            {</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <a class="code" href="class_common.html#a092e7fc10aca1741843c4f65a719d3c8">Log</a>(<span class="stringliteral">&quot;Assembly &#39;{0}&#39; already loaded, returning existing assembly&quot;</span>, assembly.FullName);</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">return</span> assembly;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div><div class="ttc" id="class_common_html_a092e7fc10aca1741843c4f65a719d3c8"><div class="ttname"><a href="class_common.html#a092e7fc10aca1741843c4f65a719d3c8">Common.Log</a></div><div class="ttdeci">static void Log(string format, params object[] args)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00030">Common.cs:30</a></div></div>
 <div class="ttc" id="class_common_html_ac106c64e40ba8bdf60460294628f72b8"><div class="ttname"><a href="class_common.html#ac106c64e40ba8bdf60460294628f72b8">Common.CultureToString</a></div><div class="ttdeci">static string CultureToString(CultureInfo culture)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00095">Common.cs:95</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph.png" border="0" usemap="#class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph" alt=""/></div>
-<map name="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph" id="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph">
-<area shape="rect" id="node2" href="class_common.html#ac106c64e40ba8bdf60460294628f72b8" title="Common.CultureToString" alt="" coords="267,5,433,32"/>
-<area shape="rect" id="node3" href="class_common.html#a092e7fc10aca1741843c4f65a719d3c8" title="Common.Log" alt="" coords="301,56,399,83"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_icgraph.png" border="0" usemap="#class_common_a710e1dd5feaf74e91e88cc1417e13a3a_icgraph" alt=""/></div>
-<map name="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_icgraph" id="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_icgraph">
-<area shape="rect" id="node2" href="class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="267,5,459,32"/>
-<area shape="rect" id="node3" href="class_i_l_template.html#af322f7d9db90887dd087d2551671bda0" title="ILTemplate.Attach" alt="" coords="507,5,633,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a710e1dd5feaf74e91e88cc1417e13a3a"></a>
@@ -1259,17 +1030,6 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        var currentDomain = AppDomain.CurrentDomain;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        var assemblies = currentDomain.GetAssemblies();</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">foreach</span> (var assembly <span class="keywordflow">in</span> assemblies)</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            var currentName = assembly.GetName();</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.Equals(currentName.Name, name.Name, StringComparison.InvariantCultureIgnoreCase) &amp;&amp;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordtype">string</span>.Equals(<a class="code" href="class_common.html#ac106c64e40ba8bdf60460294628f72b8">CultureToString</a>(currentName.CultureInfo), <a class="code" href="class_common.html#ac106c64e40ba8bdf60460294628f72b8">CultureToString</a>(name.CultureInfo), StringComparison.InvariantCultureIgnoreCase))</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            {</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <a class="code" href="class_common.html#a092e7fc10aca1741843c4f65a719d3c8">Log</a>(<span class="stringliteral">&quot;Assembly &#39;{0}&#39; already loaded, returning existing assembly&quot;</span>, assembly.FullName);</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">return</span> assembly;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div><div class="ttc" id="class_common_html_a092e7fc10aca1741843c4f65a719d3c8"><div class="ttname"><a href="class_common.html#a092e7fc10aca1741843c4f65a719d3c8">Common.Log</a></div><div class="ttdeci">static void Log(string format, params object[] args)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00030">Common.cs:30</a></div></div>
 <div class="ttc" id="class_common_html_ac106c64e40ba8bdf60460294628f72b8"><div class="ttname"><a href="class_common.html#ac106c64e40ba8bdf60460294628f72b8">Common.CultureToString</a></div><div class="ttdeci">static string CultureToString(CultureInfo culture)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00095">Common.cs:95</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph.png" border="0" usemap="#class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph" alt=""/></div>
-<map name="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph" id="class_common_a710e1dd5feaf74e91e88cc1417e13a3a_cgraph">
-<area shape="rect" id="node2" href="class_common.html#ac106c64e40ba8bdf60460294628f72b8" title="Common.CultureToString" alt="" coords="267,5,433,32"/>
-<area shape="rect" id="node3" href="class_common.html#a092e7fc10aca1741843c4f65a719d3c8" title="Common.Log" alt="" coords="301,56,399,83"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a54a3c1ba245dafd3107a522783bef11a"></a>
@@ -1388,17 +1148,6 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        var name = requestedAssemblyName.Name.ToLowerInvariant();</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> (requestedAssemblyName.CultureInfo != null &amp;&amp; !String.IsNullOrEmpty(requestedAssemblyName.CultureInfo.Name))</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            name = $<span class="stringliteral">&quot;{requestedAssemblyName.CultureInfo.Name}.{name}&quot;</span>;</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        byte[] assemblyData;</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keyword">using</span> (var assemblyStream = <a class="code" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">LoadStream</a>(assemblyNames, name))</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        {</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span> (assemblyStream == null)</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            {</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            }</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            assemblyData = <a class="code" href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f">ReadStream</a>(assemblyStream);</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        }</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keyword">using</span> (var pdbStream = <a class="code" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">LoadStream</a>(symbolNames, name))</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        {</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">if</span> (pdbStream != null)</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            {</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                var pdbData = <a class="code" href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f">ReadStream</a>(pdbStream);</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <span class="keywordflow">return</span> Assembly.Load(assemblyData, pdbData);</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            }</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        }</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">return</span> Assembly.Load(assemblyData);</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    }</div><div class="ttc" id="class_common_html_a21c7f0dc0a399a19e6cc655f3e7d676f"><div class="ttname"><a href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f">Common.ReadStream</a></div><div class="ttdeci">static byte[] ReadStream(Stream stream)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00054">Common.cs:54</a></div></div>
 <div class="ttc" id="class_common_html_a55331a7ea1201c5a64471fed25b76a1a"><div class="ttname"><a href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">Common.LoadStream</a></div><div class="ttdeci">static Stream LoadStream(Dictionary&lt; string, string &gt; resourceNames, string name)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">Common.cs:163</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a125562bcb6af91929b850b0b5e63b090_cgraph.png" border="0" usemap="#class_common_a125562bcb6af91929b850b0b5e63b090_cgraph" alt=""/></div>
-<map name="class_common_a125562bcb6af91929b850b0b5e63b090_cgraph" id="class_common_a125562bcb6af91929b850b0b5e63b090_cgraph">
-<area shape="rect" id="node2" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="317,5,465,32"/>
-<area shape="rect" id="node3" href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f" title="Common.ReadStream" alt="" coords="316,56,467,83"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a125562bcb6af91929b850b0b5e63b090"></a>
@@ -1447,28 +1196,6 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        var name = requestedAssemblyName.Name.ToLowerInvariant();</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> (requestedAssemblyName.CultureInfo != null &amp;&amp; !String.IsNullOrEmpty(requestedAssemblyName.CultureInfo.Name))</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            name = $<span class="stringliteral">&quot;{requestedAssemblyName.CultureInfo.Name}.{name}&quot;</span>;</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        byte[] assemblyData;</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keyword">using</span> (var assemblyStream = <a class="code" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">LoadStream</a>(assemblyNames, name))</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        {</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span> (assemblyStream == null)</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            {</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            }</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            assemblyData = <a class="code" href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f">ReadStream</a>(assemblyStream);</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        }</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keyword">using</span> (var pdbStream = <a class="code" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">LoadStream</a>(symbolNames, name))</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        {</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">if</span> (pdbStream != null)</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            {</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                var pdbData = <a class="code" href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f">ReadStream</a>(pdbStream);</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <span class="keywordflow">return</span> Assembly.Load(assemblyData, pdbData);</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            }</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        }</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">return</span> Assembly.Load(assemblyData);</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    }</div><div class="ttc" id="class_common_html_a21c7f0dc0a399a19e6cc655f3e7d676f"><div class="ttname"><a href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f">Common.ReadStream</a></div><div class="ttdeci">static byte[] ReadStream(Stream stream)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00054">Common.cs:54</a></div></div>
 <div class="ttc" id="class_common_html_a55331a7ea1201c5a64471fed25b76a1a"><div class="ttname"><a href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a">Common.LoadStream</a></div><div class="ttdeci">static Stream LoadStream(Dictionary&lt; string, string &gt; resourceNames, string name)</div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00163">Common.cs:163</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a125562bcb6af91929b850b0b5e63b090_cgraph.png" border="0" usemap="#class_common_a125562bcb6af91929b850b0b5e63b090_cgraph" alt=""/></div>
-<map name="class_common_a125562bcb6af91929b850b0b5e63b090_cgraph" id="class_common_a125562bcb6af91929b850b0b5e63b090_cgraph">
-<area shape="rect" id="node2" href="class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="317,5,465,32"/>
-<area shape="rect" id="node3" href="class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f" title="Common.ReadStream" alt="" coords="316,56,467,83"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a125562bcb6af91929b850b0b5e63b090_icgraph.png" border="0" usemap="#class_common_a125562bcb6af91929b850b0b5e63b090_icgraph" alt=""/></div>
-<map name="class_common_a125562bcb6af91929b850b0b5e63b090_icgraph" id="class_common_a125562bcb6af91929b850b0b5e63b090_icgraph">
-<area shape="rect" id="node2" href="class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="316,5,508,32"/>
-<area shape="rect" id="node3" href="class_i_l_template.html#af322f7d9db90887dd087d2551671bda0" title="ILTemplate.Attach" alt="" coords="556,5,683,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a21c7f0dc0a399a19e6cc655f3e7d676f"></a>
@@ -1523,18 +1250,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00134">ReadFromEmbeddedResources()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        var data = <span class="keyword">new</span> Byte[stream.Length];</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        stream.Read(data, 0, data.Length);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> data;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a21c7f0dc0a399a19e6cc655f3e7d676f_icgraph.png" border="0" usemap="#class_common_a21c7f0dc0a399a19e6cc655f3e7d676f_icgraph" alt=""/></div>
-<map name="class_common_a21c7f0dc0a399a19e6cc655f3e7d676f_icgraph" id="class_common_a21c7f0dc0a399a19e6cc655f3e7d676f_icgraph">
-<area shape="rect" id="node2" href="class_common.html#a125562bcb6af91929b850b0b5e63b090" title="Common.ReadFromEmbeddedResources" alt="" coords="204,5,467,32"/>
-<area shape="rect" id="node3" href="class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="515,5,707,32"/>
-<area shape="rect" id="node4" href="class_i_l_template.html#af322f7d9db90887dd087d2551671bda0" title="ILTemplate.Attach" alt="" coords="755,5,881,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a17842afc6e42e650325e6ce5d1ff0868"></a>
@@ -1563,17 +1278,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    {</div><div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        var bittyness = IntPtr.Size == 8 ? <span class="stringliteral">&quot;64&quot;</span> : <span class="stringliteral">&quot;32&quot;</span>;</div><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        var name = lib;</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">if</span> (lib.StartsWith(String.Concat(<span class="stringliteral">&quot;costura&quot;</span>, bittyness, <span class="stringliteral">&quot;.&quot;</span>)))</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        {</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            name = Path.Combine(bittyness, lib.Substring(10));</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        }</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lib.StartsWith(<span class="stringliteral">&quot;costura.&quot;</span>))</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        {</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            name = lib.Substring(8);</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        }</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="keywordflow">if</span> (name.EndsWith(<span class="stringliteral">&quot;.compressed&quot;</span>))</div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        {</div><div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            name = name.Substring(0, name.Length - 11);</div><div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        }</div><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="keywordflow">return</span> name;</div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_a17842afc6e42e650325e6ce5d1ff0868_icgraph.png" border="0" usemap="#class_common_a17842afc6e42e650325e6ce5d1ff0868_icgraph" alt=""/></div>
-<map name="class_common_a17842afc6e42e650325e6ce5d1ff0868_icgraph" id="class_common_a17842afc6e42e650325e6ce5d1ff0868_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="261,5,495,47"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="543,13,783,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a17842afc6e42e650325e6ce5d1ff0868"></a>
@@ -1625,17 +1329,6 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Referenced by <a class="el" href="_t_g_s_8_installer_8_u_i_2obj_2_release_2_common_8cs_source.html#l00229">InternalPreloadUnmanagedLibraries()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_common_ae755d665523d0877b8363f447dacd5af_icgraph.png" border="0" usemap="#class_common_ae755d665523d0877b8363f447dacd5af_icgraph" alt=""/></div>
-<map name="class_common_ae755d665523d0877b8363f447dacd5af_icgraph" id="class_common_ae755d665523d0877b8363f447dacd5af_icgraph">
-<area shape="rect" id="node2" href="class_common.html#acbb38451bd48d4428214d117e156dbde" title="Common.InternalPreloadUnmanaged\lLibraries" alt="" coords="219,5,452,47"/>
-<area shape="rect" id="node3" href="class_common.html#a45420c8355d33840f8de0a7300349761" title="Common.PreloadUnmanagedLibraries" alt="" coords="500,13,740,39"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>

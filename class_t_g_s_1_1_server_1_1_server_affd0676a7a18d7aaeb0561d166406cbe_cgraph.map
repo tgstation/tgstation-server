@@ -1,4 +1,0 @@
-<map id="TGS.Server.Server.SetupInstance" name="TGS.Server.Server.SetupInstance">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#a85d0b54fc049736f16cdf42f24d34058" title="Writes an error to the Windows event log " alt="" coords="268,5,444,47"/>
-<area shape="rect" id="node3" href="$interface_t_g_s_1_1_server_1_1_i_logger.html#a320c5301783a61ec8c6178e3bc15d97d" title="Writes an error to the log " alt="" coords="492,5,661,47"/>
-</map>

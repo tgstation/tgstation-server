@@ -1,9 +1,0 @@
-<map id="ILTemplate.Attach" name="ILTemplate.Attach">
-<area shape="rect" id="node2" href="$class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c" title="ILTemplate.ResolveAssembly" alt="" coords="180,56,372,83"/>
-<area shape="rect" id="node3" href="$class_common.html#a710e1dd5feaf74e91e88cc1417e13a3a" title="Common.ReadExistingAssembly" alt="" coords="445,5,658,32"/>
-<area shape="rect" id="node5" href="$class_common.html#a092e7fc10aca1741843c4f65a719d3c8" title="Common.Log" alt="" coords="765,56,863,83"/>
-<area shape="rect" id="node6" href="$class_common.html#a125562bcb6af91929b850b0b5e63b090" title="Common.ReadFromEmbeddedResources" alt="" coords="420,107,683,133"/>
-<area shape="rect" id="node4" href="$class_common.html#ac106c64e40ba8bdf60460294628f72b8" title="Common.CultureToString" alt="" coords="731,5,897,32"/>
-<area shape="rect" id="node7" href="$class_common.html#a55331a7ea1201c5a64471fed25b76a1a" title="Common.LoadStream" alt="" coords="740,107,888,133"/>
-<area shape="rect" id="node8" href="$class_common.html#a21c7f0dc0a399a19e6cc655f3e7d676f" title="Common.ReadStream" alt="" coords="739,157,889,184"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="TGS.Server.Server.CreateInstance" name="TGS.Server.Server.CreateInstance">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#a735e80586fa986522b778d7bf5401b90" title="Normalizes different versions of a path string " alt="" coords="224,5,449,32"/>
-<area shape="rect" id="node3" href="$interface_t_g_s_1_1_server_1_1_i_instance_config.html#a8456c8ae4b83292059709e1d4dcbcce0" title="Saves the IInstanceConfig to it&#39;s Instance Directory " alt="" coords="231,56,443,83"/>
-</map>

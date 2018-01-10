@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -102,21 +102,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for TGS.ControlPanel.TestMergeManager:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_control_panel_1_1_test_merge_manager__inherit__graph.png" border="0" usemap="#_t_g_s_8_control_panel_8_test_merge_manager_inherit__map" alt="Inheritance graph"/></div>
-<map name="_t_g_s_8_control_panel_8_test_merge_manager_inherit__map" id="_t_g_s_8_control_panel_8_test_merge_manager_inherit__map">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IClient " alt="" coords="48,80,153,107"/>
-<area shape="rect" id="node3" href="class_form.html" title="Form" alt="" coords="75,5,127,32"/>
+ <div class="center">
+  <img src="class_t_g_s_1_1_control_panel_1_1_test_merge_manager.png" usemap="#TGS.ControlPanel.TestMergeManager_map" alt=""/>
+  <map id="TGS.ControlPanel.TestMergeManager_map" name="TGS.ControlPanel.TestMergeManager_map">
+<area href="class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IClient " alt="TGS.ControlPanel.ServerOpForm" shape="rect" coords="0,56,228,80"/>
+<area href="class_form.html" alt="Form" shape="rect" coords="0,0,228,24"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for TGS.ControlPanel.TestMergeManager:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_control_panel_1_1_test_merge_manager__coll__graph.png" border="0" usemap="#_t_g_s_8_control_panel_8_test_merge_manager_coll__map" alt="Collaboration graph"/></div>
-<map name="_t_g_s_8_control_panel_8_test_merge_manager_coll__map" id="_t_g_s_8_control_panel_8_test_merge_manager_coll__map">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_control_panel_1_1_server_op_form.html" title="Used to provide an ATP function for calls into an TGS.Interface.IClient " alt="" coords="5,81,111,108"/>
-<area shape="rect" id="node3" href="class_form.html" title="Form" alt="" coords="32,5,84,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -441,16 +433,6 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        {</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <span class="keywordtype">string</span> error = null;</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            await <a class="code" href="class_t_g_s_1_1_control_panel_1_1_server_op_form.html#a99e7a44d2bcf0d41e41c11433769bc3b">WrapServerOp</a>(() =&gt; repo.<a class="code" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#af1022c590a97bafbeab4b326e674f3c9">GenerateChangelog</a>(out error));</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="keywordflow">if</span> (error != null)</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                MessageBox.Show(String.Format(<span class="stringliteral">&quot;Error generating changelog: {0}&quot;</span>, error));</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_control_panel_1_1_server_op_form_html_a99e7a44d2bcf0d41e41c11433769bc3b"><div class="ttname"><a href="class_t_g_s_1_1_control_panel_1_1_server_op_form.html#a99e7a44d2bcf0d41e41c11433769bc3b">TGS.ControlPanel.ServerOpForm.WrapServerOp</a></div><div class="ttdeci">Task WrapServerOp(Action action)</div><div class="ttdoc">Used to wrap TGS.Interface.IClient calls in a non-blocking fashion while disabling the Form and enabl...</div><div class="ttdef"><b>Definition:</b> <a href="_server_op_form_8cs_source.html#l00020">ServerOpForm.cs:20</a></div></div>
 <div class="ttc" id="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository_html_af1022c590a97bafbeab4b326e674f3c9"><div class="ttname"><a href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#af1022c590a97bafbeab4b326e674f3c9">TGS.Interface.Components.ITGRepository.GenerateChangelog</a></div><div class="ttdeci">string GenerateChangelog(out string error)</div><div class="ttdoc">Updates the html changelog </div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_adef114d72e7967aba079d945feb8fbaf_cgraph.png" border="0" usemap="#class_t_g_s_1_1_control_panel_1_1_test_merge_manager_adef114d72e7967aba079d945feb8fbaf_cgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_adef114d72e7967aba079d945feb8fbaf_cgraph" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_adef114d72e7967aba079d945feb8fbaf_cgraph">
-<area shape="rect" id="node2" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#af1022c590a97bafbeab4b326e674f3c9" title="Updates the html changelog " alt="" coords="244,5,467,47"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a3bc9b3951e98a8940a14cdc46b49eaf1"></a>
@@ -644,16 +626,6 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_html_a4e866f20ac5c06ced06428b092fe4f6b"><div class="ttname"><a href="class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a4e866f20ac5c06ced06428b092fe4f6b">TGS.ControlPanel.TestMergeManager.repoOwner</a></div><div class="ttdeci">string repoOwner</div><div class="ttdoc">The owner of the target Repository </div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_manager_8cs_source.html#l00032">TestMergeManager.cs:32</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_html_aa895ece920fb676313050bebdbd45b88"><div class="ttname"><a href="class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#aa895ece920fb676313050bebdbd45b88">TGS.ControlPanel.TestMergeManager.PullRequestListBox</a></div><div class="ttdeci">System.Windows.Forms.CheckedListBox PullRequestListBox</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_manager_8_designer_8cs_source.html#l00211">TestMergeManager.Designer.cs:211</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a785955af1b98d1d0b43795bfd4f50aec_cgraph.png" border="0" usemap="#class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a785955af1b98d1d0b43795bfd4f50aec_cgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a785955af1b98d1d0b43795bfd4f50aec_cgraph" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a785955af1b98d1d0b43795bfd4f50aec_cgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_control_panel_1_1_program.html#aec1b565fc6eb93f130a5d80f41578cba" title="Prompts the user to open the GitHubLoginPrompt explaining the API rate limit " alt="" coords="244,5,427,47"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a8ad13368a354de9d321d5b9093660929"></a>
@@ -752,17 +724,6 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_html_a3169489bb4b94948cbcfae90589a7610"><div class="ttname"><a href="class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a3169489bb4b94948cbcfae90589a7610">TGS.ControlPanel.TestMergeManager.currentInterface</a></div><div class="ttdeci">readonly IInstance currentInterface</div><div class="ttdoc">The IInstanceto handle pull requests for </div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_manager_8cs_source.html#l00022">TestMergeManager.cs:22</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_html_a4e866f20ac5c06ced06428b092fe4f6b"><div class="ttname"><a href="class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a4e866f20ac5c06ced06428b092fe4f6b">TGS.ControlPanel.TestMergeManager.repoOwner</a></div><div class="ttdeci">string repoOwner</div><div class="ttdoc">The owner of the target Repository </div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_manager_8cs_source.html#l00032">TestMergeManager.cs:32</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a8a23b7638beef8f08bfb2f3821f47809_cgraph.png" border="0" usemap="#class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a8a23b7638beef8f08bfb2f3821f47809_cgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a8a23b7638beef8f08bfb2f3821f47809_cgraph" id="class_t_g_s_1_1_control_panel_1_1_test_merge_manager_a8a23b7638beef8f08bfb2f3821f47809_cgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_control_panel_1_1_program.html#ae8851f29469b8abe6ef584a238fdeccf" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="284,5,467,47"/>
-<area shape="rect" id="node3" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a52fa2a5aff75c7524c180d4e92ae9110" title="Gets the url of the current origin " alt="" coords="515,5,697,47"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a74a75a7d5bf5ed75b08946ea27e8c8c7"></a>

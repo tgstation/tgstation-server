@@ -1,6 +1,0 @@
-<map id="TGS.ControlPanel.ControlPanel.UpdateServer" name="TGS.ControlPanel.ControlPanel.UpdateServer">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_compiler.html#a7831773a46f543558be9a2c10d8f81c6" title="Does all the necessary actions to take the revision currently in the repository and compile it to be ..." alt="" coords="224,5,407,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_program.html#ae8851f29469b8abe6ef584a238fdeccf" title="Gets the owner &#160;and name &#160;of a given repo &#39;s remote. Shows an error if the target remote isn&#39;t GitHub..." alt="" coords="224,71,407,112"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_program.html#aec1b565fc6eb93f130a5d80f41578cba" title="Prompts the user to open the GitHubLoginPrompt explaining the API rate limit " alt="" coords="224,136,407,177"/>
-<area shape="rect" id="node4" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a52fa2a5aff75c7524c180d4e92ae9110" title="Gets the url of the current origin " alt="" coords="455,71,637,112"/>
-</map>

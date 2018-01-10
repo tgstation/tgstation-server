@@ -1,3 +1,0 @@
-<map id="TGS.Server.Instance.WorldAnnounce" name="TGS.Server.Instance.WorldAnnounce">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#ae0106b61248cd5ae831acd405701dc9b" title="Properly escapes characters for a BYOND Topic() packet. See http://www.byond.com/docs/ref/info.html#/proc/list2params " alt="" coords="232,5,419,47"/>
-</map>

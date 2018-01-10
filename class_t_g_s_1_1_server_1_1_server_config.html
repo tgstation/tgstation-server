@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -102,13 +102,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Class for storing server wide settings  
  <a href="class_t_g_s_1_1_server_1_1_server_config.html#details">More...</a></p>
-<div class="dynheader">
-Collaboration diagram for TGS.Server.ServerConfig:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_server_config__coll__graph.png" border="0" usemap="#_t_g_s_8_server_8_server_config_coll__map" alt="Collaboration graph"/></div>
-<map name="_t_g_s_8_server_8_server_config_coll__map" id="_t_g_s_8_server_8_server_config_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -187,16 +180,6 @@ Private Attributes</h2></td></tr>
 <p>Referenced by <a class="el" href="_t_g_s_8_server_2_server_8cs_source.html#l00165">TGS.Server.Server.SetupConfig()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            var configtext = File.ReadAllText(Path.Combine(directory, <a class="code" href="class_t_g_s_1_1_server_1_1_server_config.html#afdcf9dd776ac45ba2654b0e0d556434e">JSONFilename</a>));</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">return</span> JsonConvert.DeserializeObject&lt;ServerConfig&gt;(configtext);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_server_1_1_server_config_html_afdcf9dd776ac45ba2654b0e0d556434e"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_server_config.html#afdcf9dd776ac45ba2654b0e0d556434e">TGS.Server.ServerConfig.JSONFilename</a></div><div class="ttdeci">const string JSONFilename</div><div class="ttdoc">The filename to save the ServerConfig as </div><div class="ttdef"><b>Definition:</b> <a href="_server_config_8cs_source.html#l00016">ServerConfig.cs:16</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_server_config_a90c7ef7a8c364210e53a88f6ad26ed4d_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_server_config_a90c7ef7a8c364210e53a88f6ad26ed4d_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_server_config_a90c7ef7a8c364210e53a88f6ad26ed4d_icgraph" id="class_t_g_s_1_1_server_1_1_server_config_a90c7ef7a8c364210e53a88f6ad26ed4d_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_server.html#ab1a4188b85e8aea3a1ce2f0394007a38" title="Upgrades up the service configuration " alt="" coords="249,5,452,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a25367473db0e5b6c8e9e1ba620fa2e85"></a>
@@ -226,16 +209,6 @@ Here is the caller graph for this function:</div>
 <p>Referenced by <a class="el" href="_t_g_s_8_server_2_server_8cs_source.html#l00165">TGS.Server.Server.SetupConfig()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            var data = JsonConvert.SerializeObject(<span class="keyword">this</span>, Formatting.Indented);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            var path = Path.Combine(directory, <a class="code" href="class_t_g_s_1_1_server_1_1_server_config.html#afdcf9dd776ac45ba2654b0e0d556434e">JSONFilename</a>);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            File.WriteAllText(path, data);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_server_1_1_server_config_html_afdcf9dd776ac45ba2654b0e0d556434e"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_server_config.html#afdcf9dd776ac45ba2654b0e0d556434e">TGS.Server.ServerConfig.JSONFilename</a></div><div class="ttdeci">const string JSONFilename</div><div class="ttdoc">The filename to save the ServerConfig as </div><div class="ttdef"><b>Definition:</b> <a href="_server_config_8cs_source.html#l00016">ServerConfig.cs:16</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_server_config_a25367473db0e5b6c8e9e1ba620fa2e85_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_server_config_a25367473db0e5b6c8e9e1ba620fa2e85_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_server_config_a25367473db0e5b6c8e9e1ba620fa2e85_icgraph" id="class_t_g_s_1_1_server_1_1_server_config_a25367473db0e5b6c8e9e1ba620fa2e85_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_server.html#ab1a4188b85e8aea3a1ce2f0394007a38" title="Upgrades up the service configuration " alt="" coords="249,5,452,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>

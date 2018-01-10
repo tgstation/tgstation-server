@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -106,20 +106,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for TGS.Server.InstanceConfig:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_instance_config__inherit__graph.png" border="0" usemap="#_t_g_s_8_server_8_instance_config_inherit__map" alt="Inheritance graph"/></div>
-<map name="_t_g_s_8_server_8_instance_config_inherit__map" id="_t_g_s_8_server_8_instance_config_inherit__map">
-<area shape="rect" id="node3" href="class_t_g_s_1_1_server_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="" coords="5,155,212,196"/>
-<area shape="rect" id="node2" href="interface_t_g_s_1_1_server_1_1_i_instance_config.html" title="Configuration settings for a Instance " alt="" coords="53,5,164,32"/>
+ <div class="center">
+  <img src="class_t_g_s_1_1_server_1_1_instance_config.png" usemap="#TGS.Server.InstanceConfig_map" alt=""/>
+  <map id="TGS.Server.InstanceConfig_map" name="TGS.Server.InstanceConfig_map">
+<area href="interface_t_g_s_1_1_server_1_1_i_instance_config.html" title="Configuration settings for a Instance " alt="TGS.Server.IInstanceConfig" shape="rect" coords="0,0,233,24"/>
+<area href="class_t_g_s_1_1_server_1_1_deprecated_instance_config.html" title="Used to migrate old config settings " alt="TGS.Server.DeprecatedInstanceConfig" shape="rect" coords="0,112,233,136"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for TGS.Server.InstanceConfig:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_instance_config__coll__graph.png" border="0" usemap="#_t_g_s_8_server_8_instance_config_coll__map" alt="Collaboration graph"/></div>
-<map name="_t_g_s_8_server_8_instance_config_coll__map" id="_t_g_s_8_server_8_instance_config_coll__map">
-<area shape="rect" id="node2" href="interface_t_g_s_1_1_server_1_1_i_instance_config.html" title="Configuration settings for a Instance " alt="" coords="5,5,116,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -327,18 +320,6 @@ Properties</h2></td></tr>
 <p>Referenced by <a class="el" href="_main_8cs_source.html#l00190">TGS.Installer.UI.Main.AttemptMigrationOfNetSettings()</a>, <a class="el" href="_t_g_s_8_server_2_server_8cs_source.html#l00111">TGS.Server.Server.GetInstanceConfigs()</a>, and <a class="el" href="_t_g_s_8_server_2_server_8cs_source.html#l00498">TGS.Server.Server.ImportInstance()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        {</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            var configtext = File.ReadAllText(Path.Combine(path, <a class="code" href="class_t_g_s_1_1_server_1_1_instance_config.html#af77d87a5e5ae53bf4ec6f900a9ea5bf5">JSONFilename</a>));</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            var res = JsonConvert.DeserializeObject&lt;DeprecatedInstanceConfig&gt;(configtext);</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            res.Directory = path;</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            res.MigrateToCurrentVersion();</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">return</span> res;</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_server_1_1_instance_config_html_af77d87a5e5ae53bf4ec6f900a9ea5bf5"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_instance_config.html#af77d87a5e5ae53bf4ec6f900a9ea5bf5">TGS.Server.InstanceConfig.JSONFilename</a></div><div class="ttdeci">const string JSONFilename</div><div class="ttdoc">The name the file is saved as in the Directory </div><div class="ttdef"><b>Definition:</b> <a href="_instance_config_8cs_source.html#l00129">InstanceConfig.cs:129</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_instance_config_ab2d62660500deb534464b1f71f5cbd77_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_instance_config_ab2d62660500deb534464b1f71f5cbd77_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_instance_config_ab2d62660500deb534464b1f71f5cbd77_icgraph" id="class_t_g_s_1_1_server_1_1_instance_config_ab2d62660500deb534464b1f71f5cbd77_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#aff423624d970045456299a73efa4fcf9" title="Migrate to the new ServerConfig since the Server.Server won&#39;t know about it until it&#39;s upgraded ..." alt="" coords="267,5,461,47"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_server_1_1_server.html#aca3e4b51f2911f5adab680ee1788075e" title="Enumerates configured IInstanceConfigs. Detaches those that fail to load " alt="" coords="263,71,465,112"/>
-<area shape="rect" id="node4" href="class_t_g_s_1_1_server_1_1_server.html#a2d9003533ba8205130476d8e54c1d4a3" title="Registers an existing server instance &#160;" alt="" coords="280,136,448,177"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ad9e8dbc6130f257820189c7653aea306"></a>
@@ -364,17 +345,6 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        {</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            var data = JsonConvert.SerializeObject(<span class="keyword">this</span>, Formatting.Indented);</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            var path = Path.Combine(<a class="code" href="class_t_g_s_1_1_server_1_1_instance_config.html#a105898473258a8b815bad41f9a3a467d">Directory</a>, <a class="code" href="class_t_g_s_1_1_server_1_1_instance_config.html#af77d87a5e5ae53bf4ec6f900a9ea5bf5">JSONFilename</a>);</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            File.WriteAllText(path, data);</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_server_1_1_instance_config_html_a105898473258a8b815bad41f9a3a467d"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_instance_config.html#a105898473258a8b815bad41f9a3a467d">TGS.Server.InstanceConfig.Directory</a></div><div class="ttdeci">string Directory</div><div class="ttdef"><b>Definition:</b> <a href="_instance_config_8cs_source.html#l00139">InstanceConfig.cs:139</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_server_1_1_instance_config_html_af77d87a5e5ae53bf4ec6f900a9ea5bf5"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_instance_config.html#af77d87a5e5ae53bf4ec6f900a9ea5bf5">TGS.Server.InstanceConfig.JSONFilename</a></div><div class="ttdeci">const string JSONFilename</div><div class="ttdoc">The name the file is saved as in the Directory </div><div class="ttdef"><b>Definition:</b> <a href="_instance_config_8cs_source.html#l00129">InstanceConfig.cs:129</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_instance_config_ad9e8dbc6130f257820189c7653aea306_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_instance_config_ad9e8dbc6130f257820189c7653aea306_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_instance_config_ad9e8dbc6130f257820189c7653aea306_icgraph" id="class_t_g_s_1_1_server_1_1_instance_config_ad9e8dbc6130f257820189c7653aea306_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#aff423624d970045456299a73efa4fcf9" title="Migrate to the new ServerConfig since the Server.Server won&#39;t know about it until it&#39;s upgraded ..." alt="" coords="263,5,457,47"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a97dcadb46a7bd350e1c5a9353e15edf8" title="TGS.Installer.UI.Main.Handle\lNoConfigMigration" alt="" coords="265,71,455,112"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>

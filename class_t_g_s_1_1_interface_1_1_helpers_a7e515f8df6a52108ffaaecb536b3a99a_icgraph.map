@@ -1,5 +1,0 @@
-<map id="TGS.Interface.Helpers.DecryptData" name="TGS.Interface.Helpers.DecryptData">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a03916364dc8fe6053795770bee92c8f7" title="TGS.ControlPanel.Control\lPanel.InitServerPage" alt="" coords="296,5,467,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_remote_login_info.html#a0acfbac280fc461820c9d9af7372d3b0" title="Construct a RemoteLoginInfo from JSON " alt="" coords="291,71,472,112"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#ad996d0c45e0791736bf3ea034dde66b2" title="Tests that Helpers.DecryptData(string, string) can execute successfully " alt="" coords="279,136,484,177"/>
-</map>

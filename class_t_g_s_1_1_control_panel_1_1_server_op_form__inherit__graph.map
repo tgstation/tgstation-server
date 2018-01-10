@@ -1,7 +1,0 @@
-<map id="TGS.ControlPanel.ServerOpForm" name="TGS.ControlPanel.ServerOpForm">
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_counted_form.html" title="Calls Application.Exit() when all CountedForms are Form.Closed " alt="" coords="85,162,293,189"/>
-<area shape="rect" id="node6" href="$class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html" title="TGS.ControlPanel.TestMerge\lManager" alt="" coords="318,155,509,196"/>
-<area shape="rect" id="node2" href="$class_form.html" title="Form" alt="" coords="275,5,327,32"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html" title="The main ControlPanel form " alt="" coords="5,244,176,285"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html" title="Form used for managing IInstances " alt="" coords="200,244,379,285"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="TGS.Server.Server.BeginImpersonation" name="TGS.Server.Server.BeginImpersonation">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#a232046a10167c8b30bedf068284c2857" title="Deletes the target static file &#160;" alt="" coords="300,5,503,32"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_instance.html#a6f9c9d3a1d79a12c8cdfabbb9f1fae4a" title="Returns the file contents of the specified server directory Subdirectories will be prefixed with &#39;/&#39; ..." alt="" coords="318,57,485,98"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_instance.html#a07f764eec98c909d04b62caf2b748238" title="Read from a static file &#160;" alt="" coords="301,123,501,149"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_server_1_1_instance.html#ab3654af3cdaf2d738ad590e8ea009782" title="Write to a static file &#160;" alt="" coords="301,173,502,200"/>
-</map>

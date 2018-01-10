@@ -1,4 +1,0 @@
-<map id="TGS.Interface.Command.DoRun" name="TGS.Interface.Command.DoRun">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#a6f1914e254474070254a2666226455d1" title="Implementation of OnChatMessage that recieves messages from all channels of all connected ChatProvide..." alt="" coords="270,5,442,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_program.html#afc7685c0573dcdf0f47bb3f08bafa72f" title="TGS.CommandLine.Program.\lRunCommandLine" alt="" coords="260,71,452,112"/>
-</map>

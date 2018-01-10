@@ -1,6 +1,0 @@
-<map id="TGS.ControlPanel.Program.TextPrompt" name="TGS.ControlPanel.Program.TextPrompt">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a6683461e03c6378187b01633b15e2ec4" title="Prompts the user for parameters to Interface.Components.ITGInstanceManager.CreateInstance(string, string) " alt="" coords="241,5,476,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html#ac79bae30afdbcecb280eec01317b3d6f" title="Prompts the user for parameters to Interface.Components.ITGInstanceManager.ImportInstance(string) ..." alt="" coords="242,71,475,112"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_control_panel_1_1_instance_selector.html#a3e32ff34079782db2f90a39b03a9b573" title="Prompts the user for parameters to Interface.Components.ITGInstanceManager.RenameInstance(string, string) " alt="" coords="236,136,481,177"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1a33f94544e25daa6f666076f50e1502" title="TGS.ControlPanel.Control\lPanel.StaticFileCreateButton_Click" alt="" coords="245,201,472,243"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="TGS.ControlPanel.Login.RemoteLoginButton_Click" name="TGS.ControlPanel.Login.RemoteLoginButton_Click">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_interface_1_1_remote_login_info.html#a83cc566b70ca3a6fbfd470dc73e00a4c" title="Checks if another RemoteLoginInfo matches &#160;one " alt="" coords="264,5,445,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_remote_login_info.html#a263f135d4bd0b0232251e81db505c8c2" title="Returns a JSON representation of the RemoteLoginInfo with the Password encrypted " alt="" coords="264,71,445,112"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_interface_1_1_helpers.html#a7ae7165c61130034089ee2d9505cc5d2" title="Takes some cleartext &#160;and returns an encrypted version along with the entropy &#160;required to decrypt it..." alt="" coords="493,78,719,105"/>
-</map>

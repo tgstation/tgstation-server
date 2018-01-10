@@ -1,4 +1,0 @@
-<map id="TGS.Server.Instance.InitialConfigureRepository" name="TGS.Server.Instance.InitialConfigureRepository">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#a5c7123b266b9815f4ef6247a0b21387c" title="Recusively copy a directory " alt="" coords="228,5,451,32"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_helpers.html#a40624df8add53e83b2ebdb7d446b70fe" title="Copy a file from source &#160;to dest , but first ensure the destination directory exists ..." alt="" coords="244,57,435,98"/>
-</map>

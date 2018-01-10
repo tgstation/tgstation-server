@@ -1,7 +1,0 @@
-<map id="TGS.Interface.IClient.ConnectionStatus" name="TGS.Interface.IClient.ConnectionStatus">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ab6781b4ecdab49b32c2733186498d2fc" title="TGS.Installer.UI.Main.Check\lForExistingVersion" alt="" coords="281,5,467,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_program.html#a8d307d7d1d437c89c501ad3737e45576" title="TGS.CommandLine.Program.Main" alt="" coords="264,71,484,98"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_program.html#afc7685c0573dcdf0f47bb3f08bafa72f" title="TGS.CommandLine.Program.\lRunCommandLine" alt="" coords="278,123,470,164"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a9323f3432004b2da5f7370b642f86128" title="TGS.Installer.UI.Main.Tell\lServiceWereComingForThem" alt="" coords="279,188,469,229"/>
-<area shape="rect" id="node6" href="$class_t_g_s_1_1_control_panel_1_1_login.html#a2a36e7712a345a472edba52ad7131410" title="Attempts a connection on a given IClient " alt="" coords="275,253,473,295"/>
-</map>

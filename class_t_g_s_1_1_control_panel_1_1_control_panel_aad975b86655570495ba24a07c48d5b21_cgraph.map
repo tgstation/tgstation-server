@@ -1,3 +1,0 @@
-<map id="TGS.ControlPanel.ControlPanel.ServerGStopButton_Checked" name="TGS.ControlPanel.ControlPanel.ServerGStopButton_Checked">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a1cc17b51228f48f39040ae0c047955ff" title="Stop the server after the currently running world reboots. Has no effect if the server isn&#39;t running ..." alt="" coords="224,13,431,54"/>
-</map>

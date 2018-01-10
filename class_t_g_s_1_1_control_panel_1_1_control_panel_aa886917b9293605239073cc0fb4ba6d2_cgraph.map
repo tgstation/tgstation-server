@@ -1,3 +1,0 @@
-<map id="TGS.ControlPanel.ControlPanel.SecuritySelector_SelectedIndexChanged" name="TGS.ControlPanel.ControlPanel.SecuritySelector_SelectedIndexChanged">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a70872f9dc9b89cecf4835dd3d96a5c1f" title="Sets the security level of the server. Requires server reboot to apply. Calls RequestRestart. Note that anything higher than Trusted will disable interop from DD " alt="" coords="224,13,453,54"/>
-</map>

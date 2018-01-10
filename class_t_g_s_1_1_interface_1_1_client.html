@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -108,24 +108,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for TGS.Interface.Client:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_interface_1_1_client__inherit__graph.png" border="0" usemap="#_t_g_s_8_interface_8_client_inherit__map" alt="Inheritance graph"/></div>
-<map name="_t_g_s_8_interface_8_client_inherit__map" id="_t_g_s_8_interface_8_client_inherit__map">
-<area shape="rect" id="node2" href="interface_t_g_s_1_1_interface_1_1_i_client.html" title="Main &#160;for communicating the Components.ITGSService " alt="" coords="45,80,104,107"/>
-<area shape="rect" id="node3" href="class_i_disposable.html" title="IDisposable" alt="" coords="30,5,119,32"/>
+ <div class="center">
+  <img src="class_t_g_s_1_1_interface_1_1_client.png" usemap="#TGS.Interface.Client_map" alt=""/>
+  <map id="TGS.Interface.Client_map" name="TGS.Interface.Client_map">
+<area href="interface_t_g_s_1_1_interface_1_1_i_client.html" title="Main  for communicating the Components.ITGSService " alt="TGS.Interface.IClient" shape="rect" coords="0,56,129,80"/>
+<area href="class_i_disposable.html" alt="IDisposable" shape="rect" coords="0,0,129,24"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for TGS.Interface.Client:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_interface_1_1_client__coll__graph.png" border="0" usemap="#_t_g_s_8_interface_8_client_coll__map" alt="Collaboration graph"/></div>
-<map name="_t_g_s_8_interface_8_client_coll__map" id="_t_g_s_8_interface_8_client_coll__map">
-<area shape="rect" id="node2" href="interface_t_g_s_1_1_interface_1_1_i_client.html" title="Main &#160;for communicating the Components.ITGSService " alt="" coords="429,21,487,48"/>
-<area shape="rect" id="node3" href="class_i_disposable.html" title="IDisposable" alt="" coords="62,5,151,32"/>
-<area shape="rect" id="node4" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html" title="Information representing a remote server connection " alt="" coords="357,104,559,131"/>
-<area shape="rect" id="node5" href="class_i_equatable.html" title="IEquatable\&lt; RemoteLoginInfo \&gt;" alt="" coords="5,56,208,83"/>
-<area shape="rect" id="node11" href="interface_t_g_s_1_1_interface_1_1_i_server.html" title="Wrapper representing a ITGSService " alt="" coords="386,327,530,353"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -527,18 +516,6 @@ Private Attributes</h2></td></tr>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_command_line_2_program_8cs_source.html#l00174">TGS.CommandLine.Program.Main()</a>, <a class="el" href="_test_interface_8cs_source.html#l00037">TGS.Interface.Tests.TestInterface.TestBadCertificateHandler()</a>, and <a class="el" href="_test_interface_8cs_source.html#l00023">TGS.Interface.Tests.TestInterface.TestSetBadCertificateHandler()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =&gt;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordtype">string</span> ErrorMessage;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">switch</span> (error)</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.None:</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateChainErrors:</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;There are certificate chain errors.&quot;</span>;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateNameMismatch:</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;The certificate name does not match.&quot;</span>;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <span class="keywordflow">case</span> SslPolicyErrors.RemoteCertificateNotAvailable:</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;The certificate doesn&#39;t exist in the trust store.&quot;</span>;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    <span class="keywordflow">default</span>:</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                        ErrorMessage = <span class="stringliteral">&quot;An unknown error occurred.&quot;</span>;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                }</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                ErrorMessage = String.Format(<span class="stringliteral">&quot;The server&#39;s certificate failed to verify! Error: {0} Cert: {1}&quot;</span>, ErrorMessage, cert.ToString());</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">return</span> handler(ErrorMessage);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            };</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_interface_1_1_client_a478b38926281f4c828405337f81d0af0_icgraph.png" border="0" usemap="#class_t_g_s_1_1_interface_1_1_client_a478b38926281f4c828405337f81d0af0_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_interface_1_1_client_a478b38926281f4c828405337f81d0af0_icgraph" id="class_t_g_s_1_1_interface_1_1_client_a478b38926281f4c828405337f81d0af0_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_command_line_1_1_program.html#a8d307d7d1d437c89c501ad3737e45576" title="TGS.CommandLine.Program.Main" alt="" coords="216,5,436,32"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#a853ef704bcf8206667da592c9c213feb" title="Test that Interface.SetBadCertificateHandler(Func&lt;string, bool&gt;) properly sets ServicePointManager.ServerCertificateValidationCallback " alt="" coords="235,56,417,112"/>
-<area shape="rect" id="node4" href="class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#a785788af9c94216bf087234761c93bf2" title="Test that Interface.SetBadCertificateHandler(Func&lt;string, bool&gt;) can execute successfully ..." alt="" coords="225,136,427,192"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="aefc41edcf622b73c70360979e6e9d9f1"></a>

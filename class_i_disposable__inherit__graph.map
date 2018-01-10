@@ -1,9 +1,0 @@
-<map id="IDisposable" name="IDisposable">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_i_client.html" title="Main &#160;for communicating the Components.ITGSService " alt="" coords="160,5,301,32"/>
-<area shape="rect" id="node4" href="$interface_t_g_s_1_1_server_1_1_chat_providers_1_1_i_chat_provider.html" title="Interface for a chat provder service " alt="" coords="143,57,319,98"/>
-<area shape="rect" id="node7" href="$class_t_g_s_1_1_server_1_1_instance.html" title="The class which holds all interface components. There are no safeguards for call race conditions so t..." alt="" coords="160,123,301,149"/>
-<area shape="rect" id="node8" href="$class_t_g_s_1_1_server_1_1_server.html" title="The windows service the application runs as " alt="" coords="167,173,295,200"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_interface_1_1_client.html" title="TGS.Interface.Client" alt="" coords="385,5,524,32"/>
-<area shape="rect" id="node5" href="$class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html" title="IChatProvider for Discord: https://discordapp.com/ " alt="" coords="367,57,543,98"/>
-<area shape="rect" id="node6" href="$class_t_g_s_1_1_server_1_1_chat_providers_1_1_i_r_c_chat_provider.html" title="IChatProvider for internet relay chat " alt="" coords="367,122,543,163"/>
-</map>

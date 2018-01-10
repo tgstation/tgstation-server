@@ -1,4 +1,0 @@
-<map id="TGS.Server.ILogger.WriteError" name="TGS.Server.ILogger.WriteError">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#a85d0b54fc049736f16cdf42f24d34058" title="Writes an error to the Windows event log " alt="" coords="223,5,399,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_server.html#affd0676a7a18d7aaeb0561d166406cbe" title="Creates and starts a ServiceHost for a Instance at config &#160;" alt="" coords="447,13,661,39"/>
-</map>

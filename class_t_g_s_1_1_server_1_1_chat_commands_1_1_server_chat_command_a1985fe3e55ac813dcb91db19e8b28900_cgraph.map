@@ -1,4 +1,0 @@
-<map id="TGS.Server.ChatCommands.ServerChatCommand.Run" name="TGS.Server.ChatCommands.ServerChatCommand.Run">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_helpers.html#ae0106b61248cd5ae831acd405701dc9b" title="Properly escapes characters for a BYOND Topic() packet. See http://www.byond.com/docs/ref/info.html#/proc/list2params " alt="" coords="243,5,429,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_instance.html#a50ef3869e320d3d7c43859268da2a03a" title="TGS.Server.Instance.Send\lCommand" alt="" coords="249,71,423,112"/>
-</map>

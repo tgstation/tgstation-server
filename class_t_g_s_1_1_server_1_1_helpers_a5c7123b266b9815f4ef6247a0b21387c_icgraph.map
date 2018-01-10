@@ -1,5 +1,0 @@
-<map id="TGS.Server.Helpers.CopyDirectory" name="TGS.Server.Helpers.CopyDirectory">
-<area shape="rect" id="node2" href="$class_t_g_s_1_1_server_1_1_instance.html#a5956aa08c166860be43e49e2378cd383" title="Copies the Static directory to the first available Static_BACKUP path in the Instance then deleted th..." alt="" coords="289,5,479,47"/>
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_server_1_1_instance.html#afa79ac78da881640ab95b4774701d2a2" title="TGS.Server.Instance.CompileImpl" alt="" coords="276,71,492,98"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_server_1_1_instance.html#a29a3c86b836454d030d1ea31a7a6faf9" title="Initial setup for the StaticDirs and CachedTGS3SettingsPath " alt="" coords="297,123,471,164"/>
-</map>

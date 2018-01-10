@@ -1,3 +1,0 @@
-<map id="TGS.ControlPanel.ControlPanel.TGSJsonUpdate_Click" name="TGS.ControlPanel.ControlPanel.TGSJsonUpdate_Click">
-<area shape="rect" id="node2" href="$interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#a41664de7b246f2ab04a23751bf1e1455" title="Updates the cached TGS3.json to the repo&#39;s version. Compiles will not succeed if these two to not mat..." alt="" coords="243,5,452,47"/>
-</map>

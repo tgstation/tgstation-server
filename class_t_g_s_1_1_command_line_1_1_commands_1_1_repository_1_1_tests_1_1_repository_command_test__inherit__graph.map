@@ -1,5 +1,0 @@
-<map id="TGS.CommandLine.Commands.Repository.Tests.RepositoryCommandTest" name="TGS.CommandLine.Commands.Repository.Tests.RepositoryCommandTest">
-<area shape="rect" id="node3" href="$class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_set_push_testmerge_commits_command.html" title="Tests for RepoSetPushTestmergeCommitsCommand " alt="" coords="536,5,765,61"/>
-<area shape="rect" id="node4" href="$class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_status_command.html" title="Tests for RepoStatusCommand " alt="" coords="542,85,759,141"/>
-<area shape="rect" id="node2" href="$class_t_g_service_tests_1_1_output_proc_overrider_test.html" title="For tests that need to override Command.OutputProcVar " alt="" coords="5,60,169,87"/>
-</map>

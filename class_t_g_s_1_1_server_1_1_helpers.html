@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -231,18 +231,6 @@ Static Private Member Functions</h2></td></tr>
 <p>Referenced by <a class="el" href="_t_g_s_8_server_2_instance_2_repository_8cs_source.html#l00292">TGS.Server.Instance.BackupAndDeleteStaticDirectory()</a>, <a class="el" href="_t_g_s_8_server_2_instance_2_compiler_8cs_source.html#l00289">TGS.Server.Instance.CompileImpl()</a>, and <a class="el" href="_t_g_s_8_server_2_instance_2_repository_8cs_source.html#l00337">TGS.Server.Instance.InitialConfigureRepository()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        {</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            IList&lt;string&gt; realIgnore;</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">if</span> (ignore != null)</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            {</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                realIgnore = <span class="keyword">new</span> List&lt;string&gt;();</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">foreach</span> (var I <span class="keywordflow">in</span> ignore)</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    realIgnore.Add(I.ToLower());</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            }</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                realIgnore = null;</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <a class="code" href="class_t_g_s_1_1_server_1_1_helpers.html#a70709e25a3414c2d3a33e78e8fd572fa">CopyDirectoryImpl</a>(sourceDirName, destDirName, realIgnore, ignoreIfNotExists).Wait();                </div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_server_1_1_helpers_html_a70709e25a3414c2d3a33e78e8fd572fa"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_helpers.html#a70709e25a3414c2d3a33e78e8fd572fa">TGS.Server.Helpers.CopyDirectoryImpl</a></div><div class="ttdeci">static async Task CopyDirectoryImpl(string sourceDirName, string destDirName, IList&lt; string &gt; ignore, bool ignoreIfNotExists)</div><div class="ttdoc">Recusively copy a directory </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_server_2_helpers_8cs_source.html#l00129">Helpers.cs:129</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_helpers_a5c7123b266b9815f4ef6247a0b21387c_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_helpers_a5c7123b266b9815f4ef6247a0b21387c_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_helpers_a5c7123b266b9815f4ef6247a0b21387c_icgraph" id="class_t_g_s_1_1_server_1_1_helpers_a5c7123b266b9815f4ef6247a0b21387c_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_instance.html#a5956aa08c166860be43e49e2378cd383" title="Copies the Static directory to the first available Static_BACKUP path in the Instance then deleted th..." alt="" coords="289,5,479,47"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_server_1_1_instance.html#afa79ac78da881640ab95b4774701d2a2" title="TGS.Server.Instance.CompileImpl" alt="" coords="276,71,492,98"/>
-<area shape="rect" id="node4" href="class_t_g_s_1_1_server_1_1_instance.html#a29a3c86b836454d030d1ea31a7a6faf9" title="Initial setup for the StaticDirs and CachedTGS3SettingsPath " alt="" coords="297,123,471,164"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a70709e25a3414c2d3a33e78e8fd572fa"></a>
@@ -358,16 +346,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_server_2_instance_2_repository_8cs_source.html#l00337">TGS.Server.Instance.InitialConfigureRepository()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                Directory.CreateDirectory(Path.GetDirectoryName(dest));</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            }</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">catch</span> { }   <span class="comment">//we don&#39;t care if the above errors</span></div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            File.Copy(source, dest, overwrite);    <span class="comment">//if this throws errors thats all we care about</span></div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_helpers_a40624df8add53e83b2ebdb7d446b70fe_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_helpers_a40624df8add53e83b2ebdb7d446b70fe_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_helpers_a40624df8add53e83b2ebdb7d446b70fe_icgraph" id="class_t_g_s_1_1_server_1_1_helpers_a40624df8add53e83b2ebdb7d446b70fe_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_instance.html#a29a3c86b836454d030d1ea31a7a6faf9" title="Initial setup for the StaticDirs and CachedTGS3SettingsPath " alt="" coords="244,5,419,47"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a5b1d1510ab671f24b98ecafa79f98c00"></a>
@@ -424,25 +402,6 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">if</span> (!ContentsOnly &amp;&amp; excludeRoot != null &amp;&amp; excludeRoot.Count &gt; 0)</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Cannot fully delete folder with exclusions specified!&quot;</span>);</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            var di = <span class="keyword">new</span> DirectoryInfo(path);</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordflow">if</span> (!di.Exists)</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">return</span>;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (excludeRoot != null)</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">for</span> (var I = 0; I &lt; excludeRoot.Count; ++I)</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    excludeRoot[I] = excludeRoot[I].ToLower();</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_t_g_s_1_1_server_1_1_helpers.html#a2c72aad89edf6dc3e194d004553f16b1">CheckDeleteSymlinkDir</a>(di))</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">return</span>;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <a class="code" href="class_t_g_s_1_1_server_1_1_helpers.html#a7843e08b347f198bde5661fb87283e19">NormalizeAndDelete</a>(di, excludeRoot, !ContentsOnly).Wait();</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_server_1_1_helpers_html_a7843e08b347f198bde5661fb87283e19"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_helpers.html#a7843e08b347f198bde5661fb87283e19">TGS.Server.Helpers.NormalizeAndDelete</a></div><div class="ttdeci">static async Task NormalizeAndDelete(DirectoryInfo dir, IList&lt; string &gt; excludeRoot, bool deleteRoot)</div><div class="ttdoc">Recursively empty a directory </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_server_2_helpers_8cs_source.html#l00075">Helpers.cs:75</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_server_1_1_helpers_html_a2c72aad89edf6dc3e194d004553f16b1"><div class="ttname"><a href="class_t_g_s_1_1_server_1_1_helpers.html#a2c72aad89edf6dc3e194d004553f16b1">TGS.Server.Helpers.CheckDeleteSymlinkDir</a></div><div class="ttdeci">static bool CheckDeleteSymlinkDir(DirectoryInfo di)</div><div class="ttdoc">Properly unlinks directory di  if it is a symlink </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_server_2_helpers_8cs_source.html#l00058">Helpers.cs:58</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_helpers_a5b1d1510ab671f24b98ecafa79f98c00_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_helpers_a5b1d1510ab671f24b98ecafa79f98c00_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_helpers_a5b1d1510ab671f24b98ecafa79f98c00_icgraph" id="class_t_g_s_1_1_server_1_1_helpers_a5b1d1510ab671f24b98ecafa79f98c00_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_instance.html#ac318b9e316c87b79912f3e6551f1ec3e" title="Attempts to move the staged update from StagingDirectory to ByondDirectory. Sets lastError on failure..." alt="" coords="249,5,428,47"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_server_1_1_instance.html#a5956aa08c166860be43e49e2378cd383" title="Copies the Static directory to the first available Static_BACKUP path in the Instance then deleted th..." alt="" coords="244,71,433,112"/>
-<area shape="rect" id="node4" href="class_t_g_s_1_1_server_1_1_instance.html#a159ebf40e20cc296bbb2bc2a0986a8ac" title="Cleans the BYOND staging directory " alt="" coords="249,136,428,177"/>
-<area shape="rect" id="node5" href="class_t_g_s_1_1_server_1_1_instance.html#a063758368f8d5aa77d82201c9f4e2808" title="Attempts to clear the ByondCacheDirectory " alt="" coords="251,201,426,243"/>
-<area shape="rect" id="node6" href="class_t_g_s_1_1_server_1_1_instance.html#a3443b6d7f6b2481e21e8c7a63c429221" title="Backups up the StaticDirs and deletes the current RepoPath if they exist. Clones the given branch of ..." alt="" coords="249,267,428,294"/>
-<area shape="rect" id="node7" href="class_t_g_s_1_1_server_1_1_instance.html#afa79ac78da881640ab95b4774701d2a2" title="TGS.Server.Instance.CompileImpl" alt="" coords="231,318,447,345"/>
-<area shape="rect" id="node8" href="class_t_g_s_1_1_server_1_1_instance.html#a232046a10167c8b30bedf068284c2857" title="Deletes the target static file &#160;" alt="" coords="237,369,440,395"/>
-<area shape="rect" id="node9" href="class_t_g_s_1_1_server_1_1_instance.html#a0b0722550ec5420578e4201ad41eebab" title="TGS.Server.Instance.InitializeImpl" alt="" coords="231,419,447,446"/>
-<area shape="rect" id="node10" href="class_t_g_s_1_1_server_1_1_server.html#ab1a4188b85e8aea3a1ce2f0394007a38" title="Upgrades up the service configuration " alt="" coords="237,470,440,497"/>
-<area shape="rect" id="node11" href="class_t_g_s_1_1_server_1_1_instance.html#afa3c2cfeebe2079f6d35ae257d13fbe4" title="Properly updates any git submodules in the repository " alt="" coords="245,521,432,563"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a7843e08b347f198bde5661fb87283e19"></a>
@@ -535,17 +494,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_t_g_s_8_server_2_server_8cs_source.html#l00438">TGS.Server.Server.CreateInstance()</a>, and <a class="el" href="_t_g_s_8_server_2_server_8cs_source.html#l00498">TGS.Server.Server.ImportInstance()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        {</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">return</span> Path.GetFullPath(<span class="keyword">new</span> Uri(path).LocalPath)</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                       .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                       .ToUpperInvariant();</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_helpers_a735e80586fa986522b778d7bf5401b90_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_helpers_a735e80586fa986522b778d7bf5401b90_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_helpers_a735e80586fa986522b778d7bf5401b90_icgraph" id="class_t_g_s_1_1_server_1_1_helpers_a735e80586fa986522b778d7bf5401b90_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_server.html#a1fd633ced6347516d4d115a65addf78a" title="Creates a new ITGInstance &#160;" alt="" coords="279,5,449,47"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_server_1_1_server.html#a2d9003533ba8205130476d8e54c1d4a3" title="Registers an existing server instance &#160;" alt="" coords="280,71,448,112"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ae0106b61248cd5ae831acd405701dc9b"></a>
@@ -583,17 +531,6 @@ Here is the caller graph for this function:</div>
 
 <p>Referenced by <a class="el" href="_server_chat_command_8cs_source.html#l00038">TGS.Server.ChatCommands.ServerChatCommand.Run()</a>, and <a class="el" href="_t_g_s_8_server_2_instance_2_dream_daemon_8cs_source.html#l00729">TGS.Server.Instance.WorldAnnounce()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        {</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keywordflow">return</span> input.Replace(<span class="stringliteral">&quot;%&quot;</span>, <span class="stringliteral">&quot;%25&quot;</span>).Replace(<span class="stringliteral">&quot;=&quot;</span>, <span class="stringliteral">&quot;%3d&quot;</span>).Replace(<span class="stringliteral">&quot;;&quot;</span>, <span class="stringliteral">&quot;%3b&quot;</span>).Replace(<span class="stringliteral">&quot;&amp;&quot;</span>, <span class="stringliteral">&quot;%26&quot;</span>).Replace(<span class="stringliteral">&quot;+&quot;</span>, <span class="stringliteral">&quot;%2b&quot;</span>);</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        }</div></div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_t_g_s_1_1_server_1_1_helpers_ae0106b61248cd5ae831acd405701dc9b_icgraph.png" border="0" usemap="#class_t_g_s_1_1_server_1_1_helpers_ae0106b61248cd5ae831acd405701dc9b_icgraph" alt=""/></div>
-<map name="class_t_g_s_1_1_server_1_1_helpers_ae0106b61248cd5ae831acd405701dc9b_icgraph" id="class_t_g_s_1_1_server_1_1_helpers_ae0106b61248cd5ae831acd405701dc9b_icgraph">
-<area shape="rect" id="node2" href="class_t_g_s_1_1_server_1_1_chat_commands_1_1_server_chat_command.html#a1985fe3e55ac813dcb91db19e8b28900" title="Override to do the actions of the Command &#160;" alt="" coords="240,5,429,47"/>
-<area shape="rect" id="node3" href="class_t_g_s_1_1_server_1_1_instance.html#aa60ed802c6a49558a32eaf8c590c84f2" title="Sends a message to everyone on the server &#160;" alt="" coords="245,71,424,112"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
