@@ -17,7 +17,7 @@ namespace TGServiceTests
 		/// <summary>
 		/// Construct a <see cref="TempDirectoryRequiredTest"/>
 		/// </summary>
-		internal TempDirectoryRequiredTest() { }
+		protected TempDirectoryRequiredTest() { }
 
 		/// <summary>
 		/// Setup <see cref="TempPath"/>

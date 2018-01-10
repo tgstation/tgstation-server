@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,6 +50,26 @@ namespace TGS.Server
 			NormalizeAndDelete(di, excludeRoot, !ContentsOnly).Wait();
 		}
 
+		/// <summary>
+		/// Find all files in a directory with a given extension
+		/// </summary>
+		/// <param name="directory">The directory to search</param>
+		/// <param name="extension">The extension to look for</param>
+		/// <returns>An <see cref="IEnumerable{T}"/> of <see cref="string"/>s containing the full paths to files with the given <paramref name="extension"/> in <paramref name="directory"/></returns>
+		public static IEnumerable<string> GetFilesWithExtensionInDirectory(string directory, string extension)
+		{
+			if (directory == null)
+				throw new ArgumentNullException(nameof(directory));
+			if (extension == null)
+				throw new ArgumentNullException(nameof(extension));
+
+			var di = new DirectoryInfo(directory);
+			if (!di.Exists)
+				yield break;
+
+			foreach (var F in di.EnumerateFiles(String.Format(CultureInfo.InvariantCulture, "*.{0}", extension)))
+				yield return F.FullName;
+		}
 
 		/// <summary>
 		/// Properly unlinks directory <paramref name="di"/> if it is a symlink
