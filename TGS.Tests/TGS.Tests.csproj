@@ -66,6 +66,7 @@
     <Compile Include="ControlPanel\TestInstanceSelector.cs" />
     <Compile Include="OutputProcOverriderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\TestHelpers.cs" />
     <Compile Include="ServiceInterface\TestHelpers.cs" />
     <Compile Include="ServiceInterface\TestInterface.cs" />
     <Compile Include="TempDirectoryRequiredTest.cs" />
