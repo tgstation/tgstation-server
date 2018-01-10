@@ -70,9 +70,15 @@ namespace TGS.Server.ChatProviders
 					return "Disconnected.";
 				lock (IRCLock)
 				{
+					SendType st;
 					if (channel.Contains(PrivateMessageMarker))
+					{
 						channel = channel.Replace(PrivateMessageMarker, "");
-					irc.SendMessage(SendType.Message, channel, message);
+						st = SendType.Notice;
+					}
+					else
+						st = SendType.Message;
+					irc.SendMessage(st, channel, message);
 				}
 				return null;
 			}
