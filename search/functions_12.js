@@ -1,10 +1,12 @@
 var searchData=
 [
   ['tellservicewerecomingforthem',['TellServiceWereComingForThem',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a9323f3432004b2da5f7370b642f86128',1,'TGS::Installer::UI::Main']]],
+  ['tempdirectoryrequiredtest',['TempDirectoryRequiredTest',['../class_t_g_service_tests_1_1_temp_directory_required_test.html#a7238d90906d3f645aae8db1d3bb4e7c2',1,'TGServiceTests::TempDirectoryRequiredTest']]],
   ['testbadcertificatehandler',['TestBadCertificateHandler',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#a853ef704bcf8206667da592c9c213feb',1,'TGS::Interface::Tests::TestInterface']]],
   ['testcopyremoteinterface',['TestCopyRemoteInterface',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#ae8f9624bb6c7aa125e5f37141871b598',1,'TGS::Interface::Tests::TestInterface']]],
   ['testdecryptdataworks',['TestDecryptDataWorks',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#ad996d0c45e0791736bf3ea034dde66b2',1,'TGS::Interface::Tests::TestHelpers']]],
   ['testencryptdataworks',['TestEncryptDataWorks',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_helpers.html#ab238111277e6e8af2d3744d39979ec14',1,'TGS::Interface::Tests::TestHelpers']]],
+  ['testgetfileswithextensionindirectory',['TestGetFilesWithExtensionInDirectory',['../class_t_g_s_1_1_server_1_1_tests_1_1_test_helpers.html#a5ff7e6142455c665dca86600330ac5ed',1,'TGS::Server::Tests::TestHelpers']]],
   ['testgibberishparam',['TestGibberishParam',['../class_t_g_s_1_1_command_line_1_1_commands_1_1_repository_1_1_tests_1_1_test_repo_set_push_testmerge_commits_command.html#ab714c6816a4bac321365dc0ea0c46014',1,'TGS::CommandLine::Commands::Repository::Tests::TestRepoSetPushTestmergeCommitsCommand']]],
   ['testinstatiation',['TestInstatiation',['../class_t_g_s_1_1_control_panel_1_1_tests_1_1_test_instance_selector.html#a0104abaf3884d79de07d9e5b68d68fb3',1,'TGS::ControlPanel::Tests::TestInstanceSelector']]],
   ['testlocalaccessinterfaceallowswindowsimpersonation',['TestLocalAccessInterfaceAllowsWindowsImpersonation',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#abdb33af1df0e047ff645a9d9f7e4814b',1,'TGS::Interface::Tests::TestInterface']]],

@@ -1,7 +1,8 @@
 var searchData=
 [
   ['tempdirectoryrequiredtest_2ecs',['TempDirectoryRequiredTest.cs',['../_temp_directory_required_test_8cs.html',1,'']]],
-  ['testhelpers_2ecs',['TestHelpers.cs',['../_test_helpers_8cs.html',1,'']]],
+  ['testhelpers_2ecs',['TestHelpers.cs',['../_server_2_test_helpers_8cs.html',1,'']]],
+  ['testhelpers_2ecs',['TestHelpers.cs',['../_service_interface_2_test_helpers_8cs.html',1,'']]],
   ['testinstanceselector_2ecs',['TestInstanceSelector.cs',['../_test_instance_selector_8cs.html',1,'']]],
   ['testinterface_2ecs',['TestInterface.cs',['../_test_interface_8cs.html',1,'']]],
   ['testmergemanager_2ecs',['TestMergeManager.cs',['../_test_merge_manager_8cs.html',1,'']]],
