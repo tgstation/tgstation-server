@@ -195,6 +195,10 @@ Just tick the `Webclient` option in the `Server` tab or run `dd webclient on` on
 * The files are modified here using the Windows credentials of the active user, feel free to manually set ACLs on them
 * You may optionally rebuild the entire `Static` folder from the repository using the `Recreate Static Directory` button. This will copy the original files from the repository based on the current `TGS3.json`. This requires DreamDaemon not be running
 
+### Modifying Your Code
+
+Any `.dm` files included in the root level of the `Static` directory are automatically copied over and included before anything else in your `.dme` for compilation. Use this to configure compile options as you see fit.
+
 ### Moving, Renaming, and Detaching instances
 
 * Instances can be renamed, but this requires a temporary offlining of them (this includes interface access, DreamDaemon, and chat bots)
