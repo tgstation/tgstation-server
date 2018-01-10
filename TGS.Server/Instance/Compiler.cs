@@ -517,7 +517,7 @@ namespace TGS.Server
 							return;
 						}
 						UpdateLiveSha(CurrentSha);
-						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
+						var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update on reboot.");
 						WorldAnnounce("Server updated, changes will be applied on reboot...");
 						SendMessage("DM: " + msg, MessageType.DeveloperInfo);
 						WriteInfo(msg, EventID.DMCompileSuccess);
