@@ -211,7 +211,7 @@ namespace TGS.Server
 
 				var returnedString = "NULL";
 				var returnedData = new byte[UInt16.MaxValue];
-				using (var topicSender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = 5000, ReceiveTimeout = 5000 })
+				using (var topicSender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = 5000, ReceiveTimeout = 10000 })
 					try
 					{
 						topicSender.Connect(IPAddress.Loopback, port);
