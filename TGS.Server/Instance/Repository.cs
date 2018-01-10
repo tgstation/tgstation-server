@@ -1012,6 +1012,7 @@ namespace TGS.Server
 							var prAPI = remoteUrl;
 							prAPI = prAPI.Replace("/.git", "");
 							prAPI = prAPI.Replace(".git", "");
+							prAPI = prAPI.Replace("git:", "https:");
 							prAPI = prAPI.Replace("github.com", "api.github.com/repos");
 							prAPI += "/pulls/" + PRNumberString + ".json";
 							string json;
