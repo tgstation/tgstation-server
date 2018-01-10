@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -138,6 +140,60 @@ namespace TGS.Server
 			var rgdl = RelativePath(GameDirLive);
 			if (Directory.Exists(rgdl))
 				Directory.Delete(rgdl);
+		}
+
+		/// <summary>
+		/// Copies .dm files from <see cref="StaticDirs"/> to <paramref name="stagingDir"/> and returns #include lines for them
+		/// </summary>
+		/// <param name="stagingDir">The directory to copy .dm files to</param>
+		/// <returns>DM #include lines for .dm files in <see cref="StaticDirs"/></returns>
+		IEnumerable<string> GetAndCopyIncludeLines(string stagingDir)
+		{
+			if (stagingDir == null)
+				throw new ArgumentNullException(nameof(stagingDir));
+			var baseURI = new Uri(stagingDir);
+			foreach (var I in Helpers.GetFilesWithExtensionInDirectory(RelativePath(StaticDirs), "dm"))
+			{
+				var fileURI = new Uri(I);
+				var fileName = Path.GetFileName(I);
+				File.Copy(I, Path.Combine(stagingDir, fileName));
+				yield return String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", fileName);
+			}
+		}
+
+		/// <summary>
+		/// Adds includes for .dm files in <see cref="StaticDirs"/>
+		/// </summary>
+		/// <param name="stagingDir">The directory to operate on</param>
+		/// <param name="dmePath">The full path the the .dme in <paramref name="stagingDir"/></param>
+		void HandleDMEModifications(string stagingDir, string dmePath)
+		{
+			if (stagingDir == null)
+				throw new ArgumentNullException(nameof(stagingDir));
+			if (dmePath == null)
+				throw new ArgumentNullException(nameof(dmePath));
+			if (!File.Exists(dmePath))
+				return;	//someone else will deal with this
+			var newInclusions = new List<string>();
+			var newLines = new List<string>();
+
+			var lines = File.ReadAllLines(dmePath).ToList();
+			var initalCount = lines.Count;
+			var enumerator = GetAndCopyIncludeLines(stagingDir);
+			for (var I = 0; I < lines.Count; ++I)
+			{
+				var line = lines[I];
+				if (line.Contains("BEGIN_INCLUDE"))
+				{
+					lines.InsertRange(I + 1, enumerator);
+					break;
+				}
+			}
+			if (lines.Count == initalCount)
+				lines.InsertRange(0, enumerator);
+
+			if (lines.Count > initalCount)
+				File.WriteAllLines(dmePath, lines);
 		}
 
 		//Initializing thread
@@ -324,6 +380,7 @@ namespace TGS.Server
 				}
 
 				string CurrentSha;
+				string dmeName, dmePath;
 				try
 				{
 					bool silent;
@@ -369,6 +426,9 @@ namespace TGS.Server
 					//just the tip
 					const string GitLogsDir = "/.git/logs";
 					Helpers.CopyDirectory(RelativePath(RepoPath + GitLogsDir), resurrectee + GitLogsDir);
+					dmeName = String.Format(CultureInfo.InvariantCulture, "{0}.dme", ProjectName());
+					dmePath = Path.Combine(resurrectee, dmeName);
+					HandleDMEModifications(resurrectee, dmePath);
 					try
 					{
 						File.Copy(RelativePath(PRJobFile), Path.Combine(resurrectee, PRJobFile));
@@ -389,9 +449,7 @@ namespace TGS.Server
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						return;
 					}
-
-				var dmeName = ProjectName() + ".dme";
-				var dmePath = resurrectee + "/" + dmeName;
+				
 				if (!File.Exists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
