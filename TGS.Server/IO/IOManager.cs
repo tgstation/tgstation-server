@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -165,6 +167,26 @@ namespace TGS.Server.IO
 					   .ToUpperInvariant();
 		}
 
+		
+		public Task<List<string>> GetFilesWithExtensionInDirectory(string directory, string extension)
+		{
+			return Task.Run(() =>
+			{
+				if (directory == null)
+					throw new ArgumentNullException(nameof(directory));
+				if (extension == null)
+					throw new ArgumentNullException(nameof(extension));
+
+				directory = ResolvePath(directory);
+
+				var di = new DirectoryInfo(directory);
+				if (!di.Exists)
+					return new List<string>();
+
+				return di.GetFiles(String.Format(CultureInfo.InvariantCulture, "*.{0}", extension)).Select((fi) => fi.FullName).ToList();
+			});
+		}
+
 		/// <inheritdoc />
 		public async Task DeleteDirectory(string path, bool ContentsOnly = false, IList<string> excludeRoot = null)
 		{
@@ -210,7 +232,7 @@ namespace TGS.Server.IO
 					throw new SymlinkException(link, target, Marshal.GetLastWin32Error());
 			});
 		}
-		
+
 		/// <inheritdoc />
 		public Task<string> ReadAllText(string path)
 		{
@@ -218,6 +240,15 @@ namespace TGS.Server.IO
 			{
 				path = ResolvePath(path);
 				return File.ReadAllText(path);
+			});
+		}
+		/// <inheritdoc />
+		public Task<List<string>> ReadAllLines(string path)
+		{
+			return Task.Run(() =>
+			{
+				path = ResolvePath(path);
+				return File.ReadAllLines(path).ToList();
 			});
 		}
 
@@ -228,6 +259,16 @@ namespace TGS.Server.IO
 			{
 				path = ResolvePath(path);
 				File.WriteAllText(path, contents);
+			});
+		}
+
+		/// <inheritdoc />
+		public Task WriteAllLines(string path, IEnumerable<string> contents)
+		{
+			return Task.Run(() =>
+			{
+				path = ResolvePath(path);
+				File.WriteAllLines(path, contents);
 			});
 		}
 
@@ -418,6 +459,12 @@ namespace TGS.Server.IO
 		public Task UnzipFile(string file, string destination)
 		{
 			return Task.Run(() => ZipFile.ExtractToDirectory(ResolvePath(file), ResolvePath(destination)));
+		}
+		
+		/// <inheritdoc />
+		public string GetFileName(string file)
+		{
+			return Path.GetFileName(file);
 		}
 	}
 }

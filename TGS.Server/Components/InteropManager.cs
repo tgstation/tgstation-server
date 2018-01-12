@@ -220,7 +220,7 @@ namespace TGS.Server.Components
 						}
 						catch
 						{
-							Logger.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{2}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
+							Logger.WriteWarning(String.Format("API version of the game ({0}) is incompatible with the current supported API versions (3.{1}.x.x). Interop disabled.", splits.Count > 1 ? splits[1] : "NULL", AllowedMajorAPIVersion), EventID.APIVersionMismatch);
 							ResetDMAPIVersion();
 							break;
 						}
@@ -293,7 +293,7 @@ namespace TGS.Server.Components
 
 				var returnedString = "NULL";
 				var returnedData = new byte[UInt16.MaxValue];
-				using (var topicSender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = 5000, ReceiveTimeout = 5000 })
+				using (var topicSender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = 5000, ReceiveTimeout = 10000 })
 					try
 					{
 						topicSender.Connect(IPAddress.Loopback, port);

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using DirectoryInfo = System.IO.DirectoryInfo;
+using System.Globalization;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using TGS.Server.Configuration;
 using TGS.Server.IO;
 using TGS.Server.Logging;
+
+using DirectoryInfo = System.IO.DirectoryInfo;
 
 namespace TGS.Server.Components
 {
@@ -280,6 +282,25 @@ namespace TGS.Server.Components
 				}
 				Task.WaitAll(tasks.ToArray());
 			}
+		}
+
+		/// <inheritdoc />
+		public async Task<List<string>> CopyDMFilesTo(string destination)
+		{
+			if (destination == null)
+				throw new ArgumentNullException(nameof(destination));
+			var baseURI = new Uri(destination);
+			var res = new List<string>();
+			var tasks = new List<Task>();
+			foreach (var I in await IO.GetFilesWithExtensionInDirectory(StaticDirs, ".dm"))
+			{
+				var fileURI = new Uri(I);
+				var fileName = IO.GetFileName(I);
+				tasks.Add(IO.CopyFile(I, IOManager.ConcatPath(destination, fileName), false, false));
+				res.Add(String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", fileName));
+			}
+			await Task.WhenAll(tasks);
+			return res;
 		}
 	}
 }

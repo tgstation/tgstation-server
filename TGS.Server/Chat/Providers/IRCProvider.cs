@@ -71,9 +71,15 @@ namespace TGS.Server.Chat.Providers
 					return "Disconnected.";
 				lock (IRCLock)
 				{
+					SendType st;
 					if (channel.Contains(PrivateMessageMarker))
+					{
 						channel = channel.Replace(PrivateMessageMarker, "");
-					irc.SendMessage(SendType.Message, channel, message);
+						st = SendType.Notice;
+					}
+					else
+						st = SendType.Message;
+					irc.SendMessage(st, channel, message);
 				}
 				return null;
 			}
@@ -169,7 +175,8 @@ namespace TGS.Server.Chat.Providers
 			var splits = new List<string>(formattedMessage.Split(' '));
 			var test = splits[0];
 			if (test.Length > 1 && (test[test.Length - 1] == ':' || test[test.Length - 1] == ','))
-				test = test.Substring(0, test.Length - 1).ToLower();
+				test = test.Substring(0, test.Length - 1);
+			test = test.ToLower();
 			if (test != irc.Nickname.ToLower() && test != "!tgs")
 				return;
 
@@ -258,6 +265,7 @@ namespace TGS.Server.Chat.Providers
 		/// </summary>
 		void IRCListen()
 		{
+			Thread.CurrentThread.Name = "IRC Listener Thread";
 			while (irc != null && Connected())
 				try
 				{

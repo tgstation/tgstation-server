@@ -26,11 +26,26 @@ namespace TGS.Server.IO
 		Task<string> ReadAllText(string path);
 
 		/// <summary>
+		/// Returns all the contents of a file at <paramref name="path"/> as a <see cref="List{T}"/> of lines
+		/// </summary>
+		/// <param name="path">The path of the file to read</param>
+		/// <returns>A <see cref="Task"/> that results in a <see cref="List{T}"/> of the contents of a file at <paramref name="path"/> split by line</returns>
+		Task<List<string>> ReadAllLines(string path);
+
+		/// <summary>
 		/// Attempts to create an empty file at <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to touch</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Touch(string path);
+
+		/// <summary>
+		/// Writes some line seperated <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content
+		/// </summary>
+		/// <param name="path">The path of the file to write</param>
+		/// <param name="contents">The line seperated contents of the file</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task WriteAllLines(string path, IEnumerable<string> contents);
 
 		/// <summary>
 		/// Writes some <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content
@@ -177,5 +192,20 @@ namespace TGS.Server.IO
 		/// <param name="destination">Destination path</param>
 		/// <returns>A <see cref="Task"/> representing the operation</returns>
 		Task UnzipFile(string file, string destination);
+		
+		/// <summary>
+		/// Find all files in a directory with a given extension
+		/// </summary>
+		/// <param name="directory">The directory to search</param>
+		/// <param name="extension">The extension to look for</param>
+		/// <returns>A <see cref="Task"/> resulting in an <see cref="List{T}"/> of <see cref="string"/>s containing the full paths to files with the given <paramref name="extension"/> in <paramref name="directory"/></returns>
+		Task<List<string>> GetFilesWithExtensionInDirectory(string directory, string extension);
+
+		/// <summary>
+		/// Gets the name of a <paramref name="file"/> without preceeding directories
+		/// </summary>
+		/// <param name="file">A path to a file</param>
+		/// <returns>The name of a <paramref name="file"/> without preceeding directories</returns>
+		string GetFileName(string file);
 	}
 }

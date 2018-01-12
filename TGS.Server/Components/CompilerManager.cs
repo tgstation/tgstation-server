@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -280,6 +282,40 @@ namespace TGS.Server.Components
 		}
 
 		/// <summary>
+		/// Adds includes for .dm files in <see cref="StaticDirs"/>
+		/// </summary>
+		/// <param name="stagingDir">The directory to operate on</param>
+		/// <param name="dmePath">The full path the the .dme in <paramref name="stagingDir"/></param>
+		async Task HandleDMEModifications(string stagingDir, string dmePath)
+		{
+			if (stagingDir == null)
+				throw new ArgumentNullException(nameof(stagingDir));
+			if (dmePath == null)
+				throw new ArgumentNullException(nameof(dmePath));
+			if (!await IO.FileExists(dmePath))
+				return; //someone else will deal with this
+			var newInclusions = new List<string>();
+			var newLines = new List<string>();
+
+			var lines = await IO.ReadAllLines(dmePath);
+			var initalCount = lines.Count;
+			var enumerator = await Static.CopyDMFilesTo(stagingDir);
+			for (var I = 0; I < lines.Count; ++I)
+			{
+				var line = lines[I];
+				if (line.Contains("BEGIN_INCLUDE"))
+				{
+					lines.InsertRange(I + 1, enumerator);
+					break;
+				}
+			}
+			if (lines.Count == initalCount)
+				lines.InsertRange(0, enumerator);
+
+			if (lines.Count > initalCount)
+				await IO.WriteAllLines(dmePath, lines);
+		}
+		/// <summary>
 		/// Removes bridge symlinks from <see cref="GameDir"/>s
 		/// </summary>
 		async Task CleanGameFolder()
@@ -525,6 +561,10 @@ namespace TGS.Server.Components
 							}
 					cancellationToken.ThrowIfCancellationRequested();
 
+					var dmeName = String.Format(CultureInfo.InvariantCulture, "{0}.dme", ProjectName());
+					var dmePath = IOManager.ConcatPath(resurrectee, dmeName);
+					await HandleDMEModifications(resurrectee, dmePath);
+
 					var res = Repo.CreateBackup();
 					if (res != null)
 						lock (this)
@@ -535,9 +575,7 @@ namespace TGS.Server.Components
 						}
 					cancellationToken.ThrowIfCancellationRequested();
 
-					var dmeName = ProjectName() + ".dme";
-					var dmePath = resurrectee + "/" + dmeName;
-					if (!IO.FileExists(dmePath).Result)
+					if (!await IO.FileExists(dmePath))
 					{
 						var errorMsg = String.Format("Could not find {0}!", dmeName);
 						chatTasks.Add(Chat.SendMessage("DM: " + errorMsg, MessageType.DeveloperInfo));
@@ -616,7 +654,7 @@ namespace TGS.Server.Components
 								return;
 							}
 							Repo.UpdateLiveSha(CurrentSha);
-							var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update next round.");
+							var msg = String.Format("Compile complete!{0}", !staged ? "" : " Server will update on reboot.");
 							Interop.WorldAnnounce("Server updated, changes will be applied on reboot...");
 							chatTasks.Add(Chat.SendMessage("DM: " + msg, MessageType.DeveloperInfo));
 							Logger.WriteInfo(msg, EventID.DMCompileSuccess);
