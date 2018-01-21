@@ -8,7 +8,7 @@
 
 /world/Reboot(reason)
 	SERVER_TOOLS_ON_REBOOT
-	SERVER_TOOLS_REBOOT_BYOND
+	SERVER_TOOLS_REBOOT_BYOND(FALSE)
 
 /proc/message_admins(event)
 	world << event

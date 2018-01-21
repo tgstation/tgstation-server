@@ -41,6 +41,7 @@ namespace TGS.Server
 		const string SRetSuccess = "SUCCESS";
 
 		const string SRKillProcess = "killme";
+		const string SRKillProcessSilent = "killmesilent";
 		const string SRIRCBroadcast = "irc";
 		const string SRIRCAdminChannelMessage = "send2irc";
 		const string SRWorldReboot = "worldreboot";
@@ -102,15 +103,19 @@ namespace TGS.Server
 			}
 
 			if (!APIValid && cmd != SRAPIVersion)
-				return;	//SPEAK THE LANGUAGE!!!
+				return; //SPEAK THE LANGUAGE!!!
 
+			var showKillMessage = true;
 			switch (cmd)
 			{
 				case SRIRCBroadcast:
 					SendMessage("GAME: " + String.Join(" ", splits), MessageType.GameInfo);
 					break;
+				case SRKillProcessSilent:
+					showKillMessage = false;
+					goto case SRKillProcess;
 				case SRKillProcess:
-					KillMe();
+					KillMe(!showKillMessage);
 					break;
 				case SRIRCAdminChannelMessage:
 					SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);
