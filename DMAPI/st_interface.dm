@@ -47,10 +47,10 @@ SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(server_tools_api_compatible, FALSE)
 /world/proc/AdminBroadcast(message)
 	ExportService("[SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE] [message]")
 
-/world/proc/ServiceEndProcess()
+/world/proc/ServiceEndProcess(silent = FALSE)
 	SERVER_TOOLS_LOG("Sending shutdown request!");
 	sleep(world.tick_lag)	//flush the buffers
-	ExportService(SERVICE_REQUEST_KILL_PROCESS)
+	ExportService(silent ? SERVICE_REQUEST_KILL_PROCESS_SILENT : SERVICE_REQUEST_KILL_PROCESS)
 
 //called at the exact moment the world is supposed to reboot
 /world/proc/ServiceReboot()

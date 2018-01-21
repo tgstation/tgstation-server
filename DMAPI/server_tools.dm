@@ -1,5 +1,5 @@
 // /tg/station 13 server tools API
-#define SERVICE_API_VERSION_STRING "3.2.0.2"
+#define SERVICE_API_VERSION_STRING "3.2.0.3"
 
 //CONFIGURATION
 //use this define if you want to do configuration outside of this file
@@ -47,7 +47,7 @@
 //Forces a hard reboot of BYOND by ending the process
 //unlike del(world) clients will try to reconnect
 //If the service has not requested a shutdown, the world will reboot shortly after
-#define SERVER_TOOLS_REBOOT_BYOND world.ServiceEndProcess()
+#define SERVER_TOOLS_REBOOT_BYOND(silent) world.ServiceEndProcess(silent)
 /*
 	Gets the list of any testmerged github pull requests
 
@@ -93,6 +93,7 @@
 #define SERVICE_JSON_PARAM_REQUIREDPARAMETERS "required_parameters"
 
 #define SERVICE_REQUEST_KILL_PROCESS "killme"
+#define SERVICE_REQUEST_KILL_PROCESS_SILENT "killmesilent"
 #define SERVICE_REQUEST_IRC_BROADCAST "irc"
 #define SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE "send2irc"
 #define SERVICE_REQUEST_WORLD_REBOOT "worldreboot"

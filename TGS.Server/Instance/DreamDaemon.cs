@@ -246,7 +246,7 @@ namespace TGS.Server
 		}
 
 		//handle a kill request from the server
-		public void KillMe()
+		public void KillMe(bool silent)
 		{
 			bool DoRestart;
 			lock (watchdogLock)
@@ -257,7 +257,7 @@ namespace TGS.Server
 			}
 			//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
 			if (DoRestart)
-				ThreadPool.QueueUserWorkItem(_ => { Restart(); });
+				ThreadPool.QueueUserWorkItem(_ => { RestartImpl(silent); });
 			else
 				ThreadPool.QueueUserWorkItem(_ => { Stop(); });
 		}
@@ -267,13 +267,24 @@ namespace TGS.Server
 		{
 			if (DaemonStatus() == DreamDaemonStatus.Offline)
 				return Start();
+			return RestartImpl(false);
+		}
+
+		/// <summary>
+		/// Restarts DD
+		/// </summary>
+		/// <param name="silent">If <see langword="false"/> no chat message will be sent</param>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		string RestartImpl(bool silent)
+		{
 			lock (restartLock)
 			{
 				if (RestartInProgress)
 					return "Restart already in progress";
 				RestartInProgress = true;
 			}
-			SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
+			if (!silent)
+				SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
 			Stop();
 			var res = Start();
 			if (res != null)
