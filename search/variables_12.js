@@ -38,6 +38,7 @@ var searchData=
   ['srircadminchannelmessage',['SRIRCAdminChannelMessage',['../class_t_g_s_1_1_server_1_1_instance.html#a62c596891b48f1f82fe5a52f21830972',1,'TGS::Server::Instance']]],
   ['srircbroadcast',['SRIRCBroadcast',['../class_t_g_s_1_1_server_1_1_instance.html#a2290e48ea565b2ac1e78eb73da732afe',1,'TGS::Server::Instance']]],
   ['srkillprocess',['SRKillProcess',['../class_t_g_s_1_1_server_1_1_instance.html#aba675a0e6a86b635cb2036aea2678fbe',1,'TGS::Server::Instance']]],
+  ['srkillprocesssilent',['SRKillProcessSilent',['../class_t_g_s_1_1_server_1_1_instance.html#ade141eb35b4bb26ccf611a2aed28044b',1,'TGS::Server::Instance']]],
   ['srworldreboot',['SRWorldReboot',['../class_t_g_s_1_1_server_1_1_instance.html#a9985e98395e0edf86bf718872d6d3331',1,'TGS::Server::Instance']]],
   ['sshpushremote',['SSHPushRemote',['../class_t_g_s_1_1_server_1_1_instance.html#a2e4fbf4a4caf26ec2d958c4fad93395a',1,'TGS::Server::Instance']]],
   ['sslerrorpromptresult',['SSLErrorPromptResult',['../class_t_g_s_1_1_control_panel_1_1_program.html#a85efc118cb5577b169df233020a39a38',1,'TGS::ControlPanel::Program']]],

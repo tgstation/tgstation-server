@@ -54,6 +54,7 @@ var searchData=
   ['resolveassembly',['ResolveAssembly',['../class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c',1,'ILTemplate.ResolveAssembly(object sender, ResolveEventArgs e)'],['../class_i_l_template.html#acb4d2a7e957dff20c3d992503a6b5b7c',1,'ILTemplate.ResolveAssembly(object sender, ResolveEventArgs e)']]],
   ['resourcenametopath',['ResourceNameToPath',['../class_common.html#a17842afc6e42e650325e6ce5d1ff0868',1,'Common.ResourceNameToPath(string lib)'],['../class_common.html#a17842afc6e42e650325e6ce5d1ff0868',1,'Common.ResourceNameToPath(string lib)']]],
   ['restart',['Restart',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_dream_daemon.html#a5087c9604baae38f338da978079b0ea0',1,'TGS.Interface.Components.ITGDreamDaemon.Restart()'],['../class_t_g_s_1_1_server_1_1_instance.html#a1f6e8f2764269059a4f278955b4e6204',1,'TGS.Server.Instance.Restart()']]],
+  ['restartimpl',['RestartImpl',['../class_t_g_s_1_1_server_1_1_instance.html#a83c2f42705b85941d75f476b6cdce5e7',1,'TGS::Server::Instance']]],
   ['resume',['Resume',['../class_t_g_s_1_1_server_1_1_process_extension.html#ac4df8b56124c57c79eee6391ce56290b',1,'TGS::Server::ProcessExtension']]],
   ['resumethread',['ResumeThread',['../class_t_g_s_1_1_server_1_1_process_extension.html#a017ddfdb25cdbe0cfe4279e6275f51cd',1,'TGS::Server::ProcessExtension']]],
   ['revisioncommand',['RevisionCommand',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_revision_command.html#a253ef512b5964ed38269df2c1e2943bb',1,'TGS::Server::ChatCommands::RevisionCommand']]],
