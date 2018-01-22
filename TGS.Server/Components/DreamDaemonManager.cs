@@ -134,7 +134,7 @@ namespace TGS.Server.Components
 			Interop = interop;
 			Byond = byond;
 
-			Interop.OnKillRequest += (a, b) => HandleKillRequest();
+			Interop.OnKillRequest += (a, b) => HandleKillRequest(b.SilentReboot);
 			Interop.OnWorldReboot += (a, b) => WriteCurrentDDLog("World rebooted.");
 
 			IO.CreateDirectory(DiagnosticsDir).Wait();
@@ -305,7 +305,8 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Event handler for <see cref="IInteropManager.OnKillRequest"/>
 		/// </summary>
-		void HandleKillRequest()
+		/// <param name="silent">If <see langword="true"/> no restart chat message will be sent where applicable</param>
+		void HandleKillRequest(bool silent)
 		{
 			bool DoRestart;
 			lock (this)
@@ -315,11 +316,20 @@ namespace TGS.Server.Components
 					AwaitingShutdown = ShutdownRequestPhase.Pinged;
 			}
 			//Do this is a seperate thread or we'll kill this thread in the middle of rebooting
-			Task.Run(() => DoRestart ? Restart() : Stop());
+			Task.Run(() => DoRestart ? RestartImpl(silent) : Stop());
 		}
 
 		/// <inheritdoc />
 		public string Restart()
+		{
+			return RestartImpl(false);
+		}
+		
+		/// <summary>
+		/// Immediately kills and restarts the server
+		/// </summary>
+		/// <returns><see langword="null"/> on success or error message on failure</returns>
+		string RestartImpl(bool silent)
 		{
 			lock (this)
 			{
@@ -330,7 +340,8 @@ namespace TGS.Server.Components
 					return "Restart already in progress";
 				RestartInProgress = true;
 
-				Chat.SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
+				if(!silent)
+					Chat.SendMessage("DD: Hard restart triggered", MessageType.WatchdogInfo);
 
 				Stop();
 

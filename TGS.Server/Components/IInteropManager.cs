@@ -10,7 +10,7 @@ namespace TGS.Server.Components
 		/// <summary>
 		/// Called when a request to terminate the world is recieved
 		/// </summary>
-		event EventHandler OnKillRequest;
+		event EventHandler<KillRequestEventArgs> OnKillRequest;
 
 		/// <summary>
 		/// Called from /world/Reboot()

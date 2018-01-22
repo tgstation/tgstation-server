@@ -123,6 +123,7 @@
     <Compile Include="IoC\DependencyInjectorFactory.cs" />
     <Compile Include="IoC\IDependencyInjector.cs" />
     <Compile Include="IoC\IDependencyInjectorFactory.cs" />
+    <Compile Include="KillRequestEventArgs.cs" />
     <Compile Include="Logging\IInstanceLogger.cs" />
     <Compile Include="IO\IIOManager.cs" />
     <Compile Include="Configuration\IInstanceConfig.cs" />

@@ -57,9 +57,13 @@ namespace TGS.Server.Components
 
 		// Bridge commands
 		/// <summary>
-		/// Raises <see cref="OnKillRequest"/>
+		/// Raises <see cref="OnKillRequest"/> with <see cref="KillRequestEventArgs.SilentReboot"/> set to <see langword="false"/>
 		/// </summary>
 		const string BCKillProcess = "killme";
+		/// <summary>
+		/// Raises <see cref="OnKillRequest"/> with <see cref="KillRequestEventArgs.SilentReboot"/> set to <see langword="true"/>
+		/// </summary>
+		const string BCKillProcessSilent = "killmesilent";
 		/// <summary>
 		/// Broadcasts the parameter using <see cref="MessageType.GameInfo"/>
 		/// </summary>
@@ -103,7 +107,7 @@ namespace TGS.Server.Components
 		};
 
 		/// <inheritdoc />
-		public event EventHandler OnKillRequest;
+		public event EventHandler<KillRequestEventArgs> OnKillRequest;
 		/// <inheritdoc />
 		public event EventHandler OnWorldReboot;
 
@@ -198,8 +202,11 @@ namespace TGS.Server.Components
 				case BCChatBroadcast:
 					Chat.SendMessage("GAME: " + String.Join(" ", splits), MessageType.GameInfo);
 					break;
+				case BCKillProcessSilent:
+					OnKillRequest(this, new KillRequestEventArgs(true));
+					break;
 				case BCKillProcess:
-					OnKillRequest(this, new EventArgs());
+					OnKillRequest(this, new KillRequestEventArgs(false));
 					break;
 				case BCAdminChannelMessage:
 					Chat.SendMessage("RELAY: " + String.Join(" ", splits), MessageType.AdminInfo);

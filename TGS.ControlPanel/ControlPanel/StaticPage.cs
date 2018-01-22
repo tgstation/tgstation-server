@@ -29,7 +29,7 @@ namespace TGS.ControlPanel
 		{
 			if (initializedStaticPage)
 				return;
-			if(Instance.Administration != null)
+			if(Instance.Administration == null)
 				RecreateStaticButton.Visible = false;
 			BuildFileList();
 			initializedStaticPage = true;
