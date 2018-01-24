@@ -50,13 +50,13 @@ namespace TGS.ControlPanel
 			switch (start) {
 				case 1:
 					IPComboBox.Text = "";
-					goto case 2:
+					goto case 2;
 				case 2:
 					PortSelector.Value = 38607;
-					goto case 3:
+					goto case 3;
 				case 3:
 					UsernameTextBox.Text = "";
-					goto case 4:
+					goto case 4;
 				case 4:
 					if (currentLoginInfo.HasPassword)
 						PasswordTextBox.Text = "";		
