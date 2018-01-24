@@ -35,35 +35,45 @@ namespace TGS.ControlPanel
 					IPComboBox.SelectedIndex = 0;
 			}
 
-			UsernameTextBox.TextChanged += (a, b) => ClearFields();
-			PortSelector.ValueChanged += (a, b) => ClearFields();
-			PasswordTextBox.TextChanged += (a, b) => ClearFields();
-			IPComboBox.TextChanged += (a, b) => ClearFields();
+			IPComboBox.TextChanged += (a, b) => ClearFields(2);
+			PortSelector.ValueChanged += (a, b) => ClearFields(3);
+			UsernameTextBox.TextChanged += (a, b) => ClearFields(4);
+			
 		}
 
-		void ClearFields()
+		void ClearFields(int start = 1)
 		{
 			if (updatingFields || currentLoginInfo == null)
 				return;
 			updatingFields = true;
 			currentLoginInfo = null;
-			IPComboBox.Text = "";
-			PortSelector.Value = 38607;
-			UsernameTextBox.Text = "";
-			PasswordTextBox.Text = "";
+			switch (start) {
+				case 1:
+					IPComboBox.Text = "";
+				case 2:
+					PortSelector.Value = 38607;		
+				case 3:
+					UsernameTextBox.Text = "";
+				case 4:
+					if (currentLoginInfo.HasPassword)
+						PasswordTextBox.Text = "";		
+					break;
+			}
 			updatingFields = false;
 		}
 
 		void IPComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			currentLoginInfo = IPComboBox.SelectedItem as RemoteLoginInfo;
+			RemoteLoginInfo newLoginInfo = IPComboBox.SelectedItem as RemoteLoginInfo;
 			//new thing
-			if (currentLoginInfo == null)
+			if (newLoginInfo == null)
 			{
 				ClearFields();
+				currentLoginInfo = newLoginInfo;
 				return;
 			}
 			updatingFields = true;
+			currentLoginInfo = newLoginInfo;
 			IPComboBox.Text = currentLoginInfo.IP;
 			PortSelector.Value = currentLoginInfo.Port;
 			UsernameTextBox.Text = currentLoginInfo.Username;
