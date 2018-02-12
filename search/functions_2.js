@@ -35,7 +35,7 @@ var searchData=
   ['cleantempdir',['CleanTempDir',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a4f1c68505e66e595f9101800b7f73afa',1,'TGS::Installer::UI::Main']]],
   ['cleanup',['Cleanup',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a4fb8b85c679cef0b6986a59cac5576bc',1,'TGS.ControlPanel.ControlPanel.Cleanup()'],['../class_t_g_service_tests_1_1_temp_directory_required_test.html#af415394fe41d6ea72eec7768c1a1d04d',1,'TGServiceTests.TempDirectoryRequiredTest.Cleanup()']]],
   ['clearcachefolder',['ClearCacheFolder',['../class_t_g_s_1_1_server_1_1_instance.html#a063758368f8d5aa77d82201c9f4e2808',1,'TGS::Server::Instance']]],
-  ['clearfields',['ClearFields',['../class_t_g_s_1_1_control_panel_1_1_login.html#a6243b0aa38a4efb52a8d563413bd635c',1,'TGS::ControlPanel::Login']]],
+  ['clearfields',['ClearFields',['../class_t_g_s_1_1_control_panel_1_1_login.html#a0336fd75666883fa463d330858e614b0',1,'TGS::ControlPanel::Login']]],
   ['clicommand',['CLICommand',['../class_t_g_s_1_1_command_line_1_1_c_l_i_command.html#af4f7513c3a1f8be759faf237d53669c6',1,'TGS::CommandLine::CLICommand']]],
   ['client',['Client',['../class_t_g_s_1_1_interface_1_1_client.html#af92333f02343df17d66dc73dd1d110b2',1,'TGS.Interface.Client.Client()'],['../class_t_g_s_1_1_interface_1_1_client.html#a0225812403d2616a4860117b9a35c53a',1,'TGS.Interface.Client.Client(RemoteLoginInfo loginInfo)']]],
   ['client_5fmessagereceived',['Client_MessageReceived',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html#a76bbc2253e6e1db3838189e8112b5b33',1,'TGS::Server::ChatProviders::DiscordChatProvider']]],

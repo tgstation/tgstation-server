@@ -286,7 +286,7 @@ Private Attributes</h2></td></tr>
 
 <p>References <a class="el" href="_remote_login_info_8cs_source.html#l00020">TGS.Interface.RemoteLoginInfo.IP</a>, <a class="el" href="_remote_login_info_8cs_source.html#l00024">TGS.Interface.RemoteLoginInfo.Port</a>, and <a class="el" href="_remote_login_info_8cs_source.html#l00028">TGS.Interface.RemoteLoginInfo.Username</a>.</p>
 
-<p>Referenced by <a class="el" href="_login_8cs_source.html#l00078">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_login_8cs_source.html#l00091">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        {</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">return</span> other != null &amp;&amp; <a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a046a177e92fd3ab5230b1e37521a3c6d">IP</a> == other.IP &amp;&amp; <a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a9f7c2fd185b9946dbf6ded567a3e0631">Port</a> == other.Port &amp;&amp; <a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a1791629dfd01884e31b6074f61710858">Username</a> == other.Username;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_remote_login_info_html_a1791629dfd01884e31b6074f61710858"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a1791629dfd01884e31b6074f61710858">TGS.Interface.RemoteLoginInfo.Username</a></div><div class="ttdeci">string Username</div><div class="ttdoc">A Windows username for the target server </div><div class="ttdef"><b>Definition:</b> <a href="_remote_login_info_8cs_source.html#l00028">RemoteLoginInfo.cs:28</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_interface_1_1_remote_login_info_html_a046a177e92fd3ab5230b1e37521a3c6d"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a046a177e92fd3ab5230b1e37521a3c6d">TGS.Interface.RemoteLoginInfo.IP</a></div><div class="ttdeci">string IP</div><div class="ttdoc">The IP address or URL of the target server </div><div class="ttdef"><b>Definition:</b> <a href="_remote_login_info_8cs_source.html#l00020">RemoteLoginInfo.cs:20</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_interface_1_1_remote_login_info_html_a9f7c2fd185b9946dbf6ded567a3e0631"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a9f7c2fd185b9946dbf6ded567a3e0631">TGS.Interface.RemoteLoginInfo.Port</a></div><div class="ttdeci">ushort Port</div><div class="ttdoc">The port to connect to the target server </div><div class="ttdef"><b>Definition:</b> <a href="_remote_login_info_8cs_source.html#l00024">RemoteLoginInfo.cs:24</a></div></div>
@@ -313,7 +313,7 @@ Private Attributes</h2></td></tr>
 
 <p>References <a class="el" href="_t_g_s_8_interface_2_helpers_8cs_source.html#l00018">TGS.Interface.Helpers.EncryptData()</a>.</p>
 
-<p>Referenced by <a class="el" href="_login_8cs_source.html#l00078">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_login_8cs_source.html#l00091">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        {</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="comment">//serialize it to a dic first so we can store the entropy</span></div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            var raw = JsonConvert.SerializeObject(<span class="keyword">this</span>);</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            var dic = JsonConvert.DeserializeObject&lt;IDictionary&lt;string, object&gt;&gt;(raw);</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a86834fc8af609b86474fd67e3d3b846e">HasPassword</a>)</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                dic.Add(nameof(<a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a2fe07ffeb276a51b4c2ba85808929f16">Password</a>), Helpers.EncryptData(<a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a2fe07ffeb276a51b4c2ba85808929f16">Password</a>, out <span class="keywordtype">string</span> entropy));</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                dic.Add(String.Format(<a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a8980fd7f40c2c6e73c53f960d49dc3a6">EntropyFormatter</a>, nameof(<a class="code" href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a2fe07ffeb276a51b4c2ba85808929f16">Password</a>)), entropy);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            }</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">return</span> JsonConvert.SerializeObject(dic);</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_remote_login_info_html_a8980fd7f40c2c6e73c53f960d49dc3a6"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a8980fd7f40c2c6e73c53f960d49dc3a6">TGS.Interface.RemoteLoginInfo.EntropyFormatter</a></div><div class="ttdeci">const string EntropyFormatter</div><div class="ttdoc">Used for Password serialization </div><div class="ttdef"><b>Definition:</b> <a href="_remote_login_info_8cs_source.html#l00015">RemoteLoginInfo.cs:15</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_interface_1_1_remote_login_info_html_a2fe07ffeb276a51b4c2ba85808929f16"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a2fe07ffeb276a51b4c2ba85808929f16">TGS.Interface.RemoteLoginInfo.Password</a></div><div class="ttdeci">string Password</div><div class="ttdoc">The Windows password for Username </div><div class="ttdef"><b>Definition:</b> <a href="_remote_login_info_8cs_source.html#l00032">RemoteLoginInfo.cs:32</a></div></div>
 <div class="ttc" id="class_t_g_s_1_1_interface_1_1_remote_login_info_html_a86834fc8af609b86474fd67e3d3b846e"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_remote_login_info.html#a86834fc8af609b86474fd67e3d3b846e">TGS.Interface.RemoteLoginInfo.HasPassword</a></div><div class="ttdeci">bool HasPassword</div><div class="ttdoc">Check if the RemoteLoginInfo has been initialized with a Password </div><div class="ttdef"><b>Definition:</b> <a href="_remote_login_info_8cs_source.html#l00037">RemoteLoginInfo.cs:37</a></div></div>
@@ -461,7 +461,7 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_remote_login_info_8cs_source.html#l00037">37</a> of file <a class="el" href="_remote_login_info_8cs_source.html">RemoteLoginInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_client_8cs_source.html#l00117">TGS.Interface.Client.Client()</a>, <a class="el" href="_login_8cs_source.html#l00057">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>, and <a class="el" href="_login_8cs_source.html#l00078">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_login_8cs_source.html#l00044">TGS.ControlPanel.Login.ClearFields()</a>, <a class="el" href="_client_8cs_source.html#l00117">TGS.Interface.Client.Client()</a>, <a class="el" href="_login_8cs_source.html#l00068">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>, and <a class="el" href="_login_8cs_source.html#l00091">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
 
 </div>
 </div>
@@ -487,7 +487,7 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_remote_login_info_8cs_source.html#l00020">20</a> of file <a class="el" href="_remote_login_info_8cs_source.html">RemoteLoginInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_remote_login_info_8cs_source.html#l00110">TGS.Interface.RemoteLoginInfo.Equals()</a>, and <a class="el" href="_login_8cs_source.html#l00057">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>.</p>
+<p>Referenced by <a class="el" href="_remote_login_info_8cs_source.html#l00110">TGS.Interface.RemoteLoginInfo.Equals()</a>, and <a class="el" href="_login_8cs_source.html#l00068">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>.</p>
 
 </div>
 </div>
@@ -513,7 +513,7 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_remote_login_info_8cs_source.html#l00032">32</a> of file <a class="el" href="_remote_login_info_8cs_source.html">RemoteLoginInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_login_8cs_source.html#l00078">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
+<p>Referenced by <a class="el" href="_login_8cs_source.html#l00091">TGS.ControlPanel.Login.RemoteLoginButton_Click()</a>.</p>
 
 </div>
 </div>
@@ -539,7 +539,7 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_remote_login_info_8cs_source.html#l00024">24</a> of file <a class="el" href="_remote_login_info_8cs_source.html">RemoteLoginInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_remote_login_info_8cs_source.html#l00110">TGS.Interface.RemoteLoginInfo.Equals()</a>, and <a class="el" href="_login_8cs_source.html#l00057">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>.</p>
+<p>Referenced by <a class="el" href="_remote_login_info_8cs_source.html#l00110">TGS.Interface.RemoteLoginInfo.Equals()</a>, and <a class="el" href="_login_8cs_source.html#l00068">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>.</p>
 
 </div>
 </div>
@@ -565,7 +565,7 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_remote_login_info_8cs_source.html#l00028">28</a> of file <a class="el" href="_remote_login_info_8cs_source.html">RemoteLoginInfo.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_remote_login_info_8cs_source.html#l00110">TGS.Interface.RemoteLoginInfo.Equals()</a>, and <a class="el" href="_login_8cs_source.html#l00057">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>.</p>
+<p>Referenced by <a class="el" href="_remote_login_info_8cs_source.html#l00110">TGS.Interface.RemoteLoginInfo.Equals()</a>, and <a class="el" href="_login_8cs_source.html#l00068">TGS.ControlPanel.Login.IPComboBox_SelectedIndexChanged()</a>.</p>
 
 </div>
 </div>
