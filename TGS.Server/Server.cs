@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.ServiceModel;
 using TGS.Interface;
@@ -83,6 +84,8 @@ namespace TGS.Server
 		/// <param name="containerFactory">The value for <see cref="ContainerFactory"/></param>
 		public Server(ILogger logger, IServerConfig config, IIOManager io, IDependencyInjectorFactory containerFactory)
 		{
+			//tls1.2 meme
+			ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 			Logger = logger;
 			Config = config;
 			IO = io;

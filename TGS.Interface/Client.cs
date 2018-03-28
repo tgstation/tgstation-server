@@ -236,6 +236,8 @@ namespace TGS.Interface
 		/// <returns>The correct <see cref="ChannelFactory{TChannel}"/></returns>
 		ChannelFactory<T> CreateRemoteChannel<T>(string instanceName, string accessPath)
 		{
+			//tls memes
+			ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 			//okay we're going over
 			var binding = new BasicHttpsBinding()
 			{
