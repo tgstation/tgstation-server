@@ -12,6 +12,7 @@ var searchData=
   ['operationinprogress',['OperationInProgress',['../interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_repository.html#ac6273a2cb476e6ae1aff1d98098892ec',1,'TGS.Interface.Components.ITGRepository.OperationInProgress()'],['../class_t_g_s_1_1_server_1_1_instance.html#ac3c034d54751b0cc2c76a77232e4a15e',1,'TGS.Server.Instance.OperationInProgress()']]],
   ['operator_21_3d',['operator!=',['../class_t_g_s_1_1_server_1_1_repo_config.html#a98a24cdd24745418beb1cb941ca5dda8',1,'TGS::Server::RepoConfig']]],
   ['operator_3d_3d',['operator==',['../class_t_g_s_1_1_server_1_1_repo_config.html#acdf685967fb94c09b1cd92118c94e774',1,'TGS::Server::RepoConfig']]],
+  ['originalcurrentfilecontent',['originalCurrentFileContent',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a10f40d66f9359273721f48985349f315',1,'TGS::ControlPanel::ControlPanel']]],
   ['orlabel',['OrLabel',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html#a9088965155bc0f483a4188258cdbd48f',1,'TGS::ControlPanel::GitHubLoginPrompt']]],
   ['outputproc',['OutputProc',['../class_t_g_s_1_1_interface_1_1_command.html#a48e479c6e68dbda2f07b65d301286873',1,'TGS.Interface.Command.OutputProc()'],['../class_t_g_service_tests_1_1_output_proc_overrider_test.html#a68af15b083b21d9ac84f55baa81824fa',1,'TGServiceTests.OutputProcOverriderTest.OutputProc()']]],
   ['outputprocoverridertest',['OutputProcOverriderTest',['../class_t_g_service_tests_1_1_output_proc_overrider_test.html',1,'TGServiceTests']]],

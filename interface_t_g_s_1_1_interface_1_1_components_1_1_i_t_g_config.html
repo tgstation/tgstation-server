@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4130b15d0685c6afbc5ed1efa11209de"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_config.html#a4130b15d0685c6afbc5ed1efa11209de">ReadText</a> (string staticRelativePath, bool repo, out string error, out bool unauthorized)</td></tr>
 <tr class="memdesc:a4130b15d0685c6afbc5ed1efa11209de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from a static file  <a href="#a4130b15d0685c6afbc5ed1efa11209de">More...</a><br /></td></tr>
 <tr class="separator:a4130b15d0685c6afbc5ed1efa11209de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08a4799e1fecd67e9584b47e369f5ec2"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_config.html#a08a4799e1fecd67e9584b47e369f5ec2">WriteText</a> (string staticRelativePath, string data, out bool unauthorized)</td></tr>
-<tr class="memdesc:a08a4799e1fecd67e9584b47e369f5ec2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write to a static file  <a href="#a08a4799e1fecd67e9584b47e369f5ec2">More...</a><br /></td></tr>
-<tr class="separator:a08a4799e1fecd67e9584b47e369f5ec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a618a58c5c8d87dba545585342d517cc4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_config.html#a618a58c5c8d87dba545585342d517cc4">WriteText</a> (string staticRelativePath, string data, string originalData, out bool unauthorized)</td></tr>
+<tr class="memdesc:a618a58c5c8d87dba545585342d517cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write to a static file  <a href="#a618a58c5c8d87dba545585342d517cc4">More...</a><br /></td></tr>
+<tr class="separator:a618a58c5c8d87dba545585342d517cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85076faa53ed34eebed44bd94e7b8881"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_config.html#a85076faa53ed34eebed44bd94e7b8881">DeleteFile</a> (string staticRelativePath, out bool unauthorized)</td></tr>
 <tr class="memdesc:a85076faa53ed34eebed44bd94e7b8881"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes the target static file  <a href="#a85076faa53ed34eebed44bd94e7b8881">More...</a><br /></td></tr>
 <tr class="separator:a85076faa53ed34eebed44bd94e7b8881"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,8 +164,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>null on success, error message on failure</dd></dl>
 
 <p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#a232046a10167c8b30bedf068284c2857">TGS.Server.Instance</a>.</p>
-
-<p>Referenced by <a class="el" href="_static_page_8cs_source.html#l00212">TGS.ControlPanel.ControlPanel.StaticFileDeleteButton_Click()</a>.</p>
 
 </div>
 </div>
@@ -272,11 +270,9 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#a07f764eec98c909d04b62caf2b748238">TGS.Server.Instance</a>.</p>
 
-<p>Referenced by <a class="el" href="_static_page_8cs_source.html#l00161">TGS.ControlPanel.ControlPanel.StaticFileDownloadButton_Click()</a>, and <a class="el" href="_static_page_8cs_source.html#l00280">TGS.ControlPanel.ControlPanel.UpdateEditText()</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a08a4799e1fecd67e9584b47e369f5ec2"></a>
+<a class="anchor" id="a618a58c5c8d87dba545585342d517cc4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -291,6 +287,12 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>originalData</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -311,6 +313,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">staticRelativePath</td><td>The path from the Static dir. E.g. config/config.txt</td></tr>
     <tr><td class="paramname">data</td><td>The full text of the config file</td></tr>
+    <tr><td class="paramname">originalData</td><td>The original data that the client knows about. Set to null to skip checks</td></tr>
     <tr><td class="paramname">unauthorized</td><td>This will be true if error is set to a message that indicates the current user does not have access to the specified file</td></tr>
   </table>
   </dd>
@@ -323,9 +326,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#ab3654af3cdaf2d738ad590e8ea009782">TGS.Server.Instance</a>.</p>
-
-<p>Referenced by <a class="el" href="_static_page_8cs_source.html#l00222">TGS.ControlPanel.ControlPanel.StaticFileCreateButton_Click()</a>, <a class="el" href="_static_page_8cs_source.html#l00251">TGS.ControlPanel.ControlPanel.StaticFileSaveButton_Click()</a>, and <a class="el" href="_static_page_8cs_source.html#l00111">TGS.ControlPanel.ControlPanel.StaticFileUploadButton_Click()</a>.</p>
+<p>Implemented in <a class="el" href="class_t_g_s_1_1_server_1_1_instance.html#abb23808e80066a6d570e77c6150be51e">TGS.Server.Instance</a>.</p>
 
 </div>
 </div>
