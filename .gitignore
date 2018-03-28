@@ -1,16 +1,12 @@
-#Visual studio stuff
-.vscode/*
-.vs/*
-
-#VS stuff
-
-*/bin/*
-*/obj/*
-*/Debug/*
-*/Release/*
-
-packages/*
+[Oo]bj/
+[Bb]in/
+.nuget/
+_ReSharper.*
+packages/
+artifacts/
+.vs/
 *.user
-*.dmb
-*.int
-/TestResults
+*.suo
+*.userprefs
+*DS_Store
+*.sln.ide
