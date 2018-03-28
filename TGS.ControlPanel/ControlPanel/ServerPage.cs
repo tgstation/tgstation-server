@@ -85,8 +85,9 @@ namespace TGS.ControlPanel
 
 			var DM = Instance.Compiler;
 			var DD = Instance.DreamDaemon;
-			var Config = Instance.Config;
+			var Config = Instance.StaticFiles;
 			var Repo = Instance.Repository;
+			var Interop = Instance.Interop;
 
 			try
 			{
@@ -99,7 +100,7 @@ namespace TGS.ControlPanel
 				if (!RepoExists)
 					return;
 
-				var interval = Repo.AutoUpdateInterval();
+				var interval = Instance.AutoUpdateInterval();
 				var interval_not_zero = interval != 0;
 				AutoUpdateCheckbox.Checked = interval_not_zero;
 				AutoUpdateInterval.Visible = interval_not_zero;
@@ -125,7 +126,7 @@ namespace TGS.ControlPanel
 						break;
 					case DreamDaemonStatus.Online:
 						ServerStatusLabel.Text = "ONLINE";
-						var pc = DD.PlayerCount();
+						var pc = Interop.PlayerCount();
 						if (pc != -1)
 							ServerStatusLabel.Text += " (" + pc + " players)";
 						break;
@@ -330,8 +331,9 @@ namespace TGS.ControlPanel
 					}
 
 					List<Task<PullRequest>> pullsRequests = null;
-					if (Program.GetRepositoryRemote(repo, out string remoteOwner, out string remoteName))
-					{
+					var remote = repo.GetRemote(out string error);
+					if (error == null && remote.ToLower().Contains("github.com")) {
+						Helpers.GetRepositoryRemote(remote, out string remoteOwner, out string remoteName);
 						//find out which of the PRs have been merged
 						pullsRequests = new List<Task<PullRequest>>();
 						foreach (var I in pulls)
@@ -460,14 +462,7 @@ namespace TGS.ControlPanel
 		{
 			var msg = WorldAnnounceField.Text;
 			if (!String.IsNullOrWhiteSpace(msg))
-			{
-				var res = Instance.DreamDaemon.WorldAnnounce(msg);
-				if (res != null)
-				{
-					MessageBox.Show(res);
-					return;
-				}
-			}
+				Instance.Interop.WorldAnnounce(msg);
 			WorldAnnounceField.Text = "";
 		}
 
@@ -480,7 +475,7 @@ namespace TGS.ControlPanel
 		private void AutoUpdateInterval_ValueChanged(object sender, EventArgs e)
 		{
 			if (!updatingFields)
-				Instance.Repository.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+				Instance.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 
 		private void AutoUpdateCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -491,9 +486,9 @@ namespace TGS.ControlPanel
 			AutoUpdateInterval.Visible = on;
 			AutoUpdateMLabel.Visible = on;
 			if (!on)
-				Instance.Repository.SetAutoUpdateInterval(0);
+				Instance.SetAutoUpdateInterval(0);
 			else
-				Instance.Repository.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
+				Instance.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
 	}
 }

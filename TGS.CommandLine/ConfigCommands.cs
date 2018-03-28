@@ -27,7 +27,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Instance.Config.DeleteFile(parameters[0], out bool unauthorized);
+			var res = Instance.StaticFiles.DeleteFile(parameters[0], out bool unauthorized);
 			if (res != null)
 			{
 				OutputProc(res);
@@ -63,7 +63,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var list = Instance.Config.ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error, out bool unauthorized);
+			var list = Instance.StaticFiles.ListStaticDirectory(parameters.Count > 0 ? parameters[0] : null, out string error, out bool unauthorized);
 			if(list == null)
 			{
 				OutputProc(error);
@@ -107,7 +107,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var bytes = Instance.Config.ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error, out bool unauthorized);
+			var bytes = Instance.StaticFiles.ReadText(parameters[0], parameters.Count > 2 && parameters[2].ToLower() == "--repo", out string error, out bool unauthorized);
 			if(bytes == null)
 			{
 				OutputProc("Error: " + error);
@@ -147,7 +147,7 @@ namespace TGS.CommandLine
 		{
 			try
 			{
-				var res = Instance.Config.WriteText(parameters[0], File.ReadAllText(parameters[1]), out bool unauthorized);
+				var res = Instance.StaticFiles.WriteText(parameters[0], File.ReadAllText(parameters[1]), out bool unauthorized);
 				if (res != null)
 				{
 					OutputProc("Error: " + res);

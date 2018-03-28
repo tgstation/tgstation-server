@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TGS.Server.Service.Service</StartupObject>
+    <StartupObject>TGS.Server.Service.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>tgs.ico</ApplicationIcon>
@@ -44,6 +44,8 @@
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IServiceRunner.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -52,6 +54,7 @@
     </Compile>
     <Compile Include="..\AssemblyInfo.global.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

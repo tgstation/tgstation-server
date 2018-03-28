@@ -93,43 +93,5 @@ namespace TGS.ControlPanel
 			using (var D = new GitHubLoginPrompt(client))
 				return D.ShowDialog() == DialogResult.OK;
 		}
-
-		/// <summary>
-		/// Gets the <paramref name="owner"/> and <paramref name="name"/> of a given <paramref name="repo"/>'s remote. Shows an error if the target remote isn't GitHub
-		/// </summary>
-		/// <param name="repo">The <see cref="ITGRepository"/> to get the remote of</param>
-		/// <param name="owner">The owner of the remote <see cref="Octokit.Repository"/></param>
-		/// <param name="name">The remote <see cref="Octokit.Repository.Name"/></param>
-		/// <returns><see langword="true"/> if <paramref name="repo"/>'s remote was a valid GitHub <see cref="Octokit.Repository"/>, <see langword="false"/> otherwise and the user was prompted</returns>
-		public static bool GetRepositoryRemote(ITGRepository repo, out string owner, out string name)
-		{
-			string remote = null;
-			remote = repo.GetRemote(out string error);
-			if (remote == null)
-			{
-				MessageBox.Show(String.Format("Error retrieving remote repository: {0}", error));
-				owner = null;
-				name = null;
-				return false;
-			}
-			if (!remote.Contains("github.com"))
-			{
-				MessageBox.Show("Pull request support is only available for GitHub based repositories!", "Error");
-				owner = null;
-				name = null;
-				return false;
-			}
-
-			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-			//Yes use .git twice in case it was weird
-			var toRemove = new string[] { ".git", "/", ".git" };
-			foreach (string item in toRemove)
-				if (remote.EndsWith(item))
-					remote = remote.Substring(0, remote.LastIndexOf(item));
-			var splits = remote.Split('/');
-			name = splits[splits.Length - 1];
-			owner = splits[splits.Length - 2].Split('.')[0];
-			return true;
-		}
 	}
 }

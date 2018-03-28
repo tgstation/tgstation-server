@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.ServiceProcess;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Service
 {
 	/// <summary>
 	/// Windows <see cref="ServiceBase"/> adapter for <see cref="Server"/>
 	/// </summary>
-	public sealed class Service : ServiceBase, ILogger
+	sealed class Service : ServiceBase, ILogger
 	{
 		/// <summary>
-		/// The entry point for the program. Calls <see cref="ServiceBase.Run(ServiceBase)"/> with a new <see cref="Service"/> as a parameter
+		/// The <see cref="IServer"/> for the <see cref="Service"/>
 		/// </summary>
-		public static void Main() => Run(new Service());
+		readonly IServer Server;
 
 		/// <summary>
-		/// The <see cref="Server"/> the <see cref="Service"/> manages
+		/// Construct a <see cref="Service"/>
 		/// </summary>
-		Server activeServer;
-
-		/// <summary>
-		/// Constructs a <see cref="Service"/>
-		/// </summary>
-		Service()
+		/// <param name="serverFactory">The <see cref="IServerFactory"/> for creating <see cref="Server"/></param>
+		public Service(IServerFactory serverFactory)
 		{
 			ServiceName = "TG Station Server";
+			Server = serverFactory.CreateServer(this);
 		}
 
 		/// <inheritdoc />
@@ -57,7 +57,8 @@ namespace TGS.Server.Service
 		/// <param name="args">The service start arguments</param>
 		protected override void OnStart(string[] args)
 		{
-			activeServer = new Server(args, this);
+			Environment.CurrentDirectory = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Assembly.GetExecutingAssembly().GetName().Name)).FullName;
+			Server.Start(args);
 		}
 
 		/// <summary>
@@ -65,7 +66,17 @@ namespace TGS.Server.Service
 		/// </summary>
 		protected override void OnStop()
 		{
-			activeServer.Dispose();
+			Server.Stop();
+		}
+
+		/// <summary>
+		/// Cleans up <see cref="activeServer"/>
+		/// </summary>
+		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
+		protected override void Dispose(bool disposing)
+		{
+			Server.Dispose();
+			base.Dispose(disposing);
 		}
 	}
 }

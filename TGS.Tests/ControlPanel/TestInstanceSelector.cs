@@ -12,9 +12,6 @@ namespace TGS.ControlPanel.Tests
 	[TestClass]
 	public class TestInstanceSelector
 	{
-		/// <summary>
-		/// Test that an <see cref="InstanceSelector"/> can be created without issue
-		/// </summary>
 		[TestMethod]
 		public void TestInstatiation()
 		{

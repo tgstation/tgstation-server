@@ -1,16 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TGS.Interface;
 
-namespace TGServiceTests
+namespace TGS.Tests
 {
 	/// <summary>
 	/// For tests that need to override <see cref="Command.OutputProcVar"/>
 	/// </summary>
 	public abstract class OutputProcOverriderTest
 	{
-		/// <summary>
-		/// Set <see cref="Command.OutputProcVar"/> to <see cref="OutputProc(string)"/>
-		/// </summary>
 		[TestInitialize]
 		public void Setup()
 		{
@@ -18,9 +15,9 @@ namespace TGServiceTests
 		}
 
 		/// <summary>
-		/// Whe
+		/// Dummy OutputProc implementation
 		/// </summary>
-		/// <param name="message"></param>
+		/// <param name="message">Unused</param>
 		protected virtual void OutputProc(string message) { }
 	}
 }

@@ -1,28 +1,46 @@
 ﻿using System;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Console
 {
 	/// <summary>
-	/// Console runner for a <see cref="Server"/>
+	/// Console runner for a <see cref="IServer"/>
 	/// </summary>
-	sealed class Console : ILogger
+	sealed class Console : ILogger, IDisposable
 	{
 		/// <summary>
-		/// Entry point to the <see cref="Console"/>
+		/// The <see cref="IServer"/> for the <see cref="Console"/>
 		/// </summary>
-		/// <param name="args"></param>
-		static void Main(string[] args) => new Console(args);
+		readonly IServer Server;
+
+		/// <summary>
+		/// Construct a <see cref="Console"/>
+		/// </summary>
+		/// <param name="serverFactory">The <see cref="IServerFactory"/> for creating <see cref="Server"/></param>
+		public Console(IServerFactory serverFactory)
+		{
+			Server = serverFactory.CreateServer(this);
+		}
+
+		/// <summary>
+		/// Prompts the user to exit the <see cref="Console"/>
+		/// </summary>
+		void ExitPrompt()
+		{
+			System.Console.WriteLine("Press enter to exit...");
+			System.Console.ReadLine();
+		}
 
 		/// <summary>
 		/// Construct and run a <see cref="Console"/>
 		/// </summary>
 		/// <param name="args">Command line arguments</param>
-		Console(string[] args)
+		public void Run(string[] args)
 		{
 			try
 			{
 				System.Console.WriteLine("Starting server...");
-				var server = new Server(args, this);    //no using to avoid including more references
+				Server.Start(args);
 				try
 				{
 					System.Console.WriteLine("Server started!");
@@ -30,7 +48,7 @@ namespace TGS.Server.Console
 				}
 				finally
 				{
-					server.Dispose();
+					Server.Stop();
 				}
 			}
 			catch (Exception e)
@@ -38,12 +56,6 @@ namespace TGS.Server.Console
 				System.Console.WriteLine(String.Format("Unhandled exception: {0}", e.ToString()));
 				ExitPrompt();
 			}
-		}
-
-		void ExitPrompt()
-		{
-			System.Console.WriteLine("Press any key to exit...");
-			System.Console.ReadKey();
 		}
 
 		/// <inheritdoc />
@@ -68,6 +80,14 @@ namespace TGS.Server.Console
 		public void WriteWarning(string message, EventID id, byte loggingID)
 		{
 			System.Console.WriteLine(String.Format("[{0}]: {1}-{3}: Warning: {2}", DateTime.Now.ToString(), id, message, loggingID));
+		}
+
+		/// <summary>
+		/// Disposes <see cref="activeServer"/>
+		/// </summary>
+		public void Dispose()
+		{
+			Server.Dispose();
 		}
 	}
 }

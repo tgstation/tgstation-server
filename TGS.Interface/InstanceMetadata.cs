@@ -24,10 +24,5 @@ namespace TGS.Interface
 		/// </summary>
 		[DataMember]
 		public bool Enabled { get; set; }
-		/// <summary>
-		/// The logging ID of the <see cref="Components.ITGInstance"/>. Will be 0 if <see cref="Enabled"/> is <see langword="false"/>
-		/// </summary>
-		[DataMember]
-		public byte LoggingID { get; set; }
 	}
 }

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Net;
 using System.Reflection;
-using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface;
 using TGS.Interface.Components;
+using TGS.Server.Components;
+using TGS.Server.Configuration;
+using TGS.Server.IO;
+using TGS.Server.IoC;
+using TGS.Server.Logging;
 using TGS.Server.Security;
 
 namespace TGS.Server
@@ -14,7 +18,7 @@ namespace TGS.Server
 	/// The windows service the application runs as
 	/// </summary>
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-	public sealed class Server : ITGSService, ITGConnectivity, ITGLanding, ITGInstanceManager, IDisposable
+	sealed class Server : IServer, ILoggingIDProvider, ITGSService, ITGConnectivity, ITGInstanceManager, ITGLanding
 	{
 		/// <summary>
 		/// The logging ID used for <see cref="Server"/> events
@@ -22,38 +26,40 @@ namespace TGS.Server
 		public const byte LoggingID = 0;
 
 		/// <summary>
-		/// The directory to use when importing a .NET settings based config
-		/// </summary>
-		public const string MigrationConfigDirectory = "C:\\TGSSettingUpgradeTempDir";
-
-		/// <summary>
 		/// The service version <see cref="string"/> based on the <see cref="AssemblyName"/>'s <see cref="System.Version"/>
 		/// </summary>
 		public static readonly string VersionString = String.Format("/tg/station 13 Server v{0}", Assembly.GetExecutingAssembly().GetName().Version);
 
 		/// <summary>
-		/// Singleton <see cref="ILogger"/>
+		/// <see cref="ILogger"/> for the <see cref="Server"/>
 		/// </summary>
-		public static ILogger Logger { get; private set; }
+		readonly ILogger Logger;
+		/// <summary>
+		/// The <see cref="IServerConfig"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IServerConfig Config;
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IIOManager IO;
+		/// <summary>
+		/// The <see cref="IDependencyInjectorFactory"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IDependencyInjectorFactory ContainerFactory;
 
 		/// <summary>
-		/// The <see cref="ServerConfig"/> for the <see cref="Server"/>
+		/// The WCF host that contains <see cref="ITGSService"/> connects to
 		/// </summary>
-		public static ServerConfig Config { get; private set; }
+		ServiceHost serviceHost;
 
 		/// <summary>
-		/// The directory to load and save <see cref="ServerConfig"/>s to
+		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref="ServiceHost"/> hosting the <see cref="Instance"/>
 		/// </summary>
-		static readonly string DefaultConfigDirectory = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TGS.Server")).FullName;
-		
+		IDictionary<string, ServiceHost> hosts;
 		/// <summary>
-		/// Begins user impersonation to allow proper restricted file access
+		/// List of LoggingIDs in use
 		/// </summary>
-		/// <returns>A <see cref="WindowsImpersonationContext"/> representing the impersonation</returns>
-		public static WindowsImpersonationContext BeginImpersonation()
-		{
-			return WindowsIdentity.Impersonate(OperationContext.Current.ServiceSecurityContext.WindowsIdentity.Token);
-		}
+		IList<int> UsedLoggingIDs = new List<int>();
 
 		/// <summary>
 		/// Checks an <paramref name="instanceName"/> for illegal characters
@@ -70,31 +76,28 @@ namespace TGS.Server
 		}
 
 		/// <summary>
-		/// The WCF host that contains <see cref="ITGSService"/> connects to
-		/// </summary>
-		ServiceHost serviceHost;
-		/// <summary>
-		/// Map of <see cref="InstanceConfig.Name"/> to the respective <see cref="ServiceHost"/> hosting the <see cref="Instance"/>
-		/// </summary>
-		IDictionary<string, ServiceHost> hosts;
-		/// <summary>
-		/// List of <see cref="Instance.LoggingID"/>s in use
-		/// </summary>
-		IList<int> UsedLoggingIDs = new List<int>();
-
-		/// <summary>
 		/// Construct a <see cref="Server"/>
 		/// </summary>
-		/// <param name="args">Command line arguments for the <see cref="Server"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> to use</param>
-		public Server(string[] args, ILogger logger)
+		/// <param name="logger">The value for <see cref="Logger"/></param>
+		/// <param name="config">The value for <see cref="Config"/></param>
+		/// <param name="io">The value for <see cref="IO"/></param>
+		/// <param name="containerFactory">The value for <see cref="ContainerFactory"/></param>
+		public Server(ILogger logger, IServerConfig config, IIOManager io, IDependencyInjectorFactory containerFactory)
 		{
+			//tls1.2 meme
+			ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 			Logger = logger;
+			Config = config;
+			IO = io;
+			ContainerFactory = containerFactory;
+		}
 
-			Environment.CurrentDirectory = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Assembly.GetExecutingAssembly().GetName().Name)).FullName;  //MOVE THIS POINTER BECAUSE ONE TIME I ALMOST ACCIDENTALLY NUKED MYSELF BY REFACTORING! http://imgur.com/zvGEpJD.png
-
-			SetupConfig();
-
+		/// <inheritdoc />
+		public void Start(string[] args)
+		{
+			if (serviceHost != null)
+				throw new InvalidOperationException(String.Format("{0} is already running!", nameof(Server)));
+			
 			ChangePortFromCommandLine(args);
 
 			SetupService();
@@ -119,7 +122,7 @@ namespace TGS.Server
 					IInstanceConfig ic;
 					try
 					{
-						ic = InstanceConfig.Load(I);
+						ic = InstanceConfig.Load(I, IO);
 					}
 					catch (Exception e)
 					{
@@ -154,36 +157,9 @@ namespace TGS.Server
 					{
 						throw new Exception("Invalid argument for \"-port\"", e);
 					}
-					Config.Save(DefaultConfigDirectory);
+					Config.Save(IO);
 					break;
 				}
-		}
-
-		/// <summary>
-		/// Upgrades up the service configuration
-		/// </summary>
-		void SetupConfig()
-		{
-			Directory.CreateDirectory(DefaultConfigDirectory);
-			try
-			{
-				Config = ServerConfig.Load(DefaultConfigDirectory);
-			}
-			catch
-			{
-				try
-				{
-					//assume we're upgrading
-					Config = ServerConfig.Load(MigrationConfigDirectory);
-					Config.Save(DefaultConfigDirectory);
-					Helpers.DeleteDirectory(MigrationConfigDirectory);
-				}
-				catch
-				{
-					//new baby
-					Config = new ServerConfig();
-				}
-			}
 		}
 
 		/// <summary>
@@ -196,7 +172,7 @@ namespace TGS.Server
 			AddEndpoint(serviceHost, typeof(ITGInstanceManager));
 			AddEndpoint(serviceHost, typeof(ITGLanding));
 			AddEndpoint(serviceHost, typeof(ITGSService));
-			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(); //only admins can diddle us
+			serviceHost.Authorization.ServiceAuthorizationManager = new RootAuthorizationManager(Logger); //only admins can diddle us
 			serviceHost.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 		}
 
@@ -213,15 +189,20 @@ namespace TGS.Server
 		/// <summary>
 		/// Creates a <see cref="ServiceHost"/> for <paramref name="singleton"/> using the default pipe, CloseTimeout for the <see cref="ServiceHost"/>, and the configured <see cref="ServerConfig.RemoteAccessPort"/>
 		/// </summary>
-		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/></param>
+		/// <param name="singleton">The <see cref="ServiceHost.SingletonInstance"/>. If it is an <see cref="Instance"/>, the resulting <see cref="ServiceHost"/> will be created using it's <see cref="Components.Instance.CreateServiceHost(Uri[])"/> method</param>
 		/// <param name="endpointPostfix">The URL to access components on the <see cref="ServiceHost"/></param>
 		/// <returns>The created <see cref="ServiceHost"/></returns>
-		static ServiceHost CreateHost(object singleton, string endpointPostfix)
+		ServiceHost CreateHost(object singleton, string endpointPostfix)
 		{
-			return new ServiceHost(singleton, new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) })
-			{
-				CloseTimeout = new TimeSpan(0, 0, 5)
-			};
+			var uris = new Uri[] { new Uri(String.Format("net.pipe://localhost/{0}", endpointPostfix)), new Uri(String.Format("https://localhost:{0}/{1}", Config.RemoteAccessPort, endpointPostfix)) };
+			var instance = singleton as Instance;
+			ServiceHost res;
+			if (instance != null)
+				res = instance.CreateServiceHost(uris);
+			else
+				res = new ServiceHost(singleton, uris);
+			res.CloseTimeout = new TimeSpan(0, 0, 5);
+			return res;
 		}
 
 		/// <summary>
@@ -248,11 +229,8 @@ namespace TGS.Server
 				Config.InstancePaths.Remove(I);
 		}
 
-		/// <summary>
-		/// Unlocks a <see cref="Instance.LoggingID"/> acquired with <see cref="LockLoggingID"/>
-		/// </summary>
-		/// <param name="ID">The <see cref="Instance.LoggingID"/> to unlock</param>
-		void UnlockLoggingID(byte ID)
+		/// <inheritdoc />
+		public void Release(byte ID)
 		{
 			lock (UsedLoggingIDs)
 			{
@@ -260,11 +238,8 @@ namespace TGS.Server
 			}
 		}
 
-		/// <summary>
-		/// Gets and locks a <see cref="Instance.LoggingID"/>
-		/// </summary>
-		/// <returns>A logging ID for the <see cref="Instance"/> must be released using <see cref="UnlockLoggingID(byte)"/></returns>
-		byte LockLoggingID()
+		/// <inheritdoc />
+		public byte Get()
 		{
 			lock (UsedLoggingIDs)
 			{
@@ -291,16 +266,23 @@ namespace TGS.Server
 			{
 				if (hosts.ContainsKey(config.Directory))
 				{
-					var datInstance = ((Instance)hosts[config.Directory].SingletonInstance);
+					var datInstance = ((WCFContractRelay)hosts[config.Directory].SingletonInstance).GetInstance();
 					Logger.WriteError(String.Format("Unable to start instance at path {0}. Has the same name as instance at path {1}. Detaching...", config.Directory, datInstance.ServerDirectory()), EventID.InstanceInitializationFailure, LoggingID);
 					return null;
 				}
 				if (!config.Enabled)
 					return null;
-				var ID = LockLoggingID();
-				Logger.WriteInfo(String.Format("Instance {0} ({1}) assigned logging ID {2}", config.Name, config.Directory, ID), EventID.InstanceIDAssigned, ID);
 				instanceName = config.Name;
-				instance = new Instance(config, ID);
+				var DI = ContainerFactory.CreateDependencyInjector();
+				try
+				{
+					instance = new Instance(config, Logger, this, Config, DI);
+				}
+				catch
+				{
+					DI.Dispose();
+					throw;
+				}
 			}
 			catch (Exception e)
 			{
@@ -313,16 +295,15 @@ namespace TGS.Server
 
 			AddEndpoint(host, typeof(ITGConnectivity));
 			AddEndpoint(host, typeof(ITGAdministration));
-			AddEndpoint(host, typeof(ITGByond));
 			AddEndpoint(host, typeof(ITGChat));
 			AddEndpoint(host, typeof(ITGCompiler));
-			AddEndpoint(host, typeof(ITGConfig));
+			AddEndpoint(host, typeof(ITGStatic));
+			AddEndpoint(host, typeof(ITGConnectivity));
 			AddEndpoint(host, typeof(ITGDreamDaemon));
 			AddEndpoint(host, typeof(ITGInstance));
 			AddEndpoint(host, typeof(ITGInterop));
 			AddEndpoint(host, typeof(ITGRepository));
-
-			host.Authorization.ServiceAuthorizationManager = instance;
+			
 			host.Authentication.ServiceAuthenticationManager = new AuthenticationHeaderDecoder();
 			return host;
 		}
@@ -345,10 +326,8 @@ namespace TGS.Server
 			host.AddServiceEndpoint(typetype, httpsBinding, bindingName);
 		}
 
-		/// <summary>
-		/// Shuts down all active <see cref="ServiceHost"/>s and calls <see cref="IDisposable.Dispose"/> on it's <see cref="Instance"/>
-		/// </summary>
-		void OnStop()
+		/// <inheritdoc />
+		public void Stop()
 		{
 			lock (this)
 			{
@@ -357,10 +336,9 @@ namespace TGS.Server
 					foreach (var I in hosts)
 					{
 						var host = I.Value;
-						var instance = (Instance)host.SingletonInstance;
+						var instance = ((WCFContractRelay)host.SingletonInstance).GetInstance();
 						host.Close();
 						instance.Dispose();
-						UnlockLoggingID(instance.LoggingID);
 					}
 				}
 				catch (Exception e)
@@ -369,7 +347,8 @@ namespace TGS.Server
 				}
 				serviceHost.Close();
 			}
-			Config.Save(DefaultConfigDirectory);
+			Config.Save(IO);
+			serviceHost = null;
 		}
 
 		/// <inheritdoc />
@@ -379,7 +358,7 @@ namespace TGS.Server
 		public void PrepareForUpdate()
 		{
 			foreach (var I in hosts)
-				((Instance)I.Value.SingletonInstance).Reattach(false);
+				((WCFContractRelay)I.Value.SingletonInstance).GetInstance().Reattach(false);
 		}
 
 		/// <inheritdoc />
@@ -406,9 +385,9 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public bool SetPythonPath(string path)
 		{
-			if (!Directory.Exists(path))
+			if (!IO.DirectoryExists(path).Result)
 				return false;
-			Config.PythonPath = Path.GetFullPath(path);
+			Config.PythonPath = IO.ResolvePath(path);
 			return true;
 		}
 
@@ -429,7 +408,6 @@ namespace TGS.Server
 						Name = ic.Name,
 						Path = ic.Directory,
 						Enabled = ic.Enabled,
-						LoggingID = (byte)(ic.Enabled ? ((Instance)hosts[ic.Name].SingletonInstance).LoggingID : 0)
 					});
 			return result;
 		}
@@ -437,11 +415,11 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string CreateInstance(string Name, string path)
 		{
-			path = Helpers.NormalizePath(path);
+			path = IO.ResolvePath(path);
 			var res = CheckInstanceName(Name);
 			if (res != null)
 				return res;
-			if (File.Exists(path) || Directory.Exists(path))
+			if (IO.FileExists(path).Result || IO.DirectoryExists(path).Result)
 				return "Cannot create instance at pre-existing path!";
 			lock (this)
 			{
@@ -457,8 +435,8 @@ namespace TGS.Server
 					{
 						Name = Name
 					};
-					Directory.CreateDirectory(path);
-					ic.Save();
+					IO.CreateDirectory(path).Wait();
+					ic.Save(IO);
 					Config.InstancePaths.Add(path);
 				}
 				catch (Exception e)
@@ -497,21 +475,21 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public string ImportInstance(string path)
 		{
-			path = Helpers.NormalizePath(path);
+			path = IO.ResolvePath(path);
 			lock (this)
 			{
 				if (Config.InstancePaths.Contains(path))
 					return String.Format("Instance at {0} already exists!", path);
-				if(!Directory.Exists(path))
+				if(!IO.DirectoryExists(path).Result)
 					return String.Format("There is no instance located at {0}!", path);
 				IInstanceConfig ic;
 				try
 				{
-					ic = InstanceConfig.Load(path);
+					ic = InstanceConfig.Load(path, IO);
 					foreach(var oic in GetInstanceConfigs())
 						if(ic.Name == oic.Name)
 							return String.Format("Instance named {0} already exists!", oic.Name);
-					ic.Save();
+					ic.Save(IO);
 					Config.InstancePaths.Add(path);
 				}
 				catch (Exception e)
@@ -560,7 +538,7 @@ namespace TGS.Server
 						{
 							path = ic.Directory;
 							ic.Enabled = true;
-							ic.Save();
+							ic.Save(IO);
 							return SetupOneInstance(ic);
 						}
 					return String.Format("Instance {0} does not exist!", Name);
@@ -571,12 +549,11 @@ namespace TGS.Server
 						return null;
 					var host = hosts[Name];
 					hosts.Remove(Name);
-					var inst = (Instance)host.SingletonInstance;
+					var inst = ((WCFContractRelay)host.SingletonInstance).GetInstance();
 					host.Close();
 					path = inst.ServerDirectory();
 					inst.Offline();
 					inst.Dispose();
-					UnlockLoggingID(inst.LoggingID);
 					return null;
 				}
 			}
@@ -611,7 +588,7 @@ namespace TGS.Server
 				string result = "";
 				try
 				{
-					the_droid_were_looking_for.Save();
+					the_droid_were_looking_for.Save(IO);
 					result = null;
 				}
 				catch(Exception e)
@@ -652,49 +629,14 @@ namespace TGS.Server
 				return null;
 			}
 		}
-
-		#region IDisposable Support
+		
 		/// <summary>
-		/// To detect redundant <see cref="Dispose()"/> calls
-		/// </summary>
-		private bool disposedValue = false;
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern. Calls <see cref="OnStop"/>
-		/// </summary>
-		/// <param name="disposing"><see langword="true"/> if <see cref="Dispose()"/> was called manually, <see langword="false"/> if it was from the finalizer</param>
-		void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					OnStop();
-				}
-
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
-
-				disposedValue = true;
-			}
-		}
-
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-		// ~Server() {
-		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-		//   Dispose(false);
-		// }
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
+		/// Calls <see cref="Stop"/> if it hasn't been called already
 		/// </summary>
 		public void Dispose()
 		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
+			if (serviceHost != null)
+				Stop();
 		}
-		#endregion
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.ServiceModel;
 using TGS.Interface.Components;
+using TGS.Server.Logging;
 
 namespace TGS.Server.Security
 {
@@ -12,8 +13,24 @@ namespace TGS.Server.Security
 	/// </summary>
 	sealed class RootAuthorizationManager : ServiceAuthorizationManager
 	{
+		public static IList<ServiceAuthorizationManager> InstanceAuthManagers { get; private set; } = new List<ServiceAuthorizationManager>();
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="RootAuthorizationManager"/>
+		/// </summary>
+		readonly ILogger Logger;
+		
 		string LastSeenUser;
-		public static readonly IList<ServiceAuthorizationManager> InstanceAuthManagers = new List<ServiceAuthorizationManager>();
+
+		/// <summary>
+		/// Construct a <see cref="RootAuthorizationManager"/>
+		/// </summary>
+		/// <param name="logger">The value for <see cref="Logger"/></param>
+		public RootAuthorizationManager(ILogger logger)
+		{
+			Logger = logger;
+		}
+
 		protected override bool CheckAccessCore(OperationContext operationContext)
 		{
 			var contract = operationContext.EndpointDispatcher.ContractName;
@@ -33,7 +50,7 @@ namespace TGS.Server.Security
 			if (LastSeenUser != user)
 			{
 				LastSeenUser = user;
-				Server.Logger.WriteAccess(String.Format("Root access from: {0}", user), authSuccess, Server.LoggingID);
+				Logger.WriteAccess(String.Format("Root access from: {0}", user), authSuccess, Server.LoggingID);
 			}
 			return authSuccess;
 		}

@@ -22,10 +22,7 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 			mock.SetReturnsDefault<string>(null);
 			return mock;
 		}
-
-		/// <summary>
-		/// Tests the results of <see cref="ITGRepository.PushTestmergeCommits"/>
-		/// </summary>
+		
 		[TestMethod]
 		public void TestPushTestmergeCommits()
 		{

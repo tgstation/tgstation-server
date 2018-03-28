@@ -8,7 +8,7 @@ namespace TGS.Interface.Components
 	/// Most if not all of these will not apply until the next server reboot
 	/// </summary>
 	[ServiceContract]
-	public interface ITGConfig
+	public interface ITGStatic
 	{
 
 		/// <summary>

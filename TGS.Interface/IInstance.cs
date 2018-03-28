@@ -33,9 +33,9 @@ namespace TGS.Interface
 		ITGCompiler Compiler { get; }
 
 		/// <summary>
-		/// The <see cref="ITGConfig"/> component
+		/// The <see cref="ITGStatic"/> component
 		/// </summary>
-		ITGConfig Config { get; }
+		ITGStatic StaticFiles { get; }
 
 		/// <summary>
 		/// The <see cref="ITGDreamDaemon"/> component

@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TGS.Interface;
 using TGS.Interface.Components;
-using TGS.Server;
+using TGS.Server.Configuration;
+using TGS.Server.IO;
 
 namespace TGS.Installer.UI
 {
@@ -178,7 +179,7 @@ namespace TGS.Installer.UI
 			var path = @"C:\TGSTATION-SERVER-3";
 			if (Directory.Exists(path)) {
 				sc.InstancePaths.Add(path);
-				new InstanceConfig(path).Save();
+				new InstanceConfig(path).Save(new IOManager());
 				return MessageBox.Show(String.Format("Unable to migrate settings, default config created at {0}. You will need to reconfigure your server instance. Continue with installation?", path), "Migration Error", MessageBoxButtons.YesNo) == DialogResult.Yes;
 			}
 			return MessageBox.Show("All config migrations have failed. You will need to fully recreate your server. Continue with installation?", "Migration Failure", MessageBoxButtons.YesNo) == DialogResult.Yes;
@@ -272,11 +273,12 @@ namespace TGS.Installer.UI
 							return false;
 						}
 					}
+					var IO = new IOManager();
 
 					path = Path.Combine(tempDir, "user.config");
 					var netConfigPath = Path.Combine(lastModified.FullName, "user.config");
 					File.Copy(netConfigPath, path, true);
-					new InstanceConfig(tempDir).Save();
+					new InstanceConfig(tempDir).Save(IO);
 
 					var instanceConfigPath = Path.Combine(tempDir, "Instance.json");
 
@@ -306,7 +308,7 @@ namespace TGS.Installer.UI
 					//validate it for good measure
 					try
 					{
-						InstanceConfig.Load(tempDir);
+						InstanceConfig.Load(tempDir, IO);
 					}
 					catch (Exception e)
 					{
@@ -320,8 +322,7 @@ namespace TGS.Installer.UI
 			}
 			finally
 			{
-				Directory.CreateDirectory(Server.Server.MigrationConfigDirectory);
-				sc.Save(Server.Server.MigrationConfigDirectory);
+				sc.Save(ServerConfig.MigrationConfigDirectory, new IOManager());
 			}
 		}
 

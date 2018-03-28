@@ -12,9 +12,6 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 	[TestClass]
 	public class TestRepoSetPushTestmergeCommitsCommand : RepositoryCommandTest
 	{
-		/// <summary>
-		/// Ensure it can be turned on
-		/// </summary>
 		[TestMethod]
 		public void TestTurnOn()
 		{
@@ -25,10 +22,7 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 			Assert.AreEqual(new RepoSetPushTestmergeCommitsCommand().DoRun(new List<string> { "on" }), Command.ExitCode.Normal);
 			Assert.IsTrue(ran);
 		}
-
-		/// <summary>
-		/// Ensure that it can be turned off
-		/// </summary>
+		
 		[TestMethod]
 		public void TestTurnOff()
 		{
@@ -40,10 +34,7 @@ namespace TGS.CommandLine.Commands.Repository.Tests
 			Assert.AreEqual(new RepoSetPushTestmergeCommitsCommand().DoRun(new List<string> { "off" }), Command.ExitCode.Normal);
 			Assert.IsTrue(ran);
 		}
-
-		/// <summary>
-		/// Ensure that <see cref="Command.ExitCode.BadCommand"/> is returned for gibberish parameters
-		/// </summary>
+		
 		[TestMethod]
 		public void TestGibberishParam()
 		{

@@ -64,6 +64,15 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Octokit, Version=0.28.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.28.0\lib\net45\Octokit.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Wcf, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Wcf.4.0.12\lib\net40\SimpleInjector.Integration.Wcf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -81,43 +90,79 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Security\AuthenticationHeaderDecoder.cs" />
-    <Compile Include="ChatCommands\ByondCommand.cs" />
-    <Compile Include="ChatCommands\CommandInfo.cs" />
-    <Compile Include="ChatCommands\ChatCommand.cs" />
-    <Compile Include="ChatCommands\KekCommand.cs" />
-    <Compile Include="ChatCommands\PullRequestsCommand.cs" />
-    <Compile Include="ChatCommands\RevisionCommand.cs" />
-    <Compile Include="ChatCommands\RootChatCommand.cs" />
-    <Compile Include="ChatCommands\ServerChatCommand.cs" />
-    <Compile Include="ChatCommands\VersionCommand.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="ILogger.cs" />
+    <Compile Include="ActionEvent.cs" />
+    <Compile Include="Chat\Commands\ByondCommand.cs" />
+    <Compile Include="Chat\Commands\CommandInfo.cs" />
+    <Compile Include="Chat\Commands\ChatCommand.cs" />
+    <Compile Include="Chat\Commands\KekCommand.cs" />
+    <Compile Include="Chat\Commands\PullRequestsCommand.cs" />
+    <Compile Include="Chat\Commands\RevisionCommand.cs" />
+    <Compile Include="Chat\Commands\RootChatCommand.cs" />
+    <Compile Include="Chat\Commands\ServerChatCommand.cs" />
+    <Compile Include="Chat\Commands\VersionCommand.cs" />
+    <Compile Include="Chat\Providers\OnChatMessage.cs" />
+    <Compile Include="Components\DreamDaemonManager.cs" />
+    <Compile Include="Components\IActionEventManager.cs" />
+    <Compile Include="Components\IAdministrationManager.cs" />
+    <Compile Include="Components\ICompilerManager.cs" />
+    <Compile Include="Components\IConnectivityManager.cs" />
+    <Compile Include="Components\IDreamDaemonManager.cs" />
+    <Compile Include="Components\IInstance.cs" />
+    <Compile Include="Components\IInteropManager.cs" />
+    <Compile Include="IO\InstanceIOManager.cs" />
+    <Compile Include="InteropCommand.cs" />
+    <Compile Include="Components\InteropManager.cs" />
+    <Compile Include="Components\IRepositoryManager.cs" />
+    <Compile Include="Components\IStaticManager.cs" />
+    <Compile Include="Chat\Commands\PopulateCommandInfoEventArgs.cs" />
+    <Compile Include="Components\RepositoryManager.cs" />
+    <Compile Include="Components\IChatManager.cs" />
+    <Compile Include="Components\StaticManager.cs" />
+    <Compile Include="Components\WCFContractRelay.cs" />
+    <Compile Include="IoC\DependencyInjector.cs" />
+    <Compile Include="IoC\DependencyInjectorFactory.cs" />
+    <Compile Include="IoC\IDependencyInjector.cs" />
+    <Compile Include="IoC\IDependencyInjectorFactory.cs" />
+    <Compile Include="KillRequestEventArgs.cs" />
+    <Compile Include="Logging\IInstanceLogger.cs" />
+    <Compile Include="IO\IIOManager.cs" />
+    <Compile Include="Configuration\IInstanceConfig.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\ILoggingIDProvider.cs" />
+    <Compile Include="Components\ByondManager.cs" />
+    <Compile Include="Components\IByondManager.cs" />
+    <Compile Include="IO\IOManager.cs" />
+    <Compile Include="Configuration\IRepoConfig.cs" />
+    <Compile Include="Configuration\IRepoConfigProvider.cs" />
+    <Compile Include="IRepositoryProvider.cs" />
+    <Compile Include="IServer.cs" />
+    <Compile Include="Configuration\IServerConfig.cs" />
+    <Compile Include="IServerFactory.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="RepositoryProvider.cs" />
+    <Compile Include="Configuration\DeprecatedInstanceConfig.cs" />
+    <Compile Include="Configuration\InstanceConfig.cs" />
+    <Compile Include="Chat\MessageType.cs" />
+    <Compile Include="Configuration\RepoConfig.cs" />
+    <Compile Include="Components\AdministrationManager.cs" />
+    <Compile Include="Components\ChatManager.cs" />
+    <Compile Include="Chat\Providers\IProvider.cs" />
+    <Compile Include="Components\CompilerManager.cs" />
+    <Compile Include="Chat\Providers\DiscordProvider.cs" />
+    <Compile Include="Logging\EventID.cs" />
+    <Compile Include="Components\Instance.cs" />
+    <Compile Include="Chat\Providers\IRCProvider.cs" />
+    <Compile Include="Components\ActionEventManager.cs" />
+    <Compile Include="ProcessExtensions.cs" />
     <Compile Include="Security\RootAuthorizationManager.cs" />
-    <Compile Include="DeprecatedInstanceConfig.cs" />
-    <Compile Include="InstanceConfig.cs" />
-    <Compile Include="MessageType.cs" />
-    <Compile Include="RepoConfig.cs" />
-    <Compile Include="Instance\Administration.cs" />
-    <Compile Include="Instance\Byond.cs" />
-    <Compile Include="Instance\Chat.cs" />
-    <Compile Include="ChatProviders\ChatProvider.cs" />
-    <Compile Include="Instance\Compiler.cs" />
-    <Compile Include="Instance\Config.cs" />
-    <Compile Include="ChatProviders\DiscordChatProvider.cs" />
-    <Compile Include="Instance\DreamDaemon.cs" />
-    <Compile Include="EventID.cs" />
-    <Compile Include="Instance\Instance.cs" />
-    <Compile Include="ChatProviders\IRCChatProvider.cs" />
-    <Compile Include="Instance\Interop.cs" />
-    <Compile Include="Instance\PreactionHandler.cs" />
-    <Compile Include="ProcessExtension.cs" />
-    <Compile Include="Instance\Repository.cs" />
     <Compile Include="Security\WindowsAuthorizationPolicy.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\AssemblyInfo.global.cs" />
-    <Compile Include="ServerConfig.cs" />
+    <Compile Include="Configuration\ServerConfig.cs" />
+    <Compile Include="ServerFactory.cs" />
+    <Compile Include="IO\SymlinkException.cs" />
+    <Compile Include="Security\AuthenticationHeaderDecoder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

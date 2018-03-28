@@ -4,7 +4,7 @@ using System.ServiceModel;
 namespace TGS.Interface.Components
 {
 	/// <summary>
-	/// Interface for managing the service
+	/// Interface for managing the root server
 	/// </summary>
 	[ServiceContract]
 	public interface ITGSService

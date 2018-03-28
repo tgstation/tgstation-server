@@ -78,7 +78,7 @@ namespace TGS.Interface
 		{
 			ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, error) =>
 			{
-				string ErrorMessage;
+				string ErrorMessage = "This doesn't seem physically possible!";
 				switch (error)
 				{
 					case SslPolicyErrors.None:
@@ -91,9 +91,6 @@ namespace TGS.Interface
 						break;
 					case SslPolicyErrors.RemoteCertificateNotAvailable:
 						ErrorMessage = "The certificate doesn't exist in the trust store.";
-						break;
-					default:
-						ErrorMessage = "An unknown error occurred.";
 						break;
 				}
 				ErrorMessage = String.Format("The server's certificate failed to verify! Error: {0} Cert: {1}", ErrorMessage, cert.ToString());

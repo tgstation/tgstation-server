@@ -192,12 +192,16 @@ namespace TGS.ControlPanel
 		void PullRequestManager_Load(object sender, EventArgs e)
 		{
 			Enabled = false;
-			var repo = currentInterface.Repository;
-			if(!Program.GetRepositoryRemote(repo, out repoOwner, out repoName))
+			var remote = currentInterface.Repository.GetRemote(out string error);
+			if (error == null && !remote.ToLower().Contains("github.com"))
+				error = String.Format("Remote {0} is not a valid GitHub repository!", remote);
+			if(error != null)
 			{
+				MessageBox.Show(error);
 				Close();
 				return;
 			}
+			Helpers.GetRepositoryRemote(remote, out repoOwner, out repoName);
 			LoadPullRequests();
 		}
 

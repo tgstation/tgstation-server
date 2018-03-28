@@ -71,6 +71,20 @@ namespace TGS.Interface
 				serverInterface.GetComponent<ITGConnectivity>(metadata.Name).VerifyConnection();
 		}
 
+		/// <summary>
+		/// Used for implementing the <see cref="ITGInstance"/> component of <see cref="IInstance"/>
+		/// </summary>
+		ITGInstance InstanceComponent => serverInterface.GetComponent<ITGInstance>(metadata.Name);
+
+		/// <summary>
+		/// Get a string representation of the <see cref="Instance"/>
+		/// </summary>
+		/// <returns>A string representation of the <see cref="Instance"/></returns>
+		public override string ToString()
+		{
+			return String.Format("{0} - {1} - {2}", metadata.Name, metadata.Path, metadata.Enabled ? "ONLINE" : "OFFLINE");
+		}
+
 		/// <inheritdoc />
 		public ITGAdministration Administration => UserIsAdministrator ? serverInterface.GetComponent<ITGAdministration>(metadata.Name) : null;
 
@@ -84,7 +98,7 @@ namespace TGS.Interface
 		public ITGCompiler Compiler => serverInterface.GetComponent<ITGCompiler>(metadata.Name);
 
 		/// <inheritdoc />
-		public ITGConfig Config => serverInterface.GetComponent<ITGConfig>(metadata.Name);
+		public ITGStatic StaticFiles => serverInterface.GetComponent<ITGStatic>(metadata.Name);
 
 		/// <inheritdoc />
 		public ITGDreamDaemon DreamDaemon => serverInterface.GetComponent<ITGDreamDaemon>(metadata.Name);
@@ -98,22 +112,31 @@ namespace TGS.Interface
 		/// <inheritdoc />
 		public string ServerDirectory()
 		{
-			return serverInterface.GetComponent<ITGInstance>(metadata.Name).ServerDirectory();
+			return InstanceComponent.ServerDirectory();
 		}
 
 		/// <inheritdoc />
 		public string Version()
 		{
-			return serverInterface.GetComponent<ITGInstance>(metadata.Name).Version();
+			return InstanceComponent.Version();
 		}
 
-		/// <summary>
-		/// Get a string representation of the <see cref="Instance"/>
-		/// </summary>
-		/// <returns>A string representation of the <see cref="Instance"/></returns>
-		public override string ToString()
+		/// <inheritdoc />
+		public string UpdateTGS3Json()
 		{
-			return String.Format("{0}: {1} - {2} - {3}", metadata.LoggingID, metadata.Name, metadata.Path, metadata.Enabled ? "ONLINE" : "OFFLINE");
+			return InstanceComponent.UpdateTGS3Json();
+		}
+
+		/// <inheritdoc />
+		public void SetAutoUpdateInterval(ulong newInterval)
+		{
+			InstanceComponent.SetAutoUpdateInterval(newInterval);
+		}
+
+		/// <inheritdoc />
+		public ulong AutoUpdateInterval()
+		{
+			return InstanceComponent.AutoUpdateInterval();
 		}
 	}
 }

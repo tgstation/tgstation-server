@@ -66,7 +66,7 @@ namespace TGS.CommandLine
 
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Instance.Repository.UpdateTGS3Json();
+			var res = Instance.UpdateTGS3Json();
 			if (res != null)
 			{
 				OutputProc(res);
@@ -85,7 +85,7 @@ namespace TGS.CommandLine
 		}
 		protected override ExitCode Run(IList<string> parameters)
 		{
-			var res = Instance.Repository.Setup(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
+			var res = Instance.Repository.Clone(parameters[0], parameters.Count > 1 ? parameters[1] : "master");
 			if (res != null)
 			{
 				OutputProc("Error: " + res);
