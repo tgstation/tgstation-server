@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using TGS.Interface;
 using TGS.Interface.Components;
 
 namespace TGS.ControlPanel
@@ -10,6 +9,7 @@ namespace TGS.ControlPanel
 	partial class ControlPanel
 	{
 		IDictionary<int, string> IndexesToPaths = new Dictionary<int, string>();
+		string originalCurrentFileContent;
 		IList<string> EnumeratedPaths = new List<string>() { "" };
 		bool enumerating = false;
 		/// <summary>
@@ -147,7 +147,7 @@ namespace TGS.ControlPanel
 			if (error == null)
 				try
 				{
-					error = Instance.Config.WriteText(FileName, fileContents, out bool unauthorized);
+					error = Instance.Config.WriteText(FileName, fileContents, null, out bool unauthorized);
 				}
 				catch (Exception ex)
 				{
@@ -237,7 +237,7 @@ namespace TGS.ControlPanel
 			if (resu == DialogResult.Yes)
 				FullFileName = Path.Combine(FullFileName, "__TGS3_CP_DIRECTORY_CREATOR__");
 			var config = Instance.Config;
-			var res = config.WriteText(FullFileName, "", out bool unauthorized);
+			var res = config.WriteText(FullFileName, "", null, out bool unauthorized);
 			if (res != null)
 				MessageBox.Show(res);
 			if (resu == DialogResult.Yes)
@@ -255,7 +255,9 @@ namespace TGS.ControlPanel
 			bool unauthorized;
 			try
 			{
-				res = Instance.Config.WriteText(IndexesToPaths[index], StaticFileEditTextbox.Text, out unauthorized);
+				res = Instance.Config.WriteText(IndexesToPaths[index], StaticFileEditTextbox.Text, originalCurrentFileContent, out unauthorized);
+				if (res == null)
+					originalCurrentFileContent = StaticFileEditTextbox.Text;
 			}
 			catch (Exception ex)
 			{
@@ -325,6 +327,7 @@ namespace TGS.ControlPanel
 				else
 				{
 					StaticFileEditTextbox.ReadOnly = false;
+					originalCurrentFileContent = entry;
 					StaticFileEditTextbox.Text = entry.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", Environment.NewLine);
 				}
 			}

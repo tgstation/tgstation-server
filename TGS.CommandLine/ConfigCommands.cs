@@ -147,7 +147,7 @@ namespace TGS.CommandLine
 		{
 			try
 			{
-				var res = Instance.Config.WriteText(parameters[0], File.ReadAllText(parameters[1]), out bool unauthorized);
+				var res = Instance.Config.WriteText(parameters[0], File.ReadAllText(parameters[1]), null, out bool unauthorized);
 				if (res != null)
 				{
 					OutputProc("Error: " + res);
