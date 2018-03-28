@@ -22,6 +22,7 @@ cache:
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
   - choco install fciv doxygen.portable codecov
+  - nuget restore tgstation-server.sln
 build:
   project: tgstation-server.sln
   parallel: false
@@ -35,7 +36,13 @@ after_build:
 test_script:
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
   - copy "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\appveyor.*" "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions" /y
-  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Host.Console.Tests\bin\Release\netcoreapp2.1\Tgstation.Server.Host.Console.Tests.dll" /Enablecodecoverage /Settings:"Tools/CoverageExclusions.runsettings" /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Api.Tests\bin\%CONFIGURATION%\netcoreapp2.1\Tgstation.Server.Api.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Client.Tests\bin\%CONFIGURATION%\netcoreapp2.1\Tgstation.Server.Client.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.CommandLine.Tests\bin\%CONFIGURATION%\netcoreapp2.1\Tgstation.Server.CommandLine.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Host.Tests\bin\%CONFIGURATION%\netcoreapp2.1\Tgstation.Server.Host.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Host.Console.Tests\bin\%CONFIGURATION%\netcoreapp2.1\Tgstation.Server.Host.Console.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Host.Service.Tests\bin\%CONFIGURATION%\Tgstation.Server.Host.Service.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.ControlPanel.Tests\bin\%CONFIGURATION%\Tgstation.Server.ControlPanel.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
 after_test:

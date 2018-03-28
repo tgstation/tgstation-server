@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Tgstation.Server.Host.Console\Tgstation.Server.Host.Console.csproj" />
+    <ProjectReference Include="..\..\src\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
   </ItemGroup>
 
 </Project>
