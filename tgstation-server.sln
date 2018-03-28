@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA32568D-1D8D-4A4C-9943-BFD3CE796B3F}"
+	ProjectSection(SolutionItems) = preProject
+		.codecov.yml = .codecov.yml
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Console", "src\Tgstation.Server.Host.Console\Tgstation.Server.Host.Console.csproj", "{A09C947F-4B9B-4AEE-AB50-47055EA05F18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Console.Tests", "tests\Tgstation.Server.Host.Console.Tests\Tgstation.Server.Host.Console.Tests.csproj", "{D36B99C4-E771-42D6-A95F-1102B3E236DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6-3E2C-46D4-872D-D528F77D6973}"
+	ProjectSection(SolutionItems) = preProject
+		build\BuildDox.ps1 = build\BuildDox.ps1
+		build\Doxyfile = build\Doxyfile
+		build\UploadCoverage.ps1 = build\UploadCoverage.ps1
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
+	EndGlobalSection
+EndGlobal
