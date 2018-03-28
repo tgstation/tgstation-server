@@ -39,11 +39,12 @@ namespace TGS.Interface.Components
 		/// </summary>
 		/// <param name="staticRelativePath">The path from the Static dir. E.g. config/config.txt</param>
 		/// <param name="data">The full text of the config file</param>
+		/// <param name="originalData">The original data that the client knows about. Set to null to skip checks</param>
 		/// <param name="unauthorized">This will be true if error is set to a message that indicates the current user does not have access to the specified file</param>
 		/// <returns>null on success, error message on failure</returns>
 		/// <exception cref="CommunicationException">Along with implied disconnect exceptions, if the file exceeds transfer limits</exception>
 		[OperationContract]
-		string WriteText(string staticRelativePath, string data, out bool unauthorized);
+		string WriteText(string staticRelativePath, string data, string originalData, out bool unauthorized);
 
 		/// <summary>
 		/// Deletes the target static file

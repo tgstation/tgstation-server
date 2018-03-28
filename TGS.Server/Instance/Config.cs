@@ -99,7 +99,7 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string WriteText(string staticRelativePath, string data, out bool unauthorized)
+		public string WriteText(string staticRelativePath, string data, string originalData, out bool unauthorized)
 		{
 			var path = RelativePath(StaticDirs) + '/' + staticRelativePath;   //do not use path.combine or it will try and take the root
 			try
@@ -129,6 +129,11 @@ namespace TGS.Server
 
 					using (Server.BeginImpersonation())
 					{
+						if (originalData != null && File.ReadAllText(path) != originalData)
+						{
+							unauthorized = false;
+							return "File has changed since being initially read. Please refresh!";
+						}
 						Directory.CreateDirectory(destdir);
 						File.WriteAllText(path, data);
 					}
