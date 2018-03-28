@@ -1,0 +1,11 @@
+*/.dockerignore
+*/docker-compose.yml
+*/docker-compose.*.yml
+.env
+.git
+.gitignore
+.vs
+.vscode
+legacy
+*/bin
+*/obj
