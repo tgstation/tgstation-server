@@ -46,11 +46,10 @@ namespace TGS.ControlPanel
 			if (updatingFields || currentLoginInfo == null)
 				return;
 			updatingFields = true;
-			currentLoginInfo = null;
 			switch (start) {
 				case 1:
 					IPComboBox.Text = "";
-					goto case 2;
+					goto case 2; //reason number #3 why you shouldn't use c#
 				case 2:
 					PortSelector.Value = 38607;
 					goto case 3;
@@ -58,10 +57,11 @@ namespace TGS.ControlPanel
 					UsernameTextBox.Text = "";
 					goto case 4;
 				case 4:
-					if (currentLoginInfo.HasPassword)
+					if (currentLoginInfo?.HasPassword ?? false) //reason number #749 why you shouldn't use c#
 						PasswordTextBox.Text = "";		
 					break;
 			}
+			currentLoginInfo = null;
 			updatingFields = false;
 		}
 
