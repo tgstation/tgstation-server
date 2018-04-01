@@ -14,4 +14,4 @@ install:
   - cd src/Tgstation.Server.Host.Console && dotnet restore
 
 script:
-  - cd src/Tgstation.Server.Host.Console && dotnet test -c $CONFIGURATION tgstation-server.sln
+  - dotnet test -c $CONFIGURATION
