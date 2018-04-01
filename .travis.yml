@@ -11,7 +11,7 @@ matrix:
       env: CONFIGURATION="Release"
 
 install:
-  - dotnet restore tgstation-server.sln
+  - cd src/Tgstation.Server.Host.Console && dotnet restore
 
 script:
-  - dotnet test -c $CONFIGURATION tgstation-server.sln
+  - cd src/Tgstation.Server.Host.Console && dotnet test -c $CONFIGURATION tgstation-server.sln
