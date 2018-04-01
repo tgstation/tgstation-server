@@ -15,7 +15,7 @@ configuration:
   - Release
 shallow_clone: true
 artifacts:
-  - path artifacts/ServerConsole
+  - path: artifacts/ServerConsole
 cache:
   - ~\.nuget\packages -> **\*.csproj
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
