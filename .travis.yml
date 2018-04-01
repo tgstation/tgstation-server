@@ -1,27 +1,17 @@
 language: csharp
 sudo: false
+dotnet: 2.1
+mono: none
 
-env:
-    global:
-    - BYOND_MAJOR="511"
-    - BYOND_MINOR="1385"
-    - DMEName="Tools/DMAPITravisTester.dme"
-    matrix:
-    - BUILD_CLIENT=true
-    - BUILD_CLIENT=false
-
-cache:
-  directories:
-    - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
-
-addons:
-  apt:
-    packages:
-      - libc6-i386
-      - libstdc++6:i386
+matrix:
+  include:
+    - os: linux
+      env: CONFIGURATION="Debug"
+    - os: linux
+      env: CONFIGURATION="Release"
 
 install:
-  - if [ "$BUILD_CLIENT" = true ]; then nuget restore; else ./Tools/install_byond.sh; fi
+  - dotnet restore tgstation-server.sln
 
 script:
-  - if [ "$BUILD_CLIENT" = true ]; then msbuild /p:Configuration=Release-Client TGStationServer3.sln; else ./Tools/build_byond.sh; fi
+  - dotnet test -c $CONFIGURATION tgstation-server.sln
