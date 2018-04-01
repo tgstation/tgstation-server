@@ -8,7 +8,6 @@
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		static void Main()
 		{ 
 		}

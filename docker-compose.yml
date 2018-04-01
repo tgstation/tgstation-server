@@ -4,5 +4,5 @@ services:
   tgstation.server:
     image: tgstationserver
     build:
-      context: ../..
+      context: .
       dockerfile: build/Dockerfile

@@ -20,6 +20,9 @@ namespace Tgstation.Server.ControlPanel
 	/// </summary>
 	sealed partial class MainWindow : Window
 	{
+		/// <summary>
+		/// Construct a <see cref="MainWindow"/>
+		/// </summary>
 		public MainWindow()
 		{
 			InitializeComponent();

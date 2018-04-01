@@ -11,6 +11,10 @@ namespace Tgstation.Server.Host.Console
 		/// Entrypoint for the application
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		public static Task Main() => Task.CompletedTask;
+		public static Task Main()
+		{
+			System.Console.WriteLine("Hello world!");
+			return Task.CompletedTask;
+		}
 	}
 }

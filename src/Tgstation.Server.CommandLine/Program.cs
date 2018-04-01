@@ -10,8 +10,7 @@ namespace Tgstation.Server.CommandLine
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
-		/// <param name="args">The command line arguments for the application</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		public static Task Main(string[] args) => Task.CompletedTask;
+		public static Task Main() => Task.CompletedTask;
 	}
 }
