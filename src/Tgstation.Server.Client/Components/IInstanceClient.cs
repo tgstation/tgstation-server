@@ -6,7 +6,7 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
-	/// Client for <see cref="Instance"/>s
+	/// For managing a single <see cref="Instance"/>
 	/// </summary>
 	public interface IInstanceClient : IRightsClient<InstanceRights>
 	{

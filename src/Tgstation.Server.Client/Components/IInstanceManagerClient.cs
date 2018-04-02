@@ -7,9 +7,9 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
-	/// Manager for <see cref="Instance"/>s
+	/// For managing <see cref="Instance"/>s
 	/// </summary>
-    public interface IInstanceManagerClient : IRightsClient<InstanceRights>
+	public interface IInstanceManagerClient : IRightsClient<InstanceRights>
 	{
 		/// <summary>
 		/// Get all <see cref="IInstanceClient"/>s for <see cref="Instance"/>s the user can view
