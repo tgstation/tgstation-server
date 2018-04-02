@@ -43,7 +43,7 @@ test_script:
 after_test:
   - ps: build/UploadCoverage.ps1
   - ps: build/BuildDox.ps1
-  - ps: cd src/Tgstation.Server.Host.Console && dotnet publish -o artifacts/ServerConsole -c $env:CONFIGURATION
+  - ps: cd src/Tgstation.Server.Host.Console -and dotnet publish -o artifacts/ServerConsole -c $env:CONFIGURATION
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
