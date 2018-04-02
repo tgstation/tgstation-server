@@ -2,14 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// <see cref="IClient{TRights}"/> for communicating with a server
+	/// Main client for communicating with a server
 	/// </summary>
-	public interface IServerClient : IDisposable, IClient<ServerRights>
+	public interface IServerClient : IDisposable
 	{
 		/// <summary>
 		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>
@@ -17,14 +16,24 @@ namespace Tgstation.Server.Client
 		Version Version { get; }
 
 		/// <summary>
+		/// The connection timeout in milliseconds
+		/// </summary>
+		int Timeout { get; set; }
+
+		/// <summary>
+		/// The requery rate for job updates in milliseconds
+		/// </summary>
+		int RequeryRate { get; set; }
+
+		/// <summary>
 		/// Access the <see cref="ITokenClient"/>
 		/// </summary>
-		ITokenClient Token { get; }
+		ITokenClient Tokens { get; }
 
 		/// <summary>
 		/// Access the <see cref="IInstanceManagerClient"/>
 		/// </summary>
-		IInstanceManagerClient Instance { get; }
+		IInstanceManagerClient Instances { get; }
 
 		/// <summary>
 		/// The <see cref="System.Version"/> of the connected server

@@ -4,15 +4,10 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
-	/// <see cref="IClient{TRights}"/> for server instances
+	/// <see cref="IClient{TRights, TModel}"/> for server instances
 	/// </summary>
-	public interface IInstanceClient : IClient<InstanceRights>
+	public interface IInstanceClient : IClient<InstanceRights, Instance>
 	{
-		/// <summary>
-		/// The <see cref="Instance"/> of the <see cref="IInstanceClient"/>
-		/// </summary>
-		Instance Metadata { get; }
-
 		/// <summary>
 		/// Access the <see cref="IByondClient"/>
 		/// </summary>

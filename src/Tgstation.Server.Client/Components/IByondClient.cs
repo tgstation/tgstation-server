@@ -9,15 +9,8 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// For managing the BYOND installation
 	/// </summary>
-	public interface IByondClient : IClient<ByondRights>
+	public interface IByondClient : IClient<ByondRights, Byond>
 	{
-		/// <summary>
-		/// Gets the current status of any BYOND updates
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ByondStatus"/> updater</returns>
-		Task<Byond> Read(CancellationToken cancellationToken);
-
 		/// <summary>
 		/// Updates the installed BYOND <see cref="Version"/>
 		/// </summary>
