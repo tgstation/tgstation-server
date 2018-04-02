@@ -1,7 +1,7 @@
 ﻿using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client.Rights;
 
-namespace Tgstation.Server.Client
+namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
 	/// <see cref="IClient{TRights}"/> for server instances
@@ -12,5 +12,10 @@ namespace Tgstation.Server.Client
 		/// The <see cref="Instance"/> of the <see cref="IInstanceClient"/>
 		/// </summary>
 		Instance Metadata { get; }
+
+		/// <summary>
+		/// Access the <see cref="IByondClient"/>
+		/// </summary>
+		IByondClient Byond { get; }
 	}
 }

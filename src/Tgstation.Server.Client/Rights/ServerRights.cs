@@ -9,7 +9,7 @@ namespace Tgstation.Server.Client.Rights
 	public enum ServerRights
 	{
 		/// <summary>
-		/// Client has no rights
+		/// User has no rights
 		/// </summary>
 		None = 0,
 		/// <summary>
