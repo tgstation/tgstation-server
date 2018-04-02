@@ -21,7 +21,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		Delete = 2,
 		/// <summary>
-		/// User can list all their <see cref="Models.TokenInfo"/>s
+		/// User can list all their <see cref="Models.Token"/>s
 		/// </summary>
 		List = 4,
 		/// <summary>

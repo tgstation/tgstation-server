@@ -6,7 +6,7 @@
 	public sealed class Instance
 	{
 		/// <summary>
-		/// The id of the <see cref="Instance"/>
+		/// The id of the <see cref="Instance"/>. Not modifiable
 		/// </summary>
 		public long Id { get; set; }
 

@@ -1,12 +1,29 @@
-﻿namespace Tgstation.Server.Api.Models
+﻿using System.Net;
+
+namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// An <see cref="Api"/> access token
+	/// Represents an access token for the server
 	/// </summary>
-	public sealed class Token : TokenInfo
+	public sealed class Token
 	{
 		/// <summary>
-		/// The token <see cref="string"/>
+		/// The id of the <see cref="Token"/>. Not modifiable
+		/// </summary>
+		public long Id { get; }
+
+		/// <summary>
+		/// The user agent that created the <see cref="Token"/>
+		/// </summary>
+		public string ClientUserAgent { get; set; }
+
+		/// <summary>
+		/// The <see cref="IPAddress"/> the <see cref="Token"/> was originally issued to
+		/// </summary>
+		public IPAddress IssuedTo { get; set; }
+
+		/// <summary>
+		/// The token <see cref="string"/>. Not modifiable, only appears once
 		/// </summary>
 		public string Value { get; set; }
 	}

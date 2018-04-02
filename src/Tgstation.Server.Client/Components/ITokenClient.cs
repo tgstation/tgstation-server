@@ -9,26 +9,33 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// <see cref="IServerClient"/> for managing <see cref="Token"/>s
 	/// </summary>
-	public interface ITokenClient: IRightsClient<TokenRights, Token>
+	public interface ITokenClient: IRightsClient<TokenRights>
 	{
 		/// <summary>
-		/// Gets all active <see cref="TokenInfo"/>s for the <see cref="IServerClient"/>
+		/// Generate a new <see cref="Token"/> for the connected user, expiring the current one if applicable
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting a <see cref="IReadOnlyList{T}"/> of active <see cref="TokenInfo"/>s for the <see cref="IServerClient"/></returns>
-		Task<IReadOnlyList<TokenInfo>> GetClientInfos(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Token"/></returns>
+		Task<Token> Read(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets all active <see cref="TokenInfo"/>s for all users
+		/// Gets all active <see cref="Token"/>s for the <see cref="IServerClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting a <see cref="IReadOnlyDictionary{TKey, TValue}"/> of active <see cref="TokenInfo"/>s for the <see cref="IServerClient"/> keyed by username</returns>
-		Task<IReadOnlyDictionary<string, TokenInfo>> GetAllInfos(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting a <see cref="IReadOnlyList{T}"/> of active <see cref="Token"/>s for the <see cref="IServerClient"/></returns>
+		Task<IReadOnlyList<Token>> GetClientInfos(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Gets all active <see cref="Token"/>s for all users
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting a <see cref="IReadOnlyDictionary{TKey, TValue}"/> of active <see cref="Token"/>s for the <see cref="IServerClient"/> keyed by username</returns>
+		Task<IReadOnlyDictionary<string, Token>> GetAllInfos(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Invalidate the specified active <see cref="Token"/> designated by <paramref name="tokenId"/>
 		/// </summary>
-		/// <param name="tokenId">The <see cref="TokenInfo.Id"/> of the <see cref="Token"/> to invalidate</param>
+		/// <param name="tokenId">The <see cref="Token.Id"/> of the <see cref="Token"/> to invalidate</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Invalidate(long tokenId, CancellationToken cancellationToken);

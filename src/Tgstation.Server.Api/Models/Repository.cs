@@ -33,7 +33,7 @@ namespace Tgstation.Server.Api.Models
 		public string CommitterEmail { get; set; }
 
 		/// <summary>
-		/// Associated list of tag name -> sha for repository compiles
+		/// Associated list of tag name -> sha for repository compiles. Not modifiable
 		/// </summary>
 		public IReadOnlyDictionary<string, string> Backups { get; set; }
 

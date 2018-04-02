@@ -9,8 +9,15 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// Manager for <see cref="Instance"/>s
 	/// </summary>
-    public interface IInstanceManagerClient : IRightsClient<InstanceRights, IReadOnlyList<IInstanceClient>>
+    public interface IInstanceManagerClient : IRightsClient<InstanceRights>
 	{
+		/// <summary>
+		/// Get all <see cref="IInstanceClient"/>s for <see cref="Instance"/>s the user can view
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of all <see cref="IInstanceClient"/>s for <see cref="Instance"/>s the user can view</returns>
+		Task<IReadOnlyList<IInstanceClient>> Read(CancellationToken cancellationToken);
+
 		/// <summary>
 		/// Create an <paramref name="instance"/>
 		/// </summary>
