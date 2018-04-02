@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Client.Rights;
@@ -31,6 +32,6 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="System.Version"/> of the connected server</returns>
 		/// <remarks>Note that if the <see cref="System.Version.Build"/> differs from the <see cref="Version"/>'s API functionality will most likely be compromised</remarks>
-		Task<Version> GetServerVersion();
+		Task<Version> GetServerVersion(CancellationToken cancellationToken);
 	}
 }

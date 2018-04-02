@@ -14,14 +14,14 @@ namespace Tgstation.Server.Client.Tests
 		public async Task TestUserConstruction()
 		{
 			var factory = new ServerClientFactory();
-			await Assert.ThrowsExceptionAsync<NotImplementedException>(() => factory.CreateServerClient(null, null, null)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<NotImplementedException>(() => factory.CreateServerClient(null, null, null, default, default)).ConfigureAwait(false);
 		}
 
 		[TestMethod]
 		public async Task TestTokenConstruction()
 		{
 			var factory = new ServerClientFactory();
-			await Assert.ThrowsExceptionAsync<NotImplementedException>(() => factory.CreateServerClient(null, null)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<NotImplementedException>(() => factory.CreateServerClient(null, null, default, default)).ConfigureAwait(false);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Client
 {
@@ -21,7 +22,8 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Get the <typeparamref name="TRights"/> for the <see cref="IClient{TRights}"/>
 		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <typeparamref name="TRights"/> for the <see cref="IClient{TRights}"/></returns>
-		Task<TRights> Rights();
+		Task<TRights> Rights(CancellationToken cancellationToken);
 	}
 }
