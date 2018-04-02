@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Client.Rights;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client
 {

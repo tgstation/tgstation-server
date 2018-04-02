@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Client.Rights;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -16,15 +16,16 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ByondStatus"/> updater</returns>
-		Task<ByondStatus> CurrentStatus(CancellationToken cancellationToken);
+		Task<Byond> Read(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Updates the installed BYOND <see cref="Version"/>
 		/// </summary>
-		/// <param name="version">The <see cref="Version"/> to update to. Only considers the <see cref="Version.Major"/> and <see cref="Version.Minor"/> numbers</param>
+		/// <param name="byond">The <see cref="Byond"/> to update</param>
+		/// <param name="progressCallback">Optional <see cref="Action{T1}"/> taking a <see cref="ByondStatus"/> to run when it changes</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task UpdateToVersion(Version version, CancellationToken cancellationToken);
+		Task Update(Byond byond, Action<ByondStatus> progressCallback, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get the currently installed BYOND <see cref="Version"/>

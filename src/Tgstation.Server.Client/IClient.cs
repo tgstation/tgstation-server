@@ -6,7 +6,7 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Basic <see cref="Api"/> client
 	/// </summary>
-	/// <typeparam name="TRights">The <see cref="Client.Rights"/> for the <see cref="IClient{TRights}"/></typeparam>
+	/// <typeparam name="TRights">The <see cref="Api.Rights"/> for the <see cref="IClient{TRights}"/></typeparam>
 	public interface IClient<TRights>
 	{
 		/// <summary>

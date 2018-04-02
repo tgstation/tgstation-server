@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Tgstation.Server.Client.Rights
+namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for an <see cref="Components.IInstanceClient"/>
+	/// Rights for an <see cref="Models.Instance"/>
 	/// </summary>
 	[Flags]
 	public enum InstanceRights
@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// Allow access to <see cref="Components.IByondClient"/>
+		/// Allow access to <see cref="Models.Byond"/>
 		/// </summary>
 		Byond = 1,
 	}

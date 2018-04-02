@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Tgstation.Server.Client.Rights
+namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Components.IByondClient"/>
+	/// Rights for <see cref="Models.Byond"/>
 	/// </summary>
 	[Flags]
 	public enum ByondRights
@@ -33,8 +33,12 @@ namespace Tgstation.Server.Client.Rights
 		/// </summary>
 		Downgrade = 16,
 		/// <summary>
-		/// User may cancel any pending installation job
+		/// User may cancel a pending installation job
 		/// </summary>
-		Cancel = 32
+		Cancel = 32,
+		/// <summary>
+		/// User may read the <see cref="Models.ByondStatus"/> of the installation job
+		/// </summary>
+		ReadStatus = 64,
 	}
 }

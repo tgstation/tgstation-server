@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// The status of a BYOND update job
+	/// The status of a <see cref="Byond"/> update job
 	/// </summary>
 #pragma warning disable CA1717 // Only FlagsAttribute enums should have plural names
 	public enum ByondStatus
@@ -31,5 +31,9 @@
 		/// Revision is being applied
 		/// </summary>
 		Updating,
+		/// <summary>
+		/// User does not have permission to view the <see cref="ByondStatus"/>
+		/// </summary>
+		Hidden,
 	}
 }

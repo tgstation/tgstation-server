@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Client.Rights;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client.Components
 {

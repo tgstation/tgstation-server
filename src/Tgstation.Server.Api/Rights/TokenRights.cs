@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Tgstation.Server.Client.Rights
+namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Components.ITokenClient"/>
+	/// Rights for <see cref="Models.Token"/>s
 	/// </summary>
 	[Flags]
     public enum TokenRights
@@ -13,15 +13,15 @@ namespace Tgstation.Server.Client.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can create <see cref="Api.Models.Token"/>s
+		/// User can create <see cref="Models.Token"/>s
 		/// </summary>
 		Create = 1,
 		/// <summary>
-		/// User can delete <see cref="Api.Models.Token"/>s
+		/// User can delete <see cref="Models.Token"/>s
 		/// </summary>
 		Delete = 2,
 		/// <summary>
-		/// User can list all their <see cref="Api.Models.TokenInfo"/>s
+		/// User can list all their <see cref="Models.TokenInfo"/>s
 		/// </summary>
 		List = 4,
 		/// <summary>
