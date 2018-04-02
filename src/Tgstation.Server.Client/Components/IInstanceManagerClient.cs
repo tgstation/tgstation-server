@@ -9,7 +9,7 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// Manager for <see cref="Instance"/>s
 	/// </summary>
-    public interface IInstanceManagerClient : IClient<InstanceRights, IReadOnlyList<IInstanceClient>>
+    public interface IInstanceManagerClient : IRightsClient<InstanceRights, IReadOnlyList<IInstanceClient>>
 	{
 		/// <summary>
 		/// Create an <paramref name="instance"/>

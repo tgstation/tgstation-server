@@ -16,12 +16,17 @@ namespace Tgstation.Server.Client
 		Version Version { get; }
 
 		/// <summary>
-		/// The connection timeout in milliseconds
+		/// The connection timeout in milliseconds. Defaults to 10000
 		/// </summary>
 		int Timeout { get; set; }
 
 		/// <summary>
-		/// The requery rate for job updates in milliseconds
+		/// How long to return initially cached models for in seconds. Defaults to 60
+		/// </summary>
+		int CacheExpiry { get; set; }
+
+		/// <summary>
+		/// The requery rate for job updates in milliseconds. Defaults to 5000
 		/// </summary>
 		int RequeryRate { get; set; }
 

@@ -9,7 +9,7 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// <see cref="IServerClient"/> for managing <see cref="Token"/>s
 	/// </summary>
-	public interface ITokenClient: IClient<TokenRights, Token>
+	public interface ITokenClient: IRightsClient<TokenRights, Token>
 	{
 		/// <summary>
 		/// Gets all active <see cref="TokenInfo"/>s for the <see cref="IServerClient"/>
