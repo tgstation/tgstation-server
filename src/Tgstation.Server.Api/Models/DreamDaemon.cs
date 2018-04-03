@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -66,5 +67,10 @@ namespace Tgstation.Server.Api.Models
 		/// The port the running <see cref="DreamDaemon"/> instance is set to. Not modifiable
 		/// </summary>
 		public bool CurrentPort { get; set; }
+
+        /// <summary>
+        /// When the live revision was compiled. Not modifiable
+        /// </summary>
+        public DateTimeOffset CompiledOn { get; set; }
 	}
 }
