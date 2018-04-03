@@ -29,10 +29,10 @@ namespace Tgstation.Server.Api.Models
 		public InstanceManagerRights InstanceManagerRights { get; set; }
 
 		/// <summary>
-		/// <see cref="List{T}"/> of <see cref="Instance.Id"/>s the <see cref="User"/> can view
+		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Instance.Id"/>s the <see cref="User"/> can view mapped to a bool representing if they can set permissions for <see cref="User"/>s within that <see cref="Instance"/>
 		/// </summary>
 #pragma warning disable CA2227 // Collection properties should be read only
-		public List<long> ViewableInstanceIds { get; set; }
+		public Dictionary<long, bool> ViewableInstanceIds { get; set; }
 #pragma warning restore CA2227 // Collection properties should be read only
 	}
 }
