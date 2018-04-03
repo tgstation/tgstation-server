@@ -9,7 +9,7 @@ namespace Tgstation.Server.Api.Models
 	public sealed class User
 	{
 		/// <summary>
-		/// The system identifier for the <see cref="User"/>. On Windows, this is the user's SecurityIdentifier. On UNIX, this is their UID
+		/// The system identifier for the <see cref="User"/>. On Windows, this is the user's SecurityIdentifier. On UNIX, this is their UID. Not modifiable
 		/// </summary>
 		public string SystemIdentifier { get; set; }
 
@@ -27,12 +27,5 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="Rights.InstanceManagerRights"/> for the <see cref="User"/>
 		/// </summary>
 		public InstanceManagerRights InstanceManagerRights { get; set; }
-
-		/// <summary>
-		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Instance.Id"/>s the <see cref="User"/> can view mapped to a bool representing if they can set permissions for <see cref="User"/>s within that <see cref="Instance"/>
-		/// </summary>
-#pragma warning disable CA2227 // Collection properties should be read only
-		public Dictionary<long, bool> ViewableInstanceIds { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
 	}
 }

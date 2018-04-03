@@ -9,7 +9,7 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// For managing <see cref="Instance"/>s
 	/// </summary>
-	public interface IInstanceManagerClient : IRightsClient<InstanceRights>
+	public interface IInstanceManagerClient : IRightsClient<InstanceUserRights>
 	{
 		/// <summary>
 		/// Get all <see cref="IInstanceClient"/>s for <see cref="Instance"/>s the user can view

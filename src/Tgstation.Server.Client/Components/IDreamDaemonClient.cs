@@ -8,7 +8,7 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// For managing <see cref="DreamDaemon"/>
 	/// </summary>
-	interface IDreamDaemonClient: IRightsClient<DreamDaemonRights>
+	public interface IDreamDaemonClient: IRightsClient<DreamDaemonRights>
 	{
 		/// <summary>
 		/// Get the <see cref="DreamDaemon"/> represented by the <see cref="IDreamDaemonClient"/>
@@ -25,11 +25,11 @@ namespace Tgstation.Server.Client.Components
 		Task Start(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Stop <see cref="DreamDaemon"/>
+		/// Shutdown <see cref="DreamDaemon"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Stop(CancellationToken cancellationToken);
+		Task Shutdown(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Update <see cref="DreamDaemon"/>. This may trigger <see cref="DreamDaemon.SoftRestart"/>
