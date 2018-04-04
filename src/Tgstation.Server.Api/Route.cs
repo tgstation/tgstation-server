@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 
 namespace Tgstation.Server.Api
 {
@@ -16,5 +17,12 @@ namespace Tgstation.Server.Api
 		/// The method of the action
 		/// </summary>
 		public HttpMethod Method { get; set; }
+
+		/// <summary>
+		/// Adds a <paramref name="host"/> portion to <see cref="Path"/>
+		/// </summary>
+		/// <param name="host">The host address</param>
+		/// <returns>A combined <paramref name="host"/> and <see cref="Path"/> <see cref="Uri"/></returns>
+		public Uri Flatten(Uri host) => new Uri(String.Concat(host.ToString().TrimEnd('/'), Path));
 	}
 }
