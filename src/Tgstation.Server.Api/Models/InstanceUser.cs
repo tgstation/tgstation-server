@@ -40,8 +40,8 @@ namespace Tgstation.Server.Api.Models
 		public ChatRights ChatRights { get; set; }
 
 		/// <summary>
-		/// If the <see cref="InstanceUser"/> may use the remote configuration feature
+		/// The <see cref="Rights.ConfigurationRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
-		public bool ConfigurationAccess { get; set; }
+		public ConfigurationRights ConfigurationRights { get; set; }
 	}
 }

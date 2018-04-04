@@ -35,11 +35,11 @@
 		/// </summary>
 		DreamDaemon,
 		/// <summary>
-		/// TODO
+		/// <see cref="ChatRights"/>
 		/// </summary>
 		Chat,
 		/// <summary>
-		/// TODO
+		/// <see cref="ConfigurationRights"/>
 		/// </summary>
 		Configuration,
 		/// <summary>
