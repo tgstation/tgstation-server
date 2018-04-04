@@ -28,5 +28,9 @@ namespace Tgstation.Server.Api.Rights
 		/// User may modify <see cref="Models.DreamMaker.AutoCompileInterval"/>
 		/// </summary>
 		SetAutoCompile = 8,
+		/// <summary>
+		/// User may modify <see cref="Models.DreamMaker.TargetDme"/>
+		/// </summary>
+		SetDme = 16
 	}
 }

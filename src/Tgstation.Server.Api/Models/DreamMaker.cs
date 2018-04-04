@@ -55,5 +55,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = DreamMakerRights.SetAutoCompile)]
 		public int? AutoCompileInterval { get; set; }
+
+		/// <summary>
+		/// The .dme file <see cref="DreamMaker"/> tries to compile with
+		/// </summary>
+		[Permissions(WriteRight = DreamMakerRights.SetDme)]
+		public string TargetDme { get; set; }
 	}
 }

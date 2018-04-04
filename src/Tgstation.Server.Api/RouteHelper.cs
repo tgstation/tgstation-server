@@ -99,7 +99,7 @@ namespace Tgstation.Server.Api
 		/// Get the <see cref="Route"/> to a given <paramref name="user"/>'s token list
 		/// </summary>
 		/// <param name="user">The <see cref="User"/> to list tokens for</param>
-		/// <returns>A <see cref="Route"/> to the get action</returns>
+		/// <returns>A <see cref="Route"/> to the list action</returns>
 		public static Route ListUserTokens(User user)
 		{
 			var result = List<Token>(null);
@@ -112,5 +112,39 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <returns></returns>
 		public static Route ServerVersion() => new Route { Path = "/", Method = HttpMethod.Get };
+
+		/// <summary>
+		/// Get the <see cref="Route"/> to read a <see cref="Configuration"/> file
+		/// </summary>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
+		/// <param name="path">The path to the file in the <see cref="Configuration"/> directory</param>
+		/// <returns>A <see cref="Route"/> to the read action</returns>
+		public static Route ReadFile(Instance instance, string path) => new Route { Path = String.Concat("/Configuration/", instance?.Id ?? throw new ArgumentNullException(nameof(instance)), '/', path?.TrimStart('/') ?? throw new ArgumentNullException(nameof(path))), Method = HttpMethod.Get };
+
+		/// <summary>
+		/// Get the <see cref="Route"/> to create a <see cref="Configuration"/> file
+		/// </summary>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
+		/// <param name="path">The path to the file in the <see cref="Configuration"/> directory</param>
+		/// <returns>A <see cref="Route"/> to the create action</returns>
+		public static Route CreateFile(Instance instance, string path)
+		{
+			var result = ReadFile(instance, path);
+			result.Method = HttpMethod.Put;
+			return result;
+		}
+
+		/// <summary>
+		/// Get the <see cref="Route"/> to delete a <see cref="Configuration"/> file
+		/// </summary>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
+		/// <param name="path">The path to the file in the <see cref="Configuration"/> directory</param>
+		/// <returns>A <see cref="Route"/> to the delete action</returns>
+		public static Route DeleteFile(Instance instance, string path)
+		{
+			var result = ReadFile(instance, path);
+			result.Method = HttpMethod.Delete;
+			return result;
+		}
 	}
 }
