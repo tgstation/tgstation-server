@@ -22,6 +22,12 @@ namespace Tgstation.Server.Api.Models
 		public bool EnableTelemetry { get; set; }
 
 		/// <summary>
+		/// If the <see cref="DreamDaemon"/> instances will not be stopped when the server exits. Resets to <see langword="false"/> when the server restarts
+		/// </summary>
+		[Permissions(ReadRight = AdministrationRights.SoftStop, WriteRight = AdministrationRights.SoftStop)]
+		public bool SoftStop { get; set; }
+
+		/// <summary>
 		/// Users in the <see cref="SystemAuthenticationGroup"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]

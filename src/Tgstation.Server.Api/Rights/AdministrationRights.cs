@@ -24,5 +24,9 @@ namespace Tgstation.Server.Api.Rights
 		/// User can edit themself and other <see cref="Models.User"/>s
 		/// </summary>
 		EditUsers = 4,
+		/// <summary>
+		/// User can change <see cref="Models.Administration.SoftStop"/>
+		/// </summary>
+		SoftStop = 8,
 	}
 }
