@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -33,13 +31,18 @@ namespace Tgstation.Server.Api.Models
         /// Exit code of DM
         /// </summary>
         public int? ExitCode { get; set; }
+		/// <summary>
+		/// Git revision the compiler ran on. Not modifiable
+		/// </summary>
+		public string Revision { get; set; }
         /// <summary>
-        /// Git revision the compiler ran on
-        /// </summary>
-        public string Revision { get; set; }
-        /// <summary>
-        /// Git revision of the origin branch the compiler ran on
+        /// Git revision of the origin branch the compiler ran on. Not modifiable
         /// </summary>
         public string OriginRevision { get; set; }
+
+		/// <summary>
+		/// How often the <see cref="Compiler"/> automatically compiles in minutes
+		/// </summary>
+		public int? AutoCompileInterval { get; set; }
 	}
 }

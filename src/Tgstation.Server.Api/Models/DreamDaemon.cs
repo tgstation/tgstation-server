@@ -71,6 +71,6 @@ namespace Tgstation.Server.Api.Models
         /// <summary>
         /// When the live revision was compiled. Not modifiable
         /// </summary>
-        public DateTimeOffset CompiledOn { get; set; }
+        public DateTimeOffset CompiledAt { get; set; }
 	}
 }

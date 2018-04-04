@@ -18,9 +18,9 @@ namespace Tgstation.Server.Api.Models
 		public string Sha { get; set; }
 
 		/// <summary>
-		/// The branch HEAD points to
+		/// The branch or tag HEAD points to
 		/// </summary>
-		public string Branch { get; set; }
+		public string Reference { get; set; }
 
 		/// <summary>
 		/// The name of the committer

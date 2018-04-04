@@ -55,6 +55,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Repository.AccessToken"/>
 		/// </summary>
-		Read = 2048
+		Read = 2048,
+		/// <summary>
+		/// User may set <see cref="Models.Repository.Reference"/> to a backup tag
+		/// </summary>
+		CheckoutBackup,
 	}
 }
