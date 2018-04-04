@@ -41,6 +41,16 @@ namespace Tgstation.Server.Client
 		IInstanceManagerClient Instances { get; }
 
 		/// <summary>
+		/// Access the <see cref="IAdministrationClient"/>
+		/// </summary>
+		IAdministrationClient Administration { get; }
+
+		/// <summary>
+		/// These generally shouldn't be used in favor of the <see cref="Task"/> based polling and <see cref="CancellationToken"/>s other clients use. However, this is the only way to access jobs the client didn't start in it's current session
+		/// </summary>
+		IJobsClient Jobs { get; }
+
+		/// <summary>
 		/// The <see cref="System.Version"/> of the connected server
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="System.Version"/> of the connected server</returns>

@@ -6,7 +6,7 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
-	/// For managing server administration
+	/// For managing the chat bots
 	/// </summary>
 	public interface IChatClient : IRightsClient<ChatRights>
 	{
@@ -14,7 +14,7 @@ namespace Tgstation.Server.Client.Components
 		/// Get the <see cref="Chat"/> represented by the <see cref="IChatClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Administration"/> represented by the <see cref="IChatClient"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Chat"/> represented by the <see cref="IChatClient"/></returns>
 		Task<Chat> Read(CancellationToken cancellationToken);
 
 		/// <summary>

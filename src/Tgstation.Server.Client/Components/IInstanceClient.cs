@@ -29,16 +29,26 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		IConfigurationClient Configuration { get; }
 
-        /// <summary>
-        /// Access the <see cref="IInstanceUserClient"/>
-        /// </summary>
-        IInstanceUserClient Users { get; }
+		/// <summary>
+		/// Access the <see cref="IInstanceUserClient"/>
+		/// </summary>
+		IInstanceUserClient Users { get; }
 
-        /// <summary>
-        /// Get the <see cref="Instance"/> represented by the <see cref="IInstanceClient"/>
-        /// </summary>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-        /// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Instance"/> represented by the <see cref="IInstanceClient"/></returns>
-        Task<Instance> Read(CancellationToken cancellationToken);
+		/// <summary>
+		/// Access the <see cref="IChatClient"/>
+		/// </summary>
+		IChatClient Chat { get; }
+		
+		/// <summary>
+		/// Access the <see cref="IDreamMakerClient"/>
+		/// </summary>
+		IDreamMakerClient DreamMaker { get; }
+
+		/// <summary>
+		/// Get the <see cref="Instance"/> represented by the <see cref="IInstanceClient"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Instance"/> represented by the <see cref="IInstanceClient"/></returns>
+		Task<Instance> Read(CancellationToken cancellationToken);
     }
 }

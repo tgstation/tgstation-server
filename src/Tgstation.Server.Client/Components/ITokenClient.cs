@@ -12,7 +12,7 @@ namespace Tgstation.Server.Client.Components
 	public interface ITokenClient: IRightsClient<TokenRights>
 	{
 		/// <summary>
-		/// Generate a new <see cref="Token"/> for the connected user, expiring the current one if applicable
+		/// Generate a new <see cref="Token"/> for the connected user/ipaddress, deleting the current one if applicable
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Token"/></returns>
