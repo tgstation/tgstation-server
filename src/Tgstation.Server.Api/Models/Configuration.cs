@@ -33,7 +33,7 @@ namespace Tgstation.Server.Api.Models
 #pragma warning restore CA1819 // Properties should not return arrays
 
 		/// <summary>
-		/// The MD5 hash of the file when last read by the user. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/>. If this doesn't match during update actions, the write will be denied
+		/// The MD5 hash of the file when last read by the user. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/>. If this doesn't match during update actions, the write will be denied with error code 409
 		/// </summary>
 		public string LastReadHash { get; set; }
 	}

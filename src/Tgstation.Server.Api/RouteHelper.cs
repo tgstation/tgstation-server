@@ -122,6 +122,19 @@ namespace Tgstation.Server.Api
 		public static Route ReadFile(Instance instance, string path) => new Route { Path = String.Concat("/Configuration/", instance?.Id ?? throw new ArgumentNullException(nameof(instance)), '/', path?.TrimStart('/') ?? throw new ArgumentNullException(nameof(path))), Method = HttpMethod.Get };
 
 		/// <summary>
+		/// Get the <see cref="Route"/> to list <see cref="Configuration"/> files for a <paramref name="directory"/>
+		/// </summary>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
+		/// <param name="directory">The <see cref="Configuration"/> directory to list</param>
+		/// <returns>A <see cref="Route"/> to the read action</returns>
+		public static Route ListFiles(Instance instance, string directory)
+		{
+			var result = ReadFile(instance, directory);
+			result.Path = String.Concat("/ConfigurationList", result.Path.Substring(result.Path.IndexOf('/', 1)));
+			return result;
+		}
+
+		/// <summary>
 		/// Get the <see cref="Route"/> to create a <see cref="Configuration"/> file
 		/// </summary>
 		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>

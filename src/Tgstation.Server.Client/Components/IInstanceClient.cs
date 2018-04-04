@@ -24,6 +24,11 @@ namespace Tgstation.Server.Client.Components
         /// </summary>
         IDreamDaemonClient DreamDaemon { get; }
 
+		/// <summary>
+		/// Access the <see cref="IConfigurationClient"/>
+		/// </summary>
+		IConfigurationClient Configuration { get; }
+
         /// <summary>
         /// Access the <see cref="IInstanceUserClient"/>
         /// </summary>
