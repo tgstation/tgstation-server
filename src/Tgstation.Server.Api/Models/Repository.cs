@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a git repository
 	/// </summary>
-	[Model(typeof(RepositoryRights), ReadRight = RepositoryRights.Read)]
+	[Model(RightsType.Repository, ReadRight = RepositoryRights.Read)]
 	public sealed class Repository
 	{
 		/// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api
 {
@@ -34,9 +35,9 @@ namespace Tgstation.Server.Api
 		public bool RequiresInstance { get; set; }
 
 		/// <summary>
-		/// The enum type that designates access to the model. Must be an <see cref="Enum"/> with the <see cref="FlagsAttribute"/>
+		/// The <see cref="Rights.RightsType"/> the model uses
 		/// </summary>
-		public Type RightsEnum { get; }
+		public RightsType RightsType { get; }
 
 		/// <summary>
 		/// Construct a <see cref="ModelAttribute"/>
@@ -44,18 +45,9 @@ namespace Tgstation.Server.Api
 		public ModelAttribute() => CanList = true;
 
 		/// <summary>
-		/// Construct a <see cref="ModelAttribute"/>
+		/// Construct a <see cref="ModelAttribute"/> with a given <paramref name="rightsType"/>
 		/// </summary>
-		/// <param name="rightsEnum">The value of <see cref="RightsEnum"/></param>
-		public ModelAttribute(Type rightsEnum)
-		{
-			if (!typeof(Enum).IsAssignableFrom(rightsEnum))
-				throw new ArgumentException("rightsEnum must be an enum type!", nameof(rightsEnum));
-			if (rightsEnum.GetCustomAttributes(typeof(FlagsAttribute), false).Length == 0)
-				throw new ArgumentException("rightsEnum must have the FlagsAttribute!", nameof(rightsEnum));
-			if(Enum.GetUnderlyingType(rightsEnum) != typeof(int))
-				throw new ArgumentException("rightsEnum must be an integer type!", nameof(rightsEnum));
-			RightsEnum = rightsEnum;
-		}
+		/// <param name="rightsType">The value of <see cref="RightsType"/></param>
+		public ModelAttribute(RightsType rightsType) => RightsType = rightsType;
 	}
 }

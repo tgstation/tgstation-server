@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Metadata about an installation
 	/// </summary>
-	[Model(typeof(AdministrationRights))]
+	[Model(RightsType.Administration)]
 	public sealed class Administration
 	{
 		/// <summary>

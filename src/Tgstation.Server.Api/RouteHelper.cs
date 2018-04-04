@@ -94,5 +94,23 @@ namespace Tgstation.Server.Api
 		/// <param name="job">The <see cref="Job"/> to get</param>
 		/// <returns>A <see cref="Route"/> to the get action</returns>
 		public static Route GetJob(Job job) => Read<Job>(job.Id);
+
+		/// <summary>
+		/// Get the <see cref="Route"/> to a given <paramref name="user"/>'s token list
+		/// </summary>
+		/// <param name="user">The <see cref="User"/> to list tokens for</param>
+		/// <returns>A <see cref="Route"/> to the get action</returns>
+		public static Route ListUserTokens(User user)
+		{
+			var result = List<Token>(null);
+			result.Path = String.Concat(result.Path, '/', user.Id);
+			return result;
+		}
+
+		/// <summary>
+		/// Get the <see cref="Route"/> to a server's version
+		/// </summary>
+		/// <returns></returns>
+		public static Route ServerVersion() => new Route { Path = "/", Method = HttpMethod.Get };
 	}
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents an access token for the server. Read action generates a new one. Update action expires all for user
 	/// </summary>
-	[Model]
+	[Model(RightsType.Token, CanList = true)]
 	public sealed class Token
 	{
 		/// <summary>

@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Metadata about a server instance
 	/// </summary>
-	[Model(typeof(InstanceManagerRights), CanCrud = true, CanList = true)]
+	[Model(RightsType.InstanceManager, CanCrud = true, CanList = true)]
 	public sealed class Instance
 	{
 		/// <summary>

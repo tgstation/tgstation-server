@@ -5,14 +5,14 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a <see cref="User"/>s permissions in an <see cref="Instance"/>
 	/// </summary>
-	[Model(typeof(InstanceUserRights), WriteRight = InstanceUserRights.WriteUsers)]
+	[Model(RightsType.InstanceUser, WriteRight = InstanceUserRights.WriteUsers)]
 	public sealed class InstanceUser
     {
         /// <summary>
-        /// See definition in <see cref="User.SystemIdentifier"/>
+        /// See definition in <see cref="User.Id"/>
         /// </summary>
 		[Permissions(DenyWrite = true)]
-        public string SystemIdentifier { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// The <see cref="ByondRights"/> of the <see cref="InstanceUser"/>

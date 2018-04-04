@@ -7,7 +7,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents an instance of BYOND's DreamDaemon game server. Create action starts the server. Delete action shuts down the server
 	/// </summary>
-	[Model(typeof(DreamDaemonRights), CanCrud = true)]
+	[Model(RightsType.DreamDaemon, CanCrud = true)]
 	public sealed class DreamDaemon
 	{
 		/// <summary>
