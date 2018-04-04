@@ -15,6 +15,12 @@ namespace Tgstation.Server.Api.Models
 		public long Id { get; set; }
 
 		/// <summary>
+		/// The SID/UID of the <see cref="User"/> on Windows/POSIX respectively
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public string SystemId { get; set; }
+
+		/// <summary>
 		/// The name of the <see cref="User"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]

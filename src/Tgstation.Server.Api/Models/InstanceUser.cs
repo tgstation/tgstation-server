@@ -14,19 +14,34 @@ namespace Tgstation.Server.Api.Models
 		[Permissions(DenyWrite = true)]
         public long Id { get; set; }
 
-        /// <summary>
-        /// The <see cref="ByondRights"/> of the <see cref="InstanceUser"/>
-        /// </summary>
-        public ByondRights ByondRights { get; set; }
+		/// <summary>
+		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstanceUser"/>
+		/// </summary>
+		public ByondRights ByondRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonRights"/> of the <see cref="InstanceUser"/>
+		/// The <see cref="Rights.DreamDaemonRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
 		public DreamDaemonRights DreamDaemonRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="RepositoryRights"/> of the <see cref="InstanceUser"/>
+		/// The <see cref="Rights.DreamMakerRights"/> of the <see cref="InstanceUser"/>
+		/// </summary>
+		public DreamMakerRights DreamMakerRights { get; set; }
+
+		/// <summary>
+		/// The <see cref="Rights.RepositoryRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
 		public RepositoryRights RepositoryRights { get; set; }
-    }
+
+		/// <summary>
+		/// The <see cref="Rights.ChatRights"/> of the <see cref="InstanceUser"/>
+		/// </summary>
+		public ChatRights ChatRights { get; set; }
+
+		/// <summary>
+		/// If the <see cref="InstanceUser"/> may use the remote configuration feature
+		/// </summary>
+		public bool ConfigurationAccess { get; set; }
+	}
 }
