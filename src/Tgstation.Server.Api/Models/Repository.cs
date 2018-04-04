@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a git repository
 	/// </summary>
-	[Model(RightsType.Repository, ReadRight = RepositoryRights.Read)]
+	[Model(RightsType.Repository, ReadRight = RepositoryRights.Read, RequiresInstance = true)]
 	public sealed class Repository
 	{
 		/// <summary>
@@ -48,10 +48,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Associated list of GitHub pull request number -> sha for merged pull requests. Adding a <see langword="null"/> value to this list will merge the latest commit of the pull request numbered by the key
 		/// </summary>
-#pragma warning disable CA2227 // Collection properties should be read only
 		[Permissions(ComplexWrite = true)]
 		public Dictionary<int, string> PullRequests { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
 		
 		/// <summary>
 		/// The username to access the git repository with

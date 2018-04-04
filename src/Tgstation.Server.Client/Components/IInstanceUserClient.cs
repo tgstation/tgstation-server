@@ -24,6 +24,6 @@ namespace Tgstation.Server.Client.Components
         /// <param name="instanceUser">The <see cref="InstanceUser"/> to update</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
         /// <returns>A <see cref="Task"/> representing the running operation</returns>
-        Task UpdateUser(InstanceUser instanceUser, CancellationToken cancellationToken);
+        Task Update(InstanceUser instanceUser, CancellationToken cancellationToken);
     }
 }

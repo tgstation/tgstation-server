@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a BYOND installation
 	/// </summary>
-	[Model(RightsType.Byond)]
+	[Model(RightsType.Byond, RequiresInstance = true)]
 	public sealed class Byond
 	{
 		/// <summary>

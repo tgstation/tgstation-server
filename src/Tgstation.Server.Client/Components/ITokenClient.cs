@@ -33,12 +33,12 @@ namespace Tgstation.Server.Client.Components
 		Task<IReadOnlyDictionary<string, Token>> GetAllInfos(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Invalidate the specified active <see cref="Token"/> designated by <paramref name="tokenId"/>
+		/// Invalidate the specified active <paramref name="token"/>
 		/// </summary>
-		/// <param name="tokenId">The <see cref="Token.Id"/> of the <see cref="Token"/> to invalidate</param>
+		/// <param name="token">The <see cref="Token"/> to invalidate</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Invalidate(long tokenId, CancellationToken cancellationToken);
+		Task Invalidate(Token token, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Invalidate all active <see cref="Token"/>s for a <see cref="IServerClient"/>

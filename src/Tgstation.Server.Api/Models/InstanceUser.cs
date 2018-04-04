@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a <see cref="User"/>s permissions in an <see cref="Instance"/>
 	/// </summary>
-	[Model(RightsType.InstanceUser, WriteRight = InstanceUserRights.WriteUsers)]
+	[Model(RightsType.InstanceUser, WriteRight = InstanceUserRights.WriteUsers, CanList = true, RequiresInstance = true)]
 	public sealed class InstanceUser
     {
         /// <summary>
