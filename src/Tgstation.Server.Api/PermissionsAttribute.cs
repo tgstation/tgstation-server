@@ -22,10 +22,5 @@ namespace Tgstation.Server.Api
 		/// If the field cannot be written to
 		/// </summary>
 		public bool DenyWrite { get; set; }
-
-		/// <summary>
-		/// If the field has multiple write permissions
-		/// </summary>
-		public bool ComplexWrite { get; set; }
 	}
 }

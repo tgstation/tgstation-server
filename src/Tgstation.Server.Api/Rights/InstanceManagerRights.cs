@@ -31,18 +31,14 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can online <see cref="Models.Instance"/>s they can view
 		/// </summary>
-		Online = 16,
-		/// <summary>
-		/// User can offline <see cref="Models.Instance"/>s they can view
-		/// </summary>
-		Offline = 32,
+		SetOnline = 16,
 		/// <summary>
 		/// User can delete <see cref="Models.Instance"/>s they can view
 		/// </summary>
-		Delete = 64,
+		Delete = 32,
 		/// <summary>
 		/// User can view all <see cref="Models.Instance"/>s
 		/// </summary>
-		List = 128
+		List = 64
 	}
 }

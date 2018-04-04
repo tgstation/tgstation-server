@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// If the <see cref="Instance"/> is online
 		/// </summary>
-		[Permissions(ComplexWrite = true)]
+		[Permissions(WriteRight = InstanceManagerRights.SetOnline)]
 		public bool Online { get; set; }
 	}
 }

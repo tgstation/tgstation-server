@@ -5,8 +5,10 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a static game file. Create and delete actions uncerimonuously overwrite/delete files
 	/// </summary>
+#pragma warning disable CA1724 // System.Configuration name conflict
 	[Model(RightsType.Configuration, CanCrud = true, CanList = true, RequiresInstance = true, ReadRight = ConfigurationRights.Read, WriteRight = ConfigurationRights.Write)]
 	public sealed class Configuration
+#pragma warning restore CA1724 // System.Configuration name conflict
 	{
 		/// <summary>
 		/// The path to the <see cref="Configuration"/> file

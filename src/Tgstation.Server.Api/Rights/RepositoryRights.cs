@@ -45,16 +45,12 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		ChangeCredentials = 256,
 		/// <summary>
-		/// User may reset the <see cref="Models.Repository"/>'s HEAD to the origin reference of whatever branch it is tracking
+		/// User may set <see cref="Models.Repository.Reference"/> to another git reference (not a SHA)
 		/// </summary>
-		Reset = 512,
+		SetReference = 512,
 		/// <summary>
 		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Repository.AccessToken"/>
 		/// </summary>
 		Read = 1024,
-		/// <summary>
-		/// User may set <see cref="Models.Repository.Reference"/> to a backup tag
-		/// </summary>
-		CheckoutBackup = 2048,
 	}
 }

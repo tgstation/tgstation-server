@@ -12,7 +12,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
 		/// </summary>
-		[Permissions(ComplexWrite = true)]
+		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
 		public string Origin { get; set; }
 
 		/// <summary>
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The branch or tag HEAD points to
 		/// </summary>
-		[Permissions(ComplexWrite = true)]
+		[Permissions(WriteRight = RepositoryRights.SetReference)]
 		public string Reference { get; set; }
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Associated list of GitHub pull request number -> sha for merged pull requests. Adding a <see langword="null"/> value to this list will merge the latest commit of the pull request numbered by the key
 		/// </summary>
-		[Permissions(ComplexWrite = true)]
+		[Permissions(WriteRight = RepositoryRights.MergePullRequest)]
 		public Dictionary<int, string> PullRequests { get; set; }
 		
 		/// <summary>
