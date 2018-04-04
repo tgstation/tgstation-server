@@ -1,14 +1,14 @@
 ﻿namespace Tgstation.Server.Api.Models
 {
     /// <summary>
-    /// Status of the <see cref="Compiler"/> for an <see cref="Instance"/>
+    /// Status of the <see cref="DreamMaker"/> for an <see cref="Instance"/>
     /// </summary>
 #pragma warning disable CA1717 // Only FlagsAttribute enums should have plural names
 	public enum CompilerStatus
 #pragma warning restore CA1717 // Only FlagsAttribute enums should have plural names
 	{
         /// <summary>
-        /// The <see cref="Compiler"/> is idle
+        /// The <see cref="DreamMaker"/> is idle
         /// </summary>
 		Idle,
         /// <summary>

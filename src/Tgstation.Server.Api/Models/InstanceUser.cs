@@ -2,11 +2,16 @@
 
 namespace Tgstation.Server.Api.Models
 {
+	/// <summary>
+	/// Represents a <see cref="User"/>s permissions in an <see cref="Instance"/>
+	/// </summary>
+	[Model(typeof(InstanceUserRights), WriteRight = InstanceUserRights.WriteUsers)]
 	public sealed class InstanceUser
     {
         /// <summary>
         /// See definition in <see cref="User.SystemIdentifier"/>
         /// </summary>
+		[Permissions(DenyWrite = true)]
         public string SystemIdentifier { get; set; }
 
         /// <summary>

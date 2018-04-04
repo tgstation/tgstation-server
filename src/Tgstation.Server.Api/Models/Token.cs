@@ -1,10 +1,12 @@
 ﻿using System.Net;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents an access token for the server
 	/// </summary>
+	[Model(typeof(TokenRights), DenyWrite = true)]
 	public sealed class Token
 	{
 		/// <summary>

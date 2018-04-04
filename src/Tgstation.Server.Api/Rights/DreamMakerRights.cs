@@ -3,17 +3,17 @@
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for the <see cref="Models.Compiler"/>
+	/// Rights for <see cref="Models.DreamMaker"/>
 	/// </summary>
 	[Flags]
-	public enum CompilerRights
+	public enum DreamMakerRights
 	{
 		/// <summary>
 		/// User has no rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User may read <see cref="Models.Compiler"/> status
+		/// User may read <see cref="Models.DreamMaker"/> status
 		/// </summary>
 		Read = 1,
 		/// <summary>
@@ -25,7 +25,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		CancelCompile = 4,
 		/// <summary>
-		/// User may modify <see cref="Models.Compiler.AutoCompileInterval"/>
+		/// User may modify <see cref="Models.DreamMaker.AutoCompileInterval"/>
 		/// </summary>
 		SetAutoCompile = 8,
 	}
