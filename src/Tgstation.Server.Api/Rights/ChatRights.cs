@@ -19,22 +19,22 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change the IRC settings
 		/// </summary>
-		SetIrcSettings = 4,
+		SetIrcSettings = 2,
 		/// <summary>
 		/// User can change the IRC channels
 		/// </summary>
-		SetIrcChannels = 8,
+		SetIrcChannels = 4,
 		/// <summary>
 		/// User can enable/disable the Discord bot
 		/// </summary>
-		SetDiscordEnabled = 16,
+		SetDiscordEnabled = 8,
 		/// <summary>
 		/// User can change the Discord settings
 		/// </summary>
-		SetDiscordSettings = 32,
+		SetDiscordSettings = 16,
 		/// <summary>
 		/// User can change the Discord channels
 		/// </summary>
-		SetDiscordChannels = 8,
+		SetDiscordChannels = 32,
 	}
 }
