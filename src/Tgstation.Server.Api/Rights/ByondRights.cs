@@ -21,24 +21,16 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		ReadStaged = 2,
 		/// <summary>
-		/// User may install any BYOND version if none is installed
+		/// User may change to any BYOND version
 		/// </summary>
-		Install = 4,
-		/// <summary>
-		/// User may upgrade the installed BYOND version
-		/// </summary>
-		Upgrade = 8,
-		/// <summary>
-		/// User may downgrade the installed BYOND version
-		/// </summary>
-		Downgrade = 16,
+		ChangeVersion = 4,
 		/// <summary>
 		/// User may cancel a pending installation job
 		/// </summary>
-		Cancel = 32,
+		Cancel = 8,
 		/// <summary>
 		/// User may read the <see cref="Models.ByondStatus"/> of the installation job
 		/// </summary>
-		ReadStatus = 64,
+		ReadStatus = 16,
 	}
 }

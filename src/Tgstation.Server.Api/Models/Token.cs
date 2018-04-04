@@ -1,12 +1,12 @@
-﻿using System.Net;
-using Tgstation.Server.Api.Rights;
+﻿using System;
+using System.Net;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Represents an access token for the server
+	/// Represents an access token for the server. Read action generates a new one. Update action expires all for user
 	/// </summary>
-	[Model(typeof(TokenRights), DenyWrite = true)]
+	[Model]
 	public sealed class Token
 	{
 		/// <summary>
@@ -23,6 +23,11 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="IPAddress"/> the <see cref="Token"/> was originally issued to
 		/// </summary>
 		public IPAddress IssuedTo { get; set; }
+
+		/// <summary>
+		/// When the <see cref="Token"/> was originally issued
+		/// </summary>
+		public DateTimeOffset IssuedAt { get; set; }
 
 		/// <summary>
 		/// The token <see cref="string"/>. Not modifiable, only appears once

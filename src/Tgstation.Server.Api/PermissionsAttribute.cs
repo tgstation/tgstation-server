@@ -14,64 +14,18 @@ namespace Tgstation.Server.Api
 		public object ReadRight { get; set; }
 
 		/// <summary>
-		/// Right required to write the field with an Update call
+		/// Right required to update the field
 		/// </summary>
-		public object WriteRight
-		{
-			get => writeRight;
-			set
-			{
-				if (DenyWrite)
-					throw new InvalidOperationException("Cannot set WriteRight on a PermissionsAttribute with DenyRight set");
-				if (ComplexWrite)
-					throw new InvalidOperationException("Cannot set WriteRight on a PermissionsAttribute with ComplexWrite set");
-				writeRight = value;
-			}
-		}
+		public object WriteRight { get; set; }
 
 		/// <summary>
 		/// If the field cannot be written to
 		/// </summary>
-		public bool DenyWrite
-		{
-			get => denyWrite;
-			set
-			{
-				if (WriteRight != null)
-					throw new InvalidOperationException("Cannot set DenyRight on a PermissionsAttribute with WriteRight set");
-				if (ComplexWrite)
-					throw new InvalidOperationException("Cannot set DenyRight on a PermissionsAttribute with ComplexWrite set");
-				denyWrite = value;
-			}
-		}
+		public bool DenyWrite { get; set; }
 
 		/// <summary>
 		/// If the field has multiple write permissions
 		/// </summary>
-		public bool ComplexWrite
-		{
-			get => complexWrite;
-			set
-			{
-				if (WriteRight != null)
-					throw new InvalidOperationException("Cannot set ComplexWrite on a PermissionsAttribute with WriteRight set");
-				if (ComplexWrite)
-					throw new InvalidOperationException("Cannot set ComplexWrite on a PermissionsAttribute with DenyWrite set");
-				complexWrite = value;
-			}
-		}
-
-		/// <summary>
-		/// Backing field for <see cref="WriteRight"/>
-		/// </summary>
-		object writeRight;
-		/// <summary>
-		/// Backing field for <see cref="DenyWrite"/>
-		/// </summary>
-		bool denyWrite;
-		/// <summary>
-		/// Backing field for <see cref="ComplexWrite"/>
-		/// </summary>
-		bool complexWrite;
+		public bool ComplexWrite { get; set; }
 	}
 }

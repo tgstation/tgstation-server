@@ -19,14 +19,14 @@ namespace Tgstation.Server.Api.Models
         /// </summary>
         public ByondRights ByondRights { get; set; }
 
-        /// <summary>
-        /// The <see cref="DreamDaemonRights"/> of the <see cref="InstanceUser"/>
-        /// </summary>
-        DreamDaemonRights DreamDaemonRights { get; set; }
+		/// <summary>
+		/// The <see cref="DreamDaemonRights"/> of the <see cref="InstanceUser"/>
+		/// </summary>
+		public DreamDaemonRights DreamDaemonRights { get; set; }
 
-        /// <summary>
-        /// The <see cref="RepositoryRights"/> of the <see cref="InstanceUser"/>
-        /// </summary>
-        RepositoryRights RepositoryRights { get; set; }
+		/// <summary>
+		/// The <see cref="RepositoryRights"/> of the <see cref="InstanceUser"/>
+		/// </summary>
+		public RepositoryRights RepositoryRights { get; set; }
     }
 }

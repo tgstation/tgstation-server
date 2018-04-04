@@ -9,42 +9,39 @@ namespace Tgstation.Server.Api
 	public sealed class ModelAttribute : Attribute
 	{
 		/// <summary>
-		/// Right required to read the field
+		/// Right required to read the model
 		/// </summary>
 		public object ReadRight { get; set; }
 
 		/// <summary>
-		/// Right required to write the field with an Update call
+		/// Right required to update the model
 		/// </summary>
-		public object WriteRight
-		{
-			get => writeRight;
-			set
-			{
-				if (DenyWrite)
-					throw new InvalidOperationException("Cannot set WriteRight on a PermissionsAttribute with DenyRight set");
-				writeRight = value;
-			}
-		}
+		public object WriteRight { get; set; }
 
 		/// <summary>
-		/// If the field cannot be written to
+		/// If the Create and Delete actions are available for this model
 		/// </summary>
-		public bool DenyWrite
-		{
-			get => denyWrite;
-			set
-			{
-				if (WriteRight != null)
-					throw new InvalidOperationException("Cannot set DenyRight on a PermissionsAttribute with WriteRight set");
-				denyWrite = value;
-			}
-		}
+		public bool CanCrud { get; set; }
+
+		/// <summary>
+		/// If the List action is available for this model
+		/// </summary>
+		public bool CanList { get; set; }
+
+		/// <summary>
+		/// If the actions require an <see cref="Models.Instance.Id"/>
+		/// </summary>
+		public bool RequiresInstance { get; set; }
 
 		/// <summary>
 		/// The enum type that designates access to the model. Must be an <see cref="Enum"/> with the <see cref="FlagsAttribute"/>
 		/// </summary>
 		public Type RightsEnum { get; }
+
+		/// <summary>
+		/// Construct a <see cref="ModelAttribute"/>
+		/// </summary>
+		public ModelAttribute() => CanList = true;
 
 		/// <summary>
 		/// Construct a <see cref="ModelAttribute"/>
@@ -60,14 +57,5 @@ namespace Tgstation.Server.Api
 				throw new ArgumentException("rightsEnum must be an integer type!", nameof(rightsEnum));
 			RightsEnum = rightsEnum;
 		}
-
-		/// <summary>
-		/// Backing field for <see cref="WriteRight"/>
-		/// </summary>
-		object writeRight;
-		/// <summary>
-		/// Backing field for <see cref="DenyWrite"/>
-		/// </summary>
-		bool denyWrite;
 	}
 }
