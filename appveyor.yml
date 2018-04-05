@@ -1,4 +1,4 @@
-version: {build}
+version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 environment:
@@ -15,33 +15,42 @@ configuration:
   - Release
 shallow_clone: true
 artifacts:
-  - path artifacts/ServerConsole
+  - path: artifacts/ServerConsole
 cache:
   - ~\.nuget\packages -> **\*.csproj
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
   - choco install fciv doxygen.portable codecov
+  - nuget restore tgstation-server.sln
 build:
   project: tgstation-server.sln
   parallel: false
   verbosity: minimal
   publish_nuget: true
-after_build:
-  - ps: Tools/PostCIBuild.ps1
-  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ $env:TGSDeploy = "Do it." }}
-  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ $env:NugetDeploy = "Do it." }}
-  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/TGS.Server/bin/Release/TGS.Server.dll").FileVersion
 test_script:
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
   - copy "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\appveyor.*" "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions" /y
-  - vstest.console /logger:trx;LogFileName=results.trx "src\Tgstation.Server.Host.Console.Tests\bin\Release\netcoreapp2.1\Tgstation.Server.Host.Console.Tests.dll" /Enablecodecoverage /Settings:"Tools/CoverageExclusions.runsettings" /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Api.Tests\bin\%CONFIGURATION%\netcoreapp2.0\Tgstation.Server.Api.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Client.Tests\bin\%CONFIGURATION%\netcoreapp2.0\Tgstation.Server.Client.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.CommandLine.Tests\bin\%CONFIGURATION%\netcoreapp2.0\Tgstation.Server.CommandLine.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Host.Tests\bin\%CONFIGURATION%\netcoreapp2.0\Tgstation.Server.Host.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Host.Console.Tests\bin\%CONFIGURATION%\netcoreapp2.0\Tgstation.Server.Host.Console.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.ControlPanel.Tests\bin\%CONFIGURATION%\Tgstation.Server.ControlPanel.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
 after_test:
   - ps: build/UploadCoverage.ps1
   - ps: build/BuildDox.ps1
-  - ps: cd src/Tgstation.Server.Host.Console && dotnet publish -o artifacts/ServerConsole -c $env:CONFIGURATION
+  - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o artifacts/ServerConsole -c %CONFIGURATION%
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"

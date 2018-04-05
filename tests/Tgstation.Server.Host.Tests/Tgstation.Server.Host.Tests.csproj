@@ -9,13 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
-    <PackageReference Include="Moq" Version="4.8.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Tgstation.Server.Host.Console\Tgstation.Server.Host.Console.csproj" />
+    <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
   </ItemGroup>
 
 </Project>

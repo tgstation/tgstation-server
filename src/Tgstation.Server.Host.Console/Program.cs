@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Console
 {
@@ -8,13 +10,19 @@ namespace Tgstation.Server.Host.Console
 	static class Program
 	{
 		/// <summary>
+		/// The <see cref="IServerFactory"/> for the <see cref="Program"/>
+		/// </summary>
+		internal static IServerFactory ServerFactory { get; set; } = new ServerFactory();
+
+		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
+		/// <param name="args">The arguments for the <see cref="Program"/></param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		public static async Task Main()
+		internal static async Task Main(string[] args)
 		{
-			System.Console.WriteLine("Hello World!");
-			await Task.CompletedTask.ConfigureAwait(false);
+			using (var server = ServerFactory.CreateServer())
+				await server.RunAsync(args, default).ConfigureAwait(false);
 		}
 	}
 }
