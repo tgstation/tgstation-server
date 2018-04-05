@@ -1,6 +1,7 @@
 ﻿using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
 {
@@ -10,34 +11,33 @@ namespace Tgstation.Server.Host.Service
 	sealed class ServerService : ServiceBase
 	{
 		/// <summary>
-		/// The <see cref="IServer"/> for the <see cref="ServerService"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>
 		/// </summary>
-		IServer server;
+		IWatchdog watchdog;
 
 		/// <summary>
 		/// The <see cref="Task"/> recieved from <see cref="IServer.RunAsync(string[], CancellationToken)"/> of <see cref="server"/>
 		/// </summary>
-		Task serverTask;
+		Task watchdogTask;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="ServerService"/>
 		/// </summary>
 		CancellationTokenSource cancellationTokenSource;
 
-		/// <summary>
-		/// Construct a <see cref="ServerService"/>
-		/// </summary>
-		/// <param name="serverFactory">The <see cref="IServerFactory"/> to create <see cref="server"/> with</param>
-		public ServerService(IServerFactory serverFactory)
+        /// <summary>
+        /// Construct a <see cref="ServerService"/>
+        /// </summary>
+        /// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with</param>
+        public ServerService(IWatchdogFactory watchdogFactory)
 		{
 			ServiceName = "tgstation-server";
-			server = serverFactory.CreateServer();
+            watchdog = watchdogFactory.CreateWatchdog();
 		}
 
 		/// <inheritdoc />
 		protected override void Dispose(bool disposing)
 		{
-			server.Dispose();
 			cancellationTokenSource.Dispose();
 			base.Dispose(disposing);
 		}
@@ -47,14 +47,14 @@ namespace Tgstation.Server.Host.Service
 		{
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
-			serverTask = server.RunAsync(args, cancellationTokenSource.Token);
+			watchdogTask = watchdog.RunAsync(args, cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />
 		protected override void OnStop()
 		{
 			cancellationTokenSource.Cancel();
-			serverTask.GetAwaiter().GetResult();
+			watchdogTask.GetAwaiter().GetResult();
 		}
 	}
 }

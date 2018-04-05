@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
 {
@@ -10,6 +11,6 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
-		static void Main() => ServiceBase.Run(new ServerService(new ServerFactory()));
+		static void Main() => ServiceBase.Run(new ServerService(new WatchdogFactory()));
 	}
 }

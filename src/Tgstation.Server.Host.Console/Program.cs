@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Console
 {
@@ -12,17 +11,13 @@ namespace Tgstation.Server.Host.Console
 		/// <summary>
 		/// The <see cref="IServerFactory"/> for the <see cref="Program"/>
 		/// </summary>
-		internal static IServerFactory ServerFactory { get; set; } = new ServerFactory();
+		internal static IWatchdogFactory WatchdogFactory { get; set; } = new WatchdogFactory();
 
-		/// <summary>
-		/// Entrypoint for the application
-		/// </summary>
-		/// <param name="args">The arguments for the <see cref="Program"/></param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		internal static async Task Main(string[] args)
-		{
-			using (var server = ServerFactory.CreateServer())
-				await server.RunAsync(args, default).ConfigureAwait(false);
-		}
+        /// <summary>
+        /// Entrypoint for the application
+        /// </summary>
+        /// <param name="args">The arguments for the <see cref="Program"/></param>
+        /// <returns>A <see cref="Task"/> representing the running operation</returns>
+        internal static Task Main(string[] args) => WatchdogFactory.CreateWatchdog().RunAsync(args, default);
 	}
 }

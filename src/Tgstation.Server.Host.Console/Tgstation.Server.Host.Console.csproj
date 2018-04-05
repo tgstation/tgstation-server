@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
   </ItemGroup>
 
 </Project>
