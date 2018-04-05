@@ -1,20 +1,27 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Console
 {
 	/// <summary>
 	/// Contains the entrypoint for the application
 	/// </summary>
-	public static class Program
+	static class Program
 	{
+		/// <summary>
+		/// The <see cref="IServerFactory"/> for the <see cref="Program"/>
+		/// </summary>
+		internal static IServerFactory ServerFactory { get; set; } = new ServerFactory();
+
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		public static Task Main()
+		internal static async Task Main()
 		{
-			System.Console.WriteLine("Hello world!");
-			return Task.CompletedTask;
+			using (var server = ServerFactory.CreateServer())
+				await server.RunAsync().ConfigureAwait(false);
 		}
 	}
 }
