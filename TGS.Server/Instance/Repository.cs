@@ -1338,12 +1338,12 @@ namespace TGS.Server
 						python.StartInfo.UseShellExecute = false;
 						python.StartInfo.WorkingDirectory = new DirectoryInfo(RelativePath(RepoPath)).FullName;
 						python.StartInfo.RedirectStandardOutput = true;
+						python.StartInfo.RedirectStandardError = true;
 						python.Start();
 						using (StreamReader reader = python.StandardOutput)
-						{
 							result = reader.ReadToEnd();
-
-						}
+						using (StreamReader reader = python.StandardError)
+							result += reader.ReadToEnd();
 						python.WaitForExit();
 						exitCode = python.ExitCode;
 					}
@@ -1364,11 +1364,12 @@ namespace TGS.Server
 								pip.StartInfo.Arguments = "install " + I;
 								pip.StartInfo.UseShellExecute = false;
 								pip.StartInfo.RedirectStandardOutput = true;
+								pip.StartInfo.RedirectStandardError = true;
 								pip.Start();
 								using (StreamReader reader = pip.StandardOutput)
-								{
 									result += "\r\n---BEGIN-PIP-OUTPUT---\r\n" + reader.ReadToEnd();
-								}
+								using (StreamReader reader = pip.StandardError)
+									result += reader.ReadToEnd();
 								pip.WaitForExit();
 								if (pip.ExitCode != 0)
 								{
