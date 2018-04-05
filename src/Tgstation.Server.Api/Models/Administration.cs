@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
@@ -26,6 +27,24 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(ReadRight = AdministrationRights.SoftStop, WriteRight = AdministrationRights.SoftStop)]
 		public bool SoftStop { get; set; }
+
+		/// <summary>
+		/// The git repository to recieve updates to Tgstation.Server.Host from, must include credentials if necessary. If set to <see langword="null"/> upstream pulls will be disabled entirely
+		/// </summary>
+		[Permissions(ReadRight = AdministrationRights.SetUpstreamRepository, WriteRight = AdministrationRights.SetUpstreamRepository)]
+		public string UpstreamRepository { get; set; }
+
+		/// <summary>
+		/// The latest available version of the Tgstation.Server.Host assembly from the upstream repository. If <see cref="Version.Minor"/> is higher than <see cref="CurrentVersion"/>'s the update cannot be applied due to API changes
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public Version LatestVersion { get; set; }
+
+		/// <summary>
+		/// Changes the version of Tgstation.Server.Host to the given version from the upstream repository
+		/// </summary>
+		[Permissions(WriteRight = AdministrationRights.ChangeVersion)]
+		public Version CurrentVersion { get; set; }
 
 		/// <summary>
 		/// Users in the <see cref="SystemAuthenticationGroup"/>

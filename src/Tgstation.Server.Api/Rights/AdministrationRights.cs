@@ -28,5 +28,14 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change <see cref="Models.Administration.SoftStop"/>
 		/// </summary>
 		SoftStop = 8,
+		/// <summary>
+		/// User can change <see cref="Models.Administration.CurrentVersion"/>
+		/// </summary>
+		ChangeVersion = 16,
+		/// <summary>
+		/// User can change <see cref="Models.Administration.UpstreamRepository"/>
+		/// </summary>
+		SetUpstreamRepository
+
 	}
 }
