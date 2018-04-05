@@ -10,6 +10,6 @@ namespace Tgstation.Server.Host
 		public void Dispose() { }
 
 		/// <inheritdoc />
-		public Task RunAsync() => Task.CompletedTask;
+		public Task RunAsync(string[] args, CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }

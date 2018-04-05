@@ -40,8 +40,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.ControlPanel.Tests", "tests\Tgstation.Server.ControlPanel.Tests\Tgstation.Server.ControlPanel.Tests.csproj", "{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Service.Tests", "tests\Tgstation.Server.Host.Service.Tests\Tgstation.Server.Host.Service.Tests.csproj", "{F0CD3F14-E9C0-4477-99F7-F1E22CB8D85E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Api.Tests", "tests\Tgstation.Server.Api.Tests\Tgstation.Server.Api.Tests.csproj", "{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client.Tests", "tests\Tgstation.Server.Client.Tests\Tgstation.Server.Client.Tests.csproj", "{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}"
@@ -94,10 +92,6 @@ Global
 		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0CD3F14-E9C0-4477-99F7-F1E22CB8D85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0CD3F14-E9C0-4477-99F7-F1E22CB8D85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0CD3F14-E9C0-4477-99F7-F1E22CB8D85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0CD3F14-E9C0-4477-99F7-F1E22CB8D85E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Release|Any CPU.ActiveCfg = Release|Any CPU

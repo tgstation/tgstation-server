@@ -17,11 +17,12 @@ namespace Tgstation.Server.Host.Console
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
+		/// <param name="args">The arguments for the <see cref="Program"/></param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		internal static async Task Main()
+		internal static async Task Main(string[] args)
 		{
 			using (var server = ServerFactory.CreateServer())
-				await server.RunAsync().ConfigureAwait(false);
+				await server.RunAsync(args, default).ConfigureAwait(false);
 		}
 	}
 }
