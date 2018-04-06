@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host
+﻿namespace Tgstation.Server.Host.Startup
 {
 	/// <summary>
 	/// For creating <see cref="IServer"/>s

@@ -1,58 +1,59 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host.Watchdog
 {
 	/// <inheritdoc />
-	sealed class Watchdog : MarshalByRefObject, IWatchdog
+	sealed class Watchdog : IWatchdog
 	{
-        string DomainName => GetType().Namespace.Replace(nameof(Watchdog), String.Empty);
+		/// <summary>
+		/// The initial <see cref="IServerFactory"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IServerFactory initialServerFactory;
 
-        string DllName => String.Concat(DomainName, ".dll");
+		/// <summary>
+		/// The <see cref="IActiveAssemblyDeleter"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IActiveAssemblyDeleter activeAssemblyDeleter;
 
-        async Task<string> RunServer(string[] args, CancellationToken cancellationToken)
-        {
-            var assembly = Assembly.LoadFrom(DllName);
-            //the only thing we need to reflect is the IServerFactory, we can cross reference everything else from there
-            var factoryInterfaceType = assembly.GetType(String.Concat(DomainName, ".IServerFactory"));
-            var factoryType = assembly.GetTypes().Where(x => factoryInterfaceType.IsAssignableFrom(x)).First();
-            var factory = Activator.CreateInstance(factoryType);
-            var factoryFunction = factoryInterfaceType.GetMethods().First();
-            var serverType = factoryFunction.ReturnType;
-            var serverRunFunction = serverType.GetMethods().First();
-            var serverUpdatePathAccessor = serverType.GetProperties().First().GetAccessors().First();
-
-            var server = (IDisposable)factoryFunction.Invoke(factory, Array.Empty<object>());
-            using (server)
-            {
-                var task = (Task)serverRunFunction.Invoke(server, new object[] { args, cancellationToken });
-                await task.ConfigureAwait(false);
-                return (string)serverUpdatePathAccessor.Invoke(server, Array.Empty<object>());
-            }
-        }
+		/// <summary>
+		/// Construct a <see cref="Watchdog"/>
+		/// </summary>
+		/// <param name="initialServerFactory">The value of <see cref="initialServerFactory"/></param>
+		/// <param name="activeAssemblyDeleter">The value of <see cref="activeAssemblyDeleter"/></param>
+		public Watchdog(IServerFactory initialServerFactory, IActiveAssemblyDeleter activeAssemblyDeleter)
+		{
+			this.initialServerFactory = initialServerFactory ?? throw new ArgumentNullException(nameof(initialServerFactory));
+			this.activeAssemblyDeleter = activeAssemblyDeleter ?? throw new ArgumentNullException(nameof(activeAssemblyDeleter));
+		}
 
 		/// <inheritdoc />
 		public async Task RunAsync(string[] args, CancellationToken cancellationToken)
 		{
-			while (!cancellationToken.IsCancellationRequested)
-            {
-                string updatePath = null;
+			//first run the host we started with
+			var serverFactory = initialServerFactory;
+			var assembly = serverFactory.GetType().Assembly;
+			do
+			{
+				string updatePath;
+				using (var server = serverFactory.CreateServer())
+				{
+					serverFactory = null;
+					await server.RunAsync(args, cancellationToken).ConfigureAwait(false);
+					updatePath = server.UpdatePath;
+				}
 
-                await Task.CompletedTask.ConfigureAwait(false);
-
-                if (updatePath == null)
-                    break;
-                
-                //Ensure the assembly is unloaded
-                GC.Collect(Int32.MaxValue, GCCollectionMode.Default, true);
-
-                File.Delete(DllName);
-                File.Move(updatePath, DllName);
-            }
+				if (updatePath == null)
+					break;
+				
+				activeAssemblyDeleter.DeleteActiveAssembly(assembly);
+				File.Move(updatePath, assembly.Location);
+				serverFactory = new IsolatedServerFactory(assembly.Location);
+			}
+			while (!cancellationToken.IsCancellationRequested);
 		}
 	}
 }

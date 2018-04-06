@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host
 {
@@ -7,7 +8,7 @@ namespace Tgstation.Server.Host
 	sealed class Server : IServer
     {
         /// <inheritdoc />
-        public string UpdatePath => null;
+        public string UpdatePath => "Tgstation.Server.Host.New.dll";
 
         /// <inheritdoc />
         public void Dispose() { }

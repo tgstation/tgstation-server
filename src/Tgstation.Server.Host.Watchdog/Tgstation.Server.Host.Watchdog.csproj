@@ -18,6 +18,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
     <PackageReference Include="Octokit" Version="0.29.0" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
   </ItemGroup>
 
 </Project>

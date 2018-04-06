@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host
+namespace Tgstation.Server.Host.Startup
 {
 	/// <summary>
 	/// Represents the host

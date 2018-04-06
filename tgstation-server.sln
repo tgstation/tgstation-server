@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog.Tests", "tests\Tgstation.Server.Host.Watchdog.Tests\Tgstation.Server.Host.Watchdog.Tests.csproj", "{7500F776-4384-4B5F-A8D8-22461CAD108B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Startup", "src\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj", "{7D067E1B-06A1-49C8-A8E6-7ACBA28A5A41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D067E1B-06A1-49C8-A8E6-7ACBA28A5A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D067E1B-06A1-49C8-A8E6-7ACBA28A5A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D067E1B-06A1-49C8-A8E6-7ACBA28A5A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D067E1B-06A1-49C8-A8E6-7ACBA28A5A41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

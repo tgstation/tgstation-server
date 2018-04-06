@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host
+﻿using Tgstation.Server.Host.Startup;
+
+namespace Tgstation.Server.Host
 {
 	/// <inheritdoc />
 	public sealed class ServerFactory : IServerFactory
