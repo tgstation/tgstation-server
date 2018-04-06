@@ -1,16 +1,14 @@
-﻿using System.Reflection;
-
-namespace Tgstation.Server.Host.Watchdog
+﻿namespace Tgstation.Server.Host.Watchdog
 {
 	/// <summary>
-	/// For deleting <see cref="Assembly"/>s used by the program
+	/// For deleting <see cref="System.Reflection.Assembly"/>s used by the program
 	/// </summary>
 	interface IActiveAssemblyDeleter
 	{
 		/// <summary>
-		/// Deletes an <paramref name="assembly"/> that is in use by the runtime
+		/// Deletes an <see cref="System.Reflection.Assembly"/> that is in use by the runtime
 		/// </summary>
-		/// <param name="assemblyPath">The <see cref="Assembly.Location"/> of the <see cref="Assembly"/> to delete</param>
+		/// <param name="assemblyPath">The <see cref="System.Reflection.Assembly.Location"/> of the <see cref="System.Reflection.Assembly"/> to delete</param>
 		void DeleteActiveAssembly(string assemblyPath);
 	}
 }
