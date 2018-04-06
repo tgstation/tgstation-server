@@ -6,7 +6,7 @@ using Tgstation.Server.Host.Watchdog;
 namespace Tgstation.Server.Host.Service
 {
 	/// <summary>
-	/// Represents a <see cref="IServer"/> as a <see cref="ServiceBase"/>
+	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>
 	/// </summary>
 	sealed class ServerService : ServiceBase
 	{
@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Service
 		IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IServer.RunAsync(string[], CancellationToken)"/> of <see cref="server"/>
+		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(string[], CancellationToken)"/> of <see cref="watchdog"/>
 		/// </summary>
 		Task watchdogTask;
 

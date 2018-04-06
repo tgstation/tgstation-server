@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Console
 	static class Program
 	{
 		/// <summary>
-		/// The <see cref="IServerFactory"/> for the <see cref="Program"/>
+		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>
 		/// </summary>
 		internal static IWatchdogFactory WatchdogFactory { get; set; } = new WatchdogFactory();
 

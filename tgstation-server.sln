@@ -20,7 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 	ProjectSection(SolutionItems) = preProject
 		build\BuildDox.ps1 = build\BuildDox.ps1
 		build\Dockerfile = build\Dockerfile
-		build\Dockerfile1709 = build\Dockerfile1709
 		build\Doxyfile = build\Doxyfile
 		build\tgs.ico = build\tgs.ico
 		build\UploadCoverage.ps1 = build\UploadCoverage.ps1
@@ -50,9 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Watchdog", "src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj", "{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog", "src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj", "{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Watchdog.Tests", "tests\Tgstation.Server.Host.Watchdog.Tests\Tgstation.Server.Host.Watchdog.Tests.csproj", "{7500F776-4384-4B5F-A8D8-22461CAD108B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog.Tests", "tests\Tgstation.Server.Host.Watchdog.Tests\Tgstation.Server.Host.Watchdog.Tests.csproj", "{7500F776-4384-4B5F-A8D8-22461CAD108B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
