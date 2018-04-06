@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.ServiceProcess;
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
@@ -11,6 +12,7 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
+		[ExcludeFromCodeCoverage]
 		static void Main() => ServiceBase.Run(new ServerService(new WatchdogFactory()));
 	}
 }

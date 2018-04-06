@@ -1,4 +1,6 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Watchdog;
@@ -31,14 +33,17 @@ namespace Tgstation.Server.Host.Service
         /// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with</param>
         public ServerService(IWatchdogFactory watchdogFactory)
 		{
+			if (watchdogFactory == null)
+				throw new ArgumentNullException(nameof(watchdogFactory));
 			ServiceName = "tgstation-server";
             watchdog = watchdogFactory.CreateWatchdog();
 		}
 
 		/// <inheritdoc />
+		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
 		protected override void Dispose(bool disposing)
 		{
-			cancellationTokenSource.Dispose();
+			cancellationTokenSource?.Dispose();
 			base.Dispose(disposing);
 		}
 
