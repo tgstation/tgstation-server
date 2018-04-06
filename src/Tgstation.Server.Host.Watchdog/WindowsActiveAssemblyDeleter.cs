@@ -29,8 +29,7 @@ namespace Tgstation.Server.Host.Watchdog
 				throw new ArgumentNullException(nameof(assemblyPath));
 			
 			//Can't use Path.GetTempFileName() because it may cross drives, which won't actually rename the file
-			//Also append the long path prefix just in case we're running on .NET framework
-			var tmpLocation = String.Concat(@"\\?\", assemblyPath, Guid.NewGuid());
+			var tmpLocation = String.Concat(assemblyPath, Guid.NewGuid());
 			File.Move(assemblyPath, tmpLocation);
 			DeleteFileOnReboot(tmpLocation);
 		}
