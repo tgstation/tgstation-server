@@ -10,6 +10,6 @@ namespace Tgstation.Server.Host.Watchdog
 	sealed class PosixActiveAssemblyDeleter : IActiveAssemblyDeleter
 	{
 		/// <inheritdoc />
-		public void DeleteActiveAssembly(Assembly assembly) => File.Delete(assembly?.Location ?? throw new ArgumentNullException(nameof(assembly))); //glory of inodes
+		public void DeleteActiveAssembly(string assemblyPath) => File.Delete(assemblyPath ?? throw new ArgumentNullException(nameof(assemblyPath))); //glory of inodes
 	}
 }

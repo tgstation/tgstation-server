@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host
 	sealed class Server : IServer
     {
         /// <inheritdoc />
-        public string UpdatePath => "Tgstation.Server.Host.New.dll";
+        public string UpdatePath => null;
 
         /// <inheritdoc />
         public void Dispose() { }

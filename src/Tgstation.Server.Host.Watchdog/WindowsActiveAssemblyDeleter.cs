@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Tgstation.Server.Host.Watchdog
@@ -11,22 +11,28 @@ namespace Tgstation.Server.Host.Watchdog
 	/// </summary>
 	sealed class WindowsActiveAssemblyDeleter : IActiveAssemblyDeleter
 	{
-		/// <inheritdoc />
-		public void DeleteActiveAssembly(Assembly assembly)
+		/// <summary>
+		/// Set a file located at <paramref name="path"/> to be deleted on reboot
+		/// </summary>
+		/// <param name="path">The file to delete on reboot</param>
+		[ExcludeFromCodeCoverage]
+		static void DeleteFileOnReboot(string path)
 		{
-			if (assembly == null)
-				throw new ArgumentNullException(nameof(assembly));
+			if (!NativeMethods.MoveFileEx(path, null, NativeMethods.MoveFileFlags.DelayUntilReboot))
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+		}
+
+		/// <inheritdoc />
+		public void DeleteActiveAssembly(string assemblyPath)
+		{
+			if (assemblyPath == null)
+				throw new ArgumentNullException(nameof(assemblyPath));
 			
-			var location = assembly.Location;
 			//Can't use Path.GetTempFileName() because it may cross drives, which won't actually rename the file
 			//Also append the long path prefix just in case we're running on .NET framework
-			var tmpLocation = String.Concat(@"\\?\", assembly.Location, Guid.NewGuid());
-			File.Delete(tmpLocation);
-			File.Move(location, tmpLocation);
-
-			//this deletes the file at reboot, sadly it also triggers a restart notification on server os's but oh well
-			if (!NativeMethods.MoveFileEx(tmpLocation, null, NativeMethods.MoveFileFlags.DelayUntilReboot))
-				throw new Win32Exception(Marshal.GetLastWin32Error());
+			var tmpLocation = String.Concat(@"\\?\", assemblyPath, Guid.NewGuid());
+			File.Move(assemblyPath, tmpLocation);
+			DeleteFileOnReboot(tmpLocation);
 		}
 	}
 }

@@ -10,7 +10,10 @@ namespace Tgstation.Server.Host.Tests
 		public async Task TestRunAndDispose()
 		{
 			using (var server = new Server())
+			{
 				await server.RunAsync(null, default).ConfigureAwait(false);
+				Assert.IsNull(server.UpdatePath);
+			}
 		}
 	}
 }

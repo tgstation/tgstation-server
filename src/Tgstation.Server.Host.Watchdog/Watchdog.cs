@@ -20,14 +20,21 @@ namespace Tgstation.Server.Host.Watchdog
 		readonly IActiveAssemblyDeleter activeAssemblyDeleter;
 
 		/// <summary>
+		/// The <see cref="IIsolatedAssemblyContextFactory"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IIsolatedAssemblyContextFactory isolatedAssemblyLoader;
+
+		/// <summary>
 		/// Construct a <see cref="Watchdog"/>
 		/// </summary>
 		/// <param name="initialServerFactory">The value of <see cref="initialServerFactory"/></param>
 		/// <param name="activeAssemblyDeleter">The value of <see cref="activeAssemblyDeleter"/></param>
-		public Watchdog(IServerFactory initialServerFactory, IActiveAssemblyDeleter activeAssemblyDeleter)
+		/// <param name="isolatedAssemblyLoader">The value of <see cref="isolatedAssemblyLoader"/></param>
+		public Watchdog(IServerFactory initialServerFactory, IActiveAssemblyDeleter activeAssemblyDeleter, IIsolatedAssemblyContextFactory isolatedAssemblyLoader)
 		{
 			this.initialServerFactory = initialServerFactory ?? throw new ArgumentNullException(nameof(initialServerFactory));
 			this.activeAssemblyDeleter = activeAssemblyDeleter ?? throw new ArgumentNullException(nameof(activeAssemblyDeleter));
+			this.isolatedAssemblyLoader = isolatedAssemblyLoader ?? throw new ArgumentNullException(nameof(isolatedAssemblyLoader));
 		}
 
 		/// <inheritdoc />
@@ -35,7 +42,7 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			//first run the host we started with
 			var serverFactory = initialServerFactory;
-			var assembly = serverFactory.GetType().Assembly;
+			var assemblyPath = serverFactory.GetType().Assembly.Location;
 			do
 			{
 				string updatePath;
@@ -49,9 +56,9 @@ namespace Tgstation.Server.Host.Watchdog
 				if (updatePath == null)
 					break;
 				
-				activeAssemblyDeleter.DeleteActiveAssembly(assembly);
-				File.Move(updatePath, assembly.Location);
-				serverFactory = new IsolatedServerFactory(assembly.Location);
+				activeAssemblyDeleter.DeleteActiveAssembly(assemblyPath);
+				File.Move(updatePath, assemblyPath);
+				serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(assemblyPath);
 			}
 			while (!cancellationToken.IsCancellationRequested);
 		}

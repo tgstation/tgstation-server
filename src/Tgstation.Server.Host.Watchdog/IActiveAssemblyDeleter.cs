@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <summary>
 		/// Deletes an <paramref name="assembly"/> that is in use by the runtime
 		/// </summary>
-		/// <param name="assembly">The <see cref="Assembly"/> to delete</param>
-		void DeleteActiveAssembly(Assembly assembly);
+		/// <param name="assemblyPath">The <see cref="Assembly.Location"/> of the <see cref="Assembly"/> to delete</param>
+		void DeleteActiveAssembly(string assemblyPath);
 	}
 }
