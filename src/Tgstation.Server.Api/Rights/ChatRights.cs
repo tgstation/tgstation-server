@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.Chat"/>
+	/// Rights for <see cref="Models.ChatSettings"/>
 	/// </summary>
 	[Flags]
 	public enum ChatRights

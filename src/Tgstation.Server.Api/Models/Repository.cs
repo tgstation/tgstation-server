@@ -46,11 +46,14 @@ namespace Tgstation.Server.Api.Models
 		public IReadOnlyDictionary<string, string> Backups { get; set; }
 
 		/// <summary>
-		/// Associated list of GitHub pull request number -> sha for merged pull requests. Adding a <see langword="null"/> value to this list will merge the latest commit of the pull request numbered by the key
+		/// List of <see cref="TestMerge"/>s in the repository
 		/// </summary>
-		[Permissions(WriteRight = RepositoryRights.MergePullRequest)]
-		public Dictionary<int, string> PullRequests { get; set; }
+		[Permissions(DenyWrite = true)]
+		public List<TestMerge> TestMerges { get; set; }
 		
+		[Permissions(WriteRight = RepositoryRights.MergePullRequest)]
+		public List<TestMergeParameters> NewTestMerges { get; set; }
+
 		/// <summary>
 		/// The username to access the git repository with
 		/// </summary>

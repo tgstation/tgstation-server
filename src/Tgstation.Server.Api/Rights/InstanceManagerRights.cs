@@ -39,6 +39,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can view all <see cref="Models.Instance"/>s
 		/// </summary>
-		List = 64
+		List = 64,
+		/// <summary>
+		/// User can change <see cref="Models.Instance.ConfigurationAllowed"/>
+		/// </summary>
+		SetConfiguration = 128
 	}
 }

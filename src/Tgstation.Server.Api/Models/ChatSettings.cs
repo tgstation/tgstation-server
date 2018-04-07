@@ -7,7 +7,7 @@ namespace Tgstation.Server.Api.Models
 	/// Manage the server chat bots
 	/// </summary>
 	[Model(RightsType.Chat, RequiresInstance = true)]
-	public sealed class Chat
+	public class ChatSettings
 	{
 		/// <summary>
 		/// If the IRC client is enabled

@@ -1,4 +1,5 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -18,6 +19,7 @@ namespace Tgstation.Server.Api.Models
 		/// The name of the <see cref="Instance"/>
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.Rename)]
+		[Required]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -31,5 +33,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.SetOnline)]
 		public bool Online { get; set; }
+
+		/// <summary>
+		/// If <see cref="Configuration"/> can be used on the <see cref="Instance"/>
+		/// </summary>
+		[Permissions(WriteRight = InstanceManagerRights.SetConfiguration)]
+		public bool ConfigurationAllowed { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Tgstation.Server.Api.Rights;
 
@@ -18,21 +19,30 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The user agent that created the <see cref="Token"/>
 		/// </summary>
+		[Required]
 		public string ClientUserAgent { get; set; }
 
 		/// <summary>
 		/// The <see cref="IPAddress"/> the <see cref="Token"/> was originally issued to
 		/// </summary>
+		[Required]
 		public IPAddress IssuedTo { get; set; }
 
 		/// <summary>
 		/// When the <see cref="Token"/> was originally issued
 		/// </summary>
+		[Required]
 		public DateTimeOffset IssuedAt { get; set; }
+
+		/// <summary>
+		/// When the <see cref="Token"/> was last used
+		/// </summary>
+		public DateTimeOffset LastUsedAt { get; set; }
 
 		/// <summary>
 		/// The token <see cref="string"/>. Not modifiable, only appears once
 		/// </summary>
+		[Required]
 		public string Value { get; set; }
 	}
 }

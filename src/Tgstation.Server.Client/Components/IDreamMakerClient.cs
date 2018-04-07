@@ -15,7 +15,7 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamMaker"/> represented by the <see cref="IDreamMakerClient"/></returns>
-		Task<Chat> Read(CancellationToken cancellationToken);
+		Task<ChatSettings> Read(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Updates the <see cref="DreamMaker"/> setttings
