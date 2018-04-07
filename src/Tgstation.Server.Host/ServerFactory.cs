@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Host.Startup;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host
 {
@@ -6,6 +8,6 @@ namespace Tgstation.Server.Host
 	public sealed class ServerFactory : IServerFactory
 	{
 		/// <inheritdoc />
-		public IServer CreateServer() => new Server();
+		public IServer CreateServer(string[] args) => new Server(WebHost.CreateDefaultBuilder(args));
 	}
 }

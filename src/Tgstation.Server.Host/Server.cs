@@ -1,5 +1,9 @@
-﻿using System.Threading;
+﻿using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host
@@ -10,10 +14,23 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public string UpdatePath => null;
 
-		/// <inheritdoc />
-		public void Dispose() { }
+		/// <summary>
+		/// The <see cref="IWebHostBuilder"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly IWebHostBuilder webHostBuilder;
+
+		/// <summary>
+		/// Construct a <see cref="Server"/>
+		/// </summary>
+		/// <param name="webHostBuilder">The value of <see cref="webHostBuilder"/></param>
+		public Server(IWebHostBuilder webHostBuilder) => this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
 
 		/// <inheritdoc />
-		public Task RunAsync(string[] args, CancellationToken cancellationToken) => Task.CompletedTask;
+        [ExcludeFromCodeCoverage]
+		public async Task RunAsync(CancellationToken cancellationToken)
+		{
+			using (var webHost = webHostBuilder.UseStartup<Application>().Build())
+				await webHost.RunAsync(cancellationToken).ConfigureAwait(false);
+		}
 	}
 }
