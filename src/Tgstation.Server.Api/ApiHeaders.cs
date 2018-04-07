@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Tgstation.Server.Api
 {
-	public sealed class Headers
+	public sealed class ApiHeaders
 	{
 		const string userAgentHeader = "User-Agent";
 		const string apiVersionHeader = "Api-Version";
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Api
 
         readonly Dictionary<string, string> headerEntries;
 
-        public Headers(string userAgent, string token) : this(userAgent, token, null, null)
+        public ApiHeaders(string userAgent, string token) : this(userAgent, token, null, null)
         {
             if (userAgent == null)
                 throw new ArgumentNullException(nameof(userAgent));
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Api
                 throw new ArgumentNullException(nameof(token));
         }
 
-        public Headers(string userAgent, string username, string password) : this(userAgent, null, username, password)
+        public ApiHeaders(string userAgent, string username, string password) : this(userAgent, null, username, password)
         {
             if (userAgent == null)
                 throw new ArgumentNullException(nameof(userAgent));
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Api
                 throw new ArgumentNullException(nameof(password));
         }
 
-        public Headers(IReadOnlyDictionary<string, string> headerEntries)
+        public ApiHeaders(IReadOnlyDictionary<string, string> headerEntries)
         {
             this.headerEntries = headerEntries?.ToDictionary(x => x.Key, x => x.Value) ?? throw new ArgumentNullException(nameof(headerEntries));
             AssertHeader(userAgentHeader);
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Api
             }
         }
 
-        Headers(string userAgent, string token, string username, string password)
+        ApiHeaders(string userAgent, string token, string username, string password)
         {
             headerEntries = new Dictionary<string, string>();
             ApiVersion = CurrentApiVersion;

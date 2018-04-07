@@ -44,7 +44,7 @@ namespace Tgstation.Server.Api.Models
 		/// Git revision the compiler ran on. Not modifiable
 		/// </summary>
 		[Required]
-		public string Revision { get; set; }
+		public RevisionInformation RevisionInformation { get; set; }
 
 		/// <summary>
 		/// Git revision of the origin branch the compiler ran on. Not modifiable

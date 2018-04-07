@@ -35,7 +35,7 @@
 		/// </summary>
 		DreamDaemon,
 		/// <summary>
-		/// <see cref="ChatRights"/>
+		/// <see cref="ChatSettingsRights"/>
 		/// </summary>
 		Chat,
 		/// <summary>

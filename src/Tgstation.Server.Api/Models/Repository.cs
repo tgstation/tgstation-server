@@ -15,11 +15,14 @@ namespace Tgstation.Server.Api.Models
 		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
 		public string Origin { get; set; }
 
+		[Permissions(DenyWrite = true)]
+		public RevisionInformation RevisionInformation { get; set; }
+
 		/// <summary>
 		/// The commit HEAD points to
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetSha)]
-		public string Sha { get; set; }
+		public string NewRevision { get; set; }
 
 		/// <summary>
 		/// The branch or tag HEAD points to
@@ -38,12 +41,6 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeCommitter)]
 		public string CommitterEmail { get; set; }
-
-		/// <summary>
-		/// Associated list of tag name -> sha for repository compiles. Not modifiable
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public IReadOnlyDictionary<string, string> Backups { get; set; }
 
 		/// <summary>
 		/// List of <see cref="TestMerge"/>s in the repository

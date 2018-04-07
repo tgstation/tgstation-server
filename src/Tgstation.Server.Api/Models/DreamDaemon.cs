@@ -11,28 +11,10 @@ namespace Tgstation.Server.Api.Models
 	public sealed class DreamDaemon
 	{
 		/// <summary>
-		/// The pull requests merged on the live game version
-		/// </summary>
-		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
-		public IReadOnlyDictionary<int, string> PullRequests { get; set; }
-
-		/// <summary>
-		/// The git sha the live game version was compiled at
-		/// </summary>
-		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
-		public string Sha { get; set; }
-
-		/// <summary>
-		/// The git sha of the origin branch the live game version was compiled at
-		/// </summary>
-		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
-		public string OriginSha { get; set; }
-
-		/// <summary>
 		/// When the live revision was compiled
 		/// </summary>
 		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
-		public DateTimeOffset CompiledAt { get; set; }
+		public CompileJob CompileJob { get; set; }
 
 		/// <summary>
 		/// If <see cref="DreamDaemon"/> starts when it's <see cref="Instance"/> starts

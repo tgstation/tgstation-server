@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
@@ -9,9 +10,16 @@ namespace Tgstation.Server.Host.Models
 	sealed class Instance : Api.Models.Instance
 	{
 		/// <summary>
-		/// The <see cref="ChatSettings"/> for the <see cref="Instance"/>
+		/// The <see cref="Models.ChatSettings"/> for the <see cref="Instance"/>
 		/// </summary>
+		[Required]
 		ChatSettings ChatSettings { get; set; }
+
+		/// <summary>
+		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
+		/// </summary>
+		[Required]
+		DreamMakerSettings DreamMakerSettings { get; set; }
 		
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s in the <see cref="Instance"/>

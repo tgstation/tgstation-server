@@ -35,9 +35,9 @@ namespace Tgstation.Server.Api.Models
 		public RepositoryRights RepositoryRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.ChatRights"/> of the <see cref="InstanceUser"/>
+		/// The <see cref="Rights.ChatSettingsRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
-		public ChatRights ChatRights { get; set; }
+		public ChatSettingsRights ChatRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.ConfigurationRights"/> of the <see cref="InstanceUser"/>

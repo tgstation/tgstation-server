@@ -8,9 +8,7 @@ namespace Tgstation.Server.Api.Models
 		public long Id { get; set; }
 
 		[Required]
-		public string OriginCommit { get; set; }
-
-		public string MergeCommit { get; set; }
+		RevisionInformation RevisionInformation { get; set; }
 
 		[Required]
 		public DateTimeOffset MergedAt { get; set; }

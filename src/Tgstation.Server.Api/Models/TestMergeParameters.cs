@@ -7,6 +7,6 @@ namespace Tgstation.Server.Api.Models
 		public int Number { get; set; }
 
 		[Required]
-		public string Commit { get; set; }
+		public string PullRequestRevision { get; set; }
 	}
 }

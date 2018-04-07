@@ -8,13 +8,13 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// For managing the chat bots
 	/// </summary>
-	public interface IChatClient : IRightsClient<ChatRights>
+	public interface IChatSettingsClient : IRightsClient<ChatSettingsRights>
 	{
 		/// <summary>
-		/// Get the <see cref="ChatSettings"/> represented by the <see cref="IChatClient"/>
+		/// Get the <see cref="ChatSettings"/> represented by the <see cref="IChatSettingsClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ChatSettings"/> represented by the <see cref="IChatClient"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ChatSettings"/> represented by the <see cref="IChatSettingsClient"/></returns>
 		Task<ChatSettings> Read(CancellationToken cancellationToken);
 
 		/// <summary>

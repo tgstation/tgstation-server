@@ -36,10 +36,10 @@ namespace Tgstation.Server.Host.Core
         {
             applicationBuilder.Use(async (httpContext, next) =>
             {
-                Headers headers;
+                ApiHeaders headers;
                 try
                 {
-                    headers = new Headers(httpContext.Request.Headers.ToDictionary(x => x.Key, x => x.Value.First()));
+                    headers = new ApiHeaders(httpContext.Request.Headers.ToDictionary(x => x.Key, x => x.Value.First()));
                 }
                 catch (InvalidOperationException)
                 {
