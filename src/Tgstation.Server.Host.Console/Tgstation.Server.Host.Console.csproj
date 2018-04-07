@@ -4,7 +4,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>Full</DebugType>
-    <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -19,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
   </ItemGroup>
 
 </Project>

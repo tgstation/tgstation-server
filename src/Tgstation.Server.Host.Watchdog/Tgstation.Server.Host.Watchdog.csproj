@@ -9,17 +9,22 @@
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;CA2227</NoWarn>
+    <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Host.Watchdog.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
-    <NoWarn>1701;1702;1705;CA2227</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
+    <PackageReference Include="Octokit" Version="0.29.0" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,44 +1,49 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
 {
 	/// <summary>
-	/// Represents a <see cref="IServer"/> as a <see cref="ServiceBase"/>
+	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>
 	/// </summary>
 	sealed class ServerService : ServiceBase
 	{
 		/// <summary>
-		/// The <see cref="IServer"/> for the <see cref="ServerService"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>
 		/// </summary>
-		IServer server;
+		IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IServer.RunAsync(string[], CancellationToken)"/> of <see cref="server"/>
+		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(string[], CancellationToken)"/> of <see cref="watchdog"/>
 		/// </summary>
-		Task serverTask;
+		Task watchdogTask;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="ServerService"/>
 		/// </summary>
 		CancellationTokenSource cancellationTokenSource;
 
-		/// <summary>
-		/// Construct a <see cref="ServerService"/>
-		/// </summary>
-		/// <param name="serverFactory">The <see cref="IServerFactory"/> to create <see cref="server"/> with</param>
-		public ServerService(IServerFactory serverFactory)
+        /// <summary>
+        /// Construct a <see cref="ServerService"/>
+        /// </summary>
+        /// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with</param>
+        public ServerService(IWatchdogFactory watchdogFactory)
 		{
+			if (watchdogFactory == null)
+				throw new ArgumentNullException(nameof(watchdogFactory));
 			ServiceName = "tgstation-server";
-			server = serverFactory.CreateServer();
+            watchdog = watchdogFactory.CreateWatchdog();
 		}
 
 		/// <inheritdoc />
+		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
 		protected override void Dispose(bool disposing)
 		{
-			server.Dispose();
-			cancellationTokenSource.Dispose();
+			cancellationTokenSource?.Dispose();
 			base.Dispose(disposing);
 		}
 
@@ -47,14 +52,14 @@ namespace Tgstation.Server.Host.Service
 		{
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
-			serverTask = server.RunAsync(args, cancellationTokenSource.Token);
+			watchdogTask = watchdog.RunAsync(args, cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />
 		protected override void OnStop()
 		{
 			cancellationTokenSource.Cancel();
-			serverTask.GetAwaiter().GetResult();
+			watchdogTask.GetAwaiter().GetResult();
 		}
 	}
 }

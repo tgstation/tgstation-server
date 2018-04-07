@@ -2,13 +2,18 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host
+namespace Tgstation.Server.Host.Startup
 {
 	/// <summary>
 	/// Represents the host
 	/// </summary>
 	public interface IServer : IDisposable
 	{
+        /// <summary>
+        /// The path to the updated assembly to run if any. Populated once <see cref="RunAsync(string[], CancellationToken)"/> returns
+        /// </summary>
+        string UpdatePath { get; }
+
 		/// <summary>
 		/// Runs the <see cref="IServer"/>
 		/// </summary>
