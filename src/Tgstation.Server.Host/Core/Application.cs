@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Cyberboss.AspNetCore.AsyncInitializer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -35,10 +37,15 @@ namespace Tgstation.Server.Host.Core
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
+			services.Configure<DatabaseContext>(configuration.GetSection("Database"));
+
             services.AddMvc();
             services.AddOptions();
             services.AddLocalization();
-        }
+
+			services.AddDbContext<DatabaseContext>();
+			services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<DatabaseContext>());
+		}
 
 		/// <summary>
 		/// Configure the <see cref="Application"/>
@@ -69,6 +76,8 @@ namespace Tgstation.Server.Host.Core
 				SupportedCultures = supportedCultures,
 				SupportedUICultures = supportedCultures,
 			});
+
+			applicationBuilder.UseAsyncInitialization<IDatabaseContext>((databaseContext, cancellationToken) => databaseContext.Initialize(cancellationToken));
 
             applicationBuilder.UseSystemAuthentication();
 

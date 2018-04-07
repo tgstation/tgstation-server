@@ -38,5 +38,10 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="CompileJob"/>s in the <see cref="Instance"/>
 		/// </summary>
 		public List<CompileJob> CompileJobs { get; set; }
+
+		/// <summary>
+		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
+		/// </summary>
+		public List<Job> Jobs { get; set; }
 	}
 }

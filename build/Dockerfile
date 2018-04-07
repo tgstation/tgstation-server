@@ -38,6 +38,12 @@ RUN dotnet publish -c Release -o /app
 
 FROM microsoft/dotnet:2.1-runtime
 EXPOSE 80
+
 WORKDIR /app
+
 COPY --from=publish /app .
+
+RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
+VOLUME ["/config_data"]
+
 ENTRYPOINT ["dotnet", "Tgstation.Server.Host.Console.dll"]
