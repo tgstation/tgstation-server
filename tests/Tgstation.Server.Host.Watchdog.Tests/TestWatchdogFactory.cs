@@ -10,25 +10,10 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 	public sealed class TestWatchdogFactory
 	{
 		[TestMethod]
-		public void TestCreateWatchdogWindows()
+		public void TestCreateWatchdog()
 		{
 			var factory = new WatchdogFactory();
-			var mockOSIdentifier = new Mock<IOSIdentifier>();
-			mockOSIdentifier.SetupGet(x => x.IsWindows).Returns(true).Verifiable();
-			WatchdogFactory.osIdentifier = mockOSIdentifier.Object;
 			Assert.IsNotNull(factory.CreateWatchdog());
-			mockOSIdentifier.VerifyAll();
-		}
-
-		[TestMethod]
-		public void TestCreateWatchdogNonWindows()
-		{
-			var factory = new WatchdogFactory();
-			var mockOSIdentifier = new Mock<IOSIdentifier>();
-			mockOSIdentifier.SetupGet(x => x.IsWindows).Returns(false).Verifiable();
-			WatchdogFactory.osIdentifier = mockOSIdentifier.Object;
-			Assert.IsNotNull(factory.CreateWatchdog());
-			mockOSIdentifier.VerifyAll();
 		}
 	}
 }
