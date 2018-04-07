@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// Represents a server <see cref="User"/>
 	/// </summary>
 	[Model(RightsType.Administration, WriteRight = AdministrationRights.EditUsers)]
-	public sealed class User
+	public class User
 	{
 		/// <summary>
 		/// The ID of the <see cref="User"/>

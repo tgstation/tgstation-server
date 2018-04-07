@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// Metadata about a server instance
 	/// </summary>
 	[Model(RightsType.InstanceManager, CanCrud = true, CanList = true)]
-	public sealed class Instance
+	public class Instance
 	{
 		/// <summary>
 		/// The id of the <see cref="Instance"/>. Not modifiable
