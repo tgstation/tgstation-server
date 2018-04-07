@@ -21,6 +21,9 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		DreamMakerSettings DreamMakerSettings { get; set; }
 		
+		[Required]
+		DreamDaemonSettings DreamDaemonSettings { get; set; }
+
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s in the <see cref="Instance"/>
 		/// </summary>
