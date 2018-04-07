@@ -69,7 +69,9 @@ namespace Tgstation.Server.Host.Core
 				SupportedCultures = supportedCultures,
 				SupportedUICultures = supportedCultures,
 			});
-			
+
+            applicationBuilder.UseSystemAuthentication();
+
 			applicationBuilder.UseMvc();
 		}
 	}
