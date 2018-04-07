@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Watchdog
 		[ExcludeFromCodeCoverage]
 		static void DeleteFileOnReboot(string path)
 		{
-			if (!NativeMethods.MoveFileEx(path, null, NativeMethods.MoveFileFlags.DelayUntilReboot))
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !NativeMethods.MoveFileEx(path, null, NativeMethods.MoveFileFlags.DelayUntilReboot))
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 		}
 
