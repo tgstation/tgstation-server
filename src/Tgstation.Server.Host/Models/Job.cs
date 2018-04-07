@@ -6,5 +6,7 @@ namespace Tgstation.Server.Host.Models
 	{
 		[Required]
 		new public User StartedBy { get; set; }
+
+		Instance Instance { get; set; }
 	}
 }
