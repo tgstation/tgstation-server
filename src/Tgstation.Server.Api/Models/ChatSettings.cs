@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
@@ -19,6 +21,7 @@ namespace Tgstation.Server.Api.Models
 		/// The IRC server name
 		/// </summary>
 		[Permissions(ReadRight = ChatSettingsRights.SetIrcSettings, WriteRight = ChatSettingsRights.SetIrcSettings)]
+		[Required]
 		public string IrcHost { get; set; }
 
 		/// <summary>
@@ -34,18 +37,6 @@ namespace Tgstation.Server.Api.Models
 		public string IrcNickServPassword { get; set; }
 
 		/// <summary>
-		/// Channels the IRC client should join/listen/announce in and allow admin commands
-		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetIrcChannels)]
-		public List<string> IrcAdminChannels { get; set; }
-
-		/// <summary>
-		/// Channels the IRC client should join/listen/announce in
-		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetIrcChannels)]
-		public List<string> IrcGeneralChannels { get; set; }
-
-		/// <summary>
 		/// If the Discord bot is enabled
 		/// </summary>
 		[Permissions(WriteRight = ChatSettingsRights.SetDiscordEnabled)]
@@ -58,14 +49,15 @@ namespace Tgstation.Server.Api.Models
 		public string DiscordBotToken { get; set; }
 
 		/// <summary>
-		/// Channels the Discord bot should listen/announce in and allow admin commands
+		/// Channels the bot should listen/announce in and allow admin commands
 		/// </summary>
 		[Permissions(WriteRight = ChatSettingsRights.SetDiscordChannels)]
-		public List<long> DiscordAdminChannels { get; set; }
+		public virtual List<ChatChannel> AdminChannels { get; set; }
+
 		/// <summary>
 		/// Channels the Discord bot should listen/announce in
 		/// </summary>
 		[Permissions(WriteRight = ChatSettingsRights.SetDiscordChannels)]
-		public List<long> DiscordGeneralChannels { get; set; }
+		public virtual List<ChatChannel> GeneralChannels { get; set; }
 	}
 }

@@ -26,6 +26,7 @@ namespace Tgstation.Server.Api.Models
 		/// The path to where the <see cref="Instance"/> is located
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.Relocate)]
+		[Required]
 		public string Path { get; set; }
 
 		/// <summary>

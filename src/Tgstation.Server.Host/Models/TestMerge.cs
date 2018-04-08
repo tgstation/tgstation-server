@@ -8,6 +8,6 @@ namespace Tgstation.Server.Host.Models
 	sealed class TestMerge : Api.Models.TestMerge
 	{
 		[Required]
-		new User MergedBy { get; set; }
+		new public DbUser MergedBy { get; set; }
 	}
 }

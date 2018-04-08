@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Tgstation.Server.Api.Models
 {
 	public class CompileJob
@@ -39,17 +41,10 @@ namespace Tgstation.Server.Api.Models
 		/// Exit code of DM. If <see langword="null"/>, the job was cancelled
 		/// </summary>
 		public int? ExitCode { get; set; }
-
+		
 		/// <summary>
 		/// Git revision the compiler ran on. Not modifiable
 		/// </summary>
-		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
-
-		/// <summary>
-		/// Git revision of the origin branch the compiler ran on. Not modifiable
-		/// </summary>
-		[Required]
-		public string OriginRevision { get; set; }
 	}
 }

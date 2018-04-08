@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class ServerSettings
 	{
 		/// <summary>
-		/// Use the specified Windows/UNIX authentication to authorize users. Setting this to <see langword="null"/> enables full administrative anonymous access
+		/// Use the specified Windows/POSIX authentication group to authorize users. Changing this may enable or disable <see cref="User"/>s depending on how they were configured. Setting this to <see langword="null"/> changes the authentication mode to database.
 		/// </summary>
 		[Permissions(ReadRight = AdministrationRights.ChangeAuthenticationGroup, WriteRight = AdministrationRights.ChangeAuthenticationGroup)]
 		public string SystemAuthenticationGroup { get; set; }

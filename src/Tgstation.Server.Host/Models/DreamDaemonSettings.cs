@@ -4,13 +4,17 @@ namespace Tgstation.Server.Host.Models
 {
     sealed class DreamDaemonSettings : Api.Models.Internal.DreamDaemonSettings
     {
-		long Id { get; set; }
-		
-		int? ProcessId { get; set; }
+		public long Id { get; set; }
 
-		long InstanceId { get; set; }
+		public int? ProcessId { get; set; }
+
+		public long InstanceId { get; set; }
+
+		public string AccessToken { get; set; }
 
 		[Required]
-		Instance Instance { get; set; }
+		public Instance Instance { get; set; }
+
+		new public DbCompileJob CompileJob { get; set; }
     }
 }

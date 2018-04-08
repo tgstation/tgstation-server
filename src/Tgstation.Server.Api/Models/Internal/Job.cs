@@ -22,6 +22,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		[Required]
 		public DateTimeOffset StartedAt { get; set; }
 
+		[Required]
 		public User StartedBy { get; set; }
 
 		/// <summary>

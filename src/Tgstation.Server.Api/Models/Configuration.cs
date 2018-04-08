@@ -30,9 +30,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The content of the <see cref="Configuration"/> file. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/> or during listing operations
 		/// </summary>
-#pragma warning disable CA1819 // Properties should not return arrays
 		public byte[] Content { get; set; }
-#pragma warning restore CA1819 // Properties should not return arrays
 
 		/// <summary>
 		/// The MD5 hash of the file when last read by the user. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/>. If this doesn't match during update actions, the write will be denied with error code 409

@@ -10,6 +10,7 @@
   "profiles": {
     "Tgstation.Server.Host.Console": {
       "commandName": "Project",
+      "workingDirectory": "bin\\Debug\\netcoreapp2.0",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

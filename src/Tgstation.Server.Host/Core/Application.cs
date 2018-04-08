@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Core
@@ -36,8 +37,8 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
-
-			services.Configure<DatabaseContext>(configuration.GetSection("Database"));
+			var workingDir = Environment.CurrentDirectory;
+			services.Configure<DatabaseConfiguration>(configuration.GetSection("Database"));
 
             services.AddMvc();
             services.AddOptions();
@@ -58,7 +59,7 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(applicationBuilder));
 			if (hostingEnvironment == null)
 				throw new ArgumentNullException(nameof(hostingEnvironment));
-            
+
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();
 
@@ -77,9 +78,13 @@ namespace Tgstation.Server.Host.Core
 				SupportedUICultures = supportedCultures,
 			});
 
-			applicationBuilder.UseAsyncInitialization<IDatabaseContext>((databaseContext, cancellationToken) => databaseContext.Initialize(cancellationToken));
+			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
+			{
+				using (var scop = applicationBuilder.ApplicationServices.CreateScope())
+					await scop.ServiceProvider.GetRequiredService<IDatabaseContext>().Initialize(cancellationToken).ConfigureAwait(false);
+			});
 
-            applicationBuilder.UseSystemAuthentication();
+			applicationBuilder.UseSystemAuthentication();
 
 			applicationBuilder.UseMvc();
 		}

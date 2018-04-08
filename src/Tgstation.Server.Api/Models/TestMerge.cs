@@ -8,13 +8,7 @@ namespace Tgstation.Server.Api.Models
 		public long Id { get; set; }
 
 		[Required]
-		RevisionInformation RevisionInformation { get; set; }
-
-		[Required]
 		public DateTimeOffset MergedAt { get; set; }
-
-		[Required]
-		public DateTimeOffset RemovedAt { get; set; }
 		
 		public User MergedBy { get; set; }
 

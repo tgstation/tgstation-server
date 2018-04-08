@@ -2,7 +2,7 @@
 
 namespace Tgstation.Server.Host.Models
 {
-	sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings
+	sealed class RepositorySettings : Api.Models.Internal.RepositorySettings
 	{
 		public long Id { get; set; }
 
@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Models
 
 		[Required]
 		public Instance Instance { get; set; }
-
-		public DbCompileJob CompileJob { get; set; }
+		
+		new public RevisionInformation RevisionInformation { get; set; }
 	}
 }
