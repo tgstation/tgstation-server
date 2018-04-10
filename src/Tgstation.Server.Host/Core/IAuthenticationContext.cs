@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="User"/> represented by the <see cref="IAuthenticationContext"/></returns>
-		Task<DbUser> User(CancellationToken cancellationToken);
+		Task<User> User(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// The <see cref="Api.Models.InstanceUser"/> represented by <see cref="User"/> and a given <paramref name="instance"/>

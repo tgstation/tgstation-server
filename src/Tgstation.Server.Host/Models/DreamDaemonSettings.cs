@@ -8,13 +8,13 @@ namespace Tgstation.Server.Host.Models
 
 		public int? ProcessId { get; set; }
 
-		public long InstanceId { get; set; }
-
 		public string AccessToken { get; set; }
+
+		public long InstanceId { get; set; }
 
 		[Required]
 		public Instance Instance { get; set; }
 
-		new public DbCompileJob CompileJob { get; set; }
+		public CompileJob CompileJob { get; set; }
     }
 }

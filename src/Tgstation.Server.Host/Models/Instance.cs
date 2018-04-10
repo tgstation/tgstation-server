@@ -38,9 +38,9 @@ namespace Tgstation.Server.Host.Models
 		public List<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="DbCompileJob"/>s in the <see cref="Instance"/>
+		/// The <see cref="CompileJob"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<DbCompileJob> CompileJobs { get; set; }
+		public List<CompileJob> CompileJobs { get; set; }
 
 		/// <summary>
 		/// The <see cref="Jobs"/> in the <see cref="Instance"/>

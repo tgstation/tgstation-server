@@ -2,10 +2,10 @@
 
 namespace Tgstation.Server.Host.Models
 {
-	sealed class RevisionInformation : Api.Models.RevisionInformation
+	sealed class RevisionInformation : Api.Models.Internal.RevisionInformation
 	{
 		public long Id { get; set; }
 		
-		new public List<TestMerge> TestMerges { get; set; }
+		public List<TestMerge> TestMerges { get; set; }
 	}
 }

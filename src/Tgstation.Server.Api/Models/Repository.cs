@@ -15,6 +15,9 @@ namespace Tgstation.Server.Api.Models
 		[Permissions(WriteRight = RepositoryRights.SetSha)]
 		public string NewRevision { get; set; }
 
+		[Permissions(DenyWrite = true)]
+		public RevisionInformation RevisionInformation { get; set; }
+
 		/// <summary>
 		/// The branch or tag HEAD points to
 		/// </summary>

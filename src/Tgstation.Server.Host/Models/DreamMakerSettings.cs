@@ -11,6 +11,6 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
-		public DbCompileJob CompileJob { get; set; }
+		public CompileJob CompileJob { get; set; }
 	}
 }

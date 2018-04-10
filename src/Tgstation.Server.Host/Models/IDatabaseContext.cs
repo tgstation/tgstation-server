@@ -10,9 +10,9 @@ namespace Tgstation.Server.Host.Models
 	interface IDatabaseContext
 	{
 		/// <summary>
-		/// The <see cref="DbUser"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<DbUser> Users { get; }
+		DbSet<User> Users { get; }
 
 		/// <summary>
 		/// The <see cref="Instances"/>s in the <see cref="IDatabaseContext"/>

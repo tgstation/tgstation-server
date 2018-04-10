@@ -1,16 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Rights;
+﻿using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	public class DreamDaemonSettings
 	{
-		/// <summary>
-		/// When the live revision was compiled
-		/// </summary>
-		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
-		public CompileJob CompileJob { get; set; }
-
 		/// <summary>
 		/// If <see cref="DreamDaemon"/> starts when it's <see cref="Instance"/> starts
 		/// </summary>

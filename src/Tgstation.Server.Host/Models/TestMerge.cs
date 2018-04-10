@@ -5,9 +5,9 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Represent a merge of a live pull request
 	/// </summary>
-	sealed class TestMerge : Api.Models.TestMerge
+	sealed class TestMerge : Api.Models.Internal.TestMerge
 	{
 		[Required]
-		new public DbUser MergedBy { get; set; }
+		public User MergedBy { get; set; }
 	}
 }

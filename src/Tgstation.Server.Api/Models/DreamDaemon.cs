@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Tgstation.Server.Api.Models.Internal;
+﻿using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
@@ -11,6 +9,12 @@ namespace Tgstation.Server.Api.Models
 	[Model(RightsType.DreamDaemon, CanCrud = true, RequiresInstance = true)]
 	public sealed class DreamDaemon : DreamDaemonSettings
 	{
+		/// <summary>
+		/// When the live revision was compiled
+		/// </summary>
+		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
+		public CompileJob CompileJob { get; set; }
+
 		/// <summary>
 		/// The current status of <see cref="DreamDaemon"/>
 		/// </summary>

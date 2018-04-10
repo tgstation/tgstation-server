@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Core
 		public void Dispose() => SystemIdentity.Dispose();
 
 		/// <inheritdoc />
-		public Task<DbUser> User(CancellationToken cancellationToken)
+		public Task<User> User(CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}

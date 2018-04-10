@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -11,9 +10,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
 		public string Origin { get; set; }
-		
-		[Permissions(DenyWrite = true)]
-		public RevisionInformation RevisionInformation { get; set; }
 
 		/// <summary>
 		/// The name of the committer

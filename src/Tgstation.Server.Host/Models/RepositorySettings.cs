@@ -11,6 +11,6 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 		
-		new public RevisionInformation RevisionInformation { get; set; }
+		public RevisionInformation RevisionInformation { get; set; }
 	}
 }

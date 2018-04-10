@@ -5,9 +5,9 @@ namespace Tgstation.Server.Host.Models
 	sealed class Job : Api.Models.Internal.Job
 	{
 		[Required]
-		new public DbUser StartedBy { get; set; }
+		public User StartedBy { get; set; }
 
 		[Required]
-		Instance Instance { get; set; }
+		public Instance Instance { get; set; }
 	}
 }

@@ -15,5 +15,7 @@
 		/// If the current user has permission to cancel the job
 		/// </summary>
 		public bool UserCanCancel { get; set; }
+
+		public User StartedBy { get; set; }
 	}
 }

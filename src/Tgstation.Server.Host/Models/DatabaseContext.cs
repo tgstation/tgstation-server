@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<ServerSettings> ServerSettings { get; set; }
 
 		/// <inheritdoc />
-		public DbSet<DbUser> Users { get; set; }
+		public DbSet<User> Users { get; set; }
 
 		/// <inheritdoc />
 		public DbSet<Instance> Instances { get; set; }
@@ -31,9 +31,8 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<ChatSettings> ChatSettings { get; set; }
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
-		public DbSet<DbCompileJob> CompileJobs { get; set; }
+		public DbSet<CompileJob> CompileJobs { get; set; }
 		public DbSet<Job> Jobs { get; set; }
-		public DbSet<Api.Models.Internal.Token> Tokens { get; set; }
 		public DbSet<TestMerge> TestMerges { get; set; }
 		public DbSet<RevisionInformation> RevisionInformations { get; set; }
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
@@ -75,6 +74,7 @@ namespace Tgstation.Server.Host.Models
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
 
 			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Revision).IsUnique();
+			modelBuilder.Entity<User>().HasIndex(x => x.SystemIdentifier).IsUnique();
 		}
 
 		/// <inheritdoc />
