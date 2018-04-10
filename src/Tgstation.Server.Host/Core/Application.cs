@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,10 +24,20 @@ namespace Tgstation.Server.Host.Core
 		readonly IConfiguration configuration;
 
 		/// <summary>
+		/// The <see cref="IHostingEnvironment"/> for the <see cref="Application"/>
+		/// </summary>
+		readonly IHostingEnvironment hostingEnvironment;
+
+		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
-		public Application(IConfiguration configuration) => this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
+		public Application(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+		{
+			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+		}
 
 		/// <summary>
 		/// Configure dependency injected services
@@ -39,15 +50,38 @@ namespace Tgstation.Server.Host.Core
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 			var workingDir = Environment.CurrentDirectory;
-			services.Configure<DatabaseConfiguration>(configuration.GetSection("Database"));
+			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
+			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
 
             services.AddMvc();
             services.AddOptions();
             services.AddLocalization();
+			
+			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
+			void ConfigureDatabase(DbContextOptionsBuilder builder)
+			{
+				if (hostingEnvironment.IsDevelopment())
+					builder.EnableSensitiveDataLogging();
+			};
 
-			services.AddDbContext<DatabaseContext>();
-			services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<DatabaseContext>());
-
+			switch (databaseConfiguration.DatabaseType)
+			{
+				case DatabaseType.MySql:
+					services.AddDbContext<MySqlDatabaseContext>(ConfigureDatabase);
+					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<MySqlDatabaseContext>());
+					break;
+				case DatabaseType.Sqlite:
+					services.AddDbContext<SqliteDatabaseContext>(ConfigureDatabase);
+					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqliteDatabaseContext>());
+					break;
+				case DatabaseType.SqlServer:
+					services.AddDbContext<SqlServerDatabaseContext>(ConfigureDatabase);
+					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqlServerDatabaseContext>());
+					break;
+				default:
+					throw new InvalidOperationException("Invalid DatabaseType!");
+			}
+			
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -57,13 +91,10 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <see cref="Application"/>
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
-		/// <param name="hostingEnvironment">The <see cref="IHostingEnvironment"/> of the <see cref="Application"/></param>
-		public void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
+		public void Configure(IApplicationBuilder applicationBuilder)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
-			if (hostingEnvironment == null)
-				throw new ArgumentNullException(nameof(hostingEnvironment));
 
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();

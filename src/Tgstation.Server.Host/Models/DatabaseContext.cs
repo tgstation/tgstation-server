@@ -1,21 +1,17 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using ZNetCS.AspNetCore.Logging.EntityFrameworkCore;
 
 namespace Tgstation.Server.Host.Models
 {
-	sealed class DatabaseContext : DbContext, IDatabaseContext
+	/// <inheritdoc />
+	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
 	{
 		/// <inheritdoc />
 		public DbSet<ServerSettings> ServerSettings { get; set; }
@@ -42,6 +38,11 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
+		/// The connection string for the <see cref="DatabaseContext"/>
+		/// </summary>
+		protected string ConnectionString => databaseConfiguration.ConnectionString;
+
+		/// <summary>
 		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/>
 		/// </summary>
 		readonly DatabaseConfiguration databaseConfiguration;
@@ -50,10 +51,6 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 		/// <summary>
-		/// The <see cref="IHostingEnvironment"/> for the <see cref="DatabaseContext"/>
-		/// </summary>
-		readonly IHostingEnvironment hostingEnvironment;
-		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
@@ -61,16 +58,14 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// Construct a <see cref="DatabaseContext"/>
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
-		public DatabaseContext(DbContextOptions<DatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment, IDatabaseSeeder databaseSeeder) : base(dbContextOptions)
+		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, ILoggerFactory loggerFactory, IDatabaseSeeder databaseSeeder) : base(dbContextOptions)
 		{
 			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 		}
 
@@ -90,21 +85,9 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			switch (databaseConfiguration.DatabaseType)
-			{
-				case DatabaseType.MySql:
-					optionsBuilder.UseMySQL(databaseConfiguration.ConnectionString);
-					break;
-				case DatabaseType.Sqlite:
-					optionsBuilder.UseSqlite(databaseConfiguration.ConnectionString);
-					break;
-				case DatabaseType.SqlServer:
-					optionsBuilder.UseSqlServer(databaseConfiguration.ConnectionString);
-					break;
-			}
+			base.OnConfiguring(optionsBuilder);
+
 			optionsBuilder.UseLoggerFactory(loggerFactory);
-			if (hostingEnvironment.IsDevelopment())
-				optionsBuilder.EnableSensitiveDataLogging();
 		}
 
 		/// <inheritdoc />
