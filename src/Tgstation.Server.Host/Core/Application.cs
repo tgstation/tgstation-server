@@ -1,6 +1,7 @@
 ﻿using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -46,6 +47,10 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddDbContext<DatabaseContext>();
 			services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<DatabaseContext>());
+
+			services.AddSingleton<ICryptographySuite, CryptographySuite>();
+			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
+			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 		}
 
 		/// <summary>

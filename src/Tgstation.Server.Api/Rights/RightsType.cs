@@ -14,11 +14,6 @@
 		/// </summary>
 		InstanceManager,
 		/// <summary>
-		/// <see cref="TokenRights"/>
-		/// </summary>
-		Token,
-
-		/// <summary>
 		/// <see cref="RepositoryRights"/>
 		/// </summary>
 		Repository,

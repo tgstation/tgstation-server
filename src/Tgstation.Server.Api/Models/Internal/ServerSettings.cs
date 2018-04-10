@@ -2,6 +2,7 @@
 
 namespace Tgstation.Server.Api.Models.Internal
 {
+	[Model(RightsType.Administration)]
 	public class ServerSettings
 	{
 		/// <summary>

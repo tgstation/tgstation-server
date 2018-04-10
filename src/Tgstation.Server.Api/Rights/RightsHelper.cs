@@ -15,7 +15,6 @@ namespace Tgstation.Server.Api.Rights
 		{
 			{ RightsType.Administration, typeof(AdministrationRights) },
 			{ RightsType.InstanceManager, typeof(InstanceManagerRights) },
-			{ RightsType.Token, typeof(TokenRights) },
 
 			{ RightsType.Repository, typeof(RepositoryRights) },
 			{ RightsType.Byond, typeof(ByondRights) },

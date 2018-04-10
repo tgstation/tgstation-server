@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
-	sealed class ChatSettings : Api.Models.ChatSettings
+	sealed class ChatSettings : Api.Models.Internal.ChatSettings
 	{
 		public long Id { get; set; }
 		
@@ -12,5 +11,9 @@ namespace Tgstation.Server.Host.Models
 
 		[Required]
 		public Instance Instance { get; set; }
+
+		public List<ChatChannel> AdminChannels { get; set; }
+		
+		public List<ChatChannel> GeneralChannels { get; set; }
 	}
 }

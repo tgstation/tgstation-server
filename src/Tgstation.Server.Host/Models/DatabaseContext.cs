@@ -3,10 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using ZNetCS.AspNetCore.Logging.EntityFrameworkCore;
 
 namespace Tgstation.Server.Host.Models
@@ -49,6 +53,10 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="IHostingEnvironment"/> for the <see cref="DatabaseContext"/>
 		/// </summary>
 		readonly IHostingEnvironment hostingEnvironment;
+		/// <summary>
+		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/>
+		/// </summary>
+		readonly IDatabaseSeeder databaseSeeder;
 
 		/// <summary>
 		/// Construct a <see cref="DatabaseContext"/>
@@ -57,11 +65,13 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public DatabaseContext(DbContextOptions<DatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment) : base(dbContextOptions)
+		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
+		public DatabaseContext(DbContextOptions<DatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment, IDatabaseSeeder databaseSeeder) : base(dbContextOptions)
 		{
 			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 		}
 
 		/// <inheritdoc />
@@ -98,13 +108,25 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public Task<ServerSettings> GetServerSettings(CancellationToken cancellationToken) => ServerSettings.FirstOrDefaultAsync(cancellationToken);
+		public async Task<ServerSettings> GetServerSettings(CancellationToken cancellationToken)
+		{
+			var settings = await ServerSettings.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (settings == default(ServerSettings))
+			{
+				settings = new ServerSettings();
+				ServerSettings.Add(settings);
+			}
+			return settings;
+		}
 
 		/// <inheritdoc />
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
-			await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+			var migrations = await Database.GetAppliedMigrationsAsync().ConfigureAwait(false);
+			var wasEmpty = !migrations.Any();
 			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+			if (wasEmpty)
+				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

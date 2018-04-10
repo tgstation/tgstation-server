@@ -3,13 +3,8 @@
 	/// <summary>
 	/// Indicates a chat channel
 	/// </summary>
-	public sealed class ChatChannel
+	public class ChatChannel
 	{
-		/// <summary>
-		/// The column ID
-		/// </summary>
-		public long Id { get; set; }
-
 		/// <summary>
 		/// The IRC channel name
 		/// </summary>
