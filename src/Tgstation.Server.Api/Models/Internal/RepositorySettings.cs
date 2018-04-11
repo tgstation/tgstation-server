@@ -3,14 +3,12 @@ using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
+	/// <summary>
+	/// Represents configurable settings for a <see cref="Repository"/>
+	/// </summary>
+	[Model(RightsType.Repository, ReadRight = RepositoryRights.Read, RequiresInstance = true)]
 	public class RepositorySettings
 	{
-		/// <summary>
-		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
-		/// </summary>
-		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
-		public string Origin { get; set; }
-
 		/// <summary>
 		/// The name of the committer
 		/// </summary>

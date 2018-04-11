@@ -7,7 +7,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Represents a server <see cref="User"/>
 	/// </summary>
-	[Model(RightsType.Administration, WriteRight = AdministrationRights.EditUsers)]
+	[Model(RightsType.Administration, WriteRight = AdministrationRights.EditUsers, CanCrud = true)]
 	public class User
 	{
 		/// <summary>
@@ -16,6 +16,9 @@ namespace Tgstation.Server.Api.Models.Internal
 		[Permissions(DenyWrite = true)]
 		public long Id { get; set; }
 
+		/// <summary>
+		/// When the <see cref="User"/> was created
+		/// </summary>
 		[Permissions(DenyWrite = true)]
 		[Required]
 		public DateTimeOffset CreatedAt { get; set; }

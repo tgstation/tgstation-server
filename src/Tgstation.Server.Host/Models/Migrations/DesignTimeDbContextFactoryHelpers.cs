@@ -7,7 +7,7 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Models.Migrations
 {
 	/// <summary>
-	/// Contains helpers for creating design time <see cref="Models.DatabaseContext"/>s
+	/// Contains helpers for creating design time <see cref="Models.DatabaseContext{TParentContext}"/>s
 	/// </summary>
 	static class DesignTimeDbContextFactoryHelpers
 	{

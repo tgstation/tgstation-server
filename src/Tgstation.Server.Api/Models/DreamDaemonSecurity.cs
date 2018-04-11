@@ -8,7 +8,7 @@
 		/// <summary>
 		/// Server is unrestricted in terms of file access and shell commands
 		/// </summary>
-		Trusted = 0,
+		Trusted,
 		/// <summary>
 		/// Server will not be able to run shell commands or access files outside it's working directory
 		/// </summary>

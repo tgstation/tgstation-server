@@ -4,9 +4,7 @@ using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {
-	/// <summary>
-	/// Metadata about an installation
-	/// </summary>
+	/// <inheritdoc />
 	public sealed class Administration : Internal.ServerSettings
 	{
 		/// <summary>
@@ -28,7 +26,7 @@ namespace Tgstation.Server.Api.Models
 		public Version CurrentVersion { get; set; }
 
 		/// <summary>
-		/// Users in the <see cref="SystemAuthenticationGroup"/>
+		/// Users in the <see cref="Internal.ServerSettings.SystemAuthenticationGroup"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public IReadOnlyList<User> Users { get; set; }

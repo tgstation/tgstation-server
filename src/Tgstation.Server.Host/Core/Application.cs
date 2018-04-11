@@ -55,7 +55,6 @@ namespace Tgstation.Server.Host.Core
 
             services.AddMvc();
             services.AddOptions();
-            services.AddLocalization();
 			
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
@@ -98,21 +97,6 @@ namespace Tgstation.Server.Host.Core
 
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();
-
-			var defaultCulture = new CultureInfo("en");
-			var supportedCultures = new List<CultureInfo>
-			{
-				defaultCulture
-			};
-
-			CultureInfo.CurrentCulture = defaultCulture;
-			CultureInfo.CurrentUICulture = defaultCulture;
-
-			applicationBuilder.UseRequestLocalization(new RequestLocalizationOptions
-			{
-				SupportedCultures = supportedCultures,
-				SupportedUICultures = supportedCultures,
-			});
 
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{

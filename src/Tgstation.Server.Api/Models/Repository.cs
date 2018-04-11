@@ -6,15 +6,23 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a git repository
 	/// </summary>
-	[Model(RightsType.Repository, ReadRight = RepositoryRights.Read, RequiresInstance = true)]
 	public sealed class Repository : Internal.RepositorySettings
 	{
+		/// <summary>
+		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
+		public string Origin { get; set; }
+
 		/// <summary>
 		/// The commit HEAD points to
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetSha)]
 		public string NewRevision { get; set; }
 
+		/// <summary>
+		/// The current <see cref="Models.RevisionInformation"/> for the <see cref="Repository"/>
+		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public RevisionInformation RevisionInformation { get; set; }
 
@@ -24,6 +32,9 @@ namespace Tgstation.Server.Api.Models
 		[Permissions(WriteRight = RepositoryRights.SetReference)]
 		public string Reference { get; set; }
 
+		/// <summary>
+		/// <see cref="TestMergeParameters"/> for new <see cref="TestMerge"/>s
+		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.MergePullRequest)]
 		public List<TestMergeParameters> NewTestMerges { get; set; }
 	}

@@ -2,6 +2,9 @@
 
 namespace Tgstation.Server.Api.Models.Internal
 {
+	/// <summary>
+	/// Metadata about an installation
+	/// </summary>
 	[Model(RightsType.Administration)]
 	public class ServerSettings
 	{

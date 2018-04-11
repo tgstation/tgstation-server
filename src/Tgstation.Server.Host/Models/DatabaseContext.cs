@@ -38,27 +38,27 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The connection string for the <see cref="DatabaseContext"/>
+		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		protected string ConnectionString => databaseConfiguration.ConnectionString;
 
 		/// <summary>
-		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/>
+		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly DatabaseConfiguration databaseConfiguration;
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="DatabaseContext"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 		/// <summary>
-		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/>
+		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
 
 		/// <summary>
-		/// Construct a <see cref="DatabaseContext"/>
+		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Models
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
 
 			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Revision).IsUnique();
-			modelBuilder.Entity<User>().HasIndex(x => x.SystemIdentifier).IsUnique();
+			modelBuilder.Entity<User>().HasIndex(x => new { x.Name, x.SystemIdentifier }).IsUnique();
 		}
 
 		/// <inheritdoc />
@@ -105,9 +105,13 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
+#if DEBUG
+			await Database.EnsureCreatedAsync().ConfigureAwait(false);
+#else
 			var migrations = await Database.GetAppliedMigrationsAsync().ConfigureAwait(false);
 			var wasEmpty = !migrations.Any();
 			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+#endif
 			if (wasEmpty)
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 		}

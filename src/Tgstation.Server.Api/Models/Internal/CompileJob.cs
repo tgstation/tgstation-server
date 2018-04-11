@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
+	/// <summary>
+	/// Represents a run of <see cref="DreamMaker"/>
+	/// </summary>
 	public class CompileJob
 	{
 		/// <summary>

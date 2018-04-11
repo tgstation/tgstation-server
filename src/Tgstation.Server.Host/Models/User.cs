@@ -9,10 +9,13 @@ namespace Tgstation.Server.Host.Models
 	/// </summary>
 	sealed class User : Api.Models.Internal.User
 	{
+		/// <summary>
+		/// The hash of the user's password
+		/// </summary>
 		public string PasswordHash { get; set; }
 
 		/// <summary>
-		/// The value used for the <see cref="SymmetricSecurityKey"/> to encrypt JWTs
+		/// The value used to encrypt JWTs
 		/// </summary>
 		[StringLength(CryptographySuite.SecureStringLength)]
 		public string TokenSecret { get; set; }

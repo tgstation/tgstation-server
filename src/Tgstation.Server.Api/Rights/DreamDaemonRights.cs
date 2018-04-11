@@ -13,7 +13,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can read <see cref="Models.DreamDaemon.PullRequests"/>, <see cref="Models.DreamDaemon.Sha"/>, and <see cref="Models.DreamDaemon.OriginSha"/>
+		/// User can read <see cref="Models.DreamDaemon.CompileJob"/>
 		/// </summary>
 		ReadRevision = 1,
 		/// <summary>
@@ -21,27 +21,27 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		SetPorts = 2,
 		/// <summary>
-		/// User can change <see cref="Models.DreamDaemon.AutoStart"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
 		/// </summary>
 		SetAutoStart = 4,
 		/// <summary>
-		/// User set <see cref="Models.DreamDaemon.SecurirtyLevel"/>
+		/// User set <see cref="Models.Internal.DreamDaemonSettings.SecurityLevel"/>
 		/// </summary>
 		SetSecurity = 8,
 		/// <summary>
-		/// User can read all ports, <see cref="Models.DreamDaemon.SoftRestart"/>, <see cref="Models.DreamDaemon.SoftShutdown"/>, <see cref="Models.DreamDaemon.Status"/>, <see cref="Models.DreamDaemon.AllowWebClient"/>, and <see cref="Models.DreamDaemon.AutoStart"/>
+		/// User can read all ports, <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/>, <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>, <see cref="Models.DreamDaemon.Status"/>, <see cref="Models.Internal.DreamDaemonSettings.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
 		/// </summary>
 		ReadMetadata = 16,
 		/// <summary>
-		/// User can change <see cref="Models.DreamDaemon.AllowWebClient"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AllowWebClient"/>
 		/// </summary>
 		SetWebClient = 32,
 		/// <summary>
-		/// User can enable <see cref="Models.DreamDaemon.SoftRestart"/>
+		/// User can enable <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/>
 		/// </summary>
 		SoftRestart = 64,
 		/// <summary>
-		/// User can enable <see cref="Models.DreamDaemon.SoftShutdown"/>
+		/// User can enable <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>
 		/// </summary>
 		SoftShutdown = 128,
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		Shutdown = 512,
 		/// <summary>
-		/// User can start <see cref="Models.DreamDaemon"/> and disable <see cref="Models.DreamDaemon.SoftRestart"/> and <see cref="Models.DreamDaemon.SoftShutdown"/>
+		/// User can start <see cref="Models.DreamDaemon"/> and disable <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/> and <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>
 		/// </summary>
 		Start = 1024
 	}

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -39,7 +38,7 @@ namespace Tgstation.Server.Host.Core
                 ApiHeaders headers;
                 try
                 {
-                    headers = new ApiHeaders(httpContext.Request.Headers.ToDictionary(x => x.Key, x => x.Value.First()));
+                    headers = new ApiHeaders(httpContext.Request.GetTypedHeaders());
                 }
                 catch (InvalidOperationException)
                 {
@@ -87,12 +86,12 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Construct a <see cref="IAuthenticationContext"/>
 		/// </summary>
-		/// <param name="systemIdentity">The value of <see cref="systemIdentity"/></param>
+		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/></param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		public AuthenticationContext(ISystemIdentity systemIdentity, IDatabaseContext databaseContext)
 		{
-			SystemIdentity = systemIdentity ?? throw new ArgumentNullException(nameof(systemIdentity));
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
+			SystemIdentity = systemIdentity;
 		}
 
 		/// <inheritdoc />

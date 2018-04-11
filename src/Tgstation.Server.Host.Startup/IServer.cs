@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Startup
 	public interface IServer
 	{
         /// <summary>
-        /// The path to the updated assembly to run if any. Populated once <see cref="RunAsync(string[], CancellationToken)"/> returns
+        /// The path to the updated assembly to run if any. Populated once <see cref="RunAsync(CancellationToken)"/> returns
         /// </summary>
         string UpdatePath { get; }
 

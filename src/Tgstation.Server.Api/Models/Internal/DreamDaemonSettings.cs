@@ -2,6 +2,10 @@
 
 namespace Tgstation.Server.Api.Models.Internal
 {
+	/// <summary>
+	/// Configurable settings for <see cref="DreamDaemon"/>
+	/// </summary>
+	[Model(RightsType.DreamDaemon, CanCrud = true, RequiresInstance = true)]
 	public class DreamDaemonSettings
 	{
 		/// <summary>

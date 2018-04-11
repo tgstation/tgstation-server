@@ -2,6 +2,10 @@
 
 namespace Tgstation.Server.Api.Models.Internal
 {
+	/// <summary>
+	/// Configurable settings for <see cref="DreamMaker"/>
+	/// </summary>
+	[Model(RightsType.DreamMaker, ReadRight = DreamMakerRights.Read, CanCrud = true, RequiresInstance = true)]
 	public class DreamMakerSettings
 	{
 		/// <summary>
