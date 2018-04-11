@@ -142,8 +142,8 @@ namespace Tgstation.Server.Host.Models
 			var migrations = await Database.GetAppliedMigrationsAsync().ConfigureAwait(false);
 			var wasEmpty = !migrations.Any();
 			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
-#endif
 			if (wasEmpty)
+#endif
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 		}
 
