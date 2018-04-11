@@ -23,13 +23,8 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.ChatSettings.AdminChannels"/>
+		/// See <see cref="Api.Models.ChatSettings.Channels"/>
 		/// </summary>
-		public List<ChatChannel> AdminChannels { get; set; }
-
-		/// <summary>
-		/// See <see cref="Api.Models.ChatSettings.GeneralChannels"/>
-		/// </summary>
-		public List<ChatChannel> GeneralChannels { get; set; }
+		public List<ChatChannel> Channels { get; set; }
 	}
 }

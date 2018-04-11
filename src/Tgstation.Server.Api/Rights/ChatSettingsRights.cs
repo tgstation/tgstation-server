@@ -21,9 +21,9 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		SetIrcSettings = 2,
 		/// <summary>
-		/// User can change the IRC channels
+		/// User can change the chat channels
 		/// </summary>
-		SetIrcChannels = 4,
+		SetChannels = 4,
 		/// <summary>
 		/// User can enable/disable the Discord bot
 		/// </summary>
@@ -32,9 +32,5 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change the Discord settings
 		/// </summary>
 		SetDiscordSettings = 16,
-		/// <summary>
-		/// User can change the Discord channels
-		/// </summary>
-		SetDiscordChannels = 32,
 	}
 }

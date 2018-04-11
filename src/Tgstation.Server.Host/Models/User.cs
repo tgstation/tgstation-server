@@ -21,8 +21,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.User"/>
 		/// </summary>
-		[Required]
 		public User CreatedBy { get; set; }
+
+		/// <summary>
+		/// <see cref="User"/>s created by this <see cref="User"/>
+		/// </summary>
+		public List<User> CreatedUsers { get; set; }
 
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s for the <see cref="User"/>

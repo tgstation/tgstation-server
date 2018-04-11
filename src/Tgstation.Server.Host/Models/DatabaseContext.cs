@@ -110,7 +110,12 @@ namespace Tgstation.Server.Host.Models
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
 
 			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Revision).IsUnique();
-			modelBuilder.Entity<User>().HasIndex(x => new { x.Name, x.SystemIdentifier }).IsUnique();
+			var user = modelBuilder.Entity<User>();
+			user.HasIndex(x => new { x.Name, x.SystemIdentifier }).IsUnique();
+			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);
+			var chatChannel = modelBuilder.Entity<ChatChannel>();
+			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
+			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
 		}
 
 		/// <inheritdoc />

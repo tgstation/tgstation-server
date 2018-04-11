@@ -7,15 +7,9 @@ namespace Tgstation.Server.Api.Models
 	public sealed class ChatSettings : Internal.ChatSettings
 	{
 		/// <summary>
-		/// Channels the bot should listen/announce in and allow admin commands
-		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetDiscordChannels)]
-		public List<ChatChannel> AdminChannels { get; set; }
-
-		/// <summary>
 		/// Channels the Discord bot should listen/announce in
 		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetDiscordChannels)]
-		public List<ChatChannel> GeneralChannels { get; set; }
+		[Permissions(WriteRight = ChatSettingsRights.SetChannels)]
+		public List<ChatChannel> Channels { get; set; }
 	}
 }

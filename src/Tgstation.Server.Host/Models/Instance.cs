@@ -11,25 +11,21 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.ChatSettings"/> for the <see cref="Instance"/>
 		/// </summary>
-		[Required]
 		public ChatSettings ChatSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
 		/// </summary>
-		[Required]
 		public DreamMakerSettings DreamMakerSettings { get; set; }
 		
 		/// <summary>
 		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>
 		/// </summary>
-		[Required]
 		public DreamDaemonSettings DreamDaemonSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.RepositorySettings"/> for the <see cref="Instance"/>
 		/// </summary>
-		[Required]
 		public RepositorySettings RepositorySettings { get; set; }
 
 		/// <summary>
