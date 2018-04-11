@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
 	sealed class CryptographySuite : ICryptographySuite

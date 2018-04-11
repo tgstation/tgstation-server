@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Models
 {

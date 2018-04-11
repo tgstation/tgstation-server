@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
 	/// Represents the currently authenticated <see cref="Api.Models.User"/>

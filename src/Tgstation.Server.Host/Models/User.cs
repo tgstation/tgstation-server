@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Models
 {

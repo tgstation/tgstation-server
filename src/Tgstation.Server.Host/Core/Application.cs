@@ -9,6 +9,7 @@ using System;
 using System.Globalization;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Core
 {

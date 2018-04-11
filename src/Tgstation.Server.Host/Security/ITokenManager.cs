@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
 	/// For creating and decoding JWTs

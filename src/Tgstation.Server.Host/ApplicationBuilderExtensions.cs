@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Tgstation.Server.Host.Security;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host
 {
 	/// <summary>
 	/// Extension methods for <see cref="IApplicationBuilder"/>

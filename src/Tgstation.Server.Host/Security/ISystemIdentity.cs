@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
 	/// Represents a user on the current <see cref="System.Runtime.InteropServices.OSPlatform"/>

@@ -1,6 +1,6 @@
 ﻿using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
 	/// Contains various cryptographic functions

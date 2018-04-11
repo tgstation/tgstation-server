@@ -9,7 +9,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
 	/// Manages <see cref="Api.Models.User"/>s for a scope
