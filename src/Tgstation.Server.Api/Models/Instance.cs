@@ -23,7 +23,7 @@ namespace Tgstation.Server.Api.Models
 		public string Name { get; set; }
 
 		/// <summary>
-		/// The path to where the <see cref="Instance"/> is located
+		/// The path to where the <see cref="Instance"/> is located. Changing this will temporarily offline the <see cref="Instance"/> while it moves
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.Relocate)]
 		[Required]

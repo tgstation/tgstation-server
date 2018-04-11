@@ -26,15 +26,46 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="Log"/>s
 		/// </summary>
 		public DbSet<Log> Logs { get; set; }
+
+		/// <summary>
+		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<InstanceUser> InstanceUsers { get; set; }
+		/// <summary>
+		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<ChatChannel> ChatChannels { get; set; }
+		/// <summary>
+		/// The <see cref="ChatSettings"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<ChatSettings> ChatSettings { get; set; }
+		/// <summary>
+		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
+		/// <summary>
+		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
+		/// <summary>
+		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<CompileJob> CompileJobs { get; set; }
+		/// <summary>
+		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<Job> Jobs { get; set; }
+		/// <summary>
+		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
+		/// <summary>
+		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<RevisionInformation> RevisionInformations { get; set; }
+		/// <summary>
+		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>

@@ -38,7 +38,8 @@ namespace Tgstation.Server.Host.Models
 				AdministrationRights = (AdministrationRights)~0,
 				CreatedAt = DateTimeOffset.Now,
 				InstanceManagerRights = (InstanceManagerRights)~0,
-				Name = "Admin"
+				Name = "Admin",
+				Enabled = true,
 			};
 			cryptographySuite.RegenerateUserToken(admin);
 			cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);

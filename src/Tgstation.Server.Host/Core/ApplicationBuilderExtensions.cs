@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Tgstation.Server.Host.Core
 {
+	/// <summary>
+	/// Extension methods for <see cref="IApplicationBuilder"/>
+	/// </summary>
 	static class ApplicationBuilderExtensions
 	{
-        public static IApplicationBuilder UseSystemAuthentication(this IApplicationBuilder applicationBuilder)
+		/// <summary>
+		/// Apply the <see cref="AuthenticationContext"/> middleware
+		/// </summary>
+		/// <param name="applicationBuilder">The <paramref name="applicationBuilder"/> to add the middleware for</param>
+		/// <returns><paramref name="applicationBuilder"/></returns>
+        public static IApplicationBuilder UseAuthentication(this IApplicationBuilder applicationBuilder)
         {
             AuthenticationContext.AddToPipeline(applicationBuilder);
             return applicationBuilder;

@@ -1,9 +1,23 @@
 ﻿namespace Tgstation.Server.Host.Configuration
 {
+	/// <summary>
+	/// Configuration options for the <see cref="Models.DatabaseContext{TParentContext}"/>
+	/// </summary>
 	sealed class DatabaseConfiguration
 	{
+		/// <summary>
+		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="DatabaseConfiguration"/> resides in
+		/// </summary>
 		public const string Section = "Database";
+
+		/// <summary>
+		/// The <see cref="Configuration.DatabaseType"/> to create
+		/// </summary>
 		public DatabaseType DatabaseType { get; set; }
+
+		/// <summary>
+		/// The connection string for the database
+		/// </summary>
 		public string ConnectionString { get; set; }
 	}
 }

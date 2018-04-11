@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host

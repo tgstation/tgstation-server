@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -55,7 +56,7 @@ namespace Tgstation.Server.Host.Core
                 {
 					if (headers.IsTokenAuthentication)
 					{
-						var user = await tokenManager.GetUser(headers.Token, httpContext.RequestAborted).ConfigureAwait(false);
+						var user = await tokenManager.GetUser(new Token { Value = headers.Token }, httpContext.RequestAborted).ConfigureAwait(false);
 						systemIdentity = systemIdentityFactory.CreateSystemIdentity(user);
 					}
 					else
@@ -98,13 +99,13 @@ namespace Tgstation.Server.Host.Core
 		public void Dispose() => SystemIdentity.Dispose();
 
 		/// <inheritdoc />
-		public Task<User> User(CancellationToken cancellationToken)
+		public Task<Models.User> User(CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
-		public Task<Api.Models.InstanceUser> InstanceUser(Instance instance, CancellationToken cancellationToken)
+		public Task<Models.InstanceUser> InstanceUser(Models.Instance instance, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

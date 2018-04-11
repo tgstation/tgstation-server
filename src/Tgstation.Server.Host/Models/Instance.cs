@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -21,9 +20,15 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public DreamMakerSettings DreamMakerSettings { get; set; }
 		
+		/// <summary>
+		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>
+		/// </summary>
 		[Required]
 		public DreamDaemonSettings DreamDaemonSettings { get; set; }
 
+		/// <summary>
+		/// The <see cref="Models.RepositorySettings"/> for the <see cref="Instance"/>
+		/// </summary>
 		[Required]
 		public RepositorySettings RepositorySettings { get; set; }
 

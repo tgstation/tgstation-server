@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
@@ -78,7 +77,7 @@ namespace Tgstation.Server.Host.Core
 					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqlServerDatabaseContext>());
 					break;
 				default:
-					throw new InvalidOperationException("Invalid DatabaseType!");
+					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}!", nameof(DatabaseType)));
 			}
 			
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
@@ -100,11 +99,11 @@ namespace Tgstation.Server.Host.Core
 
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{
-				using (var scop = applicationBuilder.ApplicationServices.CreateScope())
-					await scop.ServiceProvider.GetRequiredService<IDatabaseContext>().Initialize(cancellationToken).ConfigureAwait(false);
+				using (var scope = applicationBuilder.ApplicationServices.CreateScope())
+					await scope.ServiceProvider.GetRequiredService<IDatabaseContext>().Initialize(cancellationToken).ConfigureAwait(false);
 			});
 
-			applicationBuilder.UseSystemAuthentication();
+			applicationBuilder.UseAuthentication();
 
 			applicationBuilder.UseMvc();
 		}

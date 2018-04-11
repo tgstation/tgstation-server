@@ -4,9 +4,7 @@ using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <summary>
-	/// Represents a <see cref="Api.Models.User"/> in the database
-	/// </summary>
+	/// <inheritdoc />
 	sealed class User : Api.Models.Internal.User
 	{
 		/// <summary>
@@ -19,6 +17,12 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[StringLength(CryptographySuite.SecureStringLength)]
 		public string TokenSecret { get; set; }
+
+		/// <summary>
+		/// See <see cref="Api.Models.User"/>
+		/// </summary>
+		[Required]
+		public User CreatedBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s for the <see cref="User"/>

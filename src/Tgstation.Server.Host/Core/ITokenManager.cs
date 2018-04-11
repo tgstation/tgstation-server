@@ -1,15 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Core
 {
+	/// <summary>
+	/// For creating and decoding JWTs
+	/// </summary>
 	interface ITokenManager
 	{
-		Task<User> GetUser(string token, CancellationToken cancellationToken);
-		Task<Token> CreateToken(User user, CancellationToken cancellationToken);
-		Task<IReadOnlyList<Token>> UserTokens(User user, CancellationToken cancellationToken);
-		Task<IDictionary<User, Token>> AllTokens(CancellationToken cancellationToken);
+		/// <summary>
+		/// Get the user associated with a <paramref name="token"/>
+		/// </summary>
+		/// <param name="token">The <see cref="Token"/> to get the user for</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>The <see cref="Models.User"/> associated with the <paramref name="token"/></returns>
+		Task<Models.User> GetUser(Token token, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Create a <see cref="Token"/> for a given <paramref name="user"/>
+		/// </summary>
+		/// <param name="user">The <see cref="Models.User"/> to create the token for. Must have the <see cref="Api.Models.Internal.User.Id"/> and <see cref="Models.User.TokenSecret"/> fields available</param>
+		/// <returns>A new <see cref="Token"/></returns>
+		Token CreateToken(Models.User user);
 	}
 }

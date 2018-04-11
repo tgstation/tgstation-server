@@ -25,9 +25,9 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="Api.Models.InstanceUser"/> represented by <see cref="User"/> and a given <paramref name="instance"/>
 		/// </summary>
-		/// <param name="instance">The <see cref="Instance"/> of the <see cref="Api.Models.InstanceUser"/></param>
+		/// <param name="instance">The <see cref="Instance"/> of the <see cref="Models.InstanceUser"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.InstanceUser"/> represented by <see cref="User"/> and a given <paramref name="instance"/></returns>
-		Task<Api.Models.InstanceUser> InstanceUser(Instance instance, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Models.InstanceUser"/> represented by <see cref="User"/> and a given <paramref name="instance"/></returns>
+		Task<InstanceUser> InstanceUser(Instance instance, CancellationToken cancellationToken);
 	}
 }

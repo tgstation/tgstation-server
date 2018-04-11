@@ -4,9 +4,9 @@
 	public sealed class User : Internal.User
 	{
 		/// <summary>
-		/// If the <see cref="User"/> is enabled since users cannot be deleted
+		/// The <see cref="User"/> who created this <see cref="User"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public bool Enabled { get; set; }
+		public User CreatedBy { get; set; }
 	}
 }

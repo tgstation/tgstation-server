@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Represents a long running job
 	/// </summary>
-	[Model]
+	[Model(RequiresInstance = true)]
 	public class Job
 	{
 		/// <summary>

@@ -2,11 +2,12 @@
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <summary>
-	/// Represent a merge of a live pull request
-	/// </summary>
+	/// <inheritdoc />
 	sealed class TestMerge : Api.Models.Internal.TestMerge
 	{
+		/// <summary>
+		/// See <see cref="Api.Models.TestMerge.MergedBy"/>
+		/// </summary>
 		[Required]
 		public User MergedBy { get; set; }
 	}
