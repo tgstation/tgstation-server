@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -11,12 +9,6 @@ namespace Tgstation.Server.Host.Models
 		/// The hash of the user's password
 		/// </summary>
 		public string PasswordHash { get; set; }
-
-		/// <summary>
-		/// The value used to encrypt JWTs
-		/// </summary>
-		[StringLength(CryptographySuite.SecureStringLength)]
-		public string TokenSecret { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.User"/>

@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
+using System.Reflection;
+using System.Text;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -55,6 +58,39 @@ namespace Tgstation.Server.Host.Core
 
             services.AddMvc();
             services.AddOptions();
+
+			var signingKey = configuration.GetSection(GeneralConfiguration.Section).Get<GeneralConfiguration>().TokenSigningKey;
+
+			if (signingKey == "default")
+				throw new InvalidOperationException("Do not use the default signing key!");
+
+			const string scheme = "JwtBearer";
+			services.AddAuthentication((options) =>
+			{
+				options.DefaultAuthenticateScheme = scheme;
+				options.DefaultChallengeScheme = scheme;
+			}).AddJwtBearer(scheme, jwtBearerOptions =>
+			{
+				jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)),
+
+					ValidateIssuer = true,
+					ValidIssuer = Assembly.GetExecutingAssembly().GetName().Name,
+
+					ValidateLifetime = true,
+
+					ClockSkew = TimeSpan.FromMinutes(5),
+
+					RequireSignedTokens = true,
+
+					RequireExpirationTime = true,
+							
+				};
+
+				jwtBearerOptions.SaveToken = true;
+			});
 			
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
@@ -84,6 +120,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+			services.AddSingleton<ITokenFactory, TokenFactory>();
 		}
 
 		/// <summary>
@@ -105,7 +142,6 @@ namespace Tgstation.Server.Host.Core
 			});
 
 			applicationBuilder.UseAuthentication();
-
 			applicationBuilder.UseMvc();
 		}
 	}

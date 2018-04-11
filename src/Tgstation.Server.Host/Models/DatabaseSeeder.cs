@@ -41,7 +41,6 @@ namespace Tgstation.Server.Host.Models
 				Name = "Admin",
 				Enabled = true,
 			};
-			cryptographySuite.RegenerateUserToken(admin);
 			cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);
 			databaseContext.Users.Add(admin);
 

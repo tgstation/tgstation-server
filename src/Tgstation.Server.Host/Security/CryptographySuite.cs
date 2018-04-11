@@ -50,14 +50,6 @@ namespace Tgstation.Server.Host.Security
 		public CryptographySuite(IPasswordHasher<User> passwordHasher) => this.passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
 
 		/// <inheritdoc />
-		public void RegenerateUserToken(User user)
-		{
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
-			user.TokenSecret = GenerateSecureString();
-		}
-
-		/// <inheritdoc />
 		public void SetUserPassword(User user, string newPassword)
 		{
 			if (user == null)

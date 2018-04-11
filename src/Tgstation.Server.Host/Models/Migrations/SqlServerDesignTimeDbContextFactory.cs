@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Models.Migrations
 {
