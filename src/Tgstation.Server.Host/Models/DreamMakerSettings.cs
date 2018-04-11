@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings
+	public sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings
 	{
 		/// <summary>
 		/// The row Id

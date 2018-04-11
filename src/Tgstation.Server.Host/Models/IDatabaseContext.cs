@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Represents the database
 	/// </summary>
-	interface IDatabaseContext
+	public interface IDatabaseContext
 	{
 		/// <summary>
 		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>

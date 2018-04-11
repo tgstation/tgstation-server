@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// Represents the currently authenticated <see cref="Api.Models.User"/>
 	/// </summary>
-	interface IAuthenticationContext : IDisposable
+	public interface IAuthenticationContext : IDisposable
 	{
 		/// <summary>
 		/// The authenticated user

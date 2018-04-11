@@ -10,10 +10,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Host.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;CA2227</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;1705;CA2227</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,10 +62,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

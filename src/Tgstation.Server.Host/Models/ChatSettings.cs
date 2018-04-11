@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class ChatSettings : Api.Models.Internal.ChatSettings
+	public sealed class ChatSettings : Api.Models.Internal.ChatSettings
 	{
 		/// <summary>
 		/// The row Id

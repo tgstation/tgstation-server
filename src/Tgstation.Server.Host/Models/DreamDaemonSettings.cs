@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-    sealed class DreamDaemonSettings : Api.Models.Internal.DreamDaemonSettings
+    public sealed class DreamDaemonSettings : Api.Models.Internal.DreamDaemonSettings
     {
 		/// <summary>
 		/// The row Id

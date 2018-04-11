@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class TestMerge : Api.Models.Internal.TestMerge
+	public sealed class TestMerge : Api.Models.Internal.TestMerge
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.TestMerge.MergedBy"/>

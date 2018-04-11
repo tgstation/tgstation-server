@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class RepositorySettings : Api.Models.Internal.RepositorySettings
+	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings
 	{
 		/// <summary>
 		/// The row Id

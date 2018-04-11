@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents an <see cref="Api.Models.Instance"/> in the database
 	/// </summary>
-	sealed class Instance : Api.Models.Instance
+	public sealed class Instance : Api.Models.Instance
 	{
 		/// <summary>
 		/// The <see cref="Models.ChatSettings"/> for the <see cref="Instance"/>

@@ -46,5 +46,11 @@ namespace Tgstation.Server.Host.Security
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
 			return new Token { Value = new JwtSecurityTokenHandler().WriteToken(token) };
 		}
+
+		/// <inheritdoc />
+		public Task<User> GetUser(Token token, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

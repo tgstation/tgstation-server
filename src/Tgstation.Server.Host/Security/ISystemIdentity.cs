@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// Represents a user on the current <see cref="System.Runtime.InteropServices.OSPlatform"/>
 	/// </summary>
-	interface ISystemIdentity : IDisposable
+	public interface ISystemIdentity : IDisposable
 	{
 		/// <summary>
 		/// A unique identifier for the user

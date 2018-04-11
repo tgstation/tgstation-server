@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// For creating <see cref="Token"/>s
 	/// </summary>
-	interface ITokenFactory
+	public interface ITokenFactory
 	{
 		/// <summary>
 		/// Create a <see cref="Token"/> for a given <paramref name="user"/>
@@ -15,5 +15,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="user">The <see cref="Models.User"/> to create the token for. Must have the <see cref="Api.Models.Internal.User.Id"/> and <see cref="Models.User.TokenSecret"/> fields available</param>
 		/// <returns>A new <see cref="Token"/></returns>
 		Token CreateToken(Models.User user);
+
+		Task<User> GetUser(Token token, CancellationToken cancellationToken);
 	}
 }

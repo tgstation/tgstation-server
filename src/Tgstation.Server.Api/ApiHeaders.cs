@@ -16,9 +16,14 @@ namespace Tgstation.Server.Api
 	public sealed class ApiHeaders
 	{
 		/// <summary>
+		/// TODO: Remove this when https://github.com/dotnet/corefx/pull/26701 makes it into the sdk
+		/// </summary>
+		public const string ApplicationJson = "application/json";
+
+		/// <summary>
 		/// The username header key
 		/// </summary>
-        const string usernameHeader = "Username";
+		const string usernameHeader = "Username";
 
 		/// <summary>
 		/// The JWT authentication header scheme
@@ -29,11 +34,6 @@ namespace Tgstation.Server.Api
 		/// The password authentication header scheme
 		/// </summary>
 		const string passwordAuthenticationScheme = "Password";
-
-		/// <summary>
-		/// TODO: Remove this when https://github.com/dotnet/corefx/pull/26701 makes it into the sdk
-		/// </summary>
-		const string applicationJson = "application/json";
 
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>
@@ -105,9 +105,9 @@ namespace Tgstation.Server.Api
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
 		public ApiHeaders(RequestHeaders requestHeaders)
         {
-			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(applicationJson);
+			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJson);
 			if (!requestHeaders.Accept.Any(x => x == jsonAccept))
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", applicationJson));
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out StringValues userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out ProductInfoHeaderValue clientUserAgent))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
@@ -185,7 +185,7 @@ namespace Tgstation.Server.Api
 				throw new ArgumentNullException(nameof(headers));
 
 			headers.Clear();
-			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(applicationJson));
+			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
 			if (IsTokenAuthentication)
 				headers.Authorization = new AuthenticationHeaderValue(jwtAuthenticationScheme, Token);
 			else

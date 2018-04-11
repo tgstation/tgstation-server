@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-    sealed class CompileJob : Api.Models.Internal.CompileJob
+	public sealed class CompileJob : Api.Models.Internal.CompileJob
     {
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.TriggeredBy"/>

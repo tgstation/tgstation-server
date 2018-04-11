@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class ServerSettings : Api.Models.Internal.ServerSettings
+	public sealed class ServerSettings : Api.Models.Internal.ServerSettings
 	{
 		/// <summary>
 		/// The row Id

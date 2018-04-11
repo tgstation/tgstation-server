@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class RevisionInformation : Api.Models.Internal.RevisionInformation
+	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation
 	{
 		/// <summary>
 		/// The row Id

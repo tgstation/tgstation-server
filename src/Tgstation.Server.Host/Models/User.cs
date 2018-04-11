@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	sealed class User : Api.Models.Internal.User
+	public sealed class User : Api.Models.Internal.User
 	{
 		/// <summary>
 		/// The hash of the user's password
