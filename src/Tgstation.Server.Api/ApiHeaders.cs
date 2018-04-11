@@ -1,56 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reflection;
+using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Primitives;
 
 namespace Tgstation.Server.Api
 {
+	/// <summary>
+	/// Represents the header that must be present for every server request
+	/// </summary>
 	public sealed class ApiHeaders
 	{
-		const string userAgentHeader = "User-Agent";
-		const string apiVersionHeader = "Api-Version";
-		const string tokenHeader = "Token";
+		/// <summary>
+		/// The username header key
+		/// </summary>
         const string usernameHeader = "Username";
-        const string passwordHeader = "Password";
 
-        public static readonly Version CurrentApiVersion = Assembly.GetExecutingAssembly().GetName().Version;
+		/// <summary>
+		/// The JWT authentication header scheme
+		/// </summary>
+		const string jwtAuthenticationScheme = "Bearer";
 
-        public IReadOnlyDictionary<string, string> HeaderEntries => headerEntries;
+		/// <summary>
+		/// The password authentication header scheme
+		/// </summary>
+		const string passwordAuthenticationScheme = "Password";
 
-        public string UserAgent {
-            get => headerEntries[userAgentHeader];
-            private set => headerEntries[userAgentHeader] = value;
-        }
+		/// <summary>
+		/// TODO: Remove this when https://github.com/dotnet/corefx/pull/26701 makes it into the sdk
+		/// </summary>
+		const string applicationJson = "application/json";
 
-        public Version ApiVersion
-        {
-            get => new Version(headerEntries[apiVersionHeader]);
-            private set => headerEntries[userAgentHeader] = value.ToString();
-        }
+		/// <summary>
+		/// The current <see cref="AssemblyName"/>
+		/// </summary>
+		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 
-        public string Token
-        {
-            get => headerEntries[tokenHeader];
-            private set => headerEntries[tokenHeader] = value;
-        }
+		/// <summary>
+		/// The client's user agent
+		/// </summary>
+        public ProductHeaderValue UserAgent { get; }
 
-        public string Username
-        {
-            get => headerEntries[usernameHeader];
-            private set => headerEntries[usernameHeader] = value;
-        }
+		/// <summary>
+		/// The client's API version
+		/// </summary>
+		public Version ApiVersion { get; }
 
-        public string Password
-        {
-            get => headerEntries[passwordHeader];
-            private set => headerEntries[passwordHeader] = value;
-        }
+		/// <summary>
+		/// The client's JWT
+		/// </summary>
+		public string Token { get; }
 
-        public bool IsTokenAuthentication => headerEntries.TryGetValue(tokenHeader, out string value);
+		/// <summary>
+		/// The client's username
+		/// </summary>
+		public string Username { get; }
 
-        readonly Dictionary<string, string> headerEntries;
+		/// <summary>
+		/// The client's password
+		/// </summary>
+		public string Password { get; }
 
-        public ApiHeaders(string userAgent, string token) : this(userAgent, token, null, null)
+		/// <summary>
+		/// If the header uses password or JWT authentication
+		/// </summary>
+		public bool IsTokenAuthentication => Token != null;
+
+		/// <summary>
+		/// Construct <see cref="ApiHeaders"/> for JWT authentication
+		/// </summary>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
+		/// <param name="token">The value of <see cref="Token"/></param>
+        public ApiHeaders(ProductHeaderValue userAgent, string token) : this(userAgent, token, null, null)
         {
             if (userAgent == null)
                 throw new ArgumentNullException(nameof(userAgent));
@@ -58,7 +83,13 @@ namespace Tgstation.Server.Api
                 throw new ArgumentNullException(nameof(token));
         }
 
-        public ApiHeaders(string userAgent, string username, string password) : this(userAgent, null, username, password)
+		/// <summary>
+		/// Construct <see cref="ApiHeaders"/> for password authentication
+		/// </summary>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
+		/// <param name="username">The value of <see cref="Username"/></param>
+		/// <param name="password">The value of <see cref="Password"/></param>
+		public ApiHeaders(ProductHeaderValue userAgent, string username, string password) : this(userAgent, null, username, password)
         {
             if (userAgent == null)
                 throw new ArgumentNullException(nameof(userAgent));
@@ -68,42 +99,102 @@ namespace Tgstation.Server.Api
                 throw new ArgumentNullException(nameof(password));
         }
 
-        public ApiHeaders(IReadOnlyDictionary<string, string> headerEntries)
+		/// <summary>
+		/// Construct and validates <see cref="ApiHeaders"/> from a <see cref="IHeaderDictionary"/>
+		/// </summary>
+		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
+		public ApiHeaders(RequestHeaders requestHeaders)
         {
-            this.headerEntries = headerEntries?.ToDictionary(x => x.Key, x => x.Value) ?? throw new ArgumentNullException(nameof(headerEntries));
-            AssertHeader(userAgentHeader);
-            AssertHeader(apiVersionHeader);
-            try
-            {
-                AssertHeader(usernameHeader);
-                AssertHeader(passwordHeader);
-            }
-            catch (InvalidOperationException)
-            {
-                AssertHeader(tokenHeader);
-            }
-        }
+			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(applicationJson);
+			if (!requestHeaders.Accept.Any(x => x == jsonAccept))
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", applicationJson));
 
-        void AssertHeader(string headerName)
-        {
-            try
-            {
-                var headerValue = headerEntries[headerName];
-            }
-            catch(Exception e)
-            {
-                throw new InvalidOperationException("Missing required header!", e);
-            }
-        }
+			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out StringValues userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out ProductInfoHeaderValue clientUserAgent))
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
 
-        ApiHeaders(string userAgent, string token, string username, string password)
-        {
-            headerEntries = new Dictionary<string, string>();
-            ApiVersion = CurrentApiVersion;
-            UserAgent = userAgent;
-            Token = token;
-            Username = username;
-            Password = password;
-        }
+			//assure the client user agent has a name and version
+			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out Version clientVersion))
+				throw new InvalidOperationException("Malformed client user agent!");
+
+			var apiUserAgentHeader = userAgentValues[1];
+			//make sure the api header matches ours
+			if (!ProductInfoHeaderValue.TryParse(apiUserAgentHeader, out ProductInfoHeaderValue apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
+				throw new InvalidOperationException("Missing API user agent!");
+
+			if (!Version.TryParse(apiUserAgent.Product.Version, out Version ApiVersion))
+				throw new InvalidOperationException("Malformed API version!");
+
+			//check api version compatibility
+			var ourVersion = assemblyName.Version;
+			if (ourVersion.Major != ApiVersion.Major || ourVersion.Minor != ApiVersion.Minor || ourVersion.Build > ApiVersion.Build)
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Given API version is incompatible with version {0}!", ourVersion));
+
+			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
+			var scheme = authorization.First();
+
+			if (String.IsNullOrWhiteSpace(scheme))
+				throw new InvalidOperationException("Missing authentication scheme!");
+			var parameter = authorization[1];
+			if (String.IsNullOrEmpty(parameter))
+				throw new InvalidOperationException("Missing authentication parameter!");
+
+			switch (scheme)
+			{
+				case jwtAuthenticationScheme:
+					Token = parameter;
+					break;
+				case passwordAuthenticationScheme:
+					Password = parameter;
+					var fail = !requestHeaders.Headers.TryGetValue(usernameHeader, out StringValues values);
+					if (!fail)
+					{
+						Username = values.FirstOrDefault();
+						fail = String.IsNullOrWhiteSpace(Username);
+					}
+					if (fail)
+						throw new InvalidOperationException("Missing Username header!");
+					break;
+				default:
+					throw new InvalidOperationException("Invalid authentication scheme!");
+			}
+		}
+
+		/// <summary>
+		/// Construct <see cref="ApiHeaders"/>
+		/// </summary>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
+		/// <param name="token">The value of <see cref="Token"/></param>
+		/// <param name="username">The value of <see cref="Username"/></param>
+		/// <param name="password">The value of <see cref="Password"/></param>
+		ApiHeaders(ProductHeaderValue userAgent, string token, string username, string password)
+		{
+			UserAgent = userAgent;
+			Token = token;
+			Username = username;
+			Password = password;
+		}
+
+		/// <summary>
+		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
+		/// </summary>
+		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set</param>
+		public void SetRequestHeaders(HttpRequestHeaders headers)
+		{
+			if (headers == null)
+				throw new ArgumentNullException(nameof(headers));
+
+			headers.Clear();
+			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(applicationJson));
+			if (IsTokenAuthentication)
+				headers.Authorization = new AuthenticationHeaderValue(jwtAuthenticationScheme, Token);
+			else
+			{
+				headers.Authorization = new AuthenticationHeaderValue(passwordAuthenticationScheme, Password);
+				headers.Add(usernameHeader, Username);
+			}
+			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
+			headers.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(assemblyName.Name, assemblyName.Version.ToString())));
+		}
     }
 }
