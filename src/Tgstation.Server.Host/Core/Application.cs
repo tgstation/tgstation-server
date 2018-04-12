@@ -1,15 +1,23 @@
 ﻿using Cyberboss.AspNetCore.AsyncInitializer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
+using Tgstation.Server.Api;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -85,11 +93,49 @@ namespace Tgstation.Server.Host.Core
 
 					RequireSignedTokens = true,
 
-					RequireExpirationTime = true,
-							
+					RequireExpirationTime = true
 				};
+				jwtBearerOptions.Events = new JwtBearerEvents
+				{
+					OnTokenValidated = async context =>
+					{
+						var databaseContext = context.HttpContext.RequestServices.GetRequiredService<IDatabaseContext>();
+						var authenticationContextFactory = context.HttpContext.RequestServices.GetRequiredService<IAuthenticationContextFactory>();
 
-				jwtBearerOptions.SaveToken = true;
+						var userIdClaim = context.Principal.Claims.Where(x => x.Properties.ContainsKey(JwtRegisteredClaimNames.NameId)).FirstOrDefault();
+
+						if (userIdClaim == default(Claim))
+							throw new InvalidOperationException("Missing required claim!");
+
+						long userId;
+						try
+						{
+							userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
+						}
+						catch (Exception e)
+						{
+							throw new InvalidOperationException("Failed to parse user ID!", e);
+						}
+
+						var requestHeaders = context.HttpContext.Request.GetTypedHeaders();
+
+						var apiHeaders = new ApiHeaders(requestHeaders);
+
+						await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
+
+						var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
+
+						var enumerator = Enum.GetValues(typeof(RightsType));
+						var claims = new List<Claim>
+						{
+							Capacity = enumerator.Length
+						};
+						foreach (RightsType I in enumerator)
+							claims.Add(new Claim(I.ToString(), authenticationContext.GetRight(I).ToString(CultureInfo.InvariantCulture)));
+
+						context.Principal.AddIdentity(new ClaimsIdentity(claims));
+					}
+				};
 			});
 			
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();

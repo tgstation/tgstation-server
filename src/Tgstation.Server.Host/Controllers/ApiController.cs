@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Linq;
 using System.Threading;
@@ -12,6 +11,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	[Authorize]
+	[Route("[controller]")]
 	[Produces(ApiHeaders.ApplicationJson)]
 	[Consumes(ApiHeaders.ApplicationJson)]
 	public abstract class ApiController<TModel> : Controller
@@ -22,23 +22,22 @@ namespace Tgstation.Server.Host.Controllers
 
 		protected IDatabaseContext DatabaseContext { get; }
 
-		protected IAuthenticationContext AuthenticationContext { get; private set; }
+		protected IAuthenticationContext AuthenticationContext { get;  }
 
-		readonly ITokenFactory tokenManager;
+		protected Instance Instance { get; }
 
-		public ApiController(IDatabaseContext databaseContext, ITokenFactory tokenManager)
+		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
-			this.tokenManager = tokenManager ?? throw new ArgumentNullException(nameof(tokenManager));
-		}
+			if (authenticationContextFactory == null)
+				throw new ArgumentNullException(nameof(authenticationContextFactory));
 
-		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-		{
-			User.Claims.
-			
-			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
-		}
+			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
+			if (AuthenticationContext.InstanceUser != null)
+				Instance = AuthenticationContext.InstanceUser.Instance;
+		}
+		
 		[HttpPut]
 		public virtual Task<IActionResult> Create([FromBody]TModel model, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 		

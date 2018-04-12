@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Security
 		/// Create a <see cref="ISystemIdentity"/> for a given <paramref name="user"/>
 		/// </summary>
 		/// <param name="user">The user to create a <see cref="ISystemIdentity"/> for</param>
-		/// <returns>A new <see cref="ISystemIdentity"/></returns>
+		/// <returns>A new <see cref="ISystemIdentity"/> or <see langword="null"/> if the <paramref name="user"/> has no <see cref="ISystemIdentity"/></returns>
 		ISystemIdentity CreateSystemIdentity(User user);
 
 		/// <summary>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -37,5 +39,11 @@ namespace Tgstation.Server.Host.Security
 
 		/// <inheritdoc />
 		public IAuthenticationContext Clone() => new AuthenticationContext(SystemIdentity.Clone(), User, InstanceUser);
+
+		/// <inheritdoc />
+		public long GetRight(RightsType rightsType)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

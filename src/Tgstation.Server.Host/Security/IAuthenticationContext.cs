@@ -1,4 +1,5 @@
 ﻿using System;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -17,6 +18,8 @@ namespace Tgstation.Server.Host.Security
 		/// The <see cref="InstanceUser"/> of <see cref="User"/> if applicable
 		/// </summary>
 		InstanceUser InstanceUser { get; }
+
+		long GetRight(RightsType rightsType);
 
 		/// <summary>
 		/// The <see cref="ISystemIdentity"/> of <see cref="User"/> if applicable

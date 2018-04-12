@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -21,9 +20,14 @@ namespace Tgstation.Server.Api
 		public const string ApplicationJson = "application/json";
 
 		/// <summary>
-		/// The username header key
+		/// The <see cref="Username"/> header key
 		/// </summary>
 		const string usernameHeader = "Username";
+
+		/// <summary>
+		/// The <see cref="InstanceId"/> header key
+		/// </summary>
+		const string instanceIdHeader = "InstanceId";
 
 		/// <summary>
 		/// The JWT authentication header scheme
@@ -39,6 +43,11 @@ namespace Tgstation.Server.Api
 		/// The current <see cref="AssemblyName"/>
 		/// </summary>
 		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+
+		/// <summary>
+		/// The <see cref="Models.Instance.Id"/> being accessed
+		/// </summary>
+		public long? InstanceId { get; set; }
 
 		/// <summary>
 		/// The client's user agent
@@ -139,6 +148,13 @@ namespace Tgstation.Server.Api
 			if (String.IsNullOrEmpty(parameter))
 				throw new InvalidOperationException("Missing authentication parameter!");
 
+			if(requestHeaders.Headers.TryGetValue(instanceIdHeader, out StringValues instanceIdValues))
+			{
+				var instanceIdString = instanceIdValues.FirstOrDefault();
+				if (instanceIdString != default && Int64.TryParse(instanceIdString, out long instanceId))
+					InstanceId = instanceId;
+			}
+
 			switch (scheme)
 			{
 				case jwtAuthenticationScheme:
@@ -195,6 +211,8 @@ namespace Tgstation.Server.Api
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(assemblyName.Name, assemblyName.Version.ToString())));
+			if(InstanceId.HasValue)
+				headers.Add(instanceIdHeader, InstanceId.ToString());
 		}
     }
 }
