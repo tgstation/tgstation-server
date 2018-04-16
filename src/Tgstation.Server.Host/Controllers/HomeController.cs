@@ -83,7 +83,13 @@ namespace Tgstation.Server.Host.Controllers
 					return Unauthorized();
 				if (user.PasswordHash != originalHash)
 				{
-					DatabaseContext.Users.Attach(user);
+					var updatedUser = new User
+					{
+						Id = user.Id,
+						PasswordHash = originalHash
+					};
+					DatabaseContext.Users.Attach(updatedUser);
+					updatedUser.PasswordHash = user.PasswordHash;
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
 			}
