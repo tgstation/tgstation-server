@@ -85,12 +85,15 @@ namespace Tgstation.Server.Host.Controllers
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
 			var enumerator = Enum.GetValues(typeof(RightsType));
-			var claims = new List<Claim>
-			{
-				Capacity = enumerator.Length
-			};
+			var claims = new List<Claim>();
 			foreach (RightsType I in enumerator)
-				claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, authenticationContext.GetRight(I))));
+			{
+				var rightInt = authenticationContext.GetRight(I);
+				var right = (Enum)(ValueType)authenticationContext.GetRight(I);
+				foreach(Enum J in Enum.GetValues(RightsHelper.RightToType(I)))
+					if(right.HasFlag(J))
+						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, rightInt)));
+			}
 
 			context.Principal.AddIdentity(new ClaimsIdentity(claims));
 		}
