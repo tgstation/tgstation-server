@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,7 +27,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 		/// <summary>
-		/// The <see cref="IPasswordHasher{TUser}"/> for the <see cref="HomeController"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
