@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Security.Cryptography;
-using System.Text;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -10,31 +9,16 @@ namespace Tgstation.Server.Host.Security
 	sealed class CryptographySuite : ICryptographySuite
 	{
 		/// <summary>
-		/// The length of secure strings used in the application
+		/// Generates a secure set of <see cref="byte"/>s
 		/// </summary>
-		public const int SecureStringLength = 40;
-
-		/// <summary>
-		/// Generates a secure ascii <see cref="string"/> of length <see cref="SecureStringLength"/>
-		/// </summary>
-		/// <returns>A secure ascii <see cref="string"/> of length <see cref="SecureStringLength"/></returns>
-		static string GenerateSecureString()
+		/// <returns>A secure set of <see cref="byte"/>s</returns>
+		public static byte[] GetSecureBytes(int amount)
 		{
 			using (var rng = new RNGCryptoServiceProvider())
 			{
-				var byt = new byte[1];
-				var result = new StringBuilder
-				{
-					Capacity = SecureStringLength
-				};
-				while (result.Length < SecureStringLength)
-				{
-					rng.GetBytes(byt);
-					var chr = (char)byt[0];
-					if (Char.IsLetterOrDigit(chr))
-						result.Append(chr);
-				}
-				return result.ToString();
+				var byt = new byte[amount];
+				rng.GetBytes(byt);
+				return byt;
 			}
 		}
 
@@ -57,6 +41,20 @@ namespace Tgstation.Server.Host.Security
 			if (String.IsNullOrEmpty(newPassword))
 				throw new ArgumentNullException(nameof(newPassword));
 			user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
+		}
+
+		/// <inheritdoc />
+		public bool CheckUserPassword(User user, string password)
+		{
+			switch(passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password))
+			{
+				case PasswordVerificationResult.Failed:
+					return false;
+				case PasswordVerificationResult.SuccessRehashNeeded:
+					user.PasswordHash = passwordHasher.HashPassword(user, password);
+					break;
+			}
+			return true;
 		}
 	}
 }

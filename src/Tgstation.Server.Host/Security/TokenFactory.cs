@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,7 +6,6 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -16,17 +14,7 @@ namespace Tgstation.Server.Host.Security
 	{
 		public static readonly string TokenAudience = typeof(Token).Assembly.GetName().Name;
 		public static readonly string TokenIssuer = Assembly.GetExecutingAssembly().GetName().Name;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="TokenFactory"/>
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
-		/// Construct a <see cref="TokenFactory"/>
-		/// </summary>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public TokenFactory(IOptions<GeneralConfiguration> generalConfigurationOptions) => generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+		public static readonly byte[] TokenSigningKey = CryptographySuite.GetSecureBytes(256);
 
 		/// <inheritdoc />
 		public Token CreateToken(Models.User user)
@@ -43,7 +31,7 @@ namespace Tgstation.Server.Host.Security
 				new Claim(JwtRegisteredClaimNames.Aud, TokenAudience)
 			};
 
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(generalConfiguration.TokenSigningKey));
+			var key = new SymmetricSecurityKey(TokenSigningKey);
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
 			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token) };

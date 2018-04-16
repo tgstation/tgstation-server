@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// Contains various cryptographic functions
 	/// </summary>
-	interface ICryptographySuite
+	public interface ICryptographySuite
 	{
 		/// <summary>
 		/// Sets a <see cref="User.PasswordHash"/> for a given <paramref name="user"/>
@@ -13,5 +13,13 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="user">The <see cref="User"/> whos <see cref="User.PasswordHash"/> is to be set</param>
 		/// <param name="newPassword">The new password for the <see cref="User"/></param>
 		void SetUserPassword(User user, string newPassword);
+
+		/// <summary>
+		/// Checks a given <paramref name="password"/> matches a given <paramref name="user"/>'s <see cref="User.PasswordHash"/>. This may result in <see cref="User.PasswordHash"/> being modified and this should be persisted
+		/// </summary>
+		/// <param name="user">The <see cref="User"/> to check</param>
+		/// <param name="password">The password to check</param>
+		/// <returns><see langword="true"/> if <paramref name="password"/> matches the hash, <see langword="false"/> otherwise</returns>
+		bool CheckUserPassword(User user, string password);
 	}
 }

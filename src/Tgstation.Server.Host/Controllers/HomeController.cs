@@ -4,15 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
 {
+	/// <summary>
+	/// Main <see cref="ApiController"/> for the <see cref="Application"/>
+	/// </summary>
 	[Route("/")]
 	public sealed class HomeController : ApiController
 	{
@@ -25,21 +28,38 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 		/// <summary>
-		/// The <see cref="IPasswordHasher"/> for the <see cref="HomeController"/>
+		/// The <see cref="IPasswordHasher{TUser}"/> for the <see cref="HomeController"/>
 		/// </summary>
-		readonly IPasswordHasher<User> passwordHasher;
+		readonly ICryptographySuite cryptographySuite;
 
-		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, IPasswordHasher<User> passwordHasher) : base(databaseContext, authenticationContextFactory)
+		/// <summary>
+		/// Construct a <see cref="HomeController"/>
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
+		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
+		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite) : base(databaseContext, authenticationContextFactory)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
-			this.passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
+			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 		}
 
+		/// <summary>
+		/// Returns the version of the <see cref="Application"/>
+		/// </summary>
+		/// <returns><see cref="Application.Version"/></returns>
 		[Authorize]
 		[HttpGet]
-		public JsonResult Home() => Json(Assembly.GetExecutingAssembly().GetName().Version);
+		public JsonResult Home() => Json(Application.Version);
 
+		/// <summary>
+		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpPost]
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
@@ -56,17 +76,15 @@ namespace Tgstation.Server.Host.Controllers
 			if (user == null)
 				return Unauthorized();
 
-			if(user.PasswordHash != null)
+			if (user.PasswordHash != null)
 			{
-				var hashResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, ApiHeaders.Password);
-				switch (hashResult)
+				var originalHash = user.PasswordHash;
+				if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+					return Unauthorized();
+				if (user.PasswordHash != originalHash)
 				{
-					case PasswordVerificationResult.Failed:
-						return Unauthorized();
-					case PasswordVerificationResult.SuccessRehashNeeded:
-						user.PasswordHash = passwordHasher.HashPassword(user, ApiHeaders.Password);
-						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-						break;
+					DatabaseContext.Users.Attach(user);
+					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
 			}
 			else

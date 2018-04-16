@@ -25,16 +25,6 @@ namespace Tgstation.Server.Api.Rights
 			{ RightsType.InstanceUser, typeof(InstanceUserRights) }
 		};
 
-		static readonly IReadOnlyDictionary<Type, RightsType> rightMap = CreateRightsMap();
-
-		static IReadOnlyDictionary<Type, RightsType> CreateRightsMap()
-		{
-			var dic = new Dictionary<Type, RightsType>();
-			foreach (var I in typeMap)
-				dic.Add(I.Value, I.Key);
-			return dic;
-		}
-
 		/// <summary>
 		/// Map a given <paramref name="rightsType"/> to its respective <see cref="Enum"/> <see cref="Type"/>
 		/// </summary>
@@ -42,7 +32,20 @@ namespace Tgstation.Server.Api.Rights
 		/// <returns>The <see cref="Enum"/> <see cref="Type"/> of the given <paramref name="rightsType"/></returns>
 		public static Type RightToType(RightsType rightsType) => typeMap[rightsType];
 
+		/// <summary>
+		/// Gets the role claim name used for a given <paramref name="right"/>
+		/// </summary>
+		/// <typeparam name="TRight">The <see cref="RightsType"/></typeparam>
+		/// <param name="right">The <typeparamref name="TRight"/></param>
+		/// <returns>A <see cref="string"/> representing the claim role name</returns>
 		public static string RoleName<TRight>(TRight right) => String.Concat(typeof(TRight).Name, '.', right.ToString());
+
+		/// <summary>
+		/// Gets the role claim name used for a given <paramref name="rightsType"/> and <paramref name="right"/>
+		/// </summary>
+		/// <param name="rightsType">The <see cref="RightsType"/></param>
+		/// <param name="right">The right value</param>
+		/// <returns>A <see cref="string"/> representing the claim role name</returns>
 		public static string RoleName(RightsType rightsType, int right)
 		{
 			var enumType = typeMap[rightsType];

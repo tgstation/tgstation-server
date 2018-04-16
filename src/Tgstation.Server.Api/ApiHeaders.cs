@@ -110,7 +110,7 @@ namespace Tgstation.Server.Api
         }
 
 		/// <summary>
-		/// Construct and validates <see cref="ApiHeaders"/> from a <see cref="IHeaderDictionary"/>
+		/// Construct and validates <see cref="ApiHeaders"/> from a set of <paramref name="requestHeaders"/>
 		/// </summary>
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
 		public ApiHeaders(RequestHeaders requestHeaders)

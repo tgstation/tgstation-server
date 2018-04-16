@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
@@ -18,6 +17,7 @@ namespace Tgstation.Server.Host.Security
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
+
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>
 		/// </summary>

@@ -19,6 +19,11 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		InstanceUser InstanceUser { get; }
 
+		/// <summary>
+		/// Get the value of a given <paramref name="rightsType"/>
+		/// </summary>
+		/// <param name="rightsType">The <see cref="RightsType"/> of the right to get</param>
+		/// <returns>The value of <paramref name="rightsType"/>. Note that if <see cref="InstanceUser"/> is <see langword="null"/> all <see cref="Instance"/> based rights will return 0</returns>
 		int GetRight(RightsType rightsType);
 
 		/// <summary>

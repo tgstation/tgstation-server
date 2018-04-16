@@ -17,18 +17,38 @@ using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
 {
+	/// <summary>
+	/// A <see cref="Controller"/> for API functions
+	/// </summary>
 	[Produces(ApiHeaders.ApplicationJson)]
 	[Consumes(ApiHeaders.ApplicationJson)]
 	public abstract class ApiController : Controller
 	{
+		/// <summary>
+		/// The <see cref="ApiHeaders"/> for the operation
+		/// </summary>
 		protected ApiHeaders ApiHeaders { get; private set; }
 
+		/// <summary>
+		/// The <see cref="IDatabaseContext"/> for the operation
+		/// </summary>
 		protected IDatabaseContext DatabaseContext { get; }
 
+		/// <summary>
+		/// The <see cref="IAuthenticationContext"/> for the operation
+		/// </summary>
 		protected IAuthenticationContext AuthenticationContext { get; }
 
+		/// <summary>
+		/// The <see cref="Instance"/> for the operation
+		/// </summary>
 		protected Instance Instance { get; }
 
+		/// <summary>
+		/// Runs after a <see cref="Api.Models.Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
+		/// </summary>
+		/// <param name="context">The <see cref="TokenValidatedContext"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		public static async Task OnTokenValidated(TokenValidatedContext context)
 		{
 			var databaseContext = context.HttpContext.RequestServices.GetRequiredService<IDatabaseContext>();
@@ -75,6 +95,11 @@ namespace Tgstation.Server.Host.Controllers
 			context.Principal.AddIdentity(new ClaimsIdentity(claims));
 		}
 
+		/// <summary>
+		/// Construct an <see cref="ApiController"/>
+		/// </summary>
+		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
@@ -84,6 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
 		}
 		
+		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
 			//validate the headers

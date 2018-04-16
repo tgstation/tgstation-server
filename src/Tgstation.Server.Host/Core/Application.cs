@@ -2,22 +2,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text;
-using Tgstation.Server.Api;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Models;
@@ -30,6 +23,11 @@ namespace Tgstation.Server.Host.Core
     /// </summary>
 	sealed class Application
 	{
+		/// <summary>
+		/// The version of the <see cref="Application"/>
+		/// </summary>
+		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
 		/// </summary>
@@ -64,17 +62,9 @@ namespace Tgstation.Server.Host.Core
 			var workingDir = Environment.CurrentDirectory;
 			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
 			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
-			var generalConfigSection = configuration.GetSection(GeneralConfiguration.Section);
-			services.Configure<GeneralConfiguration>(generalConfigSection);
 
-			services.AddMvc();
-            services.AddOptions();
-
-			var signingKey = generalConfigSection.Get<GeneralConfiguration>().TokenSigningKey;
-
-			if (signingKey == "default")
-				throw new InvalidOperationException("Do not use the default signing key!");
-
+			services.AddOptions();
+			
 			const string scheme = "JwtBearer";
 			services.AddAuthentication((options) =>
 			{
@@ -85,7 +75,7 @@ namespace Tgstation.Server.Host.Core
 				jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
 				{
 					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)),
+					IssuerSigningKey = new SymmetricSecurityKey(TokenFactory.TokenSigningKey),
 
 					ValidateIssuer = true,
 					ValidIssuer = TokenFactory.TokenIssuer,
@@ -105,7 +95,9 @@ namespace Tgstation.Server.Host.Core
 					OnTokenValidated = ApiController.OnTokenValidated
 				};
 			});
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();	//fucking converts 'sub' to M$ bs
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
+
+			services.AddMvc();
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
