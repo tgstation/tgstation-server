@@ -33,12 +33,12 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		const string jwtAuthenticationScheme = "bearer";
+		const string jwtAuthenticationScheme = "Bearer";
 
 		/// <summary>
 		/// The password authentication header scheme
 		/// </summary>
-		const string passwordAuthenticationScheme = "password";
+		const string passwordAuthenticationScheme = "Password";
 
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>

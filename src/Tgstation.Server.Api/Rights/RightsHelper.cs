@@ -46,7 +46,7 @@ namespace Tgstation.Server.Api.Rights
 		/// <param name="rightsType">The <see cref="RightsType"/></param>
 		/// <param name="right">The right value</param>
 		/// <returns>A <see cref="string"/> representing the claim role name</returns>
-		public static string RoleName(RightsType rightsType, int right)
+		public static string RoleName(RightsType rightsType, Enum right)
 		{
 			var enumType = typeMap[rightsType];
 			return String.Concat(enumType.Name, '.', Enum.GetName(enumType, right));
