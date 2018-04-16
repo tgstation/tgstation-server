@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.0-sdk AS build
 WORKDIR /src
 
 COPY tgstation-server.sln ./
@@ -36,7 +36,7 @@ RUN dotnet test -c Release
 FROM build AS publish
 RUN dotnet publish -c Release -o /app
 
-FROM microsoft/dotnet:2.1-runtime
+FROM microsoft/dotnet:2.0-runtime
 EXPOSE 80
 
 WORKDIR /app

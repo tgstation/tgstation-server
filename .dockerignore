@@ -5,5 +5,7 @@ docker-compose.yml
 .vs
 .vscode
 legacy
+packages
+build
 */bin
 */obj
