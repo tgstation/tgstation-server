@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Security
 			if (instanceId.HasValue)
 				instanceUser = user.InstanceUsers.First();
 
-			CurrentAuthenticationContext = new AuthenticationContext(systemIdentityFactory.CreateSystemIdentity(user), user, instanceUser);
+			CurrentAuthenticationContext = new AuthenticationContext(user.SystemIdentifier != null ? systemIdentityFactory.CreateSystemIdentity(user) : null, user, instanceUser);
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// Factory for <see cref="ISystemIdentity"/>s
 	/// </summary>
-	interface ISystemIdentityFactory
+	public interface ISystemIdentityFactory
 	{
 		/// <summary>
 		/// Create a <see cref="ISystemIdentity"/> for a given <paramref name="user"/>

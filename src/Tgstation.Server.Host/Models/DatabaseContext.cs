@@ -143,12 +143,13 @@ namespace Tgstation.Server.Host.Models
 		{
 #if DEBUG
 			await Database.EnsureCreatedAsync().ConfigureAwait(false);
+			var wasEmpty = (await Users.CountAsync().ConfigureAwait(false)) == 0;
 #else
 			var migrations = await Database.GetAppliedMigrationsAsync().ConfigureAwait(false);
 			var wasEmpty = !migrations.Any();
 			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
-			if (wasEmpty)
 #endif
+			if (wasEmpty)
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 		}
 

@@ -24,7 +24,7 @@ namespace Tgstation.Server.Client
 		/// Create a <see cref="IServerClient"/>
 		/// </summary>
 		/// <param name="hostname">The URL to access tgstation-server at</param>
-		/// <param name="token">The <see cref="Api.Models.Token.Value"/> to access the API with</param>
+		/// <param name="token">The <see cref="Api.Models.Token.Bearer"/> to access the API with</param>
 		/// <param name="timeout">The initial timeout for the connection</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/></returns>

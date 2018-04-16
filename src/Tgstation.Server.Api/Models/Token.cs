@@ -8,6 +8,6 @@
 		/// <summary>
 		/// The value of the JWT
 		/// </summary>
-		public string Value { get; set; }
+		public string Bearer { get; set; }
 	}
 }

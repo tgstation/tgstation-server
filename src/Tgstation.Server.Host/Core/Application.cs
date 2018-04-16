@@ -19,6 +19,7 @@ using System.Text;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -63,11 +64,13 @@ namespace Tgstation.Server.Host.Core
 			var workingDir = Environment.CurrentDirectory;
 			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
 			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
+			var generalConfigSection = configuration.GetSection(GeneralConfiguration.Section);
+			services.Configure<GeneralConfiguration>(generalConfigSection);
 
-            services.AddMvc();
+			services.AddMvc();
             services.AddOptions();
 
-			var signingKey = configuration.GetSection(GeneralConfiguration.Section).Get<GeneralConfiguration>().TokenSigningKey;
+			var signingKey = generalConfigSection.Get<GeneralConfiguration>().TokenSigningKey;
 
 			if (signingKey == "default")
 				throw new InvalidOperationException("Do not use the default signing key!");
@@ -85,9 +88,11 @@ namespace Tgstation.Server.Host.Core
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)),
 
 					ValidateIssuer = true,
-					ValidIssuer = Assembly.GetExecutingAssembly().GetName().Name,
+					ValidIssuer = TokenFactory.TokenIssuer,
 
 					ValidateLifetime = true,
+					ValidateAudience = true,
+					ValidAudience = TokenFactory.TokenAudience,
 
 					ClockSkew = TimeSpan.FromMinutes(5),
 
@@ -97,47 +102,11 @@ namespace Tgstation.Server.Host.Core
 				};
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
-					OnTokenValidated = async context =>
-					{
-						var databaseContext = context.HttpContext.RequestServices.GetRequiredService<IDatabaseContext>();
-						var authenticationContextFactory = context.HttpContext.RequestServices.GetRequiredService<IAuthenticationContextFactory>();
-
-						var userIdClaim = context.Principal.Claims.Where(x => x.Properties.ContainsKey(JwtRegisteredClaimNames.NameId)).FirstOrDefault();
-
-						if (userIdClaim == default(Claim))
-							throw new InvalidOperationException("Missing required claim!");
-
-						long userId;
-						try
-						{
-							userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
-						}
-						catch (Exception e)
-						{
-							throw new InvalidOperationException("Failed to parse user ID!", e);
-						}
-
-						var requestHeaders = context.HttpContext.Request.GetTypedHeaders();
-
-						var apiHeaders = new ApiHeaders(requestHeaders);
-
-						await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
-
-						var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
-
-						var enumerator = Enum.GetValues(typeof(RightsType));
-						var claims = new List<Claim>
-						{
-							Capacity = enumerator.Length
-						};
-						foreach (RightsType I in enumerator)
-							claims.Add(new Claim(I.ToString(), authenticationContext.GetRight(I).ToString(CultureInfo.InvariantCulture)));
-
-						context.Principal.AddIdentity(new ClaimsIdentity(claims));
-					}
+					OnTokenValidated = ApiController.OnTokenValidated
 				};
 			});
-			
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();	//fucking converts 'sub' to M$ bs
+
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
 			{
@@ -162,11 +131,14 @@ namespace Tgstation.Server.Host.Core
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}!", nameof(DatabaseType)));
 			}
-			
+
+			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
+
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
+			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
 		}
 
 		/// <summary>

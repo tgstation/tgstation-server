@@ -6,8 +6,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 
@@ -16,6 +14,9 @@ namespace Tgstation.Server.Host.Security
 	/// <inheritdoc />
 	sealed class TokenFactory : ITokenFactory
 	{
+		public static readonly string TokenAudience = typeof(Token).Assembly.GetName().Name;
+		public static readonly string TokenIssuer = Assembly.GetExecutingAssembly().GetName().Name;
+
 		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="TokenFactory"/>
 		/// </summary>
@@ -36,15 +37,16 @@ namespace Tgstation.Server.Host.Security
 			var claims = new Claim[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),
-				new Claim(JwtRegisteredClaimNames.Exp, $"{DateTimeOffset.Now.AddDays(1).ToUnixTimeSeconds()}"),
+				new Claim(JwtRegisteredClaimNames.Exp, $"{DateTimeOffset.Now.AddHours(1).ToUnixTimeSeconds()}"),
 				new Claim(JwtRegisteredClaimNames.Nbf, $"{DateTimeOffset.Now.ToUnixTimeSeconds()}"),
-				new Claim(JwtRegisteredClaimNames.Iss, Assembly.GetExecutingAssembly().GetName().Name)
+				new Claim(JwtRegisteredClaimNames.Iss, TokenIssuer),
+				new Claim(JwtRegisteredClaimNames.Aud, TokenAudience)
 			};
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(generalConfiguration.TokenSigningKey));
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
-			return new Token { Value = new JwtSecurityTokenHandler().WriteToken(token) };
+			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token) };
 		}
 	}
 }

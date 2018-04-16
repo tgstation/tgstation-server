@@ -1,56 +1,103 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Threading;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
 {
-	[Authorize]
-	[Route("[controller]")]
 	[Produces(ApiHeaders.ApplicationJson)]
 	[Consumes(ApiHeaders.ApplicationJson)]
-	public abstract class ApiController<TModel> : Controller
+	public abstract class ApiController : Controller
 	{
-		protected ModelAttribute ModelAttribute => (ModelAttribute)typeof(TModel).GetCustomAttributes(typeof(ModelAttribute), true).First();
-
-		protected ApiHeaders ApiHeaders { get; }
+		protected ApiHeaders ApiHeaders { get; private set; }
 
 		protected IDatabaseContext DatabaseContext { get; }
 
-		protected IAuthenticationContext AuthenticationContext { get;  }
+		protected IAuthenticationContext AuthenticationContext { get; }
 
 		protected Instance Instance { get; }
+
+		public static async Task OnTokenValidated(TokenValidatedContext context)
+		{
+			var databaseContext = context.HttpContext.RequestServices.GetRequiredService<IDatabaseContext>();
+			var authenticationContextFactory = context.HttpContext.RequestServices.GetRequiredService<IAuthenticationContextFactory>();
+
+			var userIdClaim = context.Principal.FindFirst(JwtRegisteredClaimNames.Sub);
+
+			if (userIdClaim == default(Claim))
+				throw new InvalidOperationException("Missing required claim!");
+
+			long userId;
+			try
+			{
+				userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
+			}
+			catch (Exception e)
+			{
+				throw new InvalidOperationException("Failed to parse user ID!", e);
+			}
+			
+			ApiHeaders apiHeaders;
+			try
+			{
+				apiHeaders = new ApiHeaders(context.HttpContext.Request.GetTypedHeaders());
+			}
+			catch
+			{
+				//let OnActionExecutionAsync handle the reponse
+				return;
+			}
+
+			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
+
+			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
+
+			var enumerator = Enum.GetValues(typeof(RightsType));
+			var claims = new List<Claim>
+			{
+				Capacity = enumerator.Length
+			};
+			foreach (RightsType I in enumerator)
+				claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, authenticationContext.GetRight(I))));
+
+			context.Principal.AddIdentity(new ClaimsIdentity(claims));
+		}
 
 		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
-
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
-
-			if (AuthenticationContext.InstanceUser != null)
-				Instance = AuthenticationContext.InstanceUser.Instance;
+			Instance = AuthenticationContext?.InstanceUser?.Instance;
 		}
 		
-		[HttpPut]
-		public virtual Task<IActionResult> Create([FromBody]TModel model, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
-		
-		[HttpGet]
-		public virtual Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
+		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		{
+			//validate the headers
+			try
+			{
+				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
+			}
+			catch (InvalidOperationException e)
+			{
+				await BadRequest(new { message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+				return;
+			}
 
-		[HttpPost]
-		public virtual Task<IActionResult> Update([FromBody]TModel model, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
-
-		[HttpDelete]
-		public virtual Task<IActionResult> Delete([FromBody]TModel model, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
-
-		[HttpGet("/List")]
-		public virtual Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
+			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
+		}
 	}
 }

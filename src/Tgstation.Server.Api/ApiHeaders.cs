@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -32,12 +33,12 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		const string jwtAuthenticationScheme = "Bearer";
+		const string jwtAuthenticationScheme = "bearer";
 
 		/// <summary>
 		/// The password authentication header scheme
 		/// </summary>
-		const string passwordAuthenticationScheme = "Password";
+		const string passwordAuthenticationScheme = "password";
 
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>
@@ -115,7 +116,7 @@ namespace Tgstation.Server.Api
 		public ApiHeaders(RequestHeaders requestHeaders)
         {
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJson);
-			if (!requestHeaders.Accept.Any(x => x == jsonAccept))
+			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out StringValues userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out ProductInfoHeaderValue clientUserAgent))
@@ -140,11 +141,14 @@ namespace Tgstation.Server.Api
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
-			var scheme = authorization.First();
-
+			var auth = authorization.First();
+			var splits = new List<string>(auth.Split(' '));
+			var scheme = splits.First();
 			if (String.IsNullOrWhiteSpace(scheme))
 				throw new InvalidOperationException("Missing authentication scheme!");
-			var parameter = authorization[1];
+
+			splits.RemoveAt(0);
+			var parameter = String.Concat(splits);
 			if (String.IsNullOrEmpty(parameter))
 				throw new InvalidOperationException("Missing authentication parameter!");
 

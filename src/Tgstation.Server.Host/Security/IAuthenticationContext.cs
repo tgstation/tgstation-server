@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		InstanceUser InstanceUser { get; }
 
-		long GetRight(RightsType rightsType);
+		int GetRight(RightsType rightsType);
 
 		/// <summary>
 		/// The <see cref="ISystemIdentity"/> of <see cref="User"/> if applicable
