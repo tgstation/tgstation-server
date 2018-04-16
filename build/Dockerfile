@@ -43,7 +43,8 @@ WORKDIR /app
 
 COPY --from=publish /app .
 
-RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
+RUN mkdir /config_data
+RUN mv appsettings.Docker.json /config_data/appsettings.Production.json
 VOLUME ["/config_data"]
 
 ENTRYPOINT ["dotnet", "Tgstation.Server.Host.Console.dll"]
