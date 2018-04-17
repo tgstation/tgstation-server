@@ -32,7 +32,7 @@
 		/// <summary>
 		/// <see cref="ChatSettingsRights"/>
 		/// </summary>
-		Chat,
+		ChatSettings,
 		/// <summary>
 		/// <see cref="ConfigurationRights"/>
 		/// </summary>

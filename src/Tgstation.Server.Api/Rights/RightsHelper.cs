@@ -20,7 +20,7 @@ namespace Tgstation.Server.Api.Rights
 			{ RightsType.Byond, typeof(ByondRights) },
 			{ RightsType.DreamMaker, typeof(DreamMakerRights) },
 			{ RightsType.DreamDaemon, typeof(DreamDaemonRights) },
-			{ RightsType.Chat, typeof(ChatSettingsRights) },
+			{ RightsType.ChatSettings, typeof(ChatSettingsRights) },
 			{ RightsType.Configuration, typeof(ConfigurationRights) },
 			{ RightsType.InstanceUser, typeof(InstanceUserRights) }
 		};

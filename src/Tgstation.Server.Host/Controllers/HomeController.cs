@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -50,7 +49,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Returns the version of the <see cref="Application"/>
 		/// </summary>
 		/// <returns><see cref="Application.Version"/></returns>
-		[Authorize]
+		[TgsAuthorize]
 		[HttpGet]
 		public JsonResult Home() => Json(Application.Version);
 
