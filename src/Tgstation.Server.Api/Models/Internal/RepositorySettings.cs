@@ -42,6 +42,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool PushTestMergeCommits { get; set; }
 
 		/// <summary>
+		/// If test merge commits are signed with the username of the person who merged it. Note this only affects future commits
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
+		public bool ShowTestMergeCommitters { get; set; }
+
+		/// <summary>
 		/// How often the <see cref="Repository"/> automatically updates in minutes
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeAutoUpdate)]
