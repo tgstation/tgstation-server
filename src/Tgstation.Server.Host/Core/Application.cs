@@ -1,11 +1,11 @@
-﻿using Cyberboss.AspNetCore.AsyncInitializer;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
@@ -34,16 +34,16 @@ namespace Tgstation.Server.Host.Core
 		readonly IConfiguration configuration;
 
 		/// <summary>
-		/// The <see cref="IHostingEnvironment"/> for the <see cref="Application"/>
+		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
 		/// </summary>
-		readonly IHostingEnvironment hostingEnvironment;
+		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
 		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public Application(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+		public Application(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
@@ -131,6 +131,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
+
+			services.AddSingleton<JobManager>();
+			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
+			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobManager>());
 		}
 
 		/// <summary>
@@ -144,13 +148,7 @@ namespace Tgstation.Server.Host.Core
 
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();
-
-			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
-			{
-				using (var scope = applicationBuilder.ApplicationServices.CreateScope())
-					await scope.ServiceProvider.GetRequiredService<IDatabaseContext>().Initialize(cancellationToken).ConfigureAwait(false);
-			});
-
+			
 			applicationBuilder.UseAuthentication();
 			applicationBuilder.UseMvc();
 		}
