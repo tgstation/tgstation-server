@@ -72,5 +72,13 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task PushHeadToTemporaryBranch(string accessString, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Copies the current working directory to a given <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to copy repository contents to</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task CopyTo(string path, CancellationToken cancellationToken);
 	}
 }

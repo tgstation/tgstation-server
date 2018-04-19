@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -34,12 +35,19 @@ namespace Tgstation.Server.Host.Components
 		readonly LibGit2Sharp.IRepository repository;
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Repository"/>
+		/// </summary>
+		readonly IIOManager ioMananger;
+
+		/// <summary>
 		/// Construct a <see cref="Repository"/>
 		/// </summary>
 		/// <param name="repository">The value of <see cref="repository"/></param>
-		public Repository(LibGit2Sharp.IRepository repository)
+		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
+		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger)
 		{
 			this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
+			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			IsGitHubRepository = Origin.ToUpperInvariant().Contains("GITHUB.COM");
 		}
 
@@ -47,19 +55,22 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose() => repository.Dispose();
 
 		/// <summary>
-		/// Convert <see cref="Origin"/> to an "https://<paramref name="accessString"/>@{url} equivalent
+		/// Convert <paramref name="url"/> to an "https://<paramref name="accessString"/>@{url} equivalent
 		/// </summary>
+		/// <param name="url">The URL to convert</param>
 		/// <param name="accessString">The <see cref="string"/> containing authentication info for the remote repository</param>
 		/// <returns>An authenticated URL for accessing the remote repository</returns>
-		string GenerateAuthUrl(string accessString)
+		public static string GenerateAuthUrl(string url, string accessString)
 		{
+			if (url == null)
+				throw new ArgumentNullException(nameof(url));
 			if (String.IsNullOrWhiteSpace(accessString))
-				return Origin;
+				return url;
 			const string HttProtocolSecure = "HTTPS://";
-			if (!Origin.ToUpperInvariant().StartsWith(HttProtocolSecure, StringComparison.InvariantCulture))
+			if (!url.ToUpperInvariant().StartsWith(HttProtocolSecure, StringComparison.InvariantCulture))
 				throw new InvalidOperationException("Cannot use access string without HTTPS remote!");
 			//ONLY support https urls
-			return Origin.ToUpperInvariant().Replace(HttProtocolSecure, String.Concat(HttProtocolSecure, accessString, '@'));
+			return url.ToUpperInvariant().Replace(HttProtocolSecure, String.Concat(HttProtocolSecure, accessString, '@'));
 		}
 
 		/// <summary>
@@ -84,7 +95,7 @@ namespace Tgstation.Server.Host.Components
 			Refspec.Add(String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", pullRequestNumber, prBranchName));
 			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", pullRequestNumber);
 
-			var remote = repository.Network.Remotes.Add("temp_pr_fetch", GenerateAuthUrl(accessString));
+			var remote = repository.Network.Remotes.Add("temp_pr_fetch", GenerateAuthUrl(Origin, accessString));
 			try
 			{
 				cancellationToken.ThrowIfCancellationRequested();
@@ -157,7 +168,7 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var remote = repository.Network.Remotes.Add("temp_push", GenerateAuthUrl(accessString));
+				var remote = repository.Network.Remotes.Add("temp_push", GenerateAuthUrl(Origin, accessString));
 				try
 				{
 					cancellationToken.ThrowIfCancellationRequested();
@@ -200,5 +211,13 @@ namespace Tgstation.Server.Host.Components
 			repository.RemoveUntrackedFiles();
 			return trackedBranch.Tip.Sha;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public async Task CopyTo(string path, CancellationToken cancellationToken)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			await ioMananger.CopyDirectory(".", path, new List<string> { ".git" }, cancellationToken).ConfigureAwait(false);
+		}
 	}
 }
