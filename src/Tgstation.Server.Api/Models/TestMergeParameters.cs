@@ -17,5 +17,10 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public string PullRequestRevision { get; set; }
+
+		/// <summary>
+		/// Optional comment about the test
+		/// </summary>
+		public string Comment { get; set; }
 	}
 }

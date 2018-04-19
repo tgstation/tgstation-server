@@ -27,6 +27,12 @@ namespace Tgstation.Server.Api.Models
 		public RevisionInformation RevisionInformation { get; set; }
 
 		/// <summary>
+		/// If the repository was cloned from GitHub.com. If <see langword="true"/> this enables test merge functionality
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public bool IsGitHub { get; set; }
+
+		/// <summary>
 		/// The branch or tag HEAD points to
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetReference)]

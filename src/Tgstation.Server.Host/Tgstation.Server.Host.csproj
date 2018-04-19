@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="Byond.TopicSender" Version="1.1.0.1" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.0-preview-0017" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0-preview2-final" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.0-preview2-final" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.0-preview2-final" />
