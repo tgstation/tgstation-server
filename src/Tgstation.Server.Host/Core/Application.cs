@@ -11,6 +11,7 @@ using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Models;
@@ -131,6 +132,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
+
+			services.AddSingleton<InstanceManager>();
+			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
+			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 
 			services.AddSingleton<JobManager>();
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
