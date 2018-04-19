@@ -10,16 +10,18 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;CA2227</NoWarn>
+    <NoWarn>1701;1702;1705;CA2227;CA1819</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
-    <NoWarn>1701;1702;1705;CA2227</NoWarn>
+    <NoWarn>1701;1702;1705;CA2227;CA1819</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.0-preview2-final" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
   </ItemGroup>
 
 </Project>

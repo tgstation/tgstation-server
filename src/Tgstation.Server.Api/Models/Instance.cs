@@ -1,4 +1,5 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -6,7 +7,7 @@ namespace Tgstation.Server.Api.Models
 	/// Metadata about a server instance
 	/// </summary>
 	[Model(RightsType.InstanceManager, CanCrud = true, CanList = true)]
-	public sealed class Instance
+	public class Instance
 	{
 		/// <summary>
 		/// The id of the <see cref="Instance"/>. Not modifiable
@@ -18,12 +19,14 @@ namespace Tgstation.Server.Api.Models
 		/// The name of the <see cref="Instance"/>
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.Rename)]
+		[Required]
 		public string Name { get; set; }
 
 		/// <summary>
-		/// The path to where the <see cref="Instance"/> is located
+		/// The path to where the <see cref="Instance"/> is located. Changing this will temporarily offline the <see cref="Instance"/> while it moves
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.Relocate)]
+		[Required]
 		public string Path { get; set; }
 
 		/// <summary>
@@ -31,5 +34,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.SetOnline)]
 		public bool Online { get; set; }
+
+		/// <summary>
+		/// If <see cref="Configuration"/> can be used on the <see cref="Instance"/>
+		/// </summary>
+		[Permissions(WriteRight = InstanceManagerRights.SetConfiguration)]
+		public bool ConfigurationAllowed { get; set; }
 	}
 }

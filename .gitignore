@@ -11,3 +11,4 @@ artifacts/
 *DS_Store
 *.sln.ide
 /TestResults
+/src/Tgstation.Server.Host/appsettings.Development.json

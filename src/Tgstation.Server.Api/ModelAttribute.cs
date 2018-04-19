@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api
 	/// <summary>
 	/// Indicates the rights <see cref="Enum"/> for a model
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 	public sealed class ModelAttribute : Attribute
 	{
 		/// <summary>

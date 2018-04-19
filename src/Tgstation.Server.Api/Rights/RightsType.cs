@@ -14,11 +14,6 @@
 		/// </summary>
 		InstanceManager,
 		/// <summary>
-		/// <see cref="TokenRights"/>
-		/// </summary>
-		Token,
-
-		/// <summary>
 		/// <see cref="RepositoryRights"/>
 		/// </summary>
 		Repository,
@@ -35,9 +30,9 @@
 		/// </summary>
 		DreamDaemon,
 		/// <summary>
-		/// <see cref="ChatRights"/>
+		/// <see cref="ChatSettingsRights"/>
 		/// </summary>
-		Chat,
+		ChatSettings,
 		/// <summary>
 		/// <see cref="ConfigurationRights"/>
 		/// </summary>

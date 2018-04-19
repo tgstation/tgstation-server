@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		{
 			readonly IServer server;
 			public MockServerFactory(IServer server) => this.server = server;
-			public IServer CreateServer() => server;
+			public IServer CreateServer(string[] args) => server;
 		}
 
 		[TestMethod]
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 
 			using (var cts = new CancellationTokenSource())
 			{
-				mockServer.Setup(x => x.RunAsync(It.IsNotNull<string[]>(), cts.Token)).Returns(Task.CompletedTask).Verifiable();
+				mockServer.Setup(x => x.RunAsync(cts.Token)).Returns(Task.CompletedTask).Verifiable();
 				await wd.RunAsync(Array.Empty<string>(), cts.Token).ConfigureAwait(false);
 				mockServer.VerifyAll();
 			}
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 			using (var cts = new CancellationTokenSource())
 			{
 				int count = 0;
-				mockServer.Setup(x => x.RunAsync(It.IsNotNull<string[]>(), cts.Token)).Callback(() =>
+				mockServer.Setup(x => x.RunAsync(cts.Token)).Callback(() =>
 				{
 					if (++count > 1)
 						cts.Cancel();

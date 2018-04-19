@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		public void TestLoading()
 		{
 			var isf = new IsolatedServerFactory(typeof(ServerFactory).Assembly.Location);
-			Assert.IsNotNull(isf.CreateServer());
+			Assert.IsNotNull(isf.CreateServer(Array.Empty<string>()));
 		}
 	}
 }

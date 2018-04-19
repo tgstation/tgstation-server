@@ -43,24 +43,19 @@ namespace Tgstation.Server.Host.Watchdog
 			//first run the host we started with
 			var serverFactory = initialServerFactory;
 			var assemblyPath = serverFactory.GetType().Assembly.Location;
-			do
-			{
-				string updatePath;
-				using (var server = serverFactory.CreateServer())
-				{
-					serverFactory = null;
-					await server.RunAsync(args, cancellationToken).ConfigureAwait(false);
-					updatePath = server.UpdatePath;
-				}
+            do
+            {
+                var server = serverFactory.CreateServer(args);
+                await server.RunAsync(cancellationToken).ConfigureAwait(false);
 
-				if (updatePath == null)
-					break;
-				
-				activeAssemblyDeleter.DeleteActiveAssembly(assemblyPath);
-				File.Move(updatePath, assemblyPath);
-				serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(assemblyPath);
-			}
-			while (!cancellationToken.IsCancellationRequested);
+                if (server.UpdatePath == null)
+                    break;
+
+                activeAssemblyDeleter.DeleteActiveAssembly(assemblyPath);
+                File.Move(server.UpdatePath, assemblyPath);
+                serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(assemblyPath);
+            }
+            while (!cancellationToken.IsCancellationRequested);
 		}
 	}
 }

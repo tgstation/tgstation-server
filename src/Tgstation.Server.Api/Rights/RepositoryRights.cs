@@ -29,19 +29,19 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		UpdateBranch = 16,
 		/// <summary>
-		/// User may change <see cref="Models.Repository.CommitterName"/> and <see cref="Models.Repository.CommitterEmail"/>
+		/// User may change <see cref="Models.Internal.RepositorySettings.CommitterName"/> and <see cref="Models.Internal.RepositorySettings.CommitterEmail"/>
 		/// </summary>
 		ChangeCommitter = 32,
 		/// <summary>
-		/// User may change <see cref="Models.Repository.PushTestMergeCommits"/>
+		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/>
 		/// </summary>
 		ChangeTestMergeCommits = 64,
 		/// <summary>
-		/// User may change <see cref="Models.Repository.AutoUpdateInterval"/>
+		/// User may change <see cref="Models.Internal.RepositorySettings.AutoUpdateInterval"/>
 		/// </summary>
 		ChangeAutoUpdate = 128,
 		/// <summary>
-		/// User may read and change <see cref="Models.Repository.AccessUser"/> and <see cref="Models.Repository.AccessToken"/>
+		/// User may read and change <see cref="Models.Internal.RepositorySettings.AccessUser"/> and <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>
 		ChangeCredentials = 256,
 		/// <summary>
@@ -49,7 +49,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		SetReference = 512,
 		/// <summary>
-		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Repository.AccessToken"/>
+		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>
 		Read = 1024,
 	}

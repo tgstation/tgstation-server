@@ -6,14 +6,8 @@ namespace Tgstation.Server.Api.Models
 	/// Represents a <see cref="User"/>s permissions in an <see cref="Instance"/>
 	/// </summary>
 	[Model(RightsType.InstanceUser, WriteRight = InstanceUserRights.WriteUsers, CanList = true, RequiresInstance = true)]
-	public sealed class InstanceUser
+	public class InstanceUser
     {
-        /// <summary>
-        /// See definition in <see cref="User.Id"/>
-        /// </summary>
-		[Permissions(DenyWrite = true)]
-        public long Id { get; set; }
-
 		/// <summary>
 		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
@@ -35,9 +29,9 @@ namespace Tgstation.Server.Api.Models
 		public RepositoryRights RepositoryRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.ChatRights"/> of the <see cref="InstanceUser"/>
+		/// The <see cref="Rights.ChatSettingsRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
-		public ChatRights ChatRights { get; set; }
+		public ChatSettingsRights ChatSettingsRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.ConfigurationRights"/> of the <see cref="InstanceUser"/>

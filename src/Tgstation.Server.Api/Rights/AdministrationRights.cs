@@ -13,11 +13,11 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can change <see cref="Models.Administration.SystemAuthenticationGroup"/>
+		/// User can change <see cref="Models.Internal.ServerSettings.SystemAuthenticationGroup"/>
 		/// </summary>
 		ChangeAuthenticationGroup = 1,
 		/// <summary>
-		/// User can change <see cref="Models.Administration.EnableTelemetry"/>
+		/// User can change <see cref="Models.Internal.ServerSettings.EnableTelemetry"/>
 		/// </summary>
 		ChangeTelemetry = 2,
 		/// <summary>
@@ -33,9 +33,8 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		ChangeVersion = 16,
 		/// <summary>
-		/// User can change <see cref="Models.Administration.UpstreamRepository"/>
+		/// User can change <see cref="Models.Internal.ServerSettings.UpstreamRepository"/>
 		/// </summary>
-		SetUpstreamRepository
-
+		SetUpstreamRepository = 32
 	}
 }

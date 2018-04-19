@@ -31,11 +31,6 @@ namespace Tgstation.Server.Client
 		int RequeryRate { get; set; }
 
 		/// <summary>
-		/// Access the <see cref="ITokenClient"/>
-		/// </summary>
-		ITokenClient Tokens { get; }
-
-		/// <summary>
 		/// Access the <see cref="IInstanceManagerClient"/>
 		/// </summary>
 		IInstanceManagerClient Instances { get; }
