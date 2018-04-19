@@ -15,9 +15,14 @@ namespace Tgstation.Server.Host.Models
 		DbSet<User> Users { get; }
 
 		/// <summary>
-		/// The <see cref="Instances"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Instance"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		DbSet<Instance> Instances { get; }
+
+		/// <summary>
+		/// The <see cref="Job"/>s in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<Job> Jobs { get; }
 
 		/// <summary>
 		/// Get the <see cref="ServerSettings"/> in the <see cref="IDatabaseContext"/>
