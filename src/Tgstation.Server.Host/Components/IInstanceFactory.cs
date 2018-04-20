@@ -4,6 +4,6 @@ namespace Tgstation.Server.Host.Components
 {
 	interface IInstanceFactory
 	{
-		IInstance CreateInstance(Instance metadata);
+		IInstance CreateInstance(Models.Instance metadata);
 	}
 }

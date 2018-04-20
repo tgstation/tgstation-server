@@ -40,20 +40,30 @@ namespace Tgstation.Server.Host.Components
 		readonly IIOManager ioMananger;
 
 		/// <summary>
+		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called
+		/// </summary>
+		readonly Action onDispose;
+
+		/// <summary>
 		/// Construct a <see cref="Repository"/>
 		/// </summary>
 		/// <param name="repository">The value of <see cref="repository"/></param>
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
-		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger)
+		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
+		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger, Action onDispose)
 		{
 			this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
+			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			IsGitHubRepository = Origin.ToUpperInvariant().Contains("GITHUB.COM");
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => repository.Dispose();
-
+		public void Dispose()
+		{
+			repository.Dispose();
+			onDispose();
+		}
 		/// <summary>
 		/// Convert <paramref name="url"/> to an "https://<paramref name="accessString"/>@{url} equivalent
 		/// </summary>
