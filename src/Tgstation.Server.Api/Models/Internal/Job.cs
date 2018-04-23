@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -19,14 +18,18 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// English description of the <see cref="Job"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		[Required]
 		public string Description { get; set; }
+
+		/// <summary>
+		/// Details of any exceptions caught during the <see cref="Job"/>
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public string ExceptionDetails { get; set; }
 
 		/// <summary>
 		/// When the <see cref="Job"/> was started
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		[Required]
 		public DateTimeOffset StartedAt { get; set; }
 
 		/// <summary>
