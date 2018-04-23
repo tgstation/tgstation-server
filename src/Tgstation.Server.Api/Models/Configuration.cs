@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 #pragma warning restore CA1724 // System.Configuration name conflict
 	{
 		/// <summary>
-		/// The content of the <see cref="Configuration"/> file. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/> or during listing operations
+		/// The content of the <see cref="Configuration"/> file. Will be <see langword="null"/> if <see cref="ConfigurationFileMetadata.ReadDenied"/> is <see langword="true"/> or during listing operations
 		/// </summary>
 		public byte[] Content { get; set; }
 	}

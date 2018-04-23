@@ -15,6 +15,7 @@ namespace Tgstation.Server.Host.Components
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>
 		/// </summary>
 		/// <param name="destination">Path to the destination folder</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resultin in a <see cref="IReadOnlyList{T}"/> of #include lines for the .dm files copied</returns>
 		Task<IReadOnlyList<string>> CopyDMFilesTo(string destination, CancellationToken cancellationToken);
 
@@ -22,7 +23,7 @@ namespace Tgstation.Server.Host.Components
 		/// Symlinks all directories in the GameData directory to <paramref name="destination"/>
 		/// </summary>
 		/// <param name="destination">Path to the destination folder</param>
-		/// <param name="cancellationToken"></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken);
 
@@ -48,6 +49,7 @@ namespace Tgstation.Server.Host.Components
 		/// Writes to a given <paramref name="configurationRelativePath"/>
 		/// </summary>
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
+		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
 		/// <param name="data">The data to write. If <see langword="null"/>, the file is deleted</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> if it failed due to permission errors</returns>

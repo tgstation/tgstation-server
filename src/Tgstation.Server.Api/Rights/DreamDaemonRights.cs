@@ -25,15 +25,15 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		SetAutoStart = 4,
 		/// <summary>
-		/// User set <see cref="Models.Internal.DreamDaemonSettings.SecurityLevel"/>
+		/// User set <see cref="Models.Internal.DreamDaemonLaunchParameters.SecurityLevel"/>
 		/// </summary>
 		SetSecurity = 8,
 		/// <summary>
-		/// User can read all ports, <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/>, <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>, <see cref="Models.DreamDaemon.Status"/>, <see cref="Models.Internal.DreamDaemonSettings.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
+		/// User can read all ports, <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/>, <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>, <see cref="Models.DreamDaemon.Status"/>, <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
 		/// </summary>
 		ReadMetadata = 16,
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AllowWebClient"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>
 		/// </summary>
 		SetWebClient = 32,
 		/// <summary>
