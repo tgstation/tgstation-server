@@ -8,13 +8,16 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.TriggeredBy"/>
 		/// </summary>
-		[Required]
 		public User TriggeredBy { get; set; }
+
+		/// <summary>
+		/// See <see cref="Api.Models.CompileJob.CancelledBy"/>
+		/// </summary>
+		public User CancelledBy { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.RevisionInformation"/>
 		/// </summary>
-		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
     }
 }
