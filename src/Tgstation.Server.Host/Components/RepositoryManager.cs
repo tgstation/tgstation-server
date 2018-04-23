@@ -54,6 +54,10 @@ namespace Tgstation.Server.Host.Components
 			semaphore.Dispose();
 		}
 
+		/// <summary>
+		/// Stops <see cref="currentTimerTask"/> and joins it
+		/// </summary>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task StopTimer()
 		{
 			if (currentTimerTask == null)
@@ -62,7 +66,14 @@ namespace Tgstation.Server.Host.Components
 			await currentTimerTask.ConfigureAwait(false);
 			currentTimerTask = null;
 		}
-
+		
+		/// <summary>
+		/// Asyncronously fetch and reset the current branch for each given amount of <paramref name="minutes"/>
+		/// </summary>
+		/// <param name="minutes">The delay of the timer</param>
+		/// <param name="accessString">The accessString to use for fetch operations</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task TimerLoop(int minutes, string accessString, CancellationToken cancellationToken)
 		{
 			try
