@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing <see cref="IInstance"/>s
 	/// </summary>
-	interface IInstanceManager
+	interface IInstanceManager : IInstanceShutdownMethod
 	{
 		/// <summary>
 		/// Get the <see cref="IInstance"/> associated with given <paramref name="metadata"/>

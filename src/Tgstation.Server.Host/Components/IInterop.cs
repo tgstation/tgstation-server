@@ -9,15 +9,15 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
     interface IInterop
 	{
-		event EventHandler<ServerControlEventArgs> OnServerControl;
-		event EventHandler<ChatMessageEventArgs> OnChatMessage;
+		void SetServerControlHandler(Func<ServerControlEventArgs, CancellationToken, Task> serverControlHandler);
+		void SetChatMessageHandler(Func<ChatMessageEventArgs, CancellationToken, Task> chatMessageHandler);
 
 		Version MinimumApiVersion { get; }
 		Version MaximumApiVersion { get; }
 
 		Task<Version> GetApiVersion(CancellationToken cancellationToken);
 
-		void SetActivePort(ushort? port);
+		void SetRun(ushort? port, string accessToken);
 
 		Task<string> ChatCommand(string command, string arguments, CancellationToken cancellationToken);
 

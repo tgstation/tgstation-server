@@ -31,5 +31,12 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dreamDaemon">Pass the path of dreamdaemon.exe to <paramref name="operation"/> if <see langword="true"/> dm.exe otherwise</param>
 		/// <returns>A <see cref="Task"/> representing the running <paramref name="operation"/></returns>
 		Task UseExecutable(Func<string, Task> operation, bool stagedIfExists, bool dreamDaemon);
+
+		/// <summary>
+		/// Clears the cache folder
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task ClearCache(CancellationToken cancellationToken);
 	}
 }

@@ -14,6 +14,9 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class InstanceManager : IInstanceManager, IHostedService
 	{
+		/// <inheritdoc />
+		public bool GracefulShutdown { get; set; }
+
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="IInstanceManager"/>
 		/// </summary>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components
@@ -16,9 +17,24 @@ namespace Tgstation.Server.Host.Components
 		bool Running { get; }
 
 		/// <summary>
+		/// If DreamDaemon is going to soft reboot
+		/// </summary>
+		bool SoftRebooting { get; }
+
+		/// <summary>
+		/// If DreamDaemon is going to soft stop
+		/// </summary>
+		bool SoftStopping { get; }
+
+		/// <summary>
 		/// The port DreamDaemon is currently running on
 		/// </summary>
 		ushort? CurrentPort { get; }
+
+		/// <summary>
+		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>
+		/// </summary>
+		DreamDaemonSecurity? CurrentSecurity { get; }
 
 		/// <summary>
 		/// The access token used for communication with the DMAPI
@@ -37,7 +53,9 @@ namespace Tgstation.Server.Host.Components
 		/// Changes the <see cref="DreamDaemonLaunchParameters"/> if currently <see cref="Running"/>. Triggers a graceful restart
 		/// </summary>
 		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/></param>
-		void ChangeSettings(DreamDaemonLaunchParameters launchParameters);
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Restarts DreamDaemon

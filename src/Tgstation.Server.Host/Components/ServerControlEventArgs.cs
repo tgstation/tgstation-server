@@ -10,16 +10,16 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// If <see langword="true"/> the event will result in a new run of the world
 		/// </summary>
-		bool ServerReboot { get; set; }
+		public bool ServerReboot { get; set; }
 
 		/// <summary>
 		/// If <see langword="true"/> the event will result in a restart of the process. If both this and <see cref="ServerReboot"/> are <see langword="false"/>, the server is being terminated
 		/// </summary>
-		bool ProcessRestart { get; set; }
-		
+		public bool ProcessRestart { get; set; }
+
 		/// <summary>
 		/// If the action to be taken is graceful
 		/// </summary>
-		bool Graceful { get; set; }
+		public bool Graceful { get; set; }
 	}
 }
