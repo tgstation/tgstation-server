@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components
 		Task<IReadOnlyList<ConfigurationFileMetadata>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// 
+		/// Reads a given <paramref name="configurationRelativePath"/>
 		/// </summary>
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
@@ -45,10 +45,10 @@ namespace Tgstation.Server.Host.Components
 		Task<Api.Models.Configuration> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// 
+		/// Writes to a given <paramref name="configurationRelativePath"/>
 		/// </summary>
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
-		/// <param name="data">The data to write</param>
+		/// <param name="data">The data to write. If <see langword="null"/>, the file is deleted</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> if it failed due to permission errors</returns>
 		Task<bool> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, CancellationToken cancellationToken);
