@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components
 			var repoIoManager = new ResolvingIOManager(instanceIoManager, "Repository");
 			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
-			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Static");
+			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
 			throw new NotImplementedException();
 		}
