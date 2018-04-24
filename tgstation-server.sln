@@ -57,6 +57,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Start
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Service.Tests", "tests\Tgstation.Server.Host.Service.Tests\Tgstation.Server.Host.Service.Tests.csproj", "{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs.dm = src\DMAPI\tgs.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{F7765A4B-021C-454E-ABB1-2AB1B85F91B4}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs_commands.dm = src\DMAPI\tgs_commands.dm
+		src\DMAPI\tgs_interface.dm = src\DMAPI\tgs_interface.dm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +185,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F7765A4B-021C-454E-ABB1-2AB1B85F91B4} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
