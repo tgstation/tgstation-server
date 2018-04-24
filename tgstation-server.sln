@@ -64,8 +64,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{7E4E7CF6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{F7765A4B-021C-454E-ABB1-2AB1B85F91B4}"
 	ProjectSection(SolutionItems) = preProject
-		src\DMAPI\tgs_commands.dm = src\DMAPI\tgs_commands.dm
-		src\DMAPI\tgs_interface.dm = src\DMAPI\tgs_interface.dm
+		src\DMAPI\tgs\core.dm = src\DMAPI\tgs\core.dm
+		src\DMAPI\tgs\datum.dm = src\DMAPI\tgs\datum.dm
+		src\DMAPI\tgs\definitions.dm = src\DMAPI\tgs\definitions.dm
 	EndProjectSection
 EndProject
 Global

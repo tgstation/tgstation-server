@@ -1,8 +1,8 @@
-// /tg/station 13 server tools DMAPI
+//tgstation-server DMAPI
 
 //CONFIGURATION
 
-//use this define if you want to do configuration outside of this file
+//create this define if you want to do configuration outside of this file
 #ifndef TGS_EXTERNAL_CONFIGURATION
 
 //Comment this out once you've filled in the below
@@ -20,34 +20,51 @@
 //Set the value in the global variable `Name` to `Value`
 #define TGS_WRITE_GLOBAL(Name, Value)
 
-//Disallow ANYONE from reflecting a given path, security measure to prevent in-game priveledge escalation
+//Disallow ANYONE from reflecting a given `path`, security measure to prevent in-game priveledge escalation
 #define TGS_PROTECT_DATUM(Path)
 
 //display an announcement `message` from the server to all players
 #define TGS_WORLD_ANNOUNCE(message)
 
-//Write a string `message` to a server log
-#define TGS_LOG(message)
+//Write an info `message` to a server log
+#define TGS_INFO_LOG(message)
+
+//Write an error `message` to a server log
+#define TGS_ERROR_LOG(message)
+
+//Notify current in-game administrators of a string `event`
+#define TGS_NOTIFY_ADMINS(event)
 
 //Notify current in-game administrators of a string `event`
 #define TGS_NOTIFY_ADMINS(event)
 
 #endif
 
+//EVENT CODES
+
+//TODO
+
 //REQUIRED HOOKS
 
 //Call this somewhere in /world/New() that is always run
-/world/proc/TgsNew()
+//event_handler: optional user defined event handler. The default behaviour is to broadcast the event in english to all connected admin channels
+/world/proc/TgsNew(datum/tgs_event_handler/event_handler)
+	return
+
+//Call this when your initializations are complete and your game is ready to play before any player interactions happen
+//This may use world.sleep_offline to make this happen so ensure no changes are made to it while this call is running
+/world/proc/TgsInitializationComplete()
 	return
 
 //Put this somewhere in /world/Topic(T, Addr, Master, Keys) that is always run before T is modified
-#define TGS_TOPIC var/tgs_topic_return = TgsCommand(params2list(T)); if(tgs_topic_return) return tgs_topic_return
+#define TGS_TOPIC var/tgs_topic_return = TgsTopic(T); if(tgs_topic_return) return tgs_topic_return
 
 //Call this at the beginning of world/Reboot(reason)
 /world/proc/TgsReboot()
 	return
 
 //DATUM DEFINITIONS
+//unless otherwise specified all datums defined here should be considered read-only, warranty void if written
 
 //represents git revision information about the current world build
 /datum/tgs_revision_information
@@ -64,22 +81,38 @@
 	var/time_merged			//timestamp of when the merge commit for the pull request was created
 	var/comment				//optional comment left by the one who initiated the test merge
 
-//Gets a list of active `/datum/tgs_revision_information/test_merge`s
-/world/proc/TgsGetTestMerges()
-	return
-
+//represents a connected chat channel
 /datum/tgs_chat_channel
 	var/id					//internal channel representation
 	var/friendly_name		//user friendly channel name
 	var/server_name			//server name the channel resides on
 	var/provider_name		//chat provider for the channel
 	var/is_admin_channel	//if the server operator has marked this channel for game admins only
+	var/is_private_channel	//if this is a private chat channel
 
+//represents a chat user
 /datum/tgs_chat_user
 	var/id						//Internal user representation
 	var/friendly_name			//The user's public name
-	var/datum/tgs_chat_channel	//The /datum/tgs_chat_channel this user was from
 	var/mention					//The text to use to ping this user in a message
+	var/datum/tgs_chat_channel	//The /datum/tgs_chat_channel this user was from
+
+//user definable callback for handling events
+/datum/tgs_event_handler/proc/HandleEvent()
+	return
+
+//user definable chat command
+/datum/server_tools_command
+	var/name = ""			//the string to trigger this command on a chat bot. e.g. TGS3_BOT: do_this_command
+	var/help_text = ""		//help text for this command
+	var/admin_only = FALSE	//set to TRUE if this command should only be usable by registered chat admins
+
+//override to implement command
+//sender: The tgs_chat_user who send to command
+//params: The trimmed string following the command name
+//The return value will be stringified and sent to the appropriate chat
+/datum/server_tools_command/proc/Run(datum/tgs_chat_user/sender, params)
+	CRASH("[type] has no implementation for Run()")
 
 //FUNCTIONS
 
@@ -99,10 +132,14 @@
 /world/proc/TgsVersion()
 	return
 
+//Gets a list of active `/datum/tgs_revision_information/test_merge`s
+/world/proc/TgsGetTestMerges()
+	return
+
 //Forces a hard reboot of BYOND by ending the process
 //unlike del(world) clients will try to reconnect
 //If the service has not requested a shutdown, the next server will take over
-/world/proc/TgsEndProcess(silent)
+/world/proc/TgsEndProcess()
 	return
 
 //Gets a list of connected tgs_chat_channel
@@ -119,6 +156,12 @@
 //message: The message to send
 //admin_only: If TRUE, message will instead be sent to only admin connected chats
 /world/proc/TgsTargetedChatBroadcast(message, admin_only)
+	return
+
+//Send a private message to a specific user
+//message: The message to send
+//user: The /datum/tgs_chat_user to send to
+/world/proc/TgsChatPrivateMessage(message, datum/tgs_chat_user/user)
 	return
 
 /*
