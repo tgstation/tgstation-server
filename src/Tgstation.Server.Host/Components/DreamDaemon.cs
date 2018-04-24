@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -51,11 +49,21 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IInstanceShutdownMethod"/> for <see cref="DreamDaemon"/>
 		/// </summary>
 		readonly IInstanceShutdownMethod instanceShutdownMethod;
+		/// <summary>
+		/// The <see cref="IIOManager"/> for <see cref="DreamDaemon"/>
+		/// </summary>
 		readonly IIOManager ioManager;
+		/// <summary>
+		/// The <see cref="IDreamDaemonExecutor"/> for <see cref="DreamDaemon"/>
+		/// </summary>
+		readonly IDreamDaemonExecutor dreamDaemonExecutor;
+
+		/// <summary>
+		/// Used for write control to class variables
+		/// </summary>
+		readonly SemaphoreSlim semaphore;
 
 		readonly bool autoStart;
-
-		readonly SemaphoreSlim semaphore;
 
 		DreamDaemonLaunchParameters currentLaunchParameters;
 
@@ -78,6 +86,7 @@ namespace Tgstation.Server.Host.Components
 			semaphore = new SemaphoreSlim(1);
 		}
 
+		/// <inheritdoc />
 		public void Dispose()
 		{
 			if (watchdogCancellationTokenSource != null)
@@ -97,22 +106,7 @@ namespace Tgstation.Server.Host.Components
 				return Task.CompletedTask;
 			}
 		}
-
-		static string SecurityWord(DreamDaemonSecurity securityLevel)
-		{
-			switch (securityLevel)
-			{
-				case DreamDaemonSecurity.Safe:
-					return "safe";
-				case DreamDaemonSecurity.Trusted:
-					return "trusted";
-				case DreamDaemonSecurity.Ultrasafe:
-					return "ultrasafe";
-				default:
-					throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, String.Format(CultureInfo.InvariantCulture, "Bad DreamDaemon security level: {0}", securityLevel));
-			}
-		}
-
+		
 		async Task Watchdog(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, CancellationToken cancellationToken)
 		{
 			async Task RunOnce(string executablePath)
@@ -121,53 +115,28 @@ namespace Tgstation.Server.Host.Components
 					throw new InvalidOperationException("No byond version installed!");
 
 				await byond.ClearCache(cancellationToken).ConfigureAwait(false);
-				using (var proc = new Process())
+
+				string dmb = null;  //TODO
+				var accessToken = cryptographySuite.GetSecureString();
+				var usePrimaryPort = true;
+
+				var ddTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, executablePath, dmb, accessToken, usePrimaryPort, cancellationToken);
+
+				await onSuccessfulStartup.Task.ConfigureAwait(false);
+
+				interop.SetRun(usePrimaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort, accessToken);
+
+				int ddExitCode;
+				try
 				{
-					var accessToken = cryptographySuite.GetSecureString();
-					proc.StartInfo.FileName = executablePath;
-					proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {5}-close -verbose -params \"server_service={3}&server_service_version={4}&{6}={7}\" -{2} -public", DMB, launchParameters.PrimaryPort, SecurityWord(launchParameters.SecurityLevel), accessToken, Application.Version, launchParameters.AllowWebClient ? "-webclient " : String.Empty);
-
-					proc.EnableRaisingEvents = true;
-					var tcs = new TaskCompletionSource<object>();
-					proc.Exited += (a, b) => tcs.SetResult(null);
-
-					try
-					{
-						proc.Start();
-
-						await Task.Factory.StartNew(() => proc.WaitForInputIdle(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-
-						if (onSuccessfulStartup != null)
-						{
-							onSuccessfulStartup.SetResult(null);
-							onSuccessfulStartup = null;
-						}
-
-						try
-						{
-							using (cancellationToken.Register(() => tcs.SetCanceled()))
-								await tcs.Task.ConfigureAwait(false);
-						}
-						catch (OperationCanceledException)
-						{
-							return;
-						}
-						finally
-						{
-							if (!instanceShutdownMethod.GracefulShutdown)
-							{
-								proc.Kill();
-								proc.WaitForExit();
-							}
-						}
-					}
-					catch (Exception e)
-					{
-						onSuccessfulStartup?.SetException(e);
-						throw;
-					}
-					await eventConsumer.HandleEvent(proc.ExitCode != 0 ? EventType.DDCrash : EventType.DDExit, null, cancellationToken).ConfigureAwait(false);
+					ddExitCode = await ddTask.ConfigureAwait(false);
 				}
+				finally
+				{
+					interop.SetRun(null, null);
+				}
+
+				await eventConsumer.HandleEvent(ddExitCode != 0 ? EventType.DDCrash : EventType.DDExit, null, cancellationToken).ConfigureAwait(false);
 			};
 
 			do
@@ -176,6 +145,7 @@ namespace Tgstation.Server.Host.Components
 			} while (!cancellationToken.IsCancellationRequested);
 		}
 
+		/// <inheritdoc />
 		public void CancelGracefulActions()
 		{
 			lock (this)
@@ -185,6 +155,7 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
+		/// <inheritdoc />
 		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
 			Task launchTask;
@@ -199,6 +170,7 @@ namespace Tgstation.Server.Host.Components
 			await launchTask.ConfigureAwait(false);
 		}
 
+		/// <inheritdoc />
 		public async Task Launch(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -220,7 +192,7 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
-
+		/// <inheritdoc />
 		public async Task Restart(bool graceful, CancellationToken cancellationToken)
 		{
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -246,10 +218,13 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
+		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) => autoStart ? Launch(currentLaunchParameters, cancellationToken) : Task.CompletedTask;
 
+		/// <inheritdoc />
 		public Task StopAsync(CancellationToken cancellationToken) => Terminate(false, cancellationToken);
 
+		/// <inheritdoc />
 		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
 		{
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);

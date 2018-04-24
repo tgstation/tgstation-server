@@ -41,6 +41,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string Output { get; set; }
 
 		/// <summary>
+		/// The Game folder the results were compiled into
+		/// </summary>
+		public Guid? OutputGuid { get; set; }
+
+		/// <summary>
 		/// Exit code of DM. If <see langword="null"/>
 		/// </summary>
 		public int? ExitCode { get; set; }

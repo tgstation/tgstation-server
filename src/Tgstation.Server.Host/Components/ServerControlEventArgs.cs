@@ -7,6 +7,8 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
 	sealed class ServerControlEventArgs : EventArgs
 	{
+		public bool PrimeReboot { get; set; }
+
 		/// <summary>
 		/// If <see langword="true"/> the event will result in a new run of the world
 		/// </summary>
