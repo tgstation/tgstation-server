@@ -73,8 +73,6 @@
 	ListServiceCustomCommands(TRUE)
 	ExportService("[SERVICE_REQUEST_API_VERSION] [ApiVersion()]", TRUE)
 
-/world/proc/file2list(filename, seperator="\n", trim = TRUE)
-
 //nothing to do for v3
 /datum/tgs_api/v3210/OnInitializationComplete()
 	return
