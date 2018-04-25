@@ -62,7 +62,7 @@
 	if(!instance_name)
 		instance_name = "TG Station Server"	//maybe just upgraded
 
-	var/list/logs = sfile2list(".git/logs/HEAD")
+	var/list/logs = file2list(".git/logs/HEAD")
 	if(logs.len)
 		logs = splittext(logs[logs.len - 1], " ")
 		commit = logs[2]
@@ -177,7 +177,10 @@
 	return list()
 
 /datum/tgs_api/v3210/ChatBroadcast(message, list/channels)
-	return TGS_UNIMPLEMENTED
+	if(channels)
+		return TGS_UNIMPLEMENTED
+	ChatTargetedBroadcast(message, TRUE)
+	ChatTargetedBroadcast(message, FALSE)
 
 /datum/tgs_api/v3210/ChatTargetedBroadcast(message, admin_only)
 	ExportService("[admin_only ? SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE : SERVICE_REQUEST_IRC_BROADCAST] [message]")
