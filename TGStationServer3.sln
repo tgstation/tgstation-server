@@ -65,10 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{3BB3DA66-970
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{9032B448-5E2B-4E71-8ECB-D5FB828E049C}"
 	ProjectSection(SolutionItems) = preProject
-		DMAPI\server_tools.dm = DMAPI\server_tools.dm
-		DMAPI\st_commands.dm = DMAPI\st_commands.dm
-		DMAPI\st_interface.dm = DMAPI\st_interface.dm
-		TGS3.json = TGS3.json
+		DMAPI\tgs.dm = DMAPI\tgs.dm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB-2E84-47D4-9419-A2AB8E814ABF}"
@@ -77,7 +74,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB
 		Tools\BuildDox.ps1 = Tools\BuildDox.ps1
 		Tools\Config.dm = Tools\Config.dm
 		Tools\CoverageExclusions.runsettings = Tools\CoverageExclusions.runsettings
-		Tools\DMAPITravisTester.dme = Tools\DMAPITravisTester.dme
 		Tools\Doxyfile = Tools\Doxyfile
 		Tools\install_byond.sh = Tools\install_byond.sh
 		Tools\PostCIBuild.ps1 = Tools\PostCIBuild.ps1
@@ -85,6 +81,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{081BB0BB
 		Tools\SignMSI.ps1 = Tools\SignMSI.ps1
 		Tools\Test.dm = Tools\Test.dm
 		Tools\tgstation13.org.pfx = Tools\tgstation13.org.pfx
+		Tools\travistester.dme = Tools\travistester.dme
 		Tools\UploadCoverage.ps1 = Tools\UploadCoverage.ps1
 	EndProjectSection
 EndProject
@@ -100,6 +97,25 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Server.Service", "TGS.Server.Service\TGS.Server.Service.csproj", "{3F81E398-B223-4006-B40C-C2800714CE29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Server.Console", "TGS.Server.Console\TGS.Server.Console.csproj", "{509433F6-AEFB-44CA-BFE3-C782166D2CC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3}"
+	ProjectSection(SolutionItems) = preProject
+		DMAPI\tgs\includes.dm = DMAPI\tgs\includes.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{D30454E2-ABAF-4698-B5EC-D2E7C9641F43}"
+	ProjectSection(SolutionItems) = preProject
+		DMAPI\tgs\core\_definitions.dm = DMAPI\tgs\core\_definitions.dm
+		DMAPI\tgs\core\core.dm = DMAPI\tgs\core\core.dm
+		DMAPI\tgs\core\datum.dm = DMAPI\tgs\core\datum.dm
+		DMAPI\tgs\core\default_event_handler.dm = DMAPI\tgs\core\default_event_handler.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3210", "v3210", "{FFECCA21-8B4A-4A70-B524-33DDDCA04850}"
+	ProjectSection(SolutionItems) = preProject
+		DMAPI\tgs\v3210\api.dm = DMAPI\tgs\v3210\api.dm
+		DMAPI\tgs\v3210\commands.dm = DMAPI\tgs\v3210\commands.dm
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +197,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BB3DA66-970C-4AAE-A77C-9E40F5E7E56A} = {0DDF886A-7ABB-4DCA-96A3-349B2DA00016}
+		{E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3} = {9032B448-5E2B-4E71-8ECB-D5FB828E049C}
+		{D30454E2-ABAF-4698-B5EC-D2E7C9641F43} = {E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3}
+		{FFECCA21-8B4A-4A70-B524-33DDDCA04850} = {E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B511D10-AB55-43E0-B363-7F8838E9E977}
