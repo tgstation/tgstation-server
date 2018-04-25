@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
@@ -50,10 +49,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly IInstanceShutdownMethod instanceShutdownMethod;
 		/// <summary>
-		/// The <see cref="IIOManager"/> for <see cref="DreamDaemon"/>
-		/// </summary>
-		readonly IIOManager ioManager;
-		/// <summary>
 		/// The <see cref="IDreamDaemonExecutor"/> for <see cref="DreamDaemon"/>
 		/// </summary>
 		readonly IDreamDaemonExecutor dreamDaemonExecutor;
@@ -63,24 +58,47 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
 
+		/// <summary>
+		/// If <see cref="StartAsync(CancellationToken)"/> should start DD
+		/// </summary>
 		readonly bool autoStart;
 
+		/// <summary>
+		/// The current <see cref="DreamDaemonLaunchParameters"/>
+		/// </summary>
 		DreamDaemonLaunchParameters currentLaunchParameters;
 
+		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> for <see cref="watchdogTask"/>
+		/// </summary>
 		CancellationTokenSource watchdogCancellationTokenSource;
+		/// <summary>
+		/// The monitor for the DD process
+		/// </summary>
 		Task watchdogTask;
 
-		public DreamDaemon(IEventConsumer eventConsumer, IByond byond, ICryptographySuite cryptographySuite, IInterop interop, IInstanceShutdownMethod instanceShutdownMethod, DreamDaemonSettings initialSettings)
+		/// <summary>
+		/// Construct <see cref="DreamDaemon"/>
+		/// </summary>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="byond">The value of <see cref="byond"/></param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
+		/// <param name="interop">The value of <see cref="interop"/></param>
+		/// <param name="instanceShutdownMethod">The value of <see cref="instanceShutdownMethod"/></param>
+		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
+		/// <param name="initialSettings">The initial value of <see cref="currentLaunchParameters"/> and <see cref="autoStart"/></param>
+		public DreamDaemon(IEventConsumer eventConsumer, IByond byond, ICryptographySuite cryptographySuite, IInterop interop, IInstanceShutdownMethod instanceShutdownMethod, IDreamDaemonExecutor dreamDaemonExecutor, DreamDaemonSettings initialSettings)
 		{
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
 			this.instanceShutdownMethod = instanceShutdownMethod ?? throw new ArgumentNullException(nameof(instanceShutdownMethod));
+			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
+			currentLaunchParameters = initialSettings ?? throw new ArgumentNullException(nameof(initialSettings));
 
 			interop.SetServerControlHandler(OnServerControl);
 
-			currentLaunchParameters = initialSettings ?? throw new ArgumentNullException(nameof(initialSettings));
 			autoStart = initialSettings.AutoStart;
 
 			semaphore = new SemaphoreSlim(1);
@@ -94,19 +112,28 @@ namespace Tgstation.Server.Host.Components
 			semaphore.Dispose();
 		}
 
-		Task OnServerControl(ServerControlEventArgs serverControlEventArgs, CancellationToken cancellationToken)
+		/// <summary>
+		/// Handler for server control events
+		/// </summary>
+		/// <param name="serverControlEventArgs">The <see cref="ServerControlEventArgs"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task OnServerControl(ServerControlEventArgs serverControlEventArgs, CancellationToken cancellationToken)
 		{
-			lock (this)
-			{
-				CancelGracefulActions();
-				if (serverControlEventArgs.ProcessRestart)
-					return Restart(serverControlEventArgs.Graceful, cancellationToken);
-				if(!serverControlEventArgs.ServerReboot)
-					return Terminate(serverControlEventArgs.Graceful, cancellationToken);
-				return Task.CompletedTask;
-			}
+			await CancelGracefulActions(cancellationToken).ConfigureAwait(false);
+			if (serverControlEventArgs.ProcessRestart)
+				await Restart(serverControlEventArgs.Graceful, cancellationToken).ConfigureAwait(false);
+			if (!serverControlEventArgs.ServerReboot)
+				await Terminate(serverControlEventArgs.Graceful, cancellationToken).ConfigureAwait(false);
 		}
 		
+		/// <summary>
+		/// Main DD execution and monitoring <see cref="Task"/>
+		/// </summary>
+		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
+		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed when the server initially starts</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task Watchdog(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, CancellationToken cancellationToken)
 		{
 			async Task RunOnce(string executablePath)
@@ -146,12 +173,17 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public void CancelGracefulActions()
+		public async Task CancelGracefulActions(CancellationToken cancellationToken)
 		{
-			lock (this)
+			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
 			{
 				SoftRebooting = false;
 				SoftStopping = false;
+			}
+			finally
+			{
+				semaphore.Release();
 			}
 		}
 
@@ -159,13 +191,18 @@ namespace Tgstation.Server.Host.Components
 		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
 			Task launchTask;
-			lock (this)
+			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
 			{
 				currentLaunchParameters = launchParameters;
 				if (!Running)
 					launchTask = Launch(launchParameters, cancellationToken);
 				else
 					launchTask = Restart(true, cancellationToken);
+			}
+			finally
+			{
+				semaphore.Release();
 			}
 			await launchTask.ConfigureAwait(false);
 		}

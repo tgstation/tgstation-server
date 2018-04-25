@@ -76,6 +76,8 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Cancels any pending graceful reboots or terminations
 		/// </summary>
-		void CancelGracefulActions();
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task CancelGracefulActions(CancellationToken cancellationToken);
 	}
 }

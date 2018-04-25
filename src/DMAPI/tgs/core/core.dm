@@ -8,10 +8,11 @@
 		TGS_ERROR_LOG("Found unsupported API version: [tgs_version]. If this is a valid version please report this, backporting is done on demand.")
 
 	var/datum/tgs_api/new_api = new path
-	TGS_WRITE_GLOBAL(tgs, new_api)
 	TGS_INFO_LOG("Activated tgstation-server API for version [tgs_version]")
-
-	new_api.OnNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default)
+	
+	var/result = new_api.OnNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default)
+	if(result && result != TGS_UNIMPLEMENTED)
+		TGS_WRITE_GLOBAL(tgs, new_api)
 
 /world/proc/SelectTgsApi(tgs_version)
 	var/list/version_bits = splittext(tgs_version, ".")
@@ -25,7 +26,7 @@
 		if(3)
 			switch(major)
 				if(2)
-					return /datum/tgs_api/v3201
+					return /datum/tgs_api/v3210
 	
 	if(super != null && major != null && minor != null && patch != null && tgs_version > TgsMaximumAPIVersion())
 		TGS_ERROR_LOG("Detected unknown API version! Defaulting to latest. Update the DMAPI to fix this problem.")
@@ -33,51 +34,61 @@
 
 /world/proc/TgsMaximumAPIVersion()
 	return "4.0.0.0"
-
-/world/proc/TgsMinimumAPIVersion()
+	
+/world/TgsMinimumAPIVersion()
 	return "3.2.0.0"
 
-/world/proc/TgsInitializationComplete()
+/world/TgsInitializationComplete()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		api.OnInitializationComplete()
 
-/world/proc/TgsTopic(T)
+/world/TgsTopic(T)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		var/result = api.OnTopic(T)
 		if(result != TGS_UNIMPLEMENTED)
 			return result
 
-/world/proc/TgsReboot()
+/world/TgsRevision()
+	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
+	if(api)
+		var/result = api.Revison()
+		if(result != TGS_UNIMPLEMENTED)
+			return result
+
+/world/TgsReboot()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		api.OnReboot()
 
-/world/proc/TgsAvailable()
+/world/TgsAvailable()
 	return TGS_READ_GLOBAL(tgs) != null
 
-/world/proc/TgsVersion()
+/world/TgsVersion()
+	return world.params[TGS_VERSION_PARAMETER]
+
+/world/TgsInstanceName()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
-		var/result = api.TgsVersion()
+		var/result = api.InstanceName()
 		if(result != TGS_UNIMPLEMENTED)
 			return result
 
-/world/proc/TgsGetTestMerges()
+/world/TgsTestMerges()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
-		var/result = api.GetTestMerges()
+		var/result = api.TestMerges()
 		if(result != TGS_UNIMPLEMENTED)
 			return result
 	return list()
 
-/world/proc/TgsEndProcess()
+/world/TgsEndProcess()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		api.EndProcess()
 
-/world/proc/TgsChatChannelInfo()
+/world/TgsChatChannelInfo()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		var/result = api.ChatChannelInfo()
@@ -85,17 +96,17 @@
 			return result
 	return list()
 
-/world/proc/TgsChatBroadcast(message, list/channels)
+/world/TgsChatBroadcast(message, list/channels)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		api.ChatBroadcast(message, channels)
 
-/world/proc/TgsTargetedChatBroadcast(message, admin_only)
+/world/TgsTargetedChatBroadcast(message, admin_only)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		api.TargetedChatBroadcast(message, admin_only)
 
-/world/proc/TgsChatPrivateMessage(message, datum/tgs_chat_user/user)
+/world/TgsChatPrivateMessage(message, datum/tgs_chat_user/user)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		api.ChatPrivateMessage(message, user)

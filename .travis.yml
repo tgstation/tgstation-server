@@ -1,0 +1,24 @@
+language: generic
+sudo: false
+
+env:
+    global:
+    - BYOND_MAJOR="511"
+    - BYOND_MINOR="1385"
+    - DMEName="tests/DMAPI/travistester.dme"
+
+cache:
+  directories:
+    - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
+
+addons:
+  apt:
+    packages:
+      - libc6-i386
+      - libstdc++6:i386
+
+install:
+  - build/install_byond.sh
+
+script:
+  - test/DMAPI/build_byond.sh

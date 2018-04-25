@@ -1,12 +1,14 @@
 //tgstation-server DMAPI
 
+//All functions and datums outside this document are subject to change with any version and should not be relied on
+
 //CONFIGURATION
 
 //create this define if you want to do configuration outside of this file
 #ifndef TGS_EXTERNAL_CONFIGURATION
 
 //Comment this out once you've filled in the below
-#error /tg/station server tools interface unconfigured
+#error TGS API unconfigured
 
 //Required interfaces (fill in with your codebase equivalent):
 
@@ -26,17 +28,17 @@
 //display an announcement `message` from the server to all players
 #define TGS_WORLD_ANNOUNCE(message)
 
+//Notify current in-game administrators of a string `event`
+#define TGS_NOTIFY_ADMINS(event)
+
 //Write an info `message` to a server log
 #define TGS_INFO_LOG(message)
 
 //Write an error `message` to a server log
 #define TGS_ERROR_LOG(message)
 
-//Notify current in-game administrators of a string `event`
-#define TGS_NOTIFY_ADMINS(event)
-
-//Notify current in-game administrators of a string `event`
-#define TGS_NOTIFY_ADMINS(event)
+//Get the number of connected /clients
+#define TGS_CLIENT_COUNT
 
 #endif
 
@@ -92,13 +94,13 @@
 
 //represents a chat user
 /datum/tgs_chat_user
-	var/id						//Internal user representation
-	var/friendly_name			//The user's public name
-	var/mention					//The text to use to ping this user in a message
-	var/datum/tgs_chat_channel	//The /datum/tgs_chat_channel this user was from
+	var/id							//Internal user representation
+	var/friendly_name				//The user's public name
+	var/mention						//The text to use to ping this user in a message
+	var/datum/tgs_chat_channel/channel	//The /datum/tgs_chat_channel this user was from
 
 //user definable callback for handling events
-/datum/tgs_event_handler/proc/HandleEvent()
+/datum/tgs_event_handler/proc/HandleEvent(event_code)
 	return
 
 //user definable chat command
@@ -123,17 +125,24 @@
 /world/proc/TgsMinimumAPIVersion()
 	return
 
+//Gets the current version of the server tools running the server
+/world/proc/TgsVersion()
+	return
+
 //Returns TRUE if the world was launched under the server tools and the API matches, FALSE otherwise
 //No function below this succeeds if it returns FALSE
 /world/proc/TgsAvailable()
 	return
 
-//Gets the current version of the service running the server
-/world/proc/TgsVersion()
+/world/proc/TgsInstanceName()
+	return
+
+//Get the current `/datum/tgs_revision_information`
+/world/proc/TgsRevision()
 	return
 
 //Gets a list of active `/datum/tgs_revision_information/test_merge`s
-/world/proc/TgsGetTestMerges()
+/world/proc/TgsTestMerges()
 	return
 
 //Forces a hard reboot of BYOND by ending the process

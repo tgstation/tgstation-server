@@ -2,6 +2,9 @@ SERVER_TOOLS_DEFINE_AND_SET_GLOBAL(datum/tgs_api/tgs, null)
 
 /datum/tgs_api
 
+/datum/tgs_api/latest
+	parent_type = /datum/tgs_api/v3210
+
 TGS_PROTECT_DATUM(/datum/tgs_api)
 
 /datum/tgs_api/proc/ApiVersion()
@@ -19,16 +22,16 @@ TGS_PROTECT_DATUM(/datum/tgs_api)
 /datum/tgs_api/proc/OnReboot()
 	return TGS_UNIMPLEMENTED
 
-/datum/tgs_api/proc/TgsAvailable()
-	return TGS_UNIMPLEMENTED
-
-/datum/tgs_api/proc/TgsVersion()
+/datum/tgs_api/proc/InstanceName()
 	return TGS_UNIMPLEMENTED
 	
-/datum/tgs_api/proc/GetTestMerges()
+/datum/tgs_api/proc/TestMerges()
+	return TGS_UNIMPLEMENTED
+	
+/datum/tgs_api/proc/EndProcess()
 	return TGS_UNIMPLEMENTED
 
-/datum/tgs_api/proc/EndProcess()
+/datum/tgs_api/proc/Revision()
 	return TGS_UNIMPLEMENTED
 
 /datum/tgs_api/proc/ChatChannelInfo()

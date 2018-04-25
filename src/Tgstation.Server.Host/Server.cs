@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Startup;
 namespace Tgstation.Server.Host
 {
 	/// <inheritdoc />
-	sealed class Server : IServer, IServerControl
+	sealed class Server : IServer, IServerUpdateConsumer
 	{
 		/// <inheritdoc />
 		public string UpdatePath { get; private set; }
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host
 			using (cancellationTokenSource)
 			using (var webHost = webHostBuilder
 				.UseStartup<Application>()
-				.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerControl>(this))
+				.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdateConsumer>(this))
 				.Build()
 			)
 				await webHost.RunAsync(cancellationToken).ConfigureAwait(false);
