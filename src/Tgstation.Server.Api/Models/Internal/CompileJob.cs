@@ -22,12 +22,18 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// When the compilation finished
 		/// </summary>
+		[Required]
 		public DateTimeOffset FinishedAt { get; set; }
 
 		/// <summary>
-		/// If the compiler targeted the primary directory
+		/// The detected DMAPI version
 		/// </summary>
-		public bool? TargetedPrimaryDirectory { get; set; }
+		public Version DMApiVersion { get; set; }
+
+		/// <summary>
+		/// The .dme file used for compilation
+		/// </summary>
+		public string DmePath { get; set; }
 
 		/// <summary>
 		/// Textual output of DM
@@ -35,7 +41,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string Output { get; set; }
 
 		/// <summary>
-		/// Exit code of DM. If <see langword="null"/>, the job was cancelled
+		/// The Game folder the results were compiled into
+		/// </summary>
+		public Guid? OutputGuid { get; set; }
+
+		/// <summary>
+		/// Exit code of DM. If <see langword="null"/>
 		/// </summary>
 		public int? ExitCode { get; set; }
 	}

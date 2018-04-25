@@ -15,9 +15,9 @@ namespace Tgstation.Server.Api.Models.Internal
 		public int? AutoCompileInterval { get; set; }
 
 		/// <summary>
-		/// The .dme file <see cref="DreamMakerSettings"/> tries to compile with
+		/// The .dme file <see cref="DreamMakerSettings"/> tries to compile with without the extension
 		/// </summary>
 		[Permissions(WriteRight = DreamMakerRights.SetDme)]
-		public string TargetDme { get; set; }
+		public string ProjectName { get; set; }
 	}
 }

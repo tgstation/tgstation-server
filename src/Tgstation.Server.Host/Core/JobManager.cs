@@ -55,24 +55,23 @@ namespace Tgstation.Server.Host.Core
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunJob(Job job, Func<CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
-			bool cancelled;
-			try
-			{
-				await operation(cancellationToken).ConfigureAwait(false);
-				cancelled = false;
-			}
-			catch (OperationCanceledException)
-			{
-				cancelled = true;
-			}
-
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 				job = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(job);
-				if (cancelled)
+				try
+				{
+					await operation(cancellationToken).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
 					job.Cancelled = true;
+				}
+				catch (Exception e)
+				{
+					job.ExceptionDetails = e.ToString();
+				}
 				job.StoppedAt = DateTimeOffset.Now;
 				await databaseContext.Save(default).ConfigureAwait(false);
 			}

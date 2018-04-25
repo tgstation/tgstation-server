@@ -21,5 +21,11 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="password">The password to check</param>
 		/// <returns><see langword="true"/> if <paramref name="password"/> matches the hash, <see langword="false"/> otherwise</returns>
 		bool CheckUserPassword(User user, string password);
+
+		/// <summary>
+		/// Generates a 40-length secure ascii <see cref="string"/>
+		/// </summary>
+		/// <returns>A 40-length secure ascii <see cref="string"/></returns>
+		string GetSecureString();
 	}
 }

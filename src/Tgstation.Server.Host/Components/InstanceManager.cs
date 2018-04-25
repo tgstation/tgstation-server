@@ -14,6 +14,9 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class InstanceManager : IInstanceManager, IHostedService
 	{
+		/// <inheritdoc />
+		public bool GracefulShutdown { get; set; }
+
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="IInstanceManager"/>
 		/// </summary>
@@ -46,7 +49,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstance GetInstance(Instance metadata)
+		public IInstance GetInstance(Models.Instance metadata)
 		{
 			lock (this)
 			{
@@ -57,7 +60,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Instance instance, string newPath, CancellationToken cancellationToken)
+		public async Task MoveInstance(Models.Instance instance, string newPath, CancellationToken cancellationToken)
 		{
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
@@ -83,7 +86,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Instance metadata, CancellationToken cancellationToken)
+		public async Task OfflineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			IInstance instance;
 			lock (this)
@@ -96,7 +99,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Instance metadata, CancellationToken cancellationToken)
+		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			var instance = instanceFactory.CreateInstance(metadata);
 			lock (this)

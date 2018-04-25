@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		SetAutoCompile = 8,
 		/// <summary>
-		/// User may modify <see cref="Models.Internal.DreamMakerSettings.TargetDme"/>
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ProjectName"/>
 		/// </summary>
 		SetDme = 16
 	}

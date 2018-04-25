@@ -56,5 +56,8 @@ namespace Tgstation.Server.Host.Security
 			}
 			return true;
 		}
+
+		/// <inheritdoc />
+		public string GetSecureString() => Convert.ToBase64String(GetSecureBytes(30));
 	}
 }

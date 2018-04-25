@@ -18,7 +18,7 @@ namespace Tgstation.Server.Api.Models
 		/// The current status of <see cref="DreamDaemon"/>
 		/// </summary>
 		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadMetadata)]
-		public DreamDaemonStatus? Status { get; set; }
+		public bool? Running { get; set; }
 
 		/// <summary>
 		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>

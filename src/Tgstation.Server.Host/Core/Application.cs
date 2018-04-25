@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
 		/// </summary>
-		readonly IConfiguration configuration;
+		readonly Microsoft.Extensions.Configuration.IConfiguration configuration;
 
 		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public Application(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+		public Application(Microsoft.Extensions.Configuration.IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
