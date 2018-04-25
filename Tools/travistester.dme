@@ -12,8 +12,7 @@
 
 // BEGIN_INCLUDE
 #include "Config.dm"
-#include "..\DMAPI\server_tools.dm"
-#include "..\DMAPI\st_commands.dm"
-#include "..\DMAPI\st_interface.dm"
+#include "..\DMAPI\tgs.dm"
+#include "..\DMAPI\tgs\includes.dm"
 #include "Test.dm"
 // END_INCLUDE

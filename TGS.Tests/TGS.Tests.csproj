@@ -79,23 +79,23 @@
   <ItemGroup>
     <ProjectReference Include="..\TGS.CommandLine\TGS.CommandLine.csproj">
       <Project>{89191f69-b18e-4b59-b72e-e12f9b6811a0}</Project>
-      <Name>TGCommandLine</Name>
+      <Name>TGS.CommandLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\TGS.ControlPanel\TGS.ControlPanel.csproj">
       <Project>{394e7643-6b8c-416f-ab18-95ac12648cdc}</Project>
-      <Name>TGControlPanel</Name>
+      <Name>TGS.ControlPanel</Name>
     </ProjectReference>
     <ProjectReference Include="..\TGS.Installer.UI\TGS.Installer.UI.csproj">
       <Project>{8956d4c3-bfb9-448e-bf5f-ee7e6f9996f9}</Project>
-      <Name>TGInstallerWrapper</Name>
+      <Name>TGS.Installer.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\TGS.Server\TGS.Server.csproj">
       <Project>{f32eda25-0855-411c-af5e-f0d042917e2d}</Project>
-      <Name>TGServerService</Name>
+      <Name>TGS.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\TGS.Interface\TGS.Interface.csproj">
       <Project>{ac4e7e8b-f83a-481c-a8b0-8fa4e8ae59ab}</Project>
-      <Name>TGServiceInterface</Name>
+      <Name>TGS.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
