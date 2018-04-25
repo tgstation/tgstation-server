@@ -53,17 +53,20 @@
 			return copytext(text, 1, i + 1)
 	return ""
 
+/datum/tgs_api/v3210/proc/file2list(filename)
+	return splittext(trim_left(trim_right(file2text(filename))), "\n")
+
 /datum/tgs_api/v3210/OnWorldNew(datum/tgs_event_handler/event_handler)	//don't use event handling in this version
 	comms_key = world.params[SERVICE_WORLD_PARAM]
 	instance_name = world.params[SERVICE_INSTANCE_PARAM]
 	if(!instance_name)
 		instance_name = "TG Station Server"	//maybe just upgraded
 
-	var/list/logs = splittext(trim_left(trim_right(file2text(".git/logs/HEAD"))), "\n")
+	var/list/logs = file2list(".git/logs/HEAD")
 	if(logs.len)
 		logs = splittext(logs[logs.len - 1], " ")
 		commit = logs[2]
-	logs = world.file2list(".git/logs/refs/remotes/origin/master")
+	logs = file2list(".git/logs/refs/remotes/origin/master")
 	if(logs.len)
 		originmastercommit = splittext(logs[logs.len - 1], " ")[2]
 
@@ -72,8 +75,6 @@
 		return FALSE
 	ListServiceCustomCommands(TRUE)
 	ExportService("[SERVICE_REQUEST_API_VERSION] [ApiVersion()]", TRUE)
-
-/world/proc/file2list(filename, seperator="\n", trim = TRUE)
 
 //nothing to do for v3
 /datum/tgs_api/v3210/OnInitializationComplete()
@@ -176,7 +177,10 @@
 	return list()
 
 /datum/tgs_api/v3210/ChatBroadcast(message, list/channels)
-	return TGS_UNIMPLEMENTED
+	if(channels)
+		return TGS_UNIMPLEMENTED
+	ChatTargetedBroadcast(message, TRUE)
+	ChatTargetedBroadcast(message, FALSE)
 
 /datum/tgs_api/v3210/ChatTargetedBroadcast(message, admin_only)
 	ExportService("[admin_only ? SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE : SERVICE_REQUEST_IRC_BROADCAST] [message]")
