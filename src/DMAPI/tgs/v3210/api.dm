@@ -34,40 +34,51 @@
 	var/instance_name
 	var/originmastercommit
 	var/commit
-	var/list/cached_custom_server_tools_commands
+	var/list/cached_custom_tgs_chat_commands
 	var/warned_revison = FALSE
 	var/warned_custom_commands = FALSE
 
 /datum/tgs_api/v3210/ApiVersion()
 	return "3.2.1.0"
-	
+
+/datum/tgs_api/v3210/proc/trim_left(text)
+	for (var/i = 1 to length(text))
+		if (text2ascii(text, i) > 32)
+			return copytext(text, i)
+	return ""
+
+/datum/tgs_api/v3210/proc/trim_right(text)
+	for (var/i = length(text), i > 0, i--)
+		if (text2ascii(text, i) > 32)
+			return copytext(text, 1, i + 1)
+	return ""
+
 /datum/tgs_api/v3210/OnWorldNew(datum/tgs_event_handler/event_handler)	//don't use event handling in this version
 	comms_key = world.params[SERVICE_WORLD_PARAM]
 	instance_name = world.params[SERVICE_INSTANCE_PARAM]
 	if(!instance_name)
 		instance_name = "TG Station Server"	//maybe just upgraded
 
-	
-	var/list/logs = world.file2list(".git/logs/HEAD")
-	if(logs)
+	var/list/logs = splittext(trim_left(trim_right(file2text(".git/logs/HEAD"))), "\n")
+	if(logs.len)
 		logs = splittext(logs[logs.len - 1], " ")
-		date = unix2date(text2num(logs[5]))
 		commit = logs[2]
-		log_world("[commit]: [date]")
 	logs = world.file2list(".git/logs/refs/remotes/origin/master")
 	if(logs.len)
-	originmastercommit = splittext(logs[logs.len - 1], " ")[2]
+		originmastercommit = splittext(logs[logs.len - 1], " ")[2]
 
 	if(world.system_type != MS_WINDOWS)
 		TGS_ERROR_LOG("This API version is only supported on Windows. Not running on Windows. Aborting initialization!")
 		return FALSE
 	ListServiceCustomCommands(TRUE)
-	ExportService("[SERVICE_REQUEST_API_VERSION] [SERVER_TOOLS_API_VERSION]", TRUE)
+	ExportService("[SERVICE_REQUEST_API_VERSION] [ApiVersion()]", TRUE)
+
+/world/proc/file2list(filename, seperator="\n", trim = TRUE)
 
 //nothing to do for v3
 /datum/tgs_api/v3210/OnInitializationComplete()
 	return
-	
+
 /datum/tgs_api/v3210/InstanceName()
 	return world.params[SERVICE_INSTANCE_PARAM]
 
@@ -76,13 +87,13 @@
 	if(skip_compat_check && !fexists(SERVICE_INTERFACE_DLL))
 		TGS_ERROR_LOG("Service parameter present but no interface DLL detected. This is symptomatic of running a service less than version 3.1! Please upgrade.")
 		return
-	call(SERVICE_INTERFACE_DLL, SERVICE_INTERFACE_FUNCTION)(instance, command)	//trust no retval
+	call(SERVICE_INTERFACE_DLL, SERVICE_INTERFACE_FUNCTION)(instance_name, command)	//trust no retval
 	return TRUE
 
 /datum/tgs_api/v3210/OnTopic(T)
 	var/list/params = params2list(T)
 	var/their_sCK = params[SERVICE_CMD_PARAM_KEY]
-	if(!their_sCK || !RunningService(TRUE))
+	if(!their_sCK)
 		return FALSE	//continue world/Topic
 
 	if(their_sCK != comms_key)
@@ -120,7 +131,7 @@
 			if(custom_command_result)
 				return istext(custom_command_result) ? custom_command_result : SERVICE_RETURN_SUCCESS
 	return "Unknown command: [command]"
-	
+
 /datum/tgs_api/v3210/OnReboot()
 	switch(reboot_mode)
 		if(REBOOT_MODE_HARD)
@@ -131,11 +142,11 @@
 			EndProcess()
 		else
 			ExportService(SERVICE_REQUEST_WORLD_REBOOT) //just let em know
-	
+
 /datum/tgs_api/v3210/TestMerges()
 	//do the best we can here as the datum can't be completed using the v3 api
-	. = list
-	if(!RunningService(TRUE) || !fexists(SERVICE_PR_TEST_JSON))
+	. = list()
+	if(!fexists(SERVICE_PR_TEST_JSON))
 		return
 	var/list/json = json_decode(file2text(SERVICE_PR_TEST_JSON))
 	if(!json)
@@ -201,31 +212,31 @@
 #undef SERVICE_REQUEST_WORLD_REBOOT
 #undef SERVICE_REQUEST_API_VERSION
 
-#undef SERVICE_RETURN_SUCCESS "SUCCESS"
+#undef SERVICE_RETURN_SUCCESS
 
 /*
 The MIT License
 
 Copyright (c) 2017 Jordan Brown
 
-Permission is hereby granted, free of charge, 
-to any person obtaining a copy of this software and 
-associated documentation files (the "Software"), to 
-deal in the Software without restriction, including 
-without limitation the rights to use, copy, modify, 
-merge, publish, distribute, sublicense, and/or sell 
-copies of the Software, and to permit persons to whom 
-the Software is furnished to do so, 
+Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to
+deal in the Software without restriction, including
+without limitation the rights to use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom
+the Software is furnished to do so,
 subject to the following conditions:
 
-The above copyright notice and this permission notice 
+The above copyright notice and this permission notice
 shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
-ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

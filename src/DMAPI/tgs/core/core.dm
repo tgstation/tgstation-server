@@ -3,20 +3,20 @@
 	if(!tgs_version)
 		return
 
-	var/path = SelectTgsApi(tgs_verison)
+	var/path = SelectTgsApi(tgs_version)
 	if(!path)
 		TGS_ERROR_LOG("Found unsupported API version: [tgs_version]. If this is a valid version please report this, backporting is done on demand.")
 
 	var/datum/tgs_api/new_api = new path
 	TGS_INFO_LOG("Activated tgstation-server API for version [tgs_version]")
-	
-	var/result = new_api.OnNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default)
+
+	var/result = new_api.OnWorldNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default)
 	if(result && result != TGS_UNIMPLEMENTED)
 		TGS_WRITE_GLOBAL(tgs, new_api)
 
 /world/proc/SelectTgsApi(tgs_version)
 	var/list/version_bits = splittext(tgs_version, ".")
-	
+
 	var/super = text2num(version_bits[0])
 	var/major = text2num(version_bits[1])
 	var/minor = text2num(version_bits[2])
@@ -27,14 +27,14 @@
 			switch(major)
 				if(2)
 					return /datum/tgs_api/v3210
-	
+
 	if(super != null && major != null && minor != null && patch != null && tgs_version > TgsMaximumAPIVersion())
 		TGS_ERROR_LOG("Detected unknown API version! Defaulting to latest. Update the DMAPI to fix this problem.")
 		return /datum/tgs_api/latest
 
-/world/proc/TgsMaximumAPIVersion()
+/world/TgsMaximumAPIVersion()
 	return "4.0.0.0"
-	
+
 /world/TgsMinimumAPIVersion()
 	return "3.2.0.0"
 
@@ -43,7 +43,7 @@
 	if(api)
 		api.OnInitializationComplete()
 
-/world/TgsTopic(T)
+/world/proc/TgsTopic(T)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
 		var/result = api.OnTopic(T)
@@ -53,7 +53,7 @@
 /world/TgsRevision()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
-		var/result = api.Revison()
+		var/result = api.Revision()
 		if(result != TGS_UNIMPLEMENTED)
 			return result
 
@@ -104,7 +104,7 @@
 /world/TgsTargetedChatBroadcast(message, admin_only)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
-		api.TargetedChatBroadcast(message, admin_only)
+		api.ChatTargetedBroadcast(message, admin_only)
 
 /world/TgsChatPrivateMessage(message, datum/tgs_chat_user/user)
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
@@ -116,24 +116,24 @@ The MIT License
 
 Copyright (c) 2017 Jordan Brown
 
-Permission is hereby granted, free of charge, 
-to any person obtaining a copy of this software and 
-associated documentation files (the "Software"), to 
-deal in the Software without restriction, including 
-without limitation the rights to use, copy, modify, 
-merge, publish, distribute, sublicense, and/or sell 
-copies of the Software, and to permit persons to whom 
-the Software is furnished to do so, 
+Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to
+deal in the Software without restriction, including
+without limitation the rights to use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom
+the Software is furnished to do so,
 subject to the following conditions:
 
-The above copyright notice and this permission notice 
+The above copyright notice and this permission notice
 shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
-ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

@@ -76,6 +76,7 @@
 //represents a merge of a GitHub pull request
 /datum/tgs_revision_information/test_merge
 	var/number				//pull request number
+	var/title				//pull request title
 	var/body				//pull request body
 	var/author				//pull request github author
 	var/url					//link to pull request html
@@ -104,7 +105,7 @@
 	return
 
 //user definable chat command
-/datum/server_tools_command
+/datum/tgs_chat_command
 	var/name = ""			//the string to trigger this command on a chat bot. e.g. TGS3_BOT: do_this_command
 	var/help_text = ""		//help text for this command
 	var/admin_only = FALSE	//set to TRUE if this command should only be usable by registered chat admins
@@ -113,7 +114,7 @@
 //sender: The tgs_chat_user who send to command
 //params: The trimmed string following the command name
 //The return value will be stringified and sent to the appropriate chat
-/datum/server_tools_command/proc/Run(datum/tgs_chat_user/sender, params)
+/datum/tgs_chat_command/proc/Run(datum/tgs_chat_user/sender, params)
 	CRASH("[type] has no implementation for Run()")
 
 //FUNCTIONS

@@ -1,6 +1,7 @@
 language: generic
 sudo: false
-
+git:
+  depth: 1
 env:
     global:
     - BYOND_MAJOR="511"
@@ -21,4 +22,4 @@ install:
   - build/install_byond.sh
 
 script:
-  - test/DMAPI/build_byond.sh
+  - tests/DMAPI/build_byond.sh
