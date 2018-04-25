@@ -76,11 +76,7 @@ namespace Tgstation.Server.Host.Components
 
 					await Task.Factory.StartNew(() => proc.WaitForInputIdle(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
-					if (onSuccessfulStartup != null)
-					{
-						onSuccessfulStartup.SetResult(null);
-						onSuccessfulStartup = null;
-					}
+					onSuccessfulStartup?.SetResult(null);
 
 					try
 					{
@@ -100,7 +96,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch (Exception e)
 				{
-					onSuccessfulStartup.SetException(e);
+					onSuccessfulStartup?.SetException(e);
 					throw;
 				}
 			}

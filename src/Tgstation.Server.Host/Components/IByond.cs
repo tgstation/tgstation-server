@@ -26,11 +26,12 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Lock the current installation's location and run an <paramref name="operation"/>
 		/// </summary>
+		/// <typeparam name="T">The return type of <paramref name="operation"/></typeparam>
 		/// <param name="operation">A <see cref="Func{T, TResult}"/> taking the path to either dm.exe or dreamdaemon.exe and returning a <see cref="Task"/></param>
 		/// <param name="stagedIfExists">Use the staged installation if possible</param>
 		/// <param name="dreamDaemon">Pass the path of dreamdaemon.exe to <paramref name="operation"/> if <see langword="true"/> dm.exe otherwise</param>
-		/// <returns>A <see cref="Task"/> representing the running <paramref name="operation"/></returns>
-		Task UseExecutable(Func<string, Task> operation, bool stagedIfExists, bool dreamDaemon);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the return type of <paramref name="operation"/></returns>
+		Task<T> UseExecutable<T>(Func<string, Task<T>> operation, bool stagedIfExists, bool dreamDaemon);
 
 		/// <summary>
 		/// Clears the cache folder

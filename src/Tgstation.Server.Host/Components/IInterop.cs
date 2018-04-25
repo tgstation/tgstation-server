@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
     interface IInterop
 	{
-		void SetServerControlHandler(Func<ServerControlEventArgs, CancellationToken, Task> serverControlHandler);
+		void SetServerControlHandler(Func<ServerControlEvent, CancellationToken, Task> serverControlHandler);
 		void SetChatMessageHandler(Func<ChatMessageEventArgs, CancellationToken, Task> chatMessageHandler);
 
 		Version MinimumApiVersion { get; }
@@ -17,7 +17,9 @@ namespace Tgstation.Server.Host.Components
 
 		Task<Version> GetApiVersion(CancellationToken cancellationToken);
 
-		void SetRun(ushort? port, string accessToken);
+		void SetRun(ushort? port, string accessToken, bool primary);
+
+		Task SwapPorts(ushort port, CancellationToken cancellationToken);
 
 		Task<string> ChatCommand(string command, string arguments, CancellationToken cancellationToken);
 
