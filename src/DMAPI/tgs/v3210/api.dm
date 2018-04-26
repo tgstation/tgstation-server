@@ -185,7 +185,7 @@
 /datum/tgs_api/v3210/ChatTargetedBroadcast(message, admin_only)
 	ExportService("[admin_only ? SERVICE_REQUEST_IRC_ADMIN_CHANNEL_MESSAGE : SERVICE_REQUEST_IRC_BROADCAST] [message]")
 
-/datum/tgs_api/v3210/ChatPrivateMessage(message, admin_only)
+/datum/tgs_api/v3210/ChatPrivateMessage(message, datum/tgs_chat_user/user)
 	return TGS_UNIMPLEMENTED
 
 #undef REBOOT_MODE_NORMAL
