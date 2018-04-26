@@ -84,14 +84,6 @@ namespace Tgstation.Server.Host.Components
 		/// <see cref="TaskCompletionSource{TResult}"/> to complete when the primary server is primed
 		/// </summary>
 		TaskCompletionSource<object> onPrimaryServerPrimed;
-		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> to complete when the primary server is rebooted
-		/// </summary>
-		TaskCompletionSource<object> onPrimaryServerRebooted;
-		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> to complete when the secondary server is rebooted
-		/// </summary>
-		TaskCompletionSource<object> onSecondaryServerRebooted;
 
 		/// <summary>
 		/// Construct <see cref="DreamDaemon"/>
@@ -156,9 +148,10 @@ namespace Tgstation.Server.Host.Components
 			if (await byond.GetVersion(cancellationToken).ConfigureAwait(false) == null)
 				throw new InvalidOperationException("No byond version installed!");
 			await byond.ClearCache(cancellationToken).ConfigureAwait(false);
-			
+			var accessToken = cryptographySuite.GetSecureString();
+
 			//lock the byond executable and run the server
-			async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, string accessToken, bool isPrimary, CancellationToken serverCancellationToken)
+			async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, bool isPrimary, CancellationToken serverCancellationToken)
 			{
 				using (var dmb = await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false))
 				{
@@ -171,9 +164,8 @@ namespace Tgstation.Server.Host.Components
 				cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 				try
 				{
-					var accessToken = cryptographySuite.GetSecureString();
 					var ddToken = cancellationTokenSource.Token;
-					ddTask = byond.UseExecutable(dreamDaemonPath => RunServer(launchParameters, dreamDaemonPath, accessToken, isPrimary, ddToken), false, true);
+					ddTask = byond.UseExecutable(dreamDaemonPath => RunServer(launchParameters, dreamDaemonPath, isPrimary, ddToken), false, true);
 					interop.SetRun(isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort, accessToken, isPrimary);
 				}
 				catch
@@ -182,8 +174,7 @@ namespace Tgstation.Server.Host.Components
 					throw;
 				}
 			};
-
-			bool secondaryIsOther = true;
+			
 			var retries = 0;
 			do
 			{
@@ -191,15 +182,12 @@ namespace Tgstation.Server.Host.Components
 				await Task.Delay(retryDelay, cancellationToken).ConfigureAwait(false);
 				
 				//load the event tcs' and get the initial launch parameters
-				var primaryRebootedTcs = new TaskCompletionSource<object>();
 				var secondaryRebootedTcs = new TaskCompletionSource<object>();
 				var primaryPrimedTcs = new TaskCompletionSource<object>();
 				DreamDaemonLaunchParameters initialLaunchParameters;
 				await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 				try
 				{
-					onPrimaryServerRebooted = primaryRebootedTcs;
-					onSecondaryServerRebooted = secondaryRebootedTcs;
 					onPrimaryServerPrimed = primaryPrimedTcs;
 					initialLaunchParameters = currentLaunchParameters;
 				}
@@ -210,7 +198,7 @@ namespace Tgstation.Server.Host.Components
 
 				//start the primary server
 				StartServer(initialLaunchParameters, true, out Task<int> ddPrimaryTask, out CancellationTokenSource primaryCts);
-				using (primaryCts)
+				try
 				{
 					//wait to make sure we got this far
 					await onSuccessfulStartup.Task.ConfigureAwait(false);
@@ -246,32 +234,70 @@ namespace Tgstation.Server.Host.Components
 						continue;
 					}
 
-					//start the secondary server
-					StartServer(initialLaunchParameters, false, out Task<int> ddSecondaryTask, out CancellationTokenSource secondaryCts);
-					using (secondaryCts)
+					var launchParameters = initialLaunchParameters;
+					Task<int> ddSecondaryTask = null;
+					CancellationTokenSource secondaryCts = null;
+					do
 					{
-						//now we wait for something to happen
-						await Task.WhenAny(ddSecondaryTask, ddPrimaryTask, primaryRebootedTcs.Task).ConfigureAwait(false);
-						
-
-						if (ddSecondaryTask.IsCompleted && ddPrimaryTask.IsCompleted)
+						if(ddSecondaryTask == null)
+							//start the secondary server
+							StartServer(initialLaunchParameters, false, out ddSecondaryTask, out secondaryCts);
+						try
 						{
-							//catastrophic, start over
-							var t1 = HandleServerCrashed(ddPrimaryTask, secondaryIsOther);
-							var t2 = HandleServerCrashed(ddSecondaryTask, !secondaryIsOther);
-							await Task.WhenAll(t1, t2).ConfigureAwait(false);
-							if(t1.Result)
-								return;
-							++retries;
-							continue;
-						}
+							//now we wait for something to happen
+							await Task.WhenAny(ddSecondaryTask, ddPrimaryTask).ConfigureAwait(false);
 
-						//crash of otherServer
-						if ((ddSecondaryTask.IsCompleted && secondaryIsOther) || (ddPrimaryTask.IsCompleted && !secondaryIsOther))
-						{
-							
+							//crash of both servers
+							if (ddSecondaryTask.IsCompleted && ddPrimaryTask.IsCompleted)
+							{
+								//catastrophic, start over
+								var t1 = HandleServerCrashed(ddPrimaryTask, interop.SecondaryIsOther);
+								var t2 = HandleServerCrashed(ddSecondaryTask, !interop.SecondaryIsOther);
+								await Task.WhenAll(t1, t2).ConfigureAwait(false);
+								if (t1.Result)
+									return;
+								++retries;
+								continue;
+							}
+
+							//activate the other server
+							await interop.SwapAndActivateServers(cancellationToken).ConfigureAwait(false);
+
+							//load new launch parameters
+							await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+							try
+							{
+								launchParameters = currentLaunchParameters;
+							}
+							finally
+							{
+								semaphore.Release();
+							}
+
+							//crash of secondary server, just reboot it
+							if (ddSecondaryTask.IsCompleted)
+							{
+								await HandleServerCrashed(ddSecondaryTask, !interop.SecondaryIsOther).ConfigureAwait(false);
+								//restart the server
+								ddSecondaryTask = null;
+							}
+							//crash of primary server, bring it back
+							else
+							{
+								await HandleServerCrashed(ddPrimaryTask, interop.SecondaryIsOther).ConfigureAwait(false);
+								primaryCts.Dispose();
+								StartServer(initialLaunchParameters, true, out ddPrimaryTask, out primaryCts);
+							}
 						}
-					}
+						finally
+						{
+							secondaryCts.Dispose();
+						}
+					} while (true);
+				}
+				finally
+				{
+					primaryCts.Dispose();
 				}
 			} while (true);
 		}

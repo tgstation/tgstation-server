@@ -9,6 +9,8 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
     interface IInterop
 	{
+		bool SecondaryIsOther { get; set; }
+
 		void SetServerControlHandler(Func<ServerControlEvent, CancellationToken, Task> serverControlHandler);
 		void SetChatMessageHandler(Func<ChatMessageEventArgs, CancellationToken, Task> chatMessageHandler);
 
@@ -19,7 +21,7 @@ namespace Tgstation.Server.Host.Components
 
 		void SetRun(ushort? port, string accessToken, bool primary);
 
-		Task SwapPorts(ushort port, CancellationToken cancellationToken);
+		Task SwapAndActivateServers(CancellationToken cancellationToken);
 
 		Task<string> ChatCommand(string command, string arguments, CancellationToken cancellationToken);
 
