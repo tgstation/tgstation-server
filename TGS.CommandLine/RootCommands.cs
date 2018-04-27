@@ -8,14 +8,13 @@ namespace TGS.CommandLine
 	{
 		public CLICommand(IClient I)
 		{
-			var tmp = new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() };
-			if (ConsoleCommand.Instance.Administration != null)
+			var tmp = ConsoleCommand.Instance != null ? new List<Command> { new UpdateCommand(), new TestmergeCommand(), new RepoCommand(), new BYONDCommand(), new DMCommand(), new DDCommand(), new ConfigCommand(), new IRCCommand(), new DiscordCommand(), new AutoUpdateCommand(), new SetAutoUpdateCommand() } : new List<Command>();
+			if (ConsoleCommand.Instance?.Administration != null)
 				tmp.Add(new AdminCommand());
 			if (ConsoleCommand.Server.Management != null)
 				tmp.Add(new ServiceCommand());
 			Children = tmp.ToArray();
 		}
-
 		public override void PrintHelp()
 		{
 			OutputProc("/tg/station 13 Server Command Line");

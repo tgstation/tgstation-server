@@ -243,6 +243,7 @@ namespace TGS.CommandLine
 						else
 						{
 							Console.WriteLine("Connected remotely");
+							Console.WriteLine("Type 'instance' to connect to a server instance");
 							if (currentInterface.VersionMismatch(out error))
 							{
 								SentVMMWarning = true;
