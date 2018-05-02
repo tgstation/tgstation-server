@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components
 		async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string accessToken, string dreamDaemonPath, bool isPrimary, CancellationToken cancellationToken)
 		{
 			using (var dmb = await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false))
-				return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, String.Concat(dmb.PrimaryDirectory, dmb.DmbName), accessToken, isPrimary, cancellationToken).ConfigureAwait(false);
+				return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, String.Concat(dmb.PrimaryDirectory, dmb.DmbName), accessToken, isPrimary, false, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>

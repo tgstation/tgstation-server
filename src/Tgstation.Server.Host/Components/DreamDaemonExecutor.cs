@@ -33,9 +33,9 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <summary>
-		/// The <see cref="IInstanceShutdownMethod"/> for the <see cref="DreamDaemonExecutor"/>
+		/// The <see cref="IInstanceShutdownHandler"/> for the <see cref="DreamDaemonExecutor"/>
 		/// </summary>
-		readonly IInstanceShutdownMethod instanceShutdownMethod;
+		readonly IInstanceShutdownHandler instanceShutdownMethod;
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="DreamDaemonExecutor"/>
 		/// </summary>
@@ -46,14 +46,14 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="instanceShutdownMethod">The value of <see cref="instanceShutdownMethod"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		public DreamDaemonExecutor(IInstanceShutdownMethod instanceShutdownMethod, IIOManager ioManager)
+		public DreamDaemonExecutor(IInstanceShutdownHandler instanceShutdownMethod, IIOManager ioManager)
 		{
 			this.instanceShutdownMethod = instanceShutdownMethod ?? throw new ArgumentNullException(nameof(instanceShutdownMethod));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}
 
 		/// <inheritdoc />
-		public async Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, string dmbPath, string accessToken, bool usePrimaryPort, CancellationToken cancellationToken)
+		public async Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, string dmbPath, string accessToken, bool usePrimaryPort, bool alwaysKill, CancellationToken cancellationToken)
 		{
 			using (var proc = new Process())
 			{
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components
 					}
 					finally
 					{
-						if (!instanceShutdownMethod.GracefulShutdown)
+						if (!alwaysKill && !await instanceShutdownMethod.PreserveActiveExecutablesIfNecessary(launchParameters, accessToken, proc.Id, usePrimaryPort).ConfigureAwait(false))
 						{
 							proc.Kill();
 							proc.WaitForExit();

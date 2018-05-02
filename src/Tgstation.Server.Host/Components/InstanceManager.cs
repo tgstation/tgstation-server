@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 
@@ -14,9 +15,6 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class InstanceManager : IInstanceManager, IHostedService
 	{
-		/// <inheritdoc />
-		public bool GracefulShutdown { get; set; }
-
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="IInstanceManager"/>
 		/// </summary>
@@ -130,6 +128,12 @@ namespace Tgstation.Server.Host.Components
 		{
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			instances.Clear();
+		}
+
+		/// <inheritdoc />
+		public Task<bool> PreserveActiveExecutablesIfNecessary(DreamDaemonLaunchParameters launchParameters, string accessToken, int pid, bool primary)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
