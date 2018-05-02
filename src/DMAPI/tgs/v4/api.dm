@@ -1,17 +1,18 @@
-#define TGS4_API_VALIDATE "tgs_vali"
-#define TGS4_PARAM_TOKEN "tgs_tok"
-#define TGS4_PARAM_INSTANCE "tgs_inst_name"
-#define TGS4_PARAM_INSTANCE_ID "tgs_inst_id"
-#define TGS4_PARAM_REVISION_JSON "tgs_json"
-#define TGS4_PARAM_HOST_PORT "tgs_port"
-#define TGS4_PARAM_SECOND_PORT "tgs_port2"
+#define TGS4_PARAM_INFO_JSON "tgs_json"
 
 #define TGS4_TOPIC_COMMAND "tgs_com"
+#define TGS4_TOPIC_TOKEN "tgs_tok"
+#define TGS4_TOPIC_SUCCESS "tgs_success"
+#define TGS4_TOPIC_SWAP "tgs_swap"
+#define TGS4_TOPIC_SWAP_DELAYED "tgs_swap_delayed"
+#define TGS4_TOPIC_CHAT_COMMAND "tgs_chat_comm"
+#define TGS4_TOPIC_EVENT "tgs_event"
 
+#define TGS4_COMM_VALIDATE "tgs_vali"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
+#define TGS4_COMM_SERVER_REBOOT "tgs_reboot"
 #define TGS4_COMM_END_PROCESS "tgs_kill"
-#define TGS4_COMM_CHAT_BROADCAST "tgs_chat"
-#define TGS4_COMM_CHAT_PM "tgs_chat_pm"
+#define TGS4_COMM_CHAT "tgs_chat_send"
 
 /datum/tgs_api/v4
 	var/access_token
@@ -20,33 +21,57 @@
 	var/host_port
 	var/port_1
 	var/port_2
-	var/revision_json_path
+	var/cached_json
+	var/json_path
+
+	var/list/custom_commands
+
+	var/list/cached_test_merges
+	var/datum/tgs_revision_information/cached_revision
+
+	var/datum/tgs_event_handler/event_handler
 
 /datum/tgs_api/v4/ApiVersion()
 	return "4.0.0.0"
 
 /datum/tgs_api/v4/OnWorldNew(datum/tgs_event_handler/event_handler)
-	access_token = world.params[TGS4_PARAM_TOKEN]
-	instance_id = world.params[TGS4_PARAM_INSTANCE_ID]
-	host_port = world.params[TGS4_PARAM_HOST_PORT]
-	if(world.params[TGS4_API_VALIDATE])
-		Export(TGS4_API_VALIDATE)
+	json_path = world.params[TGS4_PARAM_INFO_JSON]
+	if(!json_path)
+		TGS_ERROR_LOG("Missing [TGS4_PARAM_INFO_JSON] world parameter!")
+		return
+	var/json_file = file2text(json_path)
+	if(!json_file)
+		TGS_ERROR_LOG("Missing specified json file: [json_path]")
+		return
+	cached_json = json_decode(json_file)
+	if(!cached_json)
+		TGS_ERROR_LOG("Failed to decode info json: [json_file]")
+		return
+
+	access_token = cached_json["access_token"]
+	instance_id = text2num(cached_json["instance_id"])
+	host_port = text2num(cached_json["host_port"])
+	if(cached_json["api_validate_only"])
+		Export(TGS4_COMM_VALIDATE)
 		del(world)
 
-	instance_name = world.params[TGS4_PARAM_INSTANCE]
+	src.event_handler = event_handler
+	instance_name = cached_json["instance_name"]
 	port_1 = world.port
-	port_2 = world.params[TGS4_PARAM_SECOND_PORT]
-	revision_json_path = world.params[TGS4_PARAM_REVISION_JSON]
+	port_2 = cached_json["next_port"]
+	ListCustomCommands()
 
 /datum/tgs_api/v4/OnInitializationComplete()
 	Export(TGS4_COMM_SERVER_PRIMED)
+	var/tgs4_secret_sleep_offline_sauce = 24051994
 	var/old_sleep_offline = world.sleep_offline
 	sleep(1)
-	world.sleep_offline = old_sleep_offline
+	if(world.sleep_offline == tgs4_secret_sleep_offline_sauce)	//if not someone changed it
+		world.sleep_offline = old_sleep_offline
 
 /datum/tgs_api/v4/OnTopic(T)
 	var/list/params = params2list(T)
-	var/their_sCK = params[TGS4_PARAM_TOKEN]
+	var/their_sCK = params[TGS4_TOPIC_TOKEN]
 	if(!their_sCK)
 		return FALSE	//continue world/Topic
 
@@ -58,27 +83,48 @@
 		return "No command!"
 
 	switch(command)
+		if(TGS4_TOPIC_SWAP)
+			SwapPorts(FALSE)
+			return TGS4_TOPIC_SUCCESS
+		if(TGS4_TOPIC_SWAP_DELAYED)
+			SwapPorts(TRUE)
+			return TGS4_TOPIC_SUCCESS
+		if(TGS4_TOPIC_CHAT_COMMAND)
+			var/result = HandleCustomCommand(params[TGS4_TOPIC_CHAT_COMMAND])
+			if(!result)
+				return json_encode(list("error" = "Error running chat command!"))
+			return result
+		if(TGS4_TOPIC_EVENT)
+			event_handler.HandleEvent(text2num(params[TGS4_TOPIC_EVENT]))
+			return TGS4_TOPIC_SUCCESS
 	
 	return "Unknown command: [command]"
 
+/datum/tgs_api/v4/proc/SwapPorts(delayed)
+	set waitfor = FALSE
+	var/new_port = world.port == port_1 ? port_2 : port_1
+	event_handler.HandleEvent(TGS_EVENT_PORT_SWAP, new_port)
+	world.OpenPort("none")	//close the port
+	if(delayed)
+		sleep(50)	//wait for other server to close port
+	world.OpenPort(new_port)
+
 /datum/tgs_api/v4/proc/Export(command)
-	return world.Export("http://127.0.0.1:[host_port]/Interop/[instance_id]?command=[command]&access_token=[access_token]")
+	return world.Export("http://127.0.0.1:[host_port]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")
 
 /datum/tgs_api/v4/OnReboot()
-	return TGS_UNIMPLEMENTED
+	Export(TGS4_COMM_SERVER_REBOOT)
 
 /datum/tgs_api/v4/InstanceName()
 	return instance_name
 
 /datum/tgs_api/v4/TestMerges()
-	//do the best we can here as the datum can't be completed using the v3 api
+	if(cached_test_merges)
+		return cached_test_merges
+		
 	. = list()
-	if(!revision_json_path || !fexists(revision_json_path))
-		return
-	var/list/json = json_decode(file2text(revision_json_path))
-	if(!json)
-		return
-	json = json["test_merges"]
+	cached_test_merges = .
+	var/json = cached_json["test_merges"]
 	for(var/I in json)
 		var/datum/tgs_revision_information/test_merge/tm = new
 		tm.number = text2num(I)
@@ -87,7 +133,7 @@
 		tm.author = entry["author"]
 		tm.title = entry["title"]
 		tm.commit = entry["commit"]
-		tm.commit = entry["origin_commit"]
+		tm.origin_commit = entry["origin_commit"]
 		tm.time_merged = text2num(entry["time_merged"])
 		tm.comment = entry["comment"]
 		tm.url = entry["url"]
@@ -97,24 +143,60 @@
 	Export(TGS4_COMM_END_PROCESS)
 
 /datum/tgs_api/v4/Revision()
-	if(!revision_json_path || !fexists(revision_json_path))
-		return
-	var/list/json = json_decode(file2text(revision_json_path))
-	if(!json)
-		return
-	var/datum/tgs_revision_information
-
-/datum/tgs_api/v4/ChatChannelInfo()
-	return TGS_UNIMPLEMENTED
+	if(!cached_revision)
+		var/json = cached_json["revision"]
+		cached_revision = new
+		cached_revision.commit = json["commit"]
+		cached_revision.origin_commit = json["origin_commit"]
+	return cached_revision
 
 /datum/tgs_api/v4/ChatBroadcast(message, list/channels)
-	return TGS_UNIMPLEMENTED
+	var/list/ids
+	if(length(channels))
+		ids = list()
+		for(var/I in channels)
+			var/datum/tgs_chat_channel/channel = I
+			ids += channel.id
+	message = list("message" = message, "channels" = ids)
+	Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatTargetedBroadcast(message, admin_only)
-	return TGS_UNIMPLEMENTED
+	message = list("message" = message, "channels" = admin_only ? "admin" : "game")
+	Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatPrivateMessage(message, datum/tgs_chat_user/user)
-	Export("[TGS_COMM_CHAT_PM] [user.id] [user.channel.id]")
+	message = list("message" = message, "user" = list("id" = user.id, "channel" = user.channel.id))
+	Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+
+/datum/tgs_api/v4/ChatChannelInfo()
+	. = list()
+	//no caching cause tgs may change this
+	var/chat_json_path = cached_json["chat_channels_json"]
+	var/list/json = json_decode(file2text(chat_json_path))
+	for(var/I in json)
+		var/datum/tgs_chat_channel/channel = new
+		channel.id = I["id"]
+		channel.friendly_name = I["friendly_name"]
+		channel.server_name = I["server_name"]
+		channel.provider_name = I["provider_name"]
+		channel.is_admin_channel = I["is_admin_channel"]
+		channel.is_private_channel = FALSE	//tgs will never send us pm channels
+		. += channel
+
+#undef TGS4_TOPIC_COMMAND
+#undef TGS4_TOPIC_TOKEN
+#undef TGS4_TOPIC_SUCCESS
+#undef TGS4_TOPIC_SWAP
+#undef TGS4_TOPIC_SWAP_DELAYED
+#undef TGS4_TOPIC_CHAT_COMMAND
+#undef TGS4_TOPIC_EVENT
+
+#undef TGS4_COMM_SERVER_PRIMED
+#undef TGS4_COMM_SERVER_REBOOT
+#undef TGS4_COMM_END_PROCESS
+#undef TGS4_COMM_CHAT
+
+#undef TGS4_COMM_VALIDATE
 
 /*
 The MIT License

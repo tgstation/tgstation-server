@@ -96,6 +96,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\v4\api.dm = src\DMAPI\tgs\v4\api.dm
+		src\DMAPI\tgs\v4\commands.dm = src\DMAPI\tgs\v4\commands.dm
 	EndProjectSection
 EndProject
 Global
