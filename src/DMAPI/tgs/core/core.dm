@@ -6,6 +6,7 @@
 	var/path = SelectTgsApi(tgs_version)
 	if(!path)
 		TGS_ERROR_LOG("Found unsupported API version: [tgs_version]. If this is a valid version please report this, backporting is done on demand.")
+		return
 
 	var/datum/tgs_api/new_api = new path
 	TGS_INFO_LOG("Activated tgstation-server API for version [tgs_version]")
@@ -15,12 +16,15 @@
 		TGS_WRITE_GLOBAL(tgs, new_api)
 
 /world/proc/SelectTgsApi(tgs_version)
+	//remove the old 3.0 header
+	tgs_version = replacetext(tgs_version, "/tg/station 13 Server v", "")
+	
 	var/list/version_bits = splittext(tgs_version, ".")
 
-	var/super = text2num(version_bits[0])
-	var/major = text2num(version_bits[1])
-	var/minor = text2num(version_bits[2])
-	var/patch = text2num(version_bits[3])
+	var/super = text2num(version_bits[1])
+	var/major = text2num(version_bits[2])
+	var/minor = text2num(version_bits[3])
+	var/patch = text2num(version_bits[4])
 
 	switch(super)
 		if(3)
