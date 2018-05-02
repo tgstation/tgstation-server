@@ -21,5 +21,6 @@ namespace Tgstation.Server.Host.Components
 		Task ActivateOtherServer(CancellationToken cancellationToken);
 
 		Task<string> ChatCommand(string command, string arguments, CancellationToken cancellationToken);
-    }
+		void OnServerPrimed(Action actionToTake);
+	}
 }

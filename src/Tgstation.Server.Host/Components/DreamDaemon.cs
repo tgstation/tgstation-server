@@ -3,12 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class DreamDaemon : IDreamDaemon, IDisposable
+	sealed class DreamDaemon : IDreamDaemon, ILaunchParametersFactory, IDisposable
 	{
 		/// <inheritdoc />
 		public bool Running { get; private set; }
@@ -33,29 +32,13 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
 		/// <summary>
-		/// The <see cref="IByond"/> for <see cref="DreamDaemon"/>
-		/// </summary>
-		readonly IByond byond;
-		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for <see cref="DreamDaemon"/>
-		/// </summary>
-		readonly ICryptographySuite cryptographySuite;
-		/// <summary>
 		/// The <see cref="IInterop"/> for <see cref="DreamDaemon"/>
 		/// </summary>
 		readonly IInterop interop;
 		/// <summary>
-		/// The <see cref="IInstanceShutdownMethod"/> for <see cref="DreamDaemon"/>
+		/// The <see cref="IWatchdog"/> for <see cref="DreamDaemon"/>
 		/// </summary>
-		readonly IInstanceShutdownMethod instanceShutdownMethod;
-		/// <summary>
-		/// The <see cref="IDreamDaemonExecutor"/> for <see cref="DreamDaemon"/>
-		/// </summary>
-		readonly IDreamDaemonExecutor dreamDaemonExecutor;
-		/// <summary>
-		/// The <see cref="IDmbFactory"/> for <see cref="DreamDaemon"/>
-		/// </summary>
-		readonly IDmbFactory dmbFactory;
+		readonly IWatchdog watchdog;
 
 		/// <summary>
 		/// Used for write control to class variables
@@ -73,38 +56,17 @@ namespace Tgstation.Server.Host.Components
 		DreamDaemonLaunchParameters currentLaunchParameters;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="watchdogTask"/>
-		/// </summary>
-		CancellationTokenSource watchdogCancellationTokenSource;
-		/// <summary>
-		/// The monitor for the DD process
-		/// </summary>
-		Task watchdogTask;
-		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> to complete when the primary server is primed
-		/// </summary>
-		TaskCompletionSource<object> onPrimaryServerPrimed;
-
-		/// <summary>
 		/// Construct <see cref="DreamDaemon"/>
 		/// </summary>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="byond">The value of <see cref="byond"/></param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
-		/// <param name="instanceShutdownMethod">The value of <see cref="instanceShutdownMethod"/></param>
-		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
-		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
+		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="initialSettings">The initial value of <see cref="currentLaunchParameters"/> and <see cref="autoStart"/></param>
-		public DreamDaemon(IEventConsumer eventConsumer, IByond byond, ICryptographySuite cryptographySuite, IInterop interop, IInstanceShutdownMethod instanceShutdownMethod, IDreamDaemonExecutor dreamDaemonExecutor, IDmbFactory dmbFactory, DreamDaemonSettings initialSettings)
+		public DreamDaemon(IEventConsumer eventConsumer, IInterop interop, IWatchdog watchdog, DreamDaemonSettings initialSettings)
 		{
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
-			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
-			this.instanceShutdownMethod = instanceShutdownMethod ?? throw new ArgumentNullException(nameof(instanceShutdownMethod));
-			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
-			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
+			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			currentLaunchParameters = initialSettings ?? throw new ArgumentNullException(nameof(initialSettings));
 
 			interop.SetServerControlHandler(OnServerControl);
@@ -115,12 +77,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
-		{
-			if (watchdogCancellationTokenSource != null)
-				watchdogCancellationTokenSource.Dispose();
-			semaphore.Dispose();
-		}
+		public void Dispose() => semaphore.Dispose();
 
 		/// <summary>
 		/// Handler for server control events
@@ -135,208 +92,6 @@ namespace Tgstation.Server.Host.Components
 
 			await Task.Yield();
 			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Main DD execution and monitoring <see cref="Task"/>
-		/// </summary>
-		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed when the server initially starts</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task Watchdog(TaskCompletionSource<object> onSuccessfulStartup, CancellationToken cancellationToken)
-		{
-			if (await byond.GetVersion(cancellationToken).ConfigureAwait(false) == null)
-				throw new InvalidOperationException("No byond version installed!");
-			await byond.ClearCache(cancellationToken).ConfigureAwait(false);
-			var accessToken = cryptographySuite.GetSecureString();
-
-			//lock the byond executable and run the server
-			async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, bool isPrimary, CancellationToken serverCancellationToken)
-			{
-				using (var dmb = await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false))
-				{
-					return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, String.Concat(dmb.PrimaryDirectory, dmb.DmbName), accessToken, isPrimary, serverCancellationToken).ConfigureAwait(false);
-				}
-			};
-
-			void StartServer(DreamDaemonLaunchParameters launchParameters, bool isPrimary, out Task<int> ddTask, out CancellationTokenSource cancellationTokenSource)
-			{
-				cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-				try
-				{
-					var ddToken = cancellationTokenSource.Token;
-					ddTask = byond.UseExecutable(dreamDaemonPath => RunServer(launchParameters, dreamDaemonPath, isPrimary, ddToken), false, true);
-					interop.SetRun(isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort, accessToken, isPrimary);
-				}
-				catch
-				{
-					cancellationTokenSource.Dispose();
-					throw;
-				}
-			};
-			
-			var retries = 0;
-			do
-			{
-				var retryDelay = (int)Math.Min(Math.Pow(2, retries), TimeSpan.FromHours(1).Milliseconds); //max of one hour
-				await Task.Delay(retryDelay, cancellationToken).ConfigureAwait(false);
-				
-				//load the event tcs' and get the initial launch parameters
-				var secondaryRebootedTcs = new TaskCompletionSource<object>();
-				var primaryPrimedTcs = new TaskCompletionSource<object>();
-				DreamDaemonLaunchParameters initialLaunchParameters;
-				await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-				try
-				{
-					onPrimaryServerPrimed = primaryPrimedTcs;
-					initialLaunchParameters = currentLaunchParameters;
-				}
-				finally
-				{
-					semaphore.Release();
-				}
-
-				//start the primary server
-				StartServer(initialLaunchParameters, true, out Task<int> ddPrimaryTask, out CancellationTokenSource primaryCts);
-				try
-				{
-					//wait to make sure we got this far
-					await onSuccessfulStartup.Task.ConfigureAwait(false);
-					onSuccessfulStartup = null;
-
-					//wait for either the server to exit or be primed
-					await Task.WhenAny(ddPrimaryTask, primaryPrimedTcs.Task).ConfigureAwait(false);
-
-					//if the server has exited
-					async Task<bool> HandleServerCrashed(Task<int> serverTask, bool isPrimary)
-					{
-
-						int exitCode;
-						try
-						{
-							//nothing to do except try and reboot it
-							exitCode = await serverTask.ConfigureAwait(false);
-						}
-						catch (OperationCanceledException)
-						{
-							return true;
-						}
-						await eventConsumer.HandleEvent(exitCode == 0 ? (isPrimary ? EventType.DDExit : EventType.DDOtherExit) : (isPrimary ? EventType.DDCrash : EventType.DDOtherCrash), null, cancellationToken).ConfigureAwait(false);
-						return false;
-					};
-
-					if (ddPrimaryTask.IsCompleted)
-					{
-						if (await HandleServerCrashed(ddPrimaryTask, true).ConfigureAwait(false))
-							return;
-						++retries;
-						continue;
-					}
-
-					var launchParameters = initialLaunchParameters;
-					Task<int> ddSecondaryTask = null;
-					CancellationTokenSource secondaryCts = null;
-					try
-					{
-						do
-						{
-							if (ddSecondaryTask == null)
-								//start the secondary server
-								StartServer(initialLaunchParameters, false, out ddSecondaryTask, out secondaryCts);
-
-							var newDmbTask = dmbFactory.OnNewerDmb();
-
-							//now we wait for something to happen
-							await Task.WhenAny(ddSecondaryTask, ddPrimaryTask, newDmbTask).ConfigureAwait(false);
-
-							if (newDmbTask.IsCompleted)
-							{
-								//restart the other server but don't treat it as an error
-								
-								//load new launch parameters
-								await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-								try
-								{
-									launchParameters = currentLaunchParameters;
-								}
-								finally
-								{
-									semaphore.Release();
-								}
-
-								//restart other server
-								if (interop.SecondaryIsOther)
-								{
-									secondaryCts.Cancel();
-									await ddSecondaryTask.ConfigureAwait(false);
-									ddSecondaryTask = null;
-									secondaryCts.Dispose();
-									continue;
-								}
-								else
-								{
-									primaryCts.Cancel();
-									await ddPrimaryTask.ConfigureAwait(false);
-									primaryCts.Dispose();
-									StartServer(initialLaunchParameters, true, out ddPrimaryTask, out primaryCts);
-									continue;
-								}
-							}
-
-							//crash of both servers
-							if (ddSecondaryTask.IsCompleted && ddPrimaryTask.IsCompleted)
-							{
-								//catastrophic, start over
-								var t1 = HandleServerCrashed(ddPrimaryTask, interop.SecondaryIsOther);
-								var t2 = HandleServerCrashed(ddSecondaryTask, !interop.SecondaryIsOther);
-								await Task.WhenAll(t1, t2).ConfigureAwait(false);
-								if (t1.Result)
-									return;
-								++retries;
-								continue;
-							}
-
-							//activate the other server
-							await interop.ActivateOtherServer(cancellationToken).ConfigureAwait(false);
-
-							//load new launch parameters
-							await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-							try
-							{
-								launchParameters = currentLaunchParameters;
-							}
-							finally
-							{
-								semaphore.Release();
-							}
-
-							//crash of secondary server, just reboot it
-							if (ddSecondaryTask.IsCompleted)
-							{
-								await HandleServerCrashed(ddSecondaryTask, !interop.SecondaryIsOther).ConfigureAwait(false);
-								secondaryCts.Dispose();
-								//restart the server
-								ddSecondaryTask = null;
-							}
-							//crash of primary server, bring it back
-							else
-							{
-								await HandleServerCrashed(ddPrimaryTask, interop.SecondaryIsOther).ConfigureAwait(false);
-								primaryCts.Dispose();
-								StartServer(initialLaunchParameters, true, out ddPrimaryTask, out primaryCts);
-							}
-						} while (true);
-					}
-					finally
-					{
-						secondaryCts?.Dispose();
-					}
-				}
-				finally
-				{
-					primaryCts.Dispose();
-				}
-			} while (true);
 		}
 
 		/// <inheritdoc />
@@ -381,25 +136,22 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (launchParameters == null)
 				throw new ArgumentNullException(nameof(launchParameters));
-			TaskCompletionSource<object> startupTcs;
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			Task watchdogStartup;
 			try
 			{
 				if (Running)
 					throw new InvalidOperationException("DreamDaemon already running!");
 				Running = true;
 				await eventConsumer.HandleEvent(EventType.DDLaunched, null, cancellationToken).ConfigureAwait(false);
-				watchdogCancellationTokenSource?.Dispose();
-				watchdogCancellationTokenSource = new CancellationTokenSource();
-				startupTcs = new TaskCompletionSource<object>();
-				watchdogTask = Watchdog(startupTcs, watchdogCancellationTokenSource.Token);
+				watchdogStartup = watchdog.Start(this, cancellationToken);
 			}
 			finally
 			{
 				semaphore.Release();
 			}
 			//important to leave the lock so the watchdog can enter it
-			await startupTcs.Task.ConfigureAwait(false);
+			await watchdogStartup.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -419,7 +171,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				await eventConsumer.HandleEvent(EventType.DDRestart, null, cancellationToken).ConfigureAwait(false);
 				if (Running)
-					watchdogCancellationTokenSource.Cancel();
+					await watchdog.Stop().ConfigureAwait(false);
 				await Launch(currentLaunchParameters, cancellationToken).ConfigureAwait(false);
 			}
 			finally
@@ -449,8 +201,21 @@ namespace Tgstation.Server.Host.Components
 					return;
 				}
 				await eventConsumer.HandleEvent(EventType.DDTerminated, null, cancellationToken).ConfigureAwait(false);
-				watchdogCancellationTokenSource.Cancel();
-				await watchdogTask.ConfigureAwait(false);
+				await watchdog.Stop().ConfigureAwait(false);
+			}
+			finally
+			{
+				semaphore.Release();
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<DreamDaemonLaunchParameters> GetLaunchParameters(CancellationToken cancellationToken)
+		{
+			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				return currentLaunchParameters;
 			}
 			finally
 			{
