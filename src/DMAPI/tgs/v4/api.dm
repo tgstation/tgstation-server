@@ -113,7 +113,12 @@
 	return world.Export("http://127.0.0.1:[host_port]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")
 
 /datum/tgs_api/v4/OnReboot()
-	Export(TGS4_COMM_SERVER_REBOOT)
+	var/json = Export(TGS4_COMM_SERVER_REBOOT)
+	var/list/result = json_decode(json)
+	if(!result)
+		return
+	if(json["port_swap"])
+		SwapPorts(json["delayed"])
 
 /datum/tgs_api/v4/InstanceName()
 	return instance_name

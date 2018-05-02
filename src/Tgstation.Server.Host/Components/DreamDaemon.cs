@@ -204,9 +204,8 @@ namespace Tgstation.Server.Host.Components
 					await onSuccessfulStartup.Task.ConfigureAwait(false);
 					onSuccessfulStartup = null;
 
-					//wait for either the server to exit or the server to be primed
+					//wait for either the server to exit or be primed
 					await Task.WhenAny(ddPrimaryTask, primaryPrimedTcs.Task).ConfigureAwait(false);
-
 
 					//if the server has exited
 					async Task<bool> HandleServerCrashed(Task<int> serverTask, bool isPrimary)
@@ -237,15 +236,52 @@ namespace Tgstation.Server.Host.Components
 					var launchParameters = initialLaunchParameters;
 					Task<int> ddSecondaryTask = null;
 					CancellationTokenSource secondaryCts = null;
-					do
+					try
 					{
-						if(ddSecondaryTask == null)
-							//start the secondary server
-							StartServer(initialLaunchParameters, false, out ddSecondaryTask, out secondaryCts);
-						try
+						do
 						{
+							if (ddSecondaryTask == null)
+								//start the secondary server
+								StartServer(initialLaunchParameters, false, out ddSecondaryTask, out secondaryCts);
+
+							var newDmbTask = dmbFactory.OnNewerDmb();
+
 							//now we wait for something to happen
-							await Task.WhenAny(ddSecondaryTask, ddPrimaryTask).ConfigureAwait(false);
+							await Task.WhenAny(ddSecondaryTask, ddPrimaryTask, newDmbTask).ConfigureAwait(false);
+
+							if (newDmbTask.IsCompleted)
+							{
+								//restart the other server but don't treat it as an error
+								
+								//load new launch parameters
+								await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+								try
+								{
+									launchParameters = currentLaunchParameters;
+								}
+								finally
+								{
+									semaphore.Release();
+								}
+
+								//restart other server
+								if (interop.SecondaryIsOther)
+								{
+									secondaryCts.Cancel();
+									await ddSecondaryTask.ConfigureAwait(false);
+									ddSecondaryTask = null;
+									secondaryCts.Dispose();
+									continue;
+								}
+								else
+								{
+									primaryCts.Cancel();
+									await ddPrimaryTask.ConfigureAwait(false);
+									primaryCts.Dispose();
+									StartServer(initialLaunchParameters, true, out ddPrimaryTask, out primaryCts);
+									continue;
+								}
+							}
 
 							//crash of both servers
 							if (ddSecondaryTask.IsCompleted && ddPrimaryTask.IsCompleted)
@@ -261,7 +297,7 @@ namespace Tgstation.Server.Host.Components
 							}
 
 							//activate the other server
-							await interop.SwapAndActivateServers(cancellationToken).ConfigureAwait(false);
+							await interop.ActivateOtherServer(cancellationToken).ConfigureAwait(false);
 
 							//load new launch parameters
 							await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -278,6 +314,7 @@ namespace Tgstation.Server.Host.Components
 							if (ddSecondaryTask.IsCompleted)
 							{
 								await HandleServerCrashed(ddSecondaryTask, !interop.SecondaryIsOther).ConfigureAwait(false);
+								secondaryCts.Dispose();
 								//restart the server
 								ddSecondaryTask = null;
 							}
@@ -288,12 +325,12 @@ namespace Tgstation.Server.Host.Components
 								primaryCts.Dispose();
 								StartServer(initialLaunchParameters, true, out ddPrimaryTask, out primaryCts);
 							}
-						}
-						finally
-						{
-							secondaryCts.Dispose();
-						}
-					} while (true);
+						} while (true);
+					}
+					finally
+					{
+						secondaryCts?.Dispose();
+					}
 				}
 				finally
 				{
