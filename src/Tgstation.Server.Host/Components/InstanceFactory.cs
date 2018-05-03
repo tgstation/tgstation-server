@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components
 
 		public InstanceFactory(IIOManager ioManager) => this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		/// <inheritdoc />
-		public IInstance CreateInstance(Models.Instance metadata)
+		public IInstance CreateInstance(Host.Models.Instance metadata)
 		{
 			//Create the ioManager for the instance
 

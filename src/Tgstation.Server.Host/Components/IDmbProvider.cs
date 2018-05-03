@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -22,5 +22,10 @@ namespace Tgstation.Server.Host.Components
 		/// The secondary game directory with a trailing directory separator
 		/// </summary>
 		string SecondaryDirectory { get; }
+
+		/// <summary>
+		/// The <see cref="Host.Models.RevisionInformation"/> of the .dmb
+		/// </summary>
+		RevisionInformation RevisionInformation { get; }
 	}
 }

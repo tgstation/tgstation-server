@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Models
 			LogModelBuilderHelper.Build(modelBuilder.Entity<Log>());
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
 
-			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Revision).IsUnique();
+			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Commit).IsUnique();
 			var user = modelBuilder.Entity<User>();
 			user.HasIndex(x => new { x.Name, x.SystemIdentifier }).IsUnique();
 			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);

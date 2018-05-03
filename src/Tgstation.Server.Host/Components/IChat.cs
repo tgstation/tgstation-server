@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,9 +42,11 @@ namespace Tgstation.Server.Host.Components
 		/// Send a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>
 		/// </summary>
 		/// <param name="message">The message being sent</param>
-		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to</param>
+		/// <param name="channelIds">The <see cref="Host.Models.ChatChannel.Id"/>s of the <see cref="Host.Models.ChatChannel"/>s to send to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SendMessage(string message, IEnumerable<long> channelIds, CancellationToken cancellationToken);
+
+		Task<IDisposable> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken);
 	}
 }

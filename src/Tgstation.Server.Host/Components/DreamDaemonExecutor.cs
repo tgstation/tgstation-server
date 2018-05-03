@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Models;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components
@@ -53,18 +56,41 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, string dmbPath, string accessToken, bool usePrimaryPort, bool alwaysKill, CancellationToken cancellationToken)
+		public async Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, IDmbProvider dmbProvider, InteropInfo interopInfo, bool alwaysKill, CancellationToken cancellationToken)
 		{
+			if (launchParameters == null)
+				throw new ArgumentNullException(nameof(launchParameters));
+			if (dreamDaemonPath == null)
+				throw new ArgumentNullException(nameof(dreamDaemonPath));
+			if (dmbProvider == null)
+				throw new ArgumentNullException(nameof(dmbProvider));
+			if (interopInfo == null)
+				throw new ArgumentNullException(nameof(interopInfo));
+
+			if (interopInfo.NextPort != launchParameters.PrimaryPort && interopInfo.NextPort != launchParameters.SecondaryPort)
+				throw new ArgumentOutOfRangeException(nameof(interopInfo), interopInfo, "interopInfo.NextPort must match primary or secondary ports!");
+
+			var isPrimary = interopInfo.NextPort == launchParameters.SecondaryPort;
+
+			//serialize the interop info to the json
+			var jsonPath = String.Concat(Guid.NewGuid(), ".tgs.json");
+
+			var json = JsonConvert.SerializeObject(interopInfo);
+
+
 			using (var proc = new Process())
 			{
 				proc.StartInfo.FileName = dreamDaemonPath;
-				proc.StartInfo.WorkingDirectory = ioManager.GetDirectoryName(dmbPath);
-				proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}={5}&{6}={7}&{8}={9}&{10}={11}&{12}={13}\"", dmbPath, usePrimaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort, launchParameters.AllowWebClient ? "-webclient " : String.Empty, SecurityWord(launchParameters.SecurityLevel),
-					DreamDaemonParameters.AccessToken, accessToken,
+				proc.StartInfo.WorkingDirectory = isPrimary ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
+				await ioManager.WriteAllBytes(ioManager.ConcatPath(proc.StartInfo.WorkingDirectory, jsonPath), Encoding.UTF8.GetBytes(json), cancellationToken).ConfigureAwait(false);
+
+				proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}={5}&{6}={7}\"", 
+					dmbProvider.DmbName,
+					isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
+					launchParameters.AllowWebClient ? "-webclient " : String.Empty,
+					SecurityWord(launchParameters.SecurityLevel),
 					DreamDaemonParameters.HostVersion, Application.Version,
-					DreamDaemonParameters.IsSecondaryServer, !usePrimaryPort,
-					DreamDaemonParameters.PrimaryPort, launchParameters.PrimaryPort,
-					DreamDaemonParameters.SecondaryPort, launchParameters.SecondaryPort);
+					DreamDaemonParameters.InfoJsonPath, jsonPath);
 
 				proc.EnableRaisingEvents = true;
 				var tcs = new TaskCompletionSource<object>();
@@ -85,7 +111,7 @@ namespace Tgstation.Server.Host.Components
 					}
 					finally
 					{
-						if (!alwaysKill && !await instanceShutdownMethod.PreserveActiveExecutablesIfNecessary(launchParameters, accessToken, proc.Id, usePrimaryPort).ConfigureAwait(false))
+						if (!alwaysKill && !await instanceShutdownMethod.PreserveActiveExecutablesIfNecessary(launchParameters, interopInfo.AccessToken, proc.Id, isPrimary).ConfigureAwait(false))
 						{
 							proc.Kill();
 							proc.WaitForExit();

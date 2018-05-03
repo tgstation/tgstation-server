@@ -10,5 +10,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public User MergedBy { get; set; }
+		
+		/// <summary>
+		/// The <see cref="Models.RevisionInformation"/> for the <see cref="TestMerge"/>
+		/// </summary>
+		public RevisionInformation RevisionInformation { get; set; }
 	}
 }

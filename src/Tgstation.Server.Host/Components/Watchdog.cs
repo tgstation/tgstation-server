@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Models;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
@@ -13,6 +15,10 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IByond"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IByond byond;
+		/// <summary>
+		/// The <see cref="IChat"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IChat chat;
 		/// <summary>
 		/// The <see cref="IDreamDaemonExecutor"/> for the <see cref="Watchdog"/>
 		/// </summary>
@@ -33,6 +39,14 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IEventConsumer"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
+		/// <summary>
+		/// The <see cref="IInstanceManager"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IInstanceManager instanceManager;
+		/// <summary>
+		/// The <see cref="Api.Models.Instance.Id"/> of the <see cref="Watchdog"/>
+		/// </summary>
+		readonly long instanceId;
 
 		/// <summary>
 		/// Represents the currently running <see cref="Watchdog"/>
@@ -47,19 +61,26 @@ namespace Tgstation.Server.Host.Components
 		/// Construct a <see cref="IWatchdog"/>
 		/// </summary>
 		/// <param name="byond">The value of <see cref="byond"/></param>
+		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		public Watchdog(IByond byond, IDreamDaemonExecutor dreamDaemonExecutor, IInterop interop, IDmbFactory dmbFactory, ICryptographySuite cryptographySuite, IEventConsumer eventConsumer)
+		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceId">The value of <see cref="instanceId"/></param>
+		public Watchdog(IByond byond, IChat chat, IDreamDaemonExecutor dreamDaemonExecutor, IInterop interop, IDmbFactory dmbFactory, ICryptographySuite cryptographySuite, IEventConsumer eventConsumer, IInstanceManager instanceManager, long instanceId)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
+			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+
+			this.instanceId = instanceId;
 		}
 
 		/// <inheritdoc />
@@ -70,19 +91,47 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed once the server starts if any</param>
-		/// <param name="accessToken">The access token for the server</param>
+		/// <param name="interopInfo">The <see cref="InteropInfo"/> the server</param>
 		/// <param name="dreamDaemonPath">The path to the DreamDaemon executable</param>
-		/// <param name="isPrimary">If a primary server is being launched</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the exit code of DreamDaemon</returns>
-		async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string accessToken, string dreamDaemonPath, bool isPrimary, CancellationToken cancellationToken)
+		async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, InteropInfo interopInfo, string dreamDaemonPath, CancellationToken cancellationToken)
 		{
 			using (var dmb = await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false))
-				return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, String.Concat(dmb.PrimaryDirectory, dmb.DmbName), accessToken, isPrimary, false, cancellationToken).ConfigureAwait(false);
+			{
+				var chatJsonGuid = Guid.NewGuid();
+				var isPrimary = interopInfo.NextPort == launchParameters.SecondaryPort;
+
+				//set up chat stuff
+				interopInfo.ChatChannelsJson = String.Concat(chatJsonGuid, ".channels.json");
+				//only track chat commands from primary server
+				if(isPrimary)
+					interopInfo.ChatCommandsJson = String.Concat(chatJsonGuid, ".commands.json");
+
+				//set up revision
+				interopInfo.Revision = dmb.RevisionInformation;
+				foreach (var I in dmb.RevisionInformation.TestMerges)
+					interopInfo.TestMerges.Add(new Models.TestMerge
+					{
+						Author = I.Author,
+						Body = I.BodyAtMerge,
+						Comment = I.Comment,
+						Commit = I.RevisionInformation.Commit,
+						OriginRevision = I.RevisionInformation.OriginRevision,
+						Number = I.Number,
+						PullRequestCommit = I.PullRequestRevision,
+						TimeMerged = I.MergedAt.ToUnixTimeSeconds(),
+						Title = I.TitleAtMerge,
+						Url = I.Url.ToString()
+					});
+
+				using (await chat.TrackJsons(isPrimary ? dmb.PrimaryDirectory : dmb.SecondaryDirectory, interopInfo.ChatChannelsJson, isPrimary ? interopInfo.ChatCommandsJson : null, cancellationToken).ConfigureAwait(false))
+					return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, dmb, interopInfo, false, cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <summary>
-		/// Locks in a <see cref="IByond"/> version and runs a server through <see cref="RunServer(DreamDaemonLaunchParameters, TaskCompletionSource{object}, string, string, bool, CancellationToken)"/>
+		/// Locks in a <see cref="IByond"/> version and runs a server through <see cref="RunServer(DreamDaemonLaunchParameters, TaskCompletionSource{object}, InteropInfo, string, CancellationToken)"/>
 		/// </summary>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed once the server starts if any</param>
@@ -97,7 +146,18 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				var ddToken = cancellationTokenSource.Token;
-				var ddTask = byond.UseExecutable(dreamDaemonPath => RunServer(launchParameters, onSuccessfulStartup, accessToken, dreamDaemonPath, isPrimary, ddToken), false, true);
+
+				var interopInfo = new InteropInfo
+				{
+					AccessToken = accessToken,
+					ApiValidateOnly = false,
+					HostPath = Application.HostingPath,
+					InstanceId = instanceId,
+					NextPort = isPrimary ? launchParameters.SecondaryPort : launchParameters.PrimaryPort,
+					InstanceName = instanceManager.GetInstance(new Host.Models.Instance { Id = instanceId }).GetMetadata().Name,
+				};
+
+				var ddTask = byond.UseExecutable(dreamDaemonPath => RunServer(launchParameters, onSuccessfulStartup, interopInfo, dreamDaemonPath, ddToken), false, true);
 				interop.SetRun(isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort, accessToken, isPrimary);
 				return ddTask;
 			}

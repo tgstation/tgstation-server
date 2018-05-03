@@ -18,7 +18,7 @@
 	var/access_token
 	var/instance_id
 	var/instance_name
-	var/host_port
+	var/host_path
 	var/port_1
 	var/port_2
 	var/cached_json
@@ -50,7 +50,7 @@
 
 	access_token = cached_json["access_token"]
 	instance_id = text2num(cached_json["instance_id"])
-	host_port = text2num(cached_json["host_port"])
+	host_path = cached_json["host_path"]
 	if(cached_json["api_validate_only"])
 		Export(TGS4_COMM_VALIDATE)
 		del(world)
@@ -110,7 +110,7 @@
 	world.OpenPort(new_port)
 
 /datum/tgs_api/v4/proc/Export(command)
-	return world.Export("http://127.0.0.1:[host_port]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")
+	return world.Export("[host_path]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")
 
 /datum/tgs_api/v4/OnReboot()
 	var/json = Export(TGS4_COMM_SERVER_REBOOT)

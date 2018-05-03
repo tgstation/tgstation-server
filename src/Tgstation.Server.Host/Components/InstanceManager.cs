@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstance GetInstance(Models.Instance metadata)
+		public IInstance GetInstance(Host.Models.Instance metadata)
 		{
 			lock (this)
 			{
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Models.Instance instance, string newPath, CancellationToken cancellationToken)
+		public async Task MoveInstance(Host.Models.Instance instance, string newPath, CancellationToken cancellationToken)
 		{
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OfflineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			IInstance instance;
 			lock (this)
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OnlineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			var instance = instanceFactory.CreateInstance(metadata);
 			lock (this)

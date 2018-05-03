@@ -31,6 +31,8 @@ namespace Tgstation.Server.Host.Components
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 		}
 
+		public Api.Models.Instance GetMetadata() => metadata.CloneMetadata();
+
 		public void Rename(string newName)
 		{
 			if (String.IsNullOrWhiteSpace(newName))

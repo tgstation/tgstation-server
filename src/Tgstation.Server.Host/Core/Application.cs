@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Reflection;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
@@ -24,6 +26,11 @@ namespace Tgstation.Server.Host.Core
     /// </summary>
 	sealed class Application
 	{
+		/// <summary>
+		/// The url the server can be reached at locally
+		/// </summary>
+		public static string HostingPath { get; private set; }
+
 		/// <summary>
 		/// The version of the <see cref="Application"/>
 		/// </summary>
@@ -150,6 +157,9 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
+
+			var addresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
+			HostingPath = addresses.Addresses.First();			
 
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();

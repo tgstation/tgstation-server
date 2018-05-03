@@ -32,6 +32,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string BodyAtMerge { get; set; }
 
 		/// <summary>
+		/// The URL of the pull request
+		/// </summary>
+		[Required]
+		public Uri Url { get; set; }
+
+		/// <summary>
 		/// The author of the pull request
 		/// </summary>
 		[Required]
