@@ -68,9 +68,7 @@ namespace Tgstation.Server.Host.Components
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			currentLaunchParameters = initialSettings ?? throw new ArgumentNullException(nameof(initialSettings));
-
-			interop.SetServerControlHandler(OnServerControl);
-
+			
 			autoStart = initialSettings.AutoStart;
 
 			semaphore = new SemaphoreSlim(1);
@@ -78,21 +76,6 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 		public void Dispose() => semaphore.Dispose();
-
-		/// <summary>
-		/// Handler for server control events
-		/// </summary>
-		/// <param name="serverControlEventArgs">The <see cref="ServerControlEvent"/></param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		static async Task OnServerControl(ServerControlEvent serverControlEventArgs, CancellationToken cancellationToken)
-		{
-			if (serverControlEventArgs == null)
-				throw new ArgumentNullException(nameof(serverControlEventArgs));
-
-			await Task.Yield();
-			throw new NotImplementedException();
-		}
 
 		/// <inheritdoc />
 		public async Task CancelGracefulActions(CancellationToken cancellationToken)

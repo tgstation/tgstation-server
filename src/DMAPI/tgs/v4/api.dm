@@ -2,11 +2,11 @@
 
 #define TGS4_TOPIC_COMMAND "tgs_com"
 #define TGS4_TOPIC_TOKEN "tgs_tok"
-#define TGS4_TOPIC_SUCCESS "tgs_success"
 #define TGS4_TOPIC_SWAP "tgs_swap"
 #define TGS4_TOPIC_SWAP_DELAYED "tgs_swap_delayed"
 #define TGS4_TOPIC_CHAT_COMMAND "tgs_chat_comm"
 #define TGS4_TOPIC_EVENT "tgs_event"
+#define TGS4_TOPIC_IDENTIFY "tgs_ident"
 
 #define TGS4_COMM_VALIDATE "tgs_vali"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
@@ -23,6 +23,8 @@
 	var/port_2
 	var/cached_json
 	var/json_path
+	
+	var/list/intercepted_message_queue
 
 	var/list/custom_commands
 
@@ -95,8 +97,14 @@
 				return json_encode(list("error" = "Error running chat command!"))
 			return result
 		if(TGS4_TOPIC_EVENT)
+			intercepted_message_queue = list()
 			event_handler.HandleEvent(text2num(params[TGS4_TOPIC_EVENT]))
-			return TGS4_TOPIC_SUCCESS
+			. = json_encode(intercepted_message_queue)
+			intercepted_message_queue = null
+			return
+		if(TGS4_TOPIC_IDENTIFY)
+			//they want to know our initial port
+			return "[port_1]"
 	
 	return "Unknown command: [command]"
 
@@ -104,13 +112,16 @@
 	set waitfor = FALSE
 	var/new_port = world.port == port_1 ? port_2 : port_1
 	event_handler.HandleEvent(TGS_EVENT_PORT_SWAP, new_port)
-	world.OpenPort("none")	//close the port
 	if(delayed)
+		world.OpenPort("none")	//close the port
 		sleep(50)	//wait for other server to close port
-	world.OpenPort(new_port)
+
+	//do NOT give up, if we remain unresponsive we will be killed
+	while(!world.OpenPort(new_port))
+		sleep(10)
 
 /datum/tgs_api/v4/proc/Export(command)
-	return world.Export("[host_path]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")
+	return file2text(world.Export("[host_path]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")["CONTENT"])
 
 /datum/tgs_api/v4/OnReboot()
 	var/json = Export(TGS4_COMM_SERVER_REBOOT)
@@ -163,15 +174,24 @@
 			var/datum/tgs_chat_channel/channel = I
 			ids += channel.id
 	message = list("message" = message, "channels" = ids)
-	Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+	if(interepted_message_queue)
+		interepted_message_queue += list(message)
+	else
+		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatTargetedBroadcast(message, admin_only)
 	message = list("message" = message, "channels" = admin_only ? "admin" : "game")
-	Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+	if(interepted_message_queue)
+		interepted_message_queue += list(message)
+	else
+		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatPrivateMessage(message, datum/tgs_chat_user/user)
 	message = list("message" = message, "user" = list("id" = user.id, "channel" = user.channel.id))
-	Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+	if(interepted_message_queue)
+		interepted_message_queue += list(message)
+	else
+		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatChannelInfo()
 	. = list()

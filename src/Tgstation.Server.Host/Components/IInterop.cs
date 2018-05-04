@@ -9,18 +9,8 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
     interface IInterop
 	{
-		bool SecondaryIsOther { get; set; }
+		IInteropControl ReconnectToRun(string primaryAccessToken, string secondaryAccessToken, ushort primaryPort, ushort secondaryPort);
 
-		void SetServerControlHandler(Func<ServerControlEvent, CancellationToken, Task> serverControlHandler);
-		void SetChatMessageHandler(Func<ChatMessageEventArgs, CancellationToken, Task> chatMessageHandler);
-
-		Task<Version> GetApiVersion(CancellationToken cancellationToken);
-
-		void SetRun(ushort? port, string accessToken, bool primary);
-
-		Task ActivateOtherServer(CancellationToken cancellationToken);
-
-		Task<string> ChatCommand(string command, string arguments, CancellationToken cancellationToken);
-		void OnServerPrimed(Action actionToTake);
+		IInteropControl CreateRun(ushort primaryPort, ushort? secondaryPort, Func<ChatMessageEventArgs, CancellationToken, Task> chatMessageHandler);
 	}
 }

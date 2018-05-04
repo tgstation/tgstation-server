@@ -2,6 +2,9 @@
 
 namespace Tgstation.Server.Host.Components.Models
 {
+	/// <summary>
+	/// This model mirrors /datum/tgs_revision_information/test_merge
+	/// </summary>
 	sealed class TestMerge : RevisionInformation
 	{
 		public int Number { get; set; }

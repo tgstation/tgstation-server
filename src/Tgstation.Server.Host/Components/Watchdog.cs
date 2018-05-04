@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Models;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -31,10 +30,6 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IDmbFactory"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IDmbFactory dmbFactory;
-		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="Watchdog"/>
-		/// </summary>
-		readonly ICryptographySuite cryptographySuite;
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="Watchdog"/>
 		/// </summary>
@@ -65,18 +60,16 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="instanceId">The value of <see cref="instanceId"/></param>
-		public Watchdog(IByond byond, IChat chat, IDreamDaemonExecutor dreamDaemonExecutor, IInterop interop, IDmbFactory dmbFactory, ICryptographySuite cryptographySuite, IEventConsumer eventConsumer, IInstanceManager instanceManager, long instanceId)
+		public Watchdog(IByond byond, IChat chat, IDreamDaemonExecutor dreamDaemonExecutor, IInterop interop, IDmbFactory dmbFactory, IEventConsumer eventConsumer, IInstanceManager instanceManager, long instanceId)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
-			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 
@@ -154,12 +147,11 @@ namespace Tgstation.Server.Host.Components
 					HostPath = Application.HostingPath,
 					InstanceId = instanceId,
 					NextPort = isPrimary ? launchParameters.SecondaryPort : launchParameters.PrimaryPort,
+					//this line feels hacky, change it and remove the instanceManager dep?
 					InstanceName = instanceManager.GetInstance(new Host.Models.Instance { Id = instanceId }).GetMetadata().Name,
 				};
-
-				var ddTask = byond.UseExecutable(dreamDaemonPath => RunServer(launchParameters, onSuccessfulStartup, interopInfo, dreamDaemonPath, ddToken), false, true);
-				interop.SetRun(isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort, accessToken, isPrimary);
-				return ddTask;
+				
+				return byond.UseExecutables((dreamMakerPath, dreamDaemonPath) => RunServer(launchParameters, onSuccessfulStartup, interopInfo, dreamDaemonPath, ddToken), false);
 			}
 			catch
 			{
@@ -192,6 +184,19 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <summary>
+		/// Handle <see cref="ChatMessageEventArgs"/>
+		/// </summary>
+		/// <param name="e">The <see cref="ChatMessageEventArgs"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task HandleChatMessage(ChatMessageEventArgs e, CancellationToken cancellationToken)
+		{
+			if (e == null)
+				throw new ArgumentNullException(nameof(e));
+			return chat.SendMessage(e.ChatResponse.Message, e.ChatResponse.ChannelIds, cancellationToken);
+		}
+
+		/// <summary>
 		/// Main <see cref="Watchdog"/> loop
 		/// </summary>
 		/// <param name="launchParametersFactory">The <see cref="ILaunchParametersFactory"/> for the run</param>
@@ -203,133 +208,139 @@ namespace Tgstation.Server.Host.Components
 			if (await byond.GetVersion(cancellationToken).ConfigureAwait(false) == null)
 				throw new InvalidOperationException("No byond version installed!");
 			await byond.ClearCache(cancellationToken).ConfigureAwait(false);
-			var accessToken = cryptographySuite.GetSecureString();
 
+			var initialLaunchParameters = await launchParametersFactory.GetLaunchParameters(cancellationToken).ConfigureAwait(false);
 			var retries = 0;
 			do
 			{
 				var retryDelay = (int)Math.Min(Math.Pow(2, retries), TimeSpan.FromHours(1).Milliseconds); //max of one hour
 				await Task.Delay(retryDelay, cancellationToken).ConfigureAwait(false);
 
-				//load the event tcs' and get the initial launch parameters
-				var primaryPrimedTcs = new TaskCompletionSource<object>();
-				interop.OnServerPrimed(() => primaryPrimedTcs.SetResult(null));
-				var initialLaunchParameters = await launchParametersFactory.GetLaunchParameters(cancellationToken).ConfigureAwait(false);
-				//start the primary server
-				var ddPrimaryTask = StartServer(initialLaunchParameters, onSuccessfulStartup, accessToken, true, cancellationToken, out CancellationTokenSource primaryCts);
-				try
+				using (var control = interop.CreateRun(initialLaunchParameters.PrimaryPort, initialLaunchParameters.SecondaryPort, HandleChatMessage))
 				{
-					//wait to make sure we got this far
-					await onSuccessfulStartup.Task.ConfigureAwait(false);
-					onSuccessfulStartup = null;
-
-					//wait for either the server to exit or be primed
-					await Task.WhenAny(ddPrimaryTask, primaryPrimedTcs.Task).ConfigureAwait(false);
-
-					if (ddPrimaryTask.IsCompleted)
+					var primaryPrimedTcs = new TaskCompletionSource<object>();
+					control.OnServerControl += (sender, e) =>
 					{
-						if (await HandleServerCrashed(ddPrimaryTask, true, cancellationToken).ConfigureAwait(false))
-							return;
-						++retries;
-						continue;
-					}
+						if (e.FromPrimaryServer && e.EventType == ServerControlEventType.ServerPrimed)
+							primaryPrimedTcs.TrySetResult(null);
+					};
 
-					var launchParameters = initialLaunchParameters;
-					Task<int> ddSecondaryTask = null;
-					CancellationTokenSource secondaryCts = null;
+					//start the primary server
+					var ddPrimaryTask = StartServer(initialLaunchParameters, onSuccessfulStartup, control.PrimaryAccessToken, true, cancellationToken, out CancellationTokenSource primaryCts);
 					try
 					{
-						do
+						//wait to make sure we got this far
+						await onSuccessfulStartup.Task.ConfigureAwait(false);
+						onSuccessfulStartup = null;
+
+						//wait for either the server to exit or be primed
+						await Task.WhenAny(ddPrimaryTask, primaryPrimedTcs.Task).ConfigureAwait(false);
+
+						if (ddPrimaryTask.IsCompleted)
 						{
-							if (ddSecondaryTask == null)
-								//start the secondary server
-								ddSecondaryTask = StartServer(initialLaunchParameters, null, accessToken, false, cancellationToken, out secondaryCts);
+							if (await HandleServerCrashed(ddPrimaryTask, true, cancellationToken).ConfigureAwait(false))
+								return;
+							++retries;
+							continue;
+						}
 
-							var newDmbTask = dmbFactory.OnNewerDmb();
-
-							//now we wait for something to happen
-							await Task.WhenAny(ddSecondaryTask, ddPrimaryTask, newDmbTask).ConfigureAwait(false);
-
-							//some helpers
-							void PrimaryRestart()
+						var launchParameters = initialLaunchParameters;
+						Task<int> ddSecondaryTask = null;
+						CancellationTokenSource secondaryCts = null;
+						try
+						{
+							do
 							{
-								primaryCts.Dispose();
-								ddPrimaryTask = StartServer(initialLaunchParameters, null, accessToken, true, cancellationToken, out primaryCts);
-							}
-							void SecondaryRestart()
-							{
-								ddSecondaryTask = null;
-								secondaryCts.Dispose();
-							};
-							Task<bool> PrimaryCrash() => HandleServerCrashed(ddPrimaryTask, interop.SecondaryIsOther, cancellationToken);
-							Task<bool> SecondaryCrash() => HandleServerCrashed(ddSecondaryTask, !interop.SecondaryIsOther, cancellationToken);
+								if (ddSecondaryTask == null)
+									//start the secondary server
+									ddSecondaryTask = StartServer(initialLaunchParameters, null, control.SecondaryAccessToken, false, cancellationToken, out secondaryCts);
 
-							//update available
-							if (newDmbTask.IsCompleted)
-							{
-								//restart the other server but don't treat it as an error
-								launchParameters = await launchParametersFactory.GetLaunchParameters(cancellationToken).ConfigureAwait(false);
-								//restart other server
-								if (interop.SecondaryIsOther)
+								var newDmbTask = dmbFactory.OnNewerDmb();
+
+								//now we wait for something to happen
+								await Task.WhenAny(ddSecondaryTask, ddPrimaryTask, newDmbTask).ConfigureAwait(false);
+
+								//some helpers
+								void PrimaryRestart()
 								{
-									secondaryCts.Cancel();
-									await ddSecondaryTask.ConfigureAwait(false);
-									cancellationToken.ThrowIfCancellationRequested();
+									primaryCts.Dispose();
+									ddPrimaryTask = StartServer(initialLaunchParameters, null, control.PrimaryAccessToken, true, cancellationToken, out primaryCts);
+								}
+								void SecondaryRestart()
+								{
+									ddSecondaryTask = null;
+									secondaryCts.Dispose();
+								};
+								Task<bool> PrimaryCrash() => HandleServerCrashed(ddPrimaryTask, control.SecondaryIsOther, cancellationToken);
+								Task<bool> SecondaryCrash() => HandleServerCrashed(ddSecondaryTask, !control.SecondaryIsOther, cancellationToken);
+
+								//update available
+								if (newDmbTask.IsCompleted)
+								{
+									//restart the other server but don't treat it as an error
+									launchParameters = await launchParametersFactory.GetLaunchParameters(cancellationToken).ConfigureAwait(false);
+									//restart other server
+									if (control.SecondaryIsOther)
+									{
+										secondaryCts.Cancel();
+										await ddSecondaryTask.ConfigureAwait(false);
+										cancellationToken.ThrowIfCancellationRequested();
+										SecondaryRestart();
+									}
+									else
+									{
+										primaryCts.Cancel();
+										await ddPrimaryTask.ConfigureAwait(false);
+										cancellationToken.ThrowIfCancellationRequested();
+										PrimaryRestart();
+									}
+									continue;
+								}
+
+								//crash of both servers
+								if (ddSecondaryTask.IsCompleted && ddPrimaryTask.IsCompleted)
+								{
+									//catastrophic, start over
+									var t1 = PrimaryCrash();
+									await Task.WhenAll(t1, SecondaryCrash()).ConfigureAwait(false);
+									if (t1.Result)
+										return;
+									++retries;
+									continue;
+								}
+
+								//below this point: crash of single server
+
+								//activate the other server and load new launch params
+								var otherServerActivation = control.ActivateOtherServer(cancellationToken);
+								launchParameters = await launchParametersFactory.GetLaunchParameters(cancellationToken).ConfigureAwait(false);
+								await otherServerActivation.ConfigureAwait(false);
+
+								//crash of secondary server
+								if (ddSecondaryTask.IsCompleted)
+								{
+									if (await SecondaryCrash().ConfigureAwait(false))
+										return;
 									SecondaryRestart();
 								}
+								//crash of primary server
 								else
 								{
-									primaryCts.Cancel();
-									await ddPrimaryTask.ConfigureAwait(false);
-									cancellationToken.ThrowIfCancellationRequested();
+									if (await PrimaryCrash().ConfigureAwait(false))
+										return;
 									PrimaryRestart();
 								}
-								continue;
-							}
-
-							//crash of both servers
-							if (ddSecondaryTask.IsCompleted && ddPrimaryTask.IsCompleted)
-							{
-								//catastrophic, start over
-								var t1 = PrimaryCrash();
-								await Task.WhenAll(t1, SecondaryCrash()).ConfigureAwait(false);
-								if (t1.Result)
-									return;
-								++retries;
-								continue;
-							}
-
-							//below this point: crash of single server
-
-							//activate the other server and load new launch params
-							var otherServerActivation = interop.ActivateOtherServer(cancellationToken);
-							launchParameters = await launchParametersFactory.GetLaunchParameters(cancellationToken).ConfigureAwait(false);
-							await otherServerActivation.ConfigureAwait(false);
-
-							//crash of secondary server
-							if (ddSecondaryTask.IsCompleted)
-							{
-								if (await SecondaryCrash().ConfigureAwait(false))
-									return;
-								SecondaryRestart();
-							}
-							//crash of primary server
-							else
-							{
-								if (await PrimaryCrash().ConfigureAwait(false))
-									return;
-								PrimaryRestart();
-							}
-						} while (true);
+							} while (true);
+						}
+						finally
+						{
+							secondaryCts?.Dispose();
+						}
 					}
 					finally
 					{
-						secondaryCts?.Dispose();
+						primaryCts.Dispose();
 					}
-				}
-				finally
-				{
-					primaryCts.Dispose();
 				}
 			} while (true);
 		}

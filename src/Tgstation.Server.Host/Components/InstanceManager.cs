@@ -49,6 +49,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IInstance GetInstance(Host.Models.Instance metadata)
 		{
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
 			lock (this)
 			{
 				if (!instances.TryGetValue(metadata.Id, out IInstance instance))
@@ -86,6 +88,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OfflineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
 		{
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
 			IInstance instance;
 			lock (this)
 			{
@@ -99,6 +103,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OnlineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
 		{
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
 			var instance = instanceFactory.CreateInstance(metadata);
 			lock (this)
 			{
@@ -133,6 +139,10 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public Task<bool> PreserveActiveExecutablesIfNecessary(DreamDaemonLaunchParameters launchParameters, string accessToken, int pid, bool primary)
 		{
+			if (launchParameters == null)
+				throw new ArgumentNullException(nameof(launchParameters));
+			if (accessToken == null)
+				throw new ArgumentNullException(nameof(accessToken));
 			throw new NotImplementedException();
 		}
 	}
