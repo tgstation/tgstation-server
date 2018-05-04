@@ -43,8 +43,8 @@ namespace Tgstation.Server.Host.Components
 			metadata.Name = newName;
 		}
 
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StartAsync(cancellationToken), DreamDaemon.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
+		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StartAsync(cancellationToken), DreamDaemon.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken), DreamMaker.StartAsync(cancellationToken));
 
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StopAsync(cancellationToken), DreamDaemon.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StopAsync(cancellationToken), DreamDaemon.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken), DreamMaker.StopAsync(cancellationToken));
 	}
 }

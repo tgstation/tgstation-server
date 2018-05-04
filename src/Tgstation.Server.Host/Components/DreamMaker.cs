@@ -263,5 +263,18 @@ namespace Tgstation.Server.Host.Components
 				throw;
 			}
 		}
+
+		/// <inheritdoc />
+		public Task StartAsync(CancellationToken cancellationToken)
+		{
+			//THIS IS FOR AUTO COMPILE INTERVAL STUFF, STOP TRYING TO REMOVE IT
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

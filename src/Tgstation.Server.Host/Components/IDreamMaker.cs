@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing the compiler
 	/// </summary>
-	interface IDreamMaker
+	interface IDreamMaker : IHostedService
 	{
 		/// <summary>
 		/// Starts a compile
