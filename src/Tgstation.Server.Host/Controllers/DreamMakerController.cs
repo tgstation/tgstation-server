@@ -40,13 +40,16 @@ namespace Tgstation.Server.Host.Controllers
 			var job = new Job
 			{
 				Description = "Compile active repository code",
-				StartedBy = AuthenticationContext.User
+				StartedBy = AuthenticationContext.User,
+				CancelRightsType = RightsType.DreamMaker,
+				CancelRight = (int)DreamMakerRights.CancelCompile
 			};
-			await jobManager.RegisterOperation(job, (serviceProvider, ct) => RunCompile(serviceProvider, Instance, AuthenticationContext.Clone(), ct), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
 			return Json(job);
 		}
 
 		/// <inheritdoc />
+		[TgsAuthorize(DreamMakerRights.CancelCompile)]
 		public override async Task<IActionResult> Delete([FromBody] Api.Models.CompileJob model, CancellationToken cancellationToken)
 		{
 			//alias for cancelling the latest job
@@ -60,12 +63,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Run the compile job and insert it into the database
 		/// </summary>
+		/// <param name="job">The running <see cref="Job"/></param>
 		/// <param name="serviceProvider">The <see cref="IServiceProvider"/> for the operation</param>
 		/// <param name="instanceModel">The <see cref="Models.Instance"/> for the operation</param>
-		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns></returns>
-		static async Task RunCompile(IServiceProvider serviceProvider, Models.Instance instanceModel, IAuthenticationContext authenticationContext, CancellationToken cancellationToken)
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		static async Task RunCompile(Job job, IServiceProvider serviceProvider, Models.Instance instanceModel, CancellationToken cancellationToken)
 		{
 			var instanceManager = serviceProvider.GetRequiredService<IInstanceManager>();
 			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
@@ -82,7 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 				compileJob = await instance.DreamMaker.Compile(projectName, repo, cancellationToken).ConfigureAwait(false);
 			}
 
-			compileJob.TriggeredBy = authenticationContext.User;
+			compileJob.Job = job;
 			compileJob.RevisionInformation = await revInfoTask.ConfigureAwait(false);
 
 			databaseContext.CompileJobs.Add(compileJob);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -43,5 +44,17 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public bool Cancelled { get; set; }
+
+		/// <summary>
+		/// The <see cref="RightsType"/> of <see cref="CancelRight"/> if it can be cancelled
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public RightsType? CancelRightsType { get; set; }
+
+		/// <summary>
+		/// The <see cref="Rights"/> required to cancel the <see cref="Job"/>
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public int? CancelRight { get; set; }
 	}
 }

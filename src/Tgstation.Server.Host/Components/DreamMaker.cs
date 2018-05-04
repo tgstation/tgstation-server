@@ -194,67 +194,59 @@ namespace Tgstation.Server.Host.Components
 			var job = new Host.Models.CompileJob
 			{
 				DirectoryName = Guid.NewGuid(),
-				StartedAt = DateTimeOffset.Now,
 				DmeName = dmeName
 			};
-			try
+			await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
+			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+			var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), "B");
+
+			async Task CleanupFailedCompile()
 			{
-				await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
-				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-				var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), "B");
-
-				async Task CleanupFailedCompile()
-				{
-					try
-					{
-						await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
-					}
-					catch { }
-				};
-
 				try
 				{
-					//copy the repository
-					var fullDirA = ioManager.ResolvePath(dirA);
-					using (repository)
-						await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
-
-					await ModifyDme(job, cancellationToken).ConfigureAwait(false);
-
-					//run compiler, verify api
-					var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
-					{
-						await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
-
-						return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
-					}, true).ConfigureAwait(false);
-
-					if (!ddVerified)
-						//server never validated or compile failed
-						await CleanupFailedCompile().ConfigureAwait(false);
-					else
-					{
-						job.DMApiValidated = true;
-
-						//duplicate the dmb et al
-						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
-
-						//symlink in the static data
-						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
-						await symATask.ConfigureAwait(false);
-					}
-					return job;
+					await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
 				}
-				catch
-				{
-					await CleanupFailedCompile().ConfigureAwait(false);
-					throw;
-				}
-			}
-			finally
+				catch { }
+			};
+
+			try
 			{
-				job.FinishedAt = DateTimeOffset.Now;
+				//copy the repository
+				var fullDirA = ioManager.ResolvePath(dirA);
+				using (repository)
+					await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
+
+				await ModifyDme(job, cancellationToken).ConfigureAwait(false);
+
+				//run compiler, verify api
+				var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+				{
+					await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+
+					return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
+				}, true).ConfigureAwait(false);
+
+				if (!ddVerified)
+					//server never validated or compile failed
+					await CleanupFailedCompile().ConfigureAwait(false);
+				else
+				{
+					job.DMApiValidated = true;
+
+					//duplicate the dmb et al
+					await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
+
+					//symlink in the static data
+					var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
+					await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
+					await symATask.ConfigureAwait(false);
+				}
+				return job;
+			}
+			catch
+			{
+				await CleanupFailedCompile().ConfigureAwait(false);
+				throw;
 			}
 		}
 	}

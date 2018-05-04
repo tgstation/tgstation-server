@@ -14,18 +14,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		public long Id { get; set; }
 
 		/// <summary>
-		/// When the compilation started
-		/// </summary>
-		[Required]
-		public DateTimeOffset StartedAt { get; set; }
-
-		/// <summary>
-		/// When the compilation finished
-		/// </summary>
-		[Required]
-		public DateTimeOffset FinishedAt { get; set; }
-
-		/// <summary>
 		/// If the DMAPI version detected is compatible
 		/// </summary>
 		public bool DMApiValidated { get; set; }

@@ -4,9 +4,9 @@
 	public sealed class CompileJob : Internal.CompileJob
 	{
 		/// <summary>
-		/// The <see cref="User"/> that triggered the job
+		/// The <see cref="Job"/> relating to this job
 		/// </summary>
-		public User TriggeredBy { get; set; }
+		public Job Job { get; set; }
 
 		/// <summary>
 		/// Git revision the compiler ran on. Not modifiable
