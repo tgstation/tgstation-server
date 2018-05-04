@@ -203,5 +203,18 @@ namespace Tgstation.Server.Host.Core
 			using (var file = File.Open(path, FileMode.Create, FileAccess.Write))
 				await file.WriteAsync(contents, 0, contents.Length, cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public Task<IReadOnlyList<string>> GetDirectories(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			path = ResolvePath(path);
+			var results = new List<string>();
+			foreach(var I in Directory.EnumerateDirectories(path))
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				results.Add(I);
+			}
+			return (IReadOnlyList<string>)results;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

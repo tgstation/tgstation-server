@@ -18,8 +18,15 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Name of the primary directory used for compilation
 		/// </summary>
-		const string ADirectoryName = "A";
-		
+		public const string ADirectoryName = "A";
+		/// <summary>
+		/// Name of the secondary directory used for compilation
+		/// </summary>
+		public const string BDirectoryName = "B";
+		public const string DmbExtension = ".dmb";
+
+		const string DmeExtension = ".dme";
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -90,7 +97,7 @@ namespace Tgstation.Server.Host.Components
 						ddTcs.SetResult(null);
 				};
 				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, ".dmb")))), interopInfo, true, cts.Token);
+				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension)))), interopInfo, true, cts.Token);
 
 				await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);
 
@@ -113,7 +120,7 @@ namespace Tgstation.Server.Host.Components
 			using (var dm = new Process())
 			{
 				dm.StartInfo.FileName = dreamMakerPath;
-				dm.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "-clean {0}.dme", job.DmeName);
+				dm.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "-clean {0}{1}", job.DmeName, DmeExtension);
 				dm.StartInfo.WorkingDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
 				dm.StartInfo.RedirectStandardOutput = true;
 				dm.StartInfo.RedirectStandardError = true;
@@ -155,7 +162,7 @@ namespace Tgstation.Server.Host.Components
 		async Task ModifyDme(Host.Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, ".dme"));
+			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmeExtension));
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
 			var dmeModificationsTask = configuration.CopyDMFilesTo(ioManager.ResolvePath(dirA), cancellationToken);
@@ -198,7 +205,7 @@ namespace Tgstation.Server.Host.Components
 			};
 			await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), "B");
+			var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
 
 			async Task CleanupFailedCompile()
 			{

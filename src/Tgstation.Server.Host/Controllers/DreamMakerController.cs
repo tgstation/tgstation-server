@@ -31,7 +31,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager) : base(databaseContext, authenticationContextFactory) => this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager) : base(databaseContext, authenticationContextFactory)
+		{
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+		}
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.Compile)]
