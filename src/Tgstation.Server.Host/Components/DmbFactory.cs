@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Threading;
@@ -12,7 +11,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Standard <see cref="IDmbFactory"/>
 	/// </summary>
-	sealed class DmbFactory : IDmbFactory, ICompileJobConsumer, IHostedService, IDisposable
+	sealed class DmbFactory : IDmbFactory, ICompileJobConsumer
 	{
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="DmbFactory"/>
@@ -102,7 +101,12 @@ namespace Tgstation.Server.Host.Components
 				else
 					task = newerDmbTcs.Task;
 
-			return await task.ConfigureAwait(false);
+			var result = await task.ConfigureAwait(false);
+			//so there's currently a race condition in DreamMakerController where the setting of CompileJob.RevisionInformation and thus IDmbProvider.RevisionInformation can be delayed to after this if someone tries to start the server instantly after compiling
+			//This is a terrible terrible hack to get around that
+			//I'm sorry future me, I can't think of any other way to fix this other than giving DreamMaker an IDatabaseContext or having the controller load the CompileJob
+			await Task.Delay(new TimeSpan(0, 0, 10), cancellationToken).ConfigureAwait(false);
+			return result;
 		}
 
 		/// <inheritdoc />

@@ -17,10 +17,12 @@ namespace Tgstation.Server.Host.Components
 		public IChat Chat { get; }
 
 		public IConfiguration Configuration { get; }
-
+		
+		readonly ICompileJobConsumer compileJobConsumer;
+		
 		readonly Api.Models.Instance metadata;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IDreamDaemon dreamDaemon, IChat chat, IConfiguration configuration)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IDreamDaemon dreamDaemon, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -29,6 +31,7 @@ namespace Tgstation.Server.Host.Components
 			DreamDaemon = dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 		}
 
 		public Api.Models.Instance GetMetadata() => metadata.CloneMetadata();
@@ -40,8 +43,8 @@ namespace Tgstation.Server.Host.Components
 			metadata.Name = newName;
 		}
 
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StartAsync(cancellationToken), DreamDaemon.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken));
+		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StartAsync(cancellationToken), DreamDaemon.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
 
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StopAsync(cancellationToken), DreamDaemon.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(RepositoryManager.StopAsync(cancellationToken), DreamDaemon.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
 	}
 }

@@ -47,6 +47,10 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IInterop"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IInterop interop;
+		/// <summary>
+		/// The <see cref="ICompileJobConsumer"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly ICompileJobConsumer compileJobConsumer;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
@@ -56,13 +60,15 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
-		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop)
+		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop, ICompileJobConsumer compileJobConsumer)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
+			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 		}
 
 		/// <summary>
@@ -248,6 +254,7 @@ namespace Tgstation.Server.Host.Components
 					await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
 					await symATask.ConfigureAwait(false);
 				}
+				compileJobConsumer.LoadCompileJob(job);
 				return job;
 			}
 			catch

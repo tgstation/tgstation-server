@@ -11,7 +11,8 @@ namespace Tgstation.Server.Host.Components
 		/// Create an <see cref="IInstance"/>
 		/// </summary>
 		/// <param name="metadata">The <see cref="Host.Models.Instance"/></param>
+		///	<param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation</param>
 		/// <returns>A new <see cref="IInstance"/></returns>
-		IInstance CreateInstance(Host.Models.Instance metadata);
+		IInstance CreateInstance(Host.Models.Instance metadata, IDatabaseContext databaseContext);
 	}
 }
