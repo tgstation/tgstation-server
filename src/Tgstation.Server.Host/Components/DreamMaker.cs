@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,10 +45,6 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IInterop"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IInterop interop;
-		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
@@ -60,8 +55,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		public DreamMaker(IRepositoryManager repositoryManager, IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop, ICryptographySuite cryptographySuite)
+		public DreamMaker(IRepositoryManager repositoryManager, IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop)
 		{
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -69,7 +63,6 @@ namespace Tgstation.Server.Host.Components
 			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
-			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 		}
 
 		/// <summary>
@@ -84,36 +77,34 @@ namespace Tgstation.Server.Host.Components
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
-				PrimaryPort = 0,	//pick any port
+				PrimaryPort = 0,    //pick any port
 				SecurityLevel = DreamDaemonSecurity.Safe    //all it needs to read the file and exit
 			};
 
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+			using (var control = interop.CreateRun(launchParameters.PrimaryPort, null, null))
 			{
 				var interopInfo = new InteropInfo
 				{
 					ApiValidateOnly = true,
 					HostPath = Application.HostingPath,
-					AccessToken = cryptographySuite.GetSecureString()
+					AccessToken = control.PrimaryAccessToken
 				};
-
-				using (var control = interop.CreateRun(launchParameters.PrimaryPort, null, null))
+				var ddTcs = new TaskCompletionSource<object>();
+				control.OnServerControl += (sender, e) =>
 				{
-					var ddTcs = new TaskCompletionSource<object>();
-					control.OnServerControl += (sender, e) => {
-						if (e.EventType == ServerControlEventType.ServerUnresponsive)
-							ddTcs.SetResult(null);
-					};
-					var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-					var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, ".dmb")))), interopInfo, true, cts.Token);
+					if (e.EventType == ServerControlEventType.ServerUnresponsive)
+						ddTcs.SetResult(null);
+				};
+				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, ".dmb")))), interopInfo, true, cts.Token);
 
-					await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);
+				await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);
 
-					if (!ddTestTask.IsCompleted)
-						cts.Cancel();
+				if (!ddTestTask.IsCompleted)
+					cts.Cancel();
 
-					return await ddTestTask.ConfigureAwait(false) == 0 && !ddTcs.Task.IsCompleted;
-				}
+				return await ddTestTask.ConfigureAwait(false) == 0 && !ddTcs.Task.IsCompleted;
 			}
 		}
 
