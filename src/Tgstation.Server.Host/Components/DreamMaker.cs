@@ -19,11 +19,7 @@ namespace Tgstation.Server.Host.Components
 		/// Name of the primary directory used for compilation
 		/// </summary>
 		const string ADirectoryName = "A";
-
-		/// <summary>
-		/// The <see cref="IRepositoryManager"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly IRepositoryManager repositoryManager;
+		
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -48,15 +44,13 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
-		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
-		public DreamMaker(IRepositoryManager repositoryManager, IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop)
+		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop)
 		{
-			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
@@ -195,7 +189,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<Host.Models.CompileJob> Compile(string dmeName, CancellationToken cancellationToken)
+		public async Task<Host.Models.CompileJob> Compile(string dmeName, IRepository repository, CancellationToken cancellationToken)
 		{
 			var job = new Host.Models.CompileJob
 			{
@@ -203,68 +197,64 @@ namespace Tgstation.Server.Host.Components
 				StartedAt = DateTimeOffset.Now,
 				DmeName = dmeName
 			};
-
-			await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
-			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), "B");
-
-			async Task CleanupFailedCompile()
-			{
-				try
-				{
-					await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
-				}
-				catch { }
-			};
-
 			try
 			{
-				//copy the repository
-				var fullDirA = ioManager.ResolvePath(dirA);
-				using (var repository = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+				await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
+				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+				var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), "B");
+
+				async Task CleanupFailedCompile()
 				{
-					job.RevisionInformation = new Host.Models.RevisionInformation
+					try
 					{
-						Commit = repository.Head
-					};
-					await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
-				}
+						await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
+					}
+					catch { }
+				};
 
-				await ModifyDme(job, cancellationToken).ConfigureAwait(false);
-
-				//run compiler, verify api
-				var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+				try
 				{
-					await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+					//copy the repository
+					var fullDirA = ioManager.ResolvePath(dirA);
+					using (repository)
+						await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
 
-					return await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
-				}, true).ConfigureAwait(false);
+					await ModifyDme(job, cancellationToken).ConfigureAwait(false);
 
-				if(!ddVerified)
-				{
-					//server never validated
-					job.FinishedAt = DateTimeOffset.Now;
-					await CleanupFailedCompile().ConfigureAwait(false);
+					//run compiler, verify api
+					var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+					{
+						await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+
+						return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
+					}, true).ConfigureAwait(false);
+
+					if (!ddVerified)
+						//server never validated or compile failed
+						await CleanupFailedCompile().ConfigureAwait(false);
+					else
+					{
+						job.DMApiValidated = true;
+
+						//duplicate the dmb et al
+						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
+
+						//symlink in the static data
+						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
+						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
+						await symATask.ConfigureAwait(false);
+					}
 					return job;
 				}
-
-				job.DMApiValidated = true;
-
-				//duplicate the dmb et al
-				await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
-
-				//symlink in the static data
-				var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-				await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
-				await symATask.ConfigureAwait(false);
-
-				job.FinishedAt = DateTimeOffset.Now;
-				return job;
+				catch
+				{
+					await CleanupFailedCompile().ConfigureAwait(false);
+					throw;
+				}
 			}
-			catch
+			finally
 			{
-				await CleanupFailedCompile().ConfigureAwait(false);
-				throw;
+				job.FinishedAt = DateTimeOffset.Now;
 			}
 		}
 	}

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class CompileJob : Api.Models.Internal.CompileJob
@@ -9,11 +7,6 @@ namespace Tgstation.Server.Host.Models
 		/// See <see cref="Api.Models.CompileJob.TriggeredBy"/>
 		/// </summary>
 		public User TriggeredBy { get; set; }
-
-		/// <summary>
-		/// See <see cref="Api.Models.CompileJob.CancelledBy"/>
-		/// </summary>
-		public User CancelledBy { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.RevisionInformation"/>

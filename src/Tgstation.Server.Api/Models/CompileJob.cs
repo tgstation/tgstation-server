@@ -9,11 +9,6 @@
 		public User TriggeredBy { get; set; }
 
 		/// <summary>
-		/// The <see cref="User"/> that cancelled the job if any
-		/// </summary>
-		public User CancelledBy { get; set; }
-
-		/// <summary>
 		/// Git revision the compiler ran on. Not modifiable
 		/// </summary>
 		public RevisionInformation RevisionInformation { get; set; }

@@ -22,6 +22,12 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public DbSet<Instance> Instances { get; set; }
 
+		/// <inheritdoc />
+		public DbSet<CompileJob> CompileJobs { get; set; }
+
+		/// <inheritdoc />
+		public DbSet<RevisionInformation> RevisionInformations { get; set; }
+
 		/// <summary>
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="Log"/>s
 		/// </summary>
@@ -48,10 +54,6 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 		/// <summary>
-		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		public DbSet<CompileJob> CompileJobs { get; set; }
-		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<Job> Jobs { get; set; }
@@ -59,10 +61,6 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
-		/// <summary>
-		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		public DbSet<RevisionInformation> RevisionInformations { get; set; }
 		/// <summary>
 		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
