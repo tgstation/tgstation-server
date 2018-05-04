@@ -181,16 +181,21 @@ namespace Tgstation.Server.Host.Components
 
 			var dmeModifications = await dmeModificationsTask.ConfigureAwait(false);
 
-			if (!dmeModifications.Any())
+			if (dmeModifications == null || dmeModifications.TotalDmeOverwrite)
 				return;
 
 			var dmeLines = new List<string>(dme.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
 			for (var I = 0; I < dmeLines.Count; ++I)
 			{
 				var line = dmeLines[I];
-				if (line.Contains("BEGIN_INCLUDE"))
+				if (line.Contains("BEGIN_INCLUDE") && dmeModifications.HeadIncludeLine != null)
 				{
-					dmeLines.InsertRange(I + 1, dmeModifications);
+					dmeLines.Insert(I + 1, dmeModifications.HeadIncludeLine);
+					++I;
+				}
+				else if (line.Contains("END_INCLUDE") && dmeModifications.TailIncludeLine != null)
+				{
+					dmeLines.Insert(I - 1, dmeModifications.TailIncludeLine);
 					break;
 				}
 			}
