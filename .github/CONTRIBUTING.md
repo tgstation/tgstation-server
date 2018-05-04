@@ -53,10 +53,15 @@ As mentioned before, you are expected to follow these specifications in order to
 ### Object Oriented Code
 As C# is an object-oriented language, code must be object-oriented when possible in order to be more flexible when adding content to it. If you don't know what "object-oriented" means, we highly recommend you do some light research to grasp the basics.
 
-### Tabs, not spaces
-You must use tabs to indent your code, NOT SPACES.
+### Follow the [C# coding guidelines](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
 
-(You may use spaces to align something, but you should tab to the block level first, then add the remaining spaces)
+With the following amendments for a focus on minimal code
+
+- Tabs, not spaces
+- Use `var` whenever possible
+- Prefer `using` statements to inline namespace imports
+- One line blocks should not have braces where unneccessary (nested `if` statements may circumvent this to avoid confusion)
+- Do not use the LINQ query syntax (The functions are acceptable)
 
 ### No hacky code
 Hacky code, such as adding specific checks, is highly discouraged and only allowed when there is ***no*** other option. (Protip: 'I couldn't immediately think of a proper way so thus there must be no other option' is not gonna cut it here! If you can't think of anything else, say that outright and admit that you need help with it. Maintainers exist for exactly that reason.)
@@ -68,8 +73,8 @@ Copying code from one place to another may be suitable for small, short-time pro
 
 Instead you can use object orientation, or simply placing repeated code in a function, to obey this specification easily.
 
-### No magic numbers or strings
-This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these #defines with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
+### No duplicated magic numbers or strings
+This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. If it's used in more than one place, make these consts with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
 
 ### Do not commit modifications to the version numbers in AssemblyInfo.global.cs
 This file will be updated by maintainers when they deem it prudent to release a new version. For reference here is the version format we use 3.\<major\>.\<minor\>.\<patch\> The criteria for changing a version number is as follows
@@ -110,13 +115,9 @@ void Hello()
 This prevents nesting levels from getting deeper then they need to be.
 
 ### Other Notes
-* Code should be modular where possible; if you are working on a new addition, then strongly consider putting it in its own file unless it makes sense to put it with similar ones.
-
-* Bloated code may be necessary to add a certain feature, which means there has to be a judgement over whether the feature is worth having or not. You can help make this decision easier by making sure your code is modular.
-
-* You are expected to help maintain the code that you add, meaning that if there is a problem then you are likely to be approached in order to fix any issues, runtimes, or bugs.
-
-* If you used regex to replace code during development of your code, post the regex in your PR for the benefit of future developers and downstream users.
+* Code should always be modular
+* You are expected to help maintain the code that you add, meaning that if there is a problem then you are likely to be approached in order to fix any bugs.
+* Non-prototype code must be unit tested with 100% code coverage 
 
 ## Pull Request Process
 
