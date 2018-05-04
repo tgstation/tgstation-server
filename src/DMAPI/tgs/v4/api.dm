@@ -2,6 +2,7 @@
 
 #define TGS4_TOPIC_COMMAND "tgs_com"
 #define TGS4_TOPIC_TOKEN "tgs_tok"
+#define TGS4_TOPIC_SUCCESS "tgs_succ"
 #define TGS4_TOPIC_SWAP "tgs_swap"
 #define TGS4_TOPIC_SWAP_DELAYED "tgs_swap_delayed"
 #define TGS4_TOPIC_CHAT_COMMAND "tgs_chat_comm"
@@ -25,7 +26,7 @@
 	var/json_path
 	
 	var/list/intercepted_message_queue
-
+	
 	var/list/custom_commands
 
 	var/list/cached_test_merges
@@ -174,22 +175,22 @@
 			var/datum/tgs_chat_channel/channel = I
 			ids += channel.id
 	message = list("message" = message, "channels" = ids)
-	if(interepted_message_queue)
-		interepted_message_queue += list(message)
+	if(intercepted_message_queue)
+		intercepted_message_queue += list(message)
 	else
 		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatTargetedBroadcast(message, admin_only)
 	message = list("message" = message, "channels" = admin_only ? "admin" : "game")
-	if(interepted_message_queue)
-		interepted_message_queue += list(message)
+	if(intercepted_message_queue)
+		intercepted_message_queue += list(message)
 	else
 		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
 /datum/tgs_api/v4/ChatPrivateMessage(message, datum/tgs_chat_user/user)
 	message = list("message" = message, "user" = list("id" = user.id, "channel" = user.channel.id))
-	if(interepted_message_queue)
-		interepted_message_queue += list(message)
+	if(intercepted_message_queue)
+		intercepted_message_queue += list(message)
 	else
 		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
 
