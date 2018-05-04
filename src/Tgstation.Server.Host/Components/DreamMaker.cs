@@ -9,7 +9,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Models;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
 {
