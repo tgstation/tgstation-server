@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			repository.Dispose();
-			onDispose();
+			onDispose.Invoke();
 		}
 		/// <summary>
 		/// Convert <paramref name="url"/> to an "https://<paramref name="accessString"/>@{url} equivalent

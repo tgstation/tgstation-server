@@ -14,26 +14,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		public long Id { get; set; }
 
 		/// <summary>
-		/// When the compilation started
+		/// If the DMAPI version detected is compatible
 		/// </summary>
-		[Required]
-		public DateTimeOffset StartedAt { get; set; }
-
-		/// <summary>
-		/// When the compilation finished
-		/// </summary>
-		[Required]
-		public DateTimeOffset FinishedAt { get; set; }
-
-		/// <summary>
-		/// The detected DMAPI version
-		/// </summary>
-		public Version DMApiVersion { get; set; }
+		public bool DMApiValidated { get; set; }
 
 		/// <summary>
 		/// The .dme file used for compilation
 		/// </summary>
-		public string DmePath { get; set; }
+		public string DmeName { get; set; }
 
 		/// <summary>
 		/// Textual output of DM
@@ -43,7 +31,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The Game folder the results were compiled into
 		/// </summary>
-		public Guid? OutputGuid { get; set; }
+		public Guid? DirectoryName { get; set; }
 
 		/// <summary>
 		/// Exit code of DM. If <see langword="null"/>

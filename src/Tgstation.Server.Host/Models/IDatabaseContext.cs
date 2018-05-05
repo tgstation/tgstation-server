@@ -25,6 +25,16 @@ namespace Tgstation.Server.Host.Models
 		DbSet<Job> Jobs { get; }
 
 		/// <summary>
+		/// The <see cref="CompileJob"/>s in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<CompileJob> CompileJobs { get; }
+
+		/// <summary>
+		/// The <see cref="RevisionInformation"/>s in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<RevisionInformation> RevisionInformations { get; }
+
+		/// <summary>
 		/// Get the <see cref="ServerSettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

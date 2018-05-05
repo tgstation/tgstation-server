@@ -3,12 +3,12 @@
 	static class DreamDaemonParameters
 	{
 		/// <summary>
-		/// Do not change to keep forwards/backwards api compatibility
+		/// Host version. Do not change to keep forwards/backwards api compatibility
 		/// </summary>
-		public const string HostVersion = "server_service_versions";
-		public const string AccessToken = "tgs_key";
-		public const string PrimaryPort = "tgs_port1";
-		public const string SecondaryPort = "tgs_port2";
-		public const string IsSecondaryServer = "tgs_second";
+		public const string HostVersion = "server_service_version";
+		/// <summary>
+		/// Path to <see cref="Models.InteropInfo"/> json
+		/// </summary>
+		public const string InfoJsonPath = "tgs_json";
 	}
 }

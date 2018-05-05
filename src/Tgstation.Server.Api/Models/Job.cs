@@ -12,15 +12,15 @@
 		public int Progress { get; set; }
 
 		/// <summary>
-		/// If the current user has permission to cancel the job
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public bool UserCanCancel { get; set; }
-
-		/// <summary>
 		/// The <see cref="User"/> that started the job
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public User StartedBy { get; set; }
+
+		/// <summary>
+		/// The <see cref="User"/> that cancelled the job
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public User CancelledBy { get; set; }
 	}
 }

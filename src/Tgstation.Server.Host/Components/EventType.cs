@@ -73,6 +73,14 @@
 		/// </summary>
 		DDExit,
 		/// <summary>
+		/// Parameters: Exit code
+		/// </summary>
+		DDOtherCrash,
+		/// <summary>
+		/// No parameters
+		/// </summary>
+		DDOtherExit,
+		/// <summary>
 		/// No parameters
 		/// </summary>
 		DDRestart,

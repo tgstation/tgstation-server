@@ -40,5 +40,15 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.SetConfiguration)]
 		public bool ConfigurationAllowed { get; set; }
+
+		/// <inheritdoc />
+		public Instance CloneMetadata() => new Instance
+		{
+			Id = Id,
+			Name = Name,
+			Path = Path,
+			Online = Online,
+			ConfigurationAllowed = ConfigurationAllowed
+		};
 	}
 }

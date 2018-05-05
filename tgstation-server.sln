@@ -93,6 +93,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82066812
 		tests\DMAPI\travistester.dme = tests\DMAPI\travistester.dme
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\v4\api.dm = src\DMAPI\tgs\v4\api.dm
+		src\DMAPI\tgs\v4\commands.dm = src\DMAPI\tgs\v4\commands.dm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +223,7 @@ Global
 		{1B228ACB-60C3-4DF9-B716-9F0BD31F6766} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 		{3BB10856-AA01-43D1-AAB0-A013085426D6} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
 		{82066812-6C73-4360-943B-B23F2F491261} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
+		{057FAC33-CC31-4948-91C6-B0977C335890} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

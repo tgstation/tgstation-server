@@ -57,6 +57,14 @@ namespace Tgstation.Server.Host.Core
 		Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Returns directory names in a given <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to search for directories</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the directories in <paramref name="path"/></returns>
+		Task<IReadOnlyList<string>> GetDirectories(string path, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Writes some <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content
 		/// </summary>
 		/// <param name="path">The path of the file to write</param>

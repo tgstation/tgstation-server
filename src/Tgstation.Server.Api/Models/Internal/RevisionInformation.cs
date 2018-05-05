@@ -12,7 +12,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		[Required, StringLength(40)]
-		public string Revision { get; set; }
+		public string Commit { get; set; }
 
 		/// <summary>
 		/// The sha of the most recent remote commit

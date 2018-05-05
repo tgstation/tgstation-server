@@ -16,8 +16,8 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="destination">Path to the destination folder</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resultin in a <see cref="IReadOnlyList{T}"/> of #include lines for the .dm files copied</returns>
-		Task<IReadOnlyList<string>> CopyDMFilesTo(string destination, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerSideModifications"/> if any</returns>
+		Task<ServerSideModifications> CopyDMFilesTo(string destination, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Symlinks all directories in the GameData directory to <paramref name="destination"/>

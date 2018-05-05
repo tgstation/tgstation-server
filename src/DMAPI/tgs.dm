@@ -44,6 +44,8 @@
 
 //EVENT CODES
 
+#define TGS_EVENT_PORT_SWAP 1	//before a port change is about to happen, extra parameter is new port
+
 //TODO
 
 //REQUIRED HOOKS
@@ -101,7 +103,9 @@
 	var/datum/tgs_chat_channel/channel	//The /datum/tgs_chat_channel this user was from
 
 //user definable callback for handling events
-/datum/tgs_event_handler/proc/HandleEvent(event_code)
+//extra parameters may be specified depending on the event
+/datum/tgs_event_handler/proc/HandleEvent(event_code, ...)
+	set waitfor = FALSE
 	return
 
 //user definable chat command
