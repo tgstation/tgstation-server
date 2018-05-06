@@ -16,6 +16,10 @@
 		/// <summary>
 		/// The server requested that it's process be terminated
 		/// </summary>
-		RequestedProcessTermination
+		RequestedProcessTermination,
+		/// <summary>
+		/// The server has stopped responding to heartbeats
+		/// </summary>
+		ServerUnresponsive,
 	}
 }

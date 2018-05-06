@@ -127,7 +127,12 @@ namespace Tgstation.Server.Host.Components
 			{
 				repo = new LibGit2Sharp.Repository(ioManager.ResolvePath("."));
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-			return new Repository(repo, ioManager, () => semaphore.Release());
+			var localSemaphore = semaphore;
+			return new Repository(repo, ioManager, () =>
+			{
+				localSemaphore?.Release();
+				localSemaphore = null;
+			});
 		}
 
 		/// <inheritdoc />

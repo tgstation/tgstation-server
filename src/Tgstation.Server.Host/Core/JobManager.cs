@@ -53,16 +53,24 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="operation">The operation for the <paramref name="job"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunJob(Job job, Func<CancellationToken, Task> operation, CancellationToken cancellationToken)
+		async Task RunJob(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
 			using (var scope = serviceProvider.CreateScope())
 			{
-				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-				job = new Job { Id = job.Id };
-				databaseContext.Jobs.Attach(job);
+				IDatabaseContext databaseContext = null;
 				try
 				{
-					await operation(cancellationToken).ConfigureAwait(false);
+					var oldJob = job;
+					job = new Job { Id = oldJob.Id };
+					try
+					{
+						await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+					}
+					finally
+					{
+						databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+						databaseContext.Jobs.Attach(job);
+					}
 				}
 				catch (OperationCanceledException)
 				{
@@ -78,7 +86,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task RegisterOperation(Job job, Func<CancellationToken, Task> operation, CancellationToken cancellationToken)
+		public async Task RegisterOperation(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
 			using (var scope = serviceProvider.CreateScope())
 			{

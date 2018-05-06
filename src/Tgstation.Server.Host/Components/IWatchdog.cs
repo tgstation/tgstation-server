@@ -1,25 +1,25 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// Factory for <see cref="IDmbProvider"/>s
+	/// For monitoring DreamDaemon uptime
 	/// </summary>
-    interface IDmbFactory
+    interface IWatchdog
     {
 		/// <summary>
-		/// Gets the next <see cref="IDmbProvider"/>
+		/// Start the <see cref="IWatchdog"/>
 		/// </summary>
+		/// <param name="launchParametersFactory">The <see cref="ILaunchParametersFactory"/> for the run</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task<IDmbProvider> LockNextDmb(CancellationToken cancellationToken);
+		Task Start(ILaunchParametersFactory launchParametersFactory, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Get a <see cref="Task"/> that completes when the result of a call to <see cref="LockNextDmb(CancellationToken)"/> will be different than the previous call if any
+		/// Stop the <see cref="IWatchdog"/>
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task OnNewerDmb();
-    }
+		Task Stop();
+	}
 }

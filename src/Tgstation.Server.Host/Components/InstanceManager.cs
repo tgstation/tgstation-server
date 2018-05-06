@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 
@@ -14,9 +15,6 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class InstanceManager : IInstanceManager, IHostedService
 	{
-		/// <inheritdoc />
-		public bool GracefulShutdown { get; set; }
-
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="IInstanceManager"/>
 		/// </summary>
@@ -49,8 +47,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstance GetInstance(Models.Instance metadata)
+		public IInstance GetInstance(Host.Models.Instance metadata)
 		{
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
 			lock (this)
 			{
 				if (!instances.TryGetValue(metadata.Id, out IInstance instance))
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Models.Instance instance, string newPath, CancellationToken cancellationToken)
+		public async Task MoveInstance(Host.Models.Instance instance, IDatabaseContext databaseContext, string newPath, CancellationToken cancellationToken)
 		{
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
@@ -72,22 +72,24 @@ namespace Tgstation.Server.Host.Components
 				var oldPath = instance.Path;
 				await ioManager.CopyDirectory(oldPath, newPath, null, cancellationToken).ConfigureAwait(false);
 				instance.Path = ioManager.ResolvePath(newPath);
-				instanceOnlineTask = OnlineInstance(instance, default);
+				instanceOnlineTask = OnlineInstance(instance, databaseContext, default);
 				await ioManager.DeleteDirectory(oldPath, cancellationToken).ConfigureAwait(false);
 			}
 			finally
 			{
 				if (instance.Online)
 					if (instanceOnlineTask == null)
-						await OnlineInstance(instance, default).ConfigureAwait(false);
+						await OnlineInstance(instance, databaseContext, default).ConfigureAwait(false);
 					else
 						await instanceOnlineTask.ConfigureAwait(false);
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OfflineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
 		{
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
 			IInstance instance;
 			lock (this)
 			{
@@ -99,9 +101,11 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OnlineInstance(Host.Models.Instance metadata, IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var instance = instanceFactory.CreateInstance(metadata);
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
+			var instance = instanceFactory.CreateInstance(metadata, databaseContext);
 			lock (this)
 			{
 				if (instances.ContainsKey(metadata.Id))
@@ -120,7 +124,7 @@ namespace Tgstation.Server.Host.Components
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 				var dbInstances = databaseContext.Instances.Where(x => x.Online).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
 				var tasks = new List<Task>();
-				await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, cancellationToken)), cancellationToken).ConfigureAwait(false);
+				await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, databaseContext, cancellationToken)), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 			}
 		}
@@ -130,6 +134,16 @@ namespace Tgstation.Server.Host.Components
 		{
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			instances.Clear();
+		}
+
+		/// <inheritdoc />
+		public Task<bool> PreserveActiveExecutablesIfNecessary(DreamDaemonLaunchParameters launchParameters, string accessToken, int pid, bool primary)
+		{
+			if (launchParameters == null)
+				throw new ArgumentNullException(nameof(launchParameters));
+			if (accessToken == null)
+				throw new ArgumentNullException(nameof(accessToken));
+			throw new NotImplementedException();
 		}
 	}
 }

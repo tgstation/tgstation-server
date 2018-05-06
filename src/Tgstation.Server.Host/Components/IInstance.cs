@@ -16,6 +16,8 @@ namespace Tgstation.Server.Host.Components
 
 		IConfiguration Configuration { get; }
 
+		Api.Models.Instance GetMetadata();
+
 		void Rename(string newName);
 	}
 }
