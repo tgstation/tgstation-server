@@ -8,12 +8,14 @@
 		TGS_ERROR_LOG("Found unsupported API version: [tgs_version]. If this is a valid version please report this, backporting is done on demand.")
 		return
 
+	TGS_INFO_LOG("Activating API for version [tgs_version]")
 	var/datum/tgs_api/new_api = new path
-	TGS_INFO_LOG("Activated tgstation-server API for version [tgs_version]")
 
 	var/result = new_api.OnWorldNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default)
 	if(result && result != TGS_UNIMPLEMENTED)
 		TGS_WRITE_GLOBAL(tgs, new_api)
+	else
+		TGS_ERROR_LOG("Failed to activate API!")
 
 /world/proc/SelectTgsApi(tgs_version)
 	//remove the old 3.0 header
