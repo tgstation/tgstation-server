@@ -16,6 +16,11 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public User CancelledBy { get; set; }
 
+		/// <summary>
+		/// The <see cref="Instance"/> the job belongs to if any
+		/// </summary>
+		public Instance Instance { get; set; }
+
 		/// <inheritdoc />
 		public Api.Models.Job ToApi() => new Api.Models.Job
 		{
