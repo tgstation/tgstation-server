@@ -70,6 +70,7 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
+		/// <inheritdoc />
 		[TgsAuthorize]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{

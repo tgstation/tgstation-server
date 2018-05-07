@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -15,7 +17,10 @@ using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
 {
-	[Route("/" + nameof(DreamDaemon))]
+	/// <summary>
+	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.DreamDaemon"/>
+	/// </summary>
+	[Route("/" + nameof(Api.Models.DreamDaemon))]
 	public sealed class DreamDaemonController : ModelController<Api.Models.DreamDaemon>
 	{
 		/// <summary>
@@ -32,6 +37,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		public DreamDaemonController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
@@ -108,14 +115,50 @@ namespace Tgstation.Server.Host.Controllers
 			await instance.DreamDaemon.Terminate(false, cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
-	
-		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown)]
+
+		/// <inheritdoc />
+		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamDaemon model, CancellationToken cancellationToken)
 		{
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
 
-			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon)
-			if()
+			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);
+
+			bool CheckModified<T>(Expression<Func<Api.Models.Internal.DreamDaemonSettings, T>> expression, DreamDaemonRights requiredRight)
+			{
+				var memberSelectorExpression = (MemberExpression)expression.Body;
+				var property = (PropertyInfo)memberSelectorExpression.Member;
+
+				var newVal = property.GetValue(model);
+				if (newVal == null)
+					return false;
+				if (!userRights.HasFlag(requiredRight) && property.GetValue(current) != newVal)
+					return true;
+
+				property.SetValue(current, newVal);
+				return false;
+			};
+
+			if (!CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
+				|| !CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
+				|| !CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
+				|| !CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
+				|| !CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
+				|| !CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart))
+				return Forbid();
+
+			//interaction with soft stop is a bit different
+			if (model.SoftShutdown.HasValue)
+			{
+				if (current.SoftShutdown != model.SoftShutdown && ((!current.SoftShutdown.Value && !userRights.HasFlag(DreamDaemonRights.SoftShutdown)) || (current.SoftShutdown.Value && !userRights.HasFlag(DreamDaemonRights.Start))))
+					return Forbid();
+				current.SoftShutdown = model.SoftShutdown;
+			}
+
+			await instanceManager.GetInstance(Instance).DreamDaemon.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(default).ConfigureAwait(false);
+
+			return Ok();
 		}
 	}
 }

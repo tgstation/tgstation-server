@@ -87,8 +87,8 @@ namespace Tgstation.Server.Host.Components
 				proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}={5}&{6}={7}\"", 
 					dmbProvider.DmbName,
 					isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
-					launchParameters.AllowWebClient ? "-webclient " : String.Empty,
-					SecurityWord(launchParameters.SecurityLevel),
+					launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
+					SecurityWord(launchParameters.SecurityLevel.Value),
 					DreamDaemonParameters.HostVersion, Application.Version,
 					DreamDaemonParameters.InfoJsonPath, jsonPath);
 

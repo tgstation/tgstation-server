@@ -10,6 +10,9 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class Watchdog : IWatchdog, IDisposable
 	{
+		/// <inheritdoc />
+		public Host.Models.CompileJob CurrentCompileJob { get; private set; }
+
 		/// <summary>
 		/// The <see cref="IByond"/> for the <see cref="Watchdog"/>
 		/// </summary>
@@ -102,8 +105,8 @@ namespace Tgstation.Server.Host.Components
 					interopInfo.ChatCommandsJson = String.Concat(chatJsonGuid, ".commands.json");
 
 				//set up revision
-				interopInfo.Revision = dmb.RevisionInformation;
-				foreach (var I in dmb.RevisionInformation.TestMerges)
+				interopInfo.Revision = dmb.CompileJob.RevisionInformation;
+				foreach (var I in dmb.CompileJob.RevisionInformation.TestMerges)
 					interopInfo.TestMerges.Add(new Models.TestMerge
 					{
 						Author = I.Author,
@@ -146,7 +149,7 @@ namespace Tgstation.Server.Host.Components
 					ApiValidateOnly = false,
 					HostPath = Application.HostingPath,
 					InstanceId = instanceId,
-					NextPort = isPrimary ? launchParameters.SecondaryPort : launchParameters.PrimaryPort,
+					NextPort = isPrimary ? launchParameters.SecondaryPort.Value : launchParameters.PrimaryPort.Value,
 					//this line feels hacky, change it and remove the instanceManager dep?
 					InstanceName = instanceManager.GetInstance(new Host.Models.Instance { Id = instanceId }).GetMetadata().Name,
 				};
@@ -216,7 +219,7 @@ namespace Tgstation.Server.Host.Components
 				var retryDelay = (int)Math.Min(Math.Pow(2, retries), TimeSpan.FromHours(1).Milliseconds); //max of one hour
 				await Task.Delay(retryDelay, cancellationToken).ConfigureAwait(false);
 
-				using (var control = interop.CreateRun(initialLaunchParameters.PrimaryPort, initialLaunchParameters.SecondaryPort, HandleChatMessage))
+				using (var control = interop.CreateRun(initialLaunchParameters.PrimaryPort.Value, initialLaunchParameters.SecondaryPort.Value, HandleChatMessage))
 				{
 					var primaryPrimedTcs = new TaskCompletionSource<object>();
 					control.OnServerControl += (sender, e) =>

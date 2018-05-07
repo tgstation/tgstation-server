@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Components
 			};
 
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			using (var control = interop.CreateRun(launchParameters.PrimaryPort, null, null))
+			using (var control = interop.CreateRun(launchParameters.PrimaryPort.Value, null, null))
 			{
 				var interopInfo = new InteropInfo
 				{
