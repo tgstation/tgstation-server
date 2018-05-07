@@ -28,6 +28,9 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public DbSet<RevisionInformation> RevisionInformations { get; set; }
 
+		/// <inheritdoc />
+		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
+
 		/// <summary>
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="Log"/>s
 		/// </summary>
@@ -49,10 +52,6 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
-		/// <summary>
-		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>

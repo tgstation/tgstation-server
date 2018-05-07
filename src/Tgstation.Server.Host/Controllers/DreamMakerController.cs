@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing the compiler
 	/// </summary>
 	[Route("/DreamMaker")]
-    public sealed class DreamMakerController : ModelController<Api.Models.CompileJob>
+    public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.Compile)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.CompileJob model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Create([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
 		{
 			var job = new Job
 			{
@@ -53,13 +53,27 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.CancelCompile)]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.CompileJob model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
 		{
 			//alias for cancelling the latest job
-			var job = await DatabaseContext.Jobs.OrderByDescending(x => x.StartedAt).Select(x => new Job { Id = x.Id, StoppedAt = x.StoppedAt }).FirstAsync(cancellationToken).ConfigureAwait(false);
+			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Select(x => new Job { Id = x.Job.Id, StoppedAt = x.Job.StoppedAt }).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (job.StoppedAt != null)
 				return StatusCode(HttpStatusCode.Gone);
 			jobManager.CancelJob(job);
+			return Ok();
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(DreamMakerRights.SetDme)]
+		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
+		{
+			var hostModel = new DreamMakerSettings
+			{
+				InstanceId = Instance.Id
+			};
+			DatabaseContext.DreamMakerSettings.Attach(hostModel);
+			hostModel.ProjectName = model.ProjectName;
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
 

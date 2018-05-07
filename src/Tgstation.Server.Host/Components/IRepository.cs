@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Represents an on-disk git repository
 	/// </summary>
-	interface IRepository : IDisposable
+	public interface IRepository : IDisposable
 	{
 		/// <summary>
 		/// If the <see cref="IRepository"/> was cloned from GitHub.com

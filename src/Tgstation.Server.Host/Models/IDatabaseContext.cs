@@ -35,6 +35,11 @@ namespace Tgstation.Server.Host.Models
 		DbSet<RevisionInformation> RevisionInformations { get; }
 
 		/// <summary>
+		/// The <see cref="DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
+
+		/// <summary>
 		/// Get the <see cref="ServerSettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
