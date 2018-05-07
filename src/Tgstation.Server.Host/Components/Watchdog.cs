@@ -88,7 +88,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed once the server starts if any</param>
 		/// <param name="interopInfo">The <see cref="InteropInfo"/> the server</param>
+		/// <param name="control">The <see cref="IInteropControl"/> for the operation</param>
 		/// <param name="dreamDaemonPath">The path to the DreamDaemon executable</param>
+		/// <param name="asDefaultOtherServer">If the ports should be swapped</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the exit code of DreamDaemon</returns>
 		async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, InteropInfo interopInfo, IInteropControl control, string dreamDaemonPath, bool asDefaultOtherServer, CancellationToken cancellationToken)
@@ -138,12 +140,13 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <summary>
-		/// Locks in a <see cref="IByond"/> version and runs a server through <see cref="RunServer(DreamDaemonLaunchParameters, TaskCompletionSource{object}, InteropInfo, string, CancellationToken)"/>
+		/// Locks in a <see cref="IByond"/> version and runs a server through <see cref="RunServer"/>
 		/// </summary>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed once the server starts if any</param>
-		/// <param name="accessToken">The access token for the server</param>
+		/// <param name="control">The <see cref="IInteropControl"/> for the operation</param>
 		/// <param name="isPrimary">If a primary server is being launched</param>
+		/// <param name="isDefaultOther">If the ports should be swapped</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="cancellationTokenSource">A <see cref="CancellationTokenSource"/> tied to the lifetime of the resulting <see cref="Task{TResult}"/></param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the exit code of DreamDaemon</returns>
