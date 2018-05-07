@@ -6,12 +6,6 @@
 	public sealed class Job : Internal.Job
 	{
 		/// <summary>
-		/// If the <see cref="Job"/> has incremental progress, this will range from 1 - 100. 0 otherwise
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public int Progress { get; set; }
-
-		/// <summary>
 		/// The <see cref="User"/> that started the job
 		/// </summary>
 		[Permissions(DenyWrite = true)]

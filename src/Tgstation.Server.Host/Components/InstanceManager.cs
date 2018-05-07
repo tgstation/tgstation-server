@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -16,17 +15,17 @@ namespace Tgstation.Server.Host.Components
 	sealed class InstanceManager : IInstanceManager, IHostedService
 	{
 		/// <summary>
-		/// The <see cref="IInstanceFactory"/> for the <see cref="IInstanceManager"/>
+		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly IInstanceFactory instanceFactory;
 		/// <summary>
-		/// The <see cref="IServiceProvider"/> for the <see cref="IInstanceManager"/>
-		/// </summary>
-		readonly IServiceProvider serviceProvider;
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="IInstanceManager"/>
+		/// The <see cref="IIOManager"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+		/// <summary>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IDatabaseContextFactory databaseContextFactory;
 		/// <summary>
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
@@ -36,13 +35,13 @@ namespace Tgstation.Server.Host.Components
 		/// Construct an <see cref="InstanceManager"/>
 		/// </summary>
 		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/></param>
-		/// <param name="serviceProvider">The value of <paramref name="serviceProvider"/></param>
 		/// <param name="ioManager">The value of <paramref name="ioManager"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IServiceProvider serviceProvider, IIOManager ioManager)
+		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
-			this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			instances = new Dictionary<long, IInstance>();
 		}
 
@@ -60,7 +59,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Host.Models.Instance instance, IDatabaseContext databaseContext, string newPath, CancellationToken cancellationToken)
+		public async Task MoveInstance(Host.Models.Instance instance, string newPath, CancellationToken cancellationToken)
 		{
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
@@ -72,14 +71,14 @@ namespace Tgstation.Server.Host.Components
 				var oldPath = instance.Path;
 				await ioManager.CopyDirectory(oldPath, newPath, null, cancellationToken).ConfigureAwait(false);
 				instance.Path = ioManager.ResolvePath(newPath);
-				instanceOnlineTask = OnlineInstance(instance, databaseContext, default);
+				instanceOnlineTask = OnlineInstance(instance, default);
 				await ioManager.DeleteDirectory(oldPath, cancellationToken).ConfigureAwait(false);
 			}
 			finally
 			{
 				if (instance.Online)
 					if (instanceOnlineTask == null)
-						await OnlineInstance(instance, databaseContext, default).ConfigureAwait(false);
+						await OnlineInstance(instance, default).ConfigureAwait(false);
 					else
 						await instanceOnlineTask.ConfigureAwait(false);
 			}
@@ -101,11 +100,11 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Host.Models.Instance metadata, IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		public async Task OnlineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
-			var instance = instanceFactory.CreateInstance(metadata, databaseContext);
+			var instance = instanceFactory.CreateInstance(metadata);
 			lock (this)
 			{
 				if (instances.ContainsKey(metadata.Id))
@@ -116,18 +115,14 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
+		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
-			using(var scope = serviceProvider.CreateScope())
-			{
-				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
-				var dbInstances = databaseContext.Instances.Where(x => x.Online).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
-				var tasks = new List<Task>();
-				await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, databaseContext, cancellationToken)), cancellationToken).ConfigureAwait(false);
-				await Task.WhenAll(tasks).ConfigureAwait(false);
-			}
-		}
+			await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
+			var dbInstances = databaseContext.Instances.Where(x => x.Online).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
+			var tasks = new List<Task>();
+			await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, cancellationToken)), cancellationToken).ConfigureAwait(false);
+			await Task.WhenAll(tasks).ConfigureAwait(false);
+		});
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)

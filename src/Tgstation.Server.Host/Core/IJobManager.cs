@@ -21,17 +21,12 @@ namespace Tgstation.Server.Host.Core
 		Task RegisterOperation(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Wait for a given <paramref name="job"/> to complete
-		/// </summary>
-		/// <param name="job">The <see cref="Job"/> to wait for</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing a running operation</returns>
-		Task WaitForJob(Job job, CancellationToken cancellationToken);
-
-		/// <summary>
 		/// Cancels a give <paramref name="job"/>
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/> to cancel</param>
-		void CancelJob(Job job);
+		/// <param name="user">The <see cref="User"/> who cancelled the <paramref name="job"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing a running operation</returns>
+		Task CancelJob(Job job, User user, CancellationToken cancellationToken);
     }
 }

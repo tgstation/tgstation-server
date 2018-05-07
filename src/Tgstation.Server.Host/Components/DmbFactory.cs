@@ -14,9 +14,9 @@ namespace Tgstation.Server.Host.Components
 	sealed class DmbFactory : IDmbFactory, ICompileJobConsumer
 	{
 		/// <summary>
-		/// The <see cref="IDatabaseContext"/> for the <see cref="DmbFactory"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="DmbFactory"/>
 		/// </summary>
-		readonly IDatabaseContext databaseContext;
+		readonly IDatabaseContextFactory databaseContextFactory;
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="DmbFactory"/>
 		/// </summary>
@@ -42,11 +42,11 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Construct a <see cref="DmbFactory"/>
 		/// </summary>
-		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		public DmbFactory(IDatabaseContext databaseContext, IIOManager ioManager)
+		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager)
 		{
-			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
+			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 
 			cleanupCts = new CancellationTokenSource();
@@ -117,16 +117,16 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
+		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
-			var cj = await databaseContext.CompileJobs.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var cj = await db.CompileJobs.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (cj == default(CompileJob))
 				return;
 			LoadCompileJob(cj);
 			//delete all other compile jobs
 			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
 			await Task.WhenAll(directories.Where(x => x != cj.Job.ToString()).Select(x => ioManager.DeleteDirectory(x, cancellationToken))).ConfigureAwait(false);
-		}
+		});
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)

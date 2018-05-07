@@ -55,33 +55,45 @@ namespace Tgstation.Server.Host.Core
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunJob(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
-			using (var scope = serviceProvider.CreateScope())
+			try
 			{
-				IDatabaseContext databaseContext = null;
-				try
+				using (var scope = serviceProvider.CreateScope())
 				{
-					var oldJob = job;
-					job = new Job { Id = oldJob.Id };
+					IDatabaseContext databaseContext = null;
 					try
 					{
-						await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+						var oldJob = job;
+						job = new Job { Id = oldJob.Id };
+						try
+						{
+							await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+						}
+						finally
+						{
+							databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+							databaseContext.Jobs.Attach(job);
+						}
 					}
-					finally
+					catch (OperationCanceledException)
 					{
-						databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-						databaseContext.Jobs.Attach(job);
+						job.Cancelled = true;
 					}
+					catch (Exception e)
+					{
+						job.ExceptionDetails = e.ToString();
+					}
+					job.StoppedAt = DateTimeOffset.Now;
+					await databaseContext.Save(default).ConfigureAwait(false);
 				}
-				catch (OperationCanceledException)
+			}
+			finally
+			{
+				lock (this)
 				{
-					job.Cancelled = true;
+					var handler = jobs[job.Id];
+					jobs.Remove(job.Id);
+					handler.Dispose();
 				}
-				catch (Exception e)
-				{
-					job.ExceptionDetails = e.ToString();
-				}
-				job.StoppedAt = DateTimeOffset.Now;
-				await databaseContext.Save(default).ConfigureAwait(false);
 			}
 		}
 
@@ -135,16 +147,18 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task WaitForJob(Job job, CancellationToken cancellationToken)
+		public async Task CancelJob(Job job, User user, CancellationToken cancellationToken)
 		{
-			var handler = CheckGetJob(job);
-			await handler.Wait(cancellationToken).ConfigureAwait(false);
-			lock (this)
-				jobs.Remove(job.Id);
-			handler.Dispose();
+			if (user != null)
+				using (var scope = serviceProvider.CreateScope())
+				{
+					var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+					job = new Job { Id = job.Id };
+					databaseContext.Jobs.Attach(job);
+					job.CancelledBy = user;
+					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				}
+			CheckGetJob(job).Cancel();
 		}
-
-		/// <inheritdoc />
-		public void CancelJob(Job job) => CheckGetJob(job).Cancel();
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -13,13 +12,23 @@ namespace Tgstation.Server.Host.Components
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IDatabaseContextFactory databaseContextFactory;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		public InstanceFactory(IIOManager ioManager) => this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory)
+		{
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+		}
 
 		/// <inheritdoc />
-		public IInstance CreateInstance(Host.Models.Instance metadata, IDatabaseContext databaseContext)
+		public IInstance CreateInstance(Host.Models.Instance metadata)
 		{
 			//Create the ioManager for the instance
 
@@ -32,7 +41,7 @@ namespace Tgstation.Server.Host.Components
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 			var codeModificationsIoMananger = new ResolvingIOManager(instanceIoManager, "CodeModifications");
 
-			var dmbFactory = new DmbFactory(databaseContext, gameIoManager);
+			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager);
 
 
 

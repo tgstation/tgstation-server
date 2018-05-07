@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class User : Api.Models.Internal.User
+	public sealed class User : Api.Models.Internal.User, IApiConvertable<Api.Models.User>
 	{
 		/// <summary>
 		/// The hash of the user's password
@@ -24,5 +25,25 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="InstanceUser"/>s for the <see cref="User"/>
 		/// </summary>
 		public List<InstanceUser> InstanceUsers { get; set; }
+
+		/// <summary>
+		/// See <see cref="ToApi()"/>
+		/// </summary>
+		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/></param>
+		/// <returns>A new <see cref="Api.Models.User"/></returns>
+		Api.Models.User ToApi(bool recursive) => new Api.Models.User
+		{
+			AdministrationRights = AdministrationRights,
+			CreatedAt = CreatedAt,
+			CreatedBy = recursive ? CreatedBy?.ToApi(false) : null,
+			Enabled = Enabled,
+			Id = Id,
+			InstanceManagerRights = InstanceManagerRights,
+			Name = Name,
+			SystemIdentifier = SystemIdentifier
+		};
+
+		/// <inheritdoc />
+		public Api.Models.User ToApi() => ToApi(true);
 	}
 }

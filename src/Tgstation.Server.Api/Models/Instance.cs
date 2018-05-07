@@ -41,6 +41,12 @@ namespace Tgstation.Server.Api.Models
 		[Permissions(WriteRight = InstanceManagerRights.SetConfiguration)]
 		public bool ConfigurationAllowed { get; set; }
 
+		/// <summary>
+		/// The time interval in minutes the repository is automatically pulled and compiles
+		/// </summary>
+		[Permissions(WriteRight = InstanceManagerRights.SetAutoUpdate)]
+		public int? AutoUpdateInterval { get; set; }
+
 		/// <inheritdoc />
 		public Instance CloneMetadata() => new Instance
 		{

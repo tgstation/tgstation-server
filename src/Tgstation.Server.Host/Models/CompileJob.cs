@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class CompileJob : Api.Models.Internal.CompileJob
-    {
+	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiConvertable<Api.Models.CompileJob>
+	{
 		/// <summary>
 		/// The <see cref="Api.Models.Internal.Job.Id"/> of <see cref="Job"/>
 		/// </summary>
@@ -21,5 +22,18 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
-    }
+
+		/// <inheritdoc />
+		public Api.Models.CompileJob ToApi() => new Api.Models.CompileJob
+		{
+			DirectoryName = DirectoryName,
+			DMApiValidated = DMApiValidated,
+			DmeName = DmeName,
+			ExitCode = ExitCode,
+			Id = Id,
+			Job = Job.ToApi(),
+			Output = Output,
+			RevisionInformation = RevisionInformation.ToApi()
+		};
+	}
 }

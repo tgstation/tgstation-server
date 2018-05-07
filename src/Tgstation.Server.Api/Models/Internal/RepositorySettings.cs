@@ -46,11 +46,5 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
 		public bool ShowTestMergeCommitters { get; set; }
-
-		/// <summary>
-		/// How often the <see cref="Repository"/> automatically updates in minutes
-		/// </summary>
-		[Permissions(WriteRight = RepositoryRights.ChangeAutoUpdate)]
-		public int? AutoUpdateInterval { get; set; }
 	}
 }

@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing DreamDaemon
 	/// </summary>
-	interface IDreamDaemon : IHostedService
+	public interface IDreamDaemon : IHostedService
 	{
 		/// <summary>
 		/// If DreamDaemon is running

@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing the BYOND installation
 	/// </summary>
-	interface IByond
+	public interface IByond
 	{
 		/// <summary>
 		/// Change the current BYOND version

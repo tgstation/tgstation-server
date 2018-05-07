@@ -37,20 +37,16 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		ChangeTestMergeCommits = 64,
 		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.AutoUpdateInterval"/>
-		/// </summary>
-		ChangeAutoUpdate = 128,
-		/// <summary>
 		/// User may read and change <see cref="Models.Internal.RepositorySettings.AccessUser"/> and <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>
-		ChangeCredentials = 256,
+		ChangeCredentials = 128,
 		/// <summary>
 		/// User may set <see cref="Models.Repository.Reference"/> to another git reference (not a SHA)
 		/// </summary>
-		SetReference = 512,
+		SetReference = 256,
 		/// <summary>
 		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>
-		Read = 1024,
+		Read = 512,
 	}
 }

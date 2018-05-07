@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Represents code modifications via configuration
 	/// </summary>
-	sealed class ServerSideModifications
+	public sealed class ServerSideModifications
 	{
 		/// <summary>
 		/// If the target dme was completely overwitten
