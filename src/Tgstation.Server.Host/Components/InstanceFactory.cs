@@ -1,6 +1,5 @@
 ﻿using System;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -19,7 +18,7 @@ namespace Tgstation.Server.Host.Components
 		public InstanceFactory(IIOManager ioManager) => this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 
 		/// <inheritdoc />
-		public IInstance CreateInstance(Host.Models.Instance metadata, IDatabaseContext databaseContext)
+		public IInstance CreateInstance(Host.Models.Instance metadata, IDatabaseContextFactory databaseContextFactory)
 		{
 			//Create the ioManager for the instance
 
@@ -32,7 +31,7 @@ namespace Tgstation.Server.Host.Components
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 			var codeModificationsIoMananger = new ResolvingIOManager(instanceIoManager, "CodeModifications");
 
-			var dmbFactory = new DmbFactory(databaseContext, gameIoManager);
+			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager);
 
 
 

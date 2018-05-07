@@ -7,8 +7,8 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Factory for creating and loading <see cref="IRepository"/>s
 	/// </summary>
-    interface IRepositoryManager : IHostedService
-    {
+    interface IRepositoryManager
+	{
 		/// <summary>
 		/// Attempt to load the <see cref="IRepository"/> from the default location
 		/// </summary>
@@ -24,12 +24,5 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>The newly cloned <see cref="IRepository"/></returns>
 		Task<IRepository> CloneRepository(string url, string accessString, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Change the interval in minutes at which the repository auto updates
-		/// </summary>
-		/// <param name="newInterval">The new interval in minutes or <see langword="null"/> to disable the auto update</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SetAutoUpdateInterval(int? newInterval);
     }
 }

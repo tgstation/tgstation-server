@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -19,5 +20,7 @@ namespace Tgstation.Server.Host.Components
 		Api.Models.Instance GetMetadata();
 
 		void Rename(string newName);
+
+		Task SetAutoUpdateInterval(int? newInterval);
 	}
 }

@@ -43,6 +43,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Instance.ConfigurationAllowed"/>
 		/// </summary>
-		SetConfiguration = 128
+		SetConfiguration = 128,
+		/// <summary>
+		/// User can change <see cref="Models.Instance.AutoUpdateInterval"/>
+		/// </summary>
+		SetAutoUpdate = 256
 	}
 }

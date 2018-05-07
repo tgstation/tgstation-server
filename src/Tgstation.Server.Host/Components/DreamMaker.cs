@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,8 +24,13 @@ namespace Tgstation.Server.Host.Components
 		/// Name of the secondary directory used for compilation
 		/// </summary>
 		public const string BDirectoryName = "B";
+		/// <summary>
+		/// Extension for .dmbs
+		/// </summary>
 		public const string DmbExtension = ".dmb";
-
+		/// <summary>
+		/// Extension for .dmes
+		/// </summary>
 		const string DmeExtension = ".dme";
 
 		/// <summary>
@@ -61,6 +67,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// 
 		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop, ICompileJobConsumer compileJobConsumer)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -202,12 +209,12 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<Host.Models.CompileJob> Compile(string dmeName, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Host.Models.CompileJob> Compile(string projectName, IRepository repository, CancellationToken cancellationToken)
 		{
 			var job = new Host.Models.CompileJob
 			{
 				DirectoryName = Guid.NewGuid(),
-				DmeName = dmeName
+				DmeName = projectName
 			};
 			await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
@@ -228,6 +235,16 @@ namespace Tgstation.Server.Host.Components
 				var fullDirA = ioManager.ResolvePath(dirA);
 				using (repository)
 					await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
+
+				if (job.DmeName == null)
+				{
+					job.DmeName = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
+					if (job.DmeName == default)
+					{
+						job.Output = "Unable to find any .dme!";
+						return job;
+					}
+				}
 
 				await ModifyDme(job, cancellationToken).ConfigureAwait(false);
 
@@ -262,19 +279,6 @@ namespace Tgstation.Server.Host.Components
 				await CleanupFailedCompile().ConfigureAwait(false);
 				throw;
 			}
-		}
-
-		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken)
-		{
-			//THIS IS FOR AUTO COMPILE INTERVAL STUFF, STOP TRYING TO REMOVE IT
-			throw new NotImplementedException();
-		}
-
-		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }
