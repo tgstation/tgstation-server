@@ -1,7 +1,6 @@
 var searchData=
 [
   ['ddbadstarttime',['DDBadStartTime',['../class_t_g_s_1_1_server_1_1_instance.html#af176f1f39f4e8ff398687c5cab4eaf4a',1,'TGS::Server::Instance']]],
-  ['ddhangstarttime',['DDHangStartTime',['../class_t_g_s_1_1_server_1_1_instance.html#a2124d6039dfc0e03091319fc937440f5',1,'TGS::Server::Instance']]],
   ['ddwatchdog',['DDWatchdog',['../class_t_g_s_1_1_server_1_1_instance.html#a85b6d2d0e931f3961b0c1a75577d13dc',1,'TGS::Server::Instance']]],
   ['defaultconfigdirectory',['DefaultConfigDirectory',['../class_t_g_s_1_1_server_1_1_server.html#a584355066ff6bc0e6d0f45918d1d49ec',1,'TGS::Server::Server']]],
   ['defaultinstallationpath',['DefaultInstallationPath',['../class_t_g_s_1_1_server_1_1_deprecated_instance_config.html#ae4671caa40d0676d10b8bb19c0378713',1,'TGS::Server::DeprecatedInstanceConfig']]],
