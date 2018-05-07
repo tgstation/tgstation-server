@@ -39,7 +39,13 @@ namespace TGS.Server
 		/// </summary>
 		void Migrate()
 		{
-			//Not needed so far
+			switch (Version)
+			{
+				//add this field
+				case 0:
+					ServerStartupTimeout = 60;
+					break;
+			}
 		}
 	}
 }
