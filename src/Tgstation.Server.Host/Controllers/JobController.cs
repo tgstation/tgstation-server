@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for <see cref="Api.Models.Job"/>s
 	/// </summary>
-	[Route("/Job")]
+	[Route("/" + nameof(Job))]
 	public sealed class JobController : ModelController<Api.Models.Job>
 	{
 		/// <summary>
@@ -60,11 +60,23 @@ namespace Tgstation.Server.Host.Controllers
 			if (job == default(Job))
 				return NotFound();
 
+			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
+				return Forbid();
+
 			if(job.StoppedAt != null)
 				return StatusCode(HttpStatusCode.Gone);
 
 			await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
 			return Ok();
+		}
+
+		[TgsAuthorize]
+		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		{
+			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).Include(x => x.StartedBy).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (job == default(Job))
+				return NotFound();
+			return Json(job.ToApi());
 		}
 	}
 }

@@ -41,6 +41,10 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		string AccessToken { get; }
 
+		DreamDaemonLaunchParameters LastLaunchParameters { get; }
+		
+		Host.Models.CompileJob LastCompileJob { get; }
+
 		/// <summary>
 		/// Launch DreamDaemon
 		/// </summary>

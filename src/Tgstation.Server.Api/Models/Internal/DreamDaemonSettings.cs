@@ -1,4 +1,5 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -11,18 +12,21 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If <see cref="DreamDaemon"/> starts when it's <see cref="Instance"/> starts
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetAutoStart)]
-		public bool AutoStart { get; set; }
+		[Required]
+		public bool? AutoStart { get; set; }
 
 		/// <summary>
 		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SoftRestart)]
-		public bool SoftRestart { get; set; }
+		[Required]
+		public bool? SoftRestart { get; set; }
 
 		/// <summary>
 		/// If the server is undergoing a soft shutdown
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SoftShutdown)]
-		public bool SoftShutdown { get; set; }
+		[Required]
+		public bool? SoftShutdown { get; set; }
 	}
 }
