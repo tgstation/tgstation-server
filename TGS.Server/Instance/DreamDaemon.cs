@@ -30,10 +30,6 @@ namespace TGS.Server
 		/// </summary>
 		const string ResourceDiagnosticsDir = DiagnosticsDir + "/Resources";
 		/// <summary>
-		/// Time until DD is considered DOA on startup
-		/// </summary>
-		const int DDHangStartTime = 60;
-		/// <summary>
 		/// If DreamDaemon crashes before this time it is considered a bad startup
 		/// </summary>
 		const int DDBadStartTime = 10;
@@ -625,14 +621,15 @@ namespace TGS.Server
 					Proc.Start();
 					Proc.PriorityClass = ProcessPriorityClass.AboveNormal;
 
-					if (!Proc.WaitForInputIdle(DDHangStartTime * 1000))
+					var timeout = Config.ServerStartupTimeout;
+					if (!Proc.WaitForInputIdle(timeout * 1000))
 					{
 						Proc.Kill();
 						Proc.WaitForExit();
 						Proc.Close();
 						currentStatus = DreamDaemonStatus.Offline;
 						currentPort = 0;
-						return String.Format("Server start is taking more than {0}s! Aborting!", DDHangStartTime);
+						return String.Format("Server start is taking more than {0}s! Aborting!", timeout);
 					}
 					currentPort = Config.Port;
 					currentStatus = DreamDaemonStatus.Online;

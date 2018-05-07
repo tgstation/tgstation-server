@@ -114,6 +114,11 @@ namespace TGS.Server
 		bool PushTestmergeCommits { get; set; }
 
 		/// <summary>
+		/// Time in seconds before DD is considered dead in the water
+		/// </summary>
+		int ServerStartupTimeout { get; set; }
+
+		/// <summary>
 		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Instance"/> <see cref="Directory"/>
 		/// </summary>
 		void Save();
@@ -132,7 +137,7 @@ namespace TGS.Server
 		/// The current version of the config
 		/// </summary>
 		[JsonIgnore]
-		protected const ulong CurrentVersion = 0;   //Literally any time you add/deprecated a field, this number needs to be bumped
+		protected const ulong CurrentVersion = 1;   //Literally any time you add/deprecated a field, this number needs to be bumped
 
 		/// <inheritdoc />
 		[JsonIgnore]
@@ -197,6 +202,9 @@ namespace TGS.Server
 
 		/// <inheritdoc />
 		public bool PushTestmergeCommits { get; set; } = false;
+
+		/// <inheritdoc />
+		public int ServerStartupTimeout { get; set; } = 60;
 
 		/// <summary>
 		/// Construct a <see cref="InstanceConfig"/> for a <see cref="Instance"/> at <paramref name="path"/>
