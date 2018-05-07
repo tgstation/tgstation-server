@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public async Task<IRepository> CloneRepository(string url, string accessString, CancellationToken cancellationToken)
+		public async Task<IRepository> CloneRepository(Uri url, string accessString, CancellationToken cancellationToken)
 		{
 			await ioManager.DeleteDirectory(".", cancellationToken).ConfigureAwait(false);
 
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components
 				string path = null;
 				try
 				{
-					path = LibGit2Sharp.Repository.Clone(Repository.GenerateAuthUrl(url, accessString), ioManager.ResolvePath("."), new CloneOptions
+					path = LibGit2Sharp.Repository.Clone(Repository.GenerateAuthUrl(url.ToString(), accessString), ioManager.ResolvePath("."), new CloneOptions
 					{
 						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
 						OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,

@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing connected chat services
 	/// </summary>
-	interface IChat : IHostedService
+	public interface IChat : IHostedService
 	{
 		/// <summary>
 		/// If the IRC client is connected
@@ -47,6 +47,14 @@ namespace Tgstation.Server.Host.Components
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SendMessage(string message, IEnumerable<long> channelIds, CancellationToken cancellationToken);
 
+		/// <summary>
+		/// Start tracking json files for commands and channels
+		/// </summary>
+		/// <param name="basePath">The base path of the .jsons</param>
+		/// <param name="channelsJsonName">The name of the chat channels json</param>
+		/// <param name="commandsJsonName">The name of the chat commands json</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IDisposable"/> tied to the lifetime of the json trackings</returns>
 		Task<IDisposable> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken);
 	}
 }

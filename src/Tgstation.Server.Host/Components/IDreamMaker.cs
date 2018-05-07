@@ -8,8 +8,13 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing the compiler
 	/// </summary>
-	interface IDreamMaker
+	public interface IDreamMaker
 	{
+		/// <summary>
+		/// The <see cref="Api.Models.CompilerStatus"/> of <see cref="IDreamMaker"/>
+		/// </summary>
+		Api.Models.CompilerStatus Status { get; }
+
 		/// <summary>
 		/// Starts a compile
 		/// </summary>

@@ -33,6 +33,9 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		const string DmeExtension = ".dme";
 
+		/// <inheritdoc />
+		public CompilerStatus Status { get; private set; }
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -172,6 +175,12 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
+		/// <summary>
+		/// Adds server side includes to the .dme being compiled
+		/// </summary>
+		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ModifyDme(Host.Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
@@ -211,73 +220,92 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<Host.Models.CompileJob> Compile(string projectName, IRepository repository, CancellationToken cancellationToken)
 		{
-			var job = new Host.Models.CompileJob
-			{
-				DirectoryName = Guid.NewGuid(),
-				DmeName = projectName
-			};
-			await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
-			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
-
-			async Task CleanupFailedCompile()
-			{
-				try
-				{
-					await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
-				}
-				catch { }
-			};
-
 			try
 			{
-				//copy the repository
-				var fullDirA = ioManager.ResolvePath(dirA);
-				using (repository)
-					await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
-
-				if (job.DmeName == null)
+				Status = CompilerStatus.Copying;
+				var job = new Host.Models.CompileJob
 				{
-					job.DmeName = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
-					if (job.DmeName == default)
+					DirectoryName = Guid.NewGuid(),
+					DmeName = projectName
+				};
+				await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
+				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+				var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
+
+				async Task CleanupFailedCompile()
+				{
+					Status = CompilerStatus.Cleanup;
+					try
 					{
-						job.Output = "Unable to find any .dme!";
-						return job;
+						await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
 					}
-				}
+					catch { }
+				};
 
-				await ModifyDme(job, cancellationToken).ConfigureAwait(false);
-
-				//run compiler, verify api
-				var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+				try
 				{
-					await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+					//copy the repository
+					var fullDirA = ioManager.ResolvePath(dirA);
+					using (repository)
+						await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
 
-					return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
-				}, true).ConfigureAwait(false);
+					Status = CompilerStatus.Modifying;
 
-				if (!ddVerified)
-					//server never validated or compile failed
+					if (job.DmeName == null)
+					{
+						job.DmeName = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
+						if (job.DmeName == default)
+						{
+							job.Output = "Unable to find any .dme!";
+							return job;
+						}
+					}
+
+					await ModifyDme(job, cancellationToken).ConfigureAwait(false);
+
+					Status = CompilerStatus.Compiling;
+
+					//run compiler, verify api
+					var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+					{
+						await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+
+						Status = CompilerStatus.Verifying;
+
+						return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
+					}, true).ConfigureAwait(false);
+
+					if (!ddVerified)
+						//server never validated or compile failed
+						await CleanupFailedCompile().ConfigureAwait(false);
+					else
+					{
+						job.DMApiValidated = true;
+
+						Status = CompilerStatus.Duplicating;
+							
+						//duplicate the dmb et al
+						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
+
+						Status = CompilerStatus.Symlinking;
+
+						//symlink in the static data
+						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
+						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
+						await symATask.ConfigureAwait(false);
+					}
+					compileJobConsumer.LoadCompileJob(job);
+					return job;
+				}
+				catch
+				{
 					await CleanupFailedCompile().ConfigureAwait(false);
-				else
-				{
-					job.DMApiValidated = true;
-
-					//duplicate the dmb et al
-					await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
-
-					//symlink in the static data
-					var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-					await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
-					await symATask.ConfigureAwait(false);
+					throw;
 				}
-				compileJobConsumer.LoadCompileJob(job);
-				return job;
 			}
-			catch
+			finally
 			{
-				await CleanupFailedCompile().ConfigureAwait(false);
-				throw;
+				Status = CompilerStatus.Idle;
 			}
 		}
 	}

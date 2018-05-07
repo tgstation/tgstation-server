@@ -145,6 +145,18 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public void CancelJob(Job job) => CheckGetJob(job).Cancel();
+		public async Task CancelJob(Job job, User user, CancellationToken cancellationToken)
+		{
+			if (user != null)
+				using (var scope = serviceProvider.CreateScope())
+				{
+					var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+					job = new Job { Id = job.Id };
+					databaseContext.Jobs.Attach(job);
+					job.CancelledBy = user;
+					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				}
+			CheckGetJob(job).Cancel();
+		}
 	}
 }

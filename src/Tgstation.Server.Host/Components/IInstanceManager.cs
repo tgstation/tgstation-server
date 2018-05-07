@@ -1,13 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
 	/// For managing <see cref="IInstance"/>s
 	/// </summary>
-	interface IInstanceManager : IInstanceShutdownHandler
+	public interface IInstanceManager : IInstanceShutdownHandler
 	{
 		/// <summary>
 		/// Get the <see cref="IInstance"/> associated with given <paramref name="metadata"/>

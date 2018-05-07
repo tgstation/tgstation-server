@@ -32,6 +32,9 @@ namespace Tgstation.Server.Host.Core
 		/// Cancels a give <paramref name="job"/>
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/> to cancel</param>
-		void CancelJob(Job job);
+		/// <param name="user">The <see cref="User"/> who cancelled the <paramref name="job"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing a running operation</returns>
+		Task CancelJob(Job job, User user, CancellationToken cancellationToken);
     }
 }

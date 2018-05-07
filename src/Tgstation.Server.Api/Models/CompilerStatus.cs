@@ -12,16 +12,32 @@
         /// </summary>
 		Idle,
         /// <summary>
-        /// The directiory is being targeted
-        /// </summary>
-		Targeting,
-        /// <summary>
         /// The <see cref="Repository"/> is being copied
         /// </summary>
         Copying,
+		/// <summary>
+		/// The .dme is having it's server side modifications applied
+		/// </summary>
+		Modifying,
         /// <summary>
         /// DreamMaker is running
         /// </summary>
-        Compiling
+        Compiling,
+		/// <summary>
+		/// The DMAPI is being verified
+		/// </summary>
+		Verifying,
+		/// <summary>
+		/// The compile results are being duplicated
+		/// </summary>
+		Duplicating,
+		/// <summary>
+		/// The configuration is being linked to the compile results
+		/// </summary>
+		Symlinking,
+		/// <summary>
+		/// A failed compile job is being erased
+		/// </summary>
+		Cleanup
 	}
 }

@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing the Configuration directory
 	/// </summary>
-	interface IConfiguration
+	public interface IConfiguration
 	{
 		/// <summary>
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>
