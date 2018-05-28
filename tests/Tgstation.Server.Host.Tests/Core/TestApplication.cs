@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Core.Tests
