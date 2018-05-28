@@ -60,6 +60,10 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="ICompileJobConsumer"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ICompileJobConsumer compileJobConsumer;
+		/// <summary>
+		/// The <see cref="IApplication"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IApplication application;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
@@ -70,8 +74,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// <param name="application">The value of <see cref="application"/></param>
 		/// 
-		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop, ICompileJobConsumer compileJobConsumer)
+		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop, ICompileJobConsumer compileJobConsumer, IApplication application)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -79,6 +84,7 @@ namespace Tgstation.Server.Host.Components
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
 		}
 
 		/// <summary>
@@ -103,7 +109,7 @@ namespace Tgstation.Server.Host.Components
 				var interopInfo = new InteropInfo
 				{
 					ApiValidateOnly = true,
-					HostPath = Application.HostingPath,
+					HostPath = application.HostingPath,
 					AccessToken = control.PrimaryAccessToken
 				};
 				var ddTcs = new TaskCompletionSource<object>();

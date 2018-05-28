@@ -21,20 +21,14 @@ using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Core
 {
-    /// <summary>
-    /// Configures the ASP.NET Core web application
-    /// </summary>
-	sealed class Application
+	/// <inheritdoc />
+	sealed class Application : IApplication
 	{
-		/// <summary>
-		/// The url the server can be reached at locally
-		/// </summary>
-		public static string HostingPath { get; private set; }
+		/// <inheritdoc />
+		public string HostingPath => serverAddresses.Addresses.First();
 
-		/// <summary>
-		/// The version of the <see cref="Application"/>
-		/// </summary>
-		public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+		/// <inheritdoc />
+		public Version Version { get; }
 
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
@@ -47,6 +41,11 @@ namespace Tgstation.Server.Host.Core
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
 		/// <summary>
+		/// The <see cref="IServerAddressesFeature"/> for the <see cref="Application"/>
+		/// </summary>
+		IServerAddressesFeature serverAddresses;
+
+		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
@@ -55,6 +54,8 @@ namespace Tgstation.Server.Host.Core
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+
+			Version = Assembly.GetExecutingAssembly().GetName().Version;
 		}
 
 		/// <summary>
@@ -147,6 +148,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<JobManager>();
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobManager>());
+
+			services.AddSingleton<IApplication>(this);
 		}
 
 		/// <summary>
@@ -158,8 +161,7 @@ namespace Tgstation.Server.Host.Core
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
 
-			var addresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
-			HostingPath = addresses.Addresses.First();			
+			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();

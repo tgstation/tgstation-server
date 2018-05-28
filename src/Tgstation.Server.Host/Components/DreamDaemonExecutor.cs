@@ -43,16 +43,22 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IIOManager"/> for the <see cref="DreamDaemonExecutor"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+		/// <summary>
+		/// The <see cref="IApplication"/> for the <see cref="DreamDaemonExecutor"/>
+		/// </summary>
+		readonly IApplication application;
 
 		/// <summary>
 		/// Construct a <see cref="DreamDaemonExecutor"/>
 		/// </summary>
 		/// <param name="instanceShutdownMethod">The value of <see cref="instanceShutdownMethod"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		public DreamDaemonExecutor(IInstanceShutdownHandler instanceShutdownMethod, IIOManager ioManager)
+		/// <param name="application">The value of <see cref="application"/></param>
+		public DreamDaemonExecutor(IInstanceShutdownHandler instanceShutdownMethod, IIOManager ioManager, IApplication application)
 		{
 			this.instanceShutdownMethod = instanceShutdownMethod ?? throw new ArgumentNullException(nameof(instanceShutdownMethod));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
 		}
 
 		/// <inheritdoc />
@@ -89,7 +95,7 @@ namespace Tgstation.Server.Host.Components
 					isPrimary ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
 					launchParameters.AllowWebClient ? "-webclient " : String.Empty,
 					SecurityWord(launchParameters.SecurityLevel),
-					DreamDaemonParameters.HostVersion, Application.Version,
+					DreamDaemonParameters.HostVersion, application.Version,
 					DreamDaemonParameters.InfoJsonPath, jsonPath);
 
 				proc.EnableRaisingEvents = true;

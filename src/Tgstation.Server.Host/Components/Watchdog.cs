@@ -39,6 +39,10 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly IInstanceManager instanceManager;
 		/// <summary>
+		/// The <see cref="IApplication"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IApplication application;
+		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/> of the <see cref="Watchdog"/>
 		/// </summary>
 		readonly long instanceId;
@@ -62,8 +66,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="instanceId">The value of <see cref="instanceId"/></param>
-		public Watchdog(IByond byond, IChat chat, IDreamDaemonExecutor dreamDaemonExecutor, IInterop interop, IDmbFactory dmbFactory, IEventConsumer eventConsumer, IInstanceManager instanceManager, long instanceId)
+		public Watchdog(IByond byond, IChat chat, IDreamDaemonExecutor dreamDaemonExecutor, IInterop interop, IDmbFactory dmbFactory, IEventConsumer eventConsumer, IInstanceManager instanceManager, IApplication application, long instanceId)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -72,6 +77,7 @@ namespace Tgstation.Server.Host.Components
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
 
 			this.instanceId = instanceId;
 		}
@@ -144,7 +150,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					AccessToken = accessToken,
 					ApiValidateOnly = false,
-					HostPath = Application.HostingPath,
+					HostPath = application.HostingPath,
 					InstanceId = instanceId,
 					NextPort = isPrimary ? launchParameters.SecondaryPort : launchParameters.PrimaryPort,
 					//this line feels hacky, change it and remove the instanceManager dep?
