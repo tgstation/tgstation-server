@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components
 						PullRequestCommit = I.PullRequestRevision,
 						TimeMerged = I.MergedAt.ToUnixTimeSeconds(),
 						Title = I.TitleAtMerge,
-						Url = I.Url.ToString()
+						Url = I.Url
 					});
 
 				using (await chat.TrackJsons(isPrimary ? dmb.PrimaryDirectory : dmb.SecondaryDirectory, interopInfo.ChatChannelsJson, isPrimary ? interopInfo.ChatCommandsJson : null, cancellationToken).ConfigureAwait(false))

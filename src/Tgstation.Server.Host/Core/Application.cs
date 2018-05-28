@@ -141,6 +141,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
 
+			services.AddSingleton<InstanceFactory>();
+			services.AddSingleton<IInstanceFactory>(x => x.GetRequiredService<InstanceFactory>());
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
@@ -148,6 +150,12 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<JobManager>();
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobManager>());
+
+			services.AddSingleton<DefaultIOManager>();
+			services.AddSingleton<IIOManager>(x => x.GetRequiredService<DefaultIOManager>());
+
+			services.AddSingleton<DatabaseContextFactory>();
+			services.AddSingleton<IDatabaseContextFactory>(x => x.GetRequiredService<DatabaseContextFactory>());
 
 			services.AddSingleton<IApplication>(this);
 		}
