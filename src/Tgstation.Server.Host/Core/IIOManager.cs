@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Interface for using filesystems
 	/// </summary>
-	interface IIOManager
+	public interface IIOManager
 	{
 		/// <summary>
 		/// Retrieve the full path of some <paramref name="path"/> given a relative path. Must be used before passing relative paths to other APIs. All other operations in this <see langword="interface"/> call this internally on given paths
@@ -47,6 +47,14 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> resulting in <see langword="true"/> if the file at <paramref name="path"/> exists, <see langword="false"/> otherwise</returns>
 		Task<bool> FileExists(string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Check that the directory at <paramref name="path"/> exists
+		/// </summary>
+		/// <param name="path">The directory to check for existence</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> resulting in <see langword="true"/> if the directory at <paramref name="path"/> exists, <see langword="false"/> otherwise</returns>
+		Task<bool> DirectoryExists(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Returns all the contents of a file at <paramref name="path"/> as a <see cref="byte"/> array

@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+#if !DEBUG
 using System.Linq;
+#endif
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -31,6 +33,15 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 
+		/// <inheritdoc />
+		public DbSet<ChatSettings> ChatSettings { get; set; }
+
+		/// <inheritdoc />
+		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
+
+		/// <inheritdoc />
+		public DbSet<RepositorySettings> RepositorySettings { get; set; }
+
 		/// <summary>
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="Log"/>s
 		/// </summary>
@@ -40,30 +51,21 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<InstanceUser> InstanceUsers { get; set; }
+
 		/// <summary>
 		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<ChatChannel> ChatChannels { get; set; }
-		/// <summary>
-		/// The <see cref="ChatSettings"/>s in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		public DbSet<ChatSettings> ChatSettings { get; set; }
-		/// <summary>
-		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
+
 		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<Job> Jobs { get; set; }
+
 		/// <summary>
 		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
-		/// <summary>
-		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
 		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
