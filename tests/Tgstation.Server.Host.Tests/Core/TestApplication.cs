@@ -18,7 +18,6 @@ namespace Tgstation.Server.Host.Core.Tests
 			var dbName = Path.GetTempFileName();
 			try
 			{
-				using (var cts = new CancellationTokenSource())
 				using (var webHost = WebHost.CreateDefaultBuilder(new string[] { "Database:DatabaseType=Sqlite", "Database:ConnectionString=Data Source=" + dbName }) //force it to use sqlite
 					.UseStartup<Application>()
 					.Build()
