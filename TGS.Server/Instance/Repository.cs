@@ -1016,8 +1016,6 @@ namespace TGS.Server
 							prAPI = prAPI.Replace("github.com", "api.github.com/repos");
 							prAPI += "/pulls/" + PRNumberString + ".json";
 							string json;
-							//tls1.2 meme
-							ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 							using (var wc = new WebClient())
 							{
 								wc.Headers.Add("user-agent", "TGS.Server");
