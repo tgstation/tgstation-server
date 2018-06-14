@@ -268,7 +268,7 @@ namespace TGS.Server
 					Directory.CreateDirectory(RelativePath(ByondConfigDir));
 					File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
 				}
-				File.Delete(RevisionDownloadPath);
+				File.Delete(rrdp);
 
 				lock (ByondLock)
 				{
