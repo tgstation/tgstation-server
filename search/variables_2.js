@@ -11,6 +11,7 @@ var searchData=
   ['byondconfigdir',['ByondConfigDir',['../class_t_g_s_1_1_server_1_1_instance.html#acd58b7f32bd652601bf7adc38e5b5d1a',1,'TGS::Server::Instance']]],
   ['byondddconfig',['ByondDDConfig',['../class_t_g_s_1_1_server_1_1_instance.html#a2345519c680d34ee237e471cda72a7cc',1,'TGS::Server::Instance']]],
   ['byonddirectory',['ByondDirectory',['../class_t_g_s_1_1_server_1_1_instance.html#a9efa4ea461f8ca8f1c1f10b59dc4bc66',1,'TGS::Server::Instance']]],
+  ['byonddxdir',['ByondDXDir',['../class_t_g_s_1_1_server_1_1_instance.html#ae34f335702232fc112d8b059f8366b29',1,'TGS::Server::Instance']]],
   ['byondlatesturl',['ByondLatestURL',['../class_t_g_s_1_1_server_1_1_instance.html#af60fa8ab17b53ba69e6969c87a121703',1,'TGS::Server::Instance']]],
   ['byondlock',['ByondLock',['../class_t_g_s_1_1_server_1_1_instance.html#afa48afaed61100daacb9a97366281837',1,'TGS::Server::Instance']]],
   ['byondnoprompttrustedmode',['ByondNoPromptTrustedMode',['../class_t_g_s_1_1_server_1_1_instance.html#a16c7cb446fedd4bce134f62f21c572c2',1,'TGS::Server::Instance']]],

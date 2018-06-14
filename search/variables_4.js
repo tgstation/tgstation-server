@@ -12,6 +12,7 @@ var searchData=
   ['devchannelindex',['DevChannelIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#a13ed26bb6e2e976439ac6c301a1f29db',1,'TGS::Interface::ChatSetupInfo']]],
   ['devchannelstextbox',['DevChannelsTextbox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a5a4ee5d9f6524c6fd6d0d360f4b95668',1,'TGS::ControlPanel::ControlPanel']]],
   ['diagnosticsdir',['DiagnosticsDir',['../class_t_g_s_1_1_server_1_1_instance.html#aaf6f1302e487564be3dba0a01c087628',1,'TGS::Server::Instance']]],
+  ['directxinstalllock',['DirectXInstallLock',['../class_t_g_s_1_1_server_1_1_instance.html#a9a4c76f7e067f50296778fec27c18b92',1,'TGS::Server::Instance']]],
   ['discordconfig',['DiscordConfig',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html#a9e231d1c709ebd806731360eb41b78b8',1,'TGS::Server::ChatProviders::DiscordChatProvider']]],
   ['discordlock',['DiscordLock',['../class_t_g_s_1_1_server_1_1_chat_providers_1_1_discord_chat_provider.html#af5aa58aa39acee2474bcdd4fb5b2da9c',1,'TGS::Server::ChatProviders::DiscordChatProvider']]],
   ['discordproviderswitch',['DiscordProviderSwitch',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a852407d502ceb19873977f5251975f4d',1,'TGS::ControlPanel::ControlPanel']]],
