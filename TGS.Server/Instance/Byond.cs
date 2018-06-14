@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TGS.Interface;
@@ -43,7 +44,11 @@ namespace TGS.Server
 		/// <summary>
 		/// The instance directory to modify the BYOND cfg before installation
 		/// </summary>
-		const string ByondConfigDir = StagingDirectory + "/BYOND/cfg";
+		const string ByondConfigDir = StagingDirectoryInner + "/cfg";
+		/// <summary>
+		/// The instance that contains the BYOND directx redistributable
+		/// </summary>
+		const string ByondDXDir = StagingDirectoryInner + "/directx";
 		/// <summary>
 		/// BYOND's DreamDaemon config file in the cfg modification directory
 		/// </summary>
@@ -75,6 +80,11 @@ namespace TGS.Server
 		/// Thread used for staging BYOND revisions
 		/// </summary>
 		Thread RevisionStaging;
+
+		/// <summary>
+		/// Global lock for installing DirectX if necessary
+		/// </summary>
+		static object DirectXInstallLock = new object();
 
 		/// <summary>
 		/// Called when the <see cref="Instance"/> is setup. Prepares the BYOND updater
@@ -261,14 +271,51 @@ namespace TGS.Server
 				//STAGING
 				
 				ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
-				lock (ByondLock)
+				File.Delete(rrdp);
+				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
+				Directory.CreateDirectory(RelativePath(ByondConfigDir));
+				File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
+
+				if (major >= 512 && minor >= 1427)
 				{
-					File.WriteAllText(RelativePath(StagingDirectoryInner + VersionFile), String.Format("{0}.{1}", major, minor));
-					//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
-					Directory.CreateDirectory(RelativePath(ByondConfigDir));
-					File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
+					if (Monitor.TryEnter(DirectXInstallLock))
+						try
+						{
+							//always install it, it's pretty fast and will do better redundancy checking than us
+							using (var p = new Process())
+							{
+								p.StartInfo.Arguments = "/silent";
+								var rbdx = RelativePath(ByondDXDir);
+								p.StartInfo.FileName = rbdx + "/DXSETUP.exe";
+								p.StartInfo.UseShellExecute = false;
+								p.StartInfo.WorkingDirectory = rbdx;
+								p.Start();
+								try
+								{
+									p.WaitForExit();
+								}
+								finally
+								{
+									try
+									{
+										p.Kill();
+										p.WaitForExit();
+									}
+									catch (InvalidOperationException) { }
+								}
+
+								if(p.ExitCode != 0)
+									throw new Exception("Failed to install included DirectX! Exit code: " + p.ExitCode);
+							}
+						}
+						finally
+						{
+							Monitor.Exit(DirectXInstallLock);
+						}
 				}
-				File.Delete(RevisionDownloadPath);
+
+				lock (ByondLock)
+					File.WriteAllText(RelativePath(StagingDirectoryInner + VersionFile), String.Format("{0}.{1}", major, minor));
 
 				lock (ByondLock)
 				{
