@@ -261,14 +261,13 @@ namespace TGS.Server
 				//STAGING
 				
 				ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
-				lock (ByondLock)
-				{
-					File.WriteAllText(RelativePath(StagingDirectoryInner + VersionFile), String.Format("{0}.{1}", major, minor));
-					//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
-					Directory.CreateDirectory(RelativePath(ByondConfigDir));
-					File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
-				}
 				File.Delete(rrdp);
+				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
+				Directory.CreateDirectory(RelativePath(ByondConfigDir));
+				File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
+
+				lock (ByondLock)
+					File.WriteAllText(RelativePath(StagingDirectoryInner + VersionFile), String.Format("{0}.{1}", major, minor));
 
 				lock (ByondLock)
 				{
