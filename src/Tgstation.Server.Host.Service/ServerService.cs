@@ -13,6 +13,11 @@ namespace Tgstation.Server.Host.Service
 	sealed class ServerService : ServiceBase
 	{
 		/// <summary>
+		/// The canonical windows service name
+		/// </summary>
+		public const string Name = "tgstation-server-4";
+
+		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>
 		/// </summary>
 		IWatchdog watchdog;
@@ -35,7 +40,7 @@ namespace Tgstation.Server.Host.Service
 		{
 			if (watchdogFactory == null)
 				throw new ArgumentNullException(nameof(watchdogFactory));
-			ServiceName = "tgstation-server";
+			ServiceName = Name;
             watchdog = watchdogFactory.CreateWatchdog();
 		}
 
