@@ -25,7 +25,5 @@ namespace Tgstation.Server.Host.Components
 		Task ActivateOtherServer(CancellationToken cancellationToken);
 
 		Task ChangePort(ushort newPort, bool forPrimary, CancellationToken cancellationToken);
-
-		void OnNextSwap(Action action);
 	}
 }

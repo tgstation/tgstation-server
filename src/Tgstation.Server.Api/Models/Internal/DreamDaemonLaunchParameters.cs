@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Rights;
+﻿using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -13,28 +12,24 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If the BYOND web client can be used to connect to the game server
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetWebClient)]
-		[Required]
-		public bool? AllowWebClient { get; set; }
+		public bool AllowWebClient { get; set; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of <see cref="DreamDaemon"/>
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetSecurity)]
-		[Required]
-		public DreamDaemonSecurity? SecurityLevel { get; set; }
+		public DreamDaemonSecurity SecurityLevel { get; set; }
 
 		/// <summary>
 		/// The first port <see cref="DreamDaemon"/> uses. This should be the publically advertised port
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetPorts)]
-		[Required]
-		public ushort? PrimaryPort { get; set; }
+		public ushort PrimaryPort { get; set; }
 
 		/// <summary>
 		/// The second port <see cref="DreamDaemon"/> uses
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetPorts)]
-		[Required]
-		public ushort? SecondaryPort { get; set; }
+		public ushort SecondaryPort { get; set; }
 	}
 }

@@ -9,11 +9,6 @@ namespace Tgstation.Server.Host.Components
     interface IWatchdog
     {
 		/// <summary>
-		/// The latest <see cref="Host.Models.CompileJob"/> used by the <see cref="IWatchdog"/>
-		/// </summary>
-		Host.Models.CompileJob CurrentCompileJob { get; }
-
-		/// <summary>
 		/// Start the <see cref="IWatchdog"/>
 		/// </summary>
 		/// <param name="launchParametersFactory">The <see cref="ILaunchParametersFactory"/> for the run</param>

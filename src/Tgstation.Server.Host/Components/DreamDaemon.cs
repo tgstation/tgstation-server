@@ -27,12 +27,6 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public bool SoftStopping { get; private set; }
 
-		/// <inheritdoc />
-		public DreamDaemonLaunchParameters LastLaunchParameters { get; private set; }
-
-		/// <inheritdoc />
-		public Host.Models.CompileJob LastCompileJob => watchdog.CurrentCompileJob;
-
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for <see cref="DreamDaemon"/>
 		/// </summary>
@@ -75,7 +69,7 @@ namespace Tgstation.Server.Host.Components
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			currentLaunchParameters = initialSettings ?? throw new ArgumentNullException(nameof(initialSettings));
 			
-			autoStart = initialSettings.AutoStart.Value;
+			autoStart = initialSettings.AutoStart;
 
 			semaphore = new SemaphoreSlim(1);
 		}
@@ -204,7 +198,6 @@ namespace Tgstation.Server.Host.Components
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 			try
 			{
-				LastLaunchParameters = currentLaunchParameters;
 				return currentLaunchParameters;
 			}
 			finally

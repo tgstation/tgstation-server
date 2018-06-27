@@ -42,16 +42,6 @@ namespace Tgstation.Server.Host.Components
 		string AccessToken { get; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonLaunchParameters"/> most recently used
-		/// </summary>
-		DreamDaemonLaunchParameters LastLaunchParameters { get; }
-		
-		/// <summary>
-		/// The <see cref="Host.Models.CompileJob"/> most recently used
-		/// </summary>
-		Host.Models.CompileJob LastCompileJob { get; }
-
-		/// <summary>
 		/// Launch DreamDaemon
 		/// </summary>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the launch</param>
