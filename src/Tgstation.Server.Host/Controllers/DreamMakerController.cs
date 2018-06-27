@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing the compiler
 	/// </summary>
-	[Route("/DreamMaker")]
+	[Route("/" + nameof(DreamMaker))]
     public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
 	{
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IInstanceManager instanceManager;
 
 		/// <summary>
-		/// Construct a <see cref="HomeController"/>
+		/// Construct a <see cref="DreamMakerController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
@@ -66,7 +66,8 @@ namespace Tgstation.Server.Host.Controllers
 				Description = "Compile active repository code",
 				StartedBy = AuthenticationContext.User,
 				CancelRightsType = RightsType.DreamMaker,
-				CancelRight = (int)DreamMakerRights.CancelCompile
+				CancelRight = (int)DreamMakerRights.CancelCompile,
+				Instance = Instance
 			};
 			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
 			return Json(job);
