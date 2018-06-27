@@ -184,7 +184,7 @@ namespace TGS.Server
             get { return _security; }
             set { _security = value; Save(); }
         }
-        private _security = DreamDaemonSecurity.Trusted;
+        private DreamDaemonSecurity _security = DreamDaemonSecurity.Trusted;
 
 		/// <inheritdoc />
 		public bool Autostart
