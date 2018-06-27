@@ -160,7 +160,7 @@ namespace TGS.Server
             get { return _enabled; }
             set { _enabled = value; Save(); }
         }
-        private string _enabled = true;
+        private bool _enabled = true;
 
 		/// <inheritdoc />
 		public string ProjectName
@@ -240,7 +240,7 @@ namespace TGS.Server
             get { return _reattachrequired; }
             set { _reattachrequired = value; Save(); }
         }
-        private string _reattachrequired = false;
+        private bool _reattachrequired = false;
 
 		/// <inheritdoc />
 		public int ReattachProcessID
@@ -256,7 +256,7 @@ namespace TGS.Server
             get { return _reattachport; }
             set { _reattachport = value; Save(); }
         }
-        private int _reattachport;
+        private ushort _reattachport;
 
         /// <inheritdoc />
         public string ReattachCommsKey
@@ -264,7 +264,7 @@ namespace TGS.Server
             get { return _reattachcommskey; }
             set { _reattachcommskey = value; Save(); }
         }
-        private int _reattachcommskey;
+        private string _reattachcommskey;
 
         /// <inheritdoc />
         public string ReattachAPIVersion
