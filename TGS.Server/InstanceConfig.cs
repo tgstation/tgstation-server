@@ -19,109 +19,210 @@ namespace TGS.Server
 		/// </summary>
 		ulong Version { get; }
 
-		/// <summary>
-		/// The name of the <see cref="Instance"/>
-		/// </summary>
-		string Name { get; set; }
+        /// <summary>
+        /// The name of the <see cref="Instance"/>
+        /// </summary>
+        string Name
+        {
+            get { return _name; }
+            set { _committername = value; Save(); }
+        }
+        private string _name;
 
-		/// <summary>
-		/// If the <see cref="Instance"/> is active
-		/// </summary>
-		bool Enabled { get; set; }
+        /// <summary>
+        /// If the <see cref="Instance"/> is active
+        /// </summary>
+		bool Enabled
+        {
+            get { return _enabled; }
+            set { _enabled = value; Save(); }
+        }
+        private bool _enabled;
 
-		/// <summary>
-		/// The name of the .dme/.dmb the <see cref="Instance"/> uses
-		/// </summary>
-		string ProjectName { get; set; }
+        /// <summary>
+        /// The name of the .dme/.dmb the <see cref="Instance"/> uses
+        /// </summary>
+        string ProjectName
+        {
+            get { return _projectname; }
+            set { _projectname = value; Save(); }
+        }
+        private string _projectname;
 
-		/// <summary>
-		/// The port the <see cref="Instance"/> runs on
-		/// </summary>
-		ushort Port { get; set; }
+        /// <summary>
+        /// The port the <see cref="Instance"/> runs on
+        /// </summary>
+        ushort Port
+        {
+            get { return _port; }
+            set { _port = value; Save(); }
+        }
+        private ushort _port;
 
-		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level for the <see cref="Instance"/>
-		/// </summary>
-		DreamDaemonSecurity Security { get; set; }
+        /// <summary>
+        /// The <see cref="DreamDaemonSecurity"/> level for the <see cref="Instance"/>
+        /// </summary>
+        DreamDaemonSecurity Security
+        {
+            get { return _dreamdaemonsecurity; }
+            set { _dreamdaemonsecurity = value; Save(); }
+        }
+        private DreamDaemonSecurity _security;
 
-		/// <summary>
-		/// Whether or not the <see cref="Instance"/> should immediately start DreamDaemon when activated
-		/// </summary>
-		bool Autostart { get; set; }
+        /// <summary>
+        /// Whether or not the <see cref="Instance"/> should immediately start DreamDaemon when activated
+        /// </summary>
+        bool Autostart
+        {
+            get { return _autostart; }
+            set { _autostart = value; Save(); }
+        }
+        private bool _autostart;
 
-		/// <summary>
-		/// Whether or not DreamDaemon allows connections from webclients
-		/// </summary>
-		bool Webclient { get; set; }
+        /// <summary>
+        /// Whether or not DreamDaemon allows connections from webclients
+        /// </summary>
+        bool Webclient
+        {
+            get { return _webclient; }
+            set { _webclient = value; Save(); }
+        }
+        private bool _webclient;
 
-		/// <summary>
-		/// Author and committer name for synchronize commits
-		/// </summary>
-		string CommitterName { get; set; }
-		/// <summary>
-		/// Author and committer e-mail for synchronize commits
-		/// </summary>
-		string CommitterEmail { get; set; }
+        /// <summary>
+        /// Author and committer name for synchronize commits
+        /// </summary>
+		string CommitterName
+        {
+            get { return _committername; }
+            set { _committername = value;  Save(); }
+        }
+        private string _committername;
 
-		/// <summary>
-		/// Encrypted serialized <see cref="ChatSetupInfo"/>s
-		/// </summary>
-		string ChatProviderData { get; set; }
+        /// <summary>
+        /// Author and committer e-mail for synchronize commits
+        /// </summary>
+		string CommitterEmail
+        {
+            get { return _committeremail; }
+            set { _committeremail = value; Save(); }
+        }
+        private string _committeremail;
 
-		/// <summary>
-		/// Entropy for <see cref="ChatProviderData"/>
-		/// </summary>
-		string ChatProviderEntropy { get; set; }
+        /// <summary>
+        /// Encrypted serialized <see cref="ChatSetupInfo"/>s
+        /// </summary>
+        string ChatProviderData
+        {
+            get { return _chatproviderdata; }
+            set { _chatproviderdata = value; Save(); }
+        }
+        private string _chatproviderdata;
 
-		/// <summary>
-		/// If the <see cref="Instance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
-		/// </summary>
-		bool ReattachRequired { get; set; }
+        /// <summary>
+        /// Entropy for <see cref="ChatProviderData"/>
+        /// </summary>
+        string ChatProviderEntropy
+        {
+            get { return _chatproviderentropy; }
+            set { _chatproviderentropy = value; Save(); }
+        }
+        private string _chatproviderentropy;
 
-		/// <summary>
-		/// The <see cref="System.Diagnostics.Process.Id"/> of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
-		/// </summary>
-		int ReattachProcessID { get; set; }
+        /// <summary>
+        /// If the <see cref="Instance"/> should reattach to a running DreamDaemon <see cref="System.Diagnostics.Process"/>
+        /// </summary>
+        bool ReattachRequired
+        {
+            get { return _reattachrequired; }
+            set { _reattachrequired = value; Save(); }
+        }
+        private bool _reattachrequired;
 
-		/// <summary>
-		/// The port the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
-		/// </summary>
-		ushort ReattachPort { get; set; }
+        /// <summary>
+        /// The <see cref="System.Diagnostics.Process.Id"/> of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
+        /// </summary>
+        int ReattachProcessID
+        {
+            get { return _reattachprocessid; }
+            set { _reattachprocessid = value; Save(); }
+        }
+        private int _reattachprocessid;
 
-		/// <summary>
-		/// The serviceCommsKey the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
-		/// </summary>
-		string ReattachCommsKey { get; set; }
+        /// <summary>
+        /// The port the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
+        /// </summary>
+        ushort ReattachPort
+        {
+            get { return _reattachport; }
+            set { _reattachport = value; Save(); }
+        }
+        private ushort _reattachport;
 
-		/// <summary>
-		/// The API version of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
-		/// </summary>
-		string ReattachAPIVersion { get; set; }
+        /// <summary>
+        /// The serviceCommsKey the runnning DreamDaemon <see cref="System.Diagnostics.Process"/> was launched on
+        /// </summary>
+        string ReattachCommsKey
+        {
+            get { return _reattachcommskey; }
+            set { _reattachcommskey = value; Save(); }
+        }
+        private string _reattachcommskey;
 
-		/// <summary>
-		/// The user group allowed to use the <see cref="Instance"/>
-		/// </summary>
-		string AuthorizedUserGroupSID { get; set; }
+        /// <summary>
+        /// The API version of the runnning DreamDaemon <see cref="System.Diagnostics.Process"/>
+        /// </summary>
+        string ReattachAPIVersion
+        {
+            get { return _reattachapiversion; }
+            set { _reattachapiversion = value; Save(); }
+        }
+        private string _reattachapiversion;
 
-		/// <summary>
-		/// The auto update interval for the <see cref="Instance"/>
-		/// </summary>
-		ulong AutoUpdateInterval { get; set; }
+        /// <summary>
+        /// The user group allowed to use the <see cref="Instance"/>
+        /// </summary>
+        string AuthorizedUserGroupSID
+        {
+            get { return _authorizedusergroupsid; }
+            set { _authorizedusergroupsid = value; Save(); }
+        }
+        private string _authorizedusergroupsid;
 
-		/// <summary>
-		/// Whether or not testmerge commits are published to a temporary remote branch
-		/// </summary>
-		bool PushTestmergeCommits { get; set; }
+        /// <summary>
+        /// The auto update interval for the <see cref="Instance"/>
+        /// </summary>
+        ulong AutoUpdateInterval
+        {
+            get { return _autoupdateinterval; }
+            set { _autoupdateinterval = value; Save(); }
+        }
+        private private ulong _autoupdateinterval;
 
-		/// <summary>
-		/// Time in seconds before DD is considered dead in the water
-		/// </summary>
-		int ServerStartupTimeout { get; set; }
+        /// <summary>
+        /// Whether or not testmerge commits are published to a temporary remote branch
+        /// </summary>
+        bool PushTestmergeCommits
+        {
+            get { return _pushtestmergecommits; }
+            set { _pushtestmergecommits = value; Save(); }
+        }
+        private bool _pushtestmergecommits;
 
-		/// <summary>
-		/// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Instance"/> <see cref="Directory"/>
-		/// </summary>
-		void Save();
+        /// <summary>
+        /// Time in seconds before DD is considered dead in the water
+        /// </summary>
+        int ServerStartupTimeout
+        {
+            get { return _serverstartuptimeout; }
+            set { _serverstartuptimeout = value; Save(); }
+        }
+        private int _serverstartuptimeout;
+
+        /// <summary>
+        /// Saves the <see cref="IInstanceConfig"/> to it's <see cref="Instance"/> <see cref="Directory"/>
+        /// </summary>
+        void Save();
 	}
 
 	/// <inheritdoc />
