@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Components
 			};
 
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			using (var control = interop.CreateRun(launchParameters.PrimaryPort.Value, null, null))
+			using (var control = interop.CreateRun(launchParameters.PrimaryPort, null, null))
 			{
 				var interopInfo = new InteropInfo
 				{
@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Components
 						ddTcs.SetResult(null);
 				};
 				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension)))), interopInfo, true, false, cts.Token);
+				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension)))), interopInfo, true, cts.Token);
 
 				await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);
 

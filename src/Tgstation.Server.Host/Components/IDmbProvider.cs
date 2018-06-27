@@ -22,10 +22,10 @@ namespace Tgstation.Server.Host.Components
 		/// The secondary game directory with a trailing directory separator
 		/// </summary>
 		string SecondaryDirectory { get; }
-		
+
 		/// <summary>
-		/// The <see cref="CompileJob"/> of the .dmb
+		/// The <see cref="Host.Models.RevisionInformation"/> of the .dmb
 		/// </summary>
-		CompileJob CompileJob { get; }
+		RevisionInformation RevisionInformation { get; }
 	}
 }

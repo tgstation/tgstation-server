@@ -19,9 +19,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> for the .dmb to run</param>
 		/// <param name="interopInfo">The <see cref="InteropInfo"/> for the run</param>
 		/// <param name="alwaysKill">If the resulting process should never be left alive</param>
-		/// <param name="asDefaultOtherServer">If <see langword="true"/> the ports will be swapped for the launch</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> representing the lifetime of the process and resulting in the exit code</returns>
-		Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, IDmbProvider dmbProvider, InteropInfo interopInfo, bool alwaysKill, bool asDefaultOtherServer, CancellationToken cancellationToken);
+		Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, IDmbProvider dmbProvider, InteropInfo interopInfo, bool alwaysKill, CancellationToken cancellationToken);
 	}
 }

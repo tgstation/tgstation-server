@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Components
 		public string SecondaryDirectory => throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public CompileJob CompileJob => null;
+		public RevisionInformation RevisionInformation => null;
 
 		/// <summary>
 		/// Construct a <see cref="TemporaryDmbProvider"/>
