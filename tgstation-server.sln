@@ -49,8 +49,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.CommandLin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests", "tests\Tgstation.Server.Host.Tests\Tgstation.Server.Host.Tests.csproj", "{A3362FF6-550F-480F-859E-8EC1EB6EAB31}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog", "src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj", "{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog.Tests", "tests\Tgstation.Server.Host.Watchdog.Tests\Tgstation.Server.Host.Watchdog.Tests.csproj", "{7500F776-4384-4B5F-A8D8-22461CAD108B}"
@@ -184,11 +182,6 @@ Global
 		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Docker|Any CPU.Build.0 = Release|Any CPU
 		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}.Docker|Any CPU.ActiveCfg = Release|Any CPU
-		{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}.Docker|Any CPU.Build.0 = Release|Any CPU
-		{DB2A5EE6-AF5C-410C-A36C-EA378FE9CBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Docker|Any CPU.ActiveCfg = Release|Any CPU
