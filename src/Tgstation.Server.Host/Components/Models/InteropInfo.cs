@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Models
 {
 	sealed class InteropInfo
 	{
+		public Guid ExecutionId { get; set; }
+
 		public string AccessToken { get; set; }
 
 		public long InstanceId { get; set; }
