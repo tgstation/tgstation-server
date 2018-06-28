@@ -44,6 +44,15 @@ namespace Tgstation.Server.Host.Controllers
 		public virtual Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 
 		/// <summary>
+		/// Attempt to get a specific a <typeparamref name="TModel"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="id">The ID of the model to get</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		[HttpGet("/{0}")]
+		public virtual Task<IActionResult> GetId(long id, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
+
+		/// <summary>
 		/// Attempt to update a <paramref name="model"/>
 		/// </summary>
 		/// <param name="model">The <typeparamref name="TModel"/> being updated</param>
