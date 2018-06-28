@@ -10,6 +10,9 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class Watchdog : IWatchdog, IDisposable
 	{
+		/// <inheritdoc />
+		public Host.Models.CompileJob CurrentCompileJob { get; private set; }
+
 		/// <summary>
 		/// The <see cref="IByond"/> for the <see cref="Watchdog"/>
 		/// </summary>
@@ -91,13 +94,26 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed once the server starts if any</param>
 		/// <param name="interopInfo">The <see cref="InteropInfo"/> the server</param>
+		/// <param name="control">The <see cref="IInteropControl"/> for the operation</param>
 		/// <param name="dreamDaemonPath">The path to the DreamDaemon executable</param>
+		/// <param name="asDefaultOtherServer">If the ports should be swapped</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the exit code of DreamDaemon</returns>
-		async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, InteropInfo interopInfo, string dreamDaemonPath, CancellationToken cancellationToken)
+		async Task<int> RunServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, InteropInfo interopInfo, IInteropControl control, string dreamDaemonPath, bool asDefaultOtherServer, CancellationToken cancellationToken)
 		{
 			using (var dmb = await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false))
 			{
+				void OnBecomingCurrentServer() => CurrentCompileJob = dmb.CompileJob;
+
+				var runningNow = launchParameters.SecondaryPort == interopInfo.NextPort;
+				if (asDefaultOtherServer)
+					runningNow = !runningNow;
+
+				if (runningNow)
+					OnBecomingCurrentServer();
+				else
+					control.OnNextSwap(OnBecomingCurrentServer);
+
 				var chatJsonGuid = Guid.NewGuid();
 				var isPrimary = interopInfo.NextPort == launchParameters.SecondaryPort;
 
@@ -108,8 +124,8 @@ namespace Tgstation.Server.Host.Components
 					interopInfo.ChatCommandsJson = String.Concat(chatJsonGuid, ".commands.json");
 
 				//set up revision
-				interopInfo.Revision = dmb.RevisionInformation;
-				foreach (var I in dmb.RevisionInformation.TestMerges)
+				interopInfo.Revision = dmb.CompileJob.RevisionInformation;
+				foreach (var I in dmb.CompileJob.RevisionInformation.TestMerges)
 					interopInfo.TestMerges.Add(new Models.TestMerge
 					{
 						Author = I.Author,
@@ -125,21 +141,22 @@ namespace Tgstation.Server.Host.Components
 					});
 
 				using (await chat.TrackJsons(isPrimary ? dmb.PrimaryDirectory : dmb.SecondaryDirectory, interopInfo.ChatChannelsJson, isPrimary ? interopInfo.ChatCommandsJson : null, cancellationToken).ConfigureAwait(false))
-					return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, dmb, interopInfo, false, cancellationToken).ConfigureAwait(false);
+					return await dreamDaemonExecutor.RunDreamDaemon(launchParameters, onSuccessfulStartup, dreamDaemonPath, dmb, interopInfo, false, asDefaultOtherServer, cancellationToken).ConfigureAwait(false);
 			}
 		}
 
 		/// <summary>
-		/// Locks in a <see cref="IByond"/> version and runs a server through <see cref="RunServer(DreamDaemonLaunchParameters, TaskCompletionSource{object}, InteropInfo, string, CancellationToken)"/>
+		/// Locks in a <see cref="IByond"/> version and runs a server through <see cref="RunServer"/>
 		/// </summary>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the run</param>
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> to be completed once the server starts if any</param>
-		/// <param name="accessToken">The access token for the server</param>
+		/// <param name="control">The <see cref="IInteropControl"/> for the operation</param>
 		/// <param name="isPrimary">If a primary server is being launched</param>
+		/// <param name="isDefaultOther">If the ports should be swapped</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="cancellationTokenSource">A <see cref="CancellationTokenSource"/> tied to the lifetime of the resulting <see cref="Task{TResult}"/></param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the exit code of DreamDaemon</returns>
-		Task<int> StartServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string accessToken, bool isPrimary, CancellationToken cancellationToken, out CancellationTokenSource cancellationTokenSource)
+		Task<int> StartServer(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, IInteropControl control, bool isPrimary, bool isDefaultOther, CancellationToken cancellationToken, out CancellationTokenSource cancellationTokenSource)
 		{
 			cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 			try
@@ -148,16 +165,16 @@ namespace Tgstation.Server.Host.Components
 
 				var interopInfo = new InteropInfo
 				{
-					AccessToken = accessToken,
+					AccessToken = isPrimary ? control.PrimaryAccessToken : control.SecondaryAccessToken,
 					ApiValidateOnly = false,
 					HostPath = application.HostingPath,
 					InstanceId = instanceId,
-					NextPort = isPrimary ? launchParameters.SecondaryPort : launchParameters.PrimaryPort,
+					NextPort = isPrimary ? launchParameters.SecondaryPort.Value : launchParameters.PrimaryPort.Value,
 					//this line feels hacky, change it and remove the instanceManager dep?
 					InstanceName = instanceManager.GetInstance(new Host.Models.Instance { Id = instanceId }).GetMetadata().Name,
 				};
 				
-				return byond.UseExecutables((dreamMakerPath, dreamDaemonPath) => RunServer(launchParameters, onSuccessfulStartup, interopInfo, dreamDaemonPath, ddToken), false);
+				return byond.UseExecutables((dreamMakerPath, dreamDaemonPath) => RunServer(launchParameters, onSuccessfulStartup, interopInfo, control, dreamDaemonPath, isDefaultOther, ddToken), false);
 			}
 			catch
 			{
@@ -222,7 +239,7 @@ namespace Tgstation.Server.Host.Components
 				var retryDelay = (int)Math.Min(Math.Pow(2, retries), TimeSpan.FromHours(1).Milliseconds); //max of one hour
 				await Task.Delay(retryDelay, cancellationToken).ConfigureAwait(false);
 
-				using (var control = interop.CreateRun(initialLaunchParameters.PrimaryPort, initialLaunchParameters.SecondaryPort, HandleChatMessage))
+				using (var control = interop.CreateRun(initialLaunchParameters.PrimaryPort.Value, initialLaunchParameters.SecondaryPort.Value, HandleChatMessage))
 				{
 					var primaryPrimedTcs = new TaskCompletionSource<object>();
 					control.OnServerControl += (sender, e) =>
@@ -232,7 +249,7 @@ namespace Tgstation.Server.Host.Components
 					};
 
 					//start the primary server
-					var ddPrimaryTask = StartServer(initialLaunchParameters, onSuccessfulStartup, control.PrimaryAccessToken, true, cancellationToken, out CancellationTokenSource primaryCts);
+					var ddPrimaryTask = StartServer(initialLaunchParameters, onSuccessfulStartup, control, true, false, cancellationToken, out CancellationTokenSource primaryCts);
 					try
 					{
 						//wait to make sure we got this far
@@ -259,7 +276,7 @@ namespace Tgstation.Server.Host.Components
 							{
 								if (ddSecondaryTask == null)
 									//start the secondary server
-									ddSecondaryTask = StartServer(initialLaunchParameters, null, control.SecondaryAccessToken, false, cancellationToken, out secondaryCts);
+									ddSecondaryTask = StartServer(initialLaunchParameters, null, control, false, false, cancellationToken, out secondaryCts);
 
 								var newDmbTask = dmbFactory.OnNewerDmb();
 
@@ -270,7 +287,7 @@ namespace Tgstation.Server.Host.Components
 								void PrimaryRestart()
 								{
 									primaryCts.Dispose();
-									ddPrimaryTask = StartServer(initialLaunchParameters, null, control.PrimaryAccessToken, true, cancellationToken, out primaryCts);
+									ddPrimaryTask = StartServer(initialLaunchParameters, null, control, true, true, cancellationToken, out primaryCts);
 								}
 								void SecondaryRestart()
 								{

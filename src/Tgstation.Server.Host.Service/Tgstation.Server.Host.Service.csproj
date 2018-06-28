@@ -57,6 +57,7 @@
   <PropertyGroup>
     <StartupObject>Tgstation.Server.Host.Service.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
@@ -86,6 +87,11 @@
       <Project>{5d2d682c-6bf0-439c-850b-6ab945bbeaea}</Project>
       <Name>Tgstation.Server.Host.Watchdog</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils">
+      <Version>2.2.4</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
