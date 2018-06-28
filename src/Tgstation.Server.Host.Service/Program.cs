@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Service
 					UseShellExecute = true,
 					Verb = "runas",
 					Arguments = String.Join(" ", argList),
-					FileName = Assembly.GetExecutingAssembly().Location,
+					FileName = exe,
 					WorkingDirectory = Environment.CurrentDirectory,
 				};
 				using (Process.Start(startInfo))

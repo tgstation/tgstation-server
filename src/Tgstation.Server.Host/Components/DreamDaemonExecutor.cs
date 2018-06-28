@@ -1,14 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Components.Models;
-using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -35,34 +29,11 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
-		/// <summary>
-		/// The <see cref="IInstanceShutdownHandler"/> for the <see cref="DreamDaemonExecutor"/>
-		/// </summary>
-		readonly IInstanceShutdownHandler instanceShutdownMethod;
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="DreamDaemonExecutor"/>
-		/// </summary>
-		readonly IIOManager ioManager;
-		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="DreamDaemonExecutor"/>
-		/// </summary>
-		readonly IApplication application;
-
-		/// <summary>
-		/// Construct a <see cref="DreamDaemonExecutor"/>
-		/// </summary>
-		/// <param name="instanceShutdownMethod">The value of <see cref="instanceShutdownMethod"/></param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
-		public DreamDaemonExecutor(IInstanceShutdownHandler instanceShutdownMethod, IIOManager ioManager, IApplication application)
-		{
-			this.instanceShutdownMethod = instanceShutdownMethod ?? throw new ArgumentNullException(nameof(instanceShutdownMethod));
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
-		}
+		/// <inheritdoc />
+		public IDreamDaemonSession AttachToDreamDaemon(int processId) => new DreamDaemonSession(Process.GetProcessById(processId));
 
 		/// <inheritdoc />
-		public async Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, IDmbProvider dmbProvider, InteropInfo interopInfo, bool alwaysKill, bool asDefaultOtherServer, CancellationToken cancellationToken)
+		public IDreamDaemonSession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory)
 		{
 			if (launchParameters == null)
 				throw new ArgumentNullException(nameof(launchParameters));
@@ -70,69 +41,32 @@ namespace Tgstation.Server.Host.Components
 				throw new ArgumentNullException(nameof(dreamDaemonPath));
 			if (dmbProvider == null)
 				throw new ArgumentNullException(nameof(dmbProvider));
-			if (interopInfo == null)
-				throw new ArgumentNullException(nameof(interopInfo));
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
 
-			if (interopInfo.NextPort != launchParameters.PrimaryPort && interopInfo.NextPort != launchParameters.SecondaryPort)
-				throw new ArgumentOutOfRangeException(nameof(interopInfo), interopInfo, "interopInfo.NextPort must match primary or secondary ports!");
+			var proc = new Process();
 
-			var isPrimary = interopInfo.NextPort == launchParameters.SecondaryPort;
-
-			//serialize the interop info to the json
-			var jsonPath = String.Concat(Guid.NewGuid(), ".tgs.json");
-
-			var json = JsonConvert.SerializeObject(interopInfo);
-
-
-			using (var proc = new Process())
+			try
 			{
 				proc.StartInfo.FileName = dreamDaemonPath;
-				proc.StartInfo.WorkingDirectory = isPrimary ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
-				await ioManager.WriteAllBytes(ioManager.ConcatPath(proc.StartInfo.WorkingDirectory, jsonPath), Encoding.UTF8.GetBytes(json), cancellationToken).ConfigureAwait(false);
+				proc.StartInfo.WorkingDirectory = useSecondaryDirectory ? dmbProvider.SecondaryDirectory : dmbProvider.PrimaryDirectory;
 
-				proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}={5}&{6}={7}\"", 
+				proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}\"",
 					dmbProvider.DmbName,
-					isPrimary && !asDefaultOtherServer ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
+					useSecondaryPort ? launchParameters.SecondaryPort : launchParameters.PrimaryPort,
 					launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 					SecurityWord(launchParameters.SecurityLevel.Value),
-					DreamDaemonParameters.HostVersion, Application.Version,
-					DreamDaemonParameters.InfoJsonPath, jsonPath);
+					parameters);
 
-				proc.EnableRaisingEvents = true;
-				var tcs = new TaskCompletionSource<object>();
-				proc.Exited += (a, b) => tcs.SetResult(null);
+				proc.Start();
 
-				try
-				{
-					proc.Start();
-
-					await Task.Factory.StartNew(() => proc.WaitForInputIdle(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-
-					onSuccessfulStartup?.SetResult(null);
-
-					try
-					{
-						using (cancellationToken.Register(() => tcs.SetCanceled()))
-							await tcs.Task.ConfigureAwait(false);
-					}
-					finally
-					{
-						if (!alwaysKill && !await instanceShutdownMethod.PreserveActiveExecutablesIfNecessary(launchParameters, interopInfo.AccessToken, proc.Id, isPrimary).ConfigureAwait(false))
-						{
-							proc.Kill();
-							proc.WaitForExit();
-						}
-					}
-
-					return proc.ExitCode;
-				}
-				catch (Exception e)
-				{
-					onSuccessfulStartup?.SetException(e);
-					throw;
-				}
+				return new DreamDaemonSession(proc);
+			}
+			catch
+			{
+				proc.Dispose();
+				throw;
 			}
 		}
-
 	}
 }

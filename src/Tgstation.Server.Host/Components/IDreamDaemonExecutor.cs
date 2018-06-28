@@ -1,12 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Components.Models;
+﻿using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// For running a DreamDaemon instance
+	/// For creating <see cref="IDreamDaemonSession"/>s
 	/// </summary>
     interface IDreamDaemonExecutor
     {
@@ -17,11 +14,17 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="onSuccessfulStartup">The <see cref="TaskCompletionSource{TResult}"/> that is completed when dream daemon starts without crashing</param>
 		/// <param name="dreamDaemonPath">The path to the dreamdaemon executable</param>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> for the .dmb to run</param>
-		/// <param name="interopInfo">The <see cref="InteropInfo"/> for the run</param>
-		/// <param name="alwaysKill">If the resulting process should never be left alive</param>
-		/// <param name="asDefaultOtherServer">If <see langword="true"/> the ports will be swapped for the launch</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> representing the lifetime of the process and resulting in the exit code</returns>
-		Task<int> RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, TaskCompletionSource<object> onSuccessfulStartup, string dreamDaemonPath, IDmbProvider dmbProvider, InteropInfo interopInfo, bool alwaysKill, bool asDefaultOtherServer, CancellationToken cancellationToken);
+		/// <param name="parameters">The value of the -params command line option</param>
+		/// <param name="useSecondaryPort">If the <see cref="DreamDaemonLaunchParameters.SecondaryPort"/> field of <paramref name="launchParameters"/> should be used</param>
+		/// <param name="useSecondaryDirectory">If the <see cref="IDmbProvider.SecondaryDirectory"/> field of <paramref name="dmbProvider"/> should be used</param>
+		/// <returns>A new <see cref="IDreamDaemonSession"/></returns>
+		IDreamDaemonSession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory);
+
+		/// <summary>
+		/// Attach to a running instance of DreamDaemon
+		/// </summary>
+		/// <param name="processId">The <see cref="IDreamDaemonSession.ProcessId"/></param>
+		/// <returns>A new <see cref="IDreamDaemonSession"/></returns>
+		IDreamDaemonSession AttachToDreamDaemon(int processId);
 	}
 }
