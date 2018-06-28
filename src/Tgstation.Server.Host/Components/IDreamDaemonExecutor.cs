@@ -16,7 +16,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> for the .dmb to run</param>
 		/// <param name="parameters">The value of the -params command line option</param>
 		/// <param name="useSecondaryPort">If the <see cref="DreamDaemonLaunchParameters.SecondaryPort"/> field of <paramref name="launchParameters"/> should be used</param>
-		/// <param name="useSecondaryDirectory">If the <see cref="IDmbProvider.SecondaryDirectory"/> field of <paramref name="dmbProvider"/> should be used</param>
 		/// <returns>A new <see cref="IDreamDaemonSession"/></returns>
 		IDreamDaemonSession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory);
 
