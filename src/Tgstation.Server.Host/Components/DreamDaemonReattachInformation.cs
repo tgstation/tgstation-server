@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Components
 		public ushort Port { get; set; }
 
 		/// <summary>
+		/// The current DreamDaemon reboot state
+		/// </summary>
+		public DreamDaemonRebootState RebootState { get; set; }
+
+		/// <summary>
 		/// The <see cref="IDmbProvider"/> used by DreamDaemon
 		/// </summary>
 		public IDmbProvider Dmb { get; set; }

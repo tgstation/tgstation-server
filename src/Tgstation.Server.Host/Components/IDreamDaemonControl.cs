@@ -7,8 +7,8 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Handles communication with a <see cref="IDreamDaemonSession"/>
 	/// </summary>
-    interface IDreamDaemonControl : IDisposable
-    {
+	interface IDreamDaemonControl : IDisposable
+	{
 		/// <summary>
 		/// If the <see cref="IDmbProvider.PrimaryDirectory"/> of <see cref="Dmb"/> is being used
 		/// </summary>
@@ -23,6 +23,11 @@ namespace Tgstation.Server.Host.Components
 		/// The current port DreamDaemon is listening on
 		/// </summary>
 		ushort Port { get; }
+
+		/// <summary>
+		/// The current <see cref="DreamDaemonRebootState"/>
+		/// </summary>
+		DreamDaemonRebootState RebootState { get; }
 
 		/// <summary>
 		/// Releases the <see cref="IDreamDaemonSession"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
@@ -50,5 +55,13 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
 		Task<bool> SetPort(ushort newPort, CancellationToken cancellatonToken);
+
+		/// <summary>
+		/// Attempts to change the current <see cref="RebootState"/> to <paramref name="newRebootState"/>
+		/// </summary>
+		/// <param name="newRebootState">The new <see cref="DreamDaemonRebootState"/></param>
+		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
+		Task<bool> SetRebootState(DreamDaemonRebootState newRebootState, CancellationToken cancellationToken);
     }
 }

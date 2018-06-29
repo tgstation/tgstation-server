@@ -57,6 +57,16 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
+		/// <inheritdoc />
+		public DreamDaemonRebootState RebootState
+		{
+			get
+			{
+				CheckDisposed();
+				return reattachInformation.RebootState;
+			}
+		}
+
 		/// <summary>
 		/// The up to date <see cref="DreamDaemonReattachInformation"/>
 		/// </summary>
@@ -208,6 +218,15 @@ namespace Tgstation.Server.Host.Components
 			if (port == 0)
 				throw new ArgumentOutOfRangeException(nameof(port), port, "port must not be zero!");
 			return await SetPortImpl(port, cancellatonToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task<bool> SetRebootState(DreamDaemonRebootState newRebootState, CancellationToken cancellationToken)
+		{
+			var oldActive = RebootState != DreamDaemonRebootState.Normal;
+			var newActive = RebootState != DreamDaemonRebootState.Normal;
+			if (oldActive == newActive)
+				return true;
 		}
 	}
 }
