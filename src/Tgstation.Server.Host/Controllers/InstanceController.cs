@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
-		public override async Task<IActionResult> UpdateAsync([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == model.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))

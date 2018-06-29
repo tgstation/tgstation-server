@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.SetDme)]
-		public override async Task<IActionResult> UpdateAsync([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
 		{
 			var hostModel = new DreamMakerSettings
 			{

@@ -38,10 +38,17 @@ namespace Tgstation.Server.Host.Components
 		Task<string> SendCommand(string command, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Effectively swaps the values of <see cref="CurrentPort"/> and <see cref="NextPort"/> causing DreamDaemon to listen on the new <see cref="CurrentPort"/>
+		/// Closes the world's port
 		/// </summary>
 		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SwapPorts(CancellatonToken cancellatonToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
+		Task<bool> ClosePort(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Causes the world to start listening on a <paramref name="newPort"/>
+		/// </summary>
+		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
+		Task<bool> SetPort(ushort newPort, CancellationToken cancellatonToken);
     }
 }

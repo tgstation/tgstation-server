@@ -8,9 +8,9 @@ namespace Tgstation.Server.Host.Components
 	sealed class DreamDaemonReattachInformation
 	{
 		/// <summary>
-		/// Used to identify the DreamDaemon instance
+		/// Used to identify and authenticate the DreamDaemon instance
 		/// </summary>
-		public Guid ExecutionId { get; set; }
+		public string AccessIdentifier { get; set; }
 
 		/// <summary>
 		/// The system process ID
