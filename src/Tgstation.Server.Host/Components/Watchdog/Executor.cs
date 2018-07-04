@@ -30,15 +30,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public ISession AttachToDreamDaemon(int processId) => new Session(Process.GetProcessById(processId));
+		public ISession AttachToDreamDaemon(int processId, IByondExecutableLock byondLock) => new Session(Process.GetProcessById(processId), byondLock);
 
 		/// <inheritdoc />
-		public ISession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory)
+		public ISession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, IByondExecutableLock byondLock, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory)
 		{
 			if (launchParameters == null)
 				throw new ArgumentNullException(nameof(launchParameters));
-			if (dreamDaemonPath == null)
-				throw new ArgumentNullException(nameof(dreamDaemonPath));
+			if (byondLock == null)
+				throw new ArgumentNullException(nameof(byondLock));
 			if (dmbProvider == null)
 				throw new ArgumentNullException(nameof(dmbProvider));
 			if (parameters == null)
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
-				proc.StartInfo.FileName = dreamDaemonPath;
+				proc.StartInfo.FileName = byondLock.DreamDaemonPath;
 				proc.StartInfo.WorkingDirectory = useSecondaryDirectory ? dmbProvider.SecondaryDirectory : dmbProvider.PrimaryDirectory;
 
 				proc.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}\"",
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				proc.Start();
 
-				return new Session(proc);
+				return new Session(proc, byondLock);
 			}
 			catch
 			{

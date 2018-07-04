@@ -47,10 +47,9 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		public void OnExecute()
 		{
-			if((Install || Uninstall) && !IsAdministrator())
+			if ((Install || Uninstall) && !IsAdministrator())
 			{
 				//try to restart as admin
-				var currentProcess = Process.GetCurrentProcess();
 				var argList = Environment.GetCommandLineArgs().ToList();
 				//its windows, first arg is .exe name guaranteed
 				var exe = argList.First();

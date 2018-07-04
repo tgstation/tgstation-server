@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -6,6 +8,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <inheritdoc />
 	sealed class Watchdog : IWatchdog
 	{
+		/// <inheritdoc />
 		public DreamDaemonLaunchParameters LaunchParameters
 		{
 			get => launchParameters;
@@ -74,5 +77,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				disposed = true;
 			}
 		}
+
+		/// <inheritdoc />
+		public Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken) => throw new NotImplementedException();
 	}
 }

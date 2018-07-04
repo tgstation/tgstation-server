@@ -110,7 +110,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = byond.UseExecutables(dmbProvider.CompileJob.ByondVersion);
 				try
 				{
-					var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, /*TODO*/, !primaryPort, !primaryDirectory);
+					var parameters = String.Format(CultureInfo.InvariantCulture, "server_service_version={0}&tgs_json={1}", application.Version, interopJsonFile);
+
+
+					var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, parameters, !primaryPort, !primaryDirectory);
 					try
 					{
 						return new SessionController(new ReattachInformation

@@ -21,6 +21,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		readonly Process process;
 		/// <summary>
+		/// The <see cref="IByondExecutableLock"/> for the <see cref="process"/>
+		/// </summary>
+		readonly IByondExecutableLock byondLock;
+
+		/// <summary>
 		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="Lifetime"/>
 		/// </summary>
 		readonly TaskCompletionSource<int> lifetimeTask;
@@ -29,9 +34,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Construct a <see cref="Session"/>
 		/// </summary>
 		/// <param name="process">The value of <see cref="process"/></param>
-		public Session(Process process)
+		/// <param name="byondLock">The value of <see cref="byondLock"/></param>
+		public Session(Process process, IByondExecutableLock byondLock)
 		{
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
+			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 
 			LaunchResult = Task.Factory.StartNew(() =>
 			{
