@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
