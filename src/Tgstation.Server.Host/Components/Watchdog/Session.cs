@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class DreamDaemonSession : IDreamDaemonSession
+	sealed class Session : ISession
 	{
 		/// <inheritdoc />
 		public int ProcessId => process.Id;
@@ -26,10 +26,10 @@ namespace Tgstation.Server.Host.Components
 		readonly TaskCompletionSource<int> lifetimeTask;
 
 		/// <summary>
-		/// Construct a <see cref="DreamDaemonSession"/>
+		/// Construct a <see cref="Session"/>
 		/// </summary>
 		/// <param name="process">The value of <see cref="process"/></param>
-		public DreamDaemonSession(Process process)
+		public Session(Process process)
 		{
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 

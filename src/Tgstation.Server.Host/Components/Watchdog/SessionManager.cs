@@ -6,10 +6,10 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class DreamDaemonControl : IDreamDaemonControl, IInteropConsumer
+	sealed class SessionManager : ISessionManager, IInteropConsumer
 	{
 		/// <summary>
 		/// Generic OK response
@@ -24,8 +24,10 @@ namespace Tgstation.Server.Host.Components
 		const string DMParameterAccessIdentifier = "access";
 		const string DMParameterCommand = "command";
 		const string DMParameterNewPort = "new_port";
+		const string DMParameterNewRebootMode = "new_reboot_mode";
 
 		const string DMCommandChangePort = "change_port";
+		const string DMCommandChangeReboot = "change_reboot";
 
 		/// <inheritdoc />
 		public bool IsPrimary
@@ -48,17 +50,19 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public ushort Port
+		public ushort? Port
 		{
 			get
 			{
 				CheckDisposed();
+				if (portClosed)
+					return null;
 				return reattachInformation.Port;
 			}
 		}
 
 		/// <inheritdoc />
-		public DreamDaemonRebootState RebootState
+		public RebootState RebootState
 		{
 			get
 			{
@@ -68,24 +72,24 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <summary>
-		/// The up to date <see cref="DreamDaemonReattachInformation"/>
+		/// The up to date <see cref="ReattachInformation"/>
 		/// </summary>
-		readonly DreamDaemonReattachInformation reattachInformation;
+		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="DreamDaemonControl"/>
+		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionManager"/>
 		/// </summary>
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IInteropContext"/> for the <see cref="DreamDaemonControl"/>
+		/// The <see cref="IInteropContext"/> for the <see cref="SessionManager"/>
 		/// </summary>
 		readonly IInteropContext interopContext;
 
 		/// <summary>
-		/// The <see cref="IDreamDaemonSession"/> for the <see cref="DreamDaemonControl"/>
+		/// The <see cref="ISession"/> for the <see cref="SessionManager"/>
 		/// </summary>
-		readonly IDreamDaemonSession session;
+		readonly ISession session;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPortImpl(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
@@ -101,18 +105,18 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		bool portClosed;
 		/// <summary>
-		/// If the <see cref="DreamDaemonControl"/> has been disposed
+		/// If the <see cref="SessionManager"/> has been disposed
 		/// </summary>
 		bool disposed;
 
 		/// <summary>
-		/// Construct a <see cref="DreamDaemonControl"/>
+		/// Construct a <see cref="SessionManager"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
 		/// <param name="session">The value of <see cref="session"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="interopRegistrar">The <see cref="IInteropRegistrar"/> used to construct <see cref="interopContext"/></param>
-		public DreamDaemonControl(DreamDaemonReattachInformation reattachInformation, IDreamDaemonSession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar)
+		public SessionManager(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar)
 		{
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
@@ -130,13 +134,14 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			lock (this)
-				if (!disposed)
-				{
-					session.Dispose();
-					interopContext.Dispose();
-					Dmb?.Dispose(); //will be null when released
-					disposed = true;
-				}
+			{
+				if (disposed)
+					return;
+				session.Dispose();
+				interopContext.Dispose();
+				Dmb?.Dispose(); //will be null when released
+				disposed = true;
+			}
 		}
 
 		/// <inheritdoc />
@@ -164,11 +169,11 @@ namespace Tgstation.Server.Host.Components
 		void CheckDisposed()
 		{
 			if (disposed)
-				throw new ObjectDisposedException(nameof(DreamDaemonControl));
+				throw new ObjectDisposedException(nameof(SessionManager));
 		}
 
 		/// <inheritdoc />
-		public DreamDaemonReattachInformation Release()
+		public ReattachInformation Release()
 		{
 			CheckDisposed();
 			//we still don't want to dispose the dmb yet, even though we're keeping it alive
@@ -221,12 +226,12 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> SetRebootState(DreamDaemonRebootState newRebootState, CancellationToken cancellationToken)
+		public async Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
 		{
-			var oldActive = RebootState != DreamDaemonRebootState.Normal;
-			var newActive = RebootState != DreamDaemonRebootState.Normal;
-			if (oldActive == newActive)
+			if (RebootState == newRebootState)
 				return true;
+
+			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", DMCommandChangeReboot, DMParameterNewRebootMode, (int)newRebootState), cancellationToken).ConfigureAwait(false) == DMResponseOKGeneric;
 		}
 	}
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
 	/// Represents a dream daemon process
 	/// </summary>
-	interface IDreamDaemonSession : IDisposable
+	interface ISession : IDisposable
 	{
 		/// <summary>
 		/// The <see cref="System.Diagnostics.Process.Id"/>

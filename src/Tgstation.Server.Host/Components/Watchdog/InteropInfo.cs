@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components.Models
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	sealed class InteropInfo
 	{

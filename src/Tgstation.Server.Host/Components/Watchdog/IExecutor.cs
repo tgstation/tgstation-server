@@ -1,11 +1,11 @@
 ﻿using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// For creating <see cref="IDreamDaemonSession"/>s
+	/// For creating <see cref="ISession"/>s
 	/// </summary>
-    interface IDreamDaemonExecutor
+    interface IExecutor
     {
 		/// <summary>
 		/// Run a dream daemon instance
@@ -16,14 +16,14 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> for the .dmb to run</param>
 		/// <param name="parameters">The value of the -params command line option</param>
 		/// <param name="useSecondaryPort">If the <see cref="DreamDaemonLaunchParameters.SecondaryPort"/> field of <paramref name="launchParameters"/> should be used</param>
-		/// <returns>A new <see cref="IDreamDaemonSession"/></returns>
-		IDreamDaemonSession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory);
+		/// <returns>A new <see cref="ISession"/></returns>
+		ISession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory);
 
 		/// <summary>
 		/// Attach to a running instance of DreamDaemon
 		/// </summary>
-		/// <param name="processId">The <see cref="IDreamDaemonSession.ProcessId"/></param>
-		/// <returns>A new <see cref="IDreamDaemonSession"/></returns>
-		IDreamDaemonSession AttachToDreamDaemon(int processId);
+		/// <param name="processId">The <see cref="ISession.ProcessId"/></param>
+		/// <returns>A new <see cref="ISession"/></returns>
+		ISession AttachToDreamDaemon(int processId);
 	}
 }

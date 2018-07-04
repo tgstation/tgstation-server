@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// Handles communication with a <see cref="IDreamDaemonSession"/>
+	/// Handles communication with a <see cref="ISession"/>
 	/// </summary>
-	interface IDreamDaemonControl : IDisposable
+	interface ISessionManager : IDisposable
 	{
 		/// <summary>
 		/// If the <see cref="IDmbProvider.PrimaryDirectory"/> of <see cref="Dmb"/> is being used
@@ -22,18 +22,18 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The current port DreamDaemon is listening on
 		/// </summary>
-		ushort Port { get; }
+		ushort? Port { get; }
 
 		/// <summary>
-		/// The current <see cref="DreamDaemonRebootState"/>
+		/// The current <see cref="RebootState"/>
 		/// </summary>
-		DreamDaemonRebootState RebootState { get; }
+		RebootState RebootState { get; }
 
 		/// <summary>
-		/// Releases the <see cref="IDreamDaemonSession"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
+		/// Releases the <see cref="ISession"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
-		/// <returns><see cref="DreamDaemonReattachInformation"/> which can be used to create a new <see cref="IDreamDaemonControl"/> similar to this one</returns>
-		DreamDaemonReattachInformation Release();
+		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionManager"/> similar to this one</returns>
+		ReattachInformation Release();
 
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic()
@@ -59,9 +59,9 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Attempts to change the current <see cref="RebootState"/> to <paramref name="newRebootState"/>
 		/// </summary>
-		/// <param name="newRebootState">The new <see cref="DreamDaemonRebootState"/></param>
+		/// <param name="newRebootState">The new <see cref="RebootState"/></param>
 		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
-		Task<bool> SetRebootState(DreamDaemonRebootState newRebootState, CancellationToken cancellationToken);
+		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
     }
 }

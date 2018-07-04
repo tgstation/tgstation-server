@@ -4,10 +4,10 @@ using System.Globalization;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class DreamDaemonExecutor : IDreamDaemonExecutor
+	sealed class Executor : IExecutor
 	{
 		/// <summary>
 		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word
@@ -30,10 +30,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IDreamDaemonSession AttachToDreamDaemon(int processId) => new DreamDaemonSession(Process.GetProcessById(processId));
+		public ISession AttachToDreamDaemon(int processId) => new Session(Process.GetProcessById(processId));
 
 		/// <inheritdoc />
-		public IDreamDaemonSession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory)
+		public ISession RunDreamDaemon(DreamDaemonLaunchParameters launchParameters, string dreamDaemonPath, IDmbProvider dmbProvider, string parameters, bool useSecondaryPort, bool useSecondaryDirectory)
 		{
 			if (launchParameters == null)
 				throw new ArgumentNullException(nameof(launchParameters));
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components
 
 				proc.Start();
 
-				return new DreamDaemonSession(proc);
+				return new Session(proc);
 			}
 			catch
 			{

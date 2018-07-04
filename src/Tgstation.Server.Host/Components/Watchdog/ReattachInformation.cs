@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// Parameters necessary for duplicating a <see cref="IDreamDaemonControl"/> session
+	/// Parameters necessary for duplicating a <see cref="ISessionManager"/> session
 	/// </summary>
-	sealed class DreamDaemonReattachInformation
+	sealed class ReattachInformation
 	{
 		/// <summary>
 		/// Used to identify and authenticate the DreamDaemon instance
@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The current DreamDaemon reboot state
 		/// </summary>
-		public DreamDaemonRebootState RebootState { get; set; }
+		public RebootState RebootState { get; set; }
 
 		/// <summary>
 		/// The <see cref="IDmbProvider"/> used by DreamDaemon

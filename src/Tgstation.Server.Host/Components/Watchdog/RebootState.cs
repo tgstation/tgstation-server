@@ -1,21 +1,21 @@
-﻿namespace Tgstation.Server.Host.Components
+﻿namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
 	/// Represents the action to take when /world/Reboot() is called
 	/// </summary>
-    enum DreamDaemonRebootState
+    enum RebootState : int
     {
 		/// <summary>
 		/// Run DreamDaemon's normal reboot process
 		/// </summary>
-		Normal,
+		Normal = 0,
 		/// <summary>
 		/// Shutdown DreamDaemon
 		/// </summary>
-		Shutdown,
+		Shutdown = 1,
 		/// <summary>
 		/// Restart the DreamDaemon process
 		/// </summary>
-		Restart
+		Restart = 2
     }
 }
