@@ -16,14 +16,11 @@
 #define TGS4_COMM_CHAT "tgs_chat_send"
 
 /datum/tgs_api/v4
-	var/access_token
-	var/instance_id
+	var/access_identifier
 	var/instance_name
 	var/host_path
-	var/port_1
-	var/port_2
-	var/cached_json
-	var/json_path
+	var/chat_channels_json_path
+	var/chat_commands_json_path
 	
 	var/list/intercepted_message_queue
 	
@@ -46,7 +43,7 @@
 	if(!json_file)
 		TGS_ERROR_LOG("Missing specified json file: [json_path]")
 		return
-	cached_json = json_decode(json_file)
+	var/cached_json = json_decode(json_file)
 	if(!cached_json)
 		TGS_ERROR_LOG("Failed to decode info json: [json_file]")
 		return
@@ -57,7 +54,9 @@
 	if(cached_json["api_validate_only"])
 		Export(TGS4_COMM_VALIDATE)
 		del(world)
-
+		
+	chat_channels_json_path = cached_json["chat_channels_json"]
+	chat_commands_json_path = cached_json["chat_commands_json"]
 	src.event_handler = event_handler
 	instance_name = cached_json["instance_name"]
 	port_1 = world.port
@@ -197,8 +196,7 @@
 /datum/tgs_api/v4/ChatChannelInfo()
 	. = list()
 	//no caching cause tgs may change this
-	var/chat_json_path = cached_json["chat_channels_json"]
-	var/list/json = json_decode(file2text(chat_json_path))
+	var/list/json = json_decode(file2text(chat_channels_json_path))
 	for(var/I in json)
 		var/datum/tgs_chat_channel/channel = new
 		channel.id = I["id"]

@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// Parameters necessary for duplicating a <see cref="ISessionManager"/> session
+	/// Parameters necessary for duplicating a <see cref="ISessionController"/> session
 	/// </summary>
 	sealed class ReattachInformation
 	{
@@ -36,5 +36,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IDmbProvider"/> used by DreamDaemon
 		/// </summary>
 		public IDmbProvider Dmb { get; set; }
+		
+		/// <summary>
+		/// Path to the chat commands json file
+		/// </summary>
+		public string ChatCommandsJson { get; set; }
+
+		/// <summary>
+		/// Path to the chat channels json file
+		/// </summary>
+		public string ChatChannelsJson { get; set; }
 	}
 }

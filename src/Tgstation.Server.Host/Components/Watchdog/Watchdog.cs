@@ -13,19 +13,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// The <see cref="IByond"/> for the <see cref="Watchdog"/>
-		/// </summary>
-		readonly IByond byond;
-
-		/// <summary>
 		/// The <see cref="IChat"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IChat chat;
 
 		/// <summary>
-		/// The <see cref="ISessionManagerFactory"/> for the <see cref="Watchdog"/>
+		/// The <see cref="ISessionControllerFactory"/> for the <see cref="Watchdog"/>
 		/// </summary>
-		readonly ISessionManagerFactory sessionManagerFactory;
+		readonly ISessionControllerFactory sessionManagerFactory;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="Watchdog"/>
@@ -44,21 +39,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		DreamDaemonLaunchParameters launchParameters;
 
-		ISessionManager alphaServer;
-		ISessionManager bravoServer;
+		ISessionController alphaServer;
+		ISessionController bravoServer;
+
+		bool alphaActive;
+
+		bool disposed;
 
 		/// <summary>
 		/// Construct a <see cref="IWatchdog"/>
 		/// </summary>
-		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="sessionManagerFactory">The value of <see cref="sessionManagerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="interopRegistrar">The value of <see cref="interopRegistrar"/></param>
-		public Watchdog(IByond byond, IChat chat, ISessionManagerFactory sessionManagerFactory, IDmbFactory dmbFactory, IEventConsumer eventConsumer, IInteropRegistrar interopRegistrar, DreamDaemonLaunchParameters initialLaunchParameters)
+		public Watchdog(IByond byond, IChat chat, ISessionControllerFactory sessionManagerFactory, IDmbFactory dmbFactory, IEventConsumer eventConsumer, IInteropRegistrar interopRegistrar, DreamDaemonLaunchParameters initialLaunchParameters)
 		{
-			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionManagerFactory = sessionManagerFactory ?? throw new ArgumentNullException(nameof(sessionManagerFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
@@ -70,8 +67,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			alphaServer?.Dispose();
-			bravoServer?.Dispose();
+			lock (this)
+			{
+				alphaServer?.Dispose();
+				bravoServer?.Dispose();
+				disposed = true;
+			}
 		}
 	}
 }

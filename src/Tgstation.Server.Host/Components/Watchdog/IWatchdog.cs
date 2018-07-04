@@ -9,6 +9,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	{
 		DreamDaemonLaunchParameters LaunchParameters { get; set; }
 
-		Task<LaunchResult> Launch(CancellationToken cancellationToken);
+		Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken);
 	}
 }

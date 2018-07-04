@@ -24,13 +24,10 @@ namespace Tgstation.Server.Host.Components
 		Task<Version> GetVersion(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Lock the current installation's location and run an <paramref name="operation"/>
+		/// Lock the current installation's location and return a <see cref="IByondExecutableLock"/>
 		/// </summary>
-		/// <typeparam name="T">The return type of <paramref name="operation"/></typeparam>
-		/// <param name="operation">A <see cref="Func{T1, T2, TResult}"/> taking the path to either dm.exe and dreamdaemon.exe and returning a <see cref="Task"/></param>
-		/// <param name="stagedIfExists">Use the staged installation if possible</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the return type of <paramref name="operation"/></returns>
-		Task<T> UseExecutables<T>(Func<string, string, Task<T>> operation, bool stagedIfExists);
+		/// <param name="requiredVersion">The BYOND <see cref="Version"/> required</param>
+		IByondExecutableLock UseExecutables(Version requiredVersion);
 
 		/// <summary>
 		/// Clears the cache folder

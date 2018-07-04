@@ -37,5 +37,10 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// Exit code of DM. If <see langword="null"/>
 		/// </summary>
 		public int? ExitCode { get; set; }
+
+		/// <summary>
+		/// The <see cref="Byond.Version"/> the <see cref="CompileJob"/> was made with
+		/// </summary>
+		public Version ByondVersion { get; set; }
 	}
 }

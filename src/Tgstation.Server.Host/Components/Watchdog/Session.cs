@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public int ProcessId => process.Id;
 
 		/// <inheritdoc />
-		public Task<LaunchResult> Startup { get; }
+		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
 		public Task<int> Lifetime => lifetimeTask.Task;
@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 
-			Startup = Task.Factory.StartNew(() =>
+			LaunchResult = Task.Factory.StartNew(() =>
 			{
 				var startTime = DateTimeOffset.Now;
 				try

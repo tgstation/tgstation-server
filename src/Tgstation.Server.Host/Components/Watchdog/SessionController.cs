@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class SessionManager : ISessionManager, IInteropConsumer
+	sealed class SessionController : ISessionController, IInteropConsumer
 	{
 		/// <summary>
 		/// Generic OK response
@@ -71,25 +71,41 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
+		/// <inheritdoc />
+		public Task<LaunchResult> LaunchResult => session.LaunchResult;
+
+		/// <inheritdoc />
+		public Task<int> Lifetime => session.Lifetime;
+
 		/// <summary>
 		/// The up to date <see cref="ReattachInformation"/>
 		/// </summary>
 		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionManager"/>
+		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionController"/>
 		/// </summary>
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IInteropContext"/> for the <see cref="SessionManager"/>
+		/// The <see cref="IInteropContext"/> for the <see cref="SessionController"/>
 		/// </summary>
 		readonly IInteropContext interopContext;
 
 		/// <summary>
-		/// The <see cref="ISession"/> for the <see cref="SessionManager"/>
+		/// The <see cref="ISession"/> for the <see cref="SessionController"/>
 		/// </summary>
 		readonly ISession session;
+
+		/// <summary>
+		/// The <see cref="IChatJsonTrackingContext"/> for the <see cref="SessionController"/>
+		/// </summary>
+		readonly IChatJsonTrackingContext chatJsonTrackingContext;
+
+		/// <summary>
+		/// The <see cref="IChat"/> for the <see cref="SessionController"/>
+		/// </summary>
+		readonly IChat chat;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPortImpl(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
@@ -105,22 +121,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		bool portClosed;
 		/// <summary>
-		/// If the <see cref="SessionManager"/> has been disposed
+		/// If the <see cref="SessionController"/> has been disposed
 		/// </summary>
 		bool disposed;
 
 		/// <summary>
-		/// Construct a <see cref="SessionManager"/>
+		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
 		/// <param name="session">The value of <see cref="session"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="interopRegistrar">The <see cref="IInteropRegistrar"/> used to construct <see cref="interopContext"/></param>
-		public SessionManager(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar)
+		/// <param name="chat">The value of <see cref="chat"/></param>
+		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
+		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, IChatJsonTrackingContext chatJsonTrackingContext, IChat chat)
 		{
+			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.session = session ?? throw new ArgumentNullException(nameof(session));
+			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			if (interopRegistrar == null)
 				throw new ArgumentNullException(nameof(interopRegistrar));
 
@@ -140,6 +160,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				session.Dispose();
 				interopContext.Dispose();
 				Dmb?.Dispose(); //will be null when released
+				chatJsonTrackingContext.Dispose();
 				disposed = true;
 			}
 		}
@@ -169,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		void CheckDisposed()
 		{
 			if (disposed)
-				throw new ObjectDisposedException(nameof(SessionManager));
+				throw new ObjectDisposedException(nameof(SessionController));
 		}
 
 		/// <inheritdoc />

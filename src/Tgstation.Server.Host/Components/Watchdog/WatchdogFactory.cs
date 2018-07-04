@@ -17,9 +17,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IChat chat;
 
 		/// <summary>
-		/// The <see cref="ISessionManagerFactory"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
-		readonly ISessionManagerFactory sessionManagerFactory;
+		readonly ISessionControllerFactory sessionManagerFactory;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="WatchdogFactory"/>
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="sessionManagerFactory">The value of <see cref="sessionManagerFactory"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="interopRegistrar">The value of <see cref="interopRegistrar"/></param>
-		public WatchdogFactory(IByond byond, IChat chat, ISessionManagerFactory sessionManagerFactory, IEventConsumer eventConsumer, IInteropRegistrar interopRegistrar)
+		public WatchdogFactory(IByond byond, IChat chat, ISessionControllerFactory sessionManagerFactory, IEventConsumer eventConsumer, IInteropRegistrar interopRegistrar)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -49,6 +49,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParamaters) => new Watchdog(byond, chat, sessionManagerFactory, dmbFactory, eventConsumer, interopRegistrar, launchParameters);
+		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParameters) => new Watchdog(byond, chat, sessionManagerFactory, dmbFactory, eventConsumer, interopRegistrar, launchParameters);
 	}
 }
