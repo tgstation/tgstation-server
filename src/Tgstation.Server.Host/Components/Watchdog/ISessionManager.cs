@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -7,7 +6,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Handles communication with a <see cref="ISession"/>
 	/// </summary>
-	interface ISessionManager : IDisposable
+	interface ISessionManager : ISessionBase
 	{
 		/// <summary>
 		/// If the <see cref="IDmbProvider.PrimaryDirectory"/> of <see cref="Dmb"/> is being used

@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public int ProcessId => process.Id;
 
 		/// <inheritdoc />
-		public Task SuccessfulStartup { get; }
+		public Task<LaunchResult> Startup { get; }
 
 		/// <inheritdoc />
 		public Task<int> Lifetime => lifetimeTask.Task;
@@ -33,7 +33,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 
-			SuccessfulStartup = Task.Factory.StartNew(() => process.WaitForInputIdle(), default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+			Startup = Task.Factory.StartNew(() =>
+			{
+				var startTime = DateTimeOffset.Now;
+				try
+				{
+					process.WaitForInputIdle();
+				}
+				catch (InvalidOperationException) { }
+				var result = new LaunchResult
+				{
+					ExitCode = process.HasExited ? (int?)process.ExitCode : null,
+					PeakMemory = process.PeakWorkingSet64,
+					StartupTime = DateTimeOffset.Now - startTime
+				};
+				if (result.PeakMemory == 0)	//linux, best we can do honestly, test if this even works
+					result.PeakMemory = process.WorkingSet64;
+				return result;
+			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 			lifetimeTask = new TaskCompletionSource<int>();
 			process.EnableRaisingEvents = true;
 			process.Exited += (a, b) => lifetimeTask.SetResult(process.ExitCode);

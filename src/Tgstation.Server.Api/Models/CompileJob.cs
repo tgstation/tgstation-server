@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Api.Models
+﻿using System;
+
+namespace Tgstation.Server.Api.Models
 {
 	/// <inheritdoc />
 	public sealed class CompileJob : Internal.CompileJob
@@ -12,5 +14,10 @@
 		/// Git revision the compiler ran on. Not modifiable
 		/// </summary>
 		public RevisionInformation RevisionInformation { get; set; }
+
+		/// <summary>
+		/// The <see cref="Byond.Version"/> the <see cref="CompileJob"/> was made with
+		/// </summary>
+		public Version ByondVersion { get; set; }
 	}
 }

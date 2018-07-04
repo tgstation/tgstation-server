@@ -10,8 +10,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Creates a <see cref="IWatchdog"/>
 		/// </summary>
-		/// <param name="compileJob">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
+		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
+		/// <param name="launchParameters">The initial <see cref="DreamDaemonLaunchParameters"/> for the <see cref="IWatchdog"/></param>
 		/// <returns>A new <see cref="IWatchdog"/></returns>
-		IWatchdog CreateWatchdog(IDmbFactory dmbFactory);
+		IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParameters);
 	}
 }

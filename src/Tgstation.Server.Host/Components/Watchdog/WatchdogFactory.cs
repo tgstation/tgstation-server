@@ -1,4 +1,5 @@
 ﻿using System;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -48,6 +49,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory) => new Watchdog(byond, chat, sessionManagerFactory, dmbFactory, eventConsumer, interopRegistrar);
+		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParamaters) => new Watchdog(byond, chat, sessionManagerFactory, dmbFactory, eventConsumer, interopRegistrar, launchParameters);
 	}
 }
