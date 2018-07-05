@@ -77,8 +77,5 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				disposed = true;
 			}
 		}
-
-		/// <inheritdoc />
-		public Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken) => throw new NotImplementedException();
 	}
 }

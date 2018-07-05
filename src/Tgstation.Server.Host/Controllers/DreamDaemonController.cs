@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -51,16 +51,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var instance = instanceManager.GetInstance(Instance);
 
-			if (instance.DreamDaemon.Running)
+			if (instance.Watchdog.Running)
 				return StatusCode(HttpStatusCode.Gone);
-
-			var launchParams = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => new DreamDaemonLaunchParameters
-			{
-				AllowWebClient = x.DreamDaemonSettings.AllowWebClient,
-				PrimaryPort = x.DreamDaemonSettings.PrimaryPort,
-				SecondaryPort = x.DreamDaemonSettings.SecondaryPort,
-				SecurityLevel = x.DreamDaemonSettings.SecurityLevel
-			}).FirstAsync(cancellationToken).ConfigureAwait(false);
 
 			await jobManager.RegisterOperation(new Models.Job
 			{
@@ -69,7 +61,16 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRightsType = RightsType.DreamDaemon,
 				Instance = Instance,
 				StartedBy = AuthenticationContext.User
-			}, (job, serviceProvider, innerCt) => instance.DreamDaemon.Launch(launchParams, innerCt), cancellationToken).ConfigureAwait(false);
+			}, 
+			async (job, serviceProvider, innerCt) =>
+			{
+				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
+				if (result == null)
+					throw new InvalidOperationException("Watchdog already running!");
+				if (!instance.Watchdog.Running)
+					throw new Exception("Failed to launch watchdog!");
+			},
+			cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
 
@@ -77,48 +78,55 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var dd = instanceManager.GetInstance(Instance).DreamDaemon;
+			var dd = instanceManager.GetInstance(Instance).Watchdog;
 
 			var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadMetadata) != 0;
 			var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadRevision) != 0;
 
 			var settings = metadata ? await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false) : null;
-			Api.Models.DreamDaemon result = new Api.Models.DreamDaemon();
+			var result = new DreamDaemon();
 			if(metadata)
 			{
+				var alphaActive = dd.AlphaIsActive;
+				var llp = dd.LastLaunchParameters;
 				result.AutoStart = settings.AutoStart;
-				result.CurrentPort = dd.CurrentPort;
-				result.CurrentSecurity = dd.CurrentSecurity;
-				result.PrimaryPort = dd.LastLaunchParameters.PrimaryPort;
-				result.AllowWebClient = dd.LastLaunchParameters.AllowWebClient;
+				result.CurrentPort = alphaActive ? llp.PrimaryPort : llp.SecondaryPort;
+				result.CurrentSecurity = llp.SecurityLevel;
+				result.CurrentAllowWebclient = llp.AllowWebClient;
+				result.PrimaryPort = dd.ActiveLaunchParameters.PrimaryPort;
+				result.AllowWebClient = dd.ActiveLaunchParameters.AllowWebClient;
 				result.Running = dd.Running;
 				result.SecondaryPort = dd.LastLaunchParameters.SecondaryPort;
 				result.SecurityLevel = dd.LastLaunchParameters.SecurityLevel;
-				result.SoftRestart = dd.SoftRebooting;
-				result.SoftShutdown = dd.SoftStopping;
+				var rstate = dd.RebootState;
+				result.SoftRestart = rstate == RebootState.Restart;
+				result.SoftShutdown = rstate == RebootState.Shutdown;
 			};
 			if (revision)
-				result.CompileJob = dd.LastCompileJob.ToApi();
+			{
+				result.ActiveCompileJob = dd.LiveCompileJob?.ToApi();
+				result.StagedCompileJob = dd.StagedCompileJob?.ToApi();
+			}
 
 			return Json(result);
 		}
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.DreamDaemon model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
 
-			if (!instance.DreamDaemon.Running)
+			if (!instance.Watchdog.Running)
 				return StatusCode(HttpStatusCode.Gone);
 
-			await instance.DreamDaemon.Terminate(false, cancellationToken).ConfigureAwait(false);
+			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamDaemon model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
 
@@ -155,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 				current.SoftShutdown = model.SoftShutdown;
 			}
 
-			await instanceManager.GetInstance(Instance).DreamDaemon.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+			await instanceManager.GetInstance(Instance).Watchdog.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 			await DatabaseContext.Save(default).ConfigureAwait(false);
 
 			return Ok();

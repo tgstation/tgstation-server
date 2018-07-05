@@ -9,10 +9,16 @@ namespace Tgstation.Server.Api.Models
 	public sealed class DreamDaemon : DreamDaemonSettings
 	{
 		/// <summary>
-		/// When the live revision was compiled
+		/// The live revision
 		/// </summary>
 		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
-		public CompileJob CompileJob { get; set; }
+		public CompileJob ActiveCompileJob { get; set; }
+
+		/// <summary>
+		/// The next revision to go live
+		/// </summary>
+		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadRevision)]
+		public CompileJob StagedCompileJob { get; set; }
 
 		/// <summary>
 		/// The current status of <see cref="DreamDaemon"/>
@@ -31,5 +37,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadMetadata)]
 		public ushort? CurrentPort { get; set; }
+
+		/// <summary>
+		/// The webclient status the running <see cref="DreamDaemon"/> instance is set to
+		/// </summary>
+		[Permissions(DenyWrite = true, ReadRight = DreamDaemonRights.ReadMetadata)]
+		public bool? CurrentAllowWebclient { get; set; }
 	}
 }

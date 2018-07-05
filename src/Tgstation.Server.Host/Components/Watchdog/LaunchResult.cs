@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Represents the result of trying to start a DD process
 	/// </summary>
-	sealed class LaunchResult
+	public sealed class LaunchResult
 	{
 		/// <summary>
 		/// The time it took for <see cref="System.Diagnostics.Process.WaitForInputIdle"/> to return

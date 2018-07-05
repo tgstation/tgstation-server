@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Components
 		public IDreamMaker DreamMaker { get; }
 
 		/// <inheritdoc />
-		public IDreamDaemon DreamDaemon { get; }
+		public IWatchdog Watchdog { get; }
 
 		/// <inheritdoc />
 		public IChat Chat { get; }
@@ -52,13 +53,13 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		CancellationTokenSource timerCts;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IDreamDaemon dreamDaemon, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			Byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
-			DreamDaemon = dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon));
+			watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
@@ -83,19 +84,22 @@ namespace Tgstation.Server.Host.Components
 					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
 
 					string accessToken = null, projectName = null;
+					int timeout = 0;
 					var dbTask = databaseContextFactory.UseContext(async (db) =>
 					{
 						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
+						var timeoutTask = instanceQuery.Select(x => x.DreamDaemonSettings.StartupTimeout).FirstAsync(cancellationToken);
 						var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
 						accessToken = await instanceQuery.Select(x => x.RepositorySettings.AccessToken).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 						projectName = await projectNameTask.ConfigureAwait(false);
+						timeout = (await timeoutTask.ConfigureAwait(false)).Value;
 					});
 					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 					{
 						await dbTask.ConfigureAwait(false);
 						await repo.FetchOrigin(accessToken, cancellationToken).ConfigureAwait(false);
 						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
-						await DreamMaker.Compile(projectName, repo, cancellationToken).ConfigureAwait(false);
+						await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
 			}
@@ -114,10 +118,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), DreamDaemon.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
+		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Watchdog.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), DreamDaemon.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(int? newInterval)

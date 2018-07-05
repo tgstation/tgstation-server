@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Watchdog;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -24,9 +25,9 @@ namespace Tgstation.Server.Host.Components
 		IDreamMaker DreamMaker { get; }
 
 		/// <summary>
-		/// The <see cref="IDreamDaemon"/> for the <see cref="IInstance"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="IInstance"/>
 		/// </summary>
-		IDreamDaemon DreamDaemon { get; }
+		IWatchdog Watchdog { get; }
 
 		/// <summary>
 		/// The <see cref="IChat"/> for the <see cref="IInstance"/>
