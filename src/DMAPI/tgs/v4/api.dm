@@ -9,6 +9,7 @@
 #define TGS4_TOPIC_CHAT_COMMAND "tgs_chat_comm"
 #define TGS4_TOPIC_EVENT "tgs_event"
 
+#define TGS4_COMM_ONLINE "tgs_on"
 #define TGS4_COMM_IDENTIFY "tgs_ident"
 #define TGS4_COMM_VALIDATE "tgs_vali"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
@@ -93,12 +94,6 @@
 		return "No command!"
 
 	switch(command)
-		if(TGS4_TOPIC_SWAP)
-			SwapPorts(FALSE)
-			return TGS4_TOPIC_SUCCESS
-		if(TGS4_TOPIC_SWAP_DELAYED)
-			SwapPorts(TRUE)
-			return TGS4_TOPIC_SUCCESS
 		if(TGS4_TOPIC_CHAT_COMMAND)
 			var/result = HandleCustomCommand(params[TGS4_TOPIC_CHAT_COMMAND])
 			if(!result)
@@ -110,9 +105,6 @@
 			. = json_encode(intercepted_message_queue)
 			intercepted_message_queue = null
 			return
-		if(TGS4_TOPIC_IDENTIFY)
-			//they want to know our initial port
-			return "[port_1]"
 	
 	return "Unknown command: [command]"
 

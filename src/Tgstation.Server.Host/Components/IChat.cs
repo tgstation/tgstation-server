@@ -48,6 +48,14 @@ namespace Tgstation.Server.Host.Components
 		Task SendMessage(string message, IEnumerable<long> channelIds, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Send a chat <paramref name="message"/> to configured watchdog channels
+		/// </summary>
+		/// <param name="message">The message being sent</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task SendWatchdogMessage(string message, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Start tracking json files for commands and channels
 		/// </summary>
 		/// <param name="basePath">The base path of the .jsons</param>

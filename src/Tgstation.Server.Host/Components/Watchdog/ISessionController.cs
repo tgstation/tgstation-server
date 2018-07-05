@@ -34,6 +34,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		RebootState RebootState { get; }
 
 		/// <summary>
+		/// If the port should close when /world/Reboot() is called. Defaults to <see langword="true"/> 
+		/// </summary>
+		bool ClosePortOnReboot { get; set; }
+
+		/// <summary>
+		/// A <see cref="Task"/> that completes when the server calls /world/Reboot()
+		/// </summary>
+		Task OnReboot { get; }
+
+		/// <summary>
 		/// Releases the <see cref="ISession"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>

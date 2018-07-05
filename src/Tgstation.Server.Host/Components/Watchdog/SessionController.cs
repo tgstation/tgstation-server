@@ -28,6 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		const string DMTopicChatCommand = "tgs_chat_comm";
 		const string DMTopicEvent = "tgs_event";
 
+		const string DMCommandOnline = "tgs_on";
 		const string DMCommandIdentify = "tgs_ident";
 		const string DMCommandApiValidate = "tgs_validate";
 		const string DMCommandServerPrimed = "tgs_prime";
@@ -41,7 +42,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		const string DMParameterNewPort = "new_port";
 		const string DMParameterNewRebootMode = "new_rmode";
 
-
 		/// <inheritdoc />
 		public bool IsPrimary
 		{
@@ -51,6 +51,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return reattachInformation.IsPrimary;
 			}
 		}
+
+		/// <inheritdoc />
+		public bool ClosePortsOnReboot { get; set; }
 
 		/// <inheritdoc />
 		public bool ApiValidated
@@ -138,7 +141,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The port to assign DreamDaemon when it queries for it
 		/// </summary>
-		ushort? nextPort;
+		ushort nextPort;
 
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed
@@ -209,17 +212,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					case DMCommandIdentify:
 						lock (this)
-							if (nextPort.HasValue)
+							if (portClosed)
+								content = new Dictionary<string, int> { { DMParameterNewPort, nextPort } };
+						break;
+					case DMCommandOnline:
+						lock (this)
+							if (portClosed)
 							{
-								var newPort = nextPort.Value;
-								nextPort = null;
+								reattachInformation.Port = nextPort;
 								portAssignmentTcs.SetResult(true);
 								portAssignmentTcs = null;
-								content = new Dictionary<string, int> { { DMParameterNewPort, newPort } };
+								portClosed = false;
 							}
 						break;
 					case DMCommandApiValidate:
 						apiValidated = true;
+						break;
+					case DMCommandWorldReboot:
+						if (ClosePortsOnReboot)
+						{
+							content = new Dictionary<string, int> { { DMParameterNewPort, 0 } };
+							portClosed = true;
+						}
+						else
+							ClosePortsOnReboot = true;
 						break;
 					default:
 						status = HttpStatusCode.BadRequest;
@@ -276,14 +292,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			CheckDisposed();
 			if (portClosed)
 			{
-				Task toWait;
+				Task<bool> toWait;
 				lock (this)
 				{
+					if (portAssignmentTcs != null)
+						//someone was trying to change the port before us, ignore them
+						//shouldn't happen anyway, add logging here
+						portAssignmentTcs.SetResult(false);
 					nextPort = port;
 					portAssignmentTcs = new TaskCompletionSource<bool>();
 					toWait = portAssignmentTcs.Task;
 				}
-				await toWait.ConfigureAwait(false);
+				return await toWait.ConfigureAwait(false);
 			}
 
 			if (port == 0)
