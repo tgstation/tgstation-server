@@ -97,6 +97,13 @@ namespace Tgstation.Server.Host.Components
 				SecurityLevel = DreamDaemonSecurity.Safe    //all it needs to read the file and exit
 			};
 
+			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))));
+			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, true, true, true, cancellationToken).ConfigureAwait(false))
+			{
+
+			}
+
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var control = interop.CreateRun(launchParameters.PrimaryPort.Value, null, null))
 			{
@@ -112,7 +119,6 @@ namespace Tgstation.Server.Host.Components
 					if (e.EventType == ServerControlEventType.ServerUnresponsive)
 						ddTcs.SetResult(null);
 				};
-				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension)))), interopInfo, true, false, cts.Token);
 
 				await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);

@@ -121,7 +121,25 @@
 		sleep(10)
 
 /datum/tgs_api/v4/proc/Export(command)
-	return file2text(world.Export("[host_path]/Interop/[instance_id]?command=[url_encode(command)]&access_token=[access_token]")["CONTENT"])
+	var/list/res = world.Export("[host_path]/Interop?access=[url_encode(access_identifier)]&command=[url_encode(command)]")
+	if(!istype(res))
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! Export returned something not a list (probably null): [res]")
+		return
+	var/byond_status = res["STATUS"]
+	var/byond_content = res["CONTENT"]
+	if(byond_status != "200 OK")
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! Top level HTTP [byond_status]: [byond_content]")
+		return
+	var/json = json_decode(byond_content)	//always expecting json
+	if(!json)
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! Byond content not json: [byond_content]")
+		return
+	var/status = json["STATUS"]
+	var/content = json["CONTENT"]
+	if(status != 200)	//HTTP OK
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! HTTP [status]: [json_encode(content)]")
+		return
+	return content
 
 /datum/tgs_api/v4/OnReboot()
 	var/json = Export(TGS4_COMM_SERVER_REBOOT)

@@ -39,9 +39,12 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var result = await instanceManager.HandleWorldExport(Request.Query, cancellationToken).ConfigureAwait(false);
 			//explain things in very simple terms dream daemon can understand	
-			if (result != null)
-				return Json(result);
-			return NotFound();
+			//EXCEPT DREAMDAENEN BUGS
+			//THAT"S RIGHT !BUGS!
+			//ON ANYTHING THAT ISNT A 200 RESPOSNCE REEEE
+			if (result == null)
+				result = new { STATUS = 404 };
+			return Json(result);
 		}
 	}
 }

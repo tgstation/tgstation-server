@@ -8,6 +8,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class LaunchResult
 	{
 		/// <summary>
+		/// If the DMAPI was validated
+		/// </summary>
+		public bool? ApiValidated { get; set; }
+
+		/// <summary>
 		/// The time it took for <see cref="System.Diagnostics.Process.WaitForInputIdle"/> to return
 		/// </summary>
 		public TimeSpan StartupTime { get; set; }
