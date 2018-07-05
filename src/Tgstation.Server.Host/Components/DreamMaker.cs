@@ -85,48 +85,34 @@ namespace Tgstation.Server.Host.Components
 		/// Run a quick DD instance to test the DMAPI is installed on the target code
 		/// </summary>
 		/// <param name="dreamDaemonPath">The path to the DreamDaemon executable</param>
+		/// <param name="timeout">The timeout in seconds for validation</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(string dreamDaemonPath, Models.CompileJob job, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(string dreamDaemonPath, int timeout, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
 				PrimaryPort = 0,    //pick any port
-				SecurityLevel = DreamDaemonSecurity.Safe    //all it needs to read the file and exit
+				SecurityLevel = DreamDaemonSecurity.Safe,    //all it needs to read the file and exit
+				StartupTimeout = timeout
 			};
 
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))));
+
+			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
+				var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
 
-			}
+				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
 
-			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			using (var control = interop.CreateRun(launchParameters.PrimaryPort.Value, null, null))
-			{
-				var interopInfo = new InteropInfo
-				{
-					ApiValidateOnly = true,
-					HostPath = application.HostingPath,
-					AccessToken = control.PrimaryAccessToken
-				};
-				var ddTcs = new TaskCompletionSource<object>();
-				control.OnServerControl += (sender, e) =>
-				{
-					if (e.EventType == ServerControlEventType.ServerUnresponsive)
-						ddTcs.SetResult(null);
-				};
-				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension)))), interopInfo, true, false, cts.Token);
+				if (!controller.Lifetime.IsCompleted)
+					return false;
 
-				await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);
-
-				if (!ddTestTask.IsCompleted)
-					cts.Cancel();
-
-				return await ddTestTask.ConfigureAwait(false) == 0 && !ddTcs.Task.IsCompleted;
+				return controller.ApiValidated;
 			}
 		}
 
@@ -224,12 +210,12 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<Host.Models.CompileJob> Compile(string projectName, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(string projectName, int apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			try
 			{
 				Status = CompilerStatus.Copying;
-				var job = new Host.Models.CompileJob
+				var job = new Models.CompileJob
 				{
 					DirectoryName = Guid.NewGuid(),
 					DmeName = projectName
@@ -272,14 +258,17 @@ namespace Tgstation.Server.Host.Components
 					Status = CompilerStatus.Compiling;
 
 					//run compiler, verify api
-					var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+					bool ddVerified;
+					using (var byondLock = byond.UseExecutables(null))
 					{
-						await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+						job.ByondVersion = byondLock.Version;
+
+						await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 
 						Status = CompilerStatus.Verifying;
 
-						return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
-					}, true).ConfigureAwait(false);
+						ddVerified = job.ExitCode == 0 && await VerifyApi(byondLock.DreamDaemonPath, apiValidateTimeout, job, cancellationToken).ConfigureAwait(false);
+					}
 
 					if (!ddVerified)
 						//server never validated or compile failed

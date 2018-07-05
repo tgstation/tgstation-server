@@ -1,7 +1,10 @@
 ﻿using Byond.TopicSender;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,23 +14,33 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <inheritdoc />
 	sealed class SessionController : ISessionController, IInteropConsumer
 	{
-		/// <summary>
-		/// Generic OK response
-		/// </summary>
-		const string DMResponseOKGeneric = "OK";
+		//interop values, match them up with tgs.dm and the appropriate api.dm
 
-		/// <summary>
-		/// The server is requesting to know what port to open on
-		/// </summary>
-		const string DMQueryPortsClosed = "its_dark";
+		//api version 4.0.0.0
+		const string DMParamInfoJson = "tgs_json";
 
-		const string DMParameterAccessIdentifier = "access";
-		const string DMParameterCommand = "command";
+		const string DMInteropAccessIdentifier = "tgs_tok";
+
+		const string DMResponseSuccess = "tgs_succ";
+
+		const string DMTopicChangePort = "tgs_port";
+		const string DMTopicChangeReboot = "tgs_rmode";
+		const string DMTopicChatCommand = "tgs_chat_comm";
+		const string DMTopicEvent = "tgs_event";
+
+		const string DMCommandIdentify = "tgs_ident";
+		const string DMCommandApiValidate = "tgs_validate";
+		const string DMCommandServerPrimed = "tgs_prime";
+		const string DMCommandWorldReboot = "tgs_reboot";
+		const string DMCommandEndProcess = "tgs_kill";
+		const string DMCommandChat = "tgs_chat_send";
+
+		const string DMParameterCommand = "tgs_com";
+		const string DMParameterData = "tgs_data";
+
 		const string DMParameterNewPort = "new_port";
-		const string DMParameterNewRebootMode = "new_reboot_mode";
+		const string DMParameterNewRebootMode = "new_rmode";
 
-		const string DMCommandChangePort = "change_port";
-		const string DMCommandChangeReboot = "change_reboot";
 
 		/// <inheritdoc />
 		public bool IsPrimary
@@ -36,6 +49,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				CheckDisposed();
 				return reattachInformation.IsPrimary;
+			}
+		}
+
+		/// <inheritdoc />
+		public bool ApiValidated
+		{
+			get
+			{
+				if (!Lifetime.IsCompleted)
+					throw new InvalidOperationException("ApiValidated cannot be checked while Lifetime is incomplete!");
+				return apiValidated;
 			}
 		}
 
@@ -126,6 +150,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool disposed;
 
 		/// <summary>
+		/// If the DMAPI was validated
+		/// </summary>
+		bool apiValidated;
+
+		/// <summary>
 		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
@@ -148,6 +177,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			portClosed = false;
 			disposed = false;
+			apiValidated = false;
 		}
 
 		/// <inheritdoc />
@@ -170,18 +200,33 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (query == null)
 				throw new ArgumentNullException(nameof(query));
-		
-			if (query.ContainsKey(DMQueryPortsClosed))
-				lock (this)
-					if(nextPort.HasValue)
-					{
-						var newPort = nextPort.Value;
-						nextPort = null;
-						portAssignmentTcs.SetResult(true);
-						portAssignmentTcs = null;
-						return Task.FromResult<object>(new { new_port = newPort });
-					}
-			return Task.FromResult(new object());
+
+			object content = new object();
+			var status = HttpStatusCode.OK;
+
+			if (query.TryGetValue(DMParameterCommand, out StringValues values))
+				switch (values.First())
+				{
+					case DMCommandIdentify:
+						lock (this)
+							if (nextPort.HasValue)
+							{
+								var newPort = nextPort.Value;
+								nextPort = null;
+								portAssignmentTcs.SetResult(true);
+								portAssignmentTcs = null;
+								content = new Dictionary<string, int> { { DMParameterNewPort, newPort } };
+							}
+						break;
+					case DMCommandApiValidate:
+						apiValidated = true;
+						break;
+					default:
+						status = HttpStatusCode.BadRequest;
+						content = new { message = "Requested command not supported!" };
+						break;
+				}
+			return Task.FromResult<object>(new { STATUS = status, CONTENT = content });
 		}
 
 		/// <summary>
@@ -207,9 +252,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => byondTopicSender.SendTopic(new IPEndPoint(IPAddress.Loopback, reattachInformation.Port), String.Format(CultureInfo.InvariantCulture, "?{0}={1}&{2}={3}", DMParameterAccessIdentifier, reattachInformation.AccessIdentifier, DMParameterCommand, command), cancellationToken);
+		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => byondTopicSender.SendTopic(new IPEndPoint(IPAddress.Loopback, reattachInformation.Port), String.Format(CultureInfo.InvariantCulture, "?{0}={1}&{2}={3}", DMInteropAccessIdentifier, reattachInformation.AccessIdentifier, DMParameterCommand, command), cancellationToken);
 
-		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", DMCommandChangePort, DMParameterNewPort, port), cancellationToken).ConfigureAwait(false) == DMResponseOKGeneric;
+		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", DMTopicChangePort, DMParameterNewPort, port), cancellationToken).ConfigureAwait(false) == DMResponseSuccess;
 
 		/// <inheritdoc />
 		public async Task<bool> ClosePort(CancellationToken cancellationToken)
@@ -252,7 +297,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (RebootState == newRebootState)
 				return true;
 
-			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", DMCommandChangeReboot, DMParameterNewRebootMode, (int)newRebootState), cancellationToken).ConfigureAwait(false) == DMResponseOKGeneric;
+			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", DMTopicChangeReboot, DMParameterNewRebootMode, (int)newRebootState), cancellationToken).ConfigureAwait(false) == DMResponseSuccess;
 		}
 	}
 }

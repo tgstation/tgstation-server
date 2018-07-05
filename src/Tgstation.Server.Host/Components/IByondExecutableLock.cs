@@ -8,14 +8,19 @@ namespace Tgstation.Server.Host.Components
 	public interface IByondExecutableLock : IDisposable
 	{
 		/// <summary>
+		/// The <see cref="System.Version"/> of the locked executables
+		/// </summary>
+		Version Version { get; }
+
+		/// <summary>
 		/// The path to the DreamDaemon executable
 		/// </summary>
-		string DreamDaemonPath { get; set; }
+		string DreamDaemonPath { get; }
 
 		/// <summary>
 		/// The path to the dm/DreamMaker executable
 		/// </summary>
-		string DreamMakerPath { get; set; }
+		string DreamMakerPath { get; }
 
 		/// <summary>
 		/// Call if, during a detach, this version should not be deleted

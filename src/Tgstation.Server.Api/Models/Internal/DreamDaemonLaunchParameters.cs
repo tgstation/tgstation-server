@@ -36,5 +36,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetPorts)]
 		[Required]
 		public ushort? SecondaryPort { get; set; }
+
+		/// <summary>
+		/// The DreamDaemon startup timeout in seconds
+		/// </summary>
+		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetStartupTimeout)]
+		[Required]
+		public int? StartupTimeout { get; set; }
 	}
 }

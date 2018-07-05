@@ -14,6 +14,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool IsPrimary { get; }
 
 		/// <summary>
+		/// If the DMAPI was validated. This field may only be access once <see cref="ISessionBase.Lifetime"/> completes
+		/// </summary>
+		bool ApiValidated { get; }
+
+		/// <summary>
 		/// The <see cref="IDmbProvider"/> being used
 		/// </summary>
 		IDmbProvider Dmb { get; }

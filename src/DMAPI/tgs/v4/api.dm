@@ -1,19 +1,26 @@
 #define TGS4_PARAM_INFO_JSON "tgs_json"
 
-#define TGS4_TOPIC_COMMAND "tgs_com"
-#define TGS4_TOPIC_TOKEN "tgs_tok"
-#define TGS4_TOPIC_SUCCESS "tgs_succ"
-#define TGS4_TOPIC_SWAP "tgs_swap"
-#define TGS4_TOPIC_SWAP_DELAYED "tgs_swap_delayed"
+#define TGS4_INTEROP_ACCESS_IDENTIFIER "tgs_tok"
+
+#define TGS4_RESPONSE_SUCCESS "tgs_succ"
+
+#define TGS4_TOPIC_CHANGE_PORT "tgs_port"
+#define TGS4_TOPIC_CHANGE_REBOOT_MODE "tgs_rmode"
 #define TGS4_TOPIC_CHAT_COMMAND "tgs_chat_comm"
 #define TGS4_TOPIC_EVENT "tgs_event"
-#define TGS4_TOPIC_IDENTIFY "tgs_ident"
 
+#define TGS4_COMM_IDENTIFY "tgs_ident"
 #define TGS4_COMM_VALIDATE "tgs_vali"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
-#define TGS4_COMM_SERVER_REBOOT "tgs_reboot"
+#define TGS4_COMM_WORLD_REBOOT "tgs_reboot"
 #define TGS4_COMM_END_PROCESS "tgs_kill"
 #define TGS4_COMM_CHAT "tgs_chat_send"
+
+#define TGS4_PARAMETER_COMMAND "tgs_com"
+#define TGS4_PARAMETER_DATA "tgs_data"
+
+#define TGS4_PARAMETER_NEW_PORT "new_port"
+#define TGS4_PARAMETER_NEW_REBOOT_MODE "new_rmode"
 
 /datum/tgs_api/v4
 	var/access_identifier
@@ -21,6 +28,7 @@
 	var/host_path
 	var/chat_channels_json_path
 	var/chat_commands_json_path
+	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
 	
 	var/list/intercepted_message_queue
 	
@@ -120,24 +128,27 @@
 	while(!world.OpenPort(new_port))
 		sleep(10)
 
-/datum/tgs_api/v4/proc/Export(command)
-	var/list/res = world.Export("[host_path]/Interop?access=[url_encode(access_identifier)]&command=[url_encode(command)]")
+/datum/tgs_api/v4/proc/Export(command, list/data)
+	var/url = "[host_path]/Interop?[TGS4_INTEROP_ACCESS_IDENTIFIER]=[url_encode(access_identifier)]&[TGS4_PARAMETER_COMMAND]=[url_encode(command)]"
+	if(data)
+		url = "[url]&[TGS4_PARAMETER_DATA]=[url_encode(json_encode(data))]"
+	var/list/res = world.Export(url)
 	if(!istype(res))
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! Export returned something not a list (probably null): [res]")
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! world.Export returned something not a list (probably null): [res]")
 		return
 	var/byond_status = res["STATUS"]
 	var/byond_content = res["CONTENT"]
 	if(byond_status != "200 OK")
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! Top level HTTP [byond_status]: [byond_content]")
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! Top level HTTP [byond_status]: [byond_content]")
 		return
 	var/json = json_decode(byond_content)	//always expecting json
 	if(!json)
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! Byond content not json: [byond_content]")
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! Byond content not json: [byond_content]")
 		return
 	var/status = json["STATUS"]
 	var/content = json["CONTENT"]
 	if(status != 200)	//HTTP OK
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path]! HTTP [status]: [json_encode(content)]")
+		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! HTTP [status]: [json_encode(content)]")
 		return
 	return content
 
@@ -195,21 +206,21 @@
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+		Export(TGS4_COMM_CHAT, message)
 
 /datum/tgs_api/v4/ChatTargetedBroadcast(message, admin_only)
 	message = list("message" = message, "channels" = admin_only ? "admin" : "game")
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+		Export(TGS4_COMM_CHAT, message)
 
 /datum/tgs_api/v4/ChatPrivateMessage(message, datum/tgs_chat_user/user)
 	message = list("message" = message, "user" = list("id" = user.id, "channel" = user.channel.id))
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Export("[TGS4_COMM_CHAT] [json_encode(message)]")
+		Export(TGS4_COMM_CHAT, message)
 
 /datum/tgs_api/v4/ChatChannelInfo()
 	. = list()

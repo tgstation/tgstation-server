@@ -112,7 +112,9 @@ namespace Tgstation.Server.Host.Controllers
 			var instanceManager = serviceProvider.GetRequiredService<IInstanceManager>();
 			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
 
+			var timeoutTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.StartupTimeout).FirstAsync(cancellationToken);
 			var projectName = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.ProjectName).FirstAsync(cancellationToken).ConfigureAwait(false);
+			var timeout = await timeoutTask.ConfigureAwait(false);
 
 			var instance = instanceManager.GetInstance(instanceModel);
 
@@ -121,7 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				revInfoTask = databaseContext.RevisionInformations.Where(x => x.Commit == repo.Head).Select(x => new RevisionInformation { Id = x.Id }).FirstAsync();
-				compileJob = await instance.DreamMaker.Compile(projectName, repo, cancellationToken).ConfigureAwait(false);
+				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
 			compileJob.Job = job;
