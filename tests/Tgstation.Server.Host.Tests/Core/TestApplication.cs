@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Core.Tests
 {
 	[TestClass]
-	public sealed class TestApplication : IServerUpdateConsumer
+	public sealed class TestApplication : IServerUpdater
 	{
 		public void ApplyUpdate(string updatePath) => throw new System.NotImplementedException();
 

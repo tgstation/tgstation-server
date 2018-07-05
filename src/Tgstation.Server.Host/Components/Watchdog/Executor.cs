@@ -45,7 +45,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new ArgumentNullException(nameof(parameters));
 
 			var proc = new Process();
-
 			try
 			{
 				proc.StartInfo.FileName = byondLock.DreamDaemonPath;

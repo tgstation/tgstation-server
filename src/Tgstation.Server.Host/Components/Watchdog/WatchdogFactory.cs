@@ -1,5 +1,6 @@
 ﻿using System;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -32,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IInteropRegistrar interopRegistrar;
 
 		/// <summary>
+		/// The <see cref="IServerUpdater"/> for the <see cref="WatchdogFactory"/>
+		/// </summary>
+		readonly IServerUpdater serverUpdater;
+
+		/// <summary>
 		/// Construct a <see cref="WatchdogFactory"/>
 		/// </summary>
 		/// <param name="byond">The value of <see cref="byond"/></param>
@@ -39,16 +45,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="sessionManagerFactory">The value of <see cref="sessionManagerFactory"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="interopRegistrar">The value of <see cref="interopRegistrar"/></param>
-		public WatchdogFactory(IByond byond, IChat chat, ISessionControllerFactory sessionManagerFactory, IEventConsumer eventConsumer, IInteropRegistrar interopRegistrar)
+		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
+		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionManagerFactory, IEventConsumer eventConsumer, IInteropRegistrar interopRegistrar, IServerUpdater serverUpdater)
 		{
-			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionManagerFactory = sessionManagerFactory ?? throw new ArgumentNullException(nameof(sessionManagerFactory));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.interopRegistrar = interopRegistrar ?? throw new ArgumentNullException(nameof(interopRegistrar));
+			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParameters) => new Watchdog(byond, chat, sessionManagerFactory, dmbFactory, eventConsumer, interopRegistrar, launchParameters);
+		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParameters) => new Watchdog(chat, sessionManagerFactory, dmbFactory, eventConsumer, interopRegistrar, serverUpdater, launchParameters);
 	}
 }
