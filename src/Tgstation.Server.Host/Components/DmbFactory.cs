@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,11 +44,13 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// <see cref="TaskCompletionSource{TResult}"/> resulting in the latest <see cref="DmbProvider"/> yet to exist
 		/// </summary>
-		TaskCompletionSource<DmbProvider> newerDmbTcs;
+		TaskCompletionSource<IDmbProvider> newerDmbTcs;
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>
 		/// </summary>
-		DmbProvider nextDmbProvider;
+		IDmbProvider nextDmbProvider;
+
+		Dictionary<long, int> jobLockCounts;
 
 		/// <summary>
 		/// Construct a <see cref="DmbFactory"/>
@@ -60,6 +63,7 @@ namespace Tgstation.Server.Host.Components
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 
 			cleanupCts = new CancellationTokenSource();
+			jobLockCounts = new Dictionary<long, int>();
 		}
 
 		/// <inheritdoc />
@@ -80,7 +84,11 @@ namespace Tgstation.Server.Host.Components
 				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
 			}
 			lock (this)
-				cleanupTask = HandleCleanup();
+			{
+				var currentVal = jobLockCounts[job.Id];
+				if (--jobLockCounts[job.Id] == 0)
+					cleanupTask = HandleCleanup();
+			}
 		}
 
 		/// <inheritdoc />
@@ -95,16 +103,16 @@ namespace Tgstation.Server.Host.Components
 				var oldDmbProvider = nextDmbProvider;
 				if (oldDmbProvider != null && oldDmbProvider.CompileJob.Job.StoppedAt < oldDmbProvider.CompileJob.Job.StoppedAt)
 					throw new InvalidOperationException("Loaded compile job older than current job!");
-				nextDmbProvider = new DmbProvider(job, ioManager, () => CleanJob(job));
+				nextDmbProvider = FromCompileJob(job);
 				newerDmbTcs.SetResult(nextDmbProvider);
-				newerDmbTcs = new TaskCompletionSource<DmbProvider>();
+				newerDmbTcs = new TaskCompletionSource<IDmbProvider>();
 			}
 		}
 
 		/// <inheritdoc />
 		public async Task<IDmbProvider> LockNextDmb(CancellationToken cancellationToken)
 		{
-			Task<DmbProvider> task;
+			Task<IDmbProvider> task;
 			lock (this)
 				if (nextDmbProvider != null)
 					return nextDmbProvider;
@@ -136,6 +144,19 @@ namespace Tgstation.Server.Host.Components
 		{
 			using (cancellationToken.Register(() => cleanupCts.Cancel()))
 				await cleanupTask.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public IDmbProvider FromCompileJob(CompileJob compileJob)
+		{
+			lock (this)
+			{
+				if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
+					jobLockCounts.Add(compileJob.Id, 1);
+				else
+					jobLockCounts[compileJob.Id] = ++value;
+				return new DmbProvider(compileJob, ioManager, () => CleanJob(compileJob));
+			}
 		}
 	}
 }

@@ -56,7 +56,9 @@ namespace Tgstation.Server.Api.Rights
 		/// User can start <see cref="Models.DreamDaemon"/> and disable <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/> and <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>
 		/// </summary>
 		Start = 1024,
-		
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>
+		/// </summary>
 		SetStartupTimeout = 2048
 	}
 }

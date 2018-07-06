@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <inheritdoc />
 	sealed class SessionController : ISessionController, IInteropConsumer
 	{
-		//interop values, match them up with tgs.dm and the appropriate api.dm
+		//interop values, match them up with the appropriate api.dm
 
 		//api version 4.0.0.0
 		const string DMParamInfoJson = "tgs_json";

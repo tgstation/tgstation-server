@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Handles saving and loading <see cref="WatchdogReattachInformation"/>
 	/// </summary>
-	interface IReattachInfoHandler
+	public interface IReattachInfoHandler
 	{
 		/// <summary>
 		/// Save some <paramref name="reattachInformation"/>

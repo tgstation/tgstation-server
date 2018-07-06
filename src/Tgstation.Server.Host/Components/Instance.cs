@@ -38,7 +38,12 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
-		
+
+		/// <summary>
+		/// The <see cref="IDmbFactory"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IDmbFactory dmbFactory;
+
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="Instance"/>
 		/// </summary>
@@ -53,7 +58,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		CancellationTokenSource timerCts;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -64,6 +69,7 @@ namespace Tgstation.Server.Host.Components
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 		}
 
 		/// <inheritdoc />
@@ -149,6 +155,47 @@ namespace Tgstation.Server.Host.Components
 				timerCts = new CancellationTokenSource();
 				timerTask = TimerLoop(newInterval.Value, timerCts.Token);
 			}					
+		}
+
+		/// <inheritdoc />
+		public Task Save(WatchdogReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		{
+			var instance = new Models.Instance { Id = metadata.Id };
+			db.Instances.Attach(instance);
+
+			Models.ReattachInformation ConvertReattachInfo(ReattachInformation wdInfo)
+			{
+				db.CompileJobs.Attach(wdInfo.Dmb.CompileJob);
+				return new Models.ReattachInformation
+				{
+					AccessIdentifier = wdInfo.AccessIdentifier,
+					ChatChannelsJson = wdInfo.ChatChannelsJson,
+					ChatCommandsJson = wdInfo.ChatCommandsJson,
+					CompileJob = wdInfo.Dmb.CompileJob,
+					IsPrimary = wdInfo.IsPrimary,
+					Port = wdInfo.Port,
+					ProcessId = wdInfo.ProcessId,
+					RebootState = wdInfo.RebootState
+				};
+			}
+
+			instance.WatchdogReattachInformation = new Models.WatchdogReattachInformation
+			{
+				Alpha = ConvertReattachInfo(reattachInformation.Alpha),
+				Bravo = ConvertReattachInfo(reattachInformation.Bravo),
+				AlphaIsActive = reattachInformation.AlphaIsActive,
+			};
+			await db.Save(cancellationToken).ConfigureAwait(false);
+		});
+
+		/// <inheritdoc />
+		public async Task<WatchdogReattachInformation> Load(CancellationToken cancellationToken)
+		{
+			Models.WatchdogReattachInformation result = null;
+			await databaseContextFactory.UseContext(async (db) =>
+				result = await db.Instances.Where(x => x.Id == metadata.Id).Select(x => x.WatchdogReattachInformation).FirstAsync(cancellationToken).ConfigureAwait(false)
+			).ConfigureAwait(false);
+			return new WatchdogReattachInformation(result, dmbFactory);
 		}
 	}
 }

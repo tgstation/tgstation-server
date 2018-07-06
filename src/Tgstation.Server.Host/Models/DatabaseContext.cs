@@ -68,6 +68,16 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.ReattachInformation"/>s
+		/// </summary>
+		public DbSet<ReattachInformation> ReattachInformation { get; set; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.WatchdogReattachInformation"/>s
+		/// </summary>
+		public DbSet<WatchdogReattachInformation> WatchdogReattachInformation { get; set; }
+
+		/// <summary>
 		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		protected string ConnectionString => databaseConfiguration.ConnectionString;
