@@ -37,6 +37,10 @@ namespace Tgstation.Server.Host.Components
 		public CompilerStatus Status { get; private set; }
 
 		/// <summary>
+		/// The <see cref="IByond"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IByond byond;
+		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IIOManager ioManager;
@@ -49,10 +53,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly ISessionControllerFactory sessionControllerFactory;
 		/// <summary>
-		/// The <see cref="IByond"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly IByond byond;
-		/// <summary>
 		/// The <see cref="ICompileJobConsumer"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ICompileJobConsumer compileJobConsumer;
@@ -64,16 +64,17 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
+		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
-		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="interop">The value of <see cref="interop"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// 
-		public DreamMaker(IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application)
+		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application)
 		{
+			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));

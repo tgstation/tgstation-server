@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -21,5 +22,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The peak virtual memory usage in bytes
 		/// </summary>
 		public long PeakMemory { get; set; }
+
+		/// <inheritdoc />
+		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Exit Code: {0}, RAM: {1}, Time {2}ms", ExitCode, PeakMemory, StartupTime.TotalMilliseconds);
 	}
 }

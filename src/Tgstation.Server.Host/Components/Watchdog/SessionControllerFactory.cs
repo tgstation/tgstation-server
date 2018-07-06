@@ -60,6 +60,31 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		readonly IChat chat;
 
+		/// <summary>
+		/// Construct a <see cref="SessionControllerFactory"/>
+		/// </summary>
+		/// <param name="executor">The value of <see cref="executor"/></param>
+		/// <param name="byond">The value of <see cref="byond"/></param>
+		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
+		/// <param name="interopRegistrar">The value of <see cref="interopRegistrar"/></param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
+		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="chat">The value of <see cref="chat"/></param>
+		public SessionControllerFactory(IExecutor executor, IByond byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IInstance instance, IIOManager ioManager, IChat chat)
+		{
+			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
+			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
+			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
+			this.interopRegistrar = interopRegistrar ?? throw new ArgumentNullException(nameof(interopRegistrar));
+			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+		}
+
 		/// <inheritdoc />
 		public async Task<ISessionController> LaunchNew(DreamDaemonLaunchParameters launchParameters, IDmbProvider dmbProvider, bool primaryPort, bool primaryDirectory, bool apiValidate, CancellationToken cancellationToken)
 		{
@@ -139,15 +164,46 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch
 			{
-				chatJsonTrackingTask.Dispose();
+				chatJsonTrackingContext.Dispose();
 				throw;
 			}
 		}
 
 		/// <inheritdoc />
-		public Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken)
+		public async Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			if (reattachInformation == null)
+				throw new ArgumentNullException(nameof(reattachInformation));
+			
+			var basePath = reattachInformation.IsPrimary ? reattachInformation.Dmb.PrimaryDirectory : reattachInformation.Dmb.SecondaryDirectory;
+			var chatJsonTrackingContext = await chat.TrackJsons(basePath, reattachInformation.ChatChannelsJson, reattachInformation.ChatCommandsJson, cancellationToken).ConfigureAwait(false);
+			try
+			{
+				var byondLock = byond.UseExecutables(reattachInformation.Dmb.CompileJob.ByondVersion);
+				try
+				{
+					var session = executor.AttachToDreamDaemon(reattachInformation.ProcessId, byondLock);
+					try
+					{
+						return new SessionController(reattachInformation, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat);
+					}
+					catch
+					{
+						session.Dispose();
+						throw;
+					}
+				}
+				catch
+				{
+					byondLock.Dispose();
+					throw;
+				}
+			}
+			catch
+			{
+				chatJsonTrackingContext.Dispose();
+				throw;
+			}
 		}
 	}
 }

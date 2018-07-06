@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public bool ClosePortsOnReboot { get; set; }
+		public bool ClosePortOnReboot { get; set; }
 
 		/// <inheritdoc />
 		public bool ApiValidated
@@ -104,6 +104,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public Task<int> Lifetime => session.Lifetime;
 
+		/// <inheritdoc />
+		public Task OnReboot => rebootTcs.Task;
+
 		/// <summary>
 		/// The up to date <see cref="ReattachInformation"/>
 		/// </summary>
@@ -142,6 +145,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The port to assign DreamDaemon when it queries for it
 		/// </summary>
 		ushort nextPort;
+		
+		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us about a reboot
+		/// </summary>
+		TaskCompletionSource<object> rebootTcs;
 
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed
@@ -181,6 +189,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			portClosed = false;
 			disposed = false;
 			apiValidated = false;
+
+			rebootTcs = new TaskCompletionSource<object>();
 		}
 
 		/// <inheritdoc />
@@ -229,13 +239,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						apiValidated = true;
 						break;
 					case DMCommandWorldReboot:
-						if (ClosePortsOnReboot)
+						if (ClosePortOnReboot)
 						{
 							content = new Dictionary<string, int> { { DMParameterNewPort, 0 } };
 							portClosed = true;
 						}
 						else
-							ClosePortsOnReboot = true;
+							ClosePortOnReboot = true;
+						var oldTcs = rebootTcs;
+						rebootTcs = new TaskCompletionSource<object>();
+						oldTcs.SetResult(null);
 						break;
 					default:
 						status = HttpStatusCode.BadRequest;

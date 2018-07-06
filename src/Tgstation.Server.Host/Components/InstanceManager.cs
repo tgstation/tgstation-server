@@ -53,6 +53,7 @@ namespace Tgstation.Server.Host.Components
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			instances = new Dictionary<long, IInstance>();
+			interopConsumers = new Dictionary<string, IInteropConsumer>();
 		}
 
 		/// <inheritdoc />

@@ -13,6 +13,16 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
 	sealed class DmbFactory : IDmbFactory, ICompileJobConsumer
 	{
+		/// <inheritdoc />
+		public Task OnNewerDmb
+		{
+			get
+			{
+				lock (this)
+					return newerDmbTcs.Task;
+			}
+		}
+
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="DmbFactory"/>
 		/// </summary>
@@ -107,13 +117,6 @@ namespace Tgstation.Server.Host.Components
 			//I'm sorry future me, I can't think of any other way to fix this other than giving DreamMaker an IDatabaseContext or having the controller load the CompileJob
 			await Task.Delay(new TimeSpan(0, 0, 10), cancellationToken).ConfigureAwait(false);
 			return result;
-		}
-
-		/// <inheritdoc />
-		public Task OnNewerDmb()
-		{
-			lock (this)
-				return newerDmbTcs.Task;
 		}
 
 		/// <inheritdoc />
