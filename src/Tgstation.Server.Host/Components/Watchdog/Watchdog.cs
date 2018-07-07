@@ -1,16 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class Watchdog : IWatchdog
+	sealed class Watchdog : IWatchdog, IEventConsumer
 	{
 		/// <summary>
 		/// The time in milliseconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
@@ -490,6 +493,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
 			}
 			await Terminate(false, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		{
+			using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				if (!Running)
+					return;
+
+				var builder = new StringBuilder(InteropConstants.DMTopicEvent);
+				foreach (var I in parameters)
+				{
+					builder.Append("&");
+					builder.Append(I);
+				}
+
+				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
+				await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
+			}
 		}
 	}
 }

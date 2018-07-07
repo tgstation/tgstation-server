@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Security;
 
@@ -135,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = byond.UseExecutables(dmbProvider.CompileJob.ByondVersion);
 				try
 				{
-					var parameters = String.Format(CultureInfo.InvariantCulture, "server_service_version={0}&tgs_json={1}", application.Version, interopJsonFile);
+					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", application.Version, interopJsonFile, InteropConstants.DMParamHostVersion, InteropConstants.DMParamInfoJson);
 
 
 					var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, parameters, !primaryPort, !primaryDirectory);

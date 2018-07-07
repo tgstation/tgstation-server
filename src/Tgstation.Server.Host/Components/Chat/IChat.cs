@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
 	/// For managing connected chat services
