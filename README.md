@@ -27,7 +27,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 ## Installing (GUI):
 1. Launch `TGControlPanel.exe` as an administrator. A shortcut can be found on your desktop
 1. Use the `Create Instance` button to create a new server instance
-1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
+1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track. Note: To grab the tgstation repo, use the following URL: git://github.com/tgstation/tgstation.git
 1. Hit the clone button
 1. While waiting go to the `BYOND` tab and install the BYOND version you wish
 1. You may also configure an IRC and/or discord bot for the server on the chat tab
@@ -43,7 +43,7 @@ This process is identical to the above steps in command line mode. You can alway
 1. `service set-python-path C:\Python27`
 1. `service create-instance "TGS" D:\tgstation`
 1. `instance` And enter `TGS`. If you aren't using interactive mode, the following commands must be suffixed with `--instance TGS`
-1. `repo setup https://github.com/tgstation/tgstation master`
+1. `repo setup git://github.com/tgstation/tgstation.git master`
 1. `byond update 511.1385`
 1. `irc nick TGS3Test`
 1. `irc set-auth-mode channel-mode`
