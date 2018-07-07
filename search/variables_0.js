@@ -1,8 +1,27 @@
 var searchData=
 [
+  ['_5fauthorizedusergroupsid',['_authorizedusergroupsid',['../class_t_g_s_1_1_server_1_1_instance_config.html#a01416048ca368590914a3586fb5d56e3',1,'TGS::Server::InstanceConfig']]],
+  ['_5fautostart',['_autostart',['../class_t_g_s_1_1_server_1_1_instance_config.html#aa9baa926f67c02486c9620300fdd4d25',1,'TGS::Server::InstanceConfig']]],
+  ['_5fautoupdateinterval',['_autoupdateinterval',['../class_t_g_s_1_1_server_1_1_instance_config.html#a5908d8522e1bfd5204e5e134ffcde873',1,'TGS::Server::InstanceConfig']]],
+  ['_5fchatproviderdata',['_chatproviderdata',['../class_t_g_s_1_1_server_1_1_instance_config.html#ac418f19c015793bfa0e6a517d0f46a7e',1,'TGS::Server::InstanceConfig']]],
+  ['_5fchatproviderentropy',['_chatproviderentropy',['../class_t_g_s_1_1_server_1_1_instance_config.html#ab741a9a0ca2335cec59cfde180245fa6',1,'TGS::Server::InstanceConfig']]],
+  ['_5fcommitteremail',['_committeremail',['../class_t_g_s_1_1_server_1_1_instance_config.html#aac540afbd4d78bb25592f1f92c957007',1,'TGS::Server::InstanceConfig']]],
+  ['_5fcommittername',['_committername',['../class_t_g_s_1_1_server_1_1_instance_config.html#a3d6594bb669d74d8eee7b26ee40080cb',1,'TGS::Server::InstanceConfig']]],
+  ['_5fenabled',['_enabled',['../class_t_g_s_1_1_server_1_1_instance_config.html#a442d8e2e36ac6fa02bf93f2ead9ab3fb',1,'TGS::Server::InstanceConfig']]],
   ['_5fip',['_ip',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a235abe05908f92de4e012321f6a19724',1,'TGS::Interface::RemoteLoginInfo']]],
   ['_5flogininfo',['_loginInfo',['../class_t_g_s_1_1_interface_1_1_client.html#aba28cc97973e8d95660d3d76a79116e5',1,'TGS::Interface::Client']]],
-  ['_5fport',['_port',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a5a221d5d9834d7099bc97d1d4161a9ad',1,'TGS::Interface::RemoteLoginInfo']]],
+  ['_5fname',['_name',['../class_t_g_s_1_1_server_1_1_instance_config.html#a65a998947b5c04f4273c2de02d1be7b4',1,'TGS::Server::InstanceConfig']]],
+  ['_5fport',['_port',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a5a221d5d9834d7099bc97d1d4161a9ad',1,'TGS.Interface.RemoteLoginInfo._port()'],['../class_t_g_s_1_1_server_1_1_instance_config.html#a11ee9854b03b0a086c68e48c201b6290',1,'TGS.Server.InstanceConfig._port()']]],
+  ['_5fprojectname',['_projectname',['../class_t_g_s_1_1_server_1_1_instance_config.html#a9bf97466c5f9c19446b638cb808b354f',1,'TGS::Server::InstanceConfig']]],
+  ['_5fpushtestmergecommits',['_pushtestmergecommits',['../class_t_g_s_1_1_server_1_1_instance_config.html#a9a845070fe922658dabf4926e40329ef',1,'TGS::Server::InstanceConfig']]],
+  ['_5freattachapiversion',['_reattachapiversion',['../class_t_g_s_1_1_server_1_1_instance_config.html#a136172a6d0d1c07e1495e67b1243053f',1,'TGS::Server::InstanceConfig']]],
+  ['_5freattachcommskey',['_reattachcommskey',['../class_t_g_s_1_1_server_1_1_instance_config.html#a91e3533fe66348fbaba1a35f4b72c4a1',1,'TGS::Server::InstanceConfig']]],
+  ['_5freattachport',['_reattachport',['../class_t_g_s_1_1_server_1_1_instance_config.html#a059c7926e6282bd110f6bc5a5d75f602',1,'TGS::Server::InstanceConfig']]],
+  ['_5freattachprocessid',['_reattachprocessid',['../class_t_g_s_1_1_server_1_1_instance_config.html#a36b6a8428b5c8533d6406f73e046673d',1,'TGS::Server::InstanceConfig']]],
+  ['_5freattachrequired',['_reattachrequired',['../class_t_g_s_1_1_server_1_1_instance_config.html#a502945f0e5608c587408300d4ff424c4',1,'TGS::Server::InstanceConfig']]],
+  ['_5fsecurity',['_security',['../class_t_g_s_1_1_server_1_1_instance_config.html#a86920e3ede1bed602b4351369ada138e',1,'TGS::Server::InstanceConfig']]],
+  ['_5fserverstartuptimeout',['_serverstartuptimeout',['../class_t_g_s_1_1_server_1_1_instance_config.html#ae09a521e9143034d95fcc6511cfcbd88',1,'TGS::Server::InstanceConfig']]],
   ['_5fserverversion',['_serverVersion',['../class_t_g_s_1_1_interface_1_1_client.html#a7b9d832e7d8b1abd9be7b7704a840970',1,'TGS::Interface::Client']]],
-  ['_5fusername',['_username',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a311b45180e653c6d2edd296f609c3ed3',1,'TGS::Interface::RemoteLoginInfo']]]
+  ['_5fusername',['_username',['../class_t_g_s_1_1_interface_1_1_remote_login_info.html#a311b45180e653c6d2edd296f609c3ed3',1,'TGS::Interface::RemoteLoginInfo']]],
+  ['_5fwebclient',['_webclient',['../class_t_g_s_1_1_server_1_1_instance_config.html#a62b6f22334b059fa3fbe16477354dbc1',1,'TGS::Server::InstanceConfig']]]
 ];
