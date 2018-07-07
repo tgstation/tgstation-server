@@ -147,64 +147,164 @@ namespace TGS.Server
 		public ulong Version { get; protected set; } = CurrentVersion;
 
 		/// <inheritdoc />
-		public string Name { get; set; } = "TG Station Server";
+		public string Name
+        {
+            get { return _name; }
+            set { _name = value; Save(); }
+        }
+        private string _name = "TG Station Server";
 
 		/// <inheritdoc />
-		public bool Enabled { get; set; } = true;
+		public bool Enabled
+        {
+            get { return _enabled; }
+            set { _enabled = value; Save(); }
+        }
+        private bool _enabled = true;
 
 		/// <inheritdoc />
-		public string ProjectName { get; set; } = "tgstation";
+		public string ProjectName
+        {
+            get { return _projectname; }
+            set { _projectname = value; Save(); }
+        }
+        private string _projectname = "tgstation";
 
 		/// <inheritdoc />
-		public ushort Port { get; set; } = 1337;
+		public ushort Port
+        {
+            get { return _port; }
+            set { _port = value; Save(); }
+        }
+        private ushort _port = 1337;
 
 		/// <inheritdoc />
-		public DreamDaemonSecurity Security { get; set; } = DreamDaemonSecurity.Trusted;
+		public DreamDaemonSecurity Security
+        {
+            get { return _security; }
+            set { _security = value; Save(); }
+        }
+        private DreamDaemonSecurity _security = DreamDaemonSecurity.Trusted;
 
 		/// <inheritdoc />
-		public bool Autostart { get; set; } = false;
+		public bool Autostart
+        {
+            get { return _autostart; }
+            set { _autostart = value; Save(); }
+        }
+        private bool _autostart = false;
 
 		/// <inheritdoc />
-		public bool Webclient { get; set; } = false;
+		public bool Webclient
+        {
+            get { return _webclient; }
+            set { _webclient = value; Save(); }
+        }
+        private bool _webclient = false;
 
 		/// <inheritdoc />
-		public string CommitterName { get; set; } = "tgstation-server";
+		public string CommitterName
+        {
+            get { return _committername; }
+            set { _committername = value; Save(); }
+        }
+        private string _committername = "tgstation-server";
 
 		/// <inheritdoc />
-		public string CommitterEmail { get; set; } = "tgstation-server@tgstation13.org";
+		public string CommitterEmail
+        {
+            get { return _committeremail; }
+            set { _committeremail = value; Save(); }
+        }
+        private string _committeremail = "tgstation-server@tgstation13.org";
 
 		/// <inheritdoc />
-		public string ChatProviderData { get; set; } = Instance.UninitializedString;
+		public string ChatProviderData
+        {
+            get { return _chatproviderdata; }
+            set { _chatproviderdata = value; Save(); }
+        }
+        private string _chatproviderdata = Instance.UninitializedString;
 
 		/// <inheritdoc />
-		public string ChatProviderEntropy { get; set; }
+		public string ChatProviderEntropy
+        {
+            get { return _chatproviderentropy; }
+            set { _chatproviderentropy = value; Save(); }
+        }
+        private string _chatproviderentropy;
+
+        /// <inheritdoc />
+        public bool ReattachRequired
+        {
+            get { return _reattachrequired; }
+            set { _reattachrequired = value; Save(); }
+        }
+        private bool _reattachrequired = false;
 
 		/// <inheritdoc />
-		public bool ReattachRequired { get; set; } = false;
+		public int ReattachProcessID
+        {
+            get { return _reattachprocessid; }
+            set { _reattachprocessid = value; Save(); }
+        }
+        private int _reattachprocessid;
+
+        /// <inheritdoc />
+        public ushort ReattachPort
+        {
+            get { return _reattachport; }
+            set { _reattachport = value; Save(); }
+        }
+        private ushort _reattachport;
+
+        /// <inheritdoc />
+        public string ReattachCommsKey
+        {
+            get { return _reattachcommskey; }
+            set { _reattachcommskey = value; Save(); }
+        }
+        private string _reattachcommskey;
+
+        /// <inheritdoc />
+        public string ReattachAPIVersion
+        {
+            get { return _reattachapiversion; }
+            set { _reattachapiversion = value; Save(); }
+        }
+        private string _reattachapiversion;
+
+        /// <inheritdoc />
+        public string AuthorizedUserGroupSID
+        {
+            get { return _authorizedusergroupsid; }
+            set { _authorizedusergroupsid = value; Save(); }
+        }
+        private string _authorizedusergroupsid = null;
 
 		/// <inheritdoc />
-		public int ReattachProcessID { get; set; }
+		public ulong AutoUpdateInterval
+        {
+            get { return _autoupdateinterval; }
+            set { _autoupdateinterval = value; Save(); }
+        }
+        private ulong _autoupdateinterval = 0;
 
 		/// <inheritdoc />
-		public ushort ReattachPort { get; set; }
+		public bool PushTestmergeCommits
+        {
+            get { return _pushtestmergecommits; }
+            set { _pushtestmergecommits = value; Save(); }
+        }
+        private bool _pushtestmergecommits = false;
 
 		/// <inheritdoc />
-		public string ReattachCommsKey { get; set; }
-
-		/// <inheritdoc />
-		public string ReattachAPIVersion { get; set; }
-
-		/// <inheritdoc />
-		public string AuthorizedUserGroupSID { get; set; } = null;
-
-		/// <inheritdoc />
-		public ulong AutoUpdateInterval { get; set; } = 0;
-
-		/// <inheritdoc />
-		public bool PushTestmergeCommits { get; set; } = false;
-
-		/// <inheritdoc />
-		public int ServerStartupTimeout { get; set; } = 60;
+		public int ServerStartupTimeout
+        {
+            get { return _serverstartuptimeout; }
+            set { _serverstartuptimeout = value; Save(); }
+        }
+        private int _serverstartuptimeout = 60;
 
 		/// <summary>
 		/// Construct a <see cref="InstanceConfig"/> for a <see cref="Instance"/> at <paramref name="path"/>
