@@ -40,11 +40,11 @@ Requires python 2.7/3.6 to be installed for changelog generation
 ## Installing (CL example):
 This process is identical to the above steps in command line mode. You can always learn more about a command using `?` i.e. `repo ?`
 1. Launch TGCommandLine.exe as an administrator (running with no parameters puts you in interactive mode)
-1. `service set-python-path C:\Python27`
+1. `service set-python C:\Python27` (If Your Python Install is in Program Files, You must encase the path in Quotes, Ex: "C:\Program Files\Python36")
 1. `service create-instance "TGS" D:\tgstation`
 1. `instance` And enter `TGS`. If you aren't using interactive mode, the following commands must be suffixed with `--instance TGS`
 1. `repo setup git://github.com/tgstation/tgstation.git master`
-1. `byond update 511.1385`
+1. `byond update 512.1436`
 1. `irc nick TGS3Test`
 1. `irc set-auth-mode channel-mode`
 1. `irc set-auth-level %`
