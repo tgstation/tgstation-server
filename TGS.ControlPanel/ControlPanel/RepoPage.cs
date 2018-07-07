@@ -91,7 +91,7 @@ namespace TGS.ControlPanel
 			if (!Repo.Exists())
 			{
 				//repo unavailable
-				RepoRemoteTextBox.Text = "https://github.com/tgstation/tgstation";
+				RepoRemoteTextBox.Text = "git://github.com/tgstation/tgstation.git";
 				RepoBranchTextBox.Text = "master";
 				RepoProgressBarLabel.Text = "Unable to locate repository";
 				CloneRepositoryButton.Visible = true;
