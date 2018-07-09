@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.DreamDaemon"/>
 	/// </summary>
-	[Route("/" + nameof(Api.Models.DreamDaemon))]
+	[Route("/" + nameof(DreamDaemon))]
 	public sealed class DreamDaemonController : ModelController<Api.Models.DreamDaemon>
 	{
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.Start)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.DreamDaemon model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
 
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start)]
+		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
@@ -147,23 +147,29 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			};
 
+			var oldSoftRestart = current.SoftRestart;
+			var oldSoftShutdown = current.SoftShutdown;
+
 			if (!CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
 				|| !CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
 				|| !CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
 				|| !CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
 				|| !CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-				|| !CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart))
+				|| !CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart)
+				|| !CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
+				|| !CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
 				return Forbid();
+			
+			var wd = instanceManager.GetInstance(Instance).Watchdog;
+			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			//interaction with soft stop is a bit different
-			if (model.SoftShutdown.HasValue)
-			{
-				if (current.SoftShutdown != model.SoftShutdown && ((!current.SoftShutdown.Value && !userRights.HasFlag(DreamDaemonRights.SoftShutdown)) || (current.SoftShutdown.Value && !userRights.HasFlag(DreamDaemonRights.Start))))
-					return Forbid();
-				current.SoftShutdown = model.SoftShutdown;
-			}
+			//soft shutdown/restart can't be cancelled because of how many things rely on them
+			//They can be alternated though
+			if (!oldSoftRestart.Value && current.SoftRestart.Value)
+				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
+			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
+				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
 
-			await instanceManager.GetInstance(Instance).Watchdog.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 			await DatabaseContext.Save(default).ConfigureAwait(false);
 
 			return Ok();

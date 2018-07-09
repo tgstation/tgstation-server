@@ -177,6 +177,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			logger.LogInformation("Monitor activation. Reason: {0}", activationReason);
 			await Task.Yield();
+			throw new NotImplementedException();
 		}
 
 		/// <summary>

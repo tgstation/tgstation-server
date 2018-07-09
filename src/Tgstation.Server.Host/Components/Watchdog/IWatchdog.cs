@@ -6,6 +6,9 @@ using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
+	/// <summary>
+	/// Runs and monitors the twin server controllers
+	/// </summary>
 	public interface IWatchdog : IHostedService, IDisposable
 	{
 		/// <summary>
