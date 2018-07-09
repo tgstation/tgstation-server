@@ -237,6 +237,7 @@ namespace TGS.Server
 			lock (watchdogLock)
 			{
 				Config.Port = new_port;
+				Config.Save();
 				RequestRestart();
 			}
 		}
@@ -665,6 +666,7 @@ namespace TGS.Server
 			{
 				needReboot = Config.Security != level;
 				Config.Security = level;
+				Config.Save();
 			}
 			if (needReboot)
 				RequestRestart();
@@ -681,6 +683,7 @@ namespace TGS.Server
 		public void SetAutostart(bool on)
 		{
 			Config.Autostart = on;
+			Config.Save();
 		}
 
 		/// <inheritdoc />
@@ -757,6 +760,7 @@ namespace TGS.Server
 				if (diff)
 				{
 					Config.Webclient = on;
+					Config.Save();
 					RequestRestart();
 				}
 			}
