@@ -218,7 +218,9 @@ namespace TGS.Server
 		/// <inheritdoc />
 		public void Save()
 		{
-			var data = JsonConvert.SerializeObject(this, Formatting.Indented);
+			string data;
+			lock(this)
+				data = JsonConvert.SerializeObject(this, Formatting.Indented);
 			var path = Path.Combine(Directory, JSONFilename);
 			File.WriteAllText(path, data);
 		}

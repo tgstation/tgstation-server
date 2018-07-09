@@ -663,6 +663,7 @@ namespace TGS.Server
 			lock (CompilerLock)
 			{
 				Config.ProjectName = projectName;
+				Config.Save();
 			}
 		}
 

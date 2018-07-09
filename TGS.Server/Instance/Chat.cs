@@ -103,19 +103,22 @@ namespace TGS.Server
 		/// </summary>
 		void DisposeChat()
 		{
+			SaveChatConfig();
+			foreach (var ChatProvider in ChatProviders)
+				ChatProvider.Dispose();
+			ChatProviders = null;
+		}
+
+		void SaveChatConfig()
+		{
 			var infosList = new List<IList<string>>();
 
 			foreach (var ChatProvider in ChatProviders)
-			{
 				infosList.Add(ChatProvider.ProviderInfo().DataFields);
-				ChatProvider.Dispose();
-			}
-			ChatProviders = null;
-
 			var rawdata = JsonConvert.SerializeObject(infosList, Formatting.Indented);
-
 			Config.ChatProviderData = Interface.Helpers.EncryptData(rawdata, out string entrp);
 			Config.ChatProviderEntropy = entrp;
+			Config.Save();
 		}
 
 		/// <inheritdoc />
@@ -166,6 +169,7 @@ namespace TGS.Server
 				catch
 				{
 					Config.ChatProviderData = UninitializedString;
+					Config.Save();
 				}
 			}
 			//if we get here we want to retry
@@ -186,7 +190,10 @@ namespace TGS.Server
 				{
 					foreach (var ChatProvider in ChatProviders)
 						if (info.Provider == ChatProvider.ProviderInfo().Provider)
+						{
+							SaveChatConfig();
 							return ChatProvider.SetProviderInfo(info);
+						}
 					return "Error: Invalid provider: " + info.Provider.ToString();
 				}
 			}

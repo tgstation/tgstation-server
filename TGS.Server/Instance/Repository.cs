@@ -1093,6 +1093,7 @@ namespace TGS.Server
 		public void SetCommitterName(string newName)
 		{
 			Config.CommitterName = newName;
+			Config.Save();
 		}
 
 		/// <inheritdoc />
@@ -1105,6 +1106,7 @@ namespace TGS.Server
 		public void SetCommitterEmail(string newEmail)
 		{
 			Config.CommitterEmail = newEmail;
+			Config.Save();
 		}
 
 		/// <inheritdoc />
@@ -1403,6 +1405,7 @@ namespace TGS.Server
 				}
 			}
 			Config.AutoUpdateInterval = newInterval;
+			Config.Save();
 		}
 
 		/// <inheritdoc />
@@ -1458,6 +1461,7 @@ namespace TGS.Server
 		public void SetPushTestmergeCommits(bool newValue)
 		{
 			Config.PushTestmergeCommits = newValue;
+			Config.Save();
 		}
 	}
 }
