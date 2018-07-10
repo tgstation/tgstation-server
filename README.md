@@ -84,7 +84,7 @@ Note: Due to internal functionality, a user who has access to at least one serve
 ## Setting up Remote access
 
 1. Obtain an SSL certificate to secure the connection (this is beyond the scope of this guide)
-1. Either stick with the default port `38607` or change it with `admin set-port <port #>`
+1. Either stick with the default port `38607` or change it with `service set-port <port #>`
 1. [Bind the SSL certificate to the port](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate)
 	- e.g. `netsh http add sslcert ipport=0.0.0.0:<port #> certhash=<certificate hash> appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}`
 	- The `appid` GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above
