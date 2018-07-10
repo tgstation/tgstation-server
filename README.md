@@ -27,7 +27,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 ## Installing (GUI):
 1. Launch `TGControlPanel.exe` as an administrator. A shortcut can be found on your desktop
 1. Use the `Create Instance` button to create a new server instance
-1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track
+1. Go to the `Repository` Tab and set the remote address and branch of the git you with to track. Note: To grab the tgstation repo, use the following URL: git://github.com/tgstation/tgstation.git
 1. Hit the clone button
 1. While waiting go to the `BYOND` tab and install the BYOND version you wish
 1. You may also configure an IRC and/or discord bot for the server on the chat tab
@@ -40,7 +40,7 @@ Requires python 2.7/3.6 to be installed for changelog generation
 ## Installing (CL example):
 This process is identical to the above steps in command line mode. You can always learn more about a command using `?` i.e. `repo ?`
 1. Launch TGCommandLine.exe as an administrator (running with no parameters puts you in interactive mode)
-1. `service set-python-path C:\Python27`
+1. `service set-python-path C:\Python27` (If Your Python Install is in Program Files, You must encase the path in Quotes, Ex: "C:\Program Files\Python36")
 1. `service create-instance "TGS" D:\tgstation`
 1. `instance` And enter `TGS`. If you aren't using interactive mode, the following commands must be suffixed with `--instance TGS`
 1. `repo setup https://github.com/tgstation/tgstation master`
@@ -84,7 +84,7 @@ Note: Due to internal functionality, a user who has access to at least one serve
 ## Setting up Remote access
 
 1. Obtain an SSL certificate to secure the connection (this is beyond the scope of this guide)
-1. Either stick with the default port `38607` or change it with `admin set-port <port #>`
+1. Either stick with the default port `38607` or change it with `service set-port <port #>`
 1. [Bind the SSL certificate to the port](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-configure-a-port-with-an-ssl-certificate)
 	- e.g. `netsh http add sslcert ipport=0.0.0.0:<port #> certhash=<certificate hash> appid={F32EDA25-0855-411C-AF5E-F0D042917E2D}`
 	- The `appid` GUID actually doesn't matter, but for sanity, you should use the GUID of TGServerService.exe as printed above
