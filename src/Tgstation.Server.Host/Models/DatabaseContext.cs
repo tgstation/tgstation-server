@@ -57,9 +57,7 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public DbSet<ChatChannel> ChatChannels { get; set; }
 
-		/// <summary>
-		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
+		/// <inheritdoc />
 		public DbSet<Job> Jobs { get; set; }
 
 		/// <summary>

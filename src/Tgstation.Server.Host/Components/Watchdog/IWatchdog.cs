@@ -27,16 +27,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		LaunchResult LastLaunchResult { get; }
 
 		/// <summary>
-		/// The <see cref="Models.CompileJob"/> that is currently live
-		/// </summary>
-		Models.CompileJob LiveCompileJob { get; }
-
-		/// <summary>
-		/// The <see cref="Models.CompileJob"/> that is staged to go live
-		/// </summary>
-		Models.CompileJob StagedCompileJob { get; }
-
-		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using
 		/// </summary>
 		DreamDaemonLaunchParameters ActiveLaunchParameters { get; }

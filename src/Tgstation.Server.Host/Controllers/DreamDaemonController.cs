@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 			var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadMetadata) != 0;
 			var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadRevision) != 0;
 
-			var settings = metadata ? await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false) : null;
+			var settings = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
 			var result = new DreamDaemon();
 			if(metadata)
 			{
@@ -104,8 +104,8 @@ namespace Tgstation.Server.Host.Controllers
 			};
 			if (revision)
 			{
-				result.ActiveCompileJob = dd.LiveCompileJob?.ToApi();
-				result.StagedCompileJob = dd.StagedCompileJob?.ToApi();
+				result.ActiveCompileJob = settings.ActiveCompileJob?.ToApi();
+				result.StagedCompileJob = settings.StagedCompileJob?.ToApi();
 			}
 
 			return Json(result);

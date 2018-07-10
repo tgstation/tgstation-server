@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task ModifyDme(Host.Models.CompileJob job, CancellationToken cancellationToken)
+		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmeExtension));
@@ -288,7 +288,7 @@ namespace Tgstation.Server.Host.Components
 						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
 						await symATask.ConfigureAwait(false);
 					}
-					compileJobConsumer.LoadCompileJob(job);
+					await compileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
 					return job;
 				}
 				catch

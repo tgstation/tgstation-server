@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstance CreateInstance(Host.Models.Instance metadata)
+		public IInstance CreateInstance(Models.Instance metadata)
 		{
 			//Create the ioManager for the instance
 
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Components
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 			var codeModificationsIoMananger = new ResolvingIOManager(instanceIoManager, "CodeModifications");
 
-			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager);
+			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata);
 
 
 

@@ -30,12 +30,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public LaunchResult LastLaunchResult { get; private set; }
 
 		/// <inheritdoc />
-		public Models.CompileJob LiveCompileJob { get; private set; }
-
-		/// <inheritdoc />
-		public Models.CompileJob StagedCompileJob { get; private set; }
-
-		/// <inheritdoc />
 		public DreamDaemonLaunchParameters ActiveLaunchParameters { get; private set; }
 
 		/// <inheritdoc />
@@ -70,9 +64,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IReattachInfoHandler reattachInfoHandler;
 
 		/// <summary>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IDatabaseContextFactory databaseContextFactory;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
+
+		/// <summary>
+		/// The <see cref="Api.Models.Instance.Id"/> the <see cref="Watchdog"/> belongs to
+		/// </summary>
+		readonly long instanceId;
 
 		CancellationTokenSource monitorCts;
 		Task monitorTask;
@@ -94,14 +98,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverUpdater">The <see cref="IServerUpdater"/> for the <see cref="Watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, DreamDaemonLaunchParameters initialLaunchParameters)
+		/// <param name="instance">The <see cref="Models.Instance"/> containing the value of <see cref="instanceId"/></param>
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, DreamDaemonLaunchParameters initialLaunchParameters, Models.Instance instance)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
+			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			instanceId = instance?.Id ?? throw new ArgumentNullException(nameof(instance));
 
 			if (serverUpdater == null)
 				throw new ArgumentNullException(nameof(serverUpdater));
@@ -416,11 +424,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 							await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
 
+						//update the live and staged jobs in the db
+						await databaseContextFactory.UseContext(async db =>
+						{
+							var settings = new Models.DreamDaemonSettings
+							{
+								InstanceId = instanceId
+							};
+							var cj = (AlphaIsActive ? alphaServer : bravoServer).Dmb.CompileJob;
+							db.CompileJobs.Attach(cj);
+							db.DreamDaemonSettings.Attach(settings);
+							settings.StagedCompileJob = null;
+							settings.ActiveCompileJob = cj;
+							await db.Save(cancellationToken).ConfigureAwait(false);
+						}).ConfigureAwait(false);
+
 						//both servers are now running, alpha is the active server, huzzah
 						AlphaIsActive = doReattach ? reattachInfo.AlphaIsActive : true;
-						LiveCompileJob = AlphaIsActive ? alphaServer.Dmb.CompileJob : bravoServer.Dmb.CompileJob;
 						LastLaunchResult = alphaLrt.Result;
-						StagedCompileJob = null;
 						Running = true;
 
 						if (startMonitor)
