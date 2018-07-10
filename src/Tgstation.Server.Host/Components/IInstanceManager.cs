@@ -45,6 +45,7 @@ namespace Tgstation.Server.Host.Components
 		/// Handle a GET via world/Export
 		/// </summary>
 		/// <param name="query">The request query</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="object"/> graph that can be jsonified</returns>
 		Task<object> HandleWorldExport(IQueryCollection query, CancellationToken cancellationToken);
 	}

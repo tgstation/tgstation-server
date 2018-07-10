@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			logger.LogInformation("Monitor activation. Reason: {0}", activationReason);
 			await Task.Yield();
-			throw new NotImplementedException();
+			throw new NotImplementedException(nameof(monitorState));
 		}
 
 		/// <summary>
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					var chatTask = Task.CompletedTask;
-					using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+					using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 					{
 						MonitorActivationReason activationReason = default;
 						//multiple things may have happened, handle them one at a time
@@ -276,7 +276,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					for (var retryAttempts = 1; state.NextAction == MonitorAction.Restart; ++retryAttempts)
 					{
 						WatchdogLaunchResult result;
-						using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+						using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 							result = await LaunchNoLock(false, false, false, cancellationToken).ConfigureAwait(false);
 
 						await chatTask.ConfigureAwait(false);
@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				ActiveLaunchParameters = launchParameters;
 				if (Running)
@@ -462,21 +462,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken)
 		{
-			using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				return await LaunchNoLock(true, true, false, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		public async Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				return await RestartNoLock(graceful, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				await TerminateNoLock(graceful, true, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -499,7 +499,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!Running)
 					return;

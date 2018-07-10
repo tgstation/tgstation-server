@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Watchdog;
 
 namespace Tgstation.Server.Host.Components

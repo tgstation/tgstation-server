@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -36,7 +37,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Construct a <see cref="WatchdogFactory"/>
 		/// </summary>
-		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="sessionManagerFactory">The value of <see cref="sessionManagerFactory"/></param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>

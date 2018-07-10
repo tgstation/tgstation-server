@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// Creates <see cref="IInteropContext"/>s for <see cref="IInteropConsumers"/>
+	/// Creates <see cref="IInteropContext"/>s for <see cref="IInteropConsumer"/>s
 	/// </summary>
     interface IInteropRegistrar
     {

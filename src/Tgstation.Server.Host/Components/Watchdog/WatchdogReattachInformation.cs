@@ -18,7 +18,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		public ReattachInformation Bravo { get; set; }
 
+		/// <summary>
+		/// Construct a <see cref="WatchdogReattachInformation"/>
+		/// </summary>
 		public WatchdogReattachInformation() { }
+
+		/// <summary>
+		/// Construct a <see cref="WatchdogReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbFactory"/>
+		/// </summary>
+		/// <param name="copy">The <see cref="WatchdogReattachInformationBase"/> to copy information from</param>
+		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> used to build the <see cref="ReattachInformation.Dmb"/>s</param>
 		public WatchdogReattachInformation(Models.WatchdogReattachInformation copy, IDmbFactory dmbFactory): base(copy)
 		{
 			if (copy.Alpha != null)

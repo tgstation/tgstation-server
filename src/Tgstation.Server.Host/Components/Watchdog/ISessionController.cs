@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task OnReboot { get; }
 
 		/// <summary>
-		/// Releases the <see cref="ISession"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
+		/// Releases the <see cref="ISession"/> without terminating it. Also calls <see cref="System.IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
 		ReattachInformation Release();
@@ -52,20 +52,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic()
 		/// </summary>
-		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="command">The command to send</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the result of /world/Topic()</returns>
 		Task<string> SendCommand(string command, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Closes the world's port
 		/// </summary>
-		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
 		Task<bool> ClosePort(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Causes the world to start listening on a <paramref name="newPort"/>
 		/// </summary>
+		/// <param name="newPort">The port to change to</param>
 		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
 		Task<bool> SetPort(ushort newPort, CancellationToken cancellatonToken);
@@ -74,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Attempts to change the current <see cref="RebootState"/> to <paramref name="newRebootState"/>
 		/// </summary>
 		/// <param name="newRebootState">The new <see cref="RebootState"/></param>
-		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
 		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
     }

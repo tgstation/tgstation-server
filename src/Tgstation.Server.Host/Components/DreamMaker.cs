@@ -67,8 +67,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
-		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
-		/// <param name="interop">The value of <see cref="interop"/></param>
+		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// 
@@ -85,12 +84,11 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Run a quick DD instance to test the DMAPI is installed on the target code
 		/// </summary>
-		/// <param name="dreamDaemonPath">The path to the DreamDaemon executable</param>
 		/// <param name="timeout">The timeout in seconds for validation</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(string dreamDaemonPath, int timeout, Models.CompileJob job, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
@@ -268,7 +266,7 @@ namespace Tgstation.Server.Host.Components
 
 						Status = CompilerStatus.Verifying;
 
-						ddVerified = job.ExitCode == 0 && await VerifyApi(byondLock.DreamDaemonPath, apiValidateTimeout, job, cancellationToken).ConfigureAwait(false);
+						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, cancellationToken).ConfigureAwait(false);
 					}
 
 					if (!ddVerified)

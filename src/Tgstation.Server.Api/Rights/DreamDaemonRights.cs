@@ -13,7 +13,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can read <see cref="Models.DreamDaemon.CompileJob"/>
+		/// User can read <see cref="Models.DreamDaemon.ActiveCompileJob"/> and <see cref="Models.DreamDaemon.StagedCompileJob"/>
 		/// </summary>
 		ReadRevision = 1,
 		/// <summary>
