@@ -78,6 +78,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		readonly long instanceId;
 
+		/// <summary>
+		/// If the <see cref="Watchdog"/> should <see cref="LaunchNoLock(bool, bool, bool, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
+		/// </summary>
+		readonly bool autoStart;
+
 		CancellationTokenSource monitorCts;
 		Task monitorTask;
 
@@ -101,7 +106,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
 		/// <param name="instance">The <see cref="Models.Instance"/> containing the value of <see cref="instanceId"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, DreamDaemonLaunchParameters initialLaunchParameters, Models.Instance instance)
+		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, DreamDaemonLaunchParameters initialLaunchParameters, Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -110,6 +116,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			instanceId = instance?.Id ?? throw new ArgumentNullException(nameof(instance));
+			this.autoStart = autoStart;
 
 			if (serverUpdater == null)
 				throw new ArgumentNullException(nameof(serverUpdater));
@@ -502,7 +509,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => LaunchNoLock(true, true, true, cancellationToken);
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			if (autoStart)
+				await LaunchNoLock(true, true, true, cancellationToken).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)

@@ -67,6 +67,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonLaunchParameters launchParameters) => new Watchdog(chat, sessionManagerFactory, dmbFactory, serverUpdater, loggerFactory.CreateLogger<Watchdog>(), reattachInfoHandler, databaseContextFactory, launchParameters, instance);
+		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonSettings settings) => new Watchdog(chat, sessionManagerFactory, dmbFactory, serverUpdater, loggerFactory.CreateLogger<Watchdog>(), reattachInfoHandler, databaseContextFactory, settings, instance, settings.AutoStart.Value);
 	}
 }
