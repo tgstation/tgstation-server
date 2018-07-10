@@ -72,7 +72,7 @@
 
 	cached_test_merges = list()
 	var/json = cached_json["test_merges"]
-	for(var/I in test_merges)
+	for(var/I in json)
 		var/datum/tgs_revision_information/test_merge/tm = new
 		tm.number = text2num(I)
 		var/list/entry = json[I]
@@ -85,6 +85,9 @@
 		tm.comment = entry["comment"]
 		tm.url = entry["url"]
 
+	cached_revision = new
+	cached_revision.commit = cached_json["commit"]
+	cached_revision.origin_commit = cached_json["origin_commit"]
 
 	ListCustomCommands()
 
@@ -98,14 +101,14 @@
 
 /datum/tgs_api/v4/OnTopic(T)
 	var/list/params = params2list(T)
-	var/their_sCK = params[TGS4_TOPIC_TOKEN]
+	var/their_sCK = params[TGS4_INTEROP_ACCESS_IDENTIFIER]
 	if(!their_sCK)
 		return FALSE	//continue world/Topic
 
 	if(their_sCK != access_identifier)
 		return "Invalid comms key!";
 
-	var/command = params[TGS4_TOPIC_COMMAND]
+	var/command = params[TGS4_INTEROP_ACCESS_IDENTIFIER]
 	if(!command)
 		return "No command!"
 
@@ -166,11 +169,6 @@
 	Export(TGS4_COMM_END_PROCESS)
 
 /datum/tgs_api/v4/Revision()
-	if(!cached_revision)
-		var/json = cached_json["revision"]
-		cached_revision = new
-		cached_revision.commit = json["commit"]
-		cached_revision.origin_commit = json["origin_commit"]
 	return cached_revision
 
 /datum/tgs_api/v4/ChatBroadcast(message, list/channels)
