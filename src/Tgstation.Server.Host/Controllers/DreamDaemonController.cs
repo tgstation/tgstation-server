@@ -161,17 +161,17 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 			
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
-            
+			
 			var changeSettingsTask = wd.ChangeSettings(current, cancellationToken);
 
-            //soft shutdown/restart can't be cancelled because of how many things rely on them
-            //They can be alternated though
-            if (!oldSoftRestart.Value && current.SoftRestart.Value)
-                await Task.WhenAll(changeSettingsTask, wd.Restart(true, cancellationToken)).ConfigureAwait(false);
-            else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
-                await Task.WhenAll(changeSettingsTask, wd.Terminate(true, cancellationToken)).ConfigureAwait(false);
-            else
-                await changeSettingsTask.ConfigureAwait(false);
+			//soft shutdown/restart can't be cancelled because of how many things rely on them
+			//They can be alternated though
+			if (!oldSoftRestart.Value && current.SoftRestart.Value)
+				await Task.WhenAll(changeSettingsTask, wd.Restart(true, cancellationToken)).ConfigureAwait(false);
+			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
+				await Task.WhenAll(changeSettingsTask, wd.Terminate(true, cancellationToken)).ConfigureAwait(false);
+			else
+				await changeSettingsTask.ConfigureAwait(false);
 
 			await DatabaseContext.Save(default).ConfigureAwait(false);
 
