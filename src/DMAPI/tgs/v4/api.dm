@@ -27,6 +27,7 @@
 	var/access_identifier
 	var/instance_name
 	var/host_path
+	var/json_path
 	var/chat_channels_json_path
 	var/chat_commands_json_path
 	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
@@ -57,8 +58,8 @@
 		TGS_ERROR_LOG("Failed to decode info json: [json_file]")
 		return
 
-	access_token = cached_json["access_token"]
-	instance_id = text2num(cached_json["instance_id"])
+	access_identifier = cached_json["access_identifier"]
+	instance_name = text2num(cached_json["instance_name"])
 	host_path = cached_json["host_path"]
 	if(cached_json["api_validate_only"])
 		Export(TGS4_COMM_VALIDATE)
@@ -68,8 +69,23 @@
 	chat_commands_json_path = cached_json["chat_commands_json"]
 	src.event_handler = event_handler
 	instance_name = cached_json["instance_name"]
-	port_1 = world.port
-	port_2 = cached_json["next_port"]
+
+	cached_test_merges = list()
+	var/json = cached_json["test_merges"]
+	for(var/I in test_merges)
+		var/datum/tgs_revision_information/test_merge/tm = new
+		tm.number = text2num(I)
+		var/list/entry = json[I]
+		tm.pull_request_commit = entry["pr_commit"]
+		tm.author = entry["author"]
+		tm.title = entry["title"]
+		tm.commit = entry["commit"]
+		tm.origin_commit = entry["origin_commit"]
+		tm.time_merged = text2num(entry["time_merged"])
+		tm.comment = entry["comment"]
+		tm.url = entry["url"]
+
+
 	ListCustomCommands()
 
 /datum/tgs_api/v4/OnInitializationComplete()
@@ -86,7 +102,7 @@
 	if(!their_sCK)
 		return FALSE	//continue world/Topic
 
-	if(their_sCK != access_token)
+	if(their_sCK != access_identifier)
 		return "Invalid comms key!";
 
 	var/command = params[TGS4_TOPIC_COMMAND]
@@ -107,18 +123,6 @@
 			return
 	
 	return "Unknown command: [command]"
-
-/datum/tgs_api/v4/proc/SwapPorts(delayed)
-	set waitfor = FALSE
-	var/new_port = world.port == port_1 ? port_2 : port_1
-	event_handler.HandleEvent(TGS_EVENT_PORT_SWAP, new_port)
-	if(delayed)
-		world.OpenPort("none")	//close the port
-		sleep(50)	//wait for other server to close port
-
-	//do NOT give up, if we remain unresponsive we will be killed
-	while(!world.OpenPort(new_port))
-		sleep(10)
 
 /datum/tgs_api/v4/proc/Export(command, list/data)
 	var/url = "[host_path]/Interop?[TGS4_INTEROP_ACCESS_IDENTIFIER]=[url_encode(access_identifier)]&[TGS4_PARAMETER_COMMAND]=[url_encode(command)]"
@@ -145,37 +149,19 @@
 	return content
 
 /datum/tgs_api/v4/OnReboot()
-	var/json = Export(TGS4_COMM_SERVER_REBOOT)
+	var/json = Export(TGS4_COMM_WORLD_REBOOT)
 	var/list/result = json_decode(json)
 	if(!result)
 		return
-	if(json["port_swap"])
-		SwapPorts(json["delayed"])
+	
+	//TODO: Port handling
 
 /datum/tgs_api/v4/InstanceName()
 	return instance_name
 
 /datum/tgs_api/v4/TestMerges()
-	if(cached_test_merges)
-		return cached_test_merges
-		
-	. = list()
-	cached_test_merges = .
-	var/json = cached_json["test_merges"]
-	for(var/I in json)
-		var/datum/tgs_revision_information/test_merge/tm = new
-		tm.number = text2num(I)
-		var/list/entry = json[I]
-		tm.pull_request_commit = entry["pr_commit"]
-		tm.author = entry["author"]
-		tm.title = entry["title"]
-		tm.commit = entry["commit"]
-		tm.origin_commit = entry["origin_commit"]
-		tm.time_merged = text2num(entry["time_merged"])
-		tm.comment = entry["comment"]
-		tm.url = entry["url"]
-		. += tm
-
+	return cached_test_merges
+	
 /datum/tgs_api/v4/EndProcess()
 	Export(TGS4_COMM_END_PROCESS)
 
