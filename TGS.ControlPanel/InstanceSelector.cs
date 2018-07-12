@@ -58,6 +58,7 @@ namespace TGS.ControlPanel
 		void RefreshInstances()
 		{
 			InstanceListBox.Items.Clear();
+			server.RebuildInstanceList();
 			foreach(var I in server.Instances)
 				InstanceListBox.Items.Add(I);
 			var HasServerAdmin = server.InstanceManager != null;
