@@ -120,6 +120,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab1b8125b804cc5b251ea131208d15640"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_t_g_s_1_1_interface_1_1_i_instance.html">IInstance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_server.html#ab1b8125b804cc5b251ea131208d15640">GetInstance</a> (string name)</td></tr>
 <tr class="memdesc:ab1b8125b804cc5b251ea131208d15640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the specified <a class="el" href="interface_t_g_s_1_1_interface_1_1_i_instance.html" title="Wrapper for ITGInstance components ">IInstance</a> without connectivity checks   <a href="#ab1b8125b804cc5b251ea131208d15640">More...</a><br /></td></tr>
 <tr class="separator:ab1b8125b804cc5b251ea131208d15640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14fc0e73e54fd6ece242c2bdd42054c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_g_s_1_1_interface_1_1_server.html#a14fc0e73e54fd6ece242c2bdd42054c3">RebuildInstanceList</a> ()</td></tr>
+<tr class="memdesc:a14fc0e73e54fd6ece242c2bdd42054c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuilds the internal cached <a class="el" href="interface_t_g_s_1_1_interface_1_1_i_instance.html" title="Wrapper for ITGInstance components ">IInstance</a> list   <a href="#a14fc0e73e54fd6ece242c2bdd42054c3">More...</a><br /></td></tr>
+<tr class="separator:a14fc0e73e54fd6ece242c2bdd42054c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -217,6 +220,30 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_t_g_s_8_interface_2_server_8cs_source.html#l00091">91</a> of file <a class="el" href="_t_g_s_8_interface_2_server_8cs_source.html">Server.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        {</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> Instance(<a class="code" href="class_t_g_s_1_1_interface_1_1_server.html#ad7b320e865af011d4112852bf9d09cb1">serverInterface</a>, <span class="keyword">new</span> InstanceMetadata { Name = name, Enabled = <span class="keyword">false</span> });</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div><div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_html_ad7b320e865af011d4112852bf9d09cb1"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server.html#ad7b320e865af011d4112852bf9d09cb1">TGS.Interface.Server.serverInterface</a></div><div class="ttdeci">readonly Client serverInterface</div><div class="ttdoc">The backing Client </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_interface_2_server_8cs_source.html#l00069">Server.cs:69</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a14fc0e73e54fd6ece242c2bdd42054c3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TGS.Interface.Server.RebuildInstanceList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rebuilds the internal cached <a class="el" href="interface_t_g_s_1_1_interface_1_1_i_instance.html" title="Wrapper for ITGInstance components ">IInstance</a> list  </p>
+
+<p>Implements <a class="el" href="interface_t_g_s_1_1_interface_1_1_i_server.html#ab68ff145a5c48a5b9ce42f2f58abc992">TGS.Interface.IServer</a>.</p>
+
+<p>Definition at line <a class="el" href="_t_g_s_8_interface_2_server_8cs_source.html#l00097">97</a> of file <a class="el" href="_t_g_s_8_interface_2_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        {</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            lock (<span class="keyword">this</span>)</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <a class="code" href="class_t_g_s_1_1_interface_1_1_server.html#aa4bd81817a6ec62c6f908d74ea45022d">knownInstances</a> = <a class="code" href="class_t_g_s_1_1_interface_1_1_server.html#ad7b320e865af011d4112852bf9d09cb1">serverInterface</a>.GetComponent&lt;<a class="code" href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html">ITGLanding</a>&gt;(null).ListInstances();</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div><div class="ttc" id="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing_html"><div class="ttname"><a href="interface_t_g_s_1_1_interface_1_1_components_1_1_i_t_g_landing.html">TGS.Interface.Components.ITGLanding</a></div><div class="ttdoc">Used for general authentication and listing ITGInstances </div><div class="ttdef"><b>Definition:</b> <a href="_landing_8cs_source.html#l00010">Landing.cs:10</a></div></div>
+<div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_html_aa4bd81817a6ec62c6f908d74ea45022d"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server.html#aa4bd81817a6ec62c6f908d74ea45022d">TGS.Interface.Server.knownInstances</a></div><div class="ttdeci">IList&lt; InstanceMetadata &gt; knownInstances</div><div class="ttdoc">Result of a call to ITGLanding.ListInstances </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_interface_2_server_8cs_source.html#l00074">Server.cs:74</a></div></div>
+<div class="ttc" id="class_t_g_s_1_1_interface_1_1_server_html_ad7b320e865af011d4112852bf9d09cb1"><div class="ttname"><a href="class_t_g_s_1_1_interface_1_1_server.html#ad7b320e865af011d4112852bf9d09cb1">TGS.Interface.Server.serverInterface</a></div><div class="ttdeci">readonly Client serverInterface</div><div class="ttdoc">The backing Client </div><div class="ttdef"><b>Definition:</b> <a href="_t_g_s_8_interface_2_server_8cs_source.html#l00069">Server.cs:69</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
