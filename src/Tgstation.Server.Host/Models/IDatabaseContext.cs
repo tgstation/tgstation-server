@@ -35,9 +35,24 @@ namespace Tgstation.Server.Host.Models
 		DbSet<RevisionInformation> RevisionInformations { get; }
 
 		/// <summary>
-		/// The <see cref="DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
+
+		/// <summary>
+		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
+
+		/// <summary>
+		/// The <see cref="Models.ChatSettings"/> in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<ChatSettings> ChatSettings { get; set; }
+
+		/// <summary>
+		/// The <see cref="Models.RepositorySettings"/> in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
 		/// Get the <see cref="ServerSettings"/> in the <see cref="IDatabaseContext"/>

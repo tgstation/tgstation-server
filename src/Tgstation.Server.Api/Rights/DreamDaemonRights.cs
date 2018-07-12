@@ -13,7 +13,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can read <see cref="Models.DreamDaemon.CompileJob"/>
+		/// User can read <see cref="Models.DreamDaemon.ActiveCompileJob"/> and <see cref="Models.DreamDaemon.StagedCompileJob"/>
 		/// </summary>
 		ReadRevision = 1,
 		/// <summary>
@@ -55,6 +55,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can start <see cref="Models.DreamDaemon"/> and disable <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/> and <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>
 		/// </summary>
-		Start = 1024
+		Start = 1024,
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>
+		/// </summary>
+		SetStartupTimeout = 2048
 	}
 }

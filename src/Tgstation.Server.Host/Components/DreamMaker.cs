@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Components.Models;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components
@@ -37,6 +37,10 @@ namespace Tgstation.Server.Host.Components
 		public CompilerStatus Status { get; private set; }
 
 		/// <summary>
+		/// The <see cref="IByond"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IByond byond;
+		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IIOManager ioManager;
@@ -45,82 +49,69 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly IConfiguration configuration;
 		/// <summary>
-		/// The <see cref="IDreamDaemonExecutor"/> for <see cref="DreamMaker"/>
+		/// The <see cref="ISessionControllerFactory"/> for <see cref="DreamMaker"/>
 		/// </summary>
-		readonly IDreamDaemonExecutor dreamDaemonExecutor;
-		/// <summary>
-		/// The <see cref="IByond"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly IByond byond;
-		/// <summary>
-		/// The <see cref="IInterop"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly IInterop interop;
+		readonly ISessionControllerFactory sessionControllerFactory;
 		/// <summary>
 		/// The <see cref="ICompileJobConsumer"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ICompileJobConsumer compileJobConsumer;
+		/// <summary>
+		/// The <see cref="IApplication"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IApplication application;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
+		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
-		/// <param name="dreamDaemonExecutor">The value of <see cref="dreamDaemonExecutor"/></param>
-		/// <param name="byond">The value of <see cref="byond"/></param>
-		/// <param name="interop">The value of <see cref="interop"/></param>
+		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// <param name="application">The value of <see cref="application"/></param>
 		/// 
-		public DreamMaker(IIOManager ioManager, IConfiguration configuration, IDreamDaemonExecutor dreamDaemonExecutor, IByond byond, IInterop interop, ICompileJobConsumer compileJobConsumer)
+		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application)
 		{
+			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.dreamDaemonExecutor = dreamDaemonExecutor ?? throw new ArgumentNullException(nameof(dreamDaemonExecutor));
-			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
-			this.interop = interop ?? throw new ArgumentNullException(nameof(interop));
+			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
 		}
 
 		/// <summary>
 		/// Run a quick DD instance to test the DMAPI is installed on the target code
 		/// </summary>
-		/// <param name="dreamDaemonPath">The path to the DreamDaemon executable</param>
-		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
+		/// <param name="timeout">The timeout in seconds for validation</param>
+		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(string dreamDaemonPath, Host.Models.CompileJob job, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
 				PrimaryPort = 0,    //pick any port
-				SecurityLevel = DreamDaemonSecurity.Safe    //all it needs to read the file and exit
+				SecurityLevel = DreamDaemonSecurity.Safe,    //all it needs to read the file and exit
+				StartupTimeout = timeout
 			};
 
-			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			using (var control = interop.CreateRun(launchParameters.PrimaryPort.Value, null, null))
+			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))));
+
+			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
+			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
-				var interopInfo = new InteropInfo
-				{
-					ApiValidateOnly = true,
-					HostPath = Application.HostingPath,
-					AccessToken = control.PrimaryAccessToken
-				};
-				var ddTcs = new TaskCompletionSource<object>();
-				control.OnServerControl += (sender, e) =>
-				{
-					if (e.EventType == ServerControlEventType.ServerUnresponsive)
-						ddTcs.SetResult(null);
-				};
-				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-				var ddTestTask = dreamDaemonExecutor.RunDreamDaemon(launchParameters, null, dreamDaemonPath, new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension)))), interopInfo, true, false, cts.Token);
+				var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
 
-				await Task.WhenAny(ddTcs.Task, ddTestTask).ConfigureAwait(false);
+				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
 
-				if (!ddTestTask.IsCompleted)
-					cts.Cancel();
+				if (!controller.Lifetime.IsCompleted)
+					return false;
 
-				return await ddTestTask.ConfigureAwait(false) == 0 && !ddTcs.Task.IsCompleted;
+				return controller.ApiValidated;
 			}
 		}
 
@@ -181,7 +172,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task ModifyDme(Host.Models.CompileJob job, CancellationToken cancellationToken)
+		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmeExtension));
@@ -218,12 +209,12 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<Host.Models.CompileJob> Compile(string projectName, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(string projectName, int apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			try
 			{
 				Status = CompilerStatus.Copying;
-				var job = new Host.Models.CompileJob
+				var job = new Models.CompileJob
 				{
 					DirectoryName = Guid.NewGuid(),
 					DmeName = projectName
@@ -266,14 +257,17 @@ namespace Tgstation.Server.Host.Components
 					Status = CompilerStatus.Compiling;
 
 					//run compiler, verify api
-					var ddVerified = await byond.UseExecutables(async (dreamMakerPath, dreamDaemonPath) =>
+					bool ddVerified;
+					using (var byondLock = byond.UseExecutables(null))
 					{
-						await RunDreamMaker(dreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+						job.ByondVersion = byondLock.Version;
+
+						await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 
 						Status = CompilerStatus.Verifying;
 
-						return job.ExitCode == 0 && await VerifyApi(dreamDaemonPath, job, cancellationToken).ConfigureAwait(false);
-					}, true).ConfigureAwait(false);
+						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, cancellationToken).ConfigureAwait(false);
+					}
 
 					if (!ddVerified)
 						//server never validated or compile failed
@@ -294,7 +288,7 @@ namespace Tgstation.Server.Host.Components
 						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
 						await symATask.ConfigureAwait(false);
 					}
-					compileJobConsumer.LoadCompileJob(job);
+					await compileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
 					return job;
 				}
 				catch

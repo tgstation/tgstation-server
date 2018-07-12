@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,13 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IHostedService
+	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar
 	{
+		/// <summary>
+		/// HTTP GET query key for interop access identifiers
+		/// </summary>
+		const string AccessIdentifierQueryKey = "access";
+
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
@@ -30,6 +36,10 @@ namespace Tgstation.Server.Host.Components
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
 		readonly Dictionary<long, IInstance> instances;
+		/// <summary>
+		/// Map of access identifiers to their respective <see cref="IInteropConsumer"/>
+		/// </summary>
+		readonly Dictionary<string, IInteropConsumer> interopConsumers;
 
 		/// <summary>
 		/// Construct an <see cref="InstanceManager"/>
@@ -43,10 +53,11 @@ namespace Tgstation.Server.Host.Components
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			instances = new Dictionary<long, IInstance>();
+			interopConsumers = new Dictionary<string, IInteropConsumer>();
 		}
 
 		/// <inheritdoc />
-		public IInstance GetInstance(Host.Models.Instance metadata)
+		public IInstance GetInstance(Models.Instance metadata)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
@@ -59,7 +70,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Host.Models.Instance instance, string newPath, CancellationToken cancellationToken)
+		public async Task MoveInstance(Models.Instance instance, string newPath, CancellationToken cancellationToken)
 		{
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
@@ -85,7 +96,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OfflineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
@@ -100,7 +111,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Host.Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
@@ -139,6 +150,43 @@ namespace Tgstation.Server.Host.Components
 			if (accessToken == null)
 				throw new ArgumentNullException(nameof(accessToken));
 			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)
+		{
+			if (accessIdentifier == null)
+				throw new ArgumentNullException(nameof(accessIdentifier));
+			if (consumer == null)
+				throw new ArgumentNullException(nameof(consumer));
+
+			lock (interopConsumers)
+				interopConsumers.Add(accessIdentifier, consumer);
+			return new InteropContext(() =>
+			{
+				lock (interopConsumers)
+					interopConsumers.Remove(accessIdentifier);
+			});
+		}
+
+		/// <inheritdoc />
+		public async Task<object> HandleWorldExport(IQueryCollection query, CancellationToken cancellationToken)
+		{
+			if (query == null)
+				throw new ArgumentNullException(nameof(query));
+
+			if (!query.TryGetValue(AccessIdentifierQueryKey, out StringValues values))
+				return null;
+			var accessIdentifier = values.FirstOrDefault();
+			if (accessIdentifier == default)
+				return null;
+
+			IInteropConsumer consumer;
+			lock (interopConsumers)
+				if (!interopConsumers.TryGetValue(accessIdentifier, out consumer))
+					return null;
+
+			return await consumer.HandleInterop(query, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

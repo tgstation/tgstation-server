@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components
@@ -20,7 +22,7 @@ namespace Tgstation.Server.Host.Components
 		public IDreamMaker DreamMaker { get; }
 
 		/// <inheritdoc />
-		public IDreamDaemon DreamDaemon { get; }
+		public IWatchdog Watchdog { get; }
 
 		/// <inheritdoc />
 		public IChat Chat { get; }
@@ -37,7 +39,12 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
-		
+
+		/// <summary>
+		/// The <see cref="IDmbFactory"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IDmbFactory dmbFactory;
+
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="Instance"/>
 		/// </summary>
@@ -52,17 +59,18 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		CancellationTokenSource timerCts;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IDreamDaemon dreamDaemon, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			Byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
-			DreamDaemon = dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon));
+			watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 		}
 
 		/// <inheritdoc />
@@ -83,19 +91,22 @@ namespace Tgstation.Server.Host.Components
 					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
 
 					string accessToken = null, projectName = null;
+					int timeout = 0;
 					var dbTask = databaseContextFactory.UseContext(async (db) =>
 					{
 						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
+						var timeoutTask = instanceQuery.Select(x => x.DreamDaemonSettings.StartupTimeout).FirstAsync(cancellationToken);
 						var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
 						accessToken = await instanceQuery.Select(x => x.RepositorySettings.AccessToken).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 						projectName = await projectNameTask.ConfigureAwait(false);
+						timeout = (await timeoutTask.ConfigureAwait(false)).Value;
 					});
 					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 					{
 						await dbTask.ConfigureAwait(false);
 						await repo.FetchOrigin(accessToken, cancellationToken).ConfigureAwait(false);
 						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
-						await DreamMaker.Compile(projectName, repo, cancellationToken).ConfigureAwait(false);
+						await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
 			}
@@ -114,10 +125,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), DreamDaemon.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
+		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Watchdog.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken), Watchdog.StartAsync(cancellationToken));
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), DreamDaemon.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(int? newInterval)
@@ -145,6 +156,47 @@ namespace Tgstation.Server.Host.Components
 				timerCts = new CancellationTokenSource();
 				timerTask = TimerLoop(newInterval.Value, timerCts.Token);
 			}					
+		}
+
+		/// <inheritdoc />
+		public Task Save(WatchdogReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		{
+			var instance = new Models.Instance { Id = metadata.Id };
+			db.Instances.Attach(instance);
+
+			Models.ReattachInformation ConvertReattachInfo(ReattachInformation wdInfo)
+			{
+				db.CompileJobs.Attach(wdInfo.Dmb.CompileJob);
+				return new Models.ReattachInformation
+				{
+					AccessIdentifier = wdInfo.AccessIdentifier,
+					ChatChannelsJson = wdInfo.ChatChannelsJson,
+					ChatCommandsJson = wdInfo.ChatCommandsJson,
+					CompileJob = wdInfo.Dmb.CompileJob,
+					IsPrimary = wdInfo.IsPrimary,
+					Port = wdInfo.Port,
+					ProcessId = wdInfo.ProcessId,
+					RebootState = wdInfo.RebootState
+				};
+			}
+
+			instance.WatchdogReattachInformation = new Models.WatchdogReattachInformation
+			{
+				Alpha = ConvertReattachInfo(reattachInformation.Alpha),
+				Bravo = ConvertReattachInfo(reattachInformation.Bravo),
+				AlphaIsActive = reattachInformation.AlphaIsActive,
+			};
+			await db.Save(cancellationToken).ConfigureAwait(false);
+		});
+
+		/// <inheritdoc />
+		public async Task<WatchdogReattachInformation> Load(CancellationToken cancellationToken)
+		{
+			Models.WatchdogReattachInformation result = null;
+			await databaseContextFactory.UseContext(async (db) =>
+				result = await db.Instances.Where(x => x.Id == metadata.Id).Select(x => x.WatchdogReattachInformation).FirstAsync(cancellationToken).ConfigureAwait(false)
+			).ConfigureAwait(false);
+			return new WatchdogReattachInformation(result, dmbFactory);
 		}
 	}
 }

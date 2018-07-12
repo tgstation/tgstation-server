@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Api.Models
+﻿using System;
+
+namespace Tgstation.Server.Api.Models
 {
 	/// <inheritdoc />
 	public sealed class CompileJob : Internal.CompileJob

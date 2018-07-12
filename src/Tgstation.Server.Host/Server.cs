@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Startup;
 namespace Tgstation.Server.Host
 {
 	/// <inheritdoc />
-	sealed class Server : IServer, IServerUpdateConsumer
+	sealed class Server : IServer, IServerUpdater
 	{
 		/// <inheritdoc />
 		public string UpdatePath { get; private set; }
@@ -35,11 +35,10 @@ namespace Tgstation.Server.Host
         [ExcludeFromCodeCoverage]
 		public async Task RunAsync(CancellationToken cancellationToken)
 		{
-			cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-			using (cancellationTokenSource)
+			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var webHost = webHostBuilder
 				.UseStartup<Application>()
-				.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdateConsumer>(this))
+				.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdater>(this))
 				.Build()
 			)
 				await webHost.RunAsync(cancellationToken).ConfigureAwait(false);
@@ -56,5 +55,8 @@ namespace Tgstation.Server.Host
 			}
 			cancellationTokenSource.Cancel();
 		}
+
+		/// <inheritdoc />
+		public void RegisterForUpdate(Action action) => cancellationTokenSource.Token.Register(action);
 	}
 }

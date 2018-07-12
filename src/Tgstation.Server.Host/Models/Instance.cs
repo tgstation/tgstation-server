@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Models
 		public RepositorySettings RepositorySettings { get; set; }
 
 		/// <summary>
+		/// The <see cref="Models.WatchdogReattachInformation"/> for the <see cref="Instance"/>
+		/// </summary>
+		public WatchdogReattachInformation WatchdogReattachInformation { get; set; }
+
+		/// <summary>
 		/// The <see cref="InstanceUser"/>s in the <see cref="Instance"/>
 		/// </summary>
 		public List<InstanceUser> InstanceUsers { get; set; }

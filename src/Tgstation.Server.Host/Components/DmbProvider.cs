@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="Dispose"/> is called
 		/// </summary>
-		readonly Action onDispose;
+		Action onDispose;
 
 		/// <summary>
 		/// Construct a <see cref="DmbProvider"/>
@@ -51,8 +51,10 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			onDispose();
+			onDispose?.Invoke();
 			GC.SuppressFinalize(this);
 		}
+
+		public void KeepAlive() => onDispose = null;
 	}
 }

@@ -33,5 +33,7 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 		public void Dispose() { }
+
+		public void KeepAlive() => throw new NotSupportedException();
 	}
 }

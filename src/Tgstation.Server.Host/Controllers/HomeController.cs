@@ -29,6 +29,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
+		/// <summary>
+		/// The <see cref="IApplication"/> for the <see cref="HomeController"/>
+		/// </summary>
+		readonly IApplication application;
 
 		/// <summary>
 		/// Construct a <see cref="HomeController"/>
@@ -38,11 +42,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite) : base(databaseContext, authenticationContextFactory)
+		/// <param name="application">The value of <see cref="application"/></param>
+		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application) : base(databaseContext, authenticationContextFactory)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
 		}
 
 		/// <summary>
@@ -51,7 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see cref="Application.Version"/></returns>
 		[TgsAuthorize]
 		[HttpGet]
-		public JsonResult Home() => Json(Application.Version);
+		public JsonResult Home() => Json(application.Version);
 
 		/// <summary>
 		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>

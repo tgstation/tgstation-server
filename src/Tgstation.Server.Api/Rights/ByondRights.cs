@@ -17,9 +17,9 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		ReadInstalled = 1,
 		/// <summary>
-		/// User may check the staged BYOND version
+		/// User may check the previous BYOND version
 		/// </summary>
-		ReadStaged = 2,
+		ReadPrevious = 2,
 		/// <summary>
 		/// User may change to any BYOND version
 		/// </summary>
