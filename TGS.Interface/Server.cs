@@ -15,7 +15,7 @@ namespace TGS.Interface
 			{
 				lock (this)
 					if (knownInstances == null)
-						knownInstances = serverInterface.GetComponent<ITGLanding>(null).ListInstances();
+						RebuildInstanceList();
 				foreach (var I in knownInstances)
 				{
 					IInstance nextInstance;
@@ -91,6 +91,13 @@ namespace TGS.Interface
 		public IInstance GetInstance(string name)
 		{
 			return new Instance(serverInterface, new InstanceMetadata { Name = name, Enabled = false });
+		}
+
+		/// <inheritdoc />
+		public void RebuildInstanceList()
+		{
+			lock (this)
+				knownInstances = serverInterface.GetComponent<ITGLanding>(null).ListInstances();
 		}
 	}
 }
