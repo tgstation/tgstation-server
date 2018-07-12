@@ -15,7 +15,7 @@
 		results[command_name] = list("help_text" = stc.help_text, "admin_only" = stc.admin_only)
 		custom_commands[command_name] = stc
 
-	var/commands_file = chat_commands_json_file
+	var/commands_file = chat_commands_json_path
 	if(!commands_file)
 		return
 	text2file(json_encode(results), commands_file)
