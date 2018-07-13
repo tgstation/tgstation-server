@@ -224,6 +224,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<Models.CompileJob> Compile(string projectName, int apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin Compile");
+			await eventConsumer.HandleEvent(EventType.CompileStart, new List<string>{ repository.Origin }, cancellationToken).ConfigureAwait(false);
 			try
 			{
 				Status = CompilerStatus.Copying;
@@ -284,13 +286,13 @@ namespace Tgstation.Server.Host.Components
 
 					if (!ddVerified)
 						//server never validated or compile failed
-						await CleanupFailedCompile().ConfigureAwait(false);
+						await Task.WhenAll(CleanupFailedCompile(), eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { job.ExitCode == 0 ? "1" : "0" }, cancellationToken)).ConfigureAwait(false);
 					else
 					{
 						job.DMApiValidated = true;
 
 						Status = CompilerStatus.Duplicating;
-							
+
 						//duplicate the dmb et al
 						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
 
@@ -298,8 +300,10 @@ namespace Tgstation.Server.Host.Components
 
 						//symlink in the static data
 						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
-						await symATask.ConfigureAwait(false);
+						var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
+
+						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
+						await eventConsumer.HandleEvent(EventType.CompileComplete, null, cancellationToken).ConfigureAwait(false);
 					}
 					await compileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
 					return job;
@@ -309,6 +313,11 @@ namespace Tgstation.Server.Host.Components
 					await CleanupFailedCompile().ConfigureAwait(false);
 					throw;
 				}
+			}
+			catch (OperationCanceledException)
+			{
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				throw;
 			}
 			finally
 			{

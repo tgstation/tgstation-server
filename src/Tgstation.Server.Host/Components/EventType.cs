@@ -44,7 +44,7 @@
 		ByondChangeComplete = 8,
 
 		/// <summary>
-		/// Parameters: Commit sha, parameter of <see cref="RepoMergePullRequests"/>
+		/// Parameters: Origin commit sha
 		/// </summary>
 		CompileStart = 9,
 		/// <summary>
@@ -52,7 +52,7 @@
 		/// </summary>
 		CompileCancelled = 10,
 		/// <summary>
-		/// Parameters: Error string
+		/// Parameters: "1" if compile succeeded and api validation failed, "0" otherwise
 		/// </summary>
 		CompileFailure = 11,
 		/// <summary>
