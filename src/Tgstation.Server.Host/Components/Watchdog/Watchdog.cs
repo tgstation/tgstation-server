@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -539,6 +540,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			string results;
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!Running)
@@ -552,8 +554,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
-				await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
+				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
 			}
+
+			if (results == null)
+				return;
+
+			List<ChatResponse> responses;
+			try
+			{
+				responses = JsonConvert.DeserializeObject<List<ChatResponse>>(results);
+			}
+			catch
+			{
+				logger.LogInformation("Recieved invalid response from DD when parsing event {0}:{1}{2}", eventType, Environment.NewLine, results);
+				return;
+			}
+
+			await Task.WhenAll(responses.Select(x => chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
 		}
 	}
 }
