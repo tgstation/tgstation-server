@@ -8,97 +8,65 @@
 		/// <summary>
 		/// Parameters: Reference name, commit sha
 		/// </summary>
-		RepoResetOrigin,
+		RepoResetOrigin = 0,
 		/// <summary>
 		/// Parameters: Reference name, commit sha
 		/// </summary>
-		RepoCheckout,
+		RepoCheckout = 1,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		RepoFetch,
+		RepoFetch = 2,
 		/// <summary>
 		/// Parameters: Comma separated list in form of "#{Pull Request Number} @ {7 character SHA}
 		/// </summary>
-		RepoMergePullRequests,
+		RepoMergePullRequests = 3,
 
 		/// <summary>
 		/// Parameters: Current version, new version
 		/// </summary>
-		ByondChangeStart,
+		ByondChangeStart = 4,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		ByondChangeCancelled,
+		ByondChangeCancelled = 5,
 		/// <summary>
 		/// Parameters: Error string
 		/// </summary>
-		ByondFail,
+		ByondFail = 6,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		ByondStageComplete,
+		ByondStageComplete = 7,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		ByondChangeComplete,
+		ByondChangeComplete = 8,
 
 		/// <summary>
 		/// Parameters: Commit sha, parameter of <see cref="RepoMergePullRequests"/>
 		/// </summary>
-		CompileStart,
+		CompileStart = 9,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		CompileCancelled,
+		CompileCancelled = 10,
 		/// <summary>
 		/// Parameters: Error string
 		/// </summary>
-		CompileFailure,
+		CompileFailure = 11,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		CompileComplete,
-
-		/// <summary>
-		/// Parameters: Access token
-		/// </summary>
-		DDLaunched,
+		CompileComplete = 12,
+		
 		/// <summary>
 		/// Parameters: Exit code
 		/// </summary>
-		DDCrash,
+		DDOtherCrash = 13,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		DDExit,
-		/// <summary>
-		/// Parameters: Exit code
-		/// </summary>
-		DDOtherCrash,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		DDOtherExit,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		DDRestart,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		DDBeginGracefulRestart,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		DDBeginGracefulShutdown,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		DDCancelGraceful,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		DDTerminated,
+		DDOtherExit = 14,
 	}
 }
