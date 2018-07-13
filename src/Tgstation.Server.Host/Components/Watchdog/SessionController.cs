@@ -254,9 +254,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => byondTopicSender.SendTopic(new IPEndPoint(IPAddress.Loopback, reattachInformation.Port), String.Format(CultureInfo.InvariantCulture, "?{0}={1}&{2}={3}", InteropConstants.DMInteropAccessIdentifier, reattachInformation.AccessIdentifier, InteropConstants.DMParameterCommand, command), cancellationToken);
+		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => byondTopicSender.SendTopic(
+				new IPEndPoint(IPAddress.Loopback, reattachInformation.Port),
+				String.Format(CultureInfo.InvariantCulture,
+				"?{0}={1}&{2}={3}",
+				byondTopicSender.SanitizeString(InteropConstants.DMInteropAccessIdentifier),
+				byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
+				byondTopicSender.SanitizeString(InteropConstants.DMParameterCommand),
+				//intentionally don't sanitize command, that's up to the caller
+				command), 
+				cancellationToken);
 
-		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", InteropConstants.DMTopicChangePort, InteropConstants.DMParameterNewPort, port), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
+		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChangePort), byondTopicSender.SanitizeString(InteropConstants.DMParameterNewPort), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
 
 		/// <inheritdoc />
 		public async Task<bool> ClosePort(CancellationToken cancellationToken)
