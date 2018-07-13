@@ -363,7 +363,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return null;
 				}
 				
-
 				Task chatTask;
 				//this is necessary, the monitor could be in it's sleep loop trying to restart
 				if (startMonitor && await StopMonitor().ConfigureAwait(false))
@@ -380,49 +379,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (alphaServer != null || bravoServer != null)
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
-					WatchdogReattachInformation reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
+					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false);
 
 					Task<ISessionController> alphaServerTask = null;
 					try
 					{
-						try
-						{
-							if (!doReattach || reattachInfo.Alpha == null)
-								alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
-							else
-								alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
-							//do a few seconds of delay so that any backends the servers use know that alpha came first
-							await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
-							Task<ISessionController> bravoServerTask;
-							if (!doReattach || reattachInfo.Bravo == null)
-								bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
-							else
-								bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
+						if (!doReattach || reattachInfo.Alpha == null)
+							alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
+						else
+							alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
+						//do a few seconds of delay so that any backends the servers use know that alpha came first
+						await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
+						Task<ISessionController> bravoServerTask;
+						if (!doReattach || reattachInfo.Bravo == null)
+							bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
+						else
+							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
-							bravoServer = await bravoServerTask.ConfigureAwait(false);
-							alphaServer = await alphaServerTask.ConfigureAwait(false);
-						}
-						catch (Exception e)
-						{
-							if (alphaServerTask != null)
-								if (alphaServerTask.Status == TaskStatus.RanToCompletion)
-									alphaServer = await alphaServerTask.ConfigureAwait(false);
-								else
-								{
-									alphaStartCts.Cancel();
-									try
-									{
-										alphaServer = await alphaServerTask.ConfigureAwait(false);
-									}
-									catch (Exception e2)
-									{
-										throw new AggregateException(e, e2);
-									}
-								}
-							throw;
-						}
+						await Task.WhenAll(alphaServerTask, bravoServerTask).ConfigureAwait(false);
 
 						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
 						{
@@ -478,7 +454,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					catch
 					{
 						if (alphaServer == null && bravoServer == null)
-							dmbToUse.Dispose();	//guaranteed to not be null here
+							dmbToUse.Dispose(); //guaranteed to not be null here
 						DisposeAndNullControllers();
 						throw;
 					}
