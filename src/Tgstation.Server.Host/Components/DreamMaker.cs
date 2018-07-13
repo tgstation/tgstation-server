@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -60,6 +61,14 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IApplication"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IApplication application;
+		/// <summary>
+		/// The <see cref="IEventConsumer"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+		/// <summary>
+		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly ILogger<DreamMaker> logger;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
@@ -70,8 +79,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		/// 
-		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application)
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -79,6 +89,8 @@ namespace Tgstation.Server.Host.Components
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <summary>
