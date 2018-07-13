@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Byond.TopicSender;
+using Microsoft.Extensions.Logging;
 using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
@@ -40,6 +41,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
+		/// The <see cref="IByondTopicSender"/> for the <see cref="WatchdogFactory"/>
+		/// </summary>
+		readonly IByondTopicSender byondTopicSender;
+
+		/// <summary>
 		/// The <see cref="Models.Instance"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
 		readonly Models.Instance instance;
@@ -54,8 +60,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
-		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionManagerFactory, IServerUpdater serverUpdater, ILoggerFactory loggerFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, Models.Instance instance)
+		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionManagerFactory, IServerUpdater serverUpdater, ILoggerFactory loggerFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, Models.Instance instance)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionManagerFactory = sessionManagerFactory ?? throw new ArgumentNullException(nameof(sessionManagerFactory));
@@ -63,10 +70,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonSettings settings) => new Watchdog(chat, sessionManagerFactory, dmbFactory, serverUpdater, loggerFactory.CreateLogger<Watchdog>(), reattachInfoHandler, databaseContextFactory, settings, instance, settings.AutoStart.Value);
+		public IWatchdog CreateWatchdog(IDmbFactory dmbFactory, DreamDaemonSettings settings) => new Watchdog(chat, sessionManagerFactory, dmbFactory, serverUpdater, loggerFactory.CreateLogger<Watchdog>(), reattachInfoHandler, databaseContextFactory, byondTopicSender, settings, instance, settings.AutoStart.Value);
 	}
 }

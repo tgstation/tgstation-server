@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic()
 		/// </summary>
-		/// <param name="command">The command to send</param>
+		/// <param name="command">The sanitized command to send</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the result of /world/Topic()</returns>
 		Task<string> SendCommand(string command, CancellationToken cancellationToken);
