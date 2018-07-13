@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (instance.Watchdog.Running)
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			await jobManager.RegisterOperation(new Models.Job
 			{
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (!instance.Watchdog.Running)
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
 			return Ok();
