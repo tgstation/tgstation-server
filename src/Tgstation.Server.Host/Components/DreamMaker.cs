@@ -131,10 +131,10 @@ namespace Tgstation.Server.Host.Components
 		///	Compiles a .dme with DreamMaker
 		/// </summary>
 		/// <param name="dreamMakerPath">The path to the DreamMaker executable</param>
-		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
+		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunDreamMaker(string dreamMakerPath, Host.Models.CompileJob job, CancellationToken cancellationToken)
+		async Task RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			using (var dm = new Process())
 			{
@@ -181,7 +181,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Adds server side includes to the .dme being compiled
 		/// </summary>
-		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
+		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
