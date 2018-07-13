@@ -144,8 +144,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = byond.UseExecutables(dmbProvider.CompileJob.ByondVersion);
 				try
 				{
-					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", application.Version, interopJsonFile, InteropConstants.DMParamHostVersion, InteropConstants.DMParamInfoJson);
-
+					//more sanitization here cause it uses the same scheme
+					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(InteropConstants.DMParamHostVersion), byondTopicSender.SanitizeString(InteropConstants.DMParamInfoJson));
 
 					var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, parameters, !primaryPort, !primaryDirectory);
 					try
