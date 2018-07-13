@@ -44,8 +44,8 @@
 
 //EVENT CODES
 
-#define TGS_EVENT_PORT_SWAP 1	//before a port change is about to happen, extra parameter is new port
-#define TGS_EVENT_REBOOT_MODE_CHANGE 2	//before a reboot mode change, extras parameters are the current and new reboot mode enums
+#define TGS_EVENT_PORT_SWAP -2	//before a port change is about to happen, extra parameter is new port
+#define TGS_EVENT_REBOOT_MODE_CHANGE -1	//before a reboot mode change, extras parameters are the current and new reboot mode enums
 
 //OTHER ENUMS
 
