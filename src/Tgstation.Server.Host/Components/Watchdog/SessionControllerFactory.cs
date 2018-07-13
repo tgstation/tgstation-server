@@ -1,4 +1,5 @@
 ﻿using Byond.TopicSender;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Globalization;
@@ -62,6 +63,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IChat chat;
 
 		/// <summary>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly ILoggerFactory loggerFactory;
+
+		/// <summary>
 		/// Construct a <see cref="SessionControllerFactory"/>
 		/// </summary>
 		/// <param name="executor">The value of <see cref="executor"/></param>
@@ -73,7 +79,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
-		public SessionControllerFactory(IExecutor executor, IByond byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IInstance instance, IIOManager ioManager, IChat chat)
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		public SessionControllerFactory(IExecutor executor, IByond byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IInstance instance, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory)
 		{
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -84,6 +91,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
 		/// <inheritdoc />
@@ -149,7 +157,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							IsPrimary = primaryDirectory,
 							Port = portToUse.Value,
 							ProcessId = session.ProcessId
-						}, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat);
+						}, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat, loggerFactory.CreateLogger<SessionController>());
 					}
 					catch
 					{
@@ -186,7 +194,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var session = executor.AttachToDreamDaemon(reattachInformation.ProcessId, byondLock);
 					try
 					{
-						return new SessionController(reattachInformation, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat);
+						return new SessionController(reattachInformation, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat, loggerFactory.CreateLogger<SessionController>());
 					}
 					catch
 					{

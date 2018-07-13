@@ -1,5 +1,6 @@
 ﻿using Byond.TopicSender;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IChat chat;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="SessionController"/>
+		/// </summary>
+		readonly ILogger<SessionController> logger;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPortImpl(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
@@ -147,15 +153,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="interopRegistrar">The <see cref="IInteropRegistrar"/> used to construct <see cref="interopContext"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
-		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, IChatJsonTrackingContext chatJsonTrackingContext, IChat chat)
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, IChatJsonTrackingContext chatJsonTrackingContext, IChat chat, ILogger<SessionController> logger)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			this.session = session ?? throw new ArgumentNullException(nameof(session));
-			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			if (interopRegistrar == null)
 				throw new ArgumentNullException(nameof(interopRegistrar));
+			this.session = session ?? throw new ArgumentNullException(nameof(session));
+			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			interopContext = interopRegistrar.Register(reattachInformation.AccessIdentifier, this);
 
@@ -254,16 +262,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => byondTopicSender.SendTopic(
-				new IPEndPoint(IPAddress.Loopback, reattachInformation.Port),
-				String.Format(CultureInfo.InvariantCulture,
-				"?{0}={1}&{2}={3}",
-				byondTopicSender.SanitizeString(InteropConstants.DMInteropAccessIdentifier),
-				byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
-				byondTopicSender.SanitizeString(InteropConstants.DMParameterCommand),
-				//intentionally don't sanitize command, that's up to the caller
-				command), 
-				cancellationToken);
+		public async Task<string> SendCommand(string command, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await byondTopicSender.SendTopic(
+					new IPEndPoint(IPAddress.Loopback, reattachInformation.Port),
+					String.Format(CultureInfo.InvariantCulture,
+					"?{0}={1}&{2}={3}",
+					byondTopicSender.SanitizeString(InteropConstants.DMInteropAccessIdentifier),
+					byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
+					byondTopicSender.SanitizeString(InteropConstants.DMParameterCommand),
+					//intentionally don't sanitize command, that's up to the caller
+					command),
+					cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception e)
+			{
+				logger.LogInformation("Send command exception:{0}{1}", Environment.NewLine, e.Message);
+				return null;
+			}
+		}
 
 		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChangePort), byondTopicSender.SanitizeString(InteropConstants.DMParameterNewPort), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
 
