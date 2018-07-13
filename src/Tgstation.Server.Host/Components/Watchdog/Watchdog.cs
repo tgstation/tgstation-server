@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public DreamDaemonLaunchParameters LastLaunchParameters { get; private set; }
 
 		/// <inheritdoc />
-		public RebootState? RebootState => Running ? (RebootState?)(AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
+		public RebootState? RebootState => Running ? (AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
 
 		/// <summary>
 		/// The <see cref="IChat"/> for the <see cref="Watchdog"/>
