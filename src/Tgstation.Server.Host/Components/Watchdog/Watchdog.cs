@@ -15,7 +15,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class Watchdog : IWatchdog, IEventConsumer
+	sealed class Watchdog : IWatchdog, IEventConsumer, ICustomCommandHandler
 	{
 		/// <summary>
 		/// The time in milliseconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
@@ -131,6 +131,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new ArgumentNullException(nameof(serverUpdater));
 
 			serverUpdater.RegisterForUpdate(() => releaseServers = true);
+
+			chat.RegisterCommandHandler(this);
 
 			AlphaIsActive = true;
 			ActiveLaunchParameters = initialLaunchParameters;
@@ -551,6 +553,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			await Task.WhenAll(responses.Select(x => chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task<string> HandleChatCommand(string commandName, IEnumerable<string> arguments, Chat.User sender, CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				if (!Running)
+					return "ERROR: Server offline!";
+
+				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChatCommand), byondTopicSender.SanitizeString(InteropConstants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
+
+				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
+				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";
+			}
 		}
 	}
 }

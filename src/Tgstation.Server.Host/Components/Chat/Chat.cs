@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
 
@@ -23,6 +26,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// <see cref="Command"/>s that never change
+		/// </summary>
+		readonly IReadOnlyList<Command> builtinCommands;
+
+		/// <summary>
 		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatSettings.Id"/>
 		/// </summary>
 		readonly Dictionary<long, IProvider> providers;
@@ -31,6 +39,13 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Map of <see cref="Channel.Id"/>s to <see cref="ChannelMapping"/>s
 		/// </summary>
 		readonly Dictionary<long, ChannelMapping> mappedChannels;
+
+		readonly List<IJsonTrackingContext> trackingContexts;
+
+		/// <summary>
+		/// The <see cref="ICustomCommandHandler"/> for the <see cref="Chat"/>
+		/// </summary>
+		ICustomCommandHandler customCommandHandler;
 
 		/// <summary>
 		/// Used for remapping <see cref="Channel.Id"/>s
@@ -42,13 +57,16 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager)
+		/// <param name="commandFactory">The <see cref="ICommandFactory"/> used to populate <see cref="builtinCommands"/></param>
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			builtinCommands = commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory));
 
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<long, ChannelMapping>();
+			trackingContexts = new List<IJsonTrackingContext>();
 			channelIdCounter = 1;
 		}
 
@@ -68,6 +86,12 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (providers)
 				if (!providers.TryGetValue(connectionId, out provider))
 					return;
+			lock (mappedChannels)
+				foreach (var kvp in mappedChannels.Where(x => x.Value.ProviderId == connectionId))
+				{
+					mappedChannels.Remove(kvp.Key);
+
+				}
 			var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(false);
 			if (results == null)    //aborted
 				return;
@@ -75,7 +99,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				IsWatchdogChannel = x.IsWatchdogChannel,
 				ProviderChannelId = y.Id,
-				ProviderId = connectionId
+				ProviderId = connectionId,
+				Channel = y
 			});
 
 			long baseId;
@@ -84,14 +109,24 @@ namespace Tgstation.Server.Host.Components.Chat
 				baseId = channelIdCounter;
 				channelIdCounter += results.Count;
 			}
+
+			Task task;
 			lock (mappedChannels)
 			{
 				lock (providers)
 					if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider)   //aborted again
 						return;
 				foreach (var I in mappings)
-					mappedChannels.Add(baseId++, I);
+				{
+					var newId = baseId++;
+					mappedChannels.Add(newId, I);
+					I.Channel.Id = newId;
+				}
+
+				lock (trackingContexts)
+					task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
 			}
+			await task.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -159,10 +194,25 @@ namespace Tgstation.Server.Host.Components.Chat
 		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)
+		public async Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)
 		{
-			ioManager.ResolvePath(".");
-			throw new NotImplementedException();
+			if (customCommandHandler == null)
+				throw new InvalidOperationException("RegisterCommandHandler() hasn't been called!");
+			JsonTrackingContext context = null;
+			context = new JsonTrackingContext(ioManager, customCommandHandler, () =>
+			{
+				lock (trackingContexts)
+					trackingContexts.Remove(context);
+			}, ioManager.ConcatPath(basePath, commandsJsonName), ioManager.ConcatPath(basePath, channelsJsonName));
+			Task task;
+			lock (trackingContexts)
+			{
+				trackingContexts.Add(context);
+				lock (mappedChannels)
+					task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
+			}
+			await task.ConfigureAwait(false);
+			return context;
 		}
 
 		/// <inheritdoc />
@@ -170,6 +220,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			lock (providers)
 				return providers.TryGetValue(connectionId, out var provider) && provider.Connected;
+		}
+
+		/// <inheritdoc />
+		public void RegisterCommandHandler(ICustomCommandHandler customCommandHandler)
+		{
+			if (this.customCommandHandler != null)
+				throw new InvalidOperationException("RegisterCommandHandler() already called!");
+			this.customCommandHandler = customCommandHandler ?? throw new ArgumentNullException(nameof(customCommandHandler));
 		}
 	}
 }

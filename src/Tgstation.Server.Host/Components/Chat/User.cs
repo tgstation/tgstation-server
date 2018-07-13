@@ -1,6 +1,6 @@
 ﻿namespace Tgstation.Server.Host.Components.Chat
 {
-	class User
+	public sealed class User
 	{
 		long Id { get; set; }
 		string FriendlyName { get; set; }

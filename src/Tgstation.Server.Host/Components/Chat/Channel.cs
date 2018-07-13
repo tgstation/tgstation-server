@@ -1,6 +1,6 @@
 ﻿namespace Tgstation.Server.Host.Components.Chat
 {
-    sealed class Channel
+    public sealed class Channel
 	{
 		public long Id { get; set; }
 

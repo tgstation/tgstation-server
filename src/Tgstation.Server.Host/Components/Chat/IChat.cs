@@ -20,6 +20,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		bool Connected(long connectionId);
 
 		/// <summary>
+		/// Registers a <paramref name="customCommandHandler"/> to use
+		/// </summary>
+		/// <param name="customCommandHandler">A <see cref="ICustomCommandHandler"/></param>
+		void RegisterCommandHandler(ICustomCommandHandler customCommandHandler);
+
+		/// <summary>
 		/// Change chat settings. If the <see cref="ChatSettings.Id"/> is not currently in use, a new connection will be made instead
 		/// </summary>
 		/// <param name="newSettings">The new <see cref="ChatSettings"/></param>
