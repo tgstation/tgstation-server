@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="Byond.TopicSender" Version="1.1.0.1" />
+    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.5" />
     <PackageReference Include="Discord.Net.WebSocket" Version="1.0.2" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.0-preview-0017" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
@@ -59,10 +60,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\Chat\Providers\" />
   </ItemGroup>
 
 </Project>
