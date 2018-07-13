@@ -1,4 +1,4 @@
-namespace TGS.ControlPanel
+﻿namespace TGS.ControlPanel
 {
 	partial class ControlPanel
 	{
@@ -179,7 +179,7 @@ namespace TGS.ControlPanel
 			// 
 			// ChatPanel
 			// 
-			this.ChatPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(143)))), ((int)(((byte)(160)))));
+			this.ChatPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ChatPanel.Controls.Add(this.label5);
 			this.ChatPanel.Controls.Add(this.label4);
 			this.ChatPanel.Controls.Add(this.label3);
@@ -623,7 +623,7 @@ namespace TGS.ControlPanel
 			// 
 			// ServerPanel
 			// 
-			this.ServerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(143)))), ((int)(((byte)(160)))));
+			this.ServerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ServerPanel.Controls.Add(this.AutoUpdateMLabel);
 			this.ServerPanel.Controls.Add(this.AutoUpdateInterval);
 			this.ServerPanel.Controls.Add(this.AutoUpdateCheckbox);
@@ -1061,7 +1061,7 @@ namespace TGS.ControlPanel
 			// 
 			// BYONDPanel
 			// 
-			this.BYONDPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(143)))), ((int)(((byte)(160)))));
+			this.BYONDPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.BYONDPanel.Controls.Add(this.BYONDRefreshButton);
 			this.BYONDPanel.Controls.Add(this.LatestVersionLabel);
 			this.BYONDPanel.Controls.Add(this.LatestVersionTitle);
@@ -1246,7 +1246,7 @@ namespace TGS.ControlPanel
 			// 
 			// RepoPanel
 			// 
-			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(143)))), ((int)(((byte)(160)))));
+			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.RepoPanel.Controls.Add(this.SyncCommitsCheckBox);
 			this.RepoPanel.Controls.Add(this.TGSJsonUpdate);
 			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
@@ -1592,7 +1592,7 @@ namespace TGS.ControlPanel
 			// 
 			// StaticPanel
 			// 
-			this.StaticPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(143)))), ((int)(((byte)(160)))));
+			this.StaticPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.StaticPanel.Controls.Add(this.RecreateStaticButton);
 			this.StaticPanel.Controls.Add(this.StaticFileDownloadButton);
 			this.StaticPanel.Controls.Add(this.StaticFilesRefreshButton);
@@ -1723,7 +1723,7 @@ namespace TGS.ControlPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(143)))), ((int)(((byte)(160)))));
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
 			this.ClientSize = new System.Drawing.Size(900, 415);
 			this.Controls.Add(this.Panels);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
