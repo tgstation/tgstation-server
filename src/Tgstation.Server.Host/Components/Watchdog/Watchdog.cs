@@ -404,7 +404,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							bravoServer = await bravoServerTask.ConfigureAwait(false);
 							alphaServer = await alphaServerTask.ConfigureAwait(false);
 						}
-						catch
+						catch (Exception e)
 						{
 							if (alphaServerTask != null)
 								if (alphaServerTask.Status == TaskStatus.RanToCompletion)
@@ -416,7 +416,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									{
 										alphaServer = await alphaServerTask.ConfigureAwait(false);
 									}
-									catch { }
+									catch (Exception e2)
+									{
+										throw new AggregateException(e, e2);
+									}
 								}
 							throw;
 						}
