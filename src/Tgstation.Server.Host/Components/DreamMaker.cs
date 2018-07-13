@@ -98,9 +98,10 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="timeout">The timeout in seconds for validation</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
+		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
 		{
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
@@ -114,7 +115,7 @@ namespace Tgstation.Server.Host.Components
 			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))));
 
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
-			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, true, true, true, cancellationToken).ConfigureAwait(false))
+			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
 				var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
 
@@ -278,7 +279,7 @@ namespace Tgstation.Server.Host.Components
 
 						Status = CompilerStatus.Verifying;
 
-						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, cancellationToken).ConfigureAwait(false);
+						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, byondLock, cancellationToken).ConfigureAwait(false);
 					}
 
 					if (!ddVerified)

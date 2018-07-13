@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<ISessionController> LaunchNew(DreamDaemonLaunchParameters launchParameters, IDmbProvider dmbProvider, bool primaryPort, bool primaryDirectory, bool apiValidate, CancellationToken cancellationToken)
+		public async Task<ISessionController> LaunchNew(DreamDaemonLaunchParameters launchParameters, IDmbProvider dmbProvider, IByondExecutableLock currentByondLock, bool primaryPort, bool primaryDirectory, bool apiValidate, CancellationToken cancellationToken)
 		{
 			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
 			if (!portToUse.HasValue)
@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var chatJsonTrackingContext = await chatJsonTrackingTask.ConfigureAwait(false);
 			try
 			{
-				var byondLock = byond.UseExecutables(dmbProvider.CompileJob.ByondVersion);
+				var byondLock = currentByondLock ?? byond.UseExecutables(dmbProvider.CompileJob.ByondVersion);
 				try
 				{
 					//more sanitization here cause it uses the same scheme
@@ -167,7 +167,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch
 				{
-					byondLock.Dispose();
+					if (currentByondLock == null)
+						byondLock.Dispose();
 					throw;
 				}
 			}

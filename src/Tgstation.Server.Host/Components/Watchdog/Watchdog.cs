@@ -390,14 +390,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						try
 						{
 							if (!doReattach || reattachInfo.Alpha == null)
-								alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, true, true, false, alphaStartCts.Token);
+								alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
 							else
 								alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
 							//do a few seconds of delay so that any backends the servers use know that alpha came first
 							await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
 							Task<ISessionController> bravoServerTask;
 							if (!doReattach || reattachInfo.Bravo == null)
-								bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, false, false, false, cancellationToken);
+								bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
 							else
 								bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
