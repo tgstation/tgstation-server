@@ -5,12 +5,7 @@ namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class ChatSettings : Api.Models.Internal.ChatSettings
-	{
-		/// <summary>
-		/// The row Id
-		/// </summary>
-		public long Id { get; set; }
-		
+	{		
 		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/>
 		/// </summary>

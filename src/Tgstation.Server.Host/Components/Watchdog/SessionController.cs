@@ -102,9 +102,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ISession session;
 
 		/// <summary>
-		/// The <see cref="IChatJsonTrackingContext"/> for the <see cref="SessionController"/>
+		/// The <see cref="IJsonTrackingContext"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IChatJsonTrackingContext chatJsonTrackingContext;
+		readonly IJsonTrackingContext chatJsonTrackingContext;
 
 		/// <summary>
 		/// The <see cref="IChat"/> for the <see cref="SessionController"/>
@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, IChatJsonTrackingContext chatJsonTrackingContext, IChat chat, ILogger<SessionController> logger)
+		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, IJsonTrackingContext chatJsonTrackingContext, IChat chat, ILogger<SessionController> logger)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));

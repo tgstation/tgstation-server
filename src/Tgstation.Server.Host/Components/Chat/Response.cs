@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// Represents a chat message requested by DD
 	/// </summary>
-	sealed class ChatResponse
+	sealed class Response
 	{
 		/// <summary>
 		/// The message string

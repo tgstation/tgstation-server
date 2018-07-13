@@ -13,24 +13,32 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can enable/disable the IRC client
+		/// User can change <see cref="Models.Internal.ChatSettings.Enabled"/>
 		/// </summary>
-		SetIrcEnabled = 1,
+		WriteEnabled = 1,
 		/// <summary>
-		/// User can change the IRC settings
+		/// User can change <see cref="Models.Internal.ChatSettings.Provider"/>
 		/// </summary>
-		SetIrcSettings = 2,
+		WriteProvider = 2,
 		/// <summary>
-		/// User can change the chat channels
+		/// User can change <see cref="Models.ChatSettings.Channels"/>
 		/// </summary>
-		SetChannels = 4,
+		WriteChannels = 4,
 		/// <summary>
-		/// User can enable/disable the Discord bot
+		/// User can change <see cref="Models.Internal.ChatSettings.ConnectionString"/>
 		/// </summary>
-		SetDiscordEnabled = 8,
+		WriteConnectionString = 8,
 		/// <summary>
-		/// User can change the Discord settings
+		/// User can read <see cref="Models.Internal.ChatSettings.ConnectionString"/>
 		/// </summary>
-		SetDiscordSettings = 16,
+		ReadConnectionString = 16,
+		/// <summary>
+		/// User can read all chat settings except <see cref="Models.Internal.ChatSettings.ConnectionString"/>
+		/// </summary>
+		Read = 32,
+		/// <summary>
+		/// User can change <see cref="Models.Internal.ChatSettings.Name"/>
+		/// </summary>
+		WriteName = 32
 	}
 }

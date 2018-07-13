@@ -539,10 +539,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (results == null)
 				return;
 
-			List<ChatResponse> responses;
+			List<Response> responses;
 			try
 			{
-				responses = JsonConvert.DeserializeObject<List<ChatResponse>>(results);
+				responses = JsonConvert.DeserializeObject<List<Response>>(results);
 			}
 			catch
 			{

@@ -9,7 +9,7 @@
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatSettings.Id"/>
+		/// The <see cref="Api.Models.Internal.ChatSettings.Id"/>
 		/// </summary>
 		public long ChatSettingsId { get; set; }
 

@@ -19,5 +19,10 @@
 		/// If the <see cref="ChatChannel"/> is an admin channel
 		/// </summary>
 		public bool IsAdminChannel { get; set; }
+
+		/// <summary>
+		/// If the <see cref="ChatChannel"/> is a watchdog channel
+		/// </summary>
+		public bool IsWatchdogChannel { get; set; }
 	}
 }

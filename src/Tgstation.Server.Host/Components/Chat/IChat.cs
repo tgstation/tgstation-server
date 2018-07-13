@@ -10,33 +10,31 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// For managing connected chat services
 	/// </summary>
-	public interface IChat : IHostedService
+	public interface IChat : IHostedService, IDisposable
 	{
 		/// <summary>
-		/// If the IRC client is connected
+		/// If a given set of <see cref="ChatSettings"/> is connected
 		/// </summary>
-		bool IrcConnected { get; }
+		/// <param name="connectionId">The <see cref="ChatSettings.Id"/> of the connection</param>
+		/// <returns><see langword="true"/> if it is connected, <see langword="false"/> otherwise</returns>
+		bool Connected(long connectionId);
 
 		/// <summary>
-		/// If the Discord client is connected
-		/// </summary>
-		bool DiscordConnected { get; }
-
-		/// <summary>
-		/// Change chat settings
+		/// Change chat settings. If the <see cref="ChatSettings.Id"/> is not currently in use, a new connection will be made instead
 		/// </summary>
 		/// <param name="newSettings">The new <see cref="ChatSettings"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatSettings.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/></returns>
 		Task ChangeSettings(ChatSettings newSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Change chat channels
 		/// </summary>
+		/// <param name="connectionId">The <see cref="ChatSettings.Id"/> of the connection</param>
 		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Api.Models.ChatChannel"/>s</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task ChangeChannels(IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken);
+		Task ChangeChannels(long connectionId, IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>
@@ -63,6 +61,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="commandsJsonName">The name of the chat commands json</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IDisposable"/> tied to the lifetime of the json trackings</returns>
-		Task<IChatJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken);
+		Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken);
 	}
 }

@@ -7,21 +7,9 @@ namespace Tgstation.Server.Api.Models
 	public sealed class ChatSettings : Internal.ChatSettings
 	{
 		/// <summary>
-		/// If the IRC connection is established
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		bool IrcConnected { get; set; }
-
-		/// <summary>
-		/// If the Discord connection is established
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		bool DiscordConnected { get; set; }
-
-		/// <summary>
 		/// Channels the Discord bot should listen/announce in
 		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetChannels)]
+		[Permissions(WriteRight = ChatSettingsRights.WriteChannels)]
 		public List<ChatChannel> Channels { get; set; }
 	}
 }
