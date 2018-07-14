@@ -404,6 +404,8 @@ namespace TGS.ControlPanel
 		/// <param name="e">The <see cref="EventArgs"/></param>
 		async void RemoveAllTestMergesButton_Click(object sender, EventArgs e)
 		{
+			if (MessageBox.Show("Are you sure you want to remove all test merges?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				return;
 			try
 			{
 				UseWaitCursor = true;
