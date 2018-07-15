@@ -2,6 +2,8 @@ var searchData=
 [
   ['ddreattachfail',['DDReattachFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a9b180d67d4c0810f154c74188f0583e7',1,'TGS::Server']]],
   ['ddreattachsuccess',['DDReattachSuccess',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a72ca43f16fb64b3834199b7354847b7f',1,'TGS::Server']]],
+  ['ddservercrash',['DDServerCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a00bcbb90206d48a9b8ea126766272f17',1,'TGS::Server']]],
+  ['ddserverstart',['DDServerStart',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311aff8bcd34eedfaf368e7e88f58afac42e',1,'TGS::Server']]],
   ['ddwatchdogcrash',['DDWatchdogCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311afc5de50fca56e21e61ee7dade38bd313',1,'TGS::Server']]],
   ['ddwatchdogexit',['DDWatchdogExit',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a45c77a55423b202a57335b490427d303',1,'TGS::Server']]],
   ['ddwatchdogrebootedserver',['DDWatchdogRebootedServer',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a08fdd52c75872918a4c2697e767df872',1,'TGS::Server']]],
