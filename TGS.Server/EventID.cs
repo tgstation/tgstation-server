@@ -331,5 +331,13 @@ namespace TGS.Server
 		/// Warning: When a testmerge commit failed to be published
 		/// </summary>
 		ReferencePush = 7700,
+		/// <summary>
+		/// Warning: When the server exits unexpectedly
+		/// </summary>
+		DDServerCrash = 7800,
+		/// <summary>
+		/// Info: When the DreamDaemon process is about to be launched
+		/// </summary>
+		DDServerStart = 7800,
 	}
 }

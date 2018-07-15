@@ -374,9 +374,10 @@ namespace TGS.Server
 						}
 					}
 
-					WriteCurrentDDLog("Crash detected! Exit code: ": Proc.ExitCode);
+					WriteCurrentDDLog("Crash detected! Exit code: " + Proc.ExitCode);
 					var runtimeS = (DateTime.Now - starttime).TotalSeconds;
-					WriteWarning("DD crashed: Exit Code: " + Proc.ExitCode + " Seconds running: " + runtimeS);
+					WriteWarning("DD crashed: Exit Code: " + Proc.ExitCode + " Seconds running: " + runtimeS, EventID.DDServerCrash);
+
 
 					lock (watchdogLock)
 					{
@@ -621,7 +622,7 @@ namespace TGS.Server
 					{
 						GameAPIVersion = null;  //needs updating
 					}
-					WriteInfo("Starting DD: " + Proc.StartInfo.FileName + " " + Proc.StartInfo.Arguments);
+					WriteInfo("Starting DD: " + Proc.StartInfo.FileName + " " + Proc.StartInfo.Arguments, EventID.DDServerStart);
 					Proc.Start();
 					Proc.PriorityClass = ProcessPriorityClass.AboveNormal;
 
