@@ -9,6 +9,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -82,7 +83,6 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					//undo the add
 					DatabaseContext.ChatSettings.Remove(dbModel);
-					DatabaseContext.ChatChannels.RemoveRange(dbModel.Channels);
 					await DatabaseContext.Save(default).ConfigureAwait(false);
 					throw;
 				}
@@ -92,6 +92,19 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new { message = e.Message });
 			}
 			return Json(dbModel);
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(ChatSettingsRights.Delete)]
+		public override async Task<IActionResult> Delete([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
+			var instance = instanceManager.GetInstance(Instance);
+			await Task.WhenAll(instance.Chat.DeleteConnection(model.Id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == model.Id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
+
+			return Ok();
 		}
 	}
 }
