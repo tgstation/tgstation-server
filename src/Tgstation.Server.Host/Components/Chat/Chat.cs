@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
@@ -40,6 +38,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		readonly Dictionary<long, ChannelMapping> mappedChannels;
 
+		/// <summary>
+		/// The active <see cref="IJsonTrackingContext"/>s for the <see cref="Chat"/>
+		/// </summary>
 		readonly List<IJsonTrackingContext> trackingContexts;
 
 		/// <summary>
@@ -51,6 +52,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Used for remapping <see cref="Channel.Id"/>s
 		/// </summary>
 		long channelIdCounter;
+
+		/// <summary>
+		/// If <see cref="StartAsync(CancellationToken)"/> has been called
+		/// </summary>
+		bool started; 
 
 		/// <summary>
 		/// Construct a <see cref="Chat"/>
@@ -77,21 +83,43 @@ namespace Tgstation.Server.Host.Components.Chat
 				I.Value.Dispose();
 		}
 
+		/// <summary>
+		/// Remove a <see cref="IProvider"/> from <see cref="providers"/> and <see cref="mappedChannels"/> optionally updating the <see cref="trackingContexts"/> as well
+		/// </summary>
+		/// <param name="connectionId">The <see cref="ChatSettings.Id"/> of the <see cref="IProvider"/> to delete</param>
+		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="false"/> otherwise</returns>
+		async Task<IProvider> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
+		{
+			IProvider provider;
+			lock (providers)
+				if (!providers.TryGetValue(connectionId, out provider))
+					return null;
+			Task task;
+			lock (mappedChannels)
+			{
+				foreach (var kvp in mappedChannels.Where(x => x.Value.ProviderId == connectionId))
+					mappedChannels.Remove(kvp.Key);
+
+				if (updateTrackings)
+					lock (trackingContexts)
+						task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
+				else
+					task = Task.CompletedTask;
+			}
+			await task.ConfigureAwait(false);
+			return provider;
+		}
+
 		/// <inheritdoc />
 		public async Task ChangeChannels(long connectionId, IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken)
 		{
 			if (newChannels == null)
 				throw new ArgumentNullException(nameof(newChannels));
-			IProvider provider;
-			lock (providers)
-				if (!providers.TryGetValue(connectionId, out provider))
-					return;
-			lock (mappedChannels)
-				foreach (var kvp in mappedChannels.Where(x => x.Value.ProviderId == connectionId))
-				{
-					mappedChannels.Remove(kvp.Key);
-
-				}
+			var provider = await RemoveProvider(connectionId, false, cancellationToken).ConfigureAwait(false);
+			if (provider == null)
+				return;
 			var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(false);
 			if (results == null)    //aborted
 				return;
@@ -152,7 +180,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels)
 				foreach (var channelId in mappedChannels.Where(x => x.Value.ProviderId == newSettings.Id).Select(x => x.Key))
 					mappedChannels.Remove(channelId);
-			if (newSettings.Enabled)
+			if (newSettings.Enabled && started)
 				await provider.Connect(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -188,10 +216,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken)));
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
+			started = true;
+		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Disconnect(cancellationToken)));
 
 		/// <inheritdoc />
 		public async Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)
@@ -229,5 +261,8 @@ namespace Tgstation.Server.Host.Components.Chat
 				throw new InvalidOperationException("RegisterCommandHandler() already called!");
 			this.customCommandHandler = customCommandHandler ?? throw new ArgumentNullException(nameof(customCommandHandler));
 		}
+
+		/// <inheritdoc />
+		public Task DeleteConnection(long connectionId, CancellationToken cancellationToken) => RemoveProvider(connectionId, true, cancellationToken);
 	}
 }

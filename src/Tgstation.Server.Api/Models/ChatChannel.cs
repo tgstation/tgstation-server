@@ -13,7 +13,7 @@
 		/// <summary>
 		/// The Discord channel ID
 		/// </summary>
-		public long DiscordChannelId { get; set; }
+		public long? DiscordChannelId { get; set; }
 
 		/// <summary>
 		/// If the <see cref="ChatChannel"/> is an admin channel

@@ -34,6 +34,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task ChangeSettings(ChatSettings newSettings, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Disconnects and deletes a given connection
+		/// </summary>
+		/// <param name="connectionId">The <see cref="ChatSettings.Id"/> of the connection</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task DeleteConnection(long connectionId, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Change chat channels
 		/// </summary>
 		/// <param name="connectionId">The <see cref="ChatSettings.Id"/> of the connection</param>

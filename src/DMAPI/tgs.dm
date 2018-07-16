@@ -97,8 +97,7 @@
 /datum/tgs_chat_channel
 	var/id					//internal channel representation
 	var/friendly_name		//user friendly channel name
-	var/server_name			//server name the channel resides on
-	var/provider_name		//chat provider for the channel
+	var/connection_name		//the name of the configured chat connection
 	var/is_admin_channel	//if the server operator has marked this channel for game admins only
 	var/is_private_channel	//if this is a private chat channel
 

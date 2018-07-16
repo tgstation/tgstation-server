@@ -17,13 +17,18 @@
 		public string FriendlyName { get; set; }
 
 		/// <summary>
-		/// If this is considered a channel for admin commands
+		/// The name of the connection the <see cref="Channel"/> belongs to
 		/// </summary>
-		public bool IsAdminChannel { get; set; }
+		public string ConnectionName { get; set; }
 
 		/// <summary>
-		/// If this i
+		/// If this is considered a channel for admin commands
 		/// </summary>
-		public bool IsPrivateChannel { get; set; }
+		public bool IsAdmin { get; set; }
+
+		/// <summary>
+		/// If this is a 1-to-1 chat channel
+		/// </summary>
+		public bool IsPrivate { get; set; }
 	}
 }

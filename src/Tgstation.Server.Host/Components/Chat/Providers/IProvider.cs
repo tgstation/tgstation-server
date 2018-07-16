@@ -33,6 +33,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Task<bool> Connect(CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Gracefully disconnects the provider. Implies a call to <see cref="IDisposable.Dispose"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Disconnect(CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Get the <see cref="Channel"/>s for given <paramref name="channels"/>
 		/// </summary>
 		/// <param name="channels">The <see cref="Api.Models.ChatChannel"/>s to map</param>
