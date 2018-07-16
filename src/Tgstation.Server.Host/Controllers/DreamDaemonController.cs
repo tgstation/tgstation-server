@@ -18,10 +18,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.DreamDaemon"/>
+	/// <see cref="ModelController{TModel}"/> for managing the <see cref="DreamDaemon"/>
 	/// </summary>
 	[Route("/" + nameof(DreamDaemon))]
-	public sealed class DreamDaemonController : ModelController<Api.Models.DreamDaemon>
+	public sealed class DreamDaemonController : ModelController<DreamDaemon>
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>

@@ -39,6 +39,14 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Internal.ChatSettings.Name"/>
 		/// </summary>
-		WriteName = 32
+		WriteName = 32,
+		/// <summary>
+		/// User can create new <see cref="Models.ChatSettings"/>
+		/// </summary>
+		Create = 64,
+		/// <summary>
+		/// User can delete <see cref="Models.ChatSettings"/>
+		/// </summary>
+		Delete = 128
 	}
 }
