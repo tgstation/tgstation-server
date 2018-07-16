@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -105,6 +106,23 @@ namespace Tgstation.Server.Host.Controllers
 			await Task.WhenAll(instance.Chat.DeleteConnection(model.Id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == model.Id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
 
 			return Ok();
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(ChatSettingsRights.Read)]
+		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		{
+			var query = DatabaseContext.ChatSettings.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
+
+			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
+
+			if (!connectionStrings)
+				foreach (var I in results)
+					I.ConnectionString = null;
+
+			return Json(results);
 		}
 	}
 }

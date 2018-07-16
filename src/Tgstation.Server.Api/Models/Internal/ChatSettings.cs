@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Manage the server chat bots
 	/// </summary>
-	[Model(RightsType.ChatSettings, RequiresInstance = true, CanCrud = true, ReadRight = ChatSettingsRights.Read)]
+	[Model(RightsType.ChatSettings, RequiresInstance = true, CanList = true, CanCrud = true, ReadRight = ChatSettingsRights.Read)]
 	public class ChatSettings
 	{
 		/// <summary>
