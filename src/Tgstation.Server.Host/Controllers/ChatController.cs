@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +39,14 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
+		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
+		{
+			DiscordChannelId = api.DiscordChannelId,
+			IrcChannel = api.IrcChannel,
+			IsAdminChannel = api.IsAdminChannel,
+			IsWatchdogChannel = api.IsWatchdogChannel
+		};
+
 		/// <inheritdoc />
 		[TgsAuthorize(ChatSettingsRights.Create)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
@@ -44,10 +55,16 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new { message = "Name cannot be null or whitespace!" });
+				return BadRequest(new { message = "name cannot be null or whitespace!" });
 
 			if (String.IsNullOrWhiteSpace(model.ConnectionString))
-				return BadRequest(new { message = "ConnectionString cannot be null or whitespace!" });
+				return BadRequest(new { message = "connection_string cannot be null or whitespace!" });
+
+			if (!model.Provider.HasValue)
+				return BadRequest(new { message = "provider cannot be null!" });
+
+			if (!model.Enabled.HasValue)
+				return BadRequest(new { message = "enabled cannot be null!" });
 
 			//try to update das db first
 			var dbModel = new Models.ChatSettings
@@ -55,13 +72,7 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => new Models.ChatChannel
-				{
-					DiscordChannelId = x.DiscordChannelId,
-					IrcChannel = x.IrcChannel,
-					IsAdminChannel = x.IsAdminChannel,
-					IsWatchdogChannel = x.IsWatchdogChannel
-				}).ToList() ?? new List<Models.ChatChannel>(),
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
 			};
@@ -123,6 +134,71 @@ namespace Tgstation.Server.Host.Controllers
 					I.ConnectionString = null;
 
 			return Json(results);
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(ChatSettingsRights.WriteChannels | ChatSettingsRights.WriteConnectionString | ChatSettingsRights.WriteEnabled | ChatSettingsRights.WriteName | ChatSettingsRights.WriteProvider)]
+		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
+			var query = DatabaseContext.ChatSettings.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id).Include(x => x.Channels);
+
+			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+			if (current == default)
+				return StatusCode((int)HttpStatusCode.Gone);
+
+			var userRights = (ChatSettingsRights)AuthenticationContext.GetRight(RightsType.ChatSettings);
+
+			bool anySettingsModified = false;
+
+			bool CheckModified<T>(Expression<Func<Api.Models.Internal.ChatSettings, T>> expression, ChatSettingsRights requiredRight)
+			{
+				var memberSelectorExpression = (MemberExpression)expression.Body;
+				var property = (PropertyInfo)memberSelectorExpression.Member;
+
+				var newVal = property.GetValue(model);
+				if (newVal == null)
+					return false;
+				if (!userRights.HasFlag(requiredRight) && property.GetValue(current) != newVal)
+					return true;
+
+				property.SetValue(current, newVal);
+				anySettingsModified = true;
+				return false;
+			};
+
+			if (!CheckModified(x => x.ConnectionString, ChatSettingsRights.WriteConnectionString)
+				|| !CheckModified(x => x.Enabled, ChatSettingsRights.WriteEnabled)
+				|| !CheckModified(x => x.Name, ChatSettingsRights.WriteName)
+				|| !CheckModified(x => x.Provider, ChatSettingsRights.WriteProvider)
+				|| (model.Channels != null && !userRights.HasFlag(ChatSettingsRights.WriteChannels)))
+				return Forbid();
+
+			if (model.Channels != null)
+			{
+				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
+				var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
+				DatabaseContext.ChatChannels.AddRange(dbChannels);
+				current.Channels = dbChannels;
+			}
+
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			var chat = instanceManager.GetInstance(Instance).Chat;
+
+			if (anySettingsModified)
+				//have to rebuild the thing first
+				await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+
+			if (model.Channels != null)
+				await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
+
+			if(userRights.HasFlag(ChatSettingsRights.Read))
+				return Json(current);
+			return Ok();
 		}
 	}
 }

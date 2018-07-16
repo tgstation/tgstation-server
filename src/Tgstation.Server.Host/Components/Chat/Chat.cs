@@ -171,7 +171,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					providers.Remove(newSettings.Id);
 					provider.Dispose();
 				}
-				if (newSettings.Enabled)
+				if (newSettings.Enabled.Value)
 				{
 					provider = providerFactory.CreateProvider(newSettings);
 					providers.Add(newSettings.Id, provider);
@@ -180,7 +180,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels)
 				foreach (var channelId in mappedChannels.Where(x => x.Value.ProviderId == newSettings.Id).Select(x => x.Key))
 					mappedChannels.Remove(channelId);
-			if (newSettings.Enabled && started)
+			if (newSettings.Enabled.Value && started)
 				await provider.Connect(cancellationToken).ConfigureAwait(false);
 		}
 

@@ -26,13 +26,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If the connection is enabled
 		/// </summary>
 		[Permissions(WriteRight = ChatSettingsRights.WriteEnabled)]
-		public bool Enabled { get; set; }
+		public bool? Enabled { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatProvider"/> used for the connection
 		/// </summary>
 		[Permissions(WriteRight = ChatSettingsRights.WriteProvider)]
-		public ChatProvider Provider { get; set; }
+		public ChatProvider? Provider { get; set; }
 
 		/// <summary>
 		/// The information used to connect to the <see cref="Provider"/>
