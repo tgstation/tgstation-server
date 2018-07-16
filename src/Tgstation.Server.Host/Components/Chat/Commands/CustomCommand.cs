@@ -2,7 +2,7 @@
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
-	sealed class CustomCommand : Command
+	public sealed class CustomCommand : Command
 	{
 		ICustomCommandHandler handler;
 
