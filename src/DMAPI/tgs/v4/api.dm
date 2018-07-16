@@ -206,8 +206,7 @@
 		var/datum/tgs_chat_channel/channel = new
 		channel.id = I["id"]
 		channel.friendly_name = I["friendly_name"]
-		channel.server_name = I["server_name"]
-		channel.provider_name = I["provider_name"]
+		channel.connection_name = I["connection_name"]
 		channel.is_admin_channel = I["is_admin_channel"]
 		channel.is_private_channel = FALSE	//tgs will never send us pm channels
 		. += channel
