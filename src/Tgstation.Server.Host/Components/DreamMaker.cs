@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -60,6 +61,14 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IApplication"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IApplication application;
+		/// <summary>
+		/// The <see cref="IEventConsumer"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+		/// <summary>
+		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly ILogger<DreamMaker> logger;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
@@ -70,8 +79,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		/// 
-		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application)
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -79,6 +89,8 @@ namespace Tgstation.Server.Host.Components
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <summary>
@@ -86,9 +98,10 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="timeout">The timeout in seconds for validation</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
+		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
 		{
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
@@ -102,7 +115,7 @@ namespace Tgstation.Server.Host.Components
 			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))));
 
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
-			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, true, true, true, cancellationToken).ConfigureAwait(false))
+			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
 				var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
 
@@ -119,10 +132,10 @@ namespace Tgstation.Server.Host.Components
 		///	Compiles a .dme with DreamMaker
 		/// </summary>
 		/// <param name="dreamMakerPath">The path to the DreamMaker executable</param>
-		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
+		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunDreamMaker(string dreamMakerPath, Host.Models.CompileJob job, CancellationToken cancellationToken)
+		async Task RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			using (var dm = new Process())
 			{
@@ -169,7 +182,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Adds server side includes to the .dme being compiled
 		/// </summary>
-		/// <param name="job">The <see cref="Host.Models.CompileJob"/> for the operation</param>
+		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
@@ -211,6 +224,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<Models.CompileJob> Compile(string projectName, int apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin Compile");
+			await eventConsumer.HandleEvent(EventType.CompileStart, new List<string>{ repository.Origin }, cancellationToken).ConfigureAwait(false);
 			try
 			{
 				Status = CompilerStatus.Copying;
@@ -266,18 +281,18 @@ namespace Tgstation.Server.Host.Components
 
 						Status = CompilerStatus.Verifying;
 
-						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, cancellationToken).ConfigureAwait(false);
+						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, byondLock, cancellationToken).ConfigureAwait(false);
 					}
 
 					if (!ddVerified)
 						//server never validated or compile failed
-						await CleanupFailedCompile().ConfigureAwait(false);
+						await Task.WhenAll(CleanupFailedCompile(), eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { job.ExitCode == 0 ? "1" : "0" }, cancellationToken)).ConfigureAwait(false);
 					else
 					{
 						job.DMApiValidated = true;
 
 						Status = CompilerStatus.Duplicating;
-							
+
 						//duplicate the dmb et al
 						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
 
@@ -285,8 +300,10 @@ namespace Tgstation.Server.Host.Components
 
 						//symlink in the static data
 						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-						await configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken).ConfigureAwait(false);
-						await symATask.ConfigureAwait(false);
+						var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
+
+						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
+						await eventConsumer.HandleEvent(EventType.CompileComplete, null, cancellationToken).ConfigureAwait(false);
 					}
 					await compileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
 					return job;
@@ -296,6 +313,11 @@ namespace Tgstation.Server.Host.Components
 					await CleanupFailedCompile().ConfigureAwait(false);
 					throw;
 				}
+			}
+			catch (OperationCanceledException)
+			{
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				throw;
 			}
 			finally
 			{

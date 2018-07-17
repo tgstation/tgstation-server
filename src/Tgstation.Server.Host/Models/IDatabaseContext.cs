@@ -50,6 +50,11 @@ namespace Tgstation.Server.Host.Models
 		DbSet<ChatSettings> ChatSettings { get; set; }
 
 		/// <summary>
+		/// The <see cref="ChatChannel"/> in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<ChatChannel> ChatChannels { get; set; }
+
+		/// <summary>
 		/// The <see cref="Models.RepositorySettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		DbSet<RepositorySettings> RepositorySettings { get; set; }

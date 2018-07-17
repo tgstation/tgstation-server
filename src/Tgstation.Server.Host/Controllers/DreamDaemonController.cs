@@ -18,10 +18,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.DreamDaemon"/>
+	/// <see cref="ModelController{TModel}"/> for managing the <see cref="DreamDaemon"/>
 	/// </summary>
 	[Route("/" + nameof(DreamDaemon))]
-	public sealed class DreamDaemonController : ModelController<Api.Models.DreamDaemon>
+	public sealed class DreamDaemonController : ModelController<DreamDaemon>
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (instance.Watchdog.Running)
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			await jobManager.RegisterOperation(new Models.Job
 			{
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (!instance.Watchdog.Running)
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
 			return Ok();

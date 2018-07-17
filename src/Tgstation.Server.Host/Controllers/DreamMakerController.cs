@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 			//alias for cancelling the latest job
 			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Select(x => new Job { Id = x.Job.Id, StoppedAt = x.Job.StoppedAt }).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (job.StoppedAt != null)
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 			await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}

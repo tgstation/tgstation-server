@@ -203,14 +203,16 @@
 	//no caching cause tgs may change this
 	var/list/json = json_decode(file2text(chat_channels_json_path))
 	for(var/I in json)
-		var/datum/tgs_chat_channel/channel = new
-		channel.id = I["id"]
-		channel.friendly_name = I["friendly_name"]
-		channel.server_name = I["server_name"]
-		channel.provider_name = I["provider_name"]
-		channel.is_admin_channel = I["is_admin_channel"]
-		channel.is_private_channel = FALSE	//tgs will never send us pm channels
-		. += channel
+		. += DecodeChannel(I)
+
+/datum/tgs_api/v4/proc/DecodeChannel(channel_json)
+	var/datum/tgs_chat_channel/channel = new
+	channel.id = channel_json["id"]
+	channel.friendly_name = channel_json["friendly_name"]
+	channel.connection_name = channel_json["connection_name"]
+	channel.is_admin_channel = channel_json["is_admin_channel"]
+	channel.is_admin_channel = channel_json["is_private_channel"] || FALSE
+	return channel
 
 #undef TGS4_TOPIC_COMMAND
 #undef TGS4_TOPIC_TOKEN

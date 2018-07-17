@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Byond.TopicSender;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +15,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class Watchdog : IWatchdog, IEventConsumer
+	sealed class Watchdog : IWatchdog, IEventConsumer, ICustomCommandHandler
 	{
 		/// <summary>
 		/// The time in milliseconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
@@ -36,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public DreamDaemonLaunchParameters LastLaunchParameters { get; private set; }
 
 		/// <inheritdoc />
-		public RebootState? RebootState => Running ? (RebootState?)(AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
+		public RebootState? RebootState => Running ? (AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
 
 		/// <summary>
 		/// The <see cref="IChat"/> for the <see cref="Watchdog"/>
@@ -67,6 +69,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
+
+		/// <summary>
+		/// The <see cref="IByondTopicSender"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="Watchdog"/>
@@ -104,10 +111,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
 		/// <param name="instance">The <see cref="Models.Instance"/> containing the value of <see cref="instanceId"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, DreamDaemonLaunchParameters initialLaunchParameters, Models.Instance instance, bool autoStart)
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, DreamDaemonLaunchParameters initialLaunchParameters, Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -115,6 +123,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			instanceId = instance?.Id ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
@@ -122,6 +131,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new ArgumentNullException(nameof(serverUpdater));
 
 			serverUpdater.RegisterForUpdate(() => releaseServers = true);
+
+			chat.RegisterCommandHandler(this);
 
 			AlphaIsActive = true;
 			ActiveLaunchParameters = initialLaunchParameters;
@@ -354,7 +365,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return null;
 				}
 				
-
 				Task chatTask;
 				//this is necessary, the monitor could be in it's sleep loop trying to restart
 				if (startMonitor && await StopMonitor().ConfigureAwait(false))
@@ -371,46 +381,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (alphaServer != null || bravoServer != null)
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
-					WatchdogReattachInformation reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
+					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false);
 
 					Task<ISessionController> alphaServerTask = null;
 					try
 					{
-						try
-						{
-							if (!doReattach || reattachInfo.Alpha == null)
-								alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, true, true, false, alphaStartCts.Token);
-							else
-								alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
-							//do a few seconds of delay so that any backends the servers use know that alpha came first
-							await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
-							Task<ISessionController> bravoServerTask;
-							if (!doReattach || reattachInfo.Bravo == null)
-								bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, false, false, false, cancellationToken);
-							else
-								bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
+						if (!doReattach || reattachInfo.Alpha == null)
+							alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
+						else
+							alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
+						//do a few seconds of delay so that any backends the servers use know that alpha came first
+						await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
+						Task<ISessionController> bravoServerTask;
+						if (!doReattach || reattachInfo.Bravo == null)
+							bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
+						else
+							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
-							bravoServer = await bravoServerTask.ConfigureAwait(false);
-							alphaServer = await alphaServerTask.ConfigureAwait(false);
-						}
-						catch
-						{
-							if (alphaServerTask != null)
-								if (alphaServerTask.Status == TaskStatus.RanToCompletion)
-									alphaServer = await alphaServerTask.ConfigureAwait(false);
-								else
-								{
-									alphaStartCts.Cancel();
-									try
-									{
-										alphaServer = await alphaServerTask.ConfigureAwait(false);
-									}
-									catch { }
-								}
-							throw;
-						}
+						await Task.WhenAll(alphaServerTask, bravoServerTask).ConfigureAwait(false);
 
 						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
 						{
@@ -466,7 +456,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					catch
 					{
 						if (alphaServer == null && bravoServer == null)
-							dmbToUse.Dispose();	//guaranteed to not be null here
+							dmbToUse.Dispose(); //guaranteed to not be null here
 						DisposeAndNullControllers();
 						throw;
 					}
@@ -531,6 +521,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			string results;
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!Running)
@@ -540,11 +531,42 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				foreach (var I in parameters)
 				{
 					builder.Append("&");
-					builder.Append(I);
+					builder.Append(byondTopicSender.SanitizeString(I));
 				}
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
-				await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
+				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
+			}
+
+			if (results == null)
+				return;
+
+			List<Response> responses;
+			try
+			{
+				responses = JsonConvert.DeserializeObject<List<Response>>(results);
+			}
+			catch
+			{
+				logger.LogInformation("Recieved invalid response from DD when parsing event {0}:{1}{2}", eventType, Environment.NewLine, results);
+				return;
+			}
+
+			await Task.WhenAll(responses.Select(x => chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task<string> HandleChatCommand(string commandName, string arguments, Chat.User sender, CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				if (!Running)
+					return "ERROR: Server offline!";
+
+				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChatCommand), byondTopicSender.SanitizeString(InteropConstants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
+
+				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
+				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";
 			}
 		}
 	}

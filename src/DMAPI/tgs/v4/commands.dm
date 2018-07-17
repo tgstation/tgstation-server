@@ -30,14 +30,7 @@
 	u.id = user["id"]
 	u.friendly_name = user["friendly_name"]
 	u.mention = user["mention"]
-	var/datum/tgs_chat_channel/channel = new
-	u.channel = channel
-	var/channel_json = user["channel"]
-	channel.id = channel_json["id"]
-	channel.friendly_name = channel_json["friendly_name"]
-	channel.server_name = channel_json["server_name"]
-	channel.is_admin_channel = channel_json["is_admin_channel"]
-	channel.is_private_channel = channel_json["is_private_channel"]
+	u.channel = DecodeChannel(user["channel"])
 
 	var/datum/tgs_chat_command/sc = custom_commands[command]
 	var/result = sc.Run(u, params)

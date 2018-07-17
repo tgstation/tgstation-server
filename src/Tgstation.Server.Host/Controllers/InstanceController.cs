@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == model.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			throw new NotImplementedException();
 		}

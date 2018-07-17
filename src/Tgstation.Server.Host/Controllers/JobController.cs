@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			if(job.StoppedAt != null)
-				return StatusCode(HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
 			return Ok();

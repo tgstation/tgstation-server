@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -8,44 +6,39 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Manage the server chat bots
 	/// </summary>
-	[Model(RightsType.ChatSettings, RequiresInstance = true)]
+	[Model(RightsType.ChatSettings, RequiresInstance = true, CanList = true, CanCrud = true, ReadRight = ChatSettingsRights.Read)]
 	public class ChatSettings
 	{
 		/// <summary>
-		/// If the IRC client is enabled
+		/// The settings id
 		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetIrcEnabled)]
-		public bool IrcEnabled { get; set; }
+		[Permissions(DenyWrite = true)]
+		public long Id { get; set; }
 
 		/// <summary>
-		/// The IRC server name
+		/// The name of the connection
 		/// </summary>
-		[Permissions(ReadRight = ChatSettingsRights.SetIrcSettings, WriteRight = ChatSettingsRights.SetIrcSettings)]
+		[Permissions(WriteRight = ChatSettingsRights.WriteName)]
 		[Required]
-		public string IrcHost { get; set; }
+		public string Name { get; set; }
 
 		/// <summary>
-		/// The IRC server port
+		/// If the connection is enabled
 		/// </summary>
-		[Permissions(ReadRight = ChatSettingsRights.SetIrcSettings, WriteRight = ChatSettingsRights.SetIrcSettings)]
-		public ushort IrcPort { get; set; }
+		[Permissions(WriteRight = ChatSettingsRights.WriteEnabled)]
+		public bool? Enabled { get; set; }
 
 		/// <summary>
-		/// The IRC server NickServ password
+		/// The <see cref="ChatProvider"/> used for the connection
 		/// </summary>
-		[Permissions(ReadRight = ChatSettingsRights.SetIrcSettings, WriteRight = ChatSettingsRights.SetIrcSettings)]
-		public string IrcNickServPassword { get; set; }
+		[Permissions(WriteRight = ChatSettingsRights.WriteProvider)]
+		public ChatProvider? Provider { get; set; }
 
 		/// <summary>
-		/// If the Discord bot is enabled
+		/// The information used to connect to the <see cref="Provider"/>
 		/// </summary>
-		[Permissions(WriteRight = ChatSettingsRights.SetDiscordEnabled)]
-		public bool DiscordEnabled { get; set; }
-
-		/// <summary>
-		/// The Discord bot token
-		/// </summary>
-		[Permissions(ReadRight = ChatSettingsRights.SetDiscordSettings, WriteRight = ChatSettingsRights.SetDiscordSettings)]
-		public string DiscordBotToken { get; set; }
+		[Permissions(ReadRight = ChatSettingsRights.ReadConnectionString, WriteRight = ChatSettingsRights.ReadConnectionString)]
+		[Required]
+		public string ConnectionString { get; set; }
 	}
 }
