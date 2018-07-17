@@ -228,10 +228,11 @@ namespace TGS.Server
 					DisposeRepo();
 					Helpers.DeleteDirectory(RelativePath(RepoPath));
 					DeletePRList();
+					/*
 					lock (configLock)
 					{
 						BackupAndDeleteStaticDirectory();
-					}
+					}*/
 
 					var Opts = new CloneOptions()
 					{
@@ -251,7 +252,8 @@ namespace TGS.Server
 					//create an ssh remote for pushing
 					Repo.Network.Remotes.Add(SSHPushRemote, RepoURL.Replace("git://", "ssh://").Replace("https://", "ssh://"));
 
-					InitialConfigureRepository();
+					if (!Directory.Exists(RelativePath(StaticDirs)))
+						InitialConfigureRepository();
 
 					SendMessage("REPO: Clone complete!", MessageType.DeveloperInfo);
 					WriteInfo("Repository {0}:{1} successfully cloned", EventID.RepoClone);
