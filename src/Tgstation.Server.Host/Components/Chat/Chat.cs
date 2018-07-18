@@ -13,6 +13,8 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <inheritdoc />
 	sealed class Chat : IChat
 	{
+		const string CommonMention = "!tgs";
+
 		/// <summary>
 		/// The <see cref="IProviderFactory"/> for the <see cref="Chat"/>
 		/// </summary>
@@ -36,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Map of <see cref="Channel.Id"/>s to <see cref="ChannelMapping"/>s
 		/// </summary>
-		readonly Dictionary<long, ChannelMapping> mappedChannels;
+		readonly Dictionary<ulong, ChannelMapping> mappedChannels;
 
 		/// <summary>
 		/// The active <see cref="IJsonTrackingContext"/>s for the <see cref="Chat"/>
@@ -51,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Used for remapping <see cref="Channel.Id"/>s
 		/// </summary>
-		long channelIdCounter;
+		ulong channelIdCounter;
 
 		/// <summary>
 		/// If <see cref="StartAsync(CancellationToken)"/> has been called
@@ -71,7 +73,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			builtinCommands = commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory));
 
 			providers = new Dictionary<long, IProvider>();
-			mappedChannels = new Dictionary<long, ChannelMapping>();
+			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IJsonTrackingContext>();
 			channelIdCounter = 1;
 		}
@@ -131,11 +133,11 @@ namespace Tgstation.Server.Host.Components.Chat
 				Channel = y
 			});
 
-			long baseId;
+			ulong baseId;
 			lock (this)
 			{
 				baseId = channelIdCounter;
-				channelIdCounter += results.Count;
+				channelIdCounter += (ulong)results.Count;
 			}
 
 			Task task;
@@ -185,7 +187,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task SendMessage(string message, IEnumerable<long> channelIds, CancellationToken cancellationToken)
+		public Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken)
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
@@ -209,7 +211,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public Task SendWatchdogMessage(string message, CancellationToken cancellationToken)
 		{
-			List<long> wdChannels;
+			List<ulong> wdChannels;
 			lock (mappedChannels)   //so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);

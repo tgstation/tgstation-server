@@ -2,7 +2,7 @@
 {
 	sealed class Message
 	{
-		string Content { get; set; }
-		User User { get; set; }
+		public string Content { get; set; }
+		public User User { get; set; }
 	}
 }

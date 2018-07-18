@@ -9,7 +9,7 @@
 		/// The <see cref="Providers.IProvider"/> channel Id.
 		/// </summary>
 		/// <remarks><see cref="Chat"/> remaps this to an internal id using <see cref="ChannelMapping"/></remarks>
-		public long Id { get; set; }
+		public ulong Id { get; set; }
 
 		/// <summary>
 		/// The user friendly name of the <see cref="Channel"/>
