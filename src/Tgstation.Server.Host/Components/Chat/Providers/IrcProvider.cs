@@ -15,15 +15,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// <summary>
 	/// <see cref="IProvider"/> for internet relay chat
 	/// </summary>
-	sealed class IrcProvider : IProvider
+	sealed class IrcProvider : Provider
 	{
 		const int TimeoutSeconds = 5;
 
 		/// <inheritdoc />
-		public bool Connected => client.IsConnected;
+		public override bool Connected => client.IsConnected;
 
 		/// <inheritdoc />
-		public string BotMention => client.Nickname;
+		public override string BotMention => client.Nickname;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="IrcProvider"/>
@@ -60,6 +60,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Map of <see cref="Channel.RealId"/>s to channel names
 		/// </summary>
 		readonly Dictionary<ulong, string> channelIdMap;
+
+		/// <summary>
+		/// Map of <see cref="Channel.RealId"/>s to query users
+		/// </summary>
+		readonly Dictionary<ulong, string> queryChannelIdMap;
 
 		/// <summary>
 		/// Id counter for <see cref="channelIdMap"/>
@@ -118,24 +123,82 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			client.OnQueryMessage += Client_OnQueryMessage;
 
 			channelIdMap = new Dictionary<ulong, string>();
-			channelIdCounter = 0;
-		}
-
-		void Client_OnQueryMessage(object sender, IrcEventArgs e)
-		{
-
-		}
-
-		void Client_OnChannelMessage(object sender, IrcEventArgs e)
-		{
-
+			queryChannelIdMap = new Dictionary<ulong, string>();
+			channelIdCounter = 1;
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => client.Disconnect();    //just closes the socket
+		public override void Dispose() => client.Disconnect();    //just closes the socket
+
+		/// <summary>
+		/// Handle an IRC message
+		/// </summary>
+		/// <param name="e">The <see cref="IrcEventArgs"/></param>
+		/// <param name="isPrivate">If this is a query message</param>
+		void HandleMessage(IrcEventArgs e, bool isPrivate)
+		{
+			if (e.Data.From.ToUpperInvariant() == client.Nickname.ToUpperInvariant())
+				return;
+
+			var username = e.Data.From;
+			var channelName = isPrivate ? username : e.Data.Channel;
+			ulong channelId = 0;
+			lock (this)
+			{
+				var dicToCheck = isPrivate ? queryChannelIdMap : channelIdMap;
+				if (!dicToCheck.Any(x =>
+				{
+					if (x.Value != channelName)
+						return false;
+					channelId = x.Key;
+					return true;
+				}))
+				{
+					channelId = ++channelIdCounter;
+					dicToCheck.Add(channelId, channelName);
+					if (isPrivate)
+						channelIdMap.Add(channelId, null);
+				}
+			}
+
+			var message = new Message
+			{
+				Content = e.Data.Message,
+				User = new User
+				{
+					Channel = new Channel
+					{
+						IsAdmin = false,
+						ConnectionName = address,
+						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
+						RealId = channelId,
+						IsPrivate = isPrivate
+					},
+					FriendlyName = username,
+					RealId = channelId,
+					Mention = username
+				}
+			};
+
+			EnqueueMessage(message);
+		}
+
+		/// <summary>
+		/// When a query message is received in IRC
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="IrcEventArgs"/></param>
+		void Client_OnQueryMessage(object sender, IrcEventArgs e) => HandleMessage(e, true);
+
+		/// <summary>
+		/// When a channel message is received in IRC
+		/// </summary>
+		/// <param name="sender">The sender of the event</param>
+		/// <param name="e">The <see cref="IrcEventArgs"/></param>
+		void Client_OnChannelMessage(object sender, IrcEventArgs e) => HandleMessage(e, false);
 
 		/// <inheritdoc />
-		public Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			try
 			{
@@ -204,14 +267,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}, cancellationToken,TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task Disconnect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public override Task Disconnect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			client.RfcQuit();
+			try
+			{
+				client.RfcQuit();
+			}
+			catch (Exception e)
+			{
+				logger.LogWarning("Error quitting IRC: {0}", e);
+			}
 			Dispose();
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public override Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			if (channels.Any(x => x.IrcChannel == null))
 				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
@@ -230,8 +300,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				foreach (var I in hs)
 					client.RfcJoin(I);
 
+
+
 				return (IReadOnlyList<Channel>)channels.Select(x => {
-					var id = ++channelIdCounter;
+					ulong id = channelIdCounter;
 					if (!channelIdMap.Any(y =>
 					{
 						if (y.Value != x.IrcChannel)
@@ -240,6 +312,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return true;
 					}))
 						channelIdMap.Add(id, x.IrcChannel);
+					else
+						++channelIdCounter;
 					return new Channel
 					{
 						RealId = id,
@@ -251,17 +325,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}).ToList();
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-
+		
 		/// <inheritdoc />
-		public Task<Message> NextMessage(CancellationToken cancellationToken)
+		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			throw new NotImplementedException();
-		}
-
-		/// <inheritdoc />
-		public Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+			var channelName = channelIdMap[channelId] ?? queryChannelIdMap[channelId];
+			try
+			{
+				if (client.JoinedChannels.Contains(channelName))
+					client.SendMessage(SendType.Message, channelName, message);
+			}
+			catch(Exception e)
+			{
+				logger.LogWarning("Unable to send to channel: {0}", e);
+			}
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

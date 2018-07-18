@@ -13,13 +13,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// <summary>
 	/// <see cref="IProvider"/> for the Discord app
 	/// </summary>
-	sealed class DiscordProvider : IProvider
+	sealed class DiscordProvider : Provider
 	{
 		/// <inheritdoc />
-		public bool Connected { get; private set; }
+		public override bool Connected => client.ConnectionState == ConnectionState.Connected;
 
 		/// <inheritdoc />
-		public string BotMention
+		public override string BotMention
 		{
 			get
 			{
@@ -43,21 +43,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The token used for connecting to discord
 		/// </summary>
 		readonly string botToken;
-		
-		/// <summary>
-		/// <see cref="Queue{T}"/> of received <see cref="Message"/>s
-		/// </summary>
-		readonly Queue<Message> messageQueue;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of mapped <see cref="ITextChannel"/> <see cref="IEntity{TId}.Id"/>s
 		/// </summary>
 		readonly List<ulong> mappedChannels;
-
-		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> that completes while <see cref="messageQueue"/> isn't empty
-		/// </summary>
-		TaskCompletionSource<object> nextMessage;
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
@@ -70,13 +60,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			this.botToken = botToken ?? throw new ArgumentNullException(nameof(botToken));
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
-			nextMessage = new TaskCompletionSource<object>();
 			mappedChannels = new List<ulong>();
-			messageQueue = new Queue<Message>();
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => client.Dispose();
+		public override void Dispose() => client.Dispose();
 
 		/// <summary>
 		/// Handle a message recieved from Discord
@@ -103,39 +91,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						RealId = e.Channel.Id,
 						IsAdmin = false,
 						IsPrivate = true,
-						ConnectionName = connectionName,
+						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
 					},
 					FriendlyName = e.Author.Username,
 					Mention = e.Author.Mention
 				}
 			};
-
-			lock (this)
-			{
-				messageQueue.Enqueue(result);
-				nextMessage.TrySetResult(null);
-			}
+			EnqueueMessage(result);
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public async Task<Message> NextMessage(CancellationToken cancellationToken)
-		{
-			var cancelTcs = new TaskCompletionSource<object>();
-			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-				await Task.WhenAny(nextMessage.Task, cancelTcs.Task).ConfigureAwait(false);
-			lock (this)
-			{
-				var result = messageQueue.Dequeue();
-				if (messageQueue.Count == 0)
-					nextMessage = new TaskCompletionSource<object>();
-				return result;
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task<bool> Connect(CancellationToken cancellationToken)
+		public override async Task<bool> Connect(CancellationToken cancellationToken)
 		{
 			if (Connected)
 				return true;
@@ -162,12 +130,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				logger.LogWarning("Error connecting to Discord: {0}", e);
 				return false;
 			}
-
-			Connected = true;
+			
 			return true;
 		}
 
-		public async Task Disconnect(CancellationToken cancellationToken)
+		public override async Task Disconnect(CancellationToken cancellationToken)
 		{
 			if (!Connected)
 				return;
@@ -182,11 +149,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				logger.LogWarning("Error disconnecting from discord: {0}", e);
 			}
-			Connected = false;
 		}
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
+		public override Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
@@ -199,9 +165,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				if (!channel.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
-				var discordChannel = client.GetChannel(channel.DiscordChannelId.Value) as ITextChannel;
-
-				if (discordChannel == null)
+				if (!(client.GetChannel(channel.DiscordChannelId.Value) is ITextChannel discordChannel))
 					return null;
 
 				return new Channel
@@ -226,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) {
+		public override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) {
 			try
 			{
 				await ((client.GetChannel(channelId) as ITextChannel)?.SendMessageAsync(message, false, null, new RequestOptions
