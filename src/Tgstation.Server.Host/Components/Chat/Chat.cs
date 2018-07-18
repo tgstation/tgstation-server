@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,6 +47,16 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly List<IJsonTrackingContext> trackingContexts;
 
 		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> for <see cref="chatHandler"/>
+		/// </summary>
+		readonly CancellationTokenSource handlerCts;
+
+		/// <summary>
+		/// The <see cref="Task"/> that monitors incoming chat messages
+		/// </summary>
+		Task chatHandler;
+
+		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="Chat"/>
 		/// </summary>
 		ICustomCommandHandler customCommandHandler;
@@ -75,12 +86,14 @@ namespace Tgstation.Server.Host.Components.Chat
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IJsonTrackingContext>();
+			handlerCts = new CancellationTokenSource();
 			channelIdCounter = 1;
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			handlerCts.Dispose();
 			foreach (var I in providers)
 				I.Value.Dispose();
 		}
@@ -112,6 +125,64 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 			await task.ConfigureAwait(false);
 			return provider;
+		}
+
+		/// <summary>
+		/// Processes a <paramref name="message"/>
+		/// </summary>
+		/// <param name="provider">The <see cref="IProvider"/> who recevied <paramref name="message"/></param>
+		/// <param name="message">The <see cref="Message"/> to process</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
+		{
+			if (!(message.Content.StartsWith(CommonMention, StringComparison.InvariantCultureIgnoreCase) || message.Content.StartsWith(provider.BotMention, StringComparison.Ordinal)))
+				//no mention
+				return;
+			
+			await Task.Yield();
+			lock (this)
+				throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Monitors active providers for new <see cref="Message"/>s
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task MonitorMessages(CancellationToken cancellationToken)
+		{
+			var messageTasks = new Dictionary<IProvider, Task<Message>>();
+			try
+			{
+				while (!cancellationToken.IsCancellationRequested)
+				{
+					//prune disconnected providers
+					foreach (var I in messageTasks)
+						if (!I.Key.Connected)
+							messageTasks.Remove(I.Key);
+
+					//add new ones
+					foreach (var I in providers)
+						if (I.Value.Connected && !messageTasks.ContainsKey(I.Value))
+							messageTasks.Add(I.Value, I.Value.NextMessage(cancellationToken));
+
+					//wait for a message
+					var tasks = messageTasks.Select(x => x.Value);
+					await Task.WhenAny().ConfigureAwait(false);
+
+					//process completed ones
+					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted))
+					{
+						messageTasks.Remove(I.Key);
+
+						var message = await I.Value.ConfigureAwait(false);
+
+						await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
+					}
+				}
+			}
+			catch (OperationCanceledException) { }
 		}
 
 		/// <inheritdoc />
@@ -221,11 +292,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
+			chatHandler = MonitorMessages(handlerCts.Token);
 			started = true;
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Disconnect(cancellationToken)));
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			handlerCts.Cancel();
+			await chatHandler.ConfigureAwait(false);
+			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Disconnect(cancellationToken))).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public async Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)

@@ -16,10 +16,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	sealed class IrcProvider : IProvider
 	{
 		/// <inheritdoc />
-		public bool Connected => throw new NotImplementedException();
+		public bool Connected => client.IsConnected;
 
 		/// <inheritdoc />
-		public string BotMention => throw new NotImplementedException();
+		public string BotMention => client.Nickname;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="IrcProvider"/>
@@ -149,10 +149,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}, cancellationToken,TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task Disconnect(CancellationToken cancellationToken)
+		public Task Disconnect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			throw new NotImplementedException();
-		}
+
+
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
