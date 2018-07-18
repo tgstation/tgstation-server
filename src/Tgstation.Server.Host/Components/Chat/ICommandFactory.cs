@@ -3,8 +3,8 @@ using Tgstation.Server.Host.Components.Chat.Commands;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
-    interface ICommandFactory
-    {
+	interface ICommandFactory
+	{
 		IReadOnlyList<Command> GenerateCommands();
-    }
+	}
 }

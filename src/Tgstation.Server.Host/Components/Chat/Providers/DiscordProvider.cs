@@ -104,10 +104,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Content = e.Content,
 				User = new User
 				{
-					Id = e.Author.Id,
+					RealId = e.Author.Id,
 					Channel = new Channel
 					{
-						Id = e.Channel.Id,
+						RealId = e.Channel.Id,
 						IsAdmin = false,
 						IsPrivate = true,
 						ConnectionName = connectionName,
@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				return new Channel
 				{
-					Id = discordChannel.Id,
+					RealId = discordChannel.Id,
 					IsAdmin = channel.IsAdminChannel,
 					ConnectionName = connectionName,
 					FriendlyName = (discordChannel as ITextChannel)?.Name ?? "UNKNOWN",
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			lock (this)
 			{
 				mappedChannels.Clear();
-				mappedChannels.AddRange(enumerator.Select(x => x.Id));
+				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
 			}
 
 			return Task.FromResult<IReadOnlyList<Channel>>(enumerator.ToList());

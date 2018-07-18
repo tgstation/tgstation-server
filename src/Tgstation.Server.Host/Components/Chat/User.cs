@@ -1,4 +1,8 @@
-﻿namespace Tgstation.Server.Host.Components.Chat
+﻿using Newtonsoft.Json;
+using System;
+using System.Globalization;
+
+namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
 	/// Represents a tgs_chat_user datum
@@ -6,9 +10,19 @@
 	public sealed class User
 	{
 		/// <summary>
+		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss
+		/// </summary>
+		public string Id { get; set; }
+
+		/// <summary>
 		/// The internal user id
 		/// </summary>
-		public ulong Id { get; set; }
+		[JsonIgnore]
+		public ulong RealId
+		{
+			get => UInt64.Parse(Id, CultureInfo.InvariantCulture);
+			set => Id = value.ToString(CultureInfo.InvariantCulture);
+		}
 
 		/// <summary>
 		/// The friendly name of the user

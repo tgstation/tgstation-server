@@ -1,4 +1,8 @@
-﻿namespace Tgstation.Server.Host.Components.Chat
+﻿using Newtonsoft.Json;
+using System;
+using System.Globalization;
+
+namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
 	/// Represents a <see cref="Providers.IProvider"/> channel
@@ -6,10 +10,20 @@
     public sealed class Channel
 	{
 		/// <summary>
+		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss
+		/// </summary>
+		public string Id { get; set; }
+
+		/// <summary>
 		/// The <see cref="Providers.IProvider"/> channel Id.
 		/// </summary>
 		/// <remarks><see cref="Chat"/> remaps this to an internal id using <see cref="ChannelMapping"/></remarks>
-		public ulong Id { get; set; }
+		[JsonIgnore]
+		public ulong RealId
+		{
+			get => UInt64.Parse(Id, CultureInfo.InvariantCulture);
+			set => Id = value.ToString(CultureInfo.InvariantCulture);
+		}
 
 		/// <summary>
 		/// The user friendly name of the <see cref="Channel"/>

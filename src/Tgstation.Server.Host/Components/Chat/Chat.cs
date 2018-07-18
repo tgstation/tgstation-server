@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			var mappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
 			{
 				IsWatchdogChannel = x.IsWatchdogChannel,
-				ProviderChannelId = y.Id,
+				ProviderChannelId = y.RealId,
 				ProviderId = connectionId,
 				Channel = y
 			});
@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					var newId = baseId++;
 					mappedChannels.Add(newId, I);
-					I.Channel.Id = newId;
+					I.Channel.RealId = newId;
 				}
 
 				lock (trackingContexts)
