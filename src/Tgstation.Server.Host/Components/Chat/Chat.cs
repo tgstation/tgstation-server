@@ -33,9 +33,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly ILogger<Chat> logger;
 
 		/// <summary>
-		/// <see cref="Command"/>s that never change
+		/// <see cref="ICommand"/>s that never change
 		/// </summary>
-		readonly IReadOnlyList<Command> builtinCommands;
+		readonly IReadOnlyList<ICommand> builtinCommands;
 
 		/// <summary>
 		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatSettings.Id"/>
@@ -173,11 +173,15 @@ namespace Tgstation.Server.Host.Components.Chat
 				logger.LogError("Recieved chat message with no command handler installed!");
 			try
 			{
-				await customCommandHandler.HandleChatCommand(command, arguments, message.User, cancellationToken).ConfigureAwait(false);
+				var result = await customCommandHandler.HandleChatCommand(command, arguments, message.User, cancellationToken).ConfigureAwait(false);
+				if(result != null)
+					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error processing custom command: {0}", e);
+				//error bc custom commands should reply about why it failed
+				logger.LogError("Error processing custom command: {0}", e);
+				await SendMessage("Internal error processing command!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
 		}
 

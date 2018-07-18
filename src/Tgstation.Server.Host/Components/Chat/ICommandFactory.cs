@@ -4,14 +4,14 @@ using Tgstation.Server.Host.Components.Chat.Commands;
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// Factory for built in <see cref="Command"/>s
+	/// Factory for built in <see cref="ICommand"/>s
 	/// </summary>
 	interface ICommandFactory
 	{
 		/// <summary>
-		/// Generate builtin <see cref="Command"/>s
+		/// Generate builtin <see cref="ICommand"/>s
 		/// </summary>
-		/// <returns>A <see cref="IReadOnlyList{T}"/> of <see cref="Command"/>s</returns>
-		IReadOnlyList<Command> GenerateCommands();
+		/// <returns>A <see cref="IReadOnlyList{T}"/> of <see cref="ICommand"/>s</returns>
+		IReadOnlyList<ICommand> GenerateCommands();
 	}
 }

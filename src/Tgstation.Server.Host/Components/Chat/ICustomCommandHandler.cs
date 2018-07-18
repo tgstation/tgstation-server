@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// Handles <see cref="Commands.Command"/> that map to those defined in a <see cref="IJsonTrackingContext"/>
+	/// Handles <see cref="Commands.ICommand"/>s that map to those defined in a <see cref="IJsonTrackingContext"/>
 	/// </summary>
 	public interface ICustomCommandHandler
 	{
