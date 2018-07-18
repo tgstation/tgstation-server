@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// The <see cref="IIOManager"/> for the <see cref="Chat"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Chat"/>
+		/// </summary>
+		readonly ILogger<Chat> logger;
 
 		/// <summary>
 		/// <see cref="Command"/>s that never change
@@ -69,18 +75,20 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// If <see cref="StartAsync(CancellationToken)"/> has been called
 		/// </summary>
-		bool started; 
+		bool started;
 
 		/// <summary>
 		/// Construct a <see cref="Chat"/>
 		/// </summary>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="commandFactory">The <see cref="ICommandFactory"/> used to populate <see cref="builtinCommands"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory)
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ILogger<Chat> logger, ICommandFactory commandFactory)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			builtinCommands = commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory));
 
 			providers = new Dictionary<long, IProvider>();
@@ -136,13 +144,41 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Chat message: {0}. User (Note unconverted provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
+			if (customCommandHandler == null)
+			{
+				logger.LogError("Recieved chat message with no command handler installed!");
+				return;
+			}
+
 			if (!(message.Content.StartsWith(CommonMention, StringComparison.InvariantCultureIgnoreCase) || message.Content.StartsWith(provider.BotMention, StringComparison.Ordinal)))
 				//no mention
 				return;
-			
-			await Task.Yield();
-			lock (this)
-				throw new NotImplementedException();
+
+			var splits = new List<string>(message.Content.Split(' '));
+			if (splits.Count == 1)
+			{
+				//just a mention
+				await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+				return;
+			}
+
+			splits.RemoveAt(0);
+
+			var command = splits[0];
+			splits.RemoveAt(0);
+			var arguments = String.Join(" ", splits);
+
+			if (customCommandHandler == null)
+				logger.LogError("Recieved chat message with no command handler installed!");
+			try
+			{
+				await customCommandHandler.HandleChatCommand(command, arguments, message.User, cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception e)
+			{
+				logger.LogWarning("Error processing custom command: {0}", e);
+			}
 		}
 
 		/// <summary>
