@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -15,6 +17,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// </summary>
 	sealed class IrcProvider : IProvider
 	{
+		const int TimeoutSeconds = 5;
+
 		/// <inheritdoc />
 		public bool Connected => client.IsConnected;
 
@@ -51,6 +55,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="IrcPasswordType"/> of <see cref="password"/>
 		/// </summary>
 		readonly IrcPasswordType? passwordType;
+
+		/// <summary>
+		/// Map of <see cref="Channel.RealId"/>s to channel names
+		/// </summary>
+		readonly Dictionary<ulong, string> channelIdMap;
+
+		/// <summary>
+		/// Id counter for <see cref="channelIdMap"/>
+		/// </summary>
+		ulong channelIdCounter;
 
 		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
@@ -90,31 +104,35 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				AutoRejoinOnKick = true,
 				AutoRelogin = true,
 				AutoRetry = true,
-				AutoRetryLimit = 5,
-				AutoRetryDelay = 5,
+				AutoRetryLimit = TimeoutSeconds,
+				AutoRetryDelay = TimeoutSeconds,
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = application.VersionString,
-				UseSsl = useSsl,
-				ValidateServerCertificate = useSsl,
+				UseSsl = useSsl
 			};
+			if (useSsl)
+				client.ValidateServerCertificate = true;    //dunno if it defaults to that or what
 
 			client.OnChannelMessage += Client_OnChannelMessage;
 			client.OnQueryMessage += Client_OnQueryMessage;
+
+			channelIdMap = new Dictionary<ulong, string>();
+			channelIdCounter = 0;
 		}
 
 		void Client_OnQueryMessage(object sender, IrcEventArgs e)
 		{
-			throw new NotImplementedException();
+
 		}
 
 		void Client_OnChannelMessage(object sender, IrcEventArgs e)
 		{
-			throw new NotImplementedException();
+
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => Disconnect(default).Wait();    //not actually a task so whatever
+		public void Dispose() => client.Disconnect();    //just closes the socket
 
 		/// <inheritdoc />
 		public Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -125,23 +143,60 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				cancellationToken.ThrowIfCancellationRequested();
 
-				if (passwordType == IrcPasswordType.Sasl)
-				{
-					//TODO
-				}
-
 				if (passwordType == IrcPasswordType.Server)
 					client.Login(nickname, nickname, 0, nickname, password);
 				else
-					client.Login(nickname, nickname);
+				{
+					if (passwordType == IrcPasswordType.Sasl)
+					{
+						client.WriteLine("CAP REQ :sasl", Priority.Critical);  //needs to be put in the buffer before anything else
+						cancellationToken.ThrowIfCancellationRequested();
+					}
+					client.Login(nickname, nickname, 0, nickname);
+				}
 
 				if (passwordType == IrcPasswordType.NickServ)
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 					client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
 				}
+				else if (passwordType == IrcPasswordType.Sasl)
+				{
+					//wait for the sasl ack or timeout
+					var recievedAck = false;
+					var recievedPlus = false;
+					client.OnReadLine += (sender, e) =>
+					{
+						if (e.Line.Contains("ACK :sasl"))
+							recievedAck = true;
+						else if (e.Line.Contains("AUTHENTICATE +"))
+							recievedPlus = true;
+					};
+
+					var startTime = DateTimeOffset.Now;
+					var endTime = DateTimeOffset.Now.AddSeconds(TimeoutSeconds);
+					cancellationToken.ThrowIfCancellationRequested();
+					for(; !recievedAck && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
+						client.Listen(false);
+					
+					client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
+					cancellationToken.ThrowIfCancellationRequested();
+
+					for (; !recievedPlus && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
+						client.Listen(false);
+
+					//Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
+					var authString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{0}{1}{2}", nickname, '\0', password);
+					var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
+					var authLine = String.Format(CultureInfo.InvariantCulture, "AUTHENTICATE {0}", b64);
+					var chars = authLine.ToCharArray();
+					client.WriteLine(authLine, Priority.Critical);
+
+					cancellationToken.ThrowIfCancellationRequested();
+					client.WriteLine("CAP END", Priority.Critical);
+				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				logger.LogWarning("Unable to connect to IRC: {0}", e);
 			}
@@ -151,15 +206,51 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public Task Disconnect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-
-
+			client.RfcQuit();
+			Dispose();
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
+		public Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			throw new NotImplementedException();
-		}
+			if (channels.Any(x => x.IrcChannel == null))
+				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
+			lock (this)
+			{
+				var hs = new HashSet<string>(); //for unique inserts
+				foreach (var I in channels)
+					hs.Add(I.IrcChannel);
+				var toPart = new List<string>();
+				foreach (var I in client.JoinedChannels)
+					if (!hs.Remove(I))
+						toPart.Add(I);
+
+				foreach (var I in toPart)
+					client.RfcPart(I);
+				foreach (var I in hs)
+					client.RfcJoin(I);
+
+				return (IReadOnlyList<Channel>)channels.Select(x => {
+					var id = ++channelIdCounter;
+					if (!channelIdMap.Any(y =>
+					{
+						if (y.Value != x.IrcChannel)
+							return false;
+						id = y.Key;
+						return true;
+					}))
+						channelIdMap.Add(id, x.IrcChannel);
+					return new Channel
+					{
+						RealId = id,
+						IsAdmin = x.IsAdminChannel,
+						ConnectionName = address,
+						FriendlyName = channelIdMap[id],
+						IsPrivate = false
+	 				};
+				}).ToList();
+			}
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<Message> NextMessage(CancellationToken cancellationToken)

@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly Dictionary<long, IProvider> providers;
 
 		/// <summary>
-		/// Map of <see cref="Channel.Id"/>s to <see cref="ChannelMapping"/>s
+		/// Map of <see cref="Channel.RealId"/>s to <see cref="ChannelMapping"/>s
 		/// </summary>
 		readonly Dictionary<ulong, ChannelMapping> mappedChannels;
 
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		ICustomCommandHandler customCommandHandler;
 
 		/// <summary>
-		/// Used for remapping <see cref="Channel.Id"/>s
+		/// Used for remapping <see cref="Channel.RealId"/>s
 		/// </summary>
 		ulong channelIdCounter;
 

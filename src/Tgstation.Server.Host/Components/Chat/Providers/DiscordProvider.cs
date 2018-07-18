@@ -38,12 +38,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="DiscordSocketClient"/> for the <see cref="DiscordProvider"/>
 		/// </summary>
 		readonly DiscordSocketClient client;
-
-		/// <summary>
-		/// The name used for populating <see cref="Channel.ConnectionName"/>
-		/// </summary>
-		readonly string connectionName;
-
+		
 		/// <summary>
 		/// The token used for connecting to discord
 		/// </summary>
@@ -68,12 +63,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Construct a <see cref="DiscordProvider"/>
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="connectionName">The value of <see cref="connectionName"/></param>
 		/// <param name="botToken">The value of <see cref="botToken"/></param>
-		public DiscordProvider(ILogger<DiscordProvider> logger, string connectionName, string botToken)
+		public DiscordProvider(ILogger<DiscordProvider> logger, string botToken)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.connectionName = connectionName ?? throw new ArgumentNullException(nameof(connectionName));
 			this.botToken = botToken ?? throw new ArgumentNullException(nameof(botToken));
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
@@ -206,7 +199,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				if (!channel.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
-				var discordChannel = client.GetChannel(channel.DiscordChannelId.Value);
+				var discordChannel = client.GetChannel(channel.DiscordChannelId.Value) as ITextChannel;
 
 				if (discordChannel == null)
 					return null;
@@ -215,8 +208,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					RealId = discordChannel.Id,
 					IsAdmin = channel.IsAdminChannel,
-					ConnectionName = connectionName,
-					FriendlyName = (discordChannel as ITextChannel)?.Name ?? "UNKNOWN",
+					ConnectionName = discordChannel.Guild.Name,
+					FriendlyName = discordChannel.Name,
 					IsPrivate = false
 				};
 			};

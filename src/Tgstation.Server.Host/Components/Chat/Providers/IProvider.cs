@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Send a message to the <see cref="IProvider"/>
 		/// </summary>
-		/// <param name="channelId">The <see cref="Channel.Id"/> to send to</param>
+		/// <param name="channelId">The <see cref="Channel.RealId"/> to send to</param>
 		/// <param name="message">The message contents</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>

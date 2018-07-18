@@ -1,6 +1,6 @@
 ﻿namespace Tgstation.Server.Host.Components.Chat.Providers
 {
-	enum IrcPasswordType
+	public enum IrcPasswordType
 	{
 		Server,
 		Sasl,
