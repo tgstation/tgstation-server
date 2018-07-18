@@ -7,6 +7,7 @@
 		ActiveServerRebooted,
 		InactiveServerRebooted,
 		NewDmbAvailable,
-		InactiveServerStartupComplete
+		InactiveServerStartupComplete,
+		ActiveLaunchParametersUpdated
 	}
 }
