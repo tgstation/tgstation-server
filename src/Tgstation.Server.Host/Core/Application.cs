@@ -30,6 +30,9 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public Version Version { get; }
 
+		/// <inheritdoc />
+		public string VersionString { get; }
+
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
 		/// </summary>
@@ -56,6 +59,7 @@ namespace Tgstation.Server.Host.Core
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 
 			Version = Assembly.GetExecutingAssembly().GetName().Version;
+			VersionString = String.Format(CultureInfo.InvariantCulture, "/tg/station server v{0}", Version);
 		}
 
 		/// <summary>
