@@ -79,5 +79,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
 		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
-    }
+
+		/// <summary>
+		/// Changes <see cref="RebootState"/> to <see cref="Components.Watchdog.RebootState.Normal"/> without telling the DMAPI
+		/// </summary>
+		void ResetRebootState();
+	}
 }

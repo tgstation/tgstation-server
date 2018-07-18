@@ -333,5 +333,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", InteropConstants.DMTopicChangeReboot, InteropConstants.DMParameterNewRebootMode, (int)newRebootState), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
 		}
+
+		/// <inheritdoc />
+		public void ResetRebootState()
+		{
+			CheckDisposed();
+			reattachInformation.RebootState = RebootState.Normal;
+		}
 	}
 }
