@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Net;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using System;
@@ -30,6 +29,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 		}
 
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="DiscordProvider"/>
+		/// </summary>
 		readonly ILogger<DiscordProvider> logger;
 
 		/// <summary>
