@@ -6,7 +6,6 @@
 	enum MonitorAction
 	{
 		Continue,
-		Break,
 		Restart,
 		Exit
 	}
