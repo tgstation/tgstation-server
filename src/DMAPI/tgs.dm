@@ -103,7 +103,7 @@
 
 //represents a chat user
 /datum/tgs_chat_user
-	var/id							//Internal user representation
+	var/id							//Internal user representation, requires channel to be unique
 	var/friendly_name				//The user's public name
 	var/mention						//The text to use to ping this user in a message
 	var/datum/tgs_chat_channel/channel	//The /datum/tgs_chat_channel this user was from

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
@@ -23,6 +24,11 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
 
+		/// <summary>
+		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form
+		/// </summary>
+		public string ByondVersion { get; set; }
+
 		/// <inheritdoc />
 		public Api.Models.CompileJob ToApi() => new Api.Models.CompileJob
 		{
@@ -33,7 +39,8 @@ namespace Tgstation.Server.Host.Models
 			Id = Id,
 			Job = Job.ToApi(),
 			Output = Output,
-			RevisionInformation = RevisionInformation.ToApi()
+			RevisionInformation = RevisionInformation.ToApi(),
+			ByondVersion = Version.Parse(ByondVersion)
 		};
 	}
 }

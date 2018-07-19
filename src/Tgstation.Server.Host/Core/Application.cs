@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Byond.TopicSender;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -14,6 +15,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Chat.Commands;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Models;
@@ -29,6 +33,9 @@ namespace Tgstation.Server.Host.Core
 
 		/// <inheritdoc />
 		public Version Version { get; }
+
+		/// <inheritdoc />
+		public string VersionString { get; }
 
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
@@ -56,6 +63,7 @@ namespace Tgstation.Server.Host.Core
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 
 			Version = Assembly.GetExecutingAssembly().GetName().Version;
+			VersionString = String.Format(CultureInfo.InvariantCulture, "/tg/station server v{0}", Version);
 		}
 
 		/// <summary>
@@ -137,9 +145,17 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
-			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
+			
+			services.AddSingleton<IExecutor, Executor>();
+			services.AddSingleton<ICommandFactory, CommandFactory>();
+			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
+			{
+				ReceiveTimeout = 5000,
+				SendTimeout = 5000
+			});
 
 			services.AddSingleton<InstanceFactory>();
 			services.AddSingleton<IInstanceFactory>(x => x.GetRequiredService<InstanceFactory>());

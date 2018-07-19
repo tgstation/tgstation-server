@@ -14,5 +14,10 @@ namespace Tgstation.Server.Api.Models
 		/// Git revision the compiler ran on. Not modifiable
 		/// </summary>
 		public RevisionInformation RevisionInformation { get; set; }
+
+		/// <summary>
+		/// The <see cref="Byond.Version"/> the <see cref="CompileJob"/> was made with
+		/// </summary>
+		public Version ByondVersion { get; set; }
 	}
 }

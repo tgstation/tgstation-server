@@ -8,6 +8,11 @@ namespace Tgstation.Server.Host.Core
 	public interface IApplication
 	{
 		/// <summary>
+		/// A more verbose version of <see cref="Version"/>
+		/// </summary>
+		string VersionString { get; }
+
+		/// <summary>
 		/// The version of the <see cref="Application"/>
 		/// </summary>
 		Version Version { get; }

@@ -1,12 +1,25 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
 	/// Represents a command made from DM code
 	/// </summary>
-	public sealed class CustomCommand : Command
+	public sealed class CustomCommand : ICommand
 	{
+		/// <inheritdoc />
+		public string Name { get; set; }
+
+		/// <inheritdoc />
+		public string HelpText { get; set; }
+
+		/// <inheritdoc />
+		[JsonConverter(typeof(BoolConverter))]
+		public bool AdminOnly { get; set; }
+
 		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="CustomCommand"/>
 		/// </summary>
@@ -24,10 +37,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public override void Invoke(string arguments)
+		public Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken)
 		{
 			if (handler == null)
 				throw new InvalidOperationException("SetHandler() has not been called!");
+			return handler.HandleChatCommand(Name, arguments, user, cancellationToken);
 		}
 	}
 }

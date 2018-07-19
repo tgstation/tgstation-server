@@ -15,7 +15,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class Watchdog : IWatchdog, IEventConsumer, ICustomCommandHandler
+	sealed class Watchdog : IWatchdog, ICustomCommandHandler
 	{
 		/// <summary>
 		/// The time in milliseconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
