@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -22,6 +23,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			{
 				using (var webHost = WebHost.CreateDefaultBuilder(new string[] { "Database:DatabaseType=Sqlite", "Database:ConnectionString=Data Source=" + dbName }) //force it to use sqlite
 					.UseStartup<Application>()
+					.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdater>(this))
 					.Build()
 				)
 				{
