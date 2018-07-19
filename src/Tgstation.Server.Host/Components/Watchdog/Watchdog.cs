@@ -330,6 +330,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return usedMostRecentDmb;
 			}
 
+			async Task UpdateAndRestartInactiveServer(bool breakAfter)
+			{
+				//replace the notification tcs here so that the next loop will read a fresh one
+				activeParametersUpdated = new TaskCompletionSource<object>();
+				monitorState.InactiveServer.Dispose();  //kill or recycle it
+				monitorState.NextAction = breakAfter ? MonitorAction.Break : MonitorAction.Continue;
+
+				var usedLatestDmb = await RestartInactiveServer().ConfigureAwait(false);
+
+				if (monitorState.NextAction == (breakAfter ? MonitorAction.Break : MonitorAction.Continue))
+				{
+					monitorState.ActiveServer.ClosePortOnReboot = false;
+					if (monitorState.InactiveServerHasStagedDmb && !usedLatestDmb)
+						monitorState.InactiveServerHasStagedDmb = false;    //don't try to load it again though
+				}
+			};
+
 			//reason handling
 			switch (activationReason)
 			{
@@ -350,27 +367,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await chat.SendWatchdogMessage("Active server crashed or exited! Onlining inactive server...", cancellationToken).ConfigureAwait(false);
 					if (!await MakeInactiveActive().ConfigureAwait(false))
 						break;
-
-					monitorState.NextAction = MonitorAction.Continue;
+					
 					monitorState.ActiveServer.ClosePortOnReboot = false;
-					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
+					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
+					break;
 				case MonitorActivationReason.InactiveServerCrashed:
 					await chat.SendWatchdogMessage("Inactive server crashed or exited! Rebooting...", cancellationToken).ConfigureAwait(false);
-					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
-				case MonitorActivationReason.ActiveLaunchParametersUpdated:
-					//replace the notification tcs here so that the next loop will read a fresh one
-					activeParametersUpdated = new TaskCompletionSource<object>();
-					monitorState.InactiveServer.Dispose();	//kill or recycle it
-					monitorState.NextAction = MonitorAction.Continue;
-
-					var usedLatestDmb = await RestartInactiveServer().ConfigureAwait(false);
-
-					if (monitorState.NextAction == MonitorAction.Continue)
-					{
-						monitorState.ActiveServer.ClosePortOnReboot = false;
-						if (monitorState.InactiveServerHasStagedDmb && !usedLatestDmb)
-							monitorState.InactiveServerHasStagedDmb = false;    //don't try to load it again though
-					}
+					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
 					if (FullRestartDeadInactive())
@@ -380,13 +383,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					bool restartOnceSwapped = false;
 					var rebootState = monitorState.ActiveServer.RebootState;
 					monitorState.ActiveServer.ResetRebootState();	//the DMAPI has already done this internally
-
-					/* TODO: This should be handled when ActiveLaunchParameters is SET
-					 
-					 if(LastLaunchParameters != ActiveLaunchParameters && rebootState != Components.Watchdog.RebootState.Shutdown)
-						//they need a relaunch with active parameters
-						rebootState = Components.Watchdog.RebootState.Restart;
-					*/
 
 					switch (rebootState)
 					{
@@ -403,15 +399,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							return;
 					}
 
-					if (monitorState.InactiveServerHasStagedDmb)
-					{
-						if (monitorState.InactiveServer.Dmb.CompileJob.Id == monitorState.ActiveServer.Dmb.CompileJob.Id)
-							//both servers up to date
-							monitorState.InactiveServerHasStagedDmb = false;
-						else
-							//need to load a new dmb in ActiveServer
-							restartOnceSwapped = true;
-					}
+					var sameCompileJob = monitorState.InactiveServer.Dmb.CompileJob.Id == monitorState.ActiveServer.Dmb.CompileJob.Id;
+					if (sameCompileJob && monitorState.InactiveServerHasStagedDmb)
+						//both servers up to date
+						monitorState.InactiveServerHasStagedDmb = false;
+					if (!sameCompileJob || ActiveLaunchParameters != LastLaunchParameters)
+						//need a new launch in ActiveServer
+						restartOnceSwapped = true;
 
 					if (!await MakeInactiveActive().ConfigureAwait(false))
 						break;
@@ -421,16 +415,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//failing that, just reboot it
 						restartOnceSwapped = !await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.SecondaryPort.Value, cancellationToken).ConfigureAwait(false);
 
-					if (restartOnceSwapped)	//for one reason or another, 
-					{
-						monitorState.InactiveServer.Dispose();
-						monitorState.InactiveServerHasStagedDmb = await RestartInactiveServer().ConfigureAwait(false);
-					}
+					if (restartOnceSwapped) //for one reason or another, 
+						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);	//break because worse case, active server is still booting
+					else
+						monitorState.NextAction = MonitorAction.Break;
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
 					//should never happen but okay
 					logger.LogWarning("Inactive server rebooted, this is a bug in DM code!");
 					monitorState.RebootingInactiveServer = true;
+					monitorState.InactiveServer.ResetRebootState();   //the DMAPI has already done this internally
 					monitorState.ActiveServer.ClosePortOnReboot = false;
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
@@ -441,7 +435,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
-					throw new NotImplementedException();
+					monitorState.InactiveServerHasStagedDmb = true;
+					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);	//next case does same thing
+					break;
+				case MonitorActivationReason.ActiveLaunchParametersUpdated:
+					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
+					break;
 			}
 		}
 

@@ -6,8 +6,8 @@
 		InactiveServerCrashed,
 		ActiveServerRebooted,
 		InactiveServerRebooted,
-		NewDmbAvailable,
 		InactiveServerStartupComplete,
+		NewDmbAvailable,
 		ActiveLaunchParametersUpdated
 	}
 }

@@ -7,6 +7,7 @@
 	{
 		Continue,
 		Restart,
+		Break,
 		Exit
 	}
 }
