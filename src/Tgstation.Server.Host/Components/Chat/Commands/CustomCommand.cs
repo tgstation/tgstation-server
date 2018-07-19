@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 	/// <summary>
 	/// Represents a command made from DM code
 	/// </summary>
-	sealed class CustomCommand : ICommand
+	public sealed class CustomCommand : ICommand
 	{
 		/// <inheritdoc />
 		public string Name { get; set; }
