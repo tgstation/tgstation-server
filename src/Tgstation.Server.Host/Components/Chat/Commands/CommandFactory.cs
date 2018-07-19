@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		public IReadOnlyList<ICommand> GenerateCommands() => new List<ICommand>
 		{
+			new KekCommand(),
 			new VersionCommand(application)
 		};
 	}
