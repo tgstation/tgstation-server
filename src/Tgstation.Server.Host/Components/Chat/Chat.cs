@@ -33,9 +33,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly ILogger<Chat> logger;
 
 		/// <summary>
-		/// <see cref="ICommand"/>s that never change
+		/// Unchanging <see cref="ICommand"/>s in the <see cref="Chat"/> mapped by <see cref="ICommand.Name"/>
 		/// </summary>
-		readonly IReadOnlyList<ICommand> builtinCommands;
+		readonly Dictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
 		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatSettings.Id"/>
@@ -58,14 +58,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly CancellationTokenSource handlerCts;
 
 		/// <summary>
+		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>
+		/// </summary>
+		ICustomCommandHandler customCommandHandler;
+
+		/// <summary>
 		/// The <see cref="Task"/> that monitors incoming chat messages
 		/// </summary>
 		Task chatHandler;
-
-		/// <summary>
-		/// The <see cref="ICustomCommandHandler"/> for the <see cref="Chat"/>
-		/// </summary>
-		ICustomCommandHandler customCommandHandler;
 
 		/// <summary>
 		/// Used for remapping <see cref="Channel.RealId"/>s
@@ -89,7 +89,9 @@ namespace Tgstation.Server.Host.Components.Chat
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			builtinCommands = commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory));
+			builtinCommands = new Dictionary<string, ICommand>();
+			foreach (var I in commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory)))
+				builtinCommands.Add(I.Name, I);
 
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
@@ -145,11 +147,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Chat message: {0}. User (Note unconverted provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
-			if (customCommandHandler == null)
-			{
-				logger.LogError("Recieved chat message with no command handler installed!");
-				return;
-			}
 
 			if (!(message.Content.StartsWith(CommonMention, StringComparison.InvariantCultureIgnoreCase) || message.Content.StartsWith(provider.BotMention, StringComparison.Ordinal)))
 				//no mention
@@ -165,22 +162,33 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			splits.RemoveAt(0);
 
-			var command = splits[0];
+			var command = splits[0].ToUpperInvariant();
 			splits.RemoveAt(0);
 			var arguments = String.Join(" ", splits);
-
-			if (customCommandHandler == null)
-				logger.LogError("Recieved chat message with no command handler installed!");
+			
 			try
 			{
-				var result = await customCommandHandler.HandleChatCommand(command, arguments, message.User, cancellationToken).ConfigureAwait(false);
+				if (!builtinCommands.TryGetValue(command, out ICommand commandHandler))
+				{
+					var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken));
+					await Task.WhenAll(tasks).ConfigureAwait(false);
+					commandHandler = tasks.SelectMany(x => x.Result).Where(x => x.Name.ToUpperInvariant() == command).FirstOrDefault();
+				}
+
+				if (command == default)
+				{
+					await SendMessage("Invalid command! Type '?' or 'help' for available commands.", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					return;
+				}
+
+				var result = await commandHandler.Invoke(arguments, message.User, cancellationToken).ConfigureAwait(false);
 				if(result != null)
 					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception e)
 			{
 				//error bc custom commands should reply about why it failed
-				logger.LogError("Error processing custom command: {0}", e);
+				logger.LogError("Error processing chat command: {0}", e);
 				await SendMessage("Internal error processing command!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
 		}

@@ -25,6 +25,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public override Task<string> Invoke(string arguments, CancellationToken cancellationToken) => Task.FromResult(application.VersionString);
+		public override Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken) => Task.FromResult(application.VersionString);
 	}
 }

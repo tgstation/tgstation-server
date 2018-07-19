@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Types of events 
 	/// </summary>
-	enum EventType
+	public enum EventType
 	{
 		/// <summary>
 		/// Parameters: Reference name, commit sha

@@ -48,11 +48,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IApplication application;
 
 		/// <summary>
-		/// The <see cref="IInstance"/> for the <see cref="SessionControllerFactory"/>
-		/// </summary>
-		readonly IInstance instance;
-
-		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly IIOManager ioManager;
@@ -68,6 +63,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// The <see cref="Models.Instance"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly Models.Instance instance;
+
+		/// <summary>
 		/// Construct a <see cref="SessionControllerFactory"/>
 		/// </summary>
 		/// <param name="executor">The value of <see cref="executor"/></param>
@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IExecutor executor, IByond byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IInstance instance, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory)
+		public SessionControllerFactory(IExecutor executor, IByond byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Models.Instance instance)
 		{
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ChatChannelsJson = GuidJsonFile(),
 				ChatCommandsJson = GuidJsonFile(),
 				HostPath = application.HostingPath,
-				InstanceName = instance.GetMetadata().Name,
+				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
 			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.TestMerges.Select(x => new TestMerge

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
@@ -24,10 +26,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public override void Invoke(string arguments)
+		public override Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken)
 		{
 			if (handler == null)
 				throw new InvalidOperationException("SetHandler() has not been called!");
+			return handler.HandleChatCommand(Name, arguments, user, cancellationToken);
 		}
 	}
 }

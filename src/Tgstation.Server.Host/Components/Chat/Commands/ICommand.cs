@@ -27,8 +27,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// Invoke the <see cref="ICommand"/>
 		/// </summary>
 		/// <param name="arguments">The text after <see cref="Name"/> with leading whitespace trimmed</param>
+		/// <param name="user">The <see cref="User"/> who invoked the command</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="string"/> to send to the invoker</returns>
-		Task<string> Invoke(string arguments, CancellationToken cancellationToken);
+		Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken);
 	}
 }

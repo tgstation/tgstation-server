@@ -16,6 +16,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly { get; protected set; }
 
 		/// <inheritdoc />
-		public abstract Task<string> Invoke(string arguments, CancellationToken cancellationToken);
+		public abstract Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken);
 	}
 }
