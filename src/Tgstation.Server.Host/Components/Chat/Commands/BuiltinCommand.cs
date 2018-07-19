@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
-	/// <inheritdoc />
-	public abstract class Command : ICommand
+	/// <summary>
+	/// <see cref="ICommand"/>s written in C#
+	/// </summary>
+	public abstract class BuiltinCommand : ICommand
 	{
 		/// <inheritdoc />
 		public string Name { get; protected set; }

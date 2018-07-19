@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Tgstation.Server.Host.Components.Chat.Commands;
 
-namespace Tgstation.Server.Host.Components.Chat
+namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
 	/// Factory for built in <see cref="ICommand"/>s
