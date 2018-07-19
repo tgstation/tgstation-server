@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var chatJsonTrackingContext = await chatJsonTrackingTask.ConfigureAwait(false);
 			try
 			{
-				var byondLock = currentByondLock ?? byond.UseExecutables(dmbProvider.CompileJob.ByondVersion);
+				var byondLock = currentByondLock ?? byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion));
 				try
 				{
 					//more sanitization here cause it uses the same scheme
@@ -189,7 +189,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var chatJsonTrackingContext = await chat.TrackJsons(basePath, reattachInformation.ChatChannelsJson, reattachInformation.ChatCommandsJson, cancellationToken).ConfigureAwait(false);
 			try
 			{
-				var byondLock = byond.UseExecutables(reattachInformation.Dmb.CompileJob.ByondVersion);
+				var byondLock = byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion));
 				try
 				{
 					var session = executor.AttachToDreamDaemon(reattachInformation.ProcessId, byondLock);
