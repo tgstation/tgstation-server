@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Consumes <see cref="EventType"/>s and takes the appropriate actions
 	/// </summary>
-    interface IEventConsumer
+    public interface IEventConsumer
     {
 		/// <summary>
 		/// Handle a given <paramref name="eventType"/>

@@ -15,6 +15,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// The list of internal channel ids to send <see cref="Message"/> to
 		/// </summary>
-		public List<long> ChannelIds { get; set; }
+		public List<ulong> ChannelIds { get; set; }
 	}
 }

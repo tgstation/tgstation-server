@@ -23,7 +23,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect
 		/// </summary>
-		Task<Message> NextMessage { get; }
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/></returns>
+		/// <remarks>Note that private messages will come in the form of <see cref="Channel"/>s not returned in <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/></remarks>
+		Task<Message> NextMessage(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to connect the <see cref="IProvider"/>
@@ -50,10 +53,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Send a message to the <see cref="IProvider"/>
 		/// </summary>
-		/// <param name="channelId">The <see cref="Channel.Id"/> to send to</param>
+		/// <param name="channelId">The <see cref="Channel.RealId"/> to send to</param>
 		/// <param name="message">The message contents</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendMessage(long channelId, string message, CancellationToken cancellationToken);
+		Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken);
 	}
 }

@@ -211,7 +211,7 @@
 	channel.friendly_name = channel_json["friendly_name"]
 	channel.connection_name = channel_json["connection_name"]
 	channel.is_admin_channel = channel_json["is_admin_channel"]
-	channel.is_admin_channel = channel_json["is_private_channel"] || FALSE
+	channel.is_private_channel = channel_json["is_private_channel"] || FALSE
 	return channel
 
 #undef TGS4_TOPIC_COMMAND

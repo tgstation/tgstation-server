@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Host.Models.ChatChannel"/>s to send to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendMessage(string message, IEnumerable<long> channelIds, CancellationToken cancellationToken);
+		Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send a chat <paramref name="message"/> to configured watchdog channels

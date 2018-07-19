@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Components
 					bool ddVerified;
 					using (var byondLock = byond.UseExecutables(null))
 					{
-						job.ByondVersion = byondLock.Version;
+						job.ByondVersion = byondLock.Version.ToString();
 
 						await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 

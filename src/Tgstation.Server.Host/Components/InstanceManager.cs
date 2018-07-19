@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
-			var instance = instanceFactory.CreateInstance(metadata);
+			var instance = instanceFactory.CreateInstance(metadata, this);
 			lock (this)
 			{
 				if (instances.ContainsKey(metadata.Id))
