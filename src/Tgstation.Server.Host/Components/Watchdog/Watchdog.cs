@@ -360,17 +360,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					//replace the notification tcs here so that the next loop will read a fresh one
 					activeParametersUpdated = new TaskCompletionSource<object>();
+					monitorState.InactiveServer.Dispose();	//kill or recycle it
+					monitorState.NextAction = MonitorAction.Continue;
 
-					using (monitorState.InactiveServer)   //it's dead, dispose it when we're done
+					var usedLatestDmb = await RestartInactiveServer().ConfigureAwait(false);
+
+					if (monitorState.NextAction == MonitorAction.Continue)
 					{
-						monitorState.NextAction = MonitorAction.Continue;
-						var usedLatestDmb = await RestartInactiveServer().ConfigureAwait(false);
-						if (monitorState.NextAction == MonitorAction.Continue)
-						{
-							monitorState.ActiveServer.ClosePortOnReboot = false;
-							if (monitorState.InactiveServerHasStagedDmb && !usedLatestDmb)
-								monitorState.InactiveServerHasStagedDmb = false;    //don't try to load it again though
-						}
+						monitorState.ActiveServer.ClosePortOnReboot = false;
+						if (monitorState.InactiveServerHasStagedDmb && !usedLatestDmb)
+							monitorState.InactiveServerHasStagedDmb = false;    //don't try to load it again though
 					}
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
