@@ -56,7 +56,7 @@ deploy:
     auth_token:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
     artifact: TGS3Server,MD5SHA1Server,TGS3Client,MD5SHA1Client,TGS3ServerConsole,MD5SHA1ServerConsole
-    draft: false
+    draft: true
     on:
       TGSDeploy: "Do it."
   - provider: NuGet
