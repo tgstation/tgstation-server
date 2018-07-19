@@ -148,11 +148,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			logger.LogTrace("Chat message: {0}. User (Note unconverted provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
 
-			if (!(message.Content.StartsWith(CommonMention, StringComparison.InvariantCultureIgnoreCase) || message.Content.StartsWith(provider.BotMention, StringComparison.Ordinal)))
+			var splits = new List<string>(message.Content.Split(' '));
+			var address = splits[0];
+			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
+				address = address.Substring(0, address.Length - 1);
+
+			address = address.ToUpperInvariant();
+
+			if (address != CommonMention.ToUpperInvariant() && address != provider.BotMention.ToUpperInvariant())
 				//no mention
 				return;
 
-			var splits = new List<string>(message.Content.Split(' '));
 			if (splits.Count == 1)
 			{
 				//just a mention
