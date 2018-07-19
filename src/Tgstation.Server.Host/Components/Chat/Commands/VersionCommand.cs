@@ -8,8 +8,17 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 	/// <summary>
 	/// <see cref="ICommand"/> to return the <see cref="IApplication.VersionString"/>
 	/// </summary>
-	sealed class VersionCommand : BuiltinCommand
+	sealed class VersionCommand : ICommand
 	{
+		/// <inheritdoc />
+		public string Name => "version";
+
+		/// <inheritdoc />
+		public string HelpText => "Displays the tgstation server version";
+
+		/// <inheritdoc />
+		public bool AdminOnly => false;
+
 		/// <summary>
 		/// The <see cref="IApplication"/> for the <see cref="VersionCommand"/>
 		/// </summary>
@@ -25,6 +34,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public override Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken) => Task.FromResult(application.VersionString);
+		public Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken) => Task.FromResult(application.VersionString);
 	}
 }
