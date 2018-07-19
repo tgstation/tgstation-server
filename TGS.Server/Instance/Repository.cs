@@ -390,8 +390,6 @@ namespace TGS.Server
 					if (!CompilerIdleNoLock())
 						return "Compiler is running!";
 				}
-				if (DaemonStatus() != DreamDaemonStatus.Offline)
-					return "DreamDaemon is running!";
 				if (RepoURL.Contains("ssh://") && !SSHAuth())
 					return String.Format("SSH url specified but either {0} or {1} does not exist in the server directory!", PrivateKeyPath, PublicKeyPath);
 				RepoBusy = true;
