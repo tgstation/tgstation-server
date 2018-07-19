@@ -14,7 +14,8 @@ namespace Tgstation.Server.Host.Core.Tests
 
 		public void RegisterForUpdate(Action action) => throw new NotImplementedException();
 		
-		public static async Task TestSuccessfulStartup()
+		[TestMethod]
+		public async Task TestSuccessfulStartup()
 		{
 			var dbName = Path.GetTempFileName();
 			try
