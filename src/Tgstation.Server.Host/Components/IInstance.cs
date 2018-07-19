@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For interacting with the instance services
 	/// </summary>
-	public interface IInstance : IHostedService, IReattachInfoHandler
+	public interface IInstance : IHostedService
 	{
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the <see cref="IInstance"/>

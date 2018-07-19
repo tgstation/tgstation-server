@@ -13,8 +13,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/></param>
 		/// <param name="interopRegistrar">The <see cref="IInteropRegistrar"/> for the <see cref="IInstance"/></param>
-		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IInstance"/></param>
 		/// <returns>A new <see cref="IInstance"/></returns>
-		IInstance CreateInstance(Models.Instance metadata, IInteropRegistrar interopRegistrar, IReattachInfoHandler reattachInfoHandler);
+		IInstance CreateInstance(Models.Instance metadata, IInteropRegistrar interopRegistrar);
 	}
 }

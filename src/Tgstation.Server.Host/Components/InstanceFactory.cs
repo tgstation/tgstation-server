@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="ICommandFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly ICommandFactory commandFactory;
-
+		
 		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
@@ -64,23 +64,26 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="executor">The value of <see cref="executor"/></param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory)
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite	));
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
+			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 		}
 
 		/// <inheritdoc />
-		public IInstance CreateInstance(Models.Instance metadata, IInteropRegistrar interopRegistrar, IReattachInfoHandler reattachInfoHandler)
+		public IInstance CreateInstance(Models.Instance metadata, IInteropRegistrar interopRegistrar)
 		{
 			//Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
@@ -103,6 +106,7 @@ namespace Tgstation.Server.Host.Components
 			
 			var chat = chatFactory.CreateChat();
 			var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata);
+			var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata);
 			var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, metadata);
 			var watchdog = watchdogFactory.CreateWatchdog(dmbFactory, metadata.DreamDaemonSettings);
 

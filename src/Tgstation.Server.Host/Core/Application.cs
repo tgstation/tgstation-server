@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
-
+			
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
