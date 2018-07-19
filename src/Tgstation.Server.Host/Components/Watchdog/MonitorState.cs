@@ -3,7 +3,10 @@
     sealed class MonitorState
     {
 		public bool RebootingInactiveServer { get; set; }
+
 		public bool InactiveServerHasStagedDmb { get; set; }
+
+		public bool InactiveServerCritFail { get; set; }
 
 		public MonitorAction NextAction { get; set; }
 
