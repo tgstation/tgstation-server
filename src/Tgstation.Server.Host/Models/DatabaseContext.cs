@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
+#if !DEBUG
 using System.Linq;
+#endif
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -136,9 +138,14 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
+#if DEBUG
+			await Database.EnsureCreatedAsync().ConfigureAwait(false);
+			var wasEmpty = (await Users.CountAsync().ConfigureAwait(false)) == 0;
+#else
 			var migrations = await Database.GetAppliedMigrationsAsync().ConfigureAwait(false);
 			var wasEmpty = !migrations.Any();
 			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+#endif
 			if (wasEmpty)
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 		}

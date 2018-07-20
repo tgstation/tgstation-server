@@ -15,7 +15,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
