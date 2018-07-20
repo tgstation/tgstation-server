@@ -14,9 +14,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The name of the default admin user
 		/// </summary>
-#pragma warning disable CA1308 // Normalize strings to uppercase
-		static readonly string AdminName = "admin".ToLowerInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
+		const string AdminName = "Admin";
 
 		/// <summary>
 		/// The default admin password
@@ -51,6 +49,7 @@ namespace Tgstation.Server.Host.Models
 				CreatedAt = DateTimeOffset.Now,
 				InstanceManagerRights = (InstanceManagerRights)~0,
 				Name = AdminName,
+				CanonicalName = AdminName.ToUpperInvariant(),
 				Enabled = true,
 			};
 			cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);
@@ -73,7 +72,7 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await databaseContext.Users.Where(x => x.Name == AdminName).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var admin = await databaseContext.Users.Where(x => x.CanonicalName == AdminName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 			else

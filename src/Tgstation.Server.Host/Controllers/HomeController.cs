@@ -69,8 +69,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new { message = "Cannot create a token using another token!" });
-
-			var user = await DatabaseContext.Users.Where(x => x.Name == ApiHeaders.Username).Select(x => new User{
+			
+			var user = await DatabaseContext.Users.Where(x => x.CanonicalName == ApiHeaders.Username.ToUpperInvariant()).Select(x => new User
+			{
 				Id = x.Id,
 				PasswordHash = x.PasswordHash,
 				SystemIdentifier = x.SystemIdentifier,
@@ -100,7 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 				try
 				{
-					using (await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false)) { }
+					using (await systemIdentityFactory.CreateSystemIdentity(user.Name, ApiHeaders.Password, cancellationToken).ConfigureAwait(false)) { }
 				}
 				catch
 				{

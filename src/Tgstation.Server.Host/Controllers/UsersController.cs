@@ -57,11 +57,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.Name == null)
-				return BadRequest(new { message = "Missing user name!" });
-
 			if (!(model.Password == null ^ model.SystemIdentifier == null))
 				return BadRequest(new { message = "User must have exactly one of either a password or system identifier!" });
+
+			if (!(model.Name == null ^ model.SystemIdentifier == null))
+				return BadRequest(new { message = "User must have a name if and only if user has no system identifier!" });
 
 			var dbUser = new Models.User
 			{
@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 				Enabled = model.Enabled ?? false,
 				InstanceManagerRights = model.InstanceManagerRights ?? InstanceManagerRights.None,
 #pragma warning disable CA1308 // Normalize strings to uppercase
-				Name = model.Name.ToLowerInvariant(),
+				Name = model.Name,
 #pragma warning restore CA1308 // Normalize strings to uppercase
 				SystemIdentifier = model.SystemIdentifier,
 				InstanceUsers = new List<Models.InstanceUser>()
@@ -80,7 +80,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.SystemIdentifier != null)
 				try
 				{
-					using (await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false)) { }
+					using (var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false))
+					{
+						dbUser.Name = sysIdentity.Username;
+					}
 				}
 				catch(Exception e)
 				{
@@ -89,6 +92,8 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			else
 				cryptographySuite.SetUserPassword(dbUser, model.Password);
+
+			dbUser.CanonicalName = dbUser.Name.ToUpperInvariant();
 
 			DatabaseContext.Users.Add(dbUser);
 
@@ -132,12 +137,13 @@ namespace Tgstation.Server.Host.Controllers
 			else if(model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
 				return BadRequest(new { message = "Cannot change a user's system identifier!" });
 
-			if (model.Name != null && model.Name != originalUser.SystemIdentifier)
-				return BadRequest(new { message = "Cannot change a user's name!" });
+			if (model.Name != null && model.Name.ToUpperInvariant() != originalUser.CanonicalName)
+				return BadRequest(new { message = "Can only change capitalization of a user's name!" });
 
 			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
 			originalUser.AdministrationRights = model.AdministrationRights ?? originalUser.AdministrationRights;
 			originalUser.Enabled = model.Enabled ?? originalUser.Enabled;
+			originalUser.Name = model.Name ?? originalUser.Name;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
