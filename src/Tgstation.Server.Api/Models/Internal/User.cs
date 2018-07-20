@@ -19,7 +19,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the <see cref="User"/> is enabled since users cannot be deleted. System users cannot be disabled
 		/// </summary>
-		[Permissions(WriteRight = AdministrationRights.EditUsers)]
 		public bool Enabled { get; set; }
 
 		/// <summary>

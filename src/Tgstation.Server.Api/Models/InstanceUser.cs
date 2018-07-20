@@ -9,6 +9,12 @@ namespace Tgstation.Server.Api.Models
 	public class InstanceUser
     {
 		/// <summary>
+		/// The <see cref="Internal.User.Id"/> of the <see cref="User"/> the <see cref="InstanceUser"/> belongs to
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public long UserId { get; set; }
+
+		/// <summary>
 		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
 		public ByondRights ByondRights { get; set; }

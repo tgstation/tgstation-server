@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Api.Models
 {
 	/// <inheritdoc />
-	public sealed class User : Internal.User
+	public class User : Internal.User
 	{
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>
