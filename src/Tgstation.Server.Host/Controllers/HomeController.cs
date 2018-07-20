@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see cref="Application.Version"/></returns>
 		[TgsAuthorize]
 		[HttpGet]
-		public JsonResult Home() => Json(application.Version);
+		public JsonResult Home() => Json(new { application.Version });
 
 		/// <summary>
 		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>

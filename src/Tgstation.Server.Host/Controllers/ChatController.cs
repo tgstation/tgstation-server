@@ -20,7 +20,6 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatSettings"/>
 	/// </summary>
-	[TgsAuthorize]
 	public sealed class ChatController : ModelController<Api.Models.ChatSettings>
 	{
 		/// <summary>
@@ -39,6 +38,11 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
+		/// <summary>
+		/// Converts <paramref name="api"/> to a <see cref="ChatChannel"/>
+		/// </summary>
+		/// <param name="api">The <see cref="Api.Models.ChatChannel"/> </param>
+		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/></returns>
 		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
 		{
 			DiscordChannelId = api.DiscordChannelId,
