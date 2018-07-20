@@ -83,6 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 					using (var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false))
 					{
 						dbUser.Name = sysIdentity.Username;
+						dbUser.SystemIdentifier = sysIdentity.Uid;
 					}
 				}
 				catch(Exception e)
