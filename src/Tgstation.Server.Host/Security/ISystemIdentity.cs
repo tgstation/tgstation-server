@@ -21,11 +21,6 @@ namespace Tgstation.Server.Host.Security
 		string Username { get; }
 
 		/// <summary>
-		/// Groups the user is in
-		/// </summary>
-		IEnumerable<string> Groups { get; }
-
-		/// <summary>
 		/// Clone the <see cref="ISystemIdentity"/> creating another copy that must have <see cref="IDisposable.Dispose"/> called on it
 		/// </summary>
 		/// <returns>A new <see cref="ISystemIdentity"/> mirroring the current one</returns>

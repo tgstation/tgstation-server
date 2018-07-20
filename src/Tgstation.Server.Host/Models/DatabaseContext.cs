@@ -109,7 +109,6 @@ namespace Tgstation.Server.Host.Models
 
 			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Commit).IsUnique();
 			var user = modelBuilder.Entity<User>();
-			user.HasIndex(x => new { x.CanonicalName, x.SystemIdentifier }).IsUnique();
 			user.HasIndex(x => x.CanonicalName).IsUnique();
 			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);
 
