@@ -1,4 +1,5 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Specialized;
 using System.Configuration.Install;
@@ -97,7 +98,8 @@ namespace Tgstation.Server.Host.Service
 					installer.Uninstall(null);
 				}
 			else
-				ServiceBase.Run(new ServerService(new WatchdogFactory()));
+				using (var loggerFactory = new LoggerFactory())
+					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory));
 		}
 
 		/// <summary>

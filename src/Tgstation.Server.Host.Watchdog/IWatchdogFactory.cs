@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Watchdog
+﻿using Microsoft.Extensions.Logging;
+
+namespace Tgstation.Server.Host.Watchdog
 {
 	/// <summary>
 	/// Factory for creating <see cref="IWatchdog"/>s
@@ -8,7 +10,8 @@
 		/// <summary>
 		/// Create a <see cref="IWatchdog"/>
 		/// </summary>
+		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use for error reporting</param>
 		/// <returns>A new <see cref="IWatchdog"/></returns>
-		IWatchdog CreateWatchdog();
+		IWatchdog CreateWatchdog(ILoggerFactory loggerFactory);
 	}
 }
