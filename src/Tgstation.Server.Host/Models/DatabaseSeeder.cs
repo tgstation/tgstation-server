@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
@@ -10,7 +12,14 @@ namespace Tgstation.Server.Host.Models
 	sealed class DatabaseSeeder : IDatabaseSeeder
 	{
 		/// <summary>
-		/// The default password mode admin password
+		/// The name of the default admin user
+		/// </summary>
+#pragma warning disable CA1308 // Normalize strings to uppercase
+		static readonly string AdminName = "admin".ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
+
+		/// <summary>
+		/// The default admin password
 		/// </summary>
 		const string DefaultAdminPassword = "ISolemlySwearToDeleteTheDataDirectory";
 
@@ -30,24 +39,48 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		public DatabaseSeeder(ICryptographySuite cryptographySuite) => this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 
-		/// <inheritdoc />
-		public async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <summary>
+		/// Add a default admin <see cref="User"/> to a given <paramref name="databaseContext"/>
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to add an admin <see cref="User"/> to</param>
+		void SeedAdminUser(IDatabaseContext databaseContext)
 		{
 			var admin = new User
 			{
 				AdministrationRights = (AdministrationRights)~0,
 				CreatedAt = DateTimeOffset.Now,
 				InstanceManagerRights = (InstanceManagerRights)~0,
-				Name = "Admin",
+				Name = AdminName,
 				Enabled = true,
 			};
 			cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);
 			databaseContext.Users.Add(admin);
+		}
+
+		/// <inheritdoc />
+		public async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		{
+			SeedAdminUser(databaseContext);
 
 			var serverSettings = await databaseContext.GetServerSettings(cancellationToken).ConfigureAwait(false);
 
 			serverSettings.EnableTelemetry = true;
 			serverSettings.UpstreamRepository = DefaultUpstreamRepository;
+
+			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		{
+			var admin = await databaseContext.Users.Where(x => x.Name == AdminName).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (admin == default)
+				SeedAdminUser(databaseContext);
+			else
+			{
+				admin.Enabled = true;
+				cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);
+			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}

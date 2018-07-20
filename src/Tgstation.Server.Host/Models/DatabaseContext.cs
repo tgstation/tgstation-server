@@ -151,6 +151,8 @@ namespace Tgstation.Server.Host.Models
 #endif
 			if (wasEmpty)
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
+			else if(databaseConfiguration.ResetAdminPassword)
+				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

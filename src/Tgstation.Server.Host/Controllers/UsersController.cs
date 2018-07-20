@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -59,8 +60,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Name == null)
 				return BadRequest(new { message = "Missing user name!" });
 
-			if (model.Password == null && model.SystemIdentifier == null)
-				return BadRequest(new { message = "User must have either a password or system identifier!" });
+			if (!(model.Password == null ^ model.SystemIdentifier == null))
+				return BadRequest(new { message = "User must have exactly one of either a password or system identifier!" });
 
 			var dbUser = new Models.User
 			{
@@ -69,15 +70,22 @@ namespace Tgstation.Server.Host.Controllers
 				CreatedBy = AuthenticationContext.User,
 				Enabled = model.Enabled ?? false,
 				InstanceManagerRights = model.InstanceManagerRights ?? InstanceManagerRights.None,
-				Name = model.Name,
-				SystemIdentifier = model.SystemIdentifier
+#pragma warning disable CA1308 // Normalize strings to uppercase
+				Name = model.Name.ToLowerInvariant(),
+#pragma warning restore CA1308 // Normalize strings to uppercase
+				SystemIdentifier = model.SystemIdentifier,
+				InstanceUsers = new List<Models.InstanceUser>()
 			};
 
 			if (model.SystemIdentifier != null)
-				using (var systemIdentity = systemIdentityFactory.CreateSystemIdentity(dbUser))
+				try
 				{
-					if (systemIdentity == null)
-						return Forbid();
+					using (await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false)) { }
+				}
+				catch(Exception e)
+				{
+					logger.LogInformation("System identifier user creation failure for {0}. Exception: {1}", model.SystemIdentifier, e);
+					return Forbid();
 				}
 			else
 				cryptographySuite.SetUserPassword(dbUser, model.Password);
@@ -121,10 +129,12 @@ namespace Tgstation.Server.Host.Controllers
 					return BadRequest(new { message = "Cannot convert a system user to a password user!" });
 				cryptographySuite.SetUserPassword(originalUser, model.Password);
 			}
-			else if(model.SystemIdentifier != originalUser.SystemIdentifier)
+			else if(model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
 				return BadRequest(new { message = "Cannot change a user's system identifier!" });
 
-			originalUser.Name = model.Name ?? originalUser.Name;
+			if (model.Name != null && model.Name != originalUser.SystemIdentifier)
+				return BadRequest(new { message = "Cannot change a user's name!" });
+
 			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
 			originalUser.AdministrationRights = model.AdministrationRights ?? originalUser.AdministrationRights;
 			originalUser.Enabled = model.Enabled ?? originalUser.Enabled;
@@ -132,6 +142,18 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			return Json(originalUser.ToApi());
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize]
+		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi()));
+
+		/// <inheritdoc />
+		[TgsAuthorize(AdministrationRights.EditUsers)]
+		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		{
+			var users = await DatabaseContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);
+			return Json(users);
 		}
 	}
 }

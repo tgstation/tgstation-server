@@ -8,12 +8,18 @@ namespace Tgstation.Server.Api.Models
 	/// </summary>
 	[Model(RightsType.InstanceUser, WriteRight = InstanceUserRights.WriteUsers, CanList = true, RequiresInstance = true)]
 	public class InstanceUser
-    {
+	{
 		/// <summary>
 		/// The <see cref="Internal.User.Id"/> of the <see cref="User"/> the <see cref="InstanceUser"/> belongs to
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public long UserId { get; set; }
+
+		/// <summary>
+		/// The <see cref="Instance.Id"/> of the <see cref="Instance"/> the <see cref="InstanceUser"/> belongs to
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public long InstanceId { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstanceUser"/>

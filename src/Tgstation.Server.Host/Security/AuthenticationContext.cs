@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => SystemIdentity.Dispose();
+		public void Dispose() => SystemIdentity?.Dispose();
 
 		/// <inheritdoc />
 		public IAuthenticationContext Clone() => new AuthenticationContext(SystemIdentity.Clone(), User, InstanceUser);

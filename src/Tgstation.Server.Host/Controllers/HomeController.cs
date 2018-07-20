@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 				try
 				{
-					var systemIdentity = systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password);
+					using (await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false)) { }
 				}
 				catch
 				{
