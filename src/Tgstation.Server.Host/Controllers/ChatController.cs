@@ -20,6 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatSettings"/>
 	/// </summary>
+	[Route("/" + nameof(Components.Chat.Chat))]
 	public sealed class ChatController : ModelController<Api.Models.ChatSettings>
 	{
 		/// <summary>
