@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -20,10 +19,10 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// If the <see cref="InstanceUser"/> has any instance rights
 		/// </summary>
-		public bool AnyRights => ByondRights != ByondRights.None ||
-			ChatSettingsRights != ChatSettingsRights.None ||
-			ConfigurationRights != ConfigurationRights.None ||
-			DreamDaemonRights != DreamDaemonRights.None ||
-			DreamMakerRights != DreamMakerRights.None;
+		public bool AnyRights => ByondRights != Api.Rights.ByondRights.None ||
+			ChatSettingsRights != Api.Rights.ChatSettingsRights.None ||
+			ConfigurationRights != Api.Rights.ConfigurationRights.None ||
+			DreamDaemonRights != Api.Rights.DreamDaemonRights.None ||
+			DreamMakerRights != Api.Rights.DreamMakerRights.None;
 	}
 }

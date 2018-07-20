@@ -83,7 +83,15 @@ namespace Tgstation.Server.Host.Controllers
 			};
 			DatabaseContext.ChatSettings.Add(dbModel);
 			DatabaseContext.ChatChannels.AddRange(dbModel.Channels);
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			try
+			{
+				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return Conflict();
+			}
 
 			try
 			{

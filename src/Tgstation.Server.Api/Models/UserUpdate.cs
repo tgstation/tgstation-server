@@ -1,6 +1,4 @@
-﻿using Tgstation.Server.Api.Rights;
-
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// For editing a given <see cref="User"/>. Will never be returned by the API
@@ -10,7 +8,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Cleartext password of the <see cref="User"/>
 		/// </summary>
-		[Permissions(WriteRight = AdministrationRights.EditUsers)]
 		public string Password { get; set; }
     }
 }

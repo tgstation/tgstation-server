@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 					return Unauthorized();
 				}
 
-			if (!user.Enabled)
+			if (!user.Enabled.Value)
 				return Forbid();
 
 			return Json(tokenFactory.CreateToken(user));

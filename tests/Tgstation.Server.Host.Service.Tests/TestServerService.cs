@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Reflection;
@@ -17,9 +18,11 @@ namespace Tgstation.Server.Host.Service.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null));
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			new ServerService(mockWatchdogFactory.Object).Dispose();
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null));
+			var mockLoggerFactory = new LoggerFactory();
+			new ServerService(mockWatchdogFactory.Object, mockLoggerFactory).Dispose();
 		}
 
 		[TestMethod]
@@ -34,9 +37,10 @@ namespace Tgstation.Server.Host.Service.Tests
 			CancellationToken cancellationToken;
 			mockWatchdog.Setup(x => x.RunAsync(args, It.IsAny<CancellationToken>())).Callback((string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			mockWatchdogFactory.Setup(x => x.CreateWatchdog()).Returns(mockWatchdog.Object).Verifiable();
+			var mockLoggerFactory = new LoggerFactory();
+			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
 
-			using(var service = new ServerService(mockWatchdogFactory.Object))
+			using(var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory))
 			{
 				onStart.Invoke(service, new object[] { args });
 

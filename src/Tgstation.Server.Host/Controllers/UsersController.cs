@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -43,6 +45,8 @@ namespace Tgstation.Server.Host.Controllers
 		public UsersController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UsersController> logger) : base(databaseContext, authenticationContextFactory)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
+			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 		}
 
 		/// <inheritdoc />
@@ -60,11 +64,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dbUser = new Models.User
 			{
-				AdministrationRights = model.AdministrationRights,
+				AdministrationRights = model.AdministrationRights ?? AdministrationRights.None,
 				CreatedAt = DateTimeOffset.Now,
 				CreatedBy = AuthenticationContext.User,
-				Enabled = model.Enabled,
-				InstanceManagerRights = model.InstanceManagerRights,
+				Enabled = model.Enabled ?? false,
+				InstanceManagerRights = model.InstanceManagerRights ?? InstanceManagerRights.None,
 				Name = model.Name,
 				SystemIdentifier = model.SystemIdentifier
 			};
@@ -97,7 +101,37 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict();
 			}
 
-			return Ok();
+			return Json(dbUser.ToApi());
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(AdministrationRights.EditUsers)]
+		public override async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
+			var originalUser = await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (originalUser == default)
+				return StatusCode((int)HttpStatusCode.Gone);
+
+			if (model.Password != null)
+			{
+				if (originalUser.PasswordHash == null)
+					return BadRequest(new { message = "Cannot convert a system user to a password user!" });
+				cryptographySuite.SetUserPassword(originalUser, model.Password);
+			}
+			else if(model.SystemIdentifier != originalUser.SystemIdentifier)
+				return BadRequest(new { message = "Cannot change a user's system identifier!" });
+
+			originalUser.Name = model.Name ?? originalUser.Name;
+			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
+			originalUser.AdministrationRights = model.AdministrationRights ?? originalUser.AdministrationRights;
+			originalUser.Enabled = model.Enabled ?? originalUser.Enabled;
+
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			return Json(originalUser.ToApi());
 		}
 	}
 }

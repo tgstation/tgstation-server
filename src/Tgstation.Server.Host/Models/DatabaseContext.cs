@@ -112,6 +112,8 @@ namespace Tgstation.Server.Host.Models
 			user.HasIndex(x => new { x.Name, x.SystemIdentifier }).IsUnique();
 			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);
 
+			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.Instance }).IsUnique();
+
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
