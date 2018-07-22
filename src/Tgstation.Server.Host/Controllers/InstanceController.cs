@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
@@ -63,7 +64,7 @@ namespace Tgstation.Server.Host.Controllers
 				DreamMakerSettings = new DreamMakerSettings(),
 				Name = model.Name,
 				Online = false,
-				Path = model.Path,
+				Path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? model.Path.ToUpperInvariant() : model.Path,
 				RepositorySettings = new RepositorySettings()
 			};
 
@@ -91,15 +92,12 @@ namespace Tgstation.Server.Host.Controllers
 					throw;
 				}
 			}
-			catch (Exception e)
+			catch (DbUpdateConcurrencyException e)
 			{
 				return Conflict(new { message = e.Message });
 			}
-
-			model.Online = newInstance.Online;
-			model.Id = newInstance.Id;
-
-			return Json(model);
+			
+			return Json(newInstance.ToApi());
 		}
 
 		/// <inheritdoc />

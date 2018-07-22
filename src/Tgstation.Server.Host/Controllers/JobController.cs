@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Controllers
 			IQueryable<Job> query = DatabaseContext.Jobs;
 			if (Instance != null)
 			{
-				if (!AuthenticationContext.InstanceUser.AnyRights)
+				if (AuthenticationContext.InstanceUser?.AnyRights != true)
 					return Forbid();
 				query = query.Where(x => x.Instance.Id == Instance.Id);
 			}

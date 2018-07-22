@@ -13,13 +13,15 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="Internal.User.Id"/> of the <see cref="User"/> the <see cref="InstanceUser"/> belongs to
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public long UserId { get; set; }
+		[Required]
+		public long? UserId { get; set; }
 
 		/// <summary>
 		/// The <see cref="Instance.Id"/> of the <see cref="Instance"/> the <see cref="InstanceUser"/> belongs to
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public long InstanceId { get; set; }
+		[Required]
+		public long? InstanceId { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstanceUser"/>

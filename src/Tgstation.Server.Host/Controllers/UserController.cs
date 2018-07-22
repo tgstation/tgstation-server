@@ -18,32 +18,32 @@ namespace Tgstation.Server.Host.Controllers
 	/// For managing <see cref="User"/>s
 	/// </summary>
 	[Route("/" + nameof(Models.User))]
-	public sealed class UsersController : ModelController<UserUpdate>
+	public sealed class UserController : ModelController<UserUpdate>
 	{
 		/// <summary>
-		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UsersController"/>
+		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UserController"/>
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="UsersController"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="UserController"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="UsersController"/>
+		/// The <see cref="ILogger"/> for the <see cref="UserController"/>
 		/// </summary>
-		readonly ILogger<UsersController> logger;
+		readonly ILogger<UserController> logger;
 
 		/// <summary>
-		/// Construct a <see cref="UsersController"/>
+		/// Construct a <see cref="UserController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public UsersController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UsersController> logger) : base(databaseContext, authenticationContextFactory)
+		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger) : base(databaseContext, authenticationContextFactory)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
@@ -110,9 +110,9 @@ namespace Tgstation.Server.Host.Controllers
 					throw;
 				}
 			}
-			catch (DbUpdateConcurrencyException)
+			catch (DbUpdateConcurrencyException e)
 			{
-				return Conflict();
+				return Conflict(new { message = e.Message });
 			}
 
 			return Json(dbUser.ToApi());
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);
-			return Json(users);
+			return Json(users.Select(x => x.ToApi()));
 		}
 
 		/// <inheritdoc />
@@ -170,7 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 			var user = await DatabaseContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
-			return Json(user);
+			return Json(user.ToApi());
 		}
 	}
 }

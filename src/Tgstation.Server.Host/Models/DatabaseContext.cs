@@ -106,13 +106,13 @@ namespace Tgstation.Server.Host.Models
 			// build default model.
 			LogModelBuilderHelper.Build(modelBuilder.Entity<Log>());
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
-
+			modelBuilder.Entity<Instance>().HasIndex(x => x.Path).IsUnique();
 			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Commit).IsUnique();
 			var user = modelBuilder.Entity<User>();
 			user.HasIndex(x => x.CanonicalName).IsUnique();
 			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.Instance }).IsUnique();
+			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
 
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();

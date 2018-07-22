@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents an <see cref="Api.Models.Instance"/> in the database
 	/// </summary>
-	public sealed class Instance : Api.Models.Instance
+	public sealed class Instance : Api.Models.Instance, IApiConvertable<Api.Models.Instance>
 	{
 		/// <summary>
 		/// The <see cref="Models.ChatSettings"/> for the <see cref="Instance"/>
@@ -51,5 +52,16 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
 		/// </summary>
 		public List<Job> Jobs { get; set; }
+
+		/// <inheritdoc />
+		public Api.Models.Instance ToApi() => new Api.Models.Instance
+		{
+			AutoUpdateInterval = AutoUpdateInterval,
+			ConfigurationAllowed = ConfigurationAllowed,
+			Id = Id,
+			Name = Name,
+			Path = Path,
+			Online = Online
+		};
 	}
 }
