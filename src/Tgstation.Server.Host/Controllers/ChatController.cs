@@ -121,13 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ChatSettingsRights.Delete)]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
-
 			var instance = instanceManager.GetInstance(Instance);
-			await Task.WhenAll(instance.Chat.DeleteConnection(model.Id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == model.Id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
 
 			return Ok();
 		}

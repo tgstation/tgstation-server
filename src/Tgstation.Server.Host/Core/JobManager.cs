@@ -149,16 +149,19 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task CancelJob(Job job, User user, CancellationToken cancellationToken)
 		{
-			if (user != null)
-				using (var scope = serviceProvider.CreateScope())
-				{
-					var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-					job = new Job { Id = job.Id };
-					databaseContext.Jobs.Attach(job);
-					job.CancelledBy = user;
-					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-				}
-			CheckGetJob(job).Cancel();
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+			if (user == null)
+				throw new ArgumentNullException(nameof(user));
+			CheckGetJob(job).Cancel();	//this will ensure the db update is only done once
+			using (var scope = serviceProvider.CreateScope())
+			{
+				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+				job = new Job { Id = job.Id };
+				databaseContext.Jobs.Attach(job);
+				job.CancelledBy = user;
+				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			}
 		}
 	}
 }

@@ -49,6 +49,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		public override async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
+			//alias for launching DD
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (instance.Watchdog.Running)
@@ -113,8 +114,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
-		public override async Task<IActionResult> Delete([FromBody] DreamDaemon model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
+			//alias for stopping DD
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (!instance.Watchdog.Running)
@@ -128,6 +130,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
+			//alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
 
 			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);

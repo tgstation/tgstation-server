@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			//this functions as userId
-			var user = await DatabaseContext.Instances.Where(x => x.Id == id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var user = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
 			return Json(user.ToApi());
@@ -148,13 +148,11 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.EditUsers)]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			var test = StandardModelChecks(model);
-			if (test != null)
-				return test;
+			//id is actually UserId
 
-			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == model.UserId).DeleteAsync(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).DeleteAsync(cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
 	}

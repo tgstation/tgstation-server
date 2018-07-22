@@ -75,13 +75,20 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.CancelCompile)]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			//alias for cancelling the latest job
 			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Select(x => new Job { Id = x.Job.Id, StoppedAt = x.Job.StoppedAt }).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (job.StoppedAt != null)
 				return StatusCode((int)HttpStatusCode.Gone);
-			await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
+			try
+			{
+				await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
+			}
+			catch (InvalidOperationException)	//job already stopped
+			{
+				return StatusCode((int)HttpStatusCode.Gone);
+			}
 			return Ok();
 		}
 

@@ -46,8 +46,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempt to get a specific a <typeparamref name="TModel"/>
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="id">The ID of the model to get</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpGet("/{0}")]
 		public virtual Task<IActionResult> GetId(long id, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
@@ -62,13 +62,13 @@ namespace Tgstation.Server.Host.Controllers
 		public virtual Task<IActionResult> Update([FromBody]TModel model, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 
 		/// <summary>
-		/// Attempt to delete a <paramref name="model"/>
+		/// Attempt to delete a model with a particular <paramref name="id"/>
 		/// </summary>
-		/// <param name="model">The <typeparamref name="TModel"/> being deleted</param>
+		/// <param name="id">The ID of the model to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpDelete]
-		public virtual Task<IActionResult> Delete([FromBody]TModel model, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
+		public virtual Task<IActionResult> Delete(long id, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 
 		/// <summary>
 		/// Attempt to list entries of the <typeparamref name="TModel"/>
