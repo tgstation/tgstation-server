@@ -72,6 +72,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		ulong channelIdCounter;
 
 		/// <summary>
+		/// The <see cref="Task"/> used for <see cref="IrcConnection.Listen(bool)"/>
+		/// </summary>
+		Task listenTask;
+
+		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
 		/// <param name="logger">The value of logger</param>
@@ -200,85 +205,94 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			try
-			{
-				client.Connect(address, port);
-
-				cancellationToken.ThrowIfCancellationRequested();
-
-				if (passwordType == IrcPasswordType.Server)
-					client.Login(nickname, nickname, 0, nickname, password);
-				else
+			lock (this)
+				try
 				{
-					if (passwordType == IrcPasswordType.Sasl)
+					client.Connect(address, port);
+
+					cancellationToken.ThrowIfCancellationRequested();
+
+					if (passwordType == IrcPasswordType.Server)
+						client.Login(nickname, nickname, 0, nickname, password);
+					else
 					{
-						client.WriteLine("CAP REQ :sasl", Priority.Critical);  //needs to be put in the buffer before anything else
-						cancellationToken.ThrowIfCancellationRequested();
+						if (passwordType == IrcPasswordType.Sasl)
+						{
+							client.WriteLine("CAP REQ :sasl", Priority.Critical);  //needs to be put in the buffer before anything else
+							cancellationToken.ThrowIfCancellationRequested();
+						}
+						client.Login(nickname, nickname, 0, nickname);
 					}
-					client.Login(nickname, nickname, 0, nickname);
-				}
 
-				if (passwordType == IrcPasswordType.NickServ)
-				{
-					cancellationToken.ThrowIfCancellationRequested();
-					client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
-				}
-				else if (passwordType == IrcPasswordType.Sasl)
-				{
-					//wait for the sasl ack or timeout
-					var recievedAck = false;
-					var recievedPlus = false;
-					client.OnReadLine += (sender, e) =>
+					if (passwordType == IrcPasswordType.NickServ)
 					{
-						if (e.Line.Contains("ACK :sasl"))
-							recievedAck = true;
-						else if (e.Line.Contains("AUTHENTICATE +"))
-							recievedPlus = true;
-					};
+						cancellationToken.ThrowIfCancellationRequested();
+						client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
+					}
+					else if (passwordType == IrcPasswordType.Sasl)
+					{
+						//wait for the sasl ack or timeout
+						var recievedAck = false;
+						var recievedPlus = false;
+						client.OnReadLine += (sender, e) =>
+						{
+							if (e.Line.Contains("ACK :sasl"))
+								recievedAck = true;
+							else if (e.Line.Contains("AUTHENTICATE +"))
+								recievedPlus = true;
+						};
 
-					var startTime = DateTimeOffset.Now;
-					var endTime = DateTimeOffset.Now.AddSeconds(TimeoutSeconds);
-					cancellationToken.ThrowIfCancellationRequested();
-					for(; !recievedAck && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
-						client.Listen(false);
-					
-					client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
-					cancellationToken.ThrowIfCancellationRequested();
+						var startTime = DateTimeOffset.Now;
+						var endTime = DateTimeOffset.Now.AddSeconds(TimeoutSeconds);
+						cancellationToken.ThrowIfCancellationRequested();
+						for (; !recievedAck && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
+							client.Listen(false);
 
-					for (; !recievedPlus && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
-						client.Listen(false);
+						client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
+						cancellationToken.ThrowIfCancellationRequested();
 
-					//Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
-					var authString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{0}{1}{2}", nickname, '\0', password);
-					var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
-					var authLine = String.Format(CultureInfo.InvariantCulture, "AUTHENTICATE {0}", b64);
-					var chars = authLine.ToCharArray();
-					client.WriteLine(authLine, Priority.Critical);
+						for (; !recievedPlus && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
+							client.Listen(false);
 
-					cancellationToken.ThrowIfCancellationRequested();
-					client.WriteLine("CAP END", Priority.Critical);
+						//Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
+						var authString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{0}{1}{2}", nickname, '\0', password);
+						var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
+						var authLine = String.Format(CultureInfo.InvariantCulture, "AUTHENTICATE {0}", b64);
+						var chars = authLine.ToCharArray();
+						client.WriteLine(authLine, Priority.Critical);
+
+						cancellationToken.ThrowIfCancellationRequested();
+						client.WriteLine("CAP END", Priority.Critical);
+					}
+
+					listenTask = Task.Factory.StartNew(client.Listen(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
-			}
-			catch (Exception e)
-			{
-				logger.LogWarning("Unable to connect to IRC: {0}", e);
-			}
+				catch (Exception e)
+				{
+					logger.LogWarning("Unable to connect to IRC: {0}", e);
+				}
 			return true;
 		}, cancellationToken,TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public override Task Disconnect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public override async Task Disconnect(CancellationToken cancellationToken)
 		{
-			try
+			if (!Connected)
+				return;
+			await Task.Factory.StartNew(() =>
 			{
-				client.RfcQuit();
-			}
-			catch (Exception e)
-			{
-				logger.LogWarning("Error quitting IRC: {0}", e);
-			}
+				try
+				{
+					client.RfcQuit();
+				}
+				catch (Exception e)
+				{
+					logger.LogWarning("Error quitting IRC: {0}", e);
+				}
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			Dispose();
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+			await listenTask.ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public override Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
