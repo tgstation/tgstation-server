@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
-			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
+			services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 			
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
