@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -144,10 +145,14 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
-			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
+			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
-			services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
-			
+
+			if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
+			else
+				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
+
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
