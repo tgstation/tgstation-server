@@ -86,6 +86,10 @@ namespace Tgstation.Server.Host.Controllers
 						dbUser.SystemIdentifier = sysIdentity.Uid;
 					}
 				}
+				catch (NotImplementedException)
+				{
+					return StatusCode((int)HttpStatusCode.NotImplemented);
+				}
 				catch(Exception e)
 				{
 					logger.LogInformation("System identifier user creation failure for {0}. Exception: {1}", model.SystemIdentifier, e);
