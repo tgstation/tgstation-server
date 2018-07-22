@@ -162,5 +162,15 @@ namespace Tgstation.Server.Host.Controllers
 			var users = await DatabaseContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users);
 		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(AdministrationRights.EditUsers)]
+		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		{
+			var user = await DatabaseContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (user == default)
+				return NotFound();
+			return Json(user);
+		}
 	}
 }

@@ -150,6 +150,23 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		[TgsAuthorize(ChatSettingsRights.Read)]
+		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		{
+			var query = DatabaseContext.ChatSettings.Where(x => x.Id ==	id).Include(x => x.Channels);
+
+			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
+
+			if (!connectionStrings)
+				foreach (var I in results)
+					I.ConnectionString = null;
+
+			return Json(results);
+		}
+
+		/// <inheritdoc />
 		[TgsAuthorize(ChatSettingsRights.WriteChannels | ChatSettingsRights.WriteConnectionString | ChatSettingsRights.WriteEnabled | ChatSettingsRights.WriteName | ChatSettingsRights.WriteProvider)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
 		{
