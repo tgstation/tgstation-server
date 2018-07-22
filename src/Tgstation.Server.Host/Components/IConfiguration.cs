@@ -14,10 +14,11 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>
 		/// </summary>
+		/// <param name="dmeFile">The .dme file being compiled</param>
 		/// <param name="destination">Path to the destination folder</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerSideModifications"/> if any</returns>
-		Task<ServerSideModifications> CopyDMFilesTo(string destination, CancellationToken cancellationToken);
+		Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Symlinks all directories in the GameData directory to <paramref name="destination"/>

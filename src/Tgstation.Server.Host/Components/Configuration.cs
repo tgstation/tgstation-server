@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -42,7 +43,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerSideModifications> CopyDMFilesTo(string destination, CancellationToken cancellationToken)
+		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
 			//just assume no other fs race conditions here
 			var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
@@ -77,6 +78,9 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
+			if (String.IsNullOrEmpty(configurationRelativePath))
+				configurationRelativePath = ".";
+
 			throw new NotImplementedException();
 		}
 

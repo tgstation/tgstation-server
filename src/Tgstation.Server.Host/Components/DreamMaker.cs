@@ -191,7 +191,7 @@ namespace Tgstation.Server.Host.Components
 			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmeExtension));
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
-			var dmeModificationsTask = configuration.CopyDMFilesTo(ioManager.ResolvePath(dirA), cancellationToken);
+			var dmeModificationsTask = configuration.CopyDMFilesTo(dmePath, ioManager.ResolvePath(dirA), cancellationToken);
 
 			var dmeBytes = await dmeReadTask.ConfigureAwait(false);
 			var dme = Encoding.UTF8.GetString(dmeBytes);

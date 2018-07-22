@@ -220,5 +220,18 @@ namespace Tgstation.Server.Host.Core
 			}
 			return (IReadOnlyList<string>)results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			path = ResolvePath(path);
+			var results = new List<string>();
+			foreach (var I in Directory.EnumerateFiles(path))
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				results.Add(I);
+			}
+			return (IReadOnlyList<string>)results;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }
