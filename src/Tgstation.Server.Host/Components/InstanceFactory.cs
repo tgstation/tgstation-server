@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Components
 			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
 
 			IByond byond = null;
-			IConfiguration configuration = null;
+			var configuration = new Configuration(configurationIoManager, loggerFactory.CreateLogger<Configuration>());
 			
 			var chat = chatFactory.CreateChat();
 			var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata);
