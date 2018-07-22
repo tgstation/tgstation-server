@@ -93,7 +93,6 @@ namespace Tgstation.Server.Host.Components
 			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
-			var codeModificationsIoMananger = new ResolvingIOManager(instanceIoManager, "CodeModifications");
 
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata);
 			var commandFactory = new CommandFactory(application);

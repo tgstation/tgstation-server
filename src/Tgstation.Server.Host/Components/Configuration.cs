@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -12,6 +13,13 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class Configuration : IConfiguration
 	{
+		const string CodeModificationsSubdirectory = "CodeModifications";
+		const string EventScriptsSubdirectory = "EventScripts";
+		const string GameStaticFilesSubdirectory = "GameStaticFiles";
+
+		const string CodeModificationsHeadFile = "HeadInclude.dm";
+		const string CodeModificationsTailFile = "TailInclude.dm";
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>
 		/// </summary>
@@ -34,9 +42,36 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task<ServerSideModifications> CopyDMFilesTo(string destination, CancellationToken cancellationToken)
+		public async Task<ServerSideModifications> CopyDMFilesTo(string destination, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			//just assume no other fs race conditions here
+			var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
+			var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
+			var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
+
+			await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask).ConfigureAwait(false);
+
+			if (!dmeExistsTask.Result && !headFileExistsTask.Result && !tailFileExistsTask.Result)
+				return null;
+
+			var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
+
+			if (dmeExistsTask.Result)
+			{
+				await copyTask.ConfigureAwait(false);
+				return new ServerSideModifications(null, null, true);
+			}
+
+			if (!headFileExistsTask.Result && !tailFileExistsTask.Result)
+			{
+				await copyTask.ConfigureAwait(false);
+				return null;
+			}
+
+			string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
+
+			await copyTask.ConfigureAwait(false);
+			return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 		}
 
 		/// <inheritdoc />

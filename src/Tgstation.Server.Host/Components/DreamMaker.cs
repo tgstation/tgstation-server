@@ -212,7 +212,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				else if (line.Contains("END_INCLUDE") && dmeModifications.TailIncludeLine != null)
 				{
-					dmeLines.Insert(I - 1, dmeModifications.TailIncludeLine);
+					dmeLines.Insert(I, dmeModifications.TailIncludeLine);
 					break;
 				}
 			}
