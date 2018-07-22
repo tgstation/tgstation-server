@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						client.WriteLine("CAP END", Priority.Critical);
 					}
 
-					listenTask = Task.Factory.StartNew(client.Listen(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					listenTask = Task.Factory.StartNew(() => client.Listen(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
 				catch (Exception e)
 				{
