@@ -314,8 +314,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				foreach (var I in hs)
 					client.RfcJoin(I);
 
-
-
 				return (IReadOnlyList<Channel>)channels.Select(x => {
 					ulong id = channelIdCounter;
 					if (!channelIdMap.Any(y =>

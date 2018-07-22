@@ -20,5 +20,13 @@ namespace Tgstation.Server.Api.Rights
         /// Allow write access to <see cref="Models.InstanceUser"/> for the <see cref="Models.Instance"/>
         /// </summary>
         WriteUsers = 2,
+		/// <summary>
+		/// User can read configuration files if the instance allows it
+		/// </summary>
+		ReadConfiguration = 4,
+		/// <summary>
+		/// Users can write configuration files if the instance allows it
+		/// </summary>
+		EditConfiguration = 8,
     }
 }

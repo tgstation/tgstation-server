@@ -42,8 +42,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.Configuration"/> of the file</returns>
-		Task<Api.Models.Configuration> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.ConfigurationFile"/> of the file</returns>
+		Task<Api.Models.ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Writes to a given <paramref name="configurationRelativePath"/>

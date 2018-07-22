@@ -3,18 +3,18 @@
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Metadata about a <see cref="Configuration"/> file
+	/// Metadata about a <see cref="ConfigurationFile"/> file
 	/// </summary>
 	[Model(RightsType.Configuration, CanCrud = true, CanList = true, RequiresInstance = true, ReadRight = ConfigurationRights.Read, WriteRight = ConfigurationRights.Write)]
 	public class ConfigurationFileMetadata
 	{
 		/// <summary>
-		/// The path to the <see cref="Configuration"/> file
+		/// The path to the <see cref="ConfigurationFile"/> file
 		/// </summary>
 		public string Path { get; set; }
 
 		/// <summary>
-		/// If read access to the <see cref="Configuration"/> file was denied
+		/// If read access to the <see cref="ConfigurationFile"/> file was denied
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public bool ReadDenied { get; set; }

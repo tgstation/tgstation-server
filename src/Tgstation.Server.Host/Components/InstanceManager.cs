@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
-			if (instance.Online)
+			if (instance.Online.Value)
 				await OfflineInstance(instance, cancellationToken).ConfigureAwait(false);
 			Task instanceOnlineTask = null;
 			try
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components
 			}
 			finally
 			{
-				if (instance.Online)
+				if (instance.Online.Value)
 					if (instanceOnlineTask == null)
 						await OnlineInstance(instance, default).ConfigureAwait(false);
 					else
@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Components
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
 			await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
-			var dbInstances = databaseContext.Instances.Where(x => x.Online).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
+			var dbInstances = databaseContext.Instances.Where(x => x.Online.Value).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
 			var tasks = new List<Task>();
 			await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, cancellationToken)), cancellationToken).ConfigureAwait(false);
 			await Task.WhenAll(tasks).ConfigureAwait(false);

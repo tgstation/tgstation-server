@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Controllers
 			var newInstance = new Models.Instance
 			{
 				ChatSettings = new ChatSettings(),
-				ConfigurationAllowed = model.ConfigurationAllowed,
+				ConfigurationType = model.ConfigurationType,
 				DreamDaemonSettings = new DreamDaemonSettings(),
 				DreamMakerSettings = new DreamMakerSettings(),
 				Name = model.Name,

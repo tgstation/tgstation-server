@@ -33,13 +33,14 @@ namespace Tgstation.Server.Api.Models
 		/// If the <see cref="Instance"/> is online
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.SetOnline)]
-		public bool Online { get; set; }
+		public bool? Online { get; set; }
 
 		/// <summary>
-		/// If <see cref="Configuration"/> can be used on the <see cref="Instance"/>
+		/// If <see cref="ConfigurationFile"/> can be used on the <see cref="Instance"/>
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.SetConfiguration)]
-		public bool ConfigurationAllowed { get; set; }
+		[Required]
+		public ConfigurationType? ConfigurationType { get; set; }
 
 		/// <summary>
 		/// The time interval in minutes the repository is automatically pulled and compiles
@@ -54,7 +55,7 @@ namespace Tgstation.Server.Api.Models
 			Name = Name,
 			Path = Path,
 			Online = Online,
-			ConfigurationAllowed = ConfigurationAllowed
+			ConfigurationType = ConfigurationType
 		};
 	}
 }

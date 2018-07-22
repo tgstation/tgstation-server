@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Models
 		public Api.Models.Instance ToApi() => new Api.Models.Instance
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
-			ConfigurationAllowed = ConfigurationAllowed,
+			ConfigurationType = ConfigurationType,
 			Id = Id,
 			Name = Name,
 			Path = Path,
