@@ -27,6 +27,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="ISynchronousIOManager"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly ISynchronousIOManager synchronousIOManager;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -35,10 +40,12 @@ namespace Tgstation.Server.Host.Components
 		/// Construct <see cref="Configuration"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ILogger<Configuration> logger)
+		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
