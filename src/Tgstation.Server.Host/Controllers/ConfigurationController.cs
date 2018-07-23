@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -64,6 +65,10 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return BadRequest(new { message = "Attempted to delete required folder!" });
 			}
+			catch(NotImplementedException e)
+			{
+				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+			}
 			catch (UnauthorizedAccessException)
 			{
 				return Forbid();
@@ -82,12 +87,18 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (Instance.ConfigurationType == ConfigurationType.Disallowed)
 				return Forbid();
+			try
+			{
+				var result = await instanceManager.GetInstance(Instance).Configuration.Read(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
+				if (result == null || result.IsDirectory.Value)
+					return NotFound();
 
-			var result = await instanceManager.GetInstance(Instance).Configuration.Read(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
-			if (result == null || result.IsDirectory.Value)
-				return NotFound();
-
-			return Json(result);
+				return Json(result);
+			}
+			catch (NotImplementedException e)
+			{
+				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+			}
 		}
 
 		/// <summary>
@@ -103,11 +114,18 @@ namespace Tgstation.Server.Host.Controllers
 			if (Instance.ConfigurationType == ConfigurationType.Disallowed)
 				return Forbid();
 
-			var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
-			if (result == null)
-				return NotFound();
+			try
+			{
+				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
+				if (result == null)
+					return NotFound();
 
-			return Json(result);
+				return Json(result);
+			}
+			catch (NotImplementedException e)
+			{
+				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+			}
 		}
 	}
 }
