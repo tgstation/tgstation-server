@@ -7,10 +7,20 @@ using Stream = System.IO.Stream;
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// For downloading and installing BYOND extractions
+	/// For downloading and installing BYOND extractions for a given system
 	/// </summary>
 	interface IByondInstaller
 	{
+		/// <summary>
+		/// Get the file name of the DreamDaemon executable
+		/// </summary>
+		string DreamDaemonName { get; }
+		
+		/// <summary>
+		/// Get the file name of the DreamMaker executable
+		/// </summary>
+		string DreamMakerName { get; }
+
 		/// <summary>
 		/// Download a given BYOND <paramref name="version"/>
 		/// </summary>
@@ -26,5 +36,12 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns></returns>
 		Task InstallByond(string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Attempts to cleans the BYOND cache folder for the system
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task CleanCache(CancellationToken cancellationToken);
 	}
 }

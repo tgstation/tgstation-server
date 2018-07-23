@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,12 @@ namespace Tgstation.Server.Host.Components
 	sealed class ByondManager : IByondManager
 	{
 		const string VersionFileName = "Version.txt";
+		const string ActiveVersionFileName = "ActiveVersion.txt";
+
+		const string BinPath = "byond/bin";
+
+		/// <inheritdoc />
+		public Version ActiveVersion { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ByondManager"/>
@@ -87,27 +94,69 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task ChangeVersion(Version version, CancellationToken cancellationToken)
+		public async Task ChangeVersion(Version version, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			await InstallVersion(version, cancellationToken).ConfigureAwait(false);
+			await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+			ActiveVersion = version;
 		}
 
 		/// <inheritdoc />
-		public Task ClearCache(CancellationToken cancellationToken)
+		public async Task<IByondExecutableLock> UseExecutables(Version requiredVersion, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var versionToUse = requiredVersion ?? ActiveVersion;
+			if (versionToUse == null)
+				throw new InvalidOperationException("No BYOND versions installed!");
+			await InstallVersion(requiredVersion, cancellationToken).ConfigureAwait(false);
+
+			var versionKey = VersionKey(versionToUse);
+
+			return new ByondExecutableLock
+			{
+				DreamDaemonPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, byondInstaller.DreamDaemonName)),
+				DreamMakerPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, byondInstaller.DreamMakerName)),
+				Version = versionToUse
+			};
 		}
 
 		/// <inheritdoc />
-		public Task<Version> GetVersion(CancellationToken cancellationToken)
+		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var cacheCleanTask = byondInstaller.CleanCache(cancellationToken);
+
+			var activeVersionBytesTask = ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
+
+			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+
+			async Task ReadVersion(string path)
+			{
+				var bytes = await ioManager.ReadAllBytes(ioManager.ConcatPath(path, VersionFileName), cancellationToken).ConfigureAwait(false);
+				var text = Encoding.UTF8.GetString(bytes);
+				if (Version.TryParse(text, out var version))
+				{
+					var key = VersionKey(version);
+					lock (installedVersions)
+						if (!installedVersions.ContainsKey(key))
+						{
+							installedVersions.Add(key, Task.CompletedTask);
+							return;
+						}
+				}
+				await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false);
+			};
+
+			await Task.WhenAll(directories.Select(x => ReadVersion(x))).ConfigureAwait(false);
+
+			var activeVersionString = Encoding.UTF8.GetString(await activeVersionBytesTask.ConfigureAwait(false));
+			if (Version.TryParse(activeVersionString, out var activeVersion))
+				ActiveVersion = activeVersion;
+			else
+				await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+
+			await cacheCleanTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public IByondExecutableLock UseExecutables(Version requiredVersion)
-		{
-			throw new NotImplementedException();
-		}
+		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }
