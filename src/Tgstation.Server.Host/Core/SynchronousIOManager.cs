@@ -22,7 +22,12 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public IEnumerable<string> GetFiles(string path, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			cancellationToken.ThrowIfCancellationRequested();
+			foreach (var I in Directory.EnumerateFiles(path))
+			{
+				yield return I;
+				cancellationToken.ThrowIfCancellationRequested();
+			}
 		}
 
 		/// <inheritdoc />
