@@ -24,9 +24,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IExecutor executor;
 
 		/// <summary>
-		/// The <see cref="IByond"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IByondManager"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly IByond byond;
+		readonly IByondManager byond;
 
 		/// <summary>
 		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionControllerFactory"/>
@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IExecutor executor, IByond byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Models.Instance instance)
+		public SessionControllerFactory(IExecutor executor, IByondManager byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Models.Instance instance)
 		{
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));

@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components
 		public IRepositoryManager RepositoryManager { get; }
 
 		/// <inheritdoc />
-		public IByond Byond { get; }
+		public IByondManager ByondManager { get; }
 
 		/// <inheritdoc />
 		public IDreamMaker DreamMaker { get; }
@@ -59,11 +59,11 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		CancellationTokenSource timerCts;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByond byond, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			Byond = byond ?? throw new ArgumentNullException(nameof(byond));
+			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
 			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));

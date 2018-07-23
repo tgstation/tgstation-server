@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components
 
 			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
 
-			IByond byond = null;
+			IByondManager byond = null;
 			var configuration = new Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<Configuration>());
 			
 			var chat = chatFactory.CreateChat();

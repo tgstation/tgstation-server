@@ -7,17 +7,17 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing the BYOND installation
 	/// </summary>
-	public interface IByond
+	public interface IByondManager
 	{
 		/// <summary>
-		/// Change the current BYOND version
+		/// Change the active BYOND version
 		/// </summary>
 		/// <param name="version">The new <see cref="Version"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		Task ChangeVersion(Version version, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Get the currently installed BYOND version
+		/// Get the currently active BYOND version
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>The current BYOND version</returns>
