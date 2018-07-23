@@ -34,6 +34,11 @@ namespace Tgstation.Server.Host.Components
 		readonly ISynchronousIOManager synchronousIOManager;
 
 		/// <summary>
+		/// The <see cref="ISymlinkFactory"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly ISymlinkFactory symlinkFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -43,11 +48,13 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
+		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ILogger<Configuration> logger)
+		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
+			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -171,7 +178,18 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			async Task SymlinkBase(bool files)
+			{
+				Task<IReadOnlyList<string>> task;
+				if (files)
+					task = ioManager.GetFiles(GameStaticFilesSubdirectory, cancellationToken);
+				else
+					task = ioManager.GetDirectories(GameStaticFilesSubdirectory, cancellationToken);
+				var entries = await task.ConfigureAwait(false);
+				await Task.WhenAll(entries.Select(x => symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ConcatPath(destination, x), cancellationToken))).ConfigureAwait(false);
+			}
+
+			return Task.WhenAll(SymlinkBase(true), SymlinkBase(false));
 		}
 
 		/// <inheritdoc />

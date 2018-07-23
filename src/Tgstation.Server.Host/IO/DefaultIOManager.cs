@@ -213,10 +213,25 @@ namespace Tgstation.Server.Host.IO
 		{
 			path = ResolvePath(path);
 			var results = new List<string>();
-			foreach(var I in Directory.EnumerateDirectories(path))
+			cancellationToken.ThrowIfCancellationRequested();
+			foreach (var I in Directory.EnumerateDirectories(path))
 			{
-				cancellationToken.ThrowIfCancellationRequested();
 				results.Add(I);
+				cancellationToken.ThrowIfCancellationRequested();
+			}
+			return (IReadOnlyList<string>)results;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			path = ResolvePath(path);
+			var results = new List<string>();
+			cancellationToken.ThrowIfCancellationRequested();
+			foreach (var I in Directory.EnumerateFiles(path))
+			{
+				results.Add(I);
+				cancellationToken.ThrowIfCancellationRequested();
 			}
 			return (IReadOnlyList<string>)results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
