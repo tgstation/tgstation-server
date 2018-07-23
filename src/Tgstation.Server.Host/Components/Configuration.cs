@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -82,13 +84,17 @@ namespace Tgstation.Server.Host.Components
 			return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 		}
 
-		/// <inheritdoc />
-		public async Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		string ValidateConfigRelativePath(string configurationRelativePath)
 		{
 			if (String.IsNullOrEmpty(configurationRelativePath))
 				configurationRelativePath = ".";
+			return ioManager.ResolvePath(configurationRelativePath);
+		}
 
-			var path = ioManager.ResolvePath(configurationRelativePath);
+		/// <inheritdoc />
+		public async Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		{
+			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			List<ConfigurationFile> result = new List<ConfigurationFile>();
 
@@ -98,13 +104,13 @@ namespace Tgstation.Server.Host.Components
 				result.AddRange(enumerator.Select(x => new ConfigurationFile
 				{
 					IsDirectory = true,
-					Path = ioManager.ConcatPath(path, x),
+					Path = ioManager.ConcatPath(configurationRelativePath, x),
 				}));
 				enumerator = synchronousIOManager.GetFiles(configurationRelativePath, cancellationToken);
 				result.AddRange(enumerator.Select(x => new ConfigurationFile
 				{
 					IsDirectory = false,
-					Path = ioManager.ConcatPath(path, x),
+					Path = ioManager.ConcatPath(configurationRelativePath, x),
 				}));
 			}
 
@@ -117,9 +123,49 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task<ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var path = ValidateConfigRelativePath(configurationRelativePath);
+
+			ConfigurationFile result = null;
+			
+			void ReadImpl()
+			{
+				try
+				{
+					var content = synchronousIOManager.ReadFile(path);
+					string sha1String;
+#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
+					using (var sha1 = new SHA1Managed())
+#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+						sha1String = String.Join("", sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+					result = new ConfigurationFile
+					{
+						Content = content,
+						IsDirectory = false,
+						LastReadHash = sha1String,
+						AccessDenied = false,
+						Path = configurationRelativePath
+					};
+				}
+				catch (FileNotFoundException) { }
+				catch (DirectoryNotFoundException) { }
+				catch (UnauthorizedAccessException)
+				{
+					result = new ConfigurationFile
+					{
+						AccessDenied = true,
+						Path = configurationRelativePath
+					};
+				}
+			}
+
+			if (systemIdentity == null)
+				ReadImpl();
+			else
+				await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
+
+			return result;
 		}
 
 		/// <inheritdoc />

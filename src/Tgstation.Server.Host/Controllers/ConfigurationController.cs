@@ -69,10 +69,6 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
 			}
-			catch (UnauthorizedAccessException)
-			{
-				return Forbid();
-			}
 		}
 
 		/// <summary>
@@ -125,6 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 			catch (NotImplementedException e)
 			{
 				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Forbid();
 			}
 		}
 	}

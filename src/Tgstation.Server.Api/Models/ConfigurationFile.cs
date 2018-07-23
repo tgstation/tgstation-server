@@ -16,25 +16,25 @@ namespace Tgstation.Server.Api.Models
 		public string Path { get; set; }
 
 		/// <summary>
-		/// If read access to the <see cref="ConfigurationFile"/> file was denied
+		/// If access to the <see cref="ConfigurationFile"/> file was denied for the operation
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public bool? ReadDenied { get; set; }
+		public bool? AccessDenied { get; set; }
 
 		/// <summary>
-		/// If <see cref="Path"/> represents a directory. Will only be <see langword="true"/> if <see cref="ReadDenied"/> is <see langword="true"/>
+		/// If <see cref="Path"/> represents a directory
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public bool? IsDirectory { get; set; }
 
 		/// <summary>
-		/// The MD5 hash of the file when last read by the user. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/>. If this doesn't match during update actions, the write will be denied with error code 409
+		/// The MD5 hash of the file when last read by the user. If this doesn't match during update actions, the write will be denied with <see cref="System.Net.HttpStatusCode.Conflict"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public string LastReadHash { get; set; }
 
 		/// <summary>
-		/// The content of the <see cref="ConfigurationFile"/>. Will be <see langword="null"/> if <see cref="ReadDenied"/> is <see langword="true"/> or during listing operations
+		/// The content of the <see cref="ConfigurationFile"/>. Will be <see langword="null"/> if <see cref="AccessDenied"/> is <see langword="true"/> or during listing and write operations
 		/// </summary>
 		public byte[] Content { get; set; }
 	}
