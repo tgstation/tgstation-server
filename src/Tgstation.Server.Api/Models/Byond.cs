@@ -20,11 +20,5 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(ReadRight = ByondRights.ReadInstalled, WriteRight = ByondRights.ChangeVersion)]
 		public Version Version { get; set; }
-
-		/// <summary>
-		/// The <see cref="System.Version"/> of the <see cref="Byond"/> that's currently running the game servers
-		/// </summary>
-		[Permissions(DenyWrite = true, ReadRight = ByondRights.ReadPrevious)]
-		public Version PreviousVersion { get; set; }
 	}
 }
