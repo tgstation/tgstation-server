@@ -15,9 +15,6 @@ namespace Tgstation.Server.Host.Models
 	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
 	{
 		/// <inheritdoc />
-		public DbSet<ServerSettings> ServerSettings { get; set; }
-
-		/// <inheritdoc />
 		public DbSet<User> Users { get; set; }
 
 		/// <inheritdoc />
@@ -124,18 +121,6 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			base.OnConfiguring(optionsBuilder);
-		}
-
-		/// <inheritdoc />
-		public async Task<ServerSettings> GetServerSettings(CancellationToken cancellationToken)
-		{
-			var settings = await ServerSettings.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			if (settings == default(ServerSettings))
-			{
-				settings = new ServerSettings();
-				ServerSettings.Add(settings);
-			}
-			return settings;
 		}
 
 		/// <inheritdoc />

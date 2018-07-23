@@ -5,14 +5,8 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Api.Models
 {
 	/// <inheritdoc />
-	public sealed class Administration : Internal.ServerSettings
+	public sealed class Administration
 	{
-		/// <summary>
-		/// If the <see cref="DreamDaemon"/> instances will not be stopped when the server exits. Resets to <see langword="false"/> when the server restarts
-		/// </summary>
-		[Permissions(ReadRight = AdministrationRights.SoftStop, WriteRight = AdministrationRights.SoftStop)]
-		public bool SoftStop { get; set; }
-		
 		/// <summary>
 		/// The latest available version of the Tgstation.Server.Host assembly from the upstream repository. If <see cref="Version.Minor"/> is higher than <see cref="CurrentVersion"/>'s the update cannot be applied due to API changes
 		/// </summary>
