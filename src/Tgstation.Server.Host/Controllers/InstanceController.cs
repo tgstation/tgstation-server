@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 

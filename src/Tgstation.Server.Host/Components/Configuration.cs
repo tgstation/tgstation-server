@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Components
 	sealed class Configuration : IConfiguration
 	{
 		const string CodeModificationsSubdirectory = "CodeModifications";
-		const string EventScriptsSubdirectory = "EventScripts";
+		//const string EventScriptsSubdirectory = "EventScripts";
 		const string GameStaticFilesSubdirectory = "GameStaticFiles";
 
 		const string CodeModificationsHeadFile = "HeadInclude.dm";
