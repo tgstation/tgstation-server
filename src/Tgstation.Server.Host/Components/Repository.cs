@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components
 {

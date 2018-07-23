@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Byond.TopicSender" Version="1.1.0.1" />
+    <PackageReference Include="Byond.TopicSender" Version="1.1.1" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.5" />
     <PackageReference Include="Discord.Net.WebSocket" Version="1.0.2" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.0-preview-0027" />
@@ -45,6 +45,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Octokit" Version="0.31.0" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.5.0" />

@@ -5,6 +5,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components

@@ -13,5 +13,11 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		[DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern bool LogonUser(string lpszUsername, string lpszDomain, string lpszPassword, int dwLogonType, int dwLogonProvider, out IntPtr phToken);
+
+		/// <summary>
+		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw
+		/// </summary>
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
 	}
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
 	/// <see cref="IIOManager"/> that resolves paths to <see cref="Environment.CurrentDirectory"/>
@@ -219,6 +219,14 @@ namespace Tgstation.Server.Host.Core
 				results.Add(I);
 			}
 			return (IReadOnlyList<string>)results;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task CreateSymlink(string target, string link, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			target = ResolvePath(target);
+			link = ResolvePath(link);
+
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

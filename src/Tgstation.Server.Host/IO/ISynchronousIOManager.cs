@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
 	/// For accessing the disk in a synchronous manner

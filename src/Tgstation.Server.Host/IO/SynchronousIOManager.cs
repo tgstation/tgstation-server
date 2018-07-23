@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />
 	sealed class SynchronousIOManager : ISynchronousIOManager
