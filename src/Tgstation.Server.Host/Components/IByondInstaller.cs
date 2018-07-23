@@ -31,9 +31,10 @@ namespace Tgstation.Server.Host.Components
 		/// Does actions necessary to get an extracted BYOND installation working
 		/// </summary>
 		/// <param name="path">The path to the BYOND installation</param>
+		/// <param name="version">The <see cref="Version"/> of BYOND being installed</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns></returns>
-		Task InstallByond(string path, CancellationToken cancellationToken);
+		Task InstallByond(string path, Version version, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempts to cleans the BYOND cache folder for the system

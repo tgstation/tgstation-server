@@ -154,6 +154,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
+				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 			}
 			else
 			{

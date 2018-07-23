@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components
 			using (var archive = new ZipArchive(zipBytes))
 				await Task.Factory.StartNew(() => archive.ExtractToDirectory(resolvedPath), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
-			await byondInstaller.InstallByond(resolvedPath, cancellationToken).ConfigureAwait(false);
+			await byondInstaller.InstallByond(resolvedPath, version, cancellationToken).ConfigureAwait(false);
 
 			//make sure to do this last because this is what tells us we have a valid version
 			await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
