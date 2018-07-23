@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -58,12 +60,12 @@ namespace Tgstation.Server.Host.Controllers
 			var newInstance = new Models.Instance
 			{
 				ChatSettings = new ChatSettings(),
-				ConfigurationAllowed = model.ConfigurationAllowed,
+				ConfigurationType = model.ConfigurationType,
 				DreamDaemonSettings = new DreamDaemonSettings(),
 				DreamMakerSettings = new DreamMakerSettings(),
 				Name = model.Name,
 				Online = false,
-				Path = model.Path,
+				Path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? model.Path.ToUpperInvariant() : model.Path,
 				RepositorySettings = new RepositorySettings()
 			};
 
@@ -91,15 +93,12 @@ namespace Tgstation.Server.Host.Controllers
 					throw;
 				}
 			}
-			catch (Exception e)
+			catch (DbUpdateConcurrencyException e)
 			{
 				return Conflict(new { message = e.Message });
 			}
-
-			model.Online = newInstance.Online;
-			model.Id = newInstance.Id;
-
-			return Json(model);
+			
+			return Json(newInstance.ToApi());
 		}
 
 		/// <inheritdoc />

@@ -24,11 +24,5 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = AdministrationRights.ChangeVersion)]
 		public Version CurrentVersion { get; set; }
-
-		/// <summary>
-		/// Users in the <see cref="Internal.ServerSettings.SystemAuthenticationGroup"/>
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public IReadOnlyList<User> Users { get; set; }
 	}
 }

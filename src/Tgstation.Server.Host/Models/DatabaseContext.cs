@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 #if !DEBUG
@@ -83,10 +82,6 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		readonly DatabaseConfiguration databaseConfiguration;
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		readonly ILoggerFactory loggerFactory;
-		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
@@ -96,12 +91,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
-		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, ILoggerFactory loggerFactory, IDatabaseSeeder databaseSeeder) : base(dbContextOptions)
+		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder) : base(dbContextOptions)
 		{
 			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
-			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 		}
 
@@ -113,11 +106,14 @@ namespace Tgstation.Server.Host.Models
 			// build default model.
 			LogModelBuilderHelper.Build(modelBuilder.Entity<Log>());
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
-
+			modelBuilder.Entity<Instance>().HasIndex(x => x.Path).IsUnique();
 			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Commit).IsUnique();
 			var user = modelBuilder.Entity<User>();
-			user.HasIndex(x => new { x.Name, x.SystemIdentifier }).IsUnique();
+			user.HasIndex(x => x.CanonicalName).IsUnique();
 			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
+
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
@@ -128,8 +124,6 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			base.OnConfiguring(optionsBuilder);
-
-			optionsBuilder.UseLoggerFactory(loggerFactory);
 		}
 
 		/// <inheritdoc />
@@ -157,6 +151,8 @@ namespace Tgstation.Server.Host.Models
 #endif
 			if (wasEmpty)
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
+			else if(databaseConfiguration.ResetAdminPassword)
+				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

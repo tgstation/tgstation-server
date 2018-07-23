@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Tgstation.Server.Host.Configuration;
 
@@ -15,9 +14,8 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
 		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
 		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		public SqliteDatabaseContext(DbContextOptions<SqliteDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, ILoggerFactory loggerFactory, IDatabaseSeeder databaseSeeder) : base(dbContextOptions, databaseConfiguration, loggerFactory, databaseSeeder)
+		public SqliteDatabaseContext(DbContextOptions<SqliteDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, IDatabaseSeeder databaseSeeder) : base(dbContextOptions, databaseConfiguration, databaseSeeder)
 		{ }
 
 		/// <inheritdoc />

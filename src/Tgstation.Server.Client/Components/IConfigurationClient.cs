@@ -8,7 +8,7 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
-	/// For managing <see cref="Configuration"/> files
+	/// For managing <see cref="ConfigurationFile"/> files
 	/// </summary>
 	public interface IConfigurationClient : IRightsClient<ConfigurationRights>
 	{
@@ -17,39 +17,39 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="directory">The path to the directory to list files in</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="IReadOnlyList{T}"/> of <see cref="Configuration"/>s in the <paramref name="directory"/></returns>
-		Task<IReadOnlyList<Configuration>> List(string directory, CancellationToken cancellationToken);
+		/// <returns>A <see cref="IReadOnlyList{T}"/> of <see cref="ConfigurationFile"/>s in the <paramref name="directory"/></returns>
+		Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Read a <see cref="Configuration"/> file
+		/// Read a <see cref="ConfigurationFile"/> file
 		/// </summary>
-		/// <param name="file">The <see cref="Configuration"/> file to read</param>
+		/// <param name="file">The <see cref="ConfigurationFile"/> file to read</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Read(Configuration file, CancellationToken cancellationToken);
+		Task Read(ConfigurationFile file, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Overwrite a <see cref="Configuration"/> file with integrity checks
+		/// Overwrite a <see cref="ConfigurationFile"/> file with integrity checks
 		/// </summary>
-		/// <param name="file">The <see cref="Configuration"/> file to write</param>
+		/// <param name="file">The <see cref="ConfigurationFile"/> file to write</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Write(Configuration file, CancellationToken cancellationToken);
+		Task Write(ConfigurationFile file, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Create/overwrite a <see cref="Configuration"/> file
+		/// Create/overwrite a <see cref="ConfigurationFile"/> file
 		/// </summary>
-		/// <param name="file">The <see cref="Configuration"/> file to write</param>
+		/// <param name="file">The <see cref="ConfigurationFile"/> file to write</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Create(Configuration file, CancellationToken cancellationToken);
+		Task Create(ConfigurationFile file, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Delete a <see cref="Configuration"/> file
+		/// Delete a <see cref="ConfigurationFile"/> file
 		/// </summary>
-		/// <param name="file">The <see cref="Configuration"/> file to delete</param>
+		/// <param name="file">The <see cref="ConfigurationFile"/> file to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Delete(Configuration file, CancellationToken cancellationToken);
+		Task Delete(ConfigurationFile file, CancellationToken cancellationToken);
 	}
 }

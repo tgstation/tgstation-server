@@ -1,4 +1,5 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Specialized;
 using System.Configuration.Install;
@@ -74,7 +75,7 @@ namespace Tgstation.Server.Host.Service
 				using (var processInstaller = new ServiceProcessInstaller())
 				using (var installer = new ServiceInstaller())
 				{
-					processInstaller.Account = ServiceAccount.NetworkService;
+					processInstaller.Account = ServiceAccount.LocalSystem;
 
 					installer.Context = new InstallContext("tgs-4-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
 					installer.Description = "/tg/station 13 server v4 running as a windows service";
@@ -97,7 +98,8 @@ namespace Tgstation.Server.Host.Service
 					installer.Uninstall(null);
 				}
 			else
-				ServiceBase.Run(new ServerService(new WatchdogFactory()));
+				using (var loggerFactory = new LoggerFactory())
+					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory));
 		}
 
 		/// <summary>

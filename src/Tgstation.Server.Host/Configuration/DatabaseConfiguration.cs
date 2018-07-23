@@ -16,6 +16,11 @@
 		public DatabaseType DatabaseType { get; set; }
 
 		/// <summary>
+		/// If the admin user should be enabled and have it's password reset
+		/// </summary>
+		public bool ResetAdminPassword { get; set; }
+
+		/// <summary>
 		/// The connection string for the database
 		/// </summary>
 		public string ConnectionString { get; set; }

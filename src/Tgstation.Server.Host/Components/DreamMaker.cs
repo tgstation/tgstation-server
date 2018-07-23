@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -191,7 +192,7 @@ namespace Tgstation.Server.Host.Components
 			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmeExtension));
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
-			var dmeModificationsTask = configuration.CopyDMFilesTo(ioManager.ResolvePath(dirA), cancellationToken);
+			var dmeModificationsTask = configuration.CopyDMFilesTo(dmePath, ioManager.ResolvePath(dirA), cancellationToken);
 
 			var dmeBytes = await dmeReadTask.ConfigureAwait(false);
 			var dme = Encoding.UTF8.GetString(dmeBytes);
@@ -212,7 +213,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				else if (line.Contains("END_INCLUDE") && dmeModifications.TailIncludeLine != null)
 				{
-					dmeLines.Insert(I - 1, dmeModifications.TailIncludeLine);
+					dmeLines.Insert(I, dmeModifications.TailIncludeLine);
 					break;
 				}
 			}

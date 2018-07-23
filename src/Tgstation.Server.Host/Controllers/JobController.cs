@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Controllers
 			IQueryable<Job> query = DatabaseContext.Jobs;
 			if (Instance != null)
 			{
-				if (!AuthenticationContext.InstanceUser.AnyRights)
+				if (AuthenticationContext.InstanceUser?.AnyRights != true)
 					return Forbid();
 				query = query.Where(x => x.Instance.Id == Instance.Id);
 			}
@@ -53,10 +53,10 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.Job model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			//don't care if an instance post or not at this point
-			var job = await DatabaseContext.Jobs.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (job == default(Job))
 				return NotFound();
 

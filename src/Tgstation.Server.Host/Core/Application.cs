@@ -14,12 +14,13 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -145,10 +146,21 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
-			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
+			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
-			services.AddSingleton<ISystemIdentityFactory, SystemIdentityFactory>();
-			
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
+				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
+			}
+			else
+			{
+				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
+				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
+			}
+
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender

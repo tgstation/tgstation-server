@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
@@ -14,10 +14,11 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>
 		/// </summary>
+		/// <param name="dmeFile">The .dme file being compiled</param>
 		/// <param name="destination">Path to the destination folder</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerSideModifications"/> if any</returns>
-		Task<ServerSideModifications> CopyDMFilesTo(string destination, CancellationToken cancellationToken);
+		Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Symlinks all directories in the GameData directory to <paramref name="destination"/>
@@ -28,13 +29,13 @@ namespace Tgstation.Server.Host.Components
 		Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Get <see cref="ConfigurationFileMetadata"/> for all items in a given <paramref name="configurationRelativePath"/>
+		/// Get <see cref="ConfigurationFile"/> for all items in a given <paramref name="configurationRelativePath"/>
 		/// </summary>
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileMetadata"/> for the items in the directory</returns>
-		Task<IReadOnlyList<ConfigurationFileMetadata>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFile"/>s for the items in the directory. <see cref="ConfigurationFile.Content"/> and <see cref="ConfigurationFile.LastReadHash"/> will both be <see langword="null"/></returns>
+		Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Reads a given <paramref name="configurationRelativePath"/>
@@ -42,8 +43,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.Configuration"/> of the file</returns>
-		Task<Api.Models.Configuration> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.ConfigurationFile"/> of the file</returns>
+		Task<ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Writes to a given <paramref name="configurationRelativePath"/>
@@ -51,8 +52,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
 		/// <param name="data">The data to write. If <see langword="null"/>, the file is deleted</param>
+		/// <param name="previousHash">The hash any existing file must match in order for the write to succeed</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> if it failed due to permission errors</returns>
-		Task<bool> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ConfigurationFile"/></returns>
+		Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, string previousHash, CancellationToken cancellationToken);
 	}
 }

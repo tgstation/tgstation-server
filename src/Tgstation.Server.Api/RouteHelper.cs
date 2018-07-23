@@ -114,18 +114,18 @@ namespace Tgstation.Server.Api
 		public static Route ServerVersion() => new Route { Path = "/", Method = HttpMethod.Get };
 
 		/// <summary>
-		/// Get the <see cref="Route"/> to read a <see cref="Configuration"/> file
+		/// Get the <see cref="Route"/> to read a <see cref="ConfigurationFile"/> file
 		/// </summary>
-		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
-		/// <param name="path">The path to the file in the <see cref="Configuration"/> directory</param>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="ConfigurationFile"/> file resides in</param>
+		/// <param name="path">The path to the file in the <see cref="ConfigurationFile"/> directory</param>
 		/// <returns>A <see cref="Route"/> to the read action</returns>
 		public static Route ReadFile(Instance instance, string path) => new Route { Path = String.Concat("/Configuration/", instance?.Id ?? throw new ArgumentNullException(nameof(instance)), '/', path?.TrimStart('/') ?? throw new ArgumentNullException(nameof(path))), Method = HttpMethod.Get };
 
 		/// <summary>
-		/// Get the <see cref="Route"/> to list <see cref="Configuration"/> files for a <paramref name="directory"/>
+		/// Get the <see cref="Route"/> to list <see cref="ConfigurationFile"/> files for a <paramref name="directory"/>
 		/// </summary>
-		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
-		/// <param name="directory">The <see cref="Configuration"/> directory to list</param>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="ConfigurationFile"/> file resides in</param>
+		/// <param name="directory">The <see cref="ConfigurationFile"/> directory to list</param>
 		/// <returns>A <see cref="Route"/> to the read action</returns>
 		public static Route ListFiles(Instance instance, string directory)
 		{
@@ -135,10 +135,10 @@ namespace Tgstation.Server.Api
 		}
 
 		/// <summary>
-		/// Get the <see cref="Route"/> to create a <see cref="Configuration"/> file
+		/// Get the <see cref="Route"/> to create a <see cref="ConfigurationFile"/> file
 		/// </summary>
-		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
-		/// <param name="path">The path to the file in the <see cref="Configuration"/> directory</param>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="ConfigurationFile"/> file resides in</param>
+		/// <param name="path">The path to the file in the <see cref="ConfigurationFile"/> directory</param>
 		/// <returns>A <see cref="Route"/> to the create action</returns>
 		public static Route CreateFile(Instance instance, string path)
 		{
@@ -148,10 +148,10 @@ namespace Tgstation.Server.Api
 		}
 
 		/// <summary>
-		/// Get the <see cref="Route"/> to delete a <see cref="Configuration"/> file
+		/// Get the <see cref="Route"/> to delete a <see cref="ConfigurationFile"/> file
 		/// </summary>
-		/// <param name="instance">The <see cref="Instance"/> the <see cref="Configuration"/> file resides in</param>
-		/// <param name="path">The path to the file in the <see cref="Configuration"/> directory</param>
+		/// <param name="instance">The <see cref="Instance"/> the <see cref="ConfigurationFile"/> file resides in</param>
+		/// <param name="path">The path to the file in the <see cref="ConfigurationFile"/> directory</param>
 		/// <returns>A <see cref="Route"/> to the delete action</returns>
 		public static Route DeleteFile(Instance instance, string path)
 		{

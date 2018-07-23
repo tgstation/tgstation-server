@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.Configuration"/>
+	/// Rights for <see cref="Models.ConfigurationFile"/>
 	/// </summary>
 	[Flags]
 	public enum ConfigurationRights

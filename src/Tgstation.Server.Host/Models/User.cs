@@ -17,6 +17,11 @@ namespace Tgstation.Server.Host.Models
 		public User CreatedBy { get; set; }
 
 		/// <summary>
+		/// The uppercase invariant of <see cref="Api.Models.Internal.User.Name"/>
+		/// </summary>
+		public string CanonicalName { get; set; }
+
+		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>
 		/// </summary>
 		public List<User> CreatedUsers { get; set; }

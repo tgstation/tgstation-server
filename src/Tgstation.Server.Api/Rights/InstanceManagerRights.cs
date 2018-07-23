@@ -41,7 +41,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		List = 64,
 		/// <summary>
-		/// User can change <see cref="Models.Instance.ConfigurationAllowed"/>
+		/// User can change <see cref="Models.Instance.ConfigurationType"/>
 		/// </summary>
 		SetConfiguration = 128,
 		/// <summary>

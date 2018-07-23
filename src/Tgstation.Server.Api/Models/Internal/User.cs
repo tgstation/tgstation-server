@@ -7,7 +7,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Represents a server <see cref="User"/>
 	/// </summary>
-	[Model(RightsType.Administration, WriteRight = AdministrationRights.EditUsers, CanCrud = true)]
+	[Model(RightsType.Administration, WriteRight = Rights.AdministrationRights.EditUsers, CanCrud = true)]
 	public class User
 	{
 		/// <summary>
@@ -19,8 +19,8 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the <see cref="User"/> is enabled since users cannot be deleted. System users cannot be disabled
 		/// </summary>
-		[Permissions(WriteRight = AdministrationRights.EditUsers)]
-		public bool Enabled { get; set; }
+		[Required]
+		public bool? Enabled { get; set; }
 
 		/// <summary>
 		/// When the <see cref="User"/> was created
@@ -38,20 +38,19 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The name of the <see cref="User"/>
 		/// </summary>
-		[Permissions(WriteRight = AdministrationRights.EditUsers)]
 		[Required]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.AdministrationRights"/> for the <see cref="User"/>
 		/// </summary>
-		[Permissions(WriteRight = AdministrationRights.EditUsers)]
-		public AdministrationRights AdministrationRights { get; set; }
+		[Required]
+		public AdministrationRights? AdministrationRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.InstanceManagerRights"/> for the <see cref="User"/>
 		/// </summary>
-		[Permissions(WriteRight = AdministrationRights.EditUsers)]
-		public InstanceManagerRights InstanceManagerRights { get; set; }
+		[Required]
+		public InstanceManagerRights? InstanceManagerRights { get; set; }
 	}
 }

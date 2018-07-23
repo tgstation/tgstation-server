@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Tgstation.Server.Host.Watchdog.Tests
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		public void TestCreateWatchdog()
 		{
 			var factory = new WatchdogFactory();
-			Assert.IsNotNull(factory.CreateWatchdog());
+			Assert.IsNotNull(factory.CreateWatchdog(new LoggerFactory()));
 		}
 	}
 }

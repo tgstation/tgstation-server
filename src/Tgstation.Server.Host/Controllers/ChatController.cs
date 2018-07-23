@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatSettings"/>
 	/// </summary>
-	[TgsAuthorize]
+	[Route("/" + nameof(Components.Chat.Chat))]
 	public sealed class ChatController : ModelController<Api.Models.ChatSettings>
 	{
 		/// <summary>
@@ -39,6 +39,11 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
+		/// <summary>
+		/// Converts <paramref name="api"/> to a <see cref="ChatChannel"/>
+		/// </summary>
+		/// <param name="api">The <see cref="Api.Models.ChatChannel"/> </param>
+		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/></returns>
 		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
 		{
 			DiscordChannelId = api.DiscordChannelId,
@@ -78,7 +83,15 @@ namespace Tgstation.Server.Host.Controllers
 			};
 			DatabaseContext.ChatSettings.Add(dbModel);
 			DatabaseContext.ChatChannels.AddRange(dbModel.Channels);
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			try
+			{
+				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return Conflict();
+			}
 
 			try
 			{
@@ -108,13 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ChatSettingsRights.Delete)]
-		public override async Task<IActionResult> Delete([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
-
 			var instance = instanceManager.GetInstance(Instance);
-			await Task.WhenAll(instance.Chat.DeleteConnection(model.Id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == model.Id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
 
 			return Ok();
 		}
@@ -124,6 +134,23 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatSettings.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
+
+			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
+
+			if (!connectionStrings)
+				foreach (var I in results)
+					I.ConnectionString = null;
+
+			return Json(results);
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(ChatSettingsRights.Read)]
+		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		{
+			var query = DatabaseContext.ChatSettings.Where(x => x.Id ==	id).Include(x => x.Channels);
 
 			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
 

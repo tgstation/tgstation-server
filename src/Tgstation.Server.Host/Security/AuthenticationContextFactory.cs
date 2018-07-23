@@ -45,13 +45,14 @@ namespace Tgstation.Server.Host.Security
 			if (instanceId.HasValue)
 				userQuery = userQuery.Include(x => x.InstanceUsers.Where(y => y.Id == instanceId));
 
-			var user = await userQuery.FirstAsync(cancellationToken).ConfigureAwait(false);
+			var user = await userQuery.Include(x => x.InstanceUsers).FirstAsync(cancellationToken).ConfigureAwait(false);
 
 			InstanceUser instanceUser = null;
 			if (instanceId.HasValue)
-				instanceUser = user.InstanceUsers.First();
+				instanceUser = user.InstanceUsers.Where(x => x.InstanceId == instanceId).First();
 
-			CurrentAuthenticationContext = new AuthenticationContext(user.SystemIdentifier != null ? systemIdentityFactory.CreateSystemIdentity(user) : null, user, instanceUser);
+			var systemIdentity = user.SystemIdentifier != null ? await systemIdentityFactory.CreateSystemIdentity(user, cancellationToken).ConfigureAwait(false) : null;
+			CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
 		}
 	}
 }

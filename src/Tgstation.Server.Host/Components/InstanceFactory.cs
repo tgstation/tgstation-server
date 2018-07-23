@@ -5,6 +5,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components
@@ -56,7 +57,17 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="ICommandFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly ICommandFactory commandFactory;
-		
+
+		/// <summary>
+		/// The <see cref="ISynchronousIOManager"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly ISynchronousIOManager synchronousIOManager;
+
+		/// <summary>
+		/// The <see cref="ISymlinkFactory"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly ISymlinkFactory symlinkFactory;
+
 		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
@@ -69,7 +80,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="executor">The value of <see cref="executor"/></param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory)
+		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
+		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -80,6 +93,8 @@ namespace Tgstation.Server.Host.Components
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite	));
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
+			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 		}
 
 		/// <inheritdoc />
@@ -93,7 +108,6 @@ namespace Tgstation.Server.Host.Components
 			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
-			var codeModificationsIoMananger = new ResolvingIOManager(instanceIoManager, "CodeModifications");
 
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata);
 			var commandFactory = new CommandFactory(application);
@@ -102,7 +116,7 @@ namespace Tgstation.Server.Host.Components
 			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
 
 			IByond byond = null;
-			IConfiguration configuration = null;
+			var configuration = new Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<Configuration>());
 			
 			var chat = chatFactory.CreateChat();
 			var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata);

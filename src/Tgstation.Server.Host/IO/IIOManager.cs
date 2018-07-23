@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
 	/// Interface for using filesystems
@@ -71,6 +71,14 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the directories in <paramref name="path"/></returns>
 		Task<IReadOnlyList<string>> GetDirectories(string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Returns file names in a given <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to search for files</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the files in <paramref name="path"/></returns>
+		Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Writes some <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content

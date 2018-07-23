@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => SystemIdentity.Dispose();
+		public void Dispose() => SystemIdentity?.Dispose();
 
 		/// <inheritdoc />
 		public IAuthenticationContext Clone() => new AuthenticationContext(SystemIdentity.Clone(), User, InstanceUser);
@@ -51,10 +51,15 @@ namespace Tgstation.Server.Host.Security
 			// use the api versions because they're the ones that contain the actual properties
 			var typeToCheck = isInstance ? typeof(InstanceUser) : typeof(User);
 
-			var prop = typeToCheck.GetProperties().Where(x => x.PropertyType == rightsEnum).First();
+			var nullableType = typeof(Nullable<>);
+			var nullableRightsType = nullableType.MakeGenericType(rightsEnum);
+
+			var prop = typeToCheck.GetProperties().Where(x => x.PropertyType == nullableRightsType).First();
 
 			var right = prop.GetMethod.Invoke(isInstance ? (object)InstanceUser : User, Array.Empty<object>());
-
+			
+			if (right == null)
+				throw new InvalidOperationException("A user right was null!");
 			return (int)right;
 		}
 	}
