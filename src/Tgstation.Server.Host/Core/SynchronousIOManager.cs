@@ -11,7 +11,12 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			cancellationToken.ThrowIfCancellationRequested();
+			foreach (var I in Directory.EnumerateDirectories(path))
+			{
+				yield return I;
+				cancellationToken.ThrowIfCancellationRequested();
+			}
 		}
 
 		/// <inheritdoc />
