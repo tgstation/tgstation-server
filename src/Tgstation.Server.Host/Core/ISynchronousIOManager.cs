@@ -28,9 +28,8 @@ namespace Tgstation.Server.Host.Core
 		/// Read the <see cref="byte"/>s of a file at a given <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path of the file to read</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="byte"/> array representing the contents of the file at <paramref name="path"/></returns>
-		byte[] ReadFile(string path, CancellationToken cancellationToken);
+		byte[] ReadFile(string path);
 
 		/// <summary>
 		/// Write <paramref name="data"/> to a file at a given <paramref name="path"/>. 

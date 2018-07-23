@@ -31,10 +31,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public byte[] ReadFile(string path, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public byte[] ReadFile(string path) => File.ReadAllBytes(path);
 
 		/// <inheritdoc />
 		public bool WriteFileChecked(string path, byte[] data, string previousSha1, CancellationToken cancellationToken)
