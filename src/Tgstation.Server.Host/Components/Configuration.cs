@@ -83,12 +83,37 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			if (String.IsNullOrEmpty(configurationRelativePath))
 				configurationRelativePath = ".";
 
-			throw new NotImplementedException();
+			var path = ioManager.ResolvePath(configurationRelativePath);
+
+			List<ConfigurationFile> result = new List<ConfigurationFile>();
+
+			void ListImpl()
+			{
+				var enumerator = synchronousIOManager.GetDirectories(configurationRelativePath, cancellationToken);
+				result.AddRange(enumerator.Select(x => new ConfigurationFile
+				{
+					IsDirectory = true,
+					Path = ioManager.ConcatPath(path, x),
+				}));
+				enumerator = synchronousIOManager.GetFiles(configurationRelativePath, cancellationToken);
+				result.AddRange(enumerator.Select(x => new ConfigurationFile
+				{
+					IsDirectory = false,
+					Path = ioManager.ConcatPath(path, x),
+				}));
+			}
+
+			if (systemIdentity == null)
+				ListImpl();
+			else
+				await systemIdentity.RunImpersonated(ListImpl, cancellationToken).ConfigureAwait(false);
+
+			return result;
 		}
 
 		/// <inheritdoc />
