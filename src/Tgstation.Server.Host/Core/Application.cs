@@ -160,6 +160,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
+				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 			}
 
 			services.AddSingleton<IExecutor, Executor>();

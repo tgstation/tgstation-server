@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -42,6 +43,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="WindowsByondInstaller"/>
+		/// </summary>
+		readonly ILogger<WindowsByondInstaller> logger;
+
+		/// <summary>
 		/// If DirectX was installed
 		/// </summary>
 		bool installedDirectX;
@@ -50,20 +56,32 @@ namespace Tgstation.Server.Host.Components
 		/// Construct a <see cref="WindowsByondInstaller"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		public WindowsByondInstaller(IIOManager ioManager)
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public WindowsByondInstaller(IIOManager ioManager, ILogger<WindowsByondInstaller> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			installedDirectX = false;
 		}
 
 		/// <inheritdoc />
-		public Task CleanCache(CancellationToken cancellationToken) => ioManager.DeleteDirectory(ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken);
+		public async Task CleanCache(CancellationToken cancellationToken)
+		{
+			try
+			{
+				await ioManager.DeleteDirectory(ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception e)
+			{
+				logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
+			}
+		}
 
 		/// <inheritdoc />
 		public Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, version.Major, version.Major);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, version.Major, version.Minor);
 
 			return ioManager.DownloadFile(new Uri(url), cancellationToken);
 		}
