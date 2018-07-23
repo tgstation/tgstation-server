@@ -151,9 +151,14 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
+				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
+			}
 			else
+			{
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
+			}
 
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
