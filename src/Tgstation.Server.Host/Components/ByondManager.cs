@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 
+using MemoryStream = System.IO.MemoryStream;
+
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
@@ -83,7 +85,7 @@ namespace Tgstation.Server.Host.Components
 			await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
 			var resolvedPath = ioManager.ResolvePath(versionKey);
-			using (var zipBytes = await downloadTask.ConfigureAwait(false))
+			using (var zipBytes = new MemoryStream(await downloadTask.ConfigureAwait(false)))
 			using (var archive = new ZipArchive(zipBytes))
 				await Task.Factory.StartNew(() => archive.ExtractToDirectory(resolvedPath), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 

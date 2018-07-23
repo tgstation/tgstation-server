@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -243,5 +244,13 @@ namespace Tgstation.Server.Host.IO
 			link = ResolvePath(link);
 
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
+		{
+			using (var wc = new WebClient())
+			using (cancellationToken.Register(() => wc.CancelAsync()))
+				return await wc.DownloadDataTaskAsync(url).ConfigureAwait(false);
+		}
 	}
 }

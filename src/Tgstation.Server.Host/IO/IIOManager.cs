@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -153,5 +154,13 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task MoveFile(string source, string destination, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Downloads a file from <paramref name="url"/>
+		/// </summary>
+		/// <param name="url">The URL to download</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="byte"/>s of the downloaded file</returns>
+		Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken);
 	}
 }
