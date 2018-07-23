@@ -147,8 +147,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 
-			if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 			else
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
