@@ -41,25 +41,29 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
+		/// <summary>
+		/// If a <see cref="ForbidResult"/> should be returned from actions due to conflicts with one or both of the <see cref="Api.Models.Instance.ConfigurationType"/> or the <see cref="IAuthenticationContext.SystemIdentity"/>
+		/// </summary>
+		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise</returns>
+		bool ForbidDueToModeConflicts() => Instance.ConfigurationType == ConfigurationType.Disallowed || (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null);
+
 		/// <inheritdoc />
 		[TgsAuthorize(ConfigurationRights.Write)]
 		public override async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
-			if (Instance.ConfigurationType == ConfigurationType.Disallowed)
+			if (ForbidDueToModeConflicts())
 				return Forbid();
 
 			var config = instanceManager.GetInstance(Instance).Configuration;
 			try
 			{
-				var originalFile = await config.Read(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
-
-				if (model.LastReadHash != originalFile.LastReadHash)
+				var newFile = await config.Write(model.Path, AuthenticationContext.SystemIdentity, model.Content, model.LastReadHash, cancellationToken).ConfigureAwait(false);
+				if (newFile == null)
 					return Conflict();
 
-				originalFile.LastReadHash = await config.Write(model.Path, AuthenticationContext.SystemIdentity, model.Content, cancellationToken).ConfigureAwait(false);
-				originalFile.Content = null;
+				newFile.Content = null;
 
-				return Json(originalFile);
+				return Json(newFile);
 			}
 			catch (InvalidOperationException)
 			{
@@ -81,8 +85,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.Read)]
 		public async Task<IActionResult> File(string path, CancellationToken cancellationToken)
 		{
-			if (Instance.ConfigurationType == ConfigurationType.Disallowed)
+			if (ForbidDueToModeConflicts())
 				return Forbid();
+
 			try
 			{
 				var result = await instanceManager.GetInstance(Instance).Configuration.Read(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
@@ -103,11 +108,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="path">The path of the directory to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpGet("/Directory/{path}")]
+		[HttpGet("/List/{path}")]
 		[TgsAuthorize(ConfigurationRights.List)]
 		public async Task<IActionResult> Directory(string path, CancellationToken cancellationToken)
 		{
-			if (Instance.ConfigurationType == ConfigurationType.Disallowed)
+			if (ForbidDueToModeConflicts())
 				return Forbid();
 
 			try

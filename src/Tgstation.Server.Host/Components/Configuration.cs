@@ -175,9 +175,51 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task<string> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, CancellationToken cancellationToken)
+		public async Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, string previousHash, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var path = ValidateConfigRelativePath(configurationRelativePath);
+
+			ConfigurationFile result = null;
+
+			void WriteImpl()
+			{
+				try
+				{
+					var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
+					if (!success)
+						return;
+					string sha1String;
+#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
+					using (var sha1 = new SHA1Managed())
+#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+						sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+					result = new ConfigurationFile
+					{
+						Content = data,
+						IsDirectory = false,
+						LastReadHash = sha1String,
+						AccessDenied = false,
+						Path = configurationRelativePath
+					};
+				}
+				catch (FileNotFoundException) { }
+				catch (DirectoryNotFoundException) { }
+				catch (UnauthorizedAccessException)
+				{
+					result = new ConfigurationFile
+					{
+						AccessDenied = true,
+						Path = configurationRelativePath
+					};
+				}
+			}
+
+			if (systemIdentity == null)
+				WriteImpl();
+			else
+				await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
+
+			return result;
 		}
 	}
 }
