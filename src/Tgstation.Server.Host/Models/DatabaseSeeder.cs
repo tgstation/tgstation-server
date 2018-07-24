@@ -22,11 +22,6 @@ namespace Tgstation.Server.Host.Models
 		const string DefaultAdminPassword = "ISolemlySwearToDeleteTheDataDirectory";
 
 		/// <summary>
-		/// The default git repository to pull server updates from
-		/// </summary>
-		const string DefaultUpstreamRepository = "https://github.com/tgstation/tgstation-server";
-
-		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;

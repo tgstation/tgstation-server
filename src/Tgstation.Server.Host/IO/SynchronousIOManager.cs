@@ -58,18 +58,22 @@ namespace Tgstation.Server.Host.IO
 							return false;
 					}
 				}
-
 				cancellationToken.ThrowIfCancellationRequested();
-				file.Seek(0, SeekOrigin.Begin);
 
-				cancellationToken.ThrowIfCancellationRequested();
-				file.SetLength(data.Length);
+				if (data != null)
+				{
+					file.Seek(0, SeekOrigin.Begin);
 
-				cancellationToken.ThrowIfCancellationRequested();
-				file.Write(data, 0, data.Length);
+					cancellationToken.ThrowIfCancellationRequested();
+					file.SetLength(data.Length);
 
-				return true;
+					cancellationToken.ThrowIfCancellationRequested();
+					file.Write(data, 0, data.Length);
+				}
 			}
+			if (data == null)
+				File.Delete(path);
+			return true;
 		}
 	}
 }

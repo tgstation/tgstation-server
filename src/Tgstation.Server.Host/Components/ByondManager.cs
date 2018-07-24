@@ -117,8 +117,8 @@ namespace Tgstation.Server.Host.Components
 
 			return new ByondExecutableLock
 			{
-				DreamDaemonPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, byondInstaller.DreamDaemonName)),
-				DreamMakerPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, byondInstaller.DreamMakerName)),
+				DreamDaemonPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)),
+				DreamMakerPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)),
 				Version = versionToUse
 			};
 		}

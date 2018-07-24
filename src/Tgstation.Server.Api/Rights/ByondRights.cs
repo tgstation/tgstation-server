@@ -13,24 +13,12 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User may check the installed BYOND version
+		/// User may check the active installed BYOND version
 		/// </summary>
-		ReadInstalled = 1,
-		/// <summary>
-		/// User may check the previous BYOND version
-		/// </summary>
-		ReadPrevious = 2,
+		ReadActive = 1,
 		/// <summary>
 		/// User may change to any BYOND version
 		/// </summary>
-		ChangeVersion = 4,
-		/// <summary>
-		/// User may cancel a pending installation job
-		/// </summary>
-		Cancel = 8,
-		/// <summary>
-		/// User may read the <see cref="Models.ByondStatus"/> of the installation job
-		/// </summary>
-		ReadStatus = 16,
+		ChangeVersion = 4
 	}
 }
