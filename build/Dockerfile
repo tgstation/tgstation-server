@@ -33,7 +33,6 @@ RUN dotnet test -c Release
 WORKDIR /src/tests/Tgstation.Server.Host.Console.Tests
 RUN dotnet test -c Release
 
-FROM build AS publish
 RUN dotnet publish -c Release -o /app
 
 FROM microsoft/dotnet:2.0-runtime
@@ -41,7 +40,8 @@ EXPOSE 80
 
 WORKDIR /app
 
-COPY --from=publish /app .
+COPY --from=build /app .
+COPY --from=build /src/build/tgs.docker.sh tgs.sh
 
 RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
 VOLUME ["/config_data"]
