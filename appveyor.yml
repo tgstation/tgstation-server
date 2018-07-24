@@ -16,6 +16,9 @@ configuration:
 shallow_clone: true
 artifacts:
   - path: artifacts/ServerConsole
+    name: Server Console
+  - path: artifacts/ServerService
+    name: Server Service
 cache:
   - ~\.nuget\packages -> **\*.csproj
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
@@ -53,6 +56,7 @@ after_test:
   - ps: build/UploadCoverage.ps1
   - ps: build/BuildDox.ps1
   - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o ../../artifacts/ServerConsole -c %CONFIGURATION%
+  - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/($env:CONFIGURATION)" -destination ../../artifacts/ServerService -recurse
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
