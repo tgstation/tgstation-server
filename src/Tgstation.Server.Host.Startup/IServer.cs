@@ -12,13 +12,13 @@ namespace Tgstation.Server.Host.Startup
         /// <summary>
         /// The path to the updated assembly to run if any. Populated once <see cref="RunAsync(CancellationToken)"/> returns
         /// </summary>
-        Guid UpdateGuid { get; }
+        Guid? UpdateGuid { get; }
 
 		/// <summary>
 		/// Runs the <see cref="IServer"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task RunAsync(string updatesPath, CancellationToken cancellationToken);
+		Task RunAsync(CancellationToken cancellationToken);
 	}
 }

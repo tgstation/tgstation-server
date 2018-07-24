@@ -162,5 +162,14 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="byte"/>s of the downloaded file</returns>
 		Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Extract a set of <paramref name="zipFileBytes"/> to a given <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to unzip to</param>
+		/// <param name="zipFileBytes">The <see cref="byte"/>s of the <see cref="System.IO.Compression.ZipArchive"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken);
 	}
 }

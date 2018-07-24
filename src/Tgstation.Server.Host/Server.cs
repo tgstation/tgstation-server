@@ -75,9 +75,9 @@ namespace Tgstation.Server.Host
 				UpdateGuid = Guid.NewGuid();
 				try
 				{
-					await ioManager.WriteAllBytes(serverUpdatePath, updateData, cancellationToken).ConfigureAwait(false);
+					await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken).ConfigureAwait(false);
 				}
-				catch (OperationCanceledException)
+				catch
 				{
 					UpdateGuid = null;
 					throw;
