@@ -274,7 +274,7 @@ namespace Tgstation.Server.Host.Components
 
 					//run compiler, verify api
 					bool ddVerified;
-					using (var byondLock = byond.UseExecutables(null))
+					using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
 					{
 						job.ByondVersion = byondLock.Version.ToString();
 
