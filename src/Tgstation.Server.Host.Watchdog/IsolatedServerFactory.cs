@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -30,14 +32,26 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <returns>A new <see cref="IServer"/></returns>
 		public IServer CreateServer(string[] args, string updatePath)
 		{
-			var assembly = LoadFromAssemblyPath(assemblyPath);
-			//find the IServerFactory implementation
+			//help here: https://stackoverflow.com/questions/40908568/assembly-loading-in-net-core
 
-			var serverFactoryInterfaceType = typeof(IServerFactory);
-			var serverFactoryImplementationType = assembly.GetTypes().Where(x => serverFactoryInterfaceType.IsAssignableFrom(x)).First();
+			var oldCd = Environment.CurrentDirectory;
+			Directory.SetCurrentDirectory(Path.GetDirectoryName(assemblyPath));
+			try
+			{
+				var assembly = LoadFromAssemblyPath(assemblyPath);
 
-			var serverFactory = (IServerFactory)Activator.CreateInstance(serverFactoryImplementationType);
-			return serverFactory.CreateServer(args, updatePath);
+				//find the IServerFactory implementation
+				var serverFactoryInterfaceType = typeof(IServerFactory);
+				var serverFactoryImplementationType = assembly.GetTypes().Where(x => serverFactoryInterfaceType.IsAssignableFrom(x)).First();
+
+				var serverFactory = (IServerFactory)Activator.CreateInstance(serverFactoryImplementationType);
+
+				return serverFactory.CreateServer(args, updatePath);
+			}
+			finally
+			{
+				Directory.SetCurrentDirectory(oldCd);
+			}
 		}
 
 		//honestly have no idea what this is for, but the examples i see just return null and it seems to work just fine

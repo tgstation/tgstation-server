@@ -14,15 +14,13 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(null, null, null, null));
-			var mockServerFactory = new Mock<IServerFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockServerFactory.Object, null, null, null));
-			var mockActiveAssemblyDeleter = new Mock<IActiveAssemblyDeleter>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockServerFactory.Object, mockActiveAssemblyDeleter.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(null, null, null));
+			var mockActiveAssemblyDeleter = new Mock<IActiveLibraryDeleter>();
+			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockActiveAssemblyDeleter.Object, null, null));
 			var mockIsolatedServerContextFactory = new Mock<IIsolatedAssemblyContextFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockServerFactory.Object, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, null));
 			var mockLogger = new LoggerFactory().CreateLogger<Watchdog>();
-			var wd = new Watchdog(mockServerFactory.Object, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
+			var wd = new Watchdog(mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
 		}
 
 		class MockServerFactory : IServerFactory
@@ -37,11 +35,11 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		{
 			var mockServer = new Mock<IServer>();
 			var mockServerFactory = new MockServerFactory(mockServer.Object);
-			var mockActiveAssemblyDeleter = new Mock<IActiveAssemblyDeleter>();
+			var mockActiveAssemblyDeleter = new Mock<IActiveLibraryDeleter>();
 			var mockIsolatedServerContextFactory = new Mock<IIsolatedAssemblyContextFactory>();
 			var mockLogger = new LoggerFactory().CreateLogger<Watchdog>();
 
-			var wd = new Watchdog(mockServerFactory, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
+			var wd = new Watchdog(mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
 
 			using (var cts = new CancellationTokenSource())
 			{

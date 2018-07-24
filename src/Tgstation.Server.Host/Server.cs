@@ -56,6 +56,7 @@ namespace Tgstation.Server.Host
         [ExcludeFromCodeCoverage]
 		public async Task RunAsync(CancellationToken cancellationToken)
 		{
+			Console.WriteLine("Hello world!");
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var webHost = webHostBuilder
 				.UseStartup<Application>()

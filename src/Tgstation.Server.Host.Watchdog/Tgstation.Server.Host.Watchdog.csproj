@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
-    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
   </ItemGroup>
 
 </Project>

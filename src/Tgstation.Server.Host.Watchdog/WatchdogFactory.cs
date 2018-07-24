@@ -10,6 +10,6 @@ namespace Tgstation.Server.Host.Watchdog
     {
         /// <inheritdoc />
         [ExcludeFromCodeCoverage]
-        public IWatchdog CreateWatchdog(ILoggerFactory loggerFactory) => new Watchdog(new ServerFactory(), RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? (IActiveAssemblyDeleter)new WindowsActiveAssemblyDeleter() : new PosixActiveAssemblyDeleter(), new IsolatedAssemblyContextFactory(), loggerFactory?.CreateLogger<Watchdog>() ?? throw new ArgumentNullException(nameof(loggerFactory)));
+        public IWatchdog CreateWatchdog(ILoggerFactory loggerFactory) => new Watchdog(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? (IActiveLibraryDeleter)new WindowsActiveLibraryDeleter() : new PosixActiveLibraryDeleter(), new IsolatedAssemblyContextFactory(), loggerFactory?.CreateLogger<Watchdog>() ?? throw new ArgumentNullException(nameof(loggerFactory)));
     }
 }
