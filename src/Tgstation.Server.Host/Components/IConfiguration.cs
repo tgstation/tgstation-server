@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -9,7 +10,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing the Configuration directory
 	/// </summary>
-	public interface IConfiguration
+	public interface IConfiguration : IHostedService
 	{
 		/// <summary>
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>

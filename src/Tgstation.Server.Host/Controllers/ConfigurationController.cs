@@ -65,10 +65,6 @@ namespace Tgstation.Server.Host.Controllers
 
 				return Json(newFile);
 			}
-			catch (InvalidOperationException)
-			{
-				return BadRequest(new { message = "Attempted to delete required folder!" });
-			}
 			catch(NotImplementedException e)
 			{
 				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
