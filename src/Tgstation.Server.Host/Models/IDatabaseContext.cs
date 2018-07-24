@@ -60,13 +60,6 @@ namespace Tgstation.Server.Host.Models
 		DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
-		/// Get the <see cref="ServerSettings"/> in the <see cref="IDatabaseContext"/>
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerSettings"/> in the <see cref="IDatabaseContext"/></returns>
-		Task<ServerSettings> GetServerSettings(CancellationToken cancellationToken);
-
-		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

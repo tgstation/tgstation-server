@@ -39,9 +39,9 @@ namespace Tgstation.Server.Host.Components
 		public CompilerStatus Status { get; private set; }
 
 		/// <summary>
-		/// The <see cref="IByond"/> for <see cref="DreamMaker"/>
+		/// The <see cref="IByondManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
-		readonly IByond byond;
+		readonly IByondManager byond;
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByond byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -274,7 +274,7 @@ namespace Tgstation.Server.Host.Components
 
 					//run compiler, verify api
 					bool ddVerified;
-					using (var byondLock = byond.UseExecutables(null))
+					using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
 					{
 						job.ByondVersion = byondLock.Version.ToString();
 

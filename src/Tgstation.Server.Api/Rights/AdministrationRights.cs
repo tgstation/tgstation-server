@@ -13,24 +13,16 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ServerSettings.UpstreamRepository"/>
-		/// </summary>
-		SetUpstreamRepository = 1,
-		/// <summary>
-		/// User can change <see cref="Models.Internal.ServerSettings.EnableTelemetry"/>
-		/// </summary>
-		ChangeTelemetry = 2,
-		/// <summary>
 		/// User can edit themself and other <see cref="Models.User"/>s
 		/// </summary>
-		EditUsers = 4,
+		EditUsers = 1,
 		/// <summary>
-		/// User can change <see cref="Models.Administration.SoftStop"/>
+		/// User can gracefully restart the host
 		/// </summary>
-		SoftStop = 8,
+		SoftStop = 2,
 		/// <summary>
 		/// User can change <see cref="Models.Administration.CurrentVersion"/>
 		/// </summary>
-		ChangeVersion = 16
+		ChangeVersion = 4
 	}
 }
