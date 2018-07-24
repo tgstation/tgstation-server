@@ -7,6 +7,6 @@ namespace Tgstation.Server.Host
 	public sealed class ServerFactory : IServerFactory
 	{
 		/// <inheritdoc />
-		public IServer CreateServer(string[] args) => new Server(WebHost.CreateDefaultBuilder(args));
+		public IServer CreateServer(string[] args, string updatePath) => new Server(WebHost.CreateDefaultBuilder(args), updatePath);
 	}
 }

@@ -272,7 +272,7 @@ namespace Tgstation.Server.Host.IO
 				zipFileBytes = null;
 				using (var archive = new ZipArchive(ms))
 				{
-					string GetEntryName(ZipArchiveEntry entry) => ConcatPath(path, GetDirectoryName(entry.FullName));
+					string GetEntryName(ZipArchiveEntry entry) => ConcatPath(path, entry.FullName);
 					//create directories first
 					await Task.WhenAll(archive.Entries.Where(x => x.Name.Length == 0).Select(x => CreateDirectory(GetEntryName(x), cancellationToken))).ConfigureAwait(false);
 					//extract files

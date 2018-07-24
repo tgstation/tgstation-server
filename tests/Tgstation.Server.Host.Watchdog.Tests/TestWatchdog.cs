@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		{
 			readonly IServer server;
 			public MockServerFactory(IServer server) => this.server = server;
-			public IServer CreateServer(string[] args) => server;
+			public IServer CreateServer(string[] args, string updatePath) => server;
 		}
 
 		[TestMethod]
@@ -48,35 +48,6 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 				mockServer.Setup(x => x.RunAsync(cts.Token)).Returns(Task.CompletedTask).Verifiable();
 				await wd.RunAsync(Array.Empty<string>(), cts.Token).ConfigureAwait(false);
 				mockServer.VerifyAll();
-			}
-		}
-
-		[TestMethod]
-		public async Task TestRunAsyncWithUpdate()
-		{
-			var mockServer = new Mock<IServer>();
-			mockServer.Setup(x => x.UpdatePath).Returns(GetType().Assembly.Location).Verifiable();
-			var mockServerFactory = new MockServerFactory(mockServer.Object);
-			var mockActiveAssemblyDeleter = new Mock<IActiveAssemblyDeleter>();
-			var mockIsolatedServerContextFactory = new Mock<IIsolatedAssemblyContextFactory>();
-			mockIsolatedServerContextFactory.Setup(x => x.CreateIsolatedServerFactory(GetType().Assembly.Location)).Returns(mockServerFactory).Verifiable();
-			var mockLogger = new LoggerFactory().CreateLogger<Watchdog>();
-
-			var wd = new Watchdog(mockServerFactory, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
-
-			using (var cts = new CancellationTokenSource())
-			{
-				int count = 0;
-				mockServer.Setup(x => x.RunAsync(cts.Token)).Callback(() =>
-				{
-					if (++count > 1)
-						cts.Cancel();
-				}).Returns(Task.CompletedTask).Verifiable();
-				await wd.RunAsync(Array.Empty<string>(), cts.Token).ConfigureAwait(false);
-
-				mockServer.VerifyAll();
-				mockActiveAssemblyDeleter.Verify(x => x.DeleteActiveAssembly(GetType().Assembly.Location), Times.Exactly(2));
-				mockIsolatedServerContextFactory.VerifyAll();
 			}
 		}
 	}

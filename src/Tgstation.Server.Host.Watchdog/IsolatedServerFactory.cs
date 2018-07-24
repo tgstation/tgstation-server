@@ -25,9 +25,10 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <summary>
 		/// Loads the <see cref="Assembly"/> at <see cref="assemblyPath"/> and creates an <see cref="IServer"/> from it
 		/// </summary>
-        /// <param name="args">The arguments for the <see cref="IServer"/></param>
+		/// <param name="args">The arguments for the <see cref="IServer"/></param>
+		/// <param name="updatePath">The updatePath for the <see cref="IServer"/></param>
 		/// <returns>A new <see cref="IServer"/></returns>
-		public IServer CreateServer(string[] args)
+		public IServer CreateServer(string[] args, string updatePath)
 		{
 			var assembly = LoadFromAssemblyPath(assemblyPath);
 			//find the IServerFactory implementation
@@ -36,7 +37,7 @@ namespace Tgstation.Server.Host.Watchdog
 			var serverFactoryImplementationType = assembly.GetTypes().Where(x => serverFactoryInterfaceType.IsAssignableFrom(x)).First();
 
 			var serverFactory = (IServerFactory)Activator.CreateInstance(serverFactoryImplementationType);
-			return serverFactory.CreateServer(args);
+			return serverFactory.CreateServer(args, updatePath);
 		}
 
 		//honestly have no idea what this is for, but the examples i see just return null and it seems to work just fine

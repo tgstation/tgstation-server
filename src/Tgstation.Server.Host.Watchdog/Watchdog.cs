@@ -57,27 +57,36 @@ namespace Tgstation.Server.Host.Watchdog
 				logger.LogTrace("Determining location of host assembly...");
 				var assemblyPath = serverFactory.GetType().Assembly.Location;
 				logger.LogDebug("Path to initial host assembly: {0}", assemblyPath);
+				var assemblyName = Path.GetFileName(assemblyPath);
+				const string UpdatePath = "Updates";
+				var newAssemblyDirectory = Path.Combine(Path.GetDirectoryName(assemblyPath), UpdatePath);
 
 				var firstIteration = true;
 				do
 					using (logger.BeginScope("Host invocation"))
 					{
-						var server = serverFactory.CreateServer(args);
-						logger.LogTrace("Running server...");
-						await server.RunAsync(cancellationToken).ConfigureAwait(false);
-						logger.LogInformation("Active host exited.");
+						Guid updateGuid;
+						using (var server = serverFactory.CreateServer(args, newAssemblyDirectory))
+						{
+							logger.LogTrace("Running server...");
+							await server.RunAsync(cancellationToken).ConfigureAwait(false);
+							logger.LogInformation("Active host exited.");
 
-						if (server.UpdatePath == null)
-							break;
+							if (!server.UpdateGuid.HasValue)
+								break;
+							updateGuid = server.UpdateGuid.Value;
+						}
 
-						logger.LogInformation("Update path is set to \"{0}\", attempting host assembly hotswap...", server.UpdatePath);
+						logger.LogInformation("Update path is set to \"{0}\", attempting host assembly hotswap...", updateGuid);
 						GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, true);
-						logger.LogTrace("Deleting old host assembly");
-						activeAssemblyDeleter.DeleteActiveAssembly(assemblyPath);
-						logger.LogTrace("Moving new host assembly in place...");
-						File.Move(server.UpdatePath, assemblyPath);
+						if (!firstIteration)
+						{
+							logger.LogTrace("Deleting old host assembly");
+							//TODO: make this use directories
+							//activeAssemblyDeleter.DeleteActiveAssembly(newAssemblyDirectory);
+						}
 						logger.LogTrace("Atttempting to create new server factory...");
-						serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(assemblyPath);
+						serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(Path.Combine(newAssemblyDirectory, updateGuid.ToString(), assemblyName));
 						firstIteration = false;
 					}
 				while (!cancellationToken.IsCancellationRequested);
