@@ -3,6 +3,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Cyberboss</Authors>
+    <Company>/tg/station</Company>
+    <Description>API definitions for tgstation-server</Description>
+    <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/tgs.ico</PackageIconUrl>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
+    <Copyright>2018</Copyright>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
+    <PackageReleaseNotes>Prototype release</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

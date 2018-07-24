@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host
@@ -13,12 +14,22 @@ namespace Tgstation.Server.Host
 	sealed class Server : IServer, IServerUpdater
 	{
 		/// <inheritdoc />
-		public string UpdatePath { get; private set; }
+		public Guid? UpdateGuid { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IWebHostBuilder"/> for the <see cref="Server"/>
 		/// </summary>
 		readonly IWebHostBuilder webHostBuilder;
+
+		/// <summary>
+		/// The <see cref="SemaphoreSlim"/> for the <see cref="Server"/>
+		/// </summary>
+		readonly SemaphoreSlim semaphore;
+
+		/// <summary>
+		/// The absolute path to install updates to
+		/// </summary>
+		readonly string updatePath;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>
@@ -29,7 +40,17 @@ namespace Tgstation.Server.Host
 		/// Construct a <see cref="Server"/>
 		/// </summary>
 		/// <param name="webHostBuilder">The value of <see cref="webHostBuilder"/></param>
-		public Server(IWebHostBuilder webHostBuilder) => this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
+		/// <param name="updatePath">The value of <see cref="updatePath"/></param>
+		public Server(IWebHostBuilder webHostBuilder, string updatePath)
+		{
+			this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
+			this.updatePath = updatePath ?? throw new ArgumentNullException(nameof(updatePath));
+
+			semaphore = new SemaphoreSlim(1);
+		}
+
+		/// <inheritdoc />
+		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
         [ExcludeFromCodeCoverage]
@@ -45,15 +66,24 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public void ApplyUpdate(string updatePath)
+		public async Task ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken)
 		{
-			lock (this)
+			using(await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
-				if (updatePath != null)
+				if (UpdateGuid != null)
 					throw new InvalidOperationException("ApplyUpdate has already been called!");
-				UpdatePath = updatePath;
+				UpdateGuid = Guid.NewGuid();
+				try
+				{
+					await ioManager.WriteAllBytes(serverUpdatePath, updateData, cancellationToken).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					UpdateGuid = null;
+					throw;
+				}
+				cancellationTokenSource.Cancel();
 			}
-			cancellationTokenSource.Cancel();
 		}
 
 		/// <inheritdoc />

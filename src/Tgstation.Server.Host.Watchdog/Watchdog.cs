@@ -57,6 +57,8 @@ namespace Tgstation.Server.Host.Watchdog
 				logger.LogTrace("Determining location of host assembly...");
 				var assemblyPath = serverFactory.GetType().Assembly.Location;
 				logger.LogDebug("Path to initial host assembly: {0}", assemblyPath);
+
+				var firstIteration = true;
 				do
 					using (logger.BeginScope("Host invocation"))
 					{
@@ -69,11 +71,14 @@ namespace Tgstation.Server.Host.Watchdog
 							break;
 
 						logger.LogInformation("Update path is set to \"{0}\", attempting host assembly hotswap...", server.UpdatePath);
+						GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, true);
+						logger.LogTrace("Deleting old host assembly");
 						activeAssemblyDeleter.DeleteActiveAssembly(assemblyPath);
 						logger.LogTrace("Moving new host assembly in place...");
 						File.Move(server.UpdatePath, assemblyPath);
 						logger.LogTrace("Atttempting to create new server factory...");
 						serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(assemblyPath);
+						firstIteration = false;
 					}
 				while (!cancellationToken.IsCancellationRequested);
 			}

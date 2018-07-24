@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components
 			this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
-			IsGitHubRepository = Origin.ToUpperInvariant().Contains("GITHUB.COM");
+			IsGitHubRepository = Origin.ToUpperInvariant().Contains("://GITHUB.COM/");
 		}
 
 		/// <inheritdoc />

@@ -19,6 +19,8 @@ artifacts:
     name: Server Console
   - path: artifacts/ServerService
     name: Server Service
+  - path: artifacts/ServerHost
+    name: Server Auto Update
 cache:
   - ~\.nuget\packages -> **\*.csproj
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
@@ -55,8 +57,10 @@ test_script:
 after_test:
   - ps: build/UploadCoverage.ps1
   - ps: build/BuildDox.ps1
+  - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o ../../artifacts/ServerHost -c %CONFIGURATION%
   - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o ../../artifacts/ServerConsole -c %CONFIGURATION%
   - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION" -destination artifacts/ServerService -recurse
+  - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/artifacts/ServerHost/Tgstation.Server.Host.dll").FileVersion
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
