@@ -60,12 +60,6 @@ namespace Tgstation.Server.Host.Models
 		public async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			SeedAdminUser(databaseContext);
-
-			var serverSettings = await databaseContext.GetServerSettings(cancellationToken).ConfigureAwait(false);
-
-			serverSettings.EnableTelemetry = true;
-			serverSettings.UpstreamRepository = DefaultUpstreamRepository;
-
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}
 
