@@ -21,10 +21,9 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Updates the installed BYOND <see cref="Version"/>
 		/// </summary>
-		/// <param name="byond">The <see cref="Byond"/> to update</param>
-		/// <param name="progressCallback">Optional <see cref="Action{T1}"/> taking a <see cref="ByondStatus"/> to run when it changes</param>
+		/// <param name="byond">The <see cref="Version"/> to set to active</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Update(Byond byond, Action<ByondStatus> progressCallback, CancellationToken cancellationToken);
+		Task SetActiveVersion(Version version, CancellationToken cancellationToken);
 	}
 }

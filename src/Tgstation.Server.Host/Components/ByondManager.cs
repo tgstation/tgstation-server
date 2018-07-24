@@ -54,6 +54,8 @@ namespace Tgstation.Server.Host.Components
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			installedVersions = new Dictionary<string, Task>();
 		}
 
 		static string VersionKey(Version version) => new Version(version.Major, version.Minor).ToString();
