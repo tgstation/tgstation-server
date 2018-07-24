@@ -21,4 +21,13 @@
     <ProjectReference Include="..\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="tgs.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="tgs.sh">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
