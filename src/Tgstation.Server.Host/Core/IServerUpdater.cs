@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Represents a service that may take an updated <see cref="Host"/> assembly and run it, stopping the current assembly in the process
 	/// </summary>
-    interface IServerUpdater
+    public interface IServerUpdater
     {
 		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="System.Threading.CancellationToken"/>s
@@ -24,5 +24,10 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="action">The <see cref="Action"/> to run</param>
 		void RegisterForUpdate(Action action);
+
+		/// <summary>
+		/// Restarts the <see cref="Host"/>
+		/// </summary>
+		void Restart();
     }
 }

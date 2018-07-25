@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="id">The ID of the model to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		[HttpGet("/{0}")]
+		[HttpGet("/{id}")]
 		public virtual Task<IActionResult> GetId(long id, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 
 		/// <summary>

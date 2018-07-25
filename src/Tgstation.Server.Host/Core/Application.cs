@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Prefix for string version names
 		/// </summary>
-		const string VersionPrefix = "/tg/station server";
+		const string VersionPrefix = "tgstation-server";
 
 		/// <inheritdoc />
 		public string HostingPath => serverAddresses.Addresses.First();

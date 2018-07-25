@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "f0940866-29fd-4ea3-8682-7e30df5b08c9",
+		"name": "TGS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Administration",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Update Versions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:5000/Administration",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Administration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mock Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentVersion\": {\n        \"major\": 3,\n        \"minor\": 2,\n        \"build\": 3,\n        \"revision\": 6,\n        \"majorRevision\": 0,\n        \"minorRevision\": 0\n    }\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Administration",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Administration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restart Server",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:5000/Administration",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Administration"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1f443013-474b-4f66-afc1-3968552a4a7b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2f3d034-2618-428f-a956-7d83fcd5e309",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Login Admin Default",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Postman/1.0"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Tgstation.Server.Api/4.0.0.0"
+					},
+					{
+						"key": "Authorization",
+						"value": "Password ISolemlySwearToDeleteTheDataDirectory"
+					},
+					{
+						"key": "Username",
+						"value": "admin"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VersionGet",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Postman/1.0"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Tgstation.Server.Api/4.0.0.0"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "asdfasdf",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjU0MjgwMyIsIm5iZiI6IjE1MzI1MzkyMDMiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.f-y5xQ-JbZklD7iMeztZhLGfXBWnSxxlYtzl3TXDt5g",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cb655975-15d0-4115-9849-4493db7593c1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "55b4fd6c-39db-4c6b-9fe4-a9a2ebe7e09c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

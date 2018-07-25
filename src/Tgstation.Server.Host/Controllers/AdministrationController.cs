@@ -22,8 +22,8 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for <see cref="Administration"/>
 	/// </summary>
-	[Route("/" + nameof(Administration))]
-	sealed class AdministrationController : ModelController<Administration>
+	[Route(Api.Routes.Administration.Base)]
+	public sealed class AdministrationController : ModelController<Administration>
 	{
 		/// <summary>
 		/// HTTP 429 status code
@@ -149,12 +149,20 @@ namespace Tgstation.Server.Host.Controllers
 					if (asset == default)
 						continue;
 
-					var assetBytes = await ioManager.DownloadFile(new Uri(asset.Url), cancellationToken).ConfigureAwait(false);
+					var assetBytes = await ioManager.DownloadFile(new Uri(asset.BrowserDownloadUrl), cancellationToken).ConfigureAwait(false);
 					await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false);
 					return Ok();	//gtfo of here before all the cancellation tokens fire
 				}
 
 			return StatusCode((int)HttpStatusCode.Gone);
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(AdministrationRights.RestartHost)]
+		public override Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		{
+			serverUpdater.Restart();
+			return Task.FromResult((IActionResult)Ok());
 		}
 	}
 }

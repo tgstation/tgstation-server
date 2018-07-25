@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Configuration for the automatic update system
 	/// </summary>
-	sealed class UpdatesConfiguration
+	public sealed class UpdatesConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="UpdatesConfiguration"/> resides in

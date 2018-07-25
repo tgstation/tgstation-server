@@ -274,7 +274,7 @@ namespace Tgstation.Server.Host.IO
 				{
 					string GetEntryName(ZipArchiveEntry entry) => ConcatPath(path, entry.FullName);
 					//create directories first
-					await Task.WhenAll(archive.Entries.Where(x => x.Name.Length == 0).Select(x => CreateDirectory(GetEntryName(x), cancellationToken))).ConfigureAwait(false);
+					await Task.WhenAll(CreateDirectory(path, cancellationToken), Task.WhenAll(archive.Entries.Where(x => x.Name.Length == 0).Select(x => CreateDirectory(GetEntryName(x), cancellationToken)))).ConfigureAwait(false);
 					//extract files
 					await Task.WhenAll(archive.Entries.Where(x => x.Name.Length > 0).Select(async x =>
 					{

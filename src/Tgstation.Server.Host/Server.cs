@@ -56,14 +56,13 @@ namespace Tgstation.Server.Host
         [ExcludeFromCodeCoverage]
 		public async Task RunAsync(CancellationToken cancellationToken)
 		{
-			Console.WriteLine("Hello world!");
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var webHost = webHostBuilder
 				.UseStartup<Application>()
 				.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdater>(this))
 				.Build()
 			)
-				await webHost.RunAsync(cancellationToken).ConfigureAwait(false);
+				await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -83,11 +82,14 @@ namespace Tgstation.Server.Host
 					UpdateGuid = null;
 					throw;
 				}
-				cancellationTokenSource.Cancel();
+				Restart();
 			}
 		}
 
 		/// <inheritdoc />
 		public void RegisterForUpdate(Action action) => cancellationTokenSource.Token.Register(action);
+
+		/// <inheritdoc />
+		public void Restart() => cancellationTokenSource.Cancel();
 	}
 }
