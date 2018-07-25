@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0-sdk AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 
 COPY tgstation-server.sln ./
@@ -33,9 +33,13 @@ RUN dotnet test -c Release
 WORKDIR /src/tests/Tgstation.Server.Host.Console.Tests
 RUN dotnet test -c Release
 
+WORKDIR /src/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app
 
-FROM microsoft/dotnet:2.0-runtime
+WORKDIR /src/src/Tgstation.Server.Host
+RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
+
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 EXPOSE 80
 
 WORKDIR /app

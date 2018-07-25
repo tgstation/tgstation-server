@@ -1,11 +1,8 @@
 .dockerignore
-docker-compose.yml
 .git
 .gitignore
 .vs
 .vscode
-legacy
 packages
-build
 */bin
 */obj
