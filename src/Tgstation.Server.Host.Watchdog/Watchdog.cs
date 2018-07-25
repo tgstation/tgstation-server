@@ -4,14 +4,12 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host.Watchdog
 {
 	/// <inheritdoc />
 	sealed class Watchdog : IWatchdog
 	{
-
 		/// <summary>
 		/// The <see cref="IActiveLibraryDeleter"/> for the <see cref="Watchdog"/>
 		/// </summary>

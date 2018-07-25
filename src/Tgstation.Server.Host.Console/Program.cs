@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Watchdog;

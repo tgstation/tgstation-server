@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Watchdog
 			return serverFactory.CreateServer(args, updatePath);
 		}
 
-		//honestly have no idea what this is for, but the examples i see just return null and it seems to work just fine
+		//honestly have no idea what this is for, https://github.com/dotnet/coreclr/blob/master/Documentation/design-docs/assemblyloadcontext.md
 		/// <inheritdoc />
 		protected override Assembly Load(AssemblyName assemblyName) => null;
 	}

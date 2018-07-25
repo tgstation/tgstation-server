@@ -16,7 +16,9 @@ namespace Tgstation.Server.Host.Core.Tests
 		public Task ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		public void RegisterForUpdate(Action action) => throw new NotImplementedException();
-		
+
+		public void Restart() => throw new NotImplementedException();
+
 		[TestMethod]
 		public async Task TestSuccessfulStartup()
 		{
