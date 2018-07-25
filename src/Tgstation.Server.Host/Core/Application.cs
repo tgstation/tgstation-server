@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Octokit;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -29,6 +30,11 @@ namespace Tgstation.Server.Host.Core
 	/// <inheritdoc />
 	sealed class Application : IApplication
 	{
+		/// <summary>
+		/// Prefix for string version names
+		/// </summary>
+		const string VersionPrefix = "/tg/station server";
+
 		/// <inheritdoc />
 		public string HostingPath => serverAddresses.Addresses.First();
 
@@ -64,7 +70,7 @@ namespace Tgstation.Server.Host.Core
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 
 			Version = Assembly.GetExecutingAssembly().GetName().Version;
-			VersionString = String.Format(CultureInfo.InvariantCulture, "/tg/station server v{0}", Version);
+			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
 		}
 
 		/// <summary>
@@ -77,7 +83,8 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
-			var workingDir = Environment.CurrentDirectory;
+
+			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
 			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
 			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
 
@@ -146,9 +153,10 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
-			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<IGitHubClient>(x => new GitHubClient(new ProductHeaderValue(VersionPrefix, Version.ToString())));
 
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
