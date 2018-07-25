@@ -60,6 +60,8 @@ after_test:
   - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o ../../artifacts/ServerHost -c %CONFIGURATION%
   - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o ../../artifacts/ServerConsole -c %CONFIGURATION%
   - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION" -destination artifacts/ServerService -recurse
+  - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerService/lib/Default -recurse
+  - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerConsole/lib/Default -recurse
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/artifacts/ServerHost/Tgstation.Server.Host.dll").FileVersion
 deploy:
   - provider: GitHub

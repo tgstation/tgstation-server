@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Core
 					builder.EnableSensitiveDataLogging();
 			};
 
-			switch (databaseConfiguration.DatabaseType)
+			switch (databaseConfiguration?.DatabaseType ?? DatabaseType.Sqlite)
 			{
 				case DatabaseType.MySql:
 					services.AddDbContext<MySqlDatabaseContext>(ConfigureDatabase);

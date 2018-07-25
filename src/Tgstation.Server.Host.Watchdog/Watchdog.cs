@@ -46,7 +46,6 @@ namespace Tgstation.Server.Host.Watchdog
 			const string DefaultAssemblyPath = "Default";
 
 			var assemblyStoragePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "lib");
-			var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 
 			logger.LogInformation("Host watchdog starting...");
 
@@ -60,7 +59,7 @@ namespace Tgstation.Server.Host.Watchdog
 						logger.LogTrace("Atttempting to create new server factory...");
 						Guid updateGuid;
 						{   //forces serverFactory out of the picture once the scope ends
-							var serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(Path.Combine(nextAssemblyPath, assemblyName));
+							var serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(nextAssemblyPath);
 							using (var server = serverFactory.CreateServer(args, assemblyStoragePath))
 							{
 								logger.LogTrace("Running server...");
