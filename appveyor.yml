@@ -62,6 +62,7 @@ after_test:
   - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION" -destination artifacts/ServerService -recurse
   - ps: Remove-Item artifacts/ServerHost/appsettings.Docker.json
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerService/lib/Default -recurse
+  - ps: ls artifacts/ServerService
   - ps: Move-Item -path artifacts/ServerService/lib/Default/appsettings.json -destination artifacts/ServerService/
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerConsole/lib/Default -recurse
   - ps: Move-Item -path artifacts/ServerConsole/lib/Default/appsettings.json -destination artifacts/ServerConsole/
