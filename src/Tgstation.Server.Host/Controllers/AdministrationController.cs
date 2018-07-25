@@ -150,7 +150,11 @@ namespace Tgstation.Server.Host.Controllers
 						continue;
 
 					var assetBytes = await ioManager.DownloadFile(new Uri(asset.BrowserDownloadUrl), cancellationToken).ConfigureAwait(false);
-					await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false);
+					try
+					{
+						await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false);
+					}
+					catch (InvalidOperationException) { }	//we were beat to the punch
 					return Ok();	//gtfo of here before all the cancellation tokens fire
 				}
 
