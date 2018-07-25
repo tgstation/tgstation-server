@@ -16,11 +16,11 @@ configuration:
 shallow_clone: true
 artifacts:
   - path: artifacts/ServerConsole
-    name: Server Console
+    name: ServerConsole
   - path: artifacts/ServerService
-    name: Server Service
+    name: ServerService
   - path: artifacts/ServerHost
-    name: Server Auto Update
+    name: ServerUpdatePackage
 cache:
   - ~\.nuget\packages -> **\*.csproj
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
@@ -60,17 +60,22 @@ after_test:
   - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o ../../artifacts/ServerHost -c %CONFIGURATION%
   - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o ../../artifacts/ServerConsole -c %CONFIGURATION%
   - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION" -destination artifacts/ServerService -recurse
+  - ps: Remove-Item artifacts/ServerHost/appsettings.Docker.json
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerService/lib/Default -recurse
+  - ps: Move-Item -path artifacts/ServerService/lib/Default/appsettings.json -destination artifacts/ServerService/
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerConsole/lib/Default -recurse
+  - ps: Move-Item -path artifacts/ServerConsole/lib/Default/appsettings.json -destination artifacts/ServerConsole/
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/artifacts/ServerHost/Tgstation.Server.Host.dll").FileVersion
+  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ if($env:CONFIGURATION -match "Release"){ $env:TGSDeploy = "Do it." }}}
+  - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ if($env:CONFIGURATION -match "Release"){ $env:NugetDeploy = "Do it." }}}
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
     description: 'The /tg/station server suite'
     auth_token:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
-    artifact: TGS3Server,MD5SHA1Server,TGS3Client,MD5SHA1Client,TGS3ServerConsole,MD5SHA1ServerConsole
-    draft: false
+    artifact: ServerConsole,ServerService,ServerUpdatePackage
+    draft: true
     on:
       TGSDeploy: "Do it."
   - provider: NuGet
