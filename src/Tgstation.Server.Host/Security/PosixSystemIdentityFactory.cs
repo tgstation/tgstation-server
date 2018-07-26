@@ -8,6 +8,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// <see cref="ISystemIdentityFactory"/> for posix systems
 	/// </summary>
+	/// <remarks>Blocked by https://github.com/dotnet/corefx/issues/3187</remarks>
 	sealed class PosixSystemIdentityFactory : ISystemIdentityFactory
 	{
 		/// <inheritdoc />
