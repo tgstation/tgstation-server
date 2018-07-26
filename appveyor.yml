@@ -63,6 +63,9 @@ after_test:
   - ps: Remove-Item artifacts/ServerHost/appsettings.Docker.json
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerService/lib/Default -recurse
   - ps: ls artifacts/ServerService
+  #I have literally no idea how these jsons got here
+  - ps: Remove-Item -path artifacts/ServerService/appsettings.json
+  - ps: Remove-Item -path artifacts/ServerService/appsettings..Docker.json
   - ps: Move-Item -path artifacts/ServerService/lib/Default/appsettings.json -destination artifacts/ServerService/
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerConsole/lib/Default -recurse
   - ps: Move-Item -path artifacts/ServerConsole/lib/Default/appsettings.json -destination artifacts/ServerConsole/
