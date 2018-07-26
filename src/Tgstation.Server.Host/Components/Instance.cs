@@ -74,7 +74,14 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => timerCts?.Dispose();
+		public void Dispose()
+		{
+			timerCts?.Dispose();
+			Watchdog.Dispose();
+			Chat.Dispose();
+			RepositoryManager.Dispose();
+			compileJobConsumer.Dispose();
+		}
 
 		/// <summary>
 		/// Pull the repository and compile for every set of given <paramref name="minutes"/>

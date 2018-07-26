@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Factory for creating and loading <see cref="IRepository"/>s
 	/// </summary>
-    public interface IRepositoryManager
+    public interface IRepositoryManager : IDisposable
 	{
 		/// <summary>
 		/// Attempt to load the <see cref="IRepository"/> from the default location
