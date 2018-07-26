@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.ComponentModel;
-using System.Globalization;
+using System.DirectoryServices.AccountManagement;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
@@ -24,15 +24,19 @@ namespace Tgstation.Server.Host.Security
 			if (user.SystemIdentifier == null)
 				throw new InvalidOperationException("User's SystemIdentifier must not be null!");
 
-			//System identity at this point will always be in the form DOMAIN\\USER or USER
-			var splits = user.SystemIdentifier.Split('\\');
-			string identity;
-			if (splits.Length > 1)
-				identity = String.Format(CultureInfo.InvariantCulture, "{0}@{1}", splits[0], splits[1]);
-			else
-				identity = user.SystemIdentifier;
+			UserPrincipal principal = null;
+			//machine logon first cause it's faster
+			using (var pc = new PrincipalContext(ContextType.Machine, Environment.UserDomainName))
+				principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 
-			return (ISystemIdentity)new WindowsSystemIdentity(new WindowsIdentity(identity));
+			if(principal == null)
+				using (var pc = new PrincipalContext(ContextType.Domain, Environment.UserDomainName))
+					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
+
+			if (principal == null)
+				return null;
+
+			return (ISystemIdentity)new WindowsSystemIdentity(principal);
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />

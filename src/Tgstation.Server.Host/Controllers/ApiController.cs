@@ -115,6 +115,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			if (AuthenticationContext == null)
+			{
+				//accessing an instance they don't have access to
+				await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+				return;
+			}
+
 			//validate the headers
 			try
 			{

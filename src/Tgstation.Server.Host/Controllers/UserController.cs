@@ -82,6 +82,8 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					using (var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false))
 					{
+						if (sysIdentity == null)
+							return StatusCode((int)HttpStatusCode.Gone);
 						dbUser.Name = sysIdentity.Username;
 						dbUser.SystemIdentifier = sysIdentity.Uid;
 					}
@@ -89,11 +91,6 @@ namespace Tgstation.Server.Host.Controllers
 				catch (NotImplementedException)
 				{
 					return StatusCode((int)HttpStatusCode.NotImplemented);
-				}
-				catch(Exception e)
-				{
-					logger.LogInformation("System identifier user creation failure for {0}. Exception: {1}", model.SystemIdentifier, e);
-					return Forbid();
 				}
 			else
 				cryptographySuite.SetUserPassword(dbUser, model.Password);

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -33,6 +34,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="IApplication"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IApplication application;
+		/// <summary>
+		/// The <see cref="IAuthenticationContextFactory"/> for the <see cref="HomeController"/>
+		/// </summary>
+		readonly IAuthenticationContextFactory authenticationContextFactory;
 
 		/// <summary>
 		/// Construct a <see cref="HomeController"/>
@@ -49,6 +54,8 @@ namespace Tgstation.Server.Host.Controllers
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			//base checks not null
+			this.authenticationContextFactory = authenticationContextFactory;
 		}
 
 		/// <summary>
@@ -81,6 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (user == null)
 				return Unauthorized();
 
+			ISystemIdentity identity = null;
 			if (user.PasswordHash != null)
 			{
 				var originalHash = user.PasswordHash;
@@ -101,17 +109,23 @@ namespace Tgstation.Server.Host.Controllers
 			else
 				try
 				{
-					using (await systemIdentityFactory.CreateSystemIdentity(user.Name, ApiHeaders.Password, cancellationToken).ConfigureAwait(false)) { }
+					identity = await systemIdentityFactory.CreateSystemIdentity(user.Name, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
+					if (identity == null || identity.Uid != user.SystemIdentifier)
+						return Unauthorized();
 				}
-				catch
+				catch (NotImplementedException)
 				{
-					return Unauthorized();
+					return StatusCode((int)HttpStatusCode.NotImplemented);
 				}
+			using (identity) {
+				if (!user.Enabled.Value)
+					return Forbid();
 
-			if (!user.Enabled.Value)
-				return Forbid();
-
-			return Json(tokenFactory.CreateToken(user));
+				var token = tokenFactory.CreateToken(user, out var expiry);
+				if (identity != null)
+					authenticationContextFactory.CacheSystemIdentity(user, identity, expiry.AddSeconds(10));	//expire the identity slightly after the auth token in case of lag
+				return Json(token);
+			}
 		}
 	}
 }

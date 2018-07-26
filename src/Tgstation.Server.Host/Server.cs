@@ -87,9 +87,19 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public void RegisterForUpdate(Action action) => cancellationTokenSource.Token.Register(action);
+		public void RegisterForUpdate(Action action)
+		{
+			if (cancellationTokenSource == null)
+				throw new InvalidOperationException("Tried to register an update action on a non-running Server!");
+			cancellationTokenSource.Token.Register(action);
+		}
 
 		/// <inheritdoc />
-		public void Restart() => cancellationTokenSource.Cancel();
+		public void Restart()
+		{
+			if (cancellationTokenSource == null)
+				throw new InvalidOperationException("Tried to restart a non-running Server!");
+			cancellationTokenSource.Cancel();
+		}
 	}
 }
