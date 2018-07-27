@@ -40,7 +40,7 @@ WORKDIR /src/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
-EXPOSE 5000
+EXPOSE 80
 
 WORKDIR /app
 
