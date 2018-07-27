@@ -14,5 +14,5 @@
 		/// The <see cref="Models.CompileJob"/> for the <see cref="Components.Watchdog.ReattachInformation.Dmb"/>
 		/// </summary>
 		public CompileJob CompileJob { get; set; }
-    }
+	}
 }

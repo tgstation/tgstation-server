@@ -20,10 +20,5 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
-
-		/// <summary>
-		/// See <see cref="Api.Models.Repository.RevisionInformation"/>
-		/// </summary>
-		public RevisionInformation RevisionInformation { get; set; }
 	}
 }

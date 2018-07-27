@@ -20,10 +20,5 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
-
-		/// <summary>
-		/// <see cref="Api.Models.DreamMaker.LastJob"/>
-		/// </summary>
-		public CompileJob LastJob { get; set; }
 	}
 }

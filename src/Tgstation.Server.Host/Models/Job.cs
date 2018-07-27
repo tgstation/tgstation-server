@@ -17,8 +17,9 @@ namespace Tgstation.Server.Host.Models
 		public User CancelledBy { get; set; }
 
 		/// <summary>
-		/// The <see cref="Instance"/> the job belongs to if any
+		/// The <see cref="Models.Instance"/> the job belongs to if any
 		/// </summary>
+		[Required]
 		public Instance Instance { get; set; }
 
 		/// <inheritdoc />

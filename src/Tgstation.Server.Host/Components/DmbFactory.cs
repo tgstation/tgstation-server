@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			//where complete clause not necessary, only successful COMPILEjobs get in the db
-			var cj = await db.Instances.Where(x => x.Id == instanceId).SelectMany(x => x.CompileJobs).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var cj = await db.Instances.Where(x => x.Id == instanceId).SelectMany(x => x.RevisionInformations).SelectMany(x => x.CompileJobs).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (cj == default(CompileJob))
 				return;
 			var directoriesTask = ioManager.GetDirectories(".", cancellationToken);

@@ -193,6 +193,16 @@ namespace Tgstation.Server.Host.IO
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
+		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			if (destination == null)
+				throw new ArgumentNullException(nameof(destination));
+			source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
+			destination = ResolvePath(destination);
+			Directory.Move(source, destination);
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);

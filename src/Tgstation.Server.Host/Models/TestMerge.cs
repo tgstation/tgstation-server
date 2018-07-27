@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -15,6 +14,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.RevisionInformation"/> for the <see cref="TestMerge"/>
 		/// </summary>
+		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
 
 		/// <inheritdoc />

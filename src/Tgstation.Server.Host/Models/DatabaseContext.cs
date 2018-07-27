@@ -59,15 +59,11 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
 
-		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.ReattachInformation"/>s
-		/// </summary>
-		public DbSet<ReattachInformation> ReattachInformation { get; set; }
+		/// <inheritdoc />
+		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
-		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.WatchdogReattachInformation"/>s
-		/// </summary>
-		public DbSet<WatchdogReattachInformation> WatchdogReattachInformation { get; set; }
+		/// <inheritdoc />
+		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
 
 		/// <summary>
 		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
@@ -103,18 +99,32 @@ namespace Tgstation.Server.Host.Models
 			// build default model.
 			LogModelBuilderHelper.Build(modelBuilder.Entity<Log>());
 			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
-			modelBuilder.Entity<Instance>().HasIndex(x => x.Path).IsUnique();
-			modelBuilder.Entity<RevisionInformation>().HasIndex(x => x.Commit).IsUnique();
-			var user = modelBuilder.Entity<User>();
-			user.HasIndex(x => x.CanonicalName).IsUnique();
-			user.HasOne(x => x.CreatedBy).WithMany(x => x.CreatedUsers).OnDelete(DeleteBehavior.Restrict);
+
+			var userModel = modelBuilder.Entity<User>();
+			userModel.HasIndex(x => x.CanonicalName).IsUnique();
+			userModel.HasMany(x => x.TestMerges).WithOne(x => x.MergedBy).OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
+
+			var revInfo = modelBuilder.Entity<RevisionInformation>();
+			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
+			revInfo.HasMany(x => x.TestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
+			revInfo.HasIndex(x => x.Commit).IsUnique();
 
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
 			chatChannel.HasOne(x => x.ChatSettings).WithMany(x => x.Channels).HasForeignKey(x => x.ChatSettingsId).OnDelete(DeleteBehavior.Cascade);
+
+			var instanceModel = modelBuilder.Entity<Instance>();
+			instanceModel.HasIndex(x => x.Path).IsUnique();
+			instanceModel.HasMany(x => x.ChatSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasOne(x => x.DreamDaemonSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasOne(x => x.DreamMakerSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasOne(x => x.RepositorySettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasMany(x => x.RevisionInformations).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasMany(x => x.InstanceUsers).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <inheritdoc />

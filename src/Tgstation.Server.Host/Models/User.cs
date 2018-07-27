@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -30,6 +29,11 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="InstanceUser"/>s for the <see cref="User"/>
 		/// </summary>
 		public List<InstanceUser> InstanceUsers { get; set; }
+
+		/// <summary>
+		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>
+		/// </summary>
+		public List<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
 		/// See <see cref="ToApi()"/>
