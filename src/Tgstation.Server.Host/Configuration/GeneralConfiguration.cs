@@ -13,7 +13,7 @@
 		/// <summary>
 		/// Where log files are stored
 		/// </summary>
-		public string LogFilePath { get; set; }
+		public string LogFileDirectory { get; set; }
 
 		/// <summary>
 		/// If file logging is disabled

@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Octokit;
 using System;
@@ -99,9 +98,14 @@ namespace Tgstation.Server.Host.Core
 			services.Configure<GeneralConfiguration>(generalConfigurationSection);
 
 			var generalConfiguration = generalConfigurationSection.Get<GeneralConfiguration>();
+			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+			var ioManager = new DefaultIOManager();
 
 			if (!generalConfiguration.DisableFileLogging)
-				services.AddLogging(builder => builder.AddFile(generalConfiguration.LogFilePath));
+			{
+				var logPath = !String.IsNullOrEmpty(generalConfiguration.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");				
+				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log")));
+			}
 
 			services.AddOptions();
 
@@ -174,7 +178,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IGitHubClient>(x => new GitHubClient(new ProductHeaderValue(VersionPrefix, Version.ToString())));
 
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			if (isWindows)
 			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
@@ -204,9 +208,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<JobManager>();
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobManager>());
-
-			services.AddSingleton<DefaultIOManager>();
-			services.AddSingleton<IIOManager>(x => x.GetRequiredService<DefaultIOManager>());
+			
+			services.AddSingleton<IIOManager>(ioManager);
 
 			services.AddSingleton<DatabaseContextFactory>();
 			services.AddSingleton<IDatabaseContextFactory>(x => x.GetRequiredService<DatabaseContextFactory>());
