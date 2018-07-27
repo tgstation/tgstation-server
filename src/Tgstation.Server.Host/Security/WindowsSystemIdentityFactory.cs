@@ -24,14 +24,28 @@ namespace Tgstation.Server.Host.Security
 			if (user.SystemIdentifier == null)
 				throw new InvalidOperationException("User's SystemIdentifier must not be null!");
 
+			PrincipalContext pc = null;
 			UserPrincipal principal = null;
 			//machine logon first cause it's faster
-			using (var pc = new PrincipalContext(ContextType.Machine, Environment.UserDomainName))
+			try
+			{
+				pc = new PrincipalContext(ContextType.Machine, Environment.UserDomainName);
 				principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 
-			if(principal == null)
-				using (var pc = new PrincipalContext(ContextType.Domain, Environment.UserDomainName))
+				if (principal == null)
+				{
+					pc.Dispose();
+					pc = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
 					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
+					if (principal == null)
+						pc.Dispose();
+				}
+			}
+			catch
+			{
+				pc?.Dispose();
+				throw;
+			}
 
 			if (principal == null)
 				return null;
@@ -42,6 +56,10 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
+			if (username == null)
+				throw new ArgumentNullException(nameof(username));
+			if (password == null)
+				throw new ArgumentNullException(nameof(password));
 			var splits = username.Split('\\');
 
 			var res = NativeMethods.LogonUser(splits.Length > 1 ? splits[1] : splits[0], splits.Length > 1 ? splits[0] : null, password, 3 /*LOGON32_LOGON_NETWORK*/, 0 /*LOGON32_PROVIDER_DEFAULT*/, out var token);

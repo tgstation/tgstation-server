@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
-	sealed class AuthenticationContextFactory : IAuthenticationContextFactory, IDisposable
+	sealed class AuthenticationContextFactory : IAuthenticationContextFactory
 	{
 		/// <inheritdoc />
 		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
@@ -21,53 +21,22 @@ namespace Tgstation.Server.Host.Security
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="AuthenticationContextFactory"/>
+		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>
 		/// </summary>
-		readonly IDatabaseContextFactory databaseContextFactory;
+		readonly IDatabaseContext databaseContext;
 
-		/// <summary>
-		/// Map of <see cref="Api.Models.Internal.User.Id"/>s to <see cref="IdentityCache"/>s for that user
-		/// </summary>
-		readonly Dictionary<long, IdentityCache> identityCache;
+		readonly IIdentityCache identityCache;
 
 		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
-		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContextFactory databaseContextFactory)
+		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContext databaseContext, IIdentityCache identityCache)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
-			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-
-			identityCache = new Dictionary<long, IdentityCache>();
-		}
-
-		/// <inheritdoc />
-		public void Dispose()
-		{
-			foreach (var I in identityCache)
-				I.Value.Dispose();
-		}
-
-		/// <inheritdoc />
-		public void CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry)
-		{
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
-			if (systemIdentity == null)
-				throw new ArgumentNullException(nameof(systemIdentity));
-			lock (identityCache)
-			{
-				if (identityCache.TryGetValue(user.Id, out var identCache))
-					identCache.Dispose();   //also clears it out
-				identCache = new IdentityCache(systemIdentity.Clone(), expiry, () =>
-				{
-					lock (identityCache)
-						identityCache.Remove(user.Id);
-				});
-				identityCache.Add(user.Id, identCache);
-			}
+			this.databaseContext = databaseContext?? throw new ArgumentNullException(nameof(databaseContext));
+			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 		}
 
 		/// <inheritdoc />
@@ -76,32 +45,24 @@ namespace Tgstation.Server.Host.Security
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
-			User user = null;
-			await databaseContextFactory.UseContext(async db =>
-			{
-				var userQuery = db.Users.Where(x => x.Id == userId);
+			var userQuery = databaseContext.Users.Where(x => x.Id == userId);
 
-				if (instanceId.HasValue)
-					userQuery = userQuery.Include(x => x.InstanceUsers.Where(y => y.Id == instanceId));
+			if (instanceId.HasValue)
+				userQuery = userQuery.Include(x => x.InstanceUsers.Where(y => y.Id == instanceId));
 
-				user = await userQuery.Include(x => x.InstanceUsers).FirstAsync(cancellationToken).ConfigureAwait(false);
-			}).ConfigureAwait(false);
+			var user = await userQuery.Include(x => x.InstanceUsers).FirstAsync(cancellationToken).ConfigureAwait(false);
 
 			InstanceUser instanceUser = null;
 			if (instanceId.HasValue)
 				instanceUser = user.InstanceUsers.Where(x => x.InstanceId == instanceId).FirstOrDefault();
 
-			if (instanceUser == default)
-				return;
-
 			ISystemIdentity systemIdentity;
 			if (user.SystemIdentifier != null)
-				lock (identityCache)
-				{
-					if (!identityCache.TryGetValue(userId, out var identCache))
-						throw new InvalidOperationException("Cached system identity has expired!");
-					systemIdentity = identCache.SystemIdentity.Clone();
-				}
+			{
+				systemIdentity = identityCache.LoadCachedIdentity(user);
+				if (systemIdentity == null)
+					throw new InvalidOperationException("Cached system identity has expired!");
+			}
 			else
 				systemIdentity = null;
 

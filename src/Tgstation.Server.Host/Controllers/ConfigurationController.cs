@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory)
+		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, true)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));

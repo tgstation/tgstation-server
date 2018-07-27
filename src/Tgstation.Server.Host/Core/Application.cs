@@ -148,9 +148,9 @@ namespace Tgstation.Server.Host.Core
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}!", nameof(DatabaseType)));
 			}
-
-			//very important this remains a singleton
-			services.AddSingleton<IAuthenticationContextFactory, AuthenticationContextFactory>();
+			
+			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
+			services.AddSingleton<IIdentityCache, IdentityCache>();
 
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();

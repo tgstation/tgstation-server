@@ -1,63 +1,57 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
-	/// <summary>
-	/// For keeping a specific <see cref="ISystemIdentity"/> alive for a period of time
-	/// </summary>
-	sealed class IdentityCache : IDisposable
+	/// <inheritdoc />
+	sealed class IdentityCache : IIdentityCache, IDisposable
 	{
-		/// <summary>
-		/// The <see cref="ISystemIdentity"/> the <see cref="IdentityCache"/> manages
-		/// </summary>
-		public ISystemIdentity SystemIdentity { get; }
+		readonly Dictionary<long, IdentityCacheObject> cachedIdentities;
 
-		/// <summary>
-		/// The <see cref="cancellationTokenSource"/> for the <see cref="IdentityCache"/>
-		/// </summary>
-		readonly CancellationTokenSource cancellationTokenSource;
-
-		/// <summary>
-		/// The <see cref="Task"/> to clean up <see cref="SystemIdentity"/>
-		/// </summary>
-		readonly Task task;
-
-		/// <summary>
-		/// Construct an <see cref="IdentityCache"/>
-		/// </summary>
-		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/></param>
-		/// <param name="expiry">The <see cref="DateTimeOffset"/></param>
-		/// <param name="onExpiry">An optional <see cref="Action"/> to take on expiry</param>
-		public IdentityCache(ISystemIdentity systemIdentity, DateTimeOffset expiry, Action onExpiry)
+		public IdentityCache()
 		{
-			SystemIdentity = systemIdentity ?? throw new ArgumentNullException(nameof(systemIdentity));
-
-			cancellationTokenSource = new CancellationTokenSource();
-
-		 	async Task DisposeOnExipiry(CancellationToken cancellationToken)
-			{
-				using (SystemIdentity)
-					try
-					{
-						await Task.Delay(expiry - DateTimeOffset.Now, cancellationToken).ConfigureAwait(false);
-					}
-					finally
-					{
-						onExpiry?.Invoke();
-					}
-			}
-
-			task = DisposeOnExipiry(cancellationTokenSource.Token);
+			cachedIdentities = new Dictionary<long, IdentityCacheObject>();
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			cancellationTokenSource.Cancel();
-			task.Wait();
-			cancellationTokenSource.Dispose();
+			foreach (var I in cachedIdentities)
+				I.Value.Dispose();
+		}
+
+		/// <inheritdoc />
+		public void CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry)
+		{
+			if (user == null)
+				throw new ArgumentNullException(nameof(user));
+			if (systemIdentity == null)
+				throw new ArgumentNullException(nameof(systemIdentity));
+			lock (cachedIdentities)
+			{
+				if (cachedIdentities.TryGetValue(user.Id, out var identCache))
+					identCache.Dispose();   //also clears it out
+				identCache = new IdentityCacheObject(systemIdentity.Clone(), () =>
+				{
+					lock (cachedIdentities)
+						cachedIdentities.Remove(user.Id);
+				}, expiry);
+				cachedIdentities.Add(user.Id, identCache);
+			}
+		}
+
+		/// <inheritdoc />
+		public ISystemIdentity LoadCachedIdentity(User user)
+		{
+			if (user == null)
+				throw new ArgumentNullException(nameof(user));
+			lock (cachedIdentities)
+			{
+				if (cachedIdentities.TryGetValue(user.Id, out var identity))
+					return identity.SystemIdentity;
+				return null;
+			}
 		}
 	}
 }

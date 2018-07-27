@@ -24,7 +24,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		public ModelController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory) : base(databaseContext, authenticationContextFactory) { }
+		/// <param name="requireInstance">If the <see cref="ModelController{TModel}"/> requires an <see cref="IAuthenticationContext.InstanceUser"/></param>
+		public ModelController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, bool requireInstance) : base(databaseContext, authenticationContextFactory, requireInstance) { }
 
 		/// <summary>
 		/// Attempt to create a <paramref name="model"/>
@@ -49,7 +50,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="id">The ID of the model to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		[HttpGet("/{id}")]
+		[HttpGet("{id}")]
 		public virtual Task<IActionResult> GetId(long id, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 
 		/// <summary>
@@ -75,7 +76,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		[HttpGet("/List")]
+		[HttpGet("List")]
 		public virtual Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 	}
 }

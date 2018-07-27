@@ -35,9 +35,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		readonly IApplication application;
 		/// <summary>
-		/// The <see cref="IAuthenticationContextFactory"/> for the <see cref="HomeController"/>
+		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>
 		/// </summary>
-		readonly IAuthenticationContextFactory authenticationContextFactory;
+		readonly IIdentityCache identityCache;
 
 		/// <summary>
 		/// Construct a <see cref="HomeController"/>
@@ -48,14 +48,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application) : base(databaseContext, authenticationContextFactory)
+		/// <param name="identityCache">The value of <see cref="identityCache"/</param>
+		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application, IIdentityCache identityCache) : base(databaseContext, authenticationContextFactory, false)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
-			//base checks not null
-			this.authenticationContextFactory = authenticationContextFactory;
+			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 		}
 
 		/// <summary>
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 				try
 				{
-					identity = await systemIdentityFactory.CreateSystemIdentity(user.Name, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
+					identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
 					if (identity == null || identity.Uid != user.SystemIdentifier)
 						return Unauthorized();
 				}
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				var token = tokenFactory.CreateToken(user, out var expiry);
 				if (identity != null)
-					authenticationContextFactory.CacheSystemIdentity(user, identity, expiry.AddSeconds(10));	//expire the identity slightly after the auth token in case of lag
+					identityCache.CacheSystemIdentity(user, identity, expiry.AddSeconds(10));	//expire the identity slightly after the auth token in case of lag
 				return Json(token);
 			}
 		}

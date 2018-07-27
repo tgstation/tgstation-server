@@ -16,14 +16,6 @@ namespace Tgstation.Server.Host.Security
 		IAuthenticationContext CurrentAuthenticationContext { get; }
 
 		/// <summary>
-		/// Keep a <paramref name="user"/>'s <paramref name="systemIdentity"/> alive until an <paramref name="expiry"/> time
-		/// </summary>
-		/// <param name="user">The <see cref="User"/> the <paramref name="systemIdentity"/> belongs to</param>
-		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> to cache</param>
-		/// <param name="expiry">When the <paramref name="systemIdentity"/> should expire</param>
-		void CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry);
-
-		/// <summary>
 		/// Create an <see cref="IAuthenticationContext"/> to populate <see cref="CurrentAuthenticationContext"/>
 		/// </summary>
 		/// <param name="userId">The <see cref="Api.Models.Internal.User.Id"/> of the <see cref="IAuthenticationContext.User"/></param>

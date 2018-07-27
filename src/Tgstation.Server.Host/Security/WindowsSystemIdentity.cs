@@ -40,7 +40,13 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => identity.Dispose();
+		public void Dispose()
+		{
+			if (identity != null)
+				identity.Dispose();
+			else
+				userPrincipal.Dispose();
+		}
 
 		/// <inheritdoc />
 		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
