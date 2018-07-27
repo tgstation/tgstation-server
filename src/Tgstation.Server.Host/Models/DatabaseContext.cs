@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
-using ZNetCS.AspNetCore.Logging.EntityFrameworkCore;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -37,11 +36,6 @@ namespace Tgstation.Server.Host.Models
 
 		/// <inheritdoc />
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
-
-		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="Log"/>s
-		/// </summary>
-		public DbSet<Log> Logs { get; set; }
 
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>
@@ -95,10 +89,6 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-
-			// build default model.
-			LogModelBuilderHelper.Build(modelBuilder.Entity<Log>());
-			modelBuilder.Entity<Log>().ToTable(nameof(Logs));
 
 			var userModel = modelBuilder.Entity<User>();
 			userModel.HasIndex(x => x.CanonicalName).IsUnique();

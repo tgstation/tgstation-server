@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Octokit;
 using System;
@@ -93,9 +95,16 @@ namespace Tgstation.Server.Host.Core
 			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
 			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
 			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
+			var generalConfigurationSection = configuration.GetSection(GeneralConfiguration.Section);
+			services.Configure<GeneralConfiguration>(generalConfigurationSection);
+
+			var generalConfiguration = generalConfigurationSection.Get<GeneralConfiguration>();
+
+			if (!generalConfiguration.DisableFileLogging)
+				services.AddLogging(builder => builder.AddFile(generalConfiguration.LogFilePath));
 
 			services.AddOptions();
-			
+
 			const string scheme = "JwtBearer";
 			services.AddAuthentication((options) =>
 			{
