@@ -612,6 +612,90 @@
 			]
 		},
 		{
+			"name": "Instance",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Instance TestInstance",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Instance\",\n    \"path\": \"C:\\\\TestInstance\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Instance invalid path",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Instance\",\n    \"path\": \"C:\\\\Windows\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Login Admin Default",
 			"request": {
 				"auth": {
@@ -698,7 +782,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjY1ODI0OSIsIm5iZiI6IjE1MzI2NTQ2NDkiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.nfVqGC501-l1hkXCn6NsLj-rLFBVU65feHKLxXV3X8c",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjY1ODQ4MiIsIm5iZiI6IjE1MzI2NTQ4ODIiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.GgcD2qfa5bA16w-lb2oEZLcieZhSGWg9wIv-OvhqGuA",
 				"type": "string"
 			}
 		]
