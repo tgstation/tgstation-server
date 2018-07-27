@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Models
 			var revInfo = modelBuilder.Entity<RevisionInformation>();
 			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasMany(x => x.TestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
-			revInfo.HasIndex(x => x.Commit).IsUnique();
+			revInfo.HasIndex(x => x.CommitSha).IsUnique();
 
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();

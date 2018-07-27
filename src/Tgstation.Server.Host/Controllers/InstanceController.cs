@@ -205,5 +205,14 @@ namespace Tgstation.Server.Host.Controllers
 			var instances = await DatabaseContext.Instances.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id && y.AnyRights)).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(instances);
 		}
+
+		/// <inheritdoc />
+		[TgsAuthorize]
+		public override Task<IActionResult> Read(CancellationToken cancellationToken)
+		{
+			if (Instance == null)
+				return Task.FromResult<IActionResult>(BadRequest(new { message = "No instance specified" }));
+			return Task.FromResult<IActionResult>(Json(Instance.ToApi()));
+		}
 	}
 }

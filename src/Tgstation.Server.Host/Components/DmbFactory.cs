@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (!job.DMApiValidated || job.Job.Cancelled || job.Job.ExceptionDetails != null || job.Job.StoppedAt == null)
+			if (job.DMApiValidated != true || job.Job.Cancelled || job.Job.ExceptionDetails != null || job.Job.StoppedAt == null)
 				throw new InvalidOperationException("Cannot load incomplete compile job!");
 			if (setAsStagedInDb)
 				await databaseContextFactory.UseContext(async db =>

@@ -29,8 +29,8 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public Api.Models.RevisionInformation ToApi() => new Api.Models.RevisionInformation
 		{
-			Commit = Commit,
-			OriginRevision = OriginRevision,
+			CommitSha = CommitSha,
+			OriginCommitSha = OriginCommitSha,
 			TestMerges = TestMerges.Select(x => x.ToApi()).ToList()
 		};
 	}
