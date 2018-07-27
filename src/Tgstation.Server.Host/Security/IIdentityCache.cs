@@ -3,6 +3,9 @@ using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
+	/// <summary>
+	/// For caching <see cref="ISystemIdentity"/>s
+	/// </summary>
     public interface IIdentityCache
 	{
 		/// <summary>

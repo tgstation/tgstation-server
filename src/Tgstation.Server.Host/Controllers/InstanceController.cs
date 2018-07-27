@@ -107,6 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(newInstance.ToApi());
 		}
 
+		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
@@ -197,6 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(originalModel.ToApi());
 		}
 
+		/// <inheritdoc />
 		[TgsAuthorize]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{

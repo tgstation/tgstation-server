@@ -25,13 +25,17 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		readonly IDatabaseContext databaseContext;
 
+		/// <summary>
+		/// The <see cref="IIdentityCache"/> for the <see cref="AuthenticationContextFactory"/>
+		/// </summary>
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
+		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
 		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContext databaseContext, IIdentityCache identityCache)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));

@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		/// <param name="identityCache">The value of <see cref="identityCache"/</param>
+		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
 		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application, IIdentityCache identityCache) : base(databaseContext, authenticationContextFactory, false)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
