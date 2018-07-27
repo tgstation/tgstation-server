@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar
+	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar, IDisposable
 	{
 		/// <summary>
 		/// HTTP GET query key for interop access identifiers
@@ -69,6 +68,13 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
+		public void Dispose()
+		{
+			foreach (var I in instances)
+				I.Value.Dispose();
+		}
+
+		/// <inheritdoc />
 		public IInstance GetInstance(Models.Instance metadata)
 		{
 			if (metadata == null)
@@ -119,7 +125,14 @@ namespace Tgstation.Server.Host.Components
 					throw new InvalidOperationException("Instance not online!");
 				instances.Remove(metadata.Id);
 			}
-			await instance.StopAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				await instance.StopAsync(cancellationToken).ConfigureAwait(false);
+			}
+			finally
+			{
+				instance.Dispose();
+			}
 		}
 
 		/// <inheritdoc />
@@ -128,11 +141,19 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 			var instance = instanceFactory.CreateInstance(metadata, this);
-			lock (this)
+			try
 			{
-				if (instances.ContainsKey(metadata.Id))
-					throw new InvalidOperationException("Instance already online!");
-				instances.Add(metadata.Id, instance);
+				lock (this)
+				{
+					if (instances.ContainsKey(metadata.Id))
+						throw new InvalidOperationException("Instance already online!");
+					instances.Add(metadata.Id, instance);
+				}
+			}
+			catch
+			{
+				instance.Dispose();
+				throw;
 			}
 			await instance.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
@@ -143,9 +164,13 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
-				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
+				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
+				.Include(x => x.RepositorySettings)
+				.Include(x => x.ChatSettings)
+				.Include(x => x.DreamDaemonSettings)
+				.ToAsyncEnumerable();
 				var tasks = new List<Task>();
-				await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, cancellationToken)), cancellationToken).ConfigureAwait(false);
+				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 				application.Ready(null);
 			}
@@ -156,11 +181,7 @@ namespace Tgstation.Server.Host.Components
 		});
 
 		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
-		{
-			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
-			instances.Clear();
-		}
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken)));
 
 		/// <inheritdoc />
 		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)

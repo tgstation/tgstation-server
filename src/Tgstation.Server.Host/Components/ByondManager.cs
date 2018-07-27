@@ -125,8 +125,16 @@ namespace Tgstation.Server.Host.Components
 		{
 			var cacheCleanTask = byondInstaller.CleanCache(cancellationToken);
 
-			var activeVersionBytesTask = ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
+			async Task<byte[]> GetActiveVersion()
+			{
+				if (!await ioManager.FileExists(ActiveVersionFileName, cancellationToken).ConfigureAwait(false))
+					return null;
+				return await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+			}
 
+			var activeVersionBytesTask = GetActiveVersion();
+
+			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
 			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
 
 			async Task ReadVersion(string path)
@@ -148,13 +156,17 @@ namespace Tgstation.Server.Host.Components
 
 			await Task.WhenAll(directories.Select(x => ReadVersion(x))).ConfigureAwait(false);
 
-			var activeVersionString = Encoding.UTF8.GetString(await activeVersionBytesTask.ConfigureAwait(false));
-			if (Version.TryParse(activeVersionString, out var activeVersion))
-				ActiveVersion = activeVersion;
-			else
-				await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+			var activeVersionBytes = await activeVersionBytesTask.ConfigureAwait(false);
+			if (activeVersionBytes != null)
+			{
+				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
+				if (Version.TryParse(activeVersionString, out var activeVersion))
+					ActiveVersion = activeVersion;
+				else
+					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
 
-			await cacheCleanTask.ConfigureAwait(false);
+				await cacheCleanTask.ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />

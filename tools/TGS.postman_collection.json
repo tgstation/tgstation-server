@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e62d1230-5b76-45e2-9fb6-002e260daa2a",
+		"_postman_id": "a318afb1-1fa5-4d13-b007-9fb6ab4930e0",
 		"name": "TGS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -144,7 +144,7 @@
 		},
 		{
 			"name": "Users",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "Read Current User",
@@ -164,7 +164,10 @@
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "localhost:5000/User",
 							"host": [
@@ -196,7 +199,10 @@
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "localhost:5000/User/List",
 							"host": [
@@ -613,10 +619,127 @@
 		},
 		{
 			"name": "Instance",
-			"description": "",
+			"description": null,
 			"item": [
 				{
-					"name": "Create Instance TestInstance",
+					"name": "Online Instance ID 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"online\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offline Instance ID 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List instances",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Instance TestInstance Copy",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -782,7 +905,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjY1ODQ4MiIsIm5iZiI6IjE1MzI2NTQ4ODIiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.GgcD2qfa5bA16w-lb2oEZLcieZhSGWg9wIv-OvhqGuA",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjcxNjIzMSIsIm5iZiI6IjE1MzI3MTI2MzEiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.Kyuh1sX51BecGNcD8WiL_mXpgSTwkMV2EmVwoLBoxWo",
 				"type": "string"
 			}
 		]

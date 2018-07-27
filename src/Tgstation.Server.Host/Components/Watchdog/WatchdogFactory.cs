@@ -46,9 +46,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
-		readonly Models.Instance instance;
+		readonly Api.Models.Instance instance;
 	
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
-		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionControllerFactory, IServerUpdater serverUpdater, ILoggerFactory loggerFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, Models.Instance instance)
+		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionControllerFactory, IServerUpdater serverUpdater, ILoggerFactory loggerFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, Api.Models.Instance instance)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));

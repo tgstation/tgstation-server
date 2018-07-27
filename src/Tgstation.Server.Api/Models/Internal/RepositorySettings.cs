@@ -39,12 +39,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If commits created from testmerges are pushed to the remote
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
-		public bool PushTestMergeCommits { get; set; }
+		[Required]
+		public bool? PushTestMergeCommits { get; set; }
 
 		/// <summary>
 		/// If test merge commits are signed with the username of the person who merged it. Note this only affects future commits
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
-		public bool ShowTestMergeCommitters { get; set; }
+		[Required]
+		public bool? ShowTestMergeCommitters { get; set; }
 	}
 }

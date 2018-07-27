@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class Instance : IInstance, IDisposable
+	sealed class Instance : IInstance
 	{
 		/// <inheritdoc />
 		public IRepositoryManager RepositoryManager { get; }
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
 			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
-			watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
+			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
@@ -132,10 +132,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Watchdog.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken), Watchdog.StartAsync(cancellationToken));
+		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Watchdog.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(int? newInterval)

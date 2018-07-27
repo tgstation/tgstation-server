@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
-			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata);
+			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata.CloneMetadata());
 			try
 			{
 				var commandFactory = new CommandFactory(application);
@@ -128,18 +128,28 @@ namespace Tgstation.Server.Host.Components
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
 					var configuration = new Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<Configuration>());
 
-					var chat = chatFactory.CreateChat();
+					var chat = chatFactory.CreateChat(metadata.ChatSettings);
 					try
 					{
-						var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata);
-						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata);
-						var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, metadata);
+
+						foreach (var I in metadata.ChatSettings)
+						{
+							//required to be synchrounous
+							var task = chat.ChangeSettings(I, default);
+							if (!task.IsCompleted)
+								throw new InvalidOperationException("Initial chat setup is asynchronous!");
+							task.GetAwaiter().GetResult();
+						}
+
+						var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());
+						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata.CloneMetadata());
+						var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(dmbFactory, metadata.DreamDaemonSettings);
 						try
 						{
 							var dreamMaker = new DreamMaker(byond, ioManager, configuration, sessionControllerFactory, dmbFactory, application, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata, repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory);
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory);
 						}
 						catch
 						{
