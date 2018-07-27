@@ -25,19 +25,26 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly ICommandFactory commandFactory;
 
 		/// <summary>
+		/// The <see cref="IProviderFactory"/> for the <see cref="ChatFactory"/>
+		/// </summary>
+		readonly IProviderFactory providerFactory;
+
+		/// <summary>
 		/// Construct a <see cref="ChatFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
-		public ChatFactory(IIOManager ioManager, ILoggerFactory loggerFactory, ICommandFactory commandFactory)
+		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
+		public ChatFactory(IIOManager ioManager, ILoggerFactory loggerFactory, ICommandFactory commandFactory, IProviderFactory providerFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 		}
 
 		/// <inheritdoc />
-		public IChat CreateChat(IEnumerable<Models.ChatSettings> initialChatSettings) => new Chat(new ProviderFactory(), ioManager, loggerFactory.CreateLogger<Chat>(), commandFactory, initialChatSettings);
+		public IChat CreateChat(IEnumerable<Models.ChatSettings> initialChatSettings) => new Chat(providerFactory, ioManager, loggerFactory.CreateLogger<Chat>(), commandFactory, initialChatSettings);
 	}
 }

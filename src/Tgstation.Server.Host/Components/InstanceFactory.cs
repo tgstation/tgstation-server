@@ -74,6 +74,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
+		/// The <see cref="IProviderFactory"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IProviderFactory providerFactory;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -88,7 +93,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller)
+		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -102,6 +108,7 @@ namespace Tgstation.Server.Host.Components
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
+			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 		}
 
 		/// <inheritdoc />
@@ -120,7 +127,7 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				var commandFactory = new CommandFactory(application);
-				var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory);
+				var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
 
 				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
 				try
@@ -131,16 +138,6 @@ namespace Tgstation.Server.Host.Components
 					var chat = chatFactory.CreateChat(metadata.ChatSettings);
 					try
 					{
-
-						foreach (var I in metadata.ChatSettings)
-						{
-							//required to be synchrounous
-							var task = chat.ChangeSettings(I, default);
-							if (!task.IsCompleted)
-								throw new InvalidOperationException("Initial chat setup is asynchronous!");
-							task.GetAwaiter().GetResult();
-						}
-
 						var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata.CloneMetadata());
 						var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, metadata.CloneMetadata());

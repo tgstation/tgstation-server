@@ -171,7 +171,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return new Channel
 				{
 					RealId = discordChannel.Id,
-					IsAdmin = channel.IsAdminChannel,
+					IsAdmin = channel.IsAdminChannel == true,
 					ConnectionName = discordChannel.Guild.Name,
 					FriendlyName = discordChannel.Name,
 					IsPrivate = false

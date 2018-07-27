@@ -77,12 +77,11 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),	//important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
 			};
 			DatabaseContext.ChatSettings.Add(dbModel);
-			DatabaseContext.ChatChannels.AddRange(dbModel.Channels);
 
 			try
 			{
@@ -116,7 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return BadRequest(new { message = e.Message });
 			}
-			return Json(dbModel);
+			return Json(dbModel.ToApi());
 		}
 
 		/// <inheritdoc />
@@ -143,7 +142,7 @@ namespace Tgstation.Server.Host.Controllers
 				foreach (var I in results)
 					I.ConnectionString = null;
 
-			return Json(results);
+			return Json(results.Select(x => x.ToApi()));
 		}
 
 		/// <inheritdoc />
@@ -197,10 +196,10 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			};
 
-			if (!CheckModified(x => x.ConnectionString, ChatSettingsRights.WriteConnectionString)
-				|| !CheckModified(x => x.Enabled, ChatSettingsRights.WriteEnabled)
-				|| !CheckModified(x => x.Name, ChatSettingsRights.WriteName)
-				|| !CheckModified(x => x.Provider, ChatSettingsRights.WriteProvider)
+			if (CheckModified(x => x.ConnectionString, ChatSettingsRights.WriteConnectionString)
+				|| CheckModified(x => x.Enabled, ChatSettingsRights.WriteEnabled)
+				|| CheckModified(x => x.Name, ChatSettingsRights.WriteName)
+				|| CheckModified(x => x.Provider, ChatSettingsRights.WriteProvider)
 				|| (model.Channels != null && !userRights.HasFlag(ChatSettingsRights.WriteChannels)))
 				return Forbid();
 

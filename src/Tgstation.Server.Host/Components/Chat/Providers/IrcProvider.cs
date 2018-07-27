@@ -329,7 +329,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					return new Channel
 					{
 						RealId = id,
-						IsAdmin = x.IsAdminChannel,
+						IsAdmin = x.IsAdminChannel == true,
 						ConnectionName = address,
 						FriendlyName = channelIdMap[id],
 						IsPrivate = false

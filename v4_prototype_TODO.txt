@@ -16,3 +16,7 @@ Verify the byond cache folder location on linux
 Map hosting address and certificate directly from configuration
 
 Server updates. Use FOLDERS so dependencies can be properly packaged
+
+TgsAuthorize attribute |'ing doesn't work due to role names, change to params[]
+
+Chat straight doesn't work, fix it

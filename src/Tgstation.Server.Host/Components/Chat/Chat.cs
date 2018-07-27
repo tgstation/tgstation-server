@@ -156,7 +156,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			logger.LogTrace("Chat message: {0}. User (Note unconverted provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
 
-			var splits = new List<string>(message.Content.Split(' '));
+			var splits = new List<string>(message.Content.TrimEnd().Split(' '));
 			var address = splits[0];
 			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
 				address = address.Substring(0, address.Length - 1);
@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				return;
 			var mappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
 			{
-				IsWatchdogChannel = x.IsWatchdogChannel,
+				IsWatchdogChannel = x.IsWatchdogChannel == true,
 				ProviderChannelId = y.RealId,
 				ProviderId = connectionId,
 				Channel = y

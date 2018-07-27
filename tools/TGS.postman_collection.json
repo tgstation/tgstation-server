@@ -622,6 +622,278 @@
 			"description": null,
 			"item": [
 				{
+					"name": "Chat",
+					"description": "",
+					"item": [
+						{
+							"name": "Make ID 1 use NS auth",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": \"1\",\n\t\"connectionString\": \"irc.rizon.net;6667;tgs4_test;0;0;asdfasdf\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create tgs4_test on #coderbus Copy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Rizon\",\n\t\"enabled\": true,\n\t\"provider\": 0,\n\t\"connectionString\": \"irc.rizon.net;6667;tgs4_test;0\",\n\t\"channels\": [\n\t\t{\n\t\t\t\"ircChannel\": \"#coderbus\",\n\t\t\t\"isAdminChannel\": true,\n\t\t\t\"isWatchdogChannel\": true\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Rizon",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "localhost:5000/Chat/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List connections",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": true\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat/List",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat",
+										"List"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Users",
+					"description": "",
+					"item": [
+						{
+							"name": "Add admin to Instace ID 1 all perms",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": -1,\n\t\"dreamDaemonRights\": -1,\n\t\"dreamMakerRights\": -1,\n\t\"repositoryRights\": -1,\n\t\"chatSettingsRights\": -1,\n\t\"configurationRights\": -1\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/InstanceUser",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"InstanceUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Instance ID 1 Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": -1,\n\t\"dreamDaemonRights\": -1,\n\t\"dreamMakerRights\": -1,\n\t\"repositoryRights\": -1,\n\t\"chatSettingsRights\": -1,\n\t\"configurationRights\": -1\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/InstanceUser/List",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"InstanceUser",
+										"List"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Online Instance ID 1",
 					"request": {
 						"method": "POST",
@@ -702,7 +974,7 @@
 				{
 					"name": "List instances",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Accept",
@@ -726,20 +998,21 @@
 							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
 						},
 						"url": {
-							"raw": "localhost:5000/Instance",
+							"raw": "localhost:5000/Instance/List",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"Instance"
+								"Instance",
+								"List"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Create Instance TestInstance Copy",
+					"name": "Create Instance TestInstance",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -905,7 +1178,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjcxNjIzMSIsIm5iZiI6IjE1MzI3MTI2MzEiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.Kyuh1sX51BecGNcD8WiL_mXpgSTwkMV2EmVwoLBoxWo",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjcyNzE5NSIsIm5iZiI6IjE1MzI3MjM1OTUiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.VZIkaVQS0JRktRUx7yHVJdtFL8p_LcpF31zNW8SZ7Zc",
 				"type": "string"
 			}
 		]

@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
@@ -193,6 +194,7 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
+			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
 				ReceiveTimeout = 5000,

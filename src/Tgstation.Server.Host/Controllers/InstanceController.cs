@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -76,6 +77,18 @@ namespace Tgstation.Server.Host.Controllers
 				model.Path = model.Path.ToUpperInvariant();
 		}
 
+		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
+		{
+			ByondRights = (ByondRights)~0,
+			ChatSettingsRights = (ChatSettingsRights)~0,
+			ConfigurationRights = (ConfigurationRights)~0,
+			DreamDaemonRights = (DreamDaemonRights)~0,
+			DreamMakerRights = (DreamMakerRights)~0,
+			RepositoryRights = (RepositoryRights)~0,
+			InstanceUserRights = (InstanceUserRights)~0,
+			UserId = AuthenticationContext.User.Id
+		};
+
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Create)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
@@ -115,6 +128,11 @@ namespace Tgstation.Server.Host.Controllers
 					CommitterName = application.VersionString,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = true,
+				},
+				//give this user full privileges on the instance
+				InstanceUsers = new List<Models.InstanceUser>
+				{
+					InstanceAdminUser()
 				}
 			};
 
@@ -178,9 +196,14 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
-			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == model.Id)
+			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
+
+			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
+
+			var originalModel = await instanceQuery
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
+				.ThenInclude(x => x.Channels)
 				.Include(x => x.DreamDaemonSettings)    //need these for onlining
 				.FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
@@ -230,6 +253,13 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Name, InstanceManagerRights.Rename)
 				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline))
 				return Forbid();
+
+			//ensure the current user has write privilege on the instance
+			var usersInstanceUser = await usersInstanceUserTask.ConfigureAwait(false);
+			if (usersInstanceUser == default)
+				originalModel.InstanceUsers.Add(InstanceAdminUser());
+			else
+				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 

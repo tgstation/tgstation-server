@@ -86,7 +86,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
 
-
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
 			var enumerator = Enum.GetValues(typeof(RightsType));
