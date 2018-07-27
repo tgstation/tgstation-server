@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host.Watchdog
 {
@@ -11,14 +11,9 @@ namespace Tgstation.Server.Host.Watchdog
 	sealed class Watchdog : IWatchdog
 	{
 		/// <summary>
-		/// The initial <see cref="IServerFactory"/> for the <see cref="Watchdog"/>
+		/// The <see cref="IActiveLibraryDeleter"/> for the <see cref="Watchdog"/>
 		/// </summary>
-		readonly IServerFactory initialServerFactory;
-
-		/// <summary>
-		/// The <see cref="IActiveAssemblyDeleter"/> for the <see cref="Watchdog"/>
-		/// </summary>
-		readonly IActiveAssemblyDeleter activeAssemblyDeleter;
+		readonly IActiveLibraryDeleter activeLibraryDeleter;
 
 		/// <summary>
 		/// The <see cref="IIsolatedAssemblyContextFactory"/> for the <see cref="Watchdog"/>
@@ -33,14 +28,12 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <summary>
 		/// Construct a <see cref="Watchdog"/>
 		/// </summary>
-		/// <param name="initialServerFactory">The value of <see cref="initialServerFactory"/></param>
-		/// <param name="activeAssemblyDeleter">The value of <see cref="activeAssemblyDeleter"/></param>
+		/// <param name="activeLibraryDeleter">The value of <see cref="activeLibraryDeleter"/></param>
 		/// <param name="isolatedAssemblyLoader">The value of <see cref="isolatedAssemblyLoader"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Watchdog(IServerFactory initialServerFactory, IActiveAssemblyDeleter activeAssemblyDeleter, IIsolatedAssemblyContextFactory isolatedAssemblyLoader, ILogger<Watchdog> logger)
+		public Watchdog(IActiveLibraryDeleter activeLibraryDeleter, IIsolatedAssemblyContextFactory isolatedAssemblyLoader, ILogger<Watchdog> logger)
 		{
-			this.initialServerFactory = initialServerFactory ?? throw new ArgumentNullException(nameof(initialServerFactory));
-			this.activeAssemblyDeleter = activeAssemblyDeleter ?? throw new ArgumentNullException(nameof(activeAssemblyDeleter));
+			this.activeLibraryDeleter = activeLibraryDeleter ?? throw new ArgumentNullException(nameof(activeLibraryDeleter));
 			this.isolatedAssemblyLoader = isolatedAssemblyLoader ?? throw new ArgumentNullException(nameof(isolatedAssemblyLoader));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -48,34 +41,42 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <inheritdoc />
 		public async Task RunAsync(string[] args, CancellationToken cancellationToken)
 		{
+			const string DefaultAssemblyPath = "Default";
+
+			var assemblyStoragePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "lib");
+
 			logger.LogInformation("Host watchdog starting...");
+
+			var nextAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, DefaultAssemblyPath));
+			string lastAssemblyPath = null;
 			try
 			{
-				//first run the host we started with
-				logger.LogTrace("Running with initial server factory...");
-				var serverFactory = initialServerFactory;
-				logger.LogTrace("Determining location of host assembly...");
-				var assemblyPath = serverFactory.GetType().Assembly.Location;
-				logger.LogDebug("Path to initial host assembly: {0}", assemblyPath);
-				do
+				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
 					{
-						var server = serverFactory.CreateServer(args);
-						logger.LogTrace("Running server...");
-						await server.RunAsync(cancellationToken).ConfigureAwait(false);
-						logger.LogInformation("Active host exited.");
-
-						if (server.UpdatePath == null)
-							break;
-
-						logger.LogInformation("Update path is set to \"{0}\", attempting host assembly hotswap...", server.UpdatePath);
-						activeAssemblyDeleter.DeleteActiveAssembly(assemblyPath);
-						logger.LogTrace("Moving new host assembly in place...");
-						File.Move(server.UpdatePath, assemblyPath);
 						logger.LogTrace("Atttempting to create new server factory...");
-						serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(assemblyPath);
+						Guid updateGuid;
+						{   //forces serverFactory out of the picture once the scope ends
+							var serverFactory = isolatedAssemblyLoader.CreateIsolatedServerFactory(nextAssemblyPath);
+							using (var server = serverFactory.CreateServer(args, assemblyStoragePath))
+							{
+								logger.LogTrace("Running server...");
+								await server.RunAsync(cancellationToken).ConfigureAwait(false);
+								logger.LogInformation("Active host exited.");
+
+								if (!server.UpdateGuid.HasValue)
+									break;
+								updateGuid = server.UpdateGuid.Value;
+							}
+						}
+
+						logger.LogInformation("Update path is set to \"{0}\", attempting host assembly hotswap...", updateGuid);
+						GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, true);
+
+						activeLibraryDeleter.DeleteActiveLibrary(nextAssemblyPath);
+
+						nextAssemblyPath = Path.Combine(assemblyStoragePath, updateGuid.ToString());
 					}
-				while (!cancellationToken.IsCancellationRequested);
 			}
 			catch (OperationCanceledException)
 			{
@@ -84,6 +85,11 @@ namespace Tgstation.Server.Host.Watchdog
 			catch (Exception e)
 			{
 				logger.LogCritical("Error running host assembly! Exception: {0}", e);
+				nextAssemblyPath = lastAssemblyPath ?? DefaultAssemblyPath;	//don't wanna save a critfailed assembly
+			}
+			if (nextAssemblyPath != DefaultAssemblyPath)
+			{
+				logger.LogInformation("Setting next default host assembly path to {0}...", nextAssemblyPath);
 			}
 			logger.LogInformation("Host watchdog exiting...");
 		}

@@ -156,11 +156,29 @@ namespace Tgstation.Server.Host.IO
 		Task MoveFile(string source, string destination, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Moves a directory at <paramref name="source"/> to <paramref name="destination"/>
+		/// </summary>
+		/// <param name="source">The source directory path</param>
+		/// <param name="destination">The destination path</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task MoveDirectory(string source, string destination, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Downloads a file from <paramref name="url"/>
 		/// </summary>
 		/// <param name="url">The URL to download</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="byte"/>s of the downloaded file</returns>
 		Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Extract a set of <paramref name="zipFileBytes"/> to a given <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to unzip to</param>
+		/// <param name="zipFileBytes">The <see cref="byte"/>s of the <see cref="System.IO.Compression.ZipArchive"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken);
 	}
 }

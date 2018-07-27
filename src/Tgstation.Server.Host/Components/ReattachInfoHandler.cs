@@ -22,9 +22,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> for the <see cref="ReattachInfoHandler"/>
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="ReattachInfoHandler"/>
 		/// </summary>
-		readonly Models.Instance metadata;
+		readonly Api.Models.Instance metadata;
 
 		/// <summary>
 		/// Construct a <see cref="ReattachInfoHandler"/>
@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
-		public ReattachInfoHandler(IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, Models.Instance metadata)
+		public ReattachInfoHandler(IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
@@ -47,6 +47,8 @@ namespace Tgstation.Server.Host.Components
 
 			Models.ReattachInformation ConvertReattachInfo(ReattachInformation wdInfo)
 			{
+				if (wdInfo == null)
+					return null;
 				db.CompileJobs.Attach(wdInfo.Dmb.CompileJob);
 				return new Models.ReattachInformation
 				{

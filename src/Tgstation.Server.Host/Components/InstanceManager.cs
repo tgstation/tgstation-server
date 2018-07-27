@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar
+	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar, IDisposable
 	{
 		/// <summary>
 		/// HTTP GET query key for interop access identifiers
@@ -25,14 +24,22 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly IInstanceFactory instanceFactory;
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
+
+		/// <summary>
+		/// The <see cref="IApplication"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IApplication application;
+
 		/// <summary>
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
@@ -48,13 +55,23 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/></param>
 		/// <param name="ioManager">The value of <paramref name="ioManager"/></param>
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory)
+		/// <param name="application">The value of <see cref="application"/></param>
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.application = application ?? throw new ArgumentNullException(nameof(application));
+
 			instances = new Dictionary<long, IInstance>();
 			interopConsumers = new Dictionary<string, IInteropConsumer>();
+		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			foreach (var I in instances)
+				I.Value.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -108,7 +125,14 @@ namespace Tgstation.Server.Host.Components
 					throw new InvalidOperationException("Instance not online!");
 				instances.Remove(metadata.Id);
 			}
-			await instance.StopAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				await instance.StopAsync(cancellationToken).ConfigureAwait(false);
+			}
+			finally
+			{
+				instance.Dispose();
+			}
 		}
 
 		/// <inheritdoc />
@@ -117,11 +141,19 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 			var instance = instanceFactory.CreateInstance(metadata, this);
-			lock (this)
+			try
 			{
-				if (instances.ContainsKey(metadata.Id))
-					throw new InvalidOperationException("Instance already online!");
-				instances.Add(metadata.Id, instance);
+				lock (this)
+				{
+					if (instances.ContainsKey(metadata.Id))
+						throw new InvalidOperationException("Instance already online!");
+					instances.Add(metadata.Id, instance);
+				}
+			}
+			catch
+			{
+				instance.Dispose();
+				throw;
 			}
 			await instance.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
@@ -129,29 +161,27 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
-			await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
-			var dbInstances = databaseContext.Instances.Where(x => x.Online.Value).Include(x => x.RepositorySettings).Include(x => x.ChatSettings).Include(x => x.DreamDaemonSettings).ToAsyncEnumerable();
-			var tasks = new List<Task>();
-			await dbInstances.ForEachAsync(metadata => tasks.Add(OnlineInstance(metadata, cancellationToken)), cancellationToken).ConfigureAwait(false);
-			await Task.WhenAll(tasks).ConfigureAwait(false);
+			try
+			{
+				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
+				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
+				.Include(x => x.RepositorySettings)
+				.Include(x => x.ChatSettings)
+				.Include(x => x.DreamDaemonSettings)
+				.ToAsyncEnumerable();
+				var tasks = new List<Task>();
+				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
+				await Task.WhenAll(tasks).ConfigureAwait(false);
+				application.Ready(null);
+			}
+			catch (Exception e)
+			{
+				application.Ready(e);
+			}
 		});
 
 		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
-		{
-			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
-			instances.Clear();
-		}
-
-		/// <inheritdoc />
-		public Task<bool> PreserveActiveExecutablesIfNecessary(DreamDaemonLaunchParameters launchParameters, string accessToken, int pid, bool primary)
-		{
-			if (launchParameters == null)
-				throw new ArgumentNullException(nameof(launchParameters));
-			if (accessToken == null)
-				throw new ArgumentNullException(nameof(accessToken));
-			throw new NotImplementedException();
-		}
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken)));
 
 		/// <inheritdoc />
 		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)

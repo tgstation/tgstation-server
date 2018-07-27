@@ -69,6 +69,11 @@ namespace Tgstation.Server.Host.Components
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
+		/// The <see cref="IByondInstaller"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IByondInstaller byondInstaller;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -82,7 +87,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory)
+		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -95,6 +101,7 @@ namespace Tgstation.Server.Host.Components
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
 		}
 
 		/// <inheritdoc />
@@ -109,25 +116,64 @@ namespace Tgstation.Server.Host.Components
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
-			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata);
-			var commandFactory = new CommandFactory(application);
-			var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory);
+			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata.CloneMetadata());
+			try
+			{
+				var commandFactory = new CommandFactory(application);
+				var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory);
 
-			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
+				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
+				try
+				{
+					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
+					var configuration = new Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<Configuration>());
 
-			IByondManager byond = null;
-			var configuration = new Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<Configuration>());
-			
-			var chat = chatFactory.CreateChat();
-			var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata);
-			var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata);
-			var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, metadata);
-			var watchdog = watchdogFactory.CreateWatchdog(dmbFactory, metadata.DreamDaemonSettings);
+					var chat = chatFactory.CreateChat(metadata.ChatSettings);
+					try
+					{
 
-			var dreamMaker = new DreamMaker(byond, ioManager, configuration, sessionControllerFactory, dmbFactory, application, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+						foreach (var I in metadata.ChatSettings)
+						{
+							//required to be synchrounous
+							var task = chat.ChangeSettings(I, default);
+							if (!task.IsCompleted)
+								throw new InvalidOperationException("Initial chat setup is asynchronous!");
+							task.GetAwaiter().GetResult();
+						}
 
-			throw new NotImplementedException();
-			//return new Instance(metadata, repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory);
+						var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());
+						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata.CloneMetadata());
+						var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, metadata.CloneMetadata());
+						var watchdog = watchdogFactory.CreateWatchdog(dmbFactory, metadata.DreamDaemonSettings);
+						try
+						{
+							var dreamMaker = new DreamMaker(byond, ioManager, configuration, sessionControllerFactory, dmbFactory, application, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory);
+						}
+						catch
+						{
+							watchdog.Dispose();
+							throw;
+						}
+					}
+					catch
+					{
+						chat.Dispose();
+						throw;
+					}
+				}
+				catch
+				{
+					repoManager.Dispose();
+					throw;
+				}
+			}
+			catch
+			{
+				dmbFactory.Dispose();
+				throw;
+			}
 		}
 	}
 }

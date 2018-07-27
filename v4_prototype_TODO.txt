@@ -1,0 +1,18 @@
+Watchdog performance counters
+  - Remember to catch PlatformNotSupportedException()
+
+Event scripts
+
+Repo synchronization
+
+Repo controller
+
+Install as network service instead of LocalSystem if win10 >= Creators update to allow for unprivileged symlinks
+
+Nuspec stuff for api and client
+
+Verify the byond cache folder location on linux
+
+Map hosting address and certificate directly from configuration
+
+Server updates. Use FOLDERS so dependencies can be properly packaged

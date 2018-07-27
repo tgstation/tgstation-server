@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>4.0.0.0</Version>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss</Authors>
     <Company>/tg/station 13</Company>
     <Product />
@@ -15,6 +15,8 @@
     <NeutralLanguage>en-CA</NeutralLanguage>
     <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/build/tgs.ico</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
+    <PackageReleaseNotes>Prototype release</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

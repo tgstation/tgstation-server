@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can gracefully restart the host
 		/// </summary>
-		SoftStop = 2,
+		RestartHost = 2,
 		/// <summary>
 		/// User can change <see cref="Models.Administration.CurrentVersion"/>
 		/// </summary>

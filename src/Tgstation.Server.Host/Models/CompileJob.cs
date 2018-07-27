@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -8,14 +7,8 @@ namespace Tgstation.Server.Host.Models
 	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiConvertable<Api.Models.CompileJob>
 	{
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.Job.Id"/> of <see cref="Job"/>
-		/// </summary>
-		public long JobId { get; set; }
-
-		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.Job"/>
 		/// </summary>
-		[Required]
 		public Job Job { get; set; }
 
 		/// <summary>
@@ -27,6 +20,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form
 		/// </summary>
+		[Required]
 		public string ByondVersion { get; set; }
 
 		/// <inheritdoc />

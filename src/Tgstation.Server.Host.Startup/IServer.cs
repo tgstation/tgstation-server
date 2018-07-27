@@ -7,12 +7,12 @@ namespace Tgstation.Server.Host.Startup
 	/// <summary>
 	/// Represents the host
 	/// </summary>
-	public interface IServer
+	public interface IServer : IDisposable
 	{
         /// <summary>
         /// The path to the updated assembly to run if any. Populated once <see cref="RunAsync(CancellationToken)"/> returns
         /// </summary>
-        string UpdatePath { get; }
+        Guid? UpdateGuid { get; }
 
 		/// <summary>
 		/// Runs the <see cref="IServer"/>

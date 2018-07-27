@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.IO;
 
@@ -37,6 +38,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public IChat CreateChat() => new Chat(new ProviderFactory(), ioManager, loggerFactory.CreateLogger<Chat>(), commandFactory);
+		public IChat CreateChat(IEnumerable<Models.ChatSettings> initialChatSettings) => new Chat(new ProviderFactory(), ioManager, loggerFactory.CreateLogger<Chat>(), commandFactory, initialChatSettings);
 	}
 }

@@ -24,14 +24,21 @@ namespace Tgstation.Server.Host.Security
 		readonly IDatabaseContext databaseContext;
 
 		/// <summary>
+		/// The <see cref="IIdentityCache"/> for the <see cref="AuthenticationContextFactory"/>
+		/// </summary>
+		readonly IIdentityCache identityCache;
+
+		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
-		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContext databaseContext)
+		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
+		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContext databaseContext, IIdentityCache identityCache)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
-			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
+			this.databaseContext = databaseContext?? throw new ArgumentNullException(nameof(databaseContext));
+			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 		}
 
 		/// <inheritdoc />
@@ -49,9 +56,18 @@ namespace Tgstation.Server.Host.Security
 
 			InstanceUser instanceUser = null;
 			if (instanceId.HasValue)
-				instanceUser = user.InstanceUsers.Where(x => x.InstanceId == instanceId).First();
+				instanceUser = user.InstanceUsers.Where(x => x.InstanceId == instanceId).FirstOrDefault();
 
-			var systemIdentity = user.SystemIdentifier != null ? await systemIdentityFactory.CreateSystemIdentity(user, cancellationToken).ConfigureAwait(false) : null;
+			ISystemIdentity systemIdentity;
+			if (user.SystemIdentifier != null)
+			{
+				systemIdentity = identityCache.LoadCachedIdentity(user);
+				if (systemIdentity == null)
+					throw new InvalidOperationException("Cached system identity has expired!");
+			}
+			else
+				systemIdentity = null;
+
 			CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
 		}
 	}

@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public InteropController(IInstanceManager instanceManager, IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory) : base(databaseContext, authenticationContextFactory)
+		public InteropController(IInstanceManager instanceManager, IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory) : base(databaseContext, authenticationContextFactory, false)
 		{
 			this.instanceManager = instanceManager;
 		}

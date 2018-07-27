@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory)
+		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 			Task<RevisionInformation> revInfoTask;
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
-				revInfoTask = databaseContext.RevisionInformations.Where(x => x.Commit == repo.Head).Select(x => new RevisionInformation { Id = x.Id }).FirstAsync();
+				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repo.Head).Select(x => new RevisionInformation { Id = x.Id }).FirstAsync();
 				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 

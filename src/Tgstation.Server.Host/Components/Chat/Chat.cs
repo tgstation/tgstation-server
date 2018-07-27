@@ -58,6 +58,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly CancellationTokenSource handlerCts;
 
 		/// <summary>
+		/// The initial <see cref="Models.ChatSettings"/> for the <see cref="Chat"/>
+		/// </summary>
+		readonly List<Models.ChatSettings> initialChatSettings;
+		
+		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>
 		/// </summary>
 		ICustomCommandHandler customCommandHandler;
@@ -84,14 +89,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="commandFactory">The <see cref="ICommandFactory"/> used to populate <see cref="builtinCommands"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ILogger<Chat> logger, ICommandFactory commandFactory)
+		/// <param name="initialChatSettings">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatSettings"/></param>
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ILogger<Chat> logger, ICommandFactory commandFactory, IEnumerable<Models.ChatSettings> initialChatSettings)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.initialChatSettings = initialChatSettings?.ToList() ?? throw new ArgumentNullException(nameof(initialChatSettings));
+
 			builtinCommands = new Dictionary<string, ICommand>();
 			foreach (var I in commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory)))
-				builtinCommands.Add(I.Name, I);
+				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
 
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
@@ -221,9 +229,14 @@ namespace Tgstation.Server.Host.Components.Chat
 						if (I.Value.Connected && !messageTasks.ContainsKey(I.Value))
 							messageTasks.Add(I.Value, I.Value.NextMessage(cancellationToken));
 
+					if(messageTasks.Count == 0)
+					{
+						await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
+						continue;
+					}
+
 					//wait for a message
-					var tasks = messageTasks.Select(x => x.Value);
-					await Task.WhenAny().ConfigureAwait(false);
+					await Task.WhenAny(messageTasks.Select(x => x.Value)).ConfigureAwait(false);
 
 					//process completed ones
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted))
@@ -345,7 +358,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
+			await Task.WhenAll(initialChatSettings.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatSettings.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			chatHandler = MonitorMessages(handlerCts.Token);
 			started = true;
 		}

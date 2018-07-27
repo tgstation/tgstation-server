@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -8,7 +9,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For interacting with the instance services
 	/// </summary>
-	public interface IInstance : IHostedService
+	public interface IInstance : IHostedService, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the <see cref="IInstance"/>

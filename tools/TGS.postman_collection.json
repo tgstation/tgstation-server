@@ -1,0 +1,935 @@
+{
+	"info": {
+		"_postman_id": "a318afb1-1fa5-4d13-b007-9fb6ab4930e0",
+		"name": "TGS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Administration",
+			"description": null,
+			"item": [
+				{
+					"name": "Get Update Versions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/Administration",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Administration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mock Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentVersion\": {\n        \"major\": 3,\n        \"minor\": 2,\n        \"build\": 3,\n        \"revision\": 6,\n        \"majorRevision\": 0,\n        \"minorRevision\": 0\n    }\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Administration",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Administration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restart Server",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/Administration",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Administration"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1f443013-474b-4f66-afc1-3968552a4a7b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2f3d034-2618-428f-a956-7d83fcd5e309",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"description": null,
+			"item": [
+				{
+					"name": "Read Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/User/List",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User",
+								"List"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Bob Pass (asdf)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 1,\n    \"enabled\": true,\n    \"password\": \"asdf\",\n    \"name\": \"Bob\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Try To Add A SysId To User ID 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 2,\n    \"systemIdentifier\": \"fake\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable User ID 3",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 3,\n    \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Try To Add A Password To User ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 3,\n    \"password\": \"fake\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change User ID 2's password and name to bOb and fdsa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 2,\n    \"password\": \"fdsa\",\n    \"name\": \"bOb\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change User ID 2's name to Bob2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 2,\n    \"name\": \"Bob2\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Give User ID 3 rights",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 3,\n    \"administrationRights\": -1,\n\t\"instanceManagerRights\": -1,\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create system user Cyberboss",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"systemIdentifier\": \"Cyberboss\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login bob (asdf)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Password asdf"
+							},
+							{
+								"key": "Username",
+								"value": "bob"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000",
+							"host": [
+								"localhost"
+							],
+							"port": "5000"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login cyberboss",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Password no"
+							},
+							{
+								"key": "Username",
+								"value": "cyberboss"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000",
+							"host": [
+								"localhost"
+							],
+							"port": "5000"
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Instance",
+			"description": null,
+			"item": [
+				{
+					"name": "Online Instance ID 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"online\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offline Instance ID 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List instances",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Instance TestInstance Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Instance\",\n    \"path\": \"C:\\\\TestInstance\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Instance invalid path",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Instance\",\n    \"path\": \"C:\\\\Windows\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login Admin Default",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Postman/1.0"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Tgstation.Server.Api/4.0.0.0"
+					},
+					{
+						"key": "Authorization",
+						"value": "Password ISolemlySwearToDeleteTheDataDirectory"
+					},
+					{
+						"key": "Username",
+						"value": "admin"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VersionGet",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Postman/1.0"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Tgstation.Server.Api/4.0.0.0"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "asdfasdf",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMjcxNjIzMSIsIm5iZiI6IjE1MzI3MTI2MzEiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.Kyuh1sX51BecGNcD8WiL_mXpgSTwkMV2EmVwoLBoxWo",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cb655975-15d0-4115-9849-4493db7593c1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "55b4fd6c-39db-4c6b-9fe4-a9a2ebe7e09c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

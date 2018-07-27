@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -16,7 +15,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the DMAPI version detected is compatible
 		/// </summary>
-		public bool DMApiValidated { get; set; }
+		public bool? DMApiValidated { get; set; }
 
 		/// <summary>
 		/// The .dme file used for compilation

@@ -60,6 +60,16 @@ namespace Tgstation.Server.Host.Models
 		DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.ReattachInformation"/>s
+		/// </summary>
+		DbSet<ReattachInformation> ReattachInformations { get; set; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.WatchdogReattachInformation"/>s
+		/// </summary>
+		DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
+
+		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

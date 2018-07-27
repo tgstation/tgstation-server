@@ -4,17 +4,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Core.Tests
 {
 	[TestClass]
 	public sealed class TestApplication : IServerUpdater
 	{
-		public void ApplyUpdate(string updatePath) => throw new NotImplementedException();
+		public Task ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		public void RegisterForUpdate(Action action) => throw new NotImplementedException();
-		
+
+		public void Restart() => throw new NotImplementedException();
+
 		[TestMethod]
 		public async Task TestSuccessfulStartup()
 		{

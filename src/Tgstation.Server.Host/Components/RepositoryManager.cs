@@ -8,7 +8,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class RepositoryManager : IRepositoryManager, IDisposable
+	sealed class RepositoryManager : IRepositoryManager
 	{
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="RepositoryManager"/>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -8,10 +7,6 @@ namespace Tgstation.Server.Host.Models
 	/// </summary>
 	public sealed class Instance : Api.Models.Instance, IApiConvertable<Api.Models.Instance>
 	{
-		/// <summary>
-		/// The <see cref="Models.ChatSettings"/> for the <see cref="Instance"/>
-		/// </summary>
-		public ChatSettings ChatSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
@@ -39,15 +34,15 @@ namespace Tgstation.Server.Host.Models
 		public List<InstanceUser> InstanceUsers { get; set; }
 
 		/// <summary>
-		/// The <see cref="TestMerge"/>s in the <see cref="Instance"/>
+		/// The <see cref="Models.ChatSettings"/>s for the <see cref="Instance"/>
 		/// </summary>
-		public List<TestMerge> TestMerges { get; set; }
+		public List<ChatSettings> ChatSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="CompileJob"/>s in the <see cref="Instance"/>
+		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<CompileJob> CompileJobs { get; set; }
-
+		public List<RevisionInformation> RevisionInformations { get; set; }
+		
 		/// <summary>
 		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
 		/// </summary>

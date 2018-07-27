@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger) : base(databaseContext, authenticationContextFactory)
+		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger) : base(databaseContext, authenticationContextFactory, false)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
@@ -82,6 +82,8 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					using (var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false))
 					{
+						if (sysIdentity == null)
+							return StatusCode((int)HttpStatusCode.Gone);
 						dbUser.Name = sysIdentity.Username;
 						dbUser.SystemIdentifier = sysIdentity.Uid;
 					}
@@ -89,11 +91,6 @@ namespace Tgstation.Server.Host.Controllers
 				catch (NotImplementedException)
 				{
 					return StatusCode((int)HttpStatusCode.NotImplemented);
-				}
-				catch(Exception e)
-				{
-					logger.LogInformation("System identifier user creation failure for {0}. Exception: {1}", model.SystemIdentifier, e);
-					return Forbid();
 				}
 			else
 				cryptographySuite.SetUserPassword(dbUser, model.Password);

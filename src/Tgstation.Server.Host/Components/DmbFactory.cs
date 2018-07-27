@@ -39,9 +39,9 @@ namespace Tgstation.Server.Host.Components
 		readonly CancellationTokenSource cleanupCts;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/> the <see cref="DmbFactory"/> belongs to
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>
 		/// </summary>
-		readonly long instanceId;
+		readonly Api.Models.Instance instance;
 		
 		/// <summary>
 		/// <see cref="Task"/> representing calls to <see cref="CleanJob(CompileJob)"/>
@@ -63,13 +63,14 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="instance">The <see cref="Models.Instance"/> used to populate <see cref="instanceId"/></param>
-		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager, Models.Instance instance)
+		/// <param name="instance">The value of <see cref="instance"/></param>
+		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager, Api.Models.Instance instance)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			instanceId = instance?.Id ?? throw new ArgumentNullException(nameof(instance));
+			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
+			cleanupTask = Task.CompletedTask;
 			cleanupCts = new CancellationTokenSource();
 			jobLockCounts = new Dictionary<long, int>();
 		}
@@ -106,14 +107,14 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (!job.DMApiValidated || job.Job.Cancelled || job.Job.ExceptionDetails != null || job.Job.StoppedAt == null)
+			if (job.DMApiValidated != true || job.Job.Cancelled || job.Job.ExceptionDetails != null || job.Job.StoppedAt == null)
 				throw new InvalidOperationException("Cannot load incomplete compile job!");
 			if (setAsStagedInDb)
 				await databaseContextFactory.UseContext(async db =>
 				{
 					var ddsettings = new DreamDaemonSettings
 					{
-						InstanceId = instanceId
+						InstanceId = instance.Id
 					};
 					db.DreamDaemonSettings.Attach(ddsettings);
 					ddsettings.StagedCompileJob = job;
@@ -152,7 +153,7 @@ namespace Tgstation.Server.Host.Components
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			//where complete clause not necessary, only successful COMPILEjobs get in the db
-			var cj = await db.Instances.Where(x => x.Id == instanceId).SelectMany(x => x.CompileJobs).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var cj = await db.Instances.Where(x => x.Id == instance.Id).SelectMany(x => x.RevisionInformations).SelectMany(x => x.CompileJobs).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (cj == default(CompileJob))
 				return;
 			var directoriesTask = ioManager.GetDirectories(".", cancellationToken);

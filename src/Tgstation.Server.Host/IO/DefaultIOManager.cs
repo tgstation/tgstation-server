@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -46,6 +47,12 @@ namespace Tgstation.Server.Host.IO
 			dir.Delete(true);
 		}
 
+		/// <summary>
+		/// Opens a <see cref="FileStream"/> for async writing at a given <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to open the <see cref="FileStream"/> at</param>
+		/// <returns>A new <see cref="FileStream"/> ready for async writing</returns>
+		static FileStream OpenWriteStream(string path) => new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, DefaultBufferSize, true);
 
 		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>
@@ -186,6 +193,16 @@ namespace Tgstation.Server.Host.IO
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
+		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			if (destination == null)
+				throw new ArgumentNullException(nameof(destination));
+			source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
+			destination = ResolvePath(destination);
+			Directory.Move(source, destination);
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
@@ -205,7 +222,7 @@ namespace Tgstation.Server.Host.IO
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using (var file = File.Open(path, FileMode.Create, FileAccess.Write))
+			using (var file = OpenWriteStream(path))
 				await file.WriteAsync(contents, 0, contents.Length, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -251,6 +268,33 @@ namespace Tgstation.Server.Host.IO
 			using (var wc = new WebClient())
 			using (cancellationToken.Register(() => wc.CancelAsync()))
 				return await wc.DownloadDataTaskAsync(url).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken)
+		{
+			path = ResolvePath(path);
+			if (zipFileBytes == null)
+				throw new ArgumentNullException(nameof(zipFileBytes));
+
+			using (var ms = new MemoryStream(zipFileBytes))
+			{
+				zipFileBytes = null;
+				using (var archive = new ZipArchive(ms))
+				{
+					string GetEntryName(ZipArchiveEntry entry) => ConcatPath(path, entry.FullName);
+					//create directories first
+					await Task.WhenAll(CreateDirectory(path, cancellationToken), Task.WhenAll(archive.Entries.Where(x => x.Name.Length == 0).Select(x => CreateDirectory(GetEntryName(x), cancellationToken)))).ConfigureAwait(false);
+					//extract files
+					await Task.WhenAll(archive.Entries.Where(x => x.Name.Length > 0).Select(async x =>
+					{
+						var entryPath = GetEntryName(x);
+						using (var stream = x.Open())
+						using (var file = OpenWriteStream(entryPath))
+							await stream.CopyToAsync(file).ConfigureAwait(false);
+					})).ConfigureAwait(false);
+				}
+			}
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Components
 	sealed class Configuration : IConfiguration
 	{
 		const string CodeModificationsSubdirectory = "CodeModifications";
-		//const string EventScriptsSubdirectory = "EventScripts";
+		const string EventScriptsSubdirectory = "EventScripts";
 		const string GameStaticFilesSubdirectory = "GameStaticFiles";
 
 		const string CodeModificationsHeadFile = "HeadInclude.dm";
@@ -58,9 +58,13 @@ namespace Tgstation.Server.Host.Components
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
+		Task EnsureDirectories(CancellationToken cancellationToken) => Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken));
+
 		/// <inheritdoc />
 		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+
 			//just assume no other fs race conditions here
 			var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 			var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
@@ -101,6 +105,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			List<ConfigurationFile> result = new List<ConfigurationFile>();
@@ -132,6 +137,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			ConfigurationFile result = null;
@@ -176,8 +182,9 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
+		public async Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
 		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			async Task SymlinkBase(bool files)
 			{
 				Task<IReadOnlyList<string>> task;
@@ -189,12 +196,13 @@ namespace Tgstation.Server.Host.Components
 				await Task.WhenAll(entries.Select(x => symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ConcatPath(destination, x), cancellationToken))).ConfigureAwait(false);
 			}
 
-			return Task.WhenAll(SymlinkBase(true), SymlinkBase(false));
+			await Task.WhenAll(SymlinkBase(true), SymlinkBase(false)).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		public async Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, string previousHash, CancellationToken cancellationToken)
 		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			ConfigurationFile result = null;
@@ -239,5 +247,11 @@ namespace Tgstation.Server.Host.Components
 
 			return result;
 		}
+
+		/// <inheritdoc />
+		public Task StartAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 	}
 }

@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0-sdk AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 
 COPY tgstation-server.sln ./
@@ -33,17 +33,21 @@ RUN dotnet test -c Release
 WORKDIR /src/tests/Tgstation.Server.Host.Console.Tests
 RUN dotnet test -c Release
 
-FROM build AS publish
+WORKDIR /src/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app
 
-FROM microsoft/dotnet:2.0-runtime
+WORKDIR /src/src/Tgstation.Server.Host
+RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
+
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 EXPOSE 80
 
 WORKDIR /app
 
-COPY --from=publish /app .
+COPY --from=build /app .
+COPY --from=build /src/build/tgs.docker.sh tgs.sh
 
 RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
-VOLUME ["/config_data"]
+VOLUME ["/config_data", "/tgs_logs"]
 
-ENTRYPOINT ["dotnet", "Tgstation.Server.Host.Console.dll"]
+ENTRYPOINT ["./tgs.sh"]

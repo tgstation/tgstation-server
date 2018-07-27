@@ -81,9 +81,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly SemaphoreSlim semaphore;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/> the <see cref="Watchdog"/> belongs to
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="Watchdog"/>
 		/// </summary>
-		readonly long instanceId;
+		readonly Api.Models.Instance instance;
 
 		/// <summary>
 		/// If the <see cref="Watchdog"/> should <see cref="LaunchNoLock(bool, bool, bool, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
@@ -131,9 +131,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
-		/// <param name="instance">The <see cref="Models.Instance"/> containing the value of <see cref="instanceId"/></param>
+		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, DreamDaemonLaunchParameters initialLaunchParameters, Models.Instance instance, bool autoStart)
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			instanceId = instance?.Id ?? throw new ArgumentNullException(nameof(instance));
+			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
 			if (serverUpdater == null)
@@ -678,7 +678,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						{
 							var settings = new Models.DreamDaemonSettings
 							{
-								InstanceId = instanceId
+								InstanceId = instance.Id
 							};
 							var cj = (AlphaIsActive ? alphaServer : bravoServer).Dmb.CompileJob;
 							db.CompileJobs.Attach(cj);
@@ -760,9 +760,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			if (releaseServers)
+			if (releaseServers && Running)
 			{
-				var reattachInformation = new WatchdogReattachInformation { AlphaIsActive = AlphaIsActive };
+				var reattachInformation = new WatchdogReattachInformation
+				{
+					AlphaIsActive = AlphaIsActive
+				};
 				reattachInformation.Alpha = alphaServer?.Release();
 				reattachInformation.Bravo = bravoServer?.Release();
 				await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);

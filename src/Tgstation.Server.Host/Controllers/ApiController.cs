@@ -44,6 +44,11 @@ namespace Tgstation.Server.Host.Controllers
 		protected Instance Instance { get; }
 
 		/// <summary>
+		/// If <see cref="IAuthenticationContext.InstanceUser"/> permissions are required to access the <see cref="ApiController"/>
+		/// </summary>
+		readonly bool requireInstance;
+
+		/// <summary>
 		/// Runs after a <see cref="Api.Models.Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
 		/// </summary>
 		/// <param name="context">The <see cref="TokenValidatedContext"/> for the operation</param>
@@ -81,6 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
 
+
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
 			var enumerator = Enum.GetValues(typeof(RightsType));
@@ -103,18 +109,27 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory)
+		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
+		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, bool requireInstance)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
+			this.requireInstance = requireInstance;
 		}
 		
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			if (requireInstance && AuthenticationContext.InstanceUser == null)
+			{
+				//accessing an instance they don't have access to
+				await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+				return;
+			}
+
 			//validate the headers
 			try
 			{

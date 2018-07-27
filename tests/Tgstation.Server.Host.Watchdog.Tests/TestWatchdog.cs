@@ -14,70 +14,13 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(null, null, null, null));
-			var mockServerFactory = new Mock<IServerFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockServerFactory.Object, null, null, null));
-			var mockActiveAssemblyDeleter = new Mock<IActiveAssemblyDeleter>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockServerFactory.Object, mockActiveAssemblyDeleter.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(null, null, null));
+			var mockActiveAssemblyDeleter = new Mock<IActiveLibraryDeleter>();
+			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockActiveAssemblyDeleter.Object, null, null));
 			var mockIsolatedServerContextFactory = new Mock<IIsolatedAssemblyContextFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockServerFactory.Object, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, null));
 			var mockLogger = new LoggerFactory().CreateLogger<Watchdog>();
-			var wd = new Watchdog(mockServerFactory.Object, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
-		}
-
-		class MockServerFactory : IServerFactory
-		{
-			readonly IServer server;
-			public MockServerFactory(IServer server) => this.server = server;
-			public IServer CreateServer(string[] args) => server;
-		}
-
-		[TestMethod]
-		public async Task TestRunAsyncWithoutUpdate()
-		{
-			var mockServer = new Mock<IServer>();
-			var mockServerFactory = new MockServerFactory(mockServer.Object);
-			var mockActiveAssemblyDeleter = new Mock<IActiveAssemblyDeleter>();
-			var mockIsolatedServerContextFactory = new Mock<IIsolatedAssemblyContextFactory>();
-			var mockLogger = new LoggerFactory().CreateLogger<Watchdog>();
-
-			var wd = new Watchdog(mockServerFactory, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
-
-			using (var cts = new CancellationTokenSource())
-			{
-				mockServer.Setup(x => x.RunAsync(cts.Token)).Returns(Task.CompletedTask).Verifiable();
-				await wd.RunAsync(Array.Empty<string>(), cts.Token).ConfigureAwait(false);
-				mockServer.VerifyAll();
-			}
-		}
-
-		[TestMethod]
-		public async Task TestRunAsyncWithUpdate()
-		{
-			var mockServer = new Mock<IServer>();
-			mockServer.Setup(x => x.UpdatePath).Returns(GetType().Assembly.Location).Verifiable();
-			var mockServerFactory = new MockServerFactory(mockServer.Object);
-			var mockActiveAssemblyDeleter = new Mock<IActiveAssemblyDeleter>();
-			var mockIsolatedServerContextFactory = new Mock<IIsolatedAssemblyContextFactory>();
-			mockIsolatedServerContextFactory.Setup(x => x.CreateIsolatedServerFactory(GetType().Assembly.Location)).Returns(mockServerFactory).Verifiable();
-			var mockLogger = new LoggerFactory().CreateLogger<Watchdog>();
-
-			var wd = new Watchdog(mockServerFactory, mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
-
-			using (var cts = new CancellationTokenSource())
-			{
-				int count = 0;
-				mockServer.Setup(x => x.RunAsync(cts.Token)).Callback(() =>
-				{
-					if (++count > 1)
-						cts.Cancel();
-				}).Returns(Task.CompletedTask).Verifiable();
-				await wd.RunAsync(Array.Empty<string>(), cts.Token).ConfigureAwait(false);
-
-				mockServer.VerifyAll();
-				mockActiveAssemblyDeleter.Verify(x => x.DeleteActiveAssembly(GetType().Assembly.Location), Times.Exactly(2));
-				mockIsolatedServerContextFactory.VerifyAll();
-			}
+			var wd = new Watchdog(mockActiveAssemblyDeleter.Object, mockIsolatedServerContextFactory.Object, mockLogger);
 		}
 	}
 }
