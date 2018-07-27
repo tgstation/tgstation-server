@@ -1,4 +1,5 @@
 ﻿using Byond.TopicSender;
+using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -54,6 +56,8 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
+		readonly TaskCompletionSource<object> startupTcs;
+
 		/// <summary>
 		/// The <see cref="IServerAddressesFeature"/> for the <see cref="Application"/>
 		/// </summary>
@@ -68,6 +72,8 @@ namespace Tgstation.Server.Host.Core
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+
+			startupTcs = new TaskCompletionSource<object>();
 
 			Version = Assembly.GetExecutingAssembly().GetName().Version;
 			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
@@ -212,9 +218,26 @@ namespace Tgstation.Server.Host.Core
 
 			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage();
-			
+
+			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
+			{
+				using (cancellationToken.Register(() => startupTcs.SetCanceled()))
+					await startupTcs.Task.ConfigureAwait(false);
+			});
+
 			applicationBuilder.UseAuthentication();
 			applicationBuilder.UseMvc();
+		}
+
+		///<inheritdoc />
+		public void Ready(Exception initializationError)
+		{
+			if (startupTcs.Task.IsCompleted)
+				throw new InvalidOperationException("Ready has already been called!");
+			if (initializationError == null)
+				startupTcs.SetResult(null);
+			else
+				startupTcs.SetException(initializationError);
 		}
 	}
 }
