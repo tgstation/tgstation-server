@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +24,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		const string CodeModificationsHeadFile = "HeadInclude.dm";
 		const string CodeModificationsTailFile = "TailInclude.dm";
 
+		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>
+		{
+		};
+
+		static readonly string SystemScriptFileExtension = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".bat" : ".sh";
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>
 		/// </summary>
@@ -39,6 +46,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
+		/// The <see cref="IScriptExecutor"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly IScriptExecutor scriptExecutor;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -49,12 +61,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
+		/// <param name="scriptExecutor">The value of <see cref="scriptExecutor"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, ILogger<Configuration> logger)
+		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IScriptExecutor scriptExecutor, ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			this.scriptExecutor = scriptExecutor ?? throw new ArgumentNullException(nameof(scriptExecutor));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -253,5 +267,21 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 		/// <inheritdoc />
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
+
+		/// <inheritdoc />
+		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+
+			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
+				return true;
+
+			var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, SystemScriptFileExtension, cancellationToken).ConfigureAwait(false);
+			var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
+			foreach (var I in files.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
+				if ((await scriptExecutor.ExecuteScript(ioManager.ConcatPath(resolvedScriptsDir, I), parameters, cancellationToken).ConfigureAwait(false)) != 0)
+					return false;
+			return true;
+		}
 	}
 }

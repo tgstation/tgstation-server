@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 	/// <summary>
 	/// For managing the Configuration directory
 	/// </summary>
-	public interface IConfiguration : IHostedService
+	public interface IConfiguration : IHostedService, IEventConsumer
 	{
 		/// <summary>
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>
