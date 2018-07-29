@@ -669,6 +669,94 @@
 							"response": []
 						},
 						{
+							"name": "Get ID 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": \"1\",\n\t\"connectionString\": \"irc.rizon.net;6667;tgs4_test;0;2;asdfasdf\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ID 2",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": \"1\",\n\t\"connectionString\": \"irc.rizon.net;6667;tgs4_test;0;2;asdfasdf\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat/2",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Make ID 1 use SASL auth",
 							"request": {
 								"method": "POST",
@@ -739,7 +827,93 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"name\": \"Rizon\",\n\t\"enabled\": true,\n\t\"provider\": 0,\n\t\"connectionString\": \"irc.rizon.net;6667;tgs4_test;0\",\n\t\"channels\": [\n\t\t{\n\t\t\t\"ircChannel\": \"#coderbus\",\n\t\t\t\"isAdminChannel\": true,\n\t\t\t\"isWatchdogChannel\": true\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"name\": \"Rizon\",\n\t\"enabled\": true,\n\t\"provider\": 0,\n\t\"connectionString\": \"irc.rizon.net;6667;tgs4_test;0\",\n\t\"channels\": [\n\t\t{\n\t\t\t\"ircChannel\": \"#botbus\",\n\t\t\t\"isAdminChannel\": true,\n\t\t\t\"isWatchdogChannel\": true\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create r4407 on Disord",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"r4407\",\n\t\"enabled\": false,\n\t\"provider\": 1,\n\t\"connectionString\": \"NDIwMDg3NDczOTY0NzExOTQ3.Dj-K1w.3Hj3YQKzmpeM7DKz2M7JEJlzdjs\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enable ID 2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 2,\n\t\"enabled\": true\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Chat",
@@ -783,6 +957,49 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"id\": 1,\n\t\"channels\": [\n\t\t{\n\t\t\t\"ircChannel\": \"#coderbus\",\n\t\t\t\"isAdminChannel\": true,\n\t\t\t\"isWatchdogChannel\": true\n\t\t},\n\t\t{\n\t\t\t\"ircChannel\": \"#botbus\",\n\t\t\t\"isAdminChannel\": true,\n\t\t\t\"isWatchdogChannel\": true\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Chat",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Chat"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add #extranet to ID 2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 2,\n\t\"channels\": [\n\t\t{\n\t\t\t\"discordChannelId\": 164876336958144512,\n\t\t\t\"isAdminChannel\": true,\n\t\t\t\"isWatchdogChannel\": true\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Chat",

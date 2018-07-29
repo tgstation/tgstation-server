@@ -151,15 +151,16 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var query = DatabaseContext.ChatSettings.Where(x => x.Id ==	id).Include(x => x.Channels);
 
-			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (results == default)
+				return NotFound();
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
 
 			if (!connectionStrings)
-				foreach (var I in results)
-					I.ConnectionString = null;
+				results.ConnectionString = null;
 
-			return Json(results);
+			return Json(results.ToApi());
 		}
 
 		/// <inheritdoc />

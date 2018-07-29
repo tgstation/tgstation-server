@@ -19,6 +19,4 @@ Server updates. Use FOLDERS so dependencies can be properly packaged
 
 TgsAuthorize attribute |'ing doesn't work due to role names, change to params[]
 
-Chat straight doesn't work, fix it
-
 Don't throw arg null exceptions with null [FromBody]'s, apparently that's allowed, return bad request instead
