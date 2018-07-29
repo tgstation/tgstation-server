@@ -238,18 +238,25 @@ namespace Tgstation.Server.Host.Components.Chat
 					//wait for a message
 					await Task.WhenAny(messageTasks.Select(x => x.Value)).ConfigureAwait(false);
 
-					//process completed ones
+					var toRemove = new List<IProvider>();
+						//process completed ones
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted))
 					{
-						messageTasks.Remove(I.Key);
-
 						var message = await I.Value.ConfigureAwait(false);
 
 						await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
+
+						toRemove.Add(I.Key);
 					}
+					foreach (var I in toRemove)
+						messageTasks.Remove(I);
 				}
 			}
 			catch (OperationCanceledException) { }
+			catch(Exception e)
+			{
+				logger.LogError("Message monitor crashed!: Exception: {0}", e);
+			}
 		}
 
 		/// <inheritdoc />
