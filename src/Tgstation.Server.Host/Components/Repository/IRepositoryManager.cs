@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
 	/// Factory for creating and loading <see cref="IRepository"/>s

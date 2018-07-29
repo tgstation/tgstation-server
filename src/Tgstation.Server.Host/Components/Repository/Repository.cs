@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
 	sealed class Repository : IRepository

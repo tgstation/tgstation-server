@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Byond;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

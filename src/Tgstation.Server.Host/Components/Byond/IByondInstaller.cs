@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
 	/// For downloading and installing BYOND extractions for a given system

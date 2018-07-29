@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 
-using MemoryStream = System.IO.MemoryStream;
-
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <inheritdoc />
 	sealed class ByondManager : IByondManager

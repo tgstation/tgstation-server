@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,11 +10,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Compiler
 {
 	/// <inheritdoc />
 	sealed class DreamMaker : IDreamMaker
@@ -47,9 +50,9 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly IIOManager ioManager;
 		/// <summary>
-		/// The <see cref="IConfiguration"/> for <see cref="DreamMaker"/>
+		/// The <see cref="StaticFiles.IConfiguration"/> for <see cref="DreamMaker"/>
 		/// </summary>
-		readonly IConfiguration configuration;
+		readonly StaticFiles.IConfiguration configuration;
 		/// <summary>
 		/// The <see cref="ISessionControllerFactory"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -82,7 +85,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -286,8 +289,11 @@ namespace Tgstation.Server.Host.Components
 					}
 
 					if (!ddVerified)
+					{
 						//server never validated or compile failed
-						await Task.WhenAll(CleanupFailedCompile(), eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { job.ExitCode == 0 ? "1" : "0" }, cancellationToken)).ConfigureAwait(false);
+						await CleanupFailedCompile().ConfigureAwait(false);
+						await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { job.ExitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+					}
 					else
 					{
 						job.DMApiValidated = true;

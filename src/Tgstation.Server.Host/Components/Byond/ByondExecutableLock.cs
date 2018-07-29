@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <inheritdoc />
 	sealed class ByondExecutableLock : IByondExecutableLock

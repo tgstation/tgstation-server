@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tgstation.Server.Host.Components
+﻿namespace Tgstation.Server.Host.Components.StaticFiles
 {
 	/// <summary>
 	/// Represents code modifications via configuration

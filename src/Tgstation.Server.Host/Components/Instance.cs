@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 
@@ -28,7 +32,7 @@ namespace Tgstation.Server.Host.Components
 		public IChat Chat { get; }
 
 		/// <inheritdoc />
-		public IConfiguration Configuration { get; }
+		public StaticFiles.IConfiguration Configuration { get; }
 		
 		/// <summary>
 		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
@@ -59,7 +63,20 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		CancellationTokenSource timerCts;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
+		/// <summary>
+		/// Construct an <see cref="Instance"/>
+		/// </summary>
+		/// <param name="metadata">The value of <see cref="metadata"/></param>
+		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/></param>
+		/// <param name="byondManager">The value of <see cref="ByondManager"/></param>
+		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/></param>
+		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
+		/// <param name="chat">The value of <see cref="Chat"/></param>
+		/// <param name="configuration">The value of <see cref="Configuration"/></param>
+		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));

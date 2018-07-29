@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing the compiler
 	/// </summary>
-	[Route("/" + nameof(DreamMaker))]
+	[Route("/" + nameof(Api.Models.DreamMaker))]
     public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
 	{
 		/// <summary>

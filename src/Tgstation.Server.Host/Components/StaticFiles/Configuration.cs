@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.StaticFiles
 {
 	/// <inheritdoc />
 	sealed class Configuration : IConfiguration

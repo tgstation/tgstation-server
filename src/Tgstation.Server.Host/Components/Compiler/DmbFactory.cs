@@ -8,7 +8,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Compiler
 {
 	/// <summary>
 	/// Standard <see cref="IDmbFactory"/>

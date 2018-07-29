@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Watchdog;

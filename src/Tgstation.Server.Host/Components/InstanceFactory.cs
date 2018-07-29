@@ -1,8 +1,11 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using System;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
+using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
@@ -133,7 +136,7 @@ namespace Tgstation.Server.Host.Components
 				try
 				{
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
-					var configuration = new Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<Configuration>());
+					var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 
 					var chat = chatFactory.CreateChat(metadata.ChatSettings);
 					try

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Security;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.StaticFiles
 {
 	/// <summary>
 	/// For managing the Configuration directory

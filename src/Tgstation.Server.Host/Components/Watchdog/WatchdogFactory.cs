@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog

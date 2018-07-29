@@ -1,8 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Compiler
 {
 	/// <summary>
 	/// For managing the compiler
