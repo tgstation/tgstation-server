@@ -219,11 +219,15 @@ namespace Tgstation.Server.Host.Controllers
 				//have to rebuild the thing first
 				await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			if (model.Channels != null)
+			if (model.Channels != null || anySettingsModified)
 				await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
 
-			if(userRights.HasFlag(ChatSettingsRights.Read))
-				return Json(current);
+			if (userRights.HasFlag(ChatSettingsRights.Read))
+			{
+				if (!userRights.HasFlag(ChatSettingsRights.ReadConnectionString))
+					current.ConnectionString = null;
+				return Json(current.ToApi());
+			}
 			return Ok();
 		}
 	}
