@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 	/// <summary>
 	/// For managing the Configuration directory
 	/// </summary>
-	public interface IConfiguration : IHostedService, IEventConsumer
+	public interface IConfiguration : IHostedService, IEventConsumer, IDisposable
 	{
 		/// <summary>
 		/// Copies all files in the CodeModifications directory to <paramref name="destination"/>

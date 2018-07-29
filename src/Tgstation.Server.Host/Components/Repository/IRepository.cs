@@ -66,12 +66,27 @@ namespace Tgstation.Server.Host.Components.Repository
 		Task<string> ResetToOrigin(CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD. <see langword="null"/> if the merge resulted in conflict</returns>
+		Task<string> MergeOrigin(CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Force push the current repository HEAD to <see cref="Repository.RemoteTemporaryBranchName"/>;
 		/// </summary>
 		/// <param name="accessString">The access string to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task PushHeadToTemporaryBranch(string accessString, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Runs the synchronize event script and attempts to push any changes made to the <see cref="IRepository"/> if on a tracked branch
+		/// </summary>
+		/// <param name="accessString">The access string to push to the origin repository</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Sychronize(string accessString, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Copies the current working directory to a given <paramref name="path"/>

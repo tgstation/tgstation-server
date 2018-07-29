@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 
@@ -56,6 +57,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly ILogger<Configuration> logger;
 
 		/// <summary>
+		/// The <see cref="SemaphoreSlim"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly SemaphoreSlim semaphore;
+
+		/// <summary>
 		/// Construct <see cref="Configuration"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -70,8 +76,18 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.scriptExecutor = scriptExecutor ?? throw new ArgumentNullException(nameof(scriptExecutor));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			semaphore = new SemaphoreSlim(1);
 		}
 
+		/// <inheritdoc />
+		public void Dispose() => semaphore.Dispose();
+
+		/// <summary>
+		/// Ensures standard configuration directories exist
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task EnsureDirectories(CancellationToken cancellationToken) => Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken));
 
 		/// <inheritdoc />
@@ -276,11 +292,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
 				return true;
 
-			var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, SystemScriptFileExtension, cancellationToken).ConfigureAwait(false);
-			var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
-			foreach (var I in files.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
-				if ((await scriptExecutor.ExecuteScript(ioManager.ConcatPath(resolvedScriptsDir, I), parameters, cancellationToken).ConfigureAwait(false)) != 0)
-					return false;
+			//always execute in serial
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, SystemScriptFileExtension, cancellationToken).ConfigureAwait(false);
+				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
+
+				foreach (var I in files.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
+					if ((await scriptExecutor.ExecuteScript(ioManager.ConcatPath(resolvedScriptsDir, I), parameters, cancellationToken).ConfigureAwait(false)) != 0)
+						return false;
+			}
 			return true;
 		}
 	}

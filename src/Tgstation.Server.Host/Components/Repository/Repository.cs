@@ -229,5 +229,17 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(path));
 			await ioMananger.CopyDirectory(".", path, new List<string> { ".git" }, cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public Task<string> MergeOrigin(CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public Task Sychronize(string accessString, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

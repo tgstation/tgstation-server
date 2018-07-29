@@ -35,13 +35,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<int?> ExecuteScript(string scriptPath, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			var joinedParams = String.Join(" ", parameters);
+			logger.LogInformation("Running script {0} {1}", scriptPath, joinedParams);
 			try
 			{
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = scriptPath;
 					process.StartInfo.WorkingDirectory = ioManager.GetDirectoryName(scriptPath);
-					process.StartInfo.Arguments = String.Join(" ", parameters);
+					process.StartInfo.Arguments = joinedParams;
 					process.EnableRaisingEvents = true;
 
 					var tcs = new TaskCompletionSource<object>();

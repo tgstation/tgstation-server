@@ -94,10 +94,11 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			timerCts?.Dispose();
-			Watchdog.Dispose();
-			Chat.Dispose();
-			RepositoryManager.Dispose();
 			compileJobConsumer.Dispose();
+			Configuration.Dispose();
+			Chat.Dispose();
+			Watchdog.Dispose();
+			RepositoryManager.Dispose();
 		}
 
 		/// <summary>
