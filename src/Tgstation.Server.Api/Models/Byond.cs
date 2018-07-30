@@ -14,5 +14,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(ReadRight = ByondRights.ReadActive, WriteRight = ByondRights.ChangeVersion)]
 		public Version Version { get; set; }
+
+		/// <summary>
+		/// The <see cref="Job"/> being used to install a new <see cref="Version"/>
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public Job InstallJob { get; set; }
 	}
 }

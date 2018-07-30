@@ -55,6 +55,14 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may delete the <see cref="Models.Repository"/>
 		/// </summary>
-		Delete = 2048
+		Delete = 2048,
+		/// <summary>
+		/// User may cancel clone operations
+		/// </summary>
+		CancelClone = 4096,
+		/// <summary>
+		/// User may cancel synchronize operations
+		/// </summary>
+		CancelSynchronize = 8192
 	}
 }

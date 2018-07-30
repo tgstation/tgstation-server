@@ -53,28 +53,38 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
-				{
-					await DeleteRepository(cancellationToken).ConfigureAwait(false);
-
-					await Task.Factory.StartNew(() =>
+					try
 					{
-						string path = null;
+						await DeleteRepository(cancellationToken).ConfigureAwait(false);
+
+						await Task.Factory.StartNew(() =>
+						{
+							string path = null;
+							try
+							{
+								path = LibGit2Sharp.Repository.Clone(Repository.GenerateAuthUrl(url.ToString(), accessString), ioManager.ResolvePath("."), new CloneOptions
+								{
+									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+									OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
+									RecurseSubmodules = true,
+									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+									RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
+									BranchName = initialBranch
+								});
+							}
+							catch (UserCancelledException) { }
+							cancellationToken.ThrowIfCancellationRequested();
+						}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+					}
+					catch
+					{
 						try
 						{
-							path = LibGit2Sharp.Repository.Clone(Repository.GenerateAuthUrl(url.ToString(), accessString), ioManager.ResolvePath("."), new CloneOptions
-							{
-								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-								OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
-								RecurseSubmodules = true,
-								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-								RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
-								BranchName = initialBranch
-							});
+							await ioManager.DeleteDirectory(".", default).ConfigureAwait(false);
 						}
-						catch (UserCancelledException) { }
-						cancellationToken.ThrowIfCancellationRequested();
-					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-				}
+						catch { }
+						throw;
+					}
 			return await LoadRepository(cancellationToken).ConfigureAwait(false);
 		}
 

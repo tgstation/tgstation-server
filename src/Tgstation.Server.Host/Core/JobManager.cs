@@ -104,6 +104,19 @@ namespace Tgstation.Server.Host.Core
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 				job.StartedAt = DateTimeOffset.Now;
+				job.Instance = new Instance
+				{
+					Id = job.Instance.Id
+				};
+				databaseContext.Instances.Attach(job.Instance);
+				if (job.StartedBy != null)
+				{
+					job.StartedBy = new User
+					{
+						Id = job.StartedBy.Id
+					};
+					databaseContext.Users.Attach(job.StartedBy);
+				}
 				databaseContext.Jobs.Add(job);
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 				var jobHandler = JobHandler.Create(x => RunJob(job, operation, x));

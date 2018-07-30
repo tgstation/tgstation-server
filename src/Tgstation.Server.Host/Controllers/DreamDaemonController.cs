@@ -55,15 +55,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (instance.Watchdog.Running)
 				return StatusCode((int)HttpStatusCode.Gone);
 
-			await jobManager.RegisterOperation(new Models.Job
+			var job = new Models.Job
 			{
 				Description = "Launch DreamDaemon",
 				CancelRight = (int)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon,
 				Instance = Instance,
 				StartedBy = AuthenticationContext.User
-			}, 
-			async (job, serviceProvider, innerCt) =>
+			};
+			await jobManager.RegisterOperation(job, 
+			async (paramJob, serviceProvider, innerCt) =>
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)
@@ -72,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 					throw new Exception("Failed to launch watchdog!");
 			},
 			cancellationToken).ConfigureAwait(false);
-			return Ok();
+			return Json(job);
 		}
 
 		/// <inheritdoc />

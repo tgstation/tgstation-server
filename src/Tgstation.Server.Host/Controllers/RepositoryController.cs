@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="RepositoryController"/>
+		/// </summary>
+		readonly ILogger<RepositoryController> logger;
+
+		/// <summary>
 		/// Construct a <see cref="RepositoryController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -46,11 +52,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="gitHubClient">The value of <see cref="gitHubClient"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient, IJobManager jobManager) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		static string GetAccessString(Api.Models.Internal.RepositorySettings repositorySettings) => repositorySettings.AccessUser != null ? String.Concat(repositorySettings.AccessUser, '@', repositorySettings.AccessToken) : null;
@@ -115,6 +123,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 
+			//normalize github urls
+			const string BadGitHubUrl = "://www.github.com/";
+			var uiOrigin = model.Origin.ToUpperInvariant();
+			var uiBad = BadGitHubUrl.ToUpperInvariant();
+			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
+			if (uiOrigin.Contains(uiBad))
+				model.Origin = uiOrigin.Replace(uiBad, uiGitHub);
 
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; //intentionally only these fields, user not allowed to change anything else atm
@@ -122,15 +137,37 @@ namespace Tgstation.Server.Host.Controllers
 			var origin = model.Origin;
 
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
-			using (var repo = await repoManager.CloneRepository(new Uri(origin), cloneBranch, GetAccessString(currentModel), cancellationToken).ConfigureAwait(false))
+
+			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
 					//clone conflict
 					return Conflict();
+
+				var job = new Models.Job
+				{
+					Description = "Clone repository",
+					StartedBy = AuthenticationContext.User,
+					CancelRightsType = RightsType.Repository,
+					CancelRight = (int)RepositoryRights.CancelClone,
+					Instance = Instance
+				};
 				var api = currentModel.ToApi();
-				await PopulateApi(api, repo, null, null, cancellationToken).ConfigureAwait(false);
-				currentModel.LastOriginCommitSha = repo.Head;
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) =>
+				{
+					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, GetAccessString(currentModel), cancellationToken).ConfigureAwait(false))
+					{
+						if (repos == null)
+							throw new Exception("Filesystem conflict while cloning repository!");
+						await PopulateApi(api, repo, null, null, cancellationToken).ConfigureAwait(false);
+					}
+				}, cancellationToken).ConfigureAwait(false);
+
+				api.Origin = model.Origin;
+				api.Reference = model.Reference;
+				api.IsGitHub = model.Origin.ToUpperInvariant().Contains(uiGitHub);
+				api.ActiveJob = job.ToApi();
+
 				return Json(api);
 			}
 		}
@@ -154,7 +191,17 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			await instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken).ConfigureAwait(false);
+			logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id);
+
+			var job = new Models.Job
+			{
+				Description = "Delete repository",
+				StartedBy = AuthenticationContext.User,
+				Instance = Instance
+			};
+			var api = currentModel.ToApi();
+			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
+			api.ActiveJob = job.ToApi();
 			return Ok();
 		}
 
@@ -341,7 +388,9 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						Description = "Synchronize repository changes",
 						StartedBy = AuthenticationContext.User,
-						Instance = Instance
+						Instance = Instance,
+						CancelRightsType = RightsType.Repository,
+						CancelRight = (int)RepositoryRights.CancelSynchronize,
 					};
 					await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) =>
 					{
@@ -349,6 +398,8 @@ namespace Tgstation.Server.Host.Controllers
 							if (repos != null)
 								await repos.Sychronize(accessString, ct).ConfigureAwait(false);
 					}, cancellationToken).ConfigureAwait(false);
+
+					api.ActiveJob = job.ToApi();
 				}
 
 				return Json(api);

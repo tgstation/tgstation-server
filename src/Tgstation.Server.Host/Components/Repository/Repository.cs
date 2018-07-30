@@ -12,6 +12,11 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <inheritdoc />
 	sealed class Repository : IRepository
 	{
+		/// <summary>
+		/// Indication of a GitHub repository
+		/// </summary>
+		public const string GitHubUrl = "://github.com/";
+
 		const string UnknownReference = "<UNKNOWN>";
 
 		/// <summary>
@@ -86,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
-			IsGitHubRepository = Origin.ToUpperInvariant().Contains("://GITHUB.COM/");
+			IsGitHubRepository = Origin.ToUpperInvariant().Contains(GitHubUrl.ToUpperInvariant());
 			if (IsGitHubRepository)
 			{
 				GetRepositoryOwnerName(Origin, out var owner, out var name);

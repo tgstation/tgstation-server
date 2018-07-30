@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -19,6 +20,16 @@ namespace Tgstation.Server.Host.Components.Byond
 
 		/// <inheritdoc />
 		public Version ActiveVersion { get; private set; }
+
+		/// <inheritdoc />
+		public IReadOnlyList<Version> InstalledVersions
+		{
+			get
+			{
+				lock (installedVersions)
+					return installedVersions.Select(x => Version.Parse(x.Key)).ToList();
+			}
+		}
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ByondManager"/>
@@ -41,6 +52,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly Dictionary<string, Task> installedVersions;
 
 		/// <summary>
+		/// The <see cref="SemaphoreSlim"/> for the <see cref="ByondManager"/>
+		/// </summary>
+		readonly SemaphoreSlim semaphore;
+
+		static string VersionKey(Version version) => new Version(version.Major, version.Minor).ToString();
+
+		/// <summary>
 		/// Construct a <see cref="ByondManager"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -53,9 +71,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			installedVersions = new Dictionary<string, Task>();
+			semaphore = new SemaphoreSlim(1);
 		}
 
-		static string VersionKey(Version version) => new Version(version.Major, version.Minor).ToString();
+		/// <inheritdoc />
+		public void Dispose() => semaphore.Dispose();
 
 		async Task InstallVersion(Version version, CancellationToken cancellationToken)
 		{
@@ -95,8 +115,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		public async Task ChangeVersion(Version version, CancellationToken cancellationToken)
 		{
 			await InstallVersion(version, cancellationToken).ConfigureAwait(false);
-			await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
-			ActiveVersion = version;
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+				ActiveVersion = version;
+			}
 		}
 
 		/// <inheritdoc />

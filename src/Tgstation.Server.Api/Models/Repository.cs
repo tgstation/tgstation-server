@@ -33,6 +33,12 @@ namespace Tgstation.Server.Api.Models
 		public bool? IsGitHub { get; set; }
 
 		/// <summary>
+		/// The <see cref="Job"/> started by the <see cref="Repository"/> if any
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public Job ActiveJob { get; set; }
+
+		/// <summary>
 		/// Do the equivalent of a git pull. Will attempt to merge unless <see cref="Reference"/> is also specified
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.UpdateBranch)]
