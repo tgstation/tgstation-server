@@ -320,6 +320,8 @@ namespace Tgstation.Server.Host.Controllers
 					var allAddedTestMerges = new List<Models.TestMerge>();
 					foreach (var I in model.NewTestMerges)
 					{
+						var prTask = gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number);
+
 						await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, accessString, cancellationToken).ConfigureAwait(false);
 
 						Octokit.PullRequest pr = null;
@@ -330,7 +332,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						try
 						{
-							pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+							pr = await prTask.ConfigureAwait(false);
 						}
 						catch (Octokit.RateLimitExceededException)
 						{
