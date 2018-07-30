@@ -74,9 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 				CreatedBy = AuthenticationContext.User,
 				Enabled = model.Enabled ?? false,
 				InstanceManagerRights = model.InstanceManagerRights ?? InstanceManagerRights.None,
-#pragma warning disable CA1308 // Normalize strings to uppercase
 				Name = model.Name,
-#pragma warning restore CA1308 // Normalize strings to uppercase
 				SystemIdentifier = model.SystemIdentifier,
 				InstanceUsers = new List<Models.InstanceUser>()
 			};
