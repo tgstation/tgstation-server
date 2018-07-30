@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="id">The ID of the model to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public virtual Task<IActionResult> Delete(long id, CancellationToken cancellationToken) => Task.FromResult((IActionResult)NotFound());
 
 		/// <summary>

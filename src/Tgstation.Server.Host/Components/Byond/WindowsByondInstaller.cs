@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -12,7 +13,7 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <summary>
 	/// <see cref="IByondInstaller"/> for windows systems
 	/// </summary>
-	sealed class WindowsByondInstaller : IByondInstaller
+	sealed class WindowsByondInstaller : IByondInstaller, IDisposable
 	{
 		/// <summary>
 		/// The URL format string for getting BYOND windows version {0}.{1} zipfile
@@ -52,6 +53,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly ILogger<WindowsByondInstaller> logger;
 
 		/// <summary>
+		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>
+		/// </summary>
+		readonly SemaphoreSlim semaphore;
+
+		/// <summary>
 		/// If DirectX was installed
 		/// </summary>
 		bool installedDirectX;
@@ -66,8 +72,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;
 		}
+
+		/// <inheritdoc />
+		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
 		public async Task CleanCache(CancellationToken cancellationToken)
@@ -103,8 +113,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
 
 			//after this version lummox made DD depend of directx lol
-			if (version.Major >= 512 && version.Minor >= 1427 && Monitor.TryEnter(this))
-				try
+			if (version.Major >= 512 && version.Minor >= 1427 && !installedDirectX)
+				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				{
 					if (!installedDirectX)
 						//always install it, it's pretty fast and will do better redundancy checking than us
@@ -142,10 +152,6 @@ namespace Tgstation.Server.Host.Components.Byond
 								throw new Exception("Failed to install included DirectX! Exit code: " + p.ExitCode);
 							installedDirectX = true;
 						}
-				}
-				finally
-				{
-					Monitor.Exit(this);
 				}
 
 			await setNoPromptTrustedModeTask.ConfigureAwait(false);

@@ -33,7 +33,8 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// When the <see cref="Job"/> was started
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public DateTimeOffset StartedAt { get; set; }
+		[Required]
+		public DateTimeOffset? StartedAt { get; set; }
 
 		/// <summary>
 		/// When the <see cref="Job"/> stopped
@@ -45,7 +46,8 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If the <see cref="Job"/> was cancelled
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public bool Cancelled { get; set; }
+		[Required]
+		public bool? Cancelled { get; set; }
 
 		/// <summary>
 		/// The <see cref="RightsType"/> of <see cref="CancelRight"/> if it can be cancelled

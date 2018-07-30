@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
@@ -71,25 +70,6 @@ namespace Tgstation.Server.Host.Controllers
 			};
 			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
 			return Json(job);
-		}
-
-		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.CancelCompile)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
-		{
-			//alias for cancelling the latest job
-			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Select(x => new Job { Id = x.Job.Id, StoppedAt = x.Job.StoppedAt }).FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (job.StoppedAt != null)
-				return StatusCode((int)HttpStatusCode.Gone);
-			try
-			{
-				await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
-			}
-			catch (InvalidOperationException)	//job already stopped
-			{
-				return StatusCode((int)HttpStatusCode.Gone);
-			}
-			return Ok();
 		}
 
 		/// <inheritdoc />

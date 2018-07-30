@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
-	sealed class JobManager : IHostedService, IJobManager
+	sealed class JobManager : IHostedService, IJobManager, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IServiceProvider"/> for the <see cref="JobManager"/>
@@ -29,6 +29,13 @@ namespace Tgstation.Server.Host.Core
 		{
 			this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 			jobs = new Dictionary<long, JobHandler>();
+		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			foreach (var job in jobs)
+				job.Value.Dispose();
 		}
 
 		/// <summary>
@@ -104,6 +111,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 				job.StartedAt = DateTimeOffset.Now;
+				job.Cancelled = false;
 				job.Instance = new Instance
 				{
 					Id = job.Instance.Id
@@ -134,7 +142,7 @@ namespace Tgstation.Server.Host.Core
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 
 				//mark all jobs as cancelled
-				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled && y.StoppedAt == null).Select(y => y.Id).ToAsyncEnumerable().ToList(cancellationToken).ConfigureAwait(false);
+				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToAsyncEnumerable().ToList(cancellationToken).ConfigureAwait(false);
 				foreach(var I in enumerator)
 				{
 					var job = new Job { Id = I };
@@ -154,9 +162,6 @@ namespace Tgstation.Server.Host.Core
 				return x.Value.Wait(cancellationToken);
 			});
 			await Task.WhenAll(joinTasks).ConfigureAwait(false);
-			foreach (var job in jobs)
-				job.Value.Dispose();
-			jobs.Clear();
 		}
 
 		/// <inheritdoc />
@@ -175,6 +180,7 @@ namespace Tgstation.Server.Host.Core
 				user = new User { Id = user.Id };
 				databaseContext.Users.Attach(user);
 				job.CancelledBy = user;
+				//let either startup or cancellation set job.cancelled
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			}
 		}
