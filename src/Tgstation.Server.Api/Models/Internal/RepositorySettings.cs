@@ -10,6 +10,18 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class RepositorySettings
 	{
 		/// <summary>
+		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
+		public string Origin { get; set; }
+
+		/// <summary>
+		/// The last commit recognized from <see cref="Origin"/>
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public string LastOriginCommitSha { get; set; }
+
+		/// <summary>
 		/// The name of the committer
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeCommitter)]

@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components
 				var commandFactory = new CommandFactory(application);
 				var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
 
-				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager);
+				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer);
 				try
 				{
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Components
 						{
 							var dreamMaker = new DreamMaker(byond, ioManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory);
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<Instance>());
 						}
 						catch
 						{

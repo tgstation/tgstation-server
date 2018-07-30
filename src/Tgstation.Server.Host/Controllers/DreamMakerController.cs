@@ -129,6 +129,11 @@ namespace Tgstation.Server.Host.Controllers
 			Task<RevisionInformation> revInfoTask;
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
+				if (repo == null)
+				{
+					job.ExceptionDetails = "Missing repository!";
+					return;
+				}
 				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repo.Head).Select(x => new RevisionInformation { Id = x.Id }).FirstAsync();
 				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}

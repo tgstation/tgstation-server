@@ -31,7 +31,8 @@ namespace Tgstation.Server.Host.Models
 		{
 			CommitSha = CommitSha,
 			OriginCommitSha = OriginCommitSha,
-			TestMerges = TestMerges.Select(x => x.ToApi()).ToList()
+			TestMerges = TestMerges.Select(x => x.ToApi()).ToList(),
+			CompileJobs = CompileJobs.Select(x => x.ToApi()).ToList()
 		};
 	}
 }

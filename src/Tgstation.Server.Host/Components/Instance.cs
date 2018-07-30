@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
@@ -33,7 +34,7 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
-		
+
 		/// <summary>
 		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
 		/// </summary>
@@ -48,6 +49,11 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IDmbFactory"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IDmbFactory dmbFactory;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly ILogger<Instance> logger;
 
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="Instance"/>
@@ -76,7 +82,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -88,6 +95,7 @@ namespace Tgstation.Server.Host.Components
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -109,9 +117,8 @@ namespace Tgstation.Server.Host.Components
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task TimerLoop(int minutes, CancellationToken cancellationToken)
 		{
-			try
-			{
-				while (true)
+			while (true)
+				try
 				{
 					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
 
@@ -128,14 +135,31 @@ namespace Tgstation.Server.Host.Components
 					});
 					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 					{
-						await dbTask.ConfigureAwait(false);
+						try
+						{
+							await dbTask.ConfigureAwait(false);
+						}
+						catch (OperationCanceledException)
+						{
+							throw;
+						}
+						catch (Exception e)
+						{
+							logger.LogWarning("Database error in auto update loop! Exception: {0}", e);
+							continue;
+						}
+						if (repo == null)
+							continue;
 						await repo.FetchOrigin(accessToken, cancellationToken).ConfigureAwait(false);
 						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
 						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
-			}
-			catch (OperationCanceledException) { }
+				catch (OperationCanceledException) { }
+				catch (Exception e)
+				{
+					logger.LogError("Error in auto update loop! Exception: {0}", e);
+				}
 		}
 
 		/// <inheritdoc />
