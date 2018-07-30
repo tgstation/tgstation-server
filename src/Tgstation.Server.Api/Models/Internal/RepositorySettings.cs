@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class RepositorySettings
 	{
 		/// <summary>
-		/// The last commit recognized from <see cref="Origin"/>
+		/// The last commit recognized from the origin remote
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public string LastOriginCommitSha { get; set; }
