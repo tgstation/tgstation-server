@@ -44,11 +44,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="targetCommit">The commit in the pull request to merge</param>
 		/// <param name="committerName">The name of the merge committer</param>
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
-		/// <param name="commitBody">The body of the commit message</param>
 		/// <param name="accessString">The access string to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="mergerIdentifier">A string to identify the user that merged</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD on success, <see langword="null"/> on merge conflict</returns>
-		Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitBody, string accessString, CancellationToken cancellationToken);
+		Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, string mergerIdentifier, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fetch commits from the origin repository
@@ -68,9 +68,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository
 		/// </summary>
+		/// <param name="committerName">The name of the merge committer</param>
+		/// <param name="committerEmail">The e-mail of the merge committer</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD. <see langword="null"/> if the merge resulted in conflict</returns>
-		Task<string> MergeOrigin(CancellationToken cancellationToken);
+		Task<string> MergeOrigin(string committerName, string committerEmail, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Force push the current repository HEAD to <see cref="Repository.RemoteTemporaryBranchName"/>;

@@ -12,6 +12,8 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <inheritdoc />
 	sealed class Repository : IRepository
 	{
+		const string UnknownReference = "<UNKNOWN>";
+
 		/// <summary>
 		/// The branch name used for publishing testmerge commits
 		/// </summary>
@@ -40,6 +42,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IIOManager ioMananger;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="Repository"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called
 		/// </summary>
 		readonly Action onDispose;
@@ -49,11 +56,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="repository">The value of <see cref="repository"/></param>
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
-		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger, Action onDispose)
+		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger, IEventConsumer eventConsumer, Action onDispose)
 		{
 			this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			IsGitHubRepository = Origin.ToUpperInvariant().Contains("://GITHUB.COM/");
 		}
@@ -97,79 +106,104 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitBody, string accessString, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public async Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, string mergerIdentifier, CancellationToken cancellationToken)
 		{
+
+			if (!IsGitHubRepository)
+				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");
+
 			var Refspec = new List<string>();
 			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", pullRequestNumber);
 			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", pullRequestNumber, prBranchName);
 			Refspec.Add(String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", pullRequestNumber, prBranchName));
 			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", pullRequestNumber);
 
-			var remote = repository.Network.Remotes.Add("temp_pr_fetch", GenerateAuthUrl(Origin, accessString));
-			try
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-				Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, Refspec, new FetchOptions
-				{
-					Prune = true,
-					OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-					OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
-					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
-				}, logMessage);
-			}
-			catch (UserCancelledException) { }
-			finally
-			{
-				repository.Network.Remotes.Remove(remote.Name);
-				//commit is there and we never gc so
-				repository.Branches.Remove(localBranchName);
-				repository.Branches.Remove(prBranchName);
-			}
-
-			cancellationToken.ThrowIfCancellationRequested();
-
 			var originalCommit = repository.Head;
 
-			var result = repository.Merge(targetCommit, new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now), new MergeOptions
+			MergeResult result = null;
+			await Task.Factory.StartNew(() =>
 			{
-				CommitOnSuccess = true,
-				FailOnConflict = true,
-				FastForwardStrategy = FastForwardStrategy.NoFastForward,
-				SkipReuc = true,
-			});
+				var remote = repository.Network.Remotes.Add("temp_pr_fetch", GenerateAuthUrl(Origin, accessString));
+				try
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, Refspec, new FetchOptions
+					{
+						Prune = true,
+						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+						OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
+						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
+					}, logMessage);
+				}
+				catch (UserCancelledException) { }
+				finally
+				{
+					repository.Network.Remotes.Remove(remote.Name);
+					//commit is there and we never gc so
+					repository.Branches.Remove(localBranchName);
+					repository.Branches.Remove(prBranchName);
+				}
 
-			if (result.Status != MergeStatus.NonFastForward)
+				cancellationToken.ThrowIfCancellationRequested();
+
+				result = repository.Merge(targetCommit, new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now), new MergeOptions
+				{
+					CommitOnSuccess = true,
+					FailOnConflict = true,
+					FastForwardStrategy = FastForwardStrategy.NoFastForward,
+					SkipReuc = true
+				});
+
+				cancellationToken.ThrowIfCancellationRequested();
+
+				if (result.Status == MergeStatus.Conflicts)
+				{
+					RawCheckout(originalCommit.CanonicalName ?? originalCommit.Tip.Sha);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+
+				repository.RemoveUntrackedFiles();
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+
+			if (result.Status == MergeStatus.Conflicts)
 			{
-				RawCheckout(originalCommit.FriendlyName ?? originalCommit.Tip.Sha);
+				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, targetCommit, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
 				return null;
 			}
 
 			return result.Commit.Sha;
-
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public Task CheckoutObject(string committish, CancellationToken cancellationToken) => Task.Factory.StartNew(() => RawCheckout(committish), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}
 
 		/// <inheritdoc />
-		public Task FetchOrigin(string accessString, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public async Task CheckoutObject(string committish, CancellationToken cancellationToken)
 		{
-			var remote = repository.Network.Remotes.First();
-			try
+			if (committish == null)
+				throw new ArgumentNullException(nameof(committish));
+			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken).ConfigureAwait(false);
+			await Task.Factory.StartNew(() => RawCheckout(committish), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public Task FetchOrigin(string accessString, CancellationToken cancellationToken) => Task.WhenAll(
+			eventConsumer.HandleEvent(EventType.RepoFetch, Array.Empty<string>(), cancellationToken),
+			Task.Factory.StartNew(() =>
 			{
-				Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, remote.FetchRefSpecs.Select(x => x.Specification), new FetchOptions
+				var remote = repository.Network.Remotes.First();
+				try
 				{
-					Prune = true,
-					OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-					OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
-					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
-				}, "Fetch origin commits");
-			}
-			catch (UserCancelledException)
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, remote.FetchRefSpecs.Select(x => x.Specification), new FetchOptions
+					{
+						Prune = true,
+						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+						OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
+						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
+					}, "Fetch origin commits");
+				}
+				catch (UserCancelledException)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current));
 
 		/// <inheritdoc />
 		public Task PushHeadToTemporaryBranch(string accessString, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -205,22 +239,26 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				repository.Branches.Remove(branch);
 			}
-
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<string> ResetToOrigin(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public async Task<string> ResetToOrigin(CancellationToken cancellationToken)
 		{
 			if (!repository.Head.IsTracking)
 				throw new InvalidOperationException("Cannot reset to origin while not on a tracked reference!");
 			var trackedBranch = repository.Head.TrackedBranch;
-			Commands.Checkout((LibGit2Sharp.Repository)repository, repository.Head.TrackedBranch, new CheckoutOptions
+			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
+			return await Task.Factory.StartNew(() =>
 			{
-				CheckoutModifiers = CheckoutModifiers.Force
-			});
-			repository.RemoveUntrackedFiles();
-			return trackedBranch.Tip.Sha;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+				Commands.Checkout((LibGit2Sharp.Repository)repository, repository.Head.TrackedBranch, new CheckoutOptions
+				{
+					CheckoutModifiers = CheckoutModifiers.Force
+				});
+				cancellationToken.ThrowIfCancellationRequested();
+				repository.RemoveUntrackedFiles();
+				return trackedBranch.Tip.Sha;
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public async Task CopyTo(string path, CancellationToken cancellationToken)
@@ -231,15 +269,84 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task<string> MergeOrigin(CancellationToken cancellationToken)
+		public async Task<string> MergeOrigin(string committerName, string committerEmail, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			MergeResult result = null;
+			Branch trackedBranch = null;
+
+			var oldHead = repository.Head;
+
+			await Task.Factory.StartNew(() =>
+			{
+				if (!repository.Head.IsTracking)
+					throw new InvalidOperationException("Cannot reset to origin while not on a tracked reference!");
+				trackedBranch = repository.Head.TrackedBranch;
+
+				result = repository.Merge(trackedBranch, new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now), new MergeOptions
+				{
+					CommitOnSuccess = true,
+					FailOnConflict = true,
+					FastForwardStrategy = FastForwardStrategy.Default,
+					SkipReuc = true,
+				});
+
+				cancellationToken.ThrowIfCancellationRequested();
+
+				if (result.Status == MergeStatus.Conflicts)
+				{
+					RawCheckout(oldHead.CanonicalName);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+
+				repository.RemoveUntrackedFiles();
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+
+			if (result.Status == MergeStatus.Conflicts)
+			{
+				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldHead.Tip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken).ConfigureAwait(false);
+				return null;
+			}
+
+			return Head;
 		}
 
 		/// <inheritdoc />
-		public Task Sychronize(string accessString, CancellationToken cancellationToken)
+		public async Task Sychronize(string accessString, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var startHead = Head;
+
+			if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
+				return;
+
+			if (Head == startHead || !repository.Head.IsTracking)
+				return;
+
+			await Task.Factory.StartNew(() =>
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				var remote = repository.Network.Remotes.Add("temp_push", GenerateAuthUrl(Origin, accessString));
+				try
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					try
+					{
+						repository.Network.Push(repository.Head, new PushOptions
+						{
+							OnPackBuilderProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
+							OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
+							OnPushTransferProgress = (a, b, c) => !cancellationToken.IsCancellationRequested
+						});
+					}
+					catch (UserCancelledException)
+					{
+						cancellationToken.ThrowIfCancellationRequested();
+					}
+				}
+				finally
+				{
+					repository.Network.Remotes.Remove(remote.Name);
+				}
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 		}
 	}
 }

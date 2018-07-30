@@ -48,5 +48,9 @@ namespace Tgstation.Server.Api.Rights
 		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>
 		Read = 512,
+		/// <summary>
+		/// User may change <see cref="Models.Internal.RepositorySettings.AutoUpdatesKeepTestMerges"/> and  <see cref="Models.Internal.RepositorySettings.AutoUpdatesSynchronize"/>
+		/// </summary>
+		ChangeAutoUpdateSettings = 1024
 	}
 }
