@@ -19,9 +19,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string ByondRevisionsURL = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 		/// <summary>
-		/// BYOND's DreamDaemon config file in the cfg modification directory
+		/// Directory to byond installation configuration
 		/// </summary>
-		const string ByondDDConfig = "byond/config/daemon.txt";
+		const string ByondConfigDir = "byond/config";
+		/// <summary>
+		/// BYOND's DreamDaemon config file
+		/// </summary>
+		const string ByondDDConfig = "daemon.txt";
 		/// <summary>
 		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb
 		/// </summary>
@@ -89,7 +93,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task InstallByond(string path, Version version, CancellationToken cancellationToken)
 		{
-			var setNoPromptTrustedModeTask = ioManager.WriteAllBytes(ioManager.ConcatPath(path, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken);
+			async Task SetNoPromptTrusted()
+			{
+				var configPath = ioManager.ConcatPath(path, ByondConfigDir);
+				await ioManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
+				await ioManager.WriteAllBytes(ioManager.ConcatPath(configPath, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken).ConfigureAwait(false);
+			};
+
+			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
 
 			//after this version lummox made DD depend of directx lol
 			if (version.Major >= 512 && version.Minor >= 1427 && Monitor.TryEnter(this))
