@@ -51,6 +51,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may change <see cref="Models.Internal.RepositorySettings.AutoUpdatesKeepTestMerges"/> and  <see cref="Models.Internal.RepositorySettings.AutoUpdatesSynchronize"/>
 		/// </summary>
-		ChangeAutoUpdateSettings = 1024
+		ChangeAutoUpdateSettings = 1024,
+		/// <summary>
+		/// User may delete the <see cref="Models.Repository"/>
+		/// </summary>
+		Delete = 2048
 	}
 }

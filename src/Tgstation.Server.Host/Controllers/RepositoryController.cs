@@ -108,5 +108,17 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(api);
 			}
 		}
+
+		/// <summary>
+		/// Delete the <see cref="Repository"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		[TgsAuthorize(RepositoryRights.Delete)]
+		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
+		{
+			await instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken).ConfigureAwait(false);
+			return Ok();
+		}
 	}
 }
