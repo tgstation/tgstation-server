@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Octokit;
 using System;
 using System.Globalization;
@@ -144,7 +145,10 @@ namespace Tgstation.Server.Host.Core
 			});
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
 
-			services.AddMvc();
+			services.AddMvc().AddJsonOptions(options =>
+			{
+				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
