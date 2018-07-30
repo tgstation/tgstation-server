@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// The <see cref="ModelController{TModel}"/> for <see cref="ConfigurationFile"/>s
 	/// </summary>
-	[Route("/Configuration")]
+	[Route("/" + nameof(Configuration))]
 	public sealed class ConfigurationController : ModelController<ConfigurationFile>
 	{
 		/// <summary>
