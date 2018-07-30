@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -93,6 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 				//run the install through the job manager
 				var job = new Models.Job
 				{
+					Description = String.Format(CultureInfo.InvariantCulture, "Install BYOND version {0}", installingVersion),
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Byond,
 					CancelRight = (int)ByondRights.CancelInstall,

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -146,7 +147,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				var job = new Models.Job
 				{
-					Description = "Clone repository",
+					Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch),
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Repository,
 					CancelRight = (int)RepositoryRights.CancelClone,

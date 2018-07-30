@@ -96,19 +96,27 @@ namespace Tgstation.Server.Host.Components.Byond
 					await Task.WhenAny(ourTcs.Task, inProgressTask).ConfigureAwait(false);
 					return;
 				}
+			try
+			{
+				var downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
 
-			var downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
+				//okay up to us to install it then
+				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
-			//okay up to us to install it then
-			await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
-			await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+				await ioManager.ZipToDirectory(versionKey, await downloadTask.ConfigureAwait(false), cancellationToken).ConfigureAwait(false);
 
-			await ioManager.ZipToDirectory(versionKey, await downloadTask.ConfigureAwait(false), cancellationToken).ConfigureAwait(false);
+				await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
 
-			await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
-
-			//make sure to do this last because this is what tells us we have a valid version
-			await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+				//make sure to do this last because this is what tells us we have a valid version
+				await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+			}
+			catch
+			{
+				lock (installedVersions)
+					installedVersions.Remove(versionKey);
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
@@ -159,7 +167,14 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			async Task ReadVersion(string path)
 			{
-				var bytes = await ioManager.ReadAllBytes(ioManager.ConcatPath(path, VersionFileName), cancellationToken).ConfigureAwait(false);
+				var versionFile = ioManager.ConcatPath(path, VersionFileName);
+				if (!await ioManager.FileExists(versionFile, cancellationToken).ConfigureAwait(false))
+				{
+					logger.LogInformation("Cleaning unparsable version path: {0}", ioManager.ResolvePath(path));
+					await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false); //cleanup
+					return;
+				}
+				var bytes = await ioManager.ReadAllBytes(versionFile, cancellationToken).ConfigureAwait(false);
 				var text = Encoding.UTF8.GetString(bytes);
 				if (Version.TryParse(text, out var version))
 				{

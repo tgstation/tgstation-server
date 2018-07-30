@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -235,9 +236,10 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			string originalModelPath = null;
+			string rawPath = null;
 			if (model.Path != null)
 			{
-				NormalizeModelPath(model, out var rawPath);
+				NormalizeModelPath(model, out rawPath);
 
 				if (model.Path != originalModel.Path)
 				{
@@ -301,7 +303,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var job = new Models.Job
 				{
-					Description = "Move instance location",
+					Description = String.Format(CultureInfo.InvariantCulture, "Move instance ID {0} from {1} to {2}", Instance.Id, Instance.Path, rawPath),
 					Instance = Instance,
 					CancelRightsType = RightsType.InstanceManager,
 					CancelRight = (int)InstanceManagerRights.CancelMove,
@@ -311,7 +313,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) => {
 					try
 					{
-						await instanceManager.MoveInstance(Instance, originalModel.Path, ct).ConfigureAwait(false);
+						await instanceManager.MoveInstance(Instance, rawPath, ct).ConfigureAwait(false);
 					}
 					catch
 					{

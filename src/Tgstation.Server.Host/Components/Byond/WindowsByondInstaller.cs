@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task InstallByond(string path, Version version, CancellationToken cancellationToken)
 		{
-			var setNoPromptTrustedModeTask = ioManager.WriteAllBytes(ByondDDConfig, Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken);
+			var setNoPromptTrustedModeTask = ioManager.WriteAllBytes(ioManager.ConcatPath(path, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken);
 
 			//after this version lummox made DD depend of directx lol
 			if (version.Major >= 512 && version.Minor >= 1427 && Monitor.TryEnter(this))
