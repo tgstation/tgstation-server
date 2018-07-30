@@ -47,6 +47,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Instance.AutoUpdateInterval"/>
 		/// </summary>
-		SetAutoUpdate = 256
+		SetAutoUpdate = 256,
+		/// <summary>
+		/// User can cancel move operations
+		/// </summary>
+		CancelMove = 512,
 	}
 }

@@ -272,27 +272,58 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
+			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
 			{
 				if (originalOnline && model.Online.Value == false)
 					await instanceManager.OfflineInstance(originalModel, cancellationToken).ConfigureAwait(false);
 				else if (!originalOnline && model.Online.Value == true)
+				{
+					//force autostart false here because we don't want any long running jobs right now
+					//remember to document this
+					originalModel.DreamDaemonSettings.AutoStart = false;
 					await instanceManager.OnlineInstance(originalModel, cancellationToken).ConfigureAwait(false);
+				}
 			}
 			catch (Exception e)
 			{
 				logger.LogError("Error changing instance online state! Exception: {0}", e);
 				originalModel.Online = originalOnline;
+				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
 				if (originalModelPath != null)
 					originalModel.Path = originalModelPath;
 				await DatabaseContext.Save(default).ConfigureAwait(false);
 				throw;
 			}
 
+			var api = originalModel.ToApi();
 			if (originalModelPath != null)
-				await ioManager.MoveDirectory(originalModelPath, model.Path, cancellationToken).ConfigureAwait(false);
+			{
+				var job = new Models.Job
+				{
+					Description = "Move instance location",
+					Instance = Instance,
+					CancelRightsType = RightsType.InstanceManager,
+					CancelRight = (int)InstanceManagerRights.CancelMove,
+					StartedBy = AuthenticationContext.User
+				};
 
-			return Json(originalModel.ToApi());
+				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) => {
+					try
+					{
+						await instanceManager.MoveInstance(Instance, originalModel.Path, ct).ConfigureAwait(false);
+					}
+					catch
+					{
+						originalModel.Path = originalModelPath;
+						await DatabaseContext.Save(default).ConfigureAwait(false);
+						throw;
+					}
+				}, cancellationToken).ConfigureAwait(false);
+				api.MoveJob = job.ToApi();
+			}
+
+			return Json(api);
 		}
 
 		/// <inheritdoc />

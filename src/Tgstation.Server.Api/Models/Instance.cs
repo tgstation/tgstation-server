@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
@@ -47,6 +48,13 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.SetAutoUpdate)]
 		public int? AutoUpdateInterval { get; set; }
+
+		/// <summary>
+		/// The <see cref="Job"/> representing a change of <see cref="Path"/>
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		[NotMapped]
+		public Job MoveJob { get; set; }
 
 		/// <inheritdoc />
 		public Instance CloneMetadata() => new Instance

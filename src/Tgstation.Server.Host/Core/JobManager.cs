@@ -172,6 +172,8 @@ namespace Tgstation.Server.Host.Core
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 				job = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(job);
+				user = new User { Id = user.Id };
+				databaseContext.Users.Attach(user);
 				job.CancelledBy = user;
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			}

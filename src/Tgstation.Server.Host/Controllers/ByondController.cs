@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 
 			//remove cruff fields
-			var installingVersion = new Version(model.Version.Major, model.Version.Major);
+			var installingVersion = new Version(model.Version.Major, model.Version.Minor);
 
 			var result = new Api.Models.Byond();
 
