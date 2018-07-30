@@ -269,6 +269,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						client.WriteLine("CAP END", Priority.Critical);
 					}
 
+					client.Listen(false);
+					if (client.Nickname != nickname)
+						//run this now cause it has to go up and down the pipe for us to get a proper check
+						client.GetIrcUser(nickname);
+
 					listenTask = Task.Factory.StartNew(() =>
 					{
 						while (client.IsConnected)
