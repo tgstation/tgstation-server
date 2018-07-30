@@ -141,13 +141,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
-				if (repo == null)
+				if (repo != null)
 					//clone conflict
 					return Conflict();
 
 				var job = new Models.Job
 				{
-					Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch),
+					Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch ?? "master"),
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Repository,
 					CancelRight = (int)RepositoryRights.CancelClone,
@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
-				if (await PopulateApi(api, repo, currentModel.LastOriginCommitSha, null, cancellationToken).ConfigureAwait(false))
+				if (repo != null && await PopulateApi(api, repo, currentModel.LastOriginCommitSha, null, cancellationToken).ConfigureAwait(false))
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				return Json(api);
 			}
@@ -283,6 +283,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
+				if (repo == null)
+					return StatusCode((int)HttpStatusCode.Gone);
 				var startSha = repo.Head;
 
 				if (newTestMerges && !repo.IsGitHubRepository)

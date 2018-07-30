@@ -55,8 +55,6 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
 					try
 					{
-						await DeleteRepository(cancellationToken).ConfigureAwait(false);
-
 						await Task.Factory.StartNew(() =>
 						{
 							string path = null;
@@ -85,6 +83,8 @@ namespace Tgstation.Server.Host.Components.Repository
 						catch { }
 						throw;
 					}
+				else
+					return null;
 			return await LoadRepository(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -102,7 +102,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				catch (RepositoryNotFoundException) { }
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			if (repo == null)
+			{
+				semaphore.Release();
 				return null;
+			}
 			var localSemaphore = semaphore;
 			return new Repository(repo, ioManager, eventConsumer, () =>
 			{
