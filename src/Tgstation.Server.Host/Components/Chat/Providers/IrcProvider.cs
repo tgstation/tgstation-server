@@ -269,7 +269,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						client.WriteLine("CAP END", Priority.Critical);
 					}
 
-					listenTask = Task.Factory.StartNew(() => client.Listen(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					listenTask = Task.Factory.StartNew(() =>
+					{
+						while (client.IsConnected)
+						{
+							client.ListenOnce(true);
+							client.Listen(false);
+							//ensure we have the correct nick
+							if (client.Nickname != nickname && client.GetIrcUser(nickname) == null)
+								client.RfcNick(nickname);
+						}
+					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
 				catch (Exception e)
 				{
