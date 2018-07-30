@@ -9,6 +9,12 @@ namespace Tgstation.Server.Api.Models
 	public sealed class Repository : Internal.RepositorySettings
 	{
 		/// <summary>
+		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.SetOrigin)]
+		public string Origin { get; set; }
+
+		/// <summary>
 		/// The commit HEAD points to
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetSha)]

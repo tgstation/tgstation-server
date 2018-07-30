@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -33,16 +34,23 @@ namespace Tgstation.Server.Host.Controllers
 		readonly Octokit.IGitHubClient gitHubClient;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="RepositoryController"/>
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
 		/// Construct a <see cref="RepositoryController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="gitHubClient">The value of <see cref="gitHubClient"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient, IJobManager jobManager) : base(databaseContext, authenticationContextFactory, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
 		static string GetAccessString(Api.Models.Internal.RepositorySettings repositorySettings) => repositorySettings.AccessUser != null ? String.Concat(repositorySettings.AccessUser, '@', repositorySettings.AccessToken) : null;
@@ -109,12 +117,12 @@ namespace Tgstation.Server.Host.Controllers
 
 
 			currentModel.AccessToken = model.AccessToken;
-			currentModel.AccessUser = model.AccessUser;
-			currentModel.Origin = model.Origin;  //intentionally only these fields, user not allowed to change anything else atm
+			currentModel.AccessUser = model.AccessUser; //intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
+			var origin = model.Origin;
 
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
-			using (var repo = await repoManager.CloneRepository(new Uri(currentModel.Origin), cloneBranch, GetAccessString(currentModel), cancellationToken).ConfigureAwait(false))
+			using (var repo = await repoManager.CloneRepository(new Uri(origin), cloneBranch, GetAccessString(currentModel), cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
 					//clone conflict
@@ -140,7 +148,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 			
-			currentModel.Origin = null;
 			currentModel.LastOriginCommitSha = null;
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
@@ -228,6 +235,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
+				var startSha = repo.Head;
+
 				if (newTestMerges && !repo.IsGitHubRepository)
 					return Conflict(new { message = "Cannot test merge on a non GitHub based repository!" });
 
@@ -323,6 +332,25 @@ namespace Tgstation.Server.Host.Controllers
 				var api = currentModel.ToApi();
 				if (await PopulateApi(api, repo, currentModel.LastOriginCommitSha, null, cancellationToken).ConfigureAwait(false) || newTestMerges)
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+				//synchronize now because we don't care if we fail so its safe to fire/forget the job
+				
+				if (startSha != repo.Head)
+				{
+					var job = new Models.Job
+					{
+						Description = "Synchronize repository changes",
+						StartedBy = AuthenticationContext.User,
+						Instance = Instance
+					};
+					await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) =>
+					{
+						using (var repos = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+							if (repos != null)
+								await repos.Sychronize(accessString, ct).ConfigureAwait(false);
+					}, cancellationToken).ConfigureAwait(false);
+				}
+
 				return Json(api);
 			}
 		}
