@@ -17,9 +17,14 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.RevisionInformation.TestMerges"/>
+		/// See <see cref="Api.Models.RevisionInformation.PrimaryTestMerge"/>
 		/// </summary>
-		public List<TestMerge> TestMerges { get; set; }
+		public TestMerge PrimaryTestMerge { get; set; }
+
+		/// <summary>
+		/// See <see cref="Api.Models.RevisionInformation.ActiveTestMerges"/>
+		/// </summary>
+		public List<RevInfoTestMerge> ActiveTestMerges { get; set; }
 
 		/// <summary>
 		/// See <see cref="CompileJob"/>s made from this <see cref="RevisionInformation"/>
@@ -31,7 +36,8 @@ namespace Tgstation.Server.Host.Models
 		{
 			CommitSha = CommitSha,
 			OriginCommitSha = OriginCommitSha,
-			TestMerges = TestMerges.Select(x => x.ToApi()).ToList(),
+			PrimaryTestMerge = PrimaryTestMerge?.ToApi(),
+			ActiveTestMerges = ActiveTestMerges.Select(x => x.TestMerge.ToApi()).ToList(),
 			CompileJobs = CompileJobs.Select(x => x.ToApi()).ToList()
 		};
 	}

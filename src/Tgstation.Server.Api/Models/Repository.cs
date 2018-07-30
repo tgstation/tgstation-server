@@ -24,7 +24,13 @@ namespace Tgstation.Server.Api.Models
 		/// If the repository was cloned from GitHub.com. If <see langword="true"/> this enables test merge functionality
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public bool IsGitHub { get; set; }
+		public bool? IsGitHub { get; set; }
+
+		/// <summary>
+		/// Do the equivalent of a git pull. Will attempt to merge unless <see cref="Reference"/> is also specified
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.UpdateBranch)]
+		public bool? UpdateReference { get; set; }
 
 		/// <summary>
 		/// The branch or tag HEAD points to

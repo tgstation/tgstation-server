@@ -15,6 +15,21 @@ namespace Tgstation.Server.Host.Components.Repository
 		bool IsGitHubRepository { get; }
 
 		/// <summary>
+		/// The <see cref="Octokit.Repository.Owner"/> if this <see cref="IsGitHubRepository"/>
+		/// </summary>
+		string GitHubOwner { get; }
+
+		/// <summary>
+		/// The <see cref="Octokit.Repository.Name"/> if this <see cref="IsGitHubRepository"/>
+		/// </summary>
+		string GitHubRepoName { get; }
+
+		/// <summary>
+		/// If <see cref="Reference"/> tracks an upstream branch
+		/// </summary>
+		bool Tracking { get; }
+
+		/// <summary>
 		/// The SHA of the <see cref="IRepository"/> HEAD
 		/// </summary>
 		string Head { get; }
@@ -46,9 +61,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
 		/// <param name="accessString">The access string to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <param name="mergerIdentifier">A string to identify the user that merged</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD on success, <see langword="null"/> on merge conflict</returns>
-		Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, string mergerIdentifier, CancellationToken cancellationToken);
+		Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fetch commits from the origin repository

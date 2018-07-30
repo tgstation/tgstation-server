@@ -23,6 +23,15 @@ namespace Tgstation.Server.Host.Components.Repository
 		public bool IsGitHubRepository { get; }
 
 		/// <inheritdoc />
+		public string GitHubOwner { get; }
+
+		/// <inheritdoc />
+		public string GitHubRepoName { get; }
+
+		/// <inheritdoc />
+		public bool Tracking => repository.Head.IsTracking;
+
+		/// <inheritdoc />
 		public string Head => repository.Head.Tip.Sha;
 
 		/// <inheritdoc />
@@ -51,6 +60,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		readonly Action onDispose;
 
+		static void GetRepositoryOwnerName(string remote, out string owner, out string name)
+		{
+			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+			//Yes use .git twice in case it was weird
+			var toRemove = new string[] { ".git", "/", ".git" };
+			foreach (string item in toRemove)
+				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
+					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
+			var splits = remote.Split('/');
+			name = splits[splits.Length - 1];
+			owner = splits[splits.Length - 2].Split('.')[0];
+		}
+
 		/// <summary>
 		/// Construct a <see cref="Repository"/>
 		/// </summary>
@@ -65,6 +87,12 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			IsGitHubRepository = Origin.ToUpperInvariant().Contains("://GITHUB.COM/");
+			if (IsGitHubRepository)
+			{
+				GetRepositoryOwnerName(Origin, out var owner, out var name);
+				GitHubOwner = owner;
+				GitHubRepoName = name;
+			}
 		}
 
 		/// <inheritdoc />
@@ -106,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, string mergerIdentifier, CancellationToken cancellationToken)
+		public async Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, CancellationToken cancellationToken)
 		{
 
 			if (!IsGitHubRepository)

@@ -56,6 +56,11 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
+		/// <summary>
+		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
+		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
+
 		/// <inheritdoc />
 		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
 
@@ -96,9 +101,12 @@ namespace Tgstation.Server.Host.Models
 
 			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
 
+			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.Cascade);
+
 			var revInfo = modelBuilder.Entity<RevisionInformation>();
 			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
-			revInfo.HasMany(x => x.TestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
+			revInfo.HasMany(x => x.ActiveTestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
+			revInfo.HasOne(x => x.PrimaryTestMerge).WithOne(x => x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.SetNull);
 			revInfo.HasIndex(x => x.CommitSha).IsUnique();
 
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
