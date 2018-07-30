@@ -101,9 +101,6 @@ namespace TGS.Server.ChatProviders
 			}
 			else if (serverChange || !Connected())
 				return Reconnect();
-
-			if (IRCConfig.Nickname != irc.Nickname)
-				irc.RfcNick(convertedInfo.Nickname);
 			Login();
 			JoinChannels();
 			return null;
@@ -268,7 +265,11 @@ namespace TGS.Server.ChatProviders
 			while (irc != null && Connected())
 				try
 				{
-					irc.Listen();
+					irc.ListenOnce(true);
+					irc.Listen(false);
+					//ensure we have the correct nick
+					if (irc.Nickname != IRCConfig.Nickname && irc.GetIrcUser(IRCConfig.Nickname) == null)
+						irc.RfcNick(IRCConfig.Nickname);
 				}
 				catch { }
 		}
