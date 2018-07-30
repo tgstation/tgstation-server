@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(new { message = "Either both accessToken and accessUser must be present or neither!" });
 
-			var currentModel = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.RepositorySettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -117,8 +117,39 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(RepositoryRights.Delete)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
+			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+			if (currentModel == default)
+				return StatusCode((int)HttpStatusCode.Gone);
+			
+			currentModel.Origin = null;
+			currentModel.LastOriginCommitSha = null;
+			currentModel.AccessToken = null;
+			currentModel.AccessUser = null;
+
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
 			await instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken).ConfigureAwait(false);
 			return Ok();
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(RepositoryRights.Read)]
+		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
+		{
+			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+			if (currentModel == default)
+				return StatusCode((int)HttpStatusCode.Gone);
+
+			var api = currentModel.ToApi();
+
+			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+			{
+				if (await PopulateApi(api, repo, currentModel.LastOriginCommitSha, cancellationToken).ConfigureAwait(false))
+					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				return Json(api);
+			}
 		}
 	}
 }
