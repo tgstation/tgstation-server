@@ -76,54 +76,56 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new { message = "Cannot create a token using another token!" });
-			
-			var user = await DatabaseContext.Users.Where(x => x.CanonicalName == ApiHeaders.Username.ToUpperInvariant()).Select(x => new User
-			{
-				Id = x.Id,
-				PasswordHash = x.PasswordHash,
-				SystemIdentifier = x.SystemIdentifier,
-				Enabled = x.Enabled
-			}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
-			if (user == null)
-				return Unauthorized();
-
-			ISystemIdentity identity = null;
-			if (user.PasswordHash != null)
+			ISystemIdentity identity;
+			try
 			{
-				var originalHash = user.PasswordHash;
-				if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
-					return Unauthorized();
-				if (user.PasswordHash != originalHash)
-				{
-					var updatedUser = new User
-					{
-						Id = user.Id,
-						PasswordHash = originalHash
-					};
-					DatabaseContext.Users.Attach(updatedUser);
-					updatedUser.PasswordHash = user.PasswordHash;
-					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-				}
+				identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
 			}
-			else
-				try
+			catch (NotImplementedException)
+			{
+				identity = null;
+			}
+			using (identity)
+			{
+				IQueryable<User> query;
+				if (identity == null)
+					query = DatabaseContext.Users.Where(x => x.CanonicalName == ApiHeaders.Username.ToUpperInvariant());
+				else
+					query = DatabaseContext.Users.Where(x => x.SystemIdentifier == identity.Uid);
+				var user = await query.Select(x => new User
 				{
-					identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
-					if (identity == null || identity.Uid != user.SystemIdentifier)
+					Id = x.Id,
+					PasswordHash = x.PasswordHash,
+					Enabled = x.Enabled
+				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+				if (user == null)
+					return Unauthorized();
+				
+				if (identity == null)
+				{
+					var originalHash = user.PasswordHash;
+					if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
 						return Unauthorized();
+					if (user.PasswordHash != originalHash)
+					{
+						var updatedUser = new User
+						{
+							Id = user.Id
+						};
+						DatabaseContext.Users.Attach(updatedUser);
+						updatedUser.PasswordHash = user.PasswordHash;
+						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+					}
 				}
-				catch (NotImplementedException)
-				{
-					return StatusCode((int)HttpStatusCode.NotImplemented);
-				}
-			using (identity) {
+
 				if (!user.Enabled.Value)
 					return Forbid();
 
 				var token = tokenFactory.CreateToken(user, out var expiry);
 				if (identity != null)
-					identityCache.CacheSystemIdentity(user, identity, expiry.AddSeconds(10));	//expire the identity slightly after the auth token in case of lag
+					identityCache.CacheSystemIdentity(user, identity, expiry.AddSeconds(10));   //expire the identity slightly after the auth token in case of lag
 				return Json(token);
 			}
 		}
