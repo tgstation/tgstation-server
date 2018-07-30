@@ -337,12 +337,12 @@ namespace Tgstation.Server.Host.Controllers
 						catch (Octokit.RateLimitExceededException)
 						{
 							//you look at your anonymous access and sigh
-							errorMessage = "PRE RATE LIMITED";
+							errorMessage = "P.R.E. RATE LIMITED";
 						}
 						catch (Octokit.NotFoundException)
 						{
 							//you look at your shithub access and sigh
-							errorMessage = "PRE NOT FOUND";
+							errorMessage = "P.R.E. NOT FOUND";
 						}
 
 						var attachedContextUser = new Models.User

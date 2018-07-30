@@ -73,17 +73,11 @@ namespace Tgstation.Server.Host.Controllers
 				DreamMakerRights = model.DreamMakerRights ?? DreamMakerRights.None,
 				RepositoryRights = model.RepositoryRights ?? RepositoryRights.None,
 				InstanceUserRights = model.InstanceUserRights ?? InstanceUserRights.None,
-				UserId = model.UserId
+				UserId = model.UserId,
+				InstanceId = Instance.Id
 			};
 
-			var ourInstance = new Models.Instance
-			{
-				Id = Instance.Id
-			};
-
-			DatabaseContext.Instances.Attach(ourInstance);
-
-			ourInstance.InstanceUsers.Add(dbUser);
+			DatabaseContext.InstanceUsers.Add(dbUser);
 
 			try
 			{

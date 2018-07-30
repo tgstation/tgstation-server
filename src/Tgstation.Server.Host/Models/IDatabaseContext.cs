@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Models
 		DbSet<Instance> Instances { get; }
 
 		/// <summary>
+		/// The <see cref="InstanceUser"/>s in the <see cref="IDatabaseContext"/>
+		/// </summary>
+		DbSet<InstanceUser> InstanceUsers { get; }
+
+		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		DbSet<Job> Jobs { get; }

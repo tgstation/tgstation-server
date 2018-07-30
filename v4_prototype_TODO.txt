@@ -10,8 +10,6 @@ Verify the byond cache folder location on linux
 Server updates. Use FOLDERS so dependencies can be properly packaged
 -Fix this
 
-ByondController
-
 TgsAuthorize attribute |'ing doesn't work due to role names, change to params[]
 OR use pow2 to go up and reverse tocode the enums
 

@@ -46,7 +46,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		public void SetWatchdog(IWatchdog watchdog)
 		{
-			if (watchdog != null)
+			if (watchdog == null)
+				throw new ArgumentNullException(nameof(watchdog));
+			if (this.watchdog != null)
 				throw new InvalidOperationException("watchdog already set!");
 			this.watchdog = watchdog;
 		}

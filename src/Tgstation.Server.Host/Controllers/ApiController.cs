@@ -92,9 +92,11 @@ namespace Tgstation.Server.Host.Controllers
 			var claims = new List<Claim>();
 			foreach (RightsType I in enumerator)
 			{
-				var rightInt = authenticationContext.GetRight(I);
+				//if there's no instance user, do a weird thing and add all the instance roles
+				//we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
+				var rightInt = RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null ? ~0 : authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
-				var right = (Enum)Enum.ToObject(rightEnum, authenticationContext.GetRight(I));
+				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
 				foreach(Enum J in Enum.GetValues(rightEnum))
 					if(right.HasFlag(J))
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));
@@ -122,17 +124,25 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			if (requireInstance && AuthenticationContext.InstanceUser == null)
-			{
-				//accessing an instance they don't have access to
-				await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
-			}
-
 			//validate the headers
 			try
 			{
 				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
+
+				if (requireInstance)
+				{
+					if(!ApiHeaders.InstanceId.HasValue)
+					{
+						await BadRequest(new { message = "Missing InstanceId header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						return;
+					}
+					if (AuthenticationContext.InstanceUser == null)
+					{
+						//accessing an instance they don't have access to or one that's disabled
+						await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+						return;
+					}
+				}
 			}
 			catch (InvalidOperationException e)
 			{

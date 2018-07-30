@@ -68,13 +68,18 @@ namespace Tgstation.Server.Host.Controllers
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		void NormalizeModelPath(Api.Models.Instance model)
+		void NormalizeModelPath(Api.Models.Instance model, out string absolutePath)
 		{
 			if (model.Path == null)
+			{
+				absolutePath = null;
 				return;
-			model.Path = ioManager.ResolvePath(model.Path);
+			}
+			absolutePath = ioManager.ResolvePath(model.Path);
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				model.Path = model.Path.ToUpperInvariant();
+				model.Path = absolutePath.ToUpperInvariant();
+			else
+				model.Path = absolutePath;
 		}
 
 		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
@@ -99,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 			if(model.Path == null)
 				return BadRequest(new { message = "path must not be empty!" });
 
-			NormalizeModelPath(model);
+			NormalizeModelPath(model, out var rawPath);
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
 				return Conflict(new { message = "Path not empty!" });
@@ -128,6 +133,8 @@ namespace Tgstation.Server.Host.Controllers
 					CommitterName = application.VersionString,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = true,
+					AutoUpdatesKeepTestMerges = false,
+					AutoUpdatesSynchronize = false
 				},
 				//give this user full privileges on the instance
 				InstanceUsers = new List<Models.InstanceUser>
@@ -144,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					//actually reserve it now
-					await ioManager.CreateDirectory(model.Path, default).ConfigureAwait(false);
+					await ioManager.CreateDirectory(rawPath, default).ConfigureAwait(false);
 				}
 				catch
 				{
@@ -198,14 +205,16 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
-			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
+			var usersInstanceUserTask = instanceQuery
+				.Include(x => x.InstanceUsers)
+				.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
 
 			var originalModel = await instanceQuery
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
 				.ThenInclude(x => x.Channels)
 				.Include(x => x.DreamDaemonSettings)    //need these for onlining
-				.FirstAsync(cancellationToken).ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
 				return StatusCode((int)HttpStatusCode.Gone);
 
@@ -228,7 +237,7 @@ namespace Tgstation.Server.Host.Controllers
 			string originalModelPath = null;
 			if (model.Path != null)
 			{
-				NormalizeModelPath(model);
+				NormalizeModelPath(model, out var rawPath);
 
 				if (model.Path != originalModel.Path)
 				{
@@ -274,7 +283,8 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				logger.LogError("Error changing instance online state! Exception: {0}", e);
 				originalModel.Online = originalOnline;
-				originalModel.Path = originalModelPath;
+				if (originalModelPath != null)
+					originalModel.Path = originalModelPath;
 				await DatabaseContext.Save(default).ConfigureAwait(false);
 				throw;
 			}

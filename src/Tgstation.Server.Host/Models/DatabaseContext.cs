@@ -37,9 +37,7 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
-		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
+		/// <inheritdoc />
 		public DbSet<InstanceUser> InstanceUsers { get; set; }
 
 		/// <inheritdoc />
