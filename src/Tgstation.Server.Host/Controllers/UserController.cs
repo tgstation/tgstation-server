@@ -60,6 +60,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (!(model.Password == null ^ model.SystemIdentifier == null))
 				return BadRequest(new { message = "User must have exactly one of either a password or system identifier!" });
 
+			model.Name = model.Name?.Trim();
+			if (model.Name?.Length == 0)
+				model.Name = null;
+
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
 				return BadRequest(new { message = "User must have a name if and only if user has no system identifier!" });
 
