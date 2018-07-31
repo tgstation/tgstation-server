@@ -310,7 +310,7 @@ namespace Tgstation.Server.Host.Controllers
 					StartedBy = AuthenticationContext.User
 				};
 
-				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) => {
+				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressHandler, ct) => {
 					try
 					{
 						await instanceManager.MoveInstance(Instance, rawPath, ct).ConfigureAwait(false);

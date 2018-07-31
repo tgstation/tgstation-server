@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Core
 		public void Dispose() => cancellationTokenSource.Dispose();
 
 		/// <summary>
+		/// The progress of the job
+		/// </summary>
+		public int? Progress { get; set; }
+
+		/// <summary>
 		/// Wait for <see cref="task"/> to complete
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

@@ -12,13 +12,18 @@ namespace Tgstation.Server.Host.Core
     public interface IJobManager
 	{
 		/// <summary>
+		/// Get the <see cref="Api.Models.Job.Progress"/> for a job
+		/// </summary>
+		int? JobProgress(Job job);
+
+		/// <summary>
 		/// Registers a given <see cref="Job"/> and begins running it
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/></param>
-		/// <param name="operation">The operation to run taking the started <see cref="Job"/>, a <see cref="IServiceProvider"/> and a <see cref="CancellationToken"/></param>
+		/// <param name="operation">The operation to run taking the started <see cref="Job"/>, a <see cref="IServiceProvider"/> progress reporter <see cref="Action{T1}"/> and a <see cref="CancellationToken"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing a running operation</returns>
-		Task RegisterOperation(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken);
+		Task RegisterOperation(Job job, Func<Job, IServiceProvider, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Cancels a give <paramref name="job"/>

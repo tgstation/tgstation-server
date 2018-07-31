@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Controllers
 				StartedBy = AuthenticationContext.User
 			};
 			await jobManager.RegisterOperation(job, 
-			async (paramJob, serviceProvider, innerCt) =>
+			async (paramJob, serviceProvider, progressHandler, innerCt) =>
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)

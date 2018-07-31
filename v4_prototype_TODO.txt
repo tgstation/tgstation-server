@@ -10,9 +10,6 @@ Verify the byond cache folder location on linux
 Server updates. Use FOLDERS so dependencies can be properly packaged
 -Fix this
 
-TgsAuthorize attribute |'ing doesn't work due to role names, change to params[]
-OR use pow2 to go up and reverse tocode the enums
-
 Don't throw arg null exceptions with null [FromBody]'s, apparently that's allowed, return bad request instead
 
 Test repo
@@ -20,3 +17,5 @@ Test byond
 Test compile
 Test watchdog
 test configuration
+
+Think about how to preserve the LastOriginCommit while merging/test merging

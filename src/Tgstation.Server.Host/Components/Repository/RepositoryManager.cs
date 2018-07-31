@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string accessString, CancellationToken cancellationToken)
+		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string accessString, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
@@ -63,7 +63,12 @@ namespace Tgstation.Server.Host.Components.Repository
 								path = LibGit2Sharp.Repository.Clone(Repository.GenerateAuthUrl(url.ToString(), accessString), ioManager.ResolvePath("."), new CloneOptions
 								{
 									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-									OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
+									OnTransferProgress = (a) =>
+									{
+										var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+										progressReporter((int)percentage);
+										return !cancellationToken.IsCancellationRequested;
+									},
 									RecurseSubmodules = true,
 									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 									RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,

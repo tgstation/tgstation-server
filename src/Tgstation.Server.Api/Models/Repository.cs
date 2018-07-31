@@ -15,7 +15,7 @@ namespace Tgstation.Server.Api.Models
 		public string Origin { get; set; }
 
 		/// <summary>
-		/// The commit HEAD points to
+		/// The commit HEAD points to. Not populated in responses, use <see cref="RevisionInformation"/> instead
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetSha)]
 		public string Sha { get; set; }

@@ -1321,14 +1321,14 @@
 									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": -1,\n\t\"dreamDaemonRights\": -1,\n\t\"dreamMakerRights\": -1,\n\t\"repositoryRights\": -1,\n\t\"chatSettingsRights\": -1,\n\t\"configurationRights\": -1\n}"
 								},
 								"url": {
-									"raw": "localhost:5000/Job/10",
+									"raw": "localhost:5000/Job/29",
 									"host": [
 										"localhost"
 									],
 									"port": "5000",
 									"path": [
 										"Job",
-										"10"
+										"29"
 									]
 								}
 							},
@@ -1365,14 +1365,14 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:5000/Job/11",
+									"raw": "localhost:5000/Job/20",
 									"host": [
 										"localhost"
 									],
 									"port": "5000",
 									"path": [
 										"Job",
-										"11"
+										"20"
 									]
 								}
 							},
@@ -1399,6 +1399,408 @@
 									""
 								]
 							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Byond",
+					"description": "",
+					"item": [
+						{
+							"name": "List installed versions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Byond/List",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Byond",
+										"List"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read active version",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Byond",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Byond"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set 511.1385 active",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"version\": {\n    \t\"major\": 511,\n    \t\"minor\": 1385\n    }\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Byond",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Byond"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set 512.1441 active",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"version\": {\n    \t\"major\": 512,\n    \t\"minor\": 1441\n    }\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Byond",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Byond"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Repo",
+					"description": "",
+					"item": [
+						{
+							"name": "Read Info",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Just fetch",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"updateReference\": true\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Test merge some stuff",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"updateReference\": true,\n\t\"reference\": \"master\",\n\t\"newTestMerges\": [\n\t\t{\n\t\t\t\"number\": 39476,\n\t\t\t\"pullRequestRevision\": \"11edfe5\"\n\t\t},\n\t\t{\n\t\t\t\"number\": 39469,\n\t\t\t\"pullRequestRevision\": \"ee4f00d\",\n\t\t\t\"comment\": \"babby's first pr\"\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone tg",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"origin\": \"https://github.com/tgstation/tgstation\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"_postman_isSubFolder": true
@@ -1594,185 +1996,6 @@
 							"port": "5000",
 							"path": [
 								"Instance"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Byond",
-			"description": "",
-			"item": [
-				{
-					"name": "List installed versions",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Postman/1.0"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Tgstation.Server.Api/4.0.0.0"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "InstanceId",
-								"value": "1"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
-						},
-						"url": {
-							"raw": "localhost:5000/Byond/List",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"Byond",
-								"List"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Read active version",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Postman/1.0"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Tgstation.Server.Api/4.0.0.0"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "InstanceId",
-								"value": "1"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
-						},
-						"url": {
-							"raw": "localhost:5000/Byond",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"Byond"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Set 511.1385 active",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Postman/1.0"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Tgstation.Server.Api/4.0.0.0"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "InstanceId",
-								"value": "1"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"version\": {\n    \t\"major\": 511,\n    \t\"minor\": 1385\n    }\n}"
-						},
-						"url": {
-							"raw": "localhost:5000/Byond",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"Byond"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Set 512.1441 active",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Postman/1.0"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Tgstation.Server.Api/4.0.0.0"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "InstanceId",
-								"value": "1"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"version\": {\n    \t\"major\": 512,\n    \t\"minor\": 1441\n    }\n}"
-						},
-						"url": {
-							"raw": "localhost:5000/Byond",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"Byond"
 							]
 						}
 					},

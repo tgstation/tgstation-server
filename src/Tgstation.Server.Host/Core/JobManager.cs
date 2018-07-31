@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task RegisterOperation(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken)
+		public async Task RegisterOperation(Job job, Func<Job, IServiceProvider, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
 			using (var scope = serviceProvider.CreateScope())
 			{
@@ -127,7 +127,14 @@ namespace Tgstation.Server.Host.Core
 				}
 				databaseContext.Jobs.Add(job);
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-				var jobHandler = JobHandler.Create(x => RunJob(job, operation, x));
+				var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) => 
+				operation(jobParam, serviceProvider, y =>
+				{
+					lock (this)
+						if (jobs.TryGetValue(job.Id, out var handler))
+							handler.Progress = y;
+				}, ct),
+				x));
 				lock (this)
 					jobs.Add(job.Id, jobHandler);
 			}
@@ -182,6 +189,17 @@ namespace Tgstation.Server.Host.Core
 				job.CancelledBy = user;
 				//let either startup or cancellation set job.cancelled
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		/// <inheritdoc />
+		public int? JobProgress(Job job)
+		{
+			lock (this)
+			{
+				if (!jobs.TryGetValue(job.Id, out var handler))
+					return null;
+				return handler.Progress;
 			}
 		}
 	}

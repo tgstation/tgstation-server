@@ -38,7 +38,18 @@ namespace Tgstation.Server.Api.Rights
 		/// <typeparam name="TRight">The <see cref="RightsType"/></typeparam>
 		/// <param name="right">The <typeparamref name="TRight"/></param>
 		/// <returns>A <see cref="string"/> representing the claim role name</returns>
-		public static string RoleName<TRight>(TRight right) => String.Concat(typeof(TRight).Name, '.', right.ToString());
+		public static string RoleNames<TRight>(TRight right) where TRight: Enum
+		{
+			var flags = new List<string>();
+			IEnumerable<string> GetRoleNames()
+			{
+				foreach (Enum J in Enum.GetValues(right.GetType()))
+					if (right.HasFlag(J))
+						yield return String.Concat(typeof(TRight).Name, '.', J.ToString());
+			};
+			var names = GetRoleNames();
+			return String.Join(",", names);
+		}
 
 		/// <summary>
 		/// Gets the role claim name used for a given <paramref name="rightsType"/> and <paramref name="right"/>

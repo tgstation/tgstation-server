@@ -71,7 +71,9 @@ namespace Tgstation.Server.Host.Controllers
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).Include(x => x.StartedBy).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (job == default(Job))
 				return NotFound();
-			return Json(job.ToApi());
+			var api = job.ToApi();
+			api.Progress = jobManager.JobProgress(job);
+			return Json(api);
 		}
 	}
 }

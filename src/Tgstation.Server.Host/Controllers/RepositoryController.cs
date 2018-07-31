@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					CommitSha = repoSha,
 					CompileJobs = new List<Models.CompileJob>(),
-					ActiveTestMerges = new List<Models.RevInfoTestMerge>()  //non null vals for api returns
+					ActiveTestMerges = new List<RevInfoTestMerge>()  //non null vals for api returns
 				};
 
 				lock (DatabaseContext)	//cleaner this way
@@ -95,12 +95,11 @@ namespace Tgstation.Server.Host.Controllers
 			model.IsGitHub = repository.IsGitHubRepository;
 			model.Origin = repository.Origin;
 			model.Reference = repository.Reference;
-			model.Sha = repository.Head;
 
 			//rev info stuff
 			Models.RevisionInformation revisionInfo = null;
 			var needsDbUpdate = await LoadRevisionInformation(repository, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
-			revisionInfo.OriginCommitSha = lastOriginCommitSha ?? model.Sha;
+			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha ?? model.Sha;
 			revInfoSink?.Invoke(revisionInfo);
 			model.RevisionInformation = revisionInfo.ToApi();
 			return needsDbUpdate;
@@ -154,9 +153,9 @@ namespace Tgstation.Server.Host.Controllers
 					Instance = Instance
 				};
 				var api = currentModel.ToApi();
-				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) =>
+				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
 				{
-					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, GetAccessString(currentModel), cancellationToken).ConfigureAwait(false))
+					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, GetAccessString(currentModel), progressReporter, cancellationToken).ConfigureAwait(false))
 					{
 						if (repos == null)
 							throw new Exception("Filesystem conflict while cloning repository!");
@@ -201,7 +200,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
 			api.ActiveJob = job.ToApi();
 			return Ok();
 		}
@@ -348,12 +347,6 @@ namespace Tgstation.Server.Host.Controllers
 							errorMessage = "P.R.E. NOT FOUND";
 						}
 
-						var attachedContextUser = new Models.User
-						{
-							Id = AuthenticationContext.User.Id
-						};
-						DatabaseContext.Users.Attach(attachedContextUser);
-
 						var tm = new Models.TestMerge
 						{
 							Author = pr?.User.Login ?? errorMessage,
@@ -362,7 +355,7 @@ namespace Tgstation.Server.Host.Controllers
 							TitleAtMerge = pr?.Title ?? errorMessage,
 							Comment = I.Comment,
 							Number = I.Number,
-							MergedBy = attachedContextUser,
+							MergedBy = AuthenticationContext.User,
 							PullRequestRevision = I.PullRequestRevision,
 							Url = pr?.HtmlUrl ?? errorMessage
 						};
@@ -397,7 +390,7 @@ namespace Tgstation.Server.Host.Controllers
 						CancelRightsType = RightsType.Repository,
 						CancelRight = (int)RepositoryRights.CancelSynchronize,
 					};
-					await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, ct) =>
+					await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
 					{
 						using (var repos = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 							if (repos != null)

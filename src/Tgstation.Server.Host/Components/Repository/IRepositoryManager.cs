@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="accessString">The access string to clone from <paramref name="url"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>The newly cloned <see cref="IRepository"/>, <see langword="null"/> if one already exists</returns>
-		Task<IRepository> CloneRepository(Uri url, string initialBranch, string accessString, CancellationToken cancellationToken);
+		Task<IRepository> CloneRepository(Uri url, string initialBranch, string accessString, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Delete the current repository
