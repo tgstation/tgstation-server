@@ -10,12 +10,6 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class RepositorySettings
 	{
 		/// <summary>
-		/// The last commit recognized from the origin remote
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public string LastOriginCommitSha { get; set; }
-
-		/// <summary>
 		/// The name of the committer
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.ChangeCommitter)]

@@ -22,6 +22,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="url">The <see cref="Uri"/> of the remote repository to clone</param>
 		/// <param name="initialBranch">The branch to clone</param>
 		/// <param name="accessString">The access string to clone from <paramref name="url"/></param>
+		/// <param name="progressReporter">A function to report 0-100 progress of the clone</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>The newly cloned <see cref="IRepository"/>, <see langword="null"/> if one already exists</returns>
 		Task<IRepository> CloneRepository(Uri url, string initialBranch, string accessString, Action<int> progressReporter, CancellationToken cancellationToken);

@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		static string GetAccessString(Api.Models.Internal.RepositorySettings repositorySettings) => repositorySettings.AccessUser != null ? String.Concat(repositorySettings.AccessUser, '@', repositorySettings.AccessToken) : null;
 
-		async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
+		async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
 		{
 			var repoSha = repository.Head;
 			var revisionInfo = await DatabaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha)
@@ -86,6 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 				lock (DatabaseContext)	//cleaner this way
 					DatabaseContext.RevisionInformations.Add(revisionInfo);
 			}
+			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha ?? repository.Head;
 			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
 		}
@@ -98,10 +99,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			//rev info stuff
 			Models.RevisionInformation revisionInfo = null;
-			var needsDbUpdate = await LoadRevisionInformation(repository, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
-			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha ?? model.Sha;
-			revInfoSink?.Invoke(revisionInfo);
+			var needsDbUpdate = await LoadRevisionInformation(repository, lastOriginCommitSha, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
 			model.RevisionInformation = revisionInfo.ToApi();
+			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
 		}
 
@@ -184,8 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
-			
-			currentModel.LastOriginCommitSha = null;
+
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
 
@@ -218,7 +217,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
-				if (repo != null && await PopulateApi(api, repo, currentModel.LastOriginCommitSha, null, cancellationToken).ConfigureAwait(false))
+				if (repo != null && await PopulateApi(api, repo, null, null, cancellationToken).ConfigureAwait(false))
+					//user may have fucked with the repo without telling us, do what we can
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				return Json(api);
 			}
@@ -234,10 +234,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(new { message = "Either both accessToken and accessUser must be present or neither!" });
 
-			if (model.Sha != null && model.Reference != null)
+			if (model.CheckoutSha != null && model.Reference != null)
 				return BadRequest(new { message = "Only one of sha or reference may be specified!" });
 
-			if(model.Sha != null && model.UpdateReference == true)
+			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
 				return BadRequest(new { message = "Cannot update a reference when checking out a sha!" });
 
 			if (model.Origin != null)
@@ -275,133 +275,167 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.CommitterEmail, RepositoryRights.ChangeCommitter)
 				|| CheckModified(x => x.CommitterName, RepositoryRights.ChangeCommitter)
 				|| CheckModified(x => x.PushTestMergeCommits, RepositoryRights.ChangeTestMergeCommits)
-				|| CheckModified(x => x.ShowTestMergeCommitters, RepositoryRights.ChangeTestMergeCommits))
+				|| CheckModified(x => x.ShowTestMergeCommitters, RepositoryRights.ChangeTestMergeCommits)
+				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
-			//so that's the stuff that is just db, the rest is tricky
+			//no, just one save changes at the end for sanity
+			//await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+			var job = new Models.Job
 			{
-				if (repo == null)
-					return StatusCode((int)HttpStatusCode.Gone);
-				var startSha = repo.Head;
+				Description = "Apply repository changes",
+				StartedBy = AuthenticationContext.User,
+				Instance = Instance,
+				CancelRightsType = RightsType.Repository,
+				CancelRight = (int)RepositoryRights.CancelPendingChanges,
+			};
 
-				if (newTestMerges && !repo.IsGitHubRepository)
-					return Conflict(new { message = "Cannot test merge on a non GitHub based repository!" });
-
-				var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
-				var accessString = GetAccessString(currentModel);
-				if (model.UpdateReference == true)
+			await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
+			{
+				using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 				{
-					if (!repo.Tracking && model.Reference == null)
-						return Conflict(new { message = "Not on an updatable reference!" });
-					if (!userRights.HasFlag(RepositoryRights.UpdateBranch))
-						return Forbid();
-					await repo.FetchOrigin(accessString, cancellationToken).ConfigureAwait(false);
-					if (model.Sha == null && model.Reference == null)
-						await repo.MergeOrigin(committerName, currentModel.CommitterEmail, cancellationToken).ConfigureAwait(false);
-				}
+					if (repo == null)
+						throw new InvalidOperationException("Repository could not be loaded!");
 
-				if (model.Sha != null || model.Reference != null)
-				{
-					await repo.CheckoutObject(model.Sha ?? model.Reference, cancellationToken).ConfigureAwait(false);
+					var modelHasShaOrReference = model.CheckoutSha != null || model.Reference != null;
 
-					if (model.UpdateReference == true && model.Reference != null)
+					var startSha = repo.Head;
+
+					if (newTestMerges && !repo.IsGitHubRepository)
+						throw new InvalidOperationException("Cannot test merge on a non GitHub based repository!");
+
+					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
+					var accessString = GetAccessString(currentModel);
+
+					var numFetches = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0);
+					var doneFetches = 0;
+					if (numFetches > 0)
+						progressReporter(0);
+
+					//get a base line for where we are
+					Models.RevisionInformation lastRevisionInfo = null;
+					await LoadRevisionInformation(repo, null, x => lastRevisionInfo = x, cancellationToken).ConfigureAwait(false);
+
+					//apply new rev info, tracking applied test merges
+					async Task UpdateRevInfo()
 					{
-						if (!repo.Tracking)
-							return Conflict(new { message = "Checked out reference is does not track an object!" });
-						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
-					}
-				}
-				
-				//now add any testmerges
-				if (newTestMerges)
-				{
-					var repoOwner = repo.GitHubOwner;
-					var repoName = repo.GitHubRepoName;
-					var allAddedTestMerges = new List<Models.TestMerge>();
-					foreach (var I in model.NewTestMerges)
-					{
-						var prTask = gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number);
-
-						await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, accessString, cancellationToken).ConfigureAwait(false);
-
-						Octokit.PullRequest pr = null;
-						string errorMessage = null;
-
-						Models.RevisionInformation revisionInformation = null;
-						var revInfoTask = LoadRevisionInformation(repo, x => revisionInformation = x, cancellationToken);
-
-						try
-						{
-							pr = await prTask.ConfigureAwait(false);
-						}
-						catch (Octokit.RateLimitExceededException)
-						{
-							//you look at your anonymous access and sigh
-							errorMessage = "P.R.E. RATE LIMITED";
-						}
-						catch (Octokit.NotFoundException)
-						{
-							//you look at your shithub access and sigh
-							errorMessage = "P.R.E. NOT FOUND";
-						}
-
-						var tm = new Models.TestMerge
-						{
-							Author = pr?.User.Login ?? errorMessage,
-							BodyAtMerge = pr?.Body,
-							MergedAt = DateTimeOffset.Now,
-							TitleAtMerge = pr?.Title ?? errorMessage,
-							Comment = I.Comment,
-							Number = I.Number,
-							MergedBy = AuthenticationContext.User,
-							PullRequestRevision = I.PullRequestRevision,
-							Url = pr?.HtmlUrl ?? errorMessage
-						};
-						if (pr == null)
-							tm.BodyAtMerge = errorMessage;
-
-						allAddedTestMerges.Add(tm);
-
-						await revInfoTask.ConfigureAwait(false);
-
-						revisionInformation.PrimaryTestMerge = tm;
-						revisionInformation.ActiveTestMerges.AddRange(allAddedTestMerges.Select(x => new RevInfoTestMerge
-						{
-							TestMerge = x
-						}));
-					}
-				}
-
-				var api = currentModel.ToApi();
-				if (await PopulateApi(api, repo, currentModel.LastOriginCommitSha, null, cancellationToken).ConfigureAwait(false) || newTestMerges)
-					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-
-				//synchronize now because we don't care if we fail so its safe to fire/forget the job
-				
-				if (startSha != repo.Head)
-				{
-					var job = new Models.Job
-					{
-						Description = "Synchronize repository changes",
-						StartedBy = AuthenticationContext.User,
-						Instance = Instance,
-						CancelRightsType = RightsType.Repository,
-						CancelRight = (int)RepositoryRights.CancelSynchronize,
+						var last = lastRevisionInfo;
+						await LoadRevisionInformation(repo, last.OriginCommitSha, x => lastRevisionInfo = x, cancellationToken).ConfigureAwait(false);
+						lastRevisionInfo.ActiveTestMerges.AddRange(last.ActiveTestMerges);
 					};
-					await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
+
+					try
 					{
-						using (var repos = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
-							if (repos != null)
-								await repos.Sychronize(accessString, ct).ConfigureAwait(false);
-					}, cancellationToken).ConfigureAwait(false);
+						//fetch/pull
+						if (model.UpdateFromOrigin == true)
+						{
+							if (!repo.Tracking && model.Reference == null)
+								throw new InvalidOperationException("Not on an updatable reference!");
+							await repo.FetchOrigin(accessString, x => progressReporter(x / numFetches), cancellationToken).ConfigureAwait(false);
+							doneFetches = 1;
+							if (!modelHasShaOrReference)
+							{
+								await repo.MergeOrigin(committerName, currentModel.CommitterEmail, cancellationToken).ConfigureAwait(false);
+								await UpdateRevInfo().ConfigureAwait(false);
+							}
+						}
 
-					api.ActiveJob = job.ToApi();
+						//checkout/hard reset
+						if (modelHasShaOrReference)
+						{
+							if ((model.CheckoutSha != null && repo.Head.ToUpperInvariant() != model.CheckoutSha.ToUpperInvariant())
+								|| (model.Reference != null && repo.Reference != model.Reference))
+							{
+								await repo.CheckoutObject(model.CheckoutSha ?? model.Reference, cancellationToken).ConfigureAwait(false);
+								await LoadRevisionInformation(repo, null, x => lastRevisionInfo = x, cancellationToken).ConfigureAwait(false);  //we've either seen origin before or what we're checking out is on origin
+							}
+
+							if (model.UpdateFromOrigin == true && model.Reference != null)
+							{
+								if (!repo.Tracking)
+									throw new InvalidOperationException("Checked out reference does not track a remote object!");
+								await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+								await LoadRevisionInformation(repo, null, x => lastRevisionInfo = x, cancellationToken).ConfigureAwait(false);
+								//repo head is on origin so force this
+								//will update the db if necessary
+								lastRevisionInfo.OriginCommitSha = repo.Head;
+							}
+						}
+
+						//test merging
+						if (newTestMerges)
+						{
+							var repoOwner = repo.GitHubOwner;
+							var repoName = repo.GitHubRepoName;
+							foreach (var I in model.NewTestMerges)
+							{
+								var prTask = gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number);
+
+								await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, accessString, x => progressReporter((x + 100 * doneFetches) / numFetches), cancellationToken).ConfigureAwait(false);
+								++doneFetches;
+
+								var revInfoUpdateTask = UpdateRevInfo();
+
+								Octokit.PullRequest pr = null;
+								string errorMessage = null;
+								try
+								{
+									pr = await prTask.ConfigureAwait(false);
+								}
+								catch (Octokit.RateLimitExceededException)
+								{
+									//you look at your anonymous access and sigh
+									errorMessage = "P.R.E. RATE LIMITED";
+								}
+								catch (Octokit.NotFoundException)
+								{
+									//you look at your shithub access and sigh
+									errorMessage = "P.R.E. NOT FOUND";
+								}
+
+								var tm = new Models.TestMerge
+								{
+									Author = pr?.User.Login ?? errorMessage,
+									BodyAtMerge = pr?.Body,
+									MergedAt = DateTimeOffset.Now,
+									TitleAtMerge = pr?.Title ?? errorMessage,
+									Comment = I.Comment,
+									Number = I.Number,
+									MergedBy = AuthenticationContext.User,
+									PullRequestRevision = I.PullRequestRevision,
+									Url = pr?.HtmlUrl ?? errorMessage
+								};
+								if (pr == null)
+									tm.BodyAtMerge = errorMessage;
+
+								await revInfoUpdateTask.ConfigureAwait(false);
+
+								lastRevisionInfo.PrimaryTestMerge = tm;
+								lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
+								{
+									TestMerge = tm
+								});
+							}
+						}
+
+						if (startSha != repo.Head)
+						{
+							await repo.Sychronize(accessString, ct).ConfigureAwait(false);
+							await UpdateRevInfo().ConfigureAwait(false);
+						}
+						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+					}
+					catch
+					{
+						//the stuff didn't make it into the db, forget what we've done and abort
+						await repo.CheckoutObject(startSha, default).ConfigureAwait(false);
+						throw;
+					}
 				}
+			}, cancellationToken).ConfigureAwait(false);
 
-				return Json(api);
-			}
+			return Json(job.ToApi());
 		}
 	}
 }

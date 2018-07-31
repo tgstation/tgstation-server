@@ -61,16 +61,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
 		/// <param name="accessString">The access string to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="progressReporter">Optional function to report 0-100 progress of the clone</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD on success, <see langword="null"/> on merge conflict</returns>
-		Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, CancellationToken cancellationToken);
+		Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fetch commits from the origin repository
 		/// </summary>
 		/// <param name="accessString">The access string to fetch from the origin repository</param>
+		/// <param name="progressReporter">Optional function to report 0-100 progress of the clone</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task FetchOrigin(string accessString, CancellationToken cancellationToken);
+		Task FetchOrigin(string accessString, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository

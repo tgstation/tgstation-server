@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						if (repo == null)
 							continue;
-						await repo.FetchOrigin(accessToken, cancellationToken).ConfigureAwait(false);
+						await repo.FetchOrigin(accessToken, null, cancellationToken).ConfigureAwait(false);
 						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
 						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}

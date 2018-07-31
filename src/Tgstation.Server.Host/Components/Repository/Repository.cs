@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, CancellationToken cancellationToken)
+		public async Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 
 			if (!IsGitHubRepository)
@@ -164,7 +164,12 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						Prune = true,
 						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-						OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
+						OnTransferProgress = (a) =>
+						{
+							var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+							progressReporter?.Invoke((int)percentage);
+							return !cancellationToken.IsCancellationRequested;
+						},
 						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
 					}, logMessage);
 				}
@@ -217,7 +222,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task FetchOrigin(string accessString, CancellationToken cancellationToken) => Task.WhenAll(
+		public Task FetchOrigin(string accessString, Action<int> progressReporter, CancellationToken cancellationToken) => Task.WhenAll(
 			eventConsumer.HandleEvent(EventType.RepoFetch, Array.Empty<string>(), cancellationToken),
 			Task.Factory.StartNew(() =>
 			{
@@ -228,7 +233,12 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						Prune = true,
 						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-						OnTransferProgress = (a) => !cancellationToken.IsCancellationRequested,
+						OnTransferProgress = (a) =>
+						{
+							var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+							progressReporter?.Invoke((int)percentage);
+							return !cancellationToken.IsCancellationRequested;
+						},
 						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
 					}, "Fetch origin commits");
 				}

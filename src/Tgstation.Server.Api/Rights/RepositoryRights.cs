@@ -63,6 +63,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may cancel synchronize operations
 		/// </summary>
-		CancelSynchronize = 8192
+		CancelPendingChanges = 8192
 	}
 }

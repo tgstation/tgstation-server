@@ -15,10 +15,10 @@ namespace Tgstation.Server.Api.Models
 		public string Origin { get; set; }
 
 		/// <summary>
-		/// The commit HEAD points to. Not populated in responses, use <see cref="RevisionInformation"/> instead
+		/// The commit HEAD should point to. Not populated in responses, use <see cref="RevisionInformation"/> instead for retrieval
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetSha)]
-		public string Sha { get; set; }
+		public string CheckoutSha { get; set; }
 
 		/// <summary>
 		/// The current <see cref="Models.RevisionInformation"/> for the <see cref="Repository"/>
@@ -39,10 +39,10 @@ namespace Tgstation.Server.Api.Models
 		public Job ActiveJob { get; set; }
 
 		/// <summary>
-		/// Do the equivalent of a git pull. Will attempt to merge unless <see cref="Reference"/> is also specified
+		/// Do the equivalent of a git pull. Will attempt to merge unless <see cref="Reference"/> is also specified in which case a hard reset will be performed after checking out
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.UpdateBranch)]
-		public bool? UpdateReference { get; set; }
+		public bool? UpdateFromOrigin { get; set; }
 
 		/// <summary>
 		/// The branch or tag HEAD points to
