@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -44,7 +45,7 @@ namespace Tgstation.Server.Api.Rights
 			IEnumerable<string> GetRoleNames()
 			{
 				foreach (Enum J in Enum.GetValues(right.GetType()))
-					if (right.HasFlag(J))
+					if (Convert.ToInt32(J, CultureInfo.InvariantCulture) != 0 && right.HasFlag(J))
 						yield return String.Concat(typeof(TRight).Name, '.', J.ToString());
 			};
 			var names = GetRoleNames();
