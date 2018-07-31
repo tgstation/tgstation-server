@@ -51,7 +51,7 @@ namespace Tgstation.Server.Api.Models
 		public string Reference { get; set; }
 
 		/// <summary>
-		/// <see cref="TestMergeParameters"/> for new <see cref="TestMerge"/>s
+		/// <see cref="TestMergeParameters"/> for new <see cref="TestMerge"/>s. Note that merges that conflict will not be performed
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.MergePullRequest)]
 		public List<TestMergeParameters> NewTestMerges { get; set; }

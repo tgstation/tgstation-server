@@ -336,8 +336,12 @@ namespace Tgstation.Server.Host.Controllers
 							doneFetches = 1;
 							if (!modelHasShaOrReference)
 							{
-								await repo.MergeOrigin(committerName, currentModel.CommitterEmail, cancellationToken).ConfigureAwait(false);
+								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, cancellationToken).ConfigureAwait(false);
+								if (!fastForward.HasValue)
+									throw new InvalidOperationException("Merge conflict occurred during origin update!");
 								await UpdateRevInfo().ConfigureAwait(false);
+								if (fastForward.Value)
+									lastRevisionInfo.OriginCommitSha = repo.Head;
 							}
 						}
 
@@ -372,7 +376,11 @@ namespace Tgstation.Server.Host.Controllers
 							{
 								var prTask = gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number);
 
-								await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, accessString, x => progressReporter((x + 100 * doneFetches) / numFetches), cancellationToken).ConfigureAwait(false);
+								var mergeResult = await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, accessString, x => progressReporter((x + 100 * doneFetches) / numFetches), cancellationToken).ConfigureAwait(false);
+
+								if (!mergeResult.HasValue)	//conflict, we don't care, dd already knows
+									continue;
+
 								++doneFetches;
 
 								var revInfoUpdateTask = UpdateRevInfo();

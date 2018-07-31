@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<string> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<bool?> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 
 			if (!IsGitHubRepository)
@@ -206,10 +206,10 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (result.Status == MergeStatus.Conflicts)
 			{
 				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, targetCommit, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
-				return null;
+				return false;
 			}
 
-			return result.Commit.Sha;
+			return true;
 		}
 
 		/// <inheritdoc />
@@ -285,13 +285,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<string> ResetToOrigin(CancellationToken cancellationToken)
+		public async Task ResetToOrigin(CancellationToken cancellationToken)
 		{
 			if (!repository.Head.IsTracking)
 				throw new InvalidOperationException("Cannot reset to origin while not on a tracked reference!");
 			var trackedBranch = repository.Head.TrackedBranch;
 			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
-			return await Task.Factory.StartNew(() =>
+			await Task.Factory.StartNew(() =>
 			{
 				Commands.Checkout((LibGit2Sharp.Repository)repository, repository.Head.TrackedBranch, new CheckoutOptions
 				{
@@ -299,7 +299,6 @@ namespace Tgstation.Server.Host.Components.Repository
 				});
 				cancellationToken.ThrowIfCancellationRequested();
 				repository.RemoveUntrackedFiles();
-				return trackedBranch.Tip.Sha;
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
@@ -312,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<string> MergeOrigin(string committerName, string committerEmail, CancellationToken cancellationToken)
+		public async Task<bool?> MergeOrigin(string committerName, string committerEmail, CancellationToken cancellationToken)
 		{
 			MergeResult result = null;
 			Branch trackedBranch = null;
@@ -350,7 +349,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return null;
 			}
 
-			return Head;
+			return result.Status != MergeStatus.NonFastForward;
 		}
 
 		/// <inheritdoc />
