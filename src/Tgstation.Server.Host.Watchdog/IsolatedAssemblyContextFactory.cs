@@ -1,4 +1,5 @@
-﻿using Tgstation.Server.Host.Startup;
+﻿using Microsoft.DotNet.PlatformAbstractions;
+using Tgstation.Server.Host.Startup;
 
 namespace Tgstation.Server.Host.Watchdog
 {
@@ -6,6 +7,6 @@ namespace Tgstation.Server.Host.Watchdog
 	sealed class IsolatedAssemblyContextFactory : IIsolatedAssemblyContextFactory
 	{
 		/// <inheritdoc />
-		public IServerFactory CreateIsolatedServerFactory(string assemblyPath) => new IsolatedServerFactory(assemblyPath);
+		public IServerFactory CreateIsolatedServerFactory(string assemblyPath) => new IsolatedServerFactory(assemblyPath, RuntimeEnvironment.GetRuntimeIdentifier());
 	}
 }

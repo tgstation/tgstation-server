@@ -101,13 +101,14 @@ namespace Tgstation.Server.Host.Core
 			var generalConfigurationSection = configuration.GetSection(GeneralConfiguration.Section);
 			services.Configure<GeneralConfiguration>(generalConfigurationSection);
 
+			//remember, anything you .Get manually can be null if the config is missing
 			var generalConfiguration = generalConfigurationSection.Get<GeneralConfiguration>();
 			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 			var ioManager = new DefaultIOManager();
 
-			if (!generalConfiguration.DisableFileLogging)
+			if (generalConfiguration?.DisableFileLogging != true)
 			{
-				var logPath = !String.IsNullOrEmpty(generalConfiguration.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");				
+				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");				
 				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log")));
 			}
 
@@ -151,6 +152,7 @@ namespace Tgstation.Server.Host.Core
 			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
+
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
 			{
 				if (hostingEnvironment.IsDevelopment())

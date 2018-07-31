@@ -43,11 +43,18 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			const string DefaultAssemblyPath = "Default";
 
-			var assemblyStoragePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "lib");
+			var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+#if DEBUG
+			rootLocation = Path.GetFullPath("../../../../Tgstation.Server.Host.Watchdog/bin/Debug/netstandard2.0");
+#endif
+
+			var assemblyStoragePath = Path.Combine(rootLocation, "lib");	//always always next to watchdog
 
 			logger.LogInformation("Host watchdog starting...");
 
 			var nextAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, DefaultAssemblyPath));
+
 			string lastAssemblyPath = null;
 			try
 			{

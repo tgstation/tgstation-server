@@ -25,15 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.Docker.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Byond.TopicSender" Version="1.1.1" />
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.1.0" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />

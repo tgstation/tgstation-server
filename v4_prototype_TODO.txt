@@ -19,3 +19,5 @@ Test watchdog
 test configuration
 
 Think about how to preserve the LastOriginCommit while merging/test merging
+
+Rewrite the autoupdater to use a process

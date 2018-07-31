@@ -17,7 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
@@ -25,5 +26,19 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo 'Publishing host to watchdog target path for configuration $(ConfigurationName)'&#xD;&#xA;dotnet publish $(ProjectDir)../Tgstation.Server.Host/Tgstation.Server.Host.csproj -c $(ConfigurationName) -o $(TargetDir)lib/Default" />
+  </Target>
+	
+  <Target Name="AfterPublishDeploy" AfterTargets="Publish">
+    <Exec Command="echo 'Publishing host to watchdog publish dir for configuration $(ConfigurationName)'&#xD;&#xA;dotnet publish $(ProjectDir)../Tgstation.Server.Host/Tgstation.Server.Host.csproj -c $(ConfigurationName) -o $(PublishDir)lib/Default" />
+	</Target>
 
 </Project>

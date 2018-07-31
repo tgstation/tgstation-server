@@ -103,12 +103,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-
 		src\DMAPI\tgs\v4\commands.dm = src\DMAPI\tgs\v4\commands.dm
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Console.Debug", "src\Tgstation.Server.Host.Console.Debug\Tgstation.Server.Host.Console.Debug.csproj", "{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}"
 	ProjectSection(SolutionItems) = preProject
 		tools\TGS.postman_collection.json = tools\TGS.postman_collection.json
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Console.Debug", "src\Tgstation.Server.Host.Console.Debug\Tgstation.Server.Host.Console.Debug.csproj", "{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,12 +219,12 @@ Global
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Docker|Any CPU.Build.0 = Release|Any CPU
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}.Docker|Any CPU.ActiveCfg = Debug|Any CPU
-		{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}.Docker|Any CPU.Build.0 = Debug|Any CPU
-		{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15BE5763-DA6F-433F-A4C2-9FCF85F5CC21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}.Docker|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}.Docker|Any CPU.Build.0 = Debug|Any CPU
+		{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D32A005E-D920-4E79-9EB9-8671ABC0E2E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
