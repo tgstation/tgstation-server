@@ -42,6 +42,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IApplication application;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -62,13 +67,15 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="ioManager">The value of <paramref name="ioManager"/></param>
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILogger<InstanceManager> logger)
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			instances = new Dictionary<long, IInstance>();
@@ -161,6 +168,7 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
+				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
 				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
@@ -179,7 +187,11 @@ namespace Tgstation.Server.Host.Components
 		});
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken)));
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
+			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)

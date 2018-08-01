@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
-	sealed class JobManager : IHostedService, IJobManager, IDisposable
+	sealed class JobManager : IJobManager, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IServiceProvider"/> for the <see cref="JobManager"/>

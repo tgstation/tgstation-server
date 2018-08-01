@@ -215,11 +215,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
-
-			services.AddSingleton<JobManager>();
-			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
-			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobManager>());
 			
+			services.AddSingleton<IJobManager, JobManager>();
+
 			services.AddSingleton<IIOManager>(ioManager);
 
 			services.AddSingleton<DatabaseContextFactory>();

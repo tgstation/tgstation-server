@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Manages the runtime of <see cref="Job"/>s
 	/// </summary>
-    public interface IJobManager
+    public interface IJobManager : IHostedService
 	{
 		/// <summary>
 		/// Get the <see cref="Api.Models.Job.Progress"/> for a job
