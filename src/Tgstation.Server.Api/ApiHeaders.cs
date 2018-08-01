@@ -119,20 +119,22 @@ namespace Tgstation.Server.Api
 			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
 
-			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out StringValues userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out ProductInfoHeaderValue clientUserAgent))
+			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out var clientUserAgent))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
 
 			//assure the client user agent has a name and version
-			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out Version clientVersion))
+			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out var clientVersion))
 				throw new InvalidOperationException("Malformed client user agent!");
 
 			var apiUserAgentHeader = userAgentValues[1];
 			//make sure the api header matches ours
-			if (!ProductInfoHeaderValue.TryParse(apiUserAgentHeader, out ProductInfoHeaderValue apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
+			if (!ProductInfoHeaderValue.TryParse(apiUserAgentHeader, out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
 				throw new InvalidOperationException("Missing API user agent!");
 
-			if (!Version.TryParse(apiUserAgent.Product.Version, out Version ApiVersion))
+			if (!Version.TryParse(apiUserAgent.Product.Version, out var apiVersion))
 				throw new InvalidOperationException("Malformed API version!");
+
+			ApiVersion = apiVersion;
 
 			//check api version compatibility
 			var ourVersion = assemblyName.Version;
@@ -152,10 +154,10 @@ namespace Tgstation.Server.Api
 			if (String.IsNullOrEmpty(parameter))
 				throw new InvalidOperationException("Missing authentication parameter!");
 
-			if(requestHeaders.Headers.TryGetValue(instanceIdHeader, out StringValues instanceIdValues))
+			if(requestHeaders.Headers.TryGetValue(instanceIdHeader, out var instanceIdValues))
 			{
 				var instanceIdString = instanceIdValues.FirstOrDefault();
-				if (instanceIdString != default && Int64.TryParse(instanceIdString, out long instanceId))
+				if (instanceIdString != default && Int64.TryParse(instanceIdString, out var instanceId))
 					InstanceId = instanceId;
 			}
 
@@ -166,7 +168,7 @@ namespace Tgstation.Server.Api
 					break;
 				case passwordAuthenticationScheme:
 					Password = parameter;
-					var fail = !requestHeaders.Headers.TryGetValue(usernameHeader, out StringValues values);
+					var fail = !requestHeaders.Headers.TryGetValue(usernameHeader, out var values);
 					if (!fail)
 					{
 						Username = values.FirstOrDefault();
@@ -193,6 +195,7 @@ namespace Tgstation.Server.Api
 			Token = token;
 			Username = username;
 			Password = password;
+			ApiVersion = assemblyName.Version;
 		}
 
 		/// <summary>
@@ -214,7 +217,7 @@ namespace Tgstation.Server.Api
 				headers.Add(usernameHeader, Username);
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(assemblyName.Name, assemblyName.Version.ToString())));
+			headers.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(assemblyName.Name, ApiVersion.ToString())));
 			if(InstanceId.HasValue)
 				headers.Add(instanceIdHeader, InstanceId.ToString());
 		}
