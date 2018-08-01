@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 			var uiBad = BadGitHubUrl.ToUpperInvariant();
 			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
 			if (uiOrigin.Contains(uiBad))
-				model.Origin = uiOrigin.Replace(uiBad, uiGitHub);
+				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
 
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; //intentionally only these fields, user not allowed to change anything else atm

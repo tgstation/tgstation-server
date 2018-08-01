@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (!url.ToUpperInvariant().StartsWith(HttProtocolSecure, StringComparison.InvariantCulture))
 				throw new InvalidOperationException("Cannot use access string without HTTPS remote!");
 			//ONLY support https urls
-			return url.ToUpperInvariant().Replace(HttProtocolSecure, String.Concat(HttProtocolSecure, accessString, '@'));
+			return url.ToUpperInvariant().Replace(HttProtocolSecure, String.Concat(HttProtocolSecure, accessString, '@'), StringComparison.Ordinal);
 		}
 
 		/// <summary>

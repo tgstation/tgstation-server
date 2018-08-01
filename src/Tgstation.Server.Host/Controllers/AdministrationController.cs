@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				Version greatestVersion = null;
 				foreach (var I in releases)
-					if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty), out var version)
+					if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
 						&& version.Major == application.Version.Major
 						&& (greatestVersion == null || version > greatestVersion))
 						greatestVersion = version;
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			foreach (var release in releases)
-				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty), out var version) && version == model.CurrentVersion)
+				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.CurrentVersion)
 				{
 					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
 					if (asset == default)
@@ -152,7 +152,8 @@ namespace Tgstation.Server.Host.Controllers
 					var assetBytes = await ioManager.DownloadFile(new Uri(asset.BrowserDownloadUrl), cancellationToken).ConfigureAwait(false);
 					try
 					{
-						await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false);
+						if (!await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
+							return StatusCode((int)HttpStatusCode.NotImplemented);
 					}
 					catch (InvalidOperationException) { }	//we were beat to the punch
 					return Ok();	//gtfo of here before all the cancellation tokens fire

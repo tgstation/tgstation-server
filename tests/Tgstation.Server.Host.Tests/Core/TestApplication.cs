@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Core.Tests
 	[TestClass]
 	public sealed class TestApplication : IServerUpdater
 	{
-		public Task ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken) => throw new NotImplementedException();
+		public Task<bool> ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		public void RegisterForUpdate(Action action) => throw new NotImplementedException();
 

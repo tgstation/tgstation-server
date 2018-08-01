@@ -58,9 +58,9 @@ after_test:
   - ps: build/UploadCoverage.ps1
   - ps: build/BuildDox.ps1
   #host updater
-  - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o ../../artifacts/ServerHost -c %CONFIGURATION%
+  - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o ../../artifacts/ServerHost -c %CONFIGURATION% --no-build
   #console
-  - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o ../../artifacts/ServerConsole -c %CONFIGURATION%
+  - dotnet publish src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj -o ../../artifacts/ServerConsole -c %CONFIGURATION% --no-build
   #service
   - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION" -destination artifacts/ServerService -recurse
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerService/lib/Default -recurse

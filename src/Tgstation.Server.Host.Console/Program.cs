@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Watchdog;
 
@@ -35,8 +37,16 @@ namespace Tgstation.Server.Host.Console
 					loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
 					return;
 				}
-				//default CancellationToken because the Host handles that internally
-				await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(arguments.ToArray(), default).ConfigureAwait(false);
+				using (var cts = new CancellationTokenSource())
+				{
+					AppDomain.CurrentDomain.ProcessExit += (a, b) => cts.Cancel();
+					System.Console.CancelKeyPress += (a, b) =>
+					{
+						b.Cancel = true;
+						cts.Cancel();
+					};
+					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(arguments.ToArray(), cts.Token).ConfigureAwait(false);
+				}
 			}
 		}
 	}

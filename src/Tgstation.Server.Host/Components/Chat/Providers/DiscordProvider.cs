@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		readonly List<ulong> mappedChannels;
 
-		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", "");
+		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", "", StringComparison.Ordinal);
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>

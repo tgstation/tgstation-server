@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="accessString">The access string to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="progressReporter">Optional function to report 0-100 progress of the clone</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="bool?"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a merge, <see langword="null"/> on a conflict</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a merge, <see langword="null"/> on a conflict</returns>
 		Task<bool?> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerName">The name of the merge committer</param>
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="bool?"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a merge, <see langword="null"/> on a conflict</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a merge, <see langword="null"/> on a conflict</returns>
 		Task<bool?> MergeOrigin(string committerName, string committerEmail, CancellationToken cancellationToken);
 
 		/// <summary>
