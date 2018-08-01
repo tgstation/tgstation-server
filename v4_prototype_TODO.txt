@@ -1,0 +1,18 @@
+Watchdog performance counters
+  - Remember to catch PlatformNotSupportedException()
+
+Install as network service instead of LocalSystem if win10 >= Creators update to allow for unprivileged symlinks
+
+Verify the byond cache folder location on linux
+
+Don't throw arg null exceptions with null [FromBody]'s, apparently that's allowed, return bad request instead
+
+Test repo more
+Test byond
+Test compile
+Test watchdog
+test configuration
+
+Client library
+
+Control panel

@@ -1,0 +1,21 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:51882/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "Tgstation.Server.Host.Console": {
+      "commandName": "Project",
+      "workingDirectory": "bin\\Debug\\netcoreapp2.0",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:51885/"
+    }
+  }
+}

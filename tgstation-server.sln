@@ -1,0 +1,227 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA32568D-1D8D-4A4C-9943-BFD3CE796B3F}"
+	ProjectSection(SolutionItems) = preProject
+		.codecov.yml = .codecov.yml
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		LICENSE = LICENSE
+		README.md = README.md
+		v4_prototype_TODO.txt = v4_prototype_TODO.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Console", "src\Tgstation.Server.Host.Console\Tgstation.Server.Host.Console.csproj", "{A09C947F-4B9B-4AEE-AB50-47055EA05F18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Console.Tests", "tests\Tgstation.Server.Host.Console.Tests\Tgstation.Server.Host.Console.Tests.csproj", "{D36B99C4-E771-42D6-A95F-1102B3E236DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6-3E2C-46D4-872D-D528F77D6973}"
+	ProjectSection(SolutionItems) = preProject
+		build\BuildDox.ps1 = build\BuildDox.ps1
+		build\Dockerfile = build\Dockerfile
+		build\Doxyfile = build\Doxyfile
+		build\install_byond.sh = build\install_byond.sh
+		build\tgs.docker.sh = build\tgs.docker.sh
+		build\tgs.ico = build\tgs.ico
+		build\UploadCoverage.ps1 = build\UploadCoverage.ps1
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host", "src\Tgstation.Server.Host\Tgstation.Server.Host.csproj", "{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Api", "src\Tgstation.Server.Api\Tgstation.Server.Api.csproj", "{8B4A208D-A48A-4A5D-8B94-E2661138865D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Service", "src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj", "{29927416-3B78-49A7-A560-5CCAA638B6B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.CommandLine", "src\Tgstation.Server.CommandLine\Tgstation.Server.CommandLine.csproj", "{657C3624-3534-4A0C-B4E7-196FC830F547}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.ControlPanel", "src\Tgstation.Server.ControlPanel\Tgstation.Server.ControlPanel.csproj", "{D38BE569-04B7-4C64-BDB5-683767B26FEB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client", "src\Tgstation.Server.Client\Tgstation.Server.Client.csproj", "{E0AC911F-7675-4A91-9499-D8A2E2390AAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.ControlPanel.Tests", "tests\Tgstation.Server.ControlPanel.Tests\Tgstation.Server.ControlPanel.Tests.csproj", "{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Api.Tests", "tests\Tgstation.Server.Api.Tests\Tgstation.Server.Api.Tests.csproj", "{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client.Tests", "tests\Tgstation.Server.Client.Tests\Tgstation.Server.Client.Tests.csproj", "{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.CommandLine.Tests", "tests\Tgstation.Server.CommandLine.Tests\Tgstation.Server.CommandLine.Tests.csproj", "{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests", "tests\Tgstation.Server.Host.Tests\Tgstation.Server.Host.Tests.csproj", "{A3362FF6-550F-480F-859E-8EC1EB6EAB31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog", "src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj", "{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A} = {2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog.Tests", "tests\Tgstation.Server.Host.Watchdog.Tests\Tgstation.Server.Host.Watchdog.Tests.csproj", "{7500F776-4384-4B5F-A8D8-22461CAD108B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Service.Tests", "tests\Tgstation.Server.Host.Service.Tests\Tgstation.Server.Host.Service.Tests.csproj", "{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{F7765A4B-021C-454E-ABB1-2AB1B85F91B4}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\includes.dm = src\DMAPI\tgs\includes.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-47BA-4C70-823B-E99A3ACA0377}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\core\_definitions.dm = src\DMAPI\tgs\core\_definitions.dm
+		src\DMAPI\tgs\core\core.dm = src\DMAPI\tgs\core\core.dm
+		src\DMAPI\tgs\core\datum.dm = src\DMAPI\tgs\core\datum.dm
+		src\DMAPI\tgs\core\default_event_handler.dm = src\DMAPI\tgs\core\default_event_handler.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3210", "v3210", "{1B228ACB-60C3-4DF9-B716-9F0BD31F6766}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\v3210\api.dm = src\DMAPI\tgs\v3210\api.dm
+		src\DMAPI\tgs\v3210\commands.dm = src\DMAPI\tgs\v3210\commands.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BB10856-AA01-43D1-AAB0-A013085426D6}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs.dm = src\DMAPI\tgs.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82066812-6C73-4360-943B-B23F2F491261}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\Config.dm = tests\DMAPI\Config.dm
+		tests\DMAPI\install_byond.sh = tests\DMAPI\install_byond.sh
+		tests\DMAPI\Test.dm = tests\DMAPI\Test.dm
+		tests\DMAPI\travistester.dme = tests\DMAPI\travistester.dme
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\v4\api.dm = src\DMAPI\tgs\v4\api.dm
+		src\DMAPI\tgs\v4\commands.dm = src\DMAPI\tgs\v4\commands.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}"
+	ProjectSection(SolutionItems) = preProject
+		tools\TGS.postman_collection.json = tools\TGS.postman_collection.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Docker|Any CPU = Docker|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657C3624-3534-4A0C-B4E7-196FC830F547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657C3624-3534-4A0C-B4E7-196FC830F547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657C3624-3534-4A0C-B4E7-196FC830F547}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{657C3624-3534-4A0C-B4E7-196FC830F547}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{657C3624-3534-4A0C-B4E7-196FC830F547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657C3624-3534-4A0C-B4E7-196FC830F547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE0E8F49-334F-49D7-A04D-D82E9AB7AA36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D400B4-FCB0-447E-8FB2-1CF58EE7E55D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3362FF6-550F-480F-859E-8EC1EB6EAB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7500F776-4384-4B5F-A8D8-22461CAD108B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Docker|Any CPU.ActiveCfg = Release|Any CPU
+		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Docker|Any CPU.Build.0 = Release|Any CPU
+		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F7765A4B-021C-454E-ABB1-2AB1B85F91B4} = {3BB10856-AA01-43D1-AAB0-A013085426D6}
+		{DCCBA9DA-47BA-4C70-823B-E99A3ACA0377} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
+		{1B228ACB-60C3-4DF9-B716-9F0BD31F6766} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
+		{3BB10856-AA01-43D1-AAB0-A013085426D6} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
+		{82066812-6C73-4360-943B-B23F2F491261} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
+		{057FAC33-CC31-4948-91C6-B0977C335890} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
+	EndGlobalSection
+EndGlobal

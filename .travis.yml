@@ -1,14 +1,12 @@
-language: csharp
+language: generic
 sudo: false
-
+git:
+  depth: 1
 env:
     global:
     - BYOND_MAJOR="511"
     - BYOND_MINOR="1385"
-    - DMEName="Tools/travistester.dme"
-    matrix:
-    - BUILD_CLIENT=true
-    - BUILD_CLIENT=false
+    - DMEName="tests/DMAPI/travistester.dme"
 
 cache:
   directories:
@@ -21,7 +19,7 @@ addons:
       - libstdc++6:i386
 
 install:
-  - if [ "$BUILD_CLIENT" = true ]; then nuget restore; else ./Tools/install_byond.sh; fi
+  - build/install_byond.sh
 
 script:
-  - if [ "$BUILD_CLIENT" = true ]; then msbuild /p:Configuration=Release-Client TGStationServer3.sln; else ./Tools/build_byond.sh; fi
+  - tests/DMAPI/build_byond.sh

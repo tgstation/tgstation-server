@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DebugType>Full</DebugType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Cyberboss</Authors>
+    <Company>/tg/station</Company>
+    <Description>API definitions for tgstation-server</Description>
+    <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/tgs.ico</PackageIconUrl>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
+    <Copyright>2018</Copyright>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
+    <PackageReleaseNotes>Prototype release</PackageReleaseNotes>
+    <Version>4.0.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Api.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;CA2227;CA1819</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;1705;CA2227;CA1819</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
