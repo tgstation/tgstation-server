@@ -146,7 +146,6 @@ namespace Tgstation.Server.Host.Core
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 
 				//mark all jobs as cancelled
 				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToAsyncEnumerable().ToList(cancellationToken).ConfigureAwait(false);
