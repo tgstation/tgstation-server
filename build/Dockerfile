@@ -5,7 +5,6 @@ COPY tgstation-server.sln ./
 
 COPY src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj src/Tgstation.Server.Host.Console/
 COPY src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj src/Tgstation.Server.Host.Watchdog/
-COPY src/Tgstation.Server.Host.Startup/Tgstation.Server.Host.Startup.csproj src/Tgstation.Server.Host.Startup/
 COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj src/Tgstation.Server.Host/
 COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
 
@@ -17,9 +16,6 @@ COPY tests/Tgstation.Server.Host.Console.Tests/Tgstation.Server.Host.Console.Tes
 RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
 
 COPY . .
-
-WORKDIR /src/src/Tgstation.Server.Host.Startup
-RUN dotnet build -c Release
 
 WORKDIR /src/tests/Tgstation.Server.Api.Tests
 RUN dotnet test -c Release
@@ -46,6 +42,7 @@ WORKDIR /app
 
 COPY --from=build /app .
 COPY --from=build /src/build/tgs.docker.sh tgs.sh
+COPY --from=build /src/src/Tgstation.Server.Host/appsettings.Docker.json .
 
 RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
 VOLUME ["/config_data", "/tgs_logs"]
