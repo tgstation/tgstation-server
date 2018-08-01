@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Byond;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

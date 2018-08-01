@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing the compiler
 	/// </summary>
-	[Route("/" + nameof(DreamMaker))]
+	[Route("/" + nameof(Api.Models.DreamMaker))]
     public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
 	{
 		/// <summary>
@@ -36,7 +36,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, ILogger<DreamMakerController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -69,27 +70,8 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRight = (int)DreamMakerRights.CancelCompile,
 				Instance = Instance
 			};
-			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
 			return Json(job);
-		}
-
-		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.CancelCompile)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
-		{
-			//alias for cancelling the latest job
-			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Select(x => new Job { Id = x.Job.Id, StoppedAt = x.Job.StoppedAt }).FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (job.StoppedAt != null)
-				return StatusCode((int)HttpStatusCode.Gone);
-			try
-			{
-				await jobManager.CancelJob(job, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
-			}
-			catch (InvalidOperationException)	//job already stopped
-			{
-				return StatusCode((int)HttpStatusCode.Gone);
-			}
-			return Ok();
 		}
 
 		/// <inheritdoc />
@@ -129,6 +111,11 @@ namespace Tgstation.Server.Host.Controllers
 			Task<RevisionInformation> revInfoTask;
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
+				if (repo == null)
+				{
+					job.ExceptionDetails = "Missing repository!";
+					return;
+				}
 				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repo.Head).Select(x => new RevisionInformation { Id = x.Id }).FirstAsync();
 				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}

@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		WriteConnectionString = 8,
 		/// <summary>
-		/// User can read <see cref="Models.Internal.ChatSettings.ConnectionString"/>
+		/// User can read <see cref="Models.Internal.ChatSettings.ConnectionString"/> requires <see cref="Read"/>
 		/// </summary>
 		ReadConnectionString = 16,
 		/// <summary>

@@ -10,7 +10,7 @@
 		/// </summary>
 		RepoResetOrigin = 0,
 		/// <summary>
-		/// Parameters: Reference name, commit sha
+		/// Parameters: Checkout target
 		/// </summary>
 		RepoCheckout = 1,
 		/// <summary>
@@ -18,18 +18,18 @@
 		/// </summary>
 		RepoFetch = 2,
 		/// <summary>
-		/// Parameters: Comma separated list in form of "#{Pull Request Number} @ {7 character SHA}
+		/// Parameters: Pull request number, pull request sha, merger name, merger message
 		/// </summary>
-		RepoMergePullRequests = 3,
+		RepoMergePullRequest = 3,
+		/// <summary>
+		/// Parameters: Absolute path to repository root, committer name, committer email
+		/// </summary>
+		RepoPreSynchronize = 4,
 
 		/// <summary>
 		/// Parameters: Current version, new version
 		/// </summary>
-		ByondChangeStart = 4,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		ByondChangeCancelled = 5,
+		ByondChangeStart = 5,
 		/// <summary>
 		/// Parameters: Error string
 		/// </summary>
@@ -37,36 +37,42 @@
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		ByondStageComplete = 7,
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		ByondChangeComplete = 8,
+		ByondChangeComplete = 7,
 
 		/// <summary>
 		/// Parameters: Origin commit sha
 		/// </summary>
-		CompileStart = 9,
+		CompileStart = 8,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		CompileCancelled = 10,
+		CompileCancelled = 9,
 		/// <summary>
 		/// Parameters: "1" if compile succeeded and api validation failed, "0" otherwise
 		/// </summary>
-		CompileFailure = 11,
+		CompileFailure = 10,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		CompileComplete = 12,
+		CompileComplete = 11,
 		
 		/// <summary>
 		/// Parameters: Exit code
 		/// </summary>
-		DDOtherCrash = 13,
+		DDOtherCrash = 12,
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		DDOtherExit = 14,
+		DDOtherExit = 13,
+
+		/// <summary>
+		/// No parameters
+		/// </summary>
+		InstanceAutoUpdateStart = 14,
+
+		/// <summary>
+		/// Parameters: Base sha, target sha, base reference, target reference
+		/// </summary>
+		RepoMergeConflict = 15,
 	}
 }

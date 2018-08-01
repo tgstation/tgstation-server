@@ -133,7 +133,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override void Dispose() => client.Disconnect();    //just closes the socket
+		public override void Dispose()
+		{
+			if(Connected)
+				client.Disconnect();    //just closes the socket
+		}
 
 		/// <summary>
 		/// Handle an IRC message
@@ -142,10 +146,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="isPrivate">If this is a query message</param>
 		void HandleMessage(IrcEventArgs e, bool isPrivate)
 		{
-			if (e.Data.From.ToUpperInvariant() == client.Nickname.ToUpperInvariant())
+			if (e.Data.Nick.ToUpperInvariant() == client.Nickname.ToUpperInvariant())
 				return;
 
-			var username = e.Data.From;
+			var username = e.Data.Nick;
 			var channelName = isPrivate ? username : e.Data.Channel;
 			ulong channelId = 0;
 			lock (this)
@@ -265,7 +269,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						client.WriteLine("CAP END", Priority.Critical);
 					}
 
-					listenTask = Task.Factory.StartNew(() => client.Listen(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					client.Listen(false);
+					if (client.Nickname != nickname)
+						//run this now cause it has to go up and down the pipe for us to get a proper check
+						client.GetIrcUser(nickname);
+
+					listenTask = Task.Factory.StartNew(() =>
+					{
+						while (client.IsConnected)
+						{
+							client.ListenOnce(true);
+							client.Listen(false);
+							//ensure we have the correct nick
+							if (client.Nickname != nickname && client.GetIrcUser(nickname) == null)
+								client.RfcNick(nickname);
+						}
+					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
 				catch (Exception e)
 				{
@@ -279,19 +298,26 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			if (!Connected)
 				return;
-			await Task.Factory.StartNew(() =>
+			try
 			{
-				try
+				await Task.Factory.StartNew(() =>
 				{
-					client.RfcQuit();
-				}
-				catch (Exception e)
-				{
-					logger.LogWarning("Error quitting IRC: {0}", e);
-				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-			Dispose();
-			await listenTask.ConfigureAwait(false);
+					try
+					{
+						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical);	//priocritical otherwise Disconnect will hard block
+					}
+					catch (Exception e)
+					{
+						logger.LogWarning("Error quitting IRC: {0}", e);
+					}
+				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				Dispose();
+				await listenTask.ConfigureAwait(false);
+			}
+			catch (Exception e)
+			{
+				logger.LogWarning("Error disconnecting from IRC! Exception: {0}", e);
+			}
 		}
 
 		/// <inheritdoc />
@@ -315,7 +341,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					client.RfcJoin(I);
 
 				return (IReadOnlyList<Channel>)channels.Select(x => {
-					ulong id = channelIdCounter;
+					var id = channelIdCounter;
 					if (!channelIdMap.Any(y =>
 					{
 						if (y.Value != x.IrcChannel)
@@ -323,13 +349,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						id = y.Key;
 						return true;
 					}))
+					{
 						channelIdMap.Add(id, x.IrcChannel);
-					else
 						++channelIdCounter;
+					}
 					return new Channel
 					{
 						RealId = id,
-						IsAdmin = x.IsAdminChannel,
+						IsAdmin = x.IsAdminChannel == true,
 						ConnectionName = address,
 						FriendlyName = channelIdMap[id],
 						IsPrivate = false
@@ -341,11 +368,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			var channelName = channelIdMap[channelId] ?? queryChannelIdMap[channelId];
+			var channelName = channelIdMap[channelId];
+			SendType sendType;
+			if (channelName == null)
+			{
+				channelName = queryChannelIdMap[channelId];
+				sendType = SendType.Notice;
+			}
+			else
+				sendType = SendType.Message;
 			try
 			{
-				if (client.JoinedChannels.Contains(channelName))
-					client.SendMessage(SendType.Message, channelName, message);
+				client.SendMessage(sendType, channelName, message);
 			}
 			catch(Exception e)
 			{

@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Models
 			StartedAt = StartedAt,
 			StoppedAt = StoppedAt,
 			Cancelled = Cancelled,
-			CancelledBy = CancelledBy.ToApi(),
+			CancelledBy = CancelledBy?.ToApi(),
 			CancelRight = CancelRight,
 			CancelRightsType = CancelRightsType,
 			Description = Description,

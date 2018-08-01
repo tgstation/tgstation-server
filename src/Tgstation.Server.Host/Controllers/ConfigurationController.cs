@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// The <see cref="ModelController{TModel}"/> for <see cref="ConfigurationFile"/>s
 	/// </summary>
-	[Route("/Configuration")]
+	[Route("/" + nameof(Configuration))]
 	public sealed class ConfigurationController : ModelController<ConfigurationFile>
 	{
 		/// <summary>
@@ -24,20 +24,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IInstanceManager instanceManager;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ConfigurationController"/>
-		/// </summary>
-		readonly ILogger<ConfigurationController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="UserController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 

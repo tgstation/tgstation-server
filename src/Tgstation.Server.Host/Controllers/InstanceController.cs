@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -44,11 +46,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IApplication application;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="InstanceController"/>
-		/// </summary>
-		readonly ILogger<InstanceController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="InstanceController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -57,24 +54,40 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, false)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		void NormalizeModelPath(Api.Models.Instance model)
+		void NormalizeModelPath(Api.Models.Instance model, out string absolutePath)
 		{
 			if (model.Path == null)
+			{
+				absolutePath = null;
 				return;
-			model.Path = ioManager.ResolvePath(model.Path);
+			}
+			absolutePath = ioManager.ResolvePath(model.Path);
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				model.Path = model.Path.ToUpperInvariant();
+				model.Path = absolutePath.ToUpperInvariant();
+			else
+				model.Path = absolutePath;
 		}
+
+		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
+		{
+			ByondRights = (ByondRights)~0,
+			ChatSettingsRights = (ChatSettingsRights)~0,
+			ConfigurationRights = (ConfigurationRights)~0,
+			DreamDaemonRights = (DreamDaemonRights)~0,
+			DreamMakerRights = (DreamMakerRights)~0,
+			RepositoryRights = (RepositoryRights)~0,
+			InstanceUserRights = (InstanceUserRights)~0,
+			UserId = AuthenticationContext.User.Id
+		};
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Create)]
@@ -86,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 			if(model.Path == null)
 				return BadRequest(new { message = "path must not be empty!" });
 
-			NormalizeModelPath(model);
+			NormalizeModelPath(model, out var rawPath);
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
 				return Conflict(new { message = "Path not empty!" });
@@ -115,6 +128,13 @@ namespace Tgstation.Server.Host.Controllers
 					CommitterName = application.VersionString,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = true,
+					AutoUpdatesKeepTestMerges = false,
+					AutoUpdatesSynchronize = false
+				},
+				//give this user full privileges on the instance
+				InstanceUsers = new List<Models.InstanceUser>
+				{
+					InstanceAdminUser()
 				}
 			};
 
@@ -126,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					//actually reserve it now
-					await ioManager.CreateDirectory(model.Path, default).ConfigureAwait(false);
+					await ioManager.CreateDirectory(rawPath, default).ConfigureAwait(false);
 				}
 				catch
 				{
@@ -143,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new { message = e.Message });
 			}
 
-			logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
+			Logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
 			
 			return Json(newInstance.ToApi());
 		}
@@ -178,11 +198,18 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
-			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == model.Id)
+			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
+
+			var usersInstanceUserTask = instanceQuery
+				.Include(x => x.InstanceUsers)
+				.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
+
+			var originalModel = await instanceQuery
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
+				.ThenInclude(x => x.Channels)
 				.Include(x => x.DreamDaemonSettings)    //need these for onlining
-				.FirstAsync(cancellationToken).ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
 				return StatusCode((int)HttpStatusCode.Gone);
 
@@ -203,9 +230,10 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			string originalModelPath = null;
+			string rawPath = null;
 			if (model.Path != null)
 			{
-				NormalizeModelPath(model);
+				NormalizeModelPath(model, out rawPath);
 
 				if (model.Path != originalModel.Path)
 				{
@@ -231,28 +259,67 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline))
 				return Forbid();
 
+			//ensure the current user has write privilege on the instance
+			var usersInstanceUser = await usersInstanceUserTask.ConfigureAwait(false);
+			if (usersInstanceUser == default)
+				originalModel.InstanceUsers.Add(InstanceAdminUser());
+			else
+				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
+
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
+			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
 			{
 				if (originalOnline && model.Online.Value == false)
 					await instanceManager.OfflineInstance(originalModel, cancellationToken).ConfigureAwait(false);
 				else if (!originalOnline && model.Online.Value == true)
+				{
+					//force autostart false here because we don't want any long running jobs right now
+					//remember to document this
+					originalModel.DreamDaemonSettings.AutoStart = false;
 					await instanceManager.OnlineInstance(originalModel, cancellationToken).ConfigureAwait(false);
+				}
 			}
 			catch (Exception e)
 			{
-				logger.LogError("Error changing instance online state! Exception: {0}", e);
+				Logger.LogError("Error changing instance online state! Exception: {0}", e);
 				originalModel.Online = originalOnline;
-				originalModel.Path = originalModelPath;
+				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
+				if (originalModelPath != null)
+					originalModel.Path = originalModelPath;
 				await DatabaseContext.Save(default).ConfigureAwait(false);
 				throw;
 			}
 
+			var api = originalModel.ToApi();
 			if (originalModelPath != null)
-				await ioManager.MoveDirectory(originalModelPath, model.Path, cancellationToken).ConfigureAwait(false);
+			{
+				var job = new Models.Job
+				{
+					Description = String.Format(CultureInfo.InvariantCulture, "Move instance ID {0} from {1} to {2}", Instance.Id, Instance.Path, rawPath),
+					Instance = Instance,
+					CancelRightsType = RightsType.InstanceManager,
+					CancelRight = (int)InstanceManagerRights.CancelMove,
+					StartedBy = AuthenticationContext.User
+				};
 
-			return Json(originalModel.ToApi());
+				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressHandler, ct) => {
+					try
+					{
+						await instanceManager.MoveInstance(Instance, rawPath, ct).ConfigureAwait(false);
+					}
+					catch
+					{
+						originalModel.Path = originalModelPath;
+						await DatabaseContext.Save(default).ConfigureAwait(false);
+						throw;
+					}
+				}, cancellationToken).ConfigureAwait(false);
+				api.MoveJob = job.ToApi();
+			}
+
+			return Json(api);
 		}
 
 		/// <inheritdoc />

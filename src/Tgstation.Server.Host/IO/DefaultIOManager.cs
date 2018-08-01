@@ -265,9 +265,27 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
 		{
+			//DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
 			using (var wc = new WebClient())
-			using (cancellationToken.Register(() => wc.CancelAsync()))
-				return await wc.DownloadDataTaskAsync(url).ConfigureAwait(false);
+			{
+				var tcs = new TaskCompletionSource<byte[]>();
+				wc.DownloadDataCompleted += (a, b) =>
+				{
+					if (b.Error != null)
+						tcs.TrySetException(b.Error);
+					else if (b.Cancelled)
+						tcs.TrySetCanceled();
+					else
+						tcs.TrySetResult(b.Result);
+				};
+				wc.DownloadDataAsync(url);
+				using (cancellationToken.Register(() =>
+				{
+					wc.CancelAsync();	//cancelasync alone doesnt do it either! who wrote this!!
+					tcs.SetCanceled();
+				}))
+					return await tcs.Task.ConfigureAwait(false);
+			}	//ITS STILL FUCKING DOWNLOADING!!!
 		}
 
 		/// <inheritdoc />

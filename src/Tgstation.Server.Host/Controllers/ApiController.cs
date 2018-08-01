@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -37,6 +38,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="IAuthenticationContext"/> for the operation
 		/// </summary>
 		protected IAuthenticationContext AuthenticationContext { get; }
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="ApiController"/>
+		/// </summary>
+		protected ILogger Logger { get; }
 
 		/// <summary>
 		/// The <see cref="Instance"/> for the operation
@@ -86,16 +92,17 @@ namespace Tgstation.Server.Host.Controllers
 
 			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
 
-
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
 			var enumerator = Enum.GetValues(typeof(RightsType));
 			var claims = new List<Claim>();
 			foreach (RightsType I in enumerator)
 			{
-				var rightInt = authenticationContext.GetRight(I);
+				//if there's no instance user, do a weird thing and add all the instance roles
+				//we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
+				var rightInt = RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null ? ~0 : authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
-				var right = (Enum)Enum.ToObject(rightEnum, authenticationContext.GetRight(I));
+				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
 				foreach(Enum J in Enum.GetValues(rightEnum))
 					if(right.HasFlag(J))
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));
@@ -109,12 +116,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, bool requireInstance)
+		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
+			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
 			this.requireInstance = requireInstance;
@@ -123,17 +132,25 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			if (requireInstance && AuthenticationContext.InstanceUser == null)
-			{
-				//accessing an instance they don't have access to
-				await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
-			}
-
 			//validate the headers
 			try
 			{
 				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
+
+				if (requireInstance)
+				{
+					if(!ApiHeaders.InstanceId.HasValue)
+					{
+						await BadRequest(new { message = "Missing InstanceId header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						return;
+					}
+					if (AuthenticationContext.InstanceUser == null)
+					{
+						//accessing an instance they don't have access to or one that's disabled
+						await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+						return;
+					}
+				}
 			}
 			catch (InvalidOperationException e)
 			{
@@ -141,6 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
+			Logger.LogInformation("Request made by User ID {0}. Api version: {1}. User-Agent: {2}", AuthenticationContext.User?.Id.ToString(CultureInfo.InvariantCulture) ?? "NULL", ApiHeaders.ApiVersion, ApiHeaders.UserAgent);
 			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
 	}

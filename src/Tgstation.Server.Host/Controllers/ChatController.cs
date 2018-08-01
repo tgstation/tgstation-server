@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -34,7 +35,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
@@ -77,12 +79,11 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),	//important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
 			};
 			DatabaseContext.ChatSettings.Add(dbModel);
-			DatabaseContext.ChatChannels.AddRange(dbModel.Channels);
 
 			try
 			{
@@ -116,7 +117,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return BadRequest(new { message = e.Message });
 			}
-			return Json(dbModel);
+			return Json(dbModel.ToApi());
 		}
 
 		/// <inheritdoc />
@@ -143,7 +144,7 @@ namespace Tgstation.Server.Host.Controllers
 				foreach (var I in results)
 					I.ConnectionString = null;
 
-			return Json(results);
+			return Json(results.Select(x => x.ToApi()));
 		}
 
 		/// <inheritdoc />
@@ -152,15 +153,16 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var query = DatabaseContext.ChatSettings.Where(x => x.Id ==	id).Include(x => x.Channels);
 
-			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (results == default)
+				return NotFound();
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
 
 			if (!connectionStrings)
-				foreach (var I in results)
-					I.ConnectionString = null;
+				results.ConnectionString = null;
 
-			return Json(results);
+			return Json(results.ToApi());
 		}
 
 		/// <inheritdoc />
@@ -197,10 +199,10 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			};
 
-			if (!CheckModified(x => x.ConnectionString, ChatSettingsRights.WriteConnectionString)
-				|| !CheckModified(x => x.Enabled, ChatSettingsRights.WriteEnabled)
-				|| !CheckModified(x => x.Name, ChatSettingsRights.WriteName)
-				|| !CheckModified(x => x.Provider, ChatSettingsRights.WriteProvider)
+			if (CheckModified(x => x.ConnectionString, ChatSettingsRights.WriteConnectionString)
+				|| CheckModified(x => x.Enabled, ChatSettingsRights.WriteEnabled)
+				|| CheckModified(x => x.Name, ChatSettingsRights.WriteName)
+				|| CheckModified(x => x.Provider, ChatSettingsRights.WriteProvider)
 				|| (model.Channels != null && !userRights.HasFlag(ChatSettingsRights.WriteChannels)))
 				return Forbid();
 
@@ -220,11 +222,15 @@ namespace Tgstation.Server.Host.Controllers
 				//have to rebuild the thing first
 				await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			if (model.Channels != null)
+			if (model.Channels != null || anySettingsModified)
 				await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
 
-			if(userRights.HasFlag(ChatSettingsRights.Read))
-				return Json(current);
+			if (userRights.HasFlag(ChatSettingsRights.Read))
+			{
+				if (!userRights.HasFlag(ChatSettingsRights.ReadConnectionString))
+					current.ConnectionString = null;
+				return Json(current.ToApi());
+			}
 			return Ok();
 		}
 	}

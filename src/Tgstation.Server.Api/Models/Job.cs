@@ -16,5 +16,10 @@
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public User CancelledBy { get; set; }
+
+		/// <summary>
+		/// Optional progress between 0 and 100 inclusive
+		/// </summary>
+		public int? Progress { get; set; }
 	}
 }

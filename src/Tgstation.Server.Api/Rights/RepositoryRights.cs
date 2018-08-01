@@ -48,5 +48,21 @@ namespace Tgstation.Server.Api.Rights
 		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>
 		Read = 512,
+		/// <summary>
+		/// User may change <see cref="Models.Internal.RepositorySettings.AutoUpdatesKeepTestMerges"/> and  <see cref="Models.Internal.RepositorySettings.AutoUpdatesSynchronize"/>
+		/// </summary>
+		ChangeAutoUpdateSettings = 1024,
+		/// <summary>
+		/// User may delete the <see cref="Models.Repository"/>
+		/// </summary>
+		Delete = 2048,
+		/// <summary>
+		/// User may cancel clone operations
+		/// </summary>
+		CancelClone = 4096,
+		/// <summary>
+		/// User may cancel synchronize operations
+		/// </summary>
+		CancelPendingChanges = 8192
 	}
 }

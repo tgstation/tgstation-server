@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -76,6 +77,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -125,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		/// <param name="serverUpdater">The <see cref="IServerUpdater"/> for the <see cref="Watchdog"/></param>
+		/// <param name="serverUpdater">The <see cref="IServerControl"/> for the <see cref="Watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
@@ -133,7 +139,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerControl serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -142,13 +149,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
 			if (serverUpdater == null)
 				throw new ArgumentNullException(nameof(serverUpdater));
 
-			serverUpdater.RegisterForUpdate(() => releaseServers = true);
+			serverUpdater.RegisterForRestart(() => releaseServers = true);
 
 			chat.RegisterCommandHandler(this);
 
@@ -774,13 +782,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
 			string results;
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!Running)
-					return;
+					return true;
 
 				var builder = new StringBuilder(InteropConstants.DMTopicEvent);
 				foreach (var I in parameters)
@@ -794,7 +802,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			if (results == null)
-				return;
+				return true;
 
 			List<Response> responses;
 			try
@@ -804,10 +812,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			catch
 			{
 				logger.LogInformation("Recieved invalid response from DD when parsing event {0}:{1}{2}", eventType, Environment.NewLine, results);
-				return;
+				return true;
 			}
 
 			await Task.WhenAll(responses.Select(x => chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
+
+			return true;
 		}
 
 		/// <inheritdoc />

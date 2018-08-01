@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Indicates a chat channel
@@ -18,11 +20,13 @@
 		/// <summary>
 		/// If the <see cref="ChatChannel"/> is an admin channel
 		/// </summary>
-		public bool IsAdminChannel { get; set; }
+		[Required]
+		public bool? IsAdminChannel { get; set; }
 
 		/// <summary>
 		/// If the <see cref="ChatChannel"/> is a watchdog channel
 		/// </summary>
-		public bool IsWatchdogChannel { get; set; }
+		[Required]
+		public bool? IsWatchdogChannel { get; set; }
 	}
 }

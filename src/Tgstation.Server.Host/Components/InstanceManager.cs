@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,16 @@ namespace Tgstation.Server.Host.Components
 		readonly IApplication application;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly ILogger<InstanceManager> logger;
+
+		/// <summary>
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
 		readonly Dictionary<long, IInstance> instances;
@@ -56,12 +67,16 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="ioManager">The value of <paramref name="ioManager"/></param>
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application)
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			instances = new Dictionary<long, IInstance>();
 			interopConsumers = new Dictionary<string, IInteropConsumer>();
@@ -93,24 +108,11 @@ namespace Tgstation.Server.Host.Components
 			if (newPath == null)
 				throw new ArgumentNullException(nameof(newPath));
 			if (instance.Online.Value)
-				await OfflineInstance(instance, cancellationToken).ConfigureAwait(false);
-			Task instanceOnlineTask = null;
-			try
-			{
-				var oldPath = instance.Path;
-				await ioManager.CopyDirectory(oldPath, newPath, null, cancellationToken).ConfigureAwait(false);
-				instance.Path = ioManager.ResolvePath(newPath);
-				instanceOnlineTask = OnlineInstance(instance, default);
-				await ioManager.DeleteDirectory(oldPath, cancellationToken).ConfigureAwait(false);
-			}
-			finally
-			{
-				if (instance.Online.Value)
-					if (instanceOnlineTask == null)
-						await OnlineInstance(instance, default).ConfigureAwait(false);
-					else
-						await instanceOnlineTask.ConfigureAwait(false);
-			}
+				throw new InvalidOperationException("Cannot move an online instance!");
+			var oldPath = instance.Path;
+			await ioManager.CopyDirectory(oldPath, newPath, null, cancellationToken).ConfigureAwait(false);
+			instance.Path = ioManager.ResolvePath(newPath);
+			await ioManager.DeleteDirectory(oldPath, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -118,6 +120,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
+			logger.LogInformation("Offlining instance ID {0}", metadata.Id);
 			IInstance instance;
 			lock (this)
 			{
@@ -140,6 +143,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
+			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
 			var instance = instanceFactory.CreateInstance(metadata, this);
 			try
 			{
@@ -164,9 +168,11 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
+				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
 				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
+				.ThenInclude(x => x.Channels)
 				.Include(x => x.DreamDaemonSettings)
 				.ToAsyncEnumerable();
 				var tasks = new List<Task>();
@@ -181,7 +187,11 @@ namespace Tgstation.Server.Host.Components
 		});
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken)));
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
+			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)

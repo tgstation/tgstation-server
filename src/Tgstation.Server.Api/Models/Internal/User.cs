@@ -27,7 +27,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		[Required]
-		public DateTimeOffset CreatedAt { get; set; }
+		public DateTimeOffset? CreatedAt { get; set; }
 
 		/// <summary>
 		/// The SID/UID of the <see cref="User"/> on Windows/POSIX respectively

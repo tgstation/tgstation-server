@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,20 +22,13 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class InstanceUserController : ModelController<Api.Models.InstanceUser>
 	{
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="InstanceUserController"/>
-		/// </summary>
-		readonly ILogger<InstanceUserController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="UserController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, false)
-		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		}
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true)    //false instance requirement, we handle this ourself
+		{ }
 
 		/// <summary>
 		/// Checks a <paramref name="model"/> for errors
@@ -49,14 +43,14 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.InstanceId.HasValue && model.InstanceId != Instance.Id)
 				return BadRequest(new { message = "InstanceId does not match headers!" });
 
-			if (!model.InstanceId.HasValue)
+			if (!model.UserId.HasValue)
 				return BadRequest(new { message = "Missing UserId!" });
-			
+
 			return null;
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
@@ -71,17 +65,12 @@ namespace Tgstation.Server.Host.Controllers
 				DreamDaemonRights = model.DreamDaemonRights ?? DreamDaemonRights.None,
 				DreamMakerRights = model.DreamMakerRights ?? DreamMakerRights.None,
 				RepositoryRights = model.RepositoryRights ?? RepositoryRights.None,
-				UserId = model.UserId
+				InstanceUserRights = model.InstanceUserRights ?? InstanceUserRights.None,
+				UserId = model.UserId,
+				InstanceId = Instance.Id
 			};
 
-			var ourInstance = new Models.Instance
-			{
-				Id = Instance.Id
-			};
-
-			DatabaseContext.Instances.Attach(ourInstance);
-
-			ourInstance.InstanceUsers.Add(dbUser);
+			DatabaseContext.InstanceUsers.Add(dbUser);
 
 			try
 			{
@@ -95,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
@@ -131,7 +120,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
+			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Include(x => x.InstanceUsers).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi()));
 		}
 
@@ -147,11 +136,9 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			//id is actually UserId
-
 			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).DeleteAsync(cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}

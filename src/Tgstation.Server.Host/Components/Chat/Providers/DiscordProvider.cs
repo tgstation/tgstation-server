@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				if (!Connected)
 					throw new InvalidOperationException("Provider not connected");
-				return client.CurrentUser.Mention;
+				return NormalizeMention(client.CurrentUser.Mention);
 			}
 		}
 
@@ -48,6 +48,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <see cref="List{T}"/> of mapped <see cref="ITextChannel"/> <see cref="IEntity{TId}.Id"/>s
 		/// </summary>
 		readonly List<ulong> mappedChannels;
+
+		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", "", StringComparison.Ordinal);
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
@@ -73,13 +75,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Client_MessageReceived(SocketMessage e)
 		{
-			if (e.Author.Id != client.CurrentUser.Id)
+			if (e.Author.Id == client.CurrentUser.Id)
 				return Task.CompletedTask;
 
 			var pm = e.Channel is IPrivateChannel;
 
 			if (!pm && !mappedChannels.Contains(e.Channel.Id))
-				return Task.CompletedTask;
+				return e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id) ? SendMessage(e.Channel.Id, "I do not respond to this channel!", default) : Task.CompletedTask;
 
 			var result = new Message {
 				Content = e.Content,
@@ -95,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						FriendlyName = e.Channel.Name
 					},
 					FriendlyName = e.Author.Username,
-					Mention = e.Author.Mention
+					Mention = NormalizeMention(e.Author.Mention)
 				}
 			};
 			EnqueueMessage(result);
@@ -171,7 +173,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return new Channel
 				{
 					RealId = discordChannel.Id,
-					IsAdmin = channel.IsAdminChannel,
+					IsAdmin = channel.IsAdminChannel == true,
 					ConnectionName = discordChannel.Guild.Name,
 					FriendlyName = discordChannel.Name,
 					IsPrivate = false
@@ -190,10 +192,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) {
+		public override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken)
+		{
 			try
 			{
-				await ((client.GetChannel(channelId) as ITextChannel)?.SendMessageAsync(message, false, null, new RequestOptions
+				var channel = client.GetChannel(channelId) as IMessageChannel;
+				await (channel?.SendMessageAsync(message, false, null, new RequestOptions
 				{
 					CancelToken = cancellationToken
 				}) ?? Task.CompletedTask).ConfigureAwait(false);

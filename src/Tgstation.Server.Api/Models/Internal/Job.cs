@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -19,6 +20,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// English description of the <see cref="Job"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]
+		[Required]
 		public string Description { get; set; }
 
 		/// <summary>
@@ -31,19 +33,21 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// When the <see cref="Job"/> was started
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public DateTimeOffset StartedAt { get; set; }
+		[Required]
+		public DateTimeOffset? StartedAt { get; set; }
 
 		/// <summary>
 		/// When the <see cref="Job"/> stopped
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public DateTimeOffset StoppedAt { get; set; }
+		public DateTimeOffset? StoppedAt { get; set; }
 
 		/// <summary>
 		/// If the <see cref="Job"/> was cancelled
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public bool Cancelled { get; set; }
+		[Required]
+		public bool? Cancelled { get; set; }
 
 		/// <summary>
 		/// The <see cref="RightsType"/> of <see cref="CancelRight"/> if it can be cancelled

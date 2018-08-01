@@ -48,5 +48,19 @@ namespace Tgstation.Server.Api.Models.Internal
 		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
 		[Required]
 		public bool? ShowTestMergeCommitters { get; set; }
+
+		/// <summary>
+		/// If test merge commits should be kept when auto updating. May cause merge conflicts which will block the update
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
+		[Required]
+		public bool? AutoUpdatesKeepTestMerges { get; set; }
+
+		/// <summary>
+		/// If synchronization should occur when auto updating
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.ChangeTestMergeCommits)]
+		[Required]
+		public bool? AutoUpdatesSynchronize { get; set; }
 	}
 }

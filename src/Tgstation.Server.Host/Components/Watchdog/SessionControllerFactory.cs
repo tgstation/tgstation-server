@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
@@ -115,14 +116,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
-			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.TestMerges.Select(x => new TestMerge
+			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge
 			{
 				Author = x.Author,
 				Body = x.BodyAtMerge,
 				Comment = x.Comment,
-				CommitSha = x.RevisionInformation.CommitSha,
+				CommitSha = x.PrimaryRevisionInformation.CommitSha,
 				Number = x.Number,
-				OriginCommitSha = x.RevisionInformation.OriginCommitSha,
+				OriginCommitSha = x.PrimaryRevisionInformation.OriginCommitSha,
 				PullRequestCommit = x.PullRequestRevision,
 				TimeMerged = x.MergedAt.Ticks,
 				Title = x.TitleAtMerge,

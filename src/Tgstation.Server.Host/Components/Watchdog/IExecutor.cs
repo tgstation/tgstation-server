@@ -1,4 +1,5 @@
 ﻿using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Byond;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

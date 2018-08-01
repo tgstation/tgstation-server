@@ -24,7 +24,8 @@ namespace Tgstation.Server.Host.Models
 			ChatSettingsRights != Api.Rights.ChatSettingsRights.None ||
 			ConfigurationRights != Api.Rights.ConfigurationRights.None ||
 			DreamDaemonRights != Api.Rights.DreamDaemonRights.None ||
-			DreamMakerRights != Api.Rights.DreamMakerRights.None;
+			DreamMakerRights != Api.Rights.DreamMakerRights.None ||
+			InstanceUserRights != Api.Rights.InstanceUserRights.None;
 
 		/// <inheritdoc />
 		public Api.Models.InstanceUser ToApi() => new Api.Models.InstanceUser
@@ -36,6 +37,7 @@ namespace Tgstation.Server.Host.Models
 			DreamMakerRights = DreamMakerRights,
 			InstanceId = InstanceId,
 			RepositoryRights = RepositoryRights,
+			InstanceUserRights = InstanceUserRights,
 			UserId = UserId
 		};
 	}

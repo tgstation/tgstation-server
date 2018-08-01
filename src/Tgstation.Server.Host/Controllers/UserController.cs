@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger) : base(databaseContext, authenticationContextFactory, false)
+		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
@@ -60,6 +60,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (!(model.Password == null ^ model.SystemIdentifier == null))
 				return BadRequest(new { message = "User must have exactly one of either a password or system identifier!" });
 
+			model.Name = model.Name?.Trim();
+			if (model.Name?.Length == 0)
+				model.Name = null;
+
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
 				return BadRequest(new { message = "User must have a name if and only if user has no system identifier!" });
 
@@ -70,9 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 				CreatedBy = AuthenticationContext.User,
 				Enabled = model.Enabled ?? false,
 				InstanceManagerRights = model.InstanceManagerRights ?? InstanceManagerRights.None,
-#pragma warning disable CA1308 // Normalize strings to uppercase
 				Name = model.Name,
-#pragma warning restore CA1308 // Normalize strings to uppercase
 				SystemIdentifier = model.SystemIdentifier,
 				InstanceUsers = new List<Models.InstanceUser>()
 			};

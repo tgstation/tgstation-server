@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a <see cref="User"/>s permissions in an <see cref="Instance"/>
 	/// </summary>
-	[Model(RightsType.InstanceUser, WriteRight = InstanceUserRights.WriteUsers, CanList = true, RequiresInstance = true)]
+	[Model(RightsType.InstanceUser, WriteRight = Rights.InstanceUserRights.WriteUsers, CanList = true, RequiresInstance = true)]
 	public class InstanceUser
 	{
 		/// <summary>
@@ -22,6 +22,12 @@ namespace Tgstation.Server.Api.Models
 		[Permissions(DenyWrite = true)]
 		[Required]
 		public long? InstanceId { get; set; }
+
+		/// <summary>
+		/// The <see cref="Rights.InstanceUserRights"/> of the <see cref="InstanceUser"/>
+		/// </summary>
+		[Required]
+		public InstanceUserRights? InstanceUserRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstanceUser"/>

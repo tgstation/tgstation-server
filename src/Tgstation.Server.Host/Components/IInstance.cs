@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 
 namespace Tgstation.Server.Host.Components
@@ -37,9 +41,9 @@ namespace Tgstation.Server.Host.Components
 		IChat Chat { get; }
 
 		/// <summary>
-		/// The <see cref="IConfiguration"/> for the <see cref="IInstance"/>
+		/// The <see cref="StaticFiles.IConfiguration"/> for the <see cref="IInstance"/>
 		/// </summary>
-		IConfiguration Configuration { get; }
+		StaticFiles.IConfiguration Configuration { get; }
 
 		/// <summary>
 		/// Get the <see cref="Api.Models.Instance"/> associated with the <see cref="IInstance"/>

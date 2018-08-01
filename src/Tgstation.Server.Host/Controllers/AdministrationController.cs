@@ -36,9 +36,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IGitHubClient gitHubClient;
 
 		/// <summary>
-		/// The <see cref="IServerUpdater"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>
 		/// </summary>
-		readonly IServerUpdater serverUpdater;
+		readonly IServerControl serverUpdater;
 
 		/// <summary>
 		/// The <see cref="IApplication"/> for the <see cref="AdministrationController"/>
@@ -49,11 +49,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="IIOManager"/> for the <see cref="AdministrationController"/>
 		/// </summary>
 		readonly IIOManager ioManager;
-
-		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="AdministrationController"/>
-		/// </summary>
-		readonly ILogger<AdministrationController> logger;
 
 		/// <summary>
 		/// The <see cref="UpdatesConfiguration"/> for the <see cref="AdministrationController"/>
@@ -69,11 +64,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClient gitHubClient, IServerUpdater serverUpdater, IApplication application, IIOManager ioManager, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions) : base(databaseContext, authenticationContextFactory, false)
+		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClient gitHubClient, IServerControl serverUpdater, IApplication application, IIOManager ioManager, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
@@ -83,7 +77,7 @@ namespace Tgstation.Server.Host.Controllers
 		
 		StatusCodeResult RateLimit(RateLimitExceededException exception)
 		{
-			logger.LogWarning("Exceeded GitHub rate limit!");
+			Logger.LogWarning("Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new Microsoft.Extensions.Primitives.StringValues { });
 			return StatusCode(RateLimitHttpStatusCode);
@@ -104,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				Version greatestVersion = null;
 				foreach (var I in releases)
-					if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty), out var version)
+					if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
 						&& version.Major == application.Version.Major
 						&& (greatestVersion == null || version > greatestVersion))
 						greatestVersion = version;
@@ -143,7 +137,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			foreach (var release in releases)
-				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty), out var version) && version == model.CurrentVersion)
+				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.CurrentVersion)
 				{
 					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
 					if (asset == default)
@@ -152,7 +146,8 @@ namespace Tgstation.Server.Host.Controllers
 					var assetBytes = await ioManager.DownloadFile(new Uri(asset.BrowserDownloadUrl), cancellationToken).ConfigureAwait(false);
 					try
 					{
-						await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false);
+						if (!await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
+							return StatusCode((int)HttpStatusCode.NotImplemented);
 					}
 					catch (InvalidOperationException) { }	//we were beat to the punch
 					return Ok();	//gtfo of here before all the cancellation tokens fire
@@ -162,11 +157,8 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
-		public override Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
-		{
-			serverUpdater.Restart();
-			return Task.FromResult((IActionResult)Ok());
-		}
+		public Task<IActionResult> Delete() => Task.FromResult(serverUpdater.Restart() ? (IActionResult)Ok() : StatusCode((int)HttpStatusCode.NotImplemented));
 	}
 }

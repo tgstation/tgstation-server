@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -39,7 +40,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public DreamDaemonController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public DreamDaemonController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, ILogger<DreamDaemonController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -55,15 +57,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (instance.Watchdog.Running)
 				return StatusCode((int)HttpStatusCode.Gone);
 
-			await jobManager.RegisterOperation(new Models.Job
+			var job = new Models.Job
 			{
 				Description = "Launch DreamDaemon",
 				CancelRight = (int)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon,
 				Instance = Instance,
 				StartedBy = AuthenticationContext.User
-			}, 
-			async (job, serviceProvider, innerCt) =>
+			};
+			await jobManager.RegisterOperation(job, 
+			async (paramJob, serviceProvider, progressHandler, innerCt) =>
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)
@@ -72,7 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 					throw new Exception("Failed to launch watchdog!");
 			},
 			cancellationToken).ConfigureAwait(false);
-			return Ok();
+			return Json(job);
 		}
 
 		/// <inheritdoc />
@@ -113,8 +116,9 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			//alias for stopping DD
 			var instance = instanceManager.GetInstance(Instance);

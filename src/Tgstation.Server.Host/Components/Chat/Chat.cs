@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -73,6 +74,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task chatHandler;
 
 		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatSettings"/> change
+		/// </summary>
+		TaskCompletionSource<object> connectionsUpdated;
+
+		/// <summary>
 		/// Used for remapping <see cref="Channel.RealId"/>s
 		/// </summary>
 		ulong channelIdCounter;
@@ -105,6 +111,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IJsonTrackingContext>();
 			handlerCts = new CancellationTokenSource();
+			connectionsUpdated = new TaskCompletionSource<object>();
 			channelIdCounter = 1;
 		}
 
@@ -132,8 +139,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			Task task;
 			lock (mappedChannels)
 			{
-				foreach (var kvp in mappedChannels.Where(x => x.Value.ProviderId == connectionId))
-					mappedChannels.Remove(kvp.Key);
+				foreach (var I in mappedChannels.Where(x => x.Value.ProviderId == connectionId).Select(x => x.Key).ToList())
+					mappedChannels.Remove(I);
 
 				if (updateTrackings)
 					lock (trackingContexts)
@@ -156,25 +163,54 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			logger.LogTrace("Chat message: {0}. User (Note unconverted provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
 
-			var splits = new List<string>(message.Content.Split(' '));
+			//map the channel if it's private and we haven't seen it
+			if (message.User.Channel.IsPrivate)
+				lock (providers)
+					lock (mappedChannels)
+					{
+						if (!provider.Connected)
+							return;
+						var enumerable = mappedChannels.Where(x => x.Value.ProviderChannelId == message.User.Channel.RealId);
+						if (!enumerable.Any())
+						{
+							ulong newId;
+							lock (this)
+								newId = channelIdCounter++;
+							mappedChannels.Add(newId, new ChannelMapping
+							{
+								IsWatchdogChannel = false,
+								ProviderChannelId = message.User.Channel.RealId,
+								ProviderId = providers.Where(x => x.Value == provider).Select(x => x.Key).First(),
+								Channel = message.User.Channel
+							});
+							message.User.Channel.RealId = newId;
+						}
+						else
+							message.User.Channel.RealId = enumerable.First().Key;
+					}
+
+			var splits = new List<string>(message.Content.TrimEnd().Split(' '));
 			var address = splits[0];
 			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
 				address = address.Substring(0, address.Length - 1);
 
 			address = address.ToUpperInvariant();
 
-			if (address != CommonMention.ToUpperInvariant() && address != provider.BotMention.ToUpperInvariant())
+			var addressed = address == CommonMention.ToUpperInvariant() || address == provider.BotMention.ToUpperInvariant();
+
+			if (!addressed && !message.User.Channel.IsPrivate)
 				//no mention
 				return;
 
-			if (splits.Count == 1)
+			if (addressed)
+				splits.RemoveAt(0);
+
+			if ((splits.Count == 1 && (!message.User.Channel.IsPrivate || splits[0].Length == 0)) || splits.Count == 0)
 			{
 				//just a mention
 				await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 				return;
 			}
-
-			splits.RemoveAt(0);
 
 			var command = splits[0].ToUpperInvariant();
 			splits.RemoveAt(0);
@@ -182,16 +218,46 @@ namespace Tgstation.Server.Host.Components.Chat
 			
 			try
 			{
-				if (!builtinCommands.TryGetValue(command, out ICommand commandHandler))
+				async Task<ICommand> GetCommand(string commandName)
 				{
-					var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken));
-					await Task.WhenAll(tasks).ConfigureAwait(false);
-					commandHandler = tasks.SelectMany(x => x.Result).Where(x => x.Name.ToUpperInvariant() == command).FirstOrDefault();
+					if (!builtinCommands.TryGetValue(commandName, out var handler))
+					{
+						var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken));
+						await Task.WhenAll(tasks).ConfigureAwait(false);
+						handler = tasks.SelectMany(x => x.Result).Where(x => x.Name.ToUpperInvariant() == commandName).FirstOrDefault();
+					}
+					return handler;
+				};
+
+				const string UnknownCommandMessage = "Unknown command! Type '?' or 'help' for available commands.";
+
+				if (command == "HELP" || command == "?")
+				{
+					string helpText;
+					if (splits.Count == 0)
+					{
+						var allCommands = builtinCommands.Select(x => x.Value).ToList();
+						var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken));
+						await Task.WhenAll(tasks).ConfigureAwait(false);
+						allCommands.AddRange(tasks.SelectMany(x => x.Result));
+						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
+					}
+					else
+					{
+						var helpHandler = await GetCommand(splits[0].ToUpperInvariant()).ConfigureAwait(false);
+						if (helpHandler != default)
+							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}", helpHandler.Name, helpHandler.HelpText);
+						else
+							helpText = UnknownCommandMessage;
+					}
+					await SendMessage(helpText, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					return;
 				}
 
-				if (command == default)
+				var commandHandler = await GetCommand(command).ConfigureAwait(false);
+				if (commandHandler == default)
 				{
-					await SendMessage("Invalid command! Type '?' or 'help' for available commands.", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 					return;
 				}
 
@@ -220,14 +286,17 @@ namespace Tgstation.Server.Host.Components.Chat
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					//prune disconnected providers
-					foreach (var I in messageTasks)
-						if (!I.Key.Connected)
-							messageTasks.Remove(I.Key);
+					foreach (var I in messageTasks.Where(x => !x.Key.Connected).ToList())
+						messageTasks.Remove(I.Key);
 
 					//add new ones
-					foreach (var I in providers)
-						if (I.Value.Connected && !messageTasks.ContainsKey(I.Value))
-							messageTasks.Add(I.Value, I.Value.NextMessage(cancellationToken));
+					Task updatedTask;
+					lock (this)
+						updatedTask = connectionsUpdated.Task;
+					lock (providers)
+						foreach (var I in providers)
+							if (I.Value.Connected && !messageTasks.ContainsKey(I.Value))
+								messageTasks.Add(I.Value, I.Value.NextMessage(cancellationToken));
 
 					if(messageTasks.Count == 0)
 					{
@@ -236,20 +305,24 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 
 					//wait for a message
-					await Task.WhenAny(messageTasks.Select(x => x.Value)).ConfigureAwait(false);
-
+					await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x => x.Value))).ConfigureAwait(false);
+					
 					//process completed ones
-					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted))
+					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
-						messageTasks.Remove(I.Key);
-
 						var message = await I.Value.ConfigureAwait(false);
 
 						await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
+
+						messageTasks.Remove(I.Key);
 					}
 				}
 			}
 			catch (OperationCanceledException) { }
+			catch(Exception e)
+			{
+				logger.LogError("Message monitor crashed!: Exception: {0}", e);
+			}
 		}
 
 		/// <inheritdoc />
@@ -265,7 +338,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				return;
 			var mappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
 			{
-				IsWatchdogChannel = x.IsWatchdogChannel,
+				IsWatchdogChannel = x.IsWatchdogChannel == true,
 				ProviderChannelId = y.RealId,
 				ProviderId = connectionId,
 				Channel = y
@@ -303,25 +376,55 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (newSettings == null)
 				throw new ArgumentNullException(nameof(newSettings));
 			IProvider provider;
+
+			async Task DisconnectProvider(IProvider p)
+			{
+				try
+				{
+					await p.Disconnect(cancellationToken).ConfigureAwait(false);
+				}
+				finally
+				{
+					p.Dispose();
+				}
+			}
+
+			Task disconnectTask;
 			lock (providers)
 			{
 				//raw settings changes forces a rebuild of the provider
 				if (providers.TryGetValue(newSettings.Id, out provider))
 				{
 					providers.Remove(newSettings.Id);
-					provider.Dispose();
+					disconnectTask = DisconnectProvider(provider);
 				}
+				else
+					disconnectTask = Task.CompletedTask;
 				if (newSettings.Enabled.Value)
 				{
 					provider = providerFactory.CreateProvider(newSettings);
 					providers.Add(newSettings.Id, provider);
 				}
 			}
+
 			lock (mappedChannels)
-				foreach (var channelId in mappedChannels.Where(x => x.Value.ProviderId == newSettings.Id).Select(x => x.Key))
-					mappedChannels.Remove(channelId);
-			if (newSettings.Enabled.Value && started)
-				await provider.Connect(cancellationToken).ConfigureAwait(false);
+				foreach (var I in mappedChannels.Where(x => x.Value.ProviderId == newSettings.Id).Select(x => x.Key).ToList())
+					mappedChannels.Remove(I);
+
+			await disconnectTask.ConfigureAwait(false);
+
+			if (started)
+			{
+				if (newSettings.Enabled.Value)
+					await provider.Connect(cancellationToken).ConfigureAwait(false);
+				lock(this)
+				{
+					//same thread shennanigans
+					var oldOne = connectionsUpdated;
+					connectionsUpdated = new TaskCompletionSource<object>();
+					oldOne.SetResult(null);
+				}
+			}
 		}
 
 		/// <inheritdoc />

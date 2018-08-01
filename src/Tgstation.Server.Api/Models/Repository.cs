@@ -15,10 +15,10 @@ namespace Tgstation.Server.Api.Models
 		public string Origin { get; set; }
 
 		/// <summary>
-		/// The commit HEAD points to
+		/// The commit HEAD should point to. Not populated in responses, use <see cref="RevisionInformation"/> instead for retrieval
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.SetSha)]
-		public string NewRevision { get; set; }
+		public string CheckoutSha { get; set; }
 
 		/// <summary>
 		/// The current <see cref="Models.RevisionInformation"/> for the <see cref="Repository"/>
@@ -30,7 +30,19 @@ namespace Tgstation.Server.Api.Models
 		/// If the repository was cloned from GitHub.com. If <see langword="true"/> this enables test merge functionality
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public bool IsGitHub { get; set; }
+		public bool? IsGitHub { get; set; }
+
+		/// <summary>
+		/// The <see cref="Job"/> started by the <see cref="Repository"/> if any
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public Job ActiveJob { get; set; }
+
+		/// <summary>
+		/// Do the equivalent of a git pull. Will attempt to merge unless <see cref="Reference"/> is also specified in which case a hard reset will be performed after checking out
+		/// </summary>
+		[Permissions(WriteRight = RepositoryRights.UpdateBranch)]
+		public bool? UpdateFromOrigin { get; set; }
 
 		/// <summary>
 		/// The branch or tag HEAD points to
@@ -39,7 +51,7 @@ namespace Tgstation.Server.Api.Models
 		public string Reference { get; set; }
 
 		/// <summary>
-		/// <see cref="TestMergeParameters"/> for new <see cref="TestMerge"/>s
+		/// <see cref="TestMergeParameters"/> for new <see cref="TestMerge"/>s. Note that merges that conflict will not be performed
 		/// </summary>
 		[Permissions(WriteRight = RepositoryRights.MergePullRequest)]
 		public List<TestMergeParameters> NewTestMerges { get; set; }

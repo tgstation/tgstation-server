@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
-	sealed class JobManager : IHostedService, IJobManager
+	sealed class JobManager : IJobManager, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IServiceProvider"/> for the <see cref="JobManager"/>
@@ -29,6 +29,13 @@ namespace Tgstation.Server.Host.Core
 		{
 			this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 			jobs = new Dictionary<long, JobHandler>();
+		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			foreach (var job in jobs)
+				job.Value.Dispose();
 		}
 
 		/// <summary>
@@ -98,15 +105,36 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task RegisterOperation(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken)
+		public async Task RegisterOperation(Job job, Func<Job, IServiceProvider, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 				job.StartedAt = DateTimeOffset.Now;
+				job.Cancelled = false;
+				job.Instance = new Instance
+				{
+					Id = job.Instance.Id
+				};
+				databaseContext.Instances.Attach(job.Instance);
+				if (job.StartedBy != null)
+				{
+					job.StartedBy = new User
+					{
+						Id = job.StartedBy.Id
+					};
+					databaseContext.Users.Attach(job.StartedBy);
+				}
 				databaseContext.Jobs.Add(job);
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-				var jobHandler = JobHandler.Create(x => RunJob(job, operation, x));
+				var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) => 
+				operation(jobParam, serviceProvider, y =>
+				{
+					lock (this)
+						if (jobs.TryGetValue(job.Id, out var handler))
+							handler.Progress = y;
+				}, ct),
+				x));
 				lock (this)
 					jobs.Add(job.Id, jobHandler);
 			}
@@ -118,10 +146,9 @@ namespace Tgstation.Server.Host.Core
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 
 				//mark all jobs as cancelled
-				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled && y.StoppedAt == null).Select(y => y.Id).ToAsyncEnumerable().ToList(cancellationToken).ConfigureAwait(false);
+				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToAsyncEnumerable().ToList(cancellationToken).ConfigureAwait(false);
 				foreach(var I in enumerator)
 				{
 					var job = new Job { Id = I };
@@ -141,9 +168,6 @@ namespace Tgstation.Server.Host.Core
 				return x.Value.Wait(cancellationToken);
 			});
 			await Task.WhenAll(joinTasks).ConfigureAwait(false);
-			foreach (var job in jobs)
-				job.Value.Dispose();
-			jobs.Clear();
 		}
 
 		/// <inheritdoc />
@@ -159,8 +183,22 @@ namespace Tgstation.Server.Host.Core
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 				job = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(job);
+				user = new User { Id = user.Id };
+				databaseContext.Users.Attach(user);
 				job.CancelledBy = user;
+				//let either startup or cancellation set job.cancelled
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		/// <inheritdoc />
+		public int? JobProgress(Job job)
+		{
+			lock (this)
+			{
+				if (!jobs.TryGetValue(job.Id, out var handler))
+					return null;
+				return handler.Progress;
 			}
 		}
 	}

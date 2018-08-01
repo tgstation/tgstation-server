@@ -1,9 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 
@@ -28,8 +33,8 @@ namespace Tgstation.Server.Host.Components
 		public IChat Chat { get; }
 
 		/// <inheritdoc />
-		public IConfiguration Configuration { get; }
-		
+		public StaticFiles.IConfiguration Configuration { get; }
+
 		/// <summary>
 		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
 		/// </summary>
@@ -46,6 +51,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly ILogger<Instance> logger;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -59,7 +69,21 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		CancellationTokenSource timerCts;
 
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory)
+		/// <summary>
+		/// Construct an <see cref="Instance"/>
+		/// </summary>
+		/// <param name="metadata">The value of <see cref="metadata"/></param>
+		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/></param>
+		/// <param name="byondManager">The value of <see cref="ByondManager"/></param>
+		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/></param>
+		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
+		/// <param name="chat">The value of <see cref="Chat"/></param>
+		/// <param name="configuration">The value of <see cref="Configuration"/></param>
+		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -71,16 +95,18 @@ namespace Tgstation.Server.Host.Components
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
 			timerCts?.Dispose();
-			Watchdog.Dispose();
-			Chat.Dispose();
-			RepositoryManager.Dispose();
 			compileJobConsumer.Dispose();
+			Configuration.Dispose();
+			Chat.Dispose();
+			Watchdog.Dispose();
+			RepositoryManager.Dispose();
 		}
 
 		/// <summary>
@@ -91,9 +117,8 @@ namespace Tgstation.Server.Host.Components
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task TimerLoop(int minutes, CancellationToken cancellationToken)
 		{
-			try
-			{
-				while (true)
+			while (true)
+				try
 				{
 					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
 
@@ -110,14 +135,31 @@ namespace Tgstation.Server.Host.Components
 					});
 					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 					{
-						await dbTask.ConfigureAwait(false);
-						await repo.FetchOrigin(accessToken, cancellationToken).ConfigureAwait(false);
+						try
+						{
+							await dbTask.ConfigureAwait(false);
+						}
+						catch (OperationCanceledException)
+						{
+							throw;
+						}
+						catch (Exception e)
+						{
+							logger.LogWarning("Database error in auto update loop! Exception: {0}", e);
+							continue;
+						}
+						if (repo == null)
+							continue;
+						await repo.FetchOrigin(accessToken, null, cancellationToken).ConfigureAwait(false);
 						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
 						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
-			}
-			catch (OperationCanceledException) { }
+				catch (OperationCanceledException) { }
+				catch (Exception e)
+				{
+					logger.LogError("Error in auto update loop! Exception: {0}", e);
+				}
 		}
 
 		/// <inheritdoc />

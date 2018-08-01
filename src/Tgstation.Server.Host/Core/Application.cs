@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Octokit;
 using System;
 using System.Globalization;
@@ -20,7 +21,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
+using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
@@ -97,13 +101,14 @@ namespace Tgstation.Server.Host.Core
 			var generalConfigurationSection = configuration.GetSection(GeneralConfiguration.Section);
 			services.Configure<GeneralConfiguration>(generalConfigurationSection);
 
+			//remember, anything you .Get manually can be null if the config is missing
 			var generalConfiguration = generalConfigurationSection.Get<GeneralConfiguration>();
 			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 			var ioManager = new DefaultIOManager();
 
-			if (!generalConfiguration.DisableFileLogging)
+			if (generalConfiguration?.DisableFileLogging != true)
 			{
-				var logPath = !String.IsNullOrEmpty(generalConfiguration.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");				
+				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");				
 				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log")));
 			}
 
@@ -141,9 +146,13 @@ namespace Tgstation.Server.Host.Core
 			});
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
 
-			services.AddMvc();
+			services.AddMvc().AddJsonOptions(options =>
+			{
+				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
+
 			void ConfigureDatabase(DbContextOptionsBuilder builder)
 			{
 				if (hostingEnvironment.IsDevelopment())
@@ -193,6 +202,8 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<ICommandFactory, CommandFactory>();
+			services.AddSingleton<IScriptExecutor, ScriptExecutor>();
+			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
 				ReceiveTimeout = 5000,
@@ -204,11 +215,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
-
-			services.AddSingleton<JobManager>();
-			services.AddSingleton<IJobManager>(x => x.GetRequiredService<JobManager>());
-			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobManager>());
 			
+			services.AddSingleton<IJobManager, JobManager>();
+
 			services.AddSingleton<IIOManager>(ioManager);
 
 			services.AddSingleton<DatabaseContextFactory>();
@@ -221,10 +230,15 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <see cref="Application"/>
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
-		public void Configure(IApplicationBuilder applicationBuilder)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Application"/></param>
+		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
+
+			logger.LogInformation(VersionString);
 
 			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 

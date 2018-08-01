@@ -47,16 +47,15 @@ namespace Tgstation.Server.Host.Security
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
-			var userQuery = databaseContext.Users.Where(x => x.Id == userId);
+			var userQuery = databaseContext.Users.Where(x => x.Id == userId).FirstAsync(cancellationToken);
 
-			if (instanceId.HasValue)
-				userQuery = userQuery.Include(x => x.InstanceUsers.Where(y => y.Id == instanceId));
+			var instanceUser = instanceId.HasValue ? (await databaseContext.InstanceUsers
+				.Where(x => x.UserId == userId)
+				.Where(x => x.InstanceId == instanceId)
+				.Include(x => x.Instance)
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)) : null;
 
-			var user = await userQuery.Include(x => x.InstanceUsers).FirstAsync(cancellationToken).ConfigureAwait(false);
-
-			InstanceUser instanceUser = null;
-			if (instanceId.HasValue)
-				instanceUser = user.InstanceUsers.Where(x => x.InstanceId == instanceId).FirstOrDefault();
+			var user = await userQuery.ConfigureAwait(false);
 
 			ISystemIdentity systemIdentity;
 			if (user.SystemIdentifier != null)

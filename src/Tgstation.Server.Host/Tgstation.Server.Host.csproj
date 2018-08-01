@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>Full</DebugType>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </PropertyGroup>
@@ -20,23 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.Docker.json" />
-    <None Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.Docker.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Byond.TopicSender" Version="1.1.1" />
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.1.0" />
-    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.5" />
+    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
     <PackageReference Include="Discord.Net.WebSocket" Version="1.0.2" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.0-preview-0027" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
@@ -48,7 +35,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.12" />
     <PackageReference Include="Octokit" Version="0.31.0" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0-dev-00024" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="4.5.0" />
@@ -64,7 +51,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
-    <ProjectReference Include="..\Tgstation.Server.Host.Startup\Tgstation.Server.Host.Startup.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

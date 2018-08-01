@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -12,10 +13,19 @@ namespace Tgstation.Server.Host.Models
 		public User MergedBy { get; set; }
 		
 		/// <summary>
-		/// The <see cref="Models.RevisionInformation"/> for the <see cref="TestMerge"/>
+		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with
 		/// </summary>
-		[Required]
-		public RevisionInformation RevisionInformation { get; set; }
+		public RevisionInformation PrimaryRevisionInformation { get; set; }
+
+		/// <summary>
+		/// Foreign key for <see cref="PrimaryRevisionInformation"/>
+		/// </summary>
+		public long? PrimaryRevisionInformationId { get; set; }
+
+		/// <summary>
+		/// All the <see cref="RevInfoTestMerge"/> for the <see cref="TestMerge"/>
+		/// </summary>
+		public List<RevInfoTestMerge> RevisonInformations { get; set; }
 
 		/// <inheritdoc />
 		public Api.Models.TestMerge ToApi() => new Api.Models.TestMerge
