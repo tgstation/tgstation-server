@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
@@ -24,9 +26,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public InteropController(IInstanceManager instanceManager, IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory) : base(databaseContext, authenticationContextFactory, false)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public InteropController(IInstanceManager instanceManager, IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InteropController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
-			this.instanceManager = instanceManager;
+			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
 		/// <summary>

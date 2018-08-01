@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -37,6 +38,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="IAuthenticationContext"/> for the operation
 		/// </summary>
 		protected IAuthenticationContext AuthenticationContext { get; }
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="ApiController"/>
+		/// </summary>
+		protected ILogger Logger { get; }
 
 		/// <summary>
 		/// The <see cref="Instance"/> for the operation
@@ -110,12 +116,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, bool requireInstance)
+		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
+			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
 			this.requireInstance = requireInstance;
@@ -150,6 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
+			Logger.LogInformation("Request made by User ID {0}. Api version: {1}. User-Agent: {2}", AuthenticationContext.User?.Id.ToString(CultureInfo.InvariantCulture) ?? "NULL", ApiHeaders.ApiVersion, ApiHeaders.UserAgent);
 			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
 	}

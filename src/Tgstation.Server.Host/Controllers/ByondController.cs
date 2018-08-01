@@ -31,23 +31,17 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ByondController"/>
-		/// </summary>
-		readonly ILogger<ByondController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="ByondController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -85,12 +79,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (byondManager.InstalledVersions.Any(x => x == model.Version))
 			{
-				logger.LogInformation("User ID {0} changing instance ID {1} BYOND version to {2}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
+				Logger.LogInformation("User ID {0} changing instance ID {1} BYOND version to {2}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
 				await byondManager.ChangeVersion(model.Version, cancellationToken).ConfigureAwait(false);
 			}
 			else
 			{
-				logger.LogInformation("User ID {0} installing BYOND version to {2} on instance ID {1}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
+				Logger.LogInformation("User ID {0} installing BYOND version to {2} on instance ID {1}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
 				//run the install through the job manager
 				var job = new Models.Job
 				{

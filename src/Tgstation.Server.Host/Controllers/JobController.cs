@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net;
@@ -28,7 +29,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		public JobController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public JobController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, ILogger<JobController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}

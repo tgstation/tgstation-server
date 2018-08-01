@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
@@ -35,7 +36,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, ILogger<DreamMakerController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));

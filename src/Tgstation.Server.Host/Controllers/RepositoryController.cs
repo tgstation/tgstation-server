@@ -41,11 +41,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="RepositoryController"/>
-		/// </summary>
-		readonly ILogger<RepositoryController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="RepositoryController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -53,13 +48,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="gitHubClient">The value of <see cref="gitHubClient"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, true)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		static string GetAccessString(Api.Models.Internal.RepositorySettings repositorySettings) => repositorySettings.AccessUser != null ? String.Concat(repositorySettings.AccessUser, '@', repositorySettings.AccessToken) : null;
@@ -190,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id);
+			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id);
 
 			var job = new Models.Job
 			{

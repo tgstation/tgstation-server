@@ -46,11 +46,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IApplication application;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="InstanceController"/>
-		/// </summary>
-		readonly ILogger<InstanceController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="InstanceController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -59,14 +54,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, false)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		void NormalizeModelPath(Api.Models.Instance model, out string absolutePath)
@@ -169,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new { message = e.Message });
 			}
 
-			logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
+			Logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
 			
 			return Json(newInstance.ToApi());
 		}
@@ -289,7 +283,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (Exception e)
 			{
-				logger.LogError("Error changing instance online state! Exception: {0}", e);
+				Logger.LogError("Error changing instance online state! Exception: {0}", e);
 				originalModel.Online = originalOnline;
 				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
 				if (originalModelPath != null)

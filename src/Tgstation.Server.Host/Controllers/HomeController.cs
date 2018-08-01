@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net;
@@ -49,7 +50,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
-		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application, IIdentityCache identityCache) : base(databaseContext, authenticationContextFactory, false)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application, IIdentityCache identityCache, ILogger<HomeController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));

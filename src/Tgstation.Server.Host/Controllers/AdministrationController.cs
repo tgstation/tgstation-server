@@ -51,11 +51,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="AdministrationController"/>
-		/// </summary>
-		readonly ILogger<AdministrationController> logger;
-
-		/// <summary>
 		/// The <see cref="UpdatesConfiguration"/> for the <see cref="AdministrationController"/>
 		/// </summary>
 		readonly UpdatesConfiguration updatesConfiguration;
@@ -69,11 +64,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClient gitHubClient, IServerControl serverUpdater, IApplication application, IIOManager ioManager, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions) : base(databaseContext, authenticationContextFactory, false)
+		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClient gitHubClient, IServerControl serverUpdater, IApplication application, IIOManager ioManager, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
@@ -83,7 +77,7 @@ namespace Tgstation.Server.Host.Controllers
 		
 		StatusCodeResult RateLimit(RateLimitExceededException exception)
 		{
-			logger.LogWarning("Exceeded GitHub rate limit!");
+			Logger.LogWarning("Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new Microsoft.Extensions.Primitives.StringValues { });
 			return StatusCode(RateLimitHttpStatusCode);

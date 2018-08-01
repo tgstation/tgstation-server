@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,8 +25,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="requireInstance">If the <see cref="ModelController{TModel}"/> requires an <see cref="IAuthenticationContext.InstanceUser"/></param>
-		public ModelController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, bool requireInstance) : base(databaseContext, authenticationContextFactory, requireInstance) { }
+		public ModelController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance) : base(databaseContext, authenticationContextFactory, logger, requireInstance) { }
 
 		/// <summary>
 		/// Attempt to create a <paramref name="model"/>

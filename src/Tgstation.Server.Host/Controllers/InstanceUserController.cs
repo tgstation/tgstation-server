@@ -22,20 +22,13 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class InstanceUserController : ModelController<Api.Models.InstanceUser>
 	{
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="InstanceUserController"/>
-		/// </summary>
-		readonly ILogger<InstanceUserController> logger;
-
-		/// <summary>
 		/// Construct a <see cref="UserController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, true)    //false instance requirement, we handle this ourself
-		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		}
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true)    //false instance requirement, we handle this ourself
+		{ }
 
 		/// <summary>
 		/// Checks a <paramref name="model"/> for errors
