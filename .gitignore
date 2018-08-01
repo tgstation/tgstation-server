@@ -14,3 +14,4 @@ packages/*
 *.dmb
 *.int
 /TestResults
+/UpgradeLog.htm

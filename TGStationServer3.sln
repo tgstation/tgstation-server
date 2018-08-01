@@ -30,39 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGS.Installer.UI", "TGS.Ins
 		{154435F6-0890-42D4-9AEC-B743D4FBC1CB} = {154435F6-0890-42D4-9AEC-B743D4FBC1CB}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "legacy", "legacy", "{0DDF886A-7ABB-4DCA-96A3-349B2DA00016}"
-	ProjectSection(SolutionItems) = preProject
-		legacy\config.bat = legacy\config.bat
-		legacy\copyexclude.txt = legacy\copyexclude.txt
-		legacy\disable crash dialog.reg = legacy\disable crash dialog.reg
-		legacy\Fix Errors.bat = legacy\Fix Errors.bat
-		legacy\install.bat = legacy\install.bat
-		legacy\Merge pr without updating.bat = legacy\Merge pr without updating.bat
-		legacy\OnServerBoot.bat = legacy\OnServerBoot.bat
-		legacy\README.md = legacy\README.md
-		legacy\Recompile.bat = legacy\Recompile.bat
-		legacy\Reset and Recompile.bat = legacy\Reset and Recompile.bat
-		legacy\Start Bot.bat = legacy\Start Bot.bat
-		legacy\Start Server.bat = legacy\Start Server.bat
-		legacy\Update Server.bat = legacy\Update Server.bat
-		legacy\Update to PR.bat = legacy\Update to PR.bat
-		legacy\Update without resetting.bat = legacy\Update without resetting.bat
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{3BB3DA66-970C-4AAE-A77C-9E40F5E7E56A}"
-	ProjectSection(SolutionItems) = preProject
-		legacy\bin\activepr.bat = legacy\bin\activepr.bat
-		legacy\bin\build.bat = legacy\bin\build.bat
-		legacy\bin\copyfromgit.bat = legacy\bin\copyfromgit.bat
-		legacy\bin\findab.bat = legacy\bin\findab.bat
-		legacy\bin\findbyond.bat = legacy\bin\findbyond.bat
-		legacy\bin\findgit.bat = legacy\bin\findgit.bat
-		legacy\bin\getcurdate.bat = legacy\bin\getcurdate.bat
-		legacy\bin\getunixtime.bat = legacy\bin\getunixtime.bat
-		legacy\bin\unixtime.vbs = legacy\bin\unixtime.vbs
-		legacy\bin\updategit.bat = legacy\bin\updategit.bat
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{9032B448-5E2B-4E71-8ECB-D5FB828E049C}"
 	ProjectSection(SolutionItems) = preProject
 		DMAPI\tgs.dm = DMAPI\tgs.dm
@@ -196,7 +163,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3BB3DA66-970C-4AAE-A77C-9E40F5E7E56A} = {0DDF886A-7ABB-4DCA-96A3-349B2DA00016}
 		{E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3} = {9032B448-5E2B-4E71-8ECB-D5FB828E049C}
 		{D30454E2-ABAF-4698-B5EC-D2E7C9641F43} = {E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3}
 		{FFECCA21-8B4A-4A70-B524-33DDDCA04850} = {E7103B1A-8097-4BD4-B642-E7A2FAB1B0F3}
