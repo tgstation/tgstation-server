@@ -24,8 +24,6 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <summary>
 		/// Construct a <see cref="Watchdog"/>
 		/// </summary>
-		/// <param name="activeLibraryDeleter">The value of <see cref="activeLibraryDeleter"/></param>
-		/// <param name="isolatedAssemblyLoader">The value of <see cref="isolatedAssemblyLoader"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public Watchdog(ILogger<Watchdog> logger)
 		{
