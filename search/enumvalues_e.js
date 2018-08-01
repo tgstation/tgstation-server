@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['pinged',['Pinged',['../class_t_g_s_1_1_server_1_1_instance.html#a24619e3847ca6f303773c3c667a0c644a5391406caa5d363a29e5217eb25426e3',1,'TGS::Server::Instance']]],
-  ['preactionevent',['PreactionEvent',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a3bbdace6babf8f258136d74877775761',1,'TGS::Server']]],
-  ['preactionfail',['PreactionFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a5045d695b09dd0ec18ecaced0900bf8b',1,'TGS::Server']]]
+  ['ultrasafe',['Ultrasafe',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5a380d297f2cbdccba869676c96bd38bc1',1,'Tgstation::Server::Api::Models']]],
+  ['updatebranch',['UpdateBranch',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#abf122a4088ce6201710afb93fb172a9ca31df5784b56922c3559917d3286fcac3',1,'Tgstation::Server::Api::Rights']]]
 ];

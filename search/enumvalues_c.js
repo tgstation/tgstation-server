@@ -1,9 +1,26 @@
 var searchData=
 [
-  ['none',['None',['../class_t_g_s_1_1_server_1_1_instance.html#a24619e3847ca6f303773c3c667a0c644a6adf97f83acf6453d4a6a4b1070f3754',1,'TGS.Server.Instance.None()'],['../namespace_t_g_s_1_1_interface.html#a6aba89d82a2fad3044034cdca1060c4fa6adf97f83acf6453d4a6a4b1070f3754',1,'TGS.Interface.None()']]],
-  ['nonefound',['NoneFound',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a5ff9f14c4e0132d0a29c4cb95aad370aa07da250b04008f15a0214bf3068257fa',1,'TGS::Installer::UI::Main']]],
-  ['normal',['Normal',['../class_t_g_s_1_1_interface_1_1_command.html#ae21716f032d9a454736f4ef2f7e9590fa960b44c579bc2f6818d2daaf9e4c16f0',1,'TGS::Interface::Command']]],
-  ['notenumerated',['NotEnumerated',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf1586e54d2b750d2f2ecfdee208ad9da826419781ba14110c75331b8380251e4',1,'TGS::ControlPanel::ControlPanel']]],
-  ['nudgecrash',['NudgeCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ae82db03684b17dae8c4f074098a14603',1,'TGS::Server']]],
-  ['nudgestartfail',['NudgeStartFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a36238c2ed2fdcccd2eb9b8fbdef4fc3b',1,'TGS::Server']]]
+  ['safe',['Safe',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac6eea0560cd6f377e78dff2c85cc9122',1,'Tgstation::Server::Api::Models']]],
+  ['sasl',['Sasl',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#aa6a291d730bfb74d51734d8e84bf20b3a722a094110489086589ef2ca86d2a516',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
+  ['server',['Server',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#aa6a291d730bfb74d51734d8e84bf20b3a9aa1b03934893d7134a660af4204f2a9',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
+  ['setautostart',['SetAutoStart',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053ac73c1c7e96a1b68753840b8502528ab0',1,'Tgstation::Server::Api::Rights']]],
+  ['setautoupdate',['SetAutoUpdate',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a806d2bf924216a5d7c4ac99cbd740f6fa2e54e04dba31375a3401f9f300a80d81',1,'Tgstation::Server::Api::Rights']]],
+  ['setconfiguration',['SetConfiguration',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a806d2bf924216a5d7c4ac99cbd740f6fa2e423f35163ade75efce4061c98e1803',1,'Tgstation::Server::Api::Rights']]],
+  ['setdme',['SetDme',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7e82c6e77748756dac4f969a5b391296a14814465c8710a1dd49b3642c172ed36',1,'Tgstation::Server::Api::Rights']]],
+  ['setonline',['SetOnline',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a806d2bf924216a5d7c4ac99cbd740f6fa49241bae6f08ea45c321cbee8ce70cda',1,'Tgstation::Server::Api::Rights']]],
+  ['setorigin',['SetOrigin',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#abf122a4088ce6201710afb93fb172a9ca4cfe869c65c26d572cd5ab1b98abdb6a',1,'Tgstation::Server::Api::Rights']]],
+  ['setports',['SetPorts',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053a81a46f4105078d5ddae4991343644468',1,'Tgstation::Server::Api::Rights']]],
+  ['setreference',['SetReference',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#abf122a4088ce6201710afb93fb172a9ca177459d00b7f29a44b87c9a5e1cb1f11',1,'Tgstation::Server::Api::Rights']]],
+  ['setsecurity',['SetSecurity',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053ad01c76a7263a2d3af037a139b8563b5a',1,'Tgstation::Server::Api::Rights']]],
+  ['setsha',['SetSha',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#abf122a4088ce6201710afb93fb172a9cad8c2d7ddc75692573d20ed5254fcd06a',1,'Tgstation::Server::Api::Rights']]],
+  ['setstartuptimeout',['SetStartupTimeout',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053ae34541119c09d49ca1ba51be76c98aa1',1,'Tgstation::Server::Api::Rights']]],
+  ['setwebclient',['SetWebClient',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053aba69275e93f440b20e7bebe7be6f8a7c',1,'Tgstation::Server::Api::Rights']]],
+  ['shutdown',['Shutdown',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053a1a4ebb180ba59b067782515ffee6e975',1,'Tgstation.Server.Api.Rights.Shutdown()'],['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8a1a4ebb180ba59b067782515ffee6e975',1,'Tgstation.Server.Host.Components.Watchdog.Shutdown()']]],
+  ['softrestart',['SoftRestart',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053a31d920012be69305899466206d2a4823',1,'Tgstation::Server::Api::Rights']]],
+  ['softshutdown',['SoftShutdown',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053ae814f60fe597531f5630e0aef1adea94',1,'Tgstation::Server::Api::Rights']]],
+  ['sqlite',['Sqlite',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617ca283f4ac146a612fabb50409a640cf21b',1,'Tgstation::Server::Host::Configuration']]],
+  ['sqlserver',['SqlServer',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617cae86e829e4d4c68b30a4fd26aa2bfca72',1,'Tgstation::Server::Host::Configuration']]],
+  ['start',['Start',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a51cd31ddd4164e46015227000aa24053aa6122a65eaa676f700ae68d393054a37',1,'Tgstation::Server::Api::Rights']]],
+  ['symlinking',['Symlinking',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2850efe9d731be9de98b56a284980698ad39389fa71ea3cf86faf9f1b37eff74b',1,'Tgstation::Server::Api::Models']]],
+  ['systemidentitywrite',['SystemIdentityWrite',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440ab027b6d7abbf6c6fa50c64fc51437bce',1,'Tgstation::Server::Api::Models']]]
 ];

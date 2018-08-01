@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['githubloginprompt',['GitHubLoginPrompt',['../class_t_g_s_1_1_control_panel_1_1_git_hub_login_prompt.html',1,'TGS::ControlPanel']]]
+  ['generalconfiguration',['GeneralConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html',1,'Tgstation::Server::Host::Configuration']]]
 ];

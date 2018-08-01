@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['nickindex',['NickIndex',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a0103a89ed904c632791248cef3ee8ef6',1,'TGS::Interface::IRCSetupInfo']]],
-  ['noupdateradiobutton',['NoUpdateRadioButton',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a6874d7119af6e12c68f03849218b4207',1,'TGS::ControlPanel::TestMergeManager']]],
-  ['nullcache',['nullCache',['../class_i_l_template.html#a5cd94e546a3da8206c53f20870ed9b65',1,'ILTemplate']]],
-  ['nullcachelock',['nullCacheLock',['../class_i_l_template.html#a5f187dc9e73311fd3da527dc0ebe6de2',1,'ILTemplate']]]
+  ['ondispose',['onDispose',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#a922e38ea308976fd36f9f6d7e73ece41',1,'Tgstation.Server.Host.Components.Chat.JsonTrackingContext.onDispose()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9',1,'Tgstation.Server.Host.Components.Compiler.DmbProvider.onDispose()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_context.html#abeccd787cc7bd54b4a1f390918b7909a',1,'Tgstation.Server.Host.Components.InteropContext.onDispose()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af2a69a0a07eff91257bace7640a3df8e',1,'Tgstation.Server.Host.Components.Repository.Repository.onDispose()']]],
+  ['onreboot',['OnReboot',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ac4495210a6e09f9232428329fb1e3839',1,'Tgstation::Server::Host::Components::Watchdog::SessionController']]],
+  ['origin',['Origin',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4885e47a21a11d7fdf1f2071f7cfbb0a',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
 ];

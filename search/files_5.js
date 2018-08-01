@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['githubloginprompt_2ecs',['GitHubLoginPrompt.cs',['../_git_hub_login_prompt_8cs.html',1,'']]],
-  ['githubloginprompt_2edesigner_2ecs',['GitHubLoginPrompt.Designer.cs',['../_git_hub_login_prompt_8_designer_8cs.html',1,'']]]
+  ['generalconfiguration_2ecs',['GeneralConfiguration.cs',['../_general_configuration_8cs.html',1,'']]],
+  ['globalsuppressions_2ecs',['GlobalSuppressions.cs',['../_tgstation_8_server_8_control_panel_2_global_suppressions_8cs.html',1,'']]],
+  ['globalsuppressions_2ecs',['GlobalSuppressions.cs',['../_tgstation_8_server_8_host_8_service_2_global_suppressions_8cs.html',1,'']]]
 ];

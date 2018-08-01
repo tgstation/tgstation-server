@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['gameinfo',['GameInfo',['../namespace_t_g_s_1_1_server.html#ac244e362b52b9feac67ac6c2ca27f522a22eeed3b74b8fe69650bbb9e6ec51ed8',1,'TGS::Server']]],
-  ['gencl',['GenCL',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a41728b05c20c5f540d0d356f379436ffa2883be5ce68fe35d6eedf287d5b9ddfd',1,'TGS::ControlPanel::ControlPanel']]]
+  ['idle',['Idle',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2850efe9d731be9de98b56a284980698ae599161956d626eda4cb0a5ffb85271c',1,'Tgstation::Server::Api::Models']]],
+  ['inactiveservercrashed',['InactiveServerCrashed',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a55fa500495cf8a547529c30f8d9c6ea5',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['inactiveserverrebooted',['InactiveServerRebooted',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a511bd67e833172fb4f9a30b92591235b',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['inactiveserverstartupcomplete',['InactiveServerStartupComplete',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9afaf84ad86619c2ec86111febdc77b60a',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['instanceautoupdatestart',['InstanceAutoUpdateStart',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381aefc3f4c097e45227dcc2aee3aadc034f',1,'Tgstation::Server::Host::Components']]],
+  ['instancemanager',['InstanceManager',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a323d2c71f7b2d9f4310c13c0c16ec94ba7c77d4c45a003ee3d6b3589d2459cc49',1,'Tgstation::Server::Api::Rights']]],
+  ['instanceuser',['InstanceUser',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a323d2c71f7b2d9f4310c13c0c16ec94ba07665be2d43147f42c2e73e8e2a19655',1,'Tgstation::Server::Api::Rights']]],
+  ['irc',['Irc',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547',1,'Tgstation::Server::Api::Models']]]
 ];

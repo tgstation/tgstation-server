@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['logger',['Logger',['../class_t_g_s_1_1_server_1_1_server.html#a1d74616cab26fd2b954f87e6a9b911a6',1,'TGS::Server::Server']]],
-  ['loggingid',['LoggingID',['../class_t_g_s_1_1_interface_1_1_instance_metadata.html#ad80756c8515e0b9b3a9373bc5e9f2fb5',1,'TGS::Interface::InstanceMetadata']]],
-  ['logininfo',['LoginInfo',['../class_t_g_s_1_1_interface_1_1_client.html#a631f1d459c206aa244885dd642f090e1',1,'TGS.Interface.Client.LoginInfo()'],['../interface_t_g_s_1_1_interface_1_1_i_client.html#a0be92b3eb2e7f44e15ba4f6a7da57665',1,'TGS.Interface.IClient.LoginInfo()']]]
+  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html#afe93454d04d57732c948c207cc6d21cb',1,'Tgstation.Server.Api.Models.CompileJob.Job()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c',1,'Tgstation.Server.Host.Models.CompileJob.Job()']]],
+  ['jobs',['Jobs',['../interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a5fb44e5334ab0a5c2abcc142ede7cfbb',1,'Tgstation.Server.Client.IServerClient.Jobs()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a6f7859cdfa8c1fb81352102ace4e6609',1,'Tgstation.Server.Host.Models.DatabaseContext.Jobs()'],['../interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html#adb2f37e11b8be23855d35e90ad312d3e',1,'Tgstation.Server.Host.Models.IDatabaseContext.Jobs()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a60948c8acd4bca48ce5ea294bcc2e0b6',1,'Tgstation.Server.Host.Models.Instance.Jobs()']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['halfop',['Halfop',['../namespace_t_g_s_1_1_interface.html#a9fe0194a21bc57adc211b9f4cf0d1f8dabbf6e6c492afce3799ce582f932f4931',1,'TGS::Interface']]],
-  ['hardrebooting',['HardRebooting',['../namespace_t_g_s_1_1_interface.html#a769cbe24216f6ab7cb0cdf2b39177175a6f140364f9894a2f77258f7e81a74703',1,'TGS::Interface']]]
+  ['list',['List',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#ae656b5ef6927ba833fb6059e945195d7a4ee29ca12c7d126654bd0e5275de6135',1,'Tgstation.Server.Api.Rights.List()'],['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a806d2bf924216a5d7c4ac99cbd740f6fa4ee29ca12c7d126654bd0e5275de6135',1,'Tgstation.Server.Api.Rights.List()']]],
+  ['listinstalled',['ListInstalled',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a47617f90b902410dc2a8f056ed260be5ad102ca284a1a9df653f41ec4c1b22a0b',1,'Tgstation::Server::Api::Rights']]]
 ];

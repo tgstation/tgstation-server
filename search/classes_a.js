@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main',['Main',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html',1,'TGS::Installer::UI']]]
+  ['launchresult',['LaunchResult',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_launch_result.html',1,'Tgstation::Server::Host::Components::Watchdog']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['kekcommand',['KekCommand',['../class_t_g_s_1_1_server_1_1_chat_commands_1_1_kek_command.html#a0f6da1de14839385dd50ee969c62b27c',1,'TGS::Server::ChatCommands::KekCommand']]],
-  ['killme',['KillMe',['../class_t_g_s_1_1_server_1_1_instance.html#a6eb4f78a62c086549e704d0f606aa04e',1,'TGS::Server::Instance']]]
+  ['keepalive',['KeepAlive',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a9689654a6dbdb16cdbfb52f9b3c4d595',1,'Tgstation.Server.Host.Components.Compiler.DmbProvider.KeepAlive()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_temporary_dmb_provider.html#adbed7f599b394dfea91f361e742ff587',1,'Tgstation.Server.Host.Components.Compiler.TemporaryDmbProvider.KeepAlive()'],['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html#a401e38b6b2c147963eb4a6d42e41b7d3',1,'Tgstation.Server.Host.Components.IDmbProvider.KeepAlive()']]]
 ];

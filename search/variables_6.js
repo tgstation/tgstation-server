@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['fieldslen',['FieldsLen',['../class_t_g_s_1_1_interface_1_1_i_r_c_setup_info.html#a85ccfa869f81f59f91e5e042ce122cba',1,'TGS.Interface.IRCSetupInfo.FieldsLen()'],['../class_t_g_s_1_1_interface_1_1_discord_setup_info.html#a5f0a8ab2bd6775d175b9dfafea43cbde',1,'TGS.Interface.DiscordSetupInfo.FieldsLen()']]],
-  ['formcount',['FormCount',['../class_t_g_s_1_1_control_panel_1_1_counted_form.html#a8181ce0327ddb50ba88f58f8e749c5e5',1,'TGS::ControlPanel::CountedForm']]]
+  ['gamestaticfilessubdirectory',['GameStaticFilesSubdirectory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae8e07adce00ed418cb29954182699623',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],
+  ['githubclient',['gitHubClient',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aec4880545e9e6ae60f00f77aa3de36d8',1,'Tgstation.Server.Host.Controllers.AdministrationController.gitHubClient()'],['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a2e107f84534b72d4c1e846191a4ceda3',1,'Tgstation.Server.Host.Controllers.RepositoryController.gitHubClient()']]],
+  ['githuburl',['GitHubUrl',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a5a72e4dafe281ae05f52e1dbcf37ab71',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
 ];

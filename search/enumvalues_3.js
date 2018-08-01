@@ -1,23 +1,11 @@
 var searchData=
 [
-  ['ddreattachfail',['DDReattachFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a9b180d67d4c0810f154c74188f0583e7',1,'TGS::Server']]],
-  ['ddreattachsuccess',['DDReattachSuccess',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a72ca43f16fb64b3834199b7354847b7f',1,'TGS::Server']]],
-  ['ddservercrash',['DDServerCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a00bcbb90206d48a9b8ea126766272f17',1,'TGS::Server']]],
-  ['ddserverstart',['DDServerStart',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311aff8bcd34eedfaf368e7e88f58afac42e',1,'TGS::Server']]],
-  ['ddwatchdogcrash',['DDWatchdogCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311afc5de50fca56e21e61ee7dade38bd313',1,'TGS::Server']]],
-  ['ddwatchdogexit',['DDWatchdogExit',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a45c77a55423b202a57335b490427d303',1,'TGS::Server']]],
-  ['ddwatchdogrebootedserver',['DDWatchdogRebootedServer',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a08fdd52c75872918a4c2697e767df872',1,'TGS::Server']]],
-  ['ddwatchdogrebootingserver',['DDWatchdogRebootingServer',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ade100be8af9b0db577283114b0a7f148',1,'TGS::Server']]],
-  ['ddwatchdogrestart',['DDWatchdogRestart',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a1d159eedc76b6bb4cc1fe7cf10f6fdc0',1,'TGS::Server']]],
-  ['ddwatchdogrestarted',['DDWatchdogRestarted',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311abac9d06ea6671b0a80a51e91cf75806e',1,'TGS::Server']]],
-  ['ddwatchdogstarted',['DDWatchdogStarted',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ac4f20733ba4f9e7a02553281286b6342',1,'TGS::Server']]],
-  ['developerinfo',['DeveloperInfo',['../namespace_t_g_s_1_1_server.html#ac244e362b52b9feac67ac6c2ca27f522ab28b88939859e1c74cdc1dadbf2cd222',1,'TGS::Server']]],
-  ['directory',['Directory',['../class_t_g_s_1_1_server_1_1_instance.html#abac0e3ddd1419ccf23e1a40f4d387c8fae73cda510e8bb947f7e61089e5581494',1,'TGS::Server::Instance']]],
-  ['discord',['Discord',['../namespace_t_g_s_1_1_interface.html#a697d691c1d8794ac9898b4fe67f983c2a8f5cc6430613f1c12f36965050bb7197',1,'TGS::Interface']]],
-  ['dmcompilecancel',['DMCompileCancel',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a37e5c2535223fcb7aa62797321295a01',1,'TGS::Server']]],
-  ['dmcompilecrash',['DMCompileCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a770dd70415216bcf102da14015b6661c',1,'TGS::Server']]],
-  ['dmcompileerror',['DMCompileError',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ad4ea1a926e7cc7d726237a6595637f3d',1,'TGS::Server']]],
-  ['dmcompilesuccess',['DMCompileSuccess',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ae5c69780f0793f5d28c19e74e3d533c0',1,'TGS::Server']]],
-  ['dminitializecrash',['DMInitializeCrash',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311aa9e4547b78a5b5166538ec8733e05850',1,'TGS::Server']]],
-  ['downloading',['Downloading',['../namespace_t_g_s_1_1_interface.html#a4b94c11ccb4064514452be149335bcb0ac7e71badf20a04f36d11be557ceb7a5b',1,'TGS::Interface']]]
+  ['ddothercrash',['DDOtherCrash',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381a5ba6633142a289b4df4f63fbe884488d',1,'Tgstation::Server::Host::Components']]],
+  ['ddotherexit',['DDOtherExit',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381a93960808163206d073bddea27a19df79',1,'Tgstation::Server::Host::Components']]],
+  ['delete',['Delete',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a78cf96ad69da59979923a96410a904aeaf2a6c498fb90ee345d997f888fce3b18',1,'Tgstation.Server.Api.Rights.Delete()'],['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a806d2bf924216a5d7c4ac99cbd740f6faf2a6c498fb90ee345d997f888fce3b18',1,'Tgstation.Server.Api.Rights.Delete()'],['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#abf122a4088ce6201710afb93fb172a9caf2a6c498fb90ee345d997f888fce3b18',1,'Tgstation.Server.Api.Rights.Delete()']]],
+  ['disallowed',['Disallowed',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440ade99ae8770699a4725a85853a0790d24',1,'Tgstation::Server::Api::Models']]],
+  ['discord',['Discord',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca8f5cc6430613f1c12f36965050bb7197',1,'Tgstation::Server::Api::Models']]],
+  ['dreamdaemon',['DreamDaemon',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a323d2c71f7b2d9f4310c13c0c16ec94ba82a60e2400e19cffe6b38b295e10d4c8',1,'Tgstation::Server::Api::Rights']]],
+  ['dreammaker',['DreamMaker',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a323d2c71f7b2d9f4310c13c0c16ec94baf179dcd47770d7cc1eb149ee1a0d06af',1,'Tgstation::Server::Api::Rights']]],
+  ['duplicating',['Duplicating',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2850efe9d731be9de98b56a284980698a7cf6bc0403bb3b600dd91bdabf4d0792',1,'Tgstation::Server::Api::Models']]]
 ];

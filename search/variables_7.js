@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['gameapiversion',['GameAPIVersion',['../class_t_g_s_1_1_server_1_1_instance.html#aadbc57076386211c5940d4283ff28cd0',1,'TGS::Server::Instance']]],
-  ['gamechannelindex',['GameChannelIndex',['../class_t_g_s_1_1_interface_1_1_chat_setup_info.html#ab8a22db025576be4cfc0f19c1772ff31',1,'TGS::Interface::ChatSetupInfo']]],
-  ['gamechannelstextbox',['GameChannelsTextbox',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a65b41fe6a0ae0089f2e9d62561bda7b7',1,'TGS::ControlPanel::ControlPanel']]],
-  ['gamedir',['GameDir',['../class_t_g_s_1_1_server_1_1_instance.html#ad2e5d772eaace27ad4d3d5fe5361282c',1,'TGS::Server::Instance']]],
-  ['gamedira',['GameDirA',['../class_t_g_s_1_1_server_1_1_instance.html#a11a5205e6f76361d9c6c283c733e7f95',1,'TGS::Server::Instance']]],
-  ['gamedirb',['GameDirB',['../class_t_g_s_1_1_server_1_1_instance.html#a363f31fbe2b0b7172d0288b694235b6c',1,'TGS::Server::Instance']]],
-  ['gamedirlive',['GameDirLive',['../class_t_g_s_1_1_server_1_1_instance.html#ab70169b31147444e4b4c1a2feba9b70e',1,'TGS::Server::Instance']]],
-  ['ghclient',['ghclient',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1aa281725822ceba3302c7fdb0de060e',1,'TGS::ControlPanel::ControlPanel']]]
+  ['handler',['handler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35',1,'Tgstation::Server::Host::Components::Chat::Commands::CustomCommand']]],
+  ['handlercts',['handlerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a5bafce0bc712b2631d88b9a87f074b9c',1,'Tgstation::Server::Host::Components::Chat::Chat']]],
+  ['head',['Head',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a40437fe926da0b9e03785da0199a8597',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
+  ['helptext',['HelpText',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_kek_command.html#afeb9ac3dc4a7e73136babeaa6a2d1782',1,'Tgstation.Server.Host.Components.Chat.Commands.KekCommand.HelpText()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#ad800f97aca131465993222123307bd59',1,'Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.HelpText()']]],
+  ['hostingenvironment',['hostingEnvironment',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a74ea7b1dceba49fc08fa7793e35c6d2e',1,'Tgstation::Server::Host::Core::Application']]],
+  ['hostingpath',['HostingPath',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#ad29339614a35eec8b957db120c859d24',1,'Tgstation::Server::Host::Core::Application']]]
 ];

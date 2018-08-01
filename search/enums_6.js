@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['pkilltype',['PKillType',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#a5ff9f14c4e0132d0a29c4cb95aad370a',1,'TGS::Installer::UI::Main']]]
+  ['monitoraction',['MonitorAction',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['monitoractivationreason',['MonitorActivationReason',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9',1,'Tgstation::Server::Host::Components::Watchdog']]]
 ];

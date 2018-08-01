@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['badcommand',['BadCommand',['../class_t_g_s_1_1_interface_1_1_command.html#ae21716f032d9a454736f4ef2f7e9590faa8a531d11db80cfc1fe739df02353193',1,'TGS::Interface::Command']]],
-  ['bridgedllupdated',['BridgeDLLUpdated',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a6b72095c13bae4ec9c8397ebaf390a87',1,'TGS::Server']]],
-  ['bridgedllupdatefail',['BridgeDLLUpdateFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a3cbc4d485a0f0dec176f75379f979226',1,'TGS::Server']]],
-  ['byondupdatecomplete',['BYONDUpdateComplete',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ace7efc1da3c4e2a8a2ac5ce22c2ad81d',1,'TGS::Server']]],
-  ['byondupdatefail',['BYONDUpdateFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311aa152096d72a4aefc3f81099b9d07086d',1,'TGS::Server']]],
-  ['byondupdatestaged',['BYONDUpdateStaged',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311abdf25bc6920808a89bd2d16fb4dc20d9',1,'TGS::Server']]]
+  ['break',['Break',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812ae4c38d6d45baf080943d323dd51a2ce8',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['byond',['Byond',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a323d2c71f7b2d9f4310c13c0c16ec94ba2f4b44b678b37bcd3239cd83e64d0eb0',1,'Tgstation::Server::Api::Rights']]],
+  ['byondchangecomplete',['ByondChangeComplete',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381ab59e38171b7de5f08e79ad7c4b8b67e2',1,'Tgstation::Server::Host::Components']]],
+  ['byondchangestart',['ByondChangeStart',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381a8eee33fb4d22679ea77c0e51fcd94059',1,'Tgstation::Server::Host::Components']]],
+  ['byondfail',['ByondFail',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381a138c9788d2e2957de757e51c66e3f172',1,'Tgstation::Server::Host::Components']]]
 ];

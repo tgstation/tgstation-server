@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['latest',['Latest',['../namespace_t_g_s_1_1_interface.html#a1385bc6e3ab604932c185fe8bd6ad008acd118d21c3b0b4762c6e0063661e6e45',1,'TGS::Interface']]]
+  ['offline',['Offline',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a358f54d77ecd35adb4be872af559eb23a8d9da4bc0e49a50e09ac9f7e56789d39',1,'Tgstation::Server::Api::Models']]],
+  ['online',['Online',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a358f54d77ecd35adb4be872af559eb23a54f664c70c22054ea0d8d26fc3997ce7',1,'Tgstation::Server::Api::Models']]]
 ];

@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['majorversionlabel',['MajorVersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a1f8e88989bb9fbdfcadc8c057d6c381a',1,'TGS::ControlPanel::ControlPanel']]],
-  ['majorversionnumeric',['MajorVersionNumeric',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a0e299e4dcec6f52f76dfbb153ef0c11c',1,'TGS::ControlPanel::ControlPanel']]],
-  ['management',['Management',['../class_t_g_s_1_1_interface_1_1_server.html#a9b352c0df779c0b54951c6e897d1053e',1,'TGS::Interface::Server']]],
-  ['masterinterfacename',['MasterInterfaceName',['../class_t_g_s_1_1_interface_1_1_definitions.html#ab65eb36f9a4b34fb9a1baba47454c3b7',1,'TGS::Interface::Definitions']]],
-  ['mergedpullserror',['MergedPullsError',['../class_t_g_s_1_1_control_panel_1_1_test_merge_manager.html#a87d52c62cb692a4b422b6b22c1a3031b',1,'TGS::ControlPanel::TestMergeManager']]],
-  ['mergeprbutton',['MergePRButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acee5119e735cf63e43115b899d61fd5a',1,'TGS::ControlPanel::ControlPanel']]],
-  ['metadata',['metadata',['../class_t_g_s_1_1_interface_1_1_instance.html#aab6b6706fe3b3771736bf14435a6d109',1,'TGS::Interface::Instance']]],
-  ['migrationconfigdirectory',['MigrationConfigDirectory',['../class_t_g_s_1_1_server_1_1_server.html#ad2024354f2377a559194c252eec1611c',1,'TGS::Server::Server']]],
-  ['minorversionlabel',['MinorVersionLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf8536d52f45df45f5cf64f48d3afc22',1,'TGS::ControlPanel::ControlPanel']]],
-  ['minorversionnumeric',['MinorVersionNumeric',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aba61afc9b784a3c7cd2d9eea3aacc7c4',1,'TGS::ControlPanel::ControlPanel']]]
+  ['name',['Name',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_kek_command.html#a310057ff5025763b3a208631f9f76daf',1,'Tgstation.Server.Host.Components.Chat.Commands.KekCommand.Name()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a5c8f4bdfbf9054761790392222009914',1,'Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.Name()'],['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a82a1c35bb13819cd1003592351251fc1',1,'Tgstation.Server.Host.Service.ServerService.Name()']]],
+  ['newerdmbtcs',['newerDmbTcs',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#a4c5eaf33143a48b309f093f4b5bd7963',1,'Tgstation::Server::Host::Components::Compiler::DmbFactory']]],
+  ['nextdmbprovider',['nextDmbProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#a26908afd23a086c22146b663c64d6526',1,'Tgstation::Server::Host::Components::Compiler::DmbFactory']]],
+  ['nextmessage',['nextMessage',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac27feec8aca499fa963dd6f6b557b818',1,'Tgstation::Server::Host::Components::Chat::Providers::Provider']]],
+  ['nextport',['nextPort',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#acef80d9c1b4b3cf124c4e4bea9618165',1,'Tgstation::Server::Host::Components::Watchdog::SessionController']]],
+  ['nickname',['nickname',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba',1,'Tgstation::Server::Host::Components::Chat::Providers::IrcProvider']]]
 ];

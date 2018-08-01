@@ -1,17 +1,15 @@
 var searchData=
 [
-  ['targetversionlabel',['TargetVersionLabel',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ade6c84f61726313b39ed6202b6048b71',1,'TGS::Installer::UI::Main']]],
-  ['tempdir',['tempDir',['../class_t_g_s_1_1_installer_1_1_u_i_1_1_main.html#ab6b87ba8fae7b84bc33ded501c96cd72',1,'TGS::Installer::UI::Main']]],
-  ['temppath',['TempPath',['../class_t_g_service_tests_1_1_temp_directory_required_test.html#ae4f1cdcc6c9a0b4b3b978f198d2ce08b',1,'TGServiceTests::TempDirectoryRequiredTest']]],
-  ['testinstancename',['TestInstanceName',['../class_t_g_s_1_1_interface_1_1_tests_1_1_test_interface.html#aa7c95a39e167a34f4012e8e675092964',1,'TGS::Interface::Tests::TestInterface']]],
-  ['testmergelistlabel',['TestMergeListLabel',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#adc60b6d168a54f9d3fee641185965ca6',1,'TGS::ControlPanel::ControlPanel']]],
-  ['testmergelisttitle',['TestMergeListTitle',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aa083ce064f4f661ef7dd4bbebb2eeb77',1,'TGS::ControlPanel::ControlPanel']]],
-  ['testmergemanagerbutton',['TestMergeManagerButton',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a31a0699f4737cae6c08a034eba9cf25c',1,'TGS::ControlPanel::ControlPanel']]],
-  ['testmergeselector',['TestmergeSelector',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a834895ffb4f07e2b2f315e0f50d89d9e',1,'TGS::ControlPanel::ControlPanel']]],
-  ['testpr',['TestPR',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a838ee70bd1b5c4b1e0c5fdbdd2a6e5b4',1,'TGS::ControlPanel::ControlPanel']]],
-  ['tgsjsonupdate',['TGSJsonUpdate',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#aa4ab727ff87986acc8d37d2d9e45aa48',1,'TGS::ControlPanel::ControlPanel']]],
-  ['thedroidswerelookingfor',['TheDroidsWereLookingFor',['../class_t_g_s_1_1_server_1_1_instance.html#a122dbae4ff3d9cae4370490c8c3f6627',1,'TGS::Server::Instance']]],
-  ['topiclock',['topicLock',['../class_t_g_s_1_1_server_1_1_instance.html#a935cbfa1c54a330b8afd2ff1a2709cca',1,'TGS::Server::Instance']]],
-  ['transferlimitlocal',['TransferLimitLocal',['../class_t_g_s_1_1_interface_1_1_definitions.html#a9cbf8326b94fc958f8a24e42bedfac13',1,'TGS::Interface::Definitions']]],
-  ['transferlimitremote',['TransferLimitRemote',['../class_t_g_s_1_1_interface_1_1_definitions.html#ae6060d0444a8adfddeb0ca1a9bc7c5de',1,'TGS::Interface::Definitions']]]
+  ['task',['task',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_handler.html#addccba3eae2415a1f1abd3b4195f5bb9',1,'Tgstation.Server.Host.Core.JobHandler.task()'],['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee',1,'Tgstation.Server.Host.Security.IdentityCacheObject.task()']]],
+  ['timeoutseconds',['TimeoutSeconds',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6b7d2a57ba6340f51694987653033677',1,'Tgstation::Server::Host::Components::Chat::Providers::IrcProvider']]],
+  ['timercts',['timerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aab6ba11c7820ee9de39771aabbecdfcb',1,'Tgstation::Server::Host::Components::Instance']]],
+  ['timertask',['timerTask',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#abf825c028f20cd903db1362892dbd833',1,'Tgstation::Server::Host::Components::Instance']]],
+  ['tokenaudience',['TokenAudience',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a6a774e2c4d70439af3a4c92464dcc125',1,'Tgstation::Server::Host::Security::TokenFactory']]],
+  ['tokenexpiryhours',['TokenExpiryHours',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a94cedd67e18aea2dd93e6938f3011300',1,'Tgstation::Server::Host::Security::TokenFactory']]],
+  ['tokenfactory',['tokenFactory',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afd05899e85f5a8a6b8c8e374364872f8',1,'Tgstation::Server::Host::Controllers::HomeController']]],
+  ['tokenissuer',['TokenIssuer',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#ac486bc344e33f50fe4c50510a86e97e9',1,'Tgstation::Server::Host::Security::TokenFactory']]],
+  ['tokensigningkey',['TokenSigningKey',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a448901c3fd27dd0dd1673ed7d647b665',1,'Tgstation::Server::Host::Security::TokenFactory']]],
+  ['tracking',['Tracking',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4a27a5627052f0463fd42c7d3fd569a6',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
+  ['trackingcontexts',['trackingContexts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a2b6985d081d60f264709544cd6055ccf',1,'Tgstation::Server::Host::Components::Chat::Chat']]],
+  ['typemap',['typeMap',['../class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a20c17012e5284a3b787315725fcd0a8f',1,'Tgstation::Server::Api::Rights::RightsHelper']]]
 ];

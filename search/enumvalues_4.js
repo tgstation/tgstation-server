@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['enumerated',['Enumerated',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf1586e54d2b750d2f2ecfdee208ad9da0416b63774d9876d28b528d592de8b57',1,'TGS::ControlPanel::ControlPanel']]],
-  ['error',['Error',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#acf1586e54d2b750d2f2ecfdee208ad9da902b0d55fddef6f8d651fe1035b7d4bd',1,'TGS::ControlPanel::ControlPanel']]]
+  ['editusers',['EditUsers',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a889150104b781a9307ef5e7dc07e7186a1573dabfc2b8ad3e4af6ed938babbdae',1,'Tgstation::Server::Api::Rights']]],
+  ['exit',['Exit',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812afef46e5063ce3dc78b8ae64fa474241d',1,'Tgstation::Server::Host::Components::Watchdog']]]
 ];

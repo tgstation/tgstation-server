@@ -1,30 +1,4 @@
 var searchData=
 [
-  ['referencepush',['ReferencePush',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a10580fd761f3f8596b0e692de1006c64',1,'TGS::Server']]],
-  ['repobackuptag',['RepoBackupTag',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a2c84fe924a93cdc8c93c5814860f43cd',1,'TGS::Server']]],
-  ['repobackuptagfail',['RepoBackupTagFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a1d282c620d3c0acee8b2e79166b6a2a9',1,'TGS::Server']]],
-  ['repochangelog',['RepoChangelog',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a83838594a10da144b9847b3d50f212eb',1,'TGS::Server']]],
-  ['repochangelogfail',['RepoChangelogFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311abbe769b830286583737e93988bf35d0c',1,'TGS::Server']]],
-  ['repocheckout',['RepoCheckout',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ab0586bbc30b26132d29bbc4a69bd0da2',1,'TGS::Server']]],
-  ['repocheckoutfail',['RepoCheckoutFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a3e7fdef7cd2f8760c94b08fd460a4e3e',1,'TGS::Server']]],
-  ['repoclone',['RepoClone',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311af41b526f4c996415e7f1a96aa438eebb',1,'TGS::Server']]],
-  ['repoclonefail',['RepoCloneFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311abf256e5b2da3064d49cd1119e7d119ad',1,'TGS::Server']]],
-  ['repocommit',['RepoCommit',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ab58f2d9e7a9a8327df627c7b9ca0cd17',1,'TGS::Server']]],
-  ['repocommitfail',['RepoCommitFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a45f65d8a4da92daf726d5cc0b725285f',1,'TGS::Server']]],
-  ['repoconfigurationfail',['RepoConfigurationFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a9ef4ff8c74b930618da17db233a73dc3',1,'TGS::Server']]],
-  ['repohardupdate',['RepoHardUpdate',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a8f3ed4fcb8a87b16eb10337daf8aa605',1,'TGS::Server']]],
-  ['repohardupdatefail',['RepoHardUpdateFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a75c8e42bd36002933df532339d5621d2',1,'TGS::Server']]],
-  ['repomergeupdate',['RepoMergeUpdate',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a89841b65d854de2d153daf86ddedcb93',1,'TGS::Server']]],
-  ['repomergeupdatefail',['RepoMergeUpdateFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311aba8dbae2b3fa86dfba1945ff1ec378e3',1,'TGS::Server']]],
-  ['repoprlisterror',['RepoPRListError',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a1f23823e99b494c53dec1c35c9defe71',1,'TGS::Server']]],
-  ['repoprmerge',['RepoPRMerge',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311ace859e9bd100f3b11d71467f7eba8c92',1,'TGS::Server']]],
-  ['repoprmergefail',['RepoPRMergeFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311acb99520f0e6b927d2ea8c30684f39ef7',1,'TGS::Server']]],
-  ['repopush',['RepoPush',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a3f384ae2be61adee14d80330bf71c152',1,'TGS::Server']]],
-  ['repopushfail',['RepoPushFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a6aec436781feca0b2c57aa4d1c7337a6',1,'TGS::Server']]],
-  ['reporeset',['RepoReset',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a86fd1245b637d237dbb753d97e26b439',1,'TGS::Server']]],
-  ['reporesetfail',['RepoResetFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a50d9d6cd01d34fef1f275bec8a6f15da',1,'TGS::Server']]],
-  ['reporesettracked',['RepoResetTracked',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a2f53c569d343db7849491cc6d6530126',1,'TGS::Server']]],
-  ['reporesettrackedfail',['RepoResetTrackedFail',['../namespace_t_g_s_1_1_server.html#a4682739b9567dc9e4e5c327c253ce311a7085fb7cd4f9d8aff5f7261ee21fe3d0',1,'TGS::Server']]],
-  ['requested',['Requested',['../class_t_g_s_1_1_server_1_1_instance.html#a24619e3847ca6f303773c3c667a0c644afcdf8a82eba24e303b63b2e49a507ecb',1,'TGS::Server::Instance']]],
-  ['reset',['Reset',['../class_t_g_s_1_1_control_panel_1_1_control_panel.html#a41728b05c20c5f540d0d356f379436ffa526d688f37a86d3c3f27d0c5016eb71d',1,'TGS::ControlPanel::ControlPanel']]]
+  ['verifying',['Verifying',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2850efe9d731be9de98b56a284980698a5c02116895314194cd3ba79c0eb2cec4',1,'Tgstation::Server::Api::Models']]]
 ];

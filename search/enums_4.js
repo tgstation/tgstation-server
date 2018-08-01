@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ircmode',['IRCMode',['../namespace_t_g_s_1_1_interface.html#a9fe0194a21bc57adc211b9f4cf0d1f8d',1,'TGS::Interface']]]
+  ['eventtype',['EventType',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381',1,'Tgstation::Server::Host::Components']]]
 ];
