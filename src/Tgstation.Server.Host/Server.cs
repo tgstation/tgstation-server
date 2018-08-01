@@ -11,8 +11,11 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host
 {
 	/// <inheritdoc />
-	sealed class Server : IServer, IServerUpdater
+	sealed class Server : IServer, IServerControl
 	{
+		/// <inheritdoc />
+		public bool RestartRequested { get; private set; }
+
 		/// <summary>
 		/// The <see cref="IWebHostBuilder"/> for the <see cref="Server"/>
 		/// </summary>
@@ -32,7 +35,7 @@ namespace Tgstation.Server.Host
 		/// If a server update has been applied
 		/// </summary>
 		bool updated;
-
+		
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>
 		/// </summary>
@@ -50,6 +53,7 @@ namespace Tgstation.Server.Host
 
 			semaphore = new SemaphoreSlim(1);
 			updated = false;
+			RestartRequested = false;
 		}
 
 		/// <inheritdoc />
@@ -66,14 +70,14 @@ namespace Tgstation.Server.Host
 				{
 					fsWatcher.Created += (a, b) =>
 					{
-						if (b.Name == updatePath && File.Exists(b.FullPath))
+						if (b.FullPath == updatePath && File.Exists(b.FullPath))
 							cancellationTokenSource.Cancel();
 					};
 					fsWatcher.EnableRaisingEvents = true;
 				}
 				using (var webHost = webHostBuilder
 					.UseStartup<Application>()
-					.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdater>(this))
+					.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerControl>(this))
 					.Build()
 				)
 					await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
@@ -111,19 +115,28 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public void RegisterForUpdate(Action action)
+		public void RegisterForRestart(Action action)
 		{
+			if (action == null)
+				throw new ArgumentNullException(nameof(action));
 			if (cancellationTokenSource == null)
 				throw new InvalidOperationException("Tried to register an update action on a non-running Server!");
-			cancellationTokenSource.Token.Register(action);
+			cancellationTokenSource.Token.Register(() => {
+				if (RestartRequested)
+					action();
+				});
 		}
 
 		/// <inheritdoc />
-		public void Restart()
+		public bool Restart()
 		{
+			if (updatePath == null)
+				return false;
 			if (cancellationTokenSource == null)
 				throw new InvalidOperationException("Tried to restart a non-running Server!");
+			RestartRequested = true;
 			cancellationTokenSource.Cancel();
+			return true;
 		}
 	}
 }

@@ -43,9 +43,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IServerUpdater"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IServerControl"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly IServerUpdater serverUpdater;
+		readonly IServerControl serverUpdater;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="InstanceFactory"/>
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="scriptExecutor">The value of <see cref="scriptExecutor"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerUpdater serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IScriptExecutor scriptExecutor)
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IScriptExecutor scriptExecutor)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));

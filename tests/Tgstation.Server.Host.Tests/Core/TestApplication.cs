@@ -11,13 +11,13 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Core.Tests
 {
 	[TestClass]
-	public sealed class TestApplication : IServerUpdater
+	public sealed class TestApplication : IServerControl
 	{
 		public Task<bool> ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken) => throw new NotImplementedException();
 
-		public void RegisterForUpdate(Action action) => throw new NotImplementedException();
+		public void RegisterForRestart(Action action) => throw new NotImplementedException();
 
-		public void Restart() => throw new NotImplementedException();
+		public bool Restart() => throw new NotImplementedException();
 
 		[TestMethod]
 		public async Task TestSuccessfulStartup()
@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			{
 				using (var webHost = WebHost.CreateDefaultBuilder(new string[] { "Database:DatabaseType=Sqlite", "Database:ConnectionString=Data Source=" + dbName }) //force it to use sqlite
 					.UseStartup<Application>()
-					.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerUpdater>(this))
+					.ConfigureServices((serviceCollection) => serviceCollection.AddSingleton<IServerControl>(this))
 					.Build()
 				)
 				{

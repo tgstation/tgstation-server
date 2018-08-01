@@ -39,13 +39,21 @@ namespace Tgstation.Server.Host.Console
 				}
 				using (var cts = new CancellationTokenSource())
 				{
-					AppDomain.CurrentDomain.ProcessExit += (a, b) => cts.Cancel();
-					System.Console.CancelKeyPress += (a, b) =>
+					void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
+					AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
+					try
 					{
-						b.Cancel = true;
-						cts.Cancel();
-					};
-					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(arguments.ToArray(), cts.Token).ConfigureAwait(false);
+						System.Console.CancelKeyPress += (a, b) =>
+						{
+							b.Cancel = true;
+							cts.Cancel();
+						};
+						await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(arguments.ToArray(), cts.Token).ConfigureAwait(false);
+					}
+					finally
+					{
+						AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
+					}
 				}
 			}
 		}

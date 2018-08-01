@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		/// <param name="serverUpdater">The <see cref="IServerUpdater"/> for the <see cref="Watchdog"/></param>
+		/// <param name="serverUpdater">The <see cref="IServerControl"/> for the <see cref="Watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerUpdater serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerControl serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -156,7 +156,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (serverUpdater == null)
 				throw new ArgumentNullException(nameof(serverUpdater));
 
-			serverUpdater.RegisterForUpdate(() => releaseServers = true);
+			serverUpdater.RegisterForRestart(() => releaseServers = true);
 
 			chat.RegisterCommandHandler(this);
 

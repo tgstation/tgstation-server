@@ -114,8 +114,9 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			//alias for stopping DD
 			var instance = instanceManager.GetInstance(Instance);

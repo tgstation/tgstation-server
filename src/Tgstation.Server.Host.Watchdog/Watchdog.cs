@@ -39,9 +39,10 @@ namespace Tgstation.Server.Host.Watchdog
 
 			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
 			var paths = enviromentPath.Split(';');
+			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
 			var exeName = "dotnet";
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			if (isWindows)
 				exeName += ".exe";
 
 			var dotnetPath = paths.Select(x => Path.Combine(x, exeName))
@@ -57,13 +58,26 @@ namespace Tgstation.Server.Host.Watchdog
 
 			var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
+			var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
+			var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 #if DEBUG
-			rootLocation = Path.GetFullPath("../../../../Tgstation.Server.Host.Watchdog/bin/Debug/netstandard2.0");
+			//just copy the shit where it belongs
+			Directory.Delete(assemblyStoragePath, true);
+			Directory.CreateDirectory(defaultAssemblyPath);
+
+			var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.0";
+			foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+				Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+			
+			foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+				File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+
+			const string AppSettingsJson = "appsettings.json";
+			var rootJson = Path.Combine(rootLocation, AppSettingsJson);
+			File.Delete(rootJson);
+			File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
 #endif
 
-			var assemblyStoragePath = Path.Combine(rootLocation, "lib");	//always always next to watchdog
-
-			var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 			var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 			var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
 
@@ -86,6 +100,7 @@ namespace Tgstation.Server.Host.Watchdog
 					using (logger.BeginScope("Host invocation"))
 					{
 						updateDirectory = Path.GetFullPath(Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString()));
+						logger.LogInformation("Update path set to {0}", updateDirectory);
 						using (var process = new Process())
 						{
 							process.StartInfo.FileName = dotnetPath;
@@ -96,6 +111,8 @@ namespace Tgstation.Server.Host.Watchdog
 								'"' + assemblyPath + '"',
 								updateDirectory
 							};
+							if (Debugger.IsAttached)
+								arguments.Add("--attach-debugger");
 							arguments.AddRange(args);
 
 							process.StartInfo.Arguments = String.Join(" ", arguments);
@@ -108,13 +125,16 @@ namespace Tgstation.Server.Host.Watchdog
 								tcs.TrySetResult(null);
 							};
 							process.EnableRaisingEvents = true;
-							
+
 							logger.LogInformation("Launching host...");
 
 							var iShotTheSheriff = false;
 							try
 							{
 								process.Start();
+
+								using (var processCts = new CancellationTokenSource())
+								using (processCts.Token.Register(() => tcs.TrySetResult(null)))
 								using (cancellationToken.Register(() =>
 								{
 									if (!Directory.Exists(updateDirectory))
@@ -127,8 +147,11 @@ namespace Tgstation.Server.Host.Watchdog
 
 									logger.LogInformation("Will force close host process if it doesn't exit in 10 seconds...");
 
-									Thread.Sleep(TimeSpan.FromSeconds(10)); //things get weird if we use tasks or other stuff
-									tcs.TrySetResult(null);
+									try
+									{
+										processCts.CancelAfter(TimeSpan.FromSeconds(10));
+									}
+									catch (ObjectDisposedException) { } //race conditions
 								}))
 									await tcs.Task.ConfigureAwait(false);
 							}
@@ -151,10 +174,15 @@ namespace Tgstation.Server.Host.Watchdog
 							switch (process.ExitCode)
 							{
 								case 0:
-									//just a restart
-									logger.LogInformation("Watchdog will restart host...");
-									break;
+									return;
 								case 1:
+									if (!cancellationToken.IsCancellationRequested)
+										//just a restart
+										logger.LogInformation("Watchdog will restart host...");
+									else
+										logger.LogWarning("Host requested restart but watchdog shutdown is in progress!");
+									break;
+								case 2:
 									//update path is now an exception document
 									logger.LogCritical("Host crashed, propagating exception dump...");
 									var data = File.ReadAllText(updateDirectory);
@@ -177,29 +205,46 @@ namespace Tgstation.Server.Host.Watchdog
 							}
 						}
 
+						//HEY YOU
+						//BE WARNED THAT IF YOU DEBUGGED THE HOST PROCESS THAT JUST LAUNCHED THE DEBUGGER WILL HOLD A LOCK ON THE DIRECTORY
+						//THIS MEANS THE FIRST DIRECTORY.MOVE WILL THROW
 						if (Directory.Exists(updateDirectory))
 						{
+							logger.LogInformation("Applying server update...");
+							if (isWindows)
+							{
+								//windows dick sucking resource unlocking
+								GC.Collect();
+								await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+							}
 							var tempPath = Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString());
-							Directory.Move(defaultAssemblyPath, tempPath);
 							try
 							{
-								Directory.Move(updateDirectory, defaultAssemblyPath);
-								logger.LogInformation("Server update complete, deleting old server...");
+								Directory.Move(defaultAssemblyPath, tempPath);
 								try
 								{
-									Directory.Delete(tempPath, true);
+									Directory.Move(updateDirectory, defaultAssemblyPath);
+									logger.LogInformation("Server update complete, deleting old server...");
+									try
+									{
+										Directory.Delete(tempPath, true);
+									}
+									catch (Exception e)
+									{
+										logger.LogWarning("Error deleting old server at {0}! Exception: {1}", tempPath, e);
+									}
 								}
 								catch (Exception e)
 								{
-									logger.LogWarning("Error deleting old server at {0}! Exception: {1}", tempPath, e);
+									logger.LogError("Error moving updated server directory, attempting revert! Exception: {0}", e);
+									Directory.Delete(defaultAssemblyPath, true);
+									Directory.Move(tempPath, defaultAssemblyPath);
+									logger.LogInformation("Revert successful!");
 								}
 							}
-							catch (Exception e)
+							catch(Exception e)
 							{
-								logger.LogError("Error moving updated server directory, attempting revert! Exception: {0}", e);
-								Directory.Delete(defaultAssemblyPath, true);
-								Directory.Move(tempPath, defaultAssemblyPath);
-								logger.LogInformation("Revert successful!");
+								logger.LogWarning("Failed to move out active host assembly! Exception: {0}", e);
 							}
 						}
 					}
@@ -216,7 +261,10 @@ namespace Tgstation.Server.Host.Watchdog
 			{
 				logger.LogCritical("Watchdog error! Exception: {0}", e);
 			}
-			logger.LogInformation("Host watchdog exiting...");
+			finally
+			{
+				logger.LogInformation("Host watchdog exiting...");
+			}
 		}
 	}
 }

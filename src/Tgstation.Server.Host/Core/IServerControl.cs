@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Represents a service that may take an updated <see cref="Host"/> assembly and run it, stopping the current assembly in the process
 	/// </summary>
-    public interface IServerUpdater
+    public interface IServerControl
     {
 		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s
@@ -20,14 +20,15 @@ namespace Tgstation.Server.Host.Core
 		Task<bool> ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Register a given <paramref name="action"/> to run before stopping the server for updates
+		/// Register a given <paramref name="action"/> to run before stopping the server for a restart
 		/// </summary>
 		/// <param name="action">The <see cref="Action"/> to run</param>
-		void RegisterForUpdate(Action action);
+		void RegisterForRestart(Action action);
 
 		/// <summary>
 		/// Restarts the <see cref="Host"/>
 		/// </summary>
-		void Restart();
+		/// <returns><see langword="true"/> if live restarts are supported, <see langword="false"/> otherwise</returns>
+		bool Restart();
     }
 }

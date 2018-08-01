@@ -10,6 +10,11 @@ namespace Tgstation.Server.Host
 	public interface IServer : IDisposable
 	{
 		/// <summary>
+		/// If the <see cref="IServer"/> should restart
+		/// </summary>
+		bool RestartRequested { get; }
+
+		/// <summary>
 		/// Runs the <see cref="IServer"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

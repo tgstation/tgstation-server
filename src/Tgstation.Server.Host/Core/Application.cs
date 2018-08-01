@@ -232,10 +232,15 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <see cref="Application"/>
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
-		public void Configure(IApplicationBuilder applicationBuilder)
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Application"/></param>
+		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
+
+			logger.LogInformation(VersionString);
 
 			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 

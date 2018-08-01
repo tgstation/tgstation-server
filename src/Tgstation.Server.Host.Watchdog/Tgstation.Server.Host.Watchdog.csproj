@@ -26,13 +26,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-	
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo 'Publishing host to watchdog target path for configuration $(ConfigurationName)'&#xD;&#xA;dotnet publish $(ProjectDir)../Tgstation.Server.Host/Tgstation.Server.Host.csproj -c $(ConfigurationName) -o $(TargetDir)lib/Default" />
-  </Target>
-	
-  <Target Name="AfterPublishDeploy" AfterTargets="Publish">
-    <Exec Command="echo 'Publishing host to watchdog publish dir for configuration $(ConfigurationName)'&#xD;&#xA;dotnet publish $(ProjectDir)../Tgstation.Server.Host/Tgstation.Server.Host.csproj -c $(ConfigurationName) -o $(PublishDir)lib/Default" />
-	</Target>
-
 </Project>

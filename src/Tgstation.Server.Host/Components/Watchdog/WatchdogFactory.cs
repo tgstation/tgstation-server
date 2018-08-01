@@ -22,9 +22,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ISessionControllerFactory sessionControllerFactory;
 
 		/// <summary>
-		/// The <see cref="IServerUpdater"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
-		readonly IServerUpdater serverUpdater;
+		readonly IServerControl serverUpdater;
 
 		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
-		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionControllerFactory, IServerUpdater serverUpdater, ILoggerFactory loggerFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, Api.Models.Instance instance)
+		public WatchdogFactory(IChat chat, ISessionControllerFactory sessionControllerFactory, IServerControl serverUpdater, ILoggerFactory loggerFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, Api.Models.Instance instance)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
