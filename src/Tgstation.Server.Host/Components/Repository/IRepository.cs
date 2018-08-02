@@ -82,6 +82,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		Task ResetToOrigin(CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Requires the current HEAD to be a reference. Hard resets the reference to the given sha
+		/// </summary>
+		/// <param name="sha">The sha hash to reset to</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD</returns>
+		Task ResetToSha(string sha, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository
 		/// </summary>
 		/// <param name="committerName">The name of the merge committer</param>

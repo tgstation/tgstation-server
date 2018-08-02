@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
-			Logger.LogInformation("Request made by User ID {0}. Api version: {1}. User-Agent: {2}", AuthenticationContext.User?.Id.ToString(CultureInfo.InvariantCulture) ?? "NULL", ApiHeaders.ApiVersion, ApiHeaders.UserAgent);
+			Logger.LogInformation("Request made by User ID {0}. Api version: {1}. User-Agent: {2}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture) ?? "NULL", ApiHeaders.ApiVersion, ApiHeaders.UserAgent);
 			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
 	}

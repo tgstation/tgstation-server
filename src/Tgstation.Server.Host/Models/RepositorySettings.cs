@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
@@ -22,6 +23,12 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
+		/// <summary>
+		/// Generates a <see cref="Components.Repository.IRepository"/> access <see cref="string"/>
+		/// </summary>
+		/// <returns>The access <see cref="string"/> for the <see cref="RepositorySettings"/></returns>
+		public string GetAccessString() => AccessUser != null ? String.Concat(AccessUser, '@', AccessToken) : null;
+
 		/// <inheritdoc />
 		public Repository ToApi() => new Repository {
 			//AccessToken = AccessToken,	//never show this
@@ -30,10 +37,9 @@ namespace Tgstation.Server.Host.Models
 			AutoUpdatesSynchronize = AutoUpdatesSynchronize,
 			CommitterEmail = CommitterEmail,
 			CommitterName = CommitterName,
-			//intentionally don't populate origin just in case
 			PushTestMergeCommits = PushTestMergeCommits,
-			//revision information and the rest retrieved by controller
 			ShowTestMergeCommitters = ShowTestMergeCommitters
+			//revision information and the rest retrieved by controller
 		};
 	}
 }

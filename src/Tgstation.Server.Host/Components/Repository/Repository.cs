@@ -200,6 +200,8 @@ namespace Tgstation.Server.Host.Components.Repository
 					cancellationToken.ThrowIfCancellationRequested();
 				}
 
+				//TODO: Push test merge commits
+
 				repository.RemoveUntrackedFiles();
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
@@ -291,16 +293,16 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new InvalidOperationException("Cannot reset to origin while not on a tracked reference!");
 			var trackedBranch = repository.Head.TrackedBranch;
 			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
-			await Task.Factory.StartNew(() =>
-			{
-				Commands.Checkout((LibGit2Sharp.Repository)repository, repository.Head.TrackedBranch, new CheckoutOptions
-				{
-					CheckoutModifiers = CheckoutModifiers.Force
-				});
-				cancellationToken.ThrowIfCancellationRequested();
-				repository.RemoveUntrackedFiles();
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			await ResetToSha(trackedBranch.Tip.Sha, cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public Task ResetToSha(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			repository.Reset(ResetMode.Hard, sha);
+			cancellationToken.ThrowIfCancellationRequested();
+			repository.RemoveUntrackedFiles();
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task CopyTo(string path, CancellationToken cancellationToken)

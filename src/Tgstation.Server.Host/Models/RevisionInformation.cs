@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Tgstation.Server.Host.Models
@@ -14,6 +15,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.Instance"/> the <see cref="RevisionInformation"/> belongs to
 		/// </summary>
+		[Required]
 		public Instance Instance { get; set; }
 
 		/// <summary>
