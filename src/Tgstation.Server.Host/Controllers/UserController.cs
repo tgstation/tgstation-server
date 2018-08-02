@@ -122,15 +122,20 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(AdministrationRights.EditUsers | AdministrationRights.EditPassword)]
 		public override async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var originalUser = await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var passwordEditOnly = !AuthenticationContext.User.AdministrationRights.Value.HasFlag(AdministrationRights.EditUsers);
+
+			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == default)
 				return StatusCode((int)HttpStatusCode.Gone);
+			
+			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.SystemIdentifier != null || model.Name != null))
+				return Forbid();
 
 			if (model.Password != null)
 			{

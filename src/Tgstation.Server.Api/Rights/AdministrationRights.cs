@@ -23,6 +23,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Administration.CurrentVersion"/>
 		/// </summary>
-		ChangeVersion = 4
+		ChangeVersion = 4,
+		/// <summary>
+		/// User can change their password
+		/// </summary>
+		EditPassword = 8,
 	}
 }
