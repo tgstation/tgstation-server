@@ -151,19 +151,26 @@ namespace Tgstation.Server.Host.Components
 						}
 						if (repo == null)
 							continue;
-
-						var accessString = repositorySettings.GetAccessString();
-						await repo.FetchOrigin(accessString, null, cancellationToken).ConfigureAwait(false);
+						
+						await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, null, cancellationToken).ConfigureAwait(false);
 
 						var startSha = repo.Head;
+						bool shouldSyncTracked;
 						if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
-							if (!(await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, cancellationToken).ConfigureAwait(false)).HasValue)
+						{
+							var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, cancellationToken).ConfigureAwait(false);
+							if (!result.HasValue)
 								continue;
-							else
-								await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+							shouldSyncTracked = result.Value;
+						}
+						else
+						{
+							await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+							shouldSyncTracked = true;
+						}
 
 						if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-							await repo.Sychronize(accessString, cancellationToken).ConfigureAwait(false);
+							await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
 
 						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}

@@ -22,15 +22,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
-
-		/// <summary>
-		/// Generates a <see cref="Components.Repository.IRepository"/> access <see cref="string"/>
-		/// </summary>
-		/// <returns>The access <see cref="string"/> for the <see cref="RepositorySettings"/></returns>
-		public string GetAccessString() => AccessUser != null ? String.Concat(AccessUser, '@', AccessToken) : null;
-
+		
 		/// <inheritdoc />
-		public Repository ToApi() => new Repository {
+		public Repository ToApi() => new Repository
+		{
 			//AccessToken = AccessToken,	//never show this
 			AccessUser = AccessUser,
 			AutoUpdatesKeepTestMerges = AutoUpdatesKeepTestMerges,

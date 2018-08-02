@@ -106,24 +106,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			repository.Dispose();
 			onDispose.Invoke();
 		}
-		/// <summary>
-		/// Convert <paramref name="url"/> to an "https://<paramref name="accessString"/>@{url} equivalent
-		/// </summary>
-		/// <param name="url">The URL to convert</param>
-		/// <param name="accessString">The <see cref="string"/> containing authentication info for the remote repository</param>
-		/// <returns>An authenticated URL for accessing the remote repository</returns>
-		public static string GenerateAuthUrl(string url, string accessString)
-		{
-			if (url == null)
-				throw new ArgumentNullException(nameof(url));
-			if (String.IsNullOrWhiteSpace(accessString))
-				return url;
-			const string HttProtocolSecure = "HTTPS://";
-			if (!url.ToUpperInvariant().StartsWith(HttProtocolSecure, StringComparison.InvariantCulture))
-				throw new InvalidOperationException("Cannot use access string without HTTPS remote!");
-			//ONLY support https urls
-			return url.ToUpperInvariant().Replace(HttProtocolSecure, String.Concat(HttProtocolSecure, accessString, '@'), StringComparison.Ordinal);
-		}
 
 		/// <summary>
 		/// Runs a blocking force checkout to <paramref name="committish"/>
@@ -139,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<bool?> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<bool?> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitMessage, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 
 			if (!IsGitHubRepository)
@@ -154,12 +136,13 @@ namespace Tgstation.Server.Host.Components.Repository
 			var originalCommit = repository.Head;
 
 			MergeResult result = null;
+
+			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now);
 			await Task.Factory.StartNew(() =>
 			{
-				var remote = repository.Network.Remotes.Add("temp_pr_fetch", GenerateAuthUrl(Origin, accessString));
 				try
 				{
-					cancellationToken.ThrowIfCancellationRequested();
+					var remote = repository.Network.Remotes.First();
 					Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, Refspec, new FetchOptions
 					{
 						Prune = true,
@@ -170,23 +153,24 @@ namespace Tgstation.Server.Host.Components.Repository
 							progressReporter?.Invoke((int)percentage);
 							return !cancellationToken.IsCancellationRequested;
 						},
-						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
+						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+						CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
+						{
+							Username = username,
+							Password = password
+						} : new DefaultCredentials()
 					}, logMessage);
 				}
-				catch (UserCancelledException) { }
-				finally
+				catch (UserCancelledException)
 				{
-					repository.Network.Remotes.Remove(remote.Name);
-					//commit is there and we never gc so
-					repository.Branches.Remove(localBranchName);
-					repository.Branches.Remove(prBranchName);
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 
 				cancellationToken.ThrowIfCancellationRequested();
 
-				result = repository.Merge(targetCommit, new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now), new MergeOptions
+				result = repository.Merge(targetCommit, sig, new MergeOptions
 				{
-					CommitOnSuccess = true,
+					CommitOnSuccess = commitMessage == null,
 					FailOnConflict = true,
 					FastForwardStrategy = FastForwardStrategy.NoFastForward,
 					SkipReuc = true
@@ -200,8 +184,6 @@ namespace Tgstation.Server.Host.Components.Repository
 					cancellationToken.ThrowIfCancellationRequested();
 				}
 
-				//TODO: Push test merge commits
-
 				repository.RemoveUntrackedFiles();
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
@@ -210,6 +192,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, targetCommit, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
 				return false;
 			}
+
+			if (commitMessage != null)
+				repository.Commit(commitMessage, sig, sig, new CommitOptions
+				{
+					PrettifyMessage = true
+				});
 
 			return true;
 		}
@@ -224,7 +212,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task FetchOrigin(string accessString, Action<int> progressReporter, CancellationToken cancellationToken) => Task.WhenAll(
+		public Task FetchOrigin(string username, string password, Action<int> progressReporter, CancellationToken cancellationToken) => Task.WhenAll(
 			eventConsumer.HandleEvent(EventType.RepoFetch, Array.Empty<string>(), cancellationToken),
 			Task.Factory.StartNew(() =>
 			{
@@ -241,7 +229,12 @@ namespace Tgstation.Server.Host.Components.Repository
 							progressReporter?.Invoke((int)percentage);
 							return !cancellationToken.IsCancellationRequested;
 						},
-						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested
+						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+						CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
+						{
+							Username = username,
+							Password = password
+						} : new DefaultCredentials()
 					}, "Fetch origin commits");
 				}
 				catch (UserCancelledException)
@@ -250,34 +243,37 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current));
 
-		/// <inheritdoc />
-		public Task PushHeadToTemporaryBranch(string accessString, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		/// <summary>
+		/// Force push the current repository HEAD to <see cref="Repository.RemoteTemporaryBranchName"/>;
+		/// </summary>
+		/// <param name="username">The username to fetch from the origin repository</param>
+		/// <param name="password">The password to fetch from the origin repository</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task PushHeadToTemporaryBranch(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			var branch = repository.CreateBranch(RemoteTemporaryBranchName);
 			try
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var remote = repository.Network.Remotes.Add("temp_push", GenerateAuthUrl(Origin, accessString));
+				var remote = repository.Network.Remotes.First();
 				try
 				{
-					cancellationToken.ThrowIfCancellationRequested();
-					try
+					repository.Network.Push(remote, String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName), new PushOptions
 					{
-						repository.Network.Push(remote, String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName), new PushOptions
+						OnPackBuilderProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
+						OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
+						OnPushTransferProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
+						CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
 						{
-							OnPackBuilderProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
-							OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
-							OnPushTransferProgress = (a, b, c) => !cancellationToken.IsCancellationRequested
-						});
-					}
-					catch (UserCancelledException)
-					{
-						cancellationToken.ThrowIfCancellationRequested();
-					}
+							Username = username,
+							Password = password
+						} : new DefaultCredentials()
+					});
 				}
-				finally
+				catch (UserCancelledException)
 				{
-					repository.Network.Remotes.Remove(remote.Name);
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 			}
 			finally
@@ -355,12 +351,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task Sychronize(string accessString, CancellationToken cancellationToken)
+		public async Task Sychronize(string username, string password, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
 		{
 			var startHead = Head;
 
 			if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
 				return;
+
+			if (!synchronizeTrackedBranch)
+			{
+				await PushHeadToTemporaryBranch(username, password, cancellationToken).ConfigureAwait(false);
+				return;
+			}
 
 			if (Head == startHead || !repository.Head.IsTracking)
 				return;
@@ -368,27 +370,24 @@ namespace Tgstation.Server.Host.Components.Repository
 			await Task.Factory.StartNew(() =>
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var remote = repository.Network.Remotes.Add("temp_push", GenerateAuthUrl(Origin, accessString));
+				var remote = repository.Network.Remotes.First();
 				try
 				{
-					cancellationToken.ThrowIfCancellationRequested();
-					try
+					repository.Network.Push(repository.Head, new PushOptions
 					{
-						repository.Network.Push(repository.Head, new PushOptions
+						OnPackBuilderProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
+						OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
+						OnPushTransferProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
+						CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
 						{
-							OnPackBuilderProgress = (a, b, c) => !cancellationToken.IsCancellationRequested,
-							OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
-							OnPushTransferProgress = (a, b, c) => !cancellationToken.IsCancellationRequested
-						});
-					}
-					catch (UserCancelledException)
-					{
-						cancellationToken.ThrowIfCancellationRequested();
-					}
+							Username = username,
+							Password = password
+						} : new DefaultCredentials()
+					});
 				}
-				finally
+				catch (UserCancelledException)
 				{
-					repository.Network.Remotes.Remove(remote.Name);
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 		}

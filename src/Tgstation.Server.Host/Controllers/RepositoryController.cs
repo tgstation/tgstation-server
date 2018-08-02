@@ -155,7 +155,7 @@ namespace Tgstation.Server.Host.Controllers
 				var api = currentModel.ToApi();
 				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
 				{
-					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.GetAccessString(), progressReporter, cancellationToken).ConfigureAwait(false))
+					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, cancellationToken).ConfigureAwait(false))
 					{
 						if (repos == null)
 							throw new Exception("Filesystem conflict while cloning repository!");
@@ -279,8 +279,15 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
-			//no, just one save changes at the end for sanity
-			//await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			if (currentModel.AccessToken.Length == 0 || currentModel.AccessUser.Length == 0)
+			{
+				//setting an empty string clears everything
+				currentModel.AccessUser = null;
+				currentModel.AccessToken = null;
+			}
+
+			//this is just db stuf so stow it away
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			var job = new Models.Job
 			{
@@ -307,7 +314,6 @@ namespace Tgstation.Server.Host.Controllers
 						throw new InvalidOperationException("Cannot test merge on a non GitHub based repository!");
 
 					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
-					var accessString = currentModel.GetAccessString();
 
 					var numFetches = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0);
 					var doneFetches = 0;
@@ -341,7 +347,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							if (!repo.Tracking && model.Reference == null)
 								throw new InvalidOperationException("Not on an updatable reference!");
-							await repo.FetchOrigin(accessString, x => progressReporter(x / numFetches), cancellationToken).ConfigureAwait(false);
+							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, x => progressReporter(x / numFetches), cancellationToken).ConfigureAwait(false);
 							doneFetches = 1;
 							if (!modelHasShaOrReference)
 							{
@@ -353,7 +359,7 @@ namespace Tgstation.Server.Host.Controllers
 									lastRevisionInfo.OriginCommitSha = repo.Head;
 							}
 						}
-
+						
 						//checkout/hard reset
 						if (modelHasShaOrReference)
 						{
@@ -369,6 +375,7 @@ namespace Tgstation.Server.Host.Controllers
 								if (!repo.Tracking)
 									throw new InvalidOperationException("Checked out reference does not track a remote object!");
 								await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, cancellationToken).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, cancellationToken).ConfigureAwait(false);
 								//repo head is on origin so force this
 								//will update the db if necessary
@@ -379,7 +386,6 @@ namespace Tgstation.Server.Host.Controllers
 						//test merging
 						if (newTestMerges)
 						{
-
 							var contextUser = new Models.User
 							{
 								Id = AuthenticationContext.User.Id
@@ -390,22 +396,11 @@ namespace Tgstation.Server.Host.Controllers
 							var repoName = repo.GitHubRepoName;
 							foreach (var I in model.NewTestMerges)
 							{
-								var prTask = gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number);
-
-								var mergeResult = await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, accessString, x => progressReporter((x + 100 * doneFetches) / numFetches), cancellationToken).ConfigureAwait(false);
-
-								if (!mergeResult.HasValue)	//conflict, we don't care, dd already knows
-									continue;
-
-								++doneFetches;
-
-								var revInfoUpdateTask = UpdateRevInfo();
-
 								Octokit.PullRequest pr = null;
 								string errorMessage = null;
 								try
 								{
-									pr = await prTask.ConfigureAwait(false);
+									pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
 								}
 								catch (Octokit.RateLimitExceededException)
 								{
@@ -417,6 +412,15 @@ namespace Tgstation.Server.Host.Controllers
 									//you look at your shithub access and sigh
 									errorMessage = "P.R.E. NOT FOUND";
 								}
+
+								var mergeResult = await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", I.Number, I.Comment != null ? Environment.NewLine : null, I.Comment), currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), cancellationToken).ConfigureAwait(false);
+
+								if (!mergeResult.HasValue)	//conflict, we don't care, dd already knows
+									continue;
+
+								++doneFetches;
+
+								var revInfoUpdateTask = UpdateRevInfo();
 
 								var tm = new Models.TestMerge
 								{
@@ -443,7 +447,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						if (startSha != repo.Head)
 						{
-							await repo.Sychronize(accessString, ct).ConfigureAwait(false);
+							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
 						}
 						await databaseContext.Save(cancellationToken).ConfigureAwait(false);

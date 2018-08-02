@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string accessString, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							string path = null;
 							try
 							{
-								path = LibGit2Sharp.Repository.Clone(Repository.GenerateAuthUrl(url.ToString(), accessString), ioManager.ResolvePath("."), new CloneOptions
+								path = LibGit2Sharp.Repository.Clone(url.ToString(), ioManager.ResolvePath("."), new CloneOptions
 								{
 									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
 									OnTransferProgress = (a) =>
@@ -72,7 +72,12 @@ namespace Tgstation.Server.Host.Components.Repository
 									RecurseSubmodules = true,
 									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 									RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
-									BranchName = initialBranch
+									BranchName = initialBranch,
+									CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
+									{
+										Username = username,
+										Password = password
+									} : new DefaultCredentials()
 								});
 							}
 							catch (UserCancelledException) { }
