@@ -121,6 +121,10 @@ namespace Tgstation.Server.Host.Components.Byond
 						await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
 						break;
 					}
+					catch (OperationCanceledException)
+					{
+						throw;
+					}
 					catch
 					{
 						if (I == 2)
