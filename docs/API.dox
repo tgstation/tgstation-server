@@ -6,11 +6,25 @@
 
 The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server
 
+Routes and their usages are defined as follows
+
+[I (If Instance is required)] <Http Method> "<Route>" => <Response Model>
+
 @section api_lib Official Libraries
 
 The TGS4 API's canonical definitions are provided as a .NET Standard library in the form of a nuget package located here: https://www.nuget.org/packages/Tgstation.Server.Api
 
 An all inclusive TAP interface for using the API is also provided in this package: https://www.nuget.org/packages/Tgstation.Server.Client
+
+@subsection api_interp Interpreting C# Models
+
+This document will reference the canonical C# models in the Tgstation.Server.Api namespace. Note that these models are built to mirror the JSON requests and responses with a couple caveats.
+
+- The first letter of every field name will/must be lowercase in JSON models
+- Fields in the C# model marked with "DenyWrite = true" cannot be changed using POST requests
+- Fields marked 'Required' should be ignored, this is a semantic for the backing SQL database
+- Id fields must be specified when making POST requests
+- All other fields are optional and may be absent from responses or requests unless otherwise specified
 
 @section api_header Headers
 
@@ -35,8 +49,9 @@ An Authentication header is also required. See @ref api_auth
 TGS will only every return the response codes listed here
 
 - 200: General OK status. Unless the HTTP DELETE verb was used to make the request (In which case the response body will be empty), the response body will contain a json model or array depending on the API called.
-- 400: Bad request made. The response body will contain a @ref apim_error model detailing the error
-- 401: User unauthorized. Invalid or expired credentials were provided. See @ref api_auth for details
+- 400: Bad request made. The response body will contain a @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error
+- 401: User unauthorized. Invalid or expired credentials were provided. Check rights APIs for updates. See @ref api_auth for details
+- 403: Usage forbidden. User tried to make a request they were not allowed to perform. 
 - 404: Not found. A resource was requested that had never existed. In the case of retrieving a resource by ID, it could potentially exist in the future
 - 406: Not acceptable. Consequence of failing to provide an Accept header
 - 408: Request timeout. The client took to long to continue a request
@@ -46,4 +61,46 @@ TGS will only every return the response codes listed here
 - 500: Server error. Please report the request and response body to the code repository
 - 501: Not implemented. Currently used in two places: 1. Endpoints that trigger a server restart but the server is not running in a restartable configuration. 2.
 - 503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was
+
+@section api_auth Authentication
+
+Every request made to TGS requires authentication. It is provided in the form of the Authorization header. 
+
+The first request made to TGS must be to login the user
+
+POST "/" => Empty
+
+Headers:
+
+- Username: <your username>
+- Authorization:Password <your password>
+
+If the provided credentials are valid and your user account is enabled you will recieve a @ref Tgstation.Server.Api.Models.Token object
+@code{.json}
+{
+    "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMzIzNjk0MSIsIm5iZiI6IjE1MzMyMzYwNDEiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.QWFSWNi9mgol582zaK4MQ5XDK2gZF-Nx3z9_ToHjKW4"
+}
+@endcode
+
+If your account is disabled, you will recieve a 403 response.
+
+You may recognize the bearer value as a <a href="https://jwt.io">Json Web Token</a>. This is a secure representation of your identity to the server. It expires after a set period of time or until your password changes. It must be present for requests made to all other APIs. To do so add the following header to your other requests
+
+- Authorization:Bearer <your bearer token>
+
+Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid
+
+@section api_perms Permissions
+
+Almost all actions available require some level of user permissions. Which are divided into two categories:
+
+- General permissions apply to a user across the entire service
+- Instance permissions apply only when interacting with a specific instance
+
+Permissions are represented a a 32 bit integer in the form of bitflags. The two endpoints for retrieving these permission are:
+
+GET "/Users" => @ref Tgstation.Server.Api.Models.User
+I GET "/InstanceUser" => @ref Tgstation.Server.Api.Models.InstanceUser
+
+See individual permission documentation for their usage
 
