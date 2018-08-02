@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -11,6 +10,7 @@ using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -122,14 +122,15 @@ namespace Tgstation.Server.Host.Components
 				{
 					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
 
-					string accessToken = null, projectName = null;
+					RepositorySettings repositorySettings = null;
+					string projectName = null;
 					int timeout = 0;
 					var dbTask = databaseContextFactory.UseContext(async (db) =>
 					{
 						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
 						var timeoutTask = instanceQuery.Select(x => x.DreamDaemonSettings.StartupTimeout).FirstAsync(cancellationToken);
 						var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
-						accessToken = await instanceQuery.Select(x => x.RepositorySettings.AccessToken).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+						repositorySettings = await instanceQuery.Select(x => x.RepositorySettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 						projectName = await projectNameTask.ConfigureAwait(false);
 						timeout = (await timeoutTask.ConfigureAwait(false)).Value;
 					});
@@ -150,8 +151,27 @@ namespace Tgstation.Server.Host.Components
 						}
 						if (repo == null)
 							continue;
-						await repo.FetchOrigin(accessToken, null, cancellationToken).ConfigureAwait(false);
-						await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+						
+						await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, null, cancellationToken).ConfigureAwait(false);
+
+						var startSha = repo.Head;
+						bool shouldSyncTracked;
+						if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
+						{
+							var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, cancellationToken).ConfigureAwait(false);
+							if (!result.HasValue)
+								continue;
+							shouldSyncTracked = result.Value;
+						}
+						else
+						{
+							await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+							shouldSyncTracked = true;
+						}
+
+						if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
+							await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
+
 						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
