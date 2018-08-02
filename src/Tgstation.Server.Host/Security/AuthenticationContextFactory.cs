@@ -57,7 +57,10 @@ namespace Tgstation.Server.Host.Security
 
 			var user = await userQuery.ConfigureAwait(false);
 			if (user == default)
+			{
+				CurrentAuthenticationContext = new AuthenticationContext();
 				return;
+			}
 
 			ISystemIdentity systemIdentity;
 			if (user.SystemIdentifier != null)
