@@ -3,7 +3,7 @@
 	/// <summary>
 	/// General configuration options
 	/// </summary>
-	sealed class GeneralConfiguration
+	public sealed class GeneralConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="GeneralConfiguration"/> resides in
@@ -19,5 +19,10 @@
 		/// If file logging is disabled
 		/// </summary>
 		public bool DisableFileLogging { get; set; }
+
+		/// <summary>
+		/// Minimum length of database user passwords
+		/// </summary>
+		public uint MinimumPasswordLength { get; set; }
 	}
 }
