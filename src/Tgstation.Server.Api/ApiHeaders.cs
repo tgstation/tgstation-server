@@ -135,6 +135,7 @@ namespace Tgstation.Server.Api
 				throw new InvalidOperationException("Malformed API version!");
 
 			ApiVersion = apiVersion;
+			UserAgent = clientUserAgent.Product;
 
 			//check api version compatibility
 			var ourVersion = assemblyName.Version;
