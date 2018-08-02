@@ -106,6 +106,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A55C1117
 		tools\TGS.postman_collection.json = tools\TGS.postman_collection.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7913-4306-9FAB-70998D440BCE}"
+	ProjectSection(SolutionItems) = preProject
+		docs\API.dox = docs\API.dox
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

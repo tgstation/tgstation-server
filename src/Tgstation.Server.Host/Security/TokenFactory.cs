@@ -12,9 +12,9 @@ namespace Tgstation.Server.Host.Security
 	sealed class TokenFactory : ITokenFactory
 	{
 		/// <summary>
-		/// Amount of hours until generated <see cref="Token"/>s expire
+		/// Amount of minutes until generated <see cref="Token"/>s expire
 		/// </summary>
-		const int TokenExpiryHours = 1;
+		const int TokenExpiryMinutes = 15;
 
 		public static readonly string TokenAudience = typeof(Token).Assembly.GetName().Name;
 		public static readonly string TokenIssuer = Assembly.GetExecutingAssembly().GetName().Name;
@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Security
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 
-			expiry = DateTimeOffset.Now.AddHours(TokenExpiryHours);
+			expiry = DateTimeOffset.Now.AddMinutes(TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),

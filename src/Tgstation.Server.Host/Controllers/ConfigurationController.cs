@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var result = await instanceManager.GetInstance(Instance).Configuration.Read(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null || result.IsDirectory.Value)
-					return NotFound();
+					return StatusCode((int)HttpStatusCode.Gone);
 
 				return Json(result);
 			}
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null)
-					return NotFound();
+					return StatusCode((int)HttpStatusCode.Gone);
 
 				return Json(result);
 			}

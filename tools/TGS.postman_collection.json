@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "69222fa3-00a7-4bfe-91ad-a41a379d6181",
+		"_postman_id": "768127a5-f5e5-44f7-a6a1-7af42f975fb2",
 		"name": "TGS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -23,7 +23,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							}
 						],
@@ -58,7 +58,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -97,8 +97,12 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -160,8 +164,12 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -195,8 +203,12 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -231,7 +243,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -270,7 +282,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -309,7 +321,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -348,12 +360,16 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Instance",
+								"value": "1"
 							}
 						],
 						"body": {
@@ -387,12 +403,16 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Instance",
+								"value": "1"
 							}
 						],
 						"body": {
@@ -426,12 +446,16 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Instance",
+								"value": "1"
 							}
 						],
 						"body": {
@@ -465,12 +489,16 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Instance",
+								"value": "1"
 							}
 						],
 						"body": {
@@ -504,12 +532,16 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Instance",
+								"value": "1"
 							}
 						],
 						"body": {
@@ -546,7 +578,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -556,6 +588,10 @@
 							{
 								"key": "Username",
 								"value": "bob"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -589,7 +625,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -599,6 +635,10 @@
 							{
 								"key": "Username",
 								"value": "cyberboss"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -639,7 +679,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -647,7 +687,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -682,7 +722,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -690,7 +730,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -726,7 +766,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -734,7 +774,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -770,7 +810,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -778,7 +818,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -813,7 +853,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -821,7 +861,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -856,7 +896,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -864,7 +904,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -942,7 +982,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -950,7 +990,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -985,7 +1025,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -993,7 +1033,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1028,7 +1068,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1036,7 +1076,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1071,7 +1111,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1079,7 +1119,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1115,7 +1155,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1123,7 +1163,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1166,7 +1206,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1174,7 +1214,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1209,7 +1249,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1217,7 +1257,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1244,7 +1284,7 @@
 				},
 				{
 					"name": "Jobs",
-					"description": "",
+					"description": null,
 					"item": [
 						{
 							"name": "List Ids",
@@ -1260,7 +1300,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1268,7 +1308,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1304,7 +1344,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1312,7 +1352,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1348,7 +1388,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1356,7 +1396,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1405,7 +1445,7 @@
 				},
 				{
 					"name": "Byond",
-					"description": "",
+					"description": null,
 					"item": [
 						{
 							"name": "List installed versions",
@@ -1421,7 +1461,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1429,7 +1469,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1465,7 +1505,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1473,7 +1513,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1508,7 +1548,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1516,7 +1556,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1551,7 +1591,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1559,7 +1599,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1585,7 +1625,7 @@
 				},
 				{
 					"name": "Repo",
-					"description": "",
+					"description": null,
 					"item": [
 						{
 							"name": "Read Info",
@@ -1601,7 +1641,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1609,7 +1649,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1644,7 +1684,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1652,7 +1692,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1687,7 +1727,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1695,7 +1735,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1730,7 +1770,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1738,7 +1778,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1773,7 +1813,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1781,7 +1821,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1816,7 +1856,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1824,7 +1864,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1859,7 +1899,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1867,7 +1907,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1893,10 +1933,10 @@
 				},
 				{
 					"name": "Compiler",
-					"description": "",
+					"description": null,
 					"item": [
 						{
-							"name": "Read Info Copy",
+							"name": "Read",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -1909,7 +1949,7 @@
 										"value": "Postman/1.0"
 									},
 									{
-										"key": "User-Agent",
+										"key": "Api",
 										"value": "Tgstation.Server.Api/4.0.0.0"
 									},
 									{
@@ -1917,7 +1957,7 @@
 										"value": "application/json"
 									},
 									{
-										"key": "InstanceId",
+										"key": "Instance",
 										"value": "1"
 									}
 								],
@@ -1926,13 +1966,13 @@
 									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
 								},
 								"url": {
-									"raw": "localhost:5000/Repository",
+									"raw": "localhost:5000/DreamMaker",
 									"host": [
 										"localhost"
 									],
 									"port": "5000",
 									"path": [
-										"Repository"
+										"DreamMaker"
 									]
 								}
 							},
@@ -1955,7 +1995,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -1994,7 +2034,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -2033,7 +2073,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -2073,7 +2113,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -2083,7 +2123,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Instance\",\n    \"path\": \"C:\\\\TestInstance\"\n}"
+							"raw": "{\n    \"name\": \"Test Instance\",\n    \"path\": \"D:\\\\TestInstance\"\n}"
 						},
 						"url": {
 							"raw": "localhost:5000/Instance",
@@ -2112,7 +2152,7 @@
 								"value": "Postman/1.0"
 							},
 							{
-								"key": "User-Agent",
+								"key": "Api",
 								"value": "Tgstation.Server.Api/4.0.0.0"
 							},
 							{
@@ -2156,7 +2196,7 @@
 						"value": "Postman/1.0"
 					},
 					{
-						"key": "User-Agent",
+						"key": "Api",
 						"value": "Tgstation.Server.Api/4.0.0.0"
 					},
 					{
@@ -2166,6 +2206,10 @@
 					{
 						"key": "Username",
 						"value": "admin"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
 					}
 				],
 				"body": {
@@ -2196,8 +2240,12 @@
 						"value": "Postman/1.0"
 					},
 					{
-						"key": "User-Agent",
+						"key": "Api",
 						"value": "Tgstation.Server.Api/4.0.0.0"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
 					}
 				],
 				"body": {
@@ -2241,7 +2289,7 @@
 					"const echoPostRequest = {",
 					"  url: 'http://localhost:5000',",
 					"  method: 'POST',",
-					"  header: ['Accept:application/json', \"User-Agent:Postman/1.0\", \"User-Agent:Tgstation.Server.Api/4.0.0.0\", \"Authorization:Password ISolemlySwearToDeleteTheDataDirectory\", \"Username:admin\"]",
+					"  header: ['Accept:application/json', \"User-Agent:Postman/1.0\", \"Api:Tgstation.Server.Api/4.0.0.0\", \"Authorization:Password ISolemlySwearToDeleteTheDataDirectory\", \"Username:admin\"]",
 					"};",
 					"",
 					"pm.sendRequest(echoPostRequest, function (err, res) {",
