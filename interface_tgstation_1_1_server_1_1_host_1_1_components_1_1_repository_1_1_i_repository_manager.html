@@ -115,9 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aca54bc5a72d05e25cc361728e80b6f1c"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#aca54bc5a72d05e25cc361728e80b6f1c">LoadRepository</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aca54bc5a72d05e25cc361728e80b6f1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to load the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> from the default location  <a href="#aca54bc5a72d05e25cc361728e80b6f1c">More...</a><br /></td></tr>
 <tr class="separator:aca54bc5a72d05e25cc361728e80b6f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf05053c77b1069d635d000ac698a72b"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#acf05053c77b1069d635d000ac698a72b">CloneRepository</a> (Uri url, string initialBranch, string accessString, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:acf05053c77b1069d635d000ac698a72b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone the repository at <em>url</em>   <a href="#acf05053c77b1069d635d000ac698a72b">More...</a><br /></td></tr>
-<tr class="separator:acf05053c77b1069d635d000ac698a72b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf22ca7387254203fcd8a8e2a9947f0a"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#acf22ca7387254203fcd8a8e2a9947f0a">CloneRepository</a> (Uri url, string initialBranch, string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acf22ca7387254203fcd8a8e2a9947f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone the repository at <em>url</em>   <a href="#acf22ca7387254203fcd8a8e2a9947f0a">More...</a><br /></td></tr>
+<tr class="separator:acf22ca7387254203fcd8a8e2a9947f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0476484a5f4909326dfd7edcf697716d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a0476484a5f4909326dfd7edcf697716d">DeleteRepository</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0476484a5f4909326dfd7edcf697716d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the current repository  <a href="#a0476484a5f4909326dfd7edcf697716d">More...</a><br /></td></tr>
 <tr class="separator:a0476484a5f4909326dfd7edcf697716d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,7 +127,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="acf05053c77b1069d635d000ac698a72b"></a>
+<a class="anchor" id="acf22ca7387254203fcd8a8e2a9947f0a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -147,7 +147,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>accessString</em>, </td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -174,7 +180,8 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">url</td><td>The Uri of the remote repository to clone</td></tr>
     <tr><td class="paramname">initialBranch</td><td>The branch to clone</td></tr>
-    <tr><td class="paramname">accessString</td><td>The access string to clone from <em>url</em> </td></tr>
+    <tr><td class="paramname">username</td><td>The username to clone from <em>url</em> </td></tr>
+    <tr><td class="paramname">password</td><td>The password to clone from <em>url</em> </td></tr>
     <tr><td class="paramname">progressReporter</td><td>A function to report 0-100 progress of the clone</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
@@ -182,7 +189,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The newly cloned <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a>,  if one already exists</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aaf370e025822696443f27082398624b5">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a6df16cc693419c0e3919e46250a40cf8">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>.</p>
 
 </div>
 </div>

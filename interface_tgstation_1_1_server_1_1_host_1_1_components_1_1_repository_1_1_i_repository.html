@@ -116,24 +116,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4f304a72d46ec2f4d1beabf31efed49d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a4f304a72d46ec2f4d1beabf31efed49d">CheckoutObject</a> (string committish, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4f304a72d46ec2f4d1beabf31efed49d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks out a given <em>committish</em>   <a href="#a4f304a72d46ec2f4d1beabf31efed49d">More...</a><br /></td></tr>
 <tr class="separator:a4f304a72d46ec2f4d1beabf31efed49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c7111087fc089ef9ba07c45b199f3ff"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a9c7111087fc089ef9ba07c45b199f3ff">AddTestMerge</a> (int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string accessString, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9c7111087fc089ef9ba07c45b199f3ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge a GitHub pull request into HEAD  <a href="#a9c7111087fc089ef9ba07c45b199f3ff">More...</a><br /></td></tr>
-<tr class="separator:a9c7111087fc089ef9ba07c45b199f3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9e9706783add9eb5755e83868d9a6eb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ae9e9706783add9eb5755e83868d9a6eb">FetchOrigin</a> (string accessString, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ae9e9706783add9eb5755e83868d9a6eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch commits from the origin repository  <a href="#ae9e9706783add9eb5755e83868d9a6eb">More...</a><br /></td></tr>
-<tr class="separator:ae9e9706783add9eb5755e83868d9a6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b34dd11a011be75184f66ef3efae5f8"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a5b34dd11a011be75184f66ef3efae5f8">AddTestMerge</a> (int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitMessage, string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5b34dd11a011be75184f66ef3efae5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge a GitHub pull request into HEAD  <a href="#a5b34dd11a011be75184f66ef3efae5f8">More...</a><br /></td></tr>
+<tr class="separator:a5b34dd11a011be75184f66ef3efae5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749160f7ea74fc975303e46d5ad196e0"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a749160f7ea74fc975303e46d5ad196e0">FetchOrigin</a> (string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a749160f7ea74fc975303e46d5ad196e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch commits from the origin repository  <a href="#a749160f7ea74fc975303e46d5ad196e0">More...</a><br /></td></tr>
+<tr class="separator:a749160f7ea74fc975303e46d5ad196e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa6bfaf13addc18ffe6e74bd24e34979"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aaa6bfaf13addc18ffe6e74bd24e34979">ResetToOrigin</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aaa6bfaf13addc18ffe6e74bd24e34979"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository  <a href="#aaa6bfaf13addc18ffe6e74bd24e34979">More...</a><br /></td></tr>
 <tr class="separator:aaa6bfaf13addc18ffe6e74bd24e34979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa2186cc9e7b1c17e84923e5f8696d2a"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aaa2186cc9e7b1c17e84923e5f8696d2a">ResetToSha</a> (string sha, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aaa2186cc9e7b1c17e84923e5f8696d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a reference. Hard resets the reference to the given sha  <a href="#aaa2186cc9e7b1c17e84923e5f8696d2a">More...</a><br /></td></tr>
+<tr class="separator:aaa2186cc9e7b1c17e84923e5f8696d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaef0f119cac2afe803dd151c3b268b60"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aaef0f119cac2afe803dd151c3b268b60">MergeOrigin</a> (string committerName, string committerEmail, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aaef0f119cac2afe803dd151c3b268b60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository  <a href="#aaef0f119cac2afe803dd151c3b268b60">More...</a><br /></td></tr>
 <tr class="separator:aaef0f119cac2afe803dd151c3b268b60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a5371d6545d8265631617d9a5b7caf5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a2a5371d6545d8265631617d9a5b7caf5">PushHeadToTemporaryBranch</a> (string accessString, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2a5371d6545d8265631617d9a5b7caf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force push the current repository HEAD to <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4ad624c2294a1cc28f47d251ed3a17f8" title="The branch name used for publishing testmerge commits ">Repository.RemoteTemporaryBranchName</a>;  <a href="#a2a5371d6545d8265631617d9a5b7caf5">More...</a><br /></td></tr>
-<tr class="separator:a2a5371d6545d8265631617d9a5b7caf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33cad13665283020be19e2dad7c51ed0"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a33cad13665283020be19e2dad7c51ed0">Sychronize</a> (string accessString, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a33cad13665283020be19e2dad7c51ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if on a tracked branch  <a href="#a33cad13665283020be19e2dad7c51ed0">More...</a><br /></td></tr>
-<tr class="separator:a33cad13665283020be19e2dad7c51ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31a5cacaa20e472c83fefb1aebca2fcd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a31a5cacaa20e472c83fefb1aebca2fcd">Sychronize</a> (string username, string password, bool synchronizeTrackedBranch, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a31a5cacaa20e472c83fefb1aebca2fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if on a tracked branch  <a href="#a31a5cacaa20e472c83fefb1aebca2fcd">More...</a><br /></td></tr>
+<tr class="separator:a31a5cacaa20e472c83fefb1aebca2fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada48f9615977d839874139999fdd69ef"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ada48f9615977d839874139999fdd69ef">CopyTo</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ada48f9615977d839874139999fdd69ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the current working directory to a given <em>path</em>   <a href="#ada48f9615977d839874139999fdd69ef">More...</a><br /></td></tr>
 <tr class="separator:ada48f9615977d839874139999fdd69ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +167,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a9c7111087fc089ef9ba07c45b199f3ff"></a>
+<a class="anchor" id="a5b34dd11a011be75184f66ef3efae5f8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -199,7 +199,19 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>accessString</em>, </td>
+          <td class="paramname"><em>commitMessage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -228,7 +240,9 @@ Properties</h2></td></tr>
     <tr><td class="paramname">targetCommit</td><td>The commit in the pull request to merge</td></tr>
     <tr><td class="paramname">committerName</td><td>The name of the merge committer</td></tr>
     <tr><td class="paramname">committerEmail</td><td>The e-mail of the merge committer</td></tr>
-    <tr><td class="paramname">accessString</td><td>The access string to fetch from the origin repository</td></tr>
+    <tr><td class="paramname">commitMessage</td><td>The commit message</td></tr>
+    <tr><td class="paramname">username</td><td>The username to fetch from the origin repository</td></tr>
+    <tr><td class="paramname">password</td><td>The password to fetch from the origin repository</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
     <tr><td class="paramname">progressReporter</td><td>Optional function to report 0-100 progress of the clone</td></tr>
   </table>
@@ -236,7 +250,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Nullable&lt;T&gt; bool representing the merge result that is  after a fast forward or up to date,  on a merge,  on a conflict</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a22ed8fe2358ac0b5d874a878cb73e558">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a676d4c88d8f8ca92e022297574998030">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -318,7 +332,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae9e9706783add9eb5755e83868d9a6eb"></a>
+<a class="anchor" id="a749160f7ea74fc975303e46d5ad196e0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -326,7 +340,13 @@ Properties</h2></td></tr>
           <td class="memname">Task Tgstation.Server.Host.Components.Repository.IRepository.FetchOrigin </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>accessString</em>, </td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -351,7 +371,8 @@ Properties</h2></td></tr>
 <p>Fetch commits from the origin repository </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">accessString</td><td>The access string to fetch from the origin repository</td></tr>
+    <tr><td class="paramname">username</td><td>The username to fetch from the origin repository</td></tr>
+    <tr><td class="paramname">password</td><td>The password to fetch from the origin repository</td></tr>
     <tr><td class="paramname">progressReporter</td><td>Optional function to report 0-100 progress of the clone</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
@@ -359,7 +380,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a854681a9b4e273d7adf785bc1dc45de8">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ae6af0a2a37025b823a6ec841fa786652">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -408,44 +429,6 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2a5371d6545d8265631617d9a5b7caf5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Components.Repository.IRepository.PushHeadToTemporaryBranch </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>accessString</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Force push the current repository HEAD to <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4ad624c2294a1cc28f47d251ed3a17f8" title="The branch name used for publishing testmerge commits ">Repository.RemoteTemporaryBranchName</a>; </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">accessString</td><td>The access string to fetch from the origin repository</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aeed4fbcf9aeeb4e1ac2c60c045d19984">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="aaa6bfaf13addc18ffe6e74bd24e34979"></a>
 <div class="memitem">
 <div class="memproto">
@@ -473,7 +456,45 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a33cad13665283020be19e2dad7c51ed0"></a>
+<a class="anchor" id="aaa2186cc9e7b1c17e84923e5f8696d2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Components.Repository.IRepository.ResetToSha </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>sha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Requires the current HEAD to be a reference. Hard resets the reference to the given sha </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sha</td><td>The sha hash to reset to</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the SHA of the new HEAD</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afa3d8fe501f2861810f68ce560b7327f">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31a5cacaa20e472c83fefb1aebca2fcd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -481,7 +502,19 @@ Properties</h2></td></tr>
           <td class="memname">Task Tgstation.Server.Host.Components.Repository.IRepository.Sychronize </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>accessString</em>, </td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>synchronizeTrackedBranch</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -500,14 +533,16 @@ Properties</h2></td></tr>
 <p>Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if on a tracked branch </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">accessString</td><td>The access string to push to the origin repository</td></tr>
+    <tr><td class="paramname">username</td><td>The username to fetch from the origin repository</td></tr>
+    <tr><td class="paramname">password</td><td>The password to fetch from the origin repository</td></tr>
+    <tr><td class="paramname">synchronizeTrackedBranch</td><td>If the synchronizations should be made to the tracked reference as opposed to a temporary branch</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a545604748486d9b33811f29b4343eab0">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#abcbea4d9e6c73ed8bb007f4c5193aa66">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
