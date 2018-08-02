@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
-			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.HttpContext.RequestAborted).ConfigureAwait(false);
+			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.SecurityToken.ValidFrom, context.HttpContext.RequestAborted).ConfigureAwait(false);
 
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
@@ -100,11 +100,12 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				//if there's no instance user, do a weird thing and add all the instance roles
 				//we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
-				var rightInt = RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null ? ~0 : authenticationContext.GetRight(I);
+				//if user is null that means they got the token with an expired password
+				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0 : authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
 				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
-				foreach(Enum J in Enum.GetValues(rightEnum))
-					if(right.HasFlag(J))
+				foreach (Enum J in Enum.GetValues(rightEnum))
+					if (right.HasFlag(J))
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));
 			}
 
@@ -132,6 +133,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			if (AuthenticationContext != null && AuthenticationContext.User == null)
+			{
+				//valid token, expired password
+				await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
+				return;
+			}
+
 			//validate the headers
 			try
 			{

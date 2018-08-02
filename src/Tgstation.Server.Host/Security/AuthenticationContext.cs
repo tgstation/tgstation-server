@@ -11,7 +11,15 @@ namespace Tgstation.Server.Host.Security
 	sealed class AuthenticationContext : IAuthenticationContext
 	{
 		/// <inheritdoc />
-		public User User { get; }
+		public User User
+		{
+			get
+			{
+				if (user == null)
+					throw new InvalidOperationException("AuthenticationContext has no user!");
+				return user;
+			}
+		}
 
 		/// <inheritdoc />
 		public InstanceUser InstanceUser { get; }
@@ -20,14 +28,24 @@ namespace Tgstation.Server.Host.Security
 		public ISystemIdentity SystemIdentity { get; }
 
 		/// <summary>
-		/// Construct a <see cref="IAuthenticationContext"/>
+		/// Backing field for <see cref="User"/>
+		/// </summary>
+		readonly User user;
+
+		/// <summary>
+		/// Construct an empty <see cref="AuthenticationContext"/>
+		/// </summary>
+		public AuthenticationContext() { }
+
+		/// <summary>
+		/// Construct an <see cref="AuthenticationContext"/>
 		/// </summary>
 		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/></param>
 		/// <param name="user">The value of <see cref="User"/></param>
 		/// <param name="instanceUser">The value of <see cref="InstanceUser"/></param>
 		public AuthenticationContext(ISystemIdentity systemIdentity, User user, InstanceUser instanceUser)
 		{
-			User = user ?? throw new ArgumentNullException(nameof(user));
+			this.user = user ?? throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null && User.SystemIdentifier != null)
 				throw new ArgumentNullException(nameof(systemIdentity));
 			InstanceUser = instanceUser;
@@ -44,6 +62,9 @@ namespace Tgstation.Server.Host.Security
 		public int GetRight(RightsType rightsType)
 		{
 			var isInstance = RightsHelper.IsInstanceRight(rightsType);
+
+			//forces the null user check
+			var pullThis = User;
 
 			if (isInstance && InstanceUser == null)
 				return 0;

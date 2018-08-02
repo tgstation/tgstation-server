@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -36,6 +39,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ILogger<UserController> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserController"/>
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="UserController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -43,11 +51,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
+		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -95,7 +105,11 @@ namespace Tgstation.Server.Host.Controllers
 					return StatusCode((int)HttpStatusCode.NotImplemented);
 				}
 			else
+			{
+				if (model.Password.Length < generalConfiguration.MinimumPasswordLength)
+					return BadRequest(new { message = String.Format(CultureInfo.InvariantCulture, "Password must be at least {0} characters long!", generalConfiguration.MinimumPasswordLength) });
 				cryptographySuite.SetUserPassword(dbUser, model.Password);
+			}
 
 			dbUser.CanonicalName = dbUser.Name.ToUpperInvariant();
 
@@ -122,15 +136,20 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(AdministrationRights.EditUsers | AdministrationRights.EditPassword)]
 		public override async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var originalUser = await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var passwordEditOnly = !AuthenticationContext.User.AdministrationRights.Value.HasFlag(AdministrationRights.EditUsers);
+
+			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == default)
 				return StatusCode((int)HttpStatusCode.Gone);
+			
+			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.SystemIdentifier != null || model.Name != null))
+				return Forbid();
 
 			if (model.Password != null)
 			{

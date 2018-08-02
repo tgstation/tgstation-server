@@ -77,6 +77,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public void Dispose() => semaphore.Dispose();
 
+		/// <summary>
+		/// Installs a BYOND <paramref name="version"/> if it isn't already
+		/// </summary>
+		/// <param name="version">The BYOND <see cref="Version"/> to install</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task InstallVersion(Version version, CancellationToken cancellationToken)
 		{
 			var ourTcs = new TaskCompletionSource<object>();
@@ -104,11 +110,31 @@ namespace Tgstation.Server.Host.Components.Byond
 				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
-				await ioManager.ZipToDirectory(versionKey, await downloadTask.ConfigureAwait(false), cancellationToken).ConfigureAwait(false);
-
+				//byond can just decide to corrupt the zip fnr
+				//(or maybe our downloader is a shite)
+				//either way try a few times
+				for (var I = 0; I < 3; ++I)
+				{
+					var download = await downloadTask.ConfigureAwait(false);
+					try
+					{
+						await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
+						break;
+					}
+					catch (OperationCanceledException)
+					{
+						throw;
+					}
+					catch
+					{
+						if (I == 2)
+							throw;
+						downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
+					}
+				}
 				await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
 
-				//make sure to do this last because this is what tells us we have a valid version
+				//make sure to do this last because this is what tells us we have a valid version in the future
 				await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
 			}
 			catch

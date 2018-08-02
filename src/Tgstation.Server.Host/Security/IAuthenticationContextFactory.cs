@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -20,8 +19,9 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="userId">The <see cref="Api.Models.Internal.User.Id"/> of the <see cref="IAuthenticationContext.User"/></param>
 		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> of the operation</param>
+		/// <param name="validBefore">The <see cref="DateTimeOffset"/> the resulting <see cref="IAuthenticationContext.User"/>'s password must be valid before</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CreateAuthenticationContext(long userId, long? instanceId, CancellationToken cancellationToken);
+		Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validBefore, CancellationToken cancellationToken);
 	}
 }

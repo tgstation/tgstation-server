@@ -41,6 +41,7 @@ namespace Tgstation.Server.Host.Security
 			if (String.IsNullOrEmpty(newPassword))
 				throw new ArgumentNullException(nameof(newPassword));
 			user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
+			user.LastPasswordUpdate = DateTimeOffset.Now;
 		}
 
 		/// <inheritdoc />
@@ -52,6 +53,7 @@ namespace Tgstation.Server.Host.Security
 					return false;
 				case PasswordVerificationResult.SuccessRehashNeeded:
 					user.PasswordHash = passwordHasher.HashPassword(user, password);
+					//don't update LastPasswordUpdate since it hasn't actually changed
 					break;
 			}
 			return true;
