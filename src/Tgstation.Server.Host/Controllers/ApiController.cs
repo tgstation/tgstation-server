@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -163,6 +164,13 @@ namespace Tgstation.Server.Host.Controllers
 			catch (InvalidOperationException e)
 			{
 				await BadRequest(new { message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+				return;
+			}
+
+			if(ModelState?.IsValid == false)
+			{
+				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage);
+				await BadRequest(new { message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
 				return;
 			}
 

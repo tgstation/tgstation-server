@@ -148,7 +148,9 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddMvc().AddJsonOptions(options =>
 			{
+				options.AllowInputFormatterExceptionMessages = true;
 				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+				options.SerializerSettings.CheckAdditionalContent = true;
 			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
@@ -241,9 +243,8 @@ namespace Tgstation.Server.Host.Core
 			logger.LogInformation(VersionString);
 
 			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
-
-			if (hostingEnvironment.IsDevelopment())
-				applicationBuilder.UseDeveloperExceptionPage();
+			
+			applicationBuilder.UseDeveloperExceptionPage();	//it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
 			{

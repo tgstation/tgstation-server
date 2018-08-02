@@ -21,6 +21,11 @@ namespace Tgstation.Server.Api
 		public const string ApplicationJson = "application/json";
 
 		/// <summary>
+		/// The <see cref="ApiVersion"/> header key
+		/// </summary>
+		const string ApiVersionHeader = "Api";
+
+		/// <summary>
 		/// The <see cref="Username"/> header key
 		/// </summary>
 		const string usernameHeader = "Username";
@@ -28,7 +33,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The <see cref="InstanceId"/> header key
 		/// </summary>
-		const string instanceIdHeader = "InstanceId";
+		const string instanceIdHeader = "Instance";
 
 		/// <summary>
 		/// The JWT authentication header scheme
@@ -125,10 +130,9 @@ namespace Tgstation.Server.Api
 			//assure the client user agent has a name and version
 			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out var clientVersion))
 				throw new InvalidOperationException("Malformed client user agent!");
-
-			var apiUserAgentHeader = userAgentValues[1];
+			
 			//make sure the api header matches ours
-			if (!ProductInfoHeaderValue.TryParse(apiUserAgentHeader, out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
+			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
 				throw new InvalidOperationException("Missing API user agent!");
 
 			if (!Version.TryParse(apiUserAgent.Product.Version, out var apiVersion))
@@ -218,7 +222,7 @@ namespace Tgstation.Server.Api
 				headers.Add(usernameHeader, Username);
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue(assemblyName.Name, ApiVersion.ToString())));
+			headers.Add(ApiVersionHeader, ApiVersion.ToString());
 			if(InstanceId.HasValue)
 				headers.Add(instanceIdHeader, InstanceId.ToString());
 		}

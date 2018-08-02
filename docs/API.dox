@@ -6,8 +6,44 @@
 
 The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server
 
+@section api_lib Official Libraries
+
+The TGS4 API's canonical definitions are provided as a .NET Standard library in the form of a nuget package located here: https://www.nuget.org/packages/Tgstation.Server.Api
+
+An all inclusive TAP interface for using the API is also provided in this package: https://www.nuget.org/packages/Tgstation.Server.Client
+
 @section api_header Headers
 
-TGS4 expects a very specific set of headers to avoid bad requests.
+TGS4 expects this set of headers. Failure to provide them may result in 
 
-- 
+- User-Agent: The user agent product header value of the calling program. Should be in the form Agent/Version (i.e. SomeTgsClient/1.2.4)
+- Accept: application/json
+- Api: Another product header value representing the version of the API to use. Currently this must be: Tgstation.Server.Api/4.0.0.0
+
+For POST and PUT requests you must also include the content type. Currently only json is supported
+
+- Content-Type: application/json
+
+For requests made to any Instance based API's a header with the Instance's ID must be provided
+
+- Instance: The ID of the instance being accessed
+
+An Authentication header is also required. See @ref api_auth
+
+@section api_response Response Codes
+
+TGS will only every return the response codes listed here
+
+- 200: General OK status. Unless the HTTP DELETE verb was used to make the request (In which case the response body will be empty), the response body will contain a json model or array depending on the API called.
+- 400: Bad request made. The response body will contain a @ref apim_error model detailing the error
+- 401: User unauthorized. Invalid or expired credentials were provided. See @ref api_auth for details
+- 404: Not found. A resource was requested that had never existed. In the case of retrieving a resource by ID, it could potentially exist in the future
+- 406: Not acceptable. Consequence of failing to provide an Accept header
+- 408: Request timeout. The client took to long to continue a request
+- 409: Conflict. Documented in the requests that use them
+- 410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is
+- 419: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned
+- 500: Server error. Please report the request and response body to the code repository
+- 501: Not implemented. Currently used in two places: 1. Endpoints that trigger a server restart but the server is not running in a restartable configuration. 2.
+- 503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was
+
