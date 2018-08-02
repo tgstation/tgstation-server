@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -18,7 +20,13 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The uppercase invariant of <see cref="Api.Models.Internal.User.Name"/>
 		/// </summary>
+		[Required]
 		public string CanonicalName { get; set; }
+
+		/// <summary>
+		/// When <see cref="PasswordHash"/> was last changed
+		/// </summary>
+		public DateTimeOffset? LastPasswordUpdate { get; set; }
 
 		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>
