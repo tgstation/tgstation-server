@@ -1,0 +1,13 @@
+@page api API
+
+@tableofcontents
+
+@section api_intro Introduction
+
+The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server
+
+@section api_header Headers
+
+TGS4 expects a very specific set of headers to avoid bad requests.
+
+- 
