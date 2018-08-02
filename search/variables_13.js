@@ -5,7 +5,7 @@ var searchData=
   ['timercts',['timerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aab6ba11c7820ee9de39771aabbecdfcb',1,'Tgstation::Server::Host::Components::Instance']]],
   ['timertask',['timerTask',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#abf825c028f20cd903db1362892dbd833',1,'Tgstation::Server::Host::Components::Instance']]],
   ['tokenaudience',['TokenAudience',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a6a774e2c4d70439af3a4c92464dcc125',1,'Tgstation::Server::Host::Security::TokenFactory']]],
-  ['tokenexpiryhours',['TokenExpiryHours',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a94cedd67e18aea2dd93e6938f3011300',1,'Tgstation::Server::Host::Security::TokenFactory']]],
+  ['tokenexpiryminutes',['TokenExpiryMinutes',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a8c161a4ac6556e9b53d08210433322b0',1,'Tgstation::Server::Host::Security::TokenFactory']]],
   ['tokenfactory',['tokenFactory',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afd05899e85f5a8a6b8c8e374364872f8',1,'Tgstation::Server::Host::Controllers::HomeController']]],
   ['tokenissuer',['TokenIssuer',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#ac486bc344e33f50fe4c50510a86e97e9',1,'Tgstation::Server::Host::Security::TokenFactory']]],
   ['tokensigningkey',['TokenSigningKey',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a448901c3fd27dd0dd1673ed7d647b665',1,'Tgstation::Server::Host::Security::TokenFactory']]],
