@@ -1658,7 +1658,93 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"updateReference\": true\n}"
+									"raw": "{\n\t\"updateFromOrigin\": true\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set access info",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"accessUser\": \"Cyberboss\",\n\t\"accessToken\": \"this can be a password or personal access token, you should use the latter\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset to origin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"updateFromOrigin\": true,\n\t\"reference\": \"master\"\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Repository",
@@ -1701,7 +1787,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"updateReference\": true,\n\t\"reference\": \"master\",\n\t\"newTestMerges\": [\n\t\t{\n\t\t\t\"number\": 39476,\n\t\t\t\"pullRequestRevision\": \"11edfe5\"\n\t\t},\n\t\t{\n\t\t\t\"number\": 39469,\n\t\t\t\"pullRequestRevision\": \"ee4f00d\",\n\t\t\t\"comment\": \"babby's first pr\"\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"updateFromOrigin\": true,\n\t\"reference\": \"master\",\n\t\"newTestMerges\": [\n\t\t{\n\t\t\t\"number\": 39514,\n\t\t\t\"pullRequestRevision\": \"28c6762\",\n\t\t\t\"comment\": \"babby's first pr\"\n\t\t},\n\t\t{\n\t\t\t\"number\": 39512,\n\t\t\t\"pullRequestRevision\": \"09be343791fd233444fb3985ef54496e277397f7\",\n\t\t\t\"comment\": \"gud boi antur\"\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Repository",
@@ -1788,6 +1874,56 @@
 								"body": {
 									"mode": "raw",
 									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:5000/Repository",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Repository"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Compiler",
+					"description": "",
+					"item": [
+						{
+							"name": "Read Info Copy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "InstanceId",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Repository",
