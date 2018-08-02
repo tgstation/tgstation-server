@@ -2,6 +2,7 @@ var searchData=
 [
   ['gamestaticfilessubdirectory',['GameStaticFilesSubdirectory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae8e07adce00ed418cb29954182699623',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],
   ['generalconfiguration',['GeneralConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
+  ['generalconfiguration',['generalConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a79e1198432e7e557c8d72b3adf71bbf1',1,'Tgstation::Server::Host::Controllers::UserController']]],
   ['generalconfiguration_2ecs',['GeneralConfiguration.cs',['../_general_configuration_8cs.html',1,'']]],
   ['generatecommands',['GenerateCommands',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html#a6d69dde344df916a244626be56bc1b78',1,'Tgstation.Server.Host.Components.Chat.Commands.CommandFactory.GenerateCommands()'],['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html#a3f5fdca17c71257d34528f45f61ed469',1,'Tgstation.Server.Host.Components.Chat.Commands.ICommandFactory.GenerateCommands()']]],
   ['getcustomcommands',['GetCustomCommands',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html#a4c767f16648c5d7e61e393871eff1847',1,'Tgstation.Server.Host.Components.Chat.IJsonTrackingContext.GetCustomCommands()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#ae5f9940133bdf066397d293d04bdb88b',1,'Tgstation.Server.Host.Components.Chat.JsonTrackingContext.GetCustomCommands()']]],
@@ -27,6 +28,6 @@ var searchData=
   ['githubrepositoryid',['GitHubRepositoryId',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2f6c66d4e10c5fb6a758727893ea4cd0',1,'Tgstation::Server::Host::Configuration::UpdatesConfiguration']]],
   ['githuburl',['GitHubUrl',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a5a72e4dafe281ae05f52e1dbcf37ab71',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
   ['gittagprefix',['GitTagPrefix',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4',1,'Tgstation::Server::Host::Configuration::UpdatesConfiguration']]],
-  ['globalsuppressions_2ecs',['GlobalSuppressions.cs',['../_tgstation_8_server_8_host_8_service_2_global_suppressions_8cs.html',1,'']]],
-  ['globalsuppressions_2ecs',['GlobalSuppressions.cs',['../_tgstation_8_server_8_control_panel_2_global_suppressions_8cs.html',1,'']]]
+  ['globalsuppressions_2ecs',['GlobalSuppressions.cs',['../_tgstation_8_server_8_control_panel_2_global_suppressions_8cs.html',1,'']]],
+  ['globalsuppressions_2ecs',['GlobalSuppressions.cs',['../_tgstation_8_server_8_host_8_service_2_global_suppressions_8cs.html',1,'']]]
 ];

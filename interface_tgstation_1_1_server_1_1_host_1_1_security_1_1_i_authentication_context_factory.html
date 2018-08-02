@@ -112,9 +112,9 @@ Inheritance diagram for Tgstation.Server.Host.Security.IAuthenticationContextFac
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab03c2bba25e11b3ca5052329fcdc77cb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#ab03c2bba25e11b3ca5052329fcdc77cb">CreateAuthenticationContext</a> (long userId, long?instanceId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab03c2bba25e11b3ca5052329fcdc77cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Api.Models.User ">IAuthenticationContext</a> to populate <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709" title="The IAuthenticationContext the IAuthenticationContextFactory created ">CurrentAuthenticationContext</a>  <a href="#ab03c2bba25e11b3ca5052329fcdc77cb">More...</a><br /></td></tr>
-<tr class="separator:ab03c2bba25e11b3ca5052329fcdc77cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeae2299317cf59b360c71091872daa22"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#aeae2299317cf59b360c71091872daa22">CreateAuthenticationContext</a> (long userId, long?instanceId, DateTimeOffset validBefore, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aeae2299317cf59b360c71091872daa22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Api.Models.User ">IAuthenticationContext</a> to populate <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709" title="The IAuthenticationContext the IAuthenticationContextFactory created ">CurrentAuthenticationContext</a>  <a href="#aeae2299317cf59b360c71091872daa22">More...</a><br /></td></tr>
+<tr class="separator:aeae2299317cf59b360c71091872daa22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -125,9 +125,9 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For creating and accessing authentication contexts </p>
 
-<p>Definition at line <a class="el" href="_i_authentication_context_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_authentication_context_factory_8cs_source.html">IAuthenticationContextFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_authentication_context_factory_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_authentication_context_factory_8cs_source.html">IAuthenticationContextFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab03c2bba25e11b3ca5052329fcdc77cb"></a>
+<a class="anchor" id="aeae2299317cf59b360c71091872daa22"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -142,6 +142,12 @@ Properties</h2></td></tr>
           <td></td>
           <td class="paramtype">long?&#160;</td>
           <td class="paramname"><em>instanceId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DateTimeOffset&#160;</td>
+          <td class="paramname"><em>validBefore</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -162,13 +168,14 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">userId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a2c0d8cf4d64347a18c9a6251f9a5783f" title="The ID of the User ">Api.Models.Internal.User.Id</a> of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user ">IAuthenticationContext.User</a></td></tr>
     <tr><td class="paramname">instanceId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a850128695dbdb7a7482f8debed5a13ce" title="The id of the Instance. Not modifiable ">Api.Models.Instance.Id</a> of the operation</td></tr>
+    <tr><td class="paramname">validBefore</td><td>The DateTimeOffset the resulting <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user ">IAuthenticationContext.User</a>'s password must be valid before</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a4ee0f2c0c0cb3dee706a3d894d72a3c6">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a3f61cfe235a4c61ada8b2c610456025b">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
 
 </div>
 </div>
@@ -193,9 +200,9 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Api.Models.User ">IAuthenticationContext</a> the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts ">IAuthenticationContextFactory</a> created </p>
 
-<p>Definition at line <a class="el" href="_i_authentication_context_factory_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_authentication_context_factory_8cs_source.html">IAuthenticationContextFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_authentication_context_factory_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_authentication_context_factory_8cs_source.html">IAuthenticationContextFactory.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_api_controller_8cs_source.html#l00121">Tgstation.Server.Host.Controllers.ApiController.ApiController()</a>.</p>
+<p>Referenced by <a class="el" href="_api_controller_8cs_source.html#l00122">Tgstation.Server.Host.Controllers.ApiController.ApiController()</a>.</p>
 
 </div>
 </div>
