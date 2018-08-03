@@ -140,13 +140,13 @@ namespace Tgstation.Server.Host.Components
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata.CloneMetadata());
 			try
 			{
-				var commandFactory = new CommandFactory(application);
-				var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
-
 				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer);
 				try
 				{
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
+
+					var commandFactory = new CommandFactory(application, byond);
+					var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
 
 					var chat = chatFactory.CreateChat(metadata.ChatSettings);
 					try
