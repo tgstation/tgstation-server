@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (addressed)
 				splits.RemoveAt(0);
 
-			if (splits.Count == 0 || (!addressed && splits.Count == 1))
+			if (splits.Count == 0)
 			{
 				//just a mention
 				await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
