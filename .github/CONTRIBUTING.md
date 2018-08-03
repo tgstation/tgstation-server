@@ -71,12 +71,13 @@ Instead you can use object orientation, or simply placing repeated code in a fun
 ### No magic numbers or strings
 This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these #defines with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
 
-### Do not commit modifications to the version numbers in AssemblyInfo.global.cs
-This file will be updated by maintainers when they deem it prudent to release a new version. For reference here is the version format we use 3.\<major\>.\<minor\>.\<patch\> The criteria for changing a version number is as follows
-	
+### Versioning
+
+The version format we use is 4.\<major\>.\<minor\>.\<patch\>. The first number never changes and TGS 1/2/3/4 are to be considered seperate products. The numbers that follow are the semver. The criteria for changing a version number is as follows
+
 - Major: A breaking change to the DMAPI
-- Minor: Additions or changes to the interface or DMAPI
-- Patch: Non-breaking changes internal to each of the 3 modules (Service, Interface, DMAPI)
+- Minor: Additions or changes to the API or DMAPI or feature additions to the service
+- Patch: Non-breaking changes internal to each of the 3 modules (Service, API, DMAPI)
 
 ### Formatting
 

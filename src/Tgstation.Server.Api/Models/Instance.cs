@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Models
 		public string Name { get; set; }
 
 		/// <summary>
-		/// The path to where the <see cref="Instance"/> is located. Changing this will temporarily offline the <see cref="Instance"/> while it moves
+		/// The path to where the <see cref="Instance"/> is located. Can only be changed while the <see cref="Instance"/> is offline. Must not exist when the instance is created
 		/// </summary>
 		[Permissions(WriteRight = InstanceManagerRights.Relocate)]
 		[Required]
