@@ -1,8 +1,8 @@
 var searchData=
 [
   ['reattachinfohandler',['ReattachInfoHandler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_reattach_info_handler.html',1,'Tgstation::Server::Host::Components']]],
-  ['reattachinformation',['ReattachInformation',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html',1,'Tgstation::Server::Host::Models']]],
   ['reattachinformation',['ReattachInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_reattach_information.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['reattachinformation',['ReattachInformation',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html',1,'Tgstation::Server::Host::Models']]],
   ['reattachinformationbase',['ReattachInformationBase',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html',1,'Tgstation::Server::Host::Models']]],
   ['repository',['Repository',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html',1,'Tgstation::Server::Api::Models']]],
   ['repository',['Repository',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html',1,'Tgstation::Server::Host::Components::Repository']]],

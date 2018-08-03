@@ -9,6 +9,6 @@ var searchData=
   ['versioncommand_2ecs',['VersionCommand.cs',['../_version_command_8cs.html',1,'']]],
   ['versionfilename',['VersionFileName',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#acb1d6dfeac5bf1c13e9857dcac03be46',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]],
   ['versionkey',['VersionKey',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a02c588c08d51d013fa4e6c5258478352',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]],
-  ['versionprefix',['VersionPrefix',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a57b3a64b1037c560282a75f82f926418',1,'Tgstation::Server::Host::Core::Application']]],
+  ['versionprefix',['VersionPrefix',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#afb6962fb7f4a84f548dc77dd797d39c9',1,'Tgstation.Server.Host.Core.Application.VersionPrefix()'],['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_application.html#ac450d182d713644c27492aebc0ab7739',1,'Tgstation.Server.Host.Core.IApplication.VersionPrefix()']]],
   ['versionstring',['VersionString',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7659daf7ba8411a369c29cde8660d219',1,'Tgstation.Server.Host.Core.Application.VersionString()'],['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_application.html#a4b9b6cc8befd7b1696bc18bf2d5b4d64',1,'Tgstation.Server.Host.Core.IApplication.VersionString()']]]
 ];

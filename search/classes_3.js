@@ -21,6 +21,6 @@ var searchData=
   ['dreammaker',['DreamMaker',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html',1,'Tgstation::Server::Host::Components::Compiler']]],
   ['dreammaker',['DreamMaker',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html',1,'Tgstation::Server::Api::Models']]],
   ['dreammakercontroller',['DreamMakerController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html',1,'Tgstation::Server::Host::Controllers']]],
-  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html',1,'Tgstation::Server::Host::Models']]]
+  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html',1,'Tgstation::Server::Host::Models']]],
+  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html',1,'Tgstation::Server::Api::Models::Internal']]]
 ];
