@@ -178,6 +178,45 @@ Instances are DreamDaemon server configurations, they live in their own director
 
 PUT "/Instance" @ref Tgstation.Server.Api.Models.Instance => @ref Tgstation.Server.Api.Models.Instance
 
-The path
+The user that creates an instance will be given full @ref Tgstation.Server.Api.Models.InstanceUser permission. The path must not exist at the time of creation. Support for attaching instances from backups is yet to come.
+
+A specific Instance may be retrieved with:
+
+GET "/Instances/{InstanceID}" => @ref Tgstation.Server.Api.Models.Instance
+
+Instances start offline, regardless of what was specified during the create request. An offline instance will return 403 for all requests made to it.
+
+To online or change other instance variables use the following request. Note that using this request (even with an empty object) will automatically give you the @ref Tgstation.Server.Api.Rights.InstanceUserRights.WriteUsers right for that instance if you don't have it
+
+POST "/Instance" @ref Tgstation.Server.Api.Models.Instance => @ref Tgstation.Server.Api.Models.Instance
+
+Note that onlining an offline instance will never automatically start DreamDaemon. That must be done as a seperate step.
+
+Instances can be detached which will delete all meta knowledge of the instance (Compile metadata, job metadata, repository commit metadata, Test merge metadata, etc...) but leave the files intact. That can be done with this request:
+
+DELETE "/Instance/{InstanceId}" => OK
+
+@subsection api_chat Chat Bots
+
+Each chat bot is represented by a @ref Tgstation.Server.Api.Models.ChatSettings object
+
+Chat bots can be created/updated/deleted with the following requests respectively
+
+I PUT "/Chat" @ref Tgstation.Server.Api.Models.ChatSettings => Tgstation.Server.Api.Models.ChatSettings
+I POST "/Chat" @ref Tgstation.Server.Api.Models.ChatSettings => Tgstation.Server.Api.Models.ChatSettings
+I DELETE "/Chat/{ChatSettingsId}" => OK
+
+The @ref Tgstation.Server.Api.Models.Internal.ChatSettings.ConnectionString must differ based on what kind of chat bot you wish to create
+
+For IRC chat bots it should be in the following format:
+`"<Server URL or IP address>;<Server Port>;<Bot nickname>;<1 to use SSL, 0 otherwise>[;<`The @ref Tgstation.Server.Api.Models.IrcPasswordType`;<The password>]"`
+
+For Discord chat bots it should be the <a href="https://discordapp.com/developers/docs/topics/oauth2#bots">bot's Token</a>
+
+A specific bot's settings may be retrieved with:
+
+I GET "/Chat/{ChatSettingsId}" => @ref Tgstation.Server.Api.Models.ChatSettings
+
+Also note that if the @ref Tgstation.Server.Api.Models.ChatSettings.Channels is present in a POST request, the list will fully replace any active channels
 
 */

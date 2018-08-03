@@ -61,6 +61,28 @@ Instead you can use object orientation, or simply placing repeated code in a fun
 ### No magic numbers or strings
 This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these `const string`s with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
 
+### Class Design Guidelines
+
+DO:
+
+- Use the sealed keyword where possible
+- Use the readonly keyword where possible
+- Use 1 line bodies (void X() => Y();) where possible (Excluding constructors)
+- Use the factory pattern where reasonable
+- Use the const keyword where possible
+- Use the var keyword where possible
+- Use the static keyword on member functions where possible
+- Use CancellationTokens where possible
+- Throw appropriate ArgumentExceptions for public functions
+
+DON'T:
+
+- Use the private keyword
+- Use the internal keyword
+- Use the static keyword on fields where avoidable
+- Use the public keyword where avoidable
+- Handle Tasks in a synchronous fashion
+
 ### Versioning
 
 The version format we use is 4.\<major\>.\<minor\>.\<patch\>. The first number never changes and TGS 1/2/3/4 are to be considered seperate products. The numbers that follow are the semver. The criteria for changing a version number is as follows
