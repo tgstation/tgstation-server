@@ -1,10 +1,11 @@
 var searchData=
 [
+  ['changelog_2emd',['CHANGELOG.md',['../_c_h_a_n_g_e_l_o_g_8md.html',1,'']]],
   ['channel_2ecs',['Channel.cs',['../_channel_8cs.html',1,'']]],
   ['channelmapping_2ecs',['ChannelMapping.cs',['../_channel_mapping_8cs.html',1,'']]],
   ['chat_2ecs',['Chat.cs',['../_chat_8cs.html',1,'']]],
-  ['chatchannel_2ecs',['ChatChannel.cs',['../_tgstation_8_server_8_host_2_models_2_chat_channel_8cs.html',1,'']]],
   ['chatchannel_2ecs',['ChatChannel.cs',['../_tgstation_8_server_8_api_2_models_2_chat_channel_8cs.html',1,'']]],
+  ['chatchannel_2ecs',['ChatChannel.cs',['../_tgstation_8_server_8_host_2_models_2_chat_channel_8cs.html',1,'']]],
   ['chatcontroller_2ecs',['ChatController.cs',['../_chat_controller_8cs.html',1,'']]],
   ['chatfactory_2ecs',['ChatFactory.cs',['../_chat_factory_8cs.html',1,'']]],
   ['chatprovider_2ecs',['ChatProvider.cs',['../_chat_provider_8cs.html',1,'']]],
@@ -13,9 +14,9 @@ var searchData=
   ['chatsettings_2ecs',['ChatSettings.cs',['../_tgstation_8_server_8_host_2_models_2_chat_settings_8cs.html',1,'']]],
   ['chatsettingsrights_2ecs',['ChatSettingsRights.cs',['../_chat_settings_rights_8cs.html',1,'']]],
   ['commandfactory_2ecs',['CommandFactory.cs',['../_command_factory_8cs.html',1,'']]],
-  ['compilejob_2ecs',['CompileJob.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_compile_job_8cs.html',1,'']]],
   ['compilejob_2ecs',['CompileJob.cs',['../_tgstation_8_server_8_host_2_models_2_compile_job_8cs.html',1,'']]],
   ['compilejob_2ecs',['CompileJob.cs',['../_tgstation_8_server_8_api_2_models_2_compile_job_8cs.html',1,'']]],
+  ['compilejob_2ecs',['CompileJob.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_compile_job_8cs.html',1,'']]],
   ['compilerstatus_2ecs',['CompilerStatus.cs',['../_compiler_status_8cs.html',1,'']]],
   ['configuration_2ecs',['Configuration.cs',['../_configuration_8cs.html',1,'']]],
   ['configurationcontroller_2ecs',['ConfigurationController.cs',['../_configuration_controller_8cs.html',1,'']]],
