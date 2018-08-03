@@ -12,6 +12,11 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
+		/// The <see cref="Api.Models.Instance.Id"/> of <see cref="Instance"/>
+		/// </summary>
+		public long InstanceId { get; set; }
+
+		/// <summary>
 		/// The <see cref="Models.Instance"/> the <see cref="InstanceUser"/> belongs to
 		/// </summary>
 		[Required]
@@ -35,7 +40,6 @@ namespace Tgstation.Server.Host.Models
 			ConfigurationRights = ConfigurationRights,
 			DreamDaemonRights = DreamDaemonRights,
 			DreamMakerRights = DreamMakerRights,
-			InstanceId = InstanceId,
 			RepositoryRights = RepositoryRights,
 			InstanceUserRights = InstanceUserRights,
 			UserId = UserId
