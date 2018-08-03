@@ -50,8 +50,7 @@ namespace Tgstation.Server.Host.Security
 			var userQuery = databaseContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
 			var instanceUser = instanceId.HasValue ? (await databaseContext.InstanceUsers
-				.Where(x => x.UserId == userId)
-				.Where(x => x.InstanceId == instanceId)
+				.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
 				.Include(x => x.Instance)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)) : null;
 
