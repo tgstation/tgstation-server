@@ -32,9 +32,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IInstanceManager instanceManager;
 
 		/// <summary>
-		/// The <see cref="Octokit.IGitHubClient"/> for the <see cref="RepositoryController"/>
+		/// The <see cref="IGitHubClientFactory"/> for the <see cref="RepositoryController"/>
 		/// </summary>
-		readonly Octokit.IGitHubClient gitHubClient;
+		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="RepositoryController"/>
@@ -47,13 +47,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		/// <param name="gitHubClient">The value of <see cref="gitHubClient"/></param>
+		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, Octokit.IGitHubClient gitHubClient, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
-			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
+			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
@@ -386,6 +386,7 @@ namespace Tgstation.Server.Host.Controllers
 						//test merging
 						if (newTestMerges)
 						{
+							var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
 							var contextUser = new Models.User
 							{
 								Id = AuthenticationContext.User.Id

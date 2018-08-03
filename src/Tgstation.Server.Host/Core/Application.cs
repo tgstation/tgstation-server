@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Prefix for string version names
 		/// </summary>
-		const string VersionPrefix = "tgstation-server";
+		public string VersionPrefix => "tgstation-server";
 
 		/// <inheritdoc />
 		public string HostingPath => serverAddresses.Addresses.First();
@@ -187,7 +187,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<IGitHubClient>(x => new GitHubClient(new ProductHeaderValue(VersionPrefix, Version.ToString())));
+
+			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
+			services.AddSingleton(x => x.GetRequiredService<IGitHubClientFactory>().CreateClient());
 
 			if (isWindows)
 			{
