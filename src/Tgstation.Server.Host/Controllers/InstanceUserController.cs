@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (!model.UserId.HasValue)
-				return BadRequest(new { message = "Missing UserId!" });
+				return BadRequest(new ErrorMessage { Message = "Missing UserId!" });
 
 			return null;
 		}

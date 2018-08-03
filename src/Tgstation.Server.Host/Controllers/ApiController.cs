@@ -12,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Instance"/> for the operation
 		/// </summary>
-		protected Instance Instance { get; }
+		protected Models.Instance Instance { get; }
 
 		/// <summary>
 		/// If <see cref="IAuthenticationContext.InstanceUser"/> permissions are required to access the <see cref="ApiController"/>
@@ -150,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if(!ApiHeaders.InstanceId.HasValue)
 					{
-						await BadRequest(new { message = "Missing InstanceId header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						await BadRequest(new ErrorMessage { Message = "Missing InstanceId header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
 					if (AuthenticationContext.InstanceUser == null)
@@ -163,14 +164,14 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (InvalidOperationException e)
 			{
-				await BadRequest(new { message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+				await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
 				return;
 			}
 
 			if(ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage);
-				await BadRequest(new { message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
+				await BadRequest(new ErrorMessage { Message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
 				return;
 			}
 

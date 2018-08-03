@@ -121,10 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.CurrentVersion == null)
-				return BadRequest(new { message = "Missing new version!" });
+				return BadRequest(new ErrorMessage { Message = "Missing new version!" });
 
 			if (model.CurrentVersion.Major != application.Version.Major)
-				return BadRequest(new { message = "Cannot update to a different suite version!" });
+				return BadRequest(new ErrorMessage { Message = "Cannot update to a different suite version!" });
 
 			IEnumerable<Release> releases;
 			try

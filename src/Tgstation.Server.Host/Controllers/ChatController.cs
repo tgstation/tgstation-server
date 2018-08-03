@@ -62,16 +62,16 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new { message = "name cannot be null or whitespace!" });
+				return BadRequest(new ErrorMessage { Message = "name cannot be null or whitespace!" });
 
 			if (String.IsNullOrWhiteSpace(model.ConnectionString))
-				return BadRequest(new { message = "connection_string cannot be null or whitespace!" });
+				return BadRequest(new ErrorMessage { Message = "connection_string cannot be null or whitespace!" });
 
 			if (!model.Provider.HasValue)
-				return BadRequest(new { message = "provider cannot be null!" });
+				return BadRequest(new ErrorMessage { Message = "provider cannot be null!" });
 
 			if (!model.Enabled.HasValue)
-				return BadRequest(new { message = "enabled cannot be null!" });
+				return BadRequest(new ErrorMessage { Message = "enabled cannot be null!" });
 
 			//try to update das db first
 			var dbModel = new Models.ChatSettings
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (InvalidOperationException e)
 			{
-				return BadRequest(new { message = e.Message });
+				return BadRequest(new ErrorMessage { Message = e.Message });
 			}
 			return Json(dbModel.ToApi());
 		}
