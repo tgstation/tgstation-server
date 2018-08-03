@@ -40,9 +40,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.InstanceId.HasValue && model.InstanceId != Instance.Id)
-				return BadRequest(new { message = "InstanceId does not match headers!" });
-
 			if (!model.UserId.HasValue)
 				return BadRequest(new { message = "Missing UserId!" });
 

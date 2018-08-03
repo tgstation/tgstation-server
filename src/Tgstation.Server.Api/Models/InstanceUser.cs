@@ -17,13 +17,6 @@ namespace Tgstation.Server.Api.Models
 		public long? UserId { get; set; }
 
 		/// <summary>
-		/// The <see cref="Instance.Id"/> of the <see cref="Instance"/> the <see cref="InstanceUser"/> belongs to
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		[Required]
-		public long? InstanceId { get; set; }
-
-		/// <summary>
 		/// The <see cref="Rights.InstanceUserRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
 		[Required]
