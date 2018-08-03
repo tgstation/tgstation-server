@@ -19,6 +19,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	{
 		const int TimeoutSeconds = 5;
 
+		const string QuitMeme = "Mr. Stark, I don't feel so good...";
+
 		/// <inheritdoc />
 		public override bool Connected => client.IsConnected;
 
@@ -316,7 +318,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					try
 					{
-						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical);   //priocritical otherwise it wont go through
+						client.RfcQuit(QuitMeme, Priority.Critical);   //priocritical otherwise it wont go through
 					}
 					catch (Exception e)
 					{
@@ -348,7 +350,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						toPart.Add(I);
 
 				foreach (var I in toPart)
-					client.RfcPart(I);
+					client.RfcPart(I, QuitMeme);
 				foreach (var I in hs)
 					client.RfcJoin(I);
 
