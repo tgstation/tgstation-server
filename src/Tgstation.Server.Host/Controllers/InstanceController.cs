@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -157,13 +158,16 @@ namespace Tgstation.Server.Host.Controllers
 					DatabaseContext.Instances.Remove(newInstance);
 
 					await DatabaseContext.Save(default).ConfigureAwait(false);
-
 					throw;
 				}
 			}
+			catch(IOException e)
+			{
+				return Conflict(new ErrorMessage { Message = e.Message });
+			}
 			catch (DbUpdateConcurrencyException e)
 			{
-				return Conflict(new { message = e.Message });
+				return Conflict(new ErrorMessage{ Message = e.Message });
 			}
 
 			Logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
@@ -243,11 +247,11 @@ namespace Tgstation.Server.Host.Controllers
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
 					if (originalModel.Online.Value && model.Online != true)
-						return Conflict(new { message = "Cannot relocate an online instance!" });
+						return Conflict(new ErrorMessage { Message = "Cannot relocate an online instance!" });
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 					if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-						return Conflict(new { message = "Path not empty!" });
+						return Conflict(new ErrorMessage { Message = "Path not empty!" });
 
 					originalModelPath = originalModel.Path;
 					originalModel.Path = model.Path;

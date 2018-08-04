@@ -59,9 +59,9 @@ namespace Tgstation.Server.Host.Controllers
 
 				return Json(newFile);
 			}
-			catch(NotImplementedException e)
+			catch(NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+				return StatusCode((int)HttpStatusCode.NotImplemented);
 			}
 		}
 
@@ -86,9 +86,9 @@ namespace Tgstation.Server.Host.Controllers
 
 				return Json(result);
 			}
-			catch (NotImplementedException e)
+			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+				return StatusCode((int)HttpStatusCode.NotImplemented);
 			}
 		}
 
@@ -113,9 +113,9 @@ namespace Tgstation.Server.Host.Controllers
 
 				return Json(result);
 			}
-			catch (NotImplementedException e)
+			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented, new { message = e.Message });
+				return StatusCode((int)HttpStatusCode.NotImplemented);
 			}
 			catch (UnauthorizedAccessException)
 			{

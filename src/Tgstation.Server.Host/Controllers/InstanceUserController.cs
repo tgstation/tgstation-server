@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (DbUpdateConcurrencyException e)
 			{
-				return Conflict(new { message = e.Message });
+				return Conflict(new ErrorMessage { Message = e.Message });
 			}
 			return Json(dbUser.ToApi());
 		}
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (DbUpdateConcurrencyException e)
 			{
-				return Conflict(new { message = e.Message });
+				return Conflict(new ErrorMessage { Message = e.Message });
 			}
 			return Json(originalUser.ToApi());
 		}

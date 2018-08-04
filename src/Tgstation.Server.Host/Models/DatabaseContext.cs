@@ -112,6 +112,8 @@ namespace Tgstation.Server.Host.Models
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
 			chatChannel.HasOne(x => x.ChatSettings).WithMany(x => x.Channels).HasForeignKey(x => x.ChatSettingsId).OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<ChatSettings>().HasIndex(x => x.Name).IsUnique();
+
 			var instanceModel = modelBuilder.Entity<Instance>();
 			instanceModel.HasIndex(x => x.Path).IsUnique();
 			instanceModel.HasMany(x => x.ChatSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);

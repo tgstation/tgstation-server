@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Chat;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -233,7 +234,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						break;
 					default:
 						status = HttpStatusCode.BadRequest;
-						content = new { message = "Requested command not supported!" };
+						content = new ErrorMessage { Message = "Requested command not supported!" };
 						break;
 				}
 			return Task.FromResult<object>(new { STATUS = status, CONTENT = content });
