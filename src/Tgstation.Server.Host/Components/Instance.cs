@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Components
 
 					RepositorySettings repositorySettings = null;
 					string projectName = null;
-					int timeout = 0;
+					uint timeout = 0;
 					var dbTask = databaseContextFactory.UseContext(async (db) =>
 					{
 						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);

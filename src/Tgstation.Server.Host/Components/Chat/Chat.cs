@@ -519,6 +519,18 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task DeleteConnection(long connectionId, CancellationToken cancellationToken) => RemoveProvider(connectionId, true, cancellationToken);
+		public async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)
+		{
+			var provider = await RemoveProvider(connectionId, true, cancellationToken).ConfigureAwait(false);
+			if (provider != null)
+				try
+				{
+					await provider.Disconnect(cancellationToken).ConfigureAwait(false);
+				}
+				finally
+				{
+					provider.Dispose();
+				}
+		}
 	}
 }

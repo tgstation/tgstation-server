@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -148,7 +149,7 @@ namespace Tgstation.Server.Host.Core
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 
 				//mark all jobs as cancelled
-				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToAsyncEnumerable().ToList(cancellationToken).ConfigureAwait(false);
+				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
 				foreach(var I in enumerator)
 				{
 					var job = new Job { Id = I };

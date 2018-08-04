@@ -42,6 +42,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(ReadRight = DreamDaemonRights.ReadMetadata, WriteRight = DreamDaemonRights.SetStartupTimeout)]
 		[Required]
-		public int? StartupTimeout { get; set; }
+		public uint? StartupTimeout { get; set; }
 	}
 }

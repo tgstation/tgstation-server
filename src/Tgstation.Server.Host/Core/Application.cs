@@ -150,6 +150,7 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 				options.SerializerSettings.CheckAdditionalContent = true;
 				options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
+				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
