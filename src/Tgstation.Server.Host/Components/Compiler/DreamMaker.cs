@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <summary>
 		/// Extension for .dmes
 		/// </summary>
-		const string DmeExtension = ".dme";
+		const string DmeExtension = "dme";
 
 		/// <inheritdoc />
 		public CompilerStatus Status { get; private set; }
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			};
 
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))));
+			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))), job);
 
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
@@ -143,10 +143,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 			using (var dm = new Process())
 			{
 				dm.StartInfo.FileName = dreamMakerPath;
-				dm.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "-clean {0}{1}", job.DmeName, DmeExtension);
+				dm.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "-clean {0}.{1}", job.DmeName, DmeExtension);
 				dm.StartInfo.WorkingDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
 				dm.StartInfo.RedirectStandardOutput = true;
 				dm.StartInfo.RedirectStandardError = true;
+				dm.StartInfo.UseShellExecute = false;
 				var OutputList = new StringBuilder();
 				var eventHandler = new DataReceivedEventHandler(
 					delegate (object sender, DataReceivedEventArgs e)
@@ -163,6 +164,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 				dm.Exited += (a, b) => dmTcs.SetResult(null);
 
 				dm.Start();
+				dm.BeginOutputReadLine();
+				dm.BeginErrorReadLine();
 				try
 				{
 					using (cancellationToken.Register(() => dmTcs.SetCanceled()))
@@ -191,7 +194,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var dmePath = ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmeExtension));
+			var dmePath = ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension));
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
 			var dmeModificationsTask = configuration.CopyDMFilesTo(dmePath, ioManager.ResolvePath(dirA), cancellationToken);
@@ -228,15 +231,27 @@ namespace Tgstation.Server.Host.Components.Compiler
 		public async Task<Models.CompileJob> Compile(string projectName, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin Compile");
+
+			var job = new Models.CompileJob
+			{
+				DirectoryName = Guid.NewGuid(),
+				DmeName = projectName
+			};
+
+			lock (this)
+			{
+				if(Status != CompilerStatus.Idle)
+				{
+					job.Output = "There is already a compile in progress!";
+					return job;
+				}
+
+				Status = CompilerStatus.PreCompile;
+			}
 			await eventConsumer.HandleEvent(EventType.CompileStart, new List<string>{ repository.Origin }, cancellationToken).ConfigureAwait(false);
 			try
 			{
 				Status = CompilerStatus.Copying;
-				var job = new Models.CompileJob
-				{
-					DirectoryName = Guid.NewGuid(),
-					DmeName = projectName
-				};
 				await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
 				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 				var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
@@ -248,7 +263,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 					{
 						await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
 					}
-					catch { }
+					catch (Exception e)
+					{
+						logger.LogWarning("Error cleaning up compile directory {0}! Exception: {1}", ioManager.ResolvePath(job.DirectoryName.ToString()), e);
+					}
 				};
 
 				try
@@ -262,12 +280,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 					if (job.DmeName == null)
 					{
-						job.DmeName = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
-						if (job.DmeName == default)
+						var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
+						if (path == default)
 						{
 							job.Output = "Unable to find any .dme!";
 							return job;
 						}
+						var dmeWithExtension = ioManager.GetFileName(path);
+						job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 					}
 
 					await ModifyDme(job, cancellationToken).ConfigureAwait(false);
@@ -309,6 +329,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 						var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
 
 						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
+						Status = CompilerStatus.PostCompile;
 						await eventConsumer.HandleEvent(EventType.CompileComplete, null, cancellationToken).ConfigureAwait(false);
 					}
 					await compileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);

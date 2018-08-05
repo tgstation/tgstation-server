@@ -61,34 +61,40 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="dest">The destination directory path</param>
 		/// <param name="ignore">Files and folders to ignore at the root level</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation</returns>
+		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
 		{
-			await CreateDirectory(dest, cancellationToken).ConfigureAwait(false);
-
 			var dir = new DirectoryInfo(src);
-			cancellationToken.ThrowIfCancellationRequested();
-
-			var dirs = dir.EnumerateDirectories();
-			var files = dir.EnumerateFiles();			
-
-			var fileCopyTasks = files.Select(x =>
+			var atLeastOneSubDir = false;
+			foreach (var I in dir.EnumerateDirectories())
 			{
-				cancellationToken.ThrowIfCancellationRequested();
-				if (ignore != null && ignore.Contains(x.Name))
-					return Task.CompletedTask;
-				return CopyFile(x.FullName, Path.Combine(dest, x.Name), cancellationToken);
-			});
+				if (ignore != null && ignore.Contains(I.Name))
+					continue;
+				foreach (var J in CopyDirectoryImpl(I.FullName, Path.Combine(dest, I.Name), null, cancellationToken))
+				{
+					atLeastOneSubDir = true;
+					yield return J;
+				}
+			}
 
-			var directoryCopyTasks = dirs.Select(x =>
+			async Task CopyThisDirectory()
 			{
-				cancellationToken.ThrowIfCancellationRequested();
-				if (ignore != null && ignore.Contains(x.Name))
-					return Task.CompletedTask;
-				return CopyDirectoryImpl(x.FullName, Path.Combine(dest, x.Name), null, cancellationToken);
-			});
+				if (!atLeastOneSubDir)
+					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false);	//save on createdir calls
 
-			await Task.WhenAll(fileCopyTasks.Concat(directoryCopyTasks)).ConfigureAwait(false);
+				var tasks = new List<Task>();
+
+				await dir.EnumerateFiles().ToAsyncEnumerable().ForEachAsync(I =>
+				{
+					if (ignore != null && ignore.Contains(I.Name))
+						return;
+					tasks.Add(CopyFile(I.FullName, Path.Combine(dest, I.Name), cancellationToken));
+				}).ConfigureAwait(false);
+
+				await Task.WhenAll(tasks).ConfigureAwait(false);
+			};
+
+			yield return CopyThisDirectory();
 		}
 
 		/// <inheritdoc />
@@ -101,7 +107,8 @@ namespace Tgstation.Server.Host.IO
 			
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
-			await CopyDirectoryImpl(src, dest, ignore, cancellationToken).ConfigureAwait(false);
+			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, cancellationToken))
+				await directoryCopy.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

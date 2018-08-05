@@ -11,6 +11,10 @@
         /// The <see cref="DreamMaker"/> is idle
         /// </summary>
 		Idle,
+		/// <summary>
+		/// Pre-compile scripts are running
+		/// </summary>
+		PreCompile,
         /// <summary>
         /// The <see cref="Repository"/> is being copied
         /// </summary>
@@ -35,6 +39,10 @@
 		/// The configuration is being linked to the compile results
 		/// </summary>
 		Symlinking,
+		/// <summary>
+		/// Post-compile scripts are running
+		/// </summary>
+		PostCompile,
 		/// <summary>
 		/// A failed compile job is being erased
 		/// </summary>

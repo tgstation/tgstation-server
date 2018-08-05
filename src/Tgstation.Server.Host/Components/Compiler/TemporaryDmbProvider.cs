@@ -18,17 +18,19 @@ namespace Tgstation.Server.Host.Components.Compiler
 		public string SecondaryDirectory => throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public CompileJob CompileJob => null;
+		public CompileJob CompileJob { get; }
 
 		/// <summary>
 		/// Construct a <see cref="TemporaryDmbProvider"/>
 		/// </summary>
 		/// <param name="directory">The value of <see cref="PrimaryDirectory"/></param>
 		/// <param name="dmb">The value of <see cref="DmbName"/></param>
-		public TemporaryDmbProvider(string directory, string dmb)
+		/// <param name="compileJob">The value of <see cref="CompileJob"/></param>
+		public TemporaryDmbProvider(string directory, string dmb, CompileJob compileJob)
 		{
 			DmbName = dmb ?? throw new ArgumentNullException(nameof(dmb));
 			PrimaryDirectory = directory ?? throw new ArgumentNullException(nameof(directory));
+			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
 		}
 
 		/// <inheritdoc />

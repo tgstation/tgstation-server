@@ -183,5 +183,35 @@ namespace Tgstation.Server.Host.Components.Compiler
 				return new DmbProvider(compileJob, ioManager, () => CleanJob(compileJob));
 			}
 		}
+
+		/// <inheritdoc />
+		public async Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken)
+		{
+			List<long> jobIdsToSkip;
+			//don't clean locked directories
+			lock (this)
+				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
+
+			List<string> jobUidsToNotErase = null;
+
+			//find the uids of locked directories
+			await databaseContextFactory.UseContext(async db =>
+			{
+				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id) && x.DirectoryName.HasValue).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
+			}).ConfigureAwait(false);
+
+			//add the other exemption
+			if (exceptThisOne != null)
+				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
+
+			//cleanup
+			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+			await Task.WhenAll(directories.Select(x =>
+			{
+				if (jobUidsToNotErase.Contains(x.ToUpperInvariant()))
+					return Task.CompletedTask;
+				return ioManager.DeleteDirectory(x, cancellationToken);
+			})).ConfigureAwait(false);
+		}
 	}
 }
