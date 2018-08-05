@@ -96,7 +96,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li class="level1"><a href="#api_ver">Getting the server version</a></li>
 <li class="level1"><a href="#api_admin">Server-wide Administrative Actions</a></li>
-<li class="level1"><a href="#api_inst">Instances</a></li>
+<li class="level1"><a href="#api_inst">Instances</a><ul><li class="level2"><a href="#api_chat">Chat Bots</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="api_intro"></a>
@@ -216,7 +218,26 @@ Server-wide Administrative Actions</h1>
 Instances</h1>
 <p>Instances are DreamDaemon server configurations, they live in their own directory on the disk somewhere you specify. TGS starts with no default instance, to create one use this request:</p>
 <p>PUT "/Instance" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
-<p>The path </p>
+<p>The user that creates an instance will be given full <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a> permission. The path must not exist at the time of creation. Support for attaching instances from backups is yet to come.</p>
+<p>A specific Instance may be retrieved with:</p>
+<p>GET "/Instances/{InstanceID}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
+<p>Instances start offline, regardless of what was specified during the create request. An offline instance will return 403 for all requests made to it.</p>
+<p>To online or change other instance variables use the following request. Note that using this request (even with an empty object) will automatically give you the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a3badec42263851e465a5366985238db6a6da2fa278de1516d65f3ebe77670f215">Tgstation.Server.Api.Rights.InstanceUserRights.WriteUsers</a> right for that instance if you don't have it</p>
+<p>POST "/Instance" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
+<p>Note that onlining an offline instance will never automatically start DreamDaemon. That must be done as a seperate step.</p>
+<p>Instances can be detached which will delete all meta knowledge of the instance (Compile metadata, job metadata, repository commit metadata, Test merge metadata, etc...) but leave the files intact. That can be done with this request:</p>
+<p>DELETE "/Instance/{InstanceId}" =&gt; OK</p>
+<h2><a class="anchor" id="api_chat"></a>
+Chat Bots</h2>
+<p>Each chat bot is represented by a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a> object</p>
+<p>Chat bots can be created/updated/deleted with the following requests respectively</p>
+<p>I PUT "/Chat" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a> I POST "/Chat" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a> I DELETE "/Chat/{ChatSettingsId}" =&gt; OK</p>
+<p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_settings.html#a6a3a18285554cadb4f2bd64aa4df0b2e">Tgstation.Server.Api.Models.Internal.ChatSettings.ConnectionString</a> must differ based on what kind of chat bot you wish to create</p>
+<p>For IRC chat bots it should be in the following format: <code>"\&lt;Server URL or IP address\&gt;;\&lt;Server Port\&gt;;\&lt;Bot nickname\&gt;;\&lt;1 to use SSL, 0 otherwise\&gt;[;\&lt;&lt;/tt&gt;The @ref Tgstation.Server.Api.Models.IrcPasswordType&lt;tt&gt;;\&lt;The password\&gt;]"</code></p>
+<p>For Discord chat bots it should be the <a href="https://discordapp.com/developers/docs/topics/oauth2#bots">bot's Token</a></p>
+<p>A specific bot's settings may be retrieved with:</p>
+<p>I GET "/Chat/{ChatSettingsId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a></p>
+<p>Also note that if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html#a50edcc1af320658d7335538e223cbec3">Tgstation.Server.Api.Models.ChatSettings.Channels</a> is present in a POST request, the list will fully replace any active channels </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

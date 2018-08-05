@@ -2,8 +2,8 @@ var searchData=
 [
   ['watchdog',['Watchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
   ['watchdog',['Watchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]],
+  ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['watchdoglaunchresult',['WatchdogLaunchResult',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_launch_result.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['watchdogreattachinformation',['WatchdogReattachInformation',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_watchdog_reattach_information.html',1,'Tgstation::Server::Host::Models']]],
   ['watchdogreattachinformation',['WatchdogReattachInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_reattach_information.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
