@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(dest));
 			using (var srcStream = new FileStream(ResolvePath(src), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true))
 			using (var destStream = new FileStream(ResolvePath(dest), FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true))
-				await srcStream.CopyToAsync(destStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+				await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

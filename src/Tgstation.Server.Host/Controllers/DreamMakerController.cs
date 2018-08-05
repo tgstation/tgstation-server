@@ -48,11 +48,11 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
-			var projectNameTask = DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).Select(x => x.ProjectName).FirstAsync(cancellationToken);
-			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Include(x => x.Job).FirstAsync(cancellationToken).ConfigureAwait(false);
+			var projectNameTask = DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).Select(x => x.ProjectName).FirstOrDefaultAsync(cancellationToken);
+			var job = await DatabaseContext.CompileJobs.OrderByDescending(x => x.Job.StartedAt).Include(x => x.Job).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			return Json(new Api.Models.DreamMaker
 			{
-				LastJob = job.ToApi(),
+				LastJob = job?.ToApi(),
 				ProjectName = await projectNameTask.ConfigureAwait(false),
 				Status = instance.DreamMaker.Status
 			});
@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
-			return Json(job);
+			return Json(job.ToApi());
 		}
 
 		/// <inheritdoc />
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.DreamMakerSettings.Attach(hostModel);
 			hostModel.ProjectName = model.ProjectName;
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			return Ok();
+			return await Read(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -96,19 +96,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceModel">The <see cref="Models.Instance"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		static async Task RunCompile(Job job, IServiceProvider serviceProvider, Models.Instance instanceModel, CancellationToken cancellationToken)
+		async Task RunCompile(Job job, IServiceProvider serviceProvider, Models.Instance instanceModel, CancellationToken cancellationToken)
 		{
 			var instanceManager = serviceProvider.GetRequiredService<IInstanceManager>();
 			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
 
-			var timeoutTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.StartupTimeout).FirstAsync(cancellationToken);
-			var projectName = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.ProjectName).FirstAsync(cancellationToken).ConfigureAwait(false);
+			var timeoutTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.StartupTimeout).FirstOrDefaultAsync(cancellationToken);
+			var projectName = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.ProjectName).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			var timeout = await timeoutTask.ConfigureAwait(false);
 
 			var instance = instanceManager.GetInstance(instanceModel);
 
 			CompileJob compileJob;
-			Task<RevisionInformation> revInfoTask;
+			string repoSha = null;
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
@@ -116,12 +116,26 @@ namespace Tgstation.Server.Host.Controllers
 					job.ExceptionDetails = "Missing repository!";
 					return;
 				}
-				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repo.Head).Select(x => new RevisionInformation { Id = x.Id }).FirstAsync();
+				repoSha = repo.Head;
 				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
 			compileJob.Job = job;
-			compileJob.RevisionInformation = await revInfoTask.ConfigureAwait(false);
+			compileJob.RevisionInformation = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Select(x => new RevisionInformation { Id = x.Id }).FirstOrDefaultAsync().ConfigureAwait(false);
+
+			if (compileJob.RevisionInformation == default)
+			{
+				compileJob.RevisionInformation = new RevisionInformation
+				{
+					CommitSha = repoSha,
+					OriginCommitSha = repoSha,
+					Instance = new Models.Instance
+					{
+						Id = Instance.Id
+					}
+				};
+				DatabaseContext.Instances.Attach(compileJob.RevisionInformation.Instance);
+			}
 
 			databaseContext.CompileJobs.Add(compileJob);
 			//default ct because we don't want to give up after getting this far

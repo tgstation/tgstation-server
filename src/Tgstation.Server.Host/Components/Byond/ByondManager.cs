@@ -100,6 +100,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				using (cancellationToken.Register(() => ourTcs.SetCanceled()))
 				{
 					await Task.WhenAny(ourTcs.Task, inProgressTask).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
 					return;
 				}
 			try

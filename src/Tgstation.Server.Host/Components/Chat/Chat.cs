@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="ICommandFactory"/> for the <see cref="Chat"/>
+		/// </summary>
+		readonly ICommandFactory commandFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Chat"/>
 		/// </summary>
 		readonly ILogger<Chat> logger;
@@ -94,19 +99,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="commandFactory">The <see cref="ICommandFactory"/> used to populate <see cref="builtinCommands"/></param>
+		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
 		/// <param name="initialChatSettings">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatSettings"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ILogger<Chat> logger, ICommandFactory commandFactory, IEnumerable<Models.ChatSettings> initialChatSettings)
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, ILogger<Chat> logger, IEnumerable<Models.ChatSettings> initialChatSettings)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.initialChatSettings = initialChatSettings?.ToList() ?? throw new ArgumentNullException(nameof(initialChatSettings));
 
 			builtinCommands = new Dictionary<string, ICommand>();
-			foreach (var I in commandFactory?.GenerateCommands() ?? throw new ArgumentNullException(nameof(commandFactory)))
-				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
-
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IJsonTrackingContext>();
@@ -189,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							message.User.Channel.RealId = enumerable.First().Key;
 					}
 
-			var splits = new List<string>(message.Content.TrimEnd().Split(' '));
+			var splits = new List<string>(message.Content.Trim().Split(' '));
 			var address = splits[0];
 			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
 				address = address.Substring(0, address.Length - 1);
@@ -205,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (addressed)
 				splits.RemoveAt(0);
 
-			if ((splits.Count == 1 && (!message.User.Channel.IsPrivate || splits[0].Length == 0)) || splits.Count == 0)
+			if (splits.Count == 0)
 			{
 				//just a mention
 				await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
@@ -461,6 +464,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
+			foreach (var I in commandFactory.GenerateCommands())
+				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
 			await Task.WhenAll(initialChatSettings.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(initialChatSettings.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
@@ -514,6 +519,18 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task DeleteConnection(long connectionId, CancellationToken cancellationToken) => RemoveProvider(connectionId, true, cancellationToken);
+		public async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)
+		{
+			var provider = await RemoveProvider(connectionId, true, cancellationToken).ConfigureAwait(false);
+			if (provider != null)
+				try
+				{
+					await provider.Disconnect(cancellationToken).ConfigureAwait(false);
+				}
+				finally
+				{
+					provider.Dispose();
+				}
+		}
 	}
 }

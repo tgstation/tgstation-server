@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -77,7 +76,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders.IsTokenAuthentication)
-				return BadRequest(new { message = "Cannot create a token using another token!" });
+				return BadRequest(new Api.Models.ErrorMessage { Message = "Cannot create a token using another token!" });
 
 			ISystemIdentity identity;
 			try

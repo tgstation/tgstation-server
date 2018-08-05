@@ -110,13 +110,13 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
-				return BadRequest(new { message = "Missing request model!" });
+				throw new ArgumentNullException(nameof(model));
 
 			if (model.Origin == null)
-				return BadRequest(new { message = "Missing repo origin!" });
+				return BadRequest(new ErrorMessage { Message = "Missing repo origin!" });
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new { message = "Either both accessToken and accessUser must be present or neither!" });
+				return BadRequest(new ErrorMessage { Message = "Either both accessToken and accessUser must be present or neither!" });
 
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
@@ -229,19 +229,19 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
-				return BadRequest(new { message = "Missing request model!" });
+				throw new ArgumentNullException(nameof(model));
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new { message = "Either both accessToken and accessUser must be present or neither!" });
+				return BadRequest(new ErrorMessage { Message = "Either both accessToken and accessUser must be present or neither!" });
 
 			if (model.CheckoutSha != null && model.Reference != null)
-				return BadRequest(new { message = "Only one of sha or reference may be specified!" });
+				return BadRequest(new ErrorMessage { Message = "Only one of sha or reference may be specified!" });
 
 			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
-				return BadRequest(new { message = "Cannot update a reference when checking out a sha!" });
+				return BadRequest(new ErrorMessage { Message = "Cannot update a reference when checking out a sha!" });
 
 			if (model.Origin != null)
-				return BadRequest(new { message = "origin cannot be modified without deleting the repository!" });
+				return BadRequest(new ErrorMessage { Message = "origin cannot be modified without deleting the repository!" });
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);

@@ -61,6 +61,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var cancelTcs = new TaskCompletionSource<object>();
 			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 				await Task.WhenAny(nextMessage.Task, cancelTcs.Task).ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
 			lock (messageQueue)
 			{
 				var result = messageQueue.Dequeue();

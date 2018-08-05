@@ -22,6 +22,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool AlphaIsActive { get; }
 
 		/// <summary>
+		/// The <see cref="CompileJob"/> currently running on the server
+		/// </summary>
+		Models.CompileJob ActiveCompileJob { get; }
+
+		/// <summary>
 		/// The latest <see cref="LaunchResult"/> of the twin servers
 		/// </summary>
 		LaunchResult LastLaunchResult { get; }

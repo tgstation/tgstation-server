@@ -30,6 +30,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public bool AlphaIsActive { get; private set; }
 
 		/// <inheritdoc />
+		public Models.CompileJob ActiveCompileJob => (AlphaIsActive ? alphaServer : bravoServer)?.Dmb.CompileJob;
+
+		/// <inheritdoc />
 		public LaunchResult LastLaunchResult { get; private set; }
 
 		/// <inheritdoc />
@@ -494,6 +497,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (monitorState.RebootingInactiveServer)
 							toWaitOn = Task.WhenAny(toWaitOn, inactiveServerStartup);
 						await toWaitOn.ConfigureAwait(false);
+						cancellationToken.ThrowIfCancellationRequested();
 					}
 
 					var chatTask = Task.CompletedTask;
@@ -680,6 +684,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var cancelTcs = new TaskCompletionSource<object>();
 						using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 							await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
+						cancellationToken.ThrowIfCancellationRequested();
 
 						//update the live and staged jobs in the db
 						await databaseContextFactory.UseContext(async db =>

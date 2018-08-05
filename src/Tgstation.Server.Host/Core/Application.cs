@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Octokit;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,7 +22,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
@@ -151,6 +149,8 @@ namespace Tgstation.Server.Host.Core
 				options.AllowInputFormatterExceptionMessages = true;
 				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 				options.SerializerSettings.CheckAdditionalContent = true;
+				options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
+				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
@@ -205,7 +205,6 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			services.AddSingleton<IExecutor, Executor>();
-			services.AddSingleton<ICommandFactory, CommandFactory>();
 			services.AddSingleton<IScriptExecutor, ScriptExecutor>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender

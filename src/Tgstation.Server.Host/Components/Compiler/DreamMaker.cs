@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -105,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(int timeout, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(uint timeout, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
 		{
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
@@ -124,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
 
 				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-
+				cancellationToken.ThrowIfCancellationRequested();
 				if (!controller.Lifetime.IsCompleted)
 					return false;
 
@@ -226,7 +225,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(string projectName, int apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(string projectName, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin Compile");
 			await eventConsumer.HandleEvent(EventType.CompileStart, new List<string>{ repository.Origin }, cancellationToken).ConfigureAwait(false);

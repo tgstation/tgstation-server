@@ -65,10 +65,10 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
 		{
 			if (model == null)
-				return BadRequest(new { message = "Missing request model!" });
+				throw new ArgumentNullException(nameof(model));
 
-			if(model.Version == null)
-				return BadRequest(new { message = "Missing version!" });
+			if (model.Version == null)
+				return BadRequest(new ErrorMessage { Message = "Missing version!" });
 
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 

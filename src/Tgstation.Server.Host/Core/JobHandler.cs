@@ -47,6 +47,7 @@ namespace Tgstation.Server.Host.Core
 			TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
 			using (cancellationToken.Register(() => tcs.SetCanceled()))
 				await Task.WhenAny(tcs.Task, task).ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
 		}
 
 		/// <summary>

@@ -58,11 +58,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IExecutor executor;
 
 		/// <summary>
-		/// The <see cref="ICommandFactory"/> for the <see cref="InstanceFactory"/>
-		/// </summary>
-		readonly ICommandFactory commandFactory;
-
-		/// <summary>
 		/// The <see cref="ISynchronousIOManager"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly ISynchronousIOManager synchronousIOManager;
@@ -98,13 +93,12 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="executor">The value of <see cref="executor"/></param>
-		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="scriptExecutor">The value of <see cref="scriptExecutor"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ICommandFactory commandFactory, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IScriptExecutor scriptExecutor)
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, IExecutor executor, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IScriptExecutor scriptExecutor)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -114,7 +108,6 @@ namespace Tgstation.Server.Host.Components
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite	));
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
-			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
@@ -140,13 +133,13 @@ namespace Tgstation.Server.Host.Components
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata.CloneMetadata());
 			try
 			{
-				var commandFactory = new CommandFactory(application);
-				var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
-
 				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer);
 				try
 				{
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
+
+					var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
+					var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
 
 					var chat = chatFactory.CreateChat(metadata.ChatSettings);
 					try
@@ -156,9 +149,10 @@ namespace Tgstation.Server.Host.Components
 						var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, eventConsumer, metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(dmbFactory, metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
+						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, ioManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, loggerFactory.CreateLogger<DreamMaker>());
+							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, loggerFactory.CreateLogger<DreamMaker>());
 
 							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<Instance>());
 						}

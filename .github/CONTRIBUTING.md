@@ -20,19 +20,9 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-We reccommend any Visual Studio version that can support the .NET framework v4.5.2. However, the project should be buildable with any C# compiler than can read .sln files. Once installed, simply double-click TGStationServer3.sln to open it.
+You need the Dotnet SDK to compile the main server and command line programs. In order to build the service version and control panel you also need a .NET 4.7.1 build chain
 
-#### Installing Dependencies
-
-Visual Studio comes with the nuget package manager. To install the dependencies, right-click the solution and select `Restore NuGet Packages`. If you are using some other development environment, you can download nuget [here](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) as a single CLI executable. Then simply run `nuget restore TGStationServer3.sln` from the root of the project directory. 
-
-##### (Optional) Installing WiX Toolset Visual Studio Extension
-
-The [WiX Toolset](http://wixtoolset.org/) is used for creating the installer .msi (Not the .exe, which is a standard C# program wrapper to the .msi). Building and modifying this is not required for debugging and development of the service but necessary if you want to debug tweaks to the installer configuration. The WiX toolset is bundled as a nuget package with the solution, all that is required to use it is the VS extension found [here](https://marketplace.visualstudio.com/items?itemName=RobMensching.WixToolsetVisualStudio2017Extension). This will allow you to build `TGS.Installer.wixproj` just like all the other projects.
-
-##### Debugging
-
-Be careful while debugging. The service runs with root level privileges and you wouldn't want any [accidents](http://i.imgur.com/zvGEpJD.png) to happen, would you?
+The recommended IDE is visual studio 2017 which has installation options for both of these.
 
 ## Meet the Team
 
@@ -69,7 +59,29 @@ Copying code from one place to another may be suitable for small, short-time pro
 Instead you can use object orientation, or simply placing repeated code in a function, to obey this specification easily.
 
 ### No magic numbers or strings
-This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these #defines with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
+This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these `const string`s with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
+
+### Class Design Guidelines
+
+DO:
+
+- Use the sealed keyword where possible
+- Use the readonly keyword where possible
+- Use 1 line bodies (void X() => Y();) where possible (Excluding constructors)
+- Use the factory pattern where reasonable
+- Use the const keyword where possible
+- Use the var keyword where possible
+- Use the static keyword on member functions where possible
+- Use CancellationTokens where possible
+- Throw appropriate ArgumentExceptions for public functions
+
+DON'T:
+
+- Use the private keyword
+- Use the internal keyword
+- Use the static keyword on fields where avoidable
+- Use the public keyword where avoidable
+- Handle Tasks in a synchronous fashion
 
 ### Versioning
 
@@ -113,11 +125,7 @@ This prevents nesting levels from getting deeper then they need to be.
 ### Other Notes
 * Code should be modular where possible; if you are working on a new addition, then strongly consider putting it in its own file unless it makes sense to put it with similar ones.
 
-* Bloated code may be necessary to add a certain feature, which means there has to be a judgement over whether the feature is worth having or not. You can help make this decision easier by making sure your code is modular.
-
 * You are expected to help maintain the code that you add, meaning that if there is a problem then you are likely to be approached in order to fix any issues, runtimes, or bugs.
-
-* If you used regex to replace code during development of your code, post the regex in your PR for the benefit of future developers and downstream users.
 
 ## Pull Request Process
 
@@ -143,9 +151,3 @@ Just becuase something isn't on this list doesn't mean that it's acceptable. Use
 
 ## A word on Git
 Yes, we know that the files have a tonne of mixed Windows and Linux line endings. Attempts to fix this have been met with less than stellar success, and as such we have decided to give up caring until there comes a time when it matters.
-
-Therefore, EOF settings of main repo are forbidden territory one must avoid wandering into, at risk of losing body and/or mind to the Git gods.
-
-## Other Notes
-
-* Feel free to add your nuget account to TGServiceInterface/Packages.nuspec authors list if you modify the interface

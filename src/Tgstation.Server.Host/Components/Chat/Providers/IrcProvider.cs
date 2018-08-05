@@ -19,6 +19,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	{
 		const int TimeoutSeconds = 5;
 
+		const string QuitMeme = "Mr. Stark, I don't feel so good...";
+
 		/// <inheritdoc />
 		public override bool Connected => client.IsConnected;
 
@@ -77,6 +79,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Task listenTask;
 
 		/// <summary>
+		/// If we are disconnecting
+		/// </summary>
+		bool disconnecting;
+
+		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
 		/// <param name="logger">The value of logger</param>
@@ -130,13 +137,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			channelIdMap = new Dictionary<ulong, string>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
 			channelIdCounter = 1;
+			disconnecting = false;
 		}
 
 		/// <inheritdoc />
 		public override void Dispose()
 		{
-			if(Connected)
+			if (Connected)
+			{
+				disconnecting = true;
 				client.Disconnect();    //just closes the socket
+			}
 		}
 
 		/// <summary>
@@ -209,6 +220,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
+			disconnecting = false;
 			lock (this)
 				try
 				{
@@ -276,9 +288,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					listenTask = Task.Factory.StartNew(() =>
 					{
-						while (client.IsConnected)
+						while (!disconnecting && client.IsConnected)
 						{
 							client.ListenOnce(true);
+							if (disconnecting || !client.IsConnected)
+								break;
 							client.Listen(false);
 							//ensure we have the correct nick
 							if (client.Nickname != nickname && client.GetIrcUser(nickname) == null)
@@ -304,7 +318,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					try
 					{
-						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical);	//priocritical otherwise Disconnect will hard block
+						client.RfcQuit(QuitMeme, Priority.Critical);   //priocritical otherwise it wont go through
 					}
 					catch (Exception e)
 					{
@@ -336,7 +350,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						toPart.Add(I);
 
 				foreach (var I in toPart)
-					client.RfcPart(I);
+					client.RfcPart(I, QuitMeme);
 				foreach (var I in hs)
 					client.RfcJoin(I);
 

@@ -68,14 +68,14 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (!(model.Password == null ^ model.SystemIdentifier == null))
-				return BadRequest(new { message = "User must have exactly one of either a password or system identifier!" });
+				return BadRequest(new ErrorMessage { Message = "User must have exactly one of either a password or system identifier!" });
 
 			model.Name = model.Name?.Trim();
 			if (model.Name?.Length == 0)
 				model.Name = null;
 
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
-				return BadRequest(new { message = "User must have a name if and only if user has no system identifier!" });
+				return BadRequest(new ErrorMessage { Message = "User must have a name if and only if user has no system identifier!" });
 
 			var dbUser = new Models.User
 			{
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 			{
 				if (model.Password.Length < generalConfiguration.MinimumPasswordLength)
-					return BadRequest(new { message = String.Format(CultureInfo.InvariantCulture, "Password must be at least {0} characters long!", generalConfiguration.MinimumPasswordLength) });
+					return BadRequest(new ErrorMessage { Message = String.Format(CultureInfo.InvariantCulture, "Password must be at least {0} characters long!", generalConfiguration.MinimumPasswordLength) });
 				cryptographySuite.SetUserPassword(dbUser, model.Password);
 			}
 
@@ -154,14 +154,14 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Password != null)
 			{
 				if (originalUser.PasswordHash == null)
-					return BadRequest(new { message = "Cannot convert a system user to a password user!" });
+					return BadRequest(new ErrorMessage { Message = "Cannot convert a system user to a password user!" });
 				cryptographySuite.SetUserPassword(originalUser, model.Password);
 			}
 			else if(model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
-				return BadRequest(new { message = "Cannot change a user's system identifier!" });
+				return BadRequest(new ErrorMessage { Message = "Cannot change a user's system identifier!" });
 
 			if (model.Name != null && model.Name.ToUpperInvariant() != originalUser.CanonicalName)
-				return BadRequest(new { message = "Can only change capitalization of a user's name!" });
+				return BadRequest(new ErrorMessage { Message = "Can only change capitalization of a user's name!" });
 
 			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
 			originalUser.AdministrationRights = model.AdministrationRights ?? originalUser.AdministrationRights;

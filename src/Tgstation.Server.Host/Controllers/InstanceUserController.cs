@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (!model.UserId.HasValue)
-				return BadRequest(new { message = "Missing UserId!" });
+				return BadRequest(new ErrorMessage { Message = "Missing UserId!" });
 
 			return null;
 		}
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (DbUpdateConcurrencyException e)
 			{
-				return Conflict(new { message = e.Message });
+				return Conflict(new ErrorMessage { Message = e.Message });
 			}
 			return Json(dbUser.ToApi());
 		}
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (DbUpdateConcurrencyException e)
 			{
-				return Conflict(new { message = e.Message });
+				return Conflict(new ErrorMessage { Message = e.Message });
 			}
 			return Json(originalUser.ToApi());
 		}
