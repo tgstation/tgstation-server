@@ -108,7 +108,8 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = instanceManager.GetInstance(instanceModel);
 
 			CompileJob compileJob;
-			string repoSha = null;
+			Task<RevisionInformation> revInfoTask;
+			string repoSha;
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
@@ -117,11 +118,15 @@ namespace Tgstation.Server.Host.Controllers
 					return;
 				}
 				repoSha = repo.Head;
+				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Select(x => new RevisionInformation { Id = x.Id }).FirstOrDefaultAsync();
 				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
+			if (compileJob.DMApiValidated != true)
+				return;
+
 			compileJob.Job = job;
-			compileJob.RevisionInformation = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Select(x => new RevisionInformation { Id = x.Id }).FirstOrDefaultAsync().ConfigureAwait(false);
+			compileJob.RevisionInformation = await revInfoTask.ConfigureAwait(false);
 
 			if (compileJob.RevisionInformation == default)
 			{
@@ -134,12 +139,24 @@ namespace Tgstation.Server.Host.Controllers
 						Id = Instance.Id
 					}
 				};
-				DatabaseContext.Instances.Attach(compileJob.RevisionInformation.Instance);
+				databaseContext.Instances.Attach(compileJob.RevisionInformation.Instance);
 			}
 
 			databaseContext.CompileJobs.Add(compileJob);
-			//default ct because we don't want to give up after getting this far
-			await databaseContext.Save(default).ConfigureAwait(false);
+			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			//now load the entire compile job tree into the consumer
+			//default ct because we don't want to give up after getting this far since we already set this job as staged in the db
+			var finalCompileJob = await databaseContext.CompileJobs.Where(x => x.Id == compileJob.Id)
+				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+				.FirstOrDefaultAsync().ConfigureAwait(false);	//can't wait to see that query
+			if (finalCompileJob == null)
+				//lol git fucked
+				return;
+
+			await instance.CompileJobConsumer.LoadCompileJob(finalCompileJob, default).ConfigureAwait(false);
 		}
 	}
 }

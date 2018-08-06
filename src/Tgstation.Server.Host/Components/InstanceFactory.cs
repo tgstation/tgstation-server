@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Components
 			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, scriptExecutor, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
 
-			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, metadata.CloneMetadata());
+			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 			try
 			{
 				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer);

@@ -35,10 +35,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
 
-		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly ICompileJobConsumer compileJobConsumer;
+		/// <inheritdoc />
+		public ICompileJobConsumer CompileJobConsumer { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
@@ -79,7 +77,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="configuration">The value of <see cref="Configuration"/></param>
-		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// <param name="compileJobConsumer">The value of <see cref="CompileJobConsumer"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
@@ -92,7 +90,7 @@ namespace Tgstation.Server.Host.Components
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
+			CompileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -102,7 +100,7 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			timerCts?.Dispose();
-			compileJobConsumer.Dispose();
+			CompileJobConsumer.Dispose();
 			Configuration.Dispose();
 			Chat.Dispose();
 			Watchdog.Dispose();
@@ -196,7 +194,11 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Watchdog.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), CompileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
+
+			//dependent on so many things, its just safer this way
+			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
+
 			CompileJob latestCompileJob = null;
 			await databaseContextFactory.UseContext(async db =>
 			{
@@ -206,7 +208,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), CompileJobConsumer.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(int? newInterval)

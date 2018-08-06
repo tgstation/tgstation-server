@@ -115,15 +115,19 @@ namespace Tgstation.Server.Host.Components.Compiler
 			};
 
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(ioManager.GetDirectoryName(dirA)), ioManager.ResolvePath(ioManager.ConcatPath(dirA, String.Concat(job.DmeName, DmbExtension))), job);
+			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Join('.', job.DmeName, DmbExtension), job);
 
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
-				var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
+				var now = DateTimeOffset.Now;
+				if (now < timeoutAt)
+				{
+					var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
 
-				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-				cancellationToken.ThrowIfCancellationRequested();
+					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
 				if (!controller.Lifetime.IsCompleted)
 					return false;
 
@@ -161,14 +165,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				dm.EnableRaisingEvents = true;
 				var dmTcs = new TaskCompletionSource<object>();
-				dm.Exited += (a, b) => dmTcs.SetResult(null);
+				dm.Exited += (a, b) => dmTcs.TrySetResult(null);
 
 				dm.Start();
 				dm.BeginOutputReadLine();
 				dm.BeginErrorReadLine();
 				try
 				{
-					using (cancellationToken.Register(() => dmTcs.SetCanceled()))
+					using (cancellationToken.Register(() => dmTcs.TrySetCanceled()))
 						await dmTcs.Task.ConfigureAwait(false);
 				}
 				finally
@@ -246,12 +250,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 					return job;
 				}
 
-				Status = CompilerStatus.PreCompile;
+				Status = CompilerStatus.Copying;
 			}
-			await eventConsumer.HandleEvent(EventType.CompileStart, new List<string>{ repository.Origin }, cancellationToken).ConfigureAwait(false);
 			try
 			{
-				Status = CompilerStatus.Copying;
 				await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
 				var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 				var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
@@ -273,8 +275,13 @@ namespace Tgstation.Server.Host.Components.Compiler
 				{
 					//copy the repository
 					var fullDirA = ioManager.ResolvePath(dirA);
+					var repoOrigin = repository.Origin;
 					using (repository)
 						await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
+
+					Status = CompilerStatus.PreCompile;
+
+					await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)), repoOrigin }, cancellationToken).ConfigureAwait(false);
 
 					Status = CompilerStatus.Modifying;
 
@@ -304,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						Status = CompilerStatus.Verifying;
 
-						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, byondLock, cancellationToken).ConfigureAwait(false);
+					ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, byondLock, cancellationToken).ConfigureAwait(false);
 					}
 
 					if (!ddVerified)
@@ -332,7 +339,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 						Status = CompilerStatus.PostCompile;
 						await eventConsumer.HandleEvent(EventType.CompileComplete, null, cancellationToken).ConfigureAwait(false);
 					}
-					await compileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
 					return job;
 				}
 				catch

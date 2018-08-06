@@ -12,13 +12,13 @@
 		/// </summary>
 		Idle,
 		/// <summary>
-		/// Pre-compile scripts are running
-		/// </summary>
-		PreCompile,
-		/// <summary>
 		/// The <see cref="Repository"/> is being copied
 		/// </summary>
 		Copying,
+		/// <summary>
+		/// Pre-compile scripts are running
+		/// </summary>
+		PreCompile,
 		/// <summary>
 		/// The .dme is having it's server side modifications applied
 		/// </summary>

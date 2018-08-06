@@ -27,9 +27,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>
 		{
+			{ EventType.CompileStart, "PreCompile" }
 		};
 
-		static readonly string SystemScriptFileExtension = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".bat" : ".sh";
+		static readonly string SystemScriptFileExtension = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "bat" : "sh";
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>
@@ -298,7 +299,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, SystemScriptFileExtension, cancellationToken).ConfigureAwait(false);
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
-				foreach (var I in files.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
+				foreach (var I in files.Select(x => ioManager.GetFileName(x)).Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
 					if ((await scriptExecutor.ExecuteScript(ioManager.ConcatPath(resolvedScriptsDir, I), parameters, cancellationToken).ConfigureAwait(false)) != 0)
 						return false;
 			}

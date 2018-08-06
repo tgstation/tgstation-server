@@ -137,7 +137,7 @@ I DELETE "/InstanceUser/{UserId}" => OK
 
 Users with the permission to modify @ref Tgstation.Server.Api.Models.Instance objects can also gain user editing rights for any Instance. See @ref api_instance
 
-@section api_ver Getting the server version
+@section api_ver Version
 
 The version of TGS running can be retireved with this request
 
@@ -196,6 +196,24 @@ Instances can be detached which will delete all meta knowledge of the instance (
 
 DELETE "/Instance/{InstanceId}" => OK
 
+@subsection api_job Jobs
+
+Some requests return @ref Tgstation.Server.Api.Models.Job objects. These are long running tasks the server will perform asyncronously and can be polled for status.
+
+To list all jobs in an Instance use the following request
+
+I GET "/Job" => Array of @ref Tgstation.Server.Api.Models.Job
+
+Note that the response for this request will only have the @ref Tgstation.Server.Api.Models.Job.Id field populated
+
+To get full details of a job use the following request:
+
+I GET "/Job/{JobId}" => @ref Tgstation.Server.Api.Models.Job
+
+To cancel a running job (If the job can be cancelled and you have sufficient rights) use the following request:
+
+I DELETE "/Job/{JobId}" => OK
+
 @subsection api_chat Chat Bots
 
 Each chat bot is represented by a @ref Tgstation.Server.Api.Models.ChatSettings object
@@ -219,4 +237,39 @@ I GET "/Chat/{ChatSettingsId}" => @ref Tgstation.Server.Api.Models.ChatSettings
 
 Also note that if the @ref Tgstation.Server.Api.Models.ChatSettings.Channels is present in a POST request, the list will fully replace any active channels
 
+@subsection api_byond Byond Version Management
+
+To get the Byond version used for new compilations use the following request:
+
+I GET "/Byond" => @ref Tgstation.Server.Api.Models.Byond
+
+To set the active Byond version:
+
+I POST "/Byond" @ref Tgstation.Server.Api.Models.Byond => @ref Tgstation.Server.Api.Models.Byond
+
+To list all installed Byond versions use the following request:
+
+I GET "/Byond/List" => Array of @ref Tgstation.Server.Api.Models.Byond
+
+@subsection Git Repository Management
+
+To read the current repository state use the following request:
+
+I GET "/Repository" => @ref Tgstation.Server.Api.Models.Repository
+
+To clone the repository if it doesn't yet exist use the following request:
+
+I PUT "/Repository" => @ref Tgstation.Server.Api.Models.Repository
+
+The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository
+
+To delete an existing repository make the following request:
+
+I DELETE "/Repository" => OK
+
+Modifications to the repository are done with the following request:
+
+I POST "/Repository" => @ref Tgstation.Server.Api.Models.Repository => @ref Tgstation.Server.Api.Models.Repository
+
+Each update creates a job specified in the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field jobs will be queued in succession.
 */

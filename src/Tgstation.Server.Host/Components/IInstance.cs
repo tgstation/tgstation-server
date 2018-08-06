@@ -41,6 +41,11 @@ namespace Tgstation.Server.Host.Components
 		IChat Chat { get; }
 
 		/// <summary>
+		/// The <see cref="ICompileJobConsumer"/> for the <see cref="IInstance"/>
+		/// </summary>
+		ICompileJobConsumer CompileJobConsumer { get; }
+
+		/// <summary>
 		/// The <see cref="StaticFiles.IConfiguration"/> for the <see cref="IInstance"/>
 		/// </summary>
 		StaticFiles.IConfiguration Configuration { get; }

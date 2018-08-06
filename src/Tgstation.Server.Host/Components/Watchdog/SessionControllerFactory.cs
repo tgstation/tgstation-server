@@ -116,26 +116,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
-			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge
-			{
-				Author = x.Author,
-				Body = x.BodyAtMerge,
-				Comment = x.Comment,
-				CommitSha = x.PrimaryRevisionInformation.CommitSha,
-				Number = x.Number,
-				OriginCommitSha = x.PrimaryRevisionInformation.OriginCommitSha,
-				PullRequestCommit = x.PullRequestRevision,
-				TimeMerged = x.MergedAt.Ticks,
-				Title = x.TitleAtMerge,
-				Url = x.Url
-			}));
+
+			if (dmbProvider.CompileJob.RevisionInformation != null)	//null while compiling
+				interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge
+				{
+					Author = x.Author,
+					Body = x.BodyAtMerge,
+					Comment = x.Comment,
+					CommitSha = x.PrimaryRevisionInformation.CommitSha,
+					Number = x.Number,
+					OriginCommitSha = x.PrimaryRevisionInformation.OriginCommitSha,
+					PullRequestCommit = x.PullRequestRevision,
+					TimeMerged = x.MergedAt.Ticks,
+					Title = x.TitleAtMerge,
+					Url = x.Url
+				}));
 
 			var interopJsonFile = GuidJsonFile();
 
 			var interopJson = JsonConvert.SerializeObject(interopInfo);
 
 			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
-			var localIoManager = new ResolvingIOManager(ioManager, ioManager.ConcatPath(basePath, dmbProvider.DmbName));
+			var localIoManager = new ResolvingIOManager(ioManager, basePath);
 
 			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
 
