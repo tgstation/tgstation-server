@@ -243,7 +243,7 @@ namespace Tgstation.Server.Host.Core
 
 			logger.LogInformation(VersionString);
 
-			logger.LogDebug("Configuring middleware...");
+			logger.LogTrace("Configuring middleware...");
 
 			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 			
