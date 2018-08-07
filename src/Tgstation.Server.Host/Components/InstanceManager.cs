@@ -181,6 +181,10 @@ namespace Tgstation.Server.Host.Components
 				logger.LogInformation("Instance manager ready!");
 				application.Ready(null);
 			}
+			catch (OperationCanceledException)
+			{
+				logger.LogInformation("Cancelled instance manager initialization!");
+			}
 			catch (Exception e)
 			{
 				logger.LogCritical("Instance manager startup error! Exception: {0}", e);
