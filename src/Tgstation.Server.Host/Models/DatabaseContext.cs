@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-#if !DEBUG
 using System.Linq;
-#endif
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -47,21 +45,21 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public DbSet<Job> Jobs { get; set; }
 
+		/// <inheritdoc />
+		public DbSet<ReattachInformation> ReattachInformations { get; set; }
+
+		/// <inheritdoc />
+		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
+
 		/// <summary>
 		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
 
-		/// <inheritdoc />
-		public DbSet<ReattachInformation> ReattachInformations { get; set; }
-
 		/// <summary>
 		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
-
-		/// <inheritdoc />
-		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DatabaseContext{TParentContext}"/>
@@ -77,6 +75,7 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly DatabaseConfiguration databaseConfiguration;
+
 		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
@@ -99,7 +98,7 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			Logger.LogDebug("Building entity framework context...");
+			Logger.LogTrace("Building entity framework context...");
 			base.OnModelCreating(modelBuilder);
 
 			var userModel = modelBuilder.Entity<User>();
@@ -138,24 +137,35 @@ namespace Tgstation.Server.Host.Models
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
 			Logger.LogInformation("Migrating database...");
-#if DEBUG
-			Logger.LogWarning("Running in debug mode. Using all or nothing strategy!");
-			await Database.EnsureCreatedAsync().ConfigureAwait(false);
-			var wasEmpty = (await Users.CountAsync().ConfigureAwait(false)) == 0;
-#else
-			var migrations = await Database.GetAppliedMigrationsAsync().ConfigureAwait(false);
-			var wasEmpty = !migrations.Any();
-			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
-#endif
+
+			var wasEmpty = false;
+			if (!databaseConfiguration.NoMigrations)
+			{
+				Logger.LogWarning("Running in debug mode. Using all or nothing migration strategy!");
+				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+			}
+			else
+			{
+				var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+				wasEmpty = !migrations.Any();
+				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+			}
+
+			wasEmpty |= (await Users.CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
+
 			if (wasEmpty)
 			{
 				Logger.LogInformation("Seeding database...");
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 			}
-			else if (databaseConfiguration.ResetAdminPassword)
+			else
 			{
-				Logger.LogWarning("Enabling and resetting admin password due to configuration!");
-				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
+				Logger.LogDebug("No migrations applied!");
+				if (databaseConfiguration.ResetAdminPassword)
+				{
+					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
+					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
+				}
 			}
 		}
 

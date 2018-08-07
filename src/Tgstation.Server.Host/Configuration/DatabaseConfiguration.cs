@@ -24,5 +24,10 @@
 		/// The connection string for the database
 		/// </summary>
 		public string ConnectionString { get; set; }
+
+		/// <summary>
+		/// If the database should use direct table creation instead of automatic migrations. Should not be used in production!
+		/// </summary>
+		public bool NoMigrations { get; set; }
 	}
 }
