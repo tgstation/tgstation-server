@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Core
 				if (badJobs.Count > 0)
 				{
 					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobs.Count);
-					foreach (var I in enumerator)
+					foreach (var I in badJobs)
 					{
 						var job = new Job { Id = I };
 						databaseContext.Jobs.Attach(job);

@@ -74,12 +74,6 @@
 /world/proc/TgsReboot()
 	return
 
-//OPTIONAL HOOKS
-
-//called with debug messages
-/world/proc/TgsDebug(message)
-	return
-
 //DATUM DEFINITIONS
 //unless otherwise specified all datums defined here should be considered read-only, warranty void if written
 
