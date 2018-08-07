@@ -182,7 +182,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		void DisposeAndNullControllers()
 		{
-			logger.LogTrace("DisposeAndNullControllers");
 			alphaServer?.Dispose();
 			alphaServer = null;
 			bravoServer?.Dispose();
