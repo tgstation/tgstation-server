@@ -178,10 +178,12 @@ namespace Tgstation.Server.Host.Components
 				var tasks = new List<Task>();
 				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
+				logger.LogInformation("Instance manager ready!");
 				application.Ready(null);
 			}
 			catch (Exception e)
 			{
+				logger.LogCritical("Instance manager startup error! Exception: {0}", e);
 				application.Ready(e);
 			}
 		});
