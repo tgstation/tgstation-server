@@ -100,22 +100,24 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// Run a quick DD instance to test the DMAPI is installed on the target code
 		/// </summary>
 		/// <param name="timeout">The timeout in seconds for validation</param>
+		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to use to validate the API</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(uint timeout, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Verifying DMAPI...");
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
 				PrimaryPort = 0,    //pick any port
-				SecurityLevel = DreamDaemonSecurity.Safe,    //all it needs to read the file and exit
+				SecurityLevel = securityLevel,    //all it needs to read the file and exit
 				StartupTimeout = timeout
 			};
 
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Join('.', job.DmeName, DmbExtension), job);
+			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
 
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
@@ -129,9 +131,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 					cancellationToken.ThrowIfCancellationRequested();
 				}
 				if (!controller.Lifetime.IsCompleted)
+				{
+					logger.LogDebug("API validation timed out!");
 					return false;
+				}
 
-				return controller.ApiValidated;
+				var validated = controller.ApiValidated;
+				logger.LogTrace("API valid: {0}", validated);
+				return validated;
 			}
 		}
 
@@ -167,6 +174,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				var dmTcs = new TaskCompletionSource<object>();
 				dm.Exited += (a, b) => dmTcs.TrySetResult(null);
 
+				logger.LogTrace("Running DreamMaker...");
 				dm.Start();
 				dm.BeginOutputReadLine();
 				dm.BeginErrorReadLine();
@@ -184,8 +192,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 					}
 				}
 
-				job.Output = OutputList.ToString();
 				job.ExitCode = dm.ExitCode;
+				logger.LogDebug("DreamMaker exit code: {0}", job.ExitCode);
+				job.Output = OutputList.ToString();
+				logger.LogTrace("DreamMaker output: {0}", job.Output);
 			}
 		}
 
@@ -209,7 +219,18 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var dmeModifications = await dmeModificationsTask.ConfigureAwait(false);
 
 			if (dmeModifications == null || dmeModifications.TotalDmeOverwrite)
+			{
+				if (dmeModifications != null)
+					logger.LogDebug(".dme replacement configured!");
+				else
+					logger.LogTrace("No .dme modifications required.");
 				return;
+			}
+
+			if (dmeModifications.HeadIncludeLine != null)
+				logger.LogDebug("Head .dme include line: {0}", dmeModifications.HeadIncludeLine);
+			if (dmeModifications.TailIncludeLine != null)
+				logger.LogDebug("Tail .dme include line: {0}", dmeModifications.TailIncludeLine);
 
 			var dmeLines = new List<string>(dme.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
 			for (var I = 0; I < dmeLines.Count; ++I)
@@ -232,8 +253,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(string projectName, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(string projectName, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
+			if (repository == null)
+				throw new ArgumentNullException(nameof(repository));
+
+			if (securityLevel == DreamDaemonSecurity.Ultrasafe)
+				throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, "Cannot compile with ultrasafe security!");
+
 			logger.LogTrace("Begin Compile");
 
 			var job = new Models.CompileJob
@@ -242,11 +269,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 				DmeName = projectName
 			};
 
+			logger.LogTrace("Compile output GUID: {0}", job.DirectoryName);
+
 			lock (this)
 			{
 				if(Status != CompilerStatus.Idle)
 				{
 					job.Output = "There is already a compile in progress!";
+					logger.LogInformation(job.Output);
 					return job;
 				}
 
@@ -260,6 +290,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				async Task CleanupFailedCompile()
 				{
+					logger.LogTrace("Cleaning compile directory...");
 					Status = CompilerStatus.Cleanup;
 					try
 					{
@@ -273,6 +304,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				try
 				{
+					logger.LogTrace("Copying repository to game directory...");
 					//copy the repository
 					var fullDirA = ioManager.ResolvePath(dirA);
 					var repoOrigin = repository.Origin;
@@ -287,15 +319,19 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 					if (job.DmeName == null)
 					{
+						logger.LogTrace("Searching for available .dmes...");
 						var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
 						if (path == default)
 						{
 							job.Output = "Unable to find any .dme!";
+							logger.LogWarning(job.Output);
 							return job;
 						}
 						var dmeWithExtension = ioManager.GetFileName(path);
 						job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 					}
+
+					logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
 
 					await ModifyDme(job, cancellationToken).ConfigureAwait(false);
 
@@ -311,7 +347,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						Status = CompilerStatus.Verifying;
 
-					ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, job, byondLock, cancellationToken).ConfigureAwait(false);
+					ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, cancellationToken).ConfigureAwait(false);
 					}
 
 					if (!ddVerified)
@@ -324,11 +360,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 					{
 						job.DMApiValidated = true;
 
+						logger.LogTrace("Running post compile event...");
+						Status = CompilerStatus.PostCompile;
+						await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)) }, cancellationToken).ConfigureAwait(false);
+
+						logger.LogTrace("Duplicating compiled game...");
 						Status = CompilerStatus.Duplicating;
 
 						//duplicate the dmb et al
 						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
 
+						logger.LogTrace("Applying static game file symlinks...");
 						Status = CompilerStatus.Symlinking;
 
 						//symlink in the static data
@@ -336,8 +378,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 						var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
 
 						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
-						Status = CompilerStatus.PostCompile;
-						await eventConsumer.HandleEvent(EventType.CompileComplete, null, cancellationToken).ConfigureAwait(false);
+
+						logger.LogDebug("Compile complete!");
 					}
 					return job;
 				}

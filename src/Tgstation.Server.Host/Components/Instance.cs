@@ -122,15 +122,19 @@ namespace Tgstation.Server.Host.Components
 
 					RepositorySettings repositorySettings = null;
 					string projectName = null;
-					uint timeout = 0;
+					DreamDaemonSettings ddSettings = null;
 					var dbTask = databaseContextFactory.UseContext(async (db) =>
 					{
 						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
-						var timeoutTask = instanceQuery.Select(x => x.DreamDaemonSettings.StartupTimeout).FirstAsync(cancellationToken);
+						var ddSettingsTask = instanceQuery.Select(x => x.DreamDaemonSettings).Select(x => new DreamDaemonSettings
+						{
+							StartupTimeout = x.StartupTimeout,
+							SecurityLevel = x.SecurityLevel
+						}).FirstAsync(cancellationToken);
 						var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
 						repositorySettings = await instanceQuery.Select(x => x.RepositorySettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 						projectName = await projectNameTask.ConfigureAwait(false);
-						timeout = (await timeoutTask.ConfigureAwait(false)).Value;
+						ddSettings = await ddSettingsTask.ConfigureAwait(false);
 					});
 					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 					{
@@ -170,7 +174,7 @@ namespace Tgstation.Server.Host.Components
 						if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
 							await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
 
-						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
+						var job = await DreamMaker.Compile(projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
 				catch (OperationCanceledException) { }

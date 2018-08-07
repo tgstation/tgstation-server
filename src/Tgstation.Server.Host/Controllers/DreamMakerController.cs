@@ -101,9 +101,12 @@ namespace Tgstation.Server.Host.Controllers
 			var instanceManager = serviceProvider.GetRequiredService<IInstanceManager>();
 			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
 
-			var timeoutTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.StartupTimeout).FirstOrDefaultAsync(cancellationToken);
+			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => new DreamDaemonSettings{
+				StartupTimeout = x.StartupTimeout,
+				SecurityLevel = x.SecurityLevel
+			}).FirstOrDefaultAsync(cancellationToken);
 			var projectName = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.ProjectName).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			var timeout = await timeoutTask.ConfigureAwait(false);
+			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
 
 			var instance = instanceManager.GetInstance(instanceModel);
 
@@ -119,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				repoSha = repo.Head;
 				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Select(x => new RevisionInformation { Id = x.Id }).FirstOrDefaultAsync();
-				compileJob = await instance.DreamMaker.Compile(projectName, timeout.Value, repo, cancellationToken).ConfigureAwait(false);
+				compileJob = await instance.DreamMaker.Compile(projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
 			if (compileJob.DMApiValidated != true)

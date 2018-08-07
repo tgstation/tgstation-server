@@ -51,7 +51,7 @@
 		/// </summary>
 		CompileFailure = 10,
 		/// <summary>
-		/// No parameters
+		/// Parameters: Game directory path
 		/// </summary>
 		CompileComplete = 11,
 		

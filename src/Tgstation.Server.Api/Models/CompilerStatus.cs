@@ -32,6 +32,10 @@
 		/// </summary>
 		Verifying,
 		/// <summary>
+		/// Post-compile scripts are running
+		/// </summary>
+		PostCompile,
+		/// <summary>
 		/// The compile results are being duplicated
 		/// </summary>
 		Duplicating,
@@ -39,10 +43,6 @@
 		/// The configuration is being linked to the compile results
 		/// </summary>
 		Symlinking,
-		/// <summary>
-		/// Post-compile scripts are running
-		/// </summary>
-		PostCompile,
 		/// <summary>
 		/// A failed compile job is being erased
 		/// </summary>
