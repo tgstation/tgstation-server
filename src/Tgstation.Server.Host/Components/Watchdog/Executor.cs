@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using Tgstation.Server.Api.Models;
@@ -10,6 +11,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <inheritdoc />
 	sealed class Executor : IExecutor
 	{
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Executor"/>
+		/// </summary>
+		readonly ILogger<Executor> logger;
+
 		/// <summary>
 		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word
 		/// </summary>
@@ -28,6 +34,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				default:
 					throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, String.Format(CultureInfo.InvariantCulture, "Bad DreamDaemon security level: {0}", securityLevel));
 			}
+		}
+
+		/// <summary>
+		/// Construct an <see cref="Executor"/>
+		/// </summary>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public Executor(ILogger<Executor> logger)
+		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -57,6 +72,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 					SecurityWord(launchParameters.SecurityLevel.Value),
 					parameters);
+				
+				logger.LogTrace("Running DreamDaemon in {0}: {1} {2}", proc.StartInfo.WorkingDirectory, proc.StartInfo.FileName, proc.StartInfo.Arguments);
 
 				proc.Start();
 
