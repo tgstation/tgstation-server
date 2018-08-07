@@ -126,9 +126,9 @@ namespace Tgstation.Server.Host.Controllers
 
 				var token = tokenFactory.CreateToken(user, out var expiry);
 				if (identity != null)
-					identityCache.CacheSystemIdentity(user, identity, expiry.AddSeconds(10));   //expire the identity slightly after the auth token in case of lag
+					identityCache.CacheSystemIdentity(user, identity, expiry.AddMinutes(1));   //expire the identity slightly after the auth token in case of lag
 
-				Logger.LogDebug("Successfully logged in user {0} ({1})!", user.Id, user.CanonicalName);
+				Logger.LogDebug("Successfully logged in user {0}!", user.Id);
 
 				return Json(token);
 			}
