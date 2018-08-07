@@ -146,6 +146,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool apiValidated;
 
 		/// <summary>
+		/// If <see cref="session"/> should be kept alive instead
+		/// </summary>
+		bool released;
+
+		/// <summary>
 		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
@@ -171,22 +176,50 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			portClosed = false;
 			disposed = false;
 			apiValidated = false;
+			released = false;
 
 			rebootTcs = new TaskCompletionSource<object>();
 		}
 
+		/// <summary>
+		/// Finalize the <see cref="SessionController"/>
+		/// </summary>
+		~SessionController() => Dispose(false);
+
 		/// <inheritdoc />
 		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		/// <inheritdoc />
+		void Dispose(bool disposing)
 		{
 			lock (this)
 			{
 				if (disposed)
 					return;
-				session.Dispose();
-				interopContext.Dispose();
-				Dmb?.Dispose(); //will be null when released
-				chatJsonTrackingContext.Dispose();
-				disposed = true;
+				if (disposing)
+				{
+					if (!released)
+						session.Terminate();
+					session.Dispose();
+					interopContext.Dispose();
+					Dmb?.Dispose(); //will be null when released
+					chatJsonTrackingContext.Dispose();
+					disposed = true;
+				}
+				else
+				{
+					if (logger != null)
+						logger.LogError("Being disposed via finalizer!");
+					if (!released)
+						if (session != null)
+							session.Terminate();
+						else if (logger != null)
+							logger.LogCritical("Unable to terminate active DreamDaemon session due to finalizer ordering!");
+				}
 			}
 		}
 
@@ -256,6 +289,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//we still don't want to dispose the dmb yet, even though we're keeping it alive
 			var tmpProvider = reattachInformation.Dmb;
 			reattachInformation.Dmb = null;
+			released = true;
 			Dispose();
 			Dmb.KeepAlive();
 			reattachInformation.Dmb = tmpProvider;
