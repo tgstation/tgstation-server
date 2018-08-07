@@ -62,6 +62,7 @@
 	instance_name = text2num(cached_json["instanceName"])
 	host_path = cached_json["hostPath"]
 	if(cached_json["apiValidateOnly"])
+		TGS_INFO_LOG("Validating API and exiting...")
 		Export(TGS4_COMM_VALIDATE)
 		del(world)
 		
