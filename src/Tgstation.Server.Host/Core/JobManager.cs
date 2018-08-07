@@ -89,13 +89,16 @@ namespace Tgstation.Server.Host.Core
 							databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 							databaseContext.Jobs.Attach(job);
 						}
+						logger.LogDebug("Job {0} completed!", job.Id);
 					}
 					catch (OperationCanceledException)
 					{
+						logger.LogDebug("Job {0} exited with cancelled!", job.Id);
 						job.Cancelled = true;
 					}
 					catch (Exception e)
 					{
+						logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, e);
 						job.ExceptionDetails = e.ToString();
 					}
 					job.StoppedAt = DateTimeOffset.Now;
@@ -136,6 +139,7 @@ namespace Tgstation.Server.Host.Core
 				}
 				databaseContext.Jobs.Add(job);
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
 				var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) => 
 				operation(jobParam, serviceProvider, y =>
 				{

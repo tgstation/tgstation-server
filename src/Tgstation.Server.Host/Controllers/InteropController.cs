@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Handles requests from DreamDaemon
 	/// </summary>
 	[Route("/Interop")]
-	public sealed class InteropController : Controller
+	public sealed class InteropController : Controller	//not an ApiController because "lol im byond and who is headers?"
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="InteropController"/>

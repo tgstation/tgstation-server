@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 #if !DEBUG
@@ -63,6 +64,11 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// </summary>
+		protected ILogger Logger { get; }
+
+		/// <summary>
 		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		protected string ConnectionString => databaseConfiguration.ConnectionString;
@@ -82,15 +88,18 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
-		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder) : base(dbContextOptions)
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
 		{
 			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
+			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			Logger.LogDebug("Building entity framework context...");
 			base.OnModelCreating(modelBuilder);
 
 			var userModel = modelBuilder.Entity<User>();
@@ -126,15 +135,11 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			base.OnConfiguring(optionsBuilder);
-		}
-
-		/// <inheritdoc />
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
+			Logger.LogInformation("Migrating database...");
 #if DEBUG
+			Logger.LogWarning("Running in debug mode. Using all or nothing strategy!");
 			await Database.EnsureCreatedAsync().ConfigureAwait(false);
 			var wasEmpty = (await Users.CountAsync().ConfigureAwait(false)) == 0;
 #else
@@ -143,9 +148,15 @@ namespace Tgstation.Server.Host.Models
 			await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
 #endif
 			if (wasEmpty)
+			{
+				Logger.LogInformation("Seeding database...");
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
-			else if(databaseConfiguration.ResetAdminPassword)
+			}
+			else if (databaseConfiguration.ResetAdminPassword)
+			{
+				Logger.LogWarning("Enabling and resetting admin password due to configuration!");
 				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
