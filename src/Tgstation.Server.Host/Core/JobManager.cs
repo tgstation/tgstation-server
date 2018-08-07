@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Core
 					}
 					catch (OperationCanceledException)
 					{
-						logger.LogDebug("Job {0} exited with cancelled!", job.Id);
+						logger.LogDebug("Job {0} cancelled!", job.Id);
 						job.Cancelled = true;
 					}
 					catch (Exception e)
