@@ -80,15 +80,11 @@ namespace Tgstation.Server.Host.Core
 					{
 						var oldJob = job;
 						job = new Job { Id = oldJob.Id };
-						try
-						{
-							await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
-						}
-						finally
-						{
-							databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-							databaseContext.Jobs.Attach(job);
-						}
+						databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+						databaseContext.Jobs.Attach(job);
+
+						await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+
 						logger.LogDebug("Job {0} completed!", job.Id);
 					}
 					catch (OperationCanceledException)
