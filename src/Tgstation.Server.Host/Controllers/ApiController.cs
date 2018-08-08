@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if(!ApiHeaders.InstanceId.HasValue)
 					{
-						await BadRequest(new ErrorMessage { Message = "Missing InstanceId header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						await BadRequest(new ErrorMessage { Message = "Missing Instance header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
 					if (AuthenticationContext.InstanceUser == null)
