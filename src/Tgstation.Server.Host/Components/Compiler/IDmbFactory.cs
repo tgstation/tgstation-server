@@ -17,11 +17,15 @@ namespace Tgstation.Server.Host.Components.Compiler
 		Task OnNewerDmb { get; }
 
 		/// <summary>
+		/// If <see cref="LockNextDmb"/> will succeed
+		/// </summary>
+		bool DmbAvailable { get; }
+
+		/// <summary>
 		/// Gets the next <see cref="IDmbProvider"/>
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IDmbProvider"/></returns>
-		Task<IDmbProvider> LockNextDmb(CancellationToken cancellationToken);
+		/// <returns>A new <see cref="IDmbProvider"/></returns>
+		IDmbProvider LockNextDmb();
 
 		/// <summary>
 		/// Gets a <see cref="IDmbProvider"/> for a given <see cref="CompileJob"/>

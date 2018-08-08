@@ -26,6 +26,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 			}
 		}
 
+		/// <inheritdoc />
+		public bool DmbAvailable => nextDmbProvider != null;
+
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="DmbFactory"/>
 		/// </summary>
@@ -131,15 +134,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<IDmbProvider> LockNextDmb(CancellationToken cancellationToken)
+		public IDmbProvider LockNextDmb()
 		{
-			if (nextDmbProvider == null)
-			{
-				Task task;
-				lock (this)
-					task = newerDmbTcs.Task;
-				await task.ConfigureAwait(false);
-			}
+			if (!DmbAvailable)
+				throw new InvalidOperationException("No .dmb available!");
 			lock (this)
 			{
 				++jobLockCounts[nextDmbProvider.CompileJob.Id];

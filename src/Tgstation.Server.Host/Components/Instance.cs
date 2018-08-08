@@ -239,7 +239,16 @@ namespace Tgstation.Server.Host.Components
 				timerCts?.Dispose();
 				timerCts = new CancellationTokenSource();
 				timerTask = TimerLoop(newInterval.Value, timerCts.Token);
-			}					
+			}
+		}
+
+		/// <inheritdoc />
+		public CompileJob LatestCompileJob()
+		{
+			if (!dmbFactory.DmbAvailable)
+				return null;
+			using (var dmb = dmbFactory.LockNextDmb())
+				return dmb.CompileJob;
 		}
 	}
 }

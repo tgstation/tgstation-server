@@ -30,15 +30,5 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
-
-		/// <summary>
-		/// See <see cref="Api.Models.DreamDaemon.ActiveCompileJob"/>
-		/// </summary>
-		public CompileJob ActiveCompileJob { get; set; }
-
-		/// <summary>
-		/// See <see cref="Api.Models.DreamDaemon.StagedCompileJob"/>
-		/// </summary>
-		public CompileJob StagedCompileJob { get; set; }
 	}
 }
