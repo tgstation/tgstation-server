@@ -228,23 +228,26 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 			//cleanup
 			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
-			if (directories.Count > 0)
+			int deleting = 0;
+			var tasks = directories.Select(async x =>
 			{
-				logger.LogDebug("Cleaning {0} unused game folders...", directories.Count);
-				await Task.WhenAll(directories.Select(async x =>
+				var nameOnly = ioManager.GetFileName(x);
+				if (jobUidsToNotErase.Contains(nameOnly.ToUpperInvariant()))
+					return;
+				try
 				{
-					var nameOnly = ioManager.GetFileName(x);
-					if (jobUidsToNotErase.Contains(nameOnly.ToUpperInvariant()))
-						return;
-					try
-					{
-						await ioManager.DeleteDirectory(x, cancellationToken).ConfigureAwait(false);
-					}
-					catch (Exception e)
-					{
-						logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);
-					}
-				})).ConfigureAwait(false);
+					++deleting;
+					await ioManager.DeleteDirectory(x, cancellationToken).ConfigureAwait(false);
+				}
+				catch (Exception e)
+				{
+					logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);
+				}
+			}).ToList();
+			if (deleting > 0)
+			{
+				logger.LogDebug("Cleaning {0} unused game folders...", deleting);
+				await Task.WhenAll().ConfigureAwait(false);
 			}
 		}
 	}
