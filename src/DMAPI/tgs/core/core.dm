@@ -33,6 +33,10 @@
 			switch(major)
 				if(2)
 					return /datum/tgs_api/v3210
+		if(4)
+			switch(major)
+				if(0)
+					return /datum/tgs_api/v4
 
 	if(super != null && major != null && minor != null && patch != null && tgs_version > TgsMaximumAPIVersion())
 		TGS_ERROR_LOG("Detected unknown API version! Defaulting to latest. Update the DMAPI to fix this problem.")
