@@ -457,7 +457,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		public Task SendWatchdogMessage(string message, CancellationToken cancellationToken)
 		{
 			List<ulong> wdChannels;
-			message = String.Format(CultureInfo.InvariantCulture, "Watchdog: {0}", message);
+			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
 			lock (mappedChannels)   //so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);
@@ -467,6 +467,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		public Task SendUpdateMessage(string message, CancellationToken cancellationToken)
 		{
 			List<ulong> wdChannels;
+			message = String.Format(CultureInfo.InvariantCulture, "DM: {0}", message);
 			lock (mappedChannels)   //so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsUpdatesChannel).Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);
