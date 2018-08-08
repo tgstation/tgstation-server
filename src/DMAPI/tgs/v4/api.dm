@@ -11,7 +11,7 @@
 
 #define TGS4_COMM_ONLINE "tgs_on"
 #define TGS4_COMM_IDENTIFY "tgs_ident"
-#define TGS4_COMM_VALIDATE "tgs_vali"
+#define TGS4_COMM_VALIDATE "tgs_validate"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
 #define TGS4_COMM_WORLD_REBOOT "tgs_reboot"
 #define TGS4_COMM_END_PROCESS "tgs_kill"
@@ -91,6 +91,8 @@
 	cached_revision.origin_commit = cached_json["originCommit"]
 
 	ListCustomCommands()
+
+	return TRUE
 
 /datum/tgs_api/v4/OnInitializationComplete()
 	Export(TGS4_COMM_SERVER_PRIMED)
