@@ -37,6 +37,16 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
+		{
+			var result = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id).OrderByDescending(x => x.StartedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (result == null)
+				return StatusCode((int)HttpStatusCode.Gone);
+			return Json(result);
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			//you KNOW this will need pagination eventually right?

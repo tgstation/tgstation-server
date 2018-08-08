@@ -28,7 +28,7 @@
 
 	var/datum/tgs_chat_user/u = new
 	u.id = user["id"]
-	u.friendly_name = user["friendly_name"]
+	u.friendly_name = user["friendlyName"]
 	u.mention = user["mention"]
 	u.channel = DecodeChannel(user["channel"])
 

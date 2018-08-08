@@ -182,7 +182,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		void DisposeAndNullControllers()
 		{
-			logger.LogTrace("DisposeAndNullControllers");
 			alphaServer?.Dispose();
 			alphaServer = null;
 			bravoServer?.Dispose();
@@ -315,7 +314,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					//either way try to start it using the active server's dmb as a backup
 					try
 					{
-						var dmbBackup = dmbFactory.FromCompileJob(monitorState.ActiveServer.Dmb.CompileJob);
+						var dmbBackup = await dmbFactory.FromCompileJob(monitorState.ActiveServer.Dmb.CompileJob, cancellationToken).ConfigureAwait(false);
+
+						if (dmbBackup == null)	//NANI!?
+							//just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
+							throw new Exception("Creating backup DMB provider failed!");
+
 						monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbBackup, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
 						usedMostRecentDmb = false;
 						await chat.SendWatchdogMessage("Staging newest DMB on inactive server failed: {0} Falling back to previous dmb...", cancellationToken).ConfigureAwait(false);
@@ -327,7 +331,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					catch (Exception e2)
 					{
 						//fuuuuucckkk
-						logger.LogError("Backup strategy failed! Monitor will restart when active server reboots! This Exception: {0}", e2.ToString());
+						logger.LogError("Backup strategy failed! Monitor will restart when active server reboots! Exception: {0}", e2.ToString());
 						monitorState.InactiveServerCritFail = true;
 						await chat.SendWatchdogMessage("Attempted reboot of inactive server failed. Watchdog will reset when active server fails or exits", cancellationToken).ConfigureAwait(false);
 						return true;    //we didn't use the old dmb

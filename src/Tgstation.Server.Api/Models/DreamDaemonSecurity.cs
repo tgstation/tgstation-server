@@ -14,7 +14,7 @@
 		/// </summary>
 		Safe,
 		/// <summary>
-		/// Server will not be able to run shell commands or access anything but temporary files
+		/// Server will not be able to run shell commands or access anything but temporary files. Currently unsupported!
 		/// </summary>
 		Ultrasafe
 	}

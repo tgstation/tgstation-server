@@ -11,7 +11,7 @@
 
 #define TGS4_COMM_ONLINE "tgs_on"
 #define TGS4_COMM_IDENTIFY "tgs_ident"
-#define TGS4_COMM_VALIDATE "tgs_vali"
+#define TGS4_COMM_VALIDATE "tgs_validate"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
 #define TGS4_COMM_WORLD_REBOOT "tgs_reboot"
 #define TGS4_COMM_END_PROCESS "tgs_kill"
@@ -58,38 +58,41 @@
 		TGS_ERROR_LOG("Failed to decode info json: [json_file]")
 		return
 
-	access_identifier = cached_json["access_identifier"]
-	instance_name = text2num(cached_json["instance_name"])
-	host_path = cached_json["host_path"]
-	if(cached_json["api_validate_only"])
+	access_identifier = cached_json["accessIdentifier"]
+	instance_name = text2num(cached_json["instanceName"])
+	host_path = cached_json["hostPath"]
+	if(cached_json["apiValidateOnly"])
+		TGS_INFO_LOG("Validating API and exiting...")
 		Export(TGS4_COMM_VALIDATE)
 		del(world)
 		
-	chat_channels_json_path = cached_json["chat_channels_json"]
-	chat_commands_json_path = cached_json["chat_commands_json"]
+	chat_channels_json_path = cached_json["chatChannelsJson"]
+	chat_commands_json_path = cached_json["chatCommandsJson"]
 	src.event_handler = event_handler
-	instance_name = cached_json["instance_name"]
+	instance_name = cached_json["instanceName"]
 
 	cached_test_merges = list()
-	var/json = cached_json["test_merges"]
+	var/json = cached_json["testMerges"]
 	for(var/I in json)
 		var/datum/tgs_revision_information/test_merge/tm = new
 		tm.number = text2num(I)
 		var/list/entry = json[I]
-		tm.pull_request_commit = entry["pr_commit"]
+		tm.pull_request_commit = entry["prCommit"]
 		tm.author = entry["author"]
 		tm.title = entry["title"]
 		tm.commit = entry["commit"]
-		tm.origin_commit = entry["origin_commit"]
-		tm.time_merged = text2num(entry["time_merged"])
+		tm.origin_commit = entry["originCommit"]
+		tm.time_merged = text2num(entry["timeMerged"])
 		tm.comment = entry["comment"]
 		tm.url = entry["url"]
 
 	cached_revision = new
 	cached_revision.commit = cached_json["commit"]
-	cached_revision.origin_commit = cached_json["origin_commit"]
+	cached_revision.origin_commit = cached_json["originCommit"]
 
 	ListCustomCommands()
+
+	return TRUE
 
 /datum/tgs_api/v4/OnInitializationComplete()
 	Export(TGS4_COMM_SERVER_PRIMED)
@@ -208,10 +211,10 @@
 /datum/tgs_api/v4/proc/DecodeChannel(channel_json)
 	var/datum/tgs_chat_channel/channel = new
 	channel.id = channel_json["id"]
-	channel.friendly_name = channel_json["friendly_name"]
-	channel.connection_name = channel_json["connection_name"]
-	channel.is_admin_channel = channel_json["is_admin_channel"]
-	channel.is_private_channel = channel_json["is_private_channel"] || FALSE
+	channel.friendly_name = channel_json["friendlyName"]
+	channel.connection_name = channel_json["connectionName"]
+	channel.is_admin_channel = channel_json["isAdminChannel"]
+	channel.is_private_channel = channel_json["isPrivateChannel"] || FALSE
 	return channel
 
 #undef TGS4_TOPIC_COMMAND

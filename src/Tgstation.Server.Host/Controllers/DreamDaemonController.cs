@@ -169,6 +169,9 @@ namespace Tgstation.Server.Host.Controllers
 				|| !CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
 				|| !CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
 				return Forbid();
+
+			if (current.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
+				return BadRequest(new ErrorMessage { Message = "TGS does not support the ultrasafe DreamDaemon configuration!" });
 			
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 			

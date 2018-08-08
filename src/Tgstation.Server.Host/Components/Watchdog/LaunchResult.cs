@@ -18,12 +18,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		public int? ExitCode { get; set; }
 
-		/// <summary>
-		/// The peak virtual memory usage in bytes
-		/// </summary>
-		public long PeakMemory { get; set; }
-
 		/// <inheritdoc />
-		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Exit Code: {0}, RAM: {1}, Time {2}ms", ExitCode, PeakMemory, StartupTime.TotalMilliseconds);
+		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Exit Code: {0}, Time {1}ms", ExitCode, StartupTime.TotalMilliseconds);
 	}
 }

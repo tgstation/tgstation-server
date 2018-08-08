@@ -1,5 +1,4 @@
-﻿using Tgstation.Server.Host.Components.Compiler;
-using Tgstation.Server.Host.Models;
+﻿using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -24,16 +23,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public WatchdogReattachInformation() { }
 
 		/// <summary>
-		/// Construct a <see cref="WatchdogReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbFactory"/>
+		/// Construct a <see cref="WatchdogReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbAlpha"/> and <paramref name="dmbBravo"/>
 		/// </summary>
 		/// <param name="copy">The <see cref="WatchdogReattachInformationBase"/> to copy information from</param>
-		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> used to build the <see cref="ReattachInformation.Dmb"/>s</param>
-		public WatchdogReattachInformation(Models.WatchdogReattachInformation copy, IDmbFactory dmbFactory): base(copy)
+		/// <param name="dmbAlpha">The <see cref="IDmbProvider"/> used to build <see cref="Alpha"/></param>
+		/// <param name="dmbBravo">The <see cref="IDmbProvider"/> used to build <see cref="Bravo"/></param>
+		public WatchdogReattachInformation(Models.WatchdogReattachInformation copy, IDmbProvider dmbAlpha, IDmbProvider dmbBravo): base(copy)
 		{
 			if (copy.Alpha != null)
-				Alpha = new ReattachInformation(copy.Alpha, dmbFactory);
+				Alpha = new ReattachInformation(copy.Alpha, dmbAlpha);
 			if (copy.Bravo != null)
-				Bravo = new ReattachInformation(copy.Bravo, dmbFactory);
+				Bravo = new ReattachInformation(copy.Bravo, dmbBravo);
 		}
 	}
 }

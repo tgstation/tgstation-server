@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var versionToUse = requiredVersion ?? ActiveVersion;
 			if (versionToUse == null)
 				throw new InvalidOperationException("No BYOND versions installed!");
-			await InstallVersion(requiredVersion, cancellationToken).ConfigureAwait(false);
+			await InstallVersion(versionToUse, cancellationToken).ConfigureAwait(false);
 
 			var versionKey = VersionKey(versionToUse);
 

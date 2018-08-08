@@ -127,23 +127,22 @@ namespace Tgstation.Server.Host.Components.Byond
 							p.StartInfo.WorkingDirectory = rbdx;
 							p.EnableRaisingEvents = true;
 							var tcs = new TaskCompletionSource<object>();
-							p.Exited += (a, b) => tcs.SetResult(null);
+							p.Exited += (a, b) => tcs.TrySetResult(null);
 							try
 							{
 								p.Start();
-								using (cancellationToken.Register(() =>
-								{
-									p.Kill();
-									tcs.SetCanceled();
-								}))
+								using (cancellationToken.Register(() => tcs.TrySetCanceled()))
 									await tcs.Task.ConfigureAwait(false);
 							}
 							finally
 							{
 								try
 								{
-									p.Kill();
-									p.WaitForExit();
+									if (!p.HasExited)
+									{
+										p.Kill();
+										p.WaitForExit();
+									}
 								}
 								catch (InvalidOperationException) { }
 							}

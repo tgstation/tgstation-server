@@ -47,11 +47,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					process.EnableRaisingEvents = true;
 
 					var tcs = new TaskCompletionSource<object>();
-					process.Exited += (a, b) => tcs.SetResult(null);
+					process.Exited += (a, b) => tcs.TrySetResult(null);
 					try
 					{
 						process.Start();
-						using (cancellationToken.Register(() => tcs.SetCanceled()))
+						using (cancellationToken.Register(() => tcs.TrySetCanceled()))
 							await tcs.Task.ConfigureAwait(false);
 					}
 					catch (InvalidOperationException)

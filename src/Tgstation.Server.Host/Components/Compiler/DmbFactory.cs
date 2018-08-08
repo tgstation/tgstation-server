@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,15 +35,19 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		readonly IIOManager ioManager;
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="cleanupTask"/>
+		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
 		/// </summary>
-		readonly CancellationTokenSource cleanupCts;
+		readonly ILogger<DmbFactory> logger;
 
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>
 		/// </summary>
 		readonly Api.Models.Instance instance;
-		
+		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> for <see cref="cleanupTask"/>
+		/// </summary>
+		readonly CancellationTokenSource cleanupCts;
+
 		/// <summary>
 		/// <see cref="Task"/> representing calls to <see cref="CleanJob(CompileJob)"/>
 		/// </summary>
@@ -50,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <summary>
 		/// <see cref="TaskCompletionSource{TResult}"/> resulting in the latest <see cref="DmbProvider"/> yet to exist
 		/// </summary>
-		TaskCompletionSource<IDmbProvider> newerDmbTcs;
+		TaskCompletionSource<object> newerDmbTcs;
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>
 		/// </summary>
@@ -63,20 +68,23 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
-		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager, Api.Models.Instance instance)
+		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager, ILogger<DmbFactory> logger, Api.Models.Instance instance)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
 			cleanupTask = Task.CompletedTask;
+			newerDmbTcs = new TaskCompletionSource<object>();
 			cleanupCts = new CancellationTokenSource();
 			jobLockCounts = new Dictionary<long, int>();
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => cleanupCts.Dispose();
+		public void Dispose() => cleanupCts.Dispose();  //we don't dispose nextDmbProvider here, since it might be the only thing we have
 
 		/// <summary>
 		/// Delete the <see cref="Api.Models.Internal.CompileJob.DirectoryName"/> of <paramref name="job"/>
@@ -84,84 +92,74 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="job">The <see cref="CompileJob"/> to clean</param>
 		void CleanJob(CompileJob job)
 		{
+			logger.LogTrace("Cleaning compile job {0} => {1}", job.Id, job.DirectoryName);
 			async Task HandleCleanup()
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
 				Task otherTask;
-				lock (this)
-					otherTask = cleanupTask;
+				//lock (this)	//already locked below
+				otherTask = cleanupTask;
 				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
 			}
 			lock (this)
 			{
-				var currentVal = jobLockCounts[job.Id];
-				if (--jobLockCounts[job.Id] == 0)
+				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || --jobLockCounts[job.Id] == 0)
+				{
+					jobLockCounts.Remove(job.Id);
 					cleanupTask = HandleCleanup();
+				}
 			}
 		}
 
 		/// <inheritdoc />
-		public Task LoadCompileJob(CompileJob job, CancellationToken cancellationToken) => LoadCompileJob(job, true, cancellationToken);
-
-		async Task LoadCompileJob(CompileJob job, bool setAsStagedInDb, CancellationToken cancellationToken)
+		public async Task LoadCompileJob(CompileJob job, CancellationToken cancellationToken)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (job.DMApiValidated != true || job.Job.Cancelled.Value || job.Job.ExceptionDetails != null || job.Job.StoppedAt == null)
+			if (job.DMApiValidated != true || job.Job.Cancelled == true || job.Job.ExceptionDetails != null)
 				throw new InvalidOperationException("Cannot load incomplete compile job!");
-			if (setAsStagedInDb)
-				await databaseContextFactory.UseContext(async db =>
-				{
-					var ddsettings = new DreamDaemonSettings
-					{
-						InstanceId = instance.Id
-					};
-					db.DreamDaemonSettings.Attach(ddsettings);
-					ddsettings.StagedCompileJob = job;
-					await db.Save(cancellationToken).ConfigureAwait(false);
-				}).ConfigureAwait(false);
+			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
+			if (newProvider == null)
+				return;
 			lock (this)
 			{
-				var oldDmbProvider = nextDmbProvider;
-				if (oldDmbProvider != null && oldDmbProvider.CompileJob.Job.StoppedAt < oldDmbProvider.CompileJob.Job.StoppedAt)
-					throw new InvalidOperationException("Loaded compile job older than current job!");
-				nextDmbProvider = FromCompileJob(job);
+				nextDmbProvider?.Dispose();
+				nextDmbProvider = newProvider;
 				newerDmbTcs.SetResult(nextDmbProvider);
-				newerDmbTcs = new TaskCompletionSource<IDmbProvider>();
+				newerDmbTcs = new TaskCompletionSource<object>();
 			}
 		}
 
 		/// <inheritdoc />
 		public async Task<IDmbProvider> LockNextDmb(CancellationToken cancellationToken)
 		{
-			Task<IDmbProvider> task;
-			lock (this)
-				if (nextDmbProvider != null)
-					return nextDmbProvider;
-				else
+			if (nextDmbProvider == null)
+			{
+				Task task;
+				lock (this)
 					task = newerDmbTcs.Task;
-
-			var result = await task.ConfigureAwait(false);
-			//so there's currently a race condition in DreamMakerController where the setting of CompileJob.RevisionInformation and thus IDmbProvider.RevisionInformation can be delayed to after this if someone tries to start the server instantly after compiling
-			//This is a terrible terrible hack to get around that
-			//I'm sorry future me, I can't think of any other way to fix this other than giving DreamMaker an IDatabaseContext or having the controller load the CompileJob
-			await Task.Delay(new TimeSpan(0, 0, 10), cancellationToken).ConfigureAwait(false);
-			return result;
+				await task.ConfigureAwait(false);
+			}
+			lock (this)
+			{
+				++jobLockCounts[nextDmbProvider.CompileJob.Id];
+				return nextDmbProvider;
+			}
 		}
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			//where complete clause not necessary, only successful COMPILEjobs get in the db
-			var cj = await db.Instances.Where(x => x.Id == instance.Id).SelectMany(x => x.RevisionInformations).SelectMany(x => x.CompileJobs).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && !x.Job.Cancelled.Value && x.Job.ExceptionDetails == null && x.Job.StoppedAt != null)
+				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+				.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (cj == default(CompileJob))
 				return;
-			var directoriesTask = ioManager.GetDirectories(".", cancellationToken);
-			var compileJobTask = LoadCompileJob(cj, false, cancellationToken);
-			//delete all other compile jobs
-			var directories = await directoriesTask.ConfigureAwait(false);
-			await Task.WhenAll(directories.Where(x => x != cj.Job.ToString()).Select(x => ioManager.DeleteDirectory(x, cancellationToken))).ConfigureAwait(false);
-			await compileJobTask.ConfigureAwait(false);
+			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
+			//we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
 		});
 
 		/// <inheritdoc />
@@ -172,15 +170,86 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public IDmbProvider FromCompileJob(CompileJob compileJob)
+		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
-			lock (this)
+			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
+			var providerSubmitted = false;
+			var newProvider = new DmbProvider(compileJob, ioManager, () =>
 			{
-				if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
-					jobLockCounts.Add(compileJob.Id, 1);
-				else
-					jobLockCounts[compileJob.Id] = ++value;
-				return new DmbProvider(compileJob, ioManager, () => CleanJob(compileJob));
+				if (providerSubmitted)
+					CleanJob(compileJob);
+			});
+
+			try
+			{
+				var primaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
+				var secondaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
+
+				if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+				{
+					logger.LogWarning("Error loading compile job, .dmb missing!");
+					return null;    //omae wa mou shinderu
+				}
+
+				lock (this)
+				{
+					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
+						jobLockCounts.Add(compileJob.Id, 1);
+					else
+						jobLockCounts[compileJob.Id] = ++value;
+					providerSubmitted = true;
+					return newProvider;
+				}
+			}
+			finally
+			{
+				if (!providerSubmitted)
+					newProvider.Dispose();
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken)
+		{
+			List<long> jobIdsToSkip;
+			//don't clean locked directories
+			lock (this)
+				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
+
+			List<string> jobUidsToNotErase = null;
+
+			//find the uids of locked directories
+			await databaseContextFactory.UseContext(async db =>
+			{
+				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id) && x.DirectoryName.HasValue).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
+			}).ConfigureAwait(false);
+
+			//add the other exemption
+			if (exceptThisOne != null)
+				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
+
+			//cleanup
+			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+			int deleting = 0;
+			var tasks = directories.Select(async x =>
+			{
+				var nameOnly = ioManager.GetFileName(x);
+				if (jobUidsToNotErase.Contains(nameOnly.ToUpperInvariant()))
+					return;
+				try
+				{
+					++deleting;
+					await ioManager.DeleteDirectory(x, cancellationToken).ConfigureAwait(false);
+				}
+				catch (Exception e)
+				{
+					logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);
+				}
+			}).ToList();
+			if (deleting > 0)
+			{
+				logger.LogDebug("Cleaning {0} unused game folders...", deleting);
+				await Task.WhenAll().ConfigureAwait(false);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
@@ -16,11 +17,6 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar, IDisposable
 	{
-		/// <summary>
-		/// HTTP GET query key for interop access identifiers
-		/// </summary>
-		const string AccessIdentifierQueryKey = "access";
-
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
@@ -178,10 +174,16 @@ namespace Tgstation.Server.Host.Components
 				var tasks = new List<Task>();
 				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
+				logger.LogInformation("Instance manager ready!");
 				application.Ready(null);
+			}
+			catch (OperationCanceledException)
+			{
+				logger.LogInformation("Cancelled instance manager initialization!");
 			}
 			catch (Exception e)
 			{
+				logger.LogCritical("Instance manager startup error! Exception: {0}", e);
 				application.Ready(e);
 			}
 		});
@@ -216,7 +218,7 @@ namespace Tgstation.Server.Host.Components
 			if (query == null)
 				throw new ArgumentNullException(nameof(query));
 
-			if (!query.TryGetValue(AccessIdentifierQueryKey, out StringValues values))
+			if (!query.TryGetValue(InteropConstants.DMInteropAccessIdentifier, out StringValues values))
 				return null;
 			var accessIdentifier = values.FirstOrDefault();
 			if (accessIdentifier == default)

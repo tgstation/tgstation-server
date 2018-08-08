@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +17,12 @@ namespace Tgstation.Server.Host.Core
 		/// The <see cref="IServiceProvider"/> for the <see cref="JobManager"/>
 		/// </summary>
 		readonly IServiceProvider serviceProvider;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="JobManager"/>
+		/// </summary>
+		readonly ILogger<JobManager> logger;
+
 		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.Job.Id"/> to running <see cref="JobHandler"/>s
 		/// </summary>
@@ -26,9 +32,11 @@ namespace Tgstation.Server.Host.Core
 		/// Construct a <see cref="JobManager"/>
 		/// </summary>
 		/// <param name="serviceProvider">The value of <see cref="serviceProvider"/></param>
-		public JobManager(IServiceProvider serviceProvider)
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public JobManager(IServiceProvider serviceProvider, ILogger<JobManager> logger)
 		{
 			this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
 		}
 
@@ -72,22 +80,21 @@ namespace Tgstation.Server.Host.Core
 					{
 						var oldJob = job;
 						job = new Job { Id = oldJob.Id };
-						try
-						{
-							await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
-						}
-						finally
-						{
-							databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
-							databaseContext.Jobs.Attach(job);
-						}
+						databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+						databaseContext.Jobs.Attach(job);
+
+						await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+
+						logger.LogDebug("Job {0} completed!", job.Id);
 					}
 					catch (OperationCanceledException)
 					{
+						logger.LogDebug("Job {0} cancelled!", job.Id);
 						job.Cancelled = true;
 					}
 					catch (Exception e)
 					{
+						logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, e);
 						job.ExceptionDetails = e.ToString();
 					}
 					job.StoppedAt = DateTimeOffset.Now;
@@ -128,6 +135,7 @@ namespace Tgstation.Server.Host.Core
 				}
 				databaseContext.Jobs.Add(job);
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
 				var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) => 
 				operation(jobParam, serviceProvider, y =>
 				{
@@ -144,20 +152,26 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Starting job manager...");
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 
 				//mark all jobs as cancelled
-				var enumerator = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
-				foreach(var I in enumerator)
+				var badJobs = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+				if (badJobs.Count > 0)
 				{
-					var job = new Job { Id = I };
-					databaseContext.Jobs.Attach(job);
-					job.Cancelled = true;
+					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobs.Count);
+					foreach (var I in badJobs)
+					{
+						var job = new Job { Id = I };
+						databaseContext.Jobs.Attach(job);
+						job.Cancelled = true;
+					}
+					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
-				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			}
+			logger.LogDebug("Job manager started!");
 		}
 
 		/// <inheritdoc />

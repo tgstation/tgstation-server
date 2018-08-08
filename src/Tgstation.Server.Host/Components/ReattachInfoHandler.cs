@@ -80,7 +80,8 @@ namespace Tgstation.Server.Host.Components
 			await databaseContextFactory.UseContext(async (db) =>
 				result = await db.Instances.Where(x => x.Id == metadata.Id).Select(x => x.WatchdogReattachInformation).FirstAsync(cancellationToken).ConfigureAwait(false)
 			).ConfigureAwait(false);
-			return new WatchdogReattachInformation(result, dmbFactory);
+			var bravoDmbTask = dmbFactory.FromCompileJob(result.Bravo.CompileJob, cancellationToken);
+			return new WatchdogReattachInformation(result, await dmbFactory.FromCompileJob(result.Alpha.CompileJob, cancellationToken).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
 		}
 	}
 }

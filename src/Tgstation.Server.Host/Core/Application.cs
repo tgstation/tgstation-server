@@ -243,6 +243,8 @@ namespace Tgstation.Server.Host.Core
 
 			logger.LogInformation(VersionString);
 
+			logger.LogTrace("Configuring middleware...");
+
 			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 			
 			applicationBuilder.UseDeveloperExceptionPage();	//it is not worth it to limit this, you should only ever get it if you're an authorized user

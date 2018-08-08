@@ -38,9 +38,8 @@
 		/// No parameters
 		/// </summary>
 		ByondChangeComplete = 7,
-
 		/// <summary>
-		/// Parameters: Origin commit sha
+		/// Parameters: Game directory path, origin commit sha
 		/// </summary>
 		CompileStart = 8,
 		/// <summary>
@@ -52,7 +51,7 @@
 		/// </summary>
 		CompileFailure = 10,
 		/// <summary>
-		/// No parameters
+		/// Parameters: Game directory path
 		/// </summary>
 		CompileComplete = 11,
 		

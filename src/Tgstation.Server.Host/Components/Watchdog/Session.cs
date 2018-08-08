@@ -52,16 +52,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var result = new LaunchResult
 				{
 					ExitCode = process.HasExited ? (int?)process.ExitCode : null,
-					PeakMemory = process.PeakWorkingSet64,
 					StartupTime = DateTimeOffset.Now - startTime
 				};
-				if (result.PeakMemory == 0)	//linux, best we can do honestly, test if this even works
-					result.PeakMemory = process.WorkingSet64;
 				return result;
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 			lifetimeTask = new TaskCompletionSource<int>();
-			process.EnableRaisingEvents = true;
-			process.Exited += (a, b) => lifetimeTask.SetResult(process.ExitCode);
+			try
+			{
+				process.EnableRaisingEvents = true;
+				process.Exited += (a, b) => lifetimeTask.TrySetResult(process.ExitCode);
+			}
+			catch (InvalidOperationException)
+			{
+				//dead proccess
+				lifetimeTask.TrySetResult(process.ExitCode);
+			}
 		}
 
 		/// <inheritdoc />

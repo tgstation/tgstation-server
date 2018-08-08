@@ -35,10 +35,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
 
-		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly ICompileJobConsumer compileJobConsumer;
+		/// <inheritdoc />
+		public ICompileJobConsumer CompileJobConsumer { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
@@ -79,7 +77,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="configuration">The value of <see cref="Configuration"/></param>
-		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
+		/// <param name="compileJobConsumer">The value of <see cref="CompileJobConsumer"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
@@ -92,7 +90,7 @@ namespace Tgstation.Server.Host.Components
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
+			CompileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -102,7 +100,7 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			timerCts?.Dispose();
-			compileJobConsumer.Dispose();
+			CompileJobConsumer.Dispose();
 			Configuration.Dispose();
 			Chat.Dispose();
 			Watchdog.Dispose();
@@ -124,15 +122,19 @@ namespace Tgstation.Server.Host.Components
 
 					RepositorySettings repositorySettings = null;
 					string projectName = null;
-					uint timeout = 0;
+					DreamDaemonSettings ddSettings = null;
 					var dbTask = databaseContextFactory.UseContext(async (db) =>
 					{
 						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
-						var timeoutTask = instanceQuery.Select(x => x.DreamDaemonSettings.StartupTimeout).FirstAsync(cancellationToken);
+						var ddSettingsTask = instanceQuery.Select(x => x.DreamDaemonSettings).Select(x => new DreamDaemonSettings
+						{
+							StartupTimeout = x.StartupTimeout,
+							SecurityLevel = x.SecurityLevel
+						}).FirstAsync(cancellationToken);
 						var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
 						repositorySettings = await instanceQuery.Select(x => x.RepositorySettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 						projectName = await projectNameTask.ConfigureAwait(false);
-						timeout = (await timeoutTask.ConfigureAwait(false)).Value;
+						ddSettings = await ddSettingsTask.ConfigureAwait(false);
 					});
 					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 					{
@@ -172,7 +174,7 @@ namespace Tgstation.Server.Host.Components
 						if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
 							await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
 
-						var job = await DreamMaker.Compile(projectName, timeout, repo, cancellationToken).ConfigureAwait(false);
+						var job = await DreamMaker.Compile(projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 					}
 				}
 				catch (OperationCanceledException) { }
@@ -194,10 +196,23 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Watchdog.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken));
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), CompileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
+
+			//dependent on so many things, its just safer this way
+			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
+
+			CompileJob latestCompileJob = null;
+			await databaseContextFactory.UseContext(async db =>
+			{
+				latestCompileJob = await db.CompileJobs.Where(x => x.Job.Instance.Id == metadata.Id && x.Job.ExceptionDetails == null).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			}).ConfigureAwait(false);
+			await dmbFactory.CleanUnusedCompileJobs(latestCompileJob, cancellationToken).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), CompileJobConsumer.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(int? newInterval)

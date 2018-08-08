@@ -27,7 +27,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// Gets a <see cref="IDmbProvider"/> for a given <see cref="CompileJob"/>
 		/// </summary>
 		/// <param name="compileJob">The <see cref="CompileJob"/> to make the <see cref="IDmbProvider"/> for</param>
-		/// <returns>A new <see cref="IDmbProvider"/></returns>
-		IDmbProvider FromCompileJob(CompileJob compileJob);
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IDmbProvider"/> representing the <see cref="CompileJob"/> on success, <see langword="null"/> on failure</returns>
+		Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Deletes all compile jobs that are inactive in the Game folder <paramref name="exceptThisOne"/>
+		/// </summary>
+		/// <param name="exceptThisOne">An optional compile job to not delete</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken);
+
 	}
 }

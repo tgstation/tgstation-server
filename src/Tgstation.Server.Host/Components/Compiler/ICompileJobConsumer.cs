@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 	/// <summary>
 	/// Sink for <see cref="CompileJob"/>s
 	/// </summary>
-	interface ICompileJobConsumer : IHostedService, IDisposable
+	public interface ICompileJobConsumer : IHostedService, IDisposable
 	{
 		/// <summary>
 		/// Load a new <paramref name="job"/> into the <see cref="ICompileJobConsumer"/>
