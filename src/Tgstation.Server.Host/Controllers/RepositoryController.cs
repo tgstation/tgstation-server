@@ -382,67 +382,90 @@ namespace Tgstation.Server.Host.Controllers
 								lastRevisionInfo.OriginCommitSha = repo.Head;
 							}
 						}
-
+						
 						//test merging
 						if (newTestMerges)
 						{
-							var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
-							var contextUser = new Models.User
+							//optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
+							Models.RevisionInformation revInfoWereLookingFor = null;
+							if(lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 							{
-								Id = AuthenticationContext.User.Id
-							};
-							databaseContext.Users.Attach(contextUser);
+								foreach (var I in model.NewTestMerges)
+									//normalize the shas to lowercase ala libgit2
+#pragma warning disable CA1308 // Normalize strings to uppercase
+									I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
-							var repoOwner = repo.GitHubOwner;
-							var repoName = repo.GitHubRepoName;
-							foreach (var I in model.NewTestMerges)
+								revInfoWereLookingFor = await databaseContext.RevisionInformations.Where(
+									x => x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
+									&& x.ActiveTestMerges.Count == model.NewTestMerges.Count)
+									//split here cause this bit probably has to be done locally
+									.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge).All(y => model.NewTestMerges.Any(z => y.Number == z.Number && y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)))).FirstOrDefaultAsync(ct).ConfigureAwait(false);
+							}
+
+
+							if (revInfoWereLookingFor != null)
+								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, cancellationToken).ConfigureAwait(false);
+							else
 							{
-								Octokit.PullRequest pr = null;
-								string errorMessage = null;
-								try
+								var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
+								var contextUser = new Models.User
 								{
-									pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
-								}
-								catch (Octokit.RateLimitExceededException)
-								{
-									//you look at your anonymous access and sigh
-									errorMessage = "P.R.E. RATE LIMITED";
-								}
-								catch (Octokit.NotFoundException)
-								{
-									//you look at your shithub access and sigh
-									errorMessage = "P.R.E. NOT FOUND";
-								}
-
-								var mergeResult = await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", I.Number, I.Comment != null ? Environment.NewLine : null, I.Comment), currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), ct).ConfigureAwait(false);
-
-								if (!mergeResult.HasValue)	//conflict, we don't care, dd already knows
-									continue;
-
-								++doneFetches;
-
-								var revInfoUpdateTask = UpdateRevInfo();
-
-								var tm = new Models.TestMerge
-								{
-									Author = pr?.User.Login ?? errorMessage,
-									BodyAtMerge = pr?.Body ?? errorMessage ?? String.Empty,
-									MergedAt = DateTimeOffset.Now,
-									TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
-									Comment = I.Comment,
-									Number = I.Number,
-									MergedBy = contextUser,
-									PullRequestRevision = I.PullRequestRevision,
-									Url = pr?.HtmlUrl ?? errorMessage
+									Id = AuthenticationContext.User.Id
 								};
+								databaseContext.Users.Attach(contextUser);
 
-								await revInfoUpdateTask.ConfigureAwait(false);
-
-								lastRevisionInfo.PrimaryTestMerge = tm;
-								lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
+								var repoOwner = repo.GitHubOwner;
+								var repoName = repo.GitHubRepoName;
+								foreach (var I in model.NewTestMerges)
 								{
-									TestMerge = tm
-								});
+									Octokit.PullRequest pr = null;
+									string errorMessage = null;
+									try
+									{
+										pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+									}
+									catch (Octokit.RateLimitExceededException)
+									{
+										//you look at your anonymous access and sigh
+										errorMessage = "P.R.E. RATE LIMITED";
+									}
+									catch (Octokit.NotFoundException)
+									{
+										//you look at your shithub access and sigh
+										errorMessage = "P.R.E. NOT FOUND";
+									}
+
+									var mergeResult = await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", I.Number, I.Comment != null ? Environment.NewLine : null, I.Comment), currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), ct).ConfigureAwait(false);
+
+									if (!mergeResult.HasValue)  //conflict, we don't care, dd already knows
+										continue;
+
+									++doneFetches;
+
+									var revInfoUpdateTask = UpdateRevInfo();
+
+									var tm = new Models.TestMerge
+									{
+										Author = pr?.User.Login ?? errorMessage,
+										BodyAtMerge = pr?.Body ?? errorMessage ?? String.Empty,
+										MergedAt = DateTimeOffset.Now,
+										TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
+										Comment = I.Comment,
+										Number = I.Number,
+										MergedBy = contextUser,
+										PullRequestRevision = I.PullRequestRevision,
+										Url = pr?.HtmlUrl ?? errorMessage
+									};
+
+									await revInfoUpdateTask.ConfigureAwait(false);
+
+									lastRevisionInfo.PrimaryTestMerge = tm;
+									lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
+									{
+										TestMerge = tm
+									});
+								}
 							}
 						}
 
