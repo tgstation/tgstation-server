@@ -94,9 +94,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level1"><a href="#api_user">User Management</a><ul><li class="level2"><a href="#api_iuser">Instance User Management</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#api_ver">Getting the server version</a></li>
+<li class="level1"><a href="#api_ver">Version</a></li>
 <li class="level1"><a href="#api_admin">Server-wide Administrative Actions</a></li>
-<li class="level1"><a href="#api_inst">Instances</a><ul><li class="level2"><a href="#api_chat">Chat Bots</a></li>
+<li class="level1"><a href="#api_inst">Instances</a><ul><li class="level2"><a href="#api_job">Jobs</a></li>
+<li class="level2"><a href="#api_chat">Chat Bots</a></li>
+<li class="level2"><a href="#api_byond">Byond Version Management</a></li>
+<li class="level2"><a href="#Git">Repository Management</a></li>
 </ul>
 </li>
 </ul>
@@ -200,7 +203,7 @@ Instance User Management</h2>
 <p>I DELETE "/InstanceUser/{UserId}" =&gt; OK</p>
 <p>Users with the permission to modify <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> objects can also gain user editing rights for any Instance. See api_instance</p>
 <h1><a class="anchor" id="api_ver"></a>
-Getting the server version</h1>
+Version</h1>
 <p>The version of TGS running can be retireved with this request</p>
 <p>GET "/" =&gt; Version</p>
 <p>The Version model is based on the C# one and looks like this:</p>
@@ -227,6 +230,16 @@ Instances</h1>
 <p>Note that onlining an offline instance will never automatically start DreamDaemon. That must be done as a seperate step.</p>
 <p>Instances can be detached which will delete all meta knowledge of the instance (Compile metadata, job metadata, repository commit metadata, Test merge metadata, etc...) but leave the files intact. That can be done with this request:</p>
 <p>DELETE "/Instance/{InstanceId}" =&gt; OK</p>
+<h2><a class="anchor" id="api_job"></a>
+Jobs</h2>
+<p>Some requests return <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a> objects. These are long running tasks the server will perform asyncronously and can be polled for status.</p>
+<p>To list all jobs in an Instance use the following request</p>
+<p>I GET "/Job" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
+<p>Note that the response for this request will only have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2acfbcb2d53d94d45c49c1cc2bef75d6">Tgstation.Server.Api.Models.Job.Id</a> field populated</p>
+<p>To get full details of a job use the following request:</p>
+<p>I GET "/Job/{JobId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
+<p>To cancel a running job (If the job can be cancelled and you have sufficient rights) use the following request:</p>
+<p>I DELETE "/Job/{JobId}" =&gt; OK</p>
 <h2><a class="anchor" id="api_chat"></a>
 Chat Bots</h2>
 <p>Each chat bot is represented by a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a> object</p>
@@ -237,7 +250,27 @@ Chat Bots</h2>
 <p>For Discord chat bots it should be the <a href="https://discordapp.com/developers/docs/topics/oauth2#bots">bot's Token</a></p>
 <p>A specific bot's settings may be retrieved with:</p>
 <p>I GET "/Chat/{ChatSettingsId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html">Tgstation.Server.Api.Models.ChatSettings</a></p>
-<p>Also note that if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html#a50edcc1af320658d7335538e223cbec3">Tgstation.Server.Api.Models.ChatSettings.Channels</a> is present in a POST request, the list will fully replace any active channels </p>
+<p>Also note that if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_settings.html#a50edcc1af320658d7335538e223cbec3">Tgstation.Server.Api.Models.ChatSettings.Channels</a> is present in a POST request, the list will fully replace any active channels</p>
+<h2><a class="anchor" id="api_byond"></a>
+Byond Version Management</h2>
+<p>To get the Byond version used for new compilations use the following request:</p>
+<p>I GET "/Byond" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></p>
+<p>To set the active Byond version:</p>
+<p>I POST "/Byond" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></p>
+<p>To list all installed Byond versions use the following request:</p>
+<p>I GET "/Byond/List" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></p>
+<h2><a class="anchor" id="Git"></a>
+Repository Management</h2>
+<p>To read the current repository state use the following request:</p>
+<p>I GET "/Repository" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html">Tgstation.Server.Api.Models.Repository</a></p>
+<p>To clone the repository if it doesn't yet exist use the following request:</p>
+<p>I PUT "/Repository" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html">Tgstation.Server.Api.Models.Repository</a></p>
+<p>The clone job will be represented by the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a9f29b34852fb2d6cc5144234b6368295">Tgstation.Server.Api.Models.Repository.ActiveJob</a> field. Specify the Tgstation.Server.Api.Models.Origin URL. Optionally specify the initial <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a7409d655bc6993e0eb1d75743160a3b2">Tgstation.Server.Api.Models.Repository.Reference</a> as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository</p>
+<p>To delete an existing repository make the following request:</p>
+<p>I DELETE "/Repository" =&gt; OK</p>
+<p>Modifications to the repository are done with the following request:</p>
+<p>I POST "/Repository" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html">Tgstation.Server.Api.Models.Repository</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html">Tgstation.Server.Api.Models.Repository</a></p>
+<p>Each update creates a job specified in the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a9f29b34852fb2d6cc5144234b6368295">Tgstation.Server.Api.Models.Repository.ActiveJob</a> field jobs will be queued in succession. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

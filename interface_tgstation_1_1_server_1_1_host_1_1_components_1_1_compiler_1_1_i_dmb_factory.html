@@ -116,9 +116,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a16b6cdcec9c47637a8c2b9901f81fb57"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a16b6cdcec9c47637a8c2b9901f81fb57">LockNextDmb</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a16b6cdcec9c47637a8c2b9901f81fb57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the next <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a>  <a href="#a16b6cdcec9c47637a8c2b9901f81fb57">More...</a><br /></td></tr>
 <tr class="separator:a16b6cdcec9c47637a8c2b9901f81fb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00a6d99788856102999099925c025cf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a00a6d99788856102999099925c025cf6">FromCompileJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a> compileJob)</td></tr>
-<tr class="memdesc:a00a6d99788856102999099925c025cf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> for a given CompileJob  <a href="#a00a6d99788856102999099925c025cf6">More...</a><br /></td></tr>
-<tr class="separator:a00a6d99788856102999099925c025cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbbacb6765fb5cfc3062fbab20bd76d7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#afbbacb6765fb5cfc3062fbab20bd76d7">FromCompileJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a> compileJob, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afbbacb6765fb5cfc3062fbab20bd76d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> for a given CompileJob  <a href="#afbbacb6765fb5cfc3062fbab20bd76d7">More...</a><br /></td></tr>
+<tr class="separator:afbbacb6765fb5cfc3062fbab20bd76d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7180d98f1dcb2905732e8bbb9c577cc4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a7180d98f1dcb2905732e8bbb9c577cc4">CleanUnusedCompileJobs</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a> exceptThisOne, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7180d98f1dcb2905732e8bbb9c577cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes all compile jobs that are inactive in the Game folder <em>exceptThisOne</em>   <a href="#a7180d98f1dcb2905732e8bbb9c577cc4">More...</a><br /></td></tr>
+<tr class="separator:a7180d98f1dcb2905732e8bbb9c577cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -131,16 +134,64 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_dmb_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_dmb_factory_8cs_source.html">IDmbFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a00a6d99788856102999099925c025cf6"></a>
+<a class="anchor" id="a7180d98f1dcb2905732e8bbb9c577cc4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> Tgstation.Server.Host.Components.Compiler.IDmbFactory.FromCompileJob </td>
+          <td class="memname">Task Tgstation.Server.Host.Components.Compiler.IDmbFactory.CleanUnusedCompileJobs </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&#160;</td>
-          <td class="paramname"><em>compileJob</em></td><td>)</td>
+          <td class="paramname"><em>exceptThisOne</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deletes all compile jobs that are inactive in the Game folder <em>exceptThisOne</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">exceptThisOne</td><td>An optional compile job to not delete</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#a1cb27242b1748b76daa1483fbde65f60">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afbbacb6765fb5cfc3062fbab20bd76d7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a>&gt; Tgstation.Server.Host.Components.Compiler.IDmbFactory.FromCompileJob </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&#160;</td>
+          <td class="paramname"><em>compileJob</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -149,14 +200,13 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">compileJob</td><td>The CompileJob to make the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> for</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> representing the CompileJob on success,  on failure</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#ac2440dd8797291e06c9c1668100852c5">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>.</p>
-
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_reattach_information_8cs_source.html#l00026">Tgstation.Server.Host.Components.Watchdog.ReattachInformation.ReattachInformation()</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#ad34e5b047ffa03fce6137457db55c41e">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>.</p>
 
 </div>
 </div>
