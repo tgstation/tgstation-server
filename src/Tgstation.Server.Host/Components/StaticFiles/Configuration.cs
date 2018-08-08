@@ -224,7 +224,19 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				else
 					task = ioManager.GetDirectories(GameStaticFilesSubdirectory, cancellationToken);
 				var entries = await task.ConfigureAwait(false);
-				await Task.WhenAll(entries.Select(x => symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ConcatPath(destination, x), cancellationToken))).ConfigureAwait(false);
+
+				await Task.WhenAll(task.Result.Select(async x =>
+				{
+					var destPath = ioManager.ConcatPath(destination, ioManager.GetFileName(x));
+					logger.LogTrace("Symlinking {0} to {1}...", x, destPath);
+					var fileExistsTask = ioManager.FileExists(destPath, cancellationToken);
+					if (await ioManager.DirectoryExists(destPath, cancellationToken).ConfigureAwait(false))
+						await ioManager.DeleteDirectory(destPath, cancellationToken).ConfigureAwait(false);
+					var fileExists = await fileExistsTask.ConfigureAwait(false);
+					if (fileExists)
+						await ioManager.DeleteFile(destPath, cancellationToken).ConfigureAwait(false);
+					await symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ResolvePath(destPath), cancellationToken).ConfigureAwait(false);
+				})).ConfigureAwait(false);
 			}
 
 			await Task.WhenAll(SymlinkBase(true), SymlinkBase(false)).ConfigureAwait(false);
