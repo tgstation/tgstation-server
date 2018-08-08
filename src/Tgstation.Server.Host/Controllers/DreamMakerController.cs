@@ -144,6 +144,8 @@ namespace Tgstation.Server.Host.Controllers
 				};
 				databaseContext.Instances.Attach(compileJob.RevisionInformation.Instance);
 			}
+			else
+				databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
 
 			databaseContext.CompileJobs.Add(compileJob);
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
