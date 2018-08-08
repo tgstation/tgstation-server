@@ -34,7 +34,11 @@ namespace Tgstation.Server.Host.IO
 			foreach (var subDir in dir.EnumerateDirectories())
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				tasks.Add(NormalizeAndDelete(subDir, cancellationToken));
+				if (!subDir.Attributes.HasFlag(FileAttributes.Directory) || subDir.Attributes.HasFlag(FileAttributes.ReparsePoint))
+					//this is probably a symlink
+					subDir.Delete();
+				else
+					tasks.Add(NormalizeAndDelete(subDir, cancellationToken));
 			}
 			foreach (var file in dir.EnumerateFiles())
 			{
