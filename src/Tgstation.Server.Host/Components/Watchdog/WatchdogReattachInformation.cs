@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public WatchdogReattachInformation() { }
 
 		/// <summary>
-		/// Construct a <see cref="WatchdogReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbFactory"/>
+		/// Construct a <see cref="WatchdogReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbAlpha"/> and <paramref name="dmbBravo"/>
 		/// </summary>
 		/// <param name="copy">The <see cref="WatchdogReattachInformationBase"/> to copy information from</param>
 		/// <param name="dmbAlpha">The <see cref="IDmbProvider"/> used to build <see cref="Alpha"/></param>

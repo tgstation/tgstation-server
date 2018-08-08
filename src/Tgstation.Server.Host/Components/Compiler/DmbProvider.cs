@@ -46,15 +46,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 		}
 
-		~DmbProvider() => Dispose();
+		/// <inheritdoc />
+		public void Dispose() => onDispose?.Invoke();
 
 		/// <inheritdoc />
-		public void Dispose()
-		{
-			onDispose?.Invoke();
-			GC.SuppressFinalize(this);
-		}
-
 		public void KeepAlive() => onDispose = null;
 	}
 }

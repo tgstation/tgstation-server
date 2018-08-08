@@ -274,7 +274,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="Dispose"/> has been called
+		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="Dispose(bool)"/> has been called
 		/// </summary>
 		void CheckDisposed()
 		{

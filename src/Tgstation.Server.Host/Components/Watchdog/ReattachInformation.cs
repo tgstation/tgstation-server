@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public ReattachInformation() { }
 
 		/// <summary>
-		/// Construct a <see cref="ReattachInformation"/> from a given <paramref name="copy"/> and <paramref name="dmbFactory"/>
+		/// Construct a <see cref="ReattachInformation"/> from a given <paramref name="copy"/> and <paramref name="dmb"/>
 		/// </summary>
 		/// <param name="copy">The <see cref="Models.ReattachInformation"/> to copy values from</param>
 		/// <param name="dmb">The value of <see cref="Dmb"/></param>
