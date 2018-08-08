@@ -57,8 +57,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return result;
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 			lifetimeTask = new TaskCompletionSource<int>();
-			process.EnableRaisingEvents = true;
-			process.Exited += (a, b) => lifetimeTask.SetResult(process.ExitCode);
+			try
+			{
+				process.EnableRaisingEvents = true;
+				process.Exited += (a, b) => lifetimeTask.TrySetResult(process.ExitCode);
+			}
+			catch (InvalidOperationException)
+			{
+				//dead proccess
+				lifetimeTask.TrySetResult(process.ExitCode);
+			}
 		}
 
 		/// <inheritdoc />
