@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,7 +59,13 @@ namespace Tgstation.Server.Host.Components.Chat
 		public async Task SetChannels(IEnumerable<Channel> channels, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(channelsSemaphore, cancellationToken).ConfigureAwait(false))
-				await ioManager.WriteAllBytes(channelsPath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(channels)), cancellationToken).ConfigureAwait(false);
+				await ioManager.WriteAllBytes(channelsPath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(channels, Formatting.Indented, new JsonSerializerSettings
+				{
+					ContractResolver = new DefaultContractResolver
+					{
+						NamingStrategy = new CamelCaseNamingStrategy()
+					}
+				})), cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

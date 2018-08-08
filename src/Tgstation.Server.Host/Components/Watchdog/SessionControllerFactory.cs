@@ -1,6 +1,7 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -134,7 +135,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var interopJsonFile = GuidJsonFile();
 
-			var interopJson = JsonConvert.SerializeObject(interopInfo);
+			var interopJson = JsonConvert.SerializeObject(interopInfo, Formatting.Indented, new JsonSerializerSettings
+			{
+				ContractResolver = new DefaultContractResolver
+				{
+					NamingStrategy = new CamelCaseNamingStrategy()
+				}
+			});
 
 			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
 			var localIoManager = new ResolvingIOManager(ioManager, basePath);
