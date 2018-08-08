@@ -342,6 +342,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			var mappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
 			{
 				IsWatchdogChannel = x.IsWatchdogChannel == true,
+				IsUpdatesChannel = x.IsUpdatesChannel == true,
 				ProviderChannelId = y.RealId,
 				ProviderId = connectionId,
 				Channel = y
@@ -456,8 +457,18 @@ namespace Tgstation.Server.Host.Components.Chat
 		public Task SendWatchdogMessage(string message, CancellationToken cancellationToken)
 		{
 			List<ulong> wdChannels;
+			message = String.Format(CultureInfo.InvariantCulture, "Watchdog: {0}", message);
 			lock (mappedChannels)   //so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
+			return SendMessage(message, wdChannels, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public Task SendUpdateMessage(string message, CancellationToken cancellationToken)
+		{
+			List<ulong> wdChannels;
+			lock (mappedChannels)   //so it doesn't change while we're using it
+				wdChannels = mappedChannels.Where(x => x.Value.IsUpdatesChannel).Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);
 		}
 
@@ -531,6 +542,15 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					provider.Dispose();
 				}
+		}
+
+		/// <inheritdoc />
+		public Task SendBroadcast(string message, CancellationToken cancellationToken)
+		{
+			List<ulong> wdChannels;
+			lock (mappedChannels)   //so it doesn't change while we're using it
+				wdChannels = mappedChannels.Select(x => x.Key).ToList();
+			return SendMessage(message, wdChannels, cancellationToken);
 		}
 	}
 }
