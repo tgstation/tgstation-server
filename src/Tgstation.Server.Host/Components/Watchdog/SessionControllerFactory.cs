@@ -140,7 +140,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ContractResolver = new DefaultContractResolver
 				{
 					NamingStrategy = new CamelCaseNamingStrategy()
-				}
+				},
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
 
 			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
