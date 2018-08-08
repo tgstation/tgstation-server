@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Include(x => x.InstanceUsers).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
+			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi()));
 		}
 
