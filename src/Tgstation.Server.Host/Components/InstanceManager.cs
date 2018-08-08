@@ -86,6 +86,7 @@ namespace Tgstation.Server.Host.Components
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
 
+			shutdownCancellationTokenSource = new CancellationTokenSource();
 			var cancellationToken = shutdownCancellationTokenSource.Token;
 			serverControl.RegisterForRestart(() =>
 			{
@@ -98,7 +99,6 @@ namespace Tgstation.Server.Host.Components
 			instances = new Dictionary<long, IInstance>();
 			interopConsumers = new Dictionary<string, IInteropConsumer>();
 			shutdownTasks = new List<Task>();
-			shutdownCancellationTokenSource = new CancellationTokenSource();
 		}
 
 		/// <inheritdoc />
