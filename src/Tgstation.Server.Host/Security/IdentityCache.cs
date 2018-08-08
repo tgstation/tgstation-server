@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Security
 			lock (cachedIdentities)
 			{
 				if (cachedIdentities.TryGetValue(user.Id, out var identCache))
-					identCache.Dispose();   //also clears it out
+					identCache.Dispose();	//also clears it out
 				identCache = new IdentityCacheObject(systemIdentity.Clone(), () =>
 				{
 					lock (cachedIdentities)
