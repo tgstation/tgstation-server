@@ -120,67 +120,98 @@ namespace Tgstation.Server.Host.Components
 				{
 					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
 
-					RepositorySettings repositorySettings = null;
-					string projectName = null;
-					DreamDaemonSettings ddSettings = null;
-					var dbTask = databaseContextFactory.UseContext(async (db) =>
+					try
 					{
-						var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
-						var ddSettingsTask = instanceQuery.Select(x => x.DreamDaemonSettings).Select(x => new DreamDaemonSettings
+						CompileJob job = null;
+						//need this the whole time
+						await databaseContextFactory.UseContext(async (db) =>
 						{
-							StartupTimeout = x.StartupTimeout,
-							SecurityLevel = x.SecurityLevel
-						}).FirstAsync(cancellationToken);
-						var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
-						repositorySettings = await instanceQuery.Select(x => x.RepositorySettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-						projectName = await projectNameTask.ConfigureAwait(false);
-						ddSettings = await ddSettingsTask.ConfigureAwait(false);
-					});
-					using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+							//start up queries we'll need in the future
+							var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
+							var ddSettingsTask = instanceQuery.Select(x => x.DreamDaemonSettings).Select(x => new DreamDaemonSettings
+							{
+								StartupTimeout = x.StartupTimeout,
+								SecurityLevel = x.SecurityLevel
+							}).FirstAsync(cancellationToken);
+							var projectNameTask = instanceQuery.Select(x => x.DreamMakerSettings.ProjectName).FirstOrDefaultAsync(cancellationToken);
+							var repositorySettingsTask = instanceQuery.Select(x => x.RepositorySettings).FirstOrDefaultAsync(cancellationToken);
+
+							using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+							{
+								if (repo == null)
+									return;
+
+								//start the rev info query
+								var startSha = repo.Head;
+								var revInfoTask = instanceQuery.SelectMany(x => x.RevisionInformations).Where(x => x.CommitSha == startSha).FirstOrDefaultAsync(cancellationToken);
+
+								//need repo setting to fetch
+								var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
+								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, null, cancellationToken).ConfigureAwait(false);
+
+								//take appropriate auto update actions
+								bool shouldSyncTracked;
+								if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
+								{
+									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, cancellationToken).ConfigureAwait(false);
+									if (!result.HasValue)
+										return;
+									shouldSyncTracked = result.Value;
+								}
+								else
+								{
+									await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+									shouldSyncTracked = true;
+								}
+
+								//synch if necessary
+								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
+									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
+
+								//finish other queries
+								var projectName = await projectNameTask.ConfigureAwait(false);
+								var ddSettings = await ddSettingsTask.ConfigureAwait(false);
+								var revInfo = await revInfoTask.ConfigureAwait(false);
+
+								//null rev info handling
+								if (revInfo == default)
+								{
+									var currentSha = repo.Head;
+									revInfo = new RevisionInformation
+									{
+										CommitSha = currentSha,
+										OriginCommitSha = currentSha,
+										Instance = new Models.Instance
+										{
+											Id = metadata.Id
+										}
+									};
+									db.Instances.Attach(revInfo.Instance);
+								}
+
+								//finally start compile
+								job = await DreamMaker.Compile(revInfo, projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+							}
+
+							db.CompileJobs.Add(job);
+							await db.Save(cancellationToken).ConfigureAwait(false);
+						}).ConfigureAwait(false);
+
+						await CompileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
+					}
+					catch (OperationCanceledException)
 					{
-						try
-						{
-							await dbTask.ConfigureAwait(false);
-						}
-						catch (OperationCanceledException)
-						{
-							throw;
-						}
-						catch (Exception e)
-						{
-							logger.LogWarning("Database error in auto update loop! Exception: {0}", e);
-							continue;
-						}
-						if (repo == null)
-							continue;
-						
-						await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, null, cancellationToken).ConfigureAwait(false);
-
-						var startSha = repo.Head;
-						bool shouldSyncTracked;
-						if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
-						{
-							var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, cancellationToken).ConfigureAwait(false);
-							if (!result.HasValue)
-								continue;
-							shouldSyncTracked = result.Value;
-						}
-						else
-						{
-							await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
-							shouldSyncTracked = true;
-						}
-
-						if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-							await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
-
-						var job = await DreamMaker.Compile(projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+						throw;
+					}
+					catch (Exception e)
+					{
+						logger.LogWarning("Error in auto update loop! Exception: {0}", e);
+						continue;
 					}
 				}
-				catch (OperationCanceledException) { }
-				catch (Exception e)
+				catch (OperationCanceledException)
 				{
-					logger.LogError("Error in auto update loop! Exception: {0}", e);
+					break;
 				}
 		}
 

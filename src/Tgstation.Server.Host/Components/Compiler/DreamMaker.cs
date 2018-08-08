@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
@@ -69,6 +70,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
 		/// <summary>
+		/// The <see cref="IChat"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IChat chat;
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
@@ -83,8 +88,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -93,6 +99,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -253,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(string projectName, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, string projectName, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			if (repository == null)
 				throw new ArgumentNullException(nameof(repository));
@@ -266,7 +273,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var job = new Models.CompileJob
 			{
 				DirectoryName = Guid.NewGuid(),
-				DmeName = projectName
+				DmeName = projectName,
+				RevisionInformation = revisionInformation
 			};
 
 			logger.LogTrace("Compile output GUID: {0}", job.DirectoryName);
@@ -282,6 +290,25 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				Status = CompilerStatus.Copying;
 			}
+
+			var commitInsert = revisionInformation.CommitSha;
+			var remoteCommitInsert = String.Empty;
+			if (commitInsert == revisionInformation.OriginCommitSha)
+				commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert.Substring(0, 7));
+			else
+				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha);
+
+			var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})", 
+				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+				{
+					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
+					if (x.Comment != null)
+						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+					return result;
+				})));
+
+			await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2}", commitInsert, testmergeInsert, remoteCommitInsert), cancellationToken).ConfigureAwait(false);
+
 			try
 			{
 				await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
@@ -391,6 +418,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			}
 			catch (OperationCanceledException)
 			{
+				await chat.SendUpdateMessage("DM: Update failed!", cancellationToken).ConfigureAwait(false);
 				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
 				throw;
 			}

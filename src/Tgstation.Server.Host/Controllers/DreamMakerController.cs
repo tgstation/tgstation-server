@@ -111,8 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = instanceManager.GetInstance(instanceModel);
 
 			CompileJob compileJob;
-			Task<RevisionInformation> revInfoTask;
-			string repoSha;
+			RevisionInformation revInfo;
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
@@ -120,48 +119,35 @@ namespace Tgstation.Server.Host.Controllers
 					job.ExceptionDetails = "Missing repository!";
 					return;
 				}
-				repoSha = repo.Head;
-				revInfoTask = databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Select(x => new RevisionInformation { Id = x.Id }).FirstOrDefaultAsync();
-				compileJob = await instance.DreamMaker.Compile(projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+				var repoSha = repo.Head;
+				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
+
+				if (revInfo == default)
+				{
+					revInfo = new RevisionInformation
+					{
+						CommitSha = repoSha,
+						OriginCommitSha = repoSha,
+						Instance = new Models.Instance
+						{
+							Id = Instance.Id
+						}
+					};
+					databaseContext.Instances.Attach(revInfo.Instance);
+				}
+
+				compileJob = await instance.DreamMaker.Compile(revInfo, projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
 			if (compileJob.DMApiValidated != true)
 				return;
 
 			compileJob.Job = job;
-			compileJob.RevisionInformation = await revInfoTask.ConfigureAwait(false);
-
-			if (compileJob.RevisionInformation == default)
-			{
-				compileJob.RevisionInformation = new RevisionInformation
-				{
-					CommitSha = repoSha,
-					OriginCommitSha = repoSha,
-					Instance = new Models.Instance
-					{
-						Id = Instance.Id
-					}
-				};
-				databaseContext.Instances.Attach(compileJob.RevisionInformation.Instance);
-			}
-			else
-				databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
 
 			databaseContext.CompileJobs.Add(compileJob);
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			//now load the entire compile job tree into the consumer
-			//default ct because we don't want to give up after getting this far since we already set this job as staged in the db
-			var finalCompileJob = await databaseContext.CompileJobs.Where(x => x.Id == compileJob.Id)
-				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
-				.FirstOrDefaultAsync().ConfigureAwait(false);	//can't wait to see that query
-			if (finalCompileJob == null)
-				//lol git fucked
-				return;
-
-			await instance.CompileJobConsumer.LoadCompileJob(finalCompileJob, default).ConfigureAwait(false);
+			await instance.CompileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }
