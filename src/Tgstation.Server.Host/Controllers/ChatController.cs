@@ -50,8 +50,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			DiscordChannelId = api.DiscordChannelId,
 			IrcChannel = api.IrcChannel,
-			IsAdminChannel = api.IsAdminChannel,
-			IsWatchdogChannel = api.IsWatchdogChannel
+			IsAdminChannel = api.IsAdminChannel ?? false,
+			IsWatchdogChannel = api.IsWatchdogChannel ?? false,
+			IsUpdatesChannel = api.IsUpdatesChannel ?? false
 		};
 
 		/// <inheritdoc />
