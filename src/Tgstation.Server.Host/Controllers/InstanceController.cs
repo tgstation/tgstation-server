@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Controllers
 					CommitterEmail = "tgstation-server@users.noreply.github.com",
 					CommitterName = application.VersionString,
 					PushTestMergeCommits = false,
-					ShowTestMergeCommitters = true,
+					ShowTestMergeCommitters = false,
 					AutoUpdatesKeepTestMerges = false,
 					AutoUpdatesSynchronize = false
 				},
