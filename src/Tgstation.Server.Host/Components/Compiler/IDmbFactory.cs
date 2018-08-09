@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 	public interface IDmbFactory
 	{
 		/// <summary>
-		/// Get a <see cref="Task"/> that completes when the result of a call to <see cref="LockNextDmb(CancellationToken)"/> will be different than the previous call if any
+		/// Get a <see cref="Task"/> that completes when the result of a call to <see cref="LockNextDmb"/> will be different than the previous call if any
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task OnNewerDmb { get; }

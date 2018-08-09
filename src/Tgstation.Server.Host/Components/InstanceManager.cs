@@ -67,6 +67,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="InstanceManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
 		{

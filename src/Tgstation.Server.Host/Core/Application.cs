@@ -34,9 +34,7 @@ namespace Tgstation.Server.Host.Core
 	/// <inheritdoc />
 	sealed class Application : IApplication
 	{
-		/// <summary>
-		/// Prefix for string version names
-		/// </summary>
+		/// <inheritdoc />
 		public string VersionPrefix => "tgstation-server";
 
 		/// <inheritdoc />

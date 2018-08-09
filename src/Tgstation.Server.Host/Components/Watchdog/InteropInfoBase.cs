@@ -26,6 +26,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		[Required]
 		public string ServerCommandsJson { get; set; }
 
+		/// <summary>
+		/// Construct an <see cref="InteropInfoBase"/>
+		/// </summary>
 		protected InteropInfoBase() { }
 
 		/// <summary>
