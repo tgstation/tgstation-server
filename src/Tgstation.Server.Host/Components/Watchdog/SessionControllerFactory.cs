@@ -105,14 +105,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new InvalidOperationException("Given port is null!");
 			var accessIdentifier = cryptographySuite.GetSecureString();
 
-			string GuidJsonFile() => String.Format(CultureInfo.InvariantCulture, "{0}.json", Guid.NewGuid());
+			const string JsonPostfix = "tgs.json";
+
+			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
+			//delete all previous tgs json files
+			var files = await ioManager.GetFilesWithExtension(basePath, JsonPostfix, cancellationToken).ConfigureAwait(false);
+
+			await Task.WhenAll(files.Select(x => ioManager.DeleteFile(x, cancellationToken))).ConfigureAwait(false);
+
+			//i changed this back from guids, hopefully i don't regret that
+			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
 			var interopInfo = new InteropInfo
 			{
 				AccessIdentifier = accessIdentifier,
 				ApiValidateOnly = apiValidate,
-				ChatChannelsJson = GuidJsonFile(),
-				ChatCommandsJson = GuidJsonFile(),
+				ChatChannelsJson = JsonFile("chat_channels"),
+				ChatCommandsJson = JsonFile("chat_commands"),
 				HostPath = application.HostingPath,
 				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
@@ -133,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					Url = x.Url
 				}));
 
-			var interopJsonFile = GuidJsonFile();
+			var interopJsonFile = JsonFile("interop");
 
 			var interopJson = JsonConvert.SerializeObject(interopInfo, Formatting.Indented, new JsonSerializerSettings
 			{
@@ -144,7 +153,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
 
-			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
 			var localIoManager = new ResolvingIOManager(ioManager, basePath);
 
 			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
