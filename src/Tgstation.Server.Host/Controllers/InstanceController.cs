@@ -207,9 +207,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
-			var usersInstanceUserTask = instanceQuery
-				.Include(x => x.InstanceUsers)
-				.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
+			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
 
 			var originalModel = await instanceQuery
 				.Include(x => x.RepositorySettings)
