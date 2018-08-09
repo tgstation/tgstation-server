@@ -77,28 +77,33 @@
 	src.event_handler = event_handler
 	instance_name = cached_json["instanceName"]
 
+	ListCustomCommands()
+
+	. = TRUE
+
+	var/list/revisionData = cached_json["revision"]
+	if(!revisionData)
+		return
+
+	cached_revision = new
+	cached_revision.commit = revisionData["commitSha"]
+	cached_revision.origin_commit = revisionData["originCommitSha"]
+
 	cached_test_merges = list()
 	var/json = cached_json["testMerges"]
 	for(var/I in json)
 		var/datum/tgs_revision_information/test_merge/tm = new
 		tm.number = text2num(I)
 		var/list/entry = json[I]
-		tm.pull_request_commit = entry["prCommit"]
+		tm.pull_request_commit = entry["pullRequestRevision"]
 		tm.author = entry["author"]
 		tm.title = entry["title"]
-		tm.commit = entry["commit"]
-		tm.origin_commit = entry["originCommit"]
+		var/list/revInfo = entry["revision"]
+		tm.commit = revInfo["commitSha"]
+		tm.origin_commit = entry["originCommitSha"]
 		tm.time_merged = text2num(entry["timeMerged"])
 		tm.comment = entry["comment"]
 		tm.url = entry["url"]
-
-	cached_revision = new
-	cached_revision.commit = cached_json["commit"]
-	cached_revision.origin_commit = cached_json["originCommit"]
-
-	ListCustomCommands()
-
-	return TRUE
 
 /datum/tgs_api/v4/OnInitializationComplete()
 	Export(TGS4_COMM_SERVER_PRIMED)

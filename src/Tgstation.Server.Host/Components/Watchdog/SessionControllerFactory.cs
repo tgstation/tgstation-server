@@ -120,20 +120,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
 
-			if (dmbProvider.CompileJob.RevisionInformation != null)	//null while compiling
-				interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge
-				{
-					Author = x.Author,
-					Body = x.BodyAtMerge,
-					Comment = x.Comment,
-					CommitSha = x.PrimaryRevisionInformation.CommitSha,
-					Number = x.Number,
-					OriginCommitSha = x.PrimaryRevisionInformation.OriginCommitSha,
-					PullRequestCommit = x.PullRequestRevision,
-					TimeMerged = x.MergedAt.Ticks,
-					Title = x.TitleAtMerge,
-					Url = x.Url
-				}));
+			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge(x)));
 
 			var interopJsonFile = JsonFile("interop");
 

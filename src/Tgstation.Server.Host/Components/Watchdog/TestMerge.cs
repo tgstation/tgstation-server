@@ -5,15 +5,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// This model mirrors /datum/tgs_revision_information/test_merge
 	/// </summary>
-	sealed class TestMerge : RevisionInformation
+	sealed class TestMerge : TestMergeBase
 	{
-		public int Number { get; set; }
-		public string Title { get; set; }
-		public string Body { get; set; }
-		public string Author { get; set; }
-		public string Url { get; set; }
-		public string PullRequestCommit { get; set; }
+		/// <summary>
+		/// The unix time of when the test merge was applied
+		/// </summary>
 		public long TimeMerged { get; set; }
-		public string Comment { get; set; }
+
+		/// <summary>
+		/// The <see cref="RevisionInformation"/> of the <see cref="TestMerge"/>
+		/// </summary>
+		public RevisionInformation Revision { get; set; }
+
+		/// <summary>
+		/// Construct a <see cref="TestMerge"/>
+		/// </summary>
+		/// <param name="testMerge">The <see cref="Models.TestMerge"/> to build from</param>
+		public TestMerge(Models.TestMerge testMerge) : base(testMerge)
+		{
+			TimeMerged = testMerge.MergedAt.Ticks;
+			Revision = testMerge.PrimaryRevisionInformation;
+		}
 	}
 }
