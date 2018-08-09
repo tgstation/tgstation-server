@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				var now = DateTimeOffset.Now;
 				if (now < timeoutAt)
 				{
-					var timeoutTask = Task.Delay(timeoutAt - DateTimeOffset.Now, cancellationToken);
+					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
 
 					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
