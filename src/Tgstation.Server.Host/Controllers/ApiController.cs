@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			Logger.LogTrace("Request made by User ID {0} to Instance {6}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
+			Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
 
 			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
