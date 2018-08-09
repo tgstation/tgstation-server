@@ -66,6 +66,8 @@
 
 	access_identifier = cached_json["accessIdentifier"]
 	instance_name = text2num(cached_json["instanceName"])
+	server_commands_json_path = cached_json["serverCommandsJson"]
+
 	if(cached_json["apiValidateOnly"])
 		TGS_INFO_LOG("Validating API and exiting...")
 		Export(TGS4_COMM_VALIDATE)
@@ -73,7 +75,6 @@
 		
 	chat_channels_json_path = cached_json["chatChannelsJson"]
 	chat_commands_json_path = cached_json["chatCommandsJson"]
-	server_commands_json_path = cached_json["serverCommandsJson"]
 	src.event_handler = event_handler
 	instance_name = cached_json["instanceName"]
 
