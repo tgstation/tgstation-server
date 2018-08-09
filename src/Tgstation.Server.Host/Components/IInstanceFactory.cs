@@ -12,8 +12,7 @@ namespace Tgstation.Server.Host.Components
 		/// Create an <see cref="IInstance"/>
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/></param>
-		/// <param name="interopRegistrar">The <see cref="IInteropRegistrar"/> for the <see cref="IInstance"/></param>
 		/// <returns>A new <see cref="IInstance"/></returns>
-		IInstance CreateInstance(Models.Instance metadata, IInteropRegistrar interopRegistrar);
+		IInstance CreateInstance(Models.Instance metadata);
 	}
 }

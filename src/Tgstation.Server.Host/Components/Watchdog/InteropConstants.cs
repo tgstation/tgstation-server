@@ -16,6 +16,7 @@
 		public const string DMTopicChangeReboot = "tgs_rmode";
 		public const string DMTopicChatCommand = "tgs_chat_comm";
 		public const string DMTopicEvent = "tgs_event";
+		public const string DMTopicInteropResponse = "tgs_interop";
 
 		public const string DMCommandOnline = "tgs_on";
 		public const string DMCommandIdentify = "tgs_ident";
@@ -27,8 +28,5 @@
 
 		public const string DMParameterCommand = "tgs_com";
 		public const string DMParameterData = "tgs_data";
-
-		public const string DMParameterNewPort = "new_port";
-		public const string DMParameterNewRebootMode = "new_rmode";
 	}
 }

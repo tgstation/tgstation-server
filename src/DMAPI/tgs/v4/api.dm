@@ -8,6 +8,7 @@
 #define TGS4_TOPIC_CHANGE_REBOOT_MODE "tgs_rmode"
 #define TGS4_TOPIC_CHAT_COMMAND "tgs_chat_comm"
 #define TGS4_TOPIC_EVENT "tgs_event"
+#define TGS4_TOPIC_INTEROP_RESPONSE "tgs_interop"
 
 #define TGS4_COMM_ONLINE "tgs_on"
 #define TGS4_COMM_IDENTIFY "tgs_ident"
@@ -23,6 +24,8 @@
 #define TGS4_PARAMETER_NEW_PORT "new_port"
 #define TGS4_PARAMETER_NEW_REBOOT_MODE "new_rmode"
 
+#define EXPORT_TIMEOUT_DS 200
+
 /datum/tgs_api/v4
 	var/access_identifier
 	var/instance_name
@@ -30,6 +33,7 @@
 	var/json_path
 	var/chat_channels_json_path
 	var/chat_commands_json_path
+	var/server_commands_json_path
 	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
 	
 	var/list/intercepted_message_queue
@@ -40,6 +44,9 @@
 	var/datum/tgs_revision_information/cached_revision
 
 	var/datum/tgs_event_handler/event_handler
+
+	var/export_lock = FALSE
+	var/list/last_interop_response
 
 /datum/tgs_api/v4/ApiVersion()
 	return "4.0.0.0"
@@ -68,6 +75,7 @@
 		
 	chat_channels_json_path = cached_json["chatChannelsJson"]
 	chat_commands_json_path = cached_json["chatCommandsJson"]
+	server_commands_json_path = cached_json["serverCommandsJson"]
 	src.event_handler = event_handler
 	instance_name = cached_json["instanceName"]
 
@@ -117,42 +125,45 @@
 
 	switch(command)
 		if(TGS4_TOPIC_CHAT_COMMAND)
-			var/result = HandleCustomCommand(params[TGS4_TOPIC_CHAT_COMMAND])
+			var/result = HandleCustomCommand(params[TGS4_PARAMETER_DATA])
 			if(!result)
 				return json_encode(list("error" = "Error running chat command!"))
 			return result
 		if(TGS4_TOPIC_EVENT)
 			intercepted_message_queue = list()
-			event_handler.HandleEvent(text2num(params[TGS4_TOPIC_EVENT]))
+			event_handler.HandleEvent(text2num(params[TGS4_PARAMETER_DATA]))
 			. = json_encode(intercepted_message_queue)
 			intercepted_message_queue = null
 			return
+		if(TGS4_TOPIC_INTEROP_RESPONSE)
+			last_interop_response = json_decode(params[TGS4_PARAMETER_DATA])
+			return 
 	
 	return "Unknown command: [command]"
 
 /datum/tgs_api/v4/proc/Export(command, list/data)
-	var/url = "[host_path]/Interop?[TGS4_INTEROP_ACCESS_IDENTIFIER]=[url_encode(access_identifier)]&[TGS4_PARAMETER_COMMAND]=[url_encode(command)]"
-	if(data)
-		url = "[url]&[TGS4_PARAMETER_DATA]=[url_encode(json_encode(data))]"
-	var/list/res = world.Export(url)
-	if(!istype(res))
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! world.Export returned something not a list (probably null): [res]")
-		return
-	var/byond_status = res["STATUS"]
-	var/byond_content = res["CONTENT"]
-	if(byond_status != "200 OK")
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! Top level HTTP [byond_status]: [byond_content]")
-		return
-	var/json = json_decode(byond_content)	//always expecting json
-	if(!json)
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! Byond content not json: [byond_content]")
-		return
-	var/status = json["STATUS"]
-	var/content = json["CONTENT"]
-	if(status != 200)	//HTTP OK
-		TGS_ERROR_LOG("Error contacting TGS webapi at [host_path] (command: [command])! HTTP [status]: [json_encode(content)]")
-		return
-	return content
+	if(!data)
+		data = list()
+	data[TGS4_PARAMETER_COMMAND] = command
+	var/json = json_encode(data)
+
+	while(export_lock)
+		sleep(1)
+	export_lock = TRUE
+
+	last_interop_response = null
+	fdel(server_commands_json_path)
+	text2file(json, server_commands_json_path)
+
+	for(var/I = 0; I < EXPORT_TIMEOUT_DS && !last_interop_response; ++I)
+		sleep(1)
+
+	if(!last_interop_response)
+		TGS_ERROR_LOG("Failed to get export result for: [json]")
+	else
+		. = last_interop_response
+
+	export_lock = FALSE
 
 /datum/tgs_api/v4/OnReboot()
 	var/json = Export(TGS4_COMM_WORLD_REBOOT)

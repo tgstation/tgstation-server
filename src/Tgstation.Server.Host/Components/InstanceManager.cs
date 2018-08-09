@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar, IDisposable
+	sealed class InstanceManager : IInstanceManager, IHostedService, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
@@ -51,10 +48,6 @@ namespace Tgstation.Server.Host.Components
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
 		readonly Dictionary<long, IInstance> instances;
-		/// <summary>
-		/// Map of access identifiers to their respective <see cref="IInteropConsumer"/>
-		/// </summary>
-		readonly Dictionary<string, IInteropConsumer> interopConsumers;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of <see cref="Task"/>s to finish in <see cref="StopAsync(CancellationToken)"/>
@@ -97,7 +90,6 @@ namespace Tgstation.Server.Host.Components
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			instances = new Dictionary<long, IInstance>();
-			interopConsumers = new Dictionary<string, IInteropConsumer>();
 			shutdownTasks = new List<Task>();
 		}
 
@@ -164,7 +156,7 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
-			var instance = instanceFactory.CreateInstance(metadata, this);
+			var instance = instanceFactory.CreateInstance(metadata);
 			try
 			{
 				lock (this)
@@ -219,43 +211,6 @@ namespace Tgstation.Server.Host.Components
 				await Task.WhenAll(shutdownTasks).ConfigureAwait(false);
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)
-		{
-			if (accessIdentifier == null)
-				throw new ArgumentNullException(nameof(accessIdentifier));
-			if (consumer == null)
-				throw new ArgumentNullException(nameof(consumer));
-
-			lock (interopConsumers)
-				interopConsumers.Add(accessIdentifier, consumer);
-			return new InteropContext(() =>
-			{
-				lock (interopConsumers)
-					interopConsumers.Remove(accessIdentifier);
-			});
-		}
-
-		/// <inheritdoc />
-		public async Task<object> HandleWorldExport(IQueryCollection query, CancellationToken cancellationToken)
-		{
-			if (query == null)
-				throw new ArgumentNullException(nameof(query));
-
-			if (!query.TryGetValue(InteropConstants.DMInteropAccessIdentifier, out StringValues values))
-				return null;
-			var accessIdentifier = values.FirstOrDefault();
-			if (accessIdentifier == default)
-				return null;
-
-			IInteropConsumer consumer;
-			lock (interopConsumers)
-				if (!interopConsumers.TryGetValue(accessIdentifier, out consumer))
-					return null;
-
-			return await consumer.HandleInterop(query, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

@@ -36,11 +36,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IInteropRegistrar"/> for the <see cref="SessionControllerFactory"/>
-		/// </summary>
-		readonly IInteropRegistrar interopRegistrar;
-
-		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
@@ -76,19 +71,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="executor">The value of <see cref="executor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
-		/// <param name="interopRegistrar">The value of <see cref="interopRegistrar"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IExecutor executor, IByondManager byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Api.Models.Instance instance)
+		public SessionControllerFactory(IExecutor executor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Api.Models.Instance instance)
 		{
 			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			this.interopRegistrar = interopRegistrar ?? throw new ArgumentNullException(nameof(interopRegistrar));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -122,6 +115,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ApiValidateOnly = apiValidate,
 				ChatChannelsJson = JsonFile("chat_channels"),
 				ChatCommandsJson = JsonFile("chat_commands"),
+				ServerCommandsJson = JsonFile("server_commands"),
 				HostPath = application.HostingPath,
 				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
@@ -167,21 +161,33 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					//more sanitization here cause it uses the same scheme
 					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(InteropConstants.DMParamHostVersion), byondTopicSender.SanitizeString(InteropConstants.DMParamInfoJson));
 
-					var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, parameters, !primaryPort, !primaryDirectory);
+					var context = new InteropContext(ioManager, loggerFactory.CreateLogger<InteropContext>(), basePath, interopInfo.ServerCommandsJson);
 					try
 					{
-						return new SessionController(new ReattachInformation
+						var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, parameters, !primaryPort, !primaryDirectory);
+						try
 						{
-							AccessIdentifier = accessIdentifier,
-							Dmb = dmbProvider,
-							IsPrimary = primaryDirectory,
-							Port = portToUse.Value,
-							ProcessId = session.ProcessId
-						}, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat, loggerFactory.CreateLogger<SessionController>());
+							return new SessionController(new ReattachInformation
+							{
+								AccessIdentifier = accessIdentifier,
+								Dmb = dmbProvider,
+								IsPrimary = primaryDirectory,
+								Port = portToUse.Value,
+								ProcessId = session.ProcessId,
+								ChatChannelsJson = interopInfo.ChatChannelsJson,
+								ChatCommandsJson = interopInfo.ChatCommandsJson,
+								ServerCommandsJson = interopInfo.ServerCommandsJson,
+							}, session, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>());
+						}
+						catch
+						{
+							session.Dispose();
+							throw;
+						}
 					}
 					catch
 					{
-						session.Dispose();
+						context.Dispose();
 						throw;
 					}
 				}
@@ -212,14 +218,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					var session = executor.AttachToDreamDaemon(reattachInformation.ProcessId, byondLock);
+					var context = new InteropContext(ioManager, loggerFactory.CreateLogger<InteropContext>(), basePath, reattachInformation.ServerCommandsJson);
 					try
 					{
-						return new SessionController(reattachInformation, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat, loggerFactory.CreateLogger<SessionController>());
+						var session = executor.AttachToDreamDaemon(reattachInformation.ProcessId, byondLock);
+						try
+						{
+							return new SessionController(reattachInformation, session, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>());
+						}
+						catch
+						{
+							session.Dispose();
+							throw;
+						}
 					}
 					catch
 					{
-						session.Dispose();
+						context.Dispose();
 						throw;
 					}
 				}

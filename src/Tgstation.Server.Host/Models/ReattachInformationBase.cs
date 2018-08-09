@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Base class for <see cref="ReattachInformation"/>
 	/// </summary>
-	public abstract class ReattachInformationBase
+	public abstract class ReattachInformationBase : InteropInfoBase
 	{
 		/// <summary>
 		/// Used to identify and authenticate the DreamDaemon instance
@@ -37,33 +37,19 @@ namespace Tgstation.Server.Host.Models
 		public RebootState RebootState { get; set; }
 
 		/// <summary>
-		/// Path to the chat commands json file
-		/// </summary>
-		[Required]
-		public string ChatCommandsJson { get; set; }
-
-		/// <summary>
-		/// Path to the chat channels json file
-		/// </summary>
-		[Required]
-		public string ChatChannelsJson { get; set; }
-
-		/// <summary>
 		/// Construct a <see cref="ReattachInformationBase"/>
 		/// </summary>
-		public ReattachInformationBase() { }
+		protected ReattachInformationBase() { }
 
 		/// <summary>
 		/// Construct a <see cref="ReattachInformationBase"/> from a given <paramref name="copy"/>
 		/// </summary>
 		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from</param>
-		protected ReattachInformationBase(ReattachInformationBase copy)
+		protected ReattachInformationBase(ReattachInformationBase copy) : base(copy)
 		{
 			if (copy == null)
 				throw new ArgumentNullException(nameof(copy));
 			AccessIdentifier = copy.AccessIdentifier;
-			ChatChannelsJson = copy.ChatChannelsJson;
-			ChatCommandsJson = copy.ChatCommandsJson;
 			IsPrimary = copy.IsPrimary;
 			Port = copy.Port;
 			ProcessId = copy.ProcessId;

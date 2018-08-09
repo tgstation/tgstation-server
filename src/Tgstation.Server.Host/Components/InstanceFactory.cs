@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstance CreateInstance(Models.Instance metadata, IInteropRegistrar interopRegistrar)
+		public IInstance CreateInstance(Models.Instance metadata)
 		{
 			//Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Components
 					var chat = chatFactory.CreateChat(metadata.ChatSettings);
 					try
 					{
-						var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, interopRegistrar, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());
+						var sessionControllerFactory = new SessionControllerFactory(executor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata.CloneMetadata());
 						var watchdogFactory = new WatchdogFactory(chat, sessionControllerFactory, serverUpdater, loggerFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, eventConsumer, metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(dmbFactory, metadata.DreamDaemonSettings);
