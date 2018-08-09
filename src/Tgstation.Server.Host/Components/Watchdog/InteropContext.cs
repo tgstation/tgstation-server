@@ -54,13 +54,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			fileSystemWatcher = new FileSystemWatcher
+			directory = ioManager.ResolvePath(directory) ?? throw new ArgumentNullException(nameof(directory));
+			if (filter == null)
+				throw new ArgumentNullException(nameof(filter));
+
+			fileSystemWatcher = new FileSystemWatcher(directory, filter)
 			{
 				EnableRaisingEvents = true,
 				IncludeSubdirectories = false,
-				NotifyFilter = NotifyFilters.LastWrite,
-				Path = ioManager.ResolvePath(directory),
-				Filter = filter
+				NotifyFilter = NotifyFilters.LastWrite
 			};
 
 			fileSystemWatcher.Created += HandleWrite;
