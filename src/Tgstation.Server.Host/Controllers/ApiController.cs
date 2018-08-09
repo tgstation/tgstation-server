@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 		readonly bool requireInstance;
 
 		/// <summary>
-		/// Runs after a <see cref="Api.Models.Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
+		/// Runs after a <see cref="Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
 		/// </summary>
 		/// <param name="context">The <see cref="TokenValidatedContext"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
@@ -135,6 +135,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			//ALL requests go through this function
+
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
 			{
 				//valid token, expired password
