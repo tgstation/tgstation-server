@@ -29,7 +29,6 @@
 /datum/tgs_api/v4
 	var/access_identifier
 	var/instance_name
-	var/host_path
 	var/json_path
 	var/chat_channels_json_path
 	var/chat_commands_json_path
@@ -67,7 +66,6 @@
 
 	access_identifier = cached_json["accessIdentifier"]
 	instance_name = text2num(cached_json["instanceName"])
-	host_path = cached_json["hostPath"]
 	if(cached_json["apiValidateOnly"])
 		TGS_INFO_LOG("Validating API and exiting...")
 		Export(TGS4_COMM_VALIDATE)
@@ -106,6 +104,7 @@
 	Export(TGS4_COMM_SERVER_PRIMED)
 	var/tgs4_secret_sleep_offline_sauce = 24051994
 	var/old_sleep_offline = world.sleep_offline
+	world.sleep_offline = tgs4_secret_sleep_offline_sauce
 	sleep(1)
 	if(world.sleep_offline == tgs4_secret_sleep_offline_sauce)	//if not someone changed it
 		world.sleep_offline = old_sleep_offline

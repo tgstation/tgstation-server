@@ -6,8 +6,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class InteropInfo
 	{
 		public string AccessIdentifier { get; set; }
-		
-		public string HostPath { get; set; }
 
 		public bool ApiValidateOnly { get; set; }
 

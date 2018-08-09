@@ -41,9 +41,6 @@ namespace Tgstation.Server.Host.Core
 		public string VersionPrefix => "tgstation-server";
 
 		/// <inheritdoc />
-		public string HostingPath => serverAddresses.Addresses.First();
-
-		/// <inheritdoc />
 		public Version Version { get; }
 
 		/// <inheritdoc />

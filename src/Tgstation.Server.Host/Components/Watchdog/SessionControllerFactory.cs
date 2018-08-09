@@ -116,7 +116,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ChatChannelsJson = JsonFile("chat_channels"),
 				ChatCommandsJson = JsonFile("chat_commands"),
 				ServerCommandsJson = JsonFile("server_commands"),
-				HostPath = application.HostingPath,
 				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
