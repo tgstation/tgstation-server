@@ -408,6 +408,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						logger.LogDebug("Compile complete!");
 					}
+					await chat.SendUpdateMessage("Deployment complete! Changes will be applied on next server reboot.", cancellationToken).ConfigureAwait(false);
 					return job;
 				}
 				catch
