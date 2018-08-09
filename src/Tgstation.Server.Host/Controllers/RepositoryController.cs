@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						if (repos == null)
 							throw new Exception("Filesystem conflict while cloning repository!");
-						await PopulateApi(api, repo, DatabaseContext, Instance, null, null, cancellationToken).ConfigureAwait(false);
+						await PopulateApi(api, repos, DatabaseContext, Instance, null, null, cancellationToken).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
 
