@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceProcess;
+using System.Windows.Forms;
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
@@ -30,7 +31,7 @@ namespace Tgstation.Server.Host.Service
 		/// The --install or -i option
 		/// </summary>
 		[Option(ShortName = "i")]
-		public bool Install { get; }
+		public bool Install { get; set; }
 
 		/// <summary>
 		/// Check if the running user is a system administrator
@@ -48,23 +49,32 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		public void OnExecute()
 		{
-			if ((Install || Uninstall) && !IsAdministrator())
+			if (Environment.UserInteractive)
 			{
-				//try to restart as admin
-				var argList = Environment.GetCommandLineArgs().ToList();
-				//its windows, first arg is .exe name guaranteed
-				var exe = argList.First();
-				argList.RemoveAt(0);
-				var startInfo = new ProcessStartInfo
+				if (!IsAdministrator())
 				{
-					UseShellExecute = true,
-					Verb = "runas",
-					Arguments = String.Join(" ", argList),
-					FileName = exe,
-					WorkingDirectory = Environment.CurrentDirectory,
-				};
-				using (Process.Start(startInfo))
-					return;
+					if (!(Install || Uninstall))
+					{
+						var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
+						if (result == DialogResult.No)
+							return;
+						Install = true;
+					}
+
+					//try to restart as admin
+					//its windows, first arg is .exe name guaranteed
+					var exe = Environment.GetCommandLineArgs().First();
+					var startInfo = new ProcessStartInfo
+					{
+						UseShellExecute = true,
+						Verb = "runas",
+						Arguments = Install ? "-i" : "-u",
+						FileName = exe,
+						WorkingDirectory = Environment.CurrentDirectory,
+					};
+					using (Process.Start(startInfo))
+						return;
+				}
 			}
 
 			if (Install)
@@ -105,6 +115,7 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
+		[STAThread]
 		static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 	}
 }
