@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The number of the pull request
 		/// </summary>
+		[Required]
 		public int? Number { get; set; }
 
 		/// <summary>
