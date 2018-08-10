@@ -28,5 +28,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public bool? IsWatchdogChannel { get; set; }
+
+		/// <summary>
+		/// If the <see cref="ChatChannel"/> is an updates channel
+		/// </summary>
+		[Required]
+		public bool? IsUpdatesChannel { get; set; }
 	}
 }

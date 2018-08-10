@@ -23,11 +23,6 @@ namespace Tgstation.Server.Host.Core
 		Version Version { get; }
 
 		/// <summary>
-		/// The url the server can be reached at locally
-		/// </summary>
-		string HostingPath { get; }
-
-		/// <summary>
 		/// Mark the <see cref="IApplication"/> as ready to run
 		/// </summary>
 		/// <param name="initializationError">The <see cref="Exception"/> that put the application in a corrupted state if any</param>

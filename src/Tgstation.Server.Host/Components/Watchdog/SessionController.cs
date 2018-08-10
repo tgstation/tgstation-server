@@ -1,21 +1,22 @@
 ﻿using Byond.TopicSender;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class SessionController : ISessionController, IInteropConsumer
+	sealed class SessionController : ISessionController, ICommHandler
 	{
 		/// <inheritdoc />
 		public bool IsPrimary
@@ -74,10 +75,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<LaunchResult> LaunchResult => session.LaunchResult;
+		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime => session.Lifetime;
+		public Task<int> Lifetime => process.Lifetime;
 
 		/// <inheritdoc />
 		public Task OnReboot => rebootTcs.Task;
@@ -93,14 +94,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IInteropContext"/> for the <see cref="SessionController"/>
+		/// The <see cref="ICommContext"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IInteropContext interopContext;
+		readonly ICommContext interopContext;
 
 		/// <summary>
-		/// The <see cref="ISession"/> for the <see cref="SessionController"/>
+		/// The <see cref="IProcess"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly ISession session;
+		readonly IProcess process;
+
+		/// <summary>
+		/// The <see cref="IByondExecutableLock"/> for the <see cref="SessionController"/>
+		/// </summary>
+		readonly IByondExecutableLock byondLock;
 
 		/// <summary>
 		/// The <see cref="IJsonTrackingContext"/> for the <see cref="SessionController"/>
@@ -146,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool apiValidated;
 
 		/// <summary>
-		/// If <see cref="session"/> should be kept alive instead
+		/// If <see cref="process"/> should be kept alive instead
 		/// </summary>
 		bool released;
 
@@ -154,24 +160,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
-		/// <param name="session">The value of <see cref="session"/></param>
+		/// <param name="process">The value of <see cref="process"/></param>
+		/// <param name="byondLock">The value of <see cref="byondLock"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
-		/// <param name="interopRegistrar">The <see cref="IInteropRegistrar"/> used to construct <see cref="interopContext"/></param>
+		/// <param name="interopContext">The value of <see cref="interopContext"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, IJsonTrackingContext chatJsonTrackingContext, IChat chat, ILogger<SessionController> logger)
+		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			if (interopRegistrar == null)
-				throw new ArgumentNullException(nameof(interopRegistrar));
-			this.session = session ?? throw new ArgumentNullException(nameof(session));
+			this.process = process ?? throw new ArgumentNullException(nameof(process));
+			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
+			this.interopContext = interopContext ?? throw new ArgumentNullException(nameof(interopContext));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			interopContext = interopRegistrar.Register(reattachInformation.AccessIdentifier, this);
+			interopContext.RegisterHandler(this);
 
 			portClosed = false;
 			disposed = false;
@@ -179,11 +186,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			released = false;
 
 			rebootTcs = new TaskCompletionSource<object>();
+
+			async Task<LaunchResult> GetLaunchResult()
+			{
+				var startTime = DateTimeOffset.Now;
+				await process.Startup.ConfigureAwait(false);
+				var result = new LaunchResult
+				{
+					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
+					StartupTime = DateTimeOffset.Now - startTime
+				};
+				return result;
+			};
+			LaunchResult = GetLaunchResult();
 		}
 
 		/// <summary>
 		/// Finalize the <see cref="SessionController"/>
 		/// </summary>
+		/// <remarks>The finalizer dispose pattern is necessary so we don't accidentally leak the executable</remarks>
 		~SessionController() => Dispose(false);
 
 		/// <inheritdoc />
@@ -203,8 +224,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (disposing)
 				{
 					if (!released)
-						session.Terminate();
-					session.Dispose();
+					{
+						process.Terminate();
+						byondLock.Dispose();
+					}
+					process.Dispose();
 					interopContext.Dispose();
 					Dmb?.Dispose(); //will be null when released
 					chatJsonTrackingContext.Dispose();
@@ -215,8 +239,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (logger != null)
 						logger.LogError("Being disposed via finalizer!");
 					if (!released)
-						if (session != null)
-							session.Terminate();
+						if (process != null)
+							process.Terminate();
 						else if (logger != null)
 							logger.LogCritical("Unable to terminate active DreamDaemon session due to finalizer ordering!");
 				}
@@ -224,23 +248,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<object> HandleInterop(IQueryCollection query, CancellationToken cancellationToken)
+		public Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
 		{
-			if (query == null)
-				throw new ArgumentNullException(nameof(query));
+			if (command == null)
+				throw new ArgumentNullException(nameof(command));
 
-			object content = new object();
-			var status = HttpStatusCode.OK;
+			var query = command.Parameters;
 
-			if (query.TryGetValue(InteropConstants.DMParameterCommand, out StringValues values))
-				switch (values.First())
+			object content;
+			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
+			{
+				content = new object();
+				switch (method)
 				{
-					case InteropConstants.DMCommandIdentify:
+					case Constants.DMCommandIdentify:
 						lock (this)
 							if (portClosed)
-								content = new Dictionary<string, int> { { InteropConstants.DMParameterNewPort, nextPort } };
+								content = new Dictionary<string, int> { { Constants.DMParameterData, nextPort } };
 						break;
-					case InteropConstants.DMCommandOnline:
+					case Constants.DMCommandOnline:
 						lock (this)
 							if (portClosed)
 							{
@@ -250,13 +276,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								portClosed = false;
 							}
 						break;
-					case InteropConstants.DMCommandApiValidate:
+					case Constants.DMCommandApiValidate:
 						apiValidated = true;
 						break;
-					case InteropConstants.DMCommandWorldReboot:
+					case Constants.DMCommandWorldReboot:
 						if (ClosePortOnReboot)
 						{
-							content = new Dictionary<string, int> { { InteropConstants.DMParameterNewPort, 0 } };
+							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
 							portClosed = true;
 						}
 						else
@@ -266,11 +292,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						oldTcs.SetResult(null);
 						break;
 					default:
-						status = HttpStatusCode.BadRequest;
 						content = new ErrorMessage { Message = "Requested command not supported!" };
 						break;
 				}
-			return Task.FromResult<object>(new { STATUS = status, CONTENT = content });
+			}
+			else
+				content = new ErrorMessage { Message = "Missing command parameter!" };
+
+			var json = JsonConvert.SerializeObject(content);
+			return SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken);
 		}
 
 		/// <summary>
@@ -301,15 +331,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
+				var commandString = String.Format(CultureInfo.InvariantCulture,
+					"?{0}={1}&{2}={3}",
+					byondTopicSender.SanitizeString(Constants.DMInteropAccessIdentifier),
+					byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
+					byondTopicSender.SanitizeString(Constants.DMParameterCommand),
+					//intentionally don't sanitize command, that's up to the caller
+					command);
+
+				logger.LogTrace("Export to :{0}. Query: {1}", reattachInformation.Port, commandString);
+
 				return await byondTopicSender.SendTopic(
 					new IPEndPoint(IPAddress.Loopback, reattachInformation.Port),
-					String.Format(CultureInfo.InvariantCulture,
-					"?{0}={1}&{2}={3}",
-					byondTopicSender.SanitizeString(InteropConstants.DMInteropAccessIdentifier),
-					byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
-					byondTopicSender.SanitizeString(InteropConstants.DMParameterCommand),
-					//intentionally don't sanitize command, that's up to the caller
-					command),
+					commandString,
 					cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception e)
@@ -319,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
-		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChangePort), byondTopicSender.SanitizeString(InteropConstants.DMParameterNewPort), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
+		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangePort), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
 
 		/// <inheritdoc />
 		public async Task<bool> ClosePort(CancellationToken cancellationToken)
@@ -366,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (RebootState == newRebootState)
 				return true;
 
-			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", InteropConstants.DMTopicChangeReboot, InteropConstants.DMParameterNewRebootMode, (int)newRebootState), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
+			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", Constants.DMTopicChangeReboot, Constants.DMParameterData, (int)newRebootState), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
 		}
 
 		/// <inheritdoc />

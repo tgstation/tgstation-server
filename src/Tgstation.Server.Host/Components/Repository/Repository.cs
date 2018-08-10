@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Repository
@@ -121,17 +122,27 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<bool?> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitMessage, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
+			if (testMergeParameters == null)
+				throw new ArgumentNullException(nameof(testMergeParameters));
+
+			if (committerName == null)
+				throw new ArgumentNullException(nameof(committerName));
+			if (committerEmail == null)
+				throw new ArgumentNullException(nameof(committerEmail));
 
 			if (!IsGitHubRepository)
 				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");
 
-			var Refspec = new List<string>();
-			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", pullRequestNumber);
-			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", pullRequestNumber, prBranchName);
-			Refspec.Add(String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", pullRequestNumber, prBranchName));
-			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", pullRequestNumber);
+			var commitMessage = String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", testMergeParameters.Number.Value, testMergeParameters.Comment != null ? Environment.NewLine : String.Empty, testMergeParameters.Comment ?? String.Empty);
+
+
+			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
+			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
+			
+			var Refspec = new List<string> { String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", testMergeParameters.Number, prBranchName) };
+			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", testMergeParameters.Number);
 
 			var originalCommit = repository.Head;
 
@@ -142,39 +153,47 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				try
 				{
-					var remote = repository.Network.Remotes.First();
-					Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, Refspec, new FetchOptions
+					try
 					{
-						Prune = true,
-						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-						OnTransferProgress = (a) =>
+						var remote = repository.Network.Remotes.First();
+						Commands.Fetch((LibGit2Sharp.Repository)repository, remote.Name, Refspec, new FetchOptions
 						{
-							var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-							progressReporter?.Invoke((int)percentage);
-							return !cancellationToken.IsCancellationRequested;
-						},
-						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-						CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
-						{
-							Username = username,
-							Password = password
-						} : new DefaultCredentials()
-					}, logMessage);
-				}
-				catch (UserCancelledException)
-				{
+							Prune = true,
+							OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+							OnTransferProgress = (a) =>
+							{
+								var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+								progressReporter?.Invoke((int)percentage);
+								return !cancellationToken.IsCancellationRequested;
+							},
+							OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+							CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
+							{
+								Username = username,
+								Password = password
+							} : new DefaultCredentials()
+						}, logMessage);
+					}
+					catch (UserCancelledException) { }
+
 					cancellationToken.ThrowIfCancellationRequested();
+					
+					testMergeParameters.PullRequestRevision = repository.Lookup(testMergeParameters.PullRequestRevision ?? localBranchName).Sha;
+
+					cancellationToken.ThrowIfCancellationRequested();
+
+					result = repository.Merge(testMergeParameters.PullRequestRevision, sig, new MergeOptions
+					{
+						CommitOnSuccess = commitMessage == null,
+						FailOnConflict = true,
+						FastForwardStrategy = FastForwardStrategy.NoFastForward,
+						SkipReuc = true
+					});
 				}
-
-				cancellationToken.ThrowIfCancellationRequested();
-
-				result = repository.Merge(targetCommit, sig, new MergeOptions
+				finally
 				{
-					CommitOnSuccess = commitMessage == null,
-					FailOnConflict = true,
-					FastForwardStrategy = FastForwardStrategy.NoFastForward,
-					SkipReuc = true
-				});
+					repository.Branches.Remove(localBranchName);
+				}
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -189,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, targetCommit, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, testMergeParameters.PullRequestRevision, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
 				return false;
 			}
 

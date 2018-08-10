@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -294,11 +295,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			async Task<bool> RestartInactiveServer()
 			{
 				logger.LogInformation("Rebooting inactive server...");
-				var newDmb = dmbFactory.LockNextDmb(cancellationToken);
+				var newDmb = dmbFactory.LockNextDmb();
 				bool usedMostRecentDmb;
 				try
 				{
-					monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, await newDmb.ConfigureAwait(false), null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
+					monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, newDmb, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
 					usedMostRecentDmb = true;
 				}
 				catch (OperationCanceledException)
@@ -651,7 +652,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
-					var dmbToUse = doesntNeedNewDmb ? null : await dmbFactory.LockNextDmb(cancellationToken).ConfigureAwait(false);
+					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb();
 
 					Task<ISessionController> alphaServerTask = null;
 					try
@@ -669,6 +670,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
 						await Task.WhenAll(alphaServerTask, bravoServerTask).ConfigureAwait(false);
+
+						alphaServer = alphaServerTask.Result;
+						bravoServer = bravoServerTask.Result;
 
 						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
 						{
@@ -689,22 +693,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 							await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
-
-						//update the live and staged jobs in the db
-						await databaseContextFactory.UseContext(async db =>
-						{
-							var settings = new Models.DreamDaemonSettings
-							{
-								InstanceId = instance.Id
-							};
-							var cj = (AlphaIsActive ? alphaServer : bravoServer).Dmb.CompileJob;
-							db.CompileJobs.Attach(cj);
-							db.DreamDaemonSettings.Attach(settings);
-							settings.StagedCompileJob = null;
-							settings.ActiveCompileJob = cj;
-							await db.Save(cancellationToken).ConfigureAwait(false);
-						}).ConfigureAwait(false);
-
+						
 						//both servers are now running, alpha is the active server, huzzah
 						AlphaIsActive = doReattach ? reattachInfo.AlphaIsActive : true;
 						LastLaunchResult = alphaLrt.Result;
@@ -799,7 +788,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!Running)
 					return true;
 
-				var builder = new StringBuilder(InteropConstants.DMTopicEvent);
+				var builder = new StringBuilder(Constants.DMTopicEvent);
 				foreach (var I in parameters)
 				{
 					builder.Append("&");
@@ -837,7 +826,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!Running)
 					return "ERROR: Server offline!";
 
-				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChatCommand), byondTopicSender.SanitizeString(InteropConstants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
+				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChatCommand), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";

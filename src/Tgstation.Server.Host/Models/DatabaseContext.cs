@@ -115,6 +115,8 @@ namespace Tgstation.Server.Host.Models
 			revInfo.HasOne(x => x.PrimaryTestMerge).WithOne(x => x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.SetNull);
 			revInfo.HasIndex(x => x.CommitSha).IsUnique();
 
+			modelBuilder.Entity<CompileJob>().HasIndex(x => x.DirectoryName);
+
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();

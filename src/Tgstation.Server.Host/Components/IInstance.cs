@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -48,7 +49,13 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The <see cref="StaticFiles.IConfiguration"/> for the <see cref="IInstance"/>
 		/// </summary>
-		StaticFiles.IConfiguration Configuration { get; }
+		IConfiguration Configuration { get; }
+
+		/// <summary>
+		/// The latest staged <see cref="CompileJob"/>
+		/// </summary>
+		/// <returns>The latest <see cref="CompileJob"/> if it exists</returns>
+		CompileJob LatestCompileJob();
 
 		/// <summary>
 		/// Get the <see cref="Api.Models.Instance"/> associated with the <see cref="IInstance"/>

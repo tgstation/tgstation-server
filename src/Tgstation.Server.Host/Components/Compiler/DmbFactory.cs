@@ -26,6 +26,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 			}
 		}
 
+		/// <inheritdoc />
+		public bool DmbAvailable => nextDmbProvider != null;
+
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="DmbFactory"/>
 		/// </summary>
@@ -116,9 +119,23 @@ namespace Tgstation.Server.Host.Components.Compiler
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (job.DMApiValidated != true || job.Job.Cancelled == true || job.Job.ExceptionDetails != null)
-				throw new InvalidOperationException("Cannot load incomplete compile job!");
-			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
+
+			if (job.DMApiValidated != true)
+				return;
+
+			CompileJob finalCompileJob = null;
+			//now load the entire compile job tree
+			await databaseContextFactory.UseContext(async db => finalCompileJob = await db.CompileJobs.Where(x => x.Id == job.Id)
+				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);   //can't wait to see that query
+
+			if (finalCompileJob == null)
+				//lol git fucked
+				return;
+
+			var newProvider = await FromCompileJob(finalCompileJob, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
 				return;
 			lock (this)
@@ -131,15 +148,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<IDmbProvider> LockNextDmb(CancellationToken cancellationToken)
+		public IDmbProvider LockNextDmb()
 		{
-			if (nextDmbProvider == null)
-			{
-				Task task;
-				lock (this)
-					task = newerDmbTcs.Task;
-				await task.ConfigureAwait(false);
-			}
+			if (!DmbAvailable)
+				throw new InvalidOperationException("No .dmb available!");
 			lock (this)
 			{
 				++jobLockCounts[nextDmbProvider.CompileJob.Id];
@@ -229,6 +241,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
 
 			//cleanup
+			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
 			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
 			int deleting = 0;
 			var tasks = directories.Select(async x =>

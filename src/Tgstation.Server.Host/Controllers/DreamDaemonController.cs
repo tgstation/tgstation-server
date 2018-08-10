@@ -82,7 +82,8 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var dd = instanceManager.GetInstance(Instance).Watchdog;
+			var instance = instanceManager.GetInstance(Instance);
+			var dd = instance.Watchdog;
 
 			var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadMetadata) != 0;
 			var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadRevision) != 0;
@@ -106,10 +107,12 @@ namespace Tgstation.Server.Host.Controllers
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
 			};
+
 			if (revision)
 			{
-				result.ActiveCompileJob = settings.ActiveCompileJob?.ToApi();
-				result.StagedCompileJob = settings.StagedCompileJob?.ToApi();
+				result.ActiveCompileJob = dd.ActiveCompileJob?.ToApi();
+				var compileJob = instance.LatestCompileJob();
+				result.StagedCompileJob = compileJob?.ToApi();
 			}
 
 			return Json(result);

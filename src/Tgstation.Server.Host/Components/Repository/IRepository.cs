@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -55,17 +56,15 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Attempt to merge a GitHub pull request into HEAD
 		/// </summary>
-		/// <param name="pullRequestNumber">The pull request number on the remote repository</param>
-		/// <param name="targetCommit">The commit in the pull request to merge</param>
+		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request</param>
 		/// <param name="committerName">The name of the merge committer</param>
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
-		/// <param name="commitMessage">The commit message</param>
 		/// <param name="username">The username to fetch from the origin repository</param>
 		/// <param name="password">The password to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="progressReporter">Optional function to report 0-100 progress of the clone</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a merge, <see langword="null"/> on a conflict</returns>
-		Task<bool?> AddTestMerge(int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitMessage, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken);
+		Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fetch commits from the origin repository

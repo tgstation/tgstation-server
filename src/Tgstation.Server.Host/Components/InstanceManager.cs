@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IHostedService, IInteropRegistrar, IDisposable
+	sealed class InstanceManager : IInstanceManager, IHostedService, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
@@ -51,10 +48,16 @@ namespace Tgstation.Server.Host.Components
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
 		readonly Dictionary<long, IInstance> instances;
+
 		/// <summary>
-		/// Map of access identifiers to their respective <see cref="IInteropConsumer"/>
+		/// <see cref="List{T}"/> of <see cref="Task"/>s to finish in <see cref="StopAsync(CancellationToken)"/>
 		/// </summary>
-		readonly Dictionary<string, IInteropConsumer> interopConsumers;
+		readonly List<Task> shutdownTasks;
+
+		/// <summary>
+		/// Used as a temporary <see cref="CancellationTokenSource"/> for <see cref="shutdownTasks"/>
+		/// </summary>
+		readonly CancellationTokenSource shutdownCancellationTokenSource;
 
 		/// <summary>
 		/// Construct an <see cref="InstanceManager"/>
@@ -64,18 +67,31 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="InstanceManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, ILogger<InstanceManager> logger)
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+
+			if (serverControl == null)
+				throw new ArgumentNullException(nameof(serverControl));
+
+			shutdownCancellationTokenSource = new CancellationTokenSource();
+			var cancellationToken = shutdownCancellationTokenSource.Token;
+			serverControl.RegisterForRestart(() =>
+			{
+				lock (this)
+					shutdownTasks.AddRange(instances.Select(x => x.Value.Chat.SendBroadcast("TGS: Restart requested...", cancellationToken)));
+			});
+
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			instances = new Dictionary<long, IInstance>();
-			interopConsumers = new Dictionary<string, IInteropConsumer>();
+			shutdownTasks = new List<Task>();
 		}
 
 		/// <inheritdoc />
@@ -83,6 +99,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			foreach (var I in instances)
 				I.Value.Dispose();
+			shutdownCancellationTokenSource.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -140,7 +157,7 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
-			var instance = instanceFactory.CreateInstance(metadata, this);
+			var instance = instanceFactory.CreateInstance(metadata);
 			try
 			{
 				lock (this)
@@ -191,45 +208,10 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
+			using (cancellationToken.Register(() => shutdownCancellationTokenSource.Cancel()))
+				await Task.WhenAll(shutdownTasks).ConfigureAwait(false);
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public IInteropContext Register(string accessIdentifier, IInteropConsumer consumer)
-		{
-			if (accessIdentifier == null)
-				throw new ArgumentNullException(nameof(accessIdentifier));
-			if (consumer == null)
-				throw new ArgumentNullException(nameof(consumer));
-
-			lock (interopConsumers)
-				interopConsumers.Add(accessIdentifier, consumer);
-			return new InteropContext(() =>
-			{
-				lock (interopConsumers)
-					interopConsumers.Remove(accessIdentifier);
-			});
-		}
-
-		/// <inheritdoc />
-		public async Task<object> HandleWorldExport(IQueryCollection query, CancellationToken cancellationToken)
-		{
-			if (query == null)
-				throw new ArgumentNullException(nameof(query));
-
-			if (!query.TryGetValue(InteropConstants.DMInteropAccessIdentifier, out StringValues values))
-				return null;
-			var accessIdentifier = values.FirstOrDefault();
-			if (accessIdentifier == default)
-				return null;
-
-			IInteropConsumer consumer;
-			lock (interopConsumers)
-				if (!interopConsumers.TryGetValue(accessIdentifier, out consumer))
-					return null;
-
-			return await consumer.HandleInterop(query, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

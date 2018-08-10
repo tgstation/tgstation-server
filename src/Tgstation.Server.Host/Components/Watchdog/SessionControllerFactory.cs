@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
@@ -21,9 +23,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class SessionControllerFactory : ISessionControllerFactory
 	{
 		/// <summary>
-		/// The <see cref="IExecutor"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly IExecutor executor;
+		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
 		/// The <see cref="IByondManager"/> for the <see cref="SessionControllerFactory"/>
@@ -34,11 +36,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly IByondTopicSender byondTopicSender;
-
-		/// <summary>
-		/// The <see cref="IInteropRegistrar"/> for the <see cref="SessionControllerFactory"/>
-		/// </summary>
-		readonly IInteropRegistrar interopRegistrar;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>
@@ -71,24 +68,42 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly Api.Models.Instance instance;
 
 		/// <summary>
+		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word
+		/// </summary>
+		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to change</param>
+		/// <returns>A <see cref="string"/> representation of the command line parameter</returns>
+		static string SecurityWord(DreamDaemonSecurity securityLevel)
+		{
+			switch (securityLevel)
+			{
+				case DreamDaemonSecurity.Safe:
+					return "safe";
+				case DreamDaemonSecurity.Trusted:
+					return "trusted";
+				case DreamDaemonSecurity.Ultrasafe:
+					return "ultrasafe";
+				default:
+					throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, String.Format(CultureInfo.InvariantCulture, "Bad DreamDaemon security level: {0}", securityLevel));
+			}
+		}
+
+		/// <summary>
 		/// Construct a <see cref="SessionControllerFactory"/>
 		/// </summary>
-		/// <param name="executor">The value of <see cref="executor"/></param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
-		/// <param name="interopRegistrar">The value of <see cref="interopRegistrar"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IExecutor executor, IByondManager byond, IByondTopicSender byondTopicSender, IInteropRegistrar interopRegistrar, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Api.Models.Instance instance)
+		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Api.Models.Instance instance)
 		{
-			this.executor = executor ?? throw new ArgumentNullException(nameof(executor));
+			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			this.interopRegistrar = interopRegistrar ?? throw new ArgumentNullException(nameof(interopRegistrar));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -105,45 +120,41 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new InvalidOperationException("Given port is null!");
 			var accessIdentifier = cryptographySuite.GetSecureString();
 
-			string GuidJsonFile() => String.Format(CultureInfo.InvariantCulture, "{0}.json", Guid.NewGuid());
+			const string JsonPostfix = "tgs.json";
 
-			var interopInfo = new InteropInfo
+			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
+			//delete all previous tgs json files
+			var files = await ioManager.GetFilesWithExtension(basePath, JsonPostfix, cancellationToken).ConfigureAwait(false);
+
+			await Task.WhenAll(files.Select(x => ioManager.DeleteFile(x, cancellationToken))).ConfigureAwait(false);
+
+			//i changed this back from guids, hopefully i don't regret that
+			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
+
+			var interopInfo = new JsonFile
 			{
 				AccessIdentifier = accessIdentifier,
 				ApiValidateOnly = apiValidate,
-				ChatChannelsJson = GuidJsonFile(),
-				ChatCommandsJson = GuidJsonFile(),
-				HostPath = application.HostingPath,
+				ChatChannelsJson = JsonFile("chat_channels"),
+				ChatCommandsJson = JsonFile("chat_commands"),
+				ServerCommandsJson = JsonFile("server_commands"),
 				InstanceName = instance.Name,
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
 
-			if (dmbProvider.CompileJob.RevisionInformation != null)	//null while compiling
-				interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge
-				{
-					Author = x.Author,
-					Body = x.BodyAtMerge,
-					Comment = x.Comment,
-					CommitSha = x.PrimaryRevisionInformation.CommitSha,
-					Number = x.Number,
-					OriginCommitSha = x.PrimaryRevisionInformation.OriginCommitSha,
-					PullRequestCommit = x.PullRequestRevision,
-					TimeMerged = x.MergedAt.Ticks,
-					Title = x.TitleAtMerge,
-					Url = x.Url
-				}));
+			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new Interop.TestMerge(x)));
 
-			var interopJsonFile = GuidJsonFile();
+			var interopJsonFile = JsonFile("interop");
 
 			var interopJson = JsonConvert.SerializeObject(interopInfo, Formatting.Indented, new JsonSerializerSettings
 			{
 				ContractResolver = new DefaultContractResolver
 				{
 					NamingStrategy = new CamelCaseNamingStrategy()
-				}
+				},
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
 
-			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
 			var localIoManager = new ResolvingIOManager(ioManager, basePath);
 
 			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
@@ -156,23 +167,42 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				try
 				{
 					//more sanitization here cause it uses the same scheme
-					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(InteropConstants.DMParamHostVersion), byondTopicSender.SanitizeString(InteropConstants.DMParamInfoJson));
+					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
 
-					var session = executor.RunDreamDaemon(launchParameters, byondLock, dmbProvider, parameters, !primaryPort, !primaryDirectory);
+					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, interopInfo.ServerCommandsJson);
 					try
 					{
-						return new SessionController(new ReattachInformation
+						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}\"",
+							dmbProvider.DmbName,
+							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
+							launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
+							SecurityWord(launchParameters.SecurityLevel.Value),
+							parameters);
+
+						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments);
+						try
 						{
-							AccessIdentifier = accessIdentifier,
-							Dmb = dmbProvider,
-							IsPrimary = primaryDirectory,
-							Port = portToUse.Value,
-							ProcessId = session.ProcessId
-						}, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat, loggerFactory.CreateLogger<SessionController>());
+							return new SessionController(new ReattachInformation
+							{
+								AccessIdentifier = accessIdentifier,
+								Dmb = dmbProvider,
+								IsPrimary = primaryDirectory,
+								Port = portToUse.Value,
+								ProcessId = process.Id,
+								ChatChannelsJson = interopInfo.ChatChannelsJson,
+								ChatCommandsJson = interopInfo.ChatCommandsJson,
+								ServerCommandsJson = interopInfo.ServerCommandsJson,
+							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>());
+						}
+						catch
+						{
+							process.Dispose();
+							throw;
+						}
 					}
 					catch
 					{
-						session.Dispose();
+						context.Dispose();
 						throw;
 					}
 				}
@@ -203,14 +233,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					var session = executor.AttachToDreamDaemon(reattachInformation.ProcessId, byondLock);
+					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, reattachInformation.ServerCommandsJson);
 					try
 					{
-						return new SessionController(reattachInformation, session, byondTopicSender, interopRegistrar, chatJsonTrackingContext, chat, loggerFactory.CreateLogger<SessionController>());
+						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
+						try
+						{
+							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>());
+						}
+						catch
+						{
+							process.Dispose();
+							throw;
+						}
 					}
 					catch
 					{
-						session.Dispose();
+						context.Dispose();
 						throw;
 					}
 				}

@@ -50,8 +50,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			DiscordChannelId = api.DiscordChannelId,
 			IrcChannel = api.IrcChannel,
-			IsAdminChannel = api.IsAdminChannel,
-			IsWatchdogChannel = api.IsWatchdogChannel
+			IsAdminChannel = api.IsAdminChannel ?? false,
+			IsWatchdogChannel = api.IsWatchdogChannel ?? false,
+			IsUpdatesChannel = api.IsUpdatesChannel ?? false
 		};
 
 		/// <inheritdoc />
@@ -70,8 +71,20 @@ namespace Tgstation.Server.Host.Controllers
 			if (!model.Provider.HasValue)
 				return BadRequest(new ErrorMessage { Message = "provider cannot be null!" });
 
+			switch (model.Provider)
+			{
+				case ChatProvider.Discord:
+				case ChatProvider.Irc:
+					break;
+				default:
+					return BadRequest(new ErrorMessage { Message = "Invalid provider!" });
+			}
+
 			if (!model.Enabled.HasValue)
 				return BadRequest(new ErrorMessage { Message = "enabled cannot be null!" });
+
+			if(!model.ValidateProviderChannelTypes())
+				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
 			//try to update das db first
 			var dbModel = new Models.ChatSettings
@@ -83,13 +96,14 @@ namespace Tgstation.Server.Host.Controllers
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
 			};
+
 			DatabaseContext.ChatSettings.Add(dbModel);
 
 			try
 			{
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			}
-			catch (DbUpdateConcurrencyException)
+			catch (DbUpdateException)
 			{
 				return Conflict();
 			}

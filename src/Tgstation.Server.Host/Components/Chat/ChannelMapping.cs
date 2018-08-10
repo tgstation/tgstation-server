@@ -21,6 +21,11 @@
 		public bool IsWatchdogChannel { get; set; }
 
 		/// <summary>
+		/// If the <see cref="Channel"/> is an updates channel
+		/// </summary>
+		public bool IsUpdatesChannel { get; set; }
+
+		/// <summary>
 		/// The <see cref="Components.Chat.Channel"/> with the mapped Id
 		/// </summary>
 		public Channel Channel { get; set; }

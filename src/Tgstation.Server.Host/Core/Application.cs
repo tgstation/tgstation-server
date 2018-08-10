@@ -15,7 +15,6 @@ using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -35,13 +34,8 @@ namespace Tgstation.Server.Host.Core
 	/// <inheritdoc />
 	sealed class Application : IApplication
 	{
-		/// <summary>
-		/// Prefix for string version names
-		/// </summary>
-		public string VersionPrefix => "tgstation-server";
-
 		/// <inheritdoc />
-		public string HostingPath => serverAddresses.Addresses.First();
+		public string VersionPrefix => "tgstation-server";
 
 		/// <inheritdoc />
 		public Version Version { get; }
@@ -204,8 +198,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 			}
 
-			services.AddSingleton<IExecutor, Executor>();
-			services.AddSingleton<IScriptExecutor, ScriptExecutor>();
+			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
@@ -242,8 +235,6 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
-
-			logger.LogTrace("Configuring middleware...");
 
 			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 			

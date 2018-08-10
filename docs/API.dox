@@ -261,7 +261,7 @@ To clone the repository if it doesn't yet exist use the following request:
 
 I PUT "/Repository" => @ref Tgstation.Server.Api.Models.Repository
 
-The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository
+The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Repository.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository
 
 To delete an existing repository make the following request:
 
@@ -271,5 +271,97 @@ Modifications to the repository are done with the following request:
 
 I POST "/Repository" => @ref Tgstation.Server.Api.Models.Repository => @ref Tgstation.Server.Api.Models.Repository
 
-Each update creates a job specified in the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field jobs will be queued in succession.
+Each update creates a job specified in the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field jobs will be queued in succession. See below for post examples.
+
+@subsubsection api_repopost Repository Commands for Git Aliases
+
+All these actions are done with the POST method
+
+git pull (Only if @ref Tgstation.Server.Api.Models.Repository.Reference is set):
+@code{.json}
+{
+	"updateFromOrigin": true
+}
+@endcode
+
+git checkout <commit sha> (Unsets @ref Tgstation.Server.Api.Models.Repository.Reference):
+@code{.json}
+{
+	"checkoutSha": "<commit sha>"
+}
+@endcode
+
+git checkout -f <branch or tag> && git clean -fxd (Sets @ref Tgstation.Server.Api.Models.Repository.Reference):
+@code{.json}
+{
+	"reference": "<branch or tag>"
+}
+@endcode
+
+git fetch && git checkout -f branch && git clean -fxd && git reset --hard origin/branch (Sets @ref Tgstation.Server.Api.Models.Repository.Reference);
+@code{.json}
+{
+	"updateFromOrigin": true,
+	"reference": "branch"
+}
+@endcode
+
+@subsubsection api_repotm Test Merging
+
+Any of the above POST methods can be combined with the @ref Tgstation.Server.Api.Models.Repository.NewTestMerges field to add test merges on top of the checked out commit.
+
+@code{.json}
+{
+	"newTestMerges": [
+		{
+			"number": 12345,
+			"comment": "I'm merging this for x reason"
+		},
+		{
+			"number": 12346,
+			"pullRequestRevision": "abcdef1"
+		}
+	]
+}
+@endcode
+
+If the server detects a set of @ref Tgstation.Server.Api.Models.TestMergeParameters being applied that it has seen before, it'll instead attempt to checkout the commit that was created then.
+
+@subsubsection api_repounsetauth Unsetting Authentication
+
+The repository uses the @ref Tgstation.Server.Api.Models.Repository.AccessUser and @ref Tgstation.Server.Api.Models.Repository.AccessToken credentials to access the remote repository if these fields are set. To unset them you must set both of them to an empty string like so 
+
+@code{.json}
+{
+	"accessUser": "",
+	"accessToken": ""
+}
+@endcode
+
+This will remove both fields from the database
+
+@subsection api_dm Compiler Handling
+
+The DM compiler can run one job at a time for an Instance. Instead of using standard @ref Tgstation.Server.Api.Models.Job.Progress it uses the @ref Tgstation.Server.Api.Models.DreamMaker.Status field to denote it's current stage. It can be retrieved like this:
+
+I GET "/DreamMaker" => @ref Tgstation.Server.Api.Models.DreamMaker
+
+This will also return the last successful @ref Tgstation.Server.Api.Models.CompileJob as well as the @ref Tgstation.Server.Api.Models.Internal.DreamMakerSettings.ProjectName
+
+The ProjectName field can be changed with this method:
+
+I POST "/DreamMaker" @ref Tgstation.Server.Api.Models.DreamMaker => @ref Tgstation.Server.Api.Models.DreamMaker
+
+To start a compile job use the following request:
+
+I PUT "/DreamMaker" Empty => @ref Tgstation.Server.Api.Models.Job
+
+The job object returned represents the compile job
+
+"Empty" refers to an empty json object like so:
+
+@code{.json}
+{}
+@endcode
+
 */

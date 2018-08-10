@@ -111,37 +111,52 @@ namespace Tgstation.Server.Host.Components.Byond
 				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
-				//byond can just decide to corrupt the zip fnr
-				//(or maybe our downloader is a shite)
-				//either way try a few times
-				for (var I = 0; I < 3; ++I)
+				try
 				{
-					var download = await downloadTask.ConfigureAwait(false);
-					try
+					//byond can just decide to corrupt the zip fnr
+					//(or maybe our downloader is a shite)
+					//either way try a few times
+					for (var I = 0; I < 3; ++I)
 					{
-						await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
-						break;
-					}
-					catch (OperationCanceledException)
-					{
-						throw;
-					}
-					catch
-					{
-						if (I == 2)
+						var download = await downloadTask.ConfigureAwait(false);
+						try
+						{
+							await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
+							break;
+						}
+						catch (OperationCanceledException)
+						{
 							throw;
-						downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
+						}
+						catch
+						{
+							if (I == 2)
+								throw;
+							downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
+						}
 					}
-				}
-				await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
+					await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
 
-				//make sure to do this last because this is what tells us we have a valid version in the future
-				await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+					//make sure to do this last because this is what tells us we have a valid version in the future
+					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+				}
+				catch(OperationCanceledException)
+				{
+					throw;
+				}
+				catch
+				{
+					await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+					throw;
+				}
+
+				ourTcs.SetResult(null);
 			}
-			catch
+			catch(Exception e)
 			{
 				lock (installedVersions)
 					installedVersions.Remove(versionKey);
+				ourTcs.SetException(e);
 				throw;
 			}
 		}

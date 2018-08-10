@@ -82,6 +82,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj">

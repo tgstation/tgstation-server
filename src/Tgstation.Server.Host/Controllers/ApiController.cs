@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 		readonly bool requireInstance;
 
 		/// <summary>
-		/// Runs after a <see cref="Api.Models.Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
+		/// Runs after a <see cref="Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
 		/// </summary>
 		/// <param name="context">The <see cref="TokenValidatedContext"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
@@ -135,6 +135,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			//ALL requests go through this function
+
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
 			{
 				//valid token, expired password
@@ -151,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if(!ApiHeaders.InstanceId.HasValue)
 					{
-						await BadRequest(new ErrorMessage { Message = "Missing InstanceId header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						await BadRequest(new ErrorMessage { Message = "Missing Instance header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
 					if (AuthenticationContext.InstanceUser == null)
@@ -188,7 +190,8 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			Logger.LogTrace("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path);
+			Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
+
 			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
 	}
