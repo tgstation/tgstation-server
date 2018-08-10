@@ -439,7 +439,9 @@ namespace Tgstation.Server.Host.Controllers
 								if (!cantSearch)
 								{
 									var dbPull = await databaseContext.RevisionInformations
-										.Where(x => x.Instance.Id == Instance.Id && x.OriginCommitSha == lastRevisionInfo.OriginCommitSha && x.ActiveTestMerges.Count == model.NewTestMerges.Count)
+										.Where(x => x.Instance.Id == Instance.Id 
+										&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha 
+										&& x.ActiveTestMerges.Count == model.NewTestMerges.Count)
 										.Include(x => x.ActiveTestMerges)
 										.ThenInclude(x => x.TestMerge)
 										.ToListAsync(cancellationToken).ConfigureAwait(false);
@@ -449,7 +451,7 @@ namespace Tgstation.Server.Host.Controllers
 										.All(y => model.NewTestMerges.Any(z => 
 										y.Number == z.Number 
 										&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal) 
-										&& y.Comment == z.Comment || z.Comment == null)))
+										&& y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null)))
 										.FirstOrDefault();
 								}
 							}
