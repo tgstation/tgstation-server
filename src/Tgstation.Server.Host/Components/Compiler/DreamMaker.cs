@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
 
-			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
+			var timeoutAt = DateTimeOffset.Now.AddHours(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
 				var now = DateTimeOffset.Now;
@@ -166,12 +166,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 				dm.StartInfo.RedirectStandardOutput = true;
 				dm.StartInfo.RedirectStandardError = true;
 				dm.StartInfo.UseShellExecute = false;
-				var OutputList = new StringBuilder();
+				var outputList = new StringBuilder();
 				var eventHandler = new DataReceivedEventHandler(
 					delegate (object sender, DataReceivedEventArgs e)
 					{
-						OutputList.Append(Environment.NewLine);
-						OutputList.Append(e.Data);
+						outputList.Append(Environment.NewLine);
+						outputList.Append(e.Data);
 					}
 				);
 				dm.OutputDataReceived += eventHandler;
@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				job.ExitCode = dm.ExitCode;
 				logger.LogDebug("DreamMaker exit code: {0}", job.ExitCode);
-				job.Output = OutputList.ToString();
+				job.Output = outputList.ToString();
 				logger.LogTrace("DreamMaker output: {0}", job.Output);
 			}
 		}
