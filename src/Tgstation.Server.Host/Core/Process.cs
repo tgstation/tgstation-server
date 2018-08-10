@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,11 +7,13 @@ namespace Tgstation.Server.Host.Core
 	/// <inheritdoc />
 	sealed class Process : IProcess
 	{
-
+		/// <inheritdoc />
 		public int Id { get; }
 
+		/// <inheritdoc />
 		public Task Startup { get; }
 
+		/// <inheritdoc />
 		public Task<int> Lifetime { get; }
 
 		readonly System.Diagnostics.Process handle;
@@ -41,8 +42,10 @@ namespace Tgstation.Server.Host.Core
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 		}
 
+		/// <inheritdoc />
 		public void Dispose() => handle.Dispose();
 
+		/// <inheritdoc />
 		public string GetCombinedOutput()
 		{
 			if (combinedStringBuilder == null)
@@ -50,6 +53,7 @@ namespace Tgstation.Server.Host.Core
 			return combinedStringBuilder.ToString();
 		}
 
+		/// <inheritdoc />
 		public string GetErrorOutput()
 		{
 			if (errorStringBuilder == null)
@@ -57,6 +61,7 @@ namespace Tgstation.Server.Host.Core
 			return errorStringBuilder.ToString();
 		}
 
+		/// <inheritdoc />
 		public string GetStandardOutput()
 		{
 			if (outputStringBuilder == null)
@@ -64,6 +69,7 @@ namespace Tgstation.Server.Host.Core
 			return errorStringBuilder.ToString();
 		}
 
+		/// <inheritdoc />
 		public void Terminate()
 		{
 			try
