@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4f304a72d46ec2f4d1beabf31efed49d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a4f304a72d46ec2f4d1beabf31efed49d">CheckoutObject</a> (string committish, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4f304a72d46ec2f4d1beabf31efed49d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks out a given <em>committish</em>   <a href="#a4f304a72d46ec2f4d1beabf31efed49d">More...</a><br /></td></tr>
 <tr class="separator:a4f304a72d46ec2f4d1beabf31efed49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b34dd11a011be75184f66ef3efae5f8"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a5b34dd11a011be75184f66ef3efae5f8">AddTestMerge</a> (int pullRequestNumber, string targetCommit, string committerName, string committerEmail, string commitMessage, string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5b34dd11a011be75184f66ef3efae5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge a GitHub pull request into HEAD  <a href="#a5b34dd11a011be75184f66ef3efae5f8">More...</a><br /></td></tr>
-<tr class="separator:a5b34dd11a011be75184f66ef3efae5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05fcb2c19ab0f43a15264431a20790ec"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a05fcb2c19ab0f43a15264431a20790ec">AddTestMerge</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> testMergeParameters, string committerName, string committerEmail, string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a05fcb2c19ab0f43a15264431a20790ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge a GitHub pull request into HEAD  <a href="#a05fcb2c19ab0f43a15264431a20790ec">More...</a><br /></td></tr>
+<tr class="separator:a05fcb2c19ab0f43a15264431a20790ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a749160f7ea74fc975303e46d5ad196e0"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a749160f7ea74fc975303e46d5ad196e0">FetchOrigin</a> (string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a749160f7ea74fc975303e46d5ad196e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch commits from the origin repository  <a href="#a749160f7ea74fc975303e46d5ad196e0">More...</a><br /></td></tr>
 <tr class="separator:a749160f7ea74fc975303e46d5ad196e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,23 +166,17 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an on-disk git repository </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5b34dd11a011be75184f66ef3efae5f8"></a>
+<a class="anchor" id="a05fcb2c19ab0f43a15264431a20790ec"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Task&lt;bool?&gt; Tgstation.Server.Host.Components.Repository.IRepository.AddTestMerge </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pullRequestNumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>targetCommit</em>, </td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a>&#160;</td>
+          <td class="paramname"><em>testMergeParameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -195,12 +189,6 @@ Properties</h2></td></tr>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>committerEmail</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>commitMessage</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -237,11 +225,9 @@ Properties</h2></td></tr>
 <p>Attempt to merge a GitHub pull request into HEAD </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pullRequestNumber</td><td>The pull request number on the remote repository</td></tr>
-    <tr><td class="paramname">targetCommit</td><td>The commit in the pull request to merge</td></tr>
+    <tr><td class="paramname">testMergeParameters</td><td>The TestMergeParameters of the pull request</td></tr>
     <tr><td class="paramname">committerName</td><td>The name of the merge committer</td></tr>
     <tr><td class="paramname">committerEmail</td><td>The e-mail of the merge committer</td></tr>
-    <tr><td class="paramname">commitMessage</td><td>The commit message</td></tr>
     <tr><td class="paramname">username</td><td>The username to fetch from the origin repository</td></tr>
     <tr><td class="paramname">password</td><td>The password to fetch from the origin repository</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
@@ -251,7 +237,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Nullable&lt;T&gt; bool representing the merge result that is  after a fast forward or up to date,  on a merge,  on a conflict</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a676d4c88d8f8ca92e022297574998030">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ab400805727fc1130c18a878f131edce1">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -329,7 +315,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a09369ceb3b7c2c2562d546b9daebd42b">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
-<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_compiler_2_dream_maker_8cs_source.html#l00256">Tgstation.Server.Host.Components.Compiler.DreamMaker.Compile()</a>.</p>
+<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_compiler_2_dream_maker_8cs_source.html#l00232">Tgstation.Server.Host.Components.Compiler.DreamMaker.Compile()</a>.</p>
 
 </div>
 </div>
@@ -568,7 +554,7 @@ Properties</h2></td></tr>
 
 <p>The Octokit.Repository.Owner if this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a60ae733cb70d63e2ceedadca18bec940" title="If the IRepository was cloned from GitHub.com ">IsGitHubRepository</a> </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
 </div>
 </div>
@@ -592,7 +578,7 @@ Properties</h2></td></tr>
 
 <p>The Octokit.Repository.Name if this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a60ae733cb70d63e2ceedadca18bec940" title="If the IRepository was cloned from GitHub.com ">IsGitHubRepository</a> </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00025">25</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
 </div>
 </div>
@@ -616,7 +602,7 @@ Properties</h2></td></tr>
 
 <p>The SHA of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> HEAD </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00035">35</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00036">36</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
 </div>
 </div>
@@ -640,7 +626,7 @@ Properties</h2></td></tr>
 
 <p>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> was cloned from GitHub.com </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
 </div>
 </div>
@@ -664,9 +650,9 @@ Properties</h2></td></tr>
 
 <p>The current origin remote the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> is using </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00045">45</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00046">46</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_compiler_2_dream_maker_8cs_source.html#l00256">Tgstation.Server.Host.Components.Compiler.DreamMaker.Compile()</a>.</p>
+<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_compiler_2_dream_maker_8cs_source.html#l00232">Tgstation.Server.Host.Components.Compiler.DreamMaker.Compile()</a>.</p>
 
 </div>
 </div>
@@ -690,7 +676,7 @@ Properties</h2></td></tr>
 
 <p>The current reference the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> HEAD is using. This can be a branch or tag </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00040">40</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
 </div>
 </div>
@@ -714,7 +700,7 @@ Properties</h2></td></tr>
 
 <p>If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a36f1520633eca12a57b6ed52c60c5257" title="The current reference the IRepository HEAD is using. This can be a branch or tag ">Reference</a> tracks an upstream branch </p>
 
-<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00030">30</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_repository_8cs_source.html#l00031">31</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 
 </div>
 </div>

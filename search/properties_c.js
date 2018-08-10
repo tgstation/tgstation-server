@@ -4,5 +4,5 @@ var searchData=
   ['newtestmerges',['NewTestMerges',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a05bdec3c08f5acba28d9e72d70f38833',1,'Tgstation::Server::Api::Models::Repository']]],
   ['nextaction',['NextAction',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a87534d177a8fda685d068f47526b5bad',1,'Tgstation::Server::Host::Components::Watchdog::MonitorState']]],
   ['nomigrations',['NoMigrations',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a48d4d602c734d0b60a82b52ec51e5ce5',1,'Tgstation::Server::Host::Configuration::DatabaseConfiguration']]],
-  ['number',['Number',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86',1,'Tgstation.Server.Api.Models.TestMergeParameters.Number()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_test_merge.html#a18748a540bd67d6da2fee4d032884df1',1,'Tgstation.Server.Host.Components.Watchdog.TestMerge.Number()']]]
+  ['number',['Number',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86',1,'Tgstation::Server::Api::Models::TestMergeParameters']]]
 ];

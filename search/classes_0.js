@@ -7,7 +7,6 @@ var searchData=
   ['apiheaders',['ApiHeaders',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html',1,'Tgstation::Server::Api']]],
   ['app',['App',['../class_tgstation_1_1_server_1_1_control_panel_1_1_app.html',1,'Tgstation::Server::ControlPanel']]],
   ['application',['Application',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html',1,'Tgstation::Server::Host::Core']]],
-  ['application',['Application',['../class_application.html',1,'']]],
   ['attribute',['Attribute',['../class_attribute.html',1,'']]],
   ['authenticationcontext',['AuthenticationContext',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html',1,'Tgstation::Server::Host::Security']]],
   ['authenticationcontextfactory',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],

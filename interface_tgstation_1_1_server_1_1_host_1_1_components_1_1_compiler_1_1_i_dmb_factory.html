@@ -113,9 +113,9 @@ Inheritance diagram for Tgstation.Server.Host.Components.Compiler.IDmbFactory:</
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a16b6cdcec9c47637a8c2b9901f81fb57"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a16b6cdcec9c47637a8c2b9901f81fb57">LockNextDmb</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a16b6cdcec9c47637a8c2b9901f81fb57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the next <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a>  <a href="#a16b6cdcec9c47637a8c2b9901f81fb57">More...</a><br /></td></tr>
-<tr class="separator:a16b6cdcec9c47637a8c2b9901f81fb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a578da409074f5f87b7e88197cb5465"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a7a578da409074f5f87b7e88197cb5465">LockNextDmb</a> ()</td></tr>
+<tr class="memdesc:a7a578da409074f5f87b7e88197cb5465"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the next <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a>  <a href="#a7a578da409074f5f87b7e88197cb5465">More...</a><br /></td></tr>
+<tr class="separator:a7a578da409074f5f87b7e88197cb5465"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbbacb6765fb5cfc3062fbab20bd76d7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#afbbacb6765fb5cfc3062fbab20bd76d7">FromCompileJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a> compileJob, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:afbbacb6765fb5cfc3062fbab20bd76d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> for a given CompileJob  <a href="#afbbacb6765fb5cfc3062fbab20bd76d7">More...</a><br /></td></tr>
 <tr class="separator:afbbacb6765fb5cfc3062fbab20bd76d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,8 +126,11 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a02ce5ba5c1863e5b2ee6e8e92245c1da"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a02ce5ba5c1863e5b2ee6e8e92245c1da">OnNewerDmb</a><code> [get]</code></td></tr>
-<tr class="memdesc:a02ce5ba5c1863e5b2ee6e8e92245c1da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Task that completes when the result of a call to <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a16b6cdcec9c47637a8c2b9901f81fb57" title="Gets the next IDmbProvider ">LockNextDmb(CancellationToken)</a> will be different than the previous call if any  <a href="#a02ce5ba5c1863e5b2ee6e8e92245c1da">More...</a><br /></td></tr>
+<tr class="memdesc:a02ce5ba5c1863e5b2ee6e8e92245c1da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a Task that completes when the result of a call to <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a7a578da409074f5f87b7e88197cb5465" title="Gets the next IDmbProvider ">LockNextDmb</a> will be different than the previous call if any  <a href="#a02ce5ba5c1863e5b2ee6e8e92245c1da">More...</a><br /></td></tr>
 <tr class="separator:a02ce5ba5c1863e5b2ee6e8e92245c1da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd7fb709889bfe02d0f8c128626c88a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#afd7fb709889bfe02d0f8c128626c88a6">DmbAvailable</a><code> [get]</code></td></tr>
+<tr class="memdesc:afd7fb709889bfe02d0f8c128626c88a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a7a578da409074f5f87b7e88197cb5465" title="Gets the next IDmbProvider ">LockNextDmb</a> will succeed  <a href="#afd7fb709889bfe02d0f8c128626c88a6">More...</a><br /></td></tr>
+<tr class="separator:afd7fb709889bfe02d0f8c128626c88a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a>s </p>
@@ -210,34 +213,51 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a16b6cdcec9c47637a8c2b9901f81fb57"></a>
+<a class="anchor" id="a7a578da409074f5f87b7e88197cb5465"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a>&gt; Tgstation.Server.Host.Components.Compiler.IDmbFactory.LockNextDmb </td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> Tgstation.Server.Host.Components.Compiler.IDmbFactory.LockNextDmb </td>
           <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Gets the next <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a></dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#aa1fc29bfa38c71b85e8756626f122390">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#aea10dd7789ea1e7606ab0d85496b937a">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="afd7fb709889bfe02d0f8c128626c88a6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Compiler.IDmbFactory.DmbAvailable</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a7a578da409074f5f87b7e88197cb5465" title="Gets the next IDmbProvider ">LockNextDmb</a> will succeed </p>
+
+<p>Definition at line <a class="el" href="_i_dmb_factory_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_dmb_factory_8cs_source.html">IDmbFactory.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a02ce5ba5c1863e5b2ee6e8e92245c1da"></a>
 <div class="memitem">
 <div class="memproto">
@@ -256,7 +276,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get a Task that completes when the result of a call to <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a16b6cdcec9c47637a8c2b9901f81fb57" title="Gets the next IDmbProvider ">LockNextDmb(CancellationToken)</a> will be different than the previous call if any </p>
+<p>Get a Task that completes when the result of a call to <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dmb_factory.html#a7a578da409074f5f87b7e88197cb5465" title="Gets the next IDmbProvider ">LockNextDmb</a> will be different than the previous call if any </p>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Definition at line <a class="el" href="_i_dmb_factory_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_dmb_factory_8cs_source.html">IDmbFactory.cs</a>.</p>
