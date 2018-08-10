@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
 
-			var timeoutAt = DateTimeOffset.Now.AddHours(timeout);
+			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
 				var now = DateTimeOffset.Now;
