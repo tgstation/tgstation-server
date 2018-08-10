@@ -243,6 +243,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Origin != null)
 				return BadRequest(new ErrorMessage { Message = "origin cannot be modified without deleting the repository!" });
 
+			if(model.NewTestMerges.Any(x => !x.Number.HasValue))
+				return BadRequest(new ErrorMessage { Message = "All new test merges must provide a number!" });
+
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
 			if (newTestMerges && !userRights.HasFlag(RepositoryRights.MergePullRequest))
@@ -396,11 +399,13 @@ namespace Tgstation.Server.Host.Controllers
 									I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
 
-								revInfoWereLookingFor = await databaseContext.RevisionInformations.Where(
-									x => x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
-									&& x.ActiveTestMerges.Count == model.NewTestMerges.Count)
+								revInfoWereLookingFor = await databaseContext.RevisionInformations
+									.Where(x => x.OriginCommitSha == lastRevisionInfo.OriginCommitSha && x.ActiveTestMerges.Count == model.NewTestMerges.Count)
 									//split here cause this bit probably has to be done locally
-									.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge).All(y => model.NewTestMerges.Any(z => y.Number == z.Number && y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)))).FirstOrDefaultAsync(ct).ConfigureAwait(false);
+									.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge)
+									.All(y => model.NewTestMerges.Any(z => y.Number == z.Number && y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal))))
+									.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
+									.FirstOrDefaultAsync(ct).ConfigureAwait(false);
 							}
 
 
@@ -423,7 +428,7 @@ namespace Tgstation.Server.Host.Controllers
 									string errorMessage = null;
 									try
 									{
-										pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+										pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
 									}
 									catch (Octokit.RateLimitExceededException)
 									{
@@ -432,11 +437,15 @@ namespace Tgstation.Server.Host.Controllers
 									}
 									catch (Octokit.NotFoundException)
 									{
-										//you look at your shithub access and sigh
+										//you look at your shithub and sigh
 										errorMessage = "P.R.E. NOT FOUND";
 									}
 
-									var mergeResult = await repo.AddTestMerge(I.Number, I.PullRequestRevision, committerName, currentModel.CommitterEmail, String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", I.Number, I.Comment != null ? Environment.NewLine : null, I.Comment), currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), ct).ConfigureAwait(false);
+									//we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
+									if (I.PullRequestRevision == null && pr != null)
+										I.PullRequestRevision = pr.Head.Sha;
+
+									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), ct).ConfigureAwait(false);
 
 									if (!mergeResult.HasValue)  //conflict, we don't care, dd already knows
 										continue;
@@ -469,7 +478,8 @@ namespace Tgstation.Server.Host.Controllers
 							}
 						}
 
-						if (startSha != repo.Head)
+						//never synchronize with test merges
+						if (startSha != repo.Head && lastRevisionInfo.ActiveTestMerges.Count == 0)
 						{
 							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
