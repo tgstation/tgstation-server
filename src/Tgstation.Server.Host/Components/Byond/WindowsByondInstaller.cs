@@ -125,7 +125,8 @@ namespace Tgstation.Server.Host.Components.Byond
 					{
 						//always install it, it's pretty fast and will do better redundancy checking than us
 						var rbdx = ioManager.ConcatPath(path, ByondDXDir);
-						using (var p = processExecutor.LaunchProcess(ioManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent"))
+						//noShellExecute because we aren't doing runas shennanigans
+						using (var p = processExecutor.LaunchProcess(ioManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent", noShellExecute: true))
 						{
 							int exitCode;
 							using (cancellationToken.Register(() => p.Terminate()))

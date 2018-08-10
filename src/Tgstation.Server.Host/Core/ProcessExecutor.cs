@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public IProcess LaunchProcess(string fileName, string workingDirectory, string arguments, bool readOutput, bool readError)
+		public IProcess LaunchProcess(string fileName, string workingDirectory, string arguments, bool readOutput, bool readError, bool noShellExecute)
 		{
 			logger.LogDebug("Launching process in {0}: {1} {2}", workingDirectory, fileName, arguments);
 			var handle = new System.Diagnostics.Process();
@@ -62,11 +62,12 @@ namespace Tgstation.Server.Host.Core
 				handle.StartInfo.FileName = fileName;
 				handle.StartInfo.Arguments = arguments;
 				handle.StartInfo.WorkingDirectory = workingDirectory;
-				
+
+				handle.StartInfo.UseShellExecute = !(noShellExecute || readOutput || readError);
+
 				StringBuilder outputStringBuilder = null, errorStringBuilder = null, combinedStringBuilder = null;
 				if (readOutput || readError)
 				{
-					handle.StartInfo.UseShellExecute = false;
 					combinedStringBuilder = new StringBuilder();
 					if (readOutput)
 					{

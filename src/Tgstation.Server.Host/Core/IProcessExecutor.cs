@@ -13,8 +13,9 @@
 		/// <param name="workingDirectory">The working directory for the <see cref="IProcess"/></param>
 		/// <param name="readOutput">If standard output should be read</param>
 		/// <param name="readError">If standard error should be read</param>
+		/// <param name="noShellExecute">If shell execute should not be used. Ignored if <paramref name="readError"/> or <paramref name="readOutput"/> are set</param>
 		/// <returns>A new <see cref="IProcess"/></returns>
-		IProcess LaunchProcess(string fileName, string workingDirectory, string arguments = null, bool readOutput = false, bool readError = false);
+		IProcess LaunchProcess(string fileName, string workingDirectory, string arguments = null, bool readOutput = false, bool readError = false, bool noShellExecute = false);
 
 		/// <summary>
 		/// Get a <see cref="IProcess"/> by <paramref name="id"/>
