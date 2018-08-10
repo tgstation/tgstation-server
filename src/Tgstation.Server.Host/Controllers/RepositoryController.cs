@@ -362,7 +362,10 @@ namespace Tgstation.Server.Host.Controllers
 									throw new InvalidOperationException("Merge conflict occurred during origin update!");
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
+								{
 									lastRevisionInfo.OriginCommitSha = repo.Head;
+									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
+								}
 							}
 						}
 						
@@ -522,9 +525,8 @@ namespace Tgstation.Server.Host.Controllers
 								}
 							}
 						}
-
-						//never synchronize with test merges
-						if (startSha != repo.Head && lastRevisionInfo.ActiveTestMerges.Count == 0)
+						
+						if (startSha != repo.Head)
 						{
 							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
