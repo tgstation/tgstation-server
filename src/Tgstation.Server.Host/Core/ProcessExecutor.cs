@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,11 @@ namespace Tgstation.Server.Host.Core
 	/// <inheritdoc />
 	sealed class ProcessExecutor : IProcessExecutor
 	{
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>
+		/// </summary>
+		readonly ILogger<ProcessExecutor> logger;
+
 		/// <summary>
 		/// Create a <see cref="Task{TResult}"/> resulting in the exit code of a given <paramref name="handle"/>
 		/// </summary>
@@ -21,9 +27,19 @@ namespace Tgstation.Server.Host.Core
 			return tcs.Task;
 		}
 
+		/// <summary>
+		/// Construct a <see cref="ProcessExecutor"/>
+		/// </summary>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public ProcessExecutor(ILogger<ProcessExecutor> logger)
+		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
+
 		/// <inheritdoc />
 		public IProcess GetProcess(int id)
 		{
+			logger.LogDebug("Attaching to process {0}...", id);
 			var handle = System.Diagnostics.Process.GetProcessById(id);
 			try
 			{
@@ -39,6 +55,7 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public IProcess LaunchProcess(string fileName, string workingDirectory, string arguments, bool readOutput, bool readError)
 		{
+			logger.LogDebug("Launching process in {0}: {1} {2}", workingDirectory, fileName, arguments);
 			var handle = new System.Diagnostics.Process();
 			try
 			{
