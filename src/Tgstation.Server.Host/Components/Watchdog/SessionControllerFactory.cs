@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								Dmb = dmbProvider,
 								IsPrimary = primaryDirectory,
 								Port = portToUse.Value,
-								ProcessId = session.ProcessId,
+								ProcessId = session.Id,
 								ChatChannelsJson = interopInfo.ChatChannelsJson,
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
 								ServerCommandsJson = interopInfo.ServerCommandsJson,

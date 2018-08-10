@@ -1,0 +1,26 @@
+﻿namespace Tgstation.Server.Host.Core
+{
+	/// <summary>
+	/// For launching <see cref="IProcess"/>'
+	/// </summary>
+	interface IProcessExecutor
+	{
+		/// <summary>
+		/// Launch a <see cref="IProcess"/>
+		/// </summary>
+		/// <param name="fileName">The full path to the executable file</param>
+		/// <param name="arguments">The arguments for the <see cref="IProcess"/></param>
+		/// <param name="workingDirectory">The working directory for the <see cref="IProcess"/></param>
+		/// <param name="readOutput">If standard output should be read</param>
+		/// <param name="readError">If standard error should be read</param>
+		/// <returns>A new <see cref="IProcess"/></returns>
+		IProcess LaunchProcess(string fileName, string workingDirectory, string arguments = null, bool readOutput = false, bool readError = false);
+
+		/// <summary>
+		/// Get a <see cref="IProcess"/> by <paramref name="id"/>
+		/// </summary>
+		/// <param name="id">The <see cref="IProcess.Id"/></param>
+		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/></returns>
+		IProcess GetProcess(int id);
+	}
+}

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Threading;
@@ -48,6 +47,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>
+		/// </summary>
+		readonly IProcessExecutor processExecutor;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="WindowsByondInstaller"/>
 		/// </summary>
 		readonly ILogger<WindowsByondInstaller> logger;
@@ -66,10 +70,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Construct a <see cref="WindowsByondInstaller"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public WindowsByondInstaller(IIOManager ioManager, ILogger<WindowsByondInstaller> logger)
+		public WindowsByondInstaller(IIOManager ioManager, IProcessExecutor processExecutor, ILogger<WindowsByondInstaller> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			semaphore = new SemaphoreSlim(1);
@@ -115,43 +121,22 @@ namespace Tgstation.Server.Host.Components.Byond
 			//after this version lummox made DD depend of directx lol
 			if (version.Major >= 512 && version.Minor >= 1427 && !installedDirectX)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-				{
 					if (!installedDirectX)
+					{
 						//always install it, it's pretty fast and will do better redundancy checking than us
-						using (var p = new Process())
+						var rbdx = ioManager.ConcatPath(path, ByondDXDir);
+						using (var p = processExecutor.LaunchProcess(ioManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent"))
 						{
-							p.StartInfo.Arguments = "/silent";
-							var rbdx = ioManager.ConcatPath(path, ByondDXDir);
-							p.StartInfo.FileName = rbdx + "/DXSETUP.exe";
-							p.StartInfo.UseShellExecute = false;
-							p.StartInfo.WorkingDirectory = rbdx;
-							p.EnableRaisingEvents = true;
-							var tcs = new TaskCompletionSource<object>();
-							p.Exited += (a, b) => tcs.TrySetResult(null);
-							try
-							{
-								p.Start();
-								using (cancellationToken.Register(() => tcs.TrySetCanceled()))
-									await tcs.Task.ConfigureAwait(false);
-							}
-							finally
-							{
-								try
-								{
-									if (!p.HasExited)
-									{
-										p.Kill();
-										p.WaitForExit();
-									}
-								}
-								catch (InvalidOperationException) { }
-							}
+							int exitCode;
+							using (cancellationToken.Register(() => p.Terminate()))
+								exitCode = await p.Lifetime.ConfigureAwait(false);
+							cancellationToken.ThrowIfCancellationRequested();
 
-							if (p.ExitCode != 0)
-								throw new Exception("Failed to install included DirectX! Exit code: " + p.ExitCode);
+							if (exitCode != 0)
+								throw new Exception(String.Format(CultureInfo.InvariantCulture, "Failed to install included DirectX! Exit code: {0}", exitCode));
 							installedDirectX = true;
 						}
-				}
+					}
 
 			await setNoPromptTrustedModeTask.ConfigureAwait(false);
 		}

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -9,78 +9,67 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class Session : ISession
 	{
 		/// <inheritdoc />
-		public int ProcessId => process.Id;
+		public int Id => process.Id;
+
+		/// <inheritdoc />
+		public Task Startup => process.Startup;
 
 		/// <inheritdoc />
 		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime => lifetimeTask.Task;
+		public Task<int> Lifetime => process.Lifetime;
 
 		/// <summary>
-		/// The actual <see cref="Process"/>
+		/// The actual <see cref="IProcess"/>
 		/// </summary>
-		readonly Process process;
+		readonly IProcess process;
 		/// <summary>
 		/// The <see cref="IByondExecutableLock"/> for the <see cref="process"/>
 		/// </summary>
 		readonly IByondExecutableLock byondLock;
 
 		/// <summary>
-		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="Lifetime"/>
-		/// </summary>
-		readonly TaskCompletionSource<int> lifetimeTask;
-
-		/// <summary>
 		/// Construct a <see cref="Session"/>
 		/// </summary>
 		/// <param name="process">The value of <see cref="process"/></param>
 		/// <param name="byondLock">The value of <see cref="byondLock"/></param>
-		public Session(Process process, IByondExecutableLock byondLock)
+		public Session(IProcess process, IByondExecutableLock byondLock)
 		{
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 
-			LaunchResult = Task.Factory.StartNew(() =>
+			async Task<LaunchResult> GetLaunchResult()
 			{
 				var startTime = DateTimeOffset.Now;
-				try
-				{
-					process.WaitForInputIdle();
-				}
-				catch (InvalidOperationException) { }
+				await process.Startup.ConfigureAwait(false);
 				var result = new LaunchResult
 				{
-					ExitCode = process.HasExited ? (int?)process.ExitCode : null,
+					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
 					StartupTime = DateTimeOffset.Now - startTime
 				};
 				return result;
-			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-			lifetimeTask = new TaskCompletionSource<int>();
-			try
-			{
-				process.EnableRaisingEvents = true;
-				process.Exited += (a, b) => lifetimeTask.TrySetResult(process.ExitCode);
-			}
-			catch (InvalidOperationException)
-			{
-				//dead proccess
-				lifetimeTask.TrySetResult(process.ExitCode);
-			}
+			};
+			LaunchResult = GetLaunchResult();
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => process.Dispose();
-
-		/// <inheritdoc />
-		public void Terminate()
+		public void Dispose()
 		{
-			try
-			{
-				process.Kill();
-				process.WaitForExit();
-			}
-			catch (InvalidOperationException) { }
+			process.Dispose();
+			byondLock.Dispose();
 		}
+
+		/// <inheritdoc />
+		public void Terminate() => process.Terminate();
+
+		/// <inheritdoc />
+		public string GetErrorOutput() => process.GetErrorOutput();
+
+		/// <inheritdoc />
+		public string GetStandardOutput() => process.GetStandardOutput();
+
+		/// <inheritdoc />
+		public string GetCombinedOutput() => process.GetCombinedOutput();
 	}
 }

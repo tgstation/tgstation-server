@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -74,6 +73,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		readonly IChat chat;
 		/// <summary>
+		/// The <see cref="IProcessExecutor"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IProcessExecutor processExecutor;
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
@@ -89,8 +92,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -100,6 +104,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -158,50 +163,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			using (var dm = new Process())
+			using (var dm = processExecutor.LaunchProcess(dreamMakerPath, ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)), String.Format(CultureInfo.InvariantCulture, "-clean {0}.{1}", job.DmeName, DmeExtension), true, true))
 			{
-				dm.StartInfo.FileName = dreamMakerPath;
-				dm.StartInfo.Arguments = String.Format(CultureInfo.InvariantCulture, "-clean {0}.{1}", job.DmeName, DmeExtension);
-				dm.StartInfo.WorkingDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
-				dm.StartInfo.RedirectStandardOutput = true;
-				dm.StartInfo.RedirectStandardError = true;
-				dm.StartInfo.UseShellExecute = false;
-				var outputList = new StringBuilder();
-				var eventHandler = new DataReceivedEventHandler(
-					delegate (object sender, DataReceivedEventArgs e)
-					{
-						outputList.Append(Environment.NewLine);
-						outputList.Append(e.Data);
-					}
-				);
-				dm.OutputDataReceived += eventHandler;
-				dm.ErrorDataReceived += eventHandler;
+				using (cancellationToken.Register(() => dm.Terminate()))
+					job.ExitCode = await dm.Lifetime.ConfigureAwait(false);
+				cancellationToken.ThrowIfCancellationRequested();
 
-				dm.EnableRaisingEvents = true;
-				var dmTcs = new TaskCompletionSource<object>();
-				dm.Exited += (a, b) => dmTcs.TrySetResult(null);
-
-				logger.LogTrace("Running DreamMaker...");
-				dm.Start();
-				dm.BeginOutputReadLine();
-				dm.BeginErrorReadLine();
-				try
-				{
-					using (cancellationToken.Register(() => dmTcs.TrySetCanceled()))
-						await dmTcs.Task.ConfigureAwait(false);
-				}
-				finally
-				{
-					if (!dm.HasExited)
-					{
-						dm.Kill();
-						dm.WaitForExit();
-					}
-				}
-
-				job.ExitCode = dm.ExitCode;
 				logger.LogDebug("DreamMaker exit code: {0}", job.ExitCode);
-				job.Output = outputList.ToString();
+				job.Output = dm.GetCombinedOutput();
 				logger.LogTrace("DreamMaker output: {0}", job.Output);
 			}
 		}
