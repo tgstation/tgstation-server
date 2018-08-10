@@ -327,7 +327,17 @@ Any of the above POST methods can be combined with the @ref Tgstation.Server.Api
 
 If the server detects a set of @ref Tgstation.Server.Api.Models.TestMergeParameters being applied that it has seen before, it'll instead attempt to checkout the commit that was created then.
 
+@subsubsection api_repounsetauth Unsetting Authentication
 
+The repository uses the @ref Tgstation.Server.Api.Models.Repository.AccessUser and @ref Tgstation.Server.Api.Models.Repository.AccessToken credentials to access the remote repository if these fields are set. To unset them you must set both of them to an empty string like so 
 
+@code{.json}
+{
+	"accessUser": "",
+	"accessToken": ""
+}
+@endcode
+
+This will remove both fields from the database
 
 */
