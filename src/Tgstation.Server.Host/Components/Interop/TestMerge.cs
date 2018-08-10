@@ -1,6 +1,6 @@
 ﻿using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// This model mirrors /datum/tgs_revision_information/test_merge

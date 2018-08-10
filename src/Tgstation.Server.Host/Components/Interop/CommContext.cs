@@ -7,49 +7,49 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <inheritdoc />
-	sealed class InteropContext : IInteropContext
+	sealed class CommContext : ICommContext
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="InteropContext"/>
+		/// The <see cref="IIOManager"/> for the <see cref="CommContext"/>
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="InteropContext"/>
+		/// The <see cref="ILogger"/> for the <see cref="CommContext"/>
 		/// </summary>
-		readonly ILogger<InteropContext> logger;
+		readonly ILogger<CommContext> logger;
 
 		/// <summary>
-		/// The <see cref="FileSystemWatcher"/> for the <see cref="InteropContext"/>
+		/// The <see cref="FileSystemWatcher"/> for the <see cref="CommContext"/>
 		/// </summary>
 		readonly FileSystemWatcher fileSystemWatcher;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the <see cref="InteropContext"/>
+		/// The <see cref="CancellationTokenSource"/> for the <see cref="CommContext"/>
 		/// </summary>
 		readonly CancellationTokenSource cancellationTokenSource;
 
 		/// <summary>
-		/// The <see cref="CancellationToken"/> for the <see cref="InteropContext"/>
+		/// The <see cref="CancellationToken"/> for the <see cref="CommContext"/>
 		/// </summary>
 		readonly CancellationToken cancellationToken;
 
 		/// <summary>
-		/// The <see cref="IInteropHandler"/> for the <see cref="InteropContext"/>
+		/// The <see cref="ICommHandler"/> for the <see cref="CommContext"/>
 		/// </summary>
-		IInteropHandler handler;
+		ICommHandler handler;
 
 		/// <summary>
-		/// Construct an <see cref="InteropContext"/>
+		/// Construct an <see cref="CommContext"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="directory">The path to watch</param>
 		/// <param name="filter">The filter to watch for</param>
-		public InteropContext(IIOManager ioManager, ILogger<InteropContext> logger, string directory, string filter)
+		public CommContext(IIOManager ioManager, ILogger<CommContext> logger, string directory, string filter)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -93,10 +93,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var fileBytes = await ioManager.ReadAllBytes(e.FullPath, cancellationToken).ConfigureAwait(false);
 				var file = Encoding.UTF8.GetString(fileBytes);
 
-				InteropCommand command;
+				CommCommand command;
 				try
 				{
-					command = JsonConvert.DeserializeObject<InteropCommand>(file);
+					command = JsonConvert.DeserializeObject<CommCommand>(file);
 				}
 				catch (JsonSerializationException ex)
 				{  
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public void RegisterHandler(IInteropHandler handler)
+		public void RegisterHandler(ICommHandler handler)
 		{
 			if (this.handler != null)
 				throw new InvalidOperationException("RegisterHandler already called!");

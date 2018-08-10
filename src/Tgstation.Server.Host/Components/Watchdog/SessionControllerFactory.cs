@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
@@ -130,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//i changed this back from guids, hopefully i don't regret that
 			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
-			var interopInfo = new InteropInfo
+			var interopInfo = new JsonFile
 			{
 				AccessIdentifier = accessIdentifier,
 				ApiValidateOnly = apiValidate,
@@ -141,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Revision = dmbProvider.CompileJob.RevisionInformation
 			};
 
-			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new TestMerge(x)));
+			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new Interop.TestMerge(x)));
 
 			var interopJsonFile = JsonFile("interop");
 
@@ -166,9 +167,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				try
 				{
 					//more sanitization here cause it uses the same scheme
-					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(InteropConstants.DMParamHostVersion), byondTopicSender.SanitizeString(InteropConstants.DMParamInfoJson));
+					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
 
-					var context = new InteropContext(ioManager, loggerFactory.CreateLogger<InteropContext>(), basePath, interopInfo.ServerCommandsJson);
+					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, interopInfo.ServerCommandsJson);
 					try
 					{
 						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}\"",
@@ -232,7 +233,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					var context = new InteropContext(ioManager, loggerFactory.CreateLogger<InteropContext>(), basePath, reattachInformation.ServerCommandsJson);
+					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, reattachInformation.ServerCommandsJson);
 					try
 					{
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);

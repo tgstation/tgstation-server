@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// Information used in for reattaching and interop
 	/// </summary>
-	public class InteropInfoBase
+	public class JsonSubFileList
 	{
 		/// <summary>
 		/// Path to the chat commands json file
@@ -27,15 +27,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public string ServerCommandsJson { get; set; }
 
 		/// <summary>
-		/// Construct an <see cref="InteropInfoBase"/>
+		/// Construct an <see cref="JsonSubFileList"/>
 		/// </summary>
-		protected InteropInfoBase() { }
+		protected JsonSubFileList() { }
 
 		/// <summary>
-		/// Construct an <see cref="InteropInfoBase"/> from a <paramref name="copy"/>
+		/// Construct an <see cref="JsonSubFileList"/> from a <paramref name="copy"/>
 		/// </summary>
-		/// <param name="copy">An <see cref="InteropInfoBase"/> to copy</param>
-		public InteropInfoBase(InteropInfoBase copy)
+		/// <param name="copy">An <see cref="JsonSubFileList"/> to copy</param>
+		public JsonSubFileList(JsonSubFileList copy)
 		{
 			if (copy == null)
 				throw new ArgumentNullException(nameof(copy));

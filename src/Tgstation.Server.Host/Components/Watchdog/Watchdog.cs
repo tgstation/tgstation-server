@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -787,7 +788,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!Running)
 					return true;
 
-				var builder = new StringBuilder(InteropConstants.DMTopicEvent);
+				var builder = new StringBuilder(Constants.DMTopicEvent);
 				foreach (var I in parameters)
 				{
 					builder.Append("&");
@@ -825,7 +826,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!Running)
 					return "ERROR: Server offline!";
 
-				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChatCommand), byondTopicSender.SanitizeString(InteropConstants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
+				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChatCommand), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";

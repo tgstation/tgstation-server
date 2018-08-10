@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
 
 namespace Tgstation.Server.Host.Models
@@ -7,7 +8,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Base class for <see cref="ReattachInformation"/>
 	/// </summary>
-	public abstract class ReattachInformationBase : InteropInfoBase
+	public abstract class ReattachInformationBase : JsonSubFileList
 	{
 		/// <summary>
 		/// Used to identify and authenticate the DreamDaemon instance

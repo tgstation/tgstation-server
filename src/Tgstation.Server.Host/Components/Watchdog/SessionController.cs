@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class SessionController : ISessionController, IInteropHandler
+	sealed class SessionController : ISessionController, ICommHandler
 	{
 		/// <inheritdoc />
 		public bool IsPrimary
@@ -93,9 +94,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IInteropContext"/> for the <see cref="SessionController"/>
+		/// The <see cref="ICommContext"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IInteropContext interopContext;
+		readonly ICommContext interopContext;
 
 		/// <summary>
 		/// The <see cref="IProcess"/> for the <see cref="SessionController"/>
@@ -166,7 +167,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, IInteropContext interopContext, IChat chat, ILogger<SessionController> logger)
+		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
@@ -247,7 +248,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task HandleInterop(InteropCommand command, CancellationToken cancellationToken)
+		public Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
 		{
 			if (command == null)
 				throw new ArgumentNullException(nameof(command));
@@ -255,17 +256,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var query = command.Parameters;
 
 			object content;
-			if (query.TryGetValue(InteropConstants.DMParameterCommand, out var method))
+			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
 			{
 				content = new object();
 				switch (method)
 				{
-					case InteropConstants.DMCommandIdentify:
+					case Constants.DMCommandIdentify:
 						lock (this)
 							if (portClosed)
-								content = new Dictionary<string, int> { { InteropConstants.DMParameterData, nextPort } };
+								content = new Dictionary<string, int> { { Constants.DMParameterData, nextPort } };
 						break;
-					case InteropConstants.DMCommandOnline:
+					case Constants.DMCommandOnline:
 						lock (this)
 							if (portClosed)
 							{
@@ -275,13 +276,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								portClosed = false;
 							}
 						break;
-					case InteropConstants.DMCommandApiValidate:
+					case Constants.DMCommandApiValidate:
 						apiValidated = true;
 						break;
-					case InteropConstants.DMCommandWorldReboot:
+					case Constants.DMCommandWorldReboot:
 						if (ClosePortOnReboot)
 						{
-							content = new Dictionary<string, int> { { InteropConstants.DMParameterData, 0 } };
+							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
 							portClosed = true;
 						}
 						else
@@ -299,7 +300,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				content = new ErrorMessage { Message = "Missing command parameter!" };
 
 			var json = JsonConvert.SerializeObject(content);
-			return SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicInteropResponse), byondTopicSender.SanitizeString(InteropConstants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken);
+			return SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken);
 		}
 
 		/// <summary>
@@ -332,9 +333,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
 					"?{0}={1}&{2}={3}",
-					byondTopicSender.SanitizeString(InteropConstants.DMInteropAccessIdentifier),
+					byondTopicSender.SanitizeString(Constants.DMInteropAccessIdentifier),
 					byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
-					byondTopicSender.SanitizeString(InteropConstants.DMParameterCommand),
+					byondTopicSender.SanitizeString(Constants.DMParameterCommand),
 					//intentionally don't sanitize command, that's up to the caller
 					command);
 
@@ -352,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
-		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(InteropConstants.DMTopicChangePort), byondTopicSender.SanitizeString(InteropConstants.DMParameterData), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
+		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangePort), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
 
 		/// <inheritdoc />
 		public async Task<bool> ClosePort(CancellationToken cancellationToken)
@@ -399,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (RebootState == newRebootState)
 				return true;
 
-			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", InteropConstants.DMTopicChangeReboot, InteropConstants.DMParameterData, (int)newRebootState), cancellationToken).ConfigureAwait(false) == InteropConstants.DMResponseSuccess;
+			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", Constants.DMTopicChangeReboot, Constants.DMParameterData, (int)newRebootState), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
 		}
 
 		/// <inheritdoc />

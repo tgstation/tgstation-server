@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// Representation of the initial json passed to DreamDaemon
 	/// </summary>
-	sealed class InteropInfo
+	sealed class JsonFile
 	{
 		/// <summary>
 		/// The code used by the server to authenticate command Topics
