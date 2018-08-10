@@ -340,4 +340,28 @@ The repository uses the @ref Tgstation.Server.Api.Models.Repository.AccessUser a
 
 This will remove both fields from the database
 
+@subsection api_dm Compiler Handling
+
+The DM compiler can run one job at a time for an Instance. Instead of using standard @ref Tgstation.Server.Api.Models.Job.Progress it uses the @ref Tgstation.Server.Api.Models.DreamMaker.Status field to denote it's current stage. It can be retrieved like this:
+
+I GET "/DreamMaker" => @ref Tgstation.Server.Api.Models.DreamMaker
+
+This will also return the last successful @ref Tgstation.Server.Api.Models.CompileJob as well as the @ref Tgstation.Server.Api.Models.Internal.DreamMakerSettings.ProjectName
+
+The ProjectName field can be changed with this method:
+
+I POST "/DreamMaker" @ref Tgstation.Server.Api.Models.DreamMaker => @ref Tgstation.Server.Api.Models.DreamMaker
+
+To start a compile job use the following request:
+
+I PUT "/DreamMaker" Empty => @ref Tgstation.Server.Api.Models.Job
+
+The job object returned represents the compile job
+
+"Empty" refers to an empty json object like so:
+
+@code{.json}
+{}
+@endcode
+
 */
