@@ -1,20 +1,26 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// Handles communication with a <see cref="ISession"/>
+	/// Handles communication with a DreamDaemon <see cref="IProcess"/>
 	/// </summary>
-	interface ISessionController : ISessionBase
+	interface ISessionController : IProcessBase
 	{
+		/// <summary>
+		/// A <see cref="Task"/> that completes when DreamDaemon starts pumping the windows message queue after loading a .dmb or when it crashes
+		/// </summary>
+		Task<LaunchResult> LaunchResult { get; }
+
 		/// <summary>
 		/// If the <see cref="IDmbProvider.PrimaryDirectory"/> of <see cref="Dmb"/> is being used
 		/// </summary>
 		bool IsPrimary { get; }
 
 		/// <summary>
-		/// If the DMAPI was validated. This field may only be access once <see cref="ISessionBase.Lifetime"/> completes
+		/// If the DMAPI was validated. This field may only be access once <see cref="IProcessBase.Lifetime"/> completes
 		/// </summary>
 		bool ApiValidated { get; }
 
@@ -44,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task OnReboot { get; }
 
 		/// <summary>
-		/// Releases the <see cref="ISession"/> without terminating it. Also calls <see cref="System.IDisposable.Dispose"/>
+		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="System.IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
 		ReattachInformation Release();

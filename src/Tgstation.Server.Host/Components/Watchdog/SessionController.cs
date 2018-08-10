@@ -8,7 +8,9 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -72,10 +74,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<LaunchResult> LaunchResult => session.LaunchResult;
+		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime => session.Lifetime;
+		public Task<int> Lifetime => process.Lifetime;
 
 		/// <inheritdoc />
 		public Task OnReboot => rebootTcs.Task;
@@ -96,9 +98,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IInteropContext interopContext;
 
 		/// <summary>
-		/// The <see cref="ISession"/> for the <see cref="SessionController"/>
+		/// The <see cref="IProcess"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly ISession session;
+		readonly IProcess process;
+
+		/// <summary>
+		/// The <see cref="IByondExecutableLock"/> for the <see cref="SessionController"/>
+		/// </summary>
+		readonly IByondExecutableLock byondLock;
 
 		/// <summary>
 		/// The <see cref="IJsonTrackingContext"/> for the <see cref="SessionController"/>
@@ -144,7 +151,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool apiValidated;
 
 		/// <summary>
-		/// If <see cref="session"/> should be kept alive instead
+		/// If <see cref="process"/> should be kept alive instead
 		/// </summary>
 		bool released;
 
@@ -152,18 +159,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
-		/// <param name="session">The value of <see cref="session"/></param>
+		/// <param name="process">The value of <see cref="process"/></param>
+		/// <param name="byondLock">The value of <see cref="byondLock"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="interopContext">The value of <see cref="interopContext"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public SessionController(ReattachInformation reattachInformation, ISession session, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, IInteropContext interopContext, IChat chat, ILogger<SessionController> logger)
+		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, IInteropContext interopContext, IChat chat, ILogger<SessionController> logger)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			this.session = session ?? throw new ArgumentNullException(nameof(session));
+			this.process = process ?? throw new ArgumentNullException(nameof(process));
+			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 			this.interopContext = interopContext ?? throw new ArgumentNullException(nameof(interopContext));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -176,6 +185,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			released = false;
 
 			rebootTcs = new TaskCompletionSource<object>();
+
+			async Task<LaunchResult> GetLaunchResult()
+			{
+				var startTime = DateTimeOffset.Now;
+				await process.Startup.ConfigureAwait(false);
+				var result = new LaunchResult
+				{
+					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
+					StartupTime = DateTimeOffset.Now - startTime
+				};
+				return result;
+			};
+			LaunchResult = GetLaunchResult();
 		}
 
 		/// <summary>
@@ -201,8 +223,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (disposing)
 				{
 					if (!released)
-						session.Terminate();
-					session.Dispose();
+					{
+						process.Terminate();
+						byondLock.Dispose();
+					}
+					process.Dispose();
 					interopContext.Dispose();
 					Dmb?.Dispose(); //will be null when released
 					chatJsonTrackingContext.Dispose();
@@ -213,8 +238,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (logger != null)
 						logger.LogError("Being disposed via finalizer!");
 					if (!released)
-						if (session != null)
-							session.Terminate();
+						if (process != null)
+							process.Terminate();
 						else if (logger != null)
 							logger.LogCritical("Unable to terminate active DreamDaemon session due to finalizer ordering!");
 				}

@@ -199,7 +199,6 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
-			services.AddSingleton<IExecutor, Executor>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
