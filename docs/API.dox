@@ -9,7 +9,7 @@ The TGS4 API is designed to be a fully realized RESTful service. Once hosted, fo
 
 Routes and their usages are defined as follows
 
-[I (If Instance is required)] <`Http Method`> "<`Route`>`" [Request Model] => <`Response Model`>
+[I (If Instance is required)] <`Http Method`> "<`Route`>" [Request Model] => <`Response Model`>
 
 @section api_lib Official Libraries
 
@@ -284,14 +284,14 @@ git pull (Only if @ref Tgstation.Server.Api.Models.Repository.Reference is set):
 }
 @endcode
 
-`git checkout <commit sha> (Unsets @ref Tgstation.Server.Api.Models.Repository.Reference):`
+git checkout <`commit sha`> (Unsets @ref Tgstation.Server.Api.Models.Repository.Reference):
 @code{.json}
 {
 	"checkoutSha": "<commit sha>"
 }
 @endcode
 
-`git checkout -f <branch or tag> && git clean -fxd (Sets @ref Tgstation.Server.Api.Models.Repository.Reference):`
+git checkout -f <`branch or tag`> && git clean -fxd (Sets @ref Tgstation.Server.Api.Models.Repository.Reference):
 @code{.json}
 {
 	"reference": "<branch or tag>"
