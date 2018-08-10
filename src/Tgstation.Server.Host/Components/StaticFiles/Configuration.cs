@@ -27,7 +27,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>
 		{
-			{ EventType.CompileStart, "PreCompile" }
+			{ EventType.CompileStart, "PreCompile" },
+			{ EventType.CompileComplete, "PostCompile" },
+			{ EventType.RepoPreSynchronize, "PreSynchronize" }
 		};
 
 		static readonly string SystemScriptFileExtension = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "bat" : "sh";
