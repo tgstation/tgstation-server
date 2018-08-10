@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			IQueryable<Models.RevisionInformation> queryTarget = databaseContext.RevisionInformations;
 
-			var  revisionInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
+			var revisionInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
 				.Include(x => x.CompileJobs)
 				.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge) //minimal info, they can query the rest if they're allowed
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);  //search every rev info because LOL SHA COLLISIONS
@@ -243,8 +243,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Origin != null)
 				return BadRequest(new ErrorMessage { Message = "origin cannot be modified without deleting the repository!" });
 
-			if(model.NewTestMerges.Any(x => !x.Number.HasValue))
+			if(model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
 				return BadRequest(new ErrorMessage { Message = "All new test merges must provide a number!" });
+
+			if(model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
+				return BadRequest(new ErrorMessage { Message = "Cannot test merge the same PR twice in one job!" });
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
@@ -282,7 +285,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
-			if (currentModel.AccessToken.Length == 0 && currentModel.AccessUser.Length == 0)
+			if (currentModel.AccessToken?.Length == 0 && currentModel.AccessUser?.Length == 0)
 			{
 				//setting an empty string clears everything
 				currentModel.AccessUser = null;
@@ -385,50 +388,92 @@ namespace Tgstation.Server.Host.Controllers
 								lastRevisionInfo.OriginCommitSha = repo.Head;
 							}
 						}
-						
+
+						Dictionary<int, Octokit.PullRequest> prMap = null;
 						//test merging
 						if (newTestMerges)
 						{
-							//optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
-							Models.RevisionInformation revInfoWereLookingFor = null;
-							if(lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
-							{
-								foreach (var I in model.NewTestMerges)
-									//normalize the shas to lowercase ala libgit2
-#pragma warning disable CA1308 // Normalize strings to uppercase
-									I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
+							//bit of sanitization
+							foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
+								I.PullRequestRevision = null;
 
-								revInfoWereLookingFor = await databaseContext.RevisionInformations
-									.Where(x => x.OriginCommitSha == lastRevisionInfo.OriginCommitSha && x.ActiveTestMerges.Count == model.NewTestMerges.Count)
-									//split here cause this bit probably has to be done locally
-									.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge)
-									.All(y => model.NewTestMerges.Any(z => y.Number == z.Number && y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal))))
-									.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-									.FirstOrDefaultAsync(ct).ConfigureAwait(false);
+							var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
+
+							var repoOwner = repo.GitHubOwner;
+							var repoName = repo.GitHubRepoName;
+
+							Models.RevisionInformation revInfoWereLookingFor = null;
+							//optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
+							if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
+							{
+								//In order for this to work though we need the shas of all the commits
+								if (model.NewTestMerges.Any(x => x.PullRequestRevision == null))
+									prMap = new Dictionary<int, Octokit.PullRequest>();
+
+								bool cantSearch = false;
+								foreach (var I in model.NewTestMerges)
+								{
+									if (I.PullRequestRevision != null)
+										//normalize the shas to lowercase ala libgit2
+#pragma warning disable CA1308 // Normalize strings to uppercase
+										I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
+									else
+										//retrieve the latest sha
+										try
+										{
+											var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
+											prMap.Add(I.Number.Value, pr);
+											I.PullRequestRevision = pr.Head.Sha;
+										}
+										catch
+										{
+											cantSearch = true;
+											break;
+										}
+								}
+
+								if (!cantSearch)
+								{
+									var dbPull = await databaseContext.RevisionInformations
+										.Where(x => x.Instance.Id == Instance.Id && x.OriginCommitSha == lastRevisionInfo.OriginCommitSha && x.ActiveTestMerges.Count == model.NewTestMerges.Count)
+										.Include(x => x.ActiveTestMerges)
+										.ThenInclude(x => x.TestMerge)
+										.ToListAsync(cancellationToken).ConfigureAwait(false);
+									//split here cause this bit has to be done locally
+									revInfoWereLookingFor = dbPull
+										.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge)
+										.All(y => model.NewTestMerges.Any(z => 
+										y.Number == z.Number 
+										&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal) 
+										&& y.Comment == z.Comment || z.Comment == null)))
+										.FirstOrDefault();
+								}
 							}
 
-
 							if (revInfoWereLookingFor != null)
+							{
+								//goteem
 								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, cancellationToken).ConfigureAwait(false);
+								lastRevisionInfo = revInfoWereLookingFor;
+							}
 							else
 							{
-								var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
 								var contextUser = new Models.User
 								{
 									Id = AuthenticationContext.User.Id
 								};
 								databaseContext.Users.Attach(contextUser);
 
-								var repoOwner = repo.GitHubOwner;
-								var repoName = repo.GitHubRepoName;
 								foreach (var I in model.NewTestMerges)
 								{
 									Octokit.PullRequest pr = null;
 									string errorMessage = null;
 									try
 									{
-										pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
+										//load from cache if possible
+										if (prMap == null || !prMap.TryGetValue(I.Number.Value, out pr))
+											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
 									}
 									catch (Octokit.RateLimitExceededException)
 									{

@@ -47,7 +47,7 @@
 		/// </summary>
 		CompileCancelled = 9,
 		/// <summary>
-		/// Parameters: "1" if compile succeeded and api validation failed, "0" otherwise
+		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise
 		/// </summary>
 		CompileFailure = 10,
 		/// <summary>

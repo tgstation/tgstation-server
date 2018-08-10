@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -96,7 +97,10 @@ namespace Tgstation.Server.Host.Components.Interop
 				CommCommand command;
 				try
 				{
-					command = JsonConvert.DeserializeObject<CommCommand>(file);
+					command = new CommCommand
+					{
+						Parameters = JsonConvert.DeserializeObject<IReadOnlyDictionary<string, string>>(file)
+					};
 				}
 				catch (JsonSerializationException ex)
 				{  

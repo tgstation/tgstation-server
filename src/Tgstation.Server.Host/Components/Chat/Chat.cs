@@ -164,8 +164,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Chat message: {0}. User (Note unconverted provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
-
 			//map the channel if it's private and we haven't seen it
 			if (message.User.Channel.IsPrivate)
 				lock (providers)
@@ -204,6 +202,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (!addressed && !message.User.Channel.IsPrivate)
 				//no mention
 				return;
+
+			logger.LogTrace("Chat command: {0}. User (True provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
 
 			if (addressed)
 				splits.RemoveAt(0);

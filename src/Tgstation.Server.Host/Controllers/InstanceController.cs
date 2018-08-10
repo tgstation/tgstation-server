@@ -122,7 +122,10 @@ namespace Tgstation.Server.Host.Controllers
 					SoftShutdown = false,
 					StartupTimeout = 20
 				},
-				DreamMakerSettings = new DreamMakerSettings(),
+				DreamMakerSettings = new DreamMakerSettings
+				{
+					ApiValidationPort = 1339
+				},
 				Name = model.Name,
 				Online = false,
 				Path = model.Path,

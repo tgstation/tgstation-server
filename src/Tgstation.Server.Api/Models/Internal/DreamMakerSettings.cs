@@ -1,4 +1,5 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -13,5 +14,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Permissions(WriteRight = DreamMakerRights.SetDme)]
 		public string ProjectName { get; set; }
+
+		/// <summary>
+		/// The port used during compilation to validate the TGS API
+		/// </summary>
+		[Permissions(WriteRight = DreamMakerRights.SetApiValidationPort)]
+		[Required]
+		public ushort? ApiValidationPort { get; set; }
 	}
 }
