@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Client
 {
@@ -30,8 +28,16 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public IUsersClient Users { get; }
 		
+		/// <summary>
+		/// The <see cref="IApiClient"/> for the <see cref="ServerClient"/>
+		/// </summary>
 		readonly IApiClient apiClient;
 
+		/// <summary>
+		/// Construct a <see cref="ServerClient"/>
+		/// </summary>
+		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
+		/// <param name="token">The value of <see cref="Token"/></param>
 		public ServerClient(IApiClient apiClient, Token token)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
@@ -40,6 +46,7 @@ namespace Tgstation.Server.Client
 			if (Token.Bearer != apiClient.Headers.Token)
 				throw new ArgumentOutOfRangeException(nameof(token), token, "Provided token does not match apiClient headers!");
 
+			Users = new UsersClient(apiClient);
 			Administration = new AdministrationClient(apiClient);
 		}
 

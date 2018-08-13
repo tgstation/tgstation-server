@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// For managing <see cref="User"/>s
 	/// </summary>
-	[Route("/" + nameof(Models.User))]
+	[Route(Routes.User)]
 	public sealed class UserController : ModelController<UserUpdate>
 	{
 		/// <summary>

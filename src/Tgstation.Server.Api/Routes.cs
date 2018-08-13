@@ -14,5 +14,10 @@
 		/// The <see cref="Models.Administration"/> controller
 		/// </summary>
 		public const string Administration = Root + nameof(Models.Administration);
+
+		/// <summary>
+		/// The <see cref="Models.User"/> controller
+		/// </summary>
+		public const string User = Root + nameof(Models.User);
 	}
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Client.Components
+namespace Tgstation.Server.Client
 {
 	/// <inheritdoc />
 	sealed class AdministrationClient : IAdministrationClient
@@ -26,6 +26,6 @@ namespace Tgstation.Server.Client.Components
 		public Task<Administration> Read(CancellationToken cancellationToken) => apiClient.Read<Administration>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update(Administration administration, CancellationToken cancellationToken) => apiClient.Update<Administration>(Routes.Administration, administration, cancellationToken);
+		public Task Update(Administration administration, CancellationToken cancellationToken) => apiClient.Update(Routes.Administration, administration, cancellationToken);
 	}
 }
