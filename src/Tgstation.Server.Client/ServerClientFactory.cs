@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
 {
@@ -11,6 +12,6 @@ namespace Tgstation.Server.Client
 		public Task<IServerClient> CreateServerClient(string hostname, string username, string password, int timeout, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		/// <inheritdoc />
-		public Task<IServerClient> CreateServerClient(string hostname, string token, int timeout, CancellationToken cancellationToken) => throw new NotImplementedException();
+		public Task<IServerClient> CreateServerClient(string hostname, Token token, int timeout, CancellationToken cancellationToken) => throw new NotImplementedException();
 	}
 }

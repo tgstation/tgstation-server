@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Client.Components;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
 {
@@ -11,24 +11,19 @@ namespace Tgstation.Server.Client
 	public interface IServerClient : IDisposable
 	{
 		/// <summary>
+		/// The <see cref="Token"/> being used to access the server
+		/// </summary>
+		Token Token { get; }
+
+		/// <summary>
 		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>
 		/// </summary>
-		Version Version { get; }
+		Task<Version> Version(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// The connection timeout in milliseconds. Defaults to 10000
+		/// The connection timeout in milliseconds
 		/// </summary>
 		int Timeout { get; set; }
-
-		/// <summary>
-		/// How long to return initially cached models for in seconds. Defaults to 60
-		/// </summary>
-		int CacheExpiry { get; set; }
-
-		/// <summary>
-		/// The requery rate for job updates in milliseconds. Defaults to 5000
-		/// </summary>
-		int RequeryRate { get; set; }
 
 		/// <summary>
 		/// Access the <see cref="IInstanceManagerClient"/>
@@ -41,15 +36,17 @@ namespace Tgstation.Server.Client
 		IAdministrationClient Administration { get; }
 
 		/// <summary>
-		/// These generally shouldn't be used in favor of the <see cref="Task"/> based polling and <see cref="CancellationToken"/>s other clients use. However, this is the only way to access jobs the client didn't start in it's current session
+		/// Access the <see cref="IUsersClient"/>
 		/// </summary>
-		IJobsClient Jobs { get; }
+		IUsersClient Users { get; }
 
 		/// <summary>
-		/// The <see cref="System.Version"/> of the connected server
+		/// Creates a <see cref="Task{TResult}"/> that completes when a given <paramref name="job"/> is completed
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="System.Version"/> of the connected server</returns>
-		/// <remarks>Note that if the <see cref="System.Version.Build"/> differs from the <see cref="Version"/>'s API functionality will most likely be compromised</remarks>
-		Task<Version> GetServerVersion(CancellationToken cancellationToken);
+		/// <param name="job">The <see cref="Job"/> to create a <see cref="Task"/> for</param>
+		/// <param name="requeryRate">The rate in seconds to poll the server for results</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> which will trigger the cancellation of the <paramref name="job"/></param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a complete <see cref="Job"/></returns>
+		Task<Job> CreateTaskFromJob(Job job, int requeryRate, CancellationToken cancellationToken);
 	}
 }
