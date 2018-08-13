@@ -11,6 +11,9 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <inheritdoc />
 	sealed class RepositoryManager : IRepositoryManager
 	{
+		/// <inheritdoc />
+		public bool CloneInProgress { get; private set; }
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
@@ -51,56 +54,72 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-				if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
-					try
-					{
-						await Task.Factory.StartNew(() =>
-						{
-							string path = null;
-							try
-							{
-								path = LibGit2Sharp.Repository.Clone(url.ToString(), ioManager.ResolvePath("."), new CloneOptions
-								{
-									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-									OnTransferProgress = (a) =>
-									{
-										var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-										progressReporter((int)percentage);
-										return !cancellationToken.IsCancellationRequested;
-									},
-									RecurseSubmodules = true,
-									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-									RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
-									BranchName = initialBranch,
-									CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
-									{
-										Username = username,
-										Password = password
-									} : new DefaultCredentials()
-								});
-							}
-							catch (UserCancelledException) { }
-							cancellationToken.ThrowIfCancellationRequested();
-						}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-					}
-					catch
-					{
+			lock (this)
+			{
+				if (CloneInProgress)
+					throw new InvalidOperationException("The repository is already being cloned!");
+				CloneInProgress = true;
+			}
+			try
+			{
+				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+					if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
 						try
 						{
-							await ioManager.DeleteDirectory(".", default).ConfigureAwait(false);
+							await Task.Factory.StartNew(() =>
+							{
+								string path = null;
+								try
+								{
+									path = LibGit2Sharp.Repository.Clone(url.ToString(), ioManager.ResolvePath("."), new CloneOptions
+									{
+										OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+										OnTransferProgress = (a) =>
+										{
+											var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+											progressReporter((int)percentage);
+											return !cancellationToken.IsCancellationRequested;
+										},
+										RecurseSubmodules = true,
+										OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+										RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
+										BranchName = initialBranch,
+										CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
+										{
+											Username = username,
+											Password = password
+										} : new DefaultCredentials()
+									});
+								}
+								catch (UserCancelledException) { }
+								cancellationToken.ThrowIfCancellationRequested();
+							}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 						}
-						catch { }
-						throw;
-					}
-				else
-					return null;
+						catch
+						{
+							try
+							{
+								await ioManager.DeleteDirectory(".", default).ConfigureAwait(false);
+							}
+							catch { }
+							throw;
+						}
+					else
+						return null;
+			}
+			finally
+			{
+				CloneInProgress = false;
+			}
 			return await LoadRepository(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		public async Task<IRepository> LoadRepository(CancellationToken cancellationToken)
 		{
+			lock(this)
+				if (CloneInProgress)
+					throw new InvalidOperationException("The repository is being cloned!");
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 			LibGit2Sharp.Repository repo = null;
 			await Task.Factory.StartNew(() =>

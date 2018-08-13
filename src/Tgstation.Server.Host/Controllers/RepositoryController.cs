@@ -138,6 +138,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
+			if (repoManager.CloneInProgress)
+				return Conflict();
+
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo != null)

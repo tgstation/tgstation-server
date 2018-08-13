@@ -261,7 +261,7 @@ To clone the repository if it doesn't yet exist use the following request:
 
 I PUT "/Repository" => @ref Tgstation.Server.Api.Models.Repository
 
-The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Repository.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository
+The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Repository.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository. Will return 409 if the repository already exists or is already being cloned
 
 To delete an existing repository make the following request:
 
