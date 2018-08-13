@@ -46,6 +46,7 @@ namespace Tgstation.Server.Client
 			if (Token.Bearer != apiClient.Headers.Token)
 				throw new ArgumentOutOfRangeException(nameof(token), token, "Provided token does not match apiClient headers!");
 
+			Instances = new InstanceManagerClient(apiClient);
 			Users = new UsersClient(apiClient);
 			Administration = new AdministrationClient(apiClient);
 		}

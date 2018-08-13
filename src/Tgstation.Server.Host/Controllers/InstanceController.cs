@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -25,7 +26,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing <see cref="Components.Instance"/>s
 	/// </summary>
-	[Route("/Instance")]
+	[Route(Routes.InstanceManager)]
 	public sealed class InstanceController : ModelController<Api.Models.Instance>
 	{
 		/// <summary>
