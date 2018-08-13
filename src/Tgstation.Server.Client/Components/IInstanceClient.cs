@@ -39,9 +39,9 @@ namespace Tgstation.Server.Client.Components
 		IInstanceUserClient Users { get; }
 
 		/// <summary>
-		/// Access the <see cref="IChatSettingsClient"/>
+		/// Access the <see cref="IChatBotsClient"/>
 		/// </summary>
-		IChatSettingsClient Chat { get; }
+		IChatBotsClient ChatBots { get; }
 
 		/// <summary>
 		/// Access the <see cref="IDreamMakerClient"/>

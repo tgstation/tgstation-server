@@ -11,14 +11,14 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.ChatSettings.Id"/>
+		/// The <see cref="Api.Models.Internal.ChatBot.Id"/>
 		/// </summary>
 		public long ChatSettingsId { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.ChatSettings"/>
+		/// The <see cref="Models.ChatBot"/>
 		/// </summary>
-		public ChatSettings ChatSettings { get; set; }
+		public ChatBot ChatSettings { get; set; }
 
 		/// <inheritdoc />
 		public Api.Models.ChatChannel ToApi() => new Api.Models.ChatChannel

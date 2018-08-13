@@ -1,14 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
 	/// For managing <see cref="DreamDaemon"/>
 	/// </summary>
-	public interface IDreamDaemonClient: IRightsClient<DreamDaemonRights>
+	public interface IDreamDaemonClient
 	{
 		/// <summary>
 		/// Get the <see cref="DreamDaemon"/> represented by the <see cref="IDreamDaemonClient"/>
@@ -22,14 +21,14 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Start(CancellationToken cancellationToken);
+		Task<DreamDaemon> Start(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Shutdown <see cref="DreamDaemon"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Shutdown(CancellationToken cancellationToken);
+		Task<DreamDaemon> Shutdown(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Update <see cref="DreamDaemon"/>. This may trigger <see cref="Api.Models.Internal.DreamDaemonSettings.SoftRestart"/>
@@ -37,6 +36,6 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="dreamDaemon">The <see cref="DreamDaemon"/> to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Update(DreamDaemon dreamDaemon, CancellationToken cancellationToken);
+		Task<DreamDaemon> Update(DreamDaemon dreamDaemon, CancellationToken cancellationToken);
 	}
 }

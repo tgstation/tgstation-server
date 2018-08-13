@@ -2,14 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
 	/// For managing the <see cref="Repository"/>
 	/// </summary>
-	public interface IRepositoryClient : IRightsClient<RepositoryRights>
+	public interface IRepositoryClient
 	{
 		/// <summary>
 		/// Get the <see cref="Repository"/> represented by the <see cref="IRepositoryClient"/>

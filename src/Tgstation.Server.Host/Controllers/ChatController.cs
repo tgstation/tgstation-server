@@ -19,10 +19,10 @@ using Z.EntityFramework.Plus;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatSettings"/>
+	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatBot"/>s
 	/// </summary>
 	[Route("/" + nameof(Components.Chat.Chat))]
-	public sealed class ChatController : ModelController<Api.Models.ChatSettings>
+	public sealed class ChatController : ModelController<Api.Models.ChatBot>
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="ChatController"/>
@@ -56,8 +56,8 @@ namespace Tgstation.Server.Host.Controllers
 		};
 
 		/// <inheritdoc />
-		[TgsAuthorize(ChatSettingsRights.Create)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
+		[TgsAuthorize(ChatBotRights.Create)]
+		public override async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
 			//try to update das db first
-			var dbModel = new Models.ChatSettings
+			var dbModel = new Models.ChatBot
 			{
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 				Provider = model.Provider,
 			};
 
-			DatabaseContext.ChatSettings.Add(dbModel);
+			DatabaseContext.ChatBots.Add(dbModel);
 
 			try
 			{
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 				catch
 				{
 					//undo the add
-					DatabaseContext.ChatSettings.Remove(dbModel);
+					DatabaseContext.ChatBots.Remove(dbModel);
 					await DatabaseContext.Save(default).ConfigureAwait(false);
 					throw;
 				}
@@ -135,24 +135,24 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(ChatSettingsRights.Delete)]
+		[TgsAuthorize(ChatBotRights.Delete)]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
-			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatSettings.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatBots.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
 
 			return Ok();
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(ChatSettingsRights.Read)]
+		[TgsAuthorize(ChatBotRights.Read)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatSettings.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
+			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
 
 			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
 
-			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (int)ChatBotRights.ReadConnectionString) != 0;
 
 			if (!connectionStrings)
 				foreach (var I in results)
@@ -162,16 +162,16 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(ChatSettingsRights.Read)]
+		[TgsAuthorize(ChatBotRights.Read)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatSettings.Where(x => x.Id ==	id).Include(x => x.Channels);
+			var query = DatabaseContext.ChatBots.Where(x => x.Id ==	id).Include(x => x.Channels);
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (results == default)
 				return NotFound();
 
-			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatSettings) & (int)ChatSettingsRights.ReadConnectionString) != 0;
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (int)ChatBotRights.ReadConnectionString) != 0;
 
 			if (!connectionStrings)
 				results.ConnectionString = null;
@@ -180,24 +180,24 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(ChatSettingsRights.WriteChannels | ChatSettingsRights.WriteConnectionString | ChatSettingsRights.WriteEnabled | ChatSettingsRights.WriteName | ChatSettingsRights.WriteProvider)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatSettings model, CancellationToken cancellationToken)
+		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
+		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var query = DatabaseContext.ChatSettings.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id).Include(x => x.Channels);
+			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id).Include(x => x.Channels);
 
 			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (current == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 
-			var userRights = (ChatSettingsRights)AuthenticationContext.GetRight(RightsType.ChatSettings);
+			var userRights = (ChatBotRights)AuthenticationContext.GetRight(RightsType.ChatBots);
 
 			bool anySettingsModified = false;
 
-			bool CheckModified<T>(Expression<Func<Api.Models.Internal.ChatSettings, T>> expression, ChatSettingsRights requiredRight)
+			bool CheckModified<T>(Expression<Func<Api.Models.Internal.ChatBot, T>> expression, ChatBotRights requiredRight)
 			{
 				var memberSelectorExpression = (MemberExpression)expression.Body;
 				var property = (PropertyInfo)memberSelectorExpression.Member;
@@ -213,11 +213,11 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			};
 
-			if (CheckModified(x => x.ConnectionString, ChatSettingsRights.WriteConnectionString)
-				|| CheckModified(x => x.Enabled, ChatSettingsRights.WriteEnabled)
-				|| CheckModified(x => x.Name, ChatSettingsRights.WriteName)
-				|| CheckModified(x => x.Provider, ChatSettingsRights.WriteProvider)
-				|| (model.Channels != null && !userRights.HasFlag(ChatSettingsRights.WriteChannels)))
+			if (CheckModified(x => x.ConnectionString, ChatBotRights.WriteConnectionString)
+				|| CheckModified(x => x.Enabled, ChatBotRights.WriteEnabled)
+				|| CheckModified(x => x.Name, ChatBotRights.WriteName)
+				|| CheckModified(x => x.Provider, ChatBotRights.WriteProvider)
+				|| (model.Channels != null && !userRights.HasFlag(ChatBotRights.WriteChannels)))
 				return Forbid();
 
 			if (model.Channels != null)
@@ -239,9 +239,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Channels != null || anySettingsModified)
 				await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
 
-			if (userRights.HasFlag(ChatSettingsRights.Read))
+			if (userRights.HasFlag(ChatBotRights.Read))
 			{
-				if (!userRights.HasFlag(ChatSettingsRights.ReadConnectionString))
+				if (!userRights.HasFlag(ChatBotRights.ReadConnectionString))
 					current.ConnectionString = null;
 				return Json(current.ToApi());
 			}

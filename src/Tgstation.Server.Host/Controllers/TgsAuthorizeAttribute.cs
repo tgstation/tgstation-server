@@ -52,10 +52,10 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(DreamDaemonRights requiredRights) => Roles = RightsHelper.RoleNames(requiredRights);
 
 		/// <summary>
-		/// Construct a <see cref="TgsAuthorizeAttribute"/> for <see cref="ChatSettingsRights"/>
+		/// Construct a <see cref="TgsAuthorizeAttribute"/> for <see cref="ChatBotRights"/>
 		/// </summary>
 		/// <param name="requiredRights">The rights required</param>
-		public TgsAuthorizeAttribute(ChatSettingsRights requiredRights) => Roles = RightsHelper.RoleNames(requiredRights);
+		public TgsAuthorizeAttribute(ChatBotRights requiredRights) => Roles = RightsHelper.RoleNames(requiredRights);
 
 		/// <summary>
 		/// Construct a <see cref="TgsAuthorizeAttribute"/> for <see cref="ConfigurationRights"/>

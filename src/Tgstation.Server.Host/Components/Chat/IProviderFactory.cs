@@ -11,8 +11,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Create a <see cref="IProvider"/>
 		/// </summary>
-		/// <param name="settings">The <see cref="ChatSettings"/> for the new provider</param>
+		/// <param name="settings">The <see cref="ChatBot"/> containing settings for the new provider</param>
 		/// <returns>A new <see cref="IProvider"/></returns>
-		IProvider CreateProvider(ChatSettings settings);
+		IProvider CreateProvider(ChatBot settings);
 	}
 }

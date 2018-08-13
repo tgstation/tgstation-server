@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Models
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 
 		/// <inheritdoc />
-		public DbSet<ChatSettings> ChatSettings { get; set; }
+		public DbSet<ChatBot> ChatBots { get; set; }
 
 		/// <inheritdoc />
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Models
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
 			chatChannel.HasOne(x => x.ChatSettings).WithMany(x => x.Channels).HasForeignKey(x => x.ChatSettingsId).OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ChatSettings>().HasIndex(x => x.Name).IsUnique();
+			modelBuilder.Entity<ChatBot>().HasIndex(x => x.Name).IsUnique();
 
 			var instanceModel = modelBuilder.Entity<Instance>();
 			instanceModel.HasIndex(x => x.Path).IsUnique();

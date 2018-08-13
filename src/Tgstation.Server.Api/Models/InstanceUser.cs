@@ -47,10 +47,10 @@ namespace Tgstation.Server.Api.Models
 		public RepositoryRights? RepositoryRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.ChatSettingsRights"/> of the <see cref="InstanceUser"/>
+		/// The <see cref="Rights.ChatBotRights"/> of the <see cref="InstanceUser"/>
 		/// </summary>
 		[Required]
-		public ChatSettingsRights? ChatSettingsRights { get; set; }
+		public ChatBotRights? ChatBotRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.ConfigurationRights"/> of the <see cref="InstanceUser"/>

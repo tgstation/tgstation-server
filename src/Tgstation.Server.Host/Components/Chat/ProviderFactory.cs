@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public IProvider CreateProvider(Api.Models.Internal.ChatSettings settings)
+		public IProvider CreateProvider(Api.Models.Internal.ChatBot settings)
 		{
 			if (settings == null)
 				throw new ArgumentNullException(nameof(settings));

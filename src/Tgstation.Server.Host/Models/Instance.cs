@@ -34,9 +34,9 @@ namespace Tgstation.Server.Host.Models
 		public List<InstanceUser> InstanceUsers { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.ChatSettings"/>s for the <see cref="Instance"/>
+		/// The <see cref="Models.ChatBot"/>s for the <see cref="Instance"/>
 		/// </summary>
-		public List<ChatSettings> ChatSettings { get; set; }
+		public List<ChatBot> ChatSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>

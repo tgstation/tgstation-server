@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 			var dbUser = new Models.InstanceUser
 			{
 				ByondRights = model.ByondRights ?? ByondRights.None,
-				ChatSettingsRights = model.ChatSettingsRights ?? ChatSettingsRights.None,
+				ChatBotRights = model.ChatBotRights ?? ChatBotRights.None,
 				ConfigurationRights = model.ConfigurationRights ?? ConfigurationRights.None,
 				DreamDaemonRights = model.DreamDaemonRights ?? DreamDaemonRights.None,
 				DreamMakerRights = model.DreamMakerRights ?? DreamMakerRights.None,
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 				return StatusCode((int)HttpStatusCode.Gone);
 
 			originalUser.ByondRights = model.ByondRights ?? originalUser.ByondRights;
-			originalUser.ChatSettingsRights = model.ChatSettingsRights ?? originalUser.ChatSettingsRights;
+			originalUser.ChatBotRights = model.ChatBotRights ?? originalUser.ChatBotRights;
 			originalUser.ConfigurationRights = model.ConfigurationRights ?? originalUser.ConfigurationRights;
 			originalUser.DreamDaemonRights = model.DreamDaemonRights ?? originalUser.DreamDaemonRights;
 			originalUser.DreamMakerRights = model.DreamMakerRights ?? originalUser.DreamMakerRights;

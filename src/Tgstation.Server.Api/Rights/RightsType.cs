@@ -30,9 +30,9 @@
 		/// </summary>
 		DreamDaemon,
 		/// <summary>
-		/// <see cref="ChatSettingsRights"/>
+		/// <see cref="ChatBotRights"/>
 		/// </summary>
-		ChatSettings,
+		ChatBots,
 		/// <summary>
 		/// <see cref="ConfigurationRights"/>
 		/// </summary>

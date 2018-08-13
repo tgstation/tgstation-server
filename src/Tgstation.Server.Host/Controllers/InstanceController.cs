@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
 		{
 			ByondRights = (ByondRights)~0U,
-			ChatSettingsRights = (ChatSettingsRights)~0U,
+			ChatBotRights = (ChatBotRights)~0U,
 			ConfigurationRights = (ConfigurationRights)~0U,
 			DreamDaemonRights = (DreamDaemonRights)~0U,
 			DreamMakerRights = (DreamMakerRights)~0U,

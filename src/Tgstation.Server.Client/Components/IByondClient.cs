@@ -17,9 +17,9 @@ namespace Tgstation.Server.Client.Components
 		Task<Byond> Read(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Updates the installed BYOND <see cref="Version"/>
+		/// Updates the <see cref="Byond"/> information
 		/// </summary>
-		/// <param name="version">The <see cref="Byond"/> information to update</param>
+		/// <param name="byond">The <see cref="Byond"/> information to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="Byond"/> information</returns>
 		Task<Byond> Update(Byond byond, CancellationToken cancellationToken);

@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly Dictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
-		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatSettings.Id"/>
+		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBot.Id"/>
 		/// </summary>
 		readonly Dictionary<long, IProvider> providers;
 
@@ -64,9 +64,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly CancellationTokenSource handlerCts;
 
 		/// <summary>
-		/// The initial <see cref="Models.ChatSettings"/> for the <see cref="Chat"/>
+		/// The initial <see cref="Models.ChatBot"/> for the <see cref="Chat"/>
 		/// </summary>
-		readonly List<Models.ChatSettings> initialChatSettings;
+		readonly List<Models.ChatBot> initialChatBots;
 		
 		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task chatHandler;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatSettings"/> change
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatBot"/>s change
 		/// </summary>
 		TaskCompletionSource<object> connectionsUpdated;
 
@@ -100,14 +100,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
-		/// <param name="initialChatSettings">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatSettings"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, ILogger<Chat> logger, IEnumerable<Models.ChatSettings> initialChatSettings)
+		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatBots"/></param>
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.initialChatSettings = initialChatSettings?.ToList() ?? throw new ArgumentNullException(nameof(initialChatSettings));
+			this.initialChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
 
 			builtinCommands = new Dictionary<string, ICommand>();
 			providers = new Dictionary<long, IProvider>();
@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Remove a <see cref="IProvider"/> from <see cref="providers"/> and <see cref="mappedChannels"/> optionally updating the <see cref="trackingContexts"/> as well
 		/// </summary>
-		/// <param name="connectionId">The <see cref="ChatSettings.Id"/> of the <see cref="IProvider"/> to delete</param>
+		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the <see cref="IProvider"/> to delete</param>
 		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="false"/> otherwise</returns>
@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeSettings(ChatSettings newSettings, CancellationToken cancellationToken)
+		public async Task ChangeSettings(ChatBot newSettings, CancellationToken cancellationToken)
 		{
 			if (newSettings == null)
 				throw new ArgumentNullException(nameof(newSettings));
@@ -478,9 +478,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			foreach (var I in commandFactory.GenerateCommands())
 				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
-			await Task.WhenAll(initialChatSettings.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(initialChatSettings.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			chatHandler = MonitorMessages(handlerCts.Token);
 			started = true;
 		}
