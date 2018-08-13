@@ -48,7 +48,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>
 		/// </summary>
-		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+		internal static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 
 		/// <summary>
 		/// The <see cref="Models.Instance.Id"/> being accessed

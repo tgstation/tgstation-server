@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Api.Models
+﻿using System;
+
+namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents an error message returned by the server
@@ -9,5 +11,10 @@
 		/// A human readable description of the error
 		/// </summary>
 		public string Message { get; set; }
+
+		/// <summary>
+		/// The version of the API the server is using
+		/// </summary>
+		public Version SeverAPIVersion { get; set; } = ApiHeaders.assemblyName.Version;
 	}
 }
