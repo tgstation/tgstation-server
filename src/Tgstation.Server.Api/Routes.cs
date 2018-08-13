@@ -44,6 +44,11 @@ namespace Tgstation.Server.Api
 		public const string DreamDaemon = Root + nameof(Models.DreamDaemon);
 
 		/// <summary>
+		/// The <see cref="Models.ConfigurationFile"/> controller
+		/// </summary>
+		public const string Configuration = Root + "Config";
+
+		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
 		/// </summary>
 		/// <param name="route">The route</param>

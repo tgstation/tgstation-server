@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -15,7 +16,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// The <see cref="ModelController{TModel}"/> for <see cref="ConfigurationFile"/>s
 	/// </summary>
-	[Route("/" + nameof(Configuration))]
+	[Route(Routes.Configuration)]
 	public sealed class ConfigurationController : ModelController<ConfigurationFile>
 	{
 		/// <summary>

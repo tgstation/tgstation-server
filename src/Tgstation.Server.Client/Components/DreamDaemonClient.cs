@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -21,11 +22,11 @@ namespace Tgstation.Server.Client.Components
 		/// Construct a <see cref="DreamDaemonClient"/>
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
-		/// <param name="instance"></param>
+		/// <param name="instance">The value of <see cref="instance"/></param>
 		public DreamDaemonClient(IApiClient apiClient, Instance instance)
 		{
-			this.apiClient = apiClient;
-			this.instance = instance;
+			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
