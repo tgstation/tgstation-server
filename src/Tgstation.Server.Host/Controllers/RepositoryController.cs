@@ -11,6 +11,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -23,7 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing the <see cref="Repository"/>s
 	/// </summary>
-	[Route("/" + nameof(Repository))]
+	[Route(Routes.Repository)]
 	public sealed class RepositoryController : ModelController<Repository>
 	{
 		/// <summary>

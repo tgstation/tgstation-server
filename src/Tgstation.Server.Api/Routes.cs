@@ -34,6 +34,11 @@ namespace Tgstation.Server.Api
 		public const string Byond = Root + nameof(Models.Byond);
 
 		/// <summary>
+		/// The <see cref="Models.Repository"/> controller
+		/// </summary>
+		public const string Repository = Root + nameof(Models.Repository);
+
+		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
 		/// </summary>
 		/// <param name="route">The route</param>

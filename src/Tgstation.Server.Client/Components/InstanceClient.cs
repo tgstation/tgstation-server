@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client.Components
 		public IByondClient Byond { get; }
 
 		/// <inheritdoc />
-		public IRepositoryClient Repository => throw new NotImplementedException();
+		public IRepositoryClient Repository { get; }
 
 		/// <inheritdoc />
 		public IDreamDaemonClient DreamDaemon => throw new NotImplementedException();
@@ -49,6 +49,7 @@ namespace Tgstation.Server.Client.Components
 			Metadata = instance ?? throw new ArgumentNullException(nameof(instance));
 
 			Byond = new ByondClient(apiClient, instance);
+			Repository = new RepositoryClient(apiClient, instance);
 		}
 	}
 }
