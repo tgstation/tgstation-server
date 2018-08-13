@@ -13,29 +13,29 @@ namespace Tgstation.Server.Client.Components
 		/// Get the <see cref="DreamDaemon"/> represented by the <see cref="IDreamDaemonClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> represented by the <see cref="IDreamDaemonClient"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
 		Task<DreamDaemon> Read(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Start <see cref="DreamDaemon"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
 		Task<DreamDaemon> Start(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Shutdown <see cref="DreamDaemon"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task<DreamDaemon> Shutdown(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
+		Task Shutdown(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Update <see cref="DreamDaemon"/>. This may trigger <see cref="Api.Models.Internal.DreamDaemonSettings.SoftRestart"/>
 		/// </summary>
 		/// <param name="dreamDaemon">The <see cref="DreamDaemon"/> to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
 		Task<DreamDaemon> Update(DreamDaemon dreamDaemon, CancellationToken cancellationToken);
 	}
 }

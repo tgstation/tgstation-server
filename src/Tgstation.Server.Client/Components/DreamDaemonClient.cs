@@ -1,0 +1,43 @@
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
+
+namespace Tgstation.Server.Client.Components
+{
+	/// <inheritdoc />
+	sealed class DreamDaemonClient : IDreamDaemonClient
+	{
+		/// <summary>
+		/// The <see cref="IApiClient"/> for the <see cref="DreamDaemonClient"/>
+		/// </summary>
+		readonly IApiClient apiClient;
+		/// <summary>
+		/// The <see cref="Instance"/> for the <see cref="DreamDaemonClient"/>
+		/// </summary>
+		readonly Instance instance;
+
+		/// <summary>
+		/// Construct a <see cref="DreamDaemonClient"/>
+		/// </summary>
+		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
+		/// <param name="instance"></param>
+		public DreamDaemonClient(IApiClient apiClient, Instance instance)
+		{
+			this.apiClient = apiClient;
+			this.instance = instance;
+		}
+
+		/// <inheritdoc />
+		public Task Shutdown(CancellationToken cancellationToken) => apiClient.Delete(Routes.DreamDaemon, instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<DreamDaemon> Start(CancellationToken cancellationToken) => apiClient.Create<DreamDaemon>(Routes.DreamDaemon, instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<DreamDaemon> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemon>(Routes.DreamDaemon, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<DreamDaemon> Update(DreamDaemon dreamDaemon, CancellationToken cancellationToken) => apiClient.Update<DreamDaemon, DreamDaemon>(Routes.DreamDaemon, dreamDaemon, instance.Id, cancellationToken);
+	}
+}

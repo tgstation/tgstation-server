@@ -82,32 +82,44 @@ namespace Tgstation.Server.Client
 			throw new NotImplementedException();
 		}
 
+		/// <inheritdoc />
 		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <inheritdoc />
 		public Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <inheritdoc />
 		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <inheritdoc />
 		public Task<TResult> Update<TResult>(string route, long instanceId, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <inheritdoc />
 		public Task Update<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <inheritdoc />
 		public Task Delete(string route, long instanceId, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}

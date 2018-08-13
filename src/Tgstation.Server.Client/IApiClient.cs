@@ -17,6 +17,7 @@ namespace Tgstation.Server.Client
 		TimeSpan Timeout { get; set; }
 
 		Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken);
+		Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken);
 		Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken);
 		Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken);
 		Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken);
@@ -24,6 +25,7 @@ namespace Tgstation.Server.Client
 		Task Delete(string route, CancellationToken cancellationToken);
 
 		Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken);
+		Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken);
 		Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken);
 		Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken);
 		Task<TResult> Update<TResult>(string route, long instanceId, CancellationToken cancellationToken);

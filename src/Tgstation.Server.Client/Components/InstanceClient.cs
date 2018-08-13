@@ -16,7 +16,7 @@ namespace Tgstation.Server.Client.Components
 		public IRepositoryClient Repository { get; }
 
 		/// <inheritdoc />
-		public IDreamDaemonClient DreamDaemon => throw new NotImplementedException();
+		public IDreamDaemonClient DreamDaemon { get; }
 
 		/// <inheritdoc />
 		public IConfigurationClient Configuration => throw new NotImplementedException();
@@ -50,6 +50,7 @@ namespace Tgstation.Server.Client.Components
 
 			Byond = new ByondClient(apiClient, instance);
 			Repository = new RepositoryClient(apiClient, instance);
+			DreamDaemon = new DreamDaemonClient(apiClient, instance);
 		}
 	}
 }
