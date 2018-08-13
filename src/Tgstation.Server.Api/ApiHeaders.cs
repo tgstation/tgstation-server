@@ -207,10 +207,13 @@ namespace Tgstation.Server.Api
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
 		/// </summary>
 		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set</param>
-		public void SetRequestHeaders(HttpRequestHeaders headers)
+		/// <param name="instanceId">The <see cref="Models.Instance.Id"/> for the request</param>
+		public void SetRequestHeaders(HttpRequestHeaders headers, long? instanceId = null)
 		{
 			if (headers == null)
 				throw new ArgumentNullException(nameof(headers));
+			if (instanceId.HasValue && InstanceId.HasValue && instanceId != InstanceId)
+				throw new InvalidOperationException("Specified instance ID in constructor and SetRequestHeaders!");
 
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
@@ -223,8 +226,9 @@ namespace Tgstation.Server.Api
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, ApiVersion.ToString());
-			if(InstanceId.HasValue)
-				headers.Add(instanceIdHeader, InstanceId.ToString());
+			instanceId = instanceId ?? InstanceId;
+			if (instanceId.HasValue)
+				headers.Add(instanceIdHeader, instanceId.ToString());
 		}
     }
 }

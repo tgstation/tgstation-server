@@ -6,7 +6,7 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// For managing a single <see cref="Instance"/>
 	/// </summary>
-	public interface IInstanceClient : IDisposable
+	public interface IInstanceClient
 	{
 		/// <summary>
 		/// The <see cref="Instance"/> used to create the <see cref="IInstanceClient"/>

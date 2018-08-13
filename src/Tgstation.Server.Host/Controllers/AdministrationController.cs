@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
@@ -22,7 +23,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for <see cref="Administration"/>
 	/// </summary>
-	[Route(Api.Routes.Administration.Base)]
+	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ModelController<Administration>
 	{
 		/// <summary>

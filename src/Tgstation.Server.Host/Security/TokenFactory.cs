@@ -21,12 +21,12 @@ namespace Tgstation.Server.Host.Security
 		public static readonly byte[] TokenSigningKey = CryptographySuite.GetSecureBytes(256);
 
 		/// <inheritdoc />
-		public Token CreateToken(Models.User user, out DateTimeOffset expiry)
+		public Token CreateToken(Models.User user)
 		{
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 
-			expiry = DateTimeOffset.Now.AddMinutes(TokenExpiryMinutes);
+			var expiry = DateTimeOffset.Now.AddMinutes(TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Security
 			var key = new SymmetricSecurityKey(TokenSigningKey);
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
-			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token) };
+			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token), ExpiresAt = expiry };
 		}
 	}
 }
