@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Rights
 	/// Rights for <see cref="Models.Byond"/>
 	/// </summary>
 	[Flags]
-	public enum ByondRights
+	public enum ByondRights : ulong
 	{
 		/// <summary>
 		/// User has no rights

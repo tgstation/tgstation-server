@@ -80,13 +80,13 @@ namespace Tgstation.Server.Host.Controllers
 
 		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
 		{
-			ByondRights = (ByondRights)~0,
-			ChatSettingsRights = (ChatSettingsRights)~0,
-			ConfigurationRights = (ConfigurationRights)~0,
-			DreamDaemonRights = (DreamDaemonRights)~0,
-			DreamMakerRights = (DreamMakerRights)~0,
-			RepositoryRights = (RepositoryRights)~0,
-			InstanceUserRights = (InstanceUserRights)~0,
+			ByondRights = (ByondRights)~0U,
+			ChatSettingsRights = (ChatSettingsRights)~0U,
+			ConfigurationRights = (ConfigurationRights)~0U,
+			DreamDaemonRights = (DreamDaemonRights)~0U,
+			DreamMakerRights = (DreamMakerRights)~0U,
+			RepositoryRights = (RepositoryRights)~0U,
+			InstanceUserRights = (InstanceUserRights)~0U,
 			UserId = AuthenticationContext.User.Id
 		};
 

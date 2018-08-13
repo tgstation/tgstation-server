@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Rights
 	/// Rights for <see cref="Models.ConfigurationFile"/>
 	/// </summary>
 	[Flags]
-	public enum ConfigurationRights
+	public enum ConfigurationRights : ulong
 	{
 		/// <summary>
 		/// User has no rights

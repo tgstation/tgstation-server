@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Rights
 	/// Rights for <see cref="Models.ChatSettings"/>
 	/// </summary>
 	[Flags]
-	public enum ChatSettingsRights
+	public enum ChatSettingsRights : ulong
 	{
 		/// <summary>
 		/// User has no rights

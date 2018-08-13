@@ -3,7 +3,7 @@
 	/// <summary>
 	/// The type of rights a model uses
 	/// </summary>
-	public enum RightsType
+	public enum RightsType : ulong
 	{
 		/// <summary>
 		/// <see cref="AdministrationRights"/>

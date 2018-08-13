@@ -25,12 +25,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;CA2227;CA1819</NoWarn>
+    <NoWarn>1701;1702;1705;CA2227;CA1819;CA1028</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
-    <NoWarn>1701;1702;1705;CA2227;CA1819</NoWarn>
+    <NoWarn>1701;1702;1705;CA2227;CA1819;CA1028</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

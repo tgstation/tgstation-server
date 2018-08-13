@@ -40,9 +40,9 @@ namespace Tgstation.Server.Host.Models
 		{
 			var admin = new User
 			{
-				AdministrationRights = (AdministrationRights)~0,
+				AdministrationRights = (AdministrationRights)~0U,
 				CreatedAt = DateTimeOffset.Now,
-				InstanceManagerRights = (InstanceManagerRights)~0,
+				InstanceManagerRights = (InstanceManagerRights)~0U,
 				Name = AdminName,
 				CanonicalName = AdminName.ToUpperInvariant(),
 				Enabled = true,

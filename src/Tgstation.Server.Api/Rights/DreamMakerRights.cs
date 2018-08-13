@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Rights
 	/// Rights for <see cref="Models.DreamMaker"/>
 	/// </summary>
 	[Flags]
-	public enum DreamMakerRights
+	public enum DreamMakerRights : ulong
 	{
 		/// <summary>
 		/// User has no rights
