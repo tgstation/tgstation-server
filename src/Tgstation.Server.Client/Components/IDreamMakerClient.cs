@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -11,10 +10,10 @@ namespace Tgstation.Server.Client.Components
 	public interface IDreamMakerClient 
 	{
 		/// <summary>
-		/// Get the <see cref="DreamMaker"/> represented by the <see cref="IDreamMakerClient"/>
+		/// Get the <see cref="DreamMaker"/> information
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamMaker"/> represented by the <see cref="IDreamMakerClient"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamMaker"/> information</returns>
 		Task<DreamMaker> Read(CancellationToken cancellationToken);
 
 		/// <summary>
@@ -29,7 +28,7 @@ namespace Tgstation.Server.Client.Components
 		/// Compile the current repository revision
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Compile(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Job"/> for the compile</returns>
+		Task<Job> Compile(CancellationToken cancellationToken);
 	}
 }

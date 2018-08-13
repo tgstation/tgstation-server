@@ -11,9 +11,14 @@ namespace Tgstation.Server.Client
 	public interface IServerClient : IDisposable
 	{
 		/// <summary>
+		/// When the <see cref="Token"/> expires
+		/// </summary>
+		DateTimeOffset TokenExpiry { get; }
+
+		/// <summary>
 		/// The <see cref="Token"/> being used to access the server
 		/// </summary>
-		Token Token { get; }
+		Token Token { get; set; }
 
 		/// <summary>
 		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>

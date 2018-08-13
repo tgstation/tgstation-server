@@ -30,7 +30,15 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="instanceUser">The <see cref="InstanceUser"/> to create</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <returns>A <see cref="Task{TResult}"/> reulting in the new <see cref="InstanceUser"/></returns>
 		Task<InstanceUser> Create(InstanceUser instanceUser, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Delete a <paramref name="instanceUser"/>
+		/// </summary>
+		/// <param name="instanceUser">The <see cref="InstanceUser"/> to delete</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken);
 	}
 }
