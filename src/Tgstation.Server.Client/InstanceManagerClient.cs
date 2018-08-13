@@ -27,6 +27,8 @@ namespace Tgstation.Server.Client
 		public InstanceManagerClient(IApiClient apiClient)
 		{
 			this.apiClient = apiClient;
+
+			cachedClients = new Dictionary<long, IInstanceClient>();
 		}
 
 		/// <inheritdoc />
@@ -42,6 +44,14 @@ namespace Tgstation.Server.Client
 		public Task<Instance> Update(Instance instance, CancellationToken cancellationToken) => apiClient.Update<Instance, Instance>(Routes.InstanceManager, instance, cancellationToken);
 
 		/// <inheritdoc />
-		public IInstanceClient CreateClient(Instance instance) => new InstanceClient(apiClient, instance);
+		public IInstanceClient CreateClient(Instance instance)
+		{
+			if (!cachedClients.TryGetValue(instance.Id, out var client))
+			{
+				client = new InstanceClient(apiClient, instance);
+				cachedClients.Add(instance.Id, client);
+			}
+			return client;
+		}
 	}
 }

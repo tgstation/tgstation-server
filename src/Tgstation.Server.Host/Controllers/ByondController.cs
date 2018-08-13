@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -17,7 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing <see cref="Api.Models.Byond.Version"/>s
 	/// </summary>
-	[Route("/" + nameof(Byond))]
+	[Route(Routes.Byond)]
 	public sealed class ByondController : ModelController<Api.Models.Byond>
 	{
 		/// <summary>

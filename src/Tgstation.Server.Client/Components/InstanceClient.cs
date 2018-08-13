@@ -10,7 +10,7 @@ namespace Tgstation.Server.Client.Components
 		public Instance Metadata { get; }
 
 		/// <inheritdoc />
-		public IByondClient Byond => throw new NotImplementedException();
+		public IByondClient Byond { get; }
 
 		/// <inheritdoc />
 		public IRepositoryClient Repository => throw new NotImplementedException();
@@ -47,6 +47,8 @@ namespace Tgstation.Server.Client.Components
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 			Metadata = instance ?? throw new ArgumentNullException(nameof(instance));
+
+			Byond = new ByondClient(apiClient, instance);
 		}
 	}
 }

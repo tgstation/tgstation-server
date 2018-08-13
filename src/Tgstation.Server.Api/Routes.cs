@@ -29,6 +29,11 @@ namespace Tgstation.Server.Api
 		public const string InstanceManager = Root + nameof(Models.Instance);
 
 		/// <summary>
+		/// The <see cref="Models.Byond"/> controller
+		/// </summary>
+		public const string Byond = Root + nameof(Models.Byond);
+
+		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
 		/// </summary>
 		/// <param name="route">The route</param>
