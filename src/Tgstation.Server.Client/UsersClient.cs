@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -19,7 +20,7 @@ namespace Tgstation.Server.Client
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
 		public UsersClient(IApiClient apiClient)
 		{
-			this.apiClient = apiClient;
+			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 		}
 
 		/// <inheritdoc />

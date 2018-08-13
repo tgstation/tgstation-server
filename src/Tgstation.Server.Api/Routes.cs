@@ -49,6 +49,11 @@ namespace Tgstation.Server.Api
 		public const string Configuration = Root + "Config";
 
 		/// <summary>
+		/// The <see cref="Models.InstanceUser"/> controller
+		/// </summary>
+		public const string InstanceUser = Root + nameof(Models.InstanceUser);
+
+		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
 		/// </summary>
 		/// <param name="route">The route</param>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// For managing <see cref="User"/>s
 	/// </summary>
-	[Route("/" + nameof(Models.InstanceUser))]
+	[Route(Routes.InstanceUser)]
 	public sealed class InstanceUserController : ModelController<Api.Models.InstanceUser>
 	{
 		/// <summary>
