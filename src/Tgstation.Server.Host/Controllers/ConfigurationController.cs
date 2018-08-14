@@ -69,20 +69,20 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get the contents of a file at a <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path of the file to get</param>
+		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpGet("/File/{path}")]
+		[HttpGet("File/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
-		public async Task<IActionResult> File(string path, CancellationToken cancellationToken)
+		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts())
 				return Forbid();
 
 			try
 			{
-				var result = await instanceManager.GetInstance(Instance).Configuration.Read(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
-				if (result == null || result.IsDirectory.Value)
+				var result = await instanceManager.GetInstance(Instance).Configuration.Read(filePath, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
+				if (result == null)
 					return StatusCode((int)HttpStatusCode.Gone);
 
 				return Json(result);
@@ -96,19 +96,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get the contents of a directory at a <paramref name="path"/>
 		/// </summary>
-		/// <param name="path">The path of the directory to get</param>
+		/// <param name="directoryPath">The path of the directory to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpGet("/List/{path}")]
+		[HttpGet("List/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
-		public async Task<IActionResult> Directory(string path, CancellationToken cancellationToken)
+		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts())
 				return Forbid();
 
 			try
 			{
-				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
+				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(directoryPath, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null)
 					return StatusCode((int)HttpStatusCode.Gone);
 
@@ -123,5 +123,9 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 			}
 		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(ConfigurationRights.List)]
+		public override Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 	}
 }

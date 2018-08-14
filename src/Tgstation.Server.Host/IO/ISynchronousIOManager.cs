@@ -40,5 +40,12 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns><see langword="true"/> on success, <see langword="false"/> if the operation failed due to <paramref name="previousSha1"/> not matching the file's contents</returns>
 		bool WriteFileChecked(string path, byte[] data, string previousSha1, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Checks if a given <paramref name="path"/> is a directory
+		/// </summary>
+		/// <param name="path">The path to check</param>
+		/// <returns><see langword="true"/> if <paramref name="path"/> is a directory, <see langword="false"/> otherwise</returns>
+		bool IsDirectory(string path);
 	}
 }

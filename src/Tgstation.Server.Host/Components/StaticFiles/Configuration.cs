@@ -137,9 +137,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 		string ValidateConfigRelativePath(string configurationRelativePath)
 		{
-			if (String.IsNullOrEmpty(configurationRelativePath))
+			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
+			if (nullOrEmptyCheck)
 				configurationRelativePath = ".";
-			return ioManager.ResolvePath(configurationRelativePath);
+			var resolved = ioManager.ResolvePath(configurationRelativePath);
+			var local = !nullOrEmptyCheck ? ioManager.ResolvePath(".") : null;
+			if (!nullOrEmptyCheck && resolved.Length < local.Length) //.. fuccbois
+				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
+			return resolved;
 		}
 
 		/// <inheritdoc />
@@ -152,17 +157,30 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ListImpl()
 			{
-				var enumerator = synchronousIOManager.GetDirectories(configurationRelativePath, cancellationToken);
-				result.AddRange(enumerator.Select(x => new ConfigurationFile
+				var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
+				try
 				{
-					IsDirectory = true,
-					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}));
-				enumerator = synchronousIOManager.GetFiles(configurationRelativePath, cancellationToken);
+					result.AddRange(enumerator.Select(x => new ConfigurationFile
+					{
+						IsDirectory = true,
+						Path = ioManager.ConcatPath(path, x),
+					}));
+				}
+				catch (UnauthorizedAccessException)
+				{
+					result = null;
+					return;
+				}
+				catch (DirectoryNotFoundException)
+				{
+					result = null;
+					return;
+				}
+				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
 				result.AddRange(enumerator.Select(x => new ConfigurationFile
 				{
 					IsDirectory = false,
-					Path = ioManager.ConcatPath(configurationRelativePath, x),
+					Path = ioManager.ConcatPath(path, x),
 				}));
 			}
 
@@ -201,15 +219,31 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						Path = configurationRelativePath
 					};
 				}
-				catch (FileNotFoundException) { }
-				catch (DirectoryNotFoundException) { }
+				catch (IOException e)
+				{
+					logger.LogWarning("IOException while reading {0}: {1}", path, e);
+				}
 				catch (UnauthorizedAccessException)
 				{
+					//this happens on windows, dunno about linux
+					bool isDirectory;
+					try
+					{
+						isDirectory = synchronousIOManager.IsDirectory(path);
+					}
+					catch
+					{
+						isDirectory = false;
+					}
+
 					result = new ConfigurationFile
 					{
-						AccessDenied = true,
 						Path = configurationRelativePath
 					};
+					if (!isDirectory)
+						result.AccessDenied = true;
+					else
+						result.IsDirectory = true;
 				}
 			}
 
@@ -266,13 +300,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
 					if (!success)
 						return;
+					string sha1String = null;
 					if (data != null)
+					{
 						postWriteHandler.HandleWrite(path);
-					string sha1String;
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					using (var sha1 = new SHA1Managed())
+						using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+							sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+					}
 					result = new ConfigurationFile
 					{
 						Content = data,
@@ -282,15 +318,31 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						Path = configurationRelativePath
 					};
 				}
-				catch (FileNotFoundException) { }
-				catch (DirectoryNotFoundException) { }
+				catch (IOException e)
+				{
+					logger.LogWarning("IOException while writing {0}: {1}", path, e);
+				}
 				catch (UnauthorizedAccessException)
 				{
+					//this happens on windows, dunno about linux
+					bool isDirectory;
+					try
+					{
+						isDirectory = synchronousIOManager.IsDirectory(path);
+					}
+					catch
+					{
+						isDirectory = false;
+					}
+
 					result = new ConfigurationFile
 					{
-						AccessDenied = true,
 						Path = configurationRelativePath
 					};
+					if (!isDirectory)
+						result.AccessDenied = true;
+					else
+						result.IsDirectory = true;
 				}
 			}
 
