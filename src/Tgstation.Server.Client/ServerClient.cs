@@ -53,23 +53,6 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public void Dispose() => apiClient.Dispose();
-
-		/// <inheritdoc />
-		public async Task<Job> CreateTaskFromJob(Job job, TimeSpan requeryRate, CancellationToken cancellationToken)
-		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-
-			var jobsClient = Instances.CreateClient(job.Instance).Jobs;
-
-			while (!job.StoppedAt.HasValue)
-			{
-				await Task.Delay(requeryRate, cancellationToken).ConfigureAwait(false);
-				job = await jobsClient.Read(job, cancellationToken).ConfigureAwait(false);
-			}
-			return job;
-		}
-
 		/// <inheritdoc />
 		public Task<Version> Version(CancellationToken cancellationToken) => apiClient.Read<Version>(Routes.Root, cancellationToken);
 	}

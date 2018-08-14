@@ -38,5 +38,26 @@ namespace Tgstation.Server.Client.Components
 
 		/// <inheritdoc />
 		public Task<Job> Read(Job job, CancellationToken cancellationToken) => apiClient.Read<Job>(Routes.SetID(Routes.Jobs, job.Id), instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public async Task<Job> CreateTaskFromJob(Job job, TimeSpan requeryRate, Action<int> progressCallback, CancellationToken cancellationToken)
+		{
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+
+			int? lastProgress = null;
+			while (!job.StoppedAt.HasValue)
+			{
+				await Task.Delay(requeryRate, cancellationToken).ConfigureAwait(false);
+				job = await Read(job, cancellationToken).ConfigureAwait(false);
+				if(job.Progress.HasValue && job.Progress != lastProgress)
+				{
+					progressCallback(job.Progress.Value);
+					lastProgress = job.Progress;
+				}
+			}
+			return job;
+		}
+
 	}
 }

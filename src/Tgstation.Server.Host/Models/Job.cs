@@ -34,8 +34,7 @@ namespace Tgstation.Server.Host.Models
 			CancelRightsType = CancelRightsType,
 			Description = Description,
 			ExceptionDetails = ExceptionDetails,
-			StartedBy = StartedBy.ToApi(),
-			Instance = Instance.ToApi()
+			StartedBy = StartedBy.ToApi()
 		};
 	}
 }

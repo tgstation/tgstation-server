@@ -18,12 +18,6 @@
 		public User CancelledBy { get; set; }
 
 		/// <summary>
-		/// The <see cref="Instance"/> the job belongs to
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public Instance Instance { get; set; }
-
-		/// <summary>
 		/// Optional progress between 0 and 100 inclusive
 		/// </summary>
 		public int? Progress { get; set; }
