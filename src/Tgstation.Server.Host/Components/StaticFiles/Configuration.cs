@@ -55,6 +55,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
+		/// The <see cref="IPostWriteHandler"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly IPostWriteHandler postWriteHandler;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -71,13 +76,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, ILogger<Configuration> logger)
+		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			semaphore = new SemaphoreSlim(1);
@@ -259,6 +266,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
 					if (!success)
 						return;
+					if (data != null)
+						postWriteHandler.HandleWrite(path);
 					string sha1String;
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
 					using (var sha1 = new SHA1Managed())

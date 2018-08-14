@@ -190,12 +190,14 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
+				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
 			}
 			else
 			{
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
+				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 			}
 
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
