@@ -53,7 +53,8 @@ namespace Tgstation.Server.Host.IO
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 			cancellationToken.ThrowIfCancellationRequested();
-			Directory.CreateDirectory(Path.GetDirectoryName(path));
+			var directory = Path.GetDirectoryName(path);
+			Directory.CreateDirectory(directory);
 			cancellationToken.ThrowIfCancellationRequested();
 			using (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
 			{
@@ -93,7 +94,16 @@ namespace Tgstation.Server.Host.IO
 				}
 			}
 			if (data == null)
+			{
 				File.Delete(path);
+				if (!cancellationToken.IsCancellationRequested)
+					//delete the entire folder if possible
+					try
+					{
+						Directory.Delete(directory);
+					}
+					catch (IOException) { }
+			}
 			return true;
 		}
 	}
