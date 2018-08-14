@@ -108,50 +108,45 @@ Inheritance diagram for Tgstation.Server.Client.IServerClient:</div>
   <img src="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.png" usemap="#Tgstation.Server.Client.IServerClient_map" alt=""/>
   <map id="Tgstation.Server.Client.IServerClient_map" name="Tgstation.Server.Client.IServerClient_map">
 <area href="class_i_disposable.html" alt="IDisposable" shape="rect" coords="0,0,219,24"/>
+<area href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html" alt="Tgstation.Server.Client.ServerClient" shape="rect" coords="0,112,219,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a048b39fcaea335c5d1821b8b57aecfb2"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ac845af69f19b726f5f2216c66b34e788">Version</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a048b39fcaea335c5d1821b8b57aecfb2">GetServerVersion</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a048b39fcaea335c5d1821b8b57aecfb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The System.Version of the connected server  <a href="#a048b39fcaea335c5d1821b8b57aecfb2">More...</a><br /></td></tr>
-<tr class="separator:a048b39fcaea335c5d1821b8b57aecfb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e63f29246f48c33694531948ab283fb"><td class="memItemLeft" align="right" valign="top">Task&lt; Version &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a2e63f29246f48c33694531948ab283fb">Version</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2e63f29246f48c33694531948ab283fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The System.Version of the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>  <a href="#a2e63f29246f48c33694531948ab283fb">More...</a><br /></td></tr>
+<tr class="separator:a2e63f29246f48c33694531948ab283fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:ac845af69f19b726f5f2216c66b34e788"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ac845af69f19b726f5f2216c66b34e788">Version</a><code> [get]</code></td></tr>
-<tr class="memdesc:ac845af69f19b726f5f2216c66b34e788"><td class="mdescLeft">&#160;</td><td class="mdescRight">The System.Version of the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>  <a href="#ac845af69f19b726f5f2216c66b34e788">More...</a><br /></td></tr>
-<tr class="separator:ac845af69f19b726f5f2216c66b34e788"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a240db5834f77b90c3c3655fd35252377"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a240db5834f77b90c3c3655fd35252377">Timeout</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a240db5834f77b90c3c3655fd35252377"><td class="mdescLeft">&#160;</td><td class="mdescRight">The connection timeout in milliseconds. Defaults to 10000  <a href="#a240db5834f77b90c3c3655fd35252377">More...</a><br /></td></tr>
-<tr class="separator:a240db5834f77b90c3c3655fd35252377"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a109945e93db10a5b7ace94e6bc638529"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a109945e93db10a5b7ace94e6bc638529">CacheExpiry</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a109945e93db10a5b7ace94e6bc638529"><td class="mdescLeft">&#160;</td><td class="mdescRight">How long to return initially cached models for in seconds. Defaults to 60  <a href="#a109945e93db10a5b7ace94e6bc638529">More...</a><br /></td></tr>
-<tr class="separator:a109945e93db10a5b7ace94e6bc638529"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38a80eeae5f3260294415e875c249cd3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a38a80eeae5f3260294415e875c249cd3">RequeryRate</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a38a80eeae5f3260294415e875c249cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requery rate for job updates in milliseconds. Defaults to 5000  <a href="#a38a80eeae5f3260294415e875c249cd3">More...</a><br /></td></tr>
-<tr class="separator:a38a80eeae5f3260294415e875c249cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a220af3e47b92df41d6b96bf8851c11ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_manager_client.html">IInstanceManagerClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a220af3e47b92df41d6b96bf8851c11ab">Instances</a><code> [get]</code></td></tr>
-<tr class="memdesc:a220af3e47b92df41d6b96bf8851c11ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the IInstanceManagerClient  <a href="#a220af3e47b92df41d6b96bf8851c11ab">More...</a><br /></td></tr>
+<tr class="memitem:ab3363ffdb533616bd2b6688559f9def1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ab3363ffdb533616bd2b6688559f9def1">Token</a><code> [get]</code></td></tr>
+<tr class="memdesc:ab3363ffdb533616bd2b6688559f9def1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ab3363ffdb533616bd2b6688559f9def1" title="The Token being used to access the server ">Token</a> being used to access the server  <a href="#ab3363ffdb533616bd2b6688559f9def1">More...</a><br /></td></tr>
+<tr class="separator:ab3363ffdb533616bd2b6688559f9def1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1c1488dd8438023b24c87a32e09d5fe"><td class="memItemLeft" align="right" valign="top">TimeSpan&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#aa1c1488dd8438023b24c87a32e09d5fe">Timeout</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aa1c1488dd8438023b24c87a32e09d5fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The connection timeout  <a href="#aa1c1488dd8438023b24c87a32e09d5fe">More...</a><br /></td></tr>
+<tr class="separator:aa1c1488dd8438023b24c87a32e09d5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a220af3e47b92df41d6b96bf8851c11ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html">IInstanceManagerClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a220af3e47b92df41d6b96bf8851c11ab">Instances</a><code> [get]</code></td></tr>
+<tr class="memdesc:a220af3e47b92df41d6b96bf8851c11ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances ">IInstanceManagerClient</a>  <a href="#a220af3e47b92df41d6b96bf8851c11ab">More...</a><br /></td></tr>
 <tr class="separator:a220af3e47b92df41d6b96bf8851c11ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a170097fe653238823c6a3c5a07c4ec94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_administration_client.html">IAdministrationClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a170097fe653238823c6a3c5a07c4ec94">Administration</a><code> [get]</code></td></tr>
-<tr class="memdesc:a170097fe653238823c6a3c5a07c4ec94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the IAdministrationClient  <a href="#a170097fe653238823c6a3c5a07c4ec94">More...</a><br /></td></tr>
+<tr class="memitem:a170097fe653238823c6a3c5a07c4ec94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html">IAdministrationClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a170097fe653238823c6a3c5a07c4ec94">Administration</a><code> [get]</code></td></tr>
+<tr class="memdesc:a170097fe653238823c6a3c5a07c4ec94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration ">IAdministrationClient</a>  <a href="#a170097fe653238823c6a3c5a07c4ec94">More...</a><br /></td></tr>
 <tr class="separator:a170097fe653238823c6a3c5a07c4ec94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fb44e5334ab0a5c2abcc142ede7cfbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html">IJobsClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a5fb44e5334ab0a5c2abcc142ede7cfbb">Jobs</a><code> [get]</code></td></tr>
-<tr class="memdesc:a5fb44e5334ab0a5c2abcc142ede7cfbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">These generally shouldn't be used in favor of the Task based polling and CancellationTokens other clients use. However, this is the only way to access jobs the client didn't start in it's current session  <a href="#a5fb44e5334ab0a5c2abcc142ede7cfbb">More...</a><br /></td></tr>
-<tr class="separator:a5fb44e5334ab0a5c2abcc142ede7cfbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c807f862e80f400477c6783910276ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html">IUsersClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a9c807f862e80f400477c6783910276ee">Users</a><code> [get]</code></td></tr>
+<tr class="memdesc:a9c807f862e80f400477c6783910276ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html" title="For managing Users ">IUsersClient</a>  <a href="#a9c807f862e80f400477c6783910276ee">More...</a><br /></td></tr>
+<tr class="separator:a9c807f862e80f400477c6783910276ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main client for communicating with a server </p>
 
 <p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a048b39fcaea335c5d1821b8b57aecfb2"></a>
+<a class="anchor" id="a2e63f29246f48c33694531948ab283fb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ac845af69f19b726f5f2216c66b34e788">Version</a>&gt; Tgstation.Server.Client.IServerClient.GetServerVersion </td>
+          <td class="memname">Task&lt;Version&gt; Tgstation.Server.Client.IServerClient.Version </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -160,9 +155,9 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The System.Version of the connected server </p>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the System.Version of the connected server</dd></dl>
-<p>Note that if the System.Version.Build differs from the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ac845af69f19b726f5f2216c66b34e788" title="The System.Version of the IServerClient ">Version</a>'s API functionality will most likely be compromised</p>
+<p>The System.Version of the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a> </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a86798a7bd7079aa373d8c33ac73c4bb9">Tgstation.Server.Client.ServerClient</a>.</p>
 
 </div>
 </div>
@@ -175,7 +170,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_administration_client.html">IAdministrationClient</a> Tgstation.Server.Client.IServerClient.Administration</td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html">IAdministrationClient</a> Tgstation.Server.Client.IServerClient.Administration</td>
         </tr>
       </table>
   </td>
@@ -185,33 +180,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Access the IAdministrationClient </p>
+<p>Access the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration ">IAdministrationClient</a> </p>
 
-<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a109945e93db10a5b7ace94e6bc638529"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Tgstation.Server.Client.IServerClient.CacheExpiry</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>How long to return initially cached models for in seconds. Defaults to 60 </p>
-
-<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00031">31</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
 
 </div>
 </div>
@@ -223,7 +194,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_manager_client.html">IInstanceManagerClient</a> Tgstation.Server.Client.IServerClient.Instances</td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html">IInstanceManagerClient</a> Tgstation.Server.Client.IServerClient.Instances</td>
         </tr>
       </table>
   </td>
@@ -233,13 +204,13 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Access the IInstanceManagerClient </p>
+<p>Access the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances ">IInstanceManagerClient</a> </p>
 
-<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00036">36</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5fb44e5334ab0a5c2abcc142ede7cfbb"></a>
+<a class="anchor" id="aa1c1488dd8438023b24c87a32e09d5fe"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -247,31 +218,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html">IJobsClient</a> Tgstation.Server.Client.IServerClient.Jobs</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>These generally shouldn't be used in favor of the Task based polling and CancellationTokens other clients use. However, this is the only way to access jobs the client didn't start in it's current session </p>
-
-<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00046">46</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a38a80eeae5f3260294415e875c249cd3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Tgstation.Server.Client.IServerClient.RequeryRate</td>
+          <td class="memname">TimeSpan Tgstation.Server.Client.IServerClient.Timeout</td>
         </tr>
       </table>
   </td>
@@ -281,37 +228,13 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The requery rate for job updates in milliseconds. Defaults to 5000 </p>
-
-<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00031">31</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a240db5834f77b90c3c3655fd35252377"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Tgstation.Server.Client.IServerClient.Timeout</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The connection timeout in milliseconds. Defaults to 10000 </p>
+<p>The connection timeout </p>
 
 <p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac845af69f19b726f5f2216c66b34e788"></a>
+<a class="anchor" id="ab3363ffdb533616bd2b6688559f9def1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -319,7 +242,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Version Tgstation.Server.Client.IServerClient.Version</td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> Tgstation.Server.Client.IServerClient.Token</td>
         </tr>
       </table>
   </td>
@@ -329,9 +252,33 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The System.Version of the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a> </p>
+<p>The <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ab3363ffdb533616bd2b6688559f9def1" title="The Token being used to access the server ">Token</a> being used to access the server </p>
 
 <p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c807f862e80f400477c6783910276ee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html">IUsersClient</a> Tgstation.Server.Client.IServerClient.Users</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Access the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html" title="For managing Users ">IUsersClient</a> </p>
+
+<p>Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00036">36</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
 
 </div>
 </div>

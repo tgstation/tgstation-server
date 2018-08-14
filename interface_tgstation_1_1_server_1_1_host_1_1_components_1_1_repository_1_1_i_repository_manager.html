@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Tgstation.Server.Host.Components.Repository.IRepositoryManager Interface Reference</div>  </div>
@@ -122,6 +123,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0476484a5f4909326dfd7edcf697716d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a0476484a5f4909326dfd7edcf697716d">DeleteRepository</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0476484a5f4909326dfd7edcf697716d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the current repository  <a href="#a0476484a5f4909326dfd7edcf697716d">More...</a><br /></td></tr>
 <tr class="separator:a0476484a5f4909326dfd7edcf697716d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a3e57f020cf906b3c04f3fc81084a98d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a3e57f020cf906b3c04f3fc81084a98d3">CloneInProgress</a><code> [get]</code></td></tr>
+<tr class="memdesc:a3e57f020cf906b3c04f3fc81084a98d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#acf22ca7387254203fcd8a8e2a9947f0a" title="Clone the repository at url  ">CloneRepository(Uri, string, string, string, Action&lt;int&gt;, CancellationToken)</a> operation is in progress  <a href="#a3e57f020cf906b3c04f3fc81084a98d3">More...</a><br /></td></tr>
+<tr class="separator:a3e57f020cf906b3c04f3fc81084a98d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for creating and loading <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a>s </p>
@@ -245,6 +252,31 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The loaded <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if it exists,  otherwise</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="a3e57f020cf906b3c04f3fc81084a98d3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Repository.IRepositoryManager.CloneInProgress</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#acf22ca7387254203fcd8a8e2a9947f0a" title="Clone the repository at url  ">CloneRepository(Uri, string, string, string, Action&lt;int&gt;, CancellationToken)</a> operation is in progress </p>
+
+<p>Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
 
 </div>
 </div>

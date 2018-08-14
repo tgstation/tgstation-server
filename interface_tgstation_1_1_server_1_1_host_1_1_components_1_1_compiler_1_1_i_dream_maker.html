@@ -113,9 +113,9 @@ Inheritance diagram for Tgstation.Server.Host.Components.Compiler.IDreamMaker:</
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aefa926f50c8db7a69dc842923bd01873"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Models.CompileJob</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dream_maker.html#aefa926f50c8db7a69dc842923bd01873">Compile</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, string projectName, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a> securityLevel, uint apiValidateTimeout, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> repository, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aefa926f50c8db7a69dc842923bd01873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a compile  <a href="#aefa926f50c8db7a69dc842923bd01873">More...</a><br /></td></tr>
-<tr class="separator:aefa926f50c8db7a69dc842923bd01873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae957712eeb92a6c0d9eb3db8f90021a0"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Models.CompileJob</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dream_maker.html#ae957712eeb92a6c0d9eb3db8f90021a0">Compile</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html">DreamMakerSettings</a> dreamMakerSettings, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a> securityLevel, uint apiValidateTimeout, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> repository, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae957712eeb92a6c0d9eb3db8f90021a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a compile  <a href="#ae957712eeb92a6c0d9eb3db8f90021a0">More...</a><br /></td></tr>
+<tr class="separator:ae957712eeb92a6c0d9eb3db8f90021a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -126,9 +126,9 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For managing the compiler </p>
 
-<p>Definition at line <a class="el" href="_i_dream_maker_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_dream_maker_8cs_source.html">IDreamMaker.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_dream_maker_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_dream_maker_8cs_source.html">IDreamMaker.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aefa926f50c8db7a69dc842923bd01873"></a>
+<a class="anchor" id="ae957712eeb92a6c0d9eb3db8f90021a0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -141,8 +141,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>projectName</em>, </td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html">DreamMakerSettings</a>&#160;</td>
+          <td class="paramname"><em>dreamMakerSettings</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -180,7 +180,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">revisionInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> being compiled from the <em>repository</em> </td></tr>
-    <tr><td class="paramname">projectName</td><td>The optional name of the .dme to compile without the extension if not pre</td></tr>
+    <tr><td class="paramname">dreamMakerSettings</td><td>The DreamMakerSettings for the compile</td></tr>
     <tr><td class="paramname">securityLevel</td><td>The DreamDaemonSecurity level allowed for API validation</td></tr>
     <tr><td class="paramname">apiValidateTimeout</td><td>The time in seconds to wait while validating the API</td></tr>
     <tr><td class="paramname">repository</td><td>The IRepository to copy from</td></tr>
@@ -188,7 +188,9 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the partially populated CompileJob for the operation. In particular, note the CompileJob.RevisionInformation field will only have it's <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7d08aaae3b19bbc45ce29b110042a260" title="The revision sha ">Api.Models.Internal.RevisionInformation.CommitSha</a> field populated</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the partially populated <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Models.CompileJob</a> for the operation. In particular, note the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a30c14e7fc4c770ff11cd0f10be4fb4dd" title="See Api.Models.CompileJob.RevisionInformation ">Models.CompileJob.RevisionInformation</a> field will only have it's <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7d08aaae3b19bbc45ce29b110042a260" title="The revision sha ">Api.Models.Internal.RevisionInformation.CommitSha</a> field populated</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#a2b1aaf03aa36ec4406ecc9f8e8e84d90">Tgstation.Server.Host.Components.Compiler.DreamMaker</a>.</p>
 
 </div>
 </div>
@@ -213,7 +215,7 @@ Properties</h2></td></tr>
 
 <p>The CompilerStatus of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_i_dream_maker.html" title="For managing the compiler ">IDreamMaker</a> </p>
 
-<p>Definition at line <a class="el" href="_i_dream_maker_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_dream_maker_8cs_source.html">IDreamMaker.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_dream_maker_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_dream_maker_8cs_source.html">IDreamMaker.cs</a>.</p>
 
 </div>
 </div>

@@ -2,7 +2,9 @@ var searchData=
 [
   ['semaphoreslimcontext_2ecs',['SemaphoreSlimContext.cs',['../_semaphore_slim_context_8cs.html',1,'']]],
   ['server_2ecs',['Server.cs',['../_server_8cs.html',1,'']]],
+  ['serverclient_2ecs',['ServerClient.cs',['../_server_client_8cs.html',1,'']]],
   ['serverclientfactory_2ecs',['ServerClientFactory.cs',['../_server_client_factory_8cs.html',1,'']]],
+  ['servererrorexception_2ecs',['ServerErrorException.cs',['../_server_error_exception_8cs.html',1,'']]],
   ['serverfactory_2ecs',['ServerFactory.cs',['../_server_factory_8cs.html',1,'']]],
   ['serverservice_2ecs',['ServerService.cs',['../_server_service_8cs.html',1,'']]],
   ['serversidemodifications_2ecs',['ServerSideModifications.cs',['../_server_side_modifications_8cs.html',1,'']]],

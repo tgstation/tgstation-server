@@ -14,13 +14,15 @@ var searchData=
   ['dmbfactory',['DmbFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html',1,'Tgstation::Server::Host::Components::Compiler']]],
   ['dmbprovider',['DmbProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html',1,'Tgstation::Server::Host::Components::Compiler']]],
   ['dreamdaemon',['DreamDaemon',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html',1,'Tgstation::Server::Api::Models']]],
+  ['dreamdaemonclient',['DreamDaemonClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html',1,'Tgstation::Server::Client::Components']]],
   ['dreamdaemoncontroller',['DreamDaemonController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['dreamdaemonlaunchparameters',['DreamDaemonLaunchParameters',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['dreamdaemonsettings',['DreamDaemonSettings',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html',1,'Tgstation::Server::Host::Models']]],
   ['dreamdaemonsettings',['DreamDaemonSettings',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['dreammaker',['DreamMaker',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html',1,'Tgstation::Server::Host::Components::Compiler']]],
+  ['dreamdaemonsettings',['DreamDaemonSettings',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html',1,'Tgstation::Server::Host::Models']]],
   ['dreammaker',['DreamMaker',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html',1,'Tgstation::Server::Api::Models']]],
+  ['dreammaker',['DreamMaker',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html',1,'Tgstation::Server::Host::Components::Compiler']]],
+  ['dreammakerclient',['DreamMakerClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html',1,'Tgstation::Server::Client::Components']]],
   ['dreammakercontroller',['DreamMakerController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html',1,'Tgstation::Server::Host::Controllers']]],
-  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html',1,'Tgstation::Server::Host::Models']]]
+  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html',1,'Tgstation::Server::Host::Models']]],
+  ['dreammakersettings',['DreamMakerSettings',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html',1,'Tgstation::Server::Api::Models::Internal']]]
 ];

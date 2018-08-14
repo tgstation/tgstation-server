@@ -1,10 +1,14 @@
 var searchData=
 [
   ['administration',['Administration',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html',1,'Tgstation::Server::Api::Models']]],
-  ['administration',['Administration',['../class_tgstation_1_1_server_1_1_api_1_1_routes_1_1_administration.html',1,'Tgstation::Server::Api::Routes']]],
+  ['administrationclient',['AdministrationClient',['../class_tgstation_1_1_server_1_1_client_1_1_administration_client.html',1,'Tgstation::Server::Client']]],
   ['administrationcontroller',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['apiclient',['ApiClient',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html',1,'Tgstation::Server::Client']]],
+  ['apiclientfactory',['ApiClientFactory',['../class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html',1,'Tgstation::Server::Client']]],
+  ['apiconflictexception',['ApiConflictException',['../class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html',1,'Tgstation::Server::Client']]],
   ['apicontroller',['ApiController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['apiheaders',['ApiHeaders',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html',1,'Tgstation::Server::Api']]],
+  ['apimismatchexception',['ApiMismatchException',['../class_tgstation_1_1_server_1_1_client_1_1_api_mismatch_exception.html',1,'Tgstation::Server::Client']]],
   ['app',['App',['../class_tgstation_1_1_server_1_1_control_panel_1_1_app.html',1,'Tgstation::Server::ControlPanel']]],
   ['application',['Application',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html',1,'Tgstation::Server::Host::Core']]],
   ['attribute',['Attribute',['../class_attribute.html',1,'']]],

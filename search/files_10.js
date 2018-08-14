@@ -11,7 +11,6 @@ var searchData=
   ['testmergeparameters_2ecs',['TestMergeParameters.cs',['../_test_merge_parameters_8cs.html',1,'']]],
   ['testmodels_2ecs',['TestModels.cs',['../_test_models_8cs.html',1,'']]],
   ['testprogram_2ecs',['TestProgram.cs',['../_test_program_8cs.html',1,'']]],
-  ['testserverclientfactory_2ecs',['TestServerClientFactory.cs',['../_test_server_client_factory_8cs.html',1,'']]],
   ['testserverservice_2ecs',['TestServerService.cs',['../_test_server_service_8cs.html',1,'']]],
   ['testwatchdog_2ecs',['TestWatchdog.cs',['../_test_watchdog_8cs.html',1,'']]],
   ['testwatchdogfactory_2ecs',['TestWatchdogFactory.cs',['../_test_watchdog_factory_8cs.html',1,'']]],

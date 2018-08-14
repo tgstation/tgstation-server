@@ -6,6 +6,7 @@ var searchData=
   ['jobcontroller_2ecs',['JobController.cs',['../_job_controller_8cs.html',1,'']]],
   ['jobhandler_2ecs',['JobHandler.cs',['../_job_handler_8cs.html',1,'']]],
   ['jobmanager_2ecs',['JobManager.cs',['../_job_manager_8cs.html',1,'']]],
+  ['jobsclient_2ecs',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
   ['jsonfile_2ecs',['JsonFile.cs',['../_json_file_8cs.html',1,'']]],
   ['jsonsubfilelist_2ecs',['JsonSubFileList.cs',['../_json_sub_file_list_8cs.html',1,'']]],
   ['jsontrackingcontext_2ecs',['JsonTrackingContext.cs',['../_json_tracking_context_8cs.html',1,'']]]
