@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -142,84 +139,39 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<T> Create<T>(string route, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<T> Read<T>(string route, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => Update<object, TResult>(route, new object(), cancellationToken);
+		public Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Post, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Post, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(string route, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task Delete(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, instanceId, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, instanceId, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, instanceId, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TResult>(string route, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task Delete(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, instanceId, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <inheritdoc />
-		public Task Delete(string route, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <inheritdoc />
-		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, cancellationToken);
 	}
 }
