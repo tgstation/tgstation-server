@@ -1,6 +1,5 @@
 Verify the byond cache folder location on linux
 
 Test watchdog
-test configuration
 
 Control panel
