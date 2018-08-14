@@ -202,53 +202,54 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			
 			void ReadImpl()
 			{
-				try
-				{
-					var content = synchronousIOManager.ReadFile(path);
-					string sha1String;
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					using (var sha1 = new SHA1Managed())
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						sha1String = String.Join("", sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-					result = new ConfigurationFile
-					{
-						Content = content,
-						IsDirectory = false,
-						LastReadHash = sha1String,
-						AccessDenied = false,
-						Path = configurationRelativePath
-					};
-				}
-				catch (IOException e)
-				{
-					logger.LogWarning("IOException while reading {0}: {1}", path, e);
-				}
-				catch (UnauthorizedAccessException)
-				{
-					//this happens on windows, dunno about linux
-					bool isDirectory;
+				lock (this)
 					try
 					{
-						isDirectory = synchronousIOManager.IsDirectory(path);
+						var content = synchronousIOManager.ReadFile(path);
+						string sha1String;
+#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
+						using (var sha1 = new SHA1Managed())
+#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+							sha1String = String.Join("", sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						result = new ConfigurationFile
+						{
+							Content = content,
+							IsDirectory = false,
+							LastReadHash = sha1String,
+							AccessDenied = false,
+							Path = configurationRelativePath
+						};
 					}
-					catch
+					catch (IOException e)
 					{
-						isDirectory = false;
+						logger.LogWarning("IOException while reading {0}: {1}", path, e);
 					}
+					catch (UnauthorizedAccessException)
+					{
+						//this happens on windows, dunno about linux
+						bool isDirectory;
+						try
+						{
+							isDirectory = synchronousIOManager.IsDirectory(path);
+						}
+						catch
+						{
+							isDirectory = false;
+						}
 
-					result = new ConfigurationFile
-					{
-						Path = configurationRelativePath
-					};
-					if (!isDirectory)
-						result.AccessDenied = true;
-					else
-						result.IsDirectory = true;
-				}
+						result = new ConfigurationFile
+						{
+							Path = configurationRelativePath
+						};
+						if (!isDirectory)
+							result.AccessDenied = true;
+						else
+							result.IsDirectory = true;
+					}
 			}
 
 			if (systemIdentity == null)
-				ReadImpl();
+				await Task.Factory.StartNew(ReadImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			else
 				await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
 
@@ -295,61 +296,65 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void WriteImpl()
 			{
-				try
-				{
-					var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
-					if (!success)
-						return;
-					string sha1String = null;
-					if (data != null)
-					{
-						postWriteHandler.HandleWrite(path);
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						using (var sha1 = new SHA1Managed())
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-							sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-					}
-					result = new ConfigurationFile
-					{
-						Content = data,
-						IsDirectory = false,
-						LastReadHash = sha1String,
-						AccessDenied = false,
-						Path = configurationRelativePath
-					};
-				}
-				catch (IOException e)
-				{
-					logger.LogWarning("IOException while writing {0}: {1}", path, e);
-				}
-				catch (UnauthorizedAccessException)
-				{
-					//this happens on windows, dunno about linux
-					bool isDirectory;
+				lock (this)
 					try
 					{
-						isDirectory = synchronousIOManager.IsDirectory(path);
+						var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
+						if (!success)
+							return;
+						string sha1String = null;
+						if (data != null)
+						{
+							postWriteHandler.HandleWrite(path);
+#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
+							using (var sha1 = new SHA1Managed())
+#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+								sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						}
+						result = new ConfigurationFile
+						{
+							Content = data,
+							IsDirectory = false,
+							LastReadHash = sha1String,
+							AccessDenied = false,
+							Path = configurationRelativePath
+						};
 					}
-					catch
+					catch (IOException e)
 					{
-						isDirectory = false;
+						logger.LogWarning("IOException while writing {0}: {1}", path, e);
 					}
+					catch (UnauthorizedAccessException)
+					{
+						//this happens on windows, dunno about linux
+						bool isDirectory;
+						try
+						{
+							isDirectory = synchronousIOManager.IsDirectory(path);
+						}
+						catch
+						{
+							isDirectory = false;
+						}
 
-					result = new ConfigurationFile
-					{
-						Path = configurationRelativePath
-					};
-					if (!isDirectory)
-						result.AccessDenied = true;
-					else
-						result.IsDirectory = true;
-				}
+						result = new ConfigurationFile
+						{
+							Path = configurationRelativePath
+						};
+						if (!isDirectory)
+							result.AccessDenied = true;
+						else
+							result.IsDirectory = true;
+					}
 			}
 
 			if (systemIdentity == null)
-				WriteImpl();
+				await Task.Factory.StartNew(WriteImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			else
 				await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
+
+			if (result != null && data == null) //make sure these directories always exist
+				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
 			return result;
 		}
