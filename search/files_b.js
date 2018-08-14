@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['mainwindow_2eg_2ecs',['MainWindow.g.cs',['../_main_window_8g_8cs.html',1,'']]],
-  ['mainwindow_2examl_2ecs',['MainWindow.xaml.cs',['../_main_window_8xaml_8cs.html',1,'']]],
+  ['mainwindow_2ecs',['MainWindow.cs',['../_main_window_8cs.html',1,'']]],
+  ['mainwindow_2edesigner_2ecs',['MainWindow.Designer.cs',['../_main_window_8_designer_8cs.html',1,'']]],
   ['message_2ecs',['Message.cs',['../_message_8cs.html',1,'']]],
   ['methodnotsupportedexception_2ecs',['MethodNotSupportedException.cs',['../_method_not_supported_exception_8cs.html',1,'']]],
   ['modelattribute_2ecs',['ModelAttribute.cs',['../_model_attribute_8cs.html',1,'']]],

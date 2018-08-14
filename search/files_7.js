@@ -61,6 +61,7 @@ var searchData=
   ['instanceusercontroller_2ecs',['InstanceUserController.cs',['../_instance_user_controller_8cs.html',1,'']]],
   ['instanceuserrights_2ecs',['InstanceUserRights.cs',['../_instance_user_rights_8cs.html',1,'']]],
   ['insufficientpermissionsexception_2ecs',['InsufficientPermissionsException.cs',['../_insufficient_permissions_exception_8cs.html',1,'']]],
+  ['ipostwritehandler_2ecs',['IPostWriteHandler.cs',['../_i_post_write_handler_8cs.html',1,'']]],
   ['iprocess_2ecs',['IProcess.cs',['../_i_process_8cs.html',1,'']]],
   ['iprocessbase_2ecs',['IProcessBase.cs',['../_i_process_base_8cs.html',1,'']]],
   ['iprocessexecutor_2ecs',['IProcessExecutor.cs',['../_i_process_executor_8cs.html',1,'']]],
@@ -72,6 +73,7 @@ var searchData=
   ['irepository_2ecs',['IRepository.cs',['../_i_repository_8cs.html',1,'']]],
   ['irepositoryclient_2ecs',['IRepositoryClient.cs',['../_i_repository_client_8cs.html',1,'']]],
   ['irepositorymanager_2ecs',['IRepositoryManager.cs',['../_i_repository_manager_8cs.html',1,'']]],
+  ['irequestlogger_2ecs',['IRequestLogger.cs',['../_i_request_logger_8cs.html',1,'']]],
   ['iserver_2ecs',['IServer.cs',['../_i_server_8cs.html',1,'']]],
   ['iserverclient_2ecs',['IServerClient.cs',['../_i_server_client_8cs.html',1,'']]],
   ['iserverclientfactory_2ecs',['IServerClientFactory.cs',['../_i_server_client_factory_8cs.html',1,'']]],
@@ -85,8 +87,8 @@ var searchData=
   ['isystemidentityfactory_2ecs',['ISystemIdentityFactory.cs',['../_i_system_identity_factory_8cs.html',1,'']]],
   ['itokenfactory_2ecs',['ITokenFactory.cs',['../_i_token_factory_8cs.html',1,'']]],
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
+  ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
   ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
 ];

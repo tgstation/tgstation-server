@@ -17,7 +17,6 @@ var searchData=
   ['repositorysettings_2ecs',['RepositorySettings.cs',['../_tgstation_8_server_8_host_2_models_2_repository_settings_8cs.html',1,'']]],
   ['requesttimeoutexception_2ecs',['RequestTimeoutException.cs',['../_request_timeout_exception_8cs.html',1,'']]],
   ['resolvingiomanager_2ecs',['ResolvingIOManager.cs',['../_resolving_i_o_manager_8cs.html',1,'']]],
-  ['resources_2edesigner_2ecs',['Resources.Designer.cs',['../_resources_8_designer_8cs.html',1,'']]],
   ['response_2ecs',['Response.cs',['../_response_8cs.html',1,'']]],
   ['revinfotestmerge_2ecs',['RevInfoTestMerge.cs',['../_rev_info_test_merge_8cs.html',1,'']]],
   ['revisioninformation_2ecs',['RevisionInformation.cs',['../_tgstation_8_server_8_api_2_models_2_revision_information_8cs.html',1,'']]],

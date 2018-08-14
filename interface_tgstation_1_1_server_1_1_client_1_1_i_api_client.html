@@ -114,6 +114,9 @@ Inheritance diagram for Tgstation.Server.Client.IApiClient:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a55853418698889c9f90804d1e9067b51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51">AddRequestLogger</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> requestLogger)</td></tr>
+<tr class="memdesc:a55853418698889c9f90804d1e9067b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <em>requestLogger</em>  to the request pipeline  <a href="#a55853418698889c9f90804d1e9067b51">More...</a><br /></td></tr>
+<tr class="separator:a55853418698889c9f90804d1e9067b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0448d3803d9f45d2e67295cef2096174"><td class="memItemLeft" align="right" valign="top">Task&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a0448d3803d9f45d2e67295cef2096174">Create&lt; TBody, TResult &gt;</a> (string route, TBody body, CancellationToken cancellationToken)</td></tr>
 <tr class="separator:a0448d3803d9f45d2e67295cef2096174"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4bbf7c3cc9ff87beda2b13f018a25f5"><td class="memItemLeft" align="right" valign="top">Task&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ac4bbf7c3cc9ff87beda2b13f018a25f5">Create&lt; TResult &gt;</a> (string route, CancellationToken cancellationToken)</td></tr>
@@ -153,6 +156,32 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a55853418698889c9f90804d1e9067b51"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Client.IApiClient.AddRequestLogger </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a>&#160;</td>
+          <td class="paramname"><em>requestLogger</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds a <em>requestLogger</em>  to the request pipeline </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">requestLogger</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html" title="For logging HTTP requests and responses ">IRequestLogger</a> to add</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a139db37d2f5069e2940421a0cd12fd93">Tgstation.Server.Client.ApiClient</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a0448d3803d9f45d2e67295cef2096174"></a>
 <div class="memitem">
 <div class="memproto">
