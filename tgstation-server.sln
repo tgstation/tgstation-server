@@ -38,8 +38,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.CommandLine", "src\Tgstation.Server.CommandLine\Tgstation.Server.CommandLine.csproj", "{657C3624-3534-4A0C-B4E7-196FC830F547}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.ControlPanel", "src\Tgstation.Server.ControlPanel\Tgstation.Server.ControlPanel.csproj", "{D38BE569-04B7-4C64-BDB5-683767B26FEB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client", "src\Tgstation.Server.Client\Tgstation.Server.Client.csproj", "{E0AC911F-7675-4A91-9499-D8A2E2390AAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.ControlPanel.Tests", "tests\Tgstation.Server.ControlPanel.Tests\Tgstation.Server.ControlPanel.Tests.csproj", "{93CA946D-50DE-4AD4-BADA-D0353F0AFFCC}"
@@ -118,6 +116,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E821
 		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.ControlPanel", "src\Tgstation.Server.ControlPanel\Tgstation.Server.ControlPanel.csproj", "{9A00EA43-1B87-4091-8917-DF6D373EC4DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,12 +161,6 @@ Global
 		{657C3624-3534-4A0C-B4E7-196FC830F547}.Docker|Any CPU.Build.0 = Release|Any CPU
 		{657C3624-3534-4A0C-B4E7-196FC830F547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{657C3624-3534-4A0C-B4E7-196FC830F547}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Docker|Any CPU.ActiveCfg = Release|Any CPU
-		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Docker|Any CPU.Build.0 = Release|Any CPU
-		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D38BE569-04B7-4C64-BDB5-683767B26FEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0AC911F-7675-4A91-9499-D8A2E2390AAD}.Docker|Any CPU.ActiveCfg = Release|Any CPU
@@ -221,6 +215,12 @@ Global
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Docker|Any CPU.Build.0 = Release|Any CPU
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A00EA43-1B87-4091-8917-DF6D373EC4DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A00EA43-1B87-4091-8917-DF6D373EC4DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A00EA43-1B87-4091-8917-DF6D373EC4DF}.Docker|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A00EA43-1B87-4091-8917-DF6D373EC4DF}.Docker|Any CPU.Build.0 = Debug|Any CPU
+		{9A00EA43-1B87-4091-8917-DF6D373EC4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A00EA43-1B87-4091-8917-DF6D373EC4DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

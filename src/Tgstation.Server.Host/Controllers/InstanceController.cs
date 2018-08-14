@@ -280,9 +280,9 @@ namespace Tgstation.Server.Host.Controllers
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
 			{
-				if (originalOnline && model.Online.Value == false)
+				if (originalOnline && model.Online == false)
 					await instanceManager.OfflineInstance(originalModel, cancellationToken).ConfigureAwait(false);
-				else if (!originalOnline && model.Online.Value == true)
+				else if (!originalOnline && model.Online == true)
 				{
 					//force autostart false here because we don't want any long running jobs right now
 					//remember to document this

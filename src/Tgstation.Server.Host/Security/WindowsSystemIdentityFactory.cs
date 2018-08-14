@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.DirectoryServices.AccountManagement;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,26 +28,31 @@ namespace Tgstation.Server.Host.Security
 			//machine logon first cause it's faster
 			try
 			{
-				pc = new PrincipalContext(ContextType.Machine, Environment.UserDomainName);
+				pc = new PrincipalContext(ContextType.Machine);
 				principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
-
-				if (principal == null)
-				{
-					pc.Dispose();
-					pc = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
-					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
-					if (principal == null)
-						pc.Dispose();
-				}
 			}
-			catch
+			catch(COMException)
 			{
 				pc?.Dispose();
-				throw;
 			}
 
 			if (principal == null)
-				return null;
+			{
+				//try domain now
+				try
+				{
+					var udn = Environment.UserDomainName;
+					pc = new PrincipalContext(ContextType.Domain, udn);
+					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
+				}
+				catch (PrincipalServerDownException) { }
+
+				if(principal == null)
+				{
+					pc?.Dispose();
+					return null;
+				}
+			}
 
 			return (ISystemIdentity)new WindowsSystemIdentity(principal);
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);

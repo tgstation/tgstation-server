@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.ControlPanel\Tgstation.Server.ControlPanel.csproj">
-      <Project>{d38be569-04b7-4c64-bdb5-683767b26feb}</Project>
+      <Project>{9a00ea43-1b87-4091-8917-df6d373ec4df}</Project>
       <Name>Tgstation.Server.ControlPanel</Name>
     </ProjectReference>
   </ItemGroup>

@@ -14,7 +14,6 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken)
 		{
-			cancellationToken.ThrowIfCancellationRequested();
 			foreach (var I in Directory.EnumerateDirectories(path))
 			{
 				yield return I;
@@ -25,7 +24,6 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public IEnumerable<string> GetFiles(string path, CancellationToken cancellationToken)
 		{
-			cancellationToken.ThrowIfCancellationRequested();
 			foreach (var I in Directory.EnumerateFiles(path))
 			{
 				yield return I;
@@ -34,29 +32,55 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public byte[] ReadFile(string path) => File.ReadAllBytes(path);
+		public bool IsDirectory(string path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			return Directory.Exists(path);
+		}
+
+		/// <inheritdoc />
+		public byte[] ReadFile(string path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			return File.ReadAllBytes(path);
+		}
 
 		/// <inheritdoc />
 		public bool WriteFileChecked(string path, byte[] data, string previousSha1, CancellationToken cancellationToken)
 		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			cancellationToken.ThrowIfCancellationRequested();
+			var directory = Path.GetDirectoryName(path);
+			Directory.CreateDirectory(directory);
 			cancellationToken.ThrowIfCancellationRequested();
 			using (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
 			{
+				cancellationToken.ThrowIfCancellationRequested();
+
+				//as nice as it would be to not have to arrayify the memory stream, we have to
+				//because, oddly enough sha1(memorystream) != sha1(memorystream.ToArray())
+				// vOv
+				byte[] originalBytes;
 				using (var readMs = new MemoryStream())
 				{
-					cancellationToken.ThrowIfCancellationRequested();
 					file.CopyTo(readMs);
-					if (readMs.Length != 0 && previousSha1 == null)
-						return false;   //no sha1? no write
-					//suppressed due to only using for consistency checks
+					originalBytes = readMs.ToArray();
+				}
+				if (originalBytes.Length != 0 && previousSha1 == null)
+					//no sha1? no write
+					return false;
+
+				//suppressed due to only using for consistency checks
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					using (var sha1 = new SHA1Managed())
+				using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					{
-						var sha1String = String.Join("", sha1.ComputeHash(readMs).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-						if (sha1String != previousSha1)
-							return false;
-					}
+				{
+					var sha1String = originalBytes.Length != 0 ? String.Join("", sha1.ComputeHash(originalBytes).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
+					if (sha1String != previousSha1)
+						return false;
 				}
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -66,13 +90,20 @@ namespace Tgstation.Server.Host.IO
 
 					cancellationToken.ThrowIfCancellationRequested();
 					file.SetLength(data.Length);
-
-					cancellationToken.ThrowIfCancellationRequested();
 					file.Write(data, 0, data.Length);
 				}
 			}
 			if (data == null)
+			{
 				File.Delete(path);
+				if (!cancellationToken.IsCancellationRequested)
+					//delete the entire folder if possible
+					try
+					{
+						Directory.Delete(directory);
+					}
+					catch (IOException) { }
+			}
 			return true;
 		}
 	}

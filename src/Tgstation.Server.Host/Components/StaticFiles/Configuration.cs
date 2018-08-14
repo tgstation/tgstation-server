@@ -55,6 +55,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
+		/// The <see cref="IPostWriteHandler"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly IPostWriteHandler postWriteHandler;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -71,13 +76,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, ILogger<Configuration> logger)
+		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			semaphore = new SemaphoreSlim(1);
@@ -130,9 +137,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 		string ValidateConfigRelativePath(string configurationRelativePath)
 		{
-			if (String.IsNullOrEmpty(configurationRelativePath))
+			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
+			if (nullOrEmptyCheck)
 				configurationRelativePath = ".";
-			return ioManager.ResolvePath(configurationRelativePath);
+			var resolved = ioManager.ResolvePath(configurationRelativePath);
+			var local = !nullOrEmptyCheck ? ioManager.ResolvePath(".") : null;
+			if (!nullOrEmptyCheck && resolved.Length < local.Length) //.. fuccbois
+				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
+			return resolved;
 		}
 
 		/// <inheritdoc />
@@ -145,17 +157,30 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ListImpl()
 			{
-				var enumerator = synchronousIOManager.GetDirectories(configurationRelativePath, cancellationToken);
-				result.AddRange(enumerator.Select(x => new ConfigurationFile
+				var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
+				try
 				{
-					IsDirectory = true,
-					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}));
-				enumerator = synchronousIOManager.GetFiles(configurationRelativePath, cancellationToken);
+					result.AddRange(enumerator.Select(x => new ConfigurationFile
+					{
+						IsDirectory = true,
+						Path = ioManager.ConcatPath(path, x),
+					}));
+				}
+				catch (UnauthorizedAccessException)
+				{
+					result = null;
+					return;
+				}
+				catch (DirectoryNotFoundException)
+				{
+					result = null;
+					return;
+				}
+				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
 				result.AddRange(enumerator.Select(x => new ConfigurationFile
 				{
 					IsDirectory = false,
-					Path = ioManager.ConcatPath(configurationRelativePath, x),
+					Path = ioManager.ConcatPath(path, x),
 				}));
 			}
 
@@ -177,37 +202,54 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			
 			void ReadImpl()
 			{
-				try
-				{
-					var content = synchronousIOManager.ReadFile(path);
-					string sha1String;
+				lock (this)
+					try
+					{
+						var content = synchronousIOManager.ReadFile(path);
+						string sha1String;
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					using (var sha1 = new SHA1Managed())
+						using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						sha1String = String.Join("", sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-					result = new ConfigurationFile
+							sha1String = String.Join("", sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						result = new ConfigurationFile
+						{
+							Content = content,
+							IsDirectory = false,
+							LastReadHash = sha1String,
+							AccessDenied = false,
+							Path = configurationRelativePath
+						};
+					}
+					catch (IOException e)
 					{
-						Content = content,
-						IsDirectory = false,
-						LastReadHash = sha1String,
-						AccessDenied = false,
-						Path = configurationRelativePath
-					};
-				}
-				catch (FileNotFoundException) { }
-				catch (DirectoryNotFoundException) { }
-				catch (UnauthorizedAccessException)
-				{
-					result = new ConfigurationFile
+						logger.LogWarning("IOException while reading {0}: {1}", path, e);
+					}
+					catch (UnauthorizedAccessException)
 					{
-						AccessDenied = true,
-						Path = configurationRelativePath
-					};
-				}
+						//this happens on windows, dunno about linux
+						bool isDirectory;
+						try
+						{
+							isDirectory = synchronousIOManager.IsDirectory(path);
+						}
+						catch
+						{
+							isDirectory = false;
+						}
+
+						result = new ConfigurationFile
+						{
+							Path = configurationRelativePath
+						};
+						if (!isDirectory)
+							result.AccessDenied = true;
+						else
+							result.IsDirectory = true;
+					}
 			}
 
 			if (systemIdentity == null)
-				ReadImpl();
+				await Task.Factory.StartNew(ReadImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			else
 				await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
 
@@ -254,41 +296,65 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void WriteImpl()
 			{
-				try
-				{
-					var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
-					if (!success)
-						return;
-					string sha1String;
+				lock (this)
+					try
+					{
+						var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
+						if (!success)
+							return;
+						string sha1String = null;
+						if (data != null)
+						{
+							postWriteHandler.HandleWrite(path);
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					using (var sha1 = new SHA1Managed())
+							using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-					result = new ConfigurationFile
+								sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						}
+						result = new ConfigurationFile
+						{
+							Content = data,
+							IsDirectory = false,
+							LastReadHash = sha1String,
+							AccessDenied = false,
+							Path = configurationRelativePath
+						};
+					}
+					catch (IOException e)
 					{
-						Content = data,
-						IsDirectory = false,
-						LastReadHash = sha1String,
-						AccessDenied = false,
-						Path = configurationRelativePath
-					};
-				}
-				catch (FileNotFoundException) { }
-				catch (DirectoryNotFoundException) { }
-				catch (UnauthorizedAccessException)
-				{
-					result = new ConfigurationFile
+						logger.LogWarning("IOException while writing {0}: {1}", path, e);
+					}
+					catch (UnauthorizedAccessException)
 					{
-						AccessDenied = true,
-						Path = configurationRelativePath
-					};
-				}
+						//this happens on windows, dunno about linux
+						bool isDirectory;
+						try
+						{
+							isDirectory = synchronousIOManager.IsDirectory(path);
+						}
+						catch
+						{
+							isDirectory = false;
+						}
+
+						result = new ConfigurationFile
+						{
+							Path = configurationRelativePath
+						};
+						if (!isDirectory)
+							result.AccessDenied = true;
+						else
+							result.IsDirectory = true;
+					}
 			}
 
 			if (systemIdentity == null)
-				WriteImpl();
+				await Task.Factory.StartNew(WriteImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			else
 				await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
+
+			if (result != null && data == null) //make sure these directories always exist
+				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
 			return result;
 		}
