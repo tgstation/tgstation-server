@@ -16,6 +16,12 @@ namespace Tgstation.Server.Client
 
 		TimeSpan Timeout { get; set; }
 
+		/// <summary>
+		/// Adds a <paramref name="requestLogger"/> to the request pipeline
+		/// </summary>
+		/// <param name="requestLogger">The <see cref="IRequestLogger"/> to add</param>
+		void AddRequestLogger(IRequestLogger requestLogger);
+
 		Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken);
 		Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken);
 		Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken);

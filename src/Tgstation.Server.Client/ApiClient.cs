@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,9 +28,14 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The <see cref="HttpClient"/> for the <see cref="IApiClient"/>
+		/// The <see cref="HttpClient"/> for the <see cref="ApiClient"/>
 		/// </summary>
 		readonly HttpClient httpClient;
+
+		/// <summary>
+		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>
+		/// </summary>
+		readonly List<IRequestLogger> requestLoggers;
 
 		/// <summary>
 		/// Construct an <see cref="ApiClient"/>
@@ -42,6 +48,7 @@ namespace Tgstation.Server.Client
 			Headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
 
 			httpClient = new HttpClient();
+			requestLoggers = new List<IRequestLogger>();
 		}
 
 		/// <inheritdoc />
@@ -67,29 +74,18 @@ namespace Tgstation.Server.Client
 
 			var fullUri = new Uri(Url, route);
 
-			HttpContent content = null;
+			var message = new HttpRequestMessage(method, fullUri);
+			
 			if (body != null)
-				content = new StringContent(JsonConvert.SerializeObject(body));
+				message.Content = new StringContent(JsonConvert.SerializeObject(body));
 
-			Task<HttpResponseMessage> task;
-			lock (this)
-			{
-				httpClient.DefaultRequestHeaders.Clear();
-				Headers.SetRequestHeaders(httpClient.DefaultRequestHeaders, instanceId);
+			Headers.SetRequestHeaders(message.Headers, instanceId);
 
-				if (method == HttpMethod.Get)
-					task = httpClient.GetAsync(route);
-				else if (method == HttpMethod.Put)
-					task = httpClient.PutAsync(fullUri, content, cancellationToken);
-				else if (method == HttpMethod.Post)
-					task = httpClient.PostAsync(fullUri, content, cancellationToken);
-				else if (method == HttpMethod.Delete)
-					task = httpClient.DeleteAsync(fullUri, cancellationToken);
-				else
-					throw new NotSupportedException();
-			}
+			await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(message, cancellationToken))).ConfigureAwait(false);
 
-			var response = await task.ConfigureAwait(false);
+			var response = await httpClient.SendAsync(message, cancellationToken).ConfigureAwait(false);
+
+			await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
 
 			var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
@@ -173,5 +169,8 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, cancellationToken);
+
+		/// <inheritdoc />
+		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));
 	}
 }

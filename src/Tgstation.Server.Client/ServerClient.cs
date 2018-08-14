@@ -53,7 +53,11 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public void Dispose() => apiClient.Dispose();
+
 		/// <inheritdoc />
 		public Task<Version> Version(CancellationToken cancellationToken) => apiClient.Read<Version>(Routes.Root, cancellationToken);
+
+		/// <inheritdoc />
+		public void AddRequestLogger(IRequestLogger requestLogger) => apiClient.AddRequestLogger(requestLogger);
 	}
 }

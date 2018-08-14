@@ -39,5 +39,11 @@ namespace Tgstation.Server.Client
 		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>
 		/// </summary>
 		Task<Version> Version(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Adds a <paramref name="requestLogger"/> to the request pipeline
+		/// </summary>
+		/// <param name="requestLogger">The <see cref="IRequestLogger"/> to add</param>
+		void AddRequestLogger(IRequestLogger requestLogger);
 	}
 }
