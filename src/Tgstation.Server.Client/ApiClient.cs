@@ -117,6 +117,8 @@ namespace Tgstation.Server.Client
 						throw new RequestTimeoutException();
 					case HttpStatusCode.Forbidden:
 						throw new InsufficientPermissionsException();
+					case HttpStatusCode.ServiceUnavailable:
+						throw new ServiceUnavailableException();
 					case HttpStatusCode.Gone:
 					case HttpStatusCode.NotFound:
 					case HttpStatusCode.Conflict:
