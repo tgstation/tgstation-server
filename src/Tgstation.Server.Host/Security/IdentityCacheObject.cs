@@ -61,7 +61,11 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose()
 		{
 			cancellationTokenSource.Cancel();
-			task.Wait();
+			try
+			{
+				task.GetAwaiter().GetResult();
+			}
+			catch (OperationCanceledException) { }
 			cancellationTokenSource.Dispose();
 		}
 	}

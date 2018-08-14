@@ -99,7 +99,8 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Id = x.Id,
 					PasswordHash = x.PasswordHash,
-					Enabled = x.Enabled
+					Enabled = x.Enabled,
+					Name = x.Name
 				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 				if (user == null)
@@ -124,6 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 				//check if the name changed and updoot accordingly
 				else if (identity.Username != user.Name)
 				{
+					DatabaseContext.Users.Attach(user);
 					user.Name = identity.Username;
 					user.CanonicalName = user.Name.ToUpperInvariant();
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
