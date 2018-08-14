@@ -3,7 +3,7 @@
 	/// <summary>
 	/// The type of rights a model uses
 	/// </summary>
-	public enum RightsType
+	public enum RightsType : ulong
 	{
 		/// <summary>
 		/// <see cref="AdministrationRights"/>
@@ -30,9 +30,9 @@
 		/// </summary>
 		DreamDaemon,
 		/// <summary>
-		/// <see cref="ChatSettingsRights"/>
+		/// <see cref="ChatBotRights"/>
 		/// </summary>
-		ChatSettings,
+		ChatBots,
 		/// <summary>
 		/// <see cref="ConfigurationRights"/>
 		/// </summary>

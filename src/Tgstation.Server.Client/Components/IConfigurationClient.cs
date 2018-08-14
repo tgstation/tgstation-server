@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
 	/// For managing <see cref="ConfigurationFile"/> files
 	/// </summary>
-	public interface IConfigurationClient : IRightsClient<ConfigurationRights>
+	public interface IConfigurationClient
 	{
 		/// <summary>
 		/// List configuration files
@@ -26,30 +24,14 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="file">The <see cref="ConfigurationFile"/> file to read</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Read(ConfigurationFile file, CancellationToken cancellationToken);
+		Task<ConfigurationFile> Read(ConfigurationFile file, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Overwrite a <see cref="ConfigurationFile"/> file with integrity checks
+		/// Overwrite a <see cref="ConfigurationFile"/> file
 		/// </summary>
 		/// <param name="file">The <see cref="ConfigurationFile"/> file to write</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Write(ConfigurationFile file, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Create/overwrite a <see cref="ConfigurationFile"/> file
-		/// </summary>
-		/// <param name="file">The <see cref="ConfigurationFile"/> file to write</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Create(ConfigurationFile file, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Delete a <see cref="ConfigurationFile"/> file
-		/// </summary>
-		/// <param name="file">The <see cref="ConfigurationFile"/> file to delete</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Delete(ConfigurationFile file, CancellationToken cancellationToken);
+		Task<ConfigurationFile> Write(ConfigurationFile file, CancellationToken cancellationToken);
 	}
 }

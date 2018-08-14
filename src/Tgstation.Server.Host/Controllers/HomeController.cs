@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Main <see cref="ApiController"/> for the <see cref="Application"/>
 	/// </summary>
-	[Route("/")]
+	[Route(Routes.Root)]
 	public sealed class HomeController : ApiController
 	{
 		/// <summary>
@@ -124,9 +124,9 @@ namespace Tgstation.Server.Host.Controllers
 				if (!user.Enabled.Value)
 					return Forbid();
 
-				var token = tokenFactory.CreateToken(user, out var expiry);
+				var token = tokenFactory.CreateToken(user);
 				if (identity != null)
-					identityCache.CacheSystemIdentity(user, identity, expiry.AddMinutes(1));   //expire the identity slightly after the auth token in case of lag
+					identityCache.CacheSystemIdentity(user, identity, token.ExpiresAt.Value.AddMinutes(1));   //expire the identity slightly after the auth token in case of lag
 
 				Logger.LogDebug("Successfully logged in user {0}!", user.Id);
 

@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							if (portClosed)
 							{
 								reattachInformation.Port = nextPort;
-								portAssignmentTcs.SetResult(true);
+								portAssignmentTcs.TrySetResult(true);
 								portAssignmentTcs = null;
 								portClosed = false;
 							}
@@ -379,9 +379,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				lock (this)
 				{
 					if (portAssignmentTcs != null)
+					{
 						//someone was trying to change the port before us, ignore them
 						//shouldn't happen anyway, add logging here
-						portAssignmentTcs.SetResult(false);
+						logger.LogWarning("Hey uhhh, this shouldn't happen ok? Pls to tell cyberboss. SessionController.SetPort");
+						portAssignmentTcs.TrySetResult(false);
+					}
 					nextPort = port;
 					portAssignmentTcs = new TaskCompletionSource<bool>();
 					toWait = portAssignmentTcs.Task;

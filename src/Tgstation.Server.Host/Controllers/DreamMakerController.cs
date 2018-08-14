@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
@@ -17,7 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing the compiler
 	/// </summary>
-	[Route("/" + nameof(Api.Models.DreamMaker))]
+	[Route(Routes.DreamMaker)]
     public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
 	{
 		/// <summary>
@@ -59,6 +60,29 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		[TgsAuthorize(DreamMakerRights.List)]
+		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		{
+			var compileJob = await DatabaseContext.CompileJobs
+				.Where(x => x.Id == id && x.Job.Instance.Id == Instance.Id)
+				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (compileJob == default)
+				return NotFound();
+			return Json(compileJob.ToApi());
+		}
+
+		/// <inheritdoc />
+		[TgsAuthorize(DreamMakerRights.List)]
+		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		{
+			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+			return Json(compileJobs.Select(x => x.ToApi()));
+		}
+
+		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.Compile)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
 		{
@@ -75,15 +99,33 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.SetDme)]
+		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
 		{
 			var hostModel = new DreamMakerSettings
 			{
 				InstanceId = Instance.Id
 			};
+
 			DatabaseContext.DreamMakerSettings.Attach(hostModel);
-			hostModel.ProjectName = model.ProjectName;
+
+			if (model.ProjectName != null)
+			{
+				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetDme))
+					return Forbid();
+				if (model.ProjectName.Length == 0)
+					hostModel.ProjectName = null;
+				else
+					hostModel.ProjectName = model.ProjectName;
+			}
+
+			if (model.ApiValidationPort.HasValue)
+			{
+				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationPort))
+					return Forbid();
+				hostModel.ApiValidationPort = model.ApiValidationPort;
+			}
+
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return await Read(cancellationToken).ConfigureAwait(false);
 		}
@@ -104,8 +146,8 @@ namespace Tgstation.Server.Host.Controllers
 			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => new DreamDaemonSettings{
 				StartupTimeout = x.StartupTimeout,
 				SecurityLevel = x.SecurityLevel
-			}).FirstOrDefaultAsync(cancellationToken);
-			var projectName = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => x.ProjectName).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			}).FirstAsync(cancellationToken);
+			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
 
 			var instance = instanceManager.GetInstance(instanceModel);
@@ -136,7 +178,7 @@ namespace Tgstation.Server.Host.Controllers
 					databaseContext.Instances.Attach(revInfo.Instance);
 				}
 
-				compileJob = await instance.DreamMaker.Compile(revInfo, projectName, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+				compileJob = await instance.DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
 			if (compileJob.DMApiValidated != true)

@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Rights
 	/// Rights for <see cref="Models.DreamMaker"/>
 	/// </summary>
 	[Flags]
-	public enum DreamMakerRights
+	public enum DreamMakerRights : ulong
 	{
 		/// <summary>
 		/// User has no rights
@@ -27,6 +27,14 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ProjectName"/>
 		/// </summary>
-		SetDme = 8
+		SetDme = 8,
+		/// <summary>
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationPort"/>
+		/// </summary>
+		SetApiValidationPort = 16,
+		/// <summary>
+		/// User may list and read all <see cref="Models.CompileJob"/>s
+		/// </summary>
+		List = 32
 	}
 }

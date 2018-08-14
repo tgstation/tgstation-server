@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Octokit;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
@@ -22,7 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for <see cref="Administration"/>
 	/// </summary>
-	[Route(Api.Routes.Administration.Base)]
+	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ModelController<Administration>
 	{
 		/// <summary>
@@ -79,7 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			Logger.LogWarning("Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
-			Response.Headers.Add("Retry-After", new Microsoft.Extensions.Primitives.StringValues { });
+			Response.Headers.Add("Retry-After", new StringValues(secondsString));
 			return StatusCode(RateLimitHttpStatusCode);
 		}
 

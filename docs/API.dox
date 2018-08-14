@@ -9,7 +9,7 @@ The TGS4 API is designed to be a fully realized RESTful service. Once hosted, fo
 
 Routes and their usages are defined as follows
 
-`[I (If Instance is required)] <Http Method> "<Route>" [Request Model] => <Response Model>`
+[I (If Instance is required)] <`Http Method`> "<`Route`>" [Request Model] => <`Response Model`>
 
 @section api_lib Official Libraries
 
@@ -29,7 +29,7 @@ This document will reference the canonical C# models in the @ref Tgstation.Serve
 
 @section api_header Headers
 
-TGS4 expects this set of headers. Failure to provide them may result in 
+TGS4 expects this set of headers. Failure to provide them may result in 400 error responses
 
 - User-Agent: The user agent product header value of the calling program. Should be in the form Agent/Version (i.e. SomeTgsClient/1.2.4)
 - Accept: application/json
@@ -261,7 +261,7 @@ To clone the repository if it doesn't yet exist use the following request:
 
 I PUT "/Repository" => @ref Tgstation.Server.Api.Models.Repository
 
-The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Repository.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository
+The clone job will be represented by the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field. Specify the @ref Tgstation.Server.Api.Models.Repository.Origin URL. Optionally specify the initial @ref Tgstation.Server.Api.Models.Repository.Reference as a git tag or branch. Be sure to specify the authentication fields if necessary to access your repository. Will return 409 if the repository already exists or is already being cloned
 
 To delete an existing repository make the following request:
 
@@ -284,14 +284,14 @@ git pull (Only if @ref Tgstation.Server.Api.Models.Repository.Reference is set):
 }
 @endcode
 
-git checkout <commit sha> (Unsets @ref Tgstation.Server.Api.Models.Repository.Reference):
+git checkout <`commit sha`> (Unsets @ref Tgstation.Server.Api.Models.Repository.Reference):
 @code{.json}
 {
 	"checkoutSha": "<commit sha>"
 }
 @endcode
 
-git checkout -f <branch or tag> && git clean -fxd (Sets @ref Tgstation.Server.Api.Models.Repository.Reference):
+git checkout -f <`branch or tag`> && git clean -fxd (Sets @ref Tgstation.Server.Api.Models.Repository.Reference):
 @code{.json}
 {
 	"reference": "<branch or tag>"
@@ -363,5 +363,15 @@ The job object returned represents the compile job
 @code{.json}
 {}
 @endcode
+
+The compiler endpoint is also used to read compile jobs
+
+To list successful compile jobs ids use:
+
+I GET "/DreamMaker/List" => Array of @ref Tgstation.Server.Api.Models.CompileJob
+
+To get a specific compile job use:
+
+I GET "/DreamMaker/{CompileJobId}" => @ref Tgstation.Server.Api.Models.CompileJob
 
 */

@@ -10,6 +10,11 @@ namespace Tgstation.Server.Host.Components.Repository
     public interface IRepositoryManager : IDisposable
 	{
 		/// <summary>
+		/// If a <see cref="CloneRepository(Uri, string, string, string, Action{int}, CancellationToken)"/> operation is in progress
+		/// </summary>
+		bool CloneInProgress { get; }
+
+		/// <summary>
 		/// Attempt to load the <see cref="IRepository"/> from the default location
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

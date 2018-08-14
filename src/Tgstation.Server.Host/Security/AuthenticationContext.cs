@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Security
 		public IAuthenticationContext Clone() => new AuthenticationContext(SystemIdentity.Clone(), User, InstanceUser);
 
 		/// <inheritdoc />
-		public int GetRight(RightsType rightsType)
+		public ulong GetRight(RightsType rightsType)
 		{
 			var isInstance = RightsHelper.IsInstanceRight(rightsType);
 
@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Security
 			
 			if (right == null)
 				throw new InvalidOperationException("A user right was null!");
-			return (int)right;
+			return (ulong)right;
 		}
 	}
 }

@@ -45,6 +45,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public IChat CreateChat(IEnumerable<Models.ChatSettings> initialChatSettings) => new Chat(providerFactory, ioManager, commandFactory, loggerFactory.CreateLogger<Chat>(), initialChatSettings);
+		public IChat CreateChat(IEnumerable<Models.ChatBot> initialChatBots) => new Chat(providerFactory, ioManager, commandFactory, loggerFactory.CreateLogger<Chat>(), initialChatBots);
 	}
 }

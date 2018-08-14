@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
-
+		
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
@@ -115,15 +115,16 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to use to validate the API</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
+		/// <param name="portToUse">The port to use for API validation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
-		async Task<bool> VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, CancellationToken cancellationToken)
+		async Task<bool> VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, ushort portToUse, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Verifying DMAPI...");
+			logger.LogTrace("Verifying DMAPI...");			
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
-				PrimaryPort = 0,    //pick any port
+				PrimaryPort = portToUse,
 				SecurityLevel = securityLevel,    //all it needs to read the file and exit
 				StartupTimeout = timeout
 			};
@@ -229,8 +230,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, string projectName, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, DreamMakerSettings dreamMakerSettings, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
+			if (revisionInformation == null)
+				throw new ArgumentNullException(nameof(revisionInformation));
+
+			if (dreamMakerSettings == null)
+				throw new ArgumentNullException(nameof(dreamMakerSettings));
+
 			if (repository == null)
 				throw new ArgumentNullException(nameof(repository));
 
@@ -242,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var job = new Models.CompileJob
 			{
 				DirectoryName = Guid.NewGuid(),
-				DmeName = projectName,
+				DmeName = dreamMakerSettings.ProjectName,
 				RevisionInformation = revisionInformation
 			};
 
@@ -260,12 +267,15 @@ namespace Tgstation.Server.Host.Components.Compiler
 				Status = CompilerStatus.Copying;
 			}
 
-			var commitInsert = revisionInformation.CommitSha;
-			var remoteCommitInsert = String.Empty;
-			if (commitInsert == revisionInformation.OriginCommitSha)
-				commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert.Substring(0, 7));
+			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+			string remoteCommitInsert;
+			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+			{
+				commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
+				remoteCommitInsert = String.Empty;
+			}
 			else
-				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha);
+				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
 			var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})", 
 				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
@@ -286,11 +296,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 					var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 					var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
 
-					async Task CleanupFailedCompile()
+					async Task CleanupFailedCompile(bool announce)
 					{
 						logger.LogTrace("Cleaning compile directory...");
 						Status = CompilerStatus.Cleanup;
-						var chatTask = chat.SendUpdateMessage("DM: Deploy failed!", cancellationToken);
+						var chatTask = announce ? chat.SendUpdateMessage("Deploy failed!", cancellationToken) : Task.CompletedTask;
 						try
 						{
 							await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
@@ -314,7 +324,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						Status = CompilerStatus.PreCompile;
 
-						await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)), repoOrigin }, cancellationToken).ConfigureAwait(false);
+						var resolvedGameDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
+						await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedGameDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
 
 						Status = CompilerStatus.Modifying;
 
@@ -339,53 +350,51 @@ namespace Tgstation.Server.Host.Components.Compiler
 						Status = CompilerStatus.Compiling;
 
 						//run compiler, verify api
-						bool ddVerified;
 						job.ByondVersion = byondLock.Version.ToString();
 
 						await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 
-						Status = CompilerStatus.Verifying;
+						if (job.ExitCode == 0)
+						{
+							Status = CompilerStatus.Verifying;
 
-						ddVerified = job.ExitCode == 0 && await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, cancellationToken).ConfigureAwait(false);
+							job.DMApiValidated = await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+						}
 
-						if (!ddVerified)
+						if (job.DMApiValidated != true)
 						{
 							//server never validated or compile failed
-							await CleanupFailedCompile().ConfigureAwait(false);
-							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { job.ExitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, job.ExitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+							throw new Exception(job.ExitCode == 0 ? "Validation of the TGS api failed!" : "DM exited with a non-zero code!");
 						}
-						else
-						{
-							job.DMApiValidated = true;
 
-							logger.LogTrace("Running post compile event...");
-							Status = CompilerStatus.PostCompile;
-							await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)) }, cancellationToken).ConfigureAwait(false);
+						logger.LogTrace("Running post compile event...");
+						Status = CompilerStatus.PostCompile;
+						await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)) }, cancellationToken).ConfigureAwait(false);
 
-							logger.LogTrace("Duplicating compiled game...");
-							Status = CompilerStatus.Duplicating;
+						logger.LogTrace("Duplicating compiled game...");
+						Status = CompilerStatus.Duplicating;
 
-							//duplicate the dmb et al
-							await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
+						//duplicate the dmb et al
+						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
 
-							logger.LogTrace("Applying static game file symlinks...");
-							Status = CompilerStatus.Symlinking;
+						logger.LogTrace("Applying static game file symlinks...");
+						Status = CompilerStatus.Symlinking;
 
-							//symlink in the static data
-							var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-							var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
+						//symlink in the static data
+						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
+						var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
 
-							await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
+						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-							await chat.SendUpdateMessage("Deployment complete! Changes will be applied on next server reboot.", cancellationToken).ConfigureAwait(false);
+						await chat.SendUpdateMessage("Deployment complete! Changes will be applied on next server reboot.", cancellationToken).ConfigureAwait(false);
 
-							logger.LogDebug("Compile complete!");
-						}
+						logger.LogDebug("Compile complete!");
 						return job;
 					}
-					catch
+					catch (Exception e)
 					{
-						await CleanupFailedCompile().ConfigureAwait(false);
+						await CleanupFailedCompile(!(e is OperationCanceledException)).ConfigureAwait(false);
 						throw;
 					}
 				}

@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 				//if there's no instance user, do a weird thing and add all the instance roles
 				//we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
 				//if user is null that means they got the token with an expired password
-				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0 : authenticationContext.GetRight(I);
+				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0U : authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
 				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
 				foreach (Enum J in Enum.GetValues(rightEnum))

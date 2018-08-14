@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -25,7 +26,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Controller for managing <see cref="Components.Instance"/>s
 	/// </summary>
-	[Route("/Instance")]
+	[Route(Routes.InstanceManager)]
 	public sealed class InstanceController : ModelController<Api.Models.Instance>
 	{
 		/// <summary>
@@ -80,13 +81,13 @@ namespace Tgstation.Server.Host.Controllers
 
 		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
 		{
-			ByondRights = (ByondRights)~0,
-			ChatSettingsRights = (ChatSettingsRights)~0,
-			ConfigurationRights = (ConfigurationRights)~0,
-			DreamDaemonRights = (DreamDaemonRights)~0,
-			DreamMakerRights = (DreamMakerRights)~0,
-			RepositoryRights = (RepositoryRights)~0,
-			InstanceUserRights = (InstanceUserRights)~0,
+			ByondRights = (ByondRights)~0U,
+			ChatBotRights = (ChatBotRights)~0U,
+			ConfigurationRights = (ConfigurationRights)~0U,
+			DreamDaemonRights = (DreamDaemonRights)~0U,
+			DreamMakerRights = (DreamMakerRights)~0U,
+			RepositoryRights = (RepositoryRights)~0U,
+			InstanceUserRights = (InstanceUserRights)~0U,
 			UserId = AuthenticationContext.User.Id
 		};
 
@@ -122,7 +123,10 @@ namespace Tgstation.Server.Host.Controllers
 					SoftShutdown = false,
 					StartupTimeout = 20
 				},
-				DreamMakerSettings = new DreamMakerSettings(),
+				DreamMakerSettings = new DreamMakerSettings
+				{
+					ApiValidationPort = 1339
+				},
 				Name = model.Name,
 				Online = false,
 				Path = model.Path,

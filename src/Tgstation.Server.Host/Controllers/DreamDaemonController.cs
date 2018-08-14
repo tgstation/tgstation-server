@@ -8,6 +8,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for managing the <see cref="DreamDaemon"/>
 	/// </summary>
-	[Route("/" + nameof(DreamDaemon))]
+	[Route(Routes.DreamDaemon)]
 	public sealed class DreamDaemonController : ModelController<DreamDaemon>
 	{
 		/// <summary>

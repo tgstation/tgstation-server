@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Rights
 	/// Rights for managing <see cref="Models.Instance"/>s
 	/// </summary>
 	[Flags]
-	public enum InstanceManagerRights
+	public enum InstanceManagerRights : ulong
 	{
 		/// <summary>
 		/// User has no rights

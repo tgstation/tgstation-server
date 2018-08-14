@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
@@ -10,6 +9,11 @@ namespace Tgstation.Server.Client.Components
 	public interface IInstanceClient
 	{
 		/// <summary>
+		/// The <see cref="Instance"/> used to create the <see cref="IInstanceClient"/>
+		/// </summary>
+		Instance Metadata { get; }
+
+		/// <summary>
 		/// Access the <see cref="IByondClient"/>
 		/// </summary>
 		IByondClient Byond { get; }
@@ -19,10 +23,10 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		IRepositoryClient Repository { get; }
 
-        /// <summary>
-        /// Access the <see cref="IDreamDaemonClient"/>
-        /// </summary>
-        IDreamDaemonClient DreamDaemon { get; }
+		/// <summary>
+		/// Access the <see cref="IDreamDaemonClient"/>
+		/// </summary>
+		IDreamDaemonClient DreamDaemon { get; }
 
 		/// <summary>
 		/// Access the <see cref="IConfigurationClient"/>
@@ -35,20 +39,18 @@ namespace Tgstation.Server.Client.Components
 		IInstanceUserClient Users { get; }
 
 		/// <summary>
-		/// Access the <see cref="IChatSettingsClient"/>
+		/// Access the <see cref="IChatBotsClient"/>
 		/// </summary>
-		IChatSettingsClient Chat { get; }
-		
+		IChatBotsClient ChatBots { get; }
+
 		/// <summary>
 		/// Access the <see cref="IDreamMakerClient"/>
 		/// </summary>
 		IDreamMakerClient DreamMaker { get; }
 
 		/// <summary>
-		/// Get the <see cref="Instance"/> represented by the <see cref="IInstanceClient"/>
+		/// Access the <see cref="IJobsClient"/>
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Instance"/> represented by the <see cref="IInstanceClient"/></returns>
-		Task<Instance> Read(CancellationToken cancellationToken);
+		IJobsClient Jobs { get; }
     }
 }

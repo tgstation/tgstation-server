@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Client.Components;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
 {
@@ -11,24 +11,14 @@ namespace Tgstation.Server.Client
 	public interface IServerClient : IDisposable
 	{
 		/// <summary>
-		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>
+		/// The <see cref="Token"/> being used to access the server
 		/// </summary>
-		Version Version { get; }
+		Token Token { get; }
 
 		/// <summary>
-		/// The connection timeout in milliseconds. Defaults to 10000
+		/// The connection timeout
 		/// </summary>
-		int Timeout { get; set; }
-
-		/// <summary>
-		/// How long to return initially cached models for in seconds. Defaults to 60
-		/// </summary>
-		int CacheExpiry { get; set; }
-
-		/// <summary>
-		/// The requery rate for job updates in milliseconds. Defaults to 5000
-		/// </summary>
-		int RequeryRate { get; set; }
+		TimeSpan Timeout { get; set; }
 
 		/// <summary>
 		/// Access the <see cref="IInstanceManagerClient"/>
@@ -41,15 +31,13 @@ namespace Tgstation.Server.Client
 		IAdministrationClient Administration { get; }
 
 		/// <summary>
-		/// These generally shouldn't be used in favor of the <see cref="Task"/> based polling and <see cref="CancellationToken"/>s other clients use. However, this is the only way to access jobs the client didn't start in it's current session
+		/// Access the <see cref="IUsersClient"/>
 		/// </summary>
-		IJobsClient Jobs { get; }
+		IUsersClient Users { get; }
 
 		/// <summary>
-		/// The <see cref="System.Version"/> of the connected server
+		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="System.Version"/> of the connected server</returns>
-		/// <remarks>Note that if the <see cref="System.Version.Build"/> differs from the <see cref="Version"/>'s API functionality will most likely be compromised</remarks>
-		Task<Version> GetServerVersion(CancellationToken cancellationToken);
+		Task<Version> Version(CancellationToken cancellationToken);
 	}
 }

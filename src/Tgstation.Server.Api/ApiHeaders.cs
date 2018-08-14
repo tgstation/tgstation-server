@@ -48,7 +48,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>
 		/// </summary>
-		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+		internal static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 
 		/// <summary>
 		/// The <see cref="Models.Instance.Id"/> being accessed
@@ -84,6 +84,17 @@ namespace Tgstation.Server.Api
 		/// If the header uses password or JWT authentication
 		/// </summary>
 		public bool IsTokenAuthentication => Token != null;
+
+		/// <summary>
+		/// Checks if a given <paramref name="otherVersion"/> is compatible with our own
+		/// </summary>
+		/// <param name="otherVersion">The <see cref="Version"/> to test</param>
+		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise</returns>
+		public static bool CheckCompatibility(Version otherVersion)
+		{
+			var ourVersion = assemblyName.Version;
+			return !(ourVersion.Major != otherVersion.Major || ourVersion.Minor != otherVersion.Minor || ourVersion.Build > otherVersion.Build);
+		}
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/> for JWT authentication
@@ -141,10 +152,8 @@ namespace Tgstation.Server.Api
 			ApiVersion = apiVersion;
 			UserAgent = clientUserAgent.Product;
 
-			//check api version compatibility
-			var ourVersion = assemblyName.Version;
-			if (ourVersion.Major != ApiVersion.Major || ourVersion.Minor != ApiVersion.Minor || ourVersion.Build > ApiVersion.Build)
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Given API version is incompatible with version {0}!", ourVersion));
+			if(!CheckCompatibility(ApiVersion))
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Given API version is incompatible with version {0}!", ApiVersion));
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
@@ -207,10 +216,13 @@ namespace Tgstation.Server.Api
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
 		/// </summary>
 		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set</param>
-		public void SetRequestHeaders(HttpRequestHeaders headers)
+		/// <param name="instanceId">The <see cref="Models.Instance.Id"/> for the request</param>
+		public void SetRequestHeaders(HttpRequestHeaders headers, long? instanceId = null)
 		{
 			if (headers == null)
 				throw new ArgumentNullException(nameof(headers));
+			if (instanceId.HasValue && InstanceId.HasValue && instanceId != InstanceId)
+				throw new InvalidOperationException("Specified instance ID in constructor and SetRequestHeaders!");
 
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
@@ -223,8 +235,9 @@ namespace Tgstation.Server.Api
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, ApiVersion.ToString());
-			if(InstanceId.HasValue)
-				headers.Add(instanceIdHeader, InstanceId.ToString());
+			instanceId = instanceId ?? InstanceId;
+			if (instanceId.HasValue)
+				headers.Add(instanceIdHeader, instanceId.ToString());
 		}
     }
 }

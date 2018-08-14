@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="rightsType">The <see cref="RightsType"/> of the right to get</param>
 		/// <returns>The value of <paramref name="rightsType"/>. Note that if <see cref="InstanceUser"/> is <see langword="null"/> all <see cref="Instance"/> based rights will return 0</returns>
-		int GetRight(RightsType rightsType);
+		ulong GetRight(RightsType rightsType);
 
 		/// <summary>
 		/// The <see cref="ISystemIdentity"/> of <see cref="User"/> if applicable

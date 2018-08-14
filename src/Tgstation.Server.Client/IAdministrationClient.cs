@@ -1,14 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 
-namespace Tgstation.Server.Client.Components
+namespace Tgstation.Server.Client
 {
 	/// <summary>
 	/// For managing server administration
 	/// </summary>
-	public interface IAdministrationClient : IRightsClient<AdministrationRights>
+	public interface IAdministrationClient
 	{
 		/// <summary>
 		/// Get the <see cref="Administration"/> represented by the <see cref="IAdministrationClient"/>

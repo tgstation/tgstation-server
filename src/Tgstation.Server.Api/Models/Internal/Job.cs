@@ -59,6 +59,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The <see cref="Rights"/> required to cancel the <see cref="Job"/>
 		/// </summary>
 		[Permissions(DenyWrite = true)]
-		public int? CancelRight { get; set; }
+		public ulong? CancelRight { get; set; }
 	}
 }

@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Models
 		/// If the <see cref="InstanceUser"/> has any instance rights
 		/// </summary>
 		public bool AnyRights => ByondRights != Api.Rights.ByondRights.None ||
-			ChatSettingsRights != Api.Rights.ChatSettingsRights.None ||
+			ChatBotRights != Api.Rights.ChatBotRights.None ||
 			ConfigurationRights != Api.Rights.ConfigurationRights.None ||
 			DreamDaemonRights != Api.Rights.DreamDaemonRights.None ||
 			DreamMakerRights != Api.Rights.DreamMakerRights.None ||
@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Models
 		public Api.Models.InstanceUser ToApi() => new Api.Models.InstanceUser
 		{
 			ByondRights = ByondRights,
-			ChatSettingsRights = ChatSettingsRights,
+			ChatBotRights = ChatBotRights,
 			ConfigurationRights = ConfigurationRights,
 			DreamDaemonRights = DreamDaemonRights,
 			DreamMakerRights = DreamMakerRights,

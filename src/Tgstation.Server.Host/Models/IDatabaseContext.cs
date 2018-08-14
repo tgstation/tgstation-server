@@ -50,9 +50,9 @@ namespace Tgstation.Server.Host.Models
 		DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.ChatSettings"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Models.ChatBot"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<ChatSettings> ChatSettings { get; set; }
+		DbSet<ChatBot> ChatBots { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatChannel"/> in the <see cref="IDatabaseContext"/>
