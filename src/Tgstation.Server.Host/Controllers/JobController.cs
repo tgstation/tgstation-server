@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -15,7 +16,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for <see cref="Api.Models.Job"/>s
 	/// </summary>
-	[Route("/" + nameof(Job))]
+	[Route(Routes.Jobs)]
 	public sealed class JobController : ModelController<Api.Models.Job>
 	{
 		/// <summary>

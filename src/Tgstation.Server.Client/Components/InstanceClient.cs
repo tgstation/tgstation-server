@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client.Components
 		public IDreamMakerClient DreamMaker { get; }
 
 		/// <inheritdoc />
-		public IJobsClient Jobs => throw new NotImplementedException();
+		public IJobsClient Jobs { get; }
 
 		/// <summary>
 		/// The <see cref="IApiClient"/> for the <see cref="InstanceClient"/>
@@ -55,6 +55,7 @@ namespace Tgstation.Server.Client.Components
 			Users = new InstanceUserClient(apiClient, instance);
 			ChatBots = new ChatBotsClient(apiClient, instance);
 			DreamMaker = new DreamMakerClient(apiClient, instance);
+			Jobs = new JobsClient(apiClient, instance);
 		}
 	}
 }
