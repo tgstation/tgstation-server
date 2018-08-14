@@ -15,6 +15,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The version of the API the server is using
 		/// </summary>
-		public Version SeverAPIVersion { get; set; } = ApiHeaders.assemblyName.Version;
+		public Version SeverApiVersion { get; set; } = ApiHeaders.assemblyName.Version;
 	}
 }

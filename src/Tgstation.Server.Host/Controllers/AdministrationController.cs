@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Octokit;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			Logger.LogWarning("Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
-			Response.Headers.Add("Retry-After", new Microsoft.Extensions.Primitives.StringValues { });
+			Response.Headers.Add("Retry-After", new StringValues(secondsString));
 			return StatusCode(RateLimitHttpStatusCode);
 		}
 

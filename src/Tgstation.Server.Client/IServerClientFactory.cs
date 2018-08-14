@@ -18,7 +18,7 @@ namespace Tgstation.Server.Client
 		/// <param name="password">The password for the <see cref="IServerClient"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="timeout">The <see cref="TimeSpan"/> representing timeout for the connection</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/> on success, <see langword="null"/> if <paramref name="host"/> is invalid</returns>
 		Task<IServerClient> CreateServerClient(Uri host, string username, string password, TimeSpan timeout = default, CancellationToken cancellationToken = default);
 
 		/// <summary>
