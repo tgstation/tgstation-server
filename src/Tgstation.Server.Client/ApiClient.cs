@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,9 +76,14 @@ namespace Tgstation.Server.Client
 			var fullUri = new Uri(Url, route);
 
 			var message = new HttpRequestMessage(method, fullUri);
-			
+
+			var serializerSettings = new JsonSerializerSettings
+			{
+				ContractResolver = new CamelCasePropertyNamesContractResolver()
+			};
+
 			if (body != null)
-				message.Content = new StringContent(JsonConvert.SerializeObject(body));
+				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings));
 
 			Headers.SetRequestHeaders(message.Headers, instanceId);
 
@@ -94,7 +100,7 @@ namespace Tgstation.Server.Client
 				try
 				{
 					//check if json serializes to an error message
-					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json);
+					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, serializerSettings);
 				}
 				catch (JsonSerializationException) { }
 
@@ -131,7 +137,7 @@ namespace Tgstation.Server.Client
 			if (String.IsNullOrWhiteSpace(json))
 				json = JsonConvert.SerializeObject(new object());
 
-			return JsonConvert.DeserializeObject<TResult>(json);
+			return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
 		}
 
 		/// <inheritdoc />
