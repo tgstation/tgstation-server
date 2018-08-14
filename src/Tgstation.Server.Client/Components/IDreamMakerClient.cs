@@ -22,7 +22,7 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="dreamMaker">The <see cref="DreamMaker"/> to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Update(DreamMaker dreamMaker, CancellationToken cancellationToken);
+		Task<DreamMaker> Update(DreamMaker dreamMaker, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Compile the current repository revision

@@ -22,13 +22,13 @@ namespace Tgstation.Server.Client.Components
 		public IConfigurationClient Configuration { get; }
 
 		/// <inheritdoc />
-		public IInstanceUserClient Users => throw new NotImplementedException();
+		public IInstanceUserClient Users { get; }
 
 		/// <inheritdoc />
-		public IChatBotsClient ChatBots => throw new NotImplementedException();
+		public IChatBotsClient ChatBots { get; }
 
 		/// <inheritdoc />
-		public IDreamMakerClient DreamMaker => throw new NotImplementedException();
+		public IDreamMakerClient DreamMaker { get; }
 
 		/// <inheritdoc />
 		public IJobsClient Jobs => throw new NotImplementedException();
@@ -52,6 +52,9 @@ namespace Tgstation.Server.Client.Components
 			Repository = new RepositoryClient(apiClient, instance);
 			DreamDaemon = new DreamDaemonClient(apiClient, instance);
 			Configuration = new ConfigurationClient(apiClient, instance);
+			Users = new InstanceUserClient(apiClient, instance);
+			ChatBots = new ChatBotsClient(apiClient, instance);
+			DreamMaker = new DreamMakerClient(apiClient, instance);
 		}
 	}
 }

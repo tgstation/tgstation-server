@@ -54,6 +54,16 @@ namespace Tgstation.Server.Api
 		public const string InstanceUser = Root + nameof(Models.InstanceUser);
 
 		/// <summary>
+		/// The <see cref="Models.InstanceUser"/> controller
+		/// </summary>
+		public const string Chat = Root + "Chat";
+
+		/// <summary>
+		/// The <see cref="Models.DreamMaker"/> controller
+		/// </summary>
+		public const string DreamMaker = Root + nameof(Models.DreamMaker);
+
+		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
 		/// </summary>
 		/// <param name="route">The route</param>

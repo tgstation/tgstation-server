@@ -31,17 +31,17 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<InstanceUser> Create(InstanceUser user, CancellationToken cancellationToken) => apiClient.Create<InstanceUser, InstanceUser>(Routes.InstanceUser, user, cancellationToken);
+		public Task<InstanceUser> Create(InstanceUser user, CancellationToken cancellationToken) => apiClient.Create<InstanceUser, InstanceUser>(Routes.InstanceUser, user, instance.Id, cancellationToken);
 
-		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), cancellationToken);
-
-		/// <inheritdoc />
-		public Task<InstanceUser> Read(CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.InstanceUser, cancellationToken);
+		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstanceUser> Update(InstanceUser user, CancellationToken cancellationToken) => apiClient.Update<InstanceUser, InstanceUser>(Routes.InstanceUser, user, cancellationToken);
+		public Task<InstanceUser> Read(CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.InstanceUser, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<InstanceUser>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<InstanceUser>>(Routes.List(Routes.InstanceUser), cancellationToken);
+		public Task<InstanceUser> Update(InstanceUser user, CancellationToken cancellationToken) => apiClient.Update<InstanceUser, InstanceUser>(Routes.InstanceUser, user, instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<IReadOnlyList<InstanceUser>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<InstanceUser>>(Routes.List(Routes.InstanceUser), instance.Id, cancellationToken);
 	}
 }

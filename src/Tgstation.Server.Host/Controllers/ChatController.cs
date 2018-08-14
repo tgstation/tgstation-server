@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatBot"/>s
 	/// </summary>
-	[Route("/" + nameof(Components.Chat.Chat))]
+	[Route(Routes.Chat)]
 	public sealed class ChatController : ModelController<Api.Models.ChatBot>
 	{
 		/// <summary>
