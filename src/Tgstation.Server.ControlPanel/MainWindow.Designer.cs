@@ -32,12 +32,12 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
 			this.instanceListSplit = new System.Windows.Forms.SplitContainer();
 			this.instanceBrowser = new System.Windows.Forms.TreeView();
+			this.consoleSplit = new System.Windows.Forms.SplitContainer();
 			this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
 			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.menuExport = new System.Windows.Forms.MenuItem();
 			this.menuImport = new System.Windows.Forms.MenuItem();
 			this.menuQuit = new System.Windows.Forms.MenuItem();
-			this.consoleSplit = new System.Windows.Forms.SplitContainer();
 			this.rootContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.newConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.serverContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -79,6 +79,17 @@
 			this.instanceBrowser.Size = new System.Drawing.Size(318, 743);
 			this.instanceBrowser.TabIndex = 0;
 			// 
+			// consoleSplit
+			// 
+			this.consoleSplit.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.consoleSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.consoleSplit.Location = new System.Drawing.Point(0, 0);
+			this.consoleSplit.Name = "consoleSplit";
+			this.consoleSplit.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.consoleSplit.Size = new System.Drawing.Size(1102, 747);
+			this.consoleSplit.SplitterDistance = 603;
+			this.consoleSplit.TabIndex = 0;
+			// 
 			// mainMenu1
 			// 
 			this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
@@ -108,17 +119,6 @@
 			this.menuQuit.Index = 2;
 			this.menuQuit.Text = "Quit";
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
-			// 
-			// consoleSplit
-			// 
-			this.consoleSplit.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.consoleSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.consoleSplit.Location = new System.Drawing.Point(0, 0);
-			this.consoleSplit.Name = "consoleSplit";
-			this.consoleSplit.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			this.consoleSplit.Size = new System.Drawing.Size(1102, 747);
-			this.consoleSplit.SplitterDistance = 603;
-			this.consoleSplit.TabIndex = 0;
 			// 
 			// rootContextMenuStrip
 			// 

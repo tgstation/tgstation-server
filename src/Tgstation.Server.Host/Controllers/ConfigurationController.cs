@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get the contents of a file at a <paramref name="path"/>
+		/// Get the contents of a file at a <paramref name="filePath"/>
 		/// </summary>
 		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get the contents of a directory at a <paramref name="path"/>
+		/// Get the contents of a directory at a <paramref name="directoryPath"/>
 		/// </summary>
 		/// <param name="directoryPath">The path of the directory to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
