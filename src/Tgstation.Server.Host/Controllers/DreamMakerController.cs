@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Controllers
 				Description = "Compile active repository code",
 				StartedBy = AuthenticationContext.User,
 				CancelRightsType = RightsType.DreamMaker,
-				CancelRight = (int)DreamMakerRights.CancelCompile,
+				CancelRight = (ulong)DreamMakerRights.CancelCompile,
 				Instance = Instance
 			};
 			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);

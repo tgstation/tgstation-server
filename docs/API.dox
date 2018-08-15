@@ -17,6 +17,8 @@ The TGS4 API's canonical definitions are provided as a .NET Standard library in 
 
 An all inclusive TAP interface for using the API is also provided in this package: https://www.nuget.org/packages/Tgstation.Server.Client
 
+Last off, if anything in this API doesn't seem to hold true when tested against the server, please open an issue on the repository.
+
 @subsection api_interp Interpreting C# Models
 
 This document will reference the canonical C# models in the @ref Tgstation.Server.Api.Models namespace. Note that these models are built to mirror the JSON requests and responses with a couple caveats.
@@ -405,3 +407,25 @@ When creating a file, only @ref Tgstation.Server.Api.Models.ConfigurationFile.Pa
 If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
 
 To delete a file set @ref Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request. If deleting a file leaves a directory empty, they too will be deleted.
+
+@subsection api_dog Watchdog
+
+To read watchdog status use the following request:
+
+I GET "/DreamDaemon" => @ref Tgstation.Server.Api.Models.DreamDaemon
+
+To update watchdog settings use the following request:
+
+I POST "/DreamDaemon" => @ref Tgstation.Server.Api.Models.DreamDaemon
+
+Note that soft restart/shutdown operations cannot be cancelled via this method, they can be changed from one to another however.
+
+To start the watchdog use the following request:
+
+I PUT "/DreamDaemon" Empty => @ref Tgstation.Server.Api.Models.Job
+
+The returned job represents the startup process for the watchdog
+
+To stop the watchdog use the following request:
+
+I DELETE "/DreamDaemon" => OK

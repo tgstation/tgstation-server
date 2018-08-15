@@ -319,7 +319,7 @@ namespace Tgstation.Server.Host.Controllers
 					Description = String.Format(CultureInfo.InvariantCulture, "Move instance ID {0} from {1} to {2}", Instance.Id, Instance.Path, rawPath),
 					Instance = Instance,
 					CancelRightsType = RightsType.InstanceManager,
-					CancelRight = (int)InstanceManagerRights.CancelMove,
+					CancelRight = (ulong)InstanceManagerRights.CancelMove,
 					StartedBy = AuthenticationContext.User
 				};
 

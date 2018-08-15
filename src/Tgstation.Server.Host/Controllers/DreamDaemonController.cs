@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Controllers
 			var job = new Models.Job
 			{
 				Description = "Launch DreamDaemon",
-				CancelRight = (int)DreamDaemonRights.Shutdown,
+				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon,
 				Instance = Instance,
 				StartedBy = AuthenticationContext.User
@@ -72,8 +72,6 @@ namespace Tgstation.Server.Host.Controllers
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)
 					throw new InvalidOperationException("Watchdog already running!");
-				if (!instance.Watchdog.Running)
-					throw new Exception("Failed to launch watchdog!");
 			},
 			cancellationToken).ConfigureAwait(false);
 			return Json(job);
@@ -81,20 +79,30 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
-		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
-		{
+		public override Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
+
+		/// <summary>
+		/// Implementation of <see cref="Read(CancellationToken)"/>
+		/// </summary>
+		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		async Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+		{			
 			var instance = instanceManager.GetInstance(Instance);
 			var dd = instance.Watchdog;
 
-			var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadMetadata) != 0;
-			var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (int)DreamDaemonRights.ReadRevision) != 0;
+			var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadMetadata) != 0;
+			var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadRevision) != 0;
 
-			var settings = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
+			if (settings == null)
+				settings = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
 			var result = new DreamDaemon();
 			if(metadata)
 			{
 				var alphaActive = dd.AlphaIsActive;
 				var llp = dd.LastLaunchParameters;
+				var rstate = dd.RebootState;
 				result.AutoStart = settings.AutoStart;
 				result.CurrentPort = alphaActive ? llp.PrimaryPort : llp.SecondaryPort;
 				result.CurrentSecurity = llp.SecurityLevel;
@@ -102,9 +110,8 @@ namespace Tgstation.Server.Host.Controllers
 				result.PrimaryPort = dd.ActiveLaunchParameters.PrimaryPort;
 				result.AllowWebClient = dd.ActiveLaunchParameters.AllowWebClient;
 				result.Running = dd.Running;
-				result.SecondaryPort = dd.LastLaunchParameters.SecondaryPort;
-				result.SecurityLevel = dd.LastLaunchParameters.SecurityLevel;
-				var rstate = dd.RebootState;
+				result.SecondaryPort = llp.SecondaryPort;
+				result.SecurityLevel = llp.SecurityLevel;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
 			};
@@ -126,10 +133,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			//alias for stopping DD
 			var instance = instanceManager.GetInstance(Instance);
-
-			if (!instance.Watchdog.Running)
-				return StatusCode((int)HttpStatusCode.Gone);
-
 			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
@@ -178,21 +181,18 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage { Message = "TGS does not support the ultrasafe DreamDaemon configuration!" });
 			
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
-			
-			var changeSettingsTask = wd.ChangeSettings(current, cancellationToken);
+
+			//run these in parallel because they are equally as important
+			await Task.WhenAll(DatabaseContext.Save(cancellationToken), wd.ChangeSettings(current, cancellationToken)).ConfigureAwait(false);
 
 			//soft shutdown/restart can't be cancelled because of how many things rely on them
 			//They can be alternated though
 			if (!oldSoftRestart.Value && current.SoftRestart.Value)
-				await Task.WhenAll(changeSettingsTask, wd.Restart(true, cancellationToken)).ConfigureAwait(false);
+				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
 			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
-				await Task.WhenAll(changeSettingsTask, wd.Terminate(true, cancellationToken)).ConfigureAwait(false);
-			else
-				await changeSettingsTask.ConfigureAwait(false);
+				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
 
-			await DatabaseContext.Save(default).ConfigureAwait(false);
-
-			return Ok();
+			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

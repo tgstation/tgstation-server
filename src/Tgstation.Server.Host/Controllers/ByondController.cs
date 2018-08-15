@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 					Description = String.Format(CultureInfo.InvariantCulture, "Install BYOND version {0}", installingVersion),
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Byond,
-					CancelRight = (int)ByondRights.CancelInstall,
+					CancelRight = (ulong)ByondRights.CancelInstall,
 					Instance = Instance
 				};
 				await jobManager.RegisterOperation(job, (paramJob, serviceProvicer, progressHandler, ct) => byondManager.ChangeVersion(installingVersion, ct), cancellationToken).ConfigureAwait(false);
