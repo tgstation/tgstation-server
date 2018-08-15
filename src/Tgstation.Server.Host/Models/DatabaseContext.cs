@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Models
 			var wasEmpty = false;
 			if (!databaseConfiguration.NoMigrations)
 			{
-				Logger.LogWarning("Running in debug mode. Using all or nothing migration strategy!");
+				Logger.LogWarning("Using all or nothing migration strategy!");
 				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
 			}
 			else
