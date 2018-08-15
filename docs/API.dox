@@ -375,3 +375,33 @@ To get a specific compile job use:
 I GET "/DreamMaker/{CompileJobId}" => @ref Tgstation.Server.Api.Models.CompileJob
 
 */
+
+@subsection api_config Static Files
+
+Static files can be both read and written.
+
+To get the contents of a static file directory use the following method
+
+I GET "/Config/List/<path to directory>" => Array of @ref Tgstation.Server.Api.Models.ConfigurationFile
+
+Where the path is formatted as: directory/inner_directory/more_directories
+
+If the path is empty, the root directory will be retrieved. The @ref Tgstation.Server.Api.Models.ConfigurationFile.Content and @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash fields will not be populated for this response
+
+If you do not have access to list the requested directory, a 403 response will be returned. If the path actually represents a file or the directory no longer exists a 410 response will be returned.
+
+To get the content of a static file use the following method
+
+I GET "/Config/File/<path to file>" => @ref Tgstation.Server.Api.Models.ConfigurationFile
+
+410 will be returned if the path doesn't exist. @ref Tgstation.Server.Api.Models.ConfigurationFile.Content will only be populated if the path is a file the user has access to, otherwise the other fields will be populated appropriately.
+
+To create, write, and delete files use the following request
+
+I POST "/Config" @ref Tgstation.Server.Api.Models.ConfigurationFile => @ref Tgstation.Server.Api.Models.ConfigurationFile
+
+When creating a file, only @ref Tgstation.Server.Api.Models.ConfigurationFile.Path and @ref Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified. Any necessary preceeding directories will be created if possible.
+
+If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
+
+To delete a file set @ref Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request. If deleting a file leaves a directory empty, they too will be deleted.
