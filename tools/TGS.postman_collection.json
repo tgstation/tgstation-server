@@ -2016,6 +2016,537 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "Static files",
+					"item": [
+						{
+							"name": "Read Root",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config/List",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config",
+										"List"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read EventScripts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config/List/EventScripts",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config",
+										"List",
+										"EventScripts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read PreCompile.bat",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config/File/EventScripts/PreCompile.bat",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config",
+										"File",
+										"EventScripts",
+										"PreCompile.bat"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Write thing/asdf.txt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf.txt\",\n\t\"content\": \"SGVsbG8gd29ybGQ=\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Write thing/asdf3.txt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf3.txt\",\n\t\"content\": \"SGVsbG8gd29ybGQ=\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete thing/asdf3.txt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf3.txt\",\n    \"lastReadHash\": \"7b502c3a1f48c8609ae212cdfb639dee39673f5e\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bad rewrite thing/asdf.txt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf.txt\",\n\t\"content\": \"SGVsbG8gd29ybGQgYWdhaW4=\",\n    \"lastReadHash\": \"7b502c3a1f48c8609ae212cdfb639dee39673f5e not a real sha\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read thing/asdf.txt",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"online\": false\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config/File/thing/asdf.txt",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config",
+										"File",
+										"thing",
+										"asdf.txt"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rewrite thing/asdf.txt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf.txt\",\n\t\"content\": \"SGVsbG8gd29ybGQgYWdhaW4=\",\n    \"lastReadHash\": \"7b502c3a1f48c8609ae212cdfb639dee39673f5e\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete thing/asdf.txt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf.txt\",\n    \"lastReadHash\": \"1baedcc3133922e37579907cd17c62aa98425297\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Write thing/asdf.txt/shouldntwork.file",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"thing/asdf.txt/shouldntwork.file\",\n\t\"content\": \"SGVsbG8gd29ybGQ=\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Write CodeModifications",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"CodeModifications\",\n\t\"content\": \"SGVsbG8gd29ybGQ=\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Online Instance ID 1",
 					"request": {
 						"method": "POST",
@@ -2040,6 +2571,84 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": 1,\n    \"online\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable Generic Config on Instance ID 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "Api",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"configurationType\": 1\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/Instance",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable SID Config on Instance ID 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "Api",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"configurationType\": 2\n}"
 						},
 						"url": {
 							"raw": "localhost:5000/Instance",

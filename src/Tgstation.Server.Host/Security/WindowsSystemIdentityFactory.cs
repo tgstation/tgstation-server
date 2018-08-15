@@ -26,34 +26,25 @@ namespace Tgstation.Server.Host.Security
 			PrincipalContext pc = null;
 			UserPrincipal principal = null;
 			//machine logon first cause it's faster
-			try
-			{
-				pc = new PrincipalContext(ContextType.Machine);
-				principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
-			}
-			catch(COMException)
-			{
-				pc?.Dispose();
-			}
-
+			pc = new PrincipalContext(ContextType.Machine);
+			principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 			if (principal == null)
 			{
+				pc.Dispose();
 				//try domain now
 				try
 				{
-					var udn = Environment.UserDomainName;
-					pc = new PrincipalContext(ContextType.Domain, udn);
+					pc = new PrincipalContext(ContextType.Domain);
 					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 				}
 				catch (PrincipalServerDownException) { }
 
-				if(principal == null)
+				if (principal == null)
 				{
 					pc?.Dispose();
 					return null;
 				}
 			}
-
 			return (ISystemIdentity)new WindowsSystemIdentity(principal);
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
