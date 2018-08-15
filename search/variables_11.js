@@ -6,7 +6,6 @@ var searchData=
   ['rebootstate',['RebootState',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#af2cfade4b1ded5fdc06086b4957f233a',1,'Tgstation::Server::Host::Components::Watchdog::Watchdog']]],
   ['reboottcs',['rebootTcs',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a92ab8344fdb23d7b4db96f4595ae8054',1,'Tgstation::Server::Host::Components::Watchdog::SessionController']]],
   ['reference',['Reference',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a019e9f75f0129457c1f6f2e44e9736d0',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
-  ['refreshtoolstripmenuitem',['refreshToolStripMenuItem',['../class_tgstation_1_1_server_1_1_control_panel_1_1_main_window.html#a6aed575aa9cb486b5420df87646e765d',1,'Tgstation::Server::ControlPanel::MainWindow']]],
   ['released',['released',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#aa59a34a24d122357d081403d95a76e78',1,'Tgstation::Server::Host::Components::Watchdog::SessionController']]],
   ['releaseservers',['releaseServers',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#a4716774c95335450d0bb96b2ecd0908f',1,'Tgstation::Server::Host::Components::Watchdog::Watchdog']]],
   ['remotetemporarybranchname',['RemoteTemporaryBranchName',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4ad624c2294a1cc28f47d251ed3a17f8',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
@@ -16,6 +15,5 @@ var searchData=
   ['requestloggers',['requestLoggers',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a8c0c69d8203c1af593869613dfb1f8cc',1,'Tgstation::Server::Client::ApiClient']]],
   ['requireinstance',['requireInstance',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#afe4f020656eb2d02def6ff389fd33bcb',1,'Tgstation::Server::Host::Controllers::ApiController']]],
   ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#ab440b461bd435f52e1303ee74cb6115b',1,'Tgstation::Server::Host::Components::Compiler::DmbProvider']]],
-  ['root',['Root',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a',1,'Tgstation::Server::Api::Routes']]],
-  ['rootcontextmenustrip',['rootContextMenuStrip',['../class_tgstation_1_1_server_1_1_control_panel_1_1_main_window.html#a3d42c0e8ec789d8701100eb06a33fed5',1,'Tgstation::Server::ControlPanel::MainWindow']]]
+  ['root',['Root',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a',1,'Tgstation::Server::Api::Routes']]]
 ];

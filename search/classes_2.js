@@ -23,7 +23,6 @@ var searchData=
   ['configurationcontroller',['ConfigurationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['configurationfile',['ConfigurationFile',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html',1,'Tgstation::Server::Api::Models']]],
   ['conflictexception',['ConflictException',['../class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html',1,'Tgstation::Server::Client']]],
-  ['connection',['Connection',['../class_tgstation_1_1_server_1_1_control_panel_1_1_connection.html',1,'Tgstation::Server::ControlPanel']]],
   ['constants',['Constants',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_constants.html',1,'Tgstation::Server::Host::Components::Interop']]],
   ['controller',['Controller',['../class_controller.html',1,'']]],
   ['cryptographysuite',['CryptographySuite',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html',1,'Tgstation::Server::Host::Security']]],
