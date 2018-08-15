@@ -69,14 +69,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.InstanceUsers.Add(dbUser);
 
-			try
-			{
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			}
-			catch (DbUpdateConcurrencyException e)
-			{
-				return Conflict(new ErrorMessage { Message = e.Message });
-			}
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return Json(dbUser.ToApi());
 		}
 
@@ -98,14 +91,7 @@ namespace Tgstation.Server.Host.Controllers
 			originalUser.DreamDaemonRights = model.DreamDaemonRights ?? originalUser.DreamDaemonRights;
 			originalUser.DreamMakerRights = model.DreamMakerRights ?? originalUser.DreamMakerRights;
 
-			try
-			{
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			}
-			catch (DbUpdateConcurrencyException e)
-			{
-				return Conflict(new ErrorMessage { Message = e.Message });
-			}
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return Json(originalUser.ToApi());
 		}
 

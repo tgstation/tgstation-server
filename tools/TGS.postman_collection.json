@@ -267,6 +267,45 @@
 					"response": []
 				},
 				{
+					"name": "Create User admin",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Postman/1.0"
+							},
+							{
+								"key": "Api",
+								"value": "Tgstation.Server.Api/4.0.0.0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"asdfasdfasdfasdfasdf\",\n    \"name\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/User",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Try To Add A SysId To User ID 2",
 					"request": {
 						"method": "POST",
@@ -544,7 +583,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"systemIdentifier\": \"Cyberboss\"\n}"
+							"raw": "{\n    \"systemIdentifier\": \"TESSONICS\\\\Jordan\"\n}"
 						},
 						"url": {
 							"raw": "localhost:5000/User",

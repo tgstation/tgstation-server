@@ -211,14 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
 			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), default).ConfigureAwait(false);
-			try
-			{
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);    //cascades everything
-			}
-			catch (DbUpdateException e)
-			{
-				return Conflict(new ErrorMessage { Message = e.Message });
-			}
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);   //cascades everything
 			return Ok();
 		}
 

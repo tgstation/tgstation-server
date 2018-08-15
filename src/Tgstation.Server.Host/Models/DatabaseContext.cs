@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Models
 			Logger.LogInformation("Migrating database...");
 
 			var wasEmpty = false;
-			if (!databaseConfiguration.NoMigrations)
+			if (databaseConfiguration.NoMigrations)
 			{
 				Logger.LogWarning("Using all or nothing migration strategy!");
 				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
