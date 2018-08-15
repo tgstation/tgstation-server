@@ -13,7 +13,7 @@ if($publish_dox){
 	rm -r "$doxdir\*"
 	Add-Content "$bf\build\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/build/tgs.ico"
 }else{
-	Add-Content "$bf\build\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/build/tgs.ico"
+	Add-Content "$bf\build\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/build/tgs.ico`nHAVE_DOT=YES"
 }
 
 doxygen.exe "$bf\build\Doxyfile"

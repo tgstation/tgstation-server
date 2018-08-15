@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,9 +29,14 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The <see cref="HttpClient"/> for the <see cref="IApiClient"/>
+		/// The <see cref="HttpClient"/> for the <see cref="ApiClient"/>
 		/// </summary>
 		readonly HttpClient httpClient;
+
+		/// <summary>
+		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>
+		/// </summary>
+		readonly List<IRequestLogger> requestLoggers;
 
 		/// <summary>
 		/// Construct an <see cref="ApiClient"/>
@@ -42,6 +49,7 @@ namespace Tgstation.Server.Client
 			Headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
 
 			httpClient = new HttpClient();
+			requestLoggers = new List<IRequestLogger>();
 		}
 
 		/// <inheritdoc />
@@ -67,29 +75,23 @@ namespace Tgstation.Server.Client
 
 			var fullUri = new Uri(Url, route);
 
-			HttpContent content = null;
-			if (body != null)
-				content = new StringContent(JsonConvert.SerializeObject(body));
+			var message = new HttpRequestMessage(method, fullUri);
 
-			Task<HttpResponseMessage> task;
-			lock (this)
+			var serializerSettings = new JsonSerializerSettings
 			{
-				httpClient.DefaultRequestHeaders.Clear();
-				Headers.SetRequestHeaders(httpClient.DefaultRequestHeaders, instanceId);
+				ContractResolver = new CamelCasePropertyNamesContractResolver()
+			};
 
-				if (method == HttpMethod.Get)
-					task = httpClient.GetAsync(route);
-				else if (method == HttpMethod.Put)
-					task = httpClient.PutAsync(fullUri, content, cancellationToken);
-				else if (method == HttpMethod.Post)
-					task = httpClient.PostAsync(fullUri, content, cancellationToken);
-				else if (method == HttpMethod.Delete)
-					task = httpClient.DeleteAsync(fullUri, cancellationToken);
-				else
-					throw new NotSupportedException();
-			}
+			if (body != null)
+				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings));
 
-			var response = await task.ConfigureAwait(false);
+			Headers.SetRequestHeaders(message.Headers, instanceId);
+
+			await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(message, cancellationToken))).ConfigureAwait(false);
+
+			var response = await httpClient.SendAsync(message, cancellationToken).ConfigureAwait(false);
+
+			await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
 
 			var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
@@ -98,7 +100,7 @@ namespace Tgstation.Server.Client
 				try
 				{
 					//check if json serializes to an error message
-					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json);
+					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, serializerSettings);
 				}
 				catch (JsonSerializationException) { }
 
@@ -115,6 +117,8 @@ namespace Tgstation.Server.Client
 						throw new RequestTimeoutException();
 					case HttpStatusCode.Forbidden:
 						throw new InsufficientPermissionsException();
+					case HttpStatusCode.ServiceUnavailable:
+						throw new ServiceUnavailableException();
 					case HttpStatusCode.Gone:
 					case HttpStatusCode.NotFound:
 					case HttpStatusCode.Conflict:
@@ -135,7 +139,7 @@ namespace Tgstation.Server.Client
 			if (String.IsNullOrWhiteSpace(json))
 				json = JsonConvert.SerializeObject(new object());
 
-			return JsonConvert.DeserializeObject<TResult>(json);
+			return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
 		}
 
 		/// <inheritdoc />
@@ -173,5 +177,8 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, cancellationToken);
+
+		/// <inheritdoc />
+		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));
 	}
 }

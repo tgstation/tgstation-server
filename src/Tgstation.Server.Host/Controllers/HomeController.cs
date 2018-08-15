@@ -81,6 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 			ISystemIdentity identity;
 			try
 			{
+				//trust the system over the database because a user's name can change while still having the same SID
 				identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
 			}
 			catch (NotImplementedException)
@@ -98,12 +99,13 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Id = x.Id,
 					PasswordHash = x.PasswordHash,
-					Enabled = x.Enabled
+					Enabled = x.Enabled,
+					Name = x.Name
 				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 				if (user == null)
 					return Unauthorized();
-				
+
 				if (identity == null)
 				{
 					var originalHash = user.PasswordHash;
@@ -119,6 +121,14 @@ namespace Tgstation.Server.Host.Controllers
 						updatedUser.PasswordHash = user.PasswordHash;
 						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					}
+				}
+				//check if the name changed and updoot accordingly
+				else if (identity.Username != user.Name)
+				{
+					DatabaseContext.Users.Attach(user);
+					user.Name = identity.Username;
+					user.CanonicalName = user.Name.ToUpperInvariant();
+					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
 
 				if (!user.Enabled.Value)

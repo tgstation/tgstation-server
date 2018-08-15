@@ -78,6 +78,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
+		/// The <see cref="IPostWriteHandler"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IPostWriteHandler postWriteHandler;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -92,7 +97,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IProcessExecutor processExecutor)
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -106,6 +112,7 @@ namespace Tgstation.Server.Host.Components
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 		}
 
 		/// <inheritdoc />
@@ -120,7 +127,7 @@ namespace Tgstation.Server.Host.Components
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
-			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, loggerFactory.CreateLogger<StaticFiles.Configuration>());
+			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
 
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
