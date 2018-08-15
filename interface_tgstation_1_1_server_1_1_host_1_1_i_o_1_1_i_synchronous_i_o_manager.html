@@ -121,9 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a19577dc573076fd58ac1d55d682d5606"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a19577dc573076fd58ac1d55d682d5606">ReadFile</a> (string path)</td></tr>
 <tr class="memdesc:a19577dc573076fd58ac1d55d682d5606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the bytes of a file at a given <em>path</em>   <a href="#a19577dc573076fd58ac1d55d682d5606">More...</a><br /></td></tr>
 <tr class="separator:a19577dc573076fd58ac1d55d682d5606"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47b69a7933bd60fef012bf488e2976b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a47b69a7933bd60fef012bf488e2976b3">WriteFileChecked</a> (string path, byte[] data, string previousSha1, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a47b69a7933bd60fef012bf488e2976b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <em>data</em>  to a file at a given <em>path</em> .  <a href="#a47b69a7933bd60fef012bf488e2976b3">More...</a><br /></td></tr>
-<tr class="separator:a47b69a7933bd60fef012bf488e2976b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66e6e18e2e313165e390361b77465f65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a66e6e18e2e313165e390361b77465f65">WriteFileChecked</a> (string path, byte[] data, ref string sha1InOut, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a66e6e18e2e313165e390361b77465f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <em>data</em>  to a file at a given <em>path</em> .  <a href="#a66e6e18e2e313165e390361b77465f65">More...</a><br /></td></tr>
+<tr class="separator:a66e6e18e2e313165e390361b77465f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b94d0c1144161066ce9707231026fe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a6b94d0c1144161066ce9707231026fe3">IsDirectory</a> (string path)</td></tr>
 <tr class="memdesc:a6b94d0c1144161066ce9707231026fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given <em>path</em>  is a directory  <a href="#a6b94d0c1144161066ce9707231026fe3">More...</a><br /></td></tr>
 <tr class="separator:a6b94d0c1144161066ce9707231026fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -263,7 +263,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a47b69a7933bd60fef012bf488e2976b3"></a>
+<a class="anchor" id="a66e6e18e2e313165e390361b77465f65"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -282,8 +282,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>previousSha1</em>, </td>
+          <td class="paramtype">ref string&#160;</td>
+          <td class="paramname"><em>sha1InOut</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -304,14 +304,14 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to the file to write</td></tr>
     <tr><td class="paramname">data</td><td>The new contents of the file</td></tr>
-    <tr><td class="paramname">previousSha1</td><td>If the file exists, this function only succeeds if this parameter matches the SHA-1 hash of the contents of the current file</td></tr>
+    <tr><td class="paramname">sha1InOut</td><td>The function only succeeds if this parameter matches the SHA-1 hash of the contents of the current file. Contains the SHA1 of the file on disk once the function returns</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>on success,  if the operation failed due to <em>previousSha1</em>  not matching the file's contents</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>on success,  if the operation failed due to <em>sha1InOut</em>  not matching the file's contents</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#ad978e857ec3a42f9fdce7b37e223d036">Tgstation.Server.Host.IO.SynchronousIOManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a74a681b01f42d65b5bc6e10ad73541c1">Tgstation.Server.Host.IO.SynchronousIOManager</a>.</p>
 
 </div>
 </div>
