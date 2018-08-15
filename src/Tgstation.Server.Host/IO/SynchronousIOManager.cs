@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public bool WriteFileChecked(string path, byte[] data, string previousSha1, CancellationToken cancellationToken)
+		public bool WriteFileChecked(string path, byte[] data, ref string sha1InOut, CancellationToken cancellationToken)
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.IO
 					file.CopyTo(readMs);
 					originalBytes = readMs.ToArray();
 				}
-				if (originalBytes.Length != 0 && previousSha1 == null)
+				if (originalBytes.Length != 0 && sha1InOut == null)
 					//no sha1? no write
 					return false;
 
@@ -78,9 +78,14 @@ namespace Tgstation.Server.Host.IO
 				using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
 				{
-					var sha1String = originalBytes.Length != 0 ? String.Join("", sha1.ComputeHash(originalBytes).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
-					if (sha1String != previousSha1)
+					string GetSha1(byte[] dataToHash) => dataToHash.Length != 0 ? String.Join("", sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
+					var originalSha1 = GetSha1(originalBytes);
+					if (originalSha1 != sha1InOut)
+					{
+						sha1InOut = originalSha1;
 						return false;
+					}
+					sha1InOut = GetSha1(data);
 				}
 				cancellationToken.ThrowIfCancellationRequested();
 

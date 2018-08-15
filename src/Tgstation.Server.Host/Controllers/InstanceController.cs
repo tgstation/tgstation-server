@@ -30,6 +30,11 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class InstanceController : ModelController<Api.Models.Instance>
 	{
 		/// <summary>
+		/// File name to allow attaching instances
+		/// </summary>
+		const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
+
+		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="InstanceController"/>
 		/// </summary>
 		readonly IJobManager jobManager;
@@ -107,7 +112,8 @@ namespace Tgstation.Server.Host.Controllers
 			NormalizeModelPath(model, out var rawPath);
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-				return Conflict(new ErrorMessage { Message = "Path not empty!" });
+				if(!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
+					return Conflict(new ErrorMessage { Message = "Path not empty!" });
 
 			var newInstance = new Models.Instance
 			{
@@ -154,7 +160,8 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					//actually reserve it now
-					await ioManager.CreateDirectory(rawPath, default).ConfigureAwait(false);
+					await ioManager.CreateDirectory(rawPath, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteFile(ioManager.ConcatPath(rawPath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
 				}
 				catch
 				{
@@ -169,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return Conflict(new ErrorMessage { Message = e.Message });
 			}
-			catch (DbUpdateConcurrencyException e)
+			catch (DbUpdateException e)
 			{
 				return Conflict(new ErrorMessage{ Message = e.Message });
 			}
@@ -201,7 +208,10 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			DatabaseContext.Instances.Remove(originalModel);
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);	//cascades everything
+
+			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
+			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), default).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);   //cascades everything
 			return Ok();
 		}
 
@@ -309,7 +319,7 @@ namespace Tgstation.Server.Host.Controllers
 					Description = String.Format(CultureInfo.InvariantCulture, "Move instance ID {0} from {1} to {2}", Instance.Id, Instance.Path, rawPath),
 					Instance = Instance,
 					CancelRightsType = RightsType.InstanceManager,
-					CancelRight = (int)InstanceManagerRights.CancelMove,
+					CancelRight = (ulong)InstanceManagerRights.CancelMove,
 					StartedBy = AuthenticationContext.User
 				};
 

@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
 
-			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (int)ChatBotRights.ReadConnectionString) != 0;
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
 			if (!connectionStrings)
 				foreach (var I in results)
@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (results == default)
 				return NotFound();
 
-			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (int)ChatBotRights.ReadConnectionString) != 0;
+			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
 			if (!connectionStrings)
 				results.ConnectionString = null;

@@ -205,7 +205,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Finalize the <see cref="SessionController"/>
 		/// </summary>
 		/// <remarks>The finalizer dispose pattern is necessary so we don't accidentally leak the executable</remarks>
+#pragma warning disable CA1821 // Remove empty Finalizers //TODO remove this when https://github.com/dotnet/roslyn-analyzers/issues/1241 is fixed
 		~SessionController() => Dispose(false);
+#pragma warning restore CA1821 // Remove empty Finalizers
 
 		/// <inheritdoc />
 		public void Dispose()

@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 					Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch ?? "master"),
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Repository,
-					CancelRight = (int)RepositoryRights.CancelClone,
+					CancelRight = (ulong)RepositoryRights.CancelClone,
 					Instance = Instance
 				};
 				var api = currentModel.ToApi();
@@ -163,7 +163,9 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						if (repos == null)
 							throw new Exception("Filesystem conflict while cloning repository!");
-						await PopulateApi(api, repos, DatabaseContext, Instance, null, null, cancellationToken).ConfigureAwait(false);
+						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
+						if (await PopulateApi(api, repos, db, Instance, null, null, cancellationToken).ConfigureAwait(false))
+							await db.Save(cancellationToken).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
 
@@ -305,7 +307,7 @@ namespace Tgstation.Server.Host.Controllers
 				StartedBy = AuthenticationContext.User,
 				Instance = Instance,
 				CancelRightsType = RightsType.Repository,
-				CancelRight = (int)RepositoryRights.CancelPendingChanges,
+				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
 			};
 
 			await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>

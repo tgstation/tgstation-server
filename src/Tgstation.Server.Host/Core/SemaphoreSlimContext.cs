@@ -43,7 +43,9 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Finalize the <see cref="SemaphoreSlimContext"/>
 		/// </summary>
+#pragma warning disable CA1821 // Remove empty Finalizers //TODO remove this when https://github.com/dotnet/roslyn-analyzers/issues/1241 is fixed
 		~SemaphoreSlimContext() => Dispose();
+#pragma warning restore CA1821 // Remove empty Finalizers
 
 		/// <summary>
 		/// Release the lock on <see cref="lockedSemaphore"/>

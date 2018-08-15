@@ -166,13 +166,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						Path = ioManager.ConcatPath(path, x),
 					}));
 				}
-				catch (UnauthorizedAccessException)
+				catch (IOException e)
 				{
-					result = null;
-					return;
-				}
-				catch (DirectoryNotFoundException)
-				{
+					logger.LogDebug("IOException while writing {0}: {1}", path, e);
 					result = null;
 					return;
 				}
@@ -222,7 +218,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 					catch (IOException e)
 					{
-						logger.LogWarning("IOException while reading {0}: {1}", path, e);
+						logger.LogDebug("IOException while reading {0}: {1}", path, e);
 					}
 					catch (UnauthorizedAccessException)
 					{
@@ -299,30 +295,22 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (this)
 					try
 					{
-						var success = synchronousIOManager.WriteFileChecked(path, data, previousHash, cancellationToken);
+						var fileHash = previousHash;
+						var success = synchronousIOManager.WriteFileChecked(path, data, ref fileHash, cancellationToken);
 						if (!success)
 							return;
-						string sha1String = null;
-						if (data != null)
-						{
-							postWriteHandler.HandleWrite(path);
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-							using (var sha1 = new SHA1Managed())
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-								sha1String = String.Join("", sha1.ComputeHash(data).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-						}
 						result = new ConfigurationFile
 						{
 							Content = data,
 							IsDirectory = false,
-							LastReadHash = sha1String,
+							LastReadHash = fileHash,
 							AccessDenied = false,
 							Path = configurationRelativePath
 						};
 					}
 					catch (IOException e)
 					{
-						logger.LogWarning("IOException while writing {0}: {1}", path, e);
+						logger.LogDebug("IOException while writing {0}: {1}", path, e);
 					}
 					catch (UnauthorizedAccessException)
 					{

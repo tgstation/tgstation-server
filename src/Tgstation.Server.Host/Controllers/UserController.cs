@@ -116,22 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.Users.Add(dbUser);
 
-			try
-			{
-				try
-				{
-					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-				}
-				catch (Exception e)
-				{
-					logger.LogInformation("Error creating user: {0}", e);
-					throw;
-				}
-			}
-			catch (DbUpdateConcurrencyException e)
-			{
-				return Conflict(new { message = e.Message });
-			}
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			return Json(dbUser.ToApi());
 		}

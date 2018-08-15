@@ -44,7 +44,10 @@ namespace Tgstation.Server.Host.Watchdog
 				exeName += ".exe";
 
 			var dotnetPath = paths.Select(x => Path.Combine(x, exeName))
-							   .Where(x => File.Exists(x))
+							   .Where(x => {
+								   logger.LogTrace("Checking for dotnet at {0}", x);
+								   return File.Exists(x);
+								   })
 							   .FirstOrDefault();
 
 			if(dotnetPath == default)

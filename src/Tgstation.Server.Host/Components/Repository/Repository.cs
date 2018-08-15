@@ -372,6 +372,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task Sychronize(string username, string password, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
 		{
+			if (username == null && password == null)
+				return;
+
+			if (username == null)
+				throw new ArgumentNullException(nameof(username));
+			if (password == null)
+				throw new ArgumentNullException(nameof(password));
+
 			var startHead = Head;
 
 			if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
