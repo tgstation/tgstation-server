@@ -105,6 +105,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li class="level2"><a href="#api_dm">Compiler Handling</a></li>
+<li class="level2"><a href="#api_config">Static Files</a></li>
+<li class="level2"><a href="#api_dog">Watchdog</a></li>
 </ul>
 </li>
 </ul>
@@ -193,7 +195,7 @@ Permissions</h1>
 <h1><a class="anchor" id="api_user"></a>
 User Management</h1>
 <p>TGS start with one user: "Admin". The password is "ISolemlySwearToDeleteTheDataDirectory"</p>
-<p>There are two types of users that can be created: Database users and system users. Database users are your plain login/password style users. System users are based on either Windows or POSIX accounts depending on the host system. They cannot be created by TGS and have to be activated by adding them to the Database similarly to a normal user using the "SystemIdentifier" field which should generally be set to their username or DOMAIN\Username in an active directory environment. These act the same as regular users with the only exception being api_config. See that section for details.</p>
+<p>There are two types of users that can be created: Database users and system users. Database users are your plain login/password style users. System users are based on either Windows or POSIX accounts depending on the host system. They cannot be created by TGS and have to be activated by adding them to the Database similarly to a normal user using the "SystemIdentifier" field which should generally be set to their username or DOMAIN\Username in an active directory environment. These act the same as regular users with the only exception being <a class="el" href="api.html#api_config">Static Files</a>. See that section for details.</p>
 <p>New users can be created with the following method.</p>
 <p>PUT "/User" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_update.html">Tgstation.Server.Api.Models.UserUpdate</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Tgstation.Server.Api.Models.User</a></p>
 <p>To create a regular user, populate the name and password fields. To create a system user populate the SystemIdentifier field. Users rights and enabled status can also be specified in this call. To change them later use this API.</p>
@@ -303,7 +305,35 @@ Compiler Handling</h2>
 <p>To list successful compile jobs ids use:</p>
 <p>I GET "/DreamMaker/List" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">Tgstation.Server.Api.Models.CompileJob</a></p>
 <p>To get a specific compile job use:</p>
-<p>I GET "/DreamMaker/{CompileJobId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">Tgstation.Server.Api.Models.CompileJob</a> </p>
+<p>I GET "/DreamMaker/{CompileJobId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">Tgstation.Server.Api.Models.CompileJob</a></p>
+<h2><a class="anchor" id="api_config"></a>
+Static Files</h2>
+<p>Static files can be both read and written.</p>
+<p>To get the contents of a static file directory use the following method</p>
+<p>I GET "/Config/List/&lt;path to directory&gt;" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
+<p>Where the path is formatted as: directory/inner_directory/more_directories</p>
+<p>If the path is empty, the root directory will be retrieved. The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aad10d9456adc3925247d9f7b49eebeba">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> fields will not be populated for this response</p>
+<p>If you do not have access to list the requested directory, a 403 response will be returned. If the path actually represents a file or the directory no longer exists a 410 response will be returned.</p>
+<p>To get the content of a static file use the following method</p>
+<p>I GET "/Config/File/&lt;path to file&gt;" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
+<p>410 will be returned if the path doesn't exist. <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> will only be populated if the path is a file the user has access to, otherwise the other fields will be populated appropriately.</p>
+<p>To create, write, and delete files use the following request</p>
+<p>I POST "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
+<p>When creating a file, only <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> should be specified. Any necessary preceeding directories will be created if possible.</p>
+<p>If the file already exists, the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aad10d9456adc3925247d9f7b49eebeba">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.</p>
+<p>To delete a file set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> to null in the request. If deleting a file leaves a directory empty, they too will be deleted.</p>
+<h2><a class="anchor" id="api_dog"></a>
+Watchdog</h2>
+<p>To read watchdog status use the following request:</p>
+<p>I GET "/DreamDaemon" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html">Tgstation.Server.Api.Models.DreamDaemon</a></p>
+<p>To update watchdog settings use the following request:</p>
+<p>I POST "/DreamDaemon" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html">Tgstation.Server.Api.Models.DreamDaemon</a></p>
+<p>Note that soft restart/shutdown operations cannot be cancelled via this method, they can be changed from one to another however.</p>
+<p>To start the watchdog use the following request:</p>
+<p>I PUT "/DreamDaemon" Empty =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
+<p>The returned job represents the startup process for the watchdog</p>
+<p>To stop the watchdog use the following request:</p>
+<p>I DELETE "/DreamDaemon" =&gt; OK </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
