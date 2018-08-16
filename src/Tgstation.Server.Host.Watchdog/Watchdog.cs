@@ -40,10 +40,18 @@ namespace Tgstation.Server.Host.Watchdog
 			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
 			var exeName = "dotnet";
+			IEnumerable<string> enumerator;
 			if (isWindows)
+			{
 				exeName += ".exe";
+				enumerator = paths;
+			}
+			else
+				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
 
-			var dotnetPath = paths.Select(x => Path.Combine(x, exeName))
+			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
+
+			var dotnetPath = enumerator
 							   .Where(x => {
 								   logger.LogTrace("Checking for dotnet at {0}", x);
 								   return File.Exists(x);
