@@ -376,8 +376,6 @@ To get a specific compile job use:
 
 I GET "/DreamMaker/{CompileJobId}" => @ref Tgstation.Server.Api.Models.CompileJob
 
-*/
-
 @subsection api_config Static Files
 
 Static files can be both read and written.
@@ -429,3 +427,5 @@ The returned job represents the startup process for the watchdog
 To stop the watchdog use the following request:
 
 I DELETE "/DreamDaemon" => OK
+
+*/
