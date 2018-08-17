@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['server_20architecture',['Server Architecture',['../architecture.html',1,'']]],
   ['safe',['Safe',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac6eea0560cd6f377e78dff2c85cc9122',1,'Tgstation::Server::Api::Models']]],
   ['sasl',['Sasl',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#aa6a291d730bfb74d51734d8e84bf20b3a722a094110489086589ef2ca86d2a516',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
   ['save',['Save',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_reattach_info_handler.html#aeff147714497ace9d41af9ca0b788833',1,'Tgstation.Server.Host.Components.ReattachInfoHandler.Save()'],['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_reattach_info_handler.html#a16fd365b310e3b5a2079cb8128751507',1,'Tgstation.Server.Host.Components.Watchdog.IReattachInfoHandler.Save()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a1af2fcef1f485fbb45858c4b216d38c2',1,'Tgstation.Server.Host.Models.DatabaseContext.Save()'],['../interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html#a27f06a42dba05daefb2ffe64bcd66070',1,'Tgstation.Server.Host.Models.IDatabaseContext.Save()']]],
@@ -22,7 +23,6 @@ var searchData=
   ['server',['Server',['../class_tgstation_1_1_server_1_1_host_1_1_server.html',1,'Tgstation::Server::Host']]],
   ['server',['Server',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#a49b3292f84ad94251345a9b9ee4fc90a',1,'Tgstation.Server.Host.Server.Server()'],['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#aa6a291d730bfb74d51734d8e84bf20b3a9aa1b03934893d7134a660af4204f2a9',1,'Tgstation.Server.Host.Components.Chat.Providers.Server()']]],
   ['server_2ecs',['Server.cs',['../_server_8cs.html',1,'']]],
-  ['serveraddresses',['serverAddresses',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a757fa555ebc392158144fdbb4ad5b115',1,'Tgstation::Server::Host::Core::Application']]],
   ['serverapiversion',['ServerApiVersion',['../class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a2bc432cbd374898f5a3e65f14aeb606b',1,'Tgstation::Server::Client::ClientException']]],
   ['serverclient',['ServerClient',['../class_tgstation_1_1_server_1_1_client_1_1_server_client.html',1,'Tgstation::Server::Client']]],
   ['serverclient',['ServerClient',['../class_tgstation_1_1_server_1_1_client_1_1_server_client.html#aeb7a24a33819012790a38d5fceb2c8bb',1,'Tgstation::Server::Client::ServerClient']]],
@@ -36,8 +36,8 @@ var searchData=
   ['servererrorexception_2ecs',['ServerErrorException.cs',['../_server_error_exception_8cs.html',1,'']]],
   ['serverfactory',['ServerFactory',['../class_tgstation_1_1_server_1_1_host_1_1_server_factory.html',1,'Tgstation::Server::Host']]],
   ['serverfactory_2ecs',['ServerFactory.cs',['../_server_factory_8cs.html',1,'']]],
-  ['serverservice',['ServerService',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html',1,'Tgstation::Server::Host::Service']]],
   ['serverservice',['ServerService',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ae26224d4a8524a62581bf462a1a23049',1,'Tgstation::Server::Host::Service::ServerService']]],
+  ['serverservice',['ServerService',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html',1,'Tgstation::Server::Host::Service']]],
   ['serverservice_2ecs',['ServerService.cs',['../_server_service_8cs.html',1,'']]],
   ['serversidemodifications',['ServerSideModifications',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_server_side_modifications.html',1,'Tgstation::Server::Host::Components::StaticFiles']]],
   ['serversidemodifications',['ServerSideModifications',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_server_side_modifications.html#a80a1a88d3e1f59d285b91563e86e2ef8',1,'Tgstation::Server::Host::Components::StaticFiles::ServerSideModifications']]],
