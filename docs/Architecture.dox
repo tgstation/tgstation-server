@@ -1,0 +1,61 @@
+/*!
+@page architecture Server Architecture
+
+@tableofcontents
+
+@image html ArchitectureOverview.png "Architecture Overview"
+
+@section arch_intro Introduction
+
+This is meant to be a brief overview of the TGS4 architecture to give new coders direction on where to code and the curious some insight to their questions. Given that this document is seperate from the authorative code it may fall out of date. For clairity, please contact project maintainers.
+
+@section arch_hwatchdog Host Watchdog
+
+The host watchdog process monitors the actual server application. It exists mainly to facilitate the live update system built into it and also serves as a restart mechanism if requested. This component is generally not present in active development scenarios due to debugging overhead.
+
+This consists of two parts a runner and the watchdog library. The library is the Tgstation.Server.Host.Watchdog project and the runners are the Tgstation.Server.Host.Console .NET Core project and the Tgstation.Server.Host.Service .NET Framework Windows service project
+
+@section arch_main Main Server
+
+This is a second process spawned by the Host Watchdog which facilitates the vast majority of the code. This is the Tgstation.Server.Host project which is fundamentally an ASP.NET Core MVC web application.
+
+@subsection arch_setup Server Initialization
+
+The server's entrypoint is in the @ref Tgstation.Server.Host.Program class. This class mainly determines if the Host watchdog is present and creates and runs the @ref Tgstation.Server.Host.Server class. That class then builds an ASP.NET Core web host using the @ref Tgstation.Server.Host.Core.Application class.
+
+The @ref Tgstation.Server.Host.Core.Application class has two methods called by the framework. First the @ref Tgstation.Server.Host.Core.Application.ConfigureServices method sets up dependency injection of interfaces for Controllers, the @ref Tgstation.Server.Host.Models.DatabaseContext, and the component factories of the server. The framework handles constructing these things once the application starts. Configuration is loaded from the appropriate appSettings.json into the @ref Tgstation.Server.Host.Configuration classes for injection as well. Then @ref Tgstation.Server.Host.Core.Application.Configure method is run which sets up the web request pipeline which currently has the following stack of handlers:
+
+- Catch any exceptions and respond with 500 and detailed HTML error page
+- Respond with 503 if the application is still starting or shutting down
+- Authenticate the JWT in Authentication header if present and run @ref Tgstation.Server.Host.Controllers.ApiController on success
+- Catch database exceptions and convert to 409 responses with the exception's @ref Tgstation.Server.Api.Models.ErrorMessage
+- Check @ref Tgstation.Server.Host.Controllers for correct controller and run the action and use it's response. 
+	- If not properly authenticated beforehand and action has a @ref Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute return 401
+	- If not properly authorized beforehand according to the parameters of the action's @ref Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute (if present) return 403
+	- If requested action does not exist return 404
+
+@subsubsection arch_instinit Instance Manager Initialization
+
+Once the web host starts, the @ref Tgstation.Server.Host.Components.InstanceManager.StartAsync function is called (due to being registered as a IHostedService in @ref Tgstation.Server.Host.Core.Application) this is the only StartAsync implementation that should be called by the framework, others should be called from this to maintain a cohesive initialization order.
+
+The first thing this function does is call @ref Tgstation.Server.Host.Models.DatabaseContext.Initialize which ensures the database is migrated, seeded, and ready to go. Then the @ref Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See @ref arch_instance for onlining process) and the @ref Tgstation.Server.Host.Core.Application is signalled to stop blocking requests with 503 responses before they are processed.
+
+@section arch_db Database and Context
+
+@section arch_security Security
+
+@section arch_controllers Controllers
+
+@section arch_jobs Jobs
+
+@section arch_instance Instances
+
+@subsection arch_ifactory Instance Factory
+
+@section arch_watchdog Watchdog
+
+@subsection Communication
+
+@section arch_update Host Update Process
+
+*/

@@ -9,7 +9,7 @@
     <Description>API definitions for tgstation-server</Description>
     <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/tgs.ico</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/build/tgs.ico</PackageIconUrl>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018</Copyright>

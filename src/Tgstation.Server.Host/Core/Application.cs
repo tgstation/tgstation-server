@@ -55,11 +55,6 @@ namespace Tgstation.Server.Host.Core
 		readonly TaskCompletionSource<object> startupTcs;
 
 		/// <summary>
-		/// The <see cref="IServerAddressesFeature"/> for the <see cref="Application"/>
-		/// </summary>
-		IServerAddressesFeature serverAddresses;
-
-		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
@@ -236,8 +231,6 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
-
-			serverAddresses = applicationBuilder.ServerFeatures.Get<IServerAddressesFeature>();
 			
 			applicationBuilder.UseDeveloperExceptionPage();	//it is not worth it to limit this, you should only ever get it if you're an authorized user
 

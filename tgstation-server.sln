@@ -101,6 +101,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7913-4306-9FAB-70998D440BCE}"
 	ProjectSection(SolutionItems) = preProject
 		docs\API.dox = docs\API.dox
+		docs\ArchitectureOverview.png = docs\ArchitectureOverview.png
+		docs\Architecture.dox = docs\Architecture.dox
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E82104F4-F5C4-4786-ACD4-B635166CDB21}"
