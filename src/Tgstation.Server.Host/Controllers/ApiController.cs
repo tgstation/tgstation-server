@@ -135,7 +135,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			//ALL requests go through this function
+			//ALL valid token and login requests that match a route go through this function
+			//404 is returned before
 
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
 			{

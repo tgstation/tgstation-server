@@ -12,6 +12,8 @@ First things first, we want to make it clear how you can contribute (if you've n
 
 If you want to contribute the first thing you'll need to do is [set up Git](http://tgstation13.org/wiki/Setting_up_git) so you can download the source code.
 
+You'll probably want to get a brief overview of the [server architecture](https://tgstation.github.io/tgstation-server/architecture.html) so as to better implement your change
+
 There is an open list of approachable issues for [your inspiration here](https://github.com/tgstation/tgstation-server/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22). You can also view the waffle board [here](https://waffle.io/tgstation/tgstation-server).
 
 Here is a link to the code's always up-to-date documentation: https://tgstation.github.io/tgstation-server/annotated.html
