@@ -72,7 +72,7 @@
 		TGS_INFO_LOG("Validating API and exiting...")
 		Export(TGS4_COMM_VALIDATE)
 		del(world)
-		
+
 	chat_channels_json_path = cached_json["chatChannelsJson"]
 	chat_commands_json_path = cached_json["chatCommandsJson"]
 	src.event_handler = event_handler
@@ -80,31 +80,34 @@
 
 	ListCustomCommands()
 
-	. = TRUE
-
 	var/list/revisionData = cached_json["revision"]
-	if(!revisionData)
-		return
-
-	cached_revision = new
-	cached_revision.commit = revisionData["commitSha"]
-	cached_revision.origin_commit = revisionData["originCommitSha"]
+	if(revisionData)
+		cached_revision = new
+		cached_revision.commit = revisionData["commitSha"]
+		cached_revision.origin_commit = revisionData["originCommitSha"]
 
 	cached_test_merges = list()
-	var/json = cached_json["testMerges"]
-	for(var/I in json)
+	var/list/json = cached_json["testMerges"]
+	for(var/entry in json)
 		var/datum/tgs_revision_information/test_merge/tm = new
-		tm.number = text2num(I)
-		var/list/entry = json[I]
-		tm.pull_request_commit = entry["pullRequestRevision"]
-		tm.author = entry["author"]
-		tm.title = entry["title"]
-		var/list/revInfo = entry["revision"]
-		tm.commit = revInfo["commitSha"]
-		tm.origin_commit = entry["originCommitSha"]
 		tm.time_merged = text2num(entry["timeMerged"])
-		tm.comment = entry["comment"]
+
+		var/list/revInfo = entry["revision"]
+		if(revInfo)
+			tm.commit = revInfo["commitSha"]
+			tm.origin_commit = revInfo["originCommitSha"]
+
+		tm.title = entry["titleAtMerge"]
+		tm.body = entry["bodyAtMerge"]
 		tm.url = entry["url"]
+		tm.author = entry["author"]
+		tm.number = entry["number"]
+		tm.pull_request_commit = entry["pullRequestRevision"]
+		tm.comment = entry["comment"]
+
+		cached_test_merges += tm
+
+	return TRUE
 
 /datum/tgs_api/v4/OnInitializationComplete()
 	Export(TGS4_COMM_SERVER_PRIMED)

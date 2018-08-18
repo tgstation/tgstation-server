@@ -131,6 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//i changed this back from guids, hopefully i don't regret that
 			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
+			//setup interop files
 			var interopInfo = new JsonFile
 			{
 				AccessIdentifier = accessIdentifier,
@@ -167,15 +168,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var chatJsonTrackingContext = await chatJsonTrackingTask.ConfigureAwait(false);
 			try
 			{
+				//get the byond lock
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					//more sanitization here cause it uses the same scheme
-					var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
-
+					//create interop context
 					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, interopInfo.ServerCommandsJson);
 					try
 					{
+						//set command line options
+						//more sanitization here cause it uses the same scheme
+						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
+
 						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} {2}-close -{3} -verbose -public -params \"{4}\"",
 							dmbProvider.DmbName,
 							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
@@ -183,9 +187,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							SecurityWord(launchParameters.SecurityLevel.Value),
 							parameters);
 
+						//launch dd
 						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments);
 						try
 						{
+							//return the session controller for it
 							return new SessionController(new ReattachInformation
 							{
 								AccessIdentifier = accessIdentifier,
@@ -196,7 +202,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ChatChannelsJson = interopInfo.ChatChannelsJson,
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
 								ServerCommandsJson = interopInfo.ServerCommandsJson,
-							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>());
+							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.StartupTimeout);
 						}
 						catch
 						{
@@ -243,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 						try
 						{
-							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>());
+							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null);
 						}
 						catch
 						{

@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class Watchdog : IWatchdog, ICustomCommandHandler
 	{
 		/// <summary>
-		/// The time in milliseconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
+		/// The time in seconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
 		/// </summary>
-		const int AlphaBravoStartupSeperationInterval = 3000;
+		const int AlphaBravoStartupSeperationInterval = 3;
 
 		/// <inheritdoc />
 		public bool Running { get; private set; }
@@ -655,32 +655,41 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
-					Task<ISessionController> alphaServerTask = null;
 					try
 					{
+						Task<ISessionController> alphaServerTask;
 						if (!doesntNeedNewDmb)
 							alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
 						else
 							alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
-						//do a few seconds of delay so that any backends the servers use know that alpha came first
-						await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
+
+						//wait until this boy officially starts so as not to confuse the servers as to who came first
+						var startTime = DateTimeOffset.Now;
+						alphaServer = await alphaServerTask.ConfigureAwait(false);
+
+						//extra delay for total ordering
+						var now = DateTimeOffset.Now;
+						var delay = now - startTime;
+
+						if (delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
+							await Task.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
+
 						Task<ISessionController> bravoServerTask;
 						if (!doesntNeedNewDmb)
 							bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
 						else
 							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
-						await Task.WhenAll(alphaServerTask, bravoServerTask).ConfigureAwait(false);
-
-						alphaServer = alphaServerTask.Result;
-						bravoServer = bravoServerTask.Result;
-
+						bravoServer = await bravoServerTask.ConfigureAwait(false);
+						
 						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
 						{
 							var launch = await controller.LaunchResult.ConfigureAwait(false);
 							if (launch.ExitCode.HasValue)
 								//you killed us ray...
 								throw new Exception(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
+							if (!launch.StartupTime.HasValue)
+								throw new Exception(String.Format(CultureInfo.InvariantCulture, "{1} server timed out on startup: {0}s", launch.ToString(), ActiveLaunchParameters.StartupTimeout.Value));
 							return launch;
 						}
 

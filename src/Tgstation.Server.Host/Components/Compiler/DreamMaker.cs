@@ -135,14 +135,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
+				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+
 				var now = DateTimeOffset.Now;
-				if (now < timeoutAt)
+				if (now < timeoutAt && launchResult.StartupTime.HasValue)
 				{
 					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
 
 					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
 				}
+
 				if (!controller.Lifetime.IsCompleted)
 				{
 					logger.LogDebug("API validation timed out!");
