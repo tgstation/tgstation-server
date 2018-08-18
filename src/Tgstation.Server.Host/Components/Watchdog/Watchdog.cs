@@ -187,6 +187,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			alphaServer = null;
 			bravoServer?.Dispose();
 			bravoServer = null;
+			Running = false;
 		}
 
 		/// <summary>
@@ -232,7 +233,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var chatTask = announce ? chat.SendWatchdogMessage("Terminating...", cancellationToken) : Task.CompletedTask;
 				await StopMonitor().ConfigureAwait(false);
 				DisposeAndNullControllers();
-				Running = false;
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
@@ -411,7 +411,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						case Components.Watchdog.RebootState.Shutdown:
 							await chat.SendWatchdogMessage("Active server rebooted! Exiting due to graceful termination request...", cancellationToken).ConfigureAwait(false);
 							DisposeAndNullControllers();
-							Running = false;
 							monitorState.NextAction = MonitorAction.Exit;
 							return;
 					}
@@ -626,9 +625,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		async Task<WatchdogLaunchResult> LaunchNoLock(bool startMonitor, bool announce, bool doReattach, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin LaunchNoLock");
 			using (var alphaStartCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
-				logger.LogTrace("Begin LaunchNoLock");
 				if (Running)
 				{
 					logger.LogTrace("Aborted due to already running!");
