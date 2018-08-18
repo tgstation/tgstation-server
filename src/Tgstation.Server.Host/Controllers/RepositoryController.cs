@@ -468,7 +468,6 @@ namespace Tgstation.Server.Host.Controllers
 									{
 										//okay try to add at least SOME prs we've seen before 
 										var search = model.NewTestMerges.ToList();
-										search.Reverse(); //reverse order, document the optimization in the api so clients know how to cache hit
 
 										var appliedTestMergeIds = new List<long>();
 
@@ -498,10 +497,7 @@ namespace Tgstation.Server.Host.Controllers
 										revInfoWereLookingFor = lastGoodRevInfo;
 										needToApplyRemainingPrs = search.Count != 0;
 										if (needToApplyRemainingPrs)
-										{
-											search.Reverse();
 											model.NewTestMerges = search;
-										}
 									}
 									else if (revInfoWereLookingFor != null)
 										needToApplyRemainingPrs = false;
