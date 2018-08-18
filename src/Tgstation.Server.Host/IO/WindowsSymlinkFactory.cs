@@ -16,7 +16,9 @@ namespace Tgstation.Server.Host.IO
 		{
 			//check if its not a file
 			var flags = File.Exists(targetPath) ? 0 : 1; //SYMBOLIC_LINK_FLAG_DIRECTORY
-			flags |= 2; //SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE on win10 1607+
+#if DEBUG
+			flags |= 2; //SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE on win10 1607+ developer mode
+#endif
 
 			cancellationToken.ThrowIfCancellationRequested();
 			if (!NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))

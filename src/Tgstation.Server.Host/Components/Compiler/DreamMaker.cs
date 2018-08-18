@@ -162,17 +162,19 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
+		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			using (var dm = processExecutor.LaunchProcess(dreamMakerPath, ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)), String.Format(CultureInfo.InvariantCulture, "-clean {0}.{1}", job.DmeName, DmeExtension), true, true))
 			{
+				int exitCode;
 				using (cancellationToken.Register(() => dm.Terminate()))
-					job.ExitCode = await dm.Lifetime.ConfigureAwait(false);
+					exitCode = await dm.Lifetime.ConfigureAwait(false);
 				cancellationToken.ThrowIfCancellationRequested();
 
-				logger.LogDebug("DreamMaker exit code: {0}", job.ExitCode);
+				logger.LogDebug("DreamMaker exit code: {0}", exitCode);
 				job.Output = dm.GetCombinedOutput();
 				logger.LogTrace("DreamMaker output: {0}", job.Output);
+				return exitCode;
 			}
 		}
 
@@ -257,7 +259,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 			lock (this)
 			{
-				if(Status != CompilerStatus.Idle)
+				if (Status != CompilerStatus.Idle)
 				{
 					job.Output = "There is already a compile in progress!";
 					logger.LogInformation(job.Output);
@@ -266,41 +268,37 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				Status = CompilerStatus.Copying;
 			}
-
-			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
-			string remoteCommitInsert;
-			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+			
+			try
 			{
-				commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
-				remoteCommitInsert = String.Empty;
-			}
-			else
-				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
-
-			var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})", 
-				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+				string remoteCommitInsert;
+				if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
 				{
-					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
-					if (x.Comment != null)
-						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
-					return result;
-				})));
+					commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
+					remoteCommitInsert = String.Empty;
+				}
+				else
+					remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
-			using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
-			{
-				await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+				var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
+					String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+					{
+						var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
+						if (x.Comment != null)
+							result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+						return result;
+					})));
 
-				try
+				using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
 				{
-					await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
-					var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-					var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
+					await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
 
-					async Task CleanupFailedCompile(bool announce)
+					async Task CleanupFailedCompile(bool cancelled)
 					{
 						logger.LogTrace("Cleaning compile directory...");
 						Status = CompilerStatus.Cleanup;
-						var chatTask = announce ? chat.SendUpdateMessage("Deploy failed!", cancellationToken) : Task.CompletedTask;
+						var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
 						try
 						{
 							await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
@@ -315,6 +313,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 					try
 					{
+						await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
+
+						var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+						var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
+
 						logger.LogTrace("Copying repository to game directory...");
 						//copy the repository
 						var fullDirA = ioManager.ResolvePath(dirA);
@@ -352,20 +355,21 @@ namespace Tgstation.Server.Host.Components.Compiler
 						//run compiler, verify api
 						job.ByondVersion = byondLock.Version.ToString();
 
-						await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+						var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 
-						if (job.ExitCode == 0)
+						var apiValidated = false;
+						if (exitCode == 0)
 						{
 							Status = CompilerStatus.Verifying;
 
-							job.DMApiValidated = await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+							apiValidated = await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
 						}
 
-						if (job.DMApiValidated != true)
+						if (!apiValidated)
 						{
 							//server never validated or compile failed
-							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, job.ExitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
-							throw new Exception(job.ExitCode == 0 ? "Validation of the TGS api failed!" : "DM exited with a non-zero code!");
+							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+							throw new Exception(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}", exitCode, job.Output));
 						}
 
 						logger.LogTrace("Running post compile event...");
@@ -394,19 +398,19 @@ namespace Tgstation.Server.Host.Components.Compiler
 					}
 					catch (Exception e)
 					{
-						await CleanupFailedCompile(!(e is OperationCanceledException)).ConfigureAwait(false);
+						await CleanupFailedCompile(e is OperationCanceledException).ConfigureAwait(false);
 						throw;
 					}
 				}
-				catch (OperationCanceledException)
-				{
-					await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
-					throw;
-				}
-				finally
-				{
-					Status = CompilerStatus.Idle;
-				}
+			}
+			catch (OperationCanceledException)
+			{
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				throw;
+			}
+			finally
+			{
+				Status = CompilerStatus.Idle;
 			}
 		}
 	}

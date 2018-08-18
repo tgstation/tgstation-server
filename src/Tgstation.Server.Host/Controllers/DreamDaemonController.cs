@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 					throw new InvalidOperationException("Watchdog already running!");
 			},
 			cancellationToken).ConfigureAwait(false);
-			return Json(job);
+			return Json(job.ToApi());
 		}
 
 		/// <inheritdoc />
@@ -104,14 +104,14 @@ namespace Tgstation.Server.Host.Controllers
 				var llp = dd.LastLaunchParameters;
 				var rstate = dd.RebootState;
 				result.AutoStart = settings.AutoStart;
-				result.CurrentPort = alphaActive ? llp.PrimaryPort : llp.SecondaryPort;
-				result.CurrentSecurity = llp.SecurityLevel;
-				result.CurrentAllowWebclient = llp.AllowWebClient;
-				result.PrimaryPort = dd.ActiveLaunchParameters.PrimaryPort;
-				result.AllowWebClient = dd.ActiveLaunchParameters.AllowWebClient;
+				result.CurrentPort = alphaActive ? llp?.PrimaryPort : llp?.SecondaryPort;
+				result.CurrentSecurity = llp?.SecurityLevel;
+				result.CurrentAllowWebclient = llp?.AllowWebClient;
+				result.PrimaryPort = settings.PrimaryPort;
+				result.AllowWebClient = settings.AllowWebClient;
 				result.Running = dd.Running;
-				result.SecondaryPort = llp.SecondaryPort;
-				result.SecurityLevel = llp.SecurityLevel;
+				result.SecondaryPort = settings.SecondaryPort;
+				result.SecurityLevel = settings.SecurityLevel;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
 			};
@@ -167,18 +167,18 @@ namespace Tgstation.Server.Host.Controllers
 			var oldSoftRestart = current.SoftRestart;
 			var oldSoftShutdown = current.SoftShutdown;
 
-			if (!CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
-				|| !CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
-				|| !CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
-				|| !CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
-				|| !CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-				|| !CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart)
-				|| !CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
-				|| !CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
+			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
+				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
+				|| CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
+				|| CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
+				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
+				|| CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart)
+				|| CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
+				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
 				return Forbid();
 
 			if (current.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage { Message = "TGS does not support the ultrasafe DreamDaemon configuration!" });
+				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
 			
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 

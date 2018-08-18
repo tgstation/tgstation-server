@@ -232,6 +232,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var chatTask = announce ? chat.SendWatchdogMessage("Terminating...", cancellationToken) : Task.CompletedTask;
 				await StopMonitor().ConfigureAwait(false);
 				DisposeAndNullControllers();
+				Running = false;
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
@@ -295,7 +296,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			async Task<bool> RestartInactiveServer()
 			{
 				logger.LogInformation("Rebooting inactive server...");
-				var newDmb = dmbFactory.LockNextDmb();
+				var newDmb = dmbFactory.LockNextDmb(1);
 				bool usedMostRecentDmb;
 				try
 				{
@@ -652,19 +653,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
-					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb();
+					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
 					Task<ISessionController> alphaServerTask = null;
 					try
 					{
-						if (!doReattach || reattachInfo.Alpha == null)
+						if (!doesntNeedNewDmb)
 							alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
 						else
 							alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
 						//do a few seconds of delay so that any backends the servers use know that alpha came first
 						await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
 						Task<ISessionController> bravoServerTask;
-						if (!doReattach || reattachInfo.Bravo == null)
+						if (!doesntNeedNewDmb)
 							bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
 						else
 							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
@@ -693,7 +694,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 							await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
-						
+
 						//both servers are now running, alpha is the active server, huzzah
 						AlphaIsActive = doReattach ? reattachInfo.AlphaIsActive : true;
 						LastLaunchResult = alphaLrt.Result;
@@ -713,8 +714,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 					catch
 					{
-						if (alphaServer == null && bravoServer == null)
+						if (!doesntNeedNewDmb && (alphaServer == null && bravoServer == null))
+						{
 							dmbToUse.Dispose(); //guaranteed to not be null here
+							dmbToUse.Dispose();	//yes, dispose it twice. See the definition of IDmbFactory.LockNextDmb(), we called it with 2 locks
+						}
 						DisposeAndNullControllers();
 						throw;
 					}
@@ -789,17 +793,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return true;
 
 				var builder = new StringBuilder(Constants.DMTopicEvent);
-				foreach (var I in parameters)
-				{
-					builder.Append("&");
-					builder.Append(byondTopicSender.SanitizeString(I));
-				}
+				if (parameters != null)
+					foreach (var I in parameters)
+					{
+						builder.Append("&");
+						builder.Append(byondTopicSender.SanitizeString(I));
+					}
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
 			}
 
-			if (results == null)
+			if (results == Constants.DMResponseSuccess)
 				return true;
 
 			List<Response> responses;

@@ -124,9 +124,11 @@
 	if(their_sCK != access_identifier)
 		return "Invalid comms key!";
 
-	var/command = params[TGS4_INTEROP_ACCESS_IDENTIFIER]
+	var/command = params[TGS4_PARAMETER_COMMAND]
 	if(!command)
 		return "No command!"
+
+	. = TGS4_RESPONSE_SUCCESS
 
 	switch(command)
 		if(TGS4_TOPIC_CHAT_COMMAND)
@@ -142,7 +144,7 @@
 			return
 		if(TGS4_TOPIC_INTEROP_RESPONSE)
 			last_interop_response = json_decode(params[TGS4_PARAMETER_DATA])
-			return 
+			return
 	
 	return "Unknown command: [command]"
 

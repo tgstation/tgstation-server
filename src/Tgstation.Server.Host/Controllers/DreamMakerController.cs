@@ -181,9 +181,6 @@ namespace Tgstation.Server.Host.Controllers
 				compileJob = await instance.DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
-			if (compileJob.DMApiValidated != true)
-				return;
-
 			compileJob.Job = job;
 
 			databaseContext.CompileJobs.Add(compileJob);

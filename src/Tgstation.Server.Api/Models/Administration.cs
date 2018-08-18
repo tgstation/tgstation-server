@@ -7,6 +7,12 @@ namespace Tgstation.Server.Api.Models
 	public sealed class Administration
 	{
 		/// <summary>
+		/// If the server is running on a windows operating system
+		/// </summary>
+		[Permissions(DenyWrite = true)]
+		public bool WindowsHost { get; set; }
+
+		/// <summary>
 		/// The GitHub repository the server is built to recieve updates from
 		/// </summary>
 		[Permissions(DenyWrite = true)]
