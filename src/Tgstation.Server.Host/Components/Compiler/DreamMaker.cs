@@ -266,8 +266,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				Status = CompilerStatus.Copying;
 			}
-
-			var announced = false;
+			
 			try
 			{
 				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
@@ -292,13 +291,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 				using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
 				{
 					await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
-					announced = true;
 
 					async Task CleanupFailedCompile(bool cancelled)
 					{
 						logger.LogTrace("Cleaning compile directory...");
 						Status = CompilerStatus.Cleanup;
-						var chatTask = announced ? chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken) : Task.CompletedTask;
+						var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
 						try
 						{
 							await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
