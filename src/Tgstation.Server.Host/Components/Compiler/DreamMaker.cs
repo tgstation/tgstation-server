@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 			lock (this)
 			{
-				if(Status != CompilerStatus.Idle)
+				if (Status != CompilerStatus.Idle)
 				{
 					job.Output = "There is already a compile in progress!";
 					logger.LogInformation(job.Output);
@@ -267,31 +267,31 @@ namespace Tgstation.Server.Host.Components.Compiler
 				Status = CompilerStatus.Copying;
 			}
 
-			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
-			string remoteCommitInsert;
-			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+			try
 			{
-				commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
-				remoteCommitInsert = String.Empty;
-			}
-			else
-				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
-
-			var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})", 
-				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+				string remoteCommitInsert;
+				if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
 				{
-					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
-					if (x.Comment != null)
-						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
-					return result;
-				})));
+					commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
+					remoteCommitInsert = String.Empty;
+				}
+				else
+					remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
-			using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
-			{
-				await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+				var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
+					String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+					{
+						var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
+						if (x.Comment != null)
+							result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+						return result;
+					})));
 
-				try
+				using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
 				{
+					await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+
 					await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
 					var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 					var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
@@ -398,15 +398,15 @@ namespace Tgstation.Server.Host.Components.Compiler
 						throw;
 					}
 				}
-				catch (OperationCanceledException)
-				{
-					await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
-					throw;
-				}
-				finally
-				{
-					Status = CompilerStatus.Idle;
-				}
+			}
+			catch (OperationCanceledException)
+			{
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				throw;
+			}
+			finally
+			{
+				Status = CompilerStatus.Idle;
 			}
 		}
 	}
