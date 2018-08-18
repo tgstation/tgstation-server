@@ -24,7 +24,11 @@ namespace Tgstation.Server.Host.Components.Interop
 		public TestMerge(Models.TestMerge testMerge) : base(testMerge)
 		{
 			TimeMerged = testMerge.MergedAt.Ticks;
-			Revision = testMerge.PrimaryRevisionInformation;
+			Revision = new RevisionInformation
+			{
+				CommitSha = testMerge.PrimaryRevisionInformation.CommitSha,
+				OriginCommitSha = testMerge.PrimaryRevisionInformation.OriginCommitSha
+			};
 		}
 	}
 }
