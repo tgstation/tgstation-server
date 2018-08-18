@@ -208,10 +208,11 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
+			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
+
 			using (cancellationToken.Register(() => shutdownCancellationTokenSource.Cancel()))
 				await Task.WhenAll(shutdownTasks).ConfigureAwait(false);
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
-			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
 		}
 	}
 }
