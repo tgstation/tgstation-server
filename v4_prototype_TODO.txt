@@ -1,3 +1,5 @@
 Verify the byond cache folder location on linux
 
 Test watchdog
+
+Add a JobException type that the job manager will just print the message of. Replace throw new Exception()s with it

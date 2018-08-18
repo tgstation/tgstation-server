@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				logger.LogDebug("DreamMaker exit code: {0}", exitCode);
 				job.Output = dm.GetCombinedOutput();
-				logger.LogTrace("DreamMaker output: {0}", job.Output);
+				logger.LogTrace("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
 				return exitCode;
 			}
 		}
@@ -263,11 +263,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			lock (this)
 			{
 				if (Status != CompilerStatus.Idle)
-				{
-					job.Output = "There is already a compile in progress!";
-					logger.LogInformation(job.Output);
-					return job;
-				}
+					throw new Exception("There is already a compile in progress!");
 
 				Status = CompilerStatus.Copying;
 			}
@@ -340,11 +336,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 							logger.LogTrace("Searching for available .dmes...");
 							var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
 							if (path == default)
-							{
-								job.Output = "Unable to find any .dme!";
-								logger.LogWarning(job.Output);
-								return job;
-							}
+								throw new Exception("Unable to find any .dme!");
 							var dmeWithExtension = ioManager.GetFileName(path);
 							job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 						}
