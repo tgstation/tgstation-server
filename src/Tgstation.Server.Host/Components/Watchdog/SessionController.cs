@@ -427,5 +427,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			CheckDisposed();
 			reattachInformation.RebootState = RebootState.Normal;
 		}
+
+		/// <inheritdoc />
+		public void SetHighPriority() => process.SetHighPriority();
 	}
 }

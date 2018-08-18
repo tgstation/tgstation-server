@@ -79,5 +79,14 @@ namespace Tgstation.Server.Host.Core
 			}
 			catch (InvalidOperationException) { }
 		}
+
+		public void SetHighPriority()
+		{
+			try
+			{
+				handle.PriorityClass = System.Diagnostics.ProcessPriorityClass.AboveNormal;
+			}
+			catch (InvalidOperationException) { }
+		}
 	}
 }

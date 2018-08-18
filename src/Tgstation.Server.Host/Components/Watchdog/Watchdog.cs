@@ -665,6 +665,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//wait until this boy officially starts so as not to confuse the servers as to who came first
 						var startTime = DateTimeOffset.Now;
 						alphaServer = await alphaServerTask.ConfigureAwait(false);
+						alphaServer.SetHighPriority();
 
 						//extra delay for total ordering
 						var now = DateTimeOffset.Now;
@@ -680,7 +681,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
 						bravoServer = await bravoServerTask.ConfigureAwait(false);
-						
+						bravoServer.SetHighPriority();
+
 						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
 						{
 							var launch = await controller.LaunchResult.ConfigureAwait(false);
