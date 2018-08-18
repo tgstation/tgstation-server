@@ -549,9 +549,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							}
 							else
 								moreActivationsToProcess = false;
+							
+							await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						}
 
-						await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						//writeback alphaServer and bravoServer
 						alphaServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 						bravoServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
@@ -575,7 +576,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								monitorState = new MonitorState();  //clean the slate
 						}
 
-							await chatTask.ConfigureAwait(false);
+						await chatTask.ConfigureAwait(false);
 						if(!Running)
 						{
 							logger.LogWarning("Failed to automatically restart the watchdog! Alpha: {0}; Bravo: {1}", result.Alpha.ToString(), result.Bravo.ToString());
