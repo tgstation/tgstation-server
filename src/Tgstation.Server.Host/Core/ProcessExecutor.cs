@@ -23,7 +23,19 @@ namespace Tgstation.Server.Host.Core
 		{
 			handle.EnableRaisingEvents = true;
 			var tcs = new TaskCompletionSource<int>();
-			handle.Exited += (a, b) => tcs.SetResult(handle.ExitCode);
+			handle.Exited += (a, b) =>
+			{
+				int exitCode;
+				try
+				{
+					exitCode = handle.ExitCode;
+				}
+				catch (InvalidOperationException)
+				{
+					return;
+				}
+				tcs.SetResult(exitCode);
+			};
 			return tcs.Task;
 		}
 
