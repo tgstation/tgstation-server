@@ -13,11 +13,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		public long Id { get; set; }
 
 		/// <summary>
-		/// If the DMAPI version detected is compatible
-		/// </summary>
-		public bool? DMApiValidated { get; set; }
-
-		/// <summary>
 		/// The .dme file used for compilation
 		/// </summary>
 		public string DmeName { get; set; }
@@ -31,10 +26,5 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The Game folder the results were compiled into
 		/// </summary>
 		public Guid? DirectoryName { get; set; }
-
-		/// <summary>
-		/// Exit code of DM. If <see langword="null"/>
-		/// </summary>
-		public int? ExitCode { get; set; }
 	}
 }

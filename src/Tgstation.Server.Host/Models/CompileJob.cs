@@ -27,9 +27,7 @@ namespace Tgstation.Server.Host.Models
 		public Api.Models.CompileJob ToApi() => new Api.Models.CompileJob
 		{
 			DirectoryName = DirectoryName,
-			DMApiValidated = DMApiValidated,
 			DmeName = DmeName,
-			ExitCode = ExitCode,
 			Id = Id,
 			Job = Job.ToApi(),
 			Output = Output,
