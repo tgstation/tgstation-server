@@ -549,8 +549,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							}
 							else
 								moreActivationsToProcess = false;
-							
-							await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
+
+							if(moreActivationsToProcess)
+								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						}
 
 						//writeback alphaServer and bravoServer
