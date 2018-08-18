@@ -263,6 +263,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				content = new object();
 				switch (method)
 				{
+					case Constants.DMCommandServerPrimed:
+						//currently unused, maybe in the future
+						break;
 					case Constants.DMCommandIdentify:
 						lock (this)
 							if (portClosed)
