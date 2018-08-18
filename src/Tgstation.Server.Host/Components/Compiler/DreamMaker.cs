@@ -296,11 +296,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 					var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 					var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
 
-					async Task CleanupFailedCompile(bool announce)
+					async Task CleanupFailedCompile(bool cancelled)
 					{
 						logger.LogTrace("Cleaning compile directory...");
 						Status = CompilerStatus.Cleanup;
-						var chatTask = announce ? chat.SendUpdateMessage("Deploy failed!", cancellationToken) : Task.CompletedTask;
+						var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
 						try
 						{
 							await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
@@ -394,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 					}
 					catch (Exception e)
 					{
-						await CleanupFailedCompile(!(e is OperationCanceledException)).ConfigureAwait(false);
+						await CleanupFailedCompile(e is OperationCanceledException).ConfigureAwait(false);
 						throw;
 					}
 				}

@@ -1,4 +1,9 @@
 /world/TgsNew(datum/tgs_event_handler/event_handler)
+	var/current_api = TGS_READ_GLOBAL(tgs)
+	if(current_api)
+		TGS_ERROR_LOG("TgsNew(): TGS API datum already set ([current_api])!")
+		return
+
 	var/tgs_version = world.params[TGS_VERSION_PARAMETER]
 	if(!tgs_version)
 		return
@@ -11,10 +16,11 @@
 	TGS_INFO_LOG("Activating API for version [tgs_version]")
 	var/datum/tgs_api/new_api = new path
 
+	TGS_WRITE_GLOBAL(tgs, new_api)
+
 	var/result = new_api.OnWorldNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default)
-	if(result && result != TGS_UNIMPLEMENTED)
-		TGS_WRITE_GLOBAL(tgs, new_api)
-	else
+	if(!result || result == TGS_UNIMPLEMENTED)
+		TGS_WRITE_GLOBAL(tgs, null)
 		TGS_ERROR_LOG("Failed to activate API!")
 
 /world/proc/SelectTgsApi(tgs_version)

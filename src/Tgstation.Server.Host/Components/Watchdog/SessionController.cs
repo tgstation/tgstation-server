@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
+		public async Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
 		{
 			if (command == null)
 				throw new ArgumentNullException(nameof(command));
@@ -302,7 +302,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				content = new ErrorMessage { Message = "Missing command parameter!" };
 
 			var json = JsonConvert.SerializeObject(content);
-			return SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken);
+			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken).ConfigureAwait(false);
+
+			if (response != Constants.DMResponseSuccess)
+				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
 		}
 
 		/// <summary>
