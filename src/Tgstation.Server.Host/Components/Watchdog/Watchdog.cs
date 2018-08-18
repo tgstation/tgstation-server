@@ -437,8 +437,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						monitorState.NextAction = MonitorAction.Break;
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
-					//should never happen but okay
-					logger.LogWarning("Inactive server rebooted, this is a bug in DM code!");
 					monitorState.RebootingInactiveServer = true;
 					monitorState.InactiveServer.ResetRebootState();   //the DMAPI has already done this internally
 					monitorState.ActiveServer.ClosePortOnReboot = false;
@@ -491,7 +489,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
 					var activeServerReboot = monitorState.ActiveServer.OnReboot;
 					var inactiveServerReboot = monitorState.InactiveServer.OnReboot;
-					var inactiveServerStartup = monitorState.InactiveServer.LaunchResult;
+					var inactiveServerStartup = monitorState.RebootingInactiveServer ? monitorState.InactiveServer.LaunchResult : null;
 					var activeLaunchParametersChanged = activeParametersUpdated.Task;
 					var newDmbAvailable = dmbFactory.OnNewerDmb;
 
