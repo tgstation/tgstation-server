@@ -267,6 +267,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				Status = CompilerStatus.Copying;
 			}
 
+			var announced = false;
 			try
 			{
 				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
@@ -291,16 +292,13 @@ namespace Tgstation.Server.Host.Components.Compiler
 				using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
 				{
 					await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
-
-					await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
-					var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-					var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
+					announced = true;
 
 					async Task CleanupFailedCompile(bool cancelled)
 					{
 						logger.LogTrace("Cleaning compile directory...");
 						Status = CompilerStatus.Cleanup;
-						var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
+						var chatTask = announced ? chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken) : Task.CompletedTask;
 						try
 						{
 							await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
@@ -315,6 +313,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 					try
 					{
+						await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
+
+						var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+						var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
+
 						logger.LogTrace("Copying repository to game directory...");
 						//copy the repository
 						var fullDirA = ioManager.ResolvePath(dirA);
