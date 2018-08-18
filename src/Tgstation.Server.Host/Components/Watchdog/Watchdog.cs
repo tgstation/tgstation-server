@@ -801,12 +801,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return true;
 
 				var builder = new StringBuilder(Constants.DMTopicEvent);
-				if (parameters != null)
-					foreach (var I in parameters)
-					{
-						builder.Append("&");
-						builder.Append(byondTopicSender.SanitizeString(I));
-					}
+				builder.Append("&");
+				var notification = new EventNotification
+				{
+					Type = eventType,
+					Parameters = parameters
+				};
+				var json = JsonConvert.SerializeObject(notification);
+				builder.Append(byondTopicSender.SanitizeString(json));
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);

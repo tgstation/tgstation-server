@@ -141,7 +141,15 @@
 			return result
 		if(TGS4_TOPIC_EVENT)
 			intercepted_message_queue = list()
-			event_handler.HandleEvent(text2num(params[TGS4_PARAMETER_DATA]))
+			var/list/event_notification = json_decode(params[TGS4_PARAMETER_DATA])
+			var/list/event_parameters = event_notification["Parameters"]
+
+			var/list/event_call = list(event_notification["Type"])
+			if(event_parameters)
+				event_call += event_parameters
+
+			event_handler.HandleEvent(arglist(event_call))
+
 			. = json_encode(intercepted_message_queue)
 			intercepted_message_queue = null
 			return
