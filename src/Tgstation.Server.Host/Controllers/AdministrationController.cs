@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -107,6 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				model.LatestVersion = greatestVersion;
 				model.TrackedRepositoryUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
+				model.WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 			}
 			catch (RateLimitExceededException e)
 			{
