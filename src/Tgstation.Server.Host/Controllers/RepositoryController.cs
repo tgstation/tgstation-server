@@ -412,6 +412,7 @@ namespace Tgstation.Server.Host.Controllers
 							var repoName = repo.GitHubRepoName;
 
 							Models.RevisionInformation revInfoWereLookingFor = null;
+							bool needToApplyRemainingPrs = true;
 							//optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
 							if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 							{
@@ -445,20 +446,65 @@ namespace Tgstation.Server.Host.Controllers
 								if (!cantSearch)
 								{
 									var dbPull = await databaseContext.RevisionInformations
-										.Where(x => x.Instance.Id == Instance.Id 
-										&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha 
-										&& x.ActiveTestMerges.Count == model.NewTestMerges.Count)
+										.Where(x => x.Instance.Id == Instance.Id
+										&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
+										&& x.ActiveTestMerges.Count <= model.NewTestMerges.Count
+										&& x.ActiveTestMerges.Count > 0)
 										.Include(x => x.ActiveTestMerges)
 										.ThenInclude(x => x.TestMerge)
 										.ToListAsync(cancellationToken).ConfigureAwait(false);
+
 									//split here cause this bit has to be done locally
 									revInfoWereLookingFor = dbPull
-										.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge)
-										.All(y => model.NewTestMerges.Any(z => 
-										y.Number == z.Number 
-										&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal) 
-										&& y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null)))
+										.Where(x => x.ActiveTestMerges.Count == model.NewTestMerges.Count
+										&& x.ActiveTestMerges.Select(y => y.TestMerge)
+										.All(y => model.NewTestMerges.Any(z =>
+										y.Number == z.Number
+										&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)
+										&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 										.FirstOrDefault();
+
+									if (revInfoWereLookingFor == null && model.NewTestMerges.Count > 1)
+									{
+										//okay try to add at least SOME prs we've seen before 
+										var search = model.NewTestMerges.ToList();
+										search.Reverse(); //reverse order, document the optimization in the api so clients know how to cache hit
+
+										var appliedTestMergeIds = new List<long>();
+
+										Models.RevisionInformation lastGoodRevInfo = null;
+										do
+										{
+											foreach (var I in search)
+											{
+												revInfoWereLookingFor = dbPull
+													.Where(x => model.NewTestMerges.Any(z =>
+													x.PrimaryTestMerge.Number == z.Number
+													&& x.PrimaryTestMerge.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)
+													&& (x.PrimaryTestMerge.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))
+													&& x.ActiveTestMerges.Select(y => y.TestMerge).All(y => appliedTestMergeIds.Contains(y.Id)))
+													.FirstOrDefault();
+
+												if (revInfoWereLookingFor != null)
+												{
+													lastGoodRevInfo = revInfoWereLookingFor;
+													appliedTestMergeIds.Add(revInfoWereLookingFor.PrimaryTestMerge.Id);
+													search.Remove(I);
+													break;
+												}
+											}
+										} while (revInfoWereLookingFor != null && search.Count > 0);
+
+										revInfoWereLookingFor = lastGoodRevInfo;
+										needToApplyRemainingPrs = search.Count != 0;
+										if (needToApplyRemainingPrs)
+										{
+											search.Reverse();
+											model.NewTestMerges = search;
+										}
+									}
+									else if (revInfoWereLookingFor != null)
+										needToApplyRemainingPrs = false;
 								}
 							}
 
@@ -468,7 +514,8 @@ namespace Tgstation.Server.Host.Controllers
 								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, cancellationToken).ConfigureAwait(false);
 								lastRevisionInfo = revInfoWereLookingFor;
 							}
-							else
+
+							if(needToApplyRemainingPrs)
 							{
 								var contextUser = new Models.User
 								{
