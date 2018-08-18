@@ -18,6 +18,6 @@ var searchData=
   ['exception',['Exception',['../class_exception.html',1,'']]],
   ['exceptiondetails',['ExceptionDetails',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#aac65a410c6b14e0a33b256e3d4451486',1,'Tgstation::Server::Api::Models::Internal::Job']]],
   ['exit',['Exit',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812afef46e5063ce3dc78b8ae64fa474241d',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['exitcode',['ExitCode',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html#a54d700f949f95ac1df3b8e606f9b3890',1,'Tgstation.Server.Api.Models.Internal.CompileJob.ExitCode()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_launch_result.html#a352a2e4fca4b6b1ee4bd4f8d85b077cd',1,'Tgstation.Server.Host.Components.Watchdog.LaunchResult.ExitCode()']]],
+  ['exitcode',['ExitCode',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_launch_result.html#a352a2e4fca4b6b1ee4bd4f8d85b077cd',1,'Tgstation::Server::Host::Components::Watchdog::LaunchResult']]],
   ['expiresat',['ExpiresAt',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html#a086733898b6eace9e4955bcec93f60e0',1,'Tgstation::Server::Api::Models::Token']]]
 ];

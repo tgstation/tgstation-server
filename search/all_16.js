@@ -27,6 +27,7 @@ var searchData=
   ['windowsbyondinstaller',['WindowsByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html',1,'Tgstation::Server::Host::Components::Byond']]],
   ['windowsbyondinstaller',['WindowsByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#acc9243154bedd29521dfbd1138b999bb',1,'Tgstation::Server::Host::Components::Byond::WindowsByondInstaller']]],
   ['windowsbyondinstaller_2ecs',['WindowsByondInstaller.cs',['../_windows_byond_installer_8cs.html',1,'']]],
+  ['windowshost',['WindowsHost',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html#abf3f89fee1f079cadd4208f337444fec',1,'Tgstation::Server::Api::Models::Administration']]],
   ['windowspostwritehandler',['WindowsPostWriteHandler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_windows_post_write_handler.html',1,'Tgstation::Server::Host::Components::StaticFiles']]],
   ['windowspostwritehandler_2ecs',['WindowsPostWriteHandler.cs',['../_windows_post_write_handler_8cs.html',1,'']]],
   ['windowssymlinkfactory',['WindowsSymlinkFactory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html',1,'Tgstation::Server::Host::IO']]],
