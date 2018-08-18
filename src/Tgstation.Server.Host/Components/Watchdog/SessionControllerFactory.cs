@@ -147,7 +147,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 			};
 
-			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new Interop.TestMerge(x)));
+			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new Interop.TestMerge(x, interopInfo.Revision)));
 
 			var interopJsonFile = JsonFile("interop");
 

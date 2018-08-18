@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Interop
@@ -22,14 +23,11 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// Construct a <see cref="TestMerge"/>
 		/// </summary>
 		/// <param name="testMerge">The <see cref="Models.TestMerge"/> to build from</param>
-		public TestMerge(Models.TestMerge testMerge) : base(testMerge)
+		/// <param name="revision">The value of <see cref="Revision"/></param>
+		public TestMerge(Models.TestMerge testMerge, RevisionInformation revision) : base(testMerge)
 		{
 			TimeMerged = testMerge.MergedAt.Ticks.ToString(CultureInfo.InvariantCulture);
-			Revision = new RevisionInformation
-			{
-				CommitSha = testMerge.PrimaryRevisionInformation.CommitSha,
-				OriginCommitSha = testMerge.PrimaryRevisionInformation.OriginCommitSha
-			};
+			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
 		}
 	}
 }
