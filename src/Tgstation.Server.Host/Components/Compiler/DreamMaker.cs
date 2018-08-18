@@ -263,7 +263,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			lock (this)
 			{
 				if (Status != CompilerStatus.Idle)
-					throw new Exception("There is already a compile in progress!");
+					throw new JobException("There is already a compile in progress!");
 
 				Status = CompilerStatus.Copying;
 			}
@@ -336,7 +336,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 							logger.LogTrace("Searching for available .dmes...");
 							var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
 							if (path == default)
-								throw new Exception("Unable to find any .dme!");
+								throw new JobException("Unable to find any .dme!");
 							var dmeWithExtension = ioManager.GetFileName(path);
 							job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 						}
@@ -364,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 						{
 							//server never validated or compile failed
 							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
-							throw new Exception(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}", exitCode, job.Output));
+							throw new JobException(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}", exitCode, job.Output));
 						}
 
 						logger.LogTrace("Running post compile event...");

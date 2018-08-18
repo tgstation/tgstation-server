@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						if (dmbBackup == null)	//NANI!?
 							//just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
-							throw new Exception("Creating backup DMB provider failed!");
+							throw new JobException("Creating backup DMB provider failed!");
 
 						monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbBackup, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
 						usedMostRecentDmb = false;
@@ -687,9 +687,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var launch = await controller.LaunchResult.ConfigureAwait(false);
 							if (launch.ExitCode.HasValue)
 								//you killed us ray...
-								throw new Exception(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
+								throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
 							if (!launch.StartupTime.HasValue)
-								throw new Exception(String.Format(CultureInfo.InvariantCulture, "{1} server timed out on startup: {0}s", launch.ToString(), ActiveLaunchParameters.StartupTimeout.Value));
+								throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server timed out on startup: {0}s", launch.ToString(), ActiveLaunchParameters.StartupTimeout.Value));
 							return launch;
 						}
 

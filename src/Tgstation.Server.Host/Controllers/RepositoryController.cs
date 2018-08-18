@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, cancellationToken).ConfigureAwait(false))
 					{
 						if (repos == null)
-							throw new Exception("Filesystem conflict while cloning repository!");
+							throw new JobException("Filesystem conflict while cloning repository!");
 						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
 						if (await PopulateApi(api, repos, db, Instance, null, null, cancellationToken).ConfigureAwait(false))
 							await db.Save(cancellationToken).ConfigureAwait(false);
@@ -315,7 +315,7 @@ namespace Tgstation.Server.Host.Controllers
 				using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(ct).ConfigureAwait(false))
 				{
 					if (repo == null)
-						throw new InvalidOperationException("Repository could not be loaded!");
+						throw new JobException("Repository could not be loaded!");
 
 					var modelHasShaOrReference = model.CheckoutSha != null || model.Reference != null;
 
@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Controllers
 					var startSha = repo.Head;
 
 					if (newTestMerges && !repo.IsGitHubRepository)
-						throw new InvalidOperationException("Cannot test merge on a non GitHub based repository!");
+						throw new JobException("Cannot test merge on a non GitHub based repository!");
 
 					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
 
@@ -357,15 +357,15 @@ namespace Tgstation.Server.Host.Controllers
 						//fetch/pull
 						if (model.UpdateFromOrigin == true)
 						{
-							if (!repo.Tracking && model.Reference == null)
-								throw new InvalidOperationException("Not on an updatable reference!");
+							if (!repo.Tracking)
+								throw new JobException("Not on an updatable reference!");
 							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, x => progressReporter(x / numFetches), ct).ConfigureAwait(false);
 							doneFetches = 1;
 							if (!modelHasShaOrReference)
 							{
 								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, ct).ConfigureAwait(false);
 								if (!fastForward.HasValue)
-									throw new InvalidOperationException("Merge conflict occurred during origin update!");
+									throw new JobException("Merge conflict occurred during origin update!");
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
 								{
@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (model.UpdateFromOrigin == true && model.Reference != null)
 							{
 								if (!repo.Tracking)
-									throw new InvalidOperationException("Checked out reference does not track a remote object!");
+									throw new JobException("Checked out reference does not track a remote object!");
 								await repo.ResetToOrigin(ct).ConfigureAwait(false);
 								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
