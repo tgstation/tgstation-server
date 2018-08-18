@@ -40,7 +40,10 @@ namespace Tgstation.Server.Host.Models
 			OriginCommitSha = OriginCommitSha,
 			PrimaryTestMerge = PrimaryTestMerge?.ToApi(),
 			ActiveTestMerges = ActiveTestMerges.Select(x => x.TestMerge.ToApi()).ToList(),
-			CompileJobs = CompileJobs.Select(x => x.ToApi()).ToList()
+			CompileJobs = CompileJobs.Select(x => new Api.Models.CompileJob
+			{
+				Id = x.Id	//anti recursion measure
+			}).ToList()
 		};
 	}
 }
