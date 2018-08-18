@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			if (!results.Any())
 				return "None!";
 
-			return String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} as {1}", x.Number, x.PullRequestRevision.Substring(0, 7))));
+			return String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7))));
 		}
 	}
 }
