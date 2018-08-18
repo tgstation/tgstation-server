@@ -139,7 +139,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ChatCommandsJson = JsonFile("chat_commands"),
 				ServerCommandsJson = JsonFile("server_commands"),
 				InstanceName = instance.Name,
-				Revision = dmbProvider.CompileJob.RevisionInformation
+				Revision = new Api.Models.Internal.RevisionInformation
+				{
+					CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
+					OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
+				}
 			};
 
 			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new Interop.TestMerge(x)));
