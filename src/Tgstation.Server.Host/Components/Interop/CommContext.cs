@@ -88,11 +88,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <param name="e">The <see cref="FileSystemEventArgs"/></param>
 		async void HandleWrite(object sender, FileSystemEventArgs e)	//this is what async void was made for
 		{
-			logger.LogTrace("FileSystemWatcher triggered...");
 			try
 			{
 				var fileBytes = await ioManager.ReadAllBytes(e.FullPath, cancellationToken).ConfigureAwait(false);
 				var file = Encoding.UTF8.GetString(fileBytes);
+
+				logger.LogTrace("Read interop command json: {0}", file);
 
 				CommCommand command;
 				try
@@ -105,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Interop
 				catch (JsonSerializationException ex)
 				{  
 					//file not fully written yet
-					logger.LogTrace("Suppressing json convert exception: {0}", ex);
+					logger.LogDebug("Suppressing json convert exception for command file write: {0}", ex);
 					return;
 				} 
 
@@ -113,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Interop
 			}
 			catch (Exception ex)
 			{
-				logger.LogDebug("Exception while trying to read command json: {0}", ex);
+				logger.LogDebug("Exception while trying to handle command json write: {0}", ex);
 			}
 		}
 
