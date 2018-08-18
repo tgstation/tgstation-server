@@ -793,17 +793,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return true;
 
 				var builder = new StringBuilder(Constants.DMTopicEvent);
-				foreach (var I in parameters)
-				{
-					builder.Append("&");
-					builder.Append(byondTopicSender.SanitizeString(I));
-				}
+				if (parameters != null)
+					foreach (var I in parameters)
+					{
+						builder.Append("&");
+						builder.Append(byondTopicSender.SanitizeString(I));
+					}
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
 			}
 
-			if (results == null)
+			if (results == Constants.DMResponseSuccess)
 				return true;
 
 			List<Response> responses;
