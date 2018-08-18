@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d02378a8-d5e6-421e-9ba9-23184503cb14",
+		"_postman_id": "6defe202-821a-488f-b8fe-e4017992655f",
 		"name": "TGS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1254,7 +1254,50 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": -1,\n\t\"dreamDaemonRights\": -1,\n\t\"dreamMakerRights\": -1,\n\t\"repositoryRights\": -1,\n\t\"chatSettingsRights\": -1,\n\t\"configurationRights\": -1\n}"
+									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": 4294967294,\n\t\"dreamDaemonRights\": 4294967294,\n\t\"dreamMakerRights\": 4294967294,\n\t\"repositoryRights\": 4294967294\n\t\"chatBotRights\": 4294967294,\n\t\"configurationRights\": 4294967294\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/InstanceUser",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"InstanceUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fix admin Instace ID 1 all perms",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": 4294967294,\n\t\"dreamDaemonRights\": 4294967294,\n\t\"dreamMakerRights\": 4294967294,\n\t\"repositoryRights\": 4294967294,\n\t\"chatBotRights\": 4294967294,\n\t\"configurationRights\": 4294967294\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/InstanceUser",
@@ -2577,6 +2620,141 @@
 									"port": "5000",
 									"path": [
 										"Config"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Watchdog",
+					"item": [
+						{
+							"name": "Set SecurityLevel to Trusted",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"securityLevel\": 0\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/DreamDaemon",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"DreamDaemon"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "localhost:5000/DreamDaemon",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"DreamDaemon"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Stop",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:5000/DreamDaemon",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"DreamDaemon"
 									]
 								}
 							},
