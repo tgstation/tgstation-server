@@ -44,6 +44,11 @@ namespace Tgstation.Server.Host.Components.Interop
 		ICommHandler handler;
 
 		/// <summary>
+		/// If the <see cref="CommContext"/> has been disposed
+		/// </summary>
+		bool disposed;
+
+		/// <summary>
 		/// Construct an <see cref="CommContext"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -71,11 +76,15 @@ namespace Tgstation.Server.Host.Components.Interop
 
 			cancellationTokenSource = new CancellationTokenSource();
 			cancellationToken = cancellationTokenSource.Token;
+			disposed = false;
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			if (disposed)
+				return;
+			disposed = true;
 			fileSystemWatcher.Dispose();
 			cancellationTokenSource.Cancel();
 			cancellationTokenSource.Dispose();
