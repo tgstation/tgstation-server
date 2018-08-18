@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 					throw new InvalidOperationException("Watchdog already running!");
 			},
 			cancellationToken).ConfigureAwait(false);
-			return Json(job);
+			return Json(job.ToApi());
 		}
 
 		/// <inheritdoc />
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			if (current.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage { Message = "TGS does not support the ultrasafe DreamDaemon configuration!" });
+				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
 			
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 
