@@ -24,8 +24,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <summary>
 		/// Gets the next <see cref="IDmbProvider"/>
 		/// </summary>
+		/// <param name="lockCount">The amount of locks to give the resulting <see cref="IDmbProvider"/>. It's <see cref="IDisposable.Dispose"/> must be called this many times to properly clean the job</param>
 		/// <returns>A new <see cref="IDmbProvider"/></returns>
-		IDmbProvider LockNextDmb();
+		IDmbProvider LockNextDmb(int lockCount);
 
 		/// <summary>
 		/// Gets a <see cref="IDmbProvider"/> for a given <see cref="CompileJob"/>

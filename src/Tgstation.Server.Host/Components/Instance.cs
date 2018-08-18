@@ -278,7 +278,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (!dmbFactory.DmbAvailable)
 				return null;
-			using (var dmb = dmbFactory.LockNextDmb())
+			using (var dmb = dmbFactory.LockNextDmb(0))
 				return dmb.CompileJob;
 		}
 	}

@@ -95,7 +95,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="job">The <see cref="CompileJob"/> to clean</param>
 		void CleanJob(CompileJob job)
 		{
-			logger.LogTrace("Cleaning compile job {0} => {1}", job.Id, job.DirectoryName);
 			async Task HandleCleanup()
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
@@ -106,10 +105,16 @@ namespace Tgstation.Server.Host.Components.Compiler
 			}
 			lock (this)
 			{
-				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || --jobLockCounts[job.Id] == 0)
+				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
+					logger.LogDebug("Cleaning compile job {0} => {1}", job.Id, job.DirectoryName);
 					cleanupTask = HandleCleanup();
+				}
+				else
+				{
+					var decremented = --jobLockCounts[job.Id];
+					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
 				}
 			}
 		}
@@ -148,13 +153,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public IDmbProvider LockNextDmb()
+		public IDmbProvider LockNextDmb(int lockCount)
 		{
 			if (!DmbAvailable)
 				throw new InvalidOperationException("No .dmb available!");
+			if (lockCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(lockCount), lockCount, "lockCount must be greater than or equal to 0!");
 			lock (this)
 			{
-				++jobLockCounts[nextDmbProvider.CompileJob.Id];
+				var jobId = nextDmbProvider.CompileJob.Id;
+				var incremented = jobLockCounts[jobId] += lockCount;
+				logger.LogTrace("Compile job {0} lock count now: {1}", jobId, incremented);
 				return nextDmbProvider;
 			}
 		}
