@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6defe202-821a-488f-b8fe-e4017992655f",
+		"_postman_id": "b7e61e38-6891-473e-8ab4-869e5cf41a96",
 		"name": "TGS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1254,7 +1254,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": 4294967294,\n\t\"dreamDaemonRights\": 4294967294,\n\t\"dreamMakerRights\": 4294967294,\n\t\"repositoryRights\": 4294967294\n\t\"chatBotRights\": 4294967294,\n\t\"configurationRights\": 4294967294\n}"
+									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": 4294967295,\n\t\"dreamDaemonRights\": 4294967295,\n\t\"dreamMakerRights\": 4294967295,\n\t\"repositoryRights\": 4294967295\n\t\"chatBotRights\": 4294967295,\n\t\"configurationRights\": 4294967295\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/InstanceUser",
@@ -1297,7 +1297,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": 4294967294,\n\t\"dreamDaemonRights\": 4294967294,\n\t\"dreamMakerRights\": 4294967294,\n\t\"repositoryRights\": 4294967294,\n\t\"chatBotRights\": 4294967294,\n\t\"configurationRights\": 4294967294\n}"
+									"raw": "{\n\t\"userId\": 1,\n\t\"byondRights\": 4294967295,\n\t\"dreamDaemonRights\": 4294967295,\n\t\"dreamMakerRights\": 4294967295,\n\t\"repositoryRights\": 4294967295,\n\t\"chatBotRights\": 4294967295,\n\t\"configurationRights\": 4294967295\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/InstanceUser",
@@ -1901,7 +1901,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"updateFromOrigin\": true,\n\t\"reference\": \"master\",\n\t\"newTestMerges\": [\n\t\t{\n\t\t\t\"number\": 39147,\n\t\t\t\"comment\": \"electric boogaloo\"\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"updateFromOrigin\": true,\n\t\"reference\": \"master\",\n\t\"newTestMerges\": [\n\t\t{\n\t\t\t\"number\": 39771,\n\t\t\t\"comment\": \"needful for debugging\"\n\t\t},\n\t\t{\n\t\t\t\"number\": 39777,\n\t\t\t\"comment\": \"also needful\"\n\t\t},\n\t\t{\n\t\t\t\"number\": 39778\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Repository",
@@ -2678,6 +2678,49 @@
 							"name": "Start",
 							"request": {
 								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "localhost:5000/DreamDaemon",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"DreamDaemon"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read",
+							"request": {
+								"method": "GET",
 								"header": [
 									{
 										"key": "Accept",
