@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task HandlerMonitorWakeup(MonitorActivationReason activationReason, MonitorState monitorState, CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Monitor activation. Reason: {0}", activationReason);
+			logger.LogDebug("Monitor activation. Reason: {0}", activationReason);
 
 			//returns true if the inactive server can't be used immediately
 			bool FullRestartDeadInactive()
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//trys to set inactive server's port to the private port
 			async Task<bool> MakeInactiveActive()
 			{
-				logger.LogInformation("Setting inactive server to port {0}...", ActiveLaunchParameters.PrimaryPort.Value);
+				logger.LogDebug("Setting inactive server to port {0}...", ActiveLaunchParameters.PrimaryPort.Value);
 				var result = await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.PrimaryPort.Value, cancellationToken).ConfigureAwait(false);
 
 				if (!result)
@@ -309,7 +309,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception e)
 				{
-					logger.LogError("Exception occurred while recreating server! Attempting backup strategy of running DMB of running server! Exception: {0}", e.ToString());
+					logger.LogError("Error occurred while recreating server! Attempting backup strategy of running DMB of running server! Exception: {0}", e.ToString());
 					//ahh jeez, what do we do here?
 					//this is our fault, so it should never happen but
 					//idk maybe a database error while handling the newest dmb?
@@ -465,7 +465,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
-			logger.LogDebug("Entered MonitorLifetimes");
+			logger.LogTrace("Entered MonitorLifetimes");
 			var iteration = 1;
 			for(var monitorState = new MonitorState(); monitorState.NextAction != MonitorAction.Exit; ++iteration)
 			{
@@ -572,7 +572,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							{
 								result = await LaunchNoLock(false, false, false, cancellationToken).ConfigureAwait(false);
 								if (Running)
+								{
+									logger.LogDebug("Relaunch successful, resetting monitor state...");
 									monitorState = new MonitorState();  //clean the slate
+								}
 							}
 
 							await chatTask.ConfigureAwait(false);
@@ -709,6 +712,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//both servers are now running, alpha is the active server, huzzah
 						AlphaIsActive = doReattach ? reattachInfo.AlphaIsActive : true;
 						LastLaunchResult = alphaLrt.Result;
+						logger.LogInformation("Launched servers successfully");
 						Running = true;
 
 						if (startMonitor)
