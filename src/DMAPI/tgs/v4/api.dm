@@ -187,7 +187,7 @@
 
 		//request a new port
 		export_lock = FALSE
-		var/list/new_port_json = Export(TGS4_COMMAND_NEW_PORT, list("current_port" = "[world.port]"))	//stringify this on purpose
+		var/list/new_port_json = Export(TGS4_COMM_NEW_PORT, list("current_port" = "[world.port]"))	//stringify this on purpose
 		
 		if(!new_port_json)
 			TGS_ERROR_LOG("No new port response from server![TGS4_PORT_CRITFAIL_MESSAGE]")
