@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ILogger<SessionController> logger;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPortImpl(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
+		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
 		/// <summary>
