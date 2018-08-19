@@ -269,6 +269,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var query = command.Parameters;
 
 			object content;
+			Action postRespond = null;
 			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
 			{
 				content = new object();
@@ -304,7 +305,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								//we'll also get here from SetPort so complete that task
 								var tmpTcs = portAssignmentTcs;
 								portAssignmentTcs = null;
-								tmpTcs?.SetResult(true);
+								if (tmpTcs != null)
+									postRespond = () => tmpTcs.SetResult(true);
 							}
 
 							portClosedForReboot = false;
@@ -321,7 +323,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						}
 						var oldTcs = rebootTcs;
 						rebootTcs = new TaskCompletionSource<object>();
-						oldTcs.SetResult(null);
+						postRespond = () => oldTcs.SetResult(null);
 						break;
 					default:
 						content = new ErrorMessage { Message = "Requested command not supported!" };
@@ -336,6 +338,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			if (response != Constants.DMResponseSuccess)
 				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
+
+			postRespond?.Invoke();
 		}
 
 		/// <summary>
