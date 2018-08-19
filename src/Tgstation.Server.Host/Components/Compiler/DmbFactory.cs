@@ -212,9 +212,15 @@ namespace Tgstation.Server.Host.Components.Compiler
 				lock (this)
 				{
 					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
+					{
+						value = 1;
 						jobLockCounts.Add(compileJob.Id, 1);
+					}
 					else
 						jobLockCounts[compileJob.Id] = ++value;
+
+					logger.LogTrace("Compile job {0} lock count now: {1}", compileJob.Id, value);
+
 					providerSubmitted = true;
 					return newProvider;
 				}
