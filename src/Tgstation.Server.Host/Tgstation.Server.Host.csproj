@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Byond.TopicSender" Version="1.1.1" />
+    <PackageReference Include="Byond.TopicSender" Version="1.1.2" />
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
     <PackageReference Include="Discord.Net.WebSocket" Version="1.0.2" />

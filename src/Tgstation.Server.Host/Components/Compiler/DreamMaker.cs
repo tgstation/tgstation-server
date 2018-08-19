@@ -135,14 +135,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
+				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+
 				var now = DateTimeOffset.Now;
-				if (now < timeoutAt)
+				if (now < timeoutAt && launchResult.StartupTime.HasValue)
 				{
 					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
 
 					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
 				}
+
 				if (!controller.Lifetime.IsCompleted)
 				{
 					logger.LogDebug("API validation timed out!");
@@ -173,7 +176,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				logger.LogDebug("DreamMaker exit code: {0}", exitCode);
 				job.Output = dm.GetCombinedOutput();
-				logger.LogTrace("DreamMaker output: {0}", job.Output);
+				logger.LogTrace("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
 				return exitCode;
 			}
 		}
@@ -260,11 +263,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			lock (this)
 			{
 				if (Status != CompilerStatus.Idle)
-				{
-					job.Output = "There is already a compile in progress!";
-					logger.LogInformation(job.Output);
-					return job;
-				}
+					throw new JobException("There is already a compile in progress!");
 
 				Status = CompilerStatus.Copying;
 			}
@@ -337,11 +336,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 							logger.LogTrace("Searching for available .dmes...");
 							var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
 							if (path == default)
-							{
-								job.Output = "Unable to find any .dme!";
-								logger.LogWarning(job.Output);
-								return job;
-							}
+								throw new JobException("Unable to find any .dme!");
 							var dmeWithExtension = ioManager.GetFileName(path);
 							job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 						}
@@ -369,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 						{
 							//server never validated or compile failed
 							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
-							throw new Exception(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}", exitCode, job.Output));
+							throw new JobException(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}", exitCode, job.Output));
 						}
 
 						logger.LogTrace("Running post compile event...");

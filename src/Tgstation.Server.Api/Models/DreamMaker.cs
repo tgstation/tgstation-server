@@ -8,12 +8,6 @@ namespace Tgstation.Server.Api.Models
     public sealed class DreamMaker : DreamMakerSettings
 	{
 		/// <summary>
-		/// The last <see cref="CompileJob"/> ran
-		/// </summary>
-		[Permissions(DenyWrite = true)]
-		public CompileJob LastJob { get; set; }
-
-		/// <summary>
 		/// The <see cref="CompilerStatus"/> of the compiler
 		/// </summary>
 		[Permissions(DenyWrite = true)]

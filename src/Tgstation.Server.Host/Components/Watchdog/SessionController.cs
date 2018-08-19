@@ -167,7 +167,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger)
+		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
+		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger, uint? startupTimeout)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
@@ -190,11 +191,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			async Task<LaunchResult> GetLaunchResult()
 			{
 				var startTime = DateTimeOffset.Now;
-				await process.Startup.ConfigureAwait(false);
+				Task toAwait = process.Startup;
+
+				if (startupTimeout.HasValue)
+					toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+
+				await toAwait.ConfigureAwait(false);
+
 				var result = new LaunchResult
 				{
 					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-					StartupTime = DateTimeOffset.Now - startTime
+					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
 				};
 				return result;
 			};
@@ -420,5 +427,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			CheckDisposed();
 			reattachInformation.RebootState = RebootState.Normal;
 		}
+
+		/// <inheritdoc />
+		public void SetHighPriority() => process.SetHighPriority();
 	}
 }

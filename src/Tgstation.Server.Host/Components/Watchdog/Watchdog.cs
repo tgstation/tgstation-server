@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class Watchdog : IWatchdog, ICustomCommandHandler
 	{
 		/// <summary>
-		/// The time in milliseconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
+		/// The time in seconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
 		/// </summary>
-		const int AlphaBravoStartupSeperationInterval = 3000;
+		const int AlphaBravoStartupSeperationInterval = 3;
 
 		/// <inheritdoc />
 		public bool Running { get; private set; }
@@ -187,6 +187,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			alphaServer = null;
 			bravoServer?.Dispose();
 			bravoServer = null;
+			Running = false;
 		}
 
 		/// <summary>
@@ -232,7 +233,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var chatTask = announce ? chat.SendWatchdogMessage("Terminating...", cancellationToken) : Task.CompletedTask;
 				await StopMonitor().ConfigureAwait(false);
 				DisposeAndNullControllers();
-				Running = false;
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						if (dmbBackup == null)	//NANI!?
 							//just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
-							throw new Exception("Creating backup DMB provider failed!");
+							throw new JobException("Creating backup DMB provider failed!");
 
 						monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbBackup, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
 						usedMostRecentDmb = false;
@@ -411,7 +411,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						case Components.Watchdog.RebootState.Shutdown:
 							await chat.SendWatchdogMessage("Active server rebooted! Exiting due to graceful termination request...", cancellationToken).ConfigureAwait(false);
 							DisposeAndNullControllers();
-							Running = false;
 							monitorState.NextAction = MonitorAction.Exit;
 							return;
 					}
@@ -438,8 +437,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						monitorState.NextAction = MonitorAction.Break;
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
-					//should never happen but okay
-					logger.LogWarning("Inactive server rebooted, this is a bug in DM code!");
 					monitorState.RebootingInactiveServer = true;
 					monitorState.InactiveServer.ResetRebootState();   //the DMAPI has already done this internally
 					monitorState.ActiveServer.ClosePortOnReboot = false;
@@ -492,7 +489,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
 					var activeServerReboot = monitorState.ActiveServer.OnReboot;
 					var inactiveServerReboot = monitorState.InactiveServer.OnReboot;
-					var inactiveServerStartup = monitorState.InactiveServer.LaunchResult;
+					var inactiveServerStartup = monitorState.RebootingInactiveServer ? monitorState.InactiveServer.LaunchResult : null;
 					var activeLaunchParametersChanged = activeParametersUpdated.Task;
 					var newDmbAvailable = dmbFactory.OnNewerDmb;
 
@@ -550,9 +547,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							}
 							else
 								moreActivationsToProcess = false;
+
+							if(moreActivationsToProcess)
+								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						}
 
-						await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						//writeback alphaServer and bravoServer
 						alphaServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 						bravoServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
@@ -576,7 +575,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								monitorState = new MonitorState();  //clean the slate
 						}
 
-							await chatTask.ConfigureAwait(false);
+						await chatTask.ConfigureAwait(false);
 						if(!Running)
 						{
 							logger.LogWarning("Failed to automatically restart the watchdog! Alpha: {0}; Bravo: {1}", result.Alpha.ToString(), result.Bravo.ToString());
@@ -626,9 +625,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		async Task<WatchdogLaunchResult> LaunchNoLock(bool startMonitor, bool announce, bool doReattach, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin LaunchNoLock");
 			using (var alphaStartCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
-				logger.LogTrace("Begin LaunchNoLock");
 				if (Running)
 				{
 					logger.LogTrace("Aborted due to already running!");
@@ -655,32 +654,43 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
-					Task<ISessionController> alphaServerTask = null;
 					try
 					{
+						Task<ISessionController> alphaServerTask;
 						if (!doesntNeedNewDmb)
 							alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
 						else
 							alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
-						//do a few seconds of delay so that any backends the servers use know that alpha came first
-						await Task.Delay(AlphaBravoStartupSeperationInterval, cancellationToken).ConfigureAwait(false);
+
+						//wait until this boy officially starts so as not to confuse the servers as to who came first
+						var startTime = DateTimeOffset.Now;
+						alphaServer = await alphaServerTask.ConfigureAwait(false);
+						alphaServer.SetHighPriority();
+
+						//extra delay for total ordering
+						var now = DateTimeOffset.Now;
+						var delay = now - startTime;
+
+						if (delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
+							await Task.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
+
 						Task<ISessionController> bravoServerTask;
 						if (!doesntNeedNewDmb)
 							bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
 						else
 							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
 
-						await Task.WhenAll(alphaServerTask, bravoServerTask).ConfigureAwait(false);
-
-						alphaServer = alphaServerTask.Result;
-						bravoServer = bravoServerTask.Result;
+						bravoServer = await bravoServerTask.ConfigureAwait(false);
+						bravoServer.SetHighPriority();
 
 						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
 						{
 							var launch = await controller.LaunchResult.ConfigureAwait(false);
 							if (launch.ExitCode.HasValue)
 								//you killed us ray...
-								throw new Exception(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
+								throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
+							if (!launch.StartupTime.HasValue)
+								throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server timed out on startup: {0}s", launch.ToString(), ActiveLaunchParameters.StartupTimeout.Value));
 							return launch;
 						}
 
@@ -793,12 +803,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return true;
 
 				var builder = new StringBuilder(Constants.DMTopicEvent);
-				if (parameters != null)
-					foreach (var I in parameters)
-					{
-						builder.Append("&");
-						builder.Append(byondTopicSender.SanitizeString(I));
-					}
+				builder.Append("&");
+				var notification = new EventNotification
+				{
+					Type = eventType,
+					Parameters = parameters
+				};
+				var json = JsonConvert.SerializeObject(notification);
+				builder.Append(byondTopicSender.SanitizeString(json));
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);

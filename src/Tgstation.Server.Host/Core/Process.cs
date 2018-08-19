@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (combinedStringBuilder == null)
 				throw new InvalidOperationException("Output/Error reading was not enabled!");
-			return combinedStringBuilder.ToString();
+			return combinedStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (errorStringBuilder == null)
 				throw new InvalidOperationException("Error reading was not enabled!");
-			return errorStringBuilder.ToString();
+			return errorStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (outputStringBuilder == null)
 				throw new InvalidOperationException("Output reading was not enabled!");
-			return errorStringBuilder.ToString();
+			return errorStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />
@@ -76,6 +76,15 @@ namespace Tgstation.Server.Host.Core
 			{
 				handle.Kill();
 				handle.WaitForExit();
+			}
+			catch (InvalidOperationException) { }
+		}
+
+		public void SetHighPriority()
+		{
+			try
+			{
+				handle.PriorityClass = System.Diagnostics.ProcessPriorityClass.AboveNormal;
 			}
 			catch (InvalidOperationException) { }
 		}

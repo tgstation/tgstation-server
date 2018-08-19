@@ -77,6 +77,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			{
 				new VersionCommand(application),
 				new ByondCommand(byondManager),
+				new RevisionCommand(watchdog, repositoryManager, instance),
 				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, instance),
 				new KekCommand()
 			};

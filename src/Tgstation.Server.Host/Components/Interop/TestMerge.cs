@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+﻿using System;
+using System.Globalization;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Interop
 {
@@ -10,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The unix time of when the test merge was applied
 		/// </summary>
-		public long TimeMerged { get; set; }
+		public string TimeMerged { get; set; }
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/> of the <see cref="TestMerge"/>
@@ -21,10 +23,11 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// Construct a <see cref="TestMerge"/>
 		/// </summary>
 		/// <param name="testMerge">The <see cref="Models.TestMerge"/> to build from</param>
-		public TestMerge(Models.TestMerge testMerge) : base(testMerge)
+		/// <param name="revision">The value of <see cref="Revision"/></param>
+		public TestMerge(Models.TestMerge testMerge, RevisionInformation revision) : base(testMerge)
 		{
-			TimeMerged = testMerge.MergedAt.Ticks;
-			Revision = testMerge.PrimaryRevisionInformation;
+			TimeMerged = testMerge.MergedAt.Ticks.ToString(CultureInfo.InvariantCulture);
+			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
 		}
 	}
 }

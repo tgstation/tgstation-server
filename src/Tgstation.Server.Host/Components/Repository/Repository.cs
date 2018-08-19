@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string GitHubRepoName { get; }
 
 		/// <inheritdoc />
-		public bool Tracking => repository.Head.IsTracking;
+		public bool Tracking => Reference != null && repository.Head.IsTracking;
 
 		/// <inheritdoc />
 		public string Head => repository.Head.Tip.Sha;

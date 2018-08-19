@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Byond
 							cancellationToken.ThrowIfCancellationRequested();
 
 							if (exitCode != 0)
-								throw new Exception(String.Format(CultureInfo.InvariantCulture, "Failed to install included DirectX! Exit code: {0}", exitCode));
+								throw new JobException(String.Format(CultureInfo.InvariantCulture, "Failed to install included DirectX! Exit code: {0}", exitCode));
 							installedDirectX = true;
 						}
 					}

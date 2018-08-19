@@ -9,9 +9,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	public sealed class LaunchResult
 	{
 		/// <summary>
-		/// The time it took for <see cref="System.Diagnostics.Process.WaitForInputIdle()"/> to return
+		/// The time it took for <see cref="System.Diagnostics.Process.WaitForInputIdle()"/> to return. If <see langword="null"/> the startup timed out
 		/// </summary>
-		public TimeSpan StartupTime { get; set; }
+		public TimeSpan? StartupTime { get; set; }
 
 		/// <summary>
 		/// The <see cref="System.Diagnostics.Process.ExitCode"/> if it exited
@@ -19,6 +19,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public int? ExitCode { get; set; }
 
 		/// <inheritdoc />
-		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Exit Code: {0}, Time {1}ms", ExitCode, StartupTime.TotalMilliseconds);
+		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Exit Code: {0}, Time {1}ms", ExitCode, StartupTime?.TotalMilliseconds);
 	}
 }

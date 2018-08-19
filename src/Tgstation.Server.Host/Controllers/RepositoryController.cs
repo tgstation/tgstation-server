@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, cancellationToken).ConfigureAwait(false))
 					{
 						if (repos == null)
-							throw new Exception("Filesystem conflict while cloning repository!");
+							throw new JobException("Filesystem conflict while cloning repository!");
 						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
 						if (await PopulateApi(api, repos, db, Instance, null, null, cancellationToken).ConfigureAwait(false))
 							await db.Save(cancellationToken).ConfigureAwait(false);
@@ -315,7 +315,7 @@ namespace Tgstation.Server.Host.Controllers
 				using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(ct).ConfigureAwait(false))
 				{
 					if (repo == null)
-						throw new InvalidOperationException("Repository could not be loaded!");
+						throw new JobException("Repository could not be loaded!");
 
 					var modelHasShaOrReference = model.CheckoutSha != null || model.Reference != null;
 
@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Controllers
 					var startSha = repo.Head;
 
 					if (newTestMerges && !repo.IsGitHubRepository)
-						throw new InvalidOperationException("Cannot test merge on a non GitHub based repository!");
+						throw new JobException("Cannot test merge on a non GitHub based repository!");
 
 					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
 
@@ -357,15 +357,15 @@ namespace Tgstation.Server.Host.Controllers
 						//fetch/pull
 						if (model.UpdateFromOrigin == true)
 						{
-							if (!repo.Tracking && model.Reference == null)
-								throw new InvalidOperationException("Not on an updatable reference!");
+							if (!repo.Tracking)
+								throw new JobException("Not on an updatable reference!");
 							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, x => progressReporter(x / numFetches), ct).ConfigureAwait(false);
 							doneFetches = 1;
 							if (!modelHasShaOrReference)
 							{
 								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, ct).ConfigureAwait(false);
 								if (!fastForward.HasValue)
-									throw new InvalidOperationException("Merge conflict occurred during origin update!");
+									throw new JobException("Merge conflict occurred during origin update!");
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
 								{
@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (model.UpdateFromOrigin == true && model.Reference != null)
 							{
 								if (!repo.Tracking)
-									throw new InvalidOperationException("Checked out reference does not track a remote object!");
+									throw new JobException("Checked out reference does not track a remote object!");
 								await repo.ResetToOrigin(ct).ConfigureAwait(false);
 								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
@@ -412,6 +412,7 @@ namespace Tgstation.Server.Host.Controllers
 							var repoName = repo.GitHubRepoName;
 
 							Models.RevisionInformation revInfoWereLookingFor = null;
+							bool needToApplyRemainingPrs = true;
 							//optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
 							if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 							{
@@ -445,20 +446,61 @@ namespace Tgstation.Server.Host.Controllers
 								if (!cantSearch)
 								{
 									var dbPull = await databaseContext.RevisionInformations
-										.Where(x => x.Instance.Id == Instance.Id 
-										&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha 
-										&& x.ActiveTestMerges.Count == model.NewTestMerges.Count)
+										.Where(x => x.Instance.Id == Instance.Id
+										&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
+										&& x.ActiveTestMerges.Count <= model.NewTestMerges.Count
+										&& x.ActiveTestMerges.Count > 0)
 										.Include(x => x.ActiveTestMerges)
 										.ThenInclude(x => x.TestMerge)
 										.ToListAsync(cancellationToken).ConfigureAwait(false);
+
 									//split here cause this bit has to be done locally
 									revInfoWereLookingFor = dbPull
-										.Where(x => x.ActiveTestMerges.Select(y => y.TestMerge)
-										.All(y => model.NewTestMerges.Any(z => 
-										y.Number == z.Number 
-										&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal) 
-										&& y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null)))
+										.Where(x => x.ActiveTestMerges.Count == model.NewTestMerges.Count
+										&& x.ActiveTestMerges.Select(y => y.TestMerge)
+										.All(y => model.NewTestMerges.Any(z =>
+										y.Number == z.Number
+										&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)
+										&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 										.FirstOrDefault();
+
+									if (revInfoWereLookingFor == null && model.NewTestMerges.Count > 1)
+									{
+										//okay try to add at least SOME prs we've seen before 
+										var search = model.NewTestMerges.ToList();
+
+										var appliedTestMergeIds = new List<long>();
+
+										Models.RevisionInformation lastGoodRevInfo = null;
+										do
+										{
+											foreach (var I in search)
+											{
+												revInfoWereLookingFor = dbPull
+													.Where(x => model.NewTestMerges.Any(z =>
+													x.PrimaryTestMerge.Number == z.Number
+													&& x.PrimaryTestMerge.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)
+													&& (x.PrimaryTestMerge.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))
+													&& x.ActiveTestMerges.Select(y => y.TestMerge).All(y => appliedTestMergeIds.Contains(y.Id)))
+													.FirstOrDefault();
+
+												if (revInfoWereLookingFor != null)
+												{
+													lastGoodRevInfo = revInfoWereLookingFor;
+													appliedTestMergeIds.Add(revInfoWereLookingFor.PrimaryTestMerge.Id);
+													search.Remove(I);
+													break;
+												}
+											}
+										} while (revInfoWereLookingFor != null && search.Count > 0);
+
+										revInfoWereLookingFor = lastGoodRevInfo;
+										needToApplyRemainingPrs = search.Count != 0;
+										if (needToApplyRemainingPrs)
+											model.NewTestMerges = search;
+									}
+									else if (revInfoWereLookingFor != null)
+										needToApplyRemainingPrs = false;
 								}
 							}
 
@@ -468,7 +510,8 @@ namespace Tgstation.Server.Host.Controllers
 								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, cancellationToken).ConfigureAwait(false);
 								lastRevisionInfo = revInfoWereLookingFor;
 							}
-							else
+
+							if(needToApplyRemainingPrs)
 							{
 								var contextUser = new Models.User
 								{
