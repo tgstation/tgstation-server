@@ -564,25 +564,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						logger.LogDebug("Next state action is to restart");
 						DisposeAndNullControllers();
 						chatTask = chat.SendWatchdogMessage("Restarting entirely due to complications...", cancellationToken);
-					}
 
-					for (var retryAttempts = 1; monitorState.NextAction == MonitorAction.Restart; ++retryAttempts)
-					{
-						WatchdogLaunchResult result;
-						using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+						for (var retryAttempts = 1; monitorState.NextAction == MonitorAction.Restart; ++retryAttempts)
 						{
-							result = await LaunchNoLock(false, false, false, cancellationToken).ConfigureAwait(false);
-							if (Running)
-								monitorState = new MonitorState();  //clean the slate
-						}
+							WatchdogLaunchResult result;
+							using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+							{
+								result = await LaunchNoLock(false, false, false, cancellationToken).ConfigureAwait(false);
+								if (Running)
+									monitorState = new MonitorState();  //clean the slate
+							}
 
-						await chatTask.ConfigureAwait(false);
-						if(!Running)
-						{
-							logger.LogWarning("Failed to automatically restart the watchdog! Alpha: {0}; Bravo: {1}", result.Alpha.ToString(), result.Bravo.ToString());
-							var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour
-							chatTask = chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Failed to restart watchdog (Attempt: {0}), retrying in {1} seconds...", retryAttempts, retryDelay), cancellationToken);
-							await Task.WhenAll(Task.Delay((int)retryDelay, cancellationToken), chatTask).ConfigureAwait(false);
+							await chatTask.ConfigureAwait(false);
+							if (!Running)
+							{
+								logger.LogWarning("Failed to automatically restart the watchdog! Alpha: {0}; Bravo: {1}", result.Alpha.ToString(), result.Bravo.ToString());
+								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour
+								chatTask = chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Failed to restart watchdog (Attempt: {0}), retrying in {1} seconds...", retryAttempts, retryDelay), cancellationToken);
+								await Task.WhenAll(Task.Delay((int)retryDelay, cancellationToken), chatTask).ConfigureAwait(false);
+							}
 						}
 					}
 				}
