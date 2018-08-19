@@ -469,7 +469,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var iteration = 1;
 			for(var monitorState = new MonitorState(); monitorState.NextAction != MonitorAction.Exit; ++iteration)
 			{
-				logger.LogDebug("New iteration of monitor loop");
+				logger.LogDebug("Iteration {0} of monitor loop", iteration);
 				try
 				{
 					if(AlphaIsActive)
