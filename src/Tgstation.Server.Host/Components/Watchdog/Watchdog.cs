@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The time in seconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
 		/// </summary>
-		const int AlphaBravoStartupSeperationInterval = 3;
+		const int AlphaBravoStartupSeperationInterval = 10;
 
 		/// <inheritdoc />
 		public bool Running { get; private set; }
