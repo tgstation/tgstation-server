@@ -97,25 +97,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Tgstation.Server.Host.Components.Watchdog.MonitorState Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The (absolute) state of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html">Watchdog</a>  
+ <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a37727fb1a18d568d3b85da43088b1ab7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a37727fb1a18d568d3b85da43088b1ab7">RebootingInactiveServer</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a37727fb1a18d568d3b85da43088b1ab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the inactive server is being rebooted  <a href="#a37727fb1a18d568d3b85da43088b1ab7">More...</a><br /></td></tr>
 <tr class="separator:a37727fb1a18d568d3b85da43088b1ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb0fb960fb4fc07f0da062243b1d8a25"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#aeb0fb960fb4fc07f0da062243b1d8a25">InactiveServerHasStagedDmb</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aeb0fb960fb4fc07f0da062243b1d8a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the inactive server has a .dmb and needs to be swapped in  <a href="#aeb0fb960fb4fc07f0da062243b1d8a25">More...</a><br /></td></tr>
 <tr class="separator:aeb0fb960fb4fc07f0da062243b1d8a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8df2748432efbc5946a50b412abd7789"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a8df2748432efbc5946a50b412abd7789">InactiveServerCritFail</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a8df2748432efbc5946a50b412abd7789"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the inactive server is in an unrecoverable state  <a href="#a8df2748432efbc5946a50b412abd7789">More...</a><br /></td></tr>
 <tr class="separator:a8df2748432efbc5946a50b412abd7789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87534d177a8fda685d068f47526b5bad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812">MonitorAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a87534d177a8fda685d068f47526b5bad">NextAction</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a87534d177a8fda685d068f47526b5bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">The next <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812" title="The action for the monitor loop to take when control is returned to it ">MonitorAction</a> to take in Watchdog.MonitorLifetimes(System.Threading.CancellationToken)  <a href="#a87534d177a8fda685d068f47526b5bad">More...</a><br /></td></tr>
 <tr class="separator:a87534d177a8fda685d068f47526b5bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dd69b0c4244d5e4bc042c29fda80991"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html">ISessionController</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a2dd69b0c4244d5e4bc042c29fda80991">ActiveServer</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a2dd69b0c4244d5e4bc042c29fda80991"><td class="mdescLeft">&#160;</td><td class="mdescRight">The active <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a>  <a href="#a2dd69b0c4244d5e4bc042c29fda80991">More...</a><br /></td></tr>
 <tr class="separator:a2dd69b0c4244d5e4bc042c29fda80991"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a9bcee1c2d257c41c25777b0ac510e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html">ISessionController</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a6a9bcee1c2d257c41c25777b0ac510e6">InactiveServer</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a6a9bcee1c2d257c41c25777b0ac510e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The inactive <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a>  <a href="#a6a9bcee1c2d257c41c25777b0ac510e6">More...</a><br /></td></tr>
 <tr class="separator:a6a9bcee1c2d257c41c25777b0ac510e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00003">3</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<div class="textblock"><p>The (absolute) state of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html">Watchdog</a> </p>
+
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00008">8</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
 </div><h2 class="groupheader">Property Documentation</h2>
 <a class="anchor" id="a2dd69b0c4244d5e4bc042c29fda80991"></a>
 <div class="memitem">
@@ -135,7 +145,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00013">13</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<p>The active <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> </p>
+
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00034">34</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
@@ -159,7 +171,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00014">14</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<p>The inactive <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> </p>
+
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00040">40</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
@@ -183,7 +197,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00009">9</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<p>If the inactive server is in an unrecoverable state </p>
+
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00023">23</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
@@ -207,7 +223,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00007">7</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<p>If the inactive server has a .dmb and needs to be swapped in </p>
+
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00018">18</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
@@ -231,9 +249,11 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00011">11</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<p>The next <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812" title="The action for the monitor loop to take when control is returned to it ">MonitorAction</a> to take in Watchdog.MonitorLifetimes(System.Threading.CancellationToken) </p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00469">Tgstation.Server.Host.Components.Watchdog.Watchdog.MonitorLifetimes()</a>.</p>
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00028">28</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00466">Tgstation.Server.Host.Components.Watchdog.Watchdog.MonitorLifetimes()</a>.</p>
 
 </div>
 </div>
@@ -255,7 +275,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00005">5</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
+<p>If the inactive server is being rebooted </p>
+
+<p>Definition at line <a class="el" href="_monitor_state_8cs_source.html#l00013">13</a> of file <a class="el" href="_monitor_state_8cs_source.html">MonitorState.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['lastjob',['LastJob',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html#a7187fee6245d8ea17986e7fb6b4fd7ee',1,'Tgstation::Server::Api::Models::DreamMaker']]],
   ['lastlaunchparameters',['LastLaunchParameters',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#adf8f73df0fe074af3363857bc43e63a5',1,'Tgstation.Server.Host.Components.Watchdog.IWatchdog.LastLaunchParameters()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#a61de338f74feed0cb373483240b3dffd',1,'Tgstation.Server.Host.Components.Watchdog.Watchdog.LastLaunchParameters()']]],
   ['lastlaunchresult',['LastLaunchResult',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#ad7efc9a8f475dcb6723ce8172ce5e463',1,'Tgstation.Server.Host.Components.Watchdog.IWatchdog.LastLaunchResult()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#a65535aeeaec9cda2945fdc1f46bd8137',1,'Tgstation.Server.Host.Components.Watchdog.Watchdog.LastLaunchResult()']]],
   ['lastpasswordupdate',['LastPasswordUpdate',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e31754b4423b05b1cf70971c64f871d',1,'Tgstation::Server::Host::Models::User']]],
