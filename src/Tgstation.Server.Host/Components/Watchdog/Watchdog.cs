@@ -391,18 +391,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//need a new launch in ActiveServer
 						restartOnceSwapped = true;
 
-					if (!monitorState.ActiveServer.ClosePortOnReboot || !await MakeInactiveActive().ConfigureAwait(false))
+					if (restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot)
+						//we need to manually restart active server
+						//it won't listen to us right now so just kill it
+						monitorState.ActiveServer.Dispose();
+
+					if ((!restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot) || !await MakeInactiveActive().ConfigureAwait(false))
 						break;
 
 					monitorState.ActiveServer.ClosePortOnReboot = true;
 
-					if(!restartOnceSwapped)
+					if (!restartOnceSwapped)
+					{
+						monitorState.InactiveServer.ClosePortOnReboot = false;
 						//try to reopen inactive server on the private port so it's not pinging all the time
 						//failing that, just reboot it
 						restartOnceSwapped = !await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.SecondaryPort.Value, cancellationToken).ConfigureAwait(false);
+					}
 
-					if (restartOnceSwapped) //for one reason or another, 
-						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);   //break because worse case, active server is still booting
+					if (restartOnceSwapped) //for one reason or another
+						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);	//break because worse case, active server is still booting
 					else
 					{
 						monitorState.InactiveServer.ClosePortOnReboot = false;
@@ -458,6 +466,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					monitorState.ActiveServer = AlphaIsActive ? alphaServer : bravoServer;
 					monitorState.InactiveServer = AlphaIsActive ? bravoServer : alphaServer;
+
+					if (monitorState.ActiveServer.ClosePortOnReboot)
+						logger.LogDebug("Active server will close port on reboot");
+					if (monitorState.InactiveServer.ClosePortOnReboot)
+						logger.LogDebug("Inactive server will close port on reboot");
 
 					var activeServerLifetime = monitorState.ActiveServer.Lifetime;
 					var inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
@@ -528,7 +541,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						//writeback alphaServer and bravoServer
 						alphaServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
-						bravoServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
+						bravoServer = !AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 					}
 
 					//full reboot required

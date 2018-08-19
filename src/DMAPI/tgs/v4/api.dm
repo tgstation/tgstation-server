@@ -156,9 +156,9 @@
 			last_interop_response = json_decode(params[TGS4_PARAMETER_DATA])
 			return
 		if(TGS4_TOPIC_CHANGE_PORT)
-			var/new_port = params[TGS4_PARAMETER_DATA]
-			if (!(isnum(new_port) && new_port > 0))
-				return "Invalid port!"
+			var/new_port = text2num(params[TGS4_PARAMETER_DATA])
+			if (!(new_port > 0))
+				return "Invalid port: [new_port]"
 
 			//the topic still completes, miraculously
 			//I honestly didn't believe byond could do it
@@ -166,7 +166,7 @@
 			if(!world.OpenPort(new_port))
 				return "Port change failed!"
 		if(TGS4_TOPIC_CHANGE_REBOOT_MODE)
-			var/new_reboot_mode = params[TGS4_PARAMETER_DATA]
+			var/new_reboot_mode = text2num(params[TGS4_PARAMETER_DATA])
 			event_handler.HandleEvent(TGS_EVENT_REBOOT_MODE_CHANGE, reboot_mode, new_reboot_mode)
 			reboot_mode = new_reboot_mode
 			return
