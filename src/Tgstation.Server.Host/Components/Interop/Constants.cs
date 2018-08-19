@@ -18,8 +18,7 @@
 		public const string DMTopicEvent = "tgs_event";
 		public const string DMTopicInteropResponse = "tgs_interop";
 
-		public const string DMCommandOnline = "tgs_on";
-		public const string DMCommandIdentify = "tgs_ident";
+		public const string DMCommandNewPort = "tgs_new_port";
 		public const string DMCommandApiValidate = "tgs_validate";
 		public const string DMCommandServerPrimed = "tgs_prime";
 		public const string DMCommandWorldReboot = "tgs_reboot";

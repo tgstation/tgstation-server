@@ -189,35 +189,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			bravoServer = null;
 			Running = false;
 		}
-
-		/// <summary>
-		/// Implementation of <see cref="Restart(bool, CancellationToken)"/>. Does not lock <see cref="semaphore"/>
-		/// </summary>
-		async Task<WatchdogLaunchResult> RestartNoLock(bool graceful, CancellationToken cancellationToken)
-		{
-			var running = Running;
-			if (!graceful || !running)
-			{
-				Task chatTask;
-				if (running)
-				{
-					chatTask = chat.SendWatchdogMessage("Manual restart triggered...", cancellationToken);
-					await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
-				}
-				else
-					chatTask = Task.CompletedTask;
-				var result = await LaunchNoLock(true, !running, false, cancellationToken).ConfigureAwait(false);
-				await chatTask.ConfigureAwait(false);
-				return result;
-			}
-			var toReboot = AlphaIsActive ? alphaServer : bravoServer;
-			var other = AlphaIsActive ? bravoServer : alphaServer;
-			if (toReboot != null)
-				//todo, log the result
-				await toReboot.SetRebootState(Components.Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false);
-			return null;
-		}		
-
+		
 		/// <summary>
 		/// Implementation of <see cref="Terminate(bool, CancellationToken)"/>. Does not lock <see cref="semaphore"/>
 		/// </summary>
@@ -265,7 +237,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return false;
 			};
 
-			//trys to set inactive server's port to the private port
+			//trys to set inactive server's port to the public port
+			//doesn't handle closing active server's port
 			async Task<bool> MakeInactiveActive()
 			{
 				logger.LogDebug("Setting inactive server to port {0}...", ActiveLaunchParameters.PrimaryPort.Value);
@@ -277,10 +250,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					monitorState.NextAction = MonitorAction.Restart;    //will dispose server
 					return false;
 				}
-
-				// should always be set for InactiveServer
-				monitorState.InactiveServer.ClosePortOnReboot = false;
-				monitorState.ActiveServer.ClosePortOnReboot = true;
 
 				//inactive server should always be using active launch parameters
 				LastLaunchParameters = ActiveLaunchParameters;
@@ -342,8 +311,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				logger.LogInformation("Successfully relaunched inactive server!");
 				monitorState.RebootingInactiveServer = true;
-				// should always be set for InactiveServer
-				monitorState.InactiveServer.ClosePortOnReboot = false;
 				return usedMostRecentDmb;
 			}
 
@@ -360,9 +327,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					monitorState.ActiveServer.ClosePortOnReboot = false;
 					if (monitorState.InactiveServerHasStagedDmb && !usedLatestDmb)
-						monitorState.InactiveServerHasStagedDmb = false;    //don't try to load it again though
+						monitorState.InactiveServerHasStagedDmb = false;	//don't try to load it again though
 				}
 			};
+
+			string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
 
 			//reason handling
 			switch (activationReason)
@@ -370,26 +339,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveServerCrashed:
 					if(monitorState.ActiveServer.RebootState == Components.Watchdog.RebootState.Shutdown)
 					{
-						await chat.SendWatchdogMessage("Active server crashed or exited! Exiting due to graceful termination request...", cancellationToken).ConfigureAwait(false);
+						await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Exiting due to graceful termination request...", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
 						monitorState.NextAction = MonitorAction.Exit;
 						break;
 					}
 
 					if (FullRestartDeadInactive())
 					{
-						await chat.SendWatchdogMessage("Active server crashed or exited! Inactive server unable to online!", cancellationToken).ConfigureAwait(false);
+						await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Inactive server unable to online!", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
 						break;
 					}
 
-					await chat.SendWatchdogMessage("Active server crashed or exited! Onlining inactive server...", cancellationToken).ConfigureAwait(false);
+					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Onlining inactive server...", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
 					if (!await MakeInactiveActive().ConfigureAwait(false))
 						break;
-					
-					monitorState.ActiveServer.ClosePortOnReboot = false;
+
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.InactiveServerCrashed:
-					await chat.SendWatchdogMessage("Inactive server crashed or exited! Rebooting...", cancellationToken).ConfigureAwait(false);
+					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Inactive server {0}! Rebooting...", ExitWord(monitorState.InactiveServer)), cancellationToken).ConfigureAwait(false);
 					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
@@ -423,8 +391,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//need a new launch in ActiveServer
 						restartOnceSwapped = true;
 
-					if (!await MakeInactiveActive().ConfigureAwait(false))
+					if (!monitorState.ActiveServer.ClosePortOnReboot || !await MakeInactiveActive().ConfigureAwait(false))
 						break;
+
+					monitorState.ActiveServer.ClosePortOnReboot = true;
 
 					if(!restartOnceSwapped)
 						//try to reopen inactive server on the private port so it's not pinging all the time
@@ -432,13 +402,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						restartOnceSwapped = !await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.SecondaryPort.Value, cancellationToken).ConfigureAwait(false);
 
 					if (restartOnceSwapped) //for one reason or another, 
-						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);	//break because worse case, active server is still booting
+						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);   //break because worse case, active server is still booting
 					else
+					{
+						monitorState.InactiveServer.ClosePortOnReboot = false;
 						monitorState.NextAction = MonitorAction.Break;
+					}
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
 					monitorState.RebootingInactiveServer = true;
-					monitorState.InactiveServer.ResetRebootState();   //the DMAPI has already done this internally
+					monitorState.InactiveServer.ResetRebootState();
 					monitorState.ActiveServer.ClosePortOnReboot = false;
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
@@ -765,7 +738,31 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public async Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-				return await RestartNoLock(graceful, cancellationToken).ConfigureAwait(false);
+			{
+				if (!graceful || !Running)
+				{
+					Task chatTask;
+					if (Running)
+					{
+						chatTask = chat.SendWatchdogMessage("Manual restart triggered...", cancellationToken);
+						await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
+					}
+					else
+						chatTask = Task.CompletedTask;
+					var result = await LaunchNoLock(true, !Running, false, cancellationToken).ConfigureAwait(false);
+					await chatTask.ConfigureAwait(false);
+					return result;
+				}
+				var toReboot = AlphaIsActive ? alphaServer : bravoServer;
+				var other = AlphaIsActive ? bravoServer : alphaServer;
+				if (toReboot != null)
+				{
+					if (!await toReboot.SetRebootState(Components.Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false))
+						logger.LogWarning("Unable to send reboot state change event!");
+						
+				}
+				return null;
+			}
 		}
 
 		/// <inheritdoc />
