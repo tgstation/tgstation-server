@@ -7,13 +7,11 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Represents a server <see cref="User"/>
 	/// </summary>
-	[Model(RightsType.Administration, WriteRight = Rights.AdministrationRights.EditUsers, CanCrud = true)]
 	public class User
 	{
 		/// <summary>
 		/// The ID of the <see cref="User"/>
 		/// </summary>
-		[Permissions(DenyWrite = true)]
 		public long Id { get; set; }
 
 		/// <summary>
@@ -25,14 +23,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// When the <see cref="User"/> was created
 		/// </summary>
-		[Permissions(DenyWrite = true)]
 		[Required]
 		public DateTimeOffset? CreatedAt { get; set; }
 
 		/// <summary>
 		/// The SID/UID of the <see cref="User"/> on Windows/POSIX respectively
 		/// </summary>
-		[Permissions(DenyWrite = true)]
 		public string SystemIdentifier { get; set; }
 
 		/// <summary>

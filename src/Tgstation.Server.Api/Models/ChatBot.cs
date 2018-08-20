@@ -11,7 +11,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Channels the Discord bot should listen/announce in
 		/// </summary>
-		[Permissions(WriteRight = ChatBotRights.WriteChannels)]
 		public List<ChatChannel> Channels { get; set; }
 
 		/// <summary>
