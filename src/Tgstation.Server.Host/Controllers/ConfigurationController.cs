@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				newFile.Content = null;
 
-				return Json(newFile);
+				return model.LastReadHash == null ? (IActionResult)StatusCode((int)HttpStatusCode.Created, newFile) : Json(newFile);
 			}
 			catch(NotImplementedException)
 			{

@@ -100,14 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.ChatBots.Add(dbModel);
 
-			try
-			{
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			}
-			catch (DbUpdateException)
-			{
-				return Conflict();
-			}
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			try
 			{
@@ -132,7 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return BadRequest(new ErrorMessage { Message = e.Message });
 			}
-			return Json(dbModel.ToApi());
+			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <inheritdoc />

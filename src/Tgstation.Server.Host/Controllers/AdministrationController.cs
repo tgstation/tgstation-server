@@ -28,10 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ModelController<Administration>
 	{
-		/// <summary>
-		/// HTTP 429 status code
-		/// </summary>
-		const int RateLimitHttpStatusCode = 429;
+		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
 
 		/// <summary>
 		/// The <see cref="IGitHubClient"/> for the <see cref="AdministrationController"/>
@@ -83,7 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogWarning("Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
-			return StatusCode(RateLimitHttpStatusCode);
+			return StatusCode(429);
 		}
 
 		/// <inheritdoc />
@@ -157,10 +154,16 @@ namespace Tgstation.Server.Host.Controllers
 					try
 					{
 						if (!await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
-							return StatusCode((int)HttpStatusCode.NotImplemented);
+							return UnprocessableEntity(new ErrorMessage
+							{
+								Message = RestartNotSupportedException
+							});	//unprocessable entity
 					}
-					catch (InvalidOperationException) { }	//we were beat to the punch
-					return Ok();	//gtfo of here before all the cancellation tokens fire
+					catch (InvalidOperationException)
+					{
+						return StatusCode((int)HttpStatusCode.ServiceUnavailable);  //we were beat to the punch, really shouldn't happen but heat death of the universe and what not
+					}
+					return Accepted();	//gtfo of here before all the cancellation tokens fire
 				}
 
 			return StatusCode((int)HttpStatusCode.Gone);
@@ -169,6 +172,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
-		public Task<IActionResult> Delete() => Task.FromResult(serverUpdater.Restart() ? (IActionResult)Ok() : StatusCode((int)HttpStatusCode.NotImplemented));
+		public Task<IActionResult> Delete() {
+			try
+			{
+				return Task.FromResult(serverUpdater.Restart() ? (IActionResult)Ok() : UnprocessableEntity(new ErrorMessage
+				{
+					Message = RestartNotSupportedException
+				}));
+			}
+			catch (InvalidOperationException)
+			{
+				return Task.FromResult<IActionResult>(StatusCode((int)HttpStatusCode.ServiceUnavailable));
+			}
+		}
 	}
 }

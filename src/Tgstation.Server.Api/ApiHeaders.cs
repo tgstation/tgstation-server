@@ -153,9 +153,6 @@ namespace Tgstation.Server.Api
 			ApiVersion = apiVersion;
 			UserAgent = clientUserAgent.Product;
 
-			if(!CheckCompatibility(ApiVersion))
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Given API version is incompatible with version {0}!", ApiVersion));
-
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
 			var auth = authorization.First();
@@ -212,6 +209,12 @@ namespace Tgstation.Server.Api
 			Password = password;
 			ApiVersion = Version;
 		}
+
+		/// <summary>
+		/// Checks if the <see cref="ApiVersion"/> is compatible with <see cref="Version"/>
+		/// </summary>
+		/// <returns><see langword="true"/> if the API is compatible, <see langword="false"/> otherwise</returns>
+		public bool Compatible() => CheckCompatibility(ApiVersion);
 
 		/// <summary>
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>

@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 				api.IsGitHub = model.Origin.ToUpperInvariant().Contains(uiGitHub);
 				api.ActiveJob = job.ToApi();
 
-				return Json(api);
+				return StatusCode((int)HttpStatusCode.Created, api);
 			}
 		}
 
@@ -207,7 +207,7 @@ namespace Tgstation.Server.Host.Controllers
 			var api = currentModel.ToApi();
 			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
 			api.ActiveJob = job.ToApi();
-			return Ok();
+			return Accepted(api);
 		}
 
 		/// <inheritdoc />
@@ -595,7 +595,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}, cancellationToken).ConfigureAwait(false);
 
-			return Json(job.ToApi());
+			return Accepted(job.ToApi());
 		}
 	}
 }

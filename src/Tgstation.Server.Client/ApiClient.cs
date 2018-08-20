@@ -96,7 +96,8 @@ namespace Tgstation.Server.Client
 
 			var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-			if (!response.IsSuccessStatusCode) {
+			if (!response.IsSuccessStatusCode)
+			{
 				ErrorMessage errorMessage = null;
 				try
 				{
@@ -107,11 +108,8 @@ namespace Tgstation.Server.Client
 
 				switch (response.StatusCode)
 				{
-					case HttpStatusCode.BadRequest:
-						//validate our api version is compatible
-						if(errorMessage != null && ApiHeaders.CheckCompatibility(errorMessage.SeverApiVersion))
-							throw new ApiMismatchException(errorMessage);
-						goto default;
+					case HttpStatusCode.UpgradeRequired:
+						throw new ApiMismatchException(errorMessage);
 					case HttpStatusCode.Unauthorized:
 						throw new UnauthorizedException();
 					case HttpStatusCode.RequestTimeout:
@@ -125,10 +123,11 @@ namespace Tgstation.Server.Client
 					case HttpStatusCode.Conflict:
 						throw new ConflictException(errorMessage, response.StatusCode);
 					case HttpStatusCode.NotImplemented:
+					case (HttpStatusCode)422:   //unprocessable entity
 						throw new MethodNotSupportedException();
 					case HttpStatusCode.InternalServerError:
 						//response
-						throw new ServerErrorException(json);	//json is html
+						throw new ServerErrorException(json);   //json is html
 					case (HttpStatusCode)429:   //rate limited
 						response.Headers.TryGetValues("Retry-After", out var values);
 						throw new RateLimitException(values?.FirstOrDefault());

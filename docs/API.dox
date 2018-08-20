@@ -52,7 +52,9 @@ An Authentication header is also required. See @ref api_auth
 TGS will only every return the response codes listed here
 
 - 200: General OK status. Unless the HTTP DELETE verb was used to make the request (In which case the response body will be empty), the response body will contain a json model or array depending on the API called.
-- 400: Bad request made. The response body will contain a @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error
+- 201: Created: Returned when the request created an entity, 202 trumps this
+- 202: Accepted. Used when a response triggers a long running operation such as a @ref Tgstation.Server.Api.Models.Job or server restart
+- 400: Bad request made. The response body will contain an @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error
 - 401: User unauthorized. Invalid or expired credentials were provided. Check rights APIs for updates. See @ref api_auth for details
 - 403: Usage forbidden. User tried to make a request they were not allowed to perform. 
 - 404: Not found. A resource was requested that had never existed. In the case of retrieving a resource by ID, it could potentially exist in the future
@@ -60,9 +62,11 @@ TGS will only every return the response codes listed here
 - 408: Request timeout. The client took to long to continue a request
 - 409: Conflict. Documented in the requests that use them
 - 410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is
+- 422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the @ref Tgstation.Server.Host.Watchdog not being present in the deployment. Blame MSO. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
+- 426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
 - 429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header
 - 500: Server error. Please report the request and response body to the code repository
-- 501: Not implemented. Currently used in two places: 1. Endpoints that trigger a server restart but the server is not running in a restartable configuration. 2.
+- 501: Not implemented. Functionality not available in the current server version
 - 503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was
 
 @section api_auth Authentication
