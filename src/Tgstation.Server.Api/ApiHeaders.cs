@@ -144,7 +144,7 @@ namespace Tgstation.Server.Api
 			
 			//make sure the api header matches ours
 			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
-				throw new InvalidOperationException("Missing API user agent!");
+				throw new InvalidOperationException("Missing API version!");
 
 			if (!Version.TryParse(apiUserAgent.Product.Version, out var apiVersion))
 				throw new InvalidOperationException("Malformed API version!");
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Api
 				headers.Add(usernameHeader, Username);
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.Add(ApiVersionHeader, ApiVersion.ToString());
+			headers.Add(ApiVersionHeader, new ProductHeaderValue(assemblyName.Name, ApiVersion.ToString()).ToString());
 			instanceId = instanceId ?? InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(instanceIdHeader, instanceId.ToString());
