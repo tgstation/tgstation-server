@@ -92,19 +92,28 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			try
 			{
-				var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
-				var releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
-
 				Version greatestVersion = null;
-				foreach (var I in releases)
-					if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
-						&& version.Major == application.Version.Major
-						&& (greatestVersion == null || version > greatestVersion))
-						greatestVersion = version;
+				Uri repoUrl = null;
+				try
+				{
+					var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
+					var releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
+
+					foreach (var I in releases)
+						if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
+							&& version.Major == application.Version.Major
+							&& (greatestVersion == null || version > greatestVersion))
+							greatestVersion = version;
+					repoUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
+				}
+				catch (NotFoundException e)
+				{
+					Logger.LogWarning("Not found exception while retrieving upstream repository info: {0}", e);
+				}
 				return Json(new Administration
 				{
 					LatestVersion = greatestVersion,
-					TrackedRepositoryUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl),
+					TrackedRepositoryUrl = repoUrl,
 					WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 				});
 			}
