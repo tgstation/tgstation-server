@@ -118,6 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a254a4bab3839ca09cdeade65387523d7"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a254a4bab3839ca09cdeade65387523d7">GetDirectories</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a254a4bab3839ca09cdeade65387523d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate directories in a given <em>path</em>   <a href="#a254a4bab3839ca09cdeade65387523d7">More...</a><br /></td></tr>
 <tr class="separator:a254a4bab3839ca09cdeade65387523d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87b99f131bf6b48d725561414d4ddfcb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a87b99f131bf6b48d725561414d4ddfcb">CreateDirectory</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a87b99f131bf6b48d725561414d4ddfcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty directory at <em>path</em>   <a href="#a87b99f131bf6b48d725561414d4ddfcb">More...</a><br /></td></tr>
+<tr class="separator:a87b99f131bf6b48d725561414d4ddfcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19577dc573076fd58ac1d55d682d5606"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a19577dc573076fd58ac1d55d682d5606">ReadFile</a> (string path)</td></tr>
 <tr class="memdesc:a19577dc573076fd58ac1d55d682d5606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the bytes of a file at a given <em>path</em>   <a href="#a19577dc573076fd58ac1d55d682d5606">More...</a><br /></td></tr>
 <tr class="separator:a19577dc573076fd58ac1d55d682d5606"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +136,44 @@ Public Member Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_synchronous_i_o_manager_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_synchronous_i_o_manager_8cs_source.html">ISynchronousIOManager.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a87b99f131bf6b48d725561414d4ddfcb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.IO.ISynchronousIOManager.CreateDirectory </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an empty directory at <em>path</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to create</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. Usage may result in partial writes</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if the directory already existed,  otherwise</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a595b31e7065ee0d3431903fa0ac55156">Tgstation.Server.Host.IO.SynchronousIOManager</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a254a4bab3839ca09cdeade65387523d7"></a>
 <div class="memitem">
 <div class="memproto">

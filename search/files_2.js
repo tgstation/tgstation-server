@@ -10,6 +10,7 @@ var searchData=
   ['chatbotsclient_2ecs',['ChatBotsClient.cs',['../_chat_bots_client_8cs.html',1,'']]],
   ['chatchannel_2ecs',['ChatChannel.cs',['../_tgstation_8_server_8_api_2_models_2_chat_channel_8cs.html',1,'']]],
   ['chatchannel_2ecs',['ChatChannel.cs',['../_tgstation_8_server_8_host_2_models_2_chat_channel_8cs.html',1,'']]],
+  ['chatcommand_2ecs',['ChatCommand.cs',['../_chat_command_8cs.html',1,'']]],
   ['chatcontroller_2ecs',['ChatController.cs',['../_chat_controller_8cs.html',1,'']]],
   ['chatfactory_2ecs',['ChatFactory.cs',['../_chat_factory_8cs.html',1,'']]],
   ['chatprovider_2ecs',['ChatProvider.cs',['../_chat_provider_8cs.html',1,'']]],

@@ -6,6 +6,7 @@ var searchData=
   ['serverclientfactory',['ServerClientFactory',['../class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html',1,'Tgstation::Server::Client']]],
   ['servererrorexception',['ServerErrorException',['../class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html',1,'Tgstation::Server::Client']]],
   ['serverfactory',['ServerFactory',['../class_tgstation_1_1_server_1_1_host_1_1_server_factory.html',1,'Tgstation::Server::Host']]],
+  ['serverinformation',['ServerInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html',1,'Tgstation::Server::Api::Models']]],
   ['serverservice',['ServerService',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html',1,'Tgstation::Server::Host::Service']]],
   ['serversidemodifications',['ServerSideModifications',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_server_side_modifications.html',1,'Tgstation::Server::Host::Components::StaticFiles']]],
   ['servicebase',['ServiceBase',['../class_service_base.html',1,'']]],

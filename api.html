@@ -153,7 +153,9 @@ Response Codes</h1>
 <p>TGS will only every return the response codes listed here</p>
 <ul>
 <li>200: General OK status. Unless the HTTP DELETE verb was used to make the request (In which case the response body will be empty), the response body will contain a json model or array depending on the API called.</li>
-<li>400: Bad request made. The response body will contain a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">Tgstation.Server.Api.Models.ErrorMessage</a> model detailing the error</li>
+<li>201: Created: Returned when the request created an entity, 202 trumps this</li>
+<li>202: Accepted. Used when a response triggers a long running operation such as a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a> or server restart</li>
+<li>400: Bad request made. The response body will contain an <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">Tgstation.Server.Api.Models.ErrorMessage</a> model detailing the error</li>
 <li>401: User unauthorized. Invalid or expired credentials were provided. Check rights APIs for updates. See <a class="el" href="api.html#api_auth">Authentication</a> for details</li>
 <li>403: Usage forbidden. User tried to make a request they were not allowed to perform.</li>
 <li>404: Not found. A resource was requested that had never existed. In the case of retrieving a resource by ID, it could potentially exist in the future</li>
@@ -161,9 +163,11 @@ Response Codes</h1>
 <li>408: Request timeout. The client took to long to continue a request</li>
 <li>409: Conflict. Documented in the requests that use them</li>
 <li>410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is</li>
+<li>422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Tgstation.Server.Host.Watchdog</a> not being present in the deployment. Blame MSO. Response body contains an <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">Tgstation.Server.Api.Models.ErrorMessage</a></li>
+<li>426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">Tgstation.Server.Api.Models.ErrorMessage</a></li>
 <li>429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header</li>
 <li>500: Server error. Please report the request and response body to the code repository</li>
-<li>501: Not implemented. Currently used in two places: 1. Endpoints that trigger a server restart but the server is not running in a restartable configuration. 2.</li>
+<li>501: Not implemented. Functionality not available in the current server version</li>
 <li>503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was</li>
 </ul>
 <h1><a class="anchor" id="api_auth"></a>
@@ -212,16 +216,17 @@ Instance User Management</h2>
 <p>Users with the permission to modify <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> objects can also gain user editing rights for any Instance. See api_instance</p>
 <h1><a class="anchor" id="api_ver"></a>
 Version</h1>
-<p>The version of TGS running can be retireved with this request</p>
-<p>GET "/" =&gt; Version</p>
-<p>The Version model is based on the C# one and looks like this:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    &quot;major&quot; = 4,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    &quot;minor&quot; = 0,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    &quot;revision&quot; = 0,</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    &quot;build&quot; = 0</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;}</div></div><!-- fragment --><p>Other fields may be present but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.</p>
+<p>The versions of the TGS host can be retireved with this request</p>
+<p>GET "/" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html">Tgstation.Server.Api.Models.ServerInformation</a></p>
+<p>The Version model fields are based on the C# one and looks like this:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    &quot;major&quot; = 4,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    &quot;minor&quot; = 0,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    &quot;revision&quot; = 0,</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    &quot;build&quot; = 0</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;}</div></div><!-- fragment --><p>Other fields may be present in the Version model but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.</p>
 <h1><a class="anchor" id="api_admin"></a>
 Server-wide Administrative Actions</h1>
 <p>You can retrieve server update information with this</p>
 <p>GET "/Administration" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html">Tgstation.Server.Api.Models.Administration</a></p>
 <p>If you want to perform a live update of the server use</p>
 <p>POST "/Administration" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html">Tgstation.Server.Api.Models.Administration</a> =&gt; OK</p>
+<p>With the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html#ab40a1df200563a8351347145f50a8bc1">Tgstation.Server.Api.Models.Administration.NewVersion</a> field set</p>
 <p>Any DreamDaemon servers running will persist while the server installs the new version from the official tgstation-server GitHub (If it exists)</p>
 <p>If the server is otherwise acting funky and you wish to restart it, use this request:</p>
 <p>DELETE "/Administration" =&gt; OK</p>
@@ -314,6 +319,8 @@ Static Files</h2>
 <p>Where the path is formatted as: directory/inner_directory/more_directories</p>
 <p>If the path is empty, the root directory will be retrieved. The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aad10d9456adc3925247d9f7b49eebeba">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> fields will not be populated for this response</p>
 <p>If you do not have access to list the requested directory, a 403 response will be returned. If the path actually represents a file or the directory no longer exists a 410 response will be returned.</p>
+<p>To create an empty config directory use the following request</p>
+<p>I PUT "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
 <p>To get the content of a static file use the following method</p>
 <p>I GET "/Config/File/&lt;path to file&gt;" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
 <p>410 will be returned if the path doesn't exist. <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> will only be populated if the path is a file the user has access to, otherwise the other fields will be populated appropriately.</p>
