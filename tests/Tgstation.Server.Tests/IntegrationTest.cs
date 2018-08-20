@@ -11,9 +11,6 @@ using Tgstation.Server.Host;
 
 namespace Tgstation.Server.Tests
 {
-	/// <summary>
-	/// Integration test for <see cref="Tgstation.Server"/>
-	/// </summary>
 	[TestClass]
 	public sealed class IntegrationTest
 	{
