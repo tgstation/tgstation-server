@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -65,7 +66,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see cref="Application.Version"/></returns>
 		[TgsAuthorize]
 		[HttpGet]
-		public JsonResult Home() => Json(new { application.Version });
+		public JsonResult Home() => Json(new Api.Models.ServerInformation {
+			Version = application.Version,
+			ApiVersion = ApiHeaders.Version
+		});
 
 		/// <summary>
 		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>

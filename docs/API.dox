@@ -141,11 +141,11 @@ Users with the permission to modify @ref Tgstation.Server.Api.Models.Instance ob
 
 @section api_ver Version
 
-The version of TGS running can be retireved with this request
+The versions of the TGS host can be retireved with this request
 
-GET "/" => Version
+GET "/" => @ref Tgstation.Server.Api.Models.ServerInformation
 
-The Version model is based on the C# one and looks like this:
+The Version model fields are based on the C# one and looks like this:
 
 @code{.json}
 {
@@ -156,7 +156,7 @@ The Version model is based on the C# one and looks like this:
 }
 @endcode
 
-Other fields may be present but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.
+Other fields may be present in the Version model but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.
 
 @section api_admin Server-wide Administrative Actions
 

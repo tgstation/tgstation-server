@@ -48,7 +48,12 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>
 		/// </summary>
-		internal static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+
+		/// <summary>
+		/// Get the version of the <see cref="Api"/> the caller is using
+		/// </summary>
+		public static Version Version => assemblyName.Version;
 
 		/// <summary>
 		/// The <see cref="Models.Instance.Id"/> being accessed
@@ -90,11 +95,7 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="otherVersion">The <see cref="Version"/> to test</param>
 		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise</returns>
-		public static bool CheckCompatibility(Version otherVersion)
-		{
-			var ourVersion = assemblyName.Version;
-			return !(ourVersion.Major != otherVersion.Major || ourVersion.Minor != otherVersion.Minor || ourVersion.Build > otherVersion.Build);
-		}
+		public static bool CheckCompatibility(Version otherVersion) => !(Version.Major != otherVersion.Major || Version.Minor != otherVersion.Minor || Version.Build > otherVersion.Build);
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/> for JWT authentication
@@ -209,7 +210,7 @@ namespace Tgstation.Server.Api
 			Token = token;
 			Username = username;
 			Password = password;
-			ApiVersion = assemblyName.Version;
+			ApiVersion = Version;
 		}
 
 		/// <summary>
