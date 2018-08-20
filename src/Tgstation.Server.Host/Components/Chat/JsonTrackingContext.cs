@@ -44,7 +44,13 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				var resultBytes = await ioManager.ReadAllBytes(commandsPath, cancellationToken).ConfigureAwait(false);
 				var resultJson = Encoding.UTF8.GetString(resultBytes);
-				var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson);
+				var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson, new JsonSerializerSettings
+				{
+					ContractResolver = new DefaultContractResolver
+					{
+						NamingStrategy = new SnakeCaseNamingStrategy()
+					}
+				});
 				foreach (var I in result)
 					I.SetHandler(customCommandHandler);
 				return result;
