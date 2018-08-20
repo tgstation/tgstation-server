@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class User : Api.Models.Internal.User, IApiConvertable<Api.Models.User>
+	public sealed class User : Api.Models.Internal.User
 	{
 		/// <summary>
 		/// The hash of the user's password
@@ -44,23 +44,28 @@ namespace Tgstation.Server.Host.Models
 		public List<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// See <see cref="ToApi()"/>
+		/// See <see cref="ToApi(bool)"/>
 		/// </summary>
 		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/></param>
+		/// <param name="showDetails">If rights and system identifier should be shown</param>
 		/// <returns>A new <see cref="Api.Models.User"/></returns>
-		Api.Models.User ToApi(bool recursive) => new Api.Models.User
+		Api.Models.User ToApi(bool recursive, bool showDetails) => new Api.Models.User
 		{
-			AdministrationRights = AdministrationRights,
+			AdministrationRights = showDetails ? AdministrationRights : null,
 			CreatedAt = CreatedAt,
-			CreatedBy = recursive ? CreatedBy?.ToApi(false) : null,
+			CreatedBy = recursive ? CreatedBy?.ToApi(false, showDetails) : null,
 			Enabled = Enabled,
 			Id = Id,
-			InstanceManagerRights = InstanceManagerRights,
+			InstanceManagerRights = showDetails ? InstanceManagerRights : null,
 			Name = Name,
-			SystemIdentifier = SystemIdentifier
+			SystemIdentifier = showDetails ? SystemIdentifier : null
 		};
 
-		/// <inheritdoc />
-		public Api.Models.User ToApi() => ToApi(true);
+		/// <summary>
+		/// Convert the <see cref="User"/> to it's API form 
+		/// </summary>
+		/// <param name="showDetails">If rights and system identifier should be shown</param>
+		/// <returns>A new <see cref="Api.Models.User"/></returns>
+		public Api.Models.User ToApi(bool showDetails) => ToApi(true, showDetails);
 	}
 }

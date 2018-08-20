@@ -5,7 +5,7 @@ using System.Linq;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation, IApiConvertable<Api.Models.RevisionInformation>
+	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation
 	{
 		/// <summary>
 		/// The row Id
@@ -33,7 +33,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public List<CompileJob> CompileJobs { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="RevisionInformation"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.RevisionInformation"/></returns>
 		public Api.Models.RevisionInformation ToApi() => new Api.Models.RevisionInformation
 		{
 			CommitSha = CommitSha,

@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class Job : Api.Models.Internal.Job, IApiConvertable<Api.Models.Job>
+	public sealed class Job : Api.Models.Internal.Job
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.Job.StartedBy"/>
@@ -22,19 +22,22 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="Job"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.Job"/></returns>
 		public Api.Models.Job ToApi() => new Api.Models.Job
 		{
 			Id = Id,
 			StartedAt = StartedAt,
 			StoppedAt = StoppedAt,
 			Cancelled = Cancelled,
-			CancelledBy = CancelledBy?.ToApi(),
+			CancelledBy = CancelledBy?.ToApi(false),
 			CancelRight = CancelRight,
 			CancelRightsType = CancelRightsType,
 			Description = Description,
 			ExceptionDetails = ExceptionDetails,
-			StartedBy = StartedBy.ToApi()
+			StartedBy = StartedBy.ToApi(false)
 		};
 	}
 }

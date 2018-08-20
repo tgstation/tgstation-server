@@ -5,7 +5,7 @@ using System.Linq;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class ChatBot : Api.Models.Internal.ChatBot, IApiConvertable<Api.Models.ChatBot>
+	public sealed class ChatBot : Api.Models.Internal.ChatBot
 	{		
 		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/>
@@ -23,7 +23,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public List<ChatChannel> Channels { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="ChatBot"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.ChatBot"/></returns>
 		public Api.Models.ChatBot ToApi() => new Api.Models.ChatBot
 		{
 			Channels = Channels.Select(x => x.ToApi()).ToList(),

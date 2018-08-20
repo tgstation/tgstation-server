@@ -5,7 +5,7 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings, IApiConvertable<Repository>
+	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings
 	{
 		/// <summary>
 		/// The row Id
@@ -22,8 +22,11 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
-		
-		/// <inheritdoc />
+
+		/// <summary>
+		/// Convert the <see cref="Repository"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.Repository"/></returns>
 		public Repository ToApi() => new Repository
 		{
 			//AccessToken = AccessToken,	//never show this

@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Represents an <see cref="Api.Models.Instance"/> in the database
 	/// </summary>
-	public sealed class Instance : Api.Models.Instance, IApiConvertable<Api.Models.Instance>
+	public sealed class Instance : Api.Models.Instance
 	{
 
 		/// <summary>
@@ -47,8 +47,11 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
 		/// </summary>
 		public List<Job> Jobs { get; set; }
-
-		/// <inheritdoc />
+		
+		/// <summary>
+		/// Convert the <see cref="Instance"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.Instance"/></returns>
 		public Api.Models.Instance ToApi() => new Api.Models.Instance
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
