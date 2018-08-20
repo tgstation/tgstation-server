@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class TestMerge : Api.Models.Internal.TestMerge, IApiConvertable<Api.Models.TestMerge>
+	public sealed class TestMerge : Api.Models.Internal.TestMerge
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.TestMerge.MergedBy"/>
@@ -27,7 +27,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public List<RevInfoTestMerge> RevisonInformations { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="TestMerge"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.TestMerge"/></returns>
 		public Api.Models.TestMerge ToApi() => new Api.Models.TestMerge
 		{
 			Author = Author,
@@ -36,7 +39,7 @@ namespace Tgstation.Server.Host.Models
 			TitleAtMerge = TitleAtMerge,
 			Comment = Comment,
 			Id = Id,
-			MergedBy = MergedBy.ToApi(),
+			MergedBy = MergedBy.ToApi(false),
 			Number =Number,
 			PullRequestRevision = PullRequestRevision,
 			Url = Url

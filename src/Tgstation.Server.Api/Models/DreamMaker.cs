@@ -10,7 +10,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="CompilerStatus"/> of the compiler
 		/// </summary>
-		[Permissions(DenyWrite = true)]
 		public CompilerStatus Status { get; set; }
 	}
 }

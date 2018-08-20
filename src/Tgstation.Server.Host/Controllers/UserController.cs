@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
+			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi(true));
 		}
 
 		/// <inheritdoc />
@@ -156,19 +156,19 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return Json(originalUser.ToApi());
+			return Json(originalUser.ToApi(true));
 		}
 
 		/// <inheritdoc />
 		[TgsAuthorize]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi()));
+		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi(true)));
 
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.EditUsers)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);
-			return Json(users.Select(x => x.ToApi()));
+			return Json(users.Select(x => x.ToApi(true)));
 		}
 
 		/// <inheritdoc />
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Host.Controllers
 			var user = await DatabaseContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
-			return Json(user.ToApi());
+			return Json(user.ToApi(true));
 		}
 	}
 }

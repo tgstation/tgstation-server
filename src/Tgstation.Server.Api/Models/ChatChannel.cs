@@ -34,5 +34,10 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public bool? IsUpdatesChannel { get; set; }
+
+		/// <summary>
+		/// A custom tag users can define to group channels together
+		/// </summary>
+		public string Tag { get; set; }
 	}
 }

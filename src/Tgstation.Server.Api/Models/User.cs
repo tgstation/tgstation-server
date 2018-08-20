@@ -16,7 +16,6 @@
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>
 		/// </summary>
-		[Permissions(DenyWrite = true)]
 		public User CreatedBy { get; set; }
 	}
 }

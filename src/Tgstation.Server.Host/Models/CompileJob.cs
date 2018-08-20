@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiConvertable<Api.Models.CompileJob>
+	public sealed class CompileJob : Api.Models.Internal.CompileJob
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.Job"/>
@@ -23,7 +23,10 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public string ByondVersion { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="CompileJob"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.CompileJob"/></returns>
 		public Api.Models.CompileJob ToApi() => new Api.Models.CompileJob
 		{
 			DirectoryName = DirectoryName,

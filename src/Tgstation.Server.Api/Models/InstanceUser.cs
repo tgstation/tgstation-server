@@ -6,13 +6,11 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a <see cref="User"/>s permissions in an <see cref="Instance"/>
 	/// </summary>
-	[Model(RightsType.InstanceUser, WriteRight = Rights.InstanceUserRights.WriteUsers, CanList = true, RequiresInstance = true)]
 	public class InstanceUser
 	{
 		/// <summary>
 		/// The <see cref="Internal.User.Id"/> of the <see cref="User"/> the <see cref="InstanceUser"/> belongs to
 		/// </summary>
-		[Permissions(DenyWrite = true)]
 		[Required]
 		public long? UserId { get; set; }
 

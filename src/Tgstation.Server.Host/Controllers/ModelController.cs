@@ -16,11 +16,6 @@ namespace Tgstation.Server.Host.Controllers
 	public abstract class ModelController<TModel> : ApiController where TModel : class
 	{
 		/// <summary>
-		/// The <see cref="ModelAttribute"/> of the <typeparamref name="TModel"/>
-		/// </summary>
-		protected static readonly ModelAttribute ModelAttribute = (ModelAttribute)typeof(TModel).GetCustomAttributes(typeof(ModelAttribute), true).First();
-
-		/// <summary>
 		/// Construct a <see cref="ModelController{TModel}"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>

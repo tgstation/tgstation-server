@@ -100,6 +100,7 @@
 	var/connection_name		//the name of the configured chat connection
 	var/is_admin_channel	//if the server operator has marked this channel for game admins only
 	var/is_private_channel	//if this is a private chat channel
+	var/custom_tag					//user defined string associated with channel
 
 //represents a chat user
 /datum/tgs_chat_user

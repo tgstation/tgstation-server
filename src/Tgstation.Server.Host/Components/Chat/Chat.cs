@@ -165,13 +165,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
 		{
 			//map the channel if it's private and we haven't seen it
-			if (message.User.Channel.IsPrivate)
-				lock (providers)
+			lock (providers)
+			{
+				var providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
+				var enumerable = mappedChannels.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId);
+				if (message.User.Channel.IsPrivate)
 					lock (mappedChannels)
 					{
 						if (!provider.Connected)
 							return;
-						var enumerable = mappedChannels.Where(x => x.Value.ProviderChannelId == message.User.Channel.RealId);
 						if (!enumerable.Any())
 						{
 							ulong newId;
@@ -181,7 +183,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							{
 								IsWatchdogChannel = false,
 								ProviderChannelId = message.User.Channel.RealId,
-								ProviderId = providers.Where(x => x.Value == provider).Select(x => x.Key).First(),
+								ProviderId = providerId,
 								Channel = message.User.Channel
 							});
 							message.User.Channel.RealId = newId;
@@ -189,6 +191,14 @@ namespace Tgstation.Server.Host.Components.Chat
 						else
 							message.User.Channel.RealId = enumerable.First().Key;
 					}
+				else
+				{
+					//need to add tag and isAdminChannel
+					var mapping = enumerable.First().Value;
+					message.User.Channel.Tag = mapping.Channel.Tag;
+					message.User.Channel.IsAdmin = mapping.Channel.IsAdmin;
+				}
+			}
 
 			var splits = new List<string>(message.Content.Trim().Split(' '));
 			var address = splits[0];
@@ -249,7 +259,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					{
 						var helpHandler = await GetCommand(splits[0].ToUpperInvariant()).ConfigureAwait(false);
 						if (helpHandler != default)
-							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}", helpHandler.Name, helpHandler.HelpText);
+							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}{2}", helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? " - May only be used in admin channels" : String.Empty);
 						else
 							helpText = UnknownCommandMessage;
 					}
@@ -258,6 +268,13 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 
 				var commandHandler = await GetCommand(command).ConfigureAwait(false);
+
+				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
+				{
+					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					return;
+				}
+
 				if (commandHandler == default)
 				{
 					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);

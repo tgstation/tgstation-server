@@ -180,6 +180,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (!model.ValidateProviderChannelTypes())
+				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
+
 			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id).Include(x => x.Channels);
 
 			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);

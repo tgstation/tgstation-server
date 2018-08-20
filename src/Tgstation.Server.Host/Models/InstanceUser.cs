@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class InstanceUser : Api.Models.InstanceUser, IApiConvertable<Api.Models.InstanceUser>
+	public sealed class InstanceUser : Api.Models.InstanceUser
 	{
 		/// <summary>
 		/// The row Id
@@ -32,7 +31,10 @@ namespace Tgstation.Server.Host.Models
 			DreamMakerRights != Api.Rights.DreamMakerRights.None ||
 			InstanceUserRights != Api.Rights.InstanceUserRights.None;
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="InstanceUser"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.InstanceUser"/></returns>
 		public Api.Models.InstanceUser ToApi() => new Api.Models.InstanceUser
 		{
 			ByondRights = ByondRights,

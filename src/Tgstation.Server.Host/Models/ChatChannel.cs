@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class ChatChannel : Api.Models.ChatChannel, IApiConvertable<Api.Models.ChatChannel>
+	public sealed class ChatChannel : Api.Models.ChatChannel
 	{
 		/// <summary>
 		/// The row Id
@@ -20,7 +20,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public ChatBot ChatSettings { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Convert the <see cref="ChatChannel"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.ChatChannel"/></returns>
 		public Api.Models.ChatChannel ToApi() => new Api.Models.ChatChannel
 		{
 			DiscordChannelId = DiscordChannelId,

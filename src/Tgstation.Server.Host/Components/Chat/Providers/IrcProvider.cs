@@ -160,23 +160,31 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var username = e.Data.Nick;
 			var channelName = isPrivate ? username : e.Data.Channel;
-			ulong channelId = 0;
-			lock (this)
+
+			ulong MapAndGetChannelId(Dictionary<ulong, string> dicToCheck)
 			{
-				var dicToCheck = isPrivate ? queryChannelIdMap : channelIdMap;
+				ulong? resultId = null;
 				if (!dicToCheck.Any(x =>
 				{
 					if (x.Value != channelName)
 						return false;
-					channelId = x.Key;
+					resultId = x.Key;
 					return true;
 				}))
 				{
-					channelId = ++channelIdCounter;
-					dicToCheck.Add(channelId, channelName);
-					if (isPrivate)
-						channelIdMap.Add(channelId, null);
+					resultId = ++channelIdCounter;
+					dicToCheck.Add(resultId.Value, channelName);
+					if (dicToCheck == queryChannelIdMap)
+						channelIdMap.Add(resultId.Value, null);
 				}
+				return resultId.Value;
+			};
+
+			ulong userId, channelId;
+			lock (this)
+			{
+				userId = MapAndGetChannelId(queryChannelIdMap);
+				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
 			}
 
 			var message = new Message
@@ -186,14 +194,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					Channel = new Channel
 					{
-						IsAdmin = false,
 						ConnectionName = address,
 						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
 						RealId = channelId,
 						IsPrivate = isPrivate
+						//isAdmin and Tag populated by manager
 					},
 					FriendlyName = username,
-					RealId = channelId,
+					RealId = userId,
 					Mention = username
 				}
 			};
@@ -368,7 +376,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						IsAdmin = x.IsAdminChannel == true,
 						ConnectionName = address,
 						FriendlyName = channelIdMap[id],
-						IsPrivate = false
+						IsPrivate = false,
+						Tag = x.Tag
 	 				};
 				}).ToList();
 			}
