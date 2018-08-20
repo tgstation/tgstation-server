@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b7e61e38-6891-473e-8ab4-869e5cf41a96",
+		"_postman_id": "bb44d5ca-de20-4da3-880d-1ceacd54fe4a",
 		"name": "TGS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2611,6 +2611,49 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"path\": \"CodeModifications\",\n\t\"content\": \"SGVsbG8gd29ybGQ=\"\n}"
+								},
+								"url": {
+									"raw": "localhost:5000/Config",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create NewDir",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Postman/1.0"
+									},
+									{
+										"key": "Api",
+										"value": "Tgstation.Server.Api/4.0.0.0"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Instance",
+										"value": "1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"path\": \"NewDir\"\n}"
 								},
 								"url": {
 									"raw": "localhost:5000/Config",
