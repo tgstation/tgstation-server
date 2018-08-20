@@ -396,6 +396,10 @@ If the path is empty, the root directory will be retrieved. The @ref Tgstation.S
 
 If you do not have access to list the requested directory, a 403 response will be returned. If the path actually represents a file or the directory no longer exists a 410 response will be returned.
 
+To create an empty config directory use the following request
+
+I POST "/Config/List/<path to directory>" => @ref Tgstation.Server.Api.Models.ConfigurationFile
+
 To get the content of a static file use the following method
 
 I GET "/Config/File/<path to file>" => @ref Tgstation.Server.Api.Models.ConfigurationFile

@@ -49,6 +49,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		Task<ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Create an empty directory at <paramref name="configurationRelativePath"/>
+		/// </summary>
+		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>
+		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the directory already existed, <see langword="false"/> otherwise</returns>
+		Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Writes to a given <paramref name="configurationRelativePath"/>
 		/// </summary>
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>

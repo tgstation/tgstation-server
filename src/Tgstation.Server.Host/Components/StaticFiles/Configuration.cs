@@ -348,6 +348,22 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
+		public async Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			var path = ValidateConfigRelativePath(configurationRelativePath);
+
+			bool? result = null;
+			void DoCreate() => result = synchronousIOManager.CreateDirectory(path, cancellationToken);
+			if (systemIdentity == null)
+				await Task.Factory.StartNew(DoCreate, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			else
+				await systemIdentity.RunImpersonated(DoCreate, cancellationToken).ConfigureAwait(false);
+
+			return result.Value;
+		}
+
+		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />

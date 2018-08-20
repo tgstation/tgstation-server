@@ -12,6 +12,16 @@ namespace Tgstation.Server.Host.IO
 	sealed class SynchronousIOManager : ISynchronousIOManager
 	{
 		/// <inheritdoc />
+		public bool CreateDirectory(string path, CancellationToken cancellationToken)
+		{
+			if (IsDirectory(path))
+				return true;
+			cancellationToken.ThrowIfCancellationRequested();
+			Directory.CreateDirectory(path);
+			return false;
+		}
+
+		/// <inheritdoc />
 		public IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken)
 		{
 			foreach (var I in Directory.EnumerateDirectories(path))
