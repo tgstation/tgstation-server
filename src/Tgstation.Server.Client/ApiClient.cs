@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -83,7 +84,7 @@ namespace Tgstation.Server.Client
 			};
 
 			if (body != null)
-				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings));
+				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
 
 			Headers.SetRequestHeaders(message.Headers, instanceId);
 
@@ -95,22 +96,20 @@ namespace Tgstation.Server.Client
 
 			var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-			if (!response.IsSuccessStatusCode) {
+			if (!response.IsSuccessStatusCode)
+			{
 				ErrorMessage errorMessage = null;
 				try
 				{
 					//check if json serializes to an error message
 					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, serializerSettings);
 				}
-				catch (JsonSerializationException) { }
+				catch (JsonException) { }
 
 				switch (response.StatusCode)
 				{
-					case HttpStatusCode.BadRequest:
-						//validate our api version is compatible
-						if(errorMessage != null && ApiHeaders.CheckCompatibility(errorMessage.SeverApiVersion))
-							throw new ApiMismatchException(errorMessage);
-						goto default;
+					case HttpStatusCode.UpgradeRequired:
+						throw new ApiMismatchException(errorMessage);
 					case HttpStatusCode.Unauthorized:
 						throw new UnauthorizedException();
 					case HttpStatusCode.RequestTimeout:
@@ -124,10 +123,11 @@ namespace Tgstation.Server.Client
 					case HttpStatusCode.Conflict:
 						throw new ConflictException(errorMessage, response.StatusCode);
 					case HttpStatusCode.NotImplemented:
+					case (HttpStatusCode)422:   //unprocessable entity
 						throw new MethodNotSupportedException();
 					case HttpStatusCode.InternalServerError:
 						//response
-						throw new ServerErrorException(json);	//json is html
+						throw new ServerErrorException(json);   //json is html
 					case (HttpStatusCode)429:   //rate limited
 						response.Headers.TryGetValues("Retry-After", out var values);
 						throw new RateLimitException(values?.FirstOrDefault());

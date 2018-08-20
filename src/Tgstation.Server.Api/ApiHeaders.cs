@@ -48,7 +48,12 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The current <see cref="AssemblyName"/>
 		/// </summary>
-		internal static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+
+		/// <summary>
+		/// Get the version of the <see cref="Api"/> the caller is using
+		/// </summary>
+		public static Version Version => assemblyName.Version;
 
 		/// <summary>
 		/// The <see cref="Models.Instance.Id"/> being accessed
@@ -90,11 +95,7 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="otherVersion">The <see cref="Version"/> to test</param>
 		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise</returns>
-		public static bool CheckCompatibility(Version otherVersion)
-		{
-			var ourVersion = assemblyName.Version;
-			return !(ourVersion.Major != otherVersion.Major || ourVersion.Minor != otherVersion.Minor || ourVersion.Build > otherVersion.Build);
-		}
+		public static bool CheckCompatibility(Version otherVersion) => !(Version.Major != otherVersion.Major || Version.Minor != otherVersion.Minor || Version.Build > otherVersion.Build);
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/> for JWT authentication
@@ -144,16 +145,13 @@ namespace Tgstation.Server.Api
 			
 			//make sure the api header matches ours
 			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
-				throw new InvalidOperationException("Missing API user agent!");
+				throw new InvalidOperationException("Missing API version!");
 
 			if (!Version.TryParse(apiUserAgent.Product.Version, out var apiVersion))
 				throw new InvalidOperationException("Malformed API version!");
 
 			ApiVersion = apiVersion;
 			UserAgent = clientUserAgent.Product;
-
-			if(!CheckCompatibility(ApiVersion))
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Given API version is incompatible with version {0}!", ApiVersion));
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
@@ -209,8 +207,14 @@ namespace Tgstation.Server.Api
 			Token = token;
 			Username = username;
 			Password = password;
-			ApiVersion = assemblyName.Version;
+			ApiVersion = Version;
 		}
+
+		/// <summary>
+		/// Checks if the <see cref="ApiVersion"/> is compatible with <see cref="Version"/>
+		/// </summary>
+		/// <returns><see langword="true"/> if the API is compatible, <see langword="false"/> otherwise</returns>
+		public bool Compatible() => CheckCompatibility(ApiVersion);
 
 		/// <summary>
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
@@ -234,7 +238,7 @@ namespace Tgstation.Server.Api
 				headers.Add(usernameHeader, Username);
 			}
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.Add(ApiVersionHeader, ApiVersion.ToString());
+			headers.Add(ApiVersionHeader, new ProductHeaderValue(assemblyName.Name, ApiVersion.ToString()).ToString());
 			instanceId = instanceId ?? InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(instanceIdHeader, instanceId.ToString());

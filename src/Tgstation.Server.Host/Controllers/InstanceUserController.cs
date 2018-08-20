@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.InstanceUsers.Add(dbUser);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			return Json(dbUser.ToApi());
+			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
 		}
 
 		/// <inheritdoc />

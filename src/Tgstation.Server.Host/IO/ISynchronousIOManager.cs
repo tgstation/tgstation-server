@@ -25,6 +25,14 @@ namespace Tgstation.Server.Host.IO
 		IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Create an empty directory at <paramref name="path"/>
+		/// </summary>
+		/// <param name="path">The path to create</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes</param>
+		/// <returns><see langword="true"/> if the directory already existed, <see langword="false"/> otherwise</returns>
+		bool CreateDirectory(string path, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Read the <see cref="byte"/>s of a file at a given <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path of the file to read</param>

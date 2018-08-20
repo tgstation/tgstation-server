@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 				result.InstallJob = job.ToApi();
 			}
 			result.Version = byondManager.ActiveVersion;
-			return Json(result);
+			return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
 		}
 	}
 }

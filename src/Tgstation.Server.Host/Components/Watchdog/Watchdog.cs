@@ -1,6 +1,7 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -858,7 +859,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!Running)
 					return "ERROR: Server offline!";
 
-				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChatCommand), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(JsonConvert.SerializeObject(arguments)));
+				var commandObject = new ChatCommand
+				{
+					Command = commandName,
+					Parameters = arguments,
+					User = sender
+				};
+
+				var json = JsonConvert.SerializeObject(arguments, new JsonSerializerSettings
+				{
+					ContractResolver = new CamelCasePropertyNamesContractResolver()
+				});
+
+				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChatCommand), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json));
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";

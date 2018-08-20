@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
-			return Json(job.ToApi());
+			return Accepted(job.ToApi());
 		}
 
 		/// <inheritdoc />

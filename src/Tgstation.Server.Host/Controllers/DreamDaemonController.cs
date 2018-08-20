@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 					throw new InvalidOperationException("Watchdog already running!");
 			},
 			cancellationToken).ConfigureAwait(false);
-			return Json(job.ToApi());
+			return Accepted(job.ToApi());
 		}
 
 		/// <inheritdoc />

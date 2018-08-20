@@ -28,10 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ModelController<Administration>
 	{
-		/// <summary>
-		/// HTTP 429 status code
-		/// </summary>
-		const int RateLimitHttpStatusCode = 429;
+		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
 
 		/// <summary>
 		/// The <see cref="IGitHubClient"/> for the <see cref="AdministrationController"/>
@@ -83,38 +80,44 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogWarning("Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
-			return StatusCode(RateLimitHttpStatusCode);
+			return StatusCode(429);
 		}
 
 		/// <inheritdoc />
 		[TgsAuthorize]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var model = new Administration
-			{
-				CurrentVersion = application.Version
-			};
 			try
 			{
-				var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
-				var releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
-
 				Version greatestVersion = null;
-				foreach (var I in releases)
-					if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
-						&& version.Major == application.Version.Major
-						&& (greatestVersion == null || version > greatestVersion))
-						greatestVersion = version;
+				Uri repoUrl = null;
+				try
+				{
+					var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
+					var releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
 
-				model.LatestVersion = greatestVersion;
-				model.TrackedRepositoryUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
-				model.WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+					foreach (var I in releases)
+						if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
+							&& version.Major == application.Version.Major
+							&& (greatestVersion == null || version > greatestVersion))
+							greatestVersion = version;
+					repoUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
+				}
+				catch (NotFoundException e)
+				{
+					Logger.LogWarning("Not found exception while retrieving upstream repository info: {0}", e);
+				}
+				return Json(new Administration
+				{
+					LatestVersion = greatestVersion,
+					TrackedRepositoryUrl = repoUrl,
+					WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+				});
 			}
 			catch (RateLimitExceededException e)
 			{
 				return RateLimit(e);
 			}
-			return Json(model);
 		}
 
 		/// <inheritdoc />
@@ -124,10 +127,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.CurrentVersion == null)
+			if (model.NewVersion == null)
 				return BadRequest(new ErrorMessage { Message = "Missing new version!" });
 
-			if (model.CurrentVersion.Major != application.Version.Major)
+			if (model.NewVersion.Major != application.Version.Major)
 				return BadRequest(new ErrorMessage { Message = "Cannot update to a different suite version!" });
 
 			IEnumerable<Release> releases;
@@ -141,7 +144,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			foreach (var release in releases)
-				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.CurrentVersion)
+				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.NewVersion)
 				{
 					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
 					if (asset == default)
@@ -151,10 +154,16 @@ namespace Tgstation.Server.Host.Controllers
 					try
 					{
 						if (!await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
-							return StatusCode((int)HttpStatusCode.NotImplemented);
+							return UnprocessableEntity(new ErrorMessage
+							{
+								Message = RestartNotSupportedException
+							});	//unprocessable entity
 					}
-					catch (InvalidOperationException) { }	//we were beat to the punch
-					return Ok();	//gtfo of here before all the cancellation tokens fire
+					catch (InvalidOperationException)
+					{
+						return StatusCode((int)HttpStatusCode.ServiceUnavailable);  //we were beat to the punch, really shouldn't happen but heat death of the universe and what not
+					}
+					return Accepted();	//gtfo of here before all the cancellation tokens fire
 				}
 
 			return StatusCode((int)HttpStatusCode.Gone);
@@ -163,6 +172,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
-		public Task<IActionResult> Delete() => Task.FromResult(serverUpdater.Restart() ? (IActionResult)Ok() : StatusCode((int)HttpStatusCode.NotImplemented));
+		public Task<IActionResult> Delete() {
+			try
+			{
+				return Task.FromResult(serverUpdater.Restart() ? (IActionResult)Ok() : UnprocessableEntity(new ErrorMessage
+				{
+					Message = RestartNotSupportedException
+				}));
+			}
+			catch (InvalidOperationException)
+			{
+				return Task.FromResult<IActionResult>(StatusCode((int)HttpStatusCode.ServiceUnavailable));
+			}
+		}
 	}
 }

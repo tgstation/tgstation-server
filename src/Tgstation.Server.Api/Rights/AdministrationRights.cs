@@ -21,7 +21,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		RestartHost = 2,
 		/// <summary>
-		/// User can change <see cref="Models.Administration.CurrentVersion"/>
+		/// User can change <see cref="Models.Administration.NewVersion"/>
 		/// </summary>
 		ChangeVersion = 4,
 		/// <summary>

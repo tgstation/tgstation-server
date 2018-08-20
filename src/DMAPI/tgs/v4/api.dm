@@ -135,8 +135,8 @@
 	switch(command)
 		if(TGS4_TOPIC_CHAT_COMMAND)
 			var/result = HandleCustomCommand(params[TGS4_PARAMETER_DATA])
-			if(!result)
-				return json_encode(list("error" = "Error running chat command!"))
+			if(result == null)
+				result = "Error running chat command!"
 			return result
 		if(TGS4_TOPIC_EVENT)
 			intercepted_message_queue = list()
@@ -293,21 +293,6 @@
 	channel.is_admin_channel = channel_json["isAdminChannel"]
 	channel.is_private_channel = channel_json["isPrivateChannel"] || FALSE
 	return channel
-
-#undef TGS4_TOPIC_COMMAND
-#undef TGS4_TOPIC_TOKEN
-#undef TGS4_TOPIC_SUCCESS
-#undef TGS4_TOPIC_SWAP
-#undef TGS4_TOPIC_SWAP_DELAYED
-#undef TGS4_TOPIC_CHAT_COMMAND
-#undef TGS4_TOPIC_EVENT
-
-#undef TGS4_COMM_SERVER_PRIMED
-#undef TGS4_COMM_SERVER_REBOOT
-#undef TGS4_COMM_END_PROCESS
-#undef TGS4_COMM_CHAT
-
-#undef TGS4_COMM_VALIDATE
 
 /*
 The MIT License

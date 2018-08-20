@@ -364,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 						{
 							//server never validated or compile failed
 							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
-							throw new JobException(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}", exitCode, job.Output));
+							throw new JobException(exitCode == 0 ? "Validation of the TGS api failed!" : String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}{2}", exitCode, Environment.NewLine, job.Output));
 						}
 
 						logger.LogTrace("Running post compile event...");

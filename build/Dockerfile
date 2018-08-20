@@ -29,6 +29,9 @@ RUN dotnet test -c Release
 WORKDIR /src/tests/Tgstation.Server.Host.Console.Tests
 RUN dotnet test -c Release
 
+WORKDIR /src/tests/Tgstation.Server.Tests
+RUN dotnet test -c Release
+
 WORKDIR /src/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app
 

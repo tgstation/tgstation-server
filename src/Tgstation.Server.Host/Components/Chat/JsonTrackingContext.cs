@@ -44,7 +44,13 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				var resultBytes = await ioManager.ReadAllBytes(commandsPath, cancellationToken).ConfigureAwait(false);
 				var resultJson = Encoding.UTF8.GetString(resultBytes);
-				var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson);
+				var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson, new JsonSerializerSettings
+				{
+					ContractResolver = new DefaultContractResolver
+					{
+						NamingStrategy = new SnakeCaseNamingStrategy()
+					}
+				});
 				foreach (var I in result)
 					I.SetHandler(customCommandHandler);
 				return result;
@@ -61,10 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			using (await SemaphoreSlimContext.Lock(channelsSemaphore, cancellationToken).ConfigureAwait(false))
 				await ioManager.WriteAllBytes(channelsPath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(channels, Formatting.Indented, new JsonSerializerSettings
 				{
-					ContractResolver = new DefaultContractResolver
-					{
-						NamingStrategy = new CamelCaseNamingStrategy()
-					}
+					ContractResolver = new CamelCasePropertyNamesContractResolver()
 				})), cancellationToken).ConfigureAwait(false);
 		}
 	}

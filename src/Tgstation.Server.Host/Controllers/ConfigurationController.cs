@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				newFile.Content = null;
 
-				return Json(newFile);
+				return model.LastReadHash == null ? (IActionResult)StatusCode((int)HttpStatusCode.Created, newFile) : Json(newFile);
 			}
 			catch(NotImplementedException)
 			{
@@ -127,5 +127,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		[TgsAuthorize(ConfigurationRights.List)]
 		public override Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
+
+		/// <inheritdoc />
+		[TgsAuthorize(ConfigurationRights.Write)]
+		public override async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
+		{
+			if (ForbidDueToModeConflicts())
+				return Forbid();
+
+			try
+			{
+				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
+			}
+			catch (NotImplementedException)
+			{
+				return StatusCode((int)HttpStatusCode.NotImplemented);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Forbid();
+			}
+		}
 	}
 }

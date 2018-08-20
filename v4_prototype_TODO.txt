@@ -4,3 +4,5 @@ Test watchdog
 
 Only show user name and ID when serializing to API
 In fact remove IApiConvertable<> altogether, it's not required by anything
+
+Chat channel tagging

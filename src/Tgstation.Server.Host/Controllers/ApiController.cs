@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -149,6 +150,15 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
+
+				if(!ApiHeaders.Compatible())
+				{
+					await StatusCode((int)HttpStatusCode.UpgradeRequired, new ErrorMessage
+					{
+						Message = "Provided API version is incompatible with server version!"
+					}).ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
 
 				if (requireInstance)
 				{

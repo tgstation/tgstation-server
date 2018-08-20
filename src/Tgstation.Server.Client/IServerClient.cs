@@ -36,9 +36,9 @@ namespace Tgstation.Server.Client
 		IUsersClient Users { get; }
 
 		/// <summary>
-		/// The <see cref="System.Version"/> of the <see cref="IServerClient"/>
+		/// The <see cref="ServerInformation"/> of the <see cref="IServerClient"/>
 		/// </summary>
-		Task<Version> Version(CancellationToken cancellationToken);
+		Task<ServerInformation> Version(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Adds a <paramref name="requestLogger"/> to the request pipeline

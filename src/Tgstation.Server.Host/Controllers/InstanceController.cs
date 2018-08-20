@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
 			
-			return Json(newInstance.ToApi());
+			return StatusCode((int)HttpStatusCode.Created, newInstance.ToApi());
 		}
 
 		/// <inheritdoc />

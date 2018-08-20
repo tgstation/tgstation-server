@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Models
 		public Uri TrackedRepositoryUrl { get; set; }
 
 		/// <summary>
-		/// The latest available version of the Tgstation.Server.Host assembly from the upstream repository. If <see cref="Version.Minor"/> is higher than <see cref="CurrentVersion"/>'s the update cannot be applied due to API changes
+		/// The latest available version of the Tgstation.Server.Host assembly from the upstream repository. If <see cref="Version.Minor"/> is higher than <see cref="NewVersion"/>'s the update cannot be applied due to API changes
 		/// </summary>
 		[Permissions(DenyWrite = true)]
 		public Version LatestVersion { get; set; }
@@ -28,6 +28,6 @@ namespace Tgstation.Server.Api.Models
 		/// Changes the version of Tgstation.Server.Host to the given version from the upstream repository
 		/// </summary>
 		[Permissions(WriteRight = AdministrationRights.ChangeVersion)]
-		public Version CurrentVersion { get; set; }
+		public Version NewVersion { get; set; }
 	}
 }
