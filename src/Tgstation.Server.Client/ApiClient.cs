@@ -102,7 +102,7 @@ namespace Tgstation.Server.Client
 					//check if json serializes to an error message
 					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, serializerSettings);
 				}
-				catch (JsonSerializationException) { }
+				catch (JsonException) { }
 
 				switch (response.StatusCode)
 				{
