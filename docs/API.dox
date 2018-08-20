@@ -168,6 +168,8 @@ If you want to perform a live update of the server use
 
 POST "/Administration" @ref Tgstation.Server.Api.Models.Administration => OK
 
+With the @ref Tgstation.Server.Api.Models.Administration.NewVersion field set
+
 Any DreamDaemon servers running will persist while the server installs the new version from the official tgstation-server GitHub (If it exists)
 
 If the server is otherwise acting funky and you wish to restart it, use this request:

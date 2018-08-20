@@ -90,10 +90,6 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var model = new Administration
-			{
-				CurrentVersion = application.Version
-			};
 			try
 			{
 				var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
@@ -105,16 +101,17 @@ namespace Tgstation.Server.Host.Controllers
 						&& version.Major == application.Version.Major
 						&& (greatestVersion == null || version > greatestVersion))
 						greatestVersion = version;
-
-				model.LatestVersion = greatestVersion;
-				model.TrackedRepositoryUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
-				model.WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+				return Json(new Administration
+				{
+					LatestVersion = greatestVersion,
+					TrackedRepositoryUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl),
+					WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+				});
 			}
 			catch (RateLimitExceededException e)
 			{
 				return RateLimit(e);
 			}
-			return Json(model);
 		}
 
 		/// <inheritdoc />
@@ -124,10 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.CurrentVersion == null)
+			if (model.NewVersion == null)
 				return BadRequest(new ErrorMessage { Message = "Missing new version!" });
 
-			if (model.CurrentVersion.Major != application.Version.Major)
+			if (model.NewVersion.Major != application.Version.Major)
 				return BadRequest(new ErrorMessage { Message = "Cannot update to a different suite version!" });
 
 			IEnumerable<Release> releases;
@@ -141,7 +138,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			foreach (var release in releases)
-				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.CurrentVersion)
+				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.NewVersion)
 				{
 					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
 					if (asset == default)
