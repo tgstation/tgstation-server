@@ -292,7 +292,7 @@
 	channel.connection_name = channel_json["connectionName"]
 	channel.is_admin_channel = channel_json["isAdminChannel"]
 	channel.is_private_channel = channel_json["isPrivateChannel"]
-	channel.tag = channel_json["tag"]
+	channel.custom_tag = channel_json["tag"]
 	return channel
 
 /*
