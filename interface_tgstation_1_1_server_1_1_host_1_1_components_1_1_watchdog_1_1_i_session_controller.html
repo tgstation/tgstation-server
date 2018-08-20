@@ -121,9 +121,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acecb23152cbf86fc4c7e6f0e0a716aca"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#acecb23152cbf86fc4c7e6f0e0a716aca">SendCommand</a> (string command, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:acecb23152cbf86fc4c7e6f0e0a716aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a command to DreamDaemon through /world/Topic()  <a href="#acecb23152cbf86fc4c7e6f0e0a716aca">More...</a><br /></td></tr>
 <tr class="separator:acecb23152cbf86fc4c7e6f0e0a716aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af02952d39ab87a4428137b222cfa2036"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af02952d39ab87a4428137b222cfa2036">ClosePort</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af02952d39ab87a4428137b222cfa2036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the world's port  <a href="#af02952d39ab87a4428137b222cfa2036">More...</a><br /></td></tr>
-<tr class="separator:af02952d39ab87a4428137b222cfa2036"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83d11030bd08b307ea3a6f7bfc05284c"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a83d11030bd08b307ea3a6f7bfc05284c">SetPort</a> (ushort newPort, CancellationToken cancellatonToken)</td></tr>
 <tr class="memdesc:a83d11030bd08b307ea3a6f7bfc05284c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Causes the world to start listening on a <em>newPort</em>   <a href="#a83d11030bd08b307ea3a6f7bfc05284c">More...</a><br /></td></tr>
 <tr class="separator:a83d11030bd08b307ea3a6f7bfc05284c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,6 +143,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ae1efcc624f78a7c1ce978b000d09d382"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ae1efcc624f78a7c1ce978b000d09d382">IsPrimary</a><code> [get]</code></td></tr>
 <tr class="memdesc:ae1efcc624f78a7c1ce978b000d09d382"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html#aa3e399fe1533b15a2e0814b3634037bc" title="The primary game directory with a trailing directory separator ">IDmbProvider.PrimaryDirectory</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used ">Dmb</a> is being used  <a href="#ae1efcc624f78a7c1ce978b000d09d382">More...</a><br /></td></tr>
 <tr class="separator:ae1efcc624f78a7c1ce978b000d09d382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1deb0ef8ce6a9f45326caa2e7aa78ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af1deb0ef8ce6a9f45326caa2e7aa78ea">TerminationWasRequested</a><code> [get]</code></td></tr>
+<tr class="memdesc:af1deb0ef8ce6a9f45326caa2e7aa78ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the DreamDaemon instance sent a  <a href="#af1deb0ef8ce6a9f45326caa2e7aa78ea">More...</a><br /></td></tr>
+<tr class="separator:af1deb0ef8ce6a9f45326caa2e7aa78ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58e0e4f6bed800be7ec93750a1e11917"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a58e0e4f6bed800be7ec93750a1e11917">ApiValidated</a><code> [get]</code></td></tr>
 <tr class="memdesc:a58e0e4f6bed800be7ec93750a1e11917"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the DMAPI was validated. This field may only be access once IProcessBase.Lifetime completes  <a href="#a58e0e4f6bed800be7ec93750a1e11917">More...</a><br /></td></tr>
 <tr class="separator:a58e0e4f6bed800be7ec93750a1e11917"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,12 +155,12 @@ Properties</h2></td></tr>
 <tr class="memitem:aa343d746e958dbfe2a22f4a7a4fb33cd"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#aa343d746e958dbfe2a22f4a7a4fb33cd">Port</a><code> [get]</code></td></tr>
 <tr class="memdesc:aa343d746e958dbfe2a22f4a7a4fb33cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current port DreamDaemon is listening on  <a href="#aa343d746e958dbfe2a22f4a7a4fb33cd">More...</a><br /></td></tr>
 <tr class="separator:aa343d746e958dbfe2a22f4a7a4fb33cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aff175710c5f3e1acffe941131a4ffa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a4aff175710c5f3e1acffe941131a4ffa">ClosePortOnReboot</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a4aff175710c5f3e1acffe941131a4ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the port should be rotated off when the world reboots  <a href="#a4aff175710c5f3e1acffe941131a4ffa">More...</a><br /></td></tr>
+<tr class="separator:a4aff175710c5f3e1acffe941131a4ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af12460cd54ebce65ecf71fb8dad516c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8">RebootState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4">RebootState</a><code> [get]</code></td></tr>
 <tr class="memdesc:af12460cd54ebce65ecf71fb8dad516c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState ">RebootState</a>  <a href="#af12460cd54ebce65ecf71fb8dad516c4">More...</a><br /></td></tr>
 <tr class="separator:af12460cd54ebce65ecf71fb8dad516c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aff175710c5f3e1acffe941131a4ffa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a4aff175710c5f3e1acffe941131a4ffa">ClosePortOnReboot</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a4aff175710c5f3e1acffe941131a4ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the port should close when /world/Reboot() is called. Defaults to   <a href="#a4aff175710c5f3e1acffe941131a4ffa">More...</a><br /></td></tr>
-<tr class="separator:a4aff175710c5f3e1acffe941131a4ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa22611bb1515c92112cb88c1fd2a346b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#aa22611bb1515c92112cb88c1fd2a346b">OnReboot</a><code> [get]</code></td></tr>
 <tr class="memdesc:aa22611bb1515c92112cb88c1fd2a346b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/Reboot()  <a href="#aa22611bb1515c92112cb88c1fd2a346b">More...</a><br /></td></tr>
 <tr class="separator:aa22611bb1515c92112cb88c1fd2a346b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,33 +174,6 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af02952d39ab87a4428137b222cfa2036"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Components.Watchdog.ISessionController.ClosePort </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Closes the world's port </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if the operation succeeded,  otherwise</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ac4e684350d4342303e5b2d6124d8ca84">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a2f2c370c1bbc4e6378dbfe98f18353d3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -219,7 +192,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a275f0854e7df3126d0d3a3fe390b1a13">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00781">Tgstation.Server.Host.Components.Watchdog.Watchdog.StopAsync()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00796">Tgstation.Server.Host.Components.Watchdog.Watchdog.StopAsync()</a>.</p>
 
 </div>
 </div>
@@ -240,7 +213,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a10030d2d9fd76e199bc1ea38627c7422">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -280,7 +253,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#aaeb3b59b54f6393afb23982a08f91ea1">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00839">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleChatCommand()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00797">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleEvent()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00854">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleChatCommand()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00812">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleEvent()</a>.</p>
 
 </div>
 </div>
@@ -318,9 +291,9 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if the operation succeeded,  otherwise</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a8c33f6d7b0c1a83e3d36d0a861b484bb">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a25f0b56359996842163f348a227734b9">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -360,7 +333,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a1076b12f9e7bfa7b7bf89f97d20c6c4e">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00196">Tgstation.Server.Host.Components.Watchdog.Watchdog.RestartNoLock()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00227">Tgstation.Server.Host.Components.Watchdog.Watchdog.TerminateNoLock()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00199">Tgstation.Server.Host.Components.Watchdog.Watchdog.TerminateNoLock()</a>.</p>
 
 </div>
 </div>
@@ -385,7 +358,7 @@ Properties</h2></td></tr>
 
 <p>If the DMAPI was validated. This field may only be access once IProcessBase.Lifetime completes </p>
 
-<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00025">25</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00030">30</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
 </div>
 </div>
@@ -407,11 +380,11 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>If the port should close when /world/Reboot() is called. Defaults to  </p>
+<p>If the port should be rotated off when the world reboots </p>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00045">45</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -435,9 +408,9 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> being used </p>
 
-<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00030">30</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -463,7 +436,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -489,7 +462,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00626">Tgstation.Server.Host.Components.Watchdog.Watchdog.LaunchNoLock()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00616">Tgstation.Server.Host.Components.Watchdog.Watchdog.LaunchNoLock()</a>.</p>
 
 </div>
 </div>
@@ -513,7 +486,7 @@ Properties</h2></td></tr>
 
 <p>A Task that completes when the server calls /world/Reboot() </p>
 
-<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00050">50</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00055">55</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
 </div>
 </div>
@@ -537,7 +510,7 @@ Properties</h2></td></tr>
 
 <p>The current port DreamDaemon is listening on </p>
 
-<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00040">40</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
 </div>
 </div>
@@ -561,9 +534,35 @@ Properties</h2></td></tr>
 
 <p>The current <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState ">RebootState</a> </p>
 
-<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00040">40</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00050">50</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00252">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af1deb0ef8ce6a9f45326caa2e7aa78ea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Watchdog.ISessionController.TerminationWasRequested</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the DreamDaemon instance sent a </p>
+
+<p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00025">25</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00224">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
