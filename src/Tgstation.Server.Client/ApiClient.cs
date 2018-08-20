@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -83,7 +84,7 @@ namespace Tgstation.Server.Client
 			};
 
 			if (body != null)
-				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings));
+				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
 
 			Headers.SetRequestHeaders(message.Headers, instanceId);
 
