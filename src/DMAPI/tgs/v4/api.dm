@@ -294,21 +294,6 @@
 	channel.is_private_channel = channel_json["isPrivateChannel"] || FALSE
 	return channel
 
-#undef TGS4_TOPIC_COMMAND
-#undef TGS4_TOPIC_TOKEN
-#undef TGS4_TOPIC_SUCCESS
-#undef TGS4_TOPIC_SWAP
-#undef TGS4_TOPIC_SWAP_DELAYED
-#undef TGS4_TOPIC_CHAT_COMMAND
-#undef TGS4_TOPIC_EVENT
-
-#undef TGS4_COMM_SERVER_PRIMED
-#undef TGS4_COMM_SERVER_REBOOT
-#undef TGS4_COMM_END_PROCESS
-#undef TGS4_COMM_CHAT
-
-#undef TGS4_COMM_VALIDATE
-
 /*
 The MIT License
 
