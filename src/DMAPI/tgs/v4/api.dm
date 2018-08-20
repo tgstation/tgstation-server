@@ -10,8 +10,7 @@
 #define TGS4_TOPIC_EVENT "tgs_event"
 #define TGS4_TOPIC_INTEROP_RESPONSE "tgs_interop"
 
-#define TGS4_COMM_ONLINE "tgs_on"
-#define TGS4_COMM_IDENTIFY "tgs_ident"
+#define TGS4_COMM_NEW_PORT "tgs_new_port"
 #define TGS4_COMM_VALIDATE "tgs_validate"
 #define TGS4_COMM_SERVER_PRIMED "tgs_prime"
 #define TGS4_COMM_WORLD_REBOOT "tgs_reboot"
@@ -21,8 +20,7 @@
 #define TGS4_PARAMETER_COMMAND "tgs_com"
 #define TGS4_PARAMETER_DATA "tgs_data"
 
-#define TGS4_PARAMETER_NEW_PORT "new_port"
-#define TGS4_PARAMETER_NEW_REBOOT_MODE "new_rmode"
+#define TGS4_PORT_CRITFAIL_MESSAGE " Must exit to let watchdog reboot..."
 
 #define EXPORT_TIMEOUT_DS 200
 
@@ -111,6 +109,7 @@
 
 /datum/tgs_api/v4/OnInitializationComplete()
 	Export(TGS4_COMM_SERVER_PRIMED)
+
 	var/tgs4_secret_sleep_offline_sauce = 24051994
 	var/old_sleep_offline = world.sleep_offline
 	world.sleep_offline = tgs4_secret_sleep_offline_sauce
@@ -156,7 +155,22 @@
 		if(TGS4_TOPIC_INTEROP_RESPONSE)
 			last_interop_response = json_decode(params[TGS4_PARAMETER_DATA])
 			return
-	
+		if(TGS4_TOPIC_CHANGE_PORT)
+			var/new_port = text2num(params[TGS4_PARAMETER_DATA])
+			if (!(new_port > 0))
+				return "Invalid port: [new_port]"
+
+			//the topic still completes, miraculously
+			//I honestly didn't believe byond could do it
+			event_handler.HandleEvent(TGS_EVENT_PORT_SWAP, new_port)
+			if(!world.OpenPort(new_port))
+				return "Port change failed!"
+		if(TGS4_TOPIC_CHANGE_REBOOT_MODE)
+			var/new_reboot_mode = text2num(params[TGS4_PARAMETER_DATA])
+			event_handler.HandleEvent(TGS_EVENT_REBOOT_MODE_CHANGE, reboot_mode, new_reboot_mode)
+			reboot_mode = new_reboot_mode
+			return
+
 	return "Unknown command: [command]"
 
 /datum/tgs_api/v4/proc/Export(command, list/data)
@@ -164,6 +178,29 @@
 		data = list()
 	data[TGS4_PARAMETER_COMMAND] = command
 	var/json = json_encode(data)
+	
+	//we need some port open at this point to facilitate return communication
+	if(!world.port)
+		if(!world.OpenPort(0)) //open any port
+			TGS_ERROR_LOG("Unable to open random port to retrieve new port![TGS4_PORT_CRITFAIL_MESSAGE]")
+			del(world)
+
+		//request a new port
+		export_lock = FALSE
+		var/list/new_port_json = Export(TGS4_COMM_NEW_PORT, list("current_port" = "[world.port]"))	//stringify this on purpose
+		
+		if(!new_port_json)
+			TGS_ERROR_LOG("No new port response from server![TGS4_PORT_CRITFAIL_MESSAGE]")
+			del(world)
+
+		var/new_port = new_port_json["port"]
+		if(!isnum(new_port) || new_port <= 0)
+			TGS_ERROR_LOG("Malformed new port json ([json_encode(new_port_json)])![TGS4_PORT_CRITFAIL_MESSAGE]")
+			del(world)
+
+		if(new_port != world.port && !world.OpenPort(new_port))
+			TGS_ERROR_LOG("Unable to open port [new_port]![TGS4_PORT_CRITFAIL_MESSAGE]")
+			del(world)
 
 	while(export_lock)
 		sleep(1)
@@ -189,7 +226,18 @@
 	if(!result)
 		return
 	
-	//TODO: Port handling
+	//okay so the standard TGS4 proceedure is: right before rebooting change the port to whatever was sent to us in the above json's data parameter
+
+	var/port = json[TGS4_PARAMETER_DATA]
+	if(!isnum(port))
+		return	//this is valid, server may just want use to reboot
+
+	if(port == 0)
+		//to byond 0 means any port and "none" means close vOv
+		port = "none"
+
+	if(!world.OpenPort(port))
+		TGS_ERROR_LOG("Unable to set port to [port]!")
 
 /datum/tgs_api/v4/InstanceName()
 	return instance_name

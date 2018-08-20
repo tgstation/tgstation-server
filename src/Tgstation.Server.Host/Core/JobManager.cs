@@ -94,8 +94,8 @@ namespace Tgstation.Server.Host.Core
 					}
 					catch (Exception e)
 					{
-						logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, e);
 						job.ExceptionDetails = e is JobException ? e.Message : e.ToString();
+						logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
 					}
 					job.StoppedAt = DateTimeOffset.Now;
 					await databaseContext.Save(default).ConfigureAwait(false);

@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool IsPrimary { get; }
 
 		/// <summary>
+		/// If the DreamDaemon instance sent a
+		/// </summary>
+		bool TerminationWasRequested { get; }
+
+		/// <summary>
 		/// If the DMAPI was validated. This field may only be access once <see cref="IProcessBase.Lifetime"/> completes
 		/// </summary>
 		bool ApiValidated { get; }
@@ -35,14 +40,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		ushort? Port { get; }
 
 		/// <summary>
+		/// If the port should be rotated off when the world reboots
+		/// </summary>
+		bool ClosePortOnReboot { get; set; }
+
+		/// <summary>
 		/// The current <see cref="RebootState"/>
 		/// </summary>
 		RebootState RebootState { get; }
-
-		/// <summary>
-		/// If the port should close when /world/Reboot() is called. Defaults to <see langword="true"/> 
-		/// </summary>
-		bool ClosePortOnReboot { get; set; }
 
 		/// <summary>
 		/// A <see cref="Task"/> that completes when the server calls /world/Reboot()
@@ -62,13 +67,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the result of /world/Topic()</returns>
 		Task<string> SendCommand(string command, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Closes the world's port
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
-		Task<bool> ClosePort(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Causes the world to start listening on a <paramref name="newPort"/>

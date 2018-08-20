@@ -29,9 +29,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public bool ClosePortOnReboot { get; set; }
-
-		/// <inheritdoc />
 		public bool ApiValidated
 		{
 			get
@@ -58,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			get
 			{
 				CheckDisposed();
-				if (portClosed)
+				if (portClosedForReboot)
 					return null;
 				return reattachInformation.Port;
 			}
@@ -73,6 +70,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return reattachInformation.RebootState;
 			}
 		}
+
+		/// <inheritdoc />
+		public bool ClosePortOnReboot { get; set; }
+
+		/// <inheritdoc />
+		public bool TerminationWasRequested { get; private set; }
 
 		/// <inheritdoc />
 		public Task<LaunchResult> LaunchResult { get; }
@@ -124,13 +127,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ILogger<SessionController> logger;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPortImpl(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
+		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
 		/// <summary>
 		/// The port to assign DreamDaemon when it queries for it
 		/// </summary>
-		ushort nextPort;
+		ushort? nextPort;
 		
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us about a reboot
@@ -140,7 +143,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed
 		/// </summary>
-		bool portClosed;
+		bool portClosedForReboot;
+
 		/// <summary>
 		/// If the <see cref="SessionController"/> has been disposed
 		/// </summary>
@@ -181,7 +185,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			interopContext.RegisterHandler(this);
 
-			portClosed = false;
+			portClosedForReboot = false;
 			disposed = false;
 			apiValidated = false;
 			released = false;
@@ -265,6 +269,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var query = command.Parameters;
 
 			object content;
+			Action postRespond = null;
 			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
 			{
 				content = new object();
@@ -273,20 +278,39 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case Constants.DMCommandServerPrimed:
 						//currently unused, maybe in the future
 						break;
-					case Constants.DMCommandIdentify:
+					case Constants.DMCommandEndProcess:
+						TerminationWasRequested = true;
+						process.Terminate();
+						return;
+					case Constants.DMCommandNewPort:
 						lock (this)
-							if (portClosed)
-								content = new Dictionary<string, int> { { Constants.DMParameterData, nextPort } };
-						break;
-					case Constants.DMCommandOnline:
-						lock (this)
-							if (portClosed)
-							{
-								reattachInformation.Port = nextPort;
-								portAssignmentTcs.TrySetResult(true);
-								portAssignmentTcs = null;
-								portClosed = false;
+						{
+							if (!query.TryGetValue(Constants.DMParameterData, out var stringPort) || !UInt16.TryParse(stringPort, out var currentPort)) {
+								/////UHHHH
+								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
+								break;
 							}
+							
+							if (!nextPort.HasValue)
+								//not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
+								reattachInformation.Port = currentPort;
+							else
+							{
+								//nextPort is ready, tell DD to switch to that
+								//if it fails it'll kill itself
+								content = new Dictionary<string, ushort> { { Constants.DMParameterData, nextPort.Value } };
+								reattachInformation.Port = nextPort.Value;
+								nextPort = null;
+								
+								//we'll also get here from SetPort so complete that task
+								var tmpTcs = portAssignmentTcs;
+								portAssignmentTcs = null;
+								if (tmpTcs != null)
+									postRespond = () => tmpTcs.SetResult(true);
+							}
+
+							portClosedForReboot = false;
+						}
 						break;
 					case Constants.DMCommandApiValidate:
 						apiValidated = true;
@@ -295,13 +319,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (ClosePortOnReboot)
 						{
 							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
-							portClosed = true;
+							portClosedForReboot = true;
 						}
-						else
-							ClosePortOnReboot = true;
 						var oldTcs = rebootTcs;
 						rebootTcs = new TaskCompletionSource<object>();
-						oldTcs.SetResult(null);
+						postRespond = () => oldTcs.SetResult(null);
 						break;
 					default:
 						content = new ErrorMessage { Message = "Requested command not supported!" };
@@ -316,6 +338,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			if (response != Constants.DMResponseSuccess)
 				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
+
+			postRespond?.Invoke();
 		}
 
 		/// <summary>
@@ -368,48 +392,38 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
-		async Task<bool> SetPortImpl(ushort port, CancellationToken cancellationToken) => await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangePort), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
-
 		/// <inheritdoc />
-		public async Task<bool> ClosePort(CancellationToken cancellationToken)
+		public Task<bool> SetPort(ushort port, CancellationToken cancellationToken)
 		{
 			CheckDisposed();
-			if (portClosed)
-				return true;
-			if (await SetPortImpl(0, cancellationToken).ConfigureAwait(false))
-			{
-				portClosed = true;
-				return true;
-			}
-			return false;
-		}
-
-		/// <inheritdoc />
-		public async Task<bool> SetPort(ushort port, CancellationToken cancellatonToken)
-		{
-			CheckDisposed();
-			if (portClosed)
-			{
-				Task<bool> toWait;
-				lock (this)
-				{
-					if (portAssignmentTcs != null)
-					{
-						//someone was trying to change the port before us, ignore them
-						//shouldn't happen anyway, add logging here
-						logger.LogWarning("Hey uhhh, this shouldn't happen ok? Pls to tell cyberboss. SessionController.SetPort");
-						portAssignmentTcs.TrySetResult(false);
-					}
-					nextPort = port;
-					portAssignmentTcs = new TaskCompletionSource<bool>();
-					toWait = portAssignmentTcs.Task;
-				}
-				return await toWait.ConfigureAwait(false);
-			}
 
 			if (port == 0)
 				throw new ArgumentOutOfRangeException(nameof(port), port, "port must not be zero!");
-			return await SetPortImpl(port, cancellatonToken).ConfigureAwait(false);
+
+			async Task<bool> ImmediateTopicPortChange()
+			{
+				var commandResult = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangePort), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false);
+
+				if (commandResult != Constants.DMResponseSuccess)
+				{
+					logger.LogWarning("Failed port change! DD says: {0}", commandResult);
+					return false;
+				}
+
+				return true;
+			}
+
+			lock (this)
+				if (portClosedForReboot)
+				{
+					if (portAssignmentTcs != null)
+						throw new InvalidOperationException("A port change operation is already in progress!");
+					nextPort = port;
+					portAssignmentTcs = new TaskCompletionSource<bool>();
+					return portAssignmentTcs.Task;
+				}
+				else
+					return ImmediateTopicPortChange();
 		}
 
 		/// <inheritdoc />
@@ -417,8 +431,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (RebootState == newRebootState)
 				return true;
-
-			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", Constants.DMTopicChangeReboot, Constants.DMParameterData, (int)newRebootState), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
+			reattachInformation.RebootState = newRebootState;
+			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangeReboot), byondTopicSender.SanitizeString(Constants.DMParameterData), (int)newRebootState), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
 		}
 
 		/// <inheritdoc />
