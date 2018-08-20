@@ -12,7 +12,6 @@ var searchData=
   ['apimismatchexception',['ApiMismatchException',['../class_tgstation_1_1_server_1_1_client_1_1_api_mismatch_exception.html',1,'Tgstation::Server::Client']]],
   ['application',['Application',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html',1,'Tgstation::Server::Host::Core']]],
   ['applicationbuilderextensions',['ApplicationBuilderExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_builder_extensions.html',1,'Tgstation::Server::Host::Core']]],
-  ['attribute',['Attribute',['../class_attribute.html',1,'']]],
   ['authenticationcontext',['AuthenticationContext',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html',1,'Tgstation::Server::Host::Security']]],
   ['authenticationcontextfactory',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],
   ['authorizeattribute',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]],

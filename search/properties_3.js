@@ -2,7 +2,6 @@ var searchData=
 [
   ['databasecontext',['DatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ab687e0fc0cb712708297c0c2b43ca849',1,'Tgstation::Server::Host::Controllers::ApiController']]],
   ['databasetype',['DatabaseType',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a',1,'Tgstation::Server::Host::Configuration::DatabaseConfiguration']]],
-  ['denywrite',['DenyWrite',['../class_tgstation_1_1_server_1_1_api_1_1_permissions_attribute.html#a4df3e48938125eaf583e6ff7e945f92f',1,'Tgstation::Server::Api::PermissionsAttribute']]],
   ['description',['Description',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab37543e34480a044000bd542bf88aa15',1,'Tgstation::Server::Api::Models::Internal::Job']]],
   ['directoryname',['DirectoryName',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html#a611b1fe066e2d97bbc5dbf82990e9ea4',1,'Tgstation::Server::Api::Models::Internal::CompileJob']]],
   ['disablefilelogging',['DisableFileLogging',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ab302954e58634d2b02aa07e6486ccdd7',1,'Tgstation::Server::Host::Configuration::GeneralConfiguration']]],

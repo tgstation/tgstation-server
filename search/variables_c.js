@@ -5,7 +5,6 @@ var searchData=
   ['messagequeue',['messageQueue',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a0cf9e8f2427fc076d90805ef6ee06a66',1,'Tgstation::Server::Host::Components::Chat::Providers::Provider']]],
   ['metadata',['metadata',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ad54344c590beab965fead49ac08224a9',1,'Tgstation.Server.Host.Components.Instance.metadata()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_reattach_info_handler.html#aa3e886486d0a0ff9dd9b963c35ec95f4',1,'Tgstation.Server.Host.Components.ReattachInfoHandler.metadata()']]],
   ['migrationsjson',['MigrationsJson',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a658d55fa7c0ba3e4f0b3fb3c9d2341b7',1,'Tgstation::Server::Host::Models::Migrations::DesignTimeDbContextFactoryHelpers']]],
-  ['modelattribute',['ModelAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_model_controller.html#a56b7b1001a0b010cb56c93f0249445fb',1,'Tgstation::Server::Host::Controllers::ModelController']]],
   ['monitorcts',['monitorCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#a86ac25d930ec327fea5fd7540dd7bb71',1,'Tgstation::Server::Host::Components::Watchdog::Watchdog']]],
   ['monitortask',['monitorTask',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#af9d17410c801667ca78231f4913d1cc6',1,'Tgstation::Server::Host::Components::Watchdog::Watchdog']]]
 ];

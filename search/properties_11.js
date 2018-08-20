@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['tag',['Tag',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#afbaa58b791797ca845c1b49a0fa758c1',1,'Tgstation.Server.Api.Models.ChatChannel.Tag()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel.html#a883160d1391d307f9c860f1d67be0d9d',1,'Tgstation.Server.Host.Components.Chat.Channel.Tag()']]],
   ['tailincludeline',['TailIncludeLine',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_server_side_modifications.html#ac479bad6bd50784c761ee4ea93ab12e7',1,'Tgstation::Server::Host::Components::StaticFiles::ServerSideModifications']]],
   ['terminationwasrequested',['TerminationWasRequested',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af1deb0ef8ce6a9f45326caa2e7aa78ea',1,'Tgstation.Server.Host.Components.Watchdog.ISessionController.TerminationWasRequested()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ac1af411aad68101ede7a310e2c34ed91',1,'Tgstation.Server.Host.Components.Watchdog.SessionController.TerminationWasRequested()']]],
   ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge.html#a76c0f83e9fc28eeefb8ed97592cd368b',1,'Tgstation::Server::Host::Models::RevInfoTestMerge']]],
