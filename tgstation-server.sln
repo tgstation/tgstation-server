@@ -101,8 +101,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7913-4306-9FAB-70998D440BCE}"
 	ProjectSection(SolutionItems) = preProject
 		docs\API.dox = docs\API.dox
-		docs\ArchitectureOverview.png = docs\ArchitectureOverview.png
 		docs\Architecture.dox = docs\Architecture.dox
+		docs\ArchitectureOverview.png = docs\ArchitectureOverview.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E82104F4-F5C4-4786-ACD4-B635166CDB21}"
@@ -111,6 +111,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E821
 		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
 		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Tests", "tests\Tgstation.Server.Tests\Tgstation.Server.Tests.csproj", "{09056964-1C74-445A-96EC-33F6DFC07916}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,6 +193,12 @@ Global
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Docker|Any CPU.Build.0 = Release|Any CPU
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09056964-1C74-445A-96EC-33F6DFC07916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09056964-1C74-445A-96EC-33F6DFC07916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09056964-1C74-445A-96EC-33F6DFC07916}.Docker|Any CPU.ActiveCfg = Debug|Any CPU
+		{09056964-1C74-445A-96EC-33F6DFC07916}.Docker|Any CPU.Build.0 = Debug|Any CPU
+		{09056964-1C74-445A-96EC-33F6DFC07916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09056964-1C74-445A-96EC-33F6DFC07916}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
