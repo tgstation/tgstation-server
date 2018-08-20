@@ -866,7 +866,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					User = sender
 				};
 
-				var json = JsonConvert.SerializeObject(arguments, new JsonSerializerSettings
+				var json = JsonConvert.SerializeObject(commandObject, new JsonSerializerSettings
 				{
 					ContractResolver = new CamelCasePropertyNamesContractResolver()
 				});
