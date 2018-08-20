@@ -12,16 +12,6 @@ namespace Tgstation.Server.Host.Models
 	sealed class DatabaseSeeder : IDatabaseSeeder
 	{
 		/// <summary>
-		/// The name of the default admin user
-		/// </summary>
-		const string AdminName = "Admin";
-
-		/// <summary>
-		/// The default admin password
-		/// </summary>
-		const string DefaultAdminPassword = "ISolemlySwearToDeleteTheDataDirectory";
-
-		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
@@ -43,11 +33,11 @@ namespace Tgstation.Server.Host.Models
 				AdministrationRights = (AdministrationRights)~0U,
 				CreatedAt = DateTimeOffset.Now,
 				InstanceManagerRights = (InstanceManagerRights)~0U,
-				Name = AdminName,
-				CanonicalName = AdminName.ToUpperInvariant(),
+				Name = Api.Models.User.AdminName,
+				CanonicalName = Api.Models.User.AdminName.ToUpperInvariant(),
 				Enabled = true,
 			};
-			cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);
+			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword);
 			databaseContext.Users.Add(admin);
 		}
 
@@ -61,13 +51,13 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await databaseContext.Users.Where(x => x.CanonicalName == AdminName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var admin = await databaseContext.Users.Where(x => x.CanonicalName == Api.Models.User.AdminName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 			else
 			{
 				admin.Enabled = true;
-				cryptographySuite.SetUserPassword(admin, DefaultAdminPassword);
+				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword);
 			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
