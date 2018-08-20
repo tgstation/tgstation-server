@@ -91,10 +91,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Channel = new Channel
 					{
 						RealId = e.Channel.Id,
-						IsAdmin = false,
 						IsPrivate = true,
 						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
+						//isAdmin and Tag populated by manager
 					},
 					FriendlyName = e.Author.Username,
 					Mention = NormalizeMention(e.Author.Mention)
@@ -176,7 +176,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					IsAdmin = channel.IsAdminChannel == true,
 					ConnectionName = discordChannel.Guild.Name,
 					FriendlyName = discordChannel.Name,
-					IsPrivate = false
+					IsPrivate = false,
+					Tag = channel.Tag
 				};
 			};
 

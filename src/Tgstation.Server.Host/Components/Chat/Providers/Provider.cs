@@ -18,6 +18,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		TaskCompletionSource<object> nextMessage;
 
+		/// <summary>
+		/// Construct a <see cref="Provider"/>
+		/// </summary>
 		protected Provider()
 		{
 			messageQueue = new Queue<Message>();

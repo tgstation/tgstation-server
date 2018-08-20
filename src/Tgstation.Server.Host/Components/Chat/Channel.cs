@@ -44,5 +44,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// If this is a 1-to-1 chat channel
 		/// </summary>
 		public bool IsPrivate { get; set; }
+
+		/// <summary>
+		/// For user use
+		/// </summary>
+		public string Tag { get; set; }
 	}
 }
