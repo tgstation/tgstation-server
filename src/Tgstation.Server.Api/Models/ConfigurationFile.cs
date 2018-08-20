@@ -1,7 +1,4 @@
-﻿using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Api.Rights;
-
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files

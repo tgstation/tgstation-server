@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {

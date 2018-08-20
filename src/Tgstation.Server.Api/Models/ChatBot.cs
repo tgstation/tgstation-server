@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models
 {
