@@ -129,7 +129,8 @@ namespace Tgstation.Server.Host.Controllers
 		public override Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 
 		/// <inheritdoc />
-		public override async Task<IActionResult> Create(ConfigurationFile model, CancellationToken cancellationToken)
+		[TgsAuthorize(ConfigurationRights.Write)]
+		public override async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts())
 				return Forbid();

@@ -398,7 +398,7 @@ If you do not have access to list the requested directory, a 403 response will b
 
 To create an empty config directory use the following request
 
-I POST "/Config/List/<path to directory>" => @ref Tgstation.Server.Api.Models.ConfigurationFile
+I PUT "/Config" @ref Tgstation.Server.Api.Models.ConfigurationFile => @ref Tgstation.Server.Api.Models.ConfigurationFile
 
 To get the content of a static file use the following method
 
