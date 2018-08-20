@@ -111,9 +111,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			NormalizeModelPath(model, out var rawPath);
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
+			bool attached = false;
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-				if(!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
+				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
 					return Conflict(new ErrorMessage { Message = "Path not empty!" });
+				else
+					attached = true;
 
 			var newInstance = new Models.Instance
 			{
@@ -181,9 +184,10 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new ErrorMessage{ Message = e.Message });
 			}
 
-			Logger.LogInformation("{0} created instance {1}: {2}", AuthenticationContext.User.Name, newInstance.Name, newInstance.Id);
-			
-			return StatusCode((int)HttpStatusCode.Created, newInstance.ToApi());
+			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
+
+			var api = newInstance.ToApi();
+			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
 		}
 
 		/// <inheritdoc />
