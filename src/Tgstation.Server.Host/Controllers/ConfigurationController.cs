@@ -128,27 +128,15 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.List)]
 		public override Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 
-		/// <summary>
-		/// Create an empty directory at a <paramref name="directoryPath"/>
-		/// </summary>
-		/// <param name="directoryPath">The path of the directory to get</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpPut("List/{*directoryPath}")]
-		[TgsAuthorize(ConfigurationRights.List)]
-		public async Task<IActionResult> CreateDirectory(string directoryPath, CancellationToken cancellationToken)
+		/// <inheritdoc />
+		public override async Task<IActionResult> Create(ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts())
 				return Forbid();
 
 			try
 			{
-				var result = new ConfigurationFile
-				{
-					IsDirectory = true,
-					Path = directoryPath
-				};
-				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(directoryPath, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(result) : StatusCode((int)HttpStatusCode.Created);
+				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
 			}
 			catch (NotImplementedException)
 			{
