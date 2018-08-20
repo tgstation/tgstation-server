@@ -868,10 +868,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				var json = JsonConvert.SerializeObject(arguments, new JsonSerializerSettings
 				{
-					ContractResolver = new DefaultContractResolver
-					{
-						NamingStrategy = new CamelCaseNamingStrategy()
-					}
+					ContractResolver = new CamelCasePropertyNamesContractResolver()
 				});
 
 				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChatCommand), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json));

@@ -153,10 +153,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var interopJson = JsonConvert.SerializeObject(interopInfo, Formatting.Indented, new JsonSerializerSettings
 			{
-				ContractResolver = new DefaultContractResolver
-				{
-					NamingStrategy = new CamelCaseNamingStrategy()
-				},
+				ContractResolver = new CamelCasePropertyNamesContractResolver(),
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
 
