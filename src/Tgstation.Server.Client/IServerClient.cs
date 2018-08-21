@@ -11,6 +11,11 @@ namespace Tgstation.Server.Client
 	public interface IServerClient : IDisposable
 	{
 		/// <summary>
+		/// The connected server <see cref="Uri"/>
+		/// </summary>
+		Uri Url { get; }
+
+		/// <summary>
 		/// The <see cref="Token"/> being used to access the server
 		/// </summary>
 		Token Token { get; }
