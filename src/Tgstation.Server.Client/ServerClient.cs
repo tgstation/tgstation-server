@@ -10,6 +10,9 @@ namespace Tgstation.Server.Client
 	sealed class ServerClient : IServerClient
 	{
 		/// <inheritdoc />
+		public Uri Url => apiClient.Url;
+
+		/// <inheritdoc />
 		public Token Token { get; }
 
 		/// <inheritdoc />
