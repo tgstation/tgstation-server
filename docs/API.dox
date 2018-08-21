@@ -186,6 +186,8 @@ Instances are DreamDaemon server configurations, they live in their own director
 
 PUT "/Instance" @ref Tgstation.Server.Api.Models.Instance => @ref Tgstation.Server.Api.Models.Instance
 
+This normally returns 201 BUT, in the case of attaching an existing instance, 200 will instead be returned
+
 The user that creates an instance will be given full @ref Tgstation.Server.Api.Models.InstanceUser permission. The path must not exist at the time of creation. Support for attaching instances from backups is yet to come.
 
 A specific Instance may be retrieved with:
