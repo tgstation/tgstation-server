@@ -234,6 +234,7 @@ Server-wide Administrative Actions</h1>
 Instances</h1>
 <p>Instances are DreamDaemon server configurations, they live in their own directory on the disk somewhere you specify. TGS starts with no default instance, to create one use this request:</p>
 <p>PUT "/Instance" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
+<p>This normally returns 201 BUT, in the case of attaching an existing instance, 200 will instead be returned</p>
 <p>The user that creates an instance will be given full <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a> permission. The path must not exist at the time of creation. Support for attaching instances from backups is yet to come.</p>
 <p>A specific Instance may be retrieved with:</p>
 <p>GET "/Instances/{InstanceID}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
