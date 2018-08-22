@@ -52,5 +52,5 @@ namespace Tgstation.Server.Client.Components
 		/// Access the <see cref="IJobsClient"/>
 		/// </summary>
 		IJobsClient Jobs { get; }
-    }
+	}
 }

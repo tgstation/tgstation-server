@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// The <see cref="IIOManager"/> for the <see cref="ChatFactory"/>
 		/// </summary>
 		readonly IIOManager ioManager;
-		
+
 		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="ChatFactory"/>
 		/// </summary>

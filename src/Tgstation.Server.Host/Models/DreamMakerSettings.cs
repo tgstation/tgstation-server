@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Models
 		/// The row Id
 		/// </summary>
 		public long Id { get; set; }
-		
+
 		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/>
 		/// </summary>

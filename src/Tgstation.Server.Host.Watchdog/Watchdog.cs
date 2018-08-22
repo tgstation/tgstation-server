@@ -52,13 +52,14 @@ namespace Tgstation.Server.Host.Watchdog
 			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
 
 			var dotnetPath = enumerator
-							   .Where(x => {
+							   .Where(x =>
+							   {
 								   logger.LogTrace("Checking for dotnet at {0}", x);
 								   return File.Exists(x);
-								   })
+							   })
 							   .FirstOrDefault();
 
-			if(dotnetPath == default)
+			if (dotnetPath == default)
 			{
 				logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
 				return;
@@ -77,7 +78,7 @@ namespace Tgstation.Server.Host.Watchdog
 			var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.0";
 			foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 				Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
-			
+
 			foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
 				File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
 
@@ -251,7 +252,7 @@ namespace Tgstation.Server.Host.Watchdog
 									logger.LogInformation("Revert successful!");
 								}
 							}
-							catch(Exception e)
+							catch (Exception e)
 							{
 								logger.LogWarning("Failed to move out active host assembly! Exception: {0}", e);
 							}

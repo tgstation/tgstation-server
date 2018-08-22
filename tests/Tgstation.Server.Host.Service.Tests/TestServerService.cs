@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Service.Tests
 			var mockLoggerFactory = new LoggerFactory();
 			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
 
-			using(var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory))
+			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory))
 			{
 				onStart.Invoke(service, new object[] { args });
 

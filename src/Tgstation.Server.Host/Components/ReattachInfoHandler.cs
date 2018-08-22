@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class ReattachInfoHandler: IReattachInfoHandler
+	sealed class ReattachInfoHandler : IReattachInfoHandler
 	{
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="ReattachInfoHandler"/>

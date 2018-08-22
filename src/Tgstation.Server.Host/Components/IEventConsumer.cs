@@ -7,8 +7,8 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// Consumes <see cref="EventType"/>s and takes the appropriate actions
 	/// </summary>
-    public interface IEventConsumer
-    {
+	public interface IEventConsumer
+	{
 		/// <summary>
 		/// Handle a given <paramref name="eventType"/>
 		/// </summary>
@@ -17,5 +17,5 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if more <see cref="IEventConsumer"/> should run, <see langword="false"/> otherwise</returns>
 		Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken);
-    }
+	}
 }

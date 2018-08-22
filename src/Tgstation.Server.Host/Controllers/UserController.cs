@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Controllers
 			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == default)
 				return StatusCode((int)HttpStatusCode.Gone);
-			
+
 			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.SystemIdentifier != null || model.Name != null))
 				return Forbid();
 
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 					return BadRequest(new ErrorMessage { Message = "Cannot convert a system user to a password user!" });
 				cryptographySuite.SetUserPassword(originalUser, model.Password);
 			}
-			else if(model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
+			else if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
 				return BadRequest(new ErrorMessage { Message = "Cannot change a user's system identifier!" });
 
 			if (model.Name != null && model.Name.ToUpperInvariant() != originalUser.CanonicalName)

@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				if (!installed)
 					installedVersions.Add(versionKey, ourTcs.Task);
 			}
-			if(installed)
+			if (installed)
 				using (cancellationToken.Register(() => ourTcs.SetCanceled()))
 				{
 					await Task.WhenAny(ourTcs.Task, inProgressTask).ConfigureAwait(false);
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					//make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
 				}
-				catch(OperationCanceledException)
+				catch (OperationCanceledException)
 				{
 					throw;
 				}
@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				ourTcs.SetResult(null);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				lock (installedVersions)
 					installedVersions.Remove(versionKey);

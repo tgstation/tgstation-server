@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessage { Message = "name must not be empty!" });
 
-			if(model.Path == null)
+			if (model.Path == null)
 				return BadRequest(new ErrorMessage { Message = "path must not be empty!" });
 
 			NormalizeModelPath(model, out var rawPath);
@@ -175,13 +175,13 @@ namespace Tgstation.Server.Host.Controllers
 					throw;
 				}
 			}
-			catch(IOException e)
+			catch (IOException e)
 			{
 				return Conflict(new ErrorMessage { Message = e.Message });
 			}
 			catch (DbUpdateException e)
 			{
-				return Conflict(new ErrorMessage{ Message = e.Message });
+				return Conflict(new ErrorMessage { Message = e.Message });
 			}
 
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
@@ -327,7 +327,8 @@ namespace Tgstation.Server.Host.Controllers
 					StartedBy = AuthenticationContext.User
 				};
 
-				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressHandler, ct) => {
+				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressHandler, ct) =>
+				{
 					try
 					{
 						await instanceManager.MoveInstance(Instance, rawPath, ct).ConfigureAwait(false);

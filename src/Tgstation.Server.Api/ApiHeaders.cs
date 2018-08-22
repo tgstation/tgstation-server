@@ -63,7 +63,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The client's user agent
 		/// </summary>
-        public ProductHeaderValue UserAgent { get; }
+		public ProductHeaderValue UserAgent { get; }
 
 		/// <summary>
 		/// The client's API version
@@ -102,13 +102,13 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
 		/// <param name="token">The value of <see cref="Token"/></param>
-        public ApiHeaders(ProductHeaderValue userAgent, string token) : this(userAgent, token, null, null)
-        {
-            if (userAgent == null)
-                throw new ArgumentNullException(nameof(userAgent));
-            if (token == null)
-                throw new ArgumentNullException(nameof(token));
-        }
+		public ApiHeaders(ProductHeaderValue userAgent, string token) : this(userAgent, token, null, null)
+		{
+			if (userAgent == null)
+				throw new ArgumentNullException(nameof(userAgent));
+			if (token == null)
+				throw new ArgumentNullException(nameof(token));
+		}
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/> for password authentication
@@ -117,21 +117,21 @@ namespace Tgstation.Server.Api
 		/// <param name="username">The value of <see cref="Username"/></param>
 		/// <param name="password">The value of <see cref="Password"/></param>
 		public ApiHeaders(ProductHeaderValue userAgent, string username, string password) : this(userAgent, null, username, password)
-        {
-            if (userAgent == null)
-                throw new ArgumentNullException(nameof(userAgent));
-            if (username == null)
-                throw new ArgumentNullException(nameof(username));
-            if (password == null)
-                throw new ArgumentNullException(nameof(password));
-        }
+		{
+			if (userAgent == null)
+				throw new ArgumentNullException(nameof(userAgent));
+			if (username == null)
+				throw new ArgumentNullException(nameof(username));
+			if (password == null)
+				throw new ArgumentNullException(nameof(password));
+		}
 
 		/// <summary>
 		/// Construct and validates <see cref="ApiHeaders"/> from a set of <paramref name="requestHeaders"/>
 		/// </summary>
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
 		public ApiHeaders(RequestHeaders requestHeaders)
-        {
+		{
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJson);
 			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Api
 			//assure the client user agent has a name and version
 			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out var clientVersion))
 				throw new InvalidOperationException("Malformed client user agent!");
-			
+
 			//make sure the api header matches ours
 			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
 				throw new InvalidOperationException("Missing API version!");
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Api
 			if (String.IsNullOrEmpty(parameter))
 				throw new InvalidOperationException("Missing authentication parameter!");
 
-			if(requestHeaders.Headers.TryGetValue(instanceIdHeader, out var instanceIdValues))
+			if (requestHeaders.Headers.TryGetValue(instanceIdHeader, out var instanceIdValues))
 			{
 				var instanceIdString = instanceIdValues.FirstOrDefault();
 				if (instanceIdString != default && Int64.TryParse(instanceIdString, out var instanceId))
@@ -243,5 +243,5 @@ namespace Tgstation.Server.Api
 			if (instanceId.HasValue)
 				headers.Add(instanceIdHeader, instanceId.ToString());
 		}
-    }
+	}
 }

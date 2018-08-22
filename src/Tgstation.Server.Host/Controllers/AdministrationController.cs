@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 		}
-		
+
 		StatusCodeResult RateLimit(RateLimitExceededException exception)
 		{
 			Logger.LogWarning("Exceeded GitHub rate limit!");
@@ -157,13 +157,13 @@ namespace Tgstation.Server.Host.Controllers
 							return UnprocessableEntity(new ErrorMessage
 							{
 								Message = RestartNotSupportedException
-							});	//unprocessable entity
+							}); //unprocessable entity
 					}
 					catch (InvalidOperationException)
 					{
 						return StatusCode((int)HttpStatusCode.ServiceUnavailable);  //we were beat to the punch, really shouldn't happen but heat death of the universe and what not
 					}
-					return Accepted();	//gtfo of here before all the cancellation tokens fire
+					return Accepted();  //gtfo of here before all the cancellation tokens fire
 				}
 
 			return StatusCode((int)HttpStatusCode.Gone);
@@ -172,7 +172,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
-		public Task<IActionResult> Delete() {
+		public Task<IActionResult> Delete()
+		{
 			try
 			{
 				return Task.FromResult(serverUpdater.Restart() ? (IActionResult)Ok() : UnprocessableEntity(new ErrorMessage

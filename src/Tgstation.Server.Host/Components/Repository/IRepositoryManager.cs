@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <summary>
 	/// Factory for creating and loading <see cref="IRepository"/>s
 	/// </summary>
-    public interface IRepositoryManager : IDisposable
+	public interface IRepositoryManager : IDisposable
 	{
 		/// <summary>
 		/// If a <see cref="CloneRepository(Uri, string, string, string, Action{int}, CancellationToken)"/> operation is in progress
@@ -39,5 +39,5 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task DeleteRepository(CancellationToken cancellationToken);
-    }
+	}
 }

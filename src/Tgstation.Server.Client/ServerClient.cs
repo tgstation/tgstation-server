@@ -30,7 +30,7 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public IUsersClient Users { get; }
-		
+
 		/// <summary>
 		/// The <see cref="IApiClient"/> for the <see cref="ServerClient"/>
 		/// </summary>

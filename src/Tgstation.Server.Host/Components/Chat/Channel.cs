@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// Represents a <see cref="Providers.IProvider"/> channel
 	/// </summary>
-    public sealed class Channel
+	public sealed class Channel
 	{
 		/// <summary>
 		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss

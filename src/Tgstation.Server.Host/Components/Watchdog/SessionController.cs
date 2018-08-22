@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The port to assign DreamDaemon when it queries for it
 		/// </summary>
 		ushort? nextPort;
-		
+
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us about a reboot
 		/// </summary>
@@ -285,12 +285,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case Constants.DMCommandNewPort:
 						lock (this)
 						{
-							if (!query.TryGetValue(Constants.DMParameterData, out var stringPort) || !UInt16.TryParse(stringPort, out var currentPort)) {
+							if (!query.TryGetValue(Constants.DMParameterData, out var stringPort) || !UInt16.TryParse(stringPort, out var currentPort))
+							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
 								break;
 							}
-							
+
 							if (!nextPort.HasValue)
 								//not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
 								reattachInformation.Port = currentPort;
@@ -301,7 +302,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								content = new Dictionary<string, ushort> { { Constants.DMParameterData, nextPort.Value } };
 								reattachInformation.Port = nextPort.Value;
 								nextPort = null;
-								
+
 								//we'll also get here from SetPort so complete that task
 								var tmpTcs = portAssignmentTcs;
 								portAssignmentTcs = null;

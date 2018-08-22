@@ -54,7 +54,7 @@
 		/// Parameters: Game directory path
 		/// </summary>
 		CompileComplete = 11,
-		
+
 		/// <summary>
 		/// Parameters: Exit code
 		/// </summary>

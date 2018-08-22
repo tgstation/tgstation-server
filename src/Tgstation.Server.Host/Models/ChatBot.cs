@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class ChatBot : Api.Models.Internal.ChatBot
-	{		
+	{
 		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/>
 		/// </summary>

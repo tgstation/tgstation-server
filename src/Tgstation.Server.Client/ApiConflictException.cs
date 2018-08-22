@@ -18,7 +18,8 @@ namespace Tgstation.Server.Client
 		{
 			Message = "An unknown API error occurred!",
 			SeverApiVersion = null
-		}, statusCode) { }
+		}, statusCode)
+		{ }
 
 		/// <summary>
 		/// Construct an <see cref="ApiConflictException"/>

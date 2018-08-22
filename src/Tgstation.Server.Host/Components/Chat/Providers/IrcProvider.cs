@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (passwordType.HasValue && password == null)
 				throw new ArgumentNullException(nameof(password));
 
-			if(password != null && !passwordType.HasValue)
+			if (password != null && !passwordType.HasValue)
 				throw new ArgumentNullException(nameof(passwordType));
 
 			this.password = password;
@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					logger.LogWarning("Unable to connect to IRC: {0}", e);
 				}
 			return true;
-		}, cancellationToken,TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public override async Task Disconnect(CancellationToken cancellationToken)
@@ -357,7 +357,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				foreach (var I in hs)
 					client.RfcJoin(I);
 
-				return (IReadOnlyList<Channel>)channels.Select(x => {
+				return (IReadOnlyList<Channel>)channels.Select(x =>
+				{
 					var id = channelIdCounter;
 					if (!channelIdMap.Any(y =>
 					{
@@ -378,11 +379,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						FriendlyName = channelIdMap[id],
 						IsPrivate = false,
 						Tag = x.Tag
-	 				};
+					};
 				}).ToList();
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-		
+
 		/// <inheritdoc />
 		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
@@ -399,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				client.SendMessage(sendType, channelName, message);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				logger.LogWarning("Unable to send to channel: {0}", e);
 			}

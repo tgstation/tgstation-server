@@ -28,7 +28,7 @@ namespace Tgstation.Server.Client
 		{
 			this.productHeaderValue = productHeaderValue ?? throw new ArgumentNullException(nameof(productHeaderValue));
 		}
-		
+
 		/// <inheritdoc />
 		public async Task<IServerClient> CreateServerClient(Uri host, string username, string password, TimeSpan timeout, CancellationToken cancellationToken)
 		{

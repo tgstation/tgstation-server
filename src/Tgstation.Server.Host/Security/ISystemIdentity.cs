@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Security
 		/// Clone the <see cref="ISystemIdentity"/> creating another copy that must have <see cref="IDisposable.Dispose"/> called on it
 		/// </summary>
 		/// <returns>A new <see cref="ISystemIdentity"/> mirroring the current one</returns>
-        ISystemIdentity Clone();
+		ISystemIdentity Clone();
 
 		/// <summary>
 		/// Runs a given <paramref name="action"/> in the context of the <see cref="ISystemIdentity"/>
@@ -33,5 +33,5 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task RunImpersonated(Action action, CancellationToken cancellationToken);
-    }
+	}
 }

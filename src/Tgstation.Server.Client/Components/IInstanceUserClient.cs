@@ -5,10 +5,10 @@ using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
 {
-    /// <summary>
-    /// For managing <see cref="InstanceUser"/>s
-    /// </summary>
-    public interface IInstanceUserClient
+	/// <summary>
+	/// For managing <see cref="InstanceUser"/>s
+	/// </summary>
+	public interface IInstanceUserClient
 	{
 		/// <summary>
 		/// Get the <see cref="InstanceUser"/> associated with the logged on user

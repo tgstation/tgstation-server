@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task<IRepository> LoadRepository(CancellationToken cancellationToken)
 		{
-			lock(this)
+			lock (this)
 				if (CloneInProgress)
 					throw new InvalidOperationException("The repository is being cloned!");
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);

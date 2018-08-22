@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public bool CheckUserPassword(User user, string password)
 		{
-			switch(passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password))
+			switch (passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password))
 			{
 				case PasswordVerificationResult.Failed:
 					return false;

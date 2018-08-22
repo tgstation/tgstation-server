@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Core
 
 			if (generalConfiguration?.DisableFileLogging != true)
 			{
-				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");				
+				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
 				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log")));
 			}
 
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Core
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}!", nameof(DatabaseType)));
 			}
-			
+
 			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 
@@ -207,7 +207,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
-			
+
 			services.AddSingleton<IJobManager, JobManager>();
 
 			services.AddSingleton<IIOManager>(ioManager);
@@ -231,8 +231,8 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
-			
-			applicationBuilder.UseDeveloperExceptionPage();	//it is not worth it to limit this, you should only ever get it if you're an authorized user
+
+			applicationBuilder.UseDeveloperExceptionPage(); //it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
 			{

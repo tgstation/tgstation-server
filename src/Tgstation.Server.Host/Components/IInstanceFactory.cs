@@ -1,7 +1,4 @@
-﻿using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Core;
-
-namespace Tgstation.Server.Host.Components
+﻿namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
 	/// Factory for creating <see cref="IInstance"/>s

@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
 			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
-			
+
 			var Refspec = new List<string> { String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", testMergeParameters.Number, prBranchName) };
 			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", testMergeParameters.Number);
 
@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					catch (UserCancelledException) { }
 
 					cancellationToken.ThrowIfCancellationRequested();
-					
+
 					testMergeParameters.PullRequestRevision = repository.Lookup(testMergeParameters.PullRequestRevision ?? localBranchName).Sha;
 
 					cancellationToken.ThrowIfCancellationRequested();

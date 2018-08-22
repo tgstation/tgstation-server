@@ -3,8 +3,8 @@
 	/// <summary>
 	/// Database representation of <see cref="Components.Watchdog.ReattachInformation"/>
 	/// </summary>
-    public sealed class ReattachInformation : ReattachInformationBase
-    {
+	public sealed class ReattachInformation : ReattachInformationBase
+	{
 		/// <summary>
 		/// The row Id
 		/// </summary>

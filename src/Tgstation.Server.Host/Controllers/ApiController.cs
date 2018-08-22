@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				throw new InvalidOperationException("Failed to parse user ID!", e);
 			}
-			
+
 			ApiHeaders apiHeaders;
 			try
 			{
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
 			this.requireInstance = requireInstance;
 		}
-		
+
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
 
-				if(!ApiHeaders.Compatible())
+				if (!ApiHeaders.Compatible())
 				{
 					await StatusCode((int)HttpStatusCode.UpgradeRequired, new ErrorMessage
 					{
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (requireInstance)
 				{
-					if(!ApiHeaders.InstanceId.HasValue)
+					if (!ApiHeaders.InstanceId.HasValue)
 					{
 						await BadRequest(new ErrorMessage { Message = "Missing Instance header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
@@ -181,7 +181,7 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
-			if(ModelState?.IsValid == false)
+			if (ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
 				//do some fuckery to remove RequiredAttribute errors

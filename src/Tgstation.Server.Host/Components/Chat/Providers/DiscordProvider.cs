@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="DiscordSocketClient"/> for the <see cref="DiscordProvider"/>
 		/// </summary>
 		readonly DiscordSocketClient client;
-		
+
 		/// <summary>
 		/// The token used for connecting to discord
 		/// </summary>
@@ -83,7 +83,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!pm && !mappedChannels.Contains(e.Channel.Id))
 				return e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id) ? SendMessage(e.Channel.Id, "I do not respond to this channel!", default) : Task.CompletedTask;
 
-			var result = new Message {
+			var result = new Message
+			{
 				Content = e.Content,
 				User = new User
 				{
@@ -132,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				logger.LogWarning("Error connecting to Discord: {0}", e);
 				return false;
 			}
-			
+
 			return true;
 		}
 

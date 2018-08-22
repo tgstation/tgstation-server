@@ -50,7 +50,7 @@ namespace Tgstation.Server.Client.Components
 			{
 				await Task.Delay(requeryRate, cancellationToken).ConfigureAwait(false);
 				job = await Read(job, cancellationToken).ConfigureAwait(false);
-				if(job.Progress.HasValue && job.Progress != lastProgress)
+				if (job.Progress.HasValue && job.Progress != lastProgress)
 				{
 					progressCallback(job.Progress.Value);
 					lastProgress = job.Progress;

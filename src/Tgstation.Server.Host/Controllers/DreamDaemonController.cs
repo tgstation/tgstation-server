@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance,
 				StartedBy = AuthenticationContext.User
 			};
-			await jobManager.RegisterOperation(job, 
+			await jobManager.RegisterOperation(job,
 			async (paramJob, serviceProvider, progressHandler, innerCt) =>
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		async Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
-		{			
+		{
 			var instance = instanceManager.GetInstance(Instance);
 			var dd = instance.Watchdog;
 
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (settings == null)
 				settings = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstAsync(cancellationToken).ConfigureAwait(false);
 			var result = new DreamDaemon();
-			if(metadata)
+			if (metadata)
 			{
 				var alphaActive = dd.AlphaIsActive;
 				var llp = dd.LastLaunchParameters;
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (current.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
 				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
-			
+
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 
 			//run these in parallel because they are equally as important

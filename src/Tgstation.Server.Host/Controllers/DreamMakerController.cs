@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing the compiler
 	/// </summary>
 	[Route(Routes.DreamMaker)]
-    public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
+	public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
@@ -141,7 +141,8 @@ namespace Tgstation.Server.Host.Controllers
 			var instanceManager = serviceProvider.GetRequiredService<IInstanceManager>();
 			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
 
-			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => new DreamDaemonSettings{
+			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => new DreamDaemonSettings
+			{
 				StartupTimeout = x.StartupTimeout,
 				SecurityLevel = x.SecurityLevel
 			}).FirstAsync(cancellationToken);

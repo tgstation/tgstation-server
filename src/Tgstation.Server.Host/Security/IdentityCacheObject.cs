@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Security
 
 			cancellationTokenSource = new CancellationTokenSource();
 
-		 	async Task DisposeOnExipiry(CancellationToken cancellationToken)
+			async Task DisposeOnExipiry(CancellationToken cancellationToken)
 			{
 				using (SystemIdentity)
 					try

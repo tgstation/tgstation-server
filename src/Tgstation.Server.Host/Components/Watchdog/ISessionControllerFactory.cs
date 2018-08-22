@@ -8,8 +8,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Factory for <see cref="ISessionController"/>s
 	/// </summary>
-    interface ISessionControllerFactory
-    {
+	interface ISessionControllerFactory
+	{
 		/// <summary>
 		/// Create a <see cref="ISessionController"/> from a freshly launch DreamDaemon instance
 		/// </summary>
@@ -30,5 +30,5 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/></returns>
 		Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken);
-    }
+	}
 }

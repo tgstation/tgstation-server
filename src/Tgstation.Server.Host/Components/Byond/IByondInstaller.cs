@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Get the file name of the DreamDaemon executable
 		/// </summary>
 		string DreamDaemonName { get; }
-		
+
 		/// <summary>
 		/// Get the file name of the DreamMaker executable
 		/// </summary>

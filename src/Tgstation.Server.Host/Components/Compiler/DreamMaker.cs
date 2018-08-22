@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
-		
+
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
 		async Task<bool> VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, ushort portToUse, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Verifying DMAPI...");			
+			logger.LogTrace("Verifying DMAPI...");
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
@@ -272,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				Status = CompilerStatus.Copying;
 			}
-			
+
 			try
 			{
 				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);

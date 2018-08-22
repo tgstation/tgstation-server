@@ -16,7 +16,7 @@ namespace Tgstation.Server.Client
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/> for the <see cref="ClientException"/></param>
 		public ConflictException(ErrorMessage errorMessage, HttpStatusCode statusCode) : base(errorMessage, statusCode)
 		{ }
-		
+
 		/// <summary>
 		/// Construct a <see cref="ConflictException"/>
 		/// </summary>

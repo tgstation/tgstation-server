@@ -5,8 +5,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// The (absolute) state of the <see cref="Watchdog"/>
 	/// </summary>
-    sealed class MonitorState
-    {
+	sealed class MonitorState
+	{
 		/// <summary>
 		/// If the inactive server is being rebooted
 		/// </summary>
@@ -38,5 +38,5 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		[JsonIgnore]
 		public ISessionController InactiveServer { get; set; }
-    }
+	}
 }
