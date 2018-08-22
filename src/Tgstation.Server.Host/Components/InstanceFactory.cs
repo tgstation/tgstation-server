@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, loggerFactory.CreateLogger<DreamMaker>());
+							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
 							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<Instance>());
 						}

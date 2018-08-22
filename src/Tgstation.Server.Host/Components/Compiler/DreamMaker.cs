@@ -77,6 +77,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 		/// <summary>
+		/// The <see cref="IWatchdog"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IWatchdog watchdog;
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
@@ -93,8 +97,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
+		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, IWatchdog watchdog, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -386,7 +391,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-						await chat.SendUpdateMessage("Deployment complete! Changes will be applied on next server reboot.", cancellationToken).ConfigureAwait(false);
+						await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
 
 						logger.LogDebug("Compile complete!");
 						return job;
