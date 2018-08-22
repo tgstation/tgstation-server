@@ -110,6 +110,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
