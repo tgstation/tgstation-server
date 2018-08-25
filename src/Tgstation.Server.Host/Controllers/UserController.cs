@@ -172,9 +172,15 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
+			if (id == AuthenticationContext.User.Id)
+				return await Read(cancellationToken).ConfigureAwait(false);
+
+			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.EditUsers))
+				return Forbid();
+
 			var user = await DatabaseContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
