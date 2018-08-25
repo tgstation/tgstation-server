@@ -115,6 +115,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adfc947bf76c50385d043a46732cb1f75"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html#adfc947bf76c50385d043a46732cb1f75">Read</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:adfc947bf76c50385d043a46732cb1f75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current user's information and general rights  <a href="#adfc947bf76c50385d043a46732cb1f75">More...</a><br /></td></tr>
 <tr class="separator:adfc947bf76c50385d043a46732cb1f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30511d277c85e7fb8ee65ff6f753f0ab"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html#a30511d277c85e7fb8ee65ff6f753f0ab">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a30511d277c85e7fb8ee65ff6f753f0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>user</em>   <a href="#a30511d277c85e7fb8ee65ff6f753f0ab">More...</a><br /></td></tr>
+<tr class="separator:a30511d277c85e7fb8ee65ff6f753f0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee6bf0424f2533c0b5fdd9a14c530c83"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html#aee6bf0424f2533c0b5fdd9a14c530c83">List</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aee6bf0424f2533c0b5fdd9a14c530c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">List all Users  <a href="#aee6bf0424f2533c0b5fdd9a14c530c83">More...</a><br /></td></tr>
+<tr class="separator:aee6bf0424f2533c0b5fdd9a14c530c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60a4f54b4b6cb61d3c0054b9b7a04604"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html#a60a4f54b4b6cb61d3c0054b9b7a04604">Create</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_update.html">UserUpdate</a> user, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a60a4f54b4b6cb61d3c0054b9b7a04604"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new <em>user</em>   <a href="#a60a4f54b4b6cb61d3c0054b9b7a04604">More...</a><br /></td></tr>
 <tr class="separator:a60a4f54b4b6cb61d3c0054b9b7a04604"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,7 +131,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For managing Users </p>
 
-<p>Definition at line <a class="el" href="_i_users_client_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_users_client_8cs_source.html">IUsersClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_users_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_users_client_8cs_source.html">IUsersClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a60a4f54b4b6cb61d3c0054b9b7a04604"></a>
 <div class="memitem">
@@ -165,6 +171,71 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a30511d277c85e7fb8ee65ff6f753f0ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a>&gt; Tgstation.Server.Client.IUsersClient.GetId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a>&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a specific <em>user</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>The User to get</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the requested <em>user</em> </dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_users_client.html#a514da40bf7db90218c7700f8e6b7a288">Tgstation.Server.Client.UsersClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee6bf0424f2533c0b5fdd9a14c530c83"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;IReadOnlyList&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">User</a>&gt; &gt; Tgstation.Server.Client.IUsersClient.List </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List all Users </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of all Users</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_users_client.html#ae560ae12df2a21d293055557095cf173">Tgstation.Server.Client.UsersClient</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="adfc947bf76c50385d043a46732cb1f75"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +257,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the current User</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_users_client.html#a7b9ce7489b2a8b3e7c8453580cfe95ff">Tgstation.Server.Client.UsersClient</a>.</p>
 
