@@ -3,8 +3,8 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-    public sealed class DreamDaemonSettings : Api.Models.Internal.DreamDaemonSettings
-    {
+	public sealed class DreamDaemonSettings : Api.Models.Internal.DreamDaemonSettings
+	{
 		/// <summary>
 		/// The row Id
 		/// </summary>
@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Models
 		/// The access token used for communication with DD
 		/// </summary>
 		public string AccessToken { get; set; }
-		
+
 		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/>
 		/// </summary>

@@ -27,7 +27,7 @@ namespace Tgstation.Server.Client.Components
 		public InstanceUserClient(IApiClient apiClient, Instance instance)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
-			this.instance = instance ?? throw new ArgumentNullException(nameof(instance)); 
+			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />

@@ -77,10 +77,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 		/// <summary>
+		/// The <see cref="IWatchdog"/> for <see cref="DreamMaker"/>
+		/// </summary>
+		readonly IWatchdog watchdog;
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
-		
+
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
@@ -93,8 +97,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
+		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, IWatchdog watchdog, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond;
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -105,6 +110,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -120,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the DMAPI was successfully validated, <see langword="false"/> otherwise</returns>
 		async Task<bool> VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, ushort portToUse, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Verifying DMAPI...");			
+			logger.LogTrace("Verifying DMAPI...");
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
@@ -267,7 +273,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 				Status = CompilerStatus.Copying;
 			}
-			
+
 			try
 			{
 				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
@@ -386,7 +392,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-						await chat.SendUpdateMessage("Deployment complete! Changes will be applied on next server reboot.", cancellationToken).ConfigureAwait(false);
+						await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
 
 						logger.LogDebug("Compile complete!");
 						return job;

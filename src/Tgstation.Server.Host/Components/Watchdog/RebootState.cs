@@ -3,8 +3,8 @@
 	/// <summary>
 	/// Represents the action to take when /world/Reboot() is called
 	/// </summary>
-    public enum RebootState : int
-    {
+	public enum RebootState : int
+	{
 		/// <summary>
 		/// Run DreamDaemon's normal reboot process
 		/// </summary>
@@ -17,5 +17,5 @@
 		/// Restart the DreamDaemon process
 		/// </summary>
 		Restart = 2
-    }
+	}
 }

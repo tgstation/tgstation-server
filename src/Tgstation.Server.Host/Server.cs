@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host
 		/// If a server update has been applied
 		/// </summary>
 		bool updated;
-		
+
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>
 		/// </summary>
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-        [ExcludeFromCodeCoverage]
+		[ExcludeFromCodeCoverage]
 		public async Task RunAsync(CancellationToken cancellationToken)
 		{
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
@@ -121,10 +121,11 @@ namespace Tgstation.Server.Host
 				throw new ArgumentNullException(nameof(action));
 			if (cancellationTokenSource == null)
 				throw new InvalidOperationException("Tried to register an update action on a non-running Server!");
-			cancellationTokenSource.Token.Register(() => {
+			cancellationTokenSource.Token.Register(() =>
+			{
 				if (RestartRequested)
 					action();
-				});
+			});
 		}
 
 		/// <inheritdoc />

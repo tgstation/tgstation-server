@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (stat.st_mode.HasFlag(FilePermissions.S_IXUSR))
 				return;
 
-			if(Syscall.chmod(filePath, stat.st_mode | FilePermissions.S_IXUSR) != 0)
+			if (Syscall.chmod(filePath, stat.st_mode | FilePermissions.S_IXUSR) != 0)
 				throw new UnixIOException(Stdlib.GetLastError());
 		}
 	}

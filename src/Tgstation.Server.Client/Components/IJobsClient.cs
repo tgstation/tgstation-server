@@ -9,8 +9,8 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// Access to running jobs
 	/// </summary>
-    public interface IJobsClient
-    {
+	public interface IJobsClient
+	{
 		/// <summary>
 		/// List the <see cref="Api.Models.Internal.Job.Id"/>s in the <see cref="Instance"/>
 		/// </summary>

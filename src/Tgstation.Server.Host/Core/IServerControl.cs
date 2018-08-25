@@ -8,8 +8,8 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Represents a service that may take an updated <see cref="Host"/> assembly and run it, stopping the current assembly in the process
 	/// </summary>
-    public interface IServerControl
-    {
+	public interface IServerControl
+	{
 		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s
 		/// </summary>
@@ -30,5 +30,5 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <returns><see langword="true"/> if live restarts are supported, <see langword="false"/> otherwise</returns>
 		bool Restart();
-    }
+	}
 }

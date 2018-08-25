@@ -7,7 +7,7 @@ namespace Tgstation.Server.Client.Components
 	/// <summary>
 	/// For managing the compiler
 	/// </summary>
-	public interface IDreamMakerClient 
+	public interface IDreamMakerClient
 	{
 		/// <summary>
 		/// Get the <see cref="DreamMaker"/> information

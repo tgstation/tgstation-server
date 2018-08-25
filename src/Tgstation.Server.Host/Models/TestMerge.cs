@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public User MergedBy { get; set; }
-		
+
 		/// <summary>
 		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with
 		/// </summary>
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Models
 			Comment = Comment,
 			Id = Id,
 			MergedBy = MergedBy.ToApi(false),
-			Number =Number,
+			Number = Number,
 			PullRequestRevision = PullRequestRevision,
 			Url = Url
 		};

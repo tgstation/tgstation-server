@@ -233,7 +233,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
-			
+
 			var basePath = reattachInformation.IsPrimary ? reattachInformation.Dmb.PrimaryDirectory : reattachInformation.Dmb.SecondaryDirectory;
 			var chatJsonTrackingContext = await chat.TrackJsons(basePath, reattachInformation.ChatChannelsJson, reattachInformation.ChatCommandsJson, cancellationToken).ConfigureAwait(false);
 			try

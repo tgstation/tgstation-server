@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
 		/// </summary>
 		public DreamMakerSettings DreamMakerSettings { get; set; }
-		
+
 		/// <summary>
 		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>
 		/// </summary>
@@ -42,12 +42,12 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>
 		/// </summary>
 		public List<RevisionInformation> RevisionInformations { get; set; }
-		
+
 		/// <summary>
 		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
 		/// </summary>
 		public List<Job> Jobs { get; set; }
-		
+
 		/// <summary>
 		/// Convert the <see cref="Instance"/> to it's API form
 		/// </summary>

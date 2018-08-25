@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.IO
 			async Task CopyThisDirectory()
 			{
 				if (!atLeastOneSubDir)
-					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false);	//save on createdir calls
+					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false);   //save on createdir calls
 
 				var tasks = new List<Task>();
 
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(src));
 			if (dest == null)
 				throw new ArgumentNullException(nameof(src));
-			
+
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, cancellationToken))
@@ -292,11 +292,11 @@ namespace Tgstation.Server.Host.IO
 				wc.DownloadDataAsync(url);
 				using (cancellationToken.Register(() =>
 				{
-					wc.CancelAsync();	//cancelasync alone doesnt do it either! who wrote this!!
+					wc.CancelAsync();   //cancelasync alone doesnt do it either! who wrote this!!
 					tcs.SetCanceled();
 				}))
 					return await tcs.Task.ConfigureAwait(false);
-			}	//ITS STILL FUCKING DOWNLOADING!!!
+			}   //ITS STILL FUCKING DOWNLOADING!!!
 		}
 
 		/// <inheritdoc />

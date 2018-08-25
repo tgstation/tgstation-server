@@ -39,7 +39,7 @@ namespace Tgstation.Server.Api.Rights
 		/// <typeparam name="TRight">The <see cref="RightsType"/></typeparam>
 		/// <param name="right">The <typeparamref name="TRight"/></param>
 		/// <returns>A <see cref="string"/> representing the claim role name</returns>
-		public static string RoleNames<TRight>(TRight right) where TRight: Enum
+		public static string RoleNames<TRight>(TRight right) where TRight : Enum
 		{
 			var flags = new List<string>();
 			IEnumerable<string> GetRoleNames()

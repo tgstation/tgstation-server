@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					IrcPasswordType? passwordType = null;
 					string password = null;
-					if(splits.Length > 4)
+					if (splits.Length > 4)
 					{
 						if (splits.Length < 6)
 							throw new InvalidOperationException("Invalid connection string!");

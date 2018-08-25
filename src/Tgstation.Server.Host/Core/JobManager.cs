@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Core
 				databaseContext.Jobs.Add(job);
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 				logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
-				var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) => 
+				var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) =>
 				operation(jobParam, serviceProvider, y =>
 				{
 					lock (this)
@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(job));
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
-			CheckGetJob(job).Cancel();	//this will ensure the db update is only done once
+			CheckGetJob(job).Cancel();  //this will ensure the db update is only done once
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();

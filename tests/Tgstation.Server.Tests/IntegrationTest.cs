@@ -15,7 +15,7 @@ namespace Tgstation.Server.Tests
 	public sealed class IntegrationTest
 	{
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-		
+
 		[TestMethod]
 		public async Task FullMonty()
 		{

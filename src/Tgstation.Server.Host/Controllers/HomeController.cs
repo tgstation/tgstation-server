@@ -66,7 +66,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see cref="Application.Version"/></returns>
 		[TgsAuthorize]
 		[HttpGet]
-		public JsonResult Home() => Json(new Api.Models.ServerInformation {
+		public JsonResult Home() => Json(new Api.Models.ServerInformation
+		{
 			Version = application.Version,
 			ApiVersion = ApiHeaders.Version
 		});

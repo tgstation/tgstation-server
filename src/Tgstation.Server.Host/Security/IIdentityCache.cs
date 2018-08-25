@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// For caching <see cref="ISystemIdentity"/>s
 	/// </summary>
-    public interface IIdentityCache
+	public interface IIdentityCache
 	{
 		/// <summary>
 		/// Keep a <paramref name="user"/>'s <paramref name="systemIdentity"/> alive until an <paramref name="expiry"/> time

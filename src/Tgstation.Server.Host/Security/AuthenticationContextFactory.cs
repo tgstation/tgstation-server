@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Security
 		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContext databaseContext, IIdentityCache identityCache)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
-			this.databaseContext = databaseContext?? throw new ArgumentNullException(nameof(databaseContext));
+			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 		}
 

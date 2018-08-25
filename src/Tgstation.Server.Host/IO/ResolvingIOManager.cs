@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="_subdirectory">The value of <see cref="subdirectory"/></param>
 		public ResolvingIOManager(IIOManager parent, string _subdirectory)
 		{
-			if(parent == null)
+			if (parent == null)
 				throw new ArgumentNullException(nameof(parent));
 			if (_subdirectory == null)
 				throw new ArgumentNullException(nameof(_subdirectory));

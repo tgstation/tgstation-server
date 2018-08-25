@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// The <see cref="Api.Models.Instance.Name"/> of the owner at the time of launch
 		/// </summary>
 		public string InstanceName { get; set; }
-		
+
 		/// <summary>
 		/// JSON file name that contains current active chat channel information
 		/// </summary>

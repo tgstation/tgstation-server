@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Service
 		{
 			if (watchdogFactory == null)
 				throw new ArgumentNullException(nameof(watchdogFactory));
-			if(loggerFactory == null)
+			if (loggerFactory == null)
 				throw new ArgumentNullException(nameof(loggerFactory));
 
 			loggerFactory.AddEventLog(new EventLogSettings
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Service
 
 		/// <inheritdoc />
 		public int MaxMessageSize => (int)EventLog.MaximumKilobytes * 1024;
-		
+
 		/// <inheritdoc />
 		public void WriteEntry(string message, EventLogEntryType type, int eventID, short category) => EventLog.WriteEntry(message, type, eventID, category);
 

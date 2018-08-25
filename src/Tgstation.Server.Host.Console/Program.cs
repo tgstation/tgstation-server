@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Console
 				var arguments = new List<string>(args);
 				var trace = arguments.Remove("--trace-host-watchdog");
 				var debug = arguments.Remove("--debug-host-watchdog");
-				
+
 				loggerFactory.AddConsole(trace ? LogLevel.Trace : debug ? LogLevel.Debug : LogLevel.Information, true);
 
 				if (trace && debug)

@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			ConfigurationFile result = null;
-			
+
 			void ReadImpl()
 			{
 				lock (this)

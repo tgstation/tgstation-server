@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!model.Enabled.HasValue)
 				return BadRequest(new ErrorMessage { Message = "enabled cannot be null!" });
 
-			if(!model.ValidateProviderChannelTypes())
+			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
 			//try to update das db first
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),	//important that this isn't null
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),    //important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
 			};
@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.Read)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatBots.Where(x => x.Id ==	id).Include(x => x.Channels);
+			var query = DatabaseContext.ChatBots.Where(x => x.Id == id).Include(x => x.Channels);
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (results == default)

@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 					ActiveTestMerges = new List<RevInfoTestMerge>()  //non null vals for api returns
 				};
 
-				lock (databaseContext)	//cleaner this way
+				lock (databaseContext)  //cleaner this way
 					databaseContext.RevisionInformations.Add(revisionInfo);
 			}
 			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha ?? repository.Head;
@@ -249,10 +249,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Origin != null)
 				return BadRequest(new ErrorMessage { Message = "origin cannot be modified without deleting the repository!" });
 
-			if(model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
+			if (model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
 				return BadRequest(new ErrorMessage { Message = "All new test merges must provide a number!" });
 
-			if(model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
+			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
 				return BadRequest(new ErrorMessage { Message = "Cannot test merge the same PR twice in one job!" });
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
@@ -374,7 +374,7 @@ namespace Tgstation.Server.Host.Controllers
 								}
 							}
 						}
-						
+
 						//checkout/hard reset
 						if (modelHasShaOrReference)
 						{
@@ -511,7 +511,7 @@ namespace Tgstation.Server.Host.Controllers
 								lastRevisionInfo = revInfoWereLookingFor;
 							}
 
-							if(needToApplyRemainingPrs)
+							if (needToApplyRemainingPrs)
 							{
 								var contextUser = new Models.User
 								{
@@ -576,7 +576,7 @@ namespace Tgstation.Server.Host.Controllers
 								}
 							}
 						}
-						
+
 						if (startSha != repo.Head)
 						{
 							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, false, ct).ConfigureAwait(false);

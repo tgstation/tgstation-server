@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// The initial <see cref="Models.ChatBot"/> for the <see cref="Chat"/>
 		/// </summary>
 		readonly List<Models.ChatBot> initialChatBots;
-		
+
 		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>
 		/// </summary>
@@ -228,7 +228,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			var command = splits[0].ToUpperInvariant();
 			splits.RemoveAt(0);
 			var arguments = String.Join(" ", splits);
-			
+
 			try
 			{
 				async Task<ICommand> GetCommand(string commandName)
@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 
 				var result = await commandHandler.Invoke(arguments, message.User, cancellationToken).ConfigureAwait(false);
-				if(result != null)
+				if (result != null)
 					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception e)
@@ -318,7 +318,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							if (I.Value.Connected && !messageTasks.ContainsKey(I.Value))
 								messageTasks.Add(I.Value, I.Value.NextMessage(cancellationToken));
 
-					if(messageTasks.Count == 0)
+					if (messageTasks.Count == 0)
 					{
 						await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 						continue;
@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					//wait for a message
 					await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x => x.Value))).ConfigureAwait(false);
-					
+
 					//process completed ones
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
@@ -339,7 +339,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 			}
 			catch (OperationCanceledException) { }
-			catch(Exception e)
+			catch (Exception e)
 			{
 				logger.LogError("Message monitor crashed!: Exception: {0}", e);
 			}
@@ -438,7 +438,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				if (newSettings.Enabled.Value)
 					await provider.Connect(cancellationToken).ConfigureAwait(false);
-				lock(this)
+				lock (this)
 				{
 					//same thread shennanigans
 					var oldOne = connectionsUpdated;
@@ -459,7 +459,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			return Task.WhenAll(channelIds.Select(x =>
 			{
 				ChannelMapping channelMapping;
-				lock(mappedChannels)
+				lock (mappedChannels)
 					if (!mappedChannels.TryGetValue(x, out channelMapping))
 						return Task.CompletedTask;
 				IProvider provider;

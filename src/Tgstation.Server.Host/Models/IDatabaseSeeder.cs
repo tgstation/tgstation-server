@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// For initially seeding a database
 	/// </summary>
-    interface IDatabaseSeeder
+	interface IDatabaseSeeder
 	{
 		/// <summary>
 		/// Initially seed a given <paramref name="databaseContext"/>

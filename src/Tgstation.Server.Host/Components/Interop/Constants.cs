@@ -1,6 +1,6 @@
 ﻿namespace Tgstation.Server.Host.Components.Interop
 {
-    static class Constants
+	static class Constants
 	{
 		//interop values, match them up with the appropriate api.dm
 

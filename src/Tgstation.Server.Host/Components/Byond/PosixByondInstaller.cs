@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Path to the BYOND cache
 		/// </summary>
-		const string ByondCachePath = "~/.byond";	//TODO: Verify this is correct!!!!!
+		const string ByondCachePath = "~/.byond";   //TODO: Verify this is correct!!!!!
 
 		/// <inheritdoc />
 		public string DreamDaemonName => "DreamDaemon";

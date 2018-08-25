@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Manages the runtime of <see cref="Job"/>s
 	/// </summary>
-    public interface IJobManager : IHostedService
+	public interface IJobManager : IHostedService
 	{
 		/// <summary>
 		/// Get the <see cref="Api.Models.Job.Progress"/> for a job
@@ -34,5 +34,5 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing a running operation</returns>
 		Task CancelJob(Job job, User user, CancellationToken cancellationToken);
-    }
+	}
 }

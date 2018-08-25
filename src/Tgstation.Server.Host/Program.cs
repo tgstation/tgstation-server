@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host
 	/// <summary>
 	/// Entrypoint for the <see cref="Process"/>
 	/// </summary>
-    static class Program
+	static class Program
 	{
 		/// <summary>
 		/// The <see cref="IServerFactory"/> to use
