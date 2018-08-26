@@ -27,5 +27,8 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public Task Update(Administration administration, CancellationToken cancellationToken) => apiClient.Update(Routes.Administration, administration, cancellationToken);
+
+		/// <inheritdoc />
+		public Task Restart(CancellationToken cancellationToken) => apiClient.Delete(Routes.Administration, cancellationToken);
 	}
 }
