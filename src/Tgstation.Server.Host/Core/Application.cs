@@ -244,6 +244,8 @@ namespace Tgstation.Server.Host.Core
 
 			applicationBuilder.UseDbConflictHandling();
 
+			applicationBuilder.UseCancelledRequestSuppression();
+
 			applicationBuilder.UseMvc();
 		}
 
