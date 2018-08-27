@@ -35,5 +35,23 @@ namespace Tgstation.Server.Host.Core
 				}
 			});
 		}
+
+		/// <summary>
+		/// Suppress TaskCanceledException warnings when a user aborts a request
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
+		public static void UseCancelledRequestSuppression(this IApplicationBuilder applicationBuilder)
+		{
+			if (applicationBuilder == null)
+				throw new ArgumentNullException(nameof(applicationBuilder));
+			applicationBuilder.Use(async (context, next) =>
+			{
+				try
+				{
+					await next().ConfigureAwait(false);
+				}
+				catch (OperationCanceledException) { }
+			});
+		}
 	}
 }
