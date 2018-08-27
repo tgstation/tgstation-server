@@ -113,12 +113,12 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task TimerLoop(int minutes, CancellationToken cancellationToken)
+		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
 			while (true)
 				try
 				{
-					await Task.Delay(new TimeSpan(0, minutes, 0), cancellationToken).ConfigureAwait(false);
+					await Task.Delay(new TimeSpan(0, minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes, 0), cancellationToken).ConfigureAwait(false);
 
 					try
 					{
@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), CompileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), CompileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
 
 			//dependent on so many things, its just safer this way
 			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
@@ -243,10 +243,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(null), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), CompileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(0), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), CompileJobConsumer.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
-		public async Task SetAutoUpdateInterval(int? newInterval)
+		public async Task SetAutoUpdateInterval(uint newInterval)
 		{
 			Task toWait;
 			lock (this)
@@ -260,7 +260,7 @@ namespace Tgstation.Server.Host.Components
 					toWait = Task.CompletedTask;
 			}
 			await toWait.ConfigureAwait(false);
-			if (!newInterval.HasValue)
+			if (newInterval == 0)
 				return;
 			lock (this)
 			{
@@ -269,7 +269,7 @@ namespace Tgstation.Server.Host.Components
 					return;
 				timerCts?.Dispose();
 				timerCts = new CancellationTokenSource();
-				timerTask = TimerLoop(newInterval.Value, timerCts.Token);
+				timerTask = TimerLoop(newInterval, timerCts.Token);
 			}
 		}
 

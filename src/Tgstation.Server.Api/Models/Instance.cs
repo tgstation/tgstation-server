@@ -28,6 +28,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// If the <see cref="Instance"/> is online
 		/// </summary>
+		[Required]
 		public bool? Online { get; set; }
 
 		/// <summary>
@@ -37,9 +38,10 @@ namespace Tgstation.Server.Api.Models
 		public ConfigurationType? ConfigurationType { get; set; }
 
 		/// <summary>
-		/// The time interval in minutes the repository is automatically pulled and compiles
+		/// The time interval in minutes the repository is automatically pulled and compiles. 0 disables
 		/// </summary>
-		public int? AutoUpdateInterval { get; set; }
+		[Required]
+		public uint? AutoUpdateInterval { get; set; }
 
 		/// <summary>
 		/// The <see cref="Job"/> representing a change of <see cref="Path"/>
@@ -54,7 +56,8 @@ namespace Tgstation.Server.Api.Models
 			Name = Name,
 			Path = Path,
 			Online = Online,
-			ConfigurationType = ConfigurationType
+			ConfigurationType = ConfigurationType,
+			AutoUpdateInterval = AutoUpdateInterval
 		};
 	}
 }

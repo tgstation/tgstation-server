@@ -139,6 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				Online = false,
 				Path = model.Path,
+				AutoUpdateInterval = model.AutoUpdateInterval ?? 0,
 				RepositorySettings = new RepositorySettings
 				{
 					CommitterEmail = "tgstation-server@users.noreply.github.com",
