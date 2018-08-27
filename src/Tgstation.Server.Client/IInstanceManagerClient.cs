@@ -35,6 +35,14 @@ namespace Tgstation.Server.Client
 		Task<Instance> Update(Instance instance, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Get a specific <paramref name="instance"/>
+		/// </summary>
+		/// <param name="instance">The <see cref="Instance"/> to get</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Instance"/></returns>
+		Task<Instance> GetId(Instance instance, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Deletes an <paramref name="instance"/>
 		/// </summary>
 		/// <param name="instance">The <see cref="Instance"/> to delete</param>
