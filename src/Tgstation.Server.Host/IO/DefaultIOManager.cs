@@ -300,30 +300,15 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken)
+		public Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			path = ResolvePath(path);
 			if (zipFileBytes == null)
 				throw new ArgumentNullException(nameof(zipFileBytes));
 
 			using (var ms = new MemoryStream(zipFileBytes))
-			{
-				zipFileBytes = null;
-				using (var archive = new ZipArchive(ms))
-				{
-					string GetEntryName(ZipArchiveEntry entry) => ConcatPath(path, entry.FullName);
-					//create directories first
-					await Task.WhenAll(CreateDirectory(path, cancellationToken), Task.WhenAll(archive.Entries.Where(x => x.Name.Length == 0).Select(x => CreateDirectory(GetEntryName(x), cancellationToken)))).ConfigureAwait(false);
-					//extract files
-					await Task.WhenAll(archive.Entries.Where(x => x.Name.Length > 0).Select(async x =>
-					{
-						var entryPath = GetEntryName(x);
-						using (var stream = x.Open())
-						using (var file = OpenWriteStream(entryPath))
-							await stream.CopyToAsync(file).ConfigureAwait(false);
-					})).ConfigureAwait(false);
-				}
-			}
-		}
+			using (var archive = new ZipArchive(ms, ZipArchiveMode.Read))
+				archive.ExtractToDirectory(path);
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

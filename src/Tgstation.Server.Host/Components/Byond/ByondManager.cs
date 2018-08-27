@@ -113,28 +113,8 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				try
 				{
-					//byond can just decide to corrupt the zip fnr
-					//(or maybe our downloader is a shite)
-					//either way try a few times
-					for (var I = 0; I < 3; ++I)
-					{
-						var download = await downloadTask.ConfigureAwait(false);
-						try
-						{
-							await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
-							break;
-						}
-						catch (OperationCanceledException)
-						{
-							throw;
-						}
-						catch
-						{
-							if (I == 2)
-								throw;
-							downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
-						}
-					}
+					var download = await downloadTask.ConfigureAwait(false);
+					await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
 					await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
 
 					//make sure to do this last because this is what tells us we have a valid version in the future
