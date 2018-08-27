@@ -106,12 +106,49 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aca3ed141beb5a8e4d82767043f87ff67"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_builder_extensions.html#aca3ed141beb5a8e4d82767043f87ff67">UseDbConflictHandling</a> (this IApplicationBuilder applicationBuilder)</td></tr>
 <tr class="memdesc:aca3ed141beb5a8e4d82767043f87ff67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a ConflictObjectResult for DbUpdateExceptions  <a href="#aca3ed141beb5a8e4d82767043f87ff67">More...</a><br /></td></tr>
 <tr class="separator:aca3ed141beb5a8e4d82767043f87ff67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c686b1b50f2678e17eada51a8149dd1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_builder_extensions.html#a0c686b1b50f2678e17eada51a8149dd1">UseCancelledRequestSuppression</a> (this IApplicationBuilder applicationBuilder)</td></tr>
+<tr class="memdesc:a0c686b1b50f2678e17eada51a8149dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress TaskCanceledException warnings when a user aborts a request  <a href="#a0c686b1b50f2678e17eada51a8149dd1">More...</a><br /></td></tr>
+<tr class="separator:a0c686b1b50f2678e17eada51a8149dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extensions for IApplicationBuilder </p>
 
 <p>Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00013">13</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a0c686b1b50f2678e17eada51a8149dd1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Tgstation.Server.Host.Core.ApplicationBuilderExtensions.UseCancelledRequestSuppression </td>
+          <td>(</td>
+          <td class="paramtype">this IApplicationBuilder&#160;</td>
+          <td class="paramname"><em>applicationBuilder</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Suppress TaskCanceledException warnings when a user aborts a request </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">applicationBuilder</td><td>The IApplicationBuilder to configure</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00043">43</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span> (applicationBuilder == null)</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            applicationBuilder.Use(async (context, next) =&gt;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    await next().ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                }</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException) { }</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            });</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="aca3ed141beb5a8e4d82767043f87ff67"></a>
 <div class="memitem">
 <div class="memproto">
