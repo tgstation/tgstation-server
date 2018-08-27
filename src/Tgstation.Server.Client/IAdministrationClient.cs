@@ -23,5 +23,12 @@ namespace Tgstation.Server.Client
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Update(Administration administration, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Restarts the TGS server
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Restart(CancellationToken cancellationToken);
 	}
 }
