@@ -74,6 +74,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="newInterval">The new auto update inteval</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SetAutoUpdateInterval(int? newInterval);
+		Task SetAutoUpdateInterval(uint newInterval);
 	}
 }
