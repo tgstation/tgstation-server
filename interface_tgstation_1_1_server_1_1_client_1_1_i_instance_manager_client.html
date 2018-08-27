@@ -121,6 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a337b3e0676570d2ba2928b0d2cef5595"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a337b3e0676570d2ba2928b0d2cef5595">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a337b3e0676570d2ba2928b0d2cef5595"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relocates, renamed, and/or on/offlines an <em>instance</em>   <a href="#a337b3e0676570d2ba2928b0d2cef5595">More...</a><br /></td></tr>
 <tr class="separator:a337b3e0676570d2ba2928b0d2cef5595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1c05f75c697ddba9bf488cf899749fb"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ae1c05f75c697ddba9bf488cf899749fb">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae1c05f75c697ddba9bf488cf899749fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>instance</em>   <a href="#ae1c05f75c697ddba9bf488cf899749fb">More...</a><br /></td></tr>
+<tr class="separator:ae1c05f75c697ddba9bf488cf899749fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a395d0a79fb2f9293bc1f8c4c461f9a24"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a395d0a79fb2f9293bc1f8c4c461f9a24">Delete</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a395d0a79fb2f9293bc1f8c4c461f9a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an <em>instance</em>   <a href="#a395d0a79fb2f9293bc1f8c4c461f9a24">More...</a><br /></td></tr>
 <tr class="separator:a395d0a79fb2f9293bc1f8c4c461f9a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,6 +236,44 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a8a37c8b6706db6cf1e49a52a0b038e50">Tgstation.Server.Client.InstanceManagerClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae1c05f75c697ddba9bf488cf899749fb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>&gt; Tgstation.Server.Client.IInstanceManagerClient.GetId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a specific <em>instance</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>The Instance to get</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Instance</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ac8d222eb11e9fe074119eb2ae6fc9f2f">Tgstation.Server.Client.InstanceManagerClient</a>.</p>
 
 </div>
 </div>
