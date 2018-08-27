@@ -124,9 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abb631d02974c1e646993ca97d4a2aec4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abb631d02974c1e646993ca97d4a2aec4">Rename</a> (string newName)</td></tr>
 <tr class="memdesc:abb631d02974c1e646993ca97d4a2aec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rename the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a>  <a href="#abb631d02974c1e646993ca97d4a2aec4">More...</a><br /></td></tr>
 <tr class="separator:abb631d02974c1e646993ca97d4a2aec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27940efa62979995c1a4f3562c20a54f"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#a27940efa62979995c1a4f3562c20a54f">SetAutoUpdateInterval</a> (int?newInterval)</td></tr>
-<tr class="memdesc:a27940efa62979995c1a4f3562c20a54f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a696f165d722dd9e5406facc6ccf0bc23" title="The time interval in minutes the repository is automatically pulled and compiles ">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a>  <a href="#a27940efa62979995c1a4f3562c20a54f">More...</a><br /></td></tr>
-<tr class="separator:a27940efa62979995c1a4f3562c20a54f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a579c48046b16d1e8af0670c89c35d016"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#a579c48046b16d1e8af0670c89c35d016">SetAutoUpdateInterval</a> (uint newInterval)</td></tr>
+<tr class="memdesc:a579c48046b16d1e8af0670c89c35d016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a940005c299f5ed5a82fc5f4fe26c190d" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables ...">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a>  <a href="#a579c48046b16d1e8af0670c89c35d016">More...</a><br /></td></tr>
+<tr class="separator:a579c48046b16d1e8af0670c89c35d016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -223,21 +223,21 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a27940efa62979995c1a4f3562c20a54f"></a>
+<a class="anchor" id="a579c48046b16d1e8af0670c89c35d016"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Task Tgstation.Server.Host.Components.IInstance.SetAutoUpdateInterval </td>
           <td>(</td>
-          <td class="paramtype">int?&#160;</td>
+          <td class="paramtype">uint&#160;</td>
           <td class="paramname"><em>newInterval</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a696f165d722dd9e5406facc6ccf0bc23" title="The time interval in minutes the repository is automatically pulled and compiles ">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
+<p>Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a940005c299f5ed5a82fc5f4fe26c190d" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables ...">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newInterval</td><td>The new auto update inteval</td></tr>
@@ -246,7 +246,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4eb8d205f09c441539c68338ca5e073">Tgstation.Server.Host.Components.Instance</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c">Tgstation.Server.Host.Components.Instance</a>.</p>
 
 </div>
 </div>
