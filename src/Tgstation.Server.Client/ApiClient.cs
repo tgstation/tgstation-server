@@ -106,10 +106,16 @@ namespace Tgstation.Server.Client
 				}
 				catch (JsonException) { }
 
+				const string BadSpecExtension = " This is not part of TGS4 communication specification and should be reported if it was returned from a TGS4 server!";
+
 				switch (response.StatusCode)
 				{
 					case HttpStatusCode.UpgradeRequired:
-						throw new ApiMismatchException(errorMessage);
+						throw new ApiMismatchException(errorMessage ?? new ErrorMessage
+						{
+							Message = "API Mismatch but no current API version provided!" + BadSpecExtension,
+							SeverApiVersion = null
+						});
 					case HttpStatusCode.Unauthorized:
 						throw new UnauthorizedException();
 					case HttpStatusCode.RequestTimeout:
@@ -119,9 +125,25 @@ namespace Tgstation.Server.Client
 					case HttpStatusCode.ServiceUnavailable:
 						throw new ServiceUnavailableException();
 					case HttpStatusCode.Gone:
-					case HttpStatusCode.NotFound:
+						errorMessage = errorMessage ?? new ErrorMessage
+						{
+							Message = "The requested resource could not be found!",
+							SeverApiVersion = null
+						};
+						goto case HttpStatusCode.Conflict;
+					case HttpStatusCode.NotFound:	//our fault somehow
+						errorMessage = errorMessage ?? new ErrorMessage
+						{
+							Message = "This is not a valid route!" + BadSpecExtension,
+							SeverApiVersion = null
+						};
+						goto case HttpStatusCode.Conflict;
 					case HttpStatusCode.Conflict:
-						throw new ConflictException(errorMessage, response.StatusCode);
+						throw new ConflictException(errorMessage ?? new ErrorMessage
+						{
+							Message = "An undescribed conflict occurred!" + BadSpecExtension,
+							SeverApiVersion = null
+						}, response.StatusCode);
 					case HttpStatusCode.NotImplemented:
 					case (HttpStatusCode)422:   //unprocessable entity
 						throw new MethodNotSupportedException();

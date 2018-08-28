@@ -348,7 +348,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize]
+		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> query = DatabaseContext.Instances;
@@ -359,12 +359,24 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken)
+		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
+		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			if (Instance == null)
-				return Task.FromResult<IActionResult>(BadRequest(new ErrorMessage { Message = "No instance specified" }));
-			return Task.FromResult<IActionResult>(Json(Instance.ToApi()));
+			var query = DatabaseContext.Instances.Where(x => x.Id == id);
+			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+
+			if (cantList)
+				query = query.Include(x => x.InstanceUsers);
+
+			var instance = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+			if (instance == null)
+				return StatusCode((int)HttpStatusCode.Gone);
+
+			if (cantList && !instance.InstanceUsers.Any(x => x.UserId == AuthenticationContext.User.Id && x.AnyRights))
+				return Forbid();
+
+			return Json(instance.ToApi());
 		}
 	}
 }

@@ -43,7 +43,8 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public Task<Instance> Update(Instance instance, CancellationToken cancellationToken) => apiClient.Update<Instance, Instance>(Routes.InstanceManager, instance, cancellationToken);
 
-		public Task<Instance> GetId(Instance instance, CancellationToken cancellationToken) => apiClient.Read<Instance>(Routes.InstanceManager, instance.Id, cancellationToken);
+		/// <inheritdoc />
+		public Task<Instance> GetId(Instance instance, CancellationToken cancellationToken) => apiClient.Read<Instance>(Routes.SetID(Routes.InstanceManager, instance.Id), cancellationToken);
 
 		/// <inheritdoc />
 		public IInstanceClient CreateClient(Instance instance)
