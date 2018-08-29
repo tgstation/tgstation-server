@@ -224,8 +224,11 @@ namespace Tgstation.Server.Host.Controllers
 			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, null, null, cancellationToken).ConfigureAwait(false))
+				{
 					//user may have fucked with the repo without telling us, do what we can
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+					return StatusCode((int)HttpStatusCode.Created, api);
+				}
 				return Json(api);
 			}
 		}
