@@ -76,8 +76,11 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
-			return Json(compileJobs.Select(x => x.ToApi()));
+			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).OrderByDescending(x => x.Job.StartedAt).Select(x => new Api.Models.CompileJob
+			{
+				Id = x.Id
+			}).ToListAsync(cancellationToken).ConfigureAwait(false);
+			return Json(compileJobs);
 		}
 
 		/// <inheritdoc />
