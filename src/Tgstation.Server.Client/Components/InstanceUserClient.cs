@@ -43,5 +43,8 @@ namespace Tgstation.Server.Client.Components
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<InstanceUser>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<InstanceUser>>(Routes.List(Routes.InstanceUser), instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<InstanceUser> GetId(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), instance.Id, cancellationToken);
 	}
 }

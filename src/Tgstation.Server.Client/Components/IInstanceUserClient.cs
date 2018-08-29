@@ -18,6 +18,14 @@ namespace Tgstation.Server.Client.Components
 		Task<InstanceUser> Read(CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Get a specific <paramref name="instanceUser"/>
+		/// </summary>
+		/// <param name="instanceUser">The <see cref="InstanceUser"/> to get</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the requested <paramref name="instanceUser"/></returns>
+		Task<InstanceUser> GetId(InstanceUser instanceUser, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Get the <see cref="InstanceUser"/>s in the <see cref="Instance"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
