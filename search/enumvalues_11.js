@@ -6,5 +6,5 @@ var searchData=
   ['writeenabled',['WriteEnabled',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a574b3ec8f9de787caa6f2fc04c8f9658',1,'Tgstation::Server::Api::Rights']]],
   ['writename',['WriteName',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72ad70280daaa48077a6f4b46bad136e51a',1,'Tgstation::Server::Api::Rights']]],
   ['writeprovider',['WriteProvider',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a46417a8d9d6f4823667e403b90796186',1,'Tgstation::Server::Api::Rights']]],
-  ['writeusers',['WriteUsers',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601a6da2fa278de1516d65f3ebe77670f215',1,'Tgstation::Server::Api::Rights']]]
+  ['writeusers',['WriteUsers',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6da2fa278de1516d65f3ebe77670f215',1,'Tgstation.Server.Api.Rights.WriteUsers()'],['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601a6da2fa278de1516d65f3ebe77670f215',1,'Tgstation.Server.Api.Rights.WriteUsers()']]]
 ];

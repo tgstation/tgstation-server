@@ -122,9 +122,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b796de436a48cc7a376e8f821294ec5"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a7b796de436a48cc7a376e8f821294ec5">List</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a7b796de436a48cc7a376e8f821294ec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2acfbcb2d53d94d45c49c1cc2bef75d6" title="The Job ID ">Api.Models.Internal.Job.Id</a>s in the Instance   <a href="#a7b796de436a48cc7a376e8f821294ec5">More...</a><br /></td></tr>
 <tr class="separator:a7b796de436a48cc7a376e8f821294ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad91c89392aa0644d93f35bd938cf6c5a"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#ad91c89392aa0644d93f35bd938cf6c5a">Read</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad91c89392aa0644d93f35bd938cf6c5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em>    <a href="#ad91c89392aa0644d93f35bd938cf6c5a">More...</a><br /></td></tr>
-<tr class="separator:ad91c89392aa0644d93f35bd938cf6c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6de35b6d2f313009107e2bb2e2cc4ac7"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a6de35b6d2f313009107e2bb2e2cc4ac7">ListActive</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6de35b6d2f313009107e2bb2e2cc4ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the active Jobs in the Instance   <a href="#a6de35b6d2f313009107e2bb2e2cc4ac7">More...</a><br /></td></tr>
+<tr class="separator:a6de35b6d2f313009107e2bb2e2cc4ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dfacac4c1b116591f1c016bfbe4efb3"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a4dfacac4c1b116591f1c016bfbe4efb3">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4dfacac4c1b116591f1c016bfbe4efb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em>    <a href="#a4dfacac4c1b116591f1c016bfbe4efb3">More...</a><br /></td></tr>
+<tr class="separator:a4dfacac4c1b116591f1c016bfbe4efb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89f46282e2b2999240506a8816958766"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a89f46282e2b2999240506a8816958766">CreateTaskFromJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, TimeSpan requeryRate, Action&lt; int &gt; progressCallback, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a89f46282e2b2999240506a8816958766"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Task&lt;TResult&gt; that completes when a given <em>job</em>  is completed   <a href="#a89f46282e2b2999240506a8816958766">More...</a><br /></td></tr>
 <tr class="separator:a89f46282e2b2999240506a8816958766"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -253,13 +256,43 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a31359a774d1d7aee24ed88309609bc25">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
 
-<p>Definition at line <a class="el" href="_jobs_client_8cs_source.html#l00043">43</a> of file <a class="el" href="_jobs_client_8cs_source.html">JobsClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_jobs_client_8cs_source.html#l00046">46</a> of file <a class="el" href="_jobs_client_8cs_source.html">JobsClient.cs</a>.</p>
 
 <p>References <a class="el" href="_tgstation_8_server_8_api_2_models_2_job_8cs_source.html#l00021">Tgstation.Server.Api.Models.Job.Progress</a>, and <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00037">Tgstation.Server.Api.Models.Internal.Job.StoppedAt</a>.</p>
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span> (job == null)</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(job));</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordtype">int</span>? lastProgress = null;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">while</span> (!job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab7e351b9e65178222f91af2329b1d122">StoppedAt</a>.HasValue)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                await Task.Delay(requeryRate, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                job = await <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#ad91c89392aa0644d93f35bd938cf6c5a">Read</a>(job, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">if</span> (job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a>.HasValue &amp;&amp; job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a> != lastProgress)</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    progressCallback(job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a>.Value);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    lastProgress = job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a>;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                }</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            }</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> job;</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job_html_ae2ec2fb03329836c26cdaa3cb6b451c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Tgstation.Server.Api.Models.Job.Progress</a></div><div class="ttdeci">int Progress</div><div class="ttdoc">Optional progress between 0 and 100 inclusive </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_job_8cs_source.html#l00021">Job.cs:21</a></div></div>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> (job == null)</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(job));</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">if</span> (progressCallback == null)</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(progressCallback));</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordtype">int</span>? lastProgress = null;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">while</span> (!job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab7e351b9e65178222f91af2329b1d122">StoppedAt</a>.HasValue)</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                await Task.Delay(requeryRate, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                job = await <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a4dfacac4c1b116591f1c016bfbe4efb3">GetId</a>(job, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">if</span> (job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a>.HasValue &amp;&amp; job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a> != lastProgress)</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    progressCallback(job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a>.Value);</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    lastProgress = job.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Progress</a>;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> job;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job_html_ae2ec2fb03329836c26cdaa3cb6b451c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6">Tgstation.Server.Api.Models.Job.Progress</a></div><div class="ttdeci">int Progress</div><div class="ttdoc">Optional progress between 0 and 100 inclusive </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_job_8cs_source.html#l00021">Job.cs:21</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job_html_ab7e351b9e65178222f91af2329b1d122"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab7e351b9e65178222f91af2329b1d122">Tgstation.Server.Api.Models.Internal.Job.StoppedAt</a></div><div class="ttdeci">DateTimeOffset StoppedAt</div><div class="ttdoc">When the Job stopped </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00037">Job.cs:37</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client_html_ad91c89392aa0644d93f35bd938cf6c5a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#ad91c89392aa0644d93f35bd938cf6c5a">Tgstation.Server.Client.Components.JobsClient.Read</a></div><div class="ttdeci">Task&lt; Job &gt; Read(Job job, CancellationToken cancellationToken)</div><div class="ttdoc">Get a job   </div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client_html_a4dfacac4c1b116591f1c016bfbe4efb3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a4dfacac4c1b116591f1c016bfbe4efb3">Tgstation.Server.Client.Components.JobsClient.GetId</a></div><div class="ttdeci">Task&lt; Job &gt; GetId(Job job, CancellationToken cancellationToken)</div><div class="ttdoc">Get a job   </div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a4dfacac4c1b116591f1c016bfbe4efb3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; Tgstation.Server.Client.Components.JobsClient.GetId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td>
+          <td class="paramname"><em>job</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a <em>job</em>   </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a81f63e00b0598d9da4e701c929758c23">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a7b796de436a48cc7a376e8f821294ec5"></a>
@@ -282,33 +315,23 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad91c89392aa0644d93f35bd938cf6c5a"></a>
+<a class="anchor" id="a6de35b6d2f313009107e2bb2e2cc4ac7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; Tgstation.Server.Client.Components.JobsClient.Read </td>
+          <td class="memname">Task&lt;IReadOnlyList&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; &gt; Tgstation.Server.Client.Components.JobsClient.ListActive </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td>
-          <td class="paramname"><em>job</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a <em>job</em>   </p>
+<p>List the active Jobs in the Instance  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a441609a56959735b0bcfff05f6b9cde5">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ad0e3189ae3f28e20982cf4b853013725">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
 
 </div>
 </div>

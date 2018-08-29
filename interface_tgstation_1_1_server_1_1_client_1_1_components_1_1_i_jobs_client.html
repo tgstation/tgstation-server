@@ -115,9 +115,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aacb0377d1905df14195477b25ea1640c"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#aacb0377d1905df14195477b25ea1640c">List</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aacb0377d1905df14195477b25ea1640c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2acfbcb2d53d94d45c49c1cc2bef75d6" title="The Job ID ">Api.Models.Internal.Job.Id</a>s in the Instance  <a href="#aacb0377d1905df14195477b25ea1640c">More...</a><br /></td></tr>
 <tr class="separator:aacb0377d1905df14195477b25ea1640c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a441609a56959735b0bcfff05f6b9cde5"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a441609a56959735b0bcfff05f6b9cde5">Read</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a441609a56959735b0bcfff05f6b9cde5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em>   <a href="#a441609a56959735b0bcfff05f6b9cde5">More...</a><br /></td></tr>
-<tr class="separator:a441609a56959735b0bcfff05f6b9cde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0e3189ae3f28e20982cf4b853013725"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ad0e3189ae3f28e20982cf4b853013725">ListActive</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad0e3189ae3f28e20982cf4b853013725"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the active Jobs in the Instance  <a href="#ad0e3189ae3f28e20982cf4b853013725">More...</a><br /></td></tr>
+<tr class="separator:ad0e3189ae3f28e20982cf4b853013725"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81f63e00b0598d9da4e701c929758c23"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a81f63e00b0598d9da4e701c929758c23">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a81f63e00b0598d9da4e701c929758c23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em>   <a href="#a81f63e00b0598d9da4e701c929758c23">More...</a><br /></td></tr>
+<tr class="separator:a81f63e00b0598d9da4e701c929758c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060a731a0c221146d5d81d7890e1cd42"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a060a731a0c221146d5d81d7890e1cd42">Cancel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a060a731a0c221146d5d81d7890e1cd42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a <em>job</em>   <a href="#a060a731a0c221146d5d81d7890e1cd42">More...</a><br /></td></tr>
 <tr class="separator:a060a731a0c221146d5d81d7890e1cd42"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -210,13 +213,51 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">job</td><td>The Job to create a Task for</td></tr>
     <tr><td class="paramname">requeryRate</td><td>The rate in to poll the server for results</td></tr>
     <tr><td class="paramname">progressCallback</td><td>A Action&lt;T&gt; to run with 0-100 progress</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken which will trigger the cancellation of the <em>job</em> </td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. This does not cancel the <em>job</em> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a complete Job</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a89f46282e2b2999240506a8816958766">Tgstation.Server.Client.Components.JobsClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81f63e00b0598d9da4e701c929758c23"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; Tgstation.Server.Client.Components.IJobsClient.GetId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td>
+          <td class="paramname"><em>job</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a <em>job</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">job</td><td>The Job to get</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Job</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a4dfacac4c1b116591f1c016bfbe4efb3">Tgstation.Server.Client.Components.JobsClient</a>.</p>
 
 </div>
 </div>
@@ -247,41 +288,30 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a441609a56959735b0bcfff05f6b9cde5"></a>
+<a class="anchor" id="ad0e3189ae3f28e20982cf4b853013725"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; Tgstation.Server.Client.Components.IJobsClient.Read </td>
+          <td class="memname">Task&lt;IReadOnlyList&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; &gt; Tgstation.Server.Client.Components.IJobsClient.ListActive </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td>
-          <td class="paramname"><em>job</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get a <em>job</em>  </p>
+<p>List the active Jobs in the Instance </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">job</td><td>The Job to get</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Job</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of the active Jobs in the Instance</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#ad91c89392aa0644d93f35bd938cf6c5a">Tgstation.Server.Client.Components.JobsClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a6de35b6d2f313009107e2bb2e2cc4ac7">Tgstation.Server.Client.Components.JobsClient</a>.</p>
 
 </div>
 </div>

@@ -239,7 +239,7 @@ Instances</h1>
 <p>A specific Instance may be retrieved with:</p>
 <p>GET "/Instances/{InstanceID}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
 <p>Instances start offline, regardless of what was specified during the create request. An offline instance will return 403 for all requests made to it.</p>
-<p>To online or change other instance variables use the following request. Note that using this request (even with an empty object) will automatically give you the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601a6da2fa278de1516d65f3ebe77670f215">Tgstation.Server.Api.Rights.InstanceUserRights.WriteUsers</a> right for that instance if you don't have it</p>
+<p>To online or change other instance variables use the following request. Note that using this request (even with an empty object) will automatically give you the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6da2fa278de1516d65f3ebe77670f215">Tgstation.Server.Api.Rights.InstanceUserRights.WriteUsers</a> right for that instance if you don't have it</p>
 <p>POST "/Instance" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
 <p>Note that onlining an offline instance will never automatically start DreamDaemon. That must be done as a seperate step.</p>
 <p>Instances can be detached which will delete all meta knowledge of the instance (Compile metadata, job metadata, repository commit metadata, Test merge metadata, etc...) but leave the files intact. That can be done with this request:</p>
@@ -248,9 +248,11 @@ Instances</h1>
 Jobs</h2>
 <p>Some requests return <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a> objects. These are long running tasks the server will perform asyncronously and can be polled for status.</p>
 <p>To list all jobs in an Instance use the following request</p>
-<p>I GET "/Job" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
+<p>I GET "/Job/List" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
 <p>Note that the response for this request will only have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2acfbcb2d53d94d45c49c1cc2bef75d6">Tgstation.Server.Api.Models.Job.Id</a> field populated</p>
-<p>To get full details of a job use the following request:</p>
+<p>To get full details of <em>active</em> jobs use the following request:</p>
+<p>I GET "/Job" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
+<p>To get full details of a specific job use the following request:</p>
 <p>I GET "/Job/{JobId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
 <p>To cancel a running job (If the job can be cancelled and you have sufficient rights) use the following request:</p>
 <p>I DELETE "/Job/{JobId}" =&gt; OK</p>

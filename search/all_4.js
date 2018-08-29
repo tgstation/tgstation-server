@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['editpassword',['EditPassword',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21ab0b946d1e2abbcf3094d3a198b58927b',1,'Tgstation::Server::Api::Rights']]],
-  ['editusers',['EditUsers',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a1573dabfc2b8ad3e4af6ed938babbdae',1,'Tgstation::Server::Api::Rights']]],
+  ['editownpassword',['EditOwnPassword',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6ca04cb3c1c0f79210a1e67312debeb5',1,'Tgstation::Server::Api::Rights']]],
   ['enabled',['Enabled',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a91b36df3e83da4a8ffe59078a42daf71',1,'Tgstation.Server.Api.Models.Internal.ChatBot.Enabled()'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#ab52157bda4ab6e1b453b5173664293ed',1,'Tgstation.Server.Api.Models.Internal.User.Enabled()']]],
   ['enqueuemessage',['EnqueueMessage',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877',1,'Tgstation::Server::Host::Components::Chat::Providers::Provider']]],
   ['ensuredirectories',['EnsureDirectories',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3d0dc1fd8bd245d250509d583eaf4ea1',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],

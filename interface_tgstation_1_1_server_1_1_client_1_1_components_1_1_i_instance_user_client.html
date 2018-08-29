@@ -115,6 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae3394792a75d2690ff8038cb4e8007f"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">InstanceUser</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_user_client.html#aae3394792a75d2690ff8038cb4e8007f">Read</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aae3394792a75d2690ff8038cb4e8007f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the InstanceUser associated with the logged on user  <a href="#aae3394792a75d2690ff8038cb4e8007f">More...</a><br /></td></tr>
 <tr class="separator:aae3394792a75d2690ff8038cb4e8007f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3a233f8693053d156993065bd4705cb"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">InstanceUser</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_user_client.html#ab3a233f8693053d156993065bd4705cb">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">InstanceUser</a> instanceUser, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab3a233f8693053d156993065bd4705cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>instanceUser</em>   <a href="#ab3a233f8693053d156993065bd4705cb">More...</a><br /></td></tr>
+<tr class="separator:ab3a233f8693053d156993065bd4705cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa67a2d298305192f32b1e9567aeb9b96"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">InstanceUser</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_user_client.html#aa67a2d298305192f32b1e9567aeb9b96">List</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aa67a2d298305192f32b1e9567aeb9b96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the InstanceUsers in the Instance  <a href="#aa67a2d298305192f32b1e9567aeb9b96">More...</a><br /></td></tr>
 <tr class="separator:aa67a2d298305192f32b1e9567aeb9b96"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +170,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; reulting in the new InstanceUser</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#a13ed9bceec9bacde8bc8710223f10889">Tgstation.Server.Client.Components.InstanceUserClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#af62bfee4e1cdca8a216bdade995a57b7">Tgstation.Server.Client.Components.InstanceUserClient</a>.</p>
 
 </div>
 </div>
@@ -206,6 +209,44 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#a66319c3cf70b1e17e7d03d00113680ef">Tgstation.Server.Client.Components.InstanceUserClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab3a233f8693053d156993065bd4705cb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">InstanceUser</a>&gt; Tgstation.Server.Client.Components.IInstanceUserClient.GetId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">InstanceUser</a>&#160;</td>
+          <td class="paramname"><em>instanceUser</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a specific <em>instanceUser</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instanceUser</td><td>The InstanceUser to get</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the requested <em>instanceUser</em> </dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#ab231f97fcf3c7ac3c920bae0530c96a0">Tgstation.Server.Client.Components.InstanceUserClient</a>.</p>
 
 </div>
 </div>
@@ -297,7 +338,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#a181f73a1764a0f685c074d09ed586724">Tgstation.Server.Client.Components.InstanceUserClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#adf513d69fe64d03119446eba42df5250">Tgstation.Server.Client.Components.InstanceUserClient</a>.</p>
 
 </div>
 </div>
