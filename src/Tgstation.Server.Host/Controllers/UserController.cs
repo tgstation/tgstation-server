@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		public override async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -122,13 +122,13 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers | AdministrationRights.EditPassword)]
+		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		public override async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var passwordEditOnly = !AuthenticationContext.User.AdministrationRights.Value.HasFlag(AdministrationRights.EditUsers);
+			var passwordEditOnly = !AuthenticationContext.User.AdministrationRights.Value.HasFlag(AdministrationRights.WriteUsers);
 
 			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == default)
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi(true)));
 
 		/// <inheritdoc />
-		[TgsAuthorize(AdministrationRights.EditUsers)]
+		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (id == AuthenticationContext.User.Id)
 				return await Read(cancellationToken).ConfigureAwait(false);
 
-			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.EditUsers))
+			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
 				return Forbid();
 
 			var user = await DatabaseContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);

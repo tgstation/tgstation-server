@@ -13,9 +13,9 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// User can edit themself and other <see cref="Models.User"/>s
+		/// User can edit themself and other <see cref="Models.User"/>s and also create others
 		/// </summary>
-		EditUsers = 1,
+		WriteUsers = 1,
 		/// <summary>
 		/// User can gracefully restart the host
 		/// </summary>
@@ -27,6 +27,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change their password
 		/// </summary>
-		EditPassword = 8,
+		EditOwnPassword = 8,
+		/// <summary>
+		/// User can read info and rights of other users
+		/// </summary>
+		ReadUsers = 16
 	}
 }

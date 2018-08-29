@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.List)]
+		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var compileJob = await DatabaseContext.CompileJobs
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.List)]
+		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).ToListAsync(cancellationToken).ConfigureAwait(false);

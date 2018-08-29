@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(InstanceUserRights.WriteUsers)]
+		[TgsAuthorize(InstanceUserRights.CreateUsers)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
