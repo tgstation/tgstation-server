@@ -1,3 +1,12 @@
 Verify the byond cache folder location on linux
 Test watchdog
-Test chat channel tagging
+
+UNIT test watchdog
+
+Test chat channel tagging and full stack
+
+Test reattachment
+
+Test auto update
+
+Test auto start
