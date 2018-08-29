@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (results == default)
-				return NotFound();
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 

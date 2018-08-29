@@ -79,8 +79,12 @@ namespace Tgstation.Server.Host.Components
 		{
 			Models.WatchdogReattachInformation result = null;
 			await databaseContextFactory.UseContext(async (db) =>
-				result = await db.Instances.Where(x => x.Id == metadata.Id).Select(x => x.WatchdogReattachInformation).FirstAsync(cancellationToken).ConfigureAwait(false)
+				result = await db.Instances.Where(x => x.Id == metadata.Id).Select(x => x.WatchdogReattachInformation).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)
 			).ConfigureAwait(false);
+
+			if (result == default)
+				throw new JobException("Unable to load reattach information!");
+
 			var bravoDmbTask = dmbFactory.FromCompileJob(result.Bravo.CompileJob, cancellationToken);
 			return new WatchdogReattachInformation(result, await dmbFactory.FromCompileJob(result.Alpha.CompileJob, cancellationToken).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
 		}

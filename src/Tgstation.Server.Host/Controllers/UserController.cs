@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return NotFound();
 
 			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.SystemIdentifier != null || model.Name != null))
 				return Forbid();

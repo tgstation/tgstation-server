@@ -199,8 +199,8 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.WatchdogReattachInformation)
 				.Include(x => x.WatchdogReattachInformation.Alpha)
 				.Include(x => x.WatchdogReattachInformation.Bravo)
-				.FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (originalModel == default(Models.Instance))
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (originalModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 
 			if (originalModel.WatchdogReattachInformation != null)
