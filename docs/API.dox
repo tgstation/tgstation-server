@@ -212,11 +212,15 @@ Some requests return @ref Tgstation.Server.Api.Models.Job objects. These are lon
 
 To list all jobs in an Instance use the following request
 
-I GET "/Job" => Array of @ref Tgstation.Server.Api.Models.Job
+I GET "/Job/List" => Array of @ref Tgstation.Server.Api.Models.Job
 
 Note that the response for this request will only have the @ref Tgstation.Server.Api.Models.Job.Id field populated
 
-To get full details of a job use the following request:
+To get full details of _active_ jobs use the following request:
+
+I GET "/Job" => Array of @ref Tgstation.Server.Api.Models.Job
+
+To get full details of a specific job use the following request:
 
 I GET "/Job/{JobId}" => @ref Tgstation.Server.Api.Models.Job
 

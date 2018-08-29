@@ -40,10 +40,8 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var result = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id).OrderByDescending(x => x.StartedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			if (result == null)
-				return StatusCode((int)HttpStatusCode.Gone);
-			return Json(result);
+			var result = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue).OrderByDescending(x => x.StartedAt).ToListAsync(cancellationToken).ConfigureAwait(false);
+			return Json(result.Select(x => x.ToApi()));
 		}
 
 		/// <inheritdoc />
