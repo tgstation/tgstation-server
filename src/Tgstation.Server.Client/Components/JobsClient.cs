@@ -31,25 +31,30 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task Cancel(Job job, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.Jobs, job.Id), instance.Id, cancellationToken);
+		public Task Cancel(Job job, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<Job>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Job>>(Routes.List(Routes.Jobs), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Job> Read(Job job, CancellationToken cancellationToken) => apiClient.Read<Job>(Routes.SetID(Routes.Jobs, job.Id), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<Job>> ListActive(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Job>>(Routes.Jobs, instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<Job> GetId(Job job, CancellationToken cancellationToken) => apiClient.Read<Job>(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public async Task<Job> CreateTaskFromJob(Job job, TimeSpan requeryRate, Action<int> progressCallback, CancellationToken cancellationToken)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
+			if (progressCallback == null)
+				throw new ArgumentNullException(nameof(progressCallback));
 
 			int? lastProgress = null;
 			while (!job.StoppedAt.HasValue)
 			{
 				await Task.Delay(requeryRate, cancellationToken).ConfigureAwait(false);
-				job = await Read(job, cancellationToken).ConfigureAwait(false);
+				job = await GetId(job, cancellationToken).ConfigureAwait(false);
 				if (job.Progress.HasValue && job.Progress != lastProgress)
 				{
 					progressCallback(job.Progress.Value);

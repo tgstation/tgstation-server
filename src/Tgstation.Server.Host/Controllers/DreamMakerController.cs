@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -58,7 +59,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.List)]
+		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var compileJob = await DatabaseContext.CompileJobs
@@ -73,11 +74,14 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.List)]
+		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
-			return Json(compileJobs.Select(x => x.ToApi()));
+			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).OrderByDescending(x => x.Job.StartedAt).Select(x => new Api.Models.CompileJob
+			{
+				Id = x.Id
+			}).ToListAsync(cancellationToken).ConfigureAwait(false);
+			return Json(compileJobs);
 		}
 
 		/// <inheritdoc />
@@ -100,12 +104,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
 		{
-			var hostModel = new DreamMakerSettings
-			{
-				InstanceId = Instance.Id
-			};
-
-			DatabaseContext.DreamMakerSettings.Attach(hostModel);
+			var hostModel = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (hostModel == null)
+				return StatusCode((int)HttpStatusCode.Gone);
 
 			if (model.ProjectName != null)
 			{
@@ -145,9 +146,15 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				StartupTimeout = x.StartupTimeout,
 				SecurityLevel = x.SecurityLevel
-			}).FirstAsync(cancellationToken);
+			}).FirstOrDefaultAsync(cancellationToken);
+
+
 			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
+			if (dreamMakerSettings == default)
+				throw new JobException("Missing DreamMakerSettings in DB!");
 			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
+			if (ddSettings == default)
+				throw new JobException("Missing DreamDaemonSettings in DB!");
 
 			var instance = instanceManager.GetInstance(instanceModel);
 
@@ -156,10 +163,8 @@ namespace Tgstation.Server.Host.Controllers
 			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
-				{
-					job.ExceptionDetails = "Missing repository!";
-					return;
-				}
+					throw new JobException("Missing Repository!");
+
 				var repoSha = repo.Head;
 				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
 

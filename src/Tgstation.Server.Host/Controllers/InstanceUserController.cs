@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(InstanceUserRights.WriteUsers)]
+		[TgsAuthorize(InstanceUserRights.CreateUsers)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 			//this functions as userId
 			var user = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
-				return NotFound();
+				return StatusCode((int)HttpStatusCode.Gone);
 			return Json(user.ToApi());
 		}
 

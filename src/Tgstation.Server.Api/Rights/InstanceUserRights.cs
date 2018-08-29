@@ -17,8 +17,12 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		ReadUsers = 1,
 		/// <summary>
-		/// Allow write access to <see cref="Models.InstanceUser"/> for the <see cref="Models.Instance"/>
+		/// Allow write and delete access to <see cref="Models.InstanceUser"/> for the <see cref="Models.Instance"/>
 		/// </summary>
-		WriteUsers = 2
+		WriteUsers = 2,
+		/// <summary>
+		/// Allow adding additional <see cref="Models.InstanceUser"/> to the <see cref="Models.Instance"/>
+		/// </summary>
+		CreateUsers = 4
 	}
 }

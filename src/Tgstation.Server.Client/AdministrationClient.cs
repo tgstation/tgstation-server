@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Client
 		public Task<Administration> Read(CancellationToken cancellationToken) => apiClient.Read<Administration>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update(Administration administration, CancellationToken cancellationToken) => apiClient.Update(Routes.Administration, administration, cancellationToken);
+		public Task Update(Administration administration, CancellationToken cancellationToken) => apiClient.Update(Routes.Administration, administration ?? throw new ArgumentNullException(nameof(administration)), cancellationToken);
 
 		/// <inheritdoc />
 		public Task Restart(CancellationToken cancellationToken) => apiClient.Delete(Routes.Administration, cancellationToken);

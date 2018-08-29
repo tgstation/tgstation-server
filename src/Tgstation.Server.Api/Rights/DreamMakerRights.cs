@@ -35,6 +35,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may list and read all <see cref="Models.CompileJob"/>s
 		/// </summary>
-		List = 32
+		CompileJobs = 32
 	}
 }

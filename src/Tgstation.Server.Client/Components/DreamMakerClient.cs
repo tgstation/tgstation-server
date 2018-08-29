@@ -36,6 +36,6 @@ namespace Tgstation.Server.Client.Components
 		public Task<DreamMaker> Read(CancellationToken cancellationToken) => apiClient.Read<DreamMaker>(Routes.DreamMaker, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<DreamMaker> Update(DreamMaker dreamMaker, CancellationToken cancellationToken) => apiClient.Update<DreamMaker, DreamMaker>(Routes.DreamMaker, dreamMaker, instance.Id, cancellationToken);
+		public Task<DreamMaker> Update(DreamMaker dreamMaker, CancellationToken cancellationToken) => apiClient.Update<DreamMaker, DreamMaker>(Routes.DreamMaker, dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker)), instance.Id, cancellationToken);
 	}
 }

@@ -199,8 +199,8 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.WatchdogReattachInformation)
 				.Include(x => x.WatchdogReattachInformation.Alpha)
 				.Include(x => x.WatchdogReattachInformation.Bravo)
-				.FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (originalModel == default(Models.Instance))
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			if (originalModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 
 			if (originalModel.WatchdogReattachInformation != null)
@@ -324,7 +324,7 @@ namespace Tgstation.Server.Host.Controllers
 					Description = String.Format(CultureInfo.InvariantCulture, "Move instance ID {0} from {1} to {2}", Instance.Id, Instance.Path, rawPath),
 					Instance = Instance,
 					CancelRightsType = RightsType.InstanceManager,
-					CancelRight = (ulong)InstanceManagerRights.CancelMove,
+					CancelRight = (ulong)InstanceManagerRights.Relocate,
 					StartedBy = AuthenticationContext.User
 				};
 

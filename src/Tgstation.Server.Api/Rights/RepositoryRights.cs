@@ -13,6 +13,10 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		None = 0,
 		/// <summary>
+		/// User may cancel synchronize operations
+		/// </summary>
+		CancelPendingChanges = 1,
+		/// <summary>
 		/// User may create the <see cref="Models.Repository"/> if it does not exist
 		/// </summary>
 		SetOrigin = 2,
@@ -59,10 +63,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may cancel clone operations
 		/// </summary>
-		CancelClone = 4096,
-		/// <summary>
-		/// User may cancel synchronize operations
-		/// </summary>
-		CancelPendingChanges = 8192
+		CancelClone = 4096
 	}
 }

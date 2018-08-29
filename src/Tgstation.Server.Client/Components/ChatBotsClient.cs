@@ -31,15 +31,15 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<ChatBot> Create(ChatBot settings, CancellationToken cancellationToken) => apiClient.Create<ChatBot, ChatBot>(Routes.Chat, settings, instance.Id, cancellationToken);
+		public Task<ChatBot> Create(ChatBot settings, CancellationToken cancellationToken) => apiClient.Create<ChatBot, ChatBot>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(ChatBot settings, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.Chat, settings.Id), instance.Id, cancellationToken);
+		public Task Delete(ChatBot settings, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.Chat, settings?.Id ?? throw new ArgumentNullException(nameof(settings))), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<ChatBot>> List(CancellationToken cancellationToken) => apiClient.Create<IReadOnlyList<ChatBot>>(Routes.List(Routes.Chat), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ChatBot> Update(ChatBot settings, CancellationToken cancellationToken) => apiClient.Update<ChatBot, ChatBot>(Routes.Chat, settings, instance.Id, cancellationToken);
+		public Task<ChatBot> Update(ChatBot settings, CancellationToken cancellationToken) => apiClient.Update<ChatBot, ChatBot>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id, cancellationToken);
 	}
 }
