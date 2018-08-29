@@ -33,6 +33,6 @@ namespace Tgstation.Server.Client.Components
 		public Task<Byond> Read(CancellationToken cancellationToken) => apiClient.Read<Byond>(Routes.Byond, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Byond> Update(Byond byond, CancellationToken cancellationToken) => apiClient.Update<Byond, Byond>(Routes.Byond, byond, instance.Id, cancellationToken);
+		public Task<Byond> Update(Byond byond, CancellationToken cancellationToken) => apiClient.Update<Byond, Byond>(Routes.Byond, byond ?? throw new ArgumentNullException(nameof(byond)), instance.Id, cancellationToken);
 	}
 }

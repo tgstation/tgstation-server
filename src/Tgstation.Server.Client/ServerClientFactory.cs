@@ -38,8 +38,6 @@ namespace Tgstation.Server.Client
 				throw new ArgumentNullException(nameof(username));
 			if (password == null)
 				throw new ArgumentNullException(nameof(password));
-			if (timeout == null)
-				throw new ArgumentNullException(nameof(timeout));
 
 			Token token;
 			using (var api = apiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, username, password)))

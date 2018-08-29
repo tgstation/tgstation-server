@@ -47,6 +47,6 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<ConfigurationFile> Write(ConfigurationFile file, CancellationToken cancellationToken) => apiClient.Update<ConfigurationFile, ConfigurationFile>(Routes.Configuration, file, instance.Id, cancellationToken);
+		public Task<ConfigurationFile> Write(ConfigurationFile file, CancellationToken cancellationToken) => apiClient.Update<ConfigurationFile, ConfigurationFile>(Routes.Configuration, file ?? throw new ArgumentNullException(nameof(file)), instance.Id, cancellationToken);
 	}
 }

@@ -25,10 +25,10 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<User> Create(UserUpdate user, CancellationToken cancellationToken) => apiClient.Create<UserUpdate, User>(Routes.User, user, cancellationToken);
+		public Task<User> Create(UserUpdate user, CancellationToken cancellationToken) => apiClient.Create<UserUpdate, User>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<User> GetId(User user, CancellationToken cancellationToken) => apiClient.Read<User>(Routes.SetID(Routes.User, user.Id), cancellationToken);
+		public Task<User> GetId(User user, CancellationToken cancellationToken) => apiClient.Read<User>(Routes.SetID(Routes.User, user?.Id ?? throw new ArgumentNullException(nameof(user))), cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<User>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<User>>(Routes.List(Routes.User), cancellationToken);
@@ -37,6 +37,6 @@ namespace Tgstation.Server.Client
 		public Task<User> Read(CancellationToken cancellationToken) => apiClient.Read<User>(Routes.User, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<User> Update(UserUpdate user, CancellationToken cancellationToken) => apiClient.Update<UserUpdate, User>(Routes.User, user, cancellationToken);
+		public Task<User> Update(UserUpdate user, CancellationToken cancellationToken) => apiClient.Update<UserUpdate, User>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
 	}
 }

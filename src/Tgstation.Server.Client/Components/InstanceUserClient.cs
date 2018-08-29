@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<InstanceUser> Create(InstanceUser user, CancellationToken cancellationToken) => apiClient.Create<InstanceUser, InstanceUser>(Routes.InstanceUser, user, instance.Id, cancellationToken);
+		public Task<InstanceUser> Create(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Create<InstanceUser, InstanceUser>(Routes.InstanceUser, instanceUser ?? throw new ArgumentNullException(nameof(instanceUser)), instance.Id, cancellationToken);
 
 		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), instance.Id, cancellationToken);
 
@@ -39,12 +39,12 @@ namespace Tgstation.Server.Client.Components
 		public Task<InstanceUser> Read(CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.InstanceUser, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstanceUser> Update(InstanceUser user, CancellationToken cancellationToken) => apiClient.Update<InstanceUser, InstanceUser>(Routes.InstanceUser, user, instance.Id, cancellationToken);
+		public Task<InstanceUser> Update(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Update<InstanceUser, InstanceUser>(Routes.InstanceUser, instanceUser ?? throw new ArgumentNullException(nameof(instanceUser)), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<InstanceUser>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<InstanceUser>>(Routes.List(Routes.InstanceUser), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstanceUser> GetId(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), instance.Id, cancellationToken);
+		public Task<InstanceUser> GetId(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.SetID(Routes.InstanceUser, instanceUser?.UserId ?? throw new ArgumentNullException(nameof(instanceUser))), instance.Id, cancellationToken);
 	}
 }

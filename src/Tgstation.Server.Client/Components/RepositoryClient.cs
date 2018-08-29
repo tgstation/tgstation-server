@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -35,6 +36,6 @@ namespace Tgstation.Server.Client.Components
 		public Task<Repository> Read(CancellationToken cancellationToken) => apiClient.Read<Repository>(Routes.Repository, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Repository> Update(Repository repository, CancellationToken cancellationToken) => apiClient.Update<Repository, Repository>(Routes.Repository, repository, instance.Id, cancellationToken);
+		public Task<Repository> Update(Repository repository, CancellationToken cancellationToken) => apiClient.Update<Repository, Repository>(Routes.Repository, repository ?? throw new ArgumentNullException(nameof(repository)), instance.Id, cancellationToken);
 	}
 }

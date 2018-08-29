@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -26,30 +27,30 @@ namespace Tgstation.Server.Client
 		/// <param name="apiClient"></param>
 		public InstanceManagerClient(IApiClient apiClient)
 		{
-			this.apiClient = apiClient;
+			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 
 			cachedClients = new Dictionary<long, IInstanceClient>();
 		}
 
 		/// <inheritdoc />
-		public Task<Instance> Create(Instance instance, CancellationToken cancellationToken) => apiClient.Create<Instance, Instance>(Routes.InstanceManager, instance, cancellationToken);
+		public Task<Instance> Create(Instance instance, CancellationToken cancellationToken) => apiClient.Create<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(Instance instance, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceManager, instance.Id), cancellationToken);
+		public Task Delete(Instance instance, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<Instance>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Instance>>(Routes.List(Routes.InstanceManager), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Instance> Update(Instance instance, CancellationToken cancellationToken) => apiClient.Update<Instance, Instance>(Routes.InstanceManager, instance, cancellationToken);
+		public Task<Instance> Update(Instance instance, CancellationToken cancellationToken) => apiClient.Update<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Instance> GetId(Instance instance, CancellationToken cancellationToken) => apiClient.Read<Instance>(Routes.SetID(Routes.InstanceManager, instance.Id), cancellationToken);
+		public Task<Instance> GetId(Instance instance, CancellationToken cancellationToken) => apiClient.Read<Instance>(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
 		public IInstanceClient CreateClient(Instance instance)
 		{
-			if (!cachedClients.TryGetValue(instance.Id, out var client))
+			if (!cachedClients.TryGetValue(instance?.Id ?? throw new ArgumentNullException(nameof(instance)), out var client))
 			{
 				client = new InstanceClient(apiClient, instance);
 				cachedClients.Add(instance.Id, client);
