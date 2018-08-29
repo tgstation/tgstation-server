@@ -23,6 +23,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may list files
 		/// </summary>
-		List = 3
+		List = 4
 	}
 }

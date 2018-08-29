@@ -37,16 +37,16 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		Read = 32,
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.Name"/>
-		/// </summary>
-		WriteName = 32,
-		/// <summary>
 		/// User can create new <see cref="Models.ChatBot"/>
 		/// </summary>
 		Create = 64,
 		/// <summary>
 		/// User can delete <see cref="Models.ChatBot"/>
 		/// </summary>
-		Delete = 128
+		Delete = 128,
+		/// <summary>
+		/// User can change <see cref="Models.Internal.ChatBot.Name"/>
+		/// </summary>
+		WriteName = 256,
 	}
 }
