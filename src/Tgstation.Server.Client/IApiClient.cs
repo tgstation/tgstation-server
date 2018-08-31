@@ -35,5 +35,6 @@ namespace Tgstation.Server.Client
 		Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken);
 		Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken);
 		Task Delete(string route, long instanceId, CancellationToken cancellationToken);
+		Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken);
 	}
 }

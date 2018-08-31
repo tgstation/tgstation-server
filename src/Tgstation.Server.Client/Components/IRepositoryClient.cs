@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 
@@ -37,7 +36,7 @@ namespace Tgstation.Server.Client.Components
 		/// Deletes the <see cref="Repository"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Delete(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="Repository"/></returns>
+		Task<Repository> Delete(CancellationToken cancellationToken);
 	}
 }
