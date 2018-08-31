@@ -30,6 +30,9 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
+		public Task<Repository> Clone(Repository repository, CancellationToken cancellationToken) => apiClient.Create<Repository, Repository>(Routes.Repository, repository, instance.Id, cancellationToken);
+
+		/// <inheritdoc />
 		public Task Delete(CancellationToken cancellationToken) => apiClient.Delete(Routes.Repository, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
