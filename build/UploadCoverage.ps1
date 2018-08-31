@@ -1,6 +1,6 @@
 $coverageFilePaths = Get-ChildItem -Path TestResults -Filter *.coverage -Recurse -ErrorAction SilentlyContinue -Force | %{ $_.fullname }
 
-$coverageFilePathList = [string]$$coverageFilePaths
+$coverageFilePathList = [string]$coverageFilePaths
 
 Write-Host "Running CodeCoverage.exe..."
 &"C:\Program Files (x86)\Microsoft Visual Studio\2017\TestAgent\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:service.coveragexml "$coverageFilePath"
