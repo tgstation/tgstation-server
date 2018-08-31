@@ -330,7 +330,6 @@ namespace Tgstation.Server.Host.Controllers
 			var api = canRead ? currentModel.ToApi() : new Repository();
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
-
 			if (canRead)
 			{
 				if (repoManager.CloneInProgress)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,11 +55,22 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var newFile = await config.Write(model.Path, AuthenticationContext.SystemIdentity, model.Content, model.LastReadHash, cancellationToken).ConfigureAwait(false);
 				if (newFile == null)
-					return Conflict();
+					return Conflict(new ErrorMessage
+					{
+						Message = ""
+					});
 
 				newFile.Content = null;
 
 				return model.LastReadHash == null ? (IActionResult)StatusCode((int)HttpStatusCode.Created, newFile) : Json(newFile);
+			}
+			catch(IOException e)
+			{
+				Logger.LogInformation("IOException while updating file {0}: {1}", model.Path, e);
+				return Conflict(new ErrorMessage
+				{
+					Message = e.Message
+				});
 			}
 			catch (NotImplementedException)
 			{
@@ -86,6 +98,14 @@ namespace Tgstation.Server.Host.Controllers
 					return StatusCode((int)HttpStatusCode.Gone);
 
 				return Json(result);
+			}
+			catch (IOException e)
+			{
+				Logger.LogInformation("IOException while reading file {0}: {1}", filePath, e);
+				return Conflict(new ErrorMessage
+				{
+					Message = e.Message
+				});
 			}
 			catch (NotImplementedException)
 			{
