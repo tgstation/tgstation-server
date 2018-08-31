@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 			return needsDbUpdate;
 		}
 
-		static async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
+		static async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
 			model.IsGitHub = repository.IsGitHubRepository;
 			model.Origin = repository.Origin;
@@ -100,9 +100,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			//rev info stuff
 			Models.RevisionInformation revisionInfo = null;
-			var needsDbUpdate = await LoadRevisionInformation(repository, databaseContext, instance, lastOriginCommitSha, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
+			var needsDbUpdate = await LoadRevisionInformation(repository, databaseContext, instance, null, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
 			model.RevisionInformation = revisionInfo.ToApi();
-			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
 		}
 
@@ -140,13 +139,25 @@ namespace Tgstation.Server.Host.Controllers
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
 			if (repoManager.CloneInProgress)
-				return Conflict();
+				return Conflict(new ErrorMessage
+				{
+					Message = "A clone operation is in progress!"
+				});
+
+			if(repoManager.InUse)
+				return Conflict(new ErrorMessage
+				{
+					Message = "The repo is busy!"
+				});
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo != null)
 					//clone conflict
-					return Conflict();
+					return Conflict(new ErrorMessage
+					{
+						Message = "The repository already exists!"
+					});
 
 				var job = new Models.Job
 				{
@@ -164,7 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (repos == null)
 							throw new JobException("Filesystem conflict while cloning repository!");
 						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
-						if (await PopulateApi(api, repos, db, Instance, null, null, cancellationToken).ConfigureAwait(false))
+						if (await PopulateApi(api, repos, db, Instance, cancellationToken).ConfigureAwait(false))
 							await db.Save(cancellationToken).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
@@ -220,10 +231,23 @@ namespace Tgstation.Server.Host.Controllers
 				return StatusCode((int)HttpStatusCode.Gone);
 
 			var api = currentModel.ToApi();
+			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
-			using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+			if (repoManager.CloneInProgress)
+				return Conflict(new ErrorMessage
+				{
+					Message = "A clone operation is in progress!"
+				});
+
+			if (repoManager.InUse)
+				return Conflict(new ErrorMessage
+				{
+					Message = "The repo is busy!"
+				});
+
+			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
-				if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, null, null, cancellationToken).ConfigureAwait(false))
+				if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
 				{
 					//user may have fucked with the repo without telling us, do what we can
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -301,6 +325,31 @@ namespace Tgstation.Server.Host.Controllers
 				currentModel.AccessToken = null;
 			}
 
+			var api = userRights.HasFlag(RepositoryRights.Read) ? currentModel.ToApi() : new Repository();
+			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
+
+			if (repoManager.CloneInProgress)
+				return Conflict(new ErrorMessage
+				{
+					Message = "A clone operation is in progress!"
+				});
+
+			if (repoManager.InUse)
+				return Conflict(new ErrorMessage
+				{
+					Message = "The repo is busy!"
+				});
+			
+			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+			{
+				if (repo == null)
+					return Conflict(new ErrorMessage
+					{
+						Message = "Repository could not be loaded!"
+					});
+				await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+			}
+						
 			//this is just db stuf so stow it away
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
@@ -315,7 +364,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
 			{
-				using (var repo = await instanceManager.GetInstance(Instance).RepositoryManager.LoadRepository(ct).ConfigureAwait(false))
+				using (var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false))
 				{
 					if (repo == null)
 						throw new JobException("Repository could not be loaded!");
@@ -598,7 +647,8 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}, cancellationToken).ConfigureAwait(false);
 
-			return Accepted(job.ToApi());
+			api.ActiveJob = job.ToApi();
+			return Accepted(api);
 		}
 	}
 }

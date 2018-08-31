@@ -10,6 +10,11 @@ namespace Tgstation.Server.Host.Components.Repository
 	public interface IRepositoryManager : IDisposable
 	{
 		/// <summary>
+		/// If something is holding a lock on the repository
+		/// </summary>
+		bool InUse { get; }
+
+		/// <summary>
 		/// If a <see cref="CloneRepository(Uri, string, string, string, Action{int}, CancellationToken)"/> operation is in progress
 		/// </summary>
 		bool CloneInProgress { get; }
