@@ -1,6 +1,8 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
@@ -180,5 +182,11 @@ namespace Tgstation.Server.Host.Components
 				throw;
 			}
 		}
+
+		/// <inheritdoc />
+		public Task StartAsync(CancellationToken cancellationToken) => byondInstaller.CleanCache(cancellationToken);
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }

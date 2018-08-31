@@ -173,8 +173,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			var cacheCleanTask = byondInstaller.CleanCache(cancellationToken);
-
 			async Task<byte[]> GetActiveVersion()
 			{
 				if (!await ioManager.FileExists(ActiveVersionFileName, cancellationToken).ConfigureAwait(false))
@@ -221,8 +219,6 @@ namespace Tgstation.Server.Host.Components.Byond
 					ActiveVersion = activeVersion;
 				else
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
-
-				await cacheCleanTask.ConfigureAwait(false);
 			}
 		}
 
