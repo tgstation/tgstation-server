@@ -124,9 +124,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a060a731a0c221146d5d81d7890e1cd42"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a060a731a0c221146d5d81d7890e1cd42">Cancel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a060a731a0c221146d5d81d7890e1cd42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a <em>job</em>   <a href="#a060a731a0c221146d5d81d7890e1cd42">More...</a><br /></td></tr>
 <tr class="separator:a060a731a0c221146d5d81d7890e1cd42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31359a774d1d7aee24ed88309609bc25"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a31359a774d1d7aee24ed88309609bc25">CreateTaskFromJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> job, TimeSpan requeryRate, Action&lt; int &gt; progressCallback, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a31359a774d1d7aee24ed88309609bc25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Task&lt;TResult&gt; that completes when a given <em>job</em>  is completed  <a href="#a31359a774d1d7aee24ed88309609bc25">More...</a><br /></td></tr>
-<tr class="separator:a31359a774d1d7aee24ed88309609bc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Access to running jobs </p>
@@ -168,58 +165,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49">Tgstation.Server.Client.Components.JobsClient</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a31359a774d1d7aee24ed88309609bc25"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; Tgstation.Server.Client.Components.IJobsClient.CreateTaskFromJob </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td>
-          <td class="paramname"><em>job</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TimeSpan&#160;</td>
-          <td class="paramname"><em>requeryRate</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
-          <td class="paramname"><em>progressCallback</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates a Task&lt;TResult&gt; that completes when a given <em>job</em>  is completed </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">job</td><td>The Job to create a Task for</td></tr>
-    <tr><td class="paramname">requeryRate</td><td>The rate in to poll the server for results</td></tr>
-    <tr><td class="paramname">progressCallback</td><td>A Action&lt;T&gt; to run with 0-100 progress</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. This does not cancel the <em>job</em> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a complete Job</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a89f46282e2b2999240506a8816958766">Tgstation.Server.Client.Components.JobsClient</a>.</p>
 
 </div>
 </div>
