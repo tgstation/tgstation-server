@@ -216,10 +216,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							Path = configurationRelativePath
 						};
 					}
-					catch (IOException e)
-					{
-						logger.LogDebug("IOException while reading {0}: {1}", path, e);
-					}
 					catch (UnauthorizedAccessException)
 					{
 						//this happens on windows, dunno about linux
@@ -307,10 +303,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							AccessDenied = false,
 							Path = configurationRelativePath
 						};
-					}
-					catch (IOException e)
-					{
-						logger.LogDebug("IOException while writing {0}: {1}", path, e);
 					}
 					catch (UnauthorizedAccessException)
 					{

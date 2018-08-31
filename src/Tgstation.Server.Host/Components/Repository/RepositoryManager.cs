@@ -12,6 +12,9 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class RepositoryManager : IRepositoryManager
 	{
 		/// <inheritdoc />
+		public bool InUse => semaphore.CurrentCount == 0;
+
+		/// <inheritdoc />
 		public bool CloneInProgress { get; private set; }
 
 		/// <summary>
