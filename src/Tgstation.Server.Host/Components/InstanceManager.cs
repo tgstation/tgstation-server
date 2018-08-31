@@ -180,6 +180,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			try
 			{
+				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
 				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
@@ -189,6 +190,7 @@ namespace Tgstation.Server.Host.Components
 				.Include(x => x.DreamDaemonSettings)
 				.ToAsyncEnumerable();
 				var tasks = new List<Task>();
+				await factoryStartup.ConfigureAwait(false);
 				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 				logger.LogInformation("Instance manager ready!");
@@ -213,6 +215,8 @@ namespace Tgstation.Server.Host.Components
 			using (cancellationToken.Register(() => shutdownCancellationTokenSource.Cancel()))
 				await Task.WhenAll(shutdownTasks).ConfigureAwait(false);
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
+
+			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

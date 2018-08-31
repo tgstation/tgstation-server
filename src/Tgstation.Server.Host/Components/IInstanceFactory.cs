@@ -1,9 +1,11 @@
-﻿namespace Tgstation.Server.Host.Components
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
 	/// Factory for creating <see cref="IInstance"/>s
 	/// </summary>
-	interface IInstanceFactory
+	interface IInstanceFactory : IHostedService
 	{
 		/// <summary>
 		/// Create an <see cref="IInstance"/>
