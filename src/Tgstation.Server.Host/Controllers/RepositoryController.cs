@@ -325,29 +325,35 @@ namespace Tgstation.Server.Host.Controllers
 				currentModel.AccessToken = null;
 			}
 
-			var api = userRights.HasFlag(RepositoryRights.Read) ? currentModel.ToApi() : new Repository();
+			var canRead = userRights.HasFlag(RepositoryRights.Read);
+
+			var api = canRead ? currentModel.ToApi() : new Repository();
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
-			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage
-				{
-					Message = "A clone operation is in progress!"
-				});
 
-			if (repoManager.InUse)
-				return Conflict(new ErrorMessage
-				{
-					Message = "The repo is busy!"
-				});
-			
-			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+			if (canRead)
 			{
-				if (repo == null)
+				if (repoManager.CloneInProgress)
 					return Conflict(new ErrorMessage
 					{
-						Message = "Repository could not be loaded!"
+						Message = "A clone operation is in progress!"
 					});
-				await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+
+				if (repoManager.InUse)
+					return Conflict(new ErrorMessage
+					{
+						Message = "The repo is busy!"
+					});
+
+				using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+				{
+					if (repo == null)
+						return Conflict(new ErrorMessage
+						{
+							Message = "Repository could not be loaded!"
+						});
+					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+				}
 			}
 						
 			//this is just db stuf so stow it away
