@@ -83,7 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a href="https://ci.appveyor.com/project/Cyberboss/tgstation-server-tools/branch/master"></a> <a href="https://travis-ci.org/tgstation/tgstation-server"></a> <a href="https://codecov.io/gh/tgstation/tgstation-server"></a> <a href="https://waffle.io/tgstation/tgstation-server?utm_source=badge"></a></p>
-<p><a href="https://github.com/tgstation/tgstation-server/blob/master/LICENSE"></a> <a href="http://isitmaintained.com/project/tgstation/tgstation-server" title="Average time to resolve an issue"></a> <a href="https://www.nuget.org/packages/TGServiceInterface"></a></p>
+<p><a href="https://github.com/tgstation/tgstation-server/blob/master/LICENSE"></a> <a href="http://isitmaintained.com/project/tgstation/tgstation-server" title="Average time to resolve an issue"></a> <a href="https://www.nuget.org/packages/Tgstation.Server.Api"></a> <a href="https://www.nuget.org/packages/Tgstation.Server.Client"></a></p>
 <p><a href="http://forthebadge.com"></a> <a href="https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a"></a></p>
 <p><a href="http://forthebadge.com"></a> <a href="http://forthebadge.com"></a></p>
 <p>This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for fixing errors and merging GitHub Pull Requests locally.</p>
@@ -92,11 +92,107 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <ul>
 <li>Older server versions can be found in the V# branches of this repository</li>
 </ul>
-<h2>CONTRIBUTING</h2>
+<h2>Setup</h2>
+<h3>Installation</h3>
+<ol type="1">
+<li>Download and install the <a href="https://www.microsoft.com/net/download">.NET Core Runtime (&gt;= v2.1)</a> for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.1 (Download can be found on same page). Enusre that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or the user's that will be running the server).</li>
+<li><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest V4 release .zip</a>. The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.</li>
+<li>Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the <code>lib</code> subdirectory.</li>
+<li>If using the ServerService package, run <code>Tgstation.Server.Host.Service.exe</code>. It should prompt you to install the service. Click <code>Yes</code> and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.</li>
+</ol>
+<h4>Docker</h4>
+<p>tgstation-server supports running in a docker container on linux systems and is the preferred deployment method to avoid <a href="https://github.com/libgit2/libgit2sharp/issues/1533">native dependency hell with libgit2</a>. The official image repository is located at <a href="https://hub.docker.com/r/tgstation/server">https://hub.docker.com/r/tgstation/server</a> it can be build locally, however, by running <code>docker build . -f build/Dockerfile</code> in the repository root.</p>
+<p>To create a container run <code>docker create --restart=always -p &lt;public port&gt;:80 -v /path/to/your/appsettings.Production.json:/config_data -v path/to/your/log/folder:/tgs_logs tgstation/server</code> with any additional options you desire (i.e. You'll have to expose more ports in order to actually host servers, add a volume to create instances on, and create a volume for the SQLite database if that is what you're using).</p>
+<p>Note that due to the nature of docker. If the container restarts, you will be sent back to the version of TGS you installed with the initial command. Server updates will have to be reapplied. For this reason it is NOT RECOMMENDED to use the live update feature with a docker host.</p>
+<h3>Configuring</h3>
+<p>Create an <code>appsettings.Production.json</code> file next to <code>appsettings.json</code>. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts:</p><ul>
+<li><code>General:LogFileDirectory</code>: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise</li>
+<li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users</li>
+<li><code>Logging:LogLevel:Default</code>: Can be one of <code>Trace</code>, <code>Debug</code>, <code>Information</code>, <code>Warning</code>, <code>Error</code>, or <code>Critical</code>. Restricts what is put into the log files. Currently <code>Debug</code> is reccommended for help with error reporting.</li>
+<li><code>Database:DatabaseType</code>: Can be one of <code>SqlServer</code>, <code>MySql</code>, or <code>Sqlite</code>. Note that, at the time of this writing, there is a <a href="https://bugs.mysql.com/bug.php?id=89855">blocking bug with the MySQL DBAL provider</a> which prevents its usage</li>
+<li><code>Database:ConnectionString</code>: Connection string for your database. For SQLite this should be in the form <code>Data Source=/path/to/database.ext</code>. Otherwise, click <a href="https://www.developerfusion.com/tools/sql-connection-string/">here</a> for an SQL Server generator or see <a href="https://www.connectionstrings.com/mysql/">here</a> for a MySQL guide.</li>
+</ul>
+<h3>Database Configuration</h3>
+<p>If you are using an SQLite database just ensure the specified database file doesn't exist for first time setup and you may skip this section.</p>
+<p>For dedicated SQL servers, the user created for the application will need the privilege to create databases for the first run. Once the initial set of migrations is run, the create right may be revoked.</p>
+<h3>Starting</h3>
+<p>For the Windows service version start the <code>tgstation-server-4</code> service</p>
+<p>For the console version run <code>dotnet Tgstation.Server.Host.Console.dll</code> in the installation directory. The <code>tgs.bat</code> and <code>tgs.sh</code> shell scripts are shortcuts for this</p>
+<h3>Stopping</h3>
+<p>Note that the live detach for DreamDaemon servers is only supported for updates or restarts via the API at this time. Stopping tgstation-server will TERMINATE ALL CHILD DREAMDAEMON SERVERS.</p>
+<p>For the Windows service version stop the <code>tgstation-server-4</code> service</p>
+<p>For the console version press <code>Ctrl+C</code> or send a SIGQUIT to the ORIGINAL dotnet process</p>
+<h2>Integrating</h2>
+<p>A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.</p>
+<ol type="1">
+<li>Copy the [DMAPI] files anywhere in your code base. <code>tgs.dm</code> can be seperated from the <code>tgs</code> folder, but do not modify or move the contents of the <code>tgs</code> folder</li>
+<li>Modify your <code>.dme</code>(s) to include the <code>tgs.dm</code> and <code>tgs/includes.dm</code> files (ORDER OF APPEARANCE IS MANDATORY)</li>
+<li>Follow the instructions in <code>tgs.dm</code> to integrate the API with your codebase.</li>
+</ol>
+<p>The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the <code>TGS_EXTERNAL_CONFIGURATION</code> is recommended in order to make the process as easy as replacing <code>tgs.dm</code> and the <code>tgs</code> folder with a new version</p>
+<h2>Usage</h2>
+<p>tgstation-sever v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server.</p>
+<h3>Users</h3>
+<p>All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Api/Models/User.cs">here</a>. If access to all users is lost, the default user can be reset using the <code>Database:ResetAdminPassword</code> configuration setting. Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be <em>database based</em> or <em>system based</em>. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.</p>
+<h3>Instances</h3>
+<p>A TGS deployment is made up with a set of instances, which each represent a production BYOND server. As many instances as desired can be created. Be aware, however, due to the nature of BYOND, this will quickly result in system resource exhaustion.</p>
+<p>An instance is stored in a single folder anywhere on a system and is made up of several components: The source code git repository, BYOND, the compiler, the watchdog, chat bots, and static file management systems.</p>
+<h5>Instance Users</h5>
+<p>All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers).</p>
+<h4>Repository</h4>
+<p>The <code>Repository</code> folder is a git repository containing the code of the game you wish to host. It can be cloned from any public or private remote repository and has capabilities to affect changes back to it. All the standard benefits of git are utilized (i.e. check out any revision or reference).</p>
+<p>Additional features become available if the remote repository is hosted on <a href="https://github.com/">https://github.com/</a>. Namely the Test Merge feature, which allows you to take a pull request opened on the repository and compile it into a game deployment for testing. Information about test merges is available in game via the DMAPI and via the main API as well.</p>
+<p>Manual operations on the repository while an instance is running may lead to git data corruption. Thankfully, it's simple enough to delete and reclone the repository via the API.</p>
+<h4>Byond</h4>
+<p>The <code>Byond</code> folder contains installations of <a href="https://secure.byond.com/">BYOND</a> versions. The version which is used by your game code can be changed on a whim (Note that only versions &gt;= 511 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.</p>
+<h4>Compiler</h4>
+<p>The compiler deploys code from the <code>Repository</code> folder to the <code>Game</code> folder and compiles it either by autodetecting the <code>.dme</code> or having it set by configuration. Several other step are also run such as validating the DMAPI version and creating symlinks for static files are done at this point. The compiler also applies server side code modifications and duplicates compiled code for the watchdog as well (See following section).</p>
+<h4>Watchdog</h4>
+<p>The watchdog is responsible for starting and keeping your server running. It functions by launching two servers which are hot-swapped on <code>/world/Reboot</code>s and during crashes to prevent downtime. This hot swapping feature is also what allows TGS to deploy updates to live servers without bringing them down.</p>
+<p>DreamDaemon can be finicky and will crash with several high load games or bad DM code. The watchdog has several failure prevention methods to keep at least one server running while these issues are sorted out.</p>
+<h4>Chat Bots</h4>
+<p>TGS supports creating infinite chat bots for notifying staff or players of things like code deployments and uptime in. Currently the following providers are supported</p>
+<ul>
+<li>Internet Relay Chat (IRC)</li>
+<li>Discord</li>
+</ul>
+<p>More can be added by providing a new implementation of the <a href="https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs">IProvider</a> interface</p>
+<p>Bots have a set of built-in commands that can be triggered via <code>!tgs</code> mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>
+<h4>Static Files</h4>
+<p>All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.</p>
+<p>The <code>StaticFiles</code> folder contains 3 root folders</p><ul>
+<li><code>CodeModifications</code></li>
+<li><code>EventScripts</code></li>
+<li><code>GameStaticFiles</code></li>
+</ul>
+<p>These files can be modified either in host mode or system user mode. In host mode, TGS itself is responsible for reading and writing the files. In system user mode read and write actions are performed using the system account of the logged on User, enabling the use of ACLs to control access to files. Database users will not be able to use the static file system if this mode is configured for an instance.</p>
+<p>This folder may be freely modified manually just beware this may cause deployments to error if done simulatenously on Windows systems.</p>
+<h4>CodeModifications</h4>
+<p>When a deployment is made by the compiler, all the contents of this folder are copied over the repository contents. Then one of two code change modes are selected based on the prescense of certain files.</p>
+<p>If <code>&lt;target dme&gt;.dm</code> is present, that .dme will be used instead of the repository's <code>.dme</code></p>
+<p>Otherwise the files <code>HeadInclude.dm</code> and <code>TailInclude.dm</code> are searched for and added as include lines to the top and bottom of the target <code>.dme</code> repsectively if they exist. These files can contain any valid DreamMaker code (Including <code>#include</code>ing other <code>.dm</code> files!) allowing you to modify the a repository's code on a per instance basis</p>
+<h4>EventScripts</h4>
+<p>This folder can contain anything. But, when certain events occur in the instance, TGS will look here for <code>.bat</code> or <code>.sh</code> files with the same name and run those with corresponding arguments. List of supported events can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/StaticFiles/Configuration.cs#L28">here</a> (subject to expansion) list of event parameters can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/EventType.cs">here</a></p>
+<h4>GameStaticFiles</h4>
+<p>Any files and folders contained in this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND <code>.sav</code>s or code configuration files for example) to persist across all deployments.</p>
+<h3>Updating</h3>
+<p>TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release made to this repository is bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well.</p>
+<h3>Clients</h3>
+<p>Here are some tools for interacting with the TGS 4 JSON API</p>
+<ul>
+<li><a href="https://github.com/tgstation/Tgstation.Server.ControlPanel">Tgstation.Server.ControlPanel</a>: Official client. A cross platform GUI for using tgstation-server</li>
+<li><a href="https://www.nuget.org/packages/Tgstation.Server.Client">Tgstation.Server.Client</a>: A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server</li>
+<li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server</li>
+<li><a href="https://www.getpostman.com/">Postman</a>: This repository contains <a href="https://github.com/tgstation/tgstation-server/blob/master/tools/TGS.postman_collection.json">TGS.postman_collection.json</a> which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)</li>
+</ul>
+<p>Contact project maintainers to get your client added to this list</p>
+<h2>Troubleshooting</h2>
+<p>Feel free to ask for help at the coderbus discord: <a href="https://discord.gg/Vh8TJp9">https://discord.gg/Vh8TJp9</a>. Cyberboss#8246 can answer most questions.</p>
+<h2>Contributing</h2>
 <ul>
 <li>See https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md "CONTRIBUTING.md"</li>
 </ul>
-<h2>LICENSING</h2>
+<h2>Licensing</h2>
 <ul>
 <li>The DM API for the project is licensed under the MIT license.</li>
 <li>The /tg/station 13 icon is licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons 3.0 BY-SA</a>.</li>
