@@ -366,7 +366,7 @@ namespace TGS.ControlPanel
 				if (pulls == null)
 					MessageBox.Show(String.Format(MergedPullsError, error));
 				//get the PR in question
-				var PR = await client.Issue.Get(repoName, repoOwner, PRNumber);
+				var PR = await client.Issue.Get(repoOwner, repoName, PRNumber);
 				if(PR == null ||PR.PullRequest == null)
 				{
 					MessageBox.Show("That doesn't seem to be a valid PR!");
