@@ -52,11 +52,14 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		public void Dispose()
 		{
-			if (disposed)
-				return;
-			lockedSemaphore.Release();
+			lock (this)
+			{
+				if (disposed)
+					return;
+				disposed = true;
+			}
 			GC.SuppressFinalize(this);
-			disposed = true;
+			lockedSemaphore.Release();
 		}
 	}
 }
