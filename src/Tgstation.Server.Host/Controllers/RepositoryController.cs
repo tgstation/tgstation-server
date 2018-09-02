@@ -170,13 +170,13 @@ namespace Tgstation.Server.Host.Controllers
 				var api = currentModel.ToApi();
 				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
 				{
-					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, cancellationToken).ConfigureAwait(false))
+					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false))
 					{
 						if (repos == null)
 							throw new JobException("Filesystem conflict while cloning repository!");
 						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
-						if (await PopulateApi(api, repos, db, Instance, cancellationToken).ConfigureAwait(false))
-							await db.Save(cancellationToken).ConfigureAwait(false);
+						if (await PopulateApi(api, repos, db, Instance, ct).ConfigureAwait(false))
+							await db.Save(ct).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
 
