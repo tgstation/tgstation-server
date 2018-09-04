@@ -12,10 +12,6 @@
 		/// <summary>
 		/// Use MySQL/MariaDB
 		/// </summary>
-		MySql,
-		/// <summary>
-		/// Use SQLite 3
-		/// </summary>
-		Sqlite
+		MySql
 	}
 }
