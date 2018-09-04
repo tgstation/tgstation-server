@@ -19,12 +19,12 @@ namespace Tgstation.Server.Client
 		Task<IReadOnlyList<Instance>> List(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Create an <paramref name="instance"/>
+		/// Create or attach an <paramref name="instance"/>
 		/// </summary>
 		/// <param name="instance">The <see cref="Instance"/> to create. <see cref="Instance.Id"/> will be ignored</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the created <see cref="Instance"/></returns>
-		Task<Instance> Create(Instance instance, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the created or attached <see cref="Instance"/></returns>
+		Task<Instance> CreateOrAttach(Instance instance, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Relocates, renamed, and/or on/offlines an <paramref name="instance"/>
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Client
 		/// <param name="instance">The <see cref="Instance"/> to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Delete(Instance instance, CancellationToken cancellationToken);
+		Task Detach(Instance instance, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create an <see cref="IInstanceClient"/> for a given <see cref="Instance"/>
