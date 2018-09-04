@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task DeleteEmptyDirectory(string directory, CancellationToken cancellationToken) => apiClient.Delete(Routes.Configuration + directory ?? throw new ArgumentNullException(nameof(directory)), cancellationToken);
+		public Task DeleteEmptyDirectory(string directory, CancellationToken cancellationToken) => apiClient.Delete(Routes.Configuration + directory ?? throw new ArgumentNullException(nameof(directory)), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken)
