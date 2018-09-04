@@ -140,6 +140,12 @@ namespace Tgstation.Server.Host.Models
 		{
 			Logger.LogInformation("Migrating database...");
 
+			if (databaseConfiguration.DropDatabase)
+			{
+				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
+				await Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
+			}
+
 			var wasEmpty = false;
 			if (databaseConfiguration.NoMigrations)
 			{
