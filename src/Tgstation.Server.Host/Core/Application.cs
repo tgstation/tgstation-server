@@ -153,6 +153,7 @@ namespace Tgstation.Server.Host.Core
 			switch (dbType)
 			{
 				case DatabaseType.MySql:
+				case DatabaseType.MariaDB:
 					services.AddDbContext<MySqlDatabaseContext>(ConfigureDatabase);
 					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<MySqlDatabaseContext>());
 					break;

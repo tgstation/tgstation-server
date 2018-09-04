@@ -43,11 +43,15 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 
-- `Database:DatabaseType`: Can be one of `SqlServer` or `MySql`. Note that, at the time of this writing, there is a [blocking bug with the MySQL DBAL provider](https://bugs.mysql.com/bug.php?id=89855) which prevents its usage
+- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
+
+- `Database:MySqlServerVersion`: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of [certain features](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.1.1/src/EFCore.MySql/Storage/Internal/ServerVersion.cs) ignore at your own risk. A string in the form `<major>.<minor>.<patch>`
 
 - `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator or see [here](https://www.connectionstrings.com/mysql/) for a MySQL guide.
 
 ### Database Configuration
+
+If using MySQL, our provider library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
 
 The user created for the application will need the privilege to create databases on the first run. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
 

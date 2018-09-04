@@ -67,14 +67,9 @@ namespace Tgstation.Server.Host.Models
 		protected ILogger Logger { get; }
 
 		/// <summary>
-		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		protected string ConnectionString => databaseConfiguration.ConnectionString;
-
-		/// <summary>
 		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
-		readonly DatabaseConfiguration databaseConfiguration;
+		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
@@ -85,12 +80,12 @@ namespace Tgstation.Server.Host.Models
 		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
+		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
 		{
-			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -140,14 +135,14 @@ namespace Tgstation.Server.Host.Models
 		{
 			Logger.LogInformation("Migrating database...");
 
-			if (databaseConfiguration.DropDatabase)
+			if (DatabaseConfiguration.DropDatabase)
 			{
 				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
 				await Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
 			}
 
 			var wasEmpty = false;
-			if (databaseConfiguration.NoMigrations)
+			if (DatabaseConfiguration.NoMigrations)
 			{
 				Logger.LogWarning("Using all or nothing migration strategy!");
 				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
@@ -169,7 +164,7 @@ namespace Tgstation.Server.Host.Models
 			else
 			{
 				Logger.LogDebug("No migrations applied!");
-				if (databaseConfiguration.ResetAdminPassword)
+				if (DatabaseConfiguration.ResetAdminPassword)
 				{
 					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
 					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);

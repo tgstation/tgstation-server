@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Models
@@ -24,7 +26,10 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseMySQL(ConnectionString);
+			if (DatabaseConfiguration.MySqlServerVersion != null)
+				options.UseMySql(DatabaseConfiguration.ConnectionString, mySqlOptions => mySqlOptions.ServerVersion(Version.Parse(DatabaseConfiguration.MySqlServerVersion), DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB ? ServerType.MariaDb : ServerType.MySql));
+			else
+				options.UseMySql(DatabaseConfiguration.ConnectionString);
 		}
 	}
 }
