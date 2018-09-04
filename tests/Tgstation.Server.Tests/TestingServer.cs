@@ -10,6 +10,8 @@ namespace Tgstation.Server.Tests
 	sealed class TestingServer : IServer
 	{
 		public Uri Url { get; }
+
+		public string Directory { get; }
 		public bool RestartRequested => realServer.RestartRequested;
 
 		readonly IServer realServer;
@@ -17,8 +19,10 @@ namespace Tgstation.Server.Tests
 
 		public TestingServer()
 		{
-			databasePath = Path.GetTempFileName();
-			File.Delete(databasePath);
+			Directory = Path.GetTempFileName();
+			File.Delete(Directory);
+			System.IO.Directory.CreateDirectory(Directory);
+			databasePath = Path.Combine(Directory, "TGS.db3");
 			Url = new Uri("http://localhost:5001");
 			realServer = new ServerFactory().CreateServer(new string[]
 			{
@@ -33,7 +37,7 @@ namespace Tgstation.Server.Tests
 		public void Dispose()
 		{
 			realServer.Dispose();
-			File.Delete(databasePath);
+			System.IO.Directory.Delete(Directory, true);
 		}
 
 		public Task RunAsync(CancellationToken cancellationToken) => realServer.RunAsync(cancellationToken);

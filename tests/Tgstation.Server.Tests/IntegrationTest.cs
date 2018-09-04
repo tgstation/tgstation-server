@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading;
@@ -22,7 +23,8 @@ namespace Tgstation.Server.Tests
 			using (var server = new TestingServer())
 			using (var serverCts = new CancellationTokenSource())
 			{
-				var serverTask = server.RunAsync(serverCts.Token);
+				var cancellationToken = serverCts.Token;
+				var serverTask = server.RunAsync(cancellationToken);
 				try
 				{
 					using (var adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false))
@@ -32,7 +34,8 @@ namespace Tgstation.Server.Tests
 						Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
 						Assert.AreEqual(typeof(IServer).Assembly.GetName().Version, serverInfo.Version);
 
-						await new AdministrationTest(adminClient.Administration).Run().ConfigureAwait(false);
+						await new AdministrationTest(adminClient.Administration).Run(cancellationToken).ConfigureAwait(false);
+						await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
 					}
 				}
 				finally
