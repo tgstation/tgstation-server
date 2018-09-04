@@ -2,6 +2,8 @@ version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 environment:
+  TGS4_TEST_DATABASE_TYPE: SqlServer
+  TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Database=master;User ID=sa;Password=Password12!
   repo_token:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 branches:
@@ -9,9 +11,6 @@ branches:
     - master
 skip_tags: true
 image: Visual Studio 2017
-environment:
-  TGS4_TEST_DATABASE_TYPE: SqlServer
-  TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Database=master;User ID=sa;Password=Password12!
 configuration:
   - Debug
   - Release
