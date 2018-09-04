@@ -36,17 +36,20 @@ Note that due to the nature of docker. If the container restarts, you will be se
 ### Configuring
 
 Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts: 
-	- `General:LogFileDirectory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
-	- `General:MinimumPasswordLength`: Minimum password length requirement for database users
-	- `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
-	- `Database:DatabaseType`: Can be one of `SqlServer`, `MySql`, or `Sqlite`. Note that, at the time of this writing, there is a [blocking bug with the MySQL DBAL provider](https://bugs.mysql.com/bug.php?id=89855) which prevents its usage
-	- `Database:ConnectionString`: Connection string for your database. For SQLite this should be in the form `Data Source=/path/to/database.ext`. Otherwise, click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator or see [here](https://www.connectionstrings.com/mysql/) for a MySQL guide.
+
+- `General:LogFileDirectory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
+
+- `General:MinimumPasswordLength`: Minimum password length requirement for database users
+
+- `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
+
+- `Database:DatabaseType`: Can be one of `SqlServer` or `MySql`. Note that, at the time of this writing, there is a [blocking bug with the MySQL DBAL provider](https://bugs.mysql.com/bug.php?id=89855) which prevents its usage
+
+- `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator or see [here](https://www.connectionstrings.com/mysql/) for a MySQL guide.
 
 ### Database Configuration
 
-If you are using an SQLite database just ensure the specified database file doesn't exist for first time setup and you may skip this section.
-
-For dedicated SQL servers, the user created for the application will need the privilege to create databases for the first run. Once the initial set of migrations is run, the create right may be revoked.
+The user created for the application will need the privilege to create databases on the first run. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
 
 ### Starting
 
