@@ -27,7 +27,26 @@ namespace Tgstation.Server.Tests
 				var serverTask = server.RunAsync(cancellationToken);
 				try
 				{
-					using (var adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false))
+					IServerClient adminClient;
+
+					var giveUpAt = DateTimeOffset.Now.AddSeconds(30);
+					do
+					{
+						try
+						{
+							adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
+							break;
+						}
+						catch (ServiceUnavailableException)
+						{
+							//migrating, to be expected
+							if (DateTimeOffset.Now > giveUpAt)
+								throw;
+							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+						}
+					} while (true);
+
+					using (adminClient)
 					{
 						var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
 

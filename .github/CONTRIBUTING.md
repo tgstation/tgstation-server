@@ -26,6 +26,8 @@ You need the Dotnet SDK to compile the main server and command line programs. In
 
 The recommended IDE is visual studio 2017 which has installation options for both of these.
 
+In order to run the integration tests you must have the environment variables `TGS4_TEST_DATABASE_TYPE` set to `MySql` or `SqlServer` and `TGS4_TEST_CONNECTION_STRING` set appropriately
+
 ## Meet the Team
 
 **Headcoder**
