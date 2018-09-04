@@ -400,7 +400,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 			
 			var api = instance.ToApi();
-			api.MoveJob = (await moveJobTask.ConfigureAwait(false)).ToApi();
+			api.MoveJob = (await moveJobTask.ConfigureAwait(false))?.ToApi();
 			return Json(api);
 		}
 	}
