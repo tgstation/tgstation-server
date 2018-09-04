@@ -124,12 +124,21 @@ namespace Tgstation.Server.Host.Components
 				throw new InvalidOperationException("Cannot move an online instance!");
 			var oldPath = instance.Path;
 			await ioManager.CopyDirectory(oldPath, newPath, null, cancellationToken).ConfigureAwait(false);
-			instance.Path = ioManager.ResolvePath(newPath);
+			await databaseContextFactory.UseContext(db =>
+			{
+				var targetInstance = new Models.Instance
+				{
+					Id = instance.Id
+				};
+				db.Instances.Attach(targetInstance);
+				targetInstance.Path = newPath;
+				return db.Save(cancellationToken);
+			}).ConfigureAwait(false);
 			await ioManager.DeleteDirectory(oldPath, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async Task OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
@@ -143,6 +152,23 @@ namespace Tgstation.Server.Host.Components
 			}
 			try
 			{
+				//we are the one responsible for cancelling his jobs
+				var tasks = new List<Task>();
+				await databaseContextFactory.UseContext(async db =>
+				{
+					var jobs = db.Jobs.Where(x => x.Instance.Id == metadata.Id).Select(x => new Models.Job
+					{
+						Id = x.Id
+					}).ToAsyncEnumerable();
+					await jobs.ForEachAsync(job =>
+					{
+						lock (tasks)
+							tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
+					}, cancellationToken).ConfigureAwait(false);
+				}).ConfigureAwait(false);
+
+				await Task.WhenAll(tasks).ConfigureAwait(false);
+
 				await instance.StopAsync(cancellationToken).ConfigureAwait(false);
 			}
 			finally

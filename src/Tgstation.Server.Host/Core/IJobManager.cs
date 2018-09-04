@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,8 +30,9 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/> to cancel</param>
 		/// <param name="user">The <see cref="User"/> who cancelled the <paramref name="job"/></param>
+		/// <param name="blocking">If the operation should wait until the job exits before completing</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing a running operation</returns>
-		Task CancelJob(Job job, User user, CancellationToken cancellationToken);
+		Task CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
 	}
 }

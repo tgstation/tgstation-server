@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Get the <see cref="IInstance"/> associated with given <paramref name="metadata"/>
 		/// </summary>
-		/// <param name="metadata">The <see cref="Host.Models.Instance"/> of the desired <see cref="IInstance"/></param>
+		/// <param name="metadata">The <see cref="Models.Instance"/> of the desired <see cref="IInstance"/></param>
 		/// <returns>The <see cref="IInstance"/> associated with the given <paramref name="metadata"/></returns>
 		IInstance GetInstance(Models.Instance metadata);
 
@@ -28,9 +28,10 @@ namespace Tgstation.Server.Host.Components
 		/// Offline an <see cref="IInstance"/>
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/> of the desired <see cref="IInstance"/></param>
+		/// <param name="user">The <see cref="User"/> performing the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task OfflineInstance(Models.Instance metadata, CancellationToken cancellationToken);
+		Task OfflineInstance(Models.Instance metadata, User user, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Move an <see cref="IInstance"/>
