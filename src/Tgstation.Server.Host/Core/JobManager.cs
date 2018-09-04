@@ -187,14 +187,23 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
+		public async Task<bool> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
-			var jobObject = CheckGetJob(job);
-			jobObject.Cancel();  //this will ensure the db update is only done once
+			JobHandler handler;
+			try
+			{
+				handler = CheckGetJob(job);
+			}
+			catch (InvalidOperationException)
+			{
+				//this is fine
+				return false;
+			}
+			handler.Cancel();  //this will ensure the db update is only done once
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
@@ -207,7 +216,8 @@ namespace Tgstation.Server.Host.Core
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			}
 			if (blocking)
-				await jobObject.Wait(cancellationToken).ConfigureAwait(false);
+				await handler.Wait(cancellationToken).ConfigureAwait(false);
+			return true;
 		}
 
 		/// <inheritdoc />

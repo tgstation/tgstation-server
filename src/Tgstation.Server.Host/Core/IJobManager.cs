@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="user">The <see cref="User"/> who cancelled the <paramref name="job"/></param>
 		/// <param name="blocking">If the operation should wait until the job exits before completing</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing a running operation</returns>
-		Task CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the <paramref name="job"/> was cancelled, <see langword="false"/> if it couldn't be found</returns>
+		Task<bool> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
 	}
 }

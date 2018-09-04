@@ -71,8 +71,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
 
-			await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
-			return Accepted();
+			var cancelled = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
+			return cancelled ? (IActionResult)Accepted() : StatusCode((int)HttpStatusCode.Gone);
 		}
 
 		/// <inheritdoc />
