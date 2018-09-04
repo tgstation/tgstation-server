@@ -29,7 +29,7 @@ namespace Tgstation.Server.Tests
 				{
 					IServerClient adminClient;
 
-					var giveUpAt = DateTimeOffset.Now.AddSeconds(30);
+					var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
 					do
 					{
 						try
