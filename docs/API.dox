@@ -210,6 +210,8 @@ DELETE "/Instance/{InstanceId}" => OK
 
 Some requests return @ref Tgstation.Server.Api.Models.Job objects. These are long running tasks the server will perform asyncronously and can be polled for status.
 
+Note that the job representing instance move operations must be queried and cancelled differently than others. See the documentation of @ref Tgstation.Server.Api.Models.Instance.MoveJob for details
+
 To list all jobs in an Instance use the following request
 
 I GET "/Job/List" => Array of @ref Tgstation.Server.Api.Models.Job
