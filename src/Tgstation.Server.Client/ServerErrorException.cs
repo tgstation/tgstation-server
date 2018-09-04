@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
 {
@@ -22,7 +23,11 @@ namespace Tgstation.Server.Client
 		/// Construct an <see cref="ServerErrorException"/> with <paramref name="html"/>
 		/// </summary>
 		/// <param name="html">The raw HTML response of the <see cref="ServerErrorException"/></param>
-		public ServerErrorException(string html) : base(null, HttpStatusCode.InternalServerError)
+		public ServerErrorException(string html) : base(new ErrorMessage
+		{
+			Message = "An internal server error occurred!",
+			SeverApiVersion = null
+		}, HttpStatusCode.InternalServerError)
 		{
 			Html = html;
 		}
