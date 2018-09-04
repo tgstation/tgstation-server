@@ -23,6 +23,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may list files
 		/// </summary>
-		List = 4
+		List = 4,
+		/// <summary>
+		/// User may delete empty folders
+		/// </summary>
+		Delete = 8
 	}
 }

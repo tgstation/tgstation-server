@@ -168,5 +168,29 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 			}
 		}
+		
+		[HttpDelete("{*directoryPath}")]
+		[TgsAuthorize(ConfigurationRights.Delete)]
+		public async Task<IActionResult> Delete(string directoryPath, CancellationToken cancellationToken)
+		{
+			if (ForbidDueToModeConflicts())
+				return Forbid();
+
+			try
+			{
+				return await instanceManager.GetInstance(Instance).Configuration.DeleteDirectory(directoryPath, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Ok() : Conflict(new ErrorMessage
+				{
+					Message = "Directory not empty!"
+				});
+			}
+			catch (NotImplementedException)
+			{
+				return StatusCode((int)HttpStatusCode.NotImplemented);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Forbid();
+			}
+		}
 	}
 }

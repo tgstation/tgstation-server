@@ -22,6 +22,22 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
+		public bool DeleteDirectory(string path)
+		{
+			if (File.Exists(path))
+				return false;
+
+			if (!Directory.Exists(path))
+				return true;
+
+			if (Directory.EnumerateFileSystemEntries(path).Any())
+				return false;
+
+			Directory.Delete(path);
+			return true;
+		}
+
+		/// <inheritdoc />
 		public IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken)
 		{
 			foreach (var I in Directory.EnumerateDirectories(path))
@@ -109,16 +125,7 @@ namespace Tgstation.Server.Host.IO
 				}
 			}
 			if (data == null)
-			{
 				File.Delete(path);
-				if (!cancellationToken.IsCancellationRequested)
-					//delete the entire folder if possible
-					try
-					{
-						Directory.Delete(directory);
-					}
-					catch (IOException) { }
-			}
 			return true;
 		}
 	}
