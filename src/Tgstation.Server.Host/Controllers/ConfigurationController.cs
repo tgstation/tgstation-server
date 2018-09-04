@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -183,7 +182,13 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 			}
 		}
-		
+
+		/// <summary>
+		/// Deletes an empty <paramref name="directory"/>
+		/// </summary>
+		/// <param name="directory">A <see cref="ConfigurationFile"/> representing the path to the directory to delete</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		public async Task<IActionResult> Delete([FromBody] ConfigurationFile directory, CancellationToken cancellationToken)

@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.IO
 		byte[] ReadFile(string path);
 
 		/// <summary>
-		/// Deletes a directory at <see cref="path"/> if it's empty
+		/// Deletes a directory at <paramref name="path"/> if it's empty
 		/// </summary>
 		/// <param name="path">The path of the directory to delete</param>
 		/// <returns><see langword="true"/> if the directory does not exist or is empty and was deleted. <see langword="false"/> otherwise</returns>
