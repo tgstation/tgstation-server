@@ -418,11 +418,19 @@ To create, write, and delete files use the following request
 
 I POST "/Config" @ref Tgstation.Server.Api.Models.ConfigurationFile => @ref Tgstation.Server.Api.Models.ConfigurationFile
 
-When creating a file, only @ref Tgstation.Server.Api.Models.ConfigurationFile.Path and @ref Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified. Any necessary preceeding directories will be created if possible.
+When creating a file, only @ref Tgstation.Server.Api.Models.ConfigurationFile.Path and @ref Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified
 
 If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
 
-To delete a file set @ref Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request. If deleting a file leaves a directory empty, they too will be deleted.
+To delete a file set @ref Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request.
+
+
+To delete an empty directory use the following request
+
+I DELETE "/Config" @ref Tgstation.Server.Api.Models.ConfigurationFile => OK
+
+Where the request @ref Tgstation.Server.Api.Models.ConfigurationFile.Path is set to the directory to delete
+
 
 @subsection api_dog Watchdog
 

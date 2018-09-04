@@ -37,9 +37,9 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Delete an empty <paramref name="directory"/>
 		/// </summary>
-		/// <param name="directory">The path to directory to delete</param>
+		/// <param name="directory">The <see cref="ConfigurationFile"/> representing the directory to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task DeleteEmptyDirectory(string directory, CancellationToken cancellationToken);
+		Task DeleteEmptyDirectory(ConfigurationFile directory, CancellationToken cancellationToken);
 	}
 }

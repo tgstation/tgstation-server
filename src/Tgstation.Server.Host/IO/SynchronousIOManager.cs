@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.IO
 				using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
 				{
-					string GetSha1(byte[] dataToHash) => dataToHash.Length != 0 ? String.Join("", sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
+					string GetSha1(byte[] dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join("", sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
 					var originalSha1 = GetSha1(originalBytes);
 					if (originalSha1 != sha1InOut)
 					{
