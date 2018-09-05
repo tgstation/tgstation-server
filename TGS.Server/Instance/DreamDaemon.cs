@@ -30,6 +30,10 @@ namespace TGS.Server
 		/// </summary>
 		const string ResourceDiagnosticsDir = DiagnosticsDir + "/Resources";
 		/// <summary>
+		/// Directory for storing DreamDaemon Minidumps
+		/// </summary>
+		const string MinidumpDiagnosticsDir = DiagnosticsDir + "/Minidumps";
+		/// <summary>
 		/// If DreamDaemon crashes before this time it is considered a bad startup
 		/// </summary>
 		const int DDBadStartTime = 10;
@@ -94,6 +98,7 @@ namespace TGS.Server
 		{
 			Directory.CreateDirectory(RelativePath(DiagnosticsDir));
 			Directory.CreateDirectory(RelativePath(ResourceDiagnosticsDir));
+			Directory.CreateDirectory(RelativePath(MinidumpDiagnosticsDir));
 			var Reattach = Config.ReattachRequired;
 			if (Reattach)
 				try
@@ -767,6 +772,26 @@ namespace TGS.Server
 					Config.Save();
 					RequestRestart();
 				}
+			}
+		}
+
+		/// <inheritdoc />
+		public string CreateMinidump()
+		{
+			try
+			{
+				lock (watchdogLock)
+					if (currentStatus != DreamDaemonStatus.Online)
+						return "DreamDaemon not running!";
+
+				using (var fs = File.Create(Path.Combine(RelativePath(MinidumpDiagnosticsDir), DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ"))))
+					Proc.WriteMinidump(fs);
+
+				return null;
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
 			}
 		}
 	}
