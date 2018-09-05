@@ -1,4 +1,3 @@
-language: generic
 sudo: false
 git:
   depth: 1
@@ -11,6 +10,7 @@ matrix:
       - BYOND_MINOR="1385"
       - DMEName="tests/DMAPI/travistester.dme"
       name: "DMAPI Unit Tests"
+      language: generic
       cache:
         directories:
           - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
@@ -23,6 +23,7 @@ matrix:
     - env:
       - DMAPI=false
       name: "Linux Build"
+      language: csharp
       dotnet: 2.1.300
       services:
         - mysql
