@@ -784,7 +784,7 @@ namespace TGS.Server
 					if (currentStatus != DreamDaemonStatus.Online)
 						return "DreamDaemon not running!";
 
-				using (var fs = File.Create(Path.Combine(RelativePath(MinidumpDiagnosticsDir), DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ"))))
+				using (var fs = new FileStream(Path.Combine(RelativePath(MinidumpDiagnosticsDir), DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ssZ") + ".dmp"), FileMode.CreateNew))
 					Proc.WriteMinidump(fs);
 
 				return null;
