@@ -81,6 +81,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Security\AuthenticationHeaderDecoder.cs" />
     <Compile Include="ChatCommands\ByondCommand.cs" />
     <Compile Include="ChatCommands\CommandInfo.cs" />
