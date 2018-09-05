@@ -497,5 +497,18 @@ namespace TGS.ControlPanel
 			else
 				Instance.Repository.SetAutoUpdateInterval((ulong)AutoUpdateInterval.Value);
 		}
+
+		private void createMinidump_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("This will create a full memory minidump of the current DD process and save it in Diagnostics/Minidumps. Continue?", "Minidump", MessageBoxButtons.YesNo) != DialogResult.Yes)
+				return;
+
+			var result = Instance.DreamDaemon.CreateMinidump();
+
+			if (result != null)
+				MessageBox.Show(result, "Error");
+			else
+				MessageBox.Show("Minidump complete!", "Success");
+		}
 	}
 }
