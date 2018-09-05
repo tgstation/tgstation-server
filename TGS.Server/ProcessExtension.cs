@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -44,7 +45,8 @@ namespace TGS.Server
 
 		public static void WriteMinidump(this Process process, FileStream fileStream)
 		{
-			NativeMethods.MiniDumpWriteDump(process.Handle, (uint)process.Id, fileStream.SafeFileHandle, (uint)(NativeMethods.Option.Normal), IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+			if(!NativeMethods.MiniDumpWriteDump(process.Handle, (uint)process.Id, fileStream.SafeFileHandle, (uint)(NativeMethods.Option.Normal), IntPtr.Zero, IntPtr.Zero, IntPtr.Zero))
+				throw new Win32Exception(Marshal.GetLastWin32Error());
 		}
 	}
 }
