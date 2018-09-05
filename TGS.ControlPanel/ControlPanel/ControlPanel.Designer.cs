@@ -152,6 +152,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
+			this.createMinidump = new System.Windows.Forms.Button();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -624,6 +625,7 @@
 			// ServerPanel
 			// 
 			this.ServerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.ServerPanel.Controls.Add(this.createMinidump);
 			this.ServerPanel.Controls.Add(this.AutoUpdateMLabel);
 			this.ServerPanel.Controls.Add(this.AutoUpdateInterval);
 			this.ServerPanel.Controls.Add(this.AutoUpdateCheckbox);
@@ -1719,6 +1721,17 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
+			// createMinidump
+			// 
+			this.createMinidump.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.createMinidump.Location = new System.Drawing.Point(59, 94);
+			this.createMinidump.Name = "createMinidump";
+			this.createMinidump.Size = new System.Drawing.Size(118, 28);
+			this.createMinidump.TabIndex = 48;
+			this.createMinidump.Text = "Create Minidump";
+			this.createMinidump.UseVisualStyleBackColor = true;
+			this.createMinidump.Click += new System.EventHandler(this.createMinidump_Click);
+			// 
 			// ControlPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1878,5 +1891,6 @@
 		private System.Windows.Forms.Label AutoUpdateMLabel;
 		private System.Windows.Forms.TextBox projectNameText;
 		private System.Windows.Forms.CheckBox SyncCommitsCheckBox;
+		private System.Windows.Forms.Button createMinidump;
 	}
 }

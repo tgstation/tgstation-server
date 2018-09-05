@@ -142,5 +142,12 @@ namespace TGS.Interface.Components
 		/// <returns>The number of connected players or -1 on error</returns>
 		[OperationContract]
 		int PlayerCount();
+
+		/// <summary>
+		/// Creates a full memory minidump of the current DD process under Diagnostics/Minidumps
+		/// </summary>
+		/// <returns><see langword="null"/> on success, error message on failure</returns>
+		[OperationContract]
+		string CreateMinidump();
 	}
 }

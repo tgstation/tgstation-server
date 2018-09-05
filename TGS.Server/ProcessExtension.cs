@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace TGS.Server
@@ -10,34 +12,6 @@ namespace TGS.Server
 	static class ProcessExtension
 	{
 		/// <summary>
-		/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx
-		/// </summary>
-		enum ThreadAccess : int
-		{
-			SUSPEND_RESUME = (0x0002),
-		}
-		/// <summary>
-		/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx
-		/// </summary>
-		[DllImport("kernel32.dll")]
-		static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
-		/// <summary>
-		/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx
-		/// </summary>
-		[DllImport("kernel32.dll")]
-		static extern bool CloseHandle(IntPtr hObject);
-		/// <summary>
-		/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx
-		/// </summary>
-		[DllImport("kernel32.dll")]
-		static extern uint SuspendThread(IntPtr hThread);
-		/// <summary>
-		/// https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx
-		/// </summary>
-		[DllImport("kernel32.dll")]
-		static extern int ResumeThread(IntPtr hThread);
-
-		/// <summary>
 		/// Suspends all threads for a running <see cref="Process"/>
 		/// </summary>
 		/// <param name="process">The <see cref="Process"/> to suspend</param>
@@ -45,11 +19,11 @@ namespace TGS.Server
 		{
 			foreach (ProcessThread thread in process.Threads)
 			{
-				var pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)thread.Id);
+				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SUSPEND_RESUME, false, (uint)thread.Id);
 				if (pOpenThread == IntPtr.Zero)
 					continue;
-				SuspendThread(pOpenThread);
-				CloseHandle(pOpenThread);
+				NativeMethods.SuspendThread(pOpenThread);
+				NativeMethods.CloseHandle(pOpenThread);
 			}
 		}
 
@@ -61,12 +35,18 @@ namespace TGS.Server
 		{
 			foreach (ProcessThread thread in process.Threads)
 			{
-				var pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)thread.Id);
+				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SUSPEND_RESUME, false, (uint)thread.Id);
 				if (pOpenThread == IntPtr.Zero)
 					continue;
-				ResumeThread(pOpenThread);
-				CloseHandle(pOpenThread);
+				NativeMethods.ResumeThread(pOpenThread);
+				NativeMethods.CloseHandle(pOpenThread);
 			}
+		}
+
+		public static void WriteMinidump(this Process process, FileStream fileStream)
+		{
+			if(!NativeMethods.MiniDumpWriteDump(process.Handle, (uint)process.Id, fileStream.SafeFileHandle, (uint)(NativeMethods.Option.Normal), IntPtr.Zero, IntPtr.Zero, IntPtr.Zero))
+				throw new Win32Exception(Marshal.GetLastWin32Error());
 		}
 	}
 }
