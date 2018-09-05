@@ -10,25 +10,25 @@ matrix:
       - BYOND_MAJOR="511"
       - BYOND_MINOR="1385"
       - DMEName="tests/DMAPI/travistester.dme"
-    name: "DMAPI Unit Tests"
-    cache:
-      directories:
-        - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
+      name: "DMAPI Unit Tests"
+      cache:
+        directories:
+          - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
 
-    addons:
-      apt:
-        packages:
-          - libc6-i386
-          - libstdc++6:i386
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DMAPI=false
-    name: "Linux Build"
-    dotnet: 2.1.300
-    services:
-      - mysql
-    cache:
-      directories:
-        - $HOME/.nuget/packages
+      name: "Linux Build"
+      dotnet: 2.1.300
+      services:
+        - mysql
+      cache:
+        directories:
+          - $HOME/.nuget/packages
 
 install:
   - if [ $DMAPI = true ]; then build/install_byond.sh fi
