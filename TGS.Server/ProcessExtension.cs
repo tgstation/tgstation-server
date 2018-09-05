@@ -44,7 +44,7 @@ namespace TGS.Server
 
 		public static void WriteMinidump(this Process process, FileStream fileStream)
 		{
-			NativeMethods.MiniDumpWriteDump(process.Handle, (uint)process.Id, fileStream.SafeFileHandle, (uint)(NativeMethods.Option.WithFullMemory | NativeMethods.Option.Normal), IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+			NativeMethods.MiniDumpWriteDump(process.Handle, (uint)process.Id, fileStream.SafeFileHandle, (uint)(NativeMethods.Option.Normal), IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
 		}
 	}
 }
