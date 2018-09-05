@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace TGS.Server
@@ -39,6 +40,11 @@ namespace TGS.Server
 				NativeMethods.ResumeThread(pOpenThread);
 				NativeMethods.CloseHandle(pOpenThread);
 			}
+		}
+
+		public static void WriteMinidump(this Process process, FileStream fileStream)
+		{
+			NativeMethods.MiniDumpWriteDump(process.Handle, (uint)process.Id, fileStream.SafeFileHandle, (uint)(NativeMethods.Option.WithFullMemory | NativeMethods.Option.Normal), IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
 		}
 	}
 }
