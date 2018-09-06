@@ -24,6 +24,7 @@ matrix:
       - DMAPI=false
       name: "Linux Build"
       language: csharp
+      mono: none
       dotnet: 2.1.300
       services:
         - mysql
