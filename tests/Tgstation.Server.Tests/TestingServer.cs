@@ -42,7 +42,6 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				"Database:DropDatabase=true"
-				,"Database:NoMigrations=true"	//TODO: remove this when migrations are added
 			}, null);
 		}
 

@@ -133,26 +133,22 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
-			Logger.LogInformation("Migrating database...");
-
 			if (DatabaseConfiguration.DropDatabase)
 			{
 				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
 				await Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
 			}
 
-			var wasEmpty = false;
-			if (DatabaseConfiguration.NoMigrations)
+			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+			var wasEmpty = !migrations.Any();
+
+			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
 			{
-				Logger.LogWarning("Using all or nothing migration strategy!");
-				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
-			}
-			else
-			{
-				var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
-				wasEmpty = !migrations.Any();
+				Logger.LogInformation("Migrating database...");
 				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
 			}
+			else
+				Logger.LogDebug("No migrations to apply.");
 
 			wasEmpty |= (await Users.CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
 
@@ -161,14 +157,10 @@ namespace Tgstation.Server.Host.Models
 				Logger.LogInformation("Seeding database...");
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 			}
-			else
+			else if (DatabaseConfiguration.ResetAdminPassword)
 			{
-				Logger.LogDebug("No migrations applied!");
-				if (DatabaseConfiguration.ResetAdminPassword)
-				{
-					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
-					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
-				}
+				Logger.LogWarning("Enabling and resetting admin password due to configuration!");
+				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
 			}
 		}
 
