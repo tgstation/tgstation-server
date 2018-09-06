@@ -9,5 +9,3 @@ Test reattachment
 Test auto update
 
 Test auto start
-
-Migrations
