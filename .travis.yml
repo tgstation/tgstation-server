@@ -30,7 +30,10 @@ matrix:
         - mysql
       cache:
         directories:
-          - $HOME/.nuget/packages
+          - $HOME/.nuget/packagesos:
+      os:
+      - linux
+      - osx
 
 install:
   - if [ $DMAPI = true ]; then build/install_byond.sh; fi
