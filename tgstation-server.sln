@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		appveyor.yml = appveyor.yml
 		LICENSE = LICENSE
 		README.md = README.md
-		v4_prototype_TODO.txt = v4_prototype_TODO.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Console", "src\Tgstation.Server.Host.Console\Tgstation.Server.Host.Console.csproj", "{A09C947F-4B9B-4AEE-AB50-47055EA05F18}"
