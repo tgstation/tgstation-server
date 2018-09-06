@@ -32,6 +32,13 @@ namespace Tgstation.Server.Host.IO
 		string GetFileNameWithoutExtension(string path);
 
 		/// <summary>
+		/// Check if a <paramref name="path"/> contains the '..' parent directory accessor
+		/// </summary>
+		/// <param name="path">The path to check</param>
+		/// <returns><see langword="true"/> if <paramref name="path"/> contains a '..' accessor, <see langword="false"/> otherwise</returns>
+		bool PathContainsParentAccess(string path);
+
+		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>
 		/// </summary>
 		/// <param name="src">The source directory path</param>

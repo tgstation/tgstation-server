@@ -149,22 +149,20 @@ namespace Tgstation.Server.Host.Core
 					builder.EnableSensitiveDataLogging();
 			};
 
-			switch (databaseConfiguration?.DatabaseType ?? DatabaseType.Sqlite)
+			var dbType = databaseConfiguration?.DatabaseType;
+			switch (dbType)
 			{
 				case DatabaseType.MySql:
+				case DatabaseType.MariaDB:
 					services.AddDbContext<MySqlDatabaseContext>(ConfigureDatabase);
 					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<MySqlDatabaseContext>());
-					break;
-				case DatabaseType.Sqlite:
-					services.AddDbContext<SqliteDatabaseContext>(ConfigureDatabase);
-					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqliteDatabaseContext>());
 					break;
 				case DatabaseType.SqlServer:
 					services.AddDbContext<SqlServerDatabaseContext>(ConfigureDatabase);
 					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqlServerDatabaseContext>());
 					break;
 				default:
-					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}!", nameof(DatabaseType)));
+					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
 			}
 
 			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();

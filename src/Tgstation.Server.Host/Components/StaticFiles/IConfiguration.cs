@@ -58,6 +58,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Attempt to delete an empty directory at <paramref name="configurationRelativePath"/>
+		/// </summary>
+		/// <param name="configurationRelativePath">The path of the empty directory to delete</param>
+		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns><see langword="true"/> if the directory was empty and deleted, <see langword="false"/> otherwise</returns>
+		Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Writes to a given <paramref name="configurationRelativePath"/>
 		/// </summary>
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory</param>

@@ -310,5 +310,8 @@ namespace Tgstation.Server.Host.IO
 			using (var archive = new ZipArchive(ms, ZipArchiveMode.Read))
 				archive.ExtractToDirectory(path);
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public bool PathContainsParentAccess(string path) => path?.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }).Any(x => x == "..") ?? throw new ArgumentNullException(nameof(path));
 	}
 }

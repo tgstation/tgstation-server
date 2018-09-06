@@ -14,14 +14,19 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <summary>
 		/// Path to the json file to use for migrations configuration
 		/// </summary>
-		const string MigrationsJson = "appsettings.Development.json";
+		const string RootJson = "appsettings.json";
+		/// <summary>
+		/// Path to the development json file to use for migrations configuration
+		/// </summary>
+		const string DevJson = "appsettings.Development.json";
 
 		/// <inheritdoc />
 		public static IOptions<DatabaseConfiguration> GetDbContextOptions()
 		{
 			var builder = new ConfigurationBuilder();
 			builder.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-			builder.AddJsonFile(MigrationsJson);
+			builder.AddJsonFile(RootJson);
+			builder.AddJsonFile(DevJson);
 			var configuration = builder.Build();
 			return Options.Create(configuration.GetSection(DatabaseConfiguration.Section).Get<DatabaseConfiguration>());
 		}

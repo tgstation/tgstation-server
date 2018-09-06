@@ -34,6 +34,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
 
+		const string MoveInstanceJobPrefix = "Move instance ID ";
+
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="InstanceController"/>
 		/// </summary>
@@ -202,6 +204,11 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
+			if (originalModel.Online.Value)
+				return Conflict(new ErrorMessage
+				{
+					Message = "Cannot detach an online instance!"
+				});
 
 			if (originalModel.WatchdogReattachInformation != null)
 			{
@@ -225,6 +232,18 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
+
+			var moveJob = await instanceQuery
+				.SelectMany(x => x.Jobs).
+				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix, StringComparison.Ordinal))
+				.Select(x => new Models.Job
+				{
+					Id = x.Id
+				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+			if (moveJob != default)
+				//cancel it now
+				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false);
 
 			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
 
@@ -296,7 +315,7 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				if (originalOnline && model.Online == false)
-					await instanceManager.OfflineInstance(originalModel, cancellationToken).ConfigureAwait(false);
+					await instanceManager.OfflineInstance(originalModel, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
 				else if (!originalOnline && model.Online == true)
 				{
 					//force autostart false here because we don't want any long running jobs right now
@@ -321,26 +340,14 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var job = new Models.Job
 				{
-					Description = String.Format(CultureInfo.InvariantCulture, "Move instance ID {0} from {1} to {2}", Instance.Id, Instance.Path, rawPath),
-					Instance = Instance,
+					Description = String.Format(CultureInfo.InvariantCulture, MoveInstanceJobPrefix + "{0} from {1} to {2}", originalModel.Id, originalModel.Path, rawPath),
+					Instance = originalModel,
 					CancelRightsType = RightsType.InstanceManager,
 					CancelRight = (ulong)InstanceManagerRights.Relocate,
 					StartedBy = AuthenticationContext.User
 				};
 
-				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressHandler, ct) =>
-				{
-					try
-					{
-						await instanceManager.MoveInstance(Instance, rawPath, ct).ConfigureAwait(false);
-					}
-					catch
-					{
-						originalModel.Path = originalModelPath;
-						await DatabaseContext.Save(default).ConfigureAwait(false);
-						throw;
-					}
-				}, cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
 				api.MoveJob = job.ToApi();
 			}
 
@@ -354,8 +361,19 @@ namespace Tgstation.Server.Host.Controllers
 			IQueryable<Models.Instance> query = DatabaseContext.Instances;
 			if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
 				query = query.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id)).Where(x => x.InstanceUsers.Any(y => y.AnyRights));
+
+			var moveJobTasks = query
+				.SelectMany(x => x.Jobs)
+				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix, StringComparison.Ordinal))
+				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.Include(x => x.Instance)
+				.ToListAsync(cancellationToken);
 			var instances = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
-			return Json(instances.Select(x => x.ToApi()));
+			var apis = instances.Select(x => x.ToApi());
+			var moveJobs = await moveJobTasks.ConfigureAwait(false);
+			foreach(var I in moveJobs)
+				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi();	//if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
+			return Json(apis);
 		}
 
 		/// <inheritdoc />
@@ -368,6 +386,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (cantList)
 				query = query.Include(x => x.InstanceUsers);
 
+			var moveJobTask = query
+				.SelectMany(x => x.Jobs)
+				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix, StringComparison.Ordinal))
+				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.FirstOrDefaultAsync(cancellationToken);
 			var instance = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (instance == null)
@@ -375,8 +398,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (cantList && !instance.InstanceUsers.Any(x => x.UserId == AuthenticationContext.User.Id && x.AnyRights))
 				return Forbid();
-
-			return Json(instance.ToApi());
+			
+			var api = instance.ToApi();
+			api.MoveJob = (await moveJobTask.ConfigureAwait(false))?.ToApi();
+			return Json(api);
 		}
 	}
 }

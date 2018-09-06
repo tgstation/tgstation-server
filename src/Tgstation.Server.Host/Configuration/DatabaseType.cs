@@ -10,12 +10,12 @@
 		/// </summary>
 		SqlServer,
 		/// <summary>
-		/// Use MySQL/MariaDB
+		/// Use MySQL
 		/// </summary>
 		MySql,
 		/// <summary>
-		/// Use SQLite 3
+		/// Use MariaDB
 		/// </summary>
-		Sqlite
+		MariaDB
 	}
 }

@@ -6,6 +6,18 @@ Hello and welcome to /tg/station servers's contributing page. You are here becau
 
 First things first, we want to make it clear how you can contribute (if you've never contributed before), as well as the kinds of powers the team has over your additions, to avoid any unpleasant surprises if your pull request is closed for a reason you didn't foresee.
 
+## Meet the Team
+
+**Headcoder**
+
+The Headcoder is responsible for controlling, adding, and removing maintainers from the project. In addition to filling the role of a normal maintainer, they have sole authority on who becomes a maintainer, as well as who remains a maintainer and who does not.
+
+**Maintainers**
+
+Maintainers are quality control. If a proposed pull request doesn't meet the following specifications, they can request you to change it, or simply just close the pull request. Maintainers are required to give a reason for closing the pull request.
+
+Maintainers can revert your changes if they feel they are not worth maintaining or if they did not live up to the quality specifications.
+
 ## Getting Started
 
 /tg/station doesn't have a list of goals and features to add; we instead allow freedom for contributors to suggest and create their ideas for the server. That doesn't mean we aren't determined to squash bugs, which unfortunately pop up a lot due to the deep complexity of the game. Here are some useful starting guides, if you want to contribute or if you want to know what challenges you can tackle with zero knowledge about the game's code structure.
@@ -22,21 +34,11 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet SDK to compile the main server and command line programs. In order to build the service version and control panel you also need a .NET 4.7.1 build chain
+You need the Dotnet 2.1 SDK to compile the main server and command line programs. In order to build the service version you also need a .NET 4.7.1 build chain
 
-The recommended IDE is visual studio 2017 which has installation options for both of these.
+The recommended IDE is Visual Studio 2017 which has installation options for both of these.
 
-## Meet the Team
-
-**Headcoder**
-
-The Headcoder is responsible for controlling, adding, and removing maintainers from the project. In addition to filling the role of a normal maintainer, they have sole authority on who becomes a maintainer, as well as who remains a maintainer and who does not.
-
-**Maintainers**
-
-Maintainers are quality control. If a proposed pull request doesn't meet the following specifications, they can request you to change it, or simply just close the pull request. Maintainers are required to give a reason for closing the pull request.
-
-Maintainers can revert your changes if they feel they are not worth maintaining or if they did not live up to the quality specifications.
+In order to run the integration tests you must have the environment variables `TGS4_TEST_DATABASE_TYPE` set to `MySql`, `MariaDB` or `SqlServer` and `TGS4_TEST_CONNECTION_STRING` set appropriately
 
 ## Specifications
 
@@ -150,6 +152,3 @@ Do not add any of the following in a Pull Request or risk getting the PR closed:
 * National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
 
 Just becuase something isn't on this list doesn't mean that it's acceptable. Use common sense above all else.
-
-## A word on Git
-Yes, we know that the files have a tonne of mixed Windows and Linux line endings. Attempts to fix this have been met with less than stellar success, and as such we have decided to give up caring until there comes a time when it matters.

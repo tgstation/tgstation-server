@@ -31,7 +31,15 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="file">The <see cref="ConfigurationFile"/> file to write</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ConfigurationFile"/></returns>
 		Task<ConfigurationFile> Write(ConfigurationFile file, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Delete an empty <paramref name="directory"/>
+		/// </summary>
+		/// <param name="directory">The <see cref="ConfigurationFile"/> representing the directory to delete</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task DeleteEmptyDirectory(ConfigurationFile directory, CancellationToken cancellationToken);
 	}
 }

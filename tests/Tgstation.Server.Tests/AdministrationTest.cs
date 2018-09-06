@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Client;
 
@@ -15,14 +16,14 @@ namespace Tgstation.Server.Tests
 			this.client = client ?? throw new ArgumentNullException(nameof(client));
 		}
 
-		public async Task Run()
+		public async Task Run(CancellationToken cancellationToken)
 		{
-			await TestRead().ConfigureAwait(false);
+			await TestRead(cancellationToken).ConfigureAwait(false);
 		}
 
-		async Task TestRead()
+		async Task TestRead(CancellationToken cancellationToken)
 		{
-			var model = await client.Read(default).ConfigureAwait(false);
+			var model = await client.Read(cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), model.WindowsHost);
 
 			//uhh not much else to do

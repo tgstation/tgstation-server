@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseSqlServer(ConnectionString);
+			options.UseSqlServer(DatabaseConfiguration.ConnectionString);
 		}
 	}
 }

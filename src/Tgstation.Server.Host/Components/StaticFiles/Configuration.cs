@@ -103,36 +103,40 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
-			//just assume no other fs race conditions here
-			var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
-			var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
-			var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
-
-			await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask).ConfigureAwait(false);
-
-			if (!dmeExistsTask.Result && !headFileExistsTask.Result && !tailFileExistsTask.Result)
-				return null;
-
-			var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
-
-			if (dmeExistsTask.Result)
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
+				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+
+				//just assume no other fs race conditions here
+				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
+				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
+				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
+
+				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask).ConfigureAwait(false);
+
+				if (!dmeExistsTask.Result && !headFileExistsTask.Result && !tailFileExistsTask.Result)
+					return null;
+
+				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
+
+				if (dmeExistsTask.Result)
+				{
+					await copyTask.ConfigureAwait(false);
+					return new ServerSideModifications(null, null, true);
+				}
+
+				if (!headFileExistsTask.Result && !tailFileExistsTask.Result)
+				{
+					await copyTask.ConfigureAwait(false);
+					return null;
+				}
+
+				string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
+
 				await copyTask.ConfigureAwait(false);
-				return new ServerSideModifications(null, null, true);
+				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 			}
-
-			if (!headFileExistsTask.Result && !tailFileExistsTask.Result)
-			{
-				await copyTask.ConfigureAwait(false);
-				return null;
-			}
-
-			string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
-
-			await copyTask.ConfigureAwait(false);
-			return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 		}
 
 		string ValidateConfigRelativePath(string configurationRelativePath)
@@ -140,6 +144,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
 			if (nullOrEmptyCheck)
 				configurationRelativePath = ".";
+			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
+				configurationRelativePath = '.' + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
 			var local = !nullOrEmptyCheck ? ioManager.ResolvePath(".") : null;
 			if (!nullOrEmptyCheck && resolved.Length < local.Length) //.. fuccbois
@@ -180,10 +186,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}));
 			}
 
-			if (systemIdentity == null)
-				ListImpl();
-			else
-				await systemIdentity.RunImpersonated(ListImpl, cancellationToken).ConfigureAwait(false);
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				if (systemIdentity == null)
+					ListImpl();
+				else
+					await systemIdentity.RunImpersonated(ListImpl, cancellationToken).ConfigureAwait(false);
 
 			return result;
 		}
@@ -240,10 +247,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 			}
 
-			if (systemIdentity == null)
-				await Task.Factory.StartNew(ReadImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-			else
-				await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				if (systemIdentity == null)
+					await Task.Factory.StartNew(ReadImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				else
+					await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
 
 			return result;
 		}
@@ -251,7 +259,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			async Task SymlinkBase(bool files)
 			{
 				Task<IReadOnlyList<string>> task;
@@ -275,7 +282,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				})).ConfigureAwait(false);
 			}
 
-			await Task.WhenAll(SymlinkBase(true), SymlinkBase(false)).ConfigureAwait(false);
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+				await Task.WhenAll(SymlinkBase(true), SymlinkBase(false)).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -328,13 +339,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 			}
 
-			if (systemIdentity == null)
-				await Task.Factory.StartNew(WriteImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-			else
-				await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
-
-			if (result != null && data == null) //make sure these directories always exist
-				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				if (systemIdentity == null)
+					await Task.Factory.StartNew(WriteImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				else
+					await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
 
 			return result;
 		}
@@ -347,10 +356,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			bool? result = null;
 			void DoCreate() => result = synchronousIOManager.CreateDirectory(path, cancellationToken);
-			if (systemIdentity == null)
-				await Task.Factory.StartNew(DoCreate, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-			else
-				await systemIdentity.RunImpersonated(DoCreate, cancellationToken).ConfigureAwait(false);
+
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				if (systemIdentity == null)
+					await Task.Factory.StartNew(DoCreate, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				else
+					await systemIdentity.RunImpersonated(DoCreate, cancellationToken).ConfigureAwait(false);
 
 			return result.Value;
 		}
@@ -386,6 +397,25 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 			}
 			return true;
+		}
+
+		/// <inheritdoc />
+		public async Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		{
+			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			var path = ValidateConfigRelativePath(configurationRelativePath);
+			
+			var result = false;
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				void CheckDeleteImpl() => result = synchronousIOManager.DeleteDirectory(path);
+
+				if (systemIdentity != null)
+					await systemIdentity.RunImpersonated(CheckDeleteImpl, cancellationToken).ConfigureAwait(false);
+				else
+					CheckDeleteImpl();
+			}
+			return result;
 		}
 	}
 }

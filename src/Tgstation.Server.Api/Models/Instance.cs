@@ -46,6 +46,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="Job"/> representing a change of <see cref="Path"/>
 		/// </summary>
+		/// <remarks>Due to how <see cref="Job"/>s are children of <see cref="Instance"/>s but moving one requires the <see cref="Instance"/> to be offline, interactions with this <see cref="Job"/> are performed in a non-standard fashion. The <see cref="Job"/> is read by querying the <see cref="Instance"/> again (either via list or ID lookup) and cancelled by making any sort of update to the <see cref="Instance"/>. Once the <see cref="Instance"/> comes back <see cref="Online"/> it can be queried like a normal job</remarks>
 		[NotMapped]
 		public Job MoveJob { get; set; }
 

@@ -33,10 +33,10 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<Instance> Create(Instance instance, CancellationToken cancellationToken) => apiClient.Create<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
+		public Task<Instance> CreateOrAttach(Instance instance, CancellationToken cancellationToken) => apiClient.Create<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(Instance instance, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public Task Detach(Instance instance, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<Instance>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Instance>>(Routes.List(Routes.InstanceManager), cancellationToken);

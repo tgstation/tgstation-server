@@ -198,6 +198,9 @@ namespace Tgstation.Server.Client
 		public Task Delete(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, instanceId, cancellationToken);
 
 		/// <inheritdoc />
+		public Task Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Delete, instanceId, cancellationToken);
+
+		/// <inheritdoc />
 		public Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Delete, instanceId, cancellationToken);
 
 		/// <inheritdoc />

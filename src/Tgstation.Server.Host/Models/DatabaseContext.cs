@@ -67,14 +67,9 @@ namespace Tgstation.Server.Host.Models
 		protected ILogger Logger { get; }
 
 		/// <summary>
-		/// The connection string for the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		protected string ConnectionString => databaseConfiguration.ConnectionString;
-
-		/// <summary>
 		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
-		readonly DatabaseConfiguration databaseConfiguration;
+		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
@@ -85,12 +80,12 @@ namespace Tgstation.Server.Host.Models
 		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/></param>
+		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
 		{
-			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -138,20 +133,22 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task Initialize(CancellationToken cancellationToken)
 		{
-			Logger.LogInformation("Migrating database...");
-
-			var wasEmpty = false;
-			if (databaseConfiguration.NoMigrations)
+			if (DatabaseConfiguration.DropDatabase)
 			{
-				Logger.LogWarning("Using all or nothing migration strategy!");
-				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
+				await Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
 			}
-			else
+
+			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+			var wasEmpty = !migrations.Any();
+
+			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
 			{
-				var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
-				wasEmpty = !migrations.Any();
+				Logger.LogInformation("Migrating database...");
 				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
 			}
+			else
+				Logger.LogDebug("No migrations to apply.");
 
 			wasEmpty |= (await Users.CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
 
@@ -160,14 +157,10 @@ namespace Tgstation.Server.Host.Models
 				Logger.LogInformation("Seeding database...");
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 			}
-			else
+			else if (DatabaseConfiguration.ResetAdminPassword)
 			{
-				Logger.LogDebug("No migrations applied!");
-				if (databaseConfiguration.ResetAdminPassword)
-				{
-					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
-					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
-				}
+				Logger.LogWarning("Enabling and resetting admin password due to configuration!");
+				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
 			}
 		}
 

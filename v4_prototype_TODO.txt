@@ -9,5 +9,3 @@ Test reattachment
 Test auto update
 
 Test auto start
-
-Remove auto folder delete from static file stuff before mso stumbles on it and lynches you

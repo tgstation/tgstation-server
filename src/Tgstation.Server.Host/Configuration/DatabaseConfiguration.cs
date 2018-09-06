@@ -26,8 +26,13 @@
 		public string ConnectionString { get; set; }
 
 		/// <summary>
-		/// If the database should use direct table creation instead of automatic migrations. Should not be used in production!
+		/// If the database should be deleted on application startup. Should not be used in production!
 		/// </summary>
-		public bool NoMigrations { get; set; }
+		public bool DropDatabase { get; set; }
+
+		/// <summary>
+		/// The <see cref="string"/> form of the <see cref="System.Version"/> of a target MySQL/MariaDB server
+		/// </summary>
+		public string MySqlServerVersion { get; set; }
 	}
 }
