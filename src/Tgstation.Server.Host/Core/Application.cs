@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Core
 					ValidateAudience = true,
 					ValidAudience = TokenFactory.TokenAudience,
 
-					ClockSkew = TimeSpan.FromMinutes(5),
+					ClockSkew = TimeSpan.FromMinutes(1),
 
 					RequireSignedTokens = true,
 
