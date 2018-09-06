@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Models.Migrations
 {
 	/// <summary>
-	/// The initial database migration for MSSQL
+	/// The initial database migration for MySQL/MariaDB
 	/// </summary>
-	public partial class MSInitialCreate : Migration
+	public partial class MYInitialCreate : Migration
 	{
 		/// <summary>
 		/// Applies the migration
@@ -20,13 +20,13 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					Enabled = table.Column<bool>(nullable: false),
 					CreatedAt = table.Column<DateTimeOffset>(nullable: false),
 					SystemIdentifier = table.Column<string>(nullable: true),
 					Name = table.Column<string>(nullable: false),
-					AdministrationRights = table.Column<decimal>(nullable: false),
-					InstanceManagerRights = table.Column<decimal>(nullable: false),
+					AdministrationRights = table.Column<ulong>(nullable: false),
+					InstanceManagerRights = table.Column<ulong>(nullable: false),
 					PasswordHash = table.Column<string>(nullable: true),
 					CreatedById = table.Column<long>(nullable: true),
 					CanonicalName = table.Column<string>(nullable: false),
@@ -48,13 +48,13 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					IrcChannel = table.Column<string>(nullable: true),
-					DiscordChannelId = table.Column<decimal>(nullable: true),
+					DiscordChannelId = table.Column<ulong>(nullable: true),
 					IsAdminChannel = table.Column<bool>(nullable: false),
 					IsWatchdogChannel = table.Column<bool>(nullable: false),
 					IsUpdatesChannel = table.Column<bool>(nullable: false),
 					Tag = table.Column<string>(nullable: true),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					ChatSettingsId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -72,10 +72,10 @@ namespace Tgstation.Server.Host.Models.Migrations
 					AccessIdentifier = table.Column<string>(nullable: false),
 					ProcessId = table.Column<int>(nullable: false),
 					IsPrimary = table.Column<bool>(nullable: false),
-					Port = table.Column<int>(nullable: false),
+					Port = table.Column<ushort>(nullable: false),
 					RebootState = table.Column<int>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					CompileJobId = table.Column<long>(nullable: true)
 				},
 				constraints: table =>
@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				{
 					AlphaIsActive = table.Column<bool>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					AlphaId = table.Column<long>(nullable: true),
 					BravoId = table.Column<long>(nullable: true)
 				},
@@ -115,19 +115,19 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					Name = table.Column<string>(nullable: false),
 					Path = table.Column<string>(nullable: false),
 					Online = table.Column<bool>(nullable: false),
 					ConfigurationType = table.Column<int>(nullable: false),
-					AutoUpdateInterval = table.Column<long>(nullable: false),
+					AutoUpdateInterval = table.Column<uint>(nullable: false),
 					WatchdogReattachInformationId = table.Column<long>(nullable: true)
 				},
 				constraints: table =>
 				{
 					table.PrimaryKey("PK_Instances", x => x.Id);
 					table.ForeignKey(
-						name: "FK_Instances_WatchdogReattachInformations_WatchdogReattachInformationId",
+						name: "FK_Instances_WatchdogReattachInformations_WatchdogReattachInfor~",
 						column: x => x.WatchdogReattachInformationId,
 						principalTable: "WatchdogReattachInformations",
 						principalColumn: "Id",
@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					Name = table.Column<string>(nullable: false),
 					Enabled = table.Column<bool>(nullable: true),
 					Provider = table.Column<int>(nullable: true),
@@ -163,14 +163,14 @@ namespace Tgstation.Server.Host.Models.Migrations
 				{
 					AllowWebClient = table.Column<bool>(nullable: false),
 					SecurityLevel = table.Column<int>(nullable: false),
-					PrimaryPort = table.Column<int>(nullable: false),
-					SecondaryPort = table.Column<int>(nullable: false),
-					StartupTimeout = table.Column<long>(nullable: false),
+					PrimaryPort = table.Column<ushort>(nullable: false),
+					SecondaryPort = table.Column<ushort>(nullable: false),
+					StartupTimeout = table.Column<uint>(nullable: false),
 					AutoStart = table.Column<bool>(nullable: false),
 					SoftRestart = table.Column<bool>(nullable: false),
 					SoftShutdown = table.Column<bool>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					ProcessId = table.Column<int>(nullable: true),
 					AccessToken = table.Column<string>(nullable: true),
 					InstanceId = table.Column<long>(nullable: false)
@@ -191,9 +191,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					ProjectName = table.Column<string>(nullable: true),
-					ApiValidationPort = table.Column<int>(nullable: false),
+					ApiValidationPort = table.Column<ushort>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					InstanceId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -212,15 +212,15 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					UserId = table.Column<long>(nullable: false),
-					InstanceUserRights = table.Column<decimal>(nullable: false),
-					ByondRights = table.Column<decimal>(nullable: false),
-					DreamDaemonRights = table.Column<decimal>(nullable: false),
-					DreamMakerRights = table.Column<decimal>(nullable: false),
-					RepositoryRights = table.Column<decimal>(nullable: false),
-					ChatBotRights = table.Column<decimal>(nullable: false),
-					ConfigurationRights = table.Column<decimal>(nullable: false),
+					InstanceUserRights = table.Column<ulong>(nullable: false),
+					ByondRights = table.Column<ulong>(nullable: false),
+					DreamDaemonRights = table.Column<ulong>(nullable: false),
+					DreamMakerRights = table.Column<ulong>(nullable: false),
+					RepositoryRights = table.Column<ulong>(nullable: false),
+					ChatBotRights = table.Column<ulong>(nullable: false),
+					ConfigurationRights = table.Column<ulong>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					InstanceId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -245,14 +245,14 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					Description = table.Column<string>(nullable: false),
 					ExceptionDetails = table.Column<string>(nullable: true),
 					StartedAt = table.Column<DateTimeOffset>(nullable: false),
 					StoppedAt = table.Column<DateTimeOffset>(nullable: true),
 					Cancelled = table.Column<bool>(nullable: false),
-					CancelRightsType = table.Column<decimal>(nullable: true),
-					CancelRight = table.Column<decimal>(nullable: true),
+					CancelRightsType = table.Column<ulong>(nullable: true),
+					CancelRight = table.Column<ulong>(nullable: true),
 					StartedById = table.Column<long>(nullable: false),
 					CancelledById = table.Column<long>(nullable: true),
 					InstanceId = table.Column<long>(nullable: false)
@@ -293,7 +293,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
 					AutoUpdatesSynchronize = table.Column<bool>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					InstanceId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -314,7 +314,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					CommitSha = table.Column<string>(maxLength: 40, nullable: false),
 					OriginCommitSha = table.Column<string>(maxLength: 40, nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					InstanceId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -333,7 +333,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					DmeName = table.Column<string>(nullable: true),
 					Output = table.Column<string>(nullable: true),
 					DirectoryName = table.Column<Guid>(nullable: true),
@@ -370,7 +370,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					Url = table.Column<string>(nullable: false),
 					Author = table.Column<string>(nullable: false),
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					MergedAt = table.Column<DateTimeOffset>(nullable: false),
 					MergedById = table.Column<long>(nullable: false),
 					PrimaryRevisionInformationId = table.Column<long>(nullable: true)
@@ -397,7 +397,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				columns: table => new
 				{
 					Id = table.Column<long>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					TestMergeId = table.Column<long>(nullable: false),
 					RevisionInformationId = table.Column<long>(nullable: false)
 				},
@@ -433,15 +433,13 @@ namespace Tgstation.Server.Host.Models.Migrations
 				name: "IX_ChatChannels_ChatSettingsId_DiscordChannelId",
 				table: "ChatChannels",
 				columns: new[] { "ChatSettingsId", "DiscordChannelId" },
-				unique: true,
-				filter: "[DiscordChannelId] IS NOT NULL");
+				unique: true);
 
 			migrationBuilder.CreateIndex(
 				name: "IX_ChatChannels_ChatSettingsId_IrcChannel",
 				table: "ChatChannels",
 				columns: new[] { "ChatSettingsId", "IrcChannel" },
-				unique: true,
-				filter: "[IrcChannel] IS NOT NULL");
+				unique: true);
 
 			migrationBuilder.CreateIndex(
 				name: "IX_CompileJobs_DirectoryName",
@@ -548,8 +546,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				name: "IX_TestMerges_PrimaryRevisionInformationId",
 				table: "TestMerges",
 				column: "PrimaryRevisionInformationId",
-				unique: true,
-				filter: "[PrimaryRevisionInformationId] IS NOT NULL");
+				unique: true);
 
 			migrationBuilder.CreateIndex(
 				name: "IX_Users_CanonicalName",
