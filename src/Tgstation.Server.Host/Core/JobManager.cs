@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Core
 				var databaseContext = scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 
 				//mark all jobs as cancelled
-				var badJobs = await databaseContext.Jobs.Where(y => !y.Cancelled.Value && !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+				var badJobs = await databaseContext.Jobs.Where(y => !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
 				if (badJobs.Count > 0)
 				{
 					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobs.Count);
