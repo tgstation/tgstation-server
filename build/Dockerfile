@@ -16,6 +16,10 @@ COPY tests/Tgstation.Server.Host.Console.Tests/Tgstation.Server.Host.Console.Tes
 RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
 
 COPY . .
+
+WORKDIR /src/src/Tgstation.Server.Host.Console
+RUN dotnet publish -c Release -o /app
+
 WORKDIR /src/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
