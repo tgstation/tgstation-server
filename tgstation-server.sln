@@ -22,7 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 	ProjectSection(SolutionItems) = preProject
 		build\BuildDox.ps1 = build\BuildDox.ps1
 		build\Dockerfile = build\Dockerfile
-		build\Doxyfile = build\Doxyfile
 		build\install_byond.sh = build\install_byond.sh
 		build\test_core.sh = build\test_core.sh
 		build\tgs.docker.sh = build\tgs.docker.sh
@@ -103,6 +102,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7
 		docs\API.dox = docs\API.dox
 		docs\Architecture.dox = docs\Architecture.dox
 		docs\ArchitectureOverview.png = docs\ArchitectureOverview.png
+		docs\Doxyfile = docs\Doxyfile
+		docs\DoxygenLayout.xml = docs\DoxygenLayout.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E82104F4-F5C4-4786-ACD4-B635166CDB21}"
