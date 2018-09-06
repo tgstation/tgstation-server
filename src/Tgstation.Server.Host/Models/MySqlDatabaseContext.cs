@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			if (DatabaseConfiguration.MySqlServerVersion != null)
+			if (!String.IsNullOrEmpty(DatabaseConfiguration.MySqlServerVersion))
 				options.UseMySql(DatabaseConfiguration.ConnectionString, mySqlOptions => mySqlOptions.ServerVersion(Version.Parse(DatabaseConfiguration.MySqlServerVersion), DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB ? ServerType.MariaDb : ServerType.MySql));
 			else
 				options.UseMySql(DatabaseConfiguration.ConnectionString);
