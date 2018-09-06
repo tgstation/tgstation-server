@@ -27,7 +27,7 @@ Generally, updates force a live tracking of the configured git repo, resetting l
 
 #### Docker
 
-tgstation-server supports running in a docker container on linux systems and is the preferred deployment method to avoid [native dependency hell with libgit2](https://github.com/libgit2/libgit2sharp/issues/1533). The official image repository is located at https://hub.docker.com/r/tgstation/server it can be build locally, however, by running `docker build . -f build/Dockerfile` in the repository root.
+tgstation-server supports running in a docker container on linux systems and is the preferred deployment method to avoid [native dependency hell with libgit2](https://github.com/libgit2/libgit2sharp/issues/1533). The official image repository is located at https://hub.docker.com/r/tgstation/server it can be built locally, however, by running `docker build . -f build/Dockerfile` in the repository root.
 
 To create a container run `docker create --restart=always -p <public port>:80 -v /path/to/your/appsettings.Production.json:/config_data -v path/to/your/log/folder:/tgs_logs tgstation/server` with any additional options you desire (i.e. You'll have to expose more ports in order to actually host servers, add a volume to create instances on, and create a volume for the SQLite database if that is what you're using).
 
