@@ -30,7 +30,7 @@ matrix:
         - mysql
       cache:
         directories:
-          - $HOME/.nuget/packagesos:
+          - $HOME/.nuget/packages:
       os:
       - linux
       - osx
