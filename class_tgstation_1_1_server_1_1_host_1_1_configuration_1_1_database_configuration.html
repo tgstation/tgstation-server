@@ -119,9 +119,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a53a14b4a89de73b8ea223804c4aea365"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a53a14b4a89de73b8ea223804c4aea365"><td class="mdescLeft">&#160;</td><td class="mdescRight">The connection string for the database  <a href="#a53a14b4a89de73b8ea223804c4aea365">More...</a><br /></td></tr>
 <tr class="separator:a53a14b4a89de73b8ea223804c4aea365"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48d4d602c734d0b60a82b52ec51e5ce5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a48d4d602c734d0b60a82b52ec51e5ce5">NoMigrations</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a48d4d602c734d0b60a82b52ec51e5ce5"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the database should use direct table creation instead of automatic migrations. Should not be used in production!  <a href="#a48d4d602c734d0b60a82b52ec51e5ce5">More...</a><br /></td></tr>
-<tr class="separator:a48d4d602c734d0b60a82b52ec51e5ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30f47f73075f305073ad72ef3ff44cd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a30f47f73075f305073ad72ef3ff44cd4">DropDatabase</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a30f47f73075f305073ad72ef3ff44cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the database should be deleted on application startup. Should not be used in production!  <a href="#a30f47f73075f305073ad72ef3ff44cd4">More...</a><br /></td></tr>
+<tr class="separator:a30f47f73075f305073ad72ef3ff44cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb0513764b16289df15f08e8127d0582"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#abb0513764b16289df15f08e8127d0582">MySqlServerVersion</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:abb0513764b16289df15f08e8127d0582"><td class="mdescLeft">&#160;</td><td class="mdescRight">The string form of the System.Version of a target MySQL/MariaDB server  <a href="#abb0513764b16289df15f08e8127d0582">More...</a><br /></td></tr>
+<tr class="separator:abb0513764b16289df15f08e8127d0582"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html">Configuration</a> options for the Models.DatabaseContext&lt;TParentContext&gt; </p>
@@ -142,7 +145,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00011">11</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_application_8cs_source.html#l00078">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, and <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00020">Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.GetDbContextOptions()</a>.</p>
+<p>Referenced by <a class="el" href="_application_8cs_source.html#l00078">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, and <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00024">Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.GetDbContextOptions()</a>.</p>
 
 </div>
 </div>
@@ -169,6 +172,8 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00026">26</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
 
+<p>Referenced by <a class="el" href="_sql_server_database_context_8cs_source.html#l00024">Tgstation.Server.Host.Models.SqlServerDatabaseContext.OnConfiguring()</a>, and <a class="el" href="_my_sql_database_context_8cs_source.html#l00026">Tgstation.Server.Host.Models.MySqlDatabaseContext.OnConfiguring()</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="adab83eaad53afabdb2f7b43c23ece38a"></a>
@@ -193,9 +198,11 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00016">16</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
 
+<p>Referenced by <a class="el" href="_application_8cs_source.html#l00078">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, and <a class="el" href="_my_sql_database_context_8cs_source.html#l00026">Tgstation.Server.Host.Models.MySqlDatabaseContext.OnConfiguring()</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a48d4d602c734d0b60a82b52ec51e5ce5"></a>
+<a class="anchor" id="a30f47f73075f305073ad72ef3ff44cd4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -203,7 +210,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Tgstation.Server.Host.Configuration.DatabaseConfiguration.NoMigrations</td>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.DatabaseConfiguration.DropDatabase</td>
         </tr>
       </table>
   </td>
@@ -213,9 +220,37 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>If the database should use direct table creation instead of automatic migrations. Should not be used in production! </p>
+<p>If the database should be deleted on application startup. Should not be used in production! </p>
 
 <p>Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00031">31</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_database_context_8cs_source.html#l00134">Tgstation.Server.Host.Models.DatabaseContext&lt; SqlServerDatabaseContext &gt;.Initialize()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abb0513764b16289df15f08e8127d0582"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Configuration.DatabaseConfiguration.MySqlServerVersion</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The string form of the System.Version of a target MySQL/MariaDB server </p>
+
+<p>Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_my_sql_database_context_8cs_source.html#l00026">Tgstation.Server.Host.Models.MySqlDatabaseContext.OnConfiguring()</a>.</p>
 
 </div>
 </div>
@@ -240,6 +275,8 @@ Properties</h2></td></tr>
 <p>If the admin user should be enabled and have it's password reset </p>
 
 <p>Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00021">21</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_database_context_8cs_source.html#l00134">Tgstation.Server.Host.Models.DatabaseContext&lt; SqlServerDatabaseContext &gt;.Initialize()</a>.</p>
 
 </div>
 </div>

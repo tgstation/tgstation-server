@@ -17,5 +17,6 @@ var searchData=
   ['restartnotsupportedexception',['RestartNotSupportedException',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a69d9c2b017d6ecbc121fef1661528c50',1,'Tgstation::Server::Host::Controllers::AdministrationController']]],
   ['restartrequested',['RestartRequested',['../class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a61f844c9c2459cc3ab86153678e938db',1,'Tgstation::Server::Tests::TestingServer']]],
   ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#ab440b461bd435f52e1303ee74cb6115b',1,'Tgstation::Server::Host::Components::Compiler::DmbProvider']]],
-  ['root',['Root',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a',1,'Tgstation::Server::Api::Routes']]]
+  ['root',['Root',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a',1,'Tgstation::Server::Api::Routes']]],
+  ['rootjson',['RootJson',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a1fa8a2aa0e3e9da12ef8889900047067',1,'Tgstation::Server::Host::Models::Migrations::DesignTimeDbContextFactoryHelpers']]]
 ];

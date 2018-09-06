@@ -124,6 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a19577dc573076fd58ac1d55d682d5606"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a19577dc573076fd58ac1d55d682d5606">ReadFile</a> (string path)</td></tr>
 <tr class="memdesc:a19577dc573076fd58ac1d55d682d5606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the bytes of a file at a given <em>path</em>   <a href="#a19577dc573076fd58ac1d55d682d5606">More...</a><br /></td></tr>
 <tr class="separator:a19577dc573076fd58ac1d55d682d5606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7db8df684e3820376d161b6ac89804f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ad7db8df684e3820376d161b6ac89804f">DeleteDirectory</a> (string path)</td></tr>
+<tr class="memdesc:ad7db8df684e3820376d161b6ac89804f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a directory at <em>path</em>  if it's empty  <a href="#ad7db8df684e3820376d161b6ac89804f">More...</a><br /></td></tr>
+<tr class="separator:ad7db8df684e3820376d161b6ac89804f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66e6e18e2e313165e390361b77465f65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a66e6e18e2e313165e390361b77465f65">WriteFileChecked</a> (string path, byte[] data, ref string sha1InOut, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a66e6e18e2e313165e390361b77465f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <em>data</em>  to a file at a given <em>path</em> .  <a href="#a66e6e18e2e313165e390361b77465f65">More...</a><br /></td></tr>
 <tr class="separator:a66e6e18e2e313165e390361b77465f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,6 +174,33 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>if the directory already existed,  otherwise</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a595b31e7065ee0d3431903fa0ac55156">Tgstation.Server.Host.IO.SynchronousIOManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad7db8df684e3820376d161b6ac89804f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.IO.ISynchronousIOManager.DeleteDirectory </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deletes a directory at <em>path</em>  if it's empty </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the directory to delete</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if the directory does not exist or is empty and was deleted.  otherwise</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a238b441b58a9da1b2e2821f203b65deb">Tgstation.Server.Host.IO.SynchronousIOManager</a>.</p>
 
 </div>
 </div>

@@ -93,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -117,6 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aed092908af675dfdec16528492815010"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aed092908af675dfdec16528492815010">ConfigurationClient</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a> <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">instance</a>)</td></tr>
 <tr class="memdesc:aed092908af675dfdec16528492815010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html">ConfigurationClient</a>  <a href="#aed092908af675dfdec16528492815010">More...</a><br /></td></tr>
 <tr class="separator:aed092908af675dfdec16528492815010"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b1c64f700e702c9944463c9cd7d4419"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a6b1c64f700e702c9944463c9cd7d4419">DeleteEmptyDirectory</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a> directory, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6b1c64f700e702c9944463c9cd7d4419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete an empty <em>directory</em>    <a href="#a6b1c64f700e702c9944463c9cd7d4419">More...</a><br /></td></tr>
+<tr class="separator:a6b1c64f700e702c9944463c9cd7d4419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9abb058e8e7dc5fb6449db904e3ba593"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a9abb058e8e7dc5fb6449db904e3ba593">List</a> (string directory, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9abb058e8e7dc5fb6449db904e3ba593"><td class="mdescLeft">&#160;</td><td class="mdescRight">List configuration files   <a href="#a9abb058e8e7dc5fb6449db904e3ba593">More...</a><br /></td></tr>
 <tr class="separator:a9abb058e8e7dc5fb6449db904e3ba593"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +135,12 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:af2423b817b8e4de1892e915b0c4e3e17"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#af2423b817b8e4de1892e915b0c4e3e17">ConfigurationFile</a> (Routes.Configuration, file??throw new ArgumentNullException(nameof(file)), instance.Id, cancellationToken)</td></tr>
 <tr class="separator:af2423b817b8e4de1892e915b0c4e3e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:ab946844da209d641f1d29dfb8ff673a9"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ab946844da209d641f1d29dfb8ff673a9">SanitizeGetPath</a> (string path)</td></tr>
+<tr class="memdesc:ab946844da209d641f1d29dfb8ff673a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sanitize a <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#af2423b817b8e4de1892e915b0c4e3e17">ConfigurationFile</a> path for use in a GET Uri  <a href="#ab946844da209d641f1d29dfb8ff673a9">More...</a><br /></td></tr>
+<tr class="separator:ab946844da209d641f1d29dfb8ff673a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -178,8 +188,10 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_configuration_client_8cs_source.html#l00027">27</a> of file <a class="el" href="_configuration_client_8cs_source.html">ConfigurationClient.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a>));</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            this.instance = instance ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(instance));</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_a42e1a0711dec8d78fc370b30b1aacf80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">Tgstation.Server.Client.Components.ConfigurationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The IApiClient for the ConfigurationClient </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00016">ConfigurationClient.cs:16</a></div></div>
+<p>Definition at line <a class="el" href="_configuration_client_8cs_source.html#l00041">41</a> of file <a class="el" href="_configuration_client_8cs_source.html">ConfigurationClient.cs</a>.</p>
+
+<p>References <a class="el" href="_routes_8cs_source.html#l00049">Tgstation.Server.Api.Routes.Configuration</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#af2441379f7420b414f37f5e18ef12e34">Tgstation.Server.Api.Routes.List()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a>));</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            this.instance = instance ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(instance));</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_a42e1a0711dec8d78fc370b30b1aacf80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">Tgstation.Server.Client.Components.ConfigurationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The IApiClient for the ConfigurationClient </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00016">ConfigurationClient.cs:16</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -230,6 +242,36 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6b1c64f700e702c9944463c9cd7d4419"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Client.Components.ConfigurationClient.DeleteEmptyDirectory </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a>&#160;</td>
+          <td class="paramname"><em>directory</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delete an empty <em>directory</em>   </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#ab64268e03bd3451604bf4c4bdbbec2ba">Tgstation.Server.Client.Components.IConfigurationClient</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a9abb058e8e7dc5fb6449db904e3ba593"></a>
 <div class="memitem">
 <div class="memproto">
@@ -258,16 +300,6 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a20e28735258c505105437c094634d3d3">Tgstation.Server.Client.Components.IConfigurationClient</a>.</p>
 
-<p>Definition at line <a class="el" href="_configuration_client_8cs_source.html#l00034">34</a> of file <a class="el" href="_configuration_client_8cs_source.html">ConfigurationClient.cs</a>.</p>
-
-<p>References <a class="el" href="_routes_8cs_source.html#l00049">Tgstation.Server.Api.Routes.Configuration</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#af2441379f7420b414f37f5e18ef12e34">Tgstation.Server.Api.Routes.List()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">if</span> (directory == null)</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                directory = String.Empty;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a>.Read&lt;IReadOnlyList&lt;ConfigurationFile&gt;&gt;(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#af2441379f7420b414f37f5e18ef12e34">List</a>(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8aaca6b84ee519e26c8351c2b5929c18">Configuration</a>) + directory, <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">instance</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a850128695dbdb7a7482f8debed5a13ce">Id</a>, cancellationToken);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_routes_html_a8aaca6b84ee519e26c8351c2b5929c18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8aaca6b84ee519e26c8351c2b5929c18">Tgstation.Server.Api.Routes.Configuration</a></div><div class="ttdeci">const string Configuration</div><div class="ttdoc">The Models.ConfigurationFile controller </div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00049">Routes.cs:49</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_a42e1a0711dec8d78fc370b30b1aacf80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">Tgstation.Server.Client.Components.ConfigurationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The IApiClient for the ConfigurationClient </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00016">ConfigurationClient.cs:16</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions </div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00009">Routes.cs:9</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_a3fbe930ee9bc4cf37d734c4ccc50668c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">Tgstation.Server.Client.Components.ConfigurationClient.instance</a></div><div class="ttdeci">readonly Instance instance</div><div class="ttdoc">The Instance for the ConfigurationClient </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00020">ConfigurationClient.cs:20</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html_a850128695dbdb7a7482f8debed5a13ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a850128695dbdb7a7482f8debed5a13ce">Tgstation.Server.Api.Models.Instance.Id</a></div><div class="ttdeci">long Id</div><div class="ttdoc">The id of the Instance. Not modifiable </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00014">Instance.cs:14</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_routes_html_af2441379f7420b414f37f5e18ef12e34"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#af2441379f7420b414f37f5e18ef12e34">Tgstation.Server.Api.Routes.List</a></div><div class="ttdeci">static string List(string route)</div><div class="ttdoc">Get the /List postfix for a route  </div></div>
-</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="adb77f8fd7a46572e3c1d6bd90e3e300c"></a>
@@ -298,17 +330,53 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a8f860a7b9851f7bcffa232fcf82eb109">Tgstation.Server.Client.Components.IConfigurationClient</a>.</p>
 
-<p>Definition at line <a class="el" href="_configuration_client_8cs_source.html#l00042">42</a> of file <a class="el" href="_configuration_client_8cs_source.html">ConfigurationClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_configuration_client_8cs_source.html#l00054">54</a> of file <a class="el" href="_configuration_client_8cs_source.html">ConfigurationClient.cs</a>.</p>
 
 <p>References <a class="el" href="_routes_8cs_source.html#l00049">Tgstation.Server.Api.Routes.Configuration</a>, and <a class="el" href="_configuration_file_8cs_source.html#l00011">Tgstation.Server.Api.Models.ConfigurationFile.Path</a>.</p>
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (file == null)</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(file));</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a>.Read&lt;<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a>&gt;(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8aaca6b84ee519e26c8351c2b5929c18">Configuration</a> + file.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Path</a>, <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">instance</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a850128695dbdb7a7482f8debed5a13ce">Id</a>, cancellationToken);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_routes_html_a8aaca6b84ee519e26c8351c2b5929c18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8aaca6b84ee519e26c8351c2b5929c18">Tgstation.Server.Api.Routes.Configuration</a></div><div class="ttdeci">const string Configuration</div><div class="ttdoc">The Models.ConfigurationFile controller </div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00049">Routes.cs:49</a></div></div>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">if</span> (file == null)</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(file));</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">apiClient</a>.Read&lt;<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a>&gt;(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8aaca6b84ee519e26c8351c2b5929c18">Configuration</a> + <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ab946844da209d641f1d29dfb8ff673a9">SanitizeGetPath</a>(file.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Path</a>), <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">instance</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a850128695dbdb7a7482f8debed5a13ce">Id</a>, cancellationToken);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_routes_html_a8aaca6b84ee519e26c8351c2b5929c18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8aaca6b84ee519e26c8351c2b5929c18">Tgstation.Server.Api.Routes.Configuration</a></div><div class="ttdeci">const string Configuration</div><div class="ttdoc">The Models.ConfigurationFile controller </div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00049">Routes.cs:49</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_a42e1a0711dec8d78fc370b30b1aacf80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a42e1a0711dec8d78fc370b30b1aacf80">Tgstation.Server.Client.Components.ConfigurationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The IApiClient for the ConfigurationClient </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00016">ConfigurationClient.cs:16</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file_html_aefbf190e4363fe3095963d1d40a36fd1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Tgstation.Server.Api.Models.ConfigurationFile.Path</a></div><div class="ttdeci">string Path</div><div class="ttdoc">The path to the ConfigurationFile file </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_file_8cs_source.html#l00011">ConfigurationFile.cs:11</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions </div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00009">Routes.cs:9</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_a3fbe930ee9bc4cf37d734c4ccc50668c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">Tgstation.Server.Client.Components.ConfigurationClient.instance</a></div><div class="ttdeci">readonly Instance instance</div><div class="ttdoc">The Instance for the ConfigurationClient </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00020">ConfigurationClient.cs:20</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client_html_ab946844da209d641f1d29dfb8ff673a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ab946844da209d641f1d29dfb8ff673a9">Tgstation.Server.Client.Components.ConfigurationClient.SanitizeGetPath</a></div><div class="ttdeci">static string SanitizeGetPath(string path)</div><div class="ttdoc">Sanitize a ConfigurationFile path for use in a GET Uri </div><div class="ttdef"><b>Definition:</b> <a href="_configuration_client_8cs_source.html#l00027">ConfigurationClient.cs:27</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html_a850128695dbdb7a7482f8debed5a13ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a850128695dbdb7a7482f8debed5a13ce">Tgstation.Server.Api.Models.Instance.Id</a></div><div class="ttdeci">long Id</div><div class="ttdoc">The id of the Instance. Not modifiable </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00014">Instance.cs:14</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></div><div class="ttdoc">Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file...</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_file_8cs_source.html#l00006">ConfigurationFile.cs:6</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ab946844da209d641f1d29dfb8ff673a9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static string Tgstation.Server.Client.Components.ConfigurationClient.SanitizeGetPath </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sanitize a <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#af2423b817b8e4de1892e915b0c4e3e17">ConfigurationFile</a> path for use in a GET Uri </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to sanitize</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The sanitized path</dd></dl>
+
+<p>Definition at line <a class="el" href="_configuration_client_8cs_source.html#l00027">27</a> of file <a class="el" href="_configuration_client_8cs_source.html">ConfigurationClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">if</span> (path == null)</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                path = String.Empty;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">if</span> (path.Length == 0 || path[0] != <span class="charliteral">&#39;/&#39;</span>)</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                path = <span class="charliteral">&#39;/&#39;</span> + path;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">return</span> path;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a7623081b4c09cf5f7679989cf73c7003"></a>

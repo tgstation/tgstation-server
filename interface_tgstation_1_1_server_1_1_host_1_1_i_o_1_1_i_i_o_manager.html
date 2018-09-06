@@ -122,6 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab6635afaf199a1396a743f3b46eac786"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ab6635afaf199a1396a743f3b46eac786">GetFileNameWithoutExtension</a> (string path)</td></tr>
 <tr class="memdesc:ab6635afaf199a1396a743f3b46eac786"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the file name portion of a <em>path</em>  with  <a href="#ab6635afaf199a1396a743f3b46eac786">More...</a><br /></td></tr>
 <tr class="separator:ab6635afaf199a1396a743f3b46eac786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af05931d02f5f5d95b87a56c0cc60d855"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">PathContainsParentAccess</a> (string path)</td></tr>
+<tr class="memdesc:af05931d02f5f5d95b87a56c0cc60d855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <em>path</em>  contains the '..' parent directory accessor  <a href="#af05931d02f5f5d95b87a56c0cc60d855">More...</a><br /></td></tr>
+<tr class="separator:af05931d02f5f5d95b87a56c0cc60d855"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab4ec78e2b2d66ad39642ed92a66250c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aab4ec78e2b2d66ad39642ed92a66250c">CopyDirectory</a> (string src, string dest, IEnumerable&lt; string &gt; ignore, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aab4ec78e2b2d66ad39642ed92a66250c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em>   <a href="#aab4ec78e2b2d66ad39642ed92a66250c">More...</a><br /></td></tr>
 <tr class="separator:aab4ec78e2b2d66ad39642ed92a66250c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -825,6 +828,33 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a2ecf7ea4ad7cadd294a1a4882e56a812">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af05931d02f5f5d95b87a56c0cc60d855"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a <em>path</em>  contains the '..' parent directory accessor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to check</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if <em>path</em>  contains a '..' accessor,  otherwise</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#aa2dfcb05f73420f251547ae0108b3222">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
 </div>
 </div>

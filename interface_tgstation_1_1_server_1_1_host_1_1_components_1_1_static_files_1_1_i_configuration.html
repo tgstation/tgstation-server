@@ -130,6 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aac9d5ed7fad37fc5f29295f4a3445449"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html#aac9d5ed7fad37fc5f29295f4a3445449">CreateDirectory</a> (string configurationRelativePath, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> systemIdentity, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aac9d5ed7fad37fc5f29295f4a3445449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty directory at <em>configurationRelativePath</em>   <a href="#aac9d5ed7fad37fc5f29295f4a3445449">More...</a><br /></td></tr>
 <tr class="separator:aac9d5ed7fad37fc5f29295f4a3445449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c2d45d551a853c4a1545dcf1996063"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html#a38c2d45d551a853c4a1545dcf1996063">DeleteDirectory</a> (string configurationRelativePath, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> systemIdentity, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a38c2d45d551a853c4a1545dcf1996063"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to delete an empty directory at <em>configurationRelativePath</em>   <a href="#a38c2d45d551a853c4a1545dcf1996063">More...</a><br /></td></tr>
+<tr class="separator:a38c2d45d551a853c4a1545dcf1996063"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5244c05dd19f32a6f3603b5ca4fd638"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">ConfigurationFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html#aa5244c05dd19f32a6f3603b5ca4fd638">Write</a> (string configurationRelativePath, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> systemIdentity, byte[] data, string previousHash, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aa5244c05dd19f32a6f3603b5ca4fd638"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a given <em>configurationRelativePath</em>   <a href="#aa5244c05dd19f32a6f3603b5ca4fd638">More...</a><br /></td></tr>
 <tr class="separator:aa5244c05dd19f32a6f3603b5ca4fd638"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,6 +233,51 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if the directory already existed,  otherwise</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9e6d3a7af0e253142f6ea1fe932f6002">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a38c2d45d551a853c4a1545dcf1996063"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Components.StaticFiles.IConfiguration.DeleteDirectory </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>configurationRelativePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>&#160;</td>
+          <td class="paramname"><em>systemIdentity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempt to delete an empty directory at <em>configurationRelativePath</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">configurationRelativePath</td><td>The path of the empty directory to delete</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If , the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Core.Application</a></td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if the directory was empty and deleted,  otherwise</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a79f673d1a6c8868b648c0c3393e34d27">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>.</p>
 
 </div>
 </div>

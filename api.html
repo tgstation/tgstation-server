@@ -247,6 +247,7 @@ Instances</h1>
 <h2><a class="anchor" id="api_job"></a>
 Jobs</h2>
 <p>Some requests return <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a> objects. These are long running tasks the server will perform asyncronously and can be polled for status.</p>
+<p>Note that the job representing instance move operations must be queried and cancelled differently than others. See the documentation of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#af06c3e84c2a288ca0bd6cddd172a568d">Tgstation.Server.Api.Models.Instance.MoveJob</a> for details</p>
 <p>To list all jobs in an Instance use the following request</p>
 <p>I GET "/Job/List" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
 <p>Note that the response for this request will only have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2acfbcb2d53d94d45c49c1cc2bef75d6">Tgstation.Server.Api.Models.Job.Id</a> field populated</p>
@@ -329,9 +330,12 @@ Static Files</h2>
 <p>410 will be returned if the path doesn't exist. <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> will only be populated if the path is a file the user has access to, otherwise the other fields will be populated appropriately.</p>
 <p>To create, write, and delete files use the following request</p>
 <p>I POST "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
-<p>When creating a file, only <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> should be specified. Any necessary preceeding directories will be created if possible.</p>
+<p>When creating a file, only <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> should be specified</p>
 <p>If the file already exists, the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aad10d9456adc3925247d9f7b49eebeba">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.</p>
-<p>To delete a file set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> to null in the request. If deleting a file leaves a directory empty, they too will be deleted.</p>
+<p>To delete a file set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> to null in the request.</p>
+<p>To delete an empty directory use the following request</p>
+<p>I DELETE "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; OK</p>
+<p>Where the request <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#aefbf190e4363fe3095963d1d40a36fd1">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> is set to the directory to delete</p>
 <h2><a class="anchor" id="api_dog"></a>
 Watchdog</h2>
 <p>To read watchdog status use the following request:</p>

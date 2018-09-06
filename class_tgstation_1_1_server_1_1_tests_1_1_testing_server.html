@@ -130,6 +130,8 @@ Public Attributes</h2></td></tr>
 Properties</h2></td></tr>
 <tr class="memitem:ae3c1967267a99741f85146f0cca92a0f"><td class="memItemLeft" align="right" valign="top">Uri&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Url</a><code> [get]</code></td></tr>
 <tr class="separator:ae3c1967267a99741f85146f0cca92a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4bd05b1f3b435566f633bdbaf980ab6"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Directory</a><code> [get]</code></td></tr>
+<tr class="separator:ac4bd05b1f3b435566f633bdbaf980ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_i_server"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_i_server')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">Tgstation.Server.Host.IServer</a></td></tr>
 <tr class="memitem:ac87902a08c496cd40add682a2ec6c616 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_i_server"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#ac87902a08c496cd40add682a2ec6c616">RestartRequested</a><code> [get]</code></td></tr>
 <tr class="memdesc:ac87902a08c496cd40add682a2ec6c616 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_i_server"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host ">IServer</a> should restart  <a href="#ac87902a08c496cd40add682a2ec6c616">More...</a><br /></td></tr>
@@ -139,12 +141,10 @@ Properties</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a292747ef36a9f260dbe9b62591e2c93d"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">IServer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">realServer</a></td></tr>
 <tr class="separator:a292747ef36a9f260dbe9b62591e2c93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4ad1759ed467920ec9131a716aa801f"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">databasePath</a></td></tr>
-<tr class="separator:ac4ad1759ed467920ec9131a716aa801f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00010">10</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00011">11</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a3b0c4445dc8a382a6a57b1c9d4054ba2"></a>
 <div class="memitem">
@@ -159,14 +159,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00018">18</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00020">20</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
 
 <p>References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a9074ef7b4f79ffba8a4213d6b56938e1">Tgstation.Server.Host.ServerFactory.CreateServer()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        {</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">databasePath</a> = Path.GetTempFileName();</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            File.Delete(<a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">databasePath</a>);</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Url</a> = <span class="keyword">new</span> Uri(<span class="stringliteral">&quot;http://localhost:5001&quot;</span>);</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">realServer</a> = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>().<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a9074ef7b4f79ffba8a4213d6b56938e1">CreateServer</a>(<span class="keyword">new</span> <span class="keywordtype">string</span>[]</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="stringliteral">&quot;--urls&quot;</span>,</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Url</a>.ToString(),</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="stringliteral">&quot;Database:DatabaseType=Sqlite&quot;</span>,</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Database:ConnectionString=Data Source={0}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">databasePath</a>)</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                ,<span class="stringliteral">&quot;Database:NoMigrations=true&quot;</span>   <span class="comment">//TODO: remove this when migrations are added</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            }, null);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_ae3c1967267a99741f85146f0cca92a0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Tgstation.Server.Tests.TestingServer.Url</a></div><div class="ttdeci">Uri Url</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00012">TestingServer.cs:12</a></div></div>
+<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Directory</a> = Path.GetTempFileName();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            File.Delete(<a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Directory</a>);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="namespace_system.html">System</a>.IO.Directory.CreateDirectory(<a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Directory</a>);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Url</a> = <span class="keyword">new</span> Uri(<span class="stringliteral">&quot;http://localhost:5001&quot;</span>);</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="comment">//so we need a db</span></div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="comment">//we have to rely on env vars</span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            var databaseType = Environment.GetEnvironmentVariable(<span class="stringliteral">&quot;TGS4_TEST_DATABASE_TYPE&quot;</span>);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            var connectionString = Environment.GetEnvironmentVariable(<span class="stringliteral">&quot;TGS4_TEST_CONNECTION_STRING&quot;</span>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">if</span> (String.IsNullOrEmpty(databaseType))</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                Assert.Fail(<span class="stringliteral">&quot;No database type configured in env var TGS4_TEST_DATABASE_TYPE!&quot;</span>);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">if</span> (String.IsNullOrEmpty(connectionString))</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                Assert.Fail(<span class="stringliteral">&quot;No connection string configured in env var TGS4_TEST_CONNECTION_STRING!&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">realServer</a> = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>().<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a9074ef7b4f79ffba8a4213d6b56938e1">CreateServer</a>(<span class="keyword">new</span> <span class="keywordtype">string</span>[]</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="stringliteral">&quot;--urls&quot;</span>,</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Url</a>.ToString(),</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Database:DatabaseType={0}&quot;</span>, databaseType),</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Database:ConnectionString={0}&quot;</span>, connectionString),</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="stringliteral">&quot;Database:DropDatabase=true&quot;</span></div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }, null);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_ae3c1967267a99741f85146f0cca92a0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ae3c1967267a99741f85146f0cca92a0f">Tgstation.Server.Tests.TestingServer.Url</a></div><div class="ttdeci">Uri Url</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00013">TestingServer.cs:13</a></div></div>
+<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_server_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">Tgstation.Server.Host.ServerFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="_server_factory_8cs_source.html#l00006">ServerFactory.cs:6</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_ac4bd05b1f3b435566f633bdbaf980ab6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Tgstation.Server.Tests.TestingServer.Directory</a></div><div class="ttdeci">string Directory</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00015">TestingServer.cs:15</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_server_factory_html_a9074ef7b4f79ffba8a4213d6b56938e1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a9074ef7b4f79ffba8a4213d6b56938e1">Tgstation.Server.Host.ServerFactory.CreateServer</a></div><div class="ttdeci">IServer CreateServer(string[] args, string updatePath)</div><div class="ttdoc">Create a IServer  </div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_ac4ad1759ed467920ec9131a716aa801f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">Tgstation.Server.Tests.TestingServer.databasePath</a></div><div class="ttdeci">readonly string databasePath</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00016">TestingServer.cs:16</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_a292747ef36a9f260dbe9b62591e2c93d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">Tgstation.Server.Tests.TestingServer.realServer</a></div><div class="ttdeci">readonly IServer realServer</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00015">TestingServer.cs:15</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_a292747ef36a9f260dbe9b62591e2c93d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">Tgstation.Server.Tests.TestingServer.realServer</a></div><div class="ttdeci">readonly IServer realServer</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00018">TestingServer.cs:18</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -184,9 +185,10 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00033">33</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">realServer</a>.Dispose();</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            File.Delete(<a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">databasePath</a>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_ac4ad1759ed467920ec9131a716aa801f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4ad1759ed467920ec9131a716aa801f">Tgstation.Server.Tests.TestingServer.databasePath</a></div><div class="ttdeci">readonly string databasePath</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00016">TestingServer.cs:16</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_a292747ef36a9f260dbe9b62591e2c93d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">Tgstation.Server.Tests.TestingServer.realServer</a></div><div class="ttdeci">readonly IServer realServer</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00015">TestingServer.cs:15</a></div></div>
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00048">48</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">realServer</a>.Dispose();</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <a class="code" href="namespace_system.html">System</a>.IO.Directory.Delete(<a class="code" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Directory</a>, <span class="keyword">true</span>);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div><div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_ac4bd05b1f3b435566f633bdbaf980ab6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#ac4bd05b1f3b435566f633bdbaf980ab6">Tgstation.Server.Tests.TestingServer.Directory</a></div><div class="ttdeci">string Directory</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00015">TestingServer.cs:15</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_tests_1_1_testing_server_html_a292747ef36a9f260dbe9b62591e2c93d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d">Tgstation.Server.Tests.TestingServer.realServer</a></div><div class="ttdeci">readonly IServer realServer</div><div class="ttdef"><b>Definition:</b> <a href="_testing_server_8cs_source.html#l00018">TestingServer.cs:18</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -218,28 +220,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ac4ad1759ed467920ec9131a716aa801f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">readonly string Tgstation.Server.Tests.TestingServer.databasePath</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00016">16</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a292747ef36a9f260dbe9b62591e2c93d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +238,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00015">15</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00018">18</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
 
 </div>
 </div>
@@ -272,11 +252,33 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00013">13</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00016">16</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="ac4bd05b1f3b435566f633bdbaf980ab6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Tests.TestingServer.Directory</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00015">15</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ae3c1967267a99741f85146f0cca92a0f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -295,7 +297,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00012">12</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
+<p>Definition at line <a class="el" href="_testing_server_8cs_source.html#l00013">13</a> of file <a class="el" href="_testing_server_8cs_source.html">TestingServer.cs</a>.</p>
 
 </div>
 </div>

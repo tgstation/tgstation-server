@@ -109,9 +109,12 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a658d55fa7c0ba3e4f0b3fb3c9d2341b7"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a658d55fa7c0ba3e4f0b3fb3c9d2341b7">MigrationsJson</a> = &quot;appsettings.Development.json&quot;</td></tr>
-<tr class="memdesc:a658d55fa7c0ba3e4f0b3fb3c9d2341b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the json file to use for migrations configuration  <a href="#a658d55fa7c0ba3e4f0b3fb3c9d2341b7">More...</a><br /></td></tr>
-<tr class="separator:a658d55fa7c0ba3e4f0b3fb3c9d2341b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fa8a2aa0e3e9da12ef8889900047067"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a1fa8a2aa0e3e9da12ef8889900047067">RootJson</a> = &quot;appsettings.json&quot;</td></tr>
+<tr class="memdesc:a1fa8a2aa0e3e9da12ef8889900047067"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the json file to use for migrations configuration  <a href="#a1fa8a2aa0e3e9da12ef8889900047067">More...</a><br /></td></tr>
+<tr class="separator:a1fa8a2aa0e3e9da12ef8889900047067"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32170f36db0a402620aa92f645fe5c45"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a32170f36db0a402620aa92f645fe5c45">DevJson</a> = &quot;appsettings.Development.json&quot;</td></tr>
+<tr class="memdesc:a32170f36db0a402620aa92f645fe5c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the development json file to use for migrations configuration  <a href="#a32170f36db0a402620aa92f645fe5c45">More...</a><br /></td></tr>
+<tr class="separator:a32170f36db0a402620aa92f645fe5c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains helpers for creating design time Models.DatabaseContext&lt;TParentContext&gt;s </p>
@@ -141,17 +144,18 @@ Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00020">20</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
+<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00024">24</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
 
 <p>References <a class="el" href="_database_configuration_8cs_source.html#l00011">Tgstation.Server.Host.Configuration.DatabaseConfiguration.Section</a>.</p>
-<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            var builder = <span class="keyword">new</span> ConfigurationBuilder();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            builder.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            builder.AddJsonFile(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a658d55fa7c0ba3e4f0b3fb3c9d2341b7">MigrationsJson</a>);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            var configuration = builder.Build();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> Options.Create(configuration.GetSection(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Section</a>).Get&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>&gt;());</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers_html_a658d55fa7c0ba3e4f0b3fb3c9d2341b7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a658d55fa7c0ba3e4f0b3fb3c9d2341b7">Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.MigrationsJson</a></div><div class="ttdeci">const string MigrationsJson</div><div class="ttdoc">Path to the json file to use for migrations configuration </div><div class="ttdef"><b>Definition:</b> <a href="_design_time_db_context_factory_helpers_8cs_source.html#l00017">DesignTimeDbContextFactoryHelpers.cs:17</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a3c3201b453ffd190158839da139e4a13"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Tgstation.Server.Host.Configuration.DatabaseConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the DatabaseConfiguration re...</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00011">DatabaseConfiguration.cs:11</a></div></div>
+<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            var builder = <span class="keyword">new</span> ConfigurationBuilder();</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            builder.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            builder.AddJsonFile(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a1fa8a2aa0e3e9da12ef8889900047067">RootJson</a>);</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            builder.AddJsonFile(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a32170f36db0a402620aa92f645fe5c45">DevJson</a>);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            var configuration = builder.Build();</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> Options.Create(configuration.GetSection(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Section</a>).Get&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>&gt;());</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a3c3201b453ffd190158839da139e4a13"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Tgstation.Server.Host.Configuration.DatabaseConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the DatabaseConfiguration re...</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00011">DatabaseConfiguration.cs:11</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers_html_a32170f36db0a402620aa92f645fe5c45"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a32170f36db0a402620aa92f645fe5c45">Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.DevJson</a></div><div class="ttdeci">const string DevJson</div><div class="ttdoc">Path to the development json file to use for migrations configuration </div><div class="ttdef"><b>Definition:</b> <a href="_design_time_db_context_factory_helpers_8cs_source.html#l00021">DesignTimeDbContextFactoryHelpers.cs:21</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Models.DatabaseContext&lt;TParentContext&gt; </div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00006">DatabaseConfiguration.cs:6</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers_html_a1fa8a2aa0e3e9da12ef8889900047067"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_design_time_db_context_factory_helpers.html#a1fa8a2aa0e3e9da12ef8889900047067">Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.RootJson</a></div><div class="ttdeci">const string RootJson</div><div class="ttdoc">Path to the json file to use for migrations configuration </div><div class="ttdef"><b>Definition:</b> <a href="_design_time_db_context_factory_helpers_8cs_source.html#l00017">DesignTimeDbContextFactoryHelpers.cs:17</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a658d55fa7c0ba3e4f0b3fb3c9d2341b7"></a>
+<a class="anchor" id="a32170f36db0a402620aa92f645fe5c45"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -159,7 +163,31 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const string Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.MigrationsJson = &quot;appsettings.Development.json&quot;</td>
+          <td class="memname">const string Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.DevJson = &quot;appsettings.Development.json&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Path to the development json file to use for migrations configuration </p>
+
+<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00021">21</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1fa8a2aa0e3e9da12ef8889900047067"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Tgstation.Server.Host.Models.Migrations.DesignTimeDbContextFactoryHelpers.RootJson = &quot;appsettings.json&quot;</td>
         </tr>
       </table>
   </td>

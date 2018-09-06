@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['pathcontainsparentaccess',['PathContainsParentAccess',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#aa2dfcb05f73420f251547ae0108b3222',1,'Tgstation.Server.Host.IO.DefaultIOManager.PathContainsParentAccess()'],['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855',1,'Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess()']]],
   ['populateapi',['PopulateApi',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a224caace556037442f0e70e3b45e50f7',1,'Tgstation::Server::Host::Controllers::RepositoryController']]],
   ['posixbyondinstaller',['PosixByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a633d89b2c71622f2d05883ae65292c61',1,'Tgstation::Server::Host::Components::Byond::PosixByondInstaller']]],
   ['process',['Process',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_process.html#ad66b2714a7986f3bab4b16af27335960',1,'Tgstation::Server::Host::Core::Process']]],
