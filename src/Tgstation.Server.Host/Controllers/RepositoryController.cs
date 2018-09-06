@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (repos == null)
 							throw new JobException("Filesystem conflict while cloning repository!");
 						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
-						var instance = new Instance
+						var instance = new Models.Instance
 						{
 							Id = Instance.Id
 						};
