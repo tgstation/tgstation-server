@@ -175,7 +175,12 @@ namespace Tgstation.Server.Host.Controllers
 						if (repos == null)
 							throw new JobException("Filesystem conflict while cloning repository!");
 						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
-						if (await PopulateApi(api, repos, db, Instance, ct).ConfigureAwait(false))
+						var instance = new Instance
+						{
+							Id = Instance.Id
+						};
+						db.Instances.Attach(instance);
+						if (await PopulateApi(api, repos, db, instance, ct).ConfigureAwait(false))
 							await db.Save(ct).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
