@@ -115,6 +115,9 @@ Inheritance diagram for Tgstation.Server.Host.Components.Repository.IRepository:
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ac03c80ad5ffb1ee381dd882fa7a01c3c"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ac03c80ad5ffb1ee381dd882fa7a01c3c">IsSha</a> (string committish, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac03c80ad5ffb1ee381dd882fa7a01c3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given <em>committish</em>  is a sha  <a href="#ac03c80ad5ffb1ee381dd882fa7a01c3c">More...</a><br /></td></tr>
+<tr class="separator:ac03c80ad5ffb1ee381dd882fa7a01c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f304a72d46ec2f4d1beabf31efed49d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a4f304a72d46ec2f4d1beabf31efed49d">CheckoutObject</a> (string committish, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4f304a72d46ec2f4d1beabf31efed49d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks out a given <em>committish</em>   <a href="#a4f304a72d46ec2f4d1beabf31efed49d">More...</a><br /></td></tr>
 <tr class="separator:a4f304a72d46ec2f4d1beabf31efed49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -369,6 +372,44 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ae6af0a2a37025b823a6ec841fa786652">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac03c80ad5ffb1ee381dd882fa7a01c3c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Components.Repository.IRepository.IsSha </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>committish</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a given <em>committish</em>  is a sha </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">committish</td><td>The git object to check</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if <em>committish</em>  is a sha,  otherwise</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad2d7497e82967ff9a18368a100c58bf1">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>

@@ -148,6 +148,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abcbea4d9e6c73ed8bb007f4c5193aa66"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#abcbea4d9e6c73ed8bb007f4c5193aa66">Sychronize</a> (string username, string password, bool synchronizeTrackedBranch, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:abcbea4d9e6c73ed8bb007f4c5193aa66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if on a tracked branch   <a href="#abcbea4d9e6c73ed8bb007f4c5193aa66">More...</a><br /></td></tr>
 <tr class="separator:abcbea4d9e6c73ed8bb007f4c5193aa66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2d7497e82967ff9a18368a100c58bf1"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad2d7497e82967ff9a18368a100c58bf1">IsSha</a> (string committish, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad2d7497e82967ff9a18368a100c58bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given <em>committish</em>  is a sha   <a href="#ad2d7497e82967ff9a18368a100c58bf1">More...</a><br /></td></tr>
+<tr class="separator:ad2d7497e82967ff9a18368a100c58bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -541,6 +544,36 @@ Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_repository_2_repository_8cs_source.html#l00069">69</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_repository_2_repository_8cs_source.html">Repository.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        {</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="comment">//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="comment">//Yes use .git twice in case it was weird</span></div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            var toRemove = <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;.git&quot;</span>, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.git&quot;</span> };</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> item <span class="keywordflow">in</span> toRemove)</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">if</span> (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            var splits = remote.Split(<span class="charliteral">&#39;/&#39;</span>);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            name = splits[splits.Length - 1];</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            owner = splits[splits.Length - 2].Split(<span class="charliteral">&#39;.&#39;</span>)[0];</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ad2d7497e82967ff9a18368a100c58bf1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Components.Repository.Repository.IsSha </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>committish</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a given <em>committish</em>  is a sha  </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ac03c80ad5ffb1ee381dd882fa7a01c3c">Tgstation.Server.Host.Components.Repository.IRepository</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a935e7f7855dac741d868c3cc218952cb"></a>
