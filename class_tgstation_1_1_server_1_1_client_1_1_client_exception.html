@@ -143,6 +143,7 @@ Properties</h2></td></tr>
 <tr class="memdesc:a443523d368932789a1ec2a332199d5e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The HttpStatusCode of the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients ">ClientException</a>  <a href="#a443523d368932789a1ec2a332199d5e6">More...</a><br /></td></tr>
 <tr class="separator:a443523d368932789a1ec2a332199d5e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bc432cbd374898f5a3e65f14aeb606b"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a2bc432cbd374898f5a3e65f14aeb606b">ServerApiVersion</a><code> [get]</code></td></tr>
+<tr class="memdesc:a2bc432cbd374898f5a3e65f14aeb606b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Version of the server's API  <a href="#a2bc432cbd374898f5a3e65f14aeb606b">More...</a><br /></td></tr>
 <tr class="separator:a2bc432cbd374898f5a3e65f14aeb606b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -191,12 +192,12 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00024">24</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
+<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00027">27</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
 
 <p>References <a class="el" href="_error_message_8cs_source.html#l00018">Tgstation.Server.Api.Models.ErrorMessage.SeverApiVersion</a>.</p>
-<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                                                                        : base(errorMessage == null ? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(errorMessage)) : errorMessage.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#ab90236023debcde2cc980ffe856934f9">Message</a> ?? <span class="stringliteral">&quot;Unknown Error&quot;</span>)</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a443523d368932789a1ec2a332199d5e6">StatusCode</a> = statusCode;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a2bc432cbd374898f5a3e65f14aeb606b">ServerApiVersion</a> = errorMessage?.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#a19535256c75f895fa8d5c0b7cef0424c">SeverApiVersion</a>;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_client_exception_html_a443523d368932789a1ec2a332199d5e6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a443523d368932789a1ec2a332199d5e6">Tgstation.Server.Client.ClientException.StatusCode</a></div><div class="ttdeci">HttpStatusCode StatusCode</div><div class="ttdoc">The HttpStatusCode of the ClientException </div><div class="ttdef"><b>Definition:</b> <a href="_client_exception_8cs_source.html#l00015">ClientException.cs:15</a></div></div>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                                                        : base(errorMessage == null ? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(errorMessage)) : errorMessage.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#ab90236023debcde2cc980ffe856934f9">Message</a> ?? <span class="stringliteral">&quot;Unknown Error&quot;</span>)</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a443523d368932789a1ec2a332199d5e6">StatusCode</a> = statusCode;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a2bc432cbd374898f5a3e65f14aeb606b">ServerApiVersion</a> = errorMessage?.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#a19535256c75f895fa8d5c0b7cef0424c">SeverApiVersion</a>;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_client_exception_html_a443523d368932789a1ec2a332199d5e6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a443523d368932789a1ec2a332199d5e6">Tgstation.Server.Client.ClientException.StatusCode</a></div><div class="ttdeci">HttpStatusCode StatusCode</div><div class="ttdoc">The HttpStatusCode of the ClientException </div><div class="ttdef"><b>Definition:</b> <a href="_client_exception_8cs_source.html#l00015">ClientException.cs:15</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message_html_ab90236023debcde2cc980ffe856934f9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#ab90236023debcde2cc980ffe856934f9">Tgstation.Server.Api.Models.ErrorMessage.Message</a></div><div class="ttdeci">string Message</div><div class="ttdoc">A human readable description of the error </div><div class="ttdef"><b>Definition:</b> <a href="_error_message_8cs_source.html#l00013">ErrorMessage.cs:13</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_client_exception_html_a2bc432cbd374898f5a3e65f14aeb606b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a2bc432cbd374898f5a3e65f14aeb606b">Tgstation.Server.Client.ClientException.ServerApiVersion</a></div><div class="ttdeci">Version ServerApiVersion</div><div class="ttdef"><b>Definition:</b> <a href="_client_exception_8cs_source.html#l00017">ClientException.cs:17</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_client_exception_html_a2bc432cbd374898f5a3e65f14aeb606b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a2bc432cbd374898f5a3e65f14aeb606b">Tgstation.Server.Client.ClientException.ServerApiVersion</a></div><div class="ttdeci">Version ServerApiVersion</div><div class="ttdoc">The Version of the server&amp;#39;s API </div><div class="ttdef"><b>Definition:</b> <a href="_client_exception_8cs_source.html#l00020">ClientException.cs:20</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message_html_a19535256c75f895fa8d5c0b7cef0424c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#a19535256c75f895fa8d5c0b7cef0424c">Tgstation.Server.Api.Models.ErrorMessage.SeverApiVersion</a></div><div class="ttdeci">Version SeverApiVersion</div><div class="ttdoc">The version of the API the server is using </div><div class="ttdef"><b>Definition:</b> <a href="_error_message_8cs_source.html#l00018">ErrorMessage.cs:18</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -224,8 +225,8 @@ Properties</h2></td></tr>
 
 <p>Construct a <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients ">ClientException</a> </p>
 
-<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00033">33</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00036">36</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{ }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a9195a6bc325e3df79e9ae9490c90a0a4"></a>
@@ -258,8 +259,8 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00039">39</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;: base(message) { }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00042">42</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;: base(message) { }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a8864363a43d30e891b54cc46d75bdce4"></a>
@@ -303,8 +304,8 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00046">46</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;: base(message, innerException) { }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00049">49</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;: base(message, innerException) { }</div></div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
@@ -321,12 +322,14 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00017">17</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
+<p>The Version of the server's API </p>
+
+<p>Definition at line <a class="el" href="_client_exception_8cs_source.html#l00020">20</a> of file <a class="el" href="_client_exception_8cs_source.html">ClientException.cs</a>.</p>
 
 </div>
 </div>
@@ -343,7 +346,7 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
