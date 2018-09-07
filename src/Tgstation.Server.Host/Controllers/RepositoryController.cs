@@ -440,10 +440,16 @@ namespace Tgstation.Server.Host.Controllers
 						//checkout/hard reset
 						if (modelHasShaOrReference)
 						{
-							if ((model.CheckoutSha != null && repo.Head.ToUpperInvariant() != model.CheckoutSha.ToUpperInvariant())
-								|| (model.Reference != null && repo.Reference != model.Reference))
+							if ((model.CheckoutSha != null && repo.Head.ToUpperInvariant().StartsWith(model.CheckoutSha.ToUpperInvariant(), StringComparison.Ordinal))
+								|| (model.Reference != null && repo.Reference.ToUpperInvariant() != model.Reference.ToUpperInvariant()))
 							{
-								await repo.CheckoutObject(model.CheckoutSha ?? model.Reference, ct).ConfigureAwait(false);
+								var committish = model.CheckoutSha ?? model.Reference;
+								var isSha = await repo.IsSha(committish, cancellationToken).ConfigureAwait(false);
+
+								if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
+									throw new JobException("Attempted to checkout a SHA or reference that was actually the opposite!");
+
+								await repo.CheckoutObject(committish, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);  //we've either seen origin before or what we're checking out is on origin
 							}
 

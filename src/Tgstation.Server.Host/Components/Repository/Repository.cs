@@ -418,5 +418,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public Task<bool> IsSha(string committish, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			var gitObject = repository.Lookup(committish, ObjectType.Commit);
+			return gitObject != null;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

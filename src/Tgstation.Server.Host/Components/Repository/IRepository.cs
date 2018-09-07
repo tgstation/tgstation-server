@@ -46,6 +46,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		string Origin { get; }
 
 		/// <summary>
+		/// Checks if a given <paramref name="committish"/> is a sha
+		/// </summary>
+		/// <param name="committish">The git object to check</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if <paramref name="committish"/> is a sha, <see langword="false"/> otherwise</returns>
+		Task<bool> IsSha(string committish, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Checks out a given <paramref name="committish"/>
 		/// </summary>
 		/// <param name="committish">The sha or reference to checkout</param>
