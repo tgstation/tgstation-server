@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using Tgstation.Server.Api.Models;
 
@@ -12,9 +12,12 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="HttpStatusCode"/> of the <see cref="ClientException"/>
 		/// </summary>
-		HttpStatusCode StatusCode { get; }
+		public HttpStatusCode StatusCode { get; }
 
-		Version ServerApiVersion { get; }
+		/// <summary>
+		/// The <see cref="Version"/> of the server's API
+		/// </summary>
+		public Version ServerApiVersion { get; }
 
 		/// <summary>
 		/// Construct a <see cref="ClientException"/> using an <paramref name="errorMessage"/> and <paramref name="statusCode"/>
