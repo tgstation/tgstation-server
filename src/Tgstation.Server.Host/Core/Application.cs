@@ -22,6 +22,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.StaticFiles;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.IO;
@@ -200,8 +201,9 @@ namespace Tgstation.Server.Host.Core
 				SendTimeout = 5000
 			});
 
-			services.AddSingleton<InstanceFactory>();
-			services.AddSingleton<IInstanceFactory>(x => x.GetRequiredService<InstanceFactory>());
+			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
