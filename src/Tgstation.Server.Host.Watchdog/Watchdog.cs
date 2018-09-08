@@ -69,6 +69,9 @@ namespace Tgstation.Server.Host.Watchdog
 			var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 			var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
+#if DEBUG
+			Directory.CreateDirectory(assemblyStoragePath);
+#endif
 			var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 #if DEBUG
 			//just copy the shit where it belongs
