@@ -29,6 +29,7 @@ namespace Tgstation.Server.Host.Models
 			DiscordChannelId = DiscordChannelId,
 			IsAdminChannel = IsAdminChannel,
 			IsWatchdogChannel = IsWatchdogChannel,
+			IsUpdatesChannel = IsUpdatesChannel,
 			IrcChannel = IrcChannel
 		};
 	}
