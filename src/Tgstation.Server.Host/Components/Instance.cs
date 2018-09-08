@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -184,7 +185,9 @@ namespace Tgstation.Server.Host.Components
 										Instance = new Models.Instance
 										{
 											Id = metadata.Id
-										}
+										},
+										ActiveTestMerges = new List<RevInfoTestMerge>(),
+										CompileJobs = new List<CompileJob>()
 									};
 									db.Instances.Attach(revInfo.Instance);
 								}

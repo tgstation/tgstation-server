@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -177,7 +178,9 @@ namespace Tgstation.Server.Host.Controllers
 						Instance = new Models.Instance
 						{
 							Id = Instance.Id
-						}
+						},
+						ActiveTestMerges = new List<RevInfoTestMerge>(),
+						CompileJobs = new List<CompileJob>()
 					};
 					databaseContext.Instances.Attach(revInfo.Instance);
 				}
