@@ -806,6 +806,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					Id = 1  //just use admin for this cause whatever
 				},
+				Instance = new Models.Instance
+				{
+					Id = instance.Id
+				},
 				Description = "Instance startup watchdog launch",
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon
