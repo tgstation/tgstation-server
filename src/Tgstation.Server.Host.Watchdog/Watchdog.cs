@@ -124,7 +124,8 @@ namespace Tgstation.Server.Host.Watchdog
 								'"' + assemblyPath + '"',
 								updateDirectory
 							};
-							if (Debugger.IsAttached)
+
+							if (Environment.GetCommandLineArgs().Any(x => x == "--attach-host-debugger"))
 								arguments.Add("--attach-debugger");
 							arguments.AddRange(args);
 
