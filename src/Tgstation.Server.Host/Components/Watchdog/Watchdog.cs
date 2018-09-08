@@ -650,7 +650,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
 					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
-					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
+					var doesntNeedNewDmb = doReattach && reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
 					try
@@ -705,7 +705,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken.ThrowIfCancellationRequested();
 
 						//both servers are now running, alpha is the active server, huzzah
-						AlphaIsActive = doReattach ? reattachInfo.AlphaIsActive : true;
+						AlphaIsActive = doReattach ? reattachInfo?.AlphaIsActive ?? true : true;
 						LastLaunchResult = alphaLrt.Result;
 						logger.LogInformation("Launched servers successfully");
 						Running = true;
