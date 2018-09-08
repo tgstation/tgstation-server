@@ -625,12 +625,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return null;
 				}
 
+				var reattachInfoTask = doReattach ? reattachInfoHandler.Load(cancellationToken) : Task.FromResult<WatchdogReattachInformation>(null);
 				Task chatTask;
 				//this is necessary, the monitor could be in it's sleep loop trying to restart
 				if (startMonitor && await StopMonitor().ConfigureAwait(false))
 					chatTask = chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", cancellationToken);
 				else if (announce)
-					chatTask = chat.SendWatchdogMessage("Starting...", cancellationToken);
+				{
+					var info = await reattachInfoTask.ConfigureAwait(false);
+					chatTask = chat.SendWatchdogMessage(info == null ? "Starting..." : "Reattaching...", cancellationToken);
+				}
 				else
 					chatTask = Task.CompletedTask;
 				//start both servers
@@ -641,7 +645,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (alphaServer != null || bravoServer != null)
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
-					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
+					var reattachInfo = await reattachInfoTask.ConfigureAwait(false);
 					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
@@ -798,6 +802,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (releaseServers && Running)
 			{
+				var chatTask = chat.SendWatchdogMessage("Detaching...", cancellationToken);
+				await StopMonitor().ConfigureAwait(false);
+
 				var reattachInformation = new WatchdogReattachInformation
 				{
 					AlphaIsActive = AlphaIsActive
@@ -805,6 +812,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				reattachInformation.Alpha = alphaServer?.Release();
 				reattachInformation.Bravo = bravoServer?.Release();
 				await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
+				await chatTask.ConfigureAwait(false);
 			}
 			await Terminate(false, cancellationToken).ConfigureAwait(false);
 		}
