@@ -287,6 +287,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
 				return BadRequest(new ErrorMessage { Message = "Cannot test merge the same PR twice in one job!" });
 
+			if (model.CommitterName?.Length == 0)
+				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer name!" });
+
+			if (model.CommitterEmail?.Length == 0)
+				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer e=mail!" });
+
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
 			if (newTestMerges && !userRights.HasFlag(RepositoryRights.MergePullRequest))
