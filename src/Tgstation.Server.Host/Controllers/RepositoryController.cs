@@ -94,7 +94,11 @@ namespace Tgstation.Server.Host.Controllers
 
 		static async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
-			model.IsGitHub = repository.IsGitHubRepository;
+			if (repository.IsGitHubRepository)
+			{
+				model.GitHubOwner = repository.GitHubOwner;
+				model.GitHubName = repository.GitHubRepoName;
+			}
 			model.Origin = repository.Origin;
 			model.Reference = repository.Reference;
 
@@ -187,7 +191,6 @@ namespace Tgstation.Server.Host.Controllers
 
 				api.Origin = model.Origin;
 				api.Reference = model.Reference;
-				api.IsGitHub = model.Origin.ToUpperInvariant().Contains(uiGitHub);
 				api.ActiveJob = job.ToApi();
 
 				return StatusCode((int)HttpStatusCode.Created, api);
