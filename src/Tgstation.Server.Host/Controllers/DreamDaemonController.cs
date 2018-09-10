@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)
-					throw new InvalidOperationException("Watchdog already running!");
+					throw new JobException("Watchdog already running!");
 			},
 			cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());

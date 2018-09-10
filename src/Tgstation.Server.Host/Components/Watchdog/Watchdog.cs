@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Interop;
@@ -87,6 +88,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -141,11 +147,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
-		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerControl serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerControl serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -155,6 +162,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
@@ -642,7 +650,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
 					var reattachInfo = doReattach ? await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false) : null;
-					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
+					var doesntNeedNewDmb = doReattach && reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
 					try
@@ -697,7 +705,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken.ThrowIfCancellationRequested();
 
 						//both servers are now running, alpha is the active server, huzzah
-						AlphaIsActive = doReattach ? reattachInfo.AlphaIsActive : true;
+						AlphaIsActive = doReattach ? reattachInfo?.AlphaIsActive ?? true : true;
 						LastLaunchResult = alphaLrt.Result;
 						logger.LogInformation("Launched servers successfully");
 						Running = true;
@@ -789,8 +797,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			if (autoStart)
-				await LaunchNoLock(true, true, true, cancellationToken).ConfigureAwait(false);
+			if (!autoStart)
+				return;
+
+			var job = new Models.Job
+			{
+				StartedBy = new Models.User
+				{
+					Id = 1  //just use admin for this cause whatever
+				},
+				Instance = new Models.Instance
+				{
+					Id = instance.Id
+				},
+				Description = "Instance startup watchdog launch",
+				CancelRight = (ulong)DreamDaemonRights.Shutdown,
+				CancelRightsType = RightsType.DreamDaemon
+			};
+			await jobManager.RegisterOperation(job, (j, serviceProvider, progressFunction, ct) => Launch(ct), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
