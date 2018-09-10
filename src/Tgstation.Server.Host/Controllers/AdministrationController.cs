@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="gitHubClient">The value of <see cref="gitHubClient"/></param>
+		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
