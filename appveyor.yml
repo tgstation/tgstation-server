@@ -4,7 +4,7 @@ pull_requests:
 environment:
   TGS4_TEST_DATABASE_TYPE: SqlServer
   TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Initial Catalog=TGS_Test;User ID=sa;Password=Password12!
-  repo_token:
+  TGS4_TEST_GITHUB_TOKEN:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 branches:
   only:
