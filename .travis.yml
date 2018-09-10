@@ -32,9 +32,6 @@ matrix:
       cache:
         directories:
           - $HOME/.nuget/packages:
-      os:
-        - linux
-        - osx
     - env:
       - DMAPI=false
       - CONFIG=Release
@@ -47,9 +44,6 @@ matrix:
       cache:
         directories:
           - $HOME/.nuget/packages:
-      os:
-        - linux
-        - osx
 
 install:
   - if [ $DMAPI = true ]; then build/install_byond.sh; fi
