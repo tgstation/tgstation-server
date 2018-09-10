@@ -31,9 +31,9 @@ namespace Tgstation.Server.Host.Controllers
 		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
 
 		/// <summary>
-		/// The <see cref="IGitHubClient"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>
 		/// </summary>
-		readonly IGitHubClient gitHubClient;
+		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>
@@ -56,6 +56,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly UpdatesConfiguration updatesConfiguration;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="AdministrationController"/>
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct an <see cref="AdministrationController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -66,13 +71,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClient gitHubClient, IServerControl serverUpdater, IApplication application, IIOManager ioManager, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
+		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
-			this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
+			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		StatusCodeResult RateLimit(RateLimitExceededException exception)
@@ -82,6 +89,8 @@ namespace Tgstation.Server.Host.Controllers
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
 			return StatusCode(429);
 		}
+
+		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
 
 		/// <inheritdoc />
 		[TgsAuthorize]
@@ -93,6 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 				Uri repoUrl = null;
 				try
 				{
+					var gitHubClient = GetGitHubClient();
 					var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
 					var releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
 
@@ -137,6 +147,7 @@ namespace Tgstation.Server.Host.Controllers
 			IEnumerable<Release> releases;
 			try
 			{
+				var gitHubClient = GetGitHubClient();
 				releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
 			}
 			catch (RateLimitExceededException e)
