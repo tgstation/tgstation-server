@@ -122,9 +122,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a0ff964c98b1bd3dac0c2d0d77f223492"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">RevisionInformation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a0ff964c98b1bd3dac0c2d0d77f223492">RevisionInformation</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a0ff964c98b1bd3dac0c2d0d77f223492"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html" title="Represents a git repository ">Repository</a>  <a href="#a0ff964c98b1bd3dac0c2d0d77f223492">More...</a><br /></td></tr>
 <tr class="separator:a0ff964c98b1bd3dac0c2d0d77f223492"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6c27c9498da4b5f3267a1cf0c5fc05a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#af6c27c9498da4b5f3267a1cf0c5fc05a">IsGitHub</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:af6c27c9498da4b5f3267a1cf0c5fc05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the repository was cloned from GitHub.com. If  this enables test merge functionality  <a href="#af6c27c9498da4b5f3267a1cf0c5fc05a">More...</a><br /></td></tr>
-<tr class="separator:af6c27c9498da4b5f3267a1cf0c5fc05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04abf893b8ca947b828372b92534f34a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a04abf893b8ca947b828372b92534f34a">GitHubOwner</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a04abf893b8ca947b828372b92534f34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the repository was cloned from GitHub.com this will be set with the owner of the repository  <a href="#a04abf893b8ca947b828372b92534f34a">More...</a><br /></td></tr>
+<tr class="separator:a04abf893b8ca947b828372b92534f34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa11306778504a3bb95ee6575aa69021"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#aaa11306778504a3bb95ee6575aa69021">GitHubName</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aaa11306778504a3bb95ee6575aa69021"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the repository was cloned from GitHub.com this will be set with the name of the repository  <a href="#aaa11306778504a3bb95ee6575aa69021">More...</a><br /></td></tr>
+<tr class="separator:aaa11306778504a3bb95ee6575aa69021"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f29b34852fb2d6cc5144234b6368295"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a9f29b34852fb2d6cc5144234b6368295">ActiveJob</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a9f29b34852fb2d6cc5144234b6368295"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job ...">Job</a> started by the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html" title="Represents a git repository ">Repository</a> if any  <a href="#a9f29b34852fb2d6cc5144234b6368295">More...</a><br /></td></tr>
 <tr class="separator:a9f29b34852fb2d6cc5144234b6368295"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,7 +191,7 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job ...">Job</a> started by the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html" title="Represents a git repository ">Repository</a> if any </p>
 
-<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00033">33</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00038">38</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
 
 </div>
 </div>
@@ -216,7 +219,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af6c27c9498da4b5f3267a1cf0c5fc05a"></a>
+<a class="anchor" id="aaa11306778504a3bb95ee6575aa69021"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -224,7 +227,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Tgstation.Server.Api.Models.Repository.IsGitHub</td>
+          <td class="memname">string Tgstation.Server.Api.Models.Repository.GitHubName</td>
         </tr>
       </table>
   </td>
@@ -234,7 +237,33 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>If the repository was cloned from GitHub.com. If  this enables test merge functionality </p>
+<p>If the repository was cloned from GitHub.com this will be set with the name of the repository </p>
+
+<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00033">33</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00104">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a04abf893b8ca947b828372b92534f34a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Api.Models.Repository.GitHubOwner</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the repository was cloned from GitHub.com this will be set with the owner of the repository </p>
 
 <p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00028">28</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
 
@@ -262,7 +291,7 @@ Properties</h2></td></tr>
 
 <p><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge ">TestMergeParameters</a> for new <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">TestMerge</a>s. Note that merges that conflict will not be performed </p>
 
-<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00048">48</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00053">53</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
 
 </div>
 </div>
@@ -312,7 +341,7 @@ Properties</h2></td></tr>
 
 <p>The branch or tag HEAD points to </p>
 
-<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00043">43</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00048">48</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00104">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
 
@@ -364,7 +393,7 @@ Properties</h2></td></tr>
 
 <p>Do the equivalent of a git pull. Will attempt to merge unless <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a7409d655bc6993e0eb1d75743160a3b2" title="The branch or tag HEAD points to ">Reference</a> is also specified in which case a hard reset will be performed after checking out </p>
 
-<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00038">38</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
+<p>Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html#l00043">43</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_repository_8cs_source.html">Repository.cs</a>.</p>
 
 </div>
 </div>
