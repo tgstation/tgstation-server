@@ -22,7 +22,23 @@ matrix:
             - libstdc++6:i386
     - env:
       - DMAPI=false
-      name: "Linux Build"
+      - CONFIG=Debug
+      name: "Test Server Debug"
+      language: csharp
+      mono: none
+      dotnet: 2.1.300
+      services:
+        - mysql
+      cache:
+        directories:
+          - $HOME/.nuget/packages:
+      os:
+        - linux
+        - osx
+    - env:
+      - DMAPI=false
+      - CONFIG=Release
+      name: "Test Server Release"
       language: csharp
       mono: none
       dotnet: 2.1.300
