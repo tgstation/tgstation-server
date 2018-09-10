@@ -1,7 +1,7 @@
 var searchData=
 [
   ['realserver',['realServer',['../class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a292747ef36a9f260dbe9b62591e2c93d',1,'Tgstation::Server::Tests::TestingServer']]],
-  ['reattachinfohandler',['reattachInfoHandler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#aed6e0e27662e31247ac29588da0c938d',1,'Tgstation.Server.Host.Components.Watchdog.Watchdog.reattachInfoHandler()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a9dedd397d0d43716868465edb24737f7',1,'Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.reattachInfoHandler()']]],
+  ['reattachinfohandler',['reattachInfoHandler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#aed6e0e27662e31247ac29588da0c938d',1,'Tgstation::Server::Host::Components::Watchdog::Watchdog']]],
   ['reattachinformation',['reattachInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a017d1f82539ec09794f736e9ae04e7fd',1,'Tgstation::Server::Host::Components::Watchdog::SessionController']]],
   ['rebootstate',['RebootState',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#af2cfade4b1ded5fdc06086b4957f233a',1,'Tgstation::Server::Host::Components::Watchdog::Watchdog']]],
   ['reboottcs',['rebootTcs',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a92ab8344fdb23d7b4db96f4595ae8054',1,'Tgstation::Server::Host::Components::Watchdog::SessionController']]],
