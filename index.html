@@ -110,6 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <ul>
 <li><code>General:LogFileDirectory</code>: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise</li>
 <li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users</li>
+<li><code>General:GitHubAccessToken</code>: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests</li>
 <li><code>Logging:LogLevel:Default</code>: Can be one of <code>Trace</code>, <code>Debug</code>, <code>Information</code>, <code>Warning</code>, <code>Error</code>, or <code>Critical</code>. Restricts what is put into the log files. Currently <code>Debug</code> is reccommended for help with error reporting.</li>
 <li><code>Kestrel:Endpoints:Http:Url</code>: The URL (i.e. interface and ports) your application should listen on. General use case should be <code><a href="http://localhost:">http://localhost:</a>&lt;port&gt;</code> for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web.</li>
 <li><code>Database:DatabaseType</code>: Can be one of <code>SqlServer</code>, <code>MariaDB</code>, or <code>MySql</code></li>

@@ -26,7 +26,7 @@ var searchData=
   ['administrationclient',['AdministrationClient',['../class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa5d48433766cd2f29ee60007767f5387',1,'Tgstation::Server::Client::AdministrationClient']]],
   ['administrationclient_2ecs',['AdministrationClient.cs',['../_administration_client_8cs.html',1,'']]],
   ['administrationcontroller',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html',1,'Tgstation::Server::Host::Controllers']]],
-  ['administrationcontroller',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6edadd82d8e9a70eafd92c3d9f0dc0c9',1,'Tgstation::Server::Host::Controllers::AdministrationController']]],
+  ['administrationcontroller',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a9460aaed78698e14c5a9c771b4b48c3b',1,'Tgstation::Server::Host::Controllers::AdministrationController']]],
   ['administrationcontroller_2ecs',['AdministrationController.cs',['../_administration_controller_8cs.html',1,'']]],
   ['administrationrights',['AdministrationRights',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#ade2eaa5d5e27d3f550db6180e0f66b27',1,'Tgstation.Server.Api.Models.Internal.User.AdministrationRights()'],['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21',1,'Tgstation.Server.Api.Rights.AdministrationRights()']]],
   ['administrationrights_2ecs',['AdministrationRights.cs',['../_administration_rights_8cs.html',1,'']]],
