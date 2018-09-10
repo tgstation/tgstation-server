@@ -176,7 +176,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			services.AddSingleton(x => x.GetRequiredService<IGitHubClientFactory>().CreateClient());
 
 			if (isWindows)
 			{

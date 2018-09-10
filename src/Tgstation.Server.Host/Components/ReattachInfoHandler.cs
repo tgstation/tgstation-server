@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
@@ -23,6 +24,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="ReattachInfoHandler"/>
+		/// </summary>
+		readonly ILogger<ReattachInfoHandler> logger;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="ReattachInfoHandler"/>
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -32,17 +38,24 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
-		public ReattachInfoHandler(IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, Api.Models.Instance metadata)
+		public ReattachInfoHandler(IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, ILogger<ReattachInfoHandler> logger, Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 		}
 
 		/// <inheritdoc />
 		public Task Save(WatchdogReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
+			if (reattachInformation == null)
+				throw new ArgumentNullException(nameof(reattachInformation));
+
+			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
+
 			var instance = new Models.Instance { Id = metadata.Id };
 			db.Instances.Attach(instance);
 
@@ -83,10 +96,15 @@ namespace Tgstation.Server.Host.Components
 			).ConfigureAwait(false);
 
 			if (result == default)
-				throw new JobException("Unable to load reattach information!");
+			{
+				logger.LogDebug("Reattach information not found!");
+				return null;
+			}
 
 			var bravoDmbTask = dmbFactory.FromCompileJob(result.Bravo.CompileJob, cancellationToken);
-			return new WatchdogReattachInformation(result, await dmbFactory.FromCompileJob(result.Alpha.CompileJob, cancellationToken).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
+			var info = new WatchdogReattachInformation(result, await dmbFactory.FromCompileJob(result.Alpha.CompileJob, cancellationToken).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
+			logger.LogDebug("Reattach information loaded: {0}", info);
+			return info;
 		}
 	}
 }

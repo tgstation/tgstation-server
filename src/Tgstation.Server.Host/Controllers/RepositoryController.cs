@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +16,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -43,6 +45,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="RepositoryController"/>
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="RepositoryController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -51,11 +58,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		static async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
@@ -483,7 +492,7 @@ namespace Tgstation.Server.Host.Controllers
 							foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
 								I.PullRequestRevision = null;
 
-							var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
+							var gitHubClient = String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? (currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient()) : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
 
 							var repoOwner = repo.GitHubOwner;
 							var repoName = repo.GitHubRepoName;
