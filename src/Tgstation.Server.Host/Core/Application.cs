@@ -3,13 +3,13 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
@@ -22,6 +22,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.StaticFiles;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.IO;
@@ -200,8 +201,9 @@ namespace Tgstation.Server.Host.Core
 				SendTimeout = 5000
 			});
 
-			services.AddSingleton<InstanceFactory>();
-			services.AddSingleton<IInstanceFactory>(x => x.GetRequiredService<InstanceFactory>());
+			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
@@ -221,7 +223,8 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Application"/></param>
-		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger)
+		/// <param name="serverControl">The <see cref="IServerControl"/> for the application</param>
+		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger, IServerControl serverControl)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
@@ -229,6 +232,9 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
+			
+			//attempt to restart the server if the configuration changes
+			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			applicationBuilder.UseDeveloperExceptionPage(); //it is not worth it to limit this, you should only ever get it if you're an authorized user
 
