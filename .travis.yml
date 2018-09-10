@@ -32,8 +32,8 @@ matrix:
         directories:
           - $HOME/.nuget/packages:
       os:
-      - linux
-      - osx
+        - linux
+        - osx
 
 install:
   - if [ $DMAPI = true ]; then build/install_byond.sh; fi
