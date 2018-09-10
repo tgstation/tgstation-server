@@ -41,6 +41,8 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
+- `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
+
 - `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 
 - `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
