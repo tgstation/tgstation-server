@@ -37,8 +37,7 @@ namespace Tgstation.Server.Tests
 
 			realServer = new ServerFactory().CreateServer(new string[]
 			{
-				"--urls",
-				Url.ToString(),
+				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				"Database:DropDatabase=true"

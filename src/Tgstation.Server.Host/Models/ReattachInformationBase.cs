@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
 
@@ -34,7 +35,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The current DreamDaemon reboot state
 		/// </summary>
-		[Required]
 		public RebootState RebootState { get; set; }
 
 		/// <summary>
@@ -56,5 +56,8 @@ namespace Tgstation.Server.Host.Models
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;
 		}
+
+		/// <inheritdoc />
+		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Process ID: {3}, Access Identifier {4}, Primary: {0}, RebootState: {1}, Port: {2}", IsPrimary, RebootState, Port, ProcessId, AccessIdentifier);
 	}
 }

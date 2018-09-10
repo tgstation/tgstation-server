@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());
-						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, metadata.CloneMetadata());
+						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(chat, dmbFactory, reattachInfoHandler, configuration, sessionControllerFactory, metadata.CloneMetadata(), metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
 						commandFactory.SetWatchdog(watchdog);
