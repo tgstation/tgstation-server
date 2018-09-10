@@ -41,7 +41,11 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
+- `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
+
 - `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
+
+- `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web.
 
 - `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
 
@@ -78,6 +82,41 @@ A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integ
 3. Follow the instructions in `tgs.dm` to integrate the API with your codebase.
 
 The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the `TGS_EXTERNAL_CONFIGURATION` is recommended in order to make the process as easy as replacing `tgs.dm` and the `tgs` folder with a new version
+
+## Remote Access
+
+tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration JSON. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
+
+Exposing the builtin kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.
+
+System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.
+
+Once complete, test that your configuration worked by visiting your proxy site from a different computer. You should recieve a 401 Unauthorized response.
+
+### IIS (Reccommended for Windows)
+
+1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
+2. Install the [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx)
+3. Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module
+4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix.
+5. Close and reopen the IIS Manager
+5. Open the site and navigate to the `URL Rewrite` module
+6. In the `Actions` Pane on the right click `Add Rule(s)...`
+7. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
+8. You may get a prompt about enabling proxy functionality. Click `OK`
+9. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `http://localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
+
+### Nginx (Reccommended for Linux)
+
+TODO
+
+See https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+
+### Apache
+
+TODO
+
+See https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html
 
 ## Usage
 

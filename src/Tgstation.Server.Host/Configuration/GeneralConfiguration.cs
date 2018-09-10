@@ -24,5 +24,10 @@
 		/// Minimum length of database user passwords
 		/// </summary>
 		public uint MinimumPasswordLength { get; set; }
+
+		/// <summary>
+		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes
+		/// </summary>
+		public string GitHubAccessToken { get; set; }
 	}
 }

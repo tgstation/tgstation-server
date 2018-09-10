@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -28,6 +29,7 @@ namespace Tgstation.Server.Tests
 			//we have to rely on env vars
 			var databaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
 			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
+			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN");
 
 			if (String.IsNullOrEmpty(databaseType))
 				Assert.Fail("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
@@ -35,14 +37,18 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrEmpty(connectionString))
 				Assert.Fail("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
 
-			realServer = new ServerFactory().CreateServer(new string[]
+			var args = new List<string>()
 			{
-				"--urls",
-				Url.ToString(),
+				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				"Database:DropDatabase=true"
-			}, null);
+			};
+
+			if (!String.IsNullOrEmpty(gitHubAccessToken))
+				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
+
+			realServer = new ServerFactory().CreateServer(args.ToArray(), null);
 		}
 
 		public void Dispose()
