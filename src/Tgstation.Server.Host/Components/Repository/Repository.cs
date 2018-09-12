@@ -212,7 +212,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return false;
 			}
 
-			if (commitMessage != null)
+			if (commitMessage != null && result.Status != MergeStatus.UpToDate)
 				repository.Commit(commitMessage, sig, sig, new CommitOptions
 				{
 					PrettifyMessage = true
