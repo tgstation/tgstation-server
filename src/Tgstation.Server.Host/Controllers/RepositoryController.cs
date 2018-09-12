@@ -609,6 +609,10 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									Octokit.PullRequest pr = null;
 									string errorMessage = null;
+
+									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number.Value))
+										throw new JobException("Cannot test merge the same PR twice in one HEAD!");
+
 									try
 									{
 										//load from cache if possible
