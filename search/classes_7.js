@@ -65,7 +65,7 @@ var searchData=
   ['instanceusercontroller',['InstanceUserController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_user_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['insufficientpermissionsexception',['InsufficientPermissionsException',['../class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html',1,'Tgstation::Server::Client']]],
   ['integrationtest',['IntegrationTest',['../class_tgstation_1_1_server_1_1_tests_1_1_integration_test.html',1,'Tgstation::Server::Tests']]],
-  ['ipostwritehandler',['IPostWriteHandler',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_post_write_handler.html',1,'Tgstation::Server::Host::Components::StaticFiles']]],
+  ['ipostwritehandler',['IPostWriteHandler',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_post_write_handler.html',1,'Tgstation::Server::Host::Core']]],
   ['iprocess',['IProcess',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process.html',1,'Tgstation::Server::Host::Core']]],
   ['iprocessbase',['IProcessBase',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html',1,'Tgstation::Server::Host::Core']]],
   ['iprocessexecutor',['IProcessExecutor',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_executor.html',1,'Tgstation::Server::Host::Core']]],
