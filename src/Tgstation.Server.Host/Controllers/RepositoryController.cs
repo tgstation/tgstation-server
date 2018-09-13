@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
-		static async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
+		async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
 		{
 			var repoSha = repository.Head;
 
@@ -96,12 +96,17 @@ namespace Tgstation.Server.Host.Controllers
 				lock (databaseContext)  //cleaner this way
 					databaseContext.RevisionInformations.Add(revisionInfo);
 			}
-			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha ?? repository.Head;
+			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha;
+			if (revisionInfo.OriginCommitSha == null)
+			{
+				revisionInfo.OriginCommitSha = repoSha;
+				Logger.LogWarning(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+			}
 			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
 		}
 
-		static async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
+		async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
 			if (repository.IsGitHubRepository)
 			{

@@ -186,6 +186,7 @@ namespace Tgstation.Server.Host.Components
 											Id = metadata.Id
 										}
 									};
+									logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, currentSha);
 									db.Instances.Attach(revInfo.Instance);
 								}
 

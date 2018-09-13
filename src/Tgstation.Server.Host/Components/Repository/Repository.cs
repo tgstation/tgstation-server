@@ -18,12 +18,17 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		public const string GitHubUrl = "://github.com/";
 
-		const string UnknownReference = "<UNKNOWN>";
+		/// <summary>
+		/// Template error message for when tracking of the most recent origin commit fails
+		/// </summary>
+		public const string OriginTrackingErrorTemplate = "Unable to determine most recent origin commit of {0}. Marking it as an origin commit. This may result in invalid git metadata until the next hard reset to an origin reference.";
 
 		/// <summary>
 		/// The branch name used for publishing testmerge commits
 		/// </summary>
 		public const string RemoteTemporaryBranchName = "___TGSTempBranch";
+
+		const string UnknownReference = "<UNKNOWN>";
 
 		/// <inheritdoc />
 		public bool IsGitHubRepository { get; }
