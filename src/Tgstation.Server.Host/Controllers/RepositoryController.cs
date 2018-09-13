@@ -381,9 +381,29 @@ namespace Tgstation.Server.Host.Controllers
 			//this is just db stuf so stow it away
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
+			//format the job description
+			string description = null;
+			if (model.UpdateFromOrigin == true)
+				if (model.Reference != null)
+					description = String.Format(CultureInfo.InvariantCulture, "Fetch and hard reset repsitory to origin/{0}", model.Reference);
+				else if (model.CheckoutSha != null)
+					description = String.Format(CultureInfo.InvariantCulture, "Fetch and checkout {0} in repository", model.CheckoutSha);
+				else
+					description = "Pull current repository reference";
+			else if (model.Reference != null || model.CheckoutSha != null)
+				description = String.Format(CultureInfo.InvariantCulture, "Checkout repository {0} {1}", model.Reference != null ? "reference" : "SHA", model.Reference ?? model.CheckoutSha);
+
+			if (newTestMerges)
+				description = String.Format(CultureInfo.InvariantCulture, "{0}est merge pull request(s) {1}{2}", 
+					description != null ? String.Format(CultureInfo.InvariantCulture, "{0} and t", description) : "T",
+					String.Join(", ", model.NewTestMerges.Select(x => 
+					String.Format(CultureInfo.InvariantCulture, "#{0}{1}", x.Number, 
+					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, " {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
+					description != null ? String.Empty : " in repository");
+
 			var job = new Models.Job
 			{
-				Description = "Apply repository changes",
+				Description = description ?? "Apply repository changes",
 				StartedBy = AuthenticationContext.User,
 				Instance = Instance,
 				CancelRightsType = RightsType.Repository,
