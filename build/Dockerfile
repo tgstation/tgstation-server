@@ -22,10 +22,10 @@ RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsett
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
 EXPOSE 5000
 
-
-RUN apt-get update 
+#needed for byond
+RUN apt-get update \
 	&& apt-get install -y \
-	gcc-multilib \	#needed for byond
+	gcc-multilib \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
