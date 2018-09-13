@@ -101,8 +101,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the <code>lib</code> subdirectory.</li>
 <li>If using the ServerService package, run <code>Tgstation.Server.Host.Service.exe</code>. It should prompt you to install the service. Click <code>Yes</code> and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.</li>
 </ol>
+<h4>Linux</h4>
+<p>The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime</p>
+<ul>
+<li>gcc-multilib (on 64-bit systems for running BYOND)</li>
+</ul>
+<p>Note that tgstation-server has only ever been tested on Linux via it's <a href="https://github.com/tgstation/tgstation-server/blob/master/build/Dockerfile#L22">docker environment</a>. If you are having trouble with something, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.</p>
 <h4>Docker</h4>
-<p>tgstation-server supports running in a docker container on linux systems and is the preferred deployment method to avoid <a href="https://github.com/libgit2/libgit2sharp/issues/1533">native dependency hell with libgit2</a>. The official image repository is located at <a href="https://hub.docker.com/r/tgstation/server">https://hub.docker.com/r/tgstation/server</a> it can be built locally, however, by running <code>docker build . -f build/Dockerfile</code> in the repository root.</p>
+<p>tgstation-server supports running in a docker container on Linux systems. The official image repository is located at <a href="https://hub.docker.com/r/tgstation/server">https://hub.docker.com/r/tgstation/server</a>. It can also be built locally by running <code>docker build . -f build/Dockerfile</code> in the repository root.</p>
 <p>To create a container run <code>docker create --restart=always -p &lt;public port&gt;:80 -v /path/to/your/appsettings.Production.json:/config_data -v path/to/your/log/folder:/tgs_logs tgstation/server</code> with any additional options you desire (i.e. You'll have to expose more ports in order to actually host servers, add a volume to create instances on, and create a volume for the SQLite database if that is what you're using).</p>
 <p>Note that due to the nature of docker. If the container restarts, you will be sent back to the version of TGS you installed with the initial command. Server updates will have to be reapplied. For this reason it is NOT RECOMMENDED to use the live update feature with a docker host.</p>
 <h3>Configuring</h3>
