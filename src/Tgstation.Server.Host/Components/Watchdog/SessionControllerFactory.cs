@@ -186,7 +186,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							parameters);
 
 						//launch dd
-						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments);
+						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: true);
 						try
 						{
 							//return the session controller for it
