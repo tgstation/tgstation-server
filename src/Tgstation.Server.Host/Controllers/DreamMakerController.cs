@@ -51,11 +51,12 @@ namespace Tgstation.Server.Host.Controllers
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
-			var projectName = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).Select(x => x.ProjectName).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var dreamMakerSettings = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			return Json(new Api.Models.DreamMaker
 			{
-				ProjectName = projectName,
-				Status = instance.DreamMaker.Status
+				ProjectName = dreamMakerSettings.ProjectName,
+				Status = instance.DreamMaker.Status,
+				ApiValidationPort = dreamMakerSettings.ApiValidationPort
 			});
 		}
 
