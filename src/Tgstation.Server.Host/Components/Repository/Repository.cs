@@ -371,7 +371,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return null;
 			}
 
-			return result.Status != MergeStatus.NonFastForward;
+			return result.Status == MergeStatus.FastForward;
 		}
 
 		/// <inheritdoc />
