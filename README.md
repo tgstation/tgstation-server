@@ -25,9 +25,17 @@ Generally, updates force a live tracking of the configured git repo, resetting l
 3. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
 4. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
 
+#### Linux
+
+The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
+
+- gcc-multilib (on 64-bit systems for running BYOND)
+
+Note that tgstation-server has only ever been tested on Linux via it's [docker environment](https://github.com/tgstation/tgstation-server/blob/master/build/Dockerfile#L22). If you are having trouble with something, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
+
 #### Docker
 
-tgstation-server supports running in a docker container on linux systems and is the preferred deployment method to avoid [native dependency hell with libgit2](https://github.com/libgit2/libgit2sharp/issues/1533). The official image repository is located at https://hub.docker.com/r/tgstation/server it can be built locally, however, by running `docker build . -f build/Dockerfile` in the repository root.
+tgstation-server supports running in a docker container on Linux systems. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
 
 To create a container run `docker create --restart=always -p <public port>:80 -v /path/to/your/appsettings.Production.json:/config_data -v path/to/your/log/folder:/tgs_logs tgstation/server` with any additional options you desire (i.e. You'll have to expose more ports in order to actually host servers, add a volume to create instances on, and create a volume for the SQLite database if that is what you're using).
 
