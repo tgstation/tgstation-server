@@ -55,7 +55,6 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(new Api.Models.DreamMaker
 			{
 				ProjectName = dreamMakerSettings.ProjectName,
-				Status = instance.DreamMaker.Status,
 				ApiValidationPort = dreamMakerSettings.ApiValidationPort
 			});
 		}
