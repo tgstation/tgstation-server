@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,12 @@ namespace Tgstation.Server.Host.Core
 		readonly StringBuilder errorStringBuilder;
 		readonly StringBuilder combinedStringBuilder;
 
-		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder)
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Process"/>
+		/// </summary>
+		readonly ILogger<Process> logger;
+
+		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder, ILogger<Process> logger)
 		{
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 			Lifetime = lifetime ?? throw new ArgumentNullException(nameof(lifetime));
@@ -30,6 +36,8 @@ namespace Tgstation.Server.Host.Core
 			this.outputStringBuilder = outputStringBuilder;
 			this.errorStringBuilder = errorStringBuilder;
 			this.combinedStringBuilder = combinedStringBuilder;
+
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			Id = handle.Id;
 			Startup = Task.Factory.StartNew(() =>
@@ -40,6 +48,8 @@ namespace Tgstation.Server.Host.Core
 				}
 				catch (InvalidOperationException) { }
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+			logger.LogTrace("Created proces ID: {0}", Id);
 		}
 
 		/// <inheritdoc />
@@ -72,12 +82,18 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public void Terminate()
 		{
+			if (handle.HasExited)
+				return;
 			try
 			{
+				logger.LogTrace("Terminating process...");
 				handle.Kill();
 				handle.WaitForExit();
 			}
-			catch (InvalidOperationException) { }
+			catch (Exception e)
+			{
+				logger.LogDebug("Process termination exception: {0}", e);
+			}
 		}
 
 		public void SetHighPriority()
@@ -85,6 +101,7 @@ namespace Tgstation.Server.Host.Core
 			try
 			{
 				handle.PriorityClass = System.Diagnostics.ProcessPriorityClass.AboveNormal;
+				logger.LogTrace("Set to above normal priority", handle.Id);
 			}
 			catch (InvalidOperationException) { }
 		}
