@@ -401,9 +401,13 @@ namespace Tgstation.Server.Host.Controllers
 					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, " {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
 					description != null ? String.Empty : " in repository");
 
+			if (description == null)
+				//no git changes
+				return Json(api);
+
 			var job = new Models.Job
 			{
-				Description = description ?? "Apply repository changes",
+				Description = description,
 				StartedBy = AuthenticationContext.User,
 				Instance = Instance,
 				CancelRightsType = RightsType.Repository,
