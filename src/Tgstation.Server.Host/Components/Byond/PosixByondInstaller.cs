@@ -2,8 +2,10 @@
 using System;
 using System.Globalization;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -23,15 +25,20 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ByondCachePath = "~/.byond/cache";
 
 		/// <inheritdoc />
-		public string DreamDaemonName => "DreamDaemon";
+		public string DreamDaemonName => "DreamDaemon.sh";
 
 		/// <inheritdoc />
-		public string DreamMakerName => "DreamMaker";
+		public string DreamMakerName => "DreamMaker.sh";
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="PosixByondInstaller"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+
+		/// <summary>
+		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>
+		/// </summary>
+		readonly IPostWriteHandler postWriteHandler;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PosixByondInstaller"/>
@@ -42,10 +49,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Construct a <see cref="WindowsByondInstaller"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public PosixByondInstaller(IIOManager ioManager, ILogger<PosixByondInstaller> logger)
+		public PosixByondInstaller(IIOManager ioManager, IPostWriteHandler postWriteHandler, ILogger<PosixByondInstaller> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -88,6 +97,24 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public Task InstallByond(string path, Version version, CancellationToken cancellationToken) => Task.CompletedTask;
+		public Task InstallByond(string path, Version version, CancellationToken cancellationToken)
+		{
+			//write the scripts for running the ting
+			//need to add $ORIGIN to LD_LIBRARY_PATH
+			const string StandardScript = "#!/bin/sh\nexport LD_LIBRARY_PATH=\"\\$ORIGIN:$LD_LIBRARY_PATH\"\nBASEDIR=$(dirname \"$0\")\nexec \"$BASEDIR/{0}\" \"$@\"\n";
+
+			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, "DreamDaemon");
+			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, "DreamMaker");
+
+			async Task WriteAndMakeExecutable(string fullPath, string script)
+			{
+				await ioManager.WriteAllBytes(fullPath, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
+				postWriteHandler.HandleWrite(fullPath);
+			}
+
+			var basePath = ioManager.ConcatPath(path, ByondManager.BinPath);
+
+			return Task.WhenAll(WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamDaemonName), dreamDaemonScript), WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamMakerName), dreamMakerScript));
+		}
 	}
 }

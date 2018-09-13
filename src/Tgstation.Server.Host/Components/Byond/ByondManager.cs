@@ -13,10 +13,13 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <inheritdoc />
 	sealed class ByondManager : IByondManager
 	{
+		/// <summary>
+		/// The path to the BYOND bin folder
+		/// </summary>
+		public const string BinPath = "byond/bin";
+
 		const string VersionFileName = "Version.txt";
 		const string ActiveVersionFileName = "ActiveVersion.txt";
-
-		const string BinPath = "byond/bin";
 
 		/// <inheritdoc />
 		public Version ActiveVersion { get; private set; }
