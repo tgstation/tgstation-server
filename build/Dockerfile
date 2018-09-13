@@ -1,4 +1,5 @@
 FROM microsoft/dotnet:2.1-sdk AS build
+
 WORKDIR /src
 
 COPY tgstation-server.sln ./
@@ -25,6 +26,12 @@ RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsett
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
 EXPOSE 5000
+
+
+RUN apt-get update 
+	&& apt-get install -y \
+	gcc-multilib \	#needed for byond
+	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
