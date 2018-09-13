@@ -85,31 +85,25 @@ namespace Tgstation.Server.Host.Core
 					{
 						outputStringBuilder = new StringBuilder();
 						handle.StartInfo.RedirectStandardOutput = true;
-						var eventHandler = new DataReceivedEventHandler(
-							delegate (object sender, DataReceivedEventArgs e)
-							{
-								combinedStringBuilder.Append(Environment.NewLine);
-								combinedStringBuilder.Append(e.Data);
-								outputStringBuilder.Append(Environment.NewLine);
-								outputStringBuilder.Append(e.Data);
-							}
-						);
-						handle.OutputDataReceived += eventHandler;
+						handle.OutputDataReceived += (sender, e) =>
+						{
+							combinedStringBuilder.Append(Environment.NewLine);
+							combinedStringBuilder.Append(e.Data);
+							outputStringBuilder.Append(Environment.NewLine);
+							outputStringBuilder.Append(e.Data);
+						};
 					}
 					if (readError)
 					{
 						errorStringBuilder = new StringBuilder();
 						handle.StartInfo.RedirectStandardError = true;
-						var eventHandler = new DataReceivedEventHandler(
-							delegate (object sender, DataReceivedEventArgs e)
-							{
-								combinedStringBuilder.Append(Environment.NewLine);
-								combinedStringBuilder.Append(e.Data);
-								errorStringBuilder.Append(Environment.NewLine);
-								errorStringBuilder.Append(e.Data);
-							}
-						);
-						handle.ErrorDataReceived += eventHandler;
+						handle.ErrorDataReceived += (sender, e) =>
+						{
+							combinedStringBuilder.Append(Environment.NewLine);
+							combinedStringBuilder.Append(e.Data);
+							errorStringBuilder.Append(Environment.NewLine);
+							errorStringBuilder.Append(e.Data);
+						};
 					}
 				}
 
