@@ -30,6 +30,7 @@ cd ../Tgstation.Server.Host.Console.Tests
 dotnet build -c $CONFIG
 $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.0/Tgstation.Server.Host.Console.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/console.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Console.Tests*]*"
 
+cd ../Tgstation.Server.Tests
 export TGS4_TEST_DATABASE_TYPE=MySql
 export TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=root;pwd=;database=tgs_test"
 #token set in CI settings
