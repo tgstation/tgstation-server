@@ -735,6 +735,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception e)
 				{
+					var originalChatTask = chatTask;
+					async Task ChainChatTaskWithErrorMessage()
+					{
+						await originalChatTask.ConfigureAwait(false);
+						await chat.SendWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
+					}
+					chatTask = ChainChatTaskWithErrorMessage();
 					logger.LogWarning("Failed to start watchdog: {0}", e.ToString());
 					throw;
 				}
