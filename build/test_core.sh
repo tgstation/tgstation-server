@@ -1,28 +1,6 @@
 #!/bin/bash
 set -e
 
-OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Api.Tests/Tgstation.Server.Api.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Api.Tests*]*" -output:".\api_coverage.xml" -oldstyle
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Api.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Client.Tests/Tgstation.Server.Client.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Client.Tests*]*" -output:".\client_coverage.xml" -oldstyle
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Client.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Tests/Tgstation.Server.Host.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Tests*]* -[Tgstation.Server.Host]Tgstation.Server.Host.Models.Migrations*" -output:".\host_coverage.xml" -oldstyle
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Console.Tests/Tgstation.Server.Host.Console.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Console.Tests*]*" -output:".\console_coverage.xml" -oldstyle
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Console.Tests\TestResults\results.trx))
-  - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
-  - copy "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\appveyor.*" "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions" /y
-  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Host.Service.Tests\bin\%CONFIGURATION%\Tgstation.Server.Host.Service.Tests.dll" /Enablecodecoverage /inIsolation /Platform:x64
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Watchdog.Tests/Tgstation.Server.Host.Watchdog.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Watchdog.Tests*]*" -output:".\watchdog_coverage.xml" -oldstyle
-  - ps: $wc = New-Object 'System.Net.WebClient'
-  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Watchdog.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Tests*]* -[Tgstation.Server.Host]Tgstation.Server.Host.Models.Migrations..*" -output:".\server_coverage.xml" -oldstyle
-
 dotnet tool install --global coverlet.console
 
 mkdir TestResults
