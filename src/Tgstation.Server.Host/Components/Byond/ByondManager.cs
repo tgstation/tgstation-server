@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -122,6 +124,11 @@ namespace Tgstation.Server.Host.Components.Byond
 
 					//make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+				}
+				catch (WebException e)
+				{
+					//since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
+					throw new JobException(String.Format(CultureInfo.InvariantCulture, "Error downloading BYOND version: {0}", e.Message));
 				}
 				catch (OperationCanceledException)
 				{
