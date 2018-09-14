@@ -34,6 +34,7 @@ var searchData=
   ['idreammakerclient_2ecs',['IDreamMakerClient.cs',['../_i_dream_maker_client_8cs.html',1,'']]],
   ['ieventconsumer_2ecs',['IEventConsumer.cs',['../_i_event_consumer_8cs.html',1,'']]],
   ['igithubclientfactory_2ecs',['IGitHubClientFactory.cs',['../_i_git_hub_client_factory_8cs.html',1,'']]],
+  ['ihttpclient_2ecs',['IHttpClient.cs',['../_i_http_client_8cs.html',1,'']]],
   ['iidentitycache_2ecs',['IIdentityCache.cs',['../_i_identity_cache_8cs.html',1,'']]],
   ['iinstance_2ecs',['IInstance.cs',['../_i_instance_8cs.html',1,'']]],
   ['iinstanceclient_2ecs',['IInstanceClient.cs',['../_i_instance_client_8cs.html',1,'']]],
@@ -91,6 +92,6 @@ var searchData=
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
 ];

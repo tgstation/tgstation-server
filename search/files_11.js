@@ -1,6 +1,7 @@
 var searchData=
 [
   ['temporarydmbprovider_2ecs',['TemporaryDmbProvider.cs',['../_temporary_dmb_provider_8cs.html',1,'']]],
+  ['testapiclient_2ecs',['TestApiClient.cs',['../_test_api_client_8cs.html',1,'']]],
   ['testapiheaders_2ecs',['TestApiHeaders.cs',['../_test_api_headers_8cs.html',1,'']]],
   ['testauthenticationcontext_2ecs',['TestAuthenticationContext.cs',['../_test_authentication_context_8cs.html',1,'']]],
   ['testingserver_2ecs',['TestingServer.cs',['../_testing_server_8cs.html',1,'']]],

@@ -38,6 +38,7 @@ var searchData=
   ['ieventlog',['IEventLog',['../class_i_event_log.html',1,'']]],
   ['igithubclientfactory',['IGitHubClientFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html',1,'Tgstation::Server::Host::Core']]],
   ['ihostedservice',['IHostedService',['../class_i_hosted_service.html',1,'']]],
+  ['ihttpclient',['IHttpClient',['../interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html',1,'Tgstation::Server::Client']]],
   ['iidentitycache',['IIdentityCache',['../interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html',1,'Tgstation::Server::Host::Security']]],
   ['iinstance',['IInstance',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html',1,'Tgstation::Server::Host::Components']]],
   ['iinstanceclient',['IInstanceClient',['../interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html',1,'Tgstation::Server::Client::Components']]],
@@ -49,9 +50,9 @@ var searchData=
   ['ijobmanager',['IJobManager',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html',1,'Tgstation::Server::Host::Core']]],
   ['ijobsclient',['IJobsClient',['../interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html',1,'Tgstation::Server::Client::Components']]],
   ['ijsontrackingcontext',['IJsonTrackingContext',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html',1,'Tgstation::Server::Host::Components::Chat']]],
+  ['instance',['Instance',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html',1,'Tgstation::Server::Host::Components']]],
   ['instance',['Instance',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html',1,'Tgstation::Server::Api::Models']]],
   ['instance',['Instance',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html',1,'Tgstation::Server::Host::Models']]],
-  ['instance',['Instance',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html',1,'Tgstation::Server::Host::Components']]],
   ['instanceclient',['InstanceClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html',1,'Tgstation::Server::Client::Components']]],
   ['instancecontroller',['InstanceController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['instancefactory',['InstanceFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html',1,'Tgstation::Server::Host::Components']]],
@@ -90,8 +91,8 @@ var searchData=
   ['isystemidentityfactory',['ISystemIdentityFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html',1,'Tgstation::Server::Host::Security']]],
   ['itokenfactory',['ITokenFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html',1,'Tgstation::Server::Host::Security']]],
   ['iusersclient',['IUsersClient',['../interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html',1,'Tgstation::Server::Client']]],
-  ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
   ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]],
-  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]]
+  ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
+  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]]
 ];
