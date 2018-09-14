@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Client.Components;
@@ -18,8 +16,12 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunTests(CancellationToken cancellationToken)
 		{
+			var byondTests = new ByondTest(instanceClient.Byond, instanceClient.Jobs);
 			var configTests = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
+
+			var byondTest = byondTests.Run(cancellationToken);
 			await configTests.Run(cancellationToken).ConfigureAwait(false);
+			await byondTest.ConfigureAwait(false);
 		}
 	}
 }
