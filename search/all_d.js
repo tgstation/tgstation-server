@@ -36,7 +36,6 @@ var searchData=
   ['modelcontroller_3c_20userupdate_20_3e',['ModelController&lt; UserUpdate &gt;',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_model_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['modelsnapshot',['ModelSnapshot',['../class_model_snapshot.html',1,'']]],
   ['modifydme',['ModifyDme',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#a295665eca92d9eb5d17e1fb5d11c1559',1,'Tgstation::Server::Host::Components::Compiler::DreamMaker']]],
-  ['modifying',['Modifying',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2850efe9d731be9de98b56a284980698a9361bbf1ba577c105067533413bcfaea',1,'Tgstation::Server::Api::Models']]],
   ['monitoraction',['MonitorAction',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['monitoraction_2ecs',['MonitorAction.cs',['../_monitor_action_8cs.html',1,'']]],
   ['monitoractivationreason',['MonitorActivationReason',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9',1,'Tgstation::Server::Host::Components::Watchdog']]],

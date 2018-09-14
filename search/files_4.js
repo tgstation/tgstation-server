@@ -24,6 +24,5 @@ var searchData=
   ['dreammakerclient_2ecs',['DreamMakerClient.cs',['../_dream_maker_client_8cs.html',1,'']]],
   ['dreammakercontroller_2ecs',['DreamMakerController.cs',['../_dream_maker_controller_8cs.html',1,'']]],
   ['dreammakerrights_2ecs',['DreamMakerRights.cs',['../_dream_maker_rights_8cs.html',1,'']]],
-  ['dreammakersettings_2ecs',['DreamMakerSettings.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs.html',1,'']]],
-  ['dreammakersettings_2ecs',['DreamMakerSettings.cs',['../_tgstation_8_server_8_host_2_models_2_dream_maker_settings_8cs.html',1,'']]]
+  ['dreammakersettings_2ecs',['DreamMakerSettings.cs',['../_dream_maker_settings_8cs.html',1,'']]]
 ];

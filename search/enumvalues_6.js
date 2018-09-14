@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['idle',['Idle',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2850efe9d731be9de98b56a284980698ae599161956d626eda4cb0a5ffb85271c',1,'Tgstation::Server::Api::Models']]],
   ['inactiveservercrashed',['InactiveServerCrashed',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a55fa500495cf8a547529c30f8d9c6ea5',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['inactiveserverrebooted',['InactiveServerRebooted',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a511bd67e833172fb4f9a30b92591235b',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['inactiveserverstartupcomplete',['InactiveServerStartupComplete',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9afaf84ad86619c2ec86111febdc77b60a',1,'Tgstation::Server::Host::Components::Watchdog']]],
