@@ -37,9 +37,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// </summary>
 		const string DmeExtension = "dme";
 
-		/// <inheritdoc />
-		public CompilerStatus Status { get; private set; }
-
 		/// <summary>
 		/// The <see cref="IByondManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -84,6 +81,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
+
+		/// <summary>
+		/// If a compile job is running
+		/// </summary>
+		bool compiling;
 
 		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
@@ -241,7 +243,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, DreamMakerSettings dreamMakerSettings, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, Api.Models.DreamMaker dreamMakerSettings, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			if (revisionInformation == null)
 				throw new ArgumentNullException(nameof(revisionInformation));
@@ -268,10 +270,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 			lock (this)
 			{
-				if (Status != CompilerStatus.Idle)
-					throw new JobException("There is already a compile in progress!");
-
-				Status = CompilerStatus.Copying;
+				if (compiling)
+					throw new JobException("There is already a compile job in progress!");
+				compiling = true;
 			}
 
 			try
@@ -302,7 +303,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 					async Task CleanupFailedCompile(bool cancelled)
 					{
 						logger.LogTrace("Cleaning compile directory...");
-						Status = CompilerStatus.Cleanup;
 						var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
 						try
 						{
@@ -330,13 +330,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 						using (repository)
 							await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
 
-						Status = CompilerStatus.PreCompile;
-
+						//run precompile scripts
 						var resolvedGameDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
 						await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedGameDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
 
-						Status = CompilerStatus.Modifying;
-
+						//determine the dme
 						if (job.DmeName == null)
 						{
 							logger.LogTrace("Searching for available .dmes...");
@@ -351,20 +349,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 						await ModifyDme(job, cancellationToken).ConfigureAwait(false);
 
-						Status = CompilerStatus.Compiling;
-
 						//run compiler, verify api
 						job.ByondVersion = byondLock.Version.ToString();
 
 						var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 
-						var apiValidated = false;
-						if (exitCode == 0)
-						{
-							Status = CompilerStatus.Verifying;
-
-							apiValidated = await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
-						}
+						var apiValidated = exitCode == 0 && await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
 
 						if (!apiValidated)
 						{
@@ -374,17 +364,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 						}
 
 						logger.LogTrace("Running post compile event...");
-						Status = CompilerStatus.PostCompile;
 						await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)) }, cancellationToken).ConfigureAwait(false);
 
 						logger.LogTrace("Duplicating compiled game...");
-						Status = CompilerStatus.Duplicating;
 
 						//duplicate the dmb et al
 						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
 
 						logger.LogTrace("Applying static game file symlinks...");
-						Status = CompilerStatus.Symlinking;
 
 						//symlink in the static data
 						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
@@ -411,7 +398,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			}
 			finally
 			{
-				Status = CompilerStatus.Idle;
+				compiling = false;
 			}
 		}
 	}
