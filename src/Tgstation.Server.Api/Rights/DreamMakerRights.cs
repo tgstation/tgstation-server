@@ -25,11 +25,11 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		CancelCompile = 4,
 		/// <summary>
-		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ProjectName"/>
+		/// User may modify <see cref="Models.DreamMaker.ProjectName"/>
 		/// </summary>
 		SetDme = 8,
 		/// <summary>
-		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationPort"/>
+		/// User may modify <see cref="Models.DreamMaker.ApiValidationPort"/>
 		/// </summary>
 		SetApiValidationPort = 16,
 		/// <summary>

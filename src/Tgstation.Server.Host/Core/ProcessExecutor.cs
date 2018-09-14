@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +12,11 @@ namespace Tgstation.Server.Host.Core
 		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>
 		/// </summary>
 		readonly ILogger<ProcessExecutor> logger;
+
+		/// <summary>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="ProcessExecutor"/>
+		/// </summary>
+		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
 		/// Create a <see cref="Task{TResult}"/> resulting in the exit code of a given <paramref name="handle"/>
@@ -43,9 +47,11 @@ namespace Tgstation.Server.Host.Core
 		/// Construct a <see cref="ProcessExecutor"/>
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public ProcessExecutor(ILogger<ProcessExecutor> logger)
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		public ProcessExecutor(ILogger<ProcessExecutor> logger, ILoggerFactory loggerFactory)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
 		/// <inheritdoc />
@@ -55,7 +61,7 @@ namespace Tgstation.Server.Host.Core
 			var handle = System.Diagnostics.Process.GetProcessById(id);
 			try
 			{
-				return new Process(handle, AttachExitHandler(handle), null, null, null);
+				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>());
 			}
 			catch
 			{
@@ -123,7 +129,7 @@ namespace Tgstation.Server.Host.Core
 				}
 				catch (InvalidOperationException) { }
 
-				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder);
+				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder, loggerFactory.CreateLogger<Process>());
 			}
 			catch
 			{
