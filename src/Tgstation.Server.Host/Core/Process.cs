@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Core
 				handle.PriorityClass = System.Diagnostics.ProcessPriorityClass.AboveNormal;
 				logger.LogTrace("Set to above normal priority", handle.Id);
 			}
-			catch (InvalidOperationException e)
+			catch (Exception e)
 			{
 				logger.LogWarning("Unable to raise process priority! Exception: {0}", e);
 			}
