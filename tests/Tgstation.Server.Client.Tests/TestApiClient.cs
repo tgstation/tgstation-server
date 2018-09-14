@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -23,7 +25,11 @@ namespace Tgstation.Server.Client.Tests
 				Version = new Version(511, 1385)
 			};
 
-			var sampleJson = JsonConvert.SerializeObject(sample);
+			var sampleJson = JsonConvert.SerializeObject(sample, new JsonSerializerSettings
+			{
+				ContractResolver = new CamelCasePropertyNamesContractResolver(),
+				Converters = new[] { new VersionConverter() }
+			});
 
 			var response = new HttpResponseMessage(HttpStatusCode.OK)
 			{

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -139,6 +140,7 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.CheckAdditionalContent = true;
 				options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();

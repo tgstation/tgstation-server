@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -81,7 +82,8 @@ namespace Tgstation.Server.Client
 
 			var serializerSettings = new JsonSerializerSettings
 			{
-				ContractResolver = new CamelCasePropertyNamesContractResolver()
+				ContractResolver = new CamelCasePropertyNamesContractResolver(),
+				Converters = new[] { new VersionConverter() }
 			};
 
 			if (body != null)
