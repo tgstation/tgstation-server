@@ -149,17 +149,21 @@ namespace Tgstation.Server.Host.Core
 					builder.EnableSensitiveDataLogging();
 			};
 
+			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
+			{
+				services.AddDbContext<TContext>(ConfigureDatabase);
+				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
+			}
+
 			var dbType = databaseConfiguration?.DatabaseType;
-			switch (dbType)
+			switch (databaseConfiguration?.DatabaseType)
 			{
 				case DatabaseType.MySql:
 				case DatabaseType.MariaDB:
-					services.AddDbContext<MySqlDatabaseContext>(ConfigureDatabase);
-					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<MySqlDatabaseContext>());
+					AddTypedContext<MySqlDatabaseContext>();
 					break;
 				case DatabaseType.SqlServer:
-					services.AddDbContext<SqlServerDatabaseContext>(ConfigureDatabase);
-					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqlServerDatabaseContext>());
+					AddTypedContext<SqlServerDatabaseContext>();
 					break;
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
