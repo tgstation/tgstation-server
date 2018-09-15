@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -97,7 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRight = (ulong)DreamMakerRights.CancelCompile,
 				Instance = Instance
 			};
-			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => RunCompile(paramJob, serviceProvider, Instance, ct), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, instanceManager.GetInstance(Instance).CompileProcess, cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());
 		}
 
@@ -128,70 +126,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return await Read(cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <summary>
-		/// Run the compile job and insert it into the database
-		/// </summary>
-		/// <param name="job">The running <see cref="Job"/></param>
-		/// <param name="serviceProvider">The <see cref="IServiceProvider"/> for the operation</param>
-		/// <param name="instanceModel">The <see cref="Models.Instance"/> for the operation</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunCompile(Job job, IServiceProvider serviceProvider, Models.Instance instanceModel, CancellationToken cancellationToken)
-		{
-			var instanceManager = serviceProvider.GetRequiredService<IInstanceManager>();
-			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
-
-			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == instanceModel.Id).Select(x => new DreamDaemonSettings
-			{
-				StartupTimeout = x.StartupTimeout,
-				SecurityLevel = x.SecurityLevel
-			}).FirstOrDefaultAsync(cancellationToken);
-
-
-			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == instanceModel.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (dreamMakerSettings == default)
-				throw new JobException("Missing DreamMakerSettings in DB!");
-			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
-			if (ddSettings == default)
-				throw new JobException("Missing DreamDaemonSettings in DB!");
-
-			var instance = instanceManager.GetInstance(instanceModel);
-
-			CompileJob compileJob;
-			RevisionInformation revInfo;
-			using (var repo = await instance.RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
-			{
-				if (repo == null)
-					throw new JobException("Missing Repository!");
-
-				var repoSha = repo.Head;
-				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
-
-				if (revInfo == default)
-				{
-					revInfo = new RevisionInformation
-					{
-						CommitSha = repoSha,
-						OriginCommitSha = repoSha,
-						Instance = new Models.Instance
-						{
-							Id = Instance.Id
-						}
-					};
-					Logger.LogWarning(Repository.OriginTrackingErrorTemplate, repoSha);
-					databaseContext.Instances.Attach(revInfo.Instance);
-				}
-
-				compileJob = await instance.DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
-			}
-
-			compileJob.Job = job;
-
-			databaseContext.CompileJobs.Add(compileJob);	//will be saved by job context
-
-			job.PostComplete = ct => instance.CompileJobConsumer.LoadCompileJob(compileJob, ct);
 		}
 	}
 }

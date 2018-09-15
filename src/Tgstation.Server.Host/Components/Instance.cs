@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
@@ -114,6 +116,59 @@ namespace Tgstation.Server.Host.Components
 			RepositoryManager.Dispose();
 		}
 
+		/// <inheritdoc />
+		public async Task CompileProcess(Job job, IServiceProvider serviceProvider, Action<int> progressReporter, CancellationToken cancellationToken)
+		{
+			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
+
+			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
+			{
+				StartupTimeout = x.StartupTimeout,
+				SecurityLevel = x.SecurityLevel
+			}).FirstOrDefaultAsync(cancellationToken);
+
+			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
+			if (dreamMakerSettings == default)
+				throw new JobException("Missing DreamMakerSettings in DB!");
+			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
+			if (ddSettings == default)
+				throw new JobException("Missing DreamDaemonSettings in DB!");
+
+			CompileJob compileJob;
+			RevisionInformation revInfo;
+			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+			{
+				if (repo == null)
+					throw new JobException("Missing Repository!");
+
+				var repoSha = repo.Head;
+				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
+
+				if (revInfo == default)
+				{
+					revInfo = new RevisionInformation
+					{
+						CommitSha = repoSha,
+						OriginCommitSha = repoSha,
+						Instance = new Models.Instance
+						{
+							Id = metadata.Id
+						}
+					};
+					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+					databaseContext.Instances.Attach(revInfo.Instance);
+				}
+
+				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+			}
+
+			compileJob.Job = job;
+
+			databaseContext.CompileJobs.Add(compileJob);    //will be saved by job context
+
+			job.PostComplete = ct => CompileJobConsumer.LoadCompileJob(compileJob, ct);
+		}
+
 		/// <summary>
 		/// Pull the repository and compile for every set of given <paramref name="minutes"/>
 		/// </summary>
@@ -129,32 +184,31 @@ namespace Tgstation.Server.Host.Components
 
 					try
 					{
-						CompileJob job = null;
+						Job job = null;
+						Models.User user = null;
 						//need this the whole time
+						var noRepo = false;
 						await databaseContextFactory.UseContext(async (db) =>
 						{
-							//start up queries we'll need in the future
-							var instanceQuery = db.Instances.Where(x => x.Id == metadata.Id);
-							var ddSettingsTask = instanceQuery.Select(x => x.DreamDaemonSettings).Select(x => new DreamDaemonSettings
-							{
-								StartupTimeout = x.StartupTimeout,
-								SecurityLevel = x.SecurityLevel
-							}).FirstAsync(cancellationToken);
-							var dmSettingsTask = instanceQuery.Select(x => x.DreamMakerSettings).FirstAsync(cancellationToken);
-							var repositorySettingsTask = instanceQuery.Select(x => x.RepositorySettings).FirstAsync(cancellationToken);
+							var userTask = db.Users.FirstAsync(cancellationToken);
+
+							var repositorySettingsTask = db.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken);
 
 							using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 							{
 								if (repo == null)
+								{
+									//no repo, no auto updates
+									noRepo = true;
 									return;
+								}
 
-								//start the rev info query
-								var startSha = repo.Head;
-								var revInfoTask = instanceQuery.SelectMany(x => x.RevisionInformations).Where(x => x.CommitSha == startSha).FirstOrDefaultAsync(cancellationToken);
-
-								//need repo setting to fetch
 								var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
+								
+								//the main point of auto update is to pull the remote
 								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, null, cancellationToken).ConfigureAwait(false);
+
+								var startSha = repo.Head;
 
 								//take appropriate auto update actions
 								bool shouldSyncTracked;
@@ -174,38 +228,28 @@ namespace Tgstation.Server.Host.Components
 								//synch if necessary
 								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
 									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
-
-								//finish other queries
-								var dmSettings = await dmSettingsTask.ConfigureAwait(false);
-								var ddSettings = await ddSettingsTask.ConfigureAwait(false);
-								var revInfo = await revInfoTask.ConfigureAwait(false);
-
-								//null rev info handling
-								if (revInfo == default)
-								{
-									var currentSha = repo.Head;
-									revInfo = new RevisionInformation
-									{
-										CommitSha = currentSha,
-										OriginCommitSha = currentSha,
-										Instance = new Models.Instance
-										{
-											Id = metadata.Id
-										}
-									};
-									logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, currentSha);
-									db.Instances.Attach(revInfo.Instance);
-								}
-
-								//finally start compile
-								job = await DreamMaker.Compile(revInfo, dmSettings, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 							}
 
-							db.CompileJobs.Add(job);
-							await db.Save(cancellationToken).ConfigureAwait(false);
+							user = await userTask.ConfigureAwait(false);
+
+							//finally set up the job
+							job = new Job
+							{
+								StartedBy = user,
+								Instance = new Models.Instance
+								{
+									Id = metadata.Id
+								},
+								Description = "Scheduled code deployment",
+								CancelRightsType = RightsType.DreamMaker,
+								CancelRight = (ulong)DreamMakerRights.CancelCompile
+							};
+
+							await jobManager.RegisterOperation(job, CompileProcess, cancellationToken).ConfigureAwait(false);
 						}).ConfigureAwait(false);
 
-						await CompileJobConsumer.LoadCompileJob(job, cancellationToken).ConfigureAwait(false);
+						if(!noRepo)
+							await jobManager.WaitForJobCompletion(job, user, cancellationToken, default).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
 					{
