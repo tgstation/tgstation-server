@@ -254,5 +254,22 @@ namespace Tgstation.Server.Host.Core
 				return handler.Progress;
 			}
 		}
+
+		/// <inheritdoc />
+		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
+		{
+			JobHandler handler;
+			lock (this)
+			{
+				if (!jobs.TryGetValue(job.Id, out handler))
+					return;
+			}
+			Task cancelTask = null;
+			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
+				await handler.Wait(cancellationToken).ConfigureAwait(false);
+
+			if (cancelTask != null)
+				await cancelTask.ConfigureAwait(false);
+		}
 	}
 }

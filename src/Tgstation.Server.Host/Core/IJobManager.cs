@@ -26,6 +26,18 @@ namespace Tgstation.Server.Host.Core
 		Task RegisterOperation(Job job, Func<Job, IServiceProvider, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Wait for a given <paramref name="job"/> to complete
+		/// </summary>
+		/// <param name="job">The <see cref="Job"/> to wait for </param>
+		/// <param name="canceller">The <see cref="User"/> to cancel the <paramref name="job"/></param>
+		/// <param name="jobCancellationToken">A <see cref="CancellationToken"/> that will cancel the <paramref name="job"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the <see cref="Job"/></returns>
+#pragma warning disable CA1068 // CancellationToken parameters must come last https://github.com/dotnet/roslyn-analyzers/issues/1816
+		Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
+#pragma warning restore CA1068 // CancellationToken parameters must come last
+
+		/// <summary>
 		/// Cancels a give <paramref name="job"/>
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/> to cancel</param>
