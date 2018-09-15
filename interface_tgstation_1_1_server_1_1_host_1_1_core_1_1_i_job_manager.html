@@ -120,6 +120,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37776da51968a4a8db192fd74d2947cf"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#a37776da51968a4a8db192fd74d2947cf">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, Func&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>, IServiceProvider, Action&lt; int &gt;, CancellationToken, Task &gt; operation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a37776da51968a4a8db192fd74d2947cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it  <a href="#a37776da51968a4a8db192fd74d2947cf">More...</a><br /></td></tr>
 <tr class="separator:a37776da51968a4a8db192fd74d2947cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa07b23b3ce401447337f4b026c34a77d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#aa07b23b3ce401447337f4b026c34a77d">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa07b23b3ce401447337f4b026c34a77d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete  <a href="#aa07b23b3ce401447337f4b026c34a77d">More...</a><br /></td></tr>
+<tr class="separator:aa07b23b3ce401447337f4b026c34a77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5028bbb3b3a9bc9f6ed0052603e6fda"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#af5028bbb3b3a9bc9f6ed0052603e6fda">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:af5028bbb3b3a9bc9f6ed0052603e6fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em>   <a href="#af5028bbb3b3a9bc9f6ed0052603e6fda">More...</a><br /></td></tr>
 <tr class="separator:af5028bbb3b3a9bc9f6ed0052603e6fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -243,6 +246,58 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing a running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#af95ddd349a79d700fbf1838b363aebe0">Tgstation.Server.Host.Core.JobManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa07b23b3ce401447337f4b026c34a77d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Core.IJobManager.WaitForJobCompletion </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
+          <td class="paramname"><em>job</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&#160;</td>
+          <td class="paramname"><em>canceller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>jobCancellationToken</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wait for a given <em>job</em>  to complete </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">job</td><td>The Job to wait for </td></tr>
+    <tr><td class="paramname">canceller</td><td>The User to cancel the <em>job</em> </td></tr>
+    <tr><td class="paramname">jobCancellationToken</td><td>A CancellationToken that will cancel the <em>job</em> </td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the Job</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#a63a8e2fe5a07e8e8c040e555a5d13d4d">Tgstation.Server.Host.Core.JobManager</a>.</p>
 
 </div>
 </div>
