@@ -122,11 +122,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a548a8f4daed30ab49f77a23b1c125078"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a548a8f4daed30ab49f77a23b1c125078">Compile</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a548a8f4daed30ab49f77a23b1c125078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile the current repository revision  <a href="#a548a8f4daed30ab49f77a23b1c125078">More...</a><br /></td></tr>
 <tr class="separator:a548a8f4daed30ab49f77a23b1c125078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f84a9c414291c600ac60c802443d05"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">CompileJob</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a26f84a9c414291c600ac60c802443d05">GetJobIds</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a26f84a9c414291c600ac60c802443d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html#aaf50365d79a9cac92220cec95057e421" title="The ID of the job ">Api.Models.Internal.CompileJob.Id</a>s of all CompileJobs for the instance  <a href="#a26f84a9c414291c600ac60c802443d05">More...</a><br /></td></tr>
+<tr class="separator:a26f84a9c414291c600ac60c802443d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a844bc0b226b4298ae06e3cfe953cc6c4"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">CompileJob</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a844bc0b226b4298ae06e3cfe953cc6c4">GetCompileJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">CompileJob</a> compileJob, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a844bc0b226b4298ae06e3cfe953cc6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>compileJob</em>   <a href="#a844bc0b226b4298ae06e3cfe953cc6c4">More...</a><br /></td></tr>
+<tr class="separator:a844bc0b226b4298ae06e3cfe953cc6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For managing the compiler </p>
 
-<p>Definition at line <a class="el" href="_i_dream_maker_client_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_dream_maker_client_8cs_source.html">IDreamMakerClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_dream_maker_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_dream_maker_client_8cs_source.html">IDreamMakerClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a548a8f4daed30ab49f77a23b1c125078"></a>
 <div class="memitem">
@@ -152,6 +158,71 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Job for the compile</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#af9d90085714117a3109d6f7af3fdc1cc">Tgstation.Server.Client.Components.DreamMakerClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a844bc0b226b4298ae06e3cfe953cc6c4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">CompileJob</a>&gt; Tgstation.Server.Client.Components.IDreamMakerClient.GetCompileJob </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">CompileJob</a>&#160;</td>
+          <td class="paramname"><em>compileJob</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a <em>compileJob</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compileJob</td><td>The CompileJob to get</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the CompileJob</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#abcc6c859b5cad4037507e5a0c163dcbc">Tgstation.Server.Client.Components.DreamMakerClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f84a9c414291c600ac60c802443d05"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;IReadOnlyList&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html">CompileJob</a>&gt; &gt; Tgstation.Server.Client.Components.IDreamMakerClient.GetJobIds </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html#aaf50365d79a9cac92220cec95057e421" title="The ID of the job ">Api.Models.Internal.CompileJob.Id</a>s of all CompileJobs for the instance </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of CompileJobs with only the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html#aaf50365d79a9cac92220cec95057e421" title="The ID of the job ">Api.Models.Internal.CompileJob.Id</a> field populated</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a4ac0e968d26cc7bb2500021014618b36">Tgstation.Server.Client.Components.DreamMakerClient</a>.</p>
 
 </div>
 </div>
