@@ -27,7 +27,7 @@ Generally, updates force a live tracking of the configured git repo, resetting l
 
 #### Linux
 
-[We reccommend using Docker for Linux installations](https://github.com/tgstation/tgstation-server#docker). The content of this parent section may be skipped if you choose to do so
+[We recommend using Docker for Linux installations](https://github.com/tgstation/tgstation-server#docker). The content of this parent section may be skipped if you choose to do so
 
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
