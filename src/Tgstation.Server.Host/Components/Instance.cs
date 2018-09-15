@@ -266,10 +266,7 @@ namespace Tgstation.Server.Host.Components
 					break;
 				}
 		}
-
-		/// <inheritdoc />
-		public Api.Models.Instance GetMetadata() => metadata.CloneMetadata();
-
+		
 		/// <inheritdoc />
 		public void Rename(string newName)
 		{

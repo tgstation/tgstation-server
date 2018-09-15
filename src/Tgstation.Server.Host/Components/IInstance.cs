@@ -26,12 +26,7 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IByondManager"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IByondManager ByondManager { get; }
-
-		/// <summary>
-		/// The <see cref="IDreamMaker"/> for the <see cref="IInstance"/>
-		/// </summary>
-		IDreamMaker DreamMaker { get; }
-
+		
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="IInstance"/>
 		/// </summary>
@@ -43,11 +38,6 @@ namespace Tgstation.Server.Host.Components
 		IChat Chat { get; }
 
 		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for the <see cref="IInstance"/>
-		/// </summary>
-		ICompileJobConsumer CompileJobConsumer { get; }
-
-		/// <summary>
 		/// The <see cref="StaticFiles.IConfiguration"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IConfiguration Configuration { get; }
@@ -57,12 +47,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <returns>The latest <see cref="CompileJob"/> if it exists</returns>
 		CompileJob LatestCompileJob();
-
-		/// <summary>
-		/// Get the <see cref="Api.Models.Instance"/> associated with the <see cref="IInstance"/>
-		/// </summary>
-		/// <returns>The <see cref="Api.Models.Instance"/> associated with the <see cref="IInstance"/></returns>
-		Api.Models.Instance GetMetadata();
 
 		/// <summary>
 		/// Rename the <see cref="IInstance"/>
