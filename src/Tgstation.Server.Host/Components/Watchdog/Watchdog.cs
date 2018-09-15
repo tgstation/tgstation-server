@@ -1,4 +1,5 @@
 ﻿using Byond.TopicSender;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -807,11 +808,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!autoStart)
 				return;
 
+			long? adminUserId = null;
+
+			await databaseContextFactory.UseContext(async db => adminUserId = await db.Users.Select(x => x.Id).FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
 			var job = new Models.Job
 			{
 				StartedBy = new Models.User
 				{
-					Id = 1  //just use admin for this cause whatever
+					Id = adminUserId.Value
 				},
 				Instance = new Models.Instance
 				{
