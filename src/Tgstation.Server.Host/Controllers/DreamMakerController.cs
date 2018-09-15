@@ -189,10 +189,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			compileJob.Job = job;
 
-			databaseContext.CompileJobs.Add(compileJob);
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			databaseContext.CompileJobs.Add(compileJob);	//will be saved by job context
 
-			await instance.CompileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
+			job.PostComplete = ct => instance.CompileJobConsumer.LoadCompileJob(compileJob, ct);
 		}
 	}
 }
