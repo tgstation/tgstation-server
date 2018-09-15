@@ -344,6 +344,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 							var dmeWithExtension = ioManager.GetFileName(path);
 							job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 						}
+						else if (!await ioManager.FileExists(ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension)), cancellationToken).ConfigureAwait(false))
+							throw new JobException("Unable to locate specified .dme!");
 
 						logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
 
