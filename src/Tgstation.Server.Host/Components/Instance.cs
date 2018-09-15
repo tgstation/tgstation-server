@@ -184,17 +184,31 @@ namespace Tgstation.Server.Host.Components
 
 					try
 					{
-						Job job = null;
 						Models.User user = null;
-						//need this the whole time
-						var noRepo = false;
-						await databaseContextFactory.UseContext(async (db) =>
+						await databaseContextFactory.UseContext(async (db) => user = await db.Users.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+						var repositoryUpdateJob = new Job
 						{
-							var userTask = db.Users.FirstAsync(cancellationToken);
+							Instance = new Models.Instance
+							{
+								Id = metadata.Id
+							},
+							Description = "Scheduled repository update",
+							CancelRightsType = RightsType.Repository,
+							CancelRight = (ulong)RepositoryRights.CancelPendingChanges
+						};
 
-							var repositorySettingsTask = db.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken);
+						var noRepo = false;
+						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, serviceProvider, progressReporter, jobCancellationToken) =>
+						{
+							var db = serviceProvider.GetRequiredService<IDatabaseContext>();
+							var repositorySettingsTask = db.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
 
-							using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+							//assume 5 steps with synchronize
+							const int ProgressSections = 5;
+							const int ProgressStep = 100 / ProgressSections;
+							progressReporter(0 * ProgressStep);
+
+							using (var repo = await RepositoryManager.LoadRepository(jobCancellationToken).ConfigureAwait(false))
 							{
 								if (repo == null)
 								{
@@ -202,11 +216,17 @@ namespace Tgstation.Server.Host.Components
 									noRepo = true;
 									return;
 								}
+								progressReporter(1 * ProgressStep);
 
 								var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
-								
+
+								const int SecondStepProgress = 2 * ProgressStep;
+								progressReporter(SecondStepProgress);
+
 								//the main point of auto update is to pull the remote
-								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, null, cancellationToken).ConfigureAwait(false);
+								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, x => progressReporter(SecondStepProgress + (x / ProgressSections)), jobCancellationToken).ConfigureAwait(false);
+
+								progressReporter(3 * ProgressStep);
 
 								var startSha = repo.Head;
 
@@ -214,45 +234,48 @@ namespace Tgstation.Server.Host.Components
 								bool shouldSyncTracked;
 								if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
 								{
-									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, cancellationToken).ConfigureAwait(false);
+									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, jobCancellationToken).ConfigureAwait(false);
 									if (!result.HasValue)
 										return;
 									shouldSyncTracked = result.Value;
 								}
 								else
 								{
-									await repo.ResetToOrigin(cancellationToken).ConfigureAwait(false);
+									await repo.ResetToOrigin(jobCancellationToken).ConfigureAwait(false);
 									shouldSyncTracked = true;
 								}
+								progressReporter(4 * ProgressStep);
 
 								//synch if necessary
 								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, cancellationToken).ConfigureAwait(false);
+									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
+
+								progressReporter(5 * ProgressStep);
 							}
+						}, cancellationToken).ConfigureAwait(false);
 
-							user = await userTask.ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);
 
-							//finally set up the job
-							job = new Job
-							{
-								StartedBy = user,
-								Instance = new Models.Instance
-								{
-									Id = metadata.Id
-								},
-								Description = "Scheduled code deployment",
-								CancelRightsType = RightsType.DreamMaker,
-								CancelRight = (ulong)DreamMakerRights.CancelCompile
-							};
+						if (noRepo)
+							continue;
 
-							await jobManager.RegisterOperation(job, CompileProcess, cancellationToken).ConfigureAwait(false);
-						}).ConfigureAwait(false);
+						//finally set up the job
+						var compileProcessJob = new Job
+						{
+							StartedBy = user,
+							Instance = repositoryUpdateJob.Instance,
+							Description = "Scheduled code deployment",
+							CancelRightsType = RightsType.DreamMaker,
+							CancelRight = (ulong)DreamMakerRights.CancelCompile
+						};
 
-						if(!noRepo)
-							await jobManager.WaitForJobCompletion(job, user, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.RegisterOperation(compileProcessJob, CompileProcess, cancellationToken).ConfigureAwait(false);
+
+						await jobManager.WaitForJobCompletion(compileProcessJob, user, cancellationToken, default).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
 					{
+						logger.LogDebug("Cancelled auto update job!");
 						throw;
 					}
 					catch (Exception e)
@@ -265,6 +288,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					break;
 				}
+			logger.LogTrace("Leaving auto update loop...");
 		}
 		
 		/// <inheritdoc />
