@@ -295,6 +295,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			var originalOnline = originalModel.Online.Value;
+			var renamed = model.Name != null && originalModel.Name != model.Name;
 
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
 				|| CheckModified(x => x.ConfigurationType, InstanceManagerRights.SetConfiguration)
@@ -310,6 +311,9 @@ namespace Tgstation.Server.Host.Controllers
 				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			if (renamed)
+				instanceManager.GetInstance(originalModel).Rename(originalModel.Name);
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
