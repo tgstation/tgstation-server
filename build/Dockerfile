@@ -35,6 +35,6 @@ COPY --from=build /src/build/tgs.docker.sh tgs.sh
 COPY --from=build /src/src/Tgstation.Server.Host/appsettings.Docker.json .
 
 RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
-VOLUME ["/config_data", "/tgs_logs"]
+VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
 
 ENTRYPOINT ["./tgs.sh"]
