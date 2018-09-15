@@ -247,6 +247,8 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public int? JobProgress(Job job)
 		{
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
 			lock (this)
 			{
 				if (!jobs.TryGetValue(job.Id, out var handler))
@@ -258,6 +260,10 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+			if (canceller == null)
+				throw new ArgumentNullException(nameof(canceller));
 			JobHandler handler;
 			lock (this)
 			{

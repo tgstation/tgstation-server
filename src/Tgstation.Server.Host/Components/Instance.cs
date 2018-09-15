@@ -119,6 +119,14 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task CompileProcess(Job job, IServiceProvider serviceProvider, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
+			//DO NOT FOLLOW THE SUGGESTION FOR A THROW EXPRESSION HERE
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+			if (serviceProvider == null)
+				throw new ArgumentNullException(nameof(serviceProvider));
+			if (progressReporter == null)
+				throw new ArgumentNullException(nameof(progressReporter));
+
 			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
 
 			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
