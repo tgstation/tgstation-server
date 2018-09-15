@@ -164,7 +164,14 @@ namespace Tgstation.Server.Client
 			if (String.IsNullOrWhiteSpace(json))
 				json = JsonConvert.SerializeObject(new object());
 
-			return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+			try
+			{
+				return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+			}
+			catch (JsonException)
+			{
+				throw new UnrecognizedResponseException(json, response.StatusCode);
+			}
 		}
 
 		/// <inheritdoc />
