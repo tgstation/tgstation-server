@@ -286,7 +286,7 @@ namespace Tgstation.Server.Host.Components
 			CompileJob latestCompileJob = null;
 			await databaseContextFactory.UseContext(async db =>
 			{
-				latestCompileJob = await db.CompileJobs.Where(x => x.Job.Instance.Id == metadata.Id && x.Job.ExceptionDetails == null).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				latestCompileJob = await db.CompileJobs.Where(x => x.Job.Instance.Id == metadata.Id).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 			await dmbFactory.CleanUnusedCompileJobs(latestCompileJob, cancellationToken).ConfigureAwait(false);
 		}

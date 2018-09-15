@@ -169,7 +169,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			//where complete clause not necessary, only successful COMPILEjobs get in the db
-			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && !x.Job.Cancelled.Value && x.Job.ExceptionDetails == null && x.Job.StoppedAt != null)
+			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id)
 				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
@@ -245,7 +245,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			//find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
 			{
-				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id) && x.DirectoryName.HasValue).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
+				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id)).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 
 			//add the other exemption
