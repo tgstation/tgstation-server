@@ -27,6 +27,8 @@ Generally, updates force a live tracking of the configured git repo, resetting l
 
 #### Linux
 
+[We reccommend using Docker for Linux installations](https://github.com/tgstation/tgstation-server#docker). The content of this parent section may be skipped if you choose to do so
+
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
 - gcc-multilib (on 64-bit systems for running BYOND)
@@ -35,11 +37,23 @@ Note that tgstation-server has only ever been tested on Linux via it's [docker e
 
 #### Docker
 
-tgstation-server supports running in a docker container on Linux systems. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
+tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems due being the only tested environment. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
 
-To create a container run `docker create --restart=always -p <public port>:80 -v /path/to/your/appsettings.Production.json:/config_data -v path/to/your/log/folder:/tgs_logs tgstation/server` with any additional options you desire (i.e. You'll have to expose more ports in order to actually host servers, add a volume to create instances on, and create a volume for the SQLite database if that is what you're using).
+To create a container run
+```
+docker create \
+	--restart=always \ #if you want maximum uptime
+	--network="host" \ #if your sql server is on the same machine
+	-p <tgs port>:80 \
+	-p 0.0.0.0:<public game port>:<internal game port> \
+	-v /path/to/store/instances:/tgs4_instances \
+	-v /path/to/your/appsettings.Production.json:/config_data \
+	-v path/to/your/log/folder:/tgs_logs \
+	tgstation/server
+```
+with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
-Note that due to the nature of docker. If the container restarts, you will be sent back to the version of TGS you installed with the initial command. Server updates will have to be reapplied. For this reason it is NOT RECOMMENDED to use the live update feature with a docker host.
+Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
 ### Configuring
 
