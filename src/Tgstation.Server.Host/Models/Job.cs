@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -21,6 +25,13 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
+
+		/// <summary>
+		/// A <see cref="Task"/> to run after the job completes. This will not affect the <see cref="Api.Models.Internal.Job.StoppedAt"/> time, unless it is cancelled or errors
+		/// </summary>
+		/// <remarks>This should only be used where there are database dependencies that also rely on the Job itself completing A.K.A. manually initiated <see cref="CompileJob"/>s</remarks>
+		[NotMapped]
+		public Func<CancellationToken, Task> PostComplete { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="Job"/> to it's API form

@@ -70,13 +70,35 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunJob(Job job, Func<Job, IServiceProvider, CancellationToken, Task> operation, CancellationToken cancellationToken)
-		{
+		{			
 			try
 			{
 				using (var scope = serviceProvider.CreateScope())
 				{
+					async Task HandleExceptions(Task task)
+					{
+						try
+						{
+							await task.ConfigureAwait(false);
+						}
+						catch (OperationCanceledException)
+						{
+							logger.LogDebug("Job {0} cancelled!", job.Id);
+							job.Cancelled = true;
+						}
+						catch (Exception e)
+						{
+							job.ExceptionDetails = e is JobException ? e.Message : e.ToString();
+							logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+						}
+						finally
+						{
+							job.StoppedAt = DateTimeOffset.Now;
+						}
+					}
+
 					IDatabaseContext databaseContext = null;
-					try
+					async Task RunJobInternal()
 					{
 						var oldJob = job;
 						job = new Job { Id = oldJob.Id };
@@ -86,19 +108,21 @@ namespace Tgstation.Server.Host.Core
 						await operation(job, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
 
 						logger.LogDebug("Job {0} completed!", job.Id);
-					}
-					catch (OperationCanceledException)
-					{
-						logger.LogDebug("Job {0} cancelled!", job.Id);
-						job.Cancelled = true;
-					}
-					catch (Exception e)
-					{
-						job.ExceptionDetails = e is JobException ? e.Message : e.ToString();
-						logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
-					}
-					job.StoppedAt = DateTimeOffset.Now;
+					};
+
+					await HandleExceptions(RunJobInternal()).ConfigureAwait(false);
+
 					await databaseContext.Save(default).ConfigureAwait(false);
+
+					bool JobErroredOrCancelled() => job.ExceptionDetails != null || job.Cancelled.Value;
+
+					//ok so, now it's time for the post commit step if it exists
+					if (!JobErroredOrCancelled() && job.PostComplete != null)
+					{
+						await HandleExceptions(job.PostComplete(cancellationToken)).ConfigureAwait(false);
+						if (JobErroredOrCancelled())
+							await databaseContext.Save(default).ConfigureAwait(false);
+					}
 				}
 			}
 			finally
@@ -223,12 +247,35 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public int? JobProgress(Job job)
 		{
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
 			lock (this)
 			{
 				if (!jobs.TryGetValue(job.Id, out var handler))
 					return null;
 				return handler.Progress;
 			}
+		}
+
+		/// <inheritdoc />
+		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
+		{
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+			if (canceller == null)
+				throw new ArgumentNullException(nameof(canceller));
+			JobHandler handler;
+			lock (this)
+			{
+				if (!jobs.TryGetValue(job.Id, out handler))
+					return;
+			}
+			Task cancelTask = null;
+			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
+				await handler.Wait(cancellationToken).ConfigureAwait(false);
+
+			if (cancelTask != null)
+				await cancelTask.ConfigureAwait(false);
 		}
 	}
 }
