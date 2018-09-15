@@ -8,7 +8,6 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
-using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
@@ -90,6 +89,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IWatchdogFactory watchdogFactory;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -106,7 +110,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory)
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -122,6 +127,7 @@ namespace Tgstation.Server.Host.Components
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
 		/// <inheritdoc />
@@ -162,7 +168,7 @@ namespace Tgstation.Server.Host.Components
 						{
 							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<Instance>());
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, loggerFactory.CreateLogger<Instance>());
 						}
 						catch
 						{

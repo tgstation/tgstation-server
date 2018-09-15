@@ -49,6 +49,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly ILogger<Instance> logger;
@@ -80,8 +85,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="compileJobConsumer">The value of <see cref="CompileJobConsumer"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, ILogger<Instance> logger)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, IJobManager jobManager, ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -93,6 +99,7 @@ namespace Tgstation.Server.Host.Components
 			CompileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
