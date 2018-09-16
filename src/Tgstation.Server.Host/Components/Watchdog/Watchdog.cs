@@ -215,6 +215,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var chatTask = announce ? chat.SendWatchdogMessage("Terminating...", cancellationToken) : Task.CompletedTask;
 				await StopMonitor().ConfigureAwait(false);
 				DisposeAndNullControllers();
+				LastLaunchParameters = null;
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
@@ -713,7 +714,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						if (startMonitor)
 						{
-							await StopMonitor().ConfigureAwait(false);
 							monitorCts = new CancellationTokenSource();
 							monitorTask = MonitorLifetimes(monitorCts.Token);
 						}
