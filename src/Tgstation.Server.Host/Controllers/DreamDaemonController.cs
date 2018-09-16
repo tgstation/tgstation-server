@@ -149,6 +149,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (model.PrimaryPort == 0)
+				return BadRequest(new ErrorMessage { Message = "Primary port cannot be 0!" });
+
+			if (model.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
+				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
+
 			//alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
@@ -185,8 +191,8 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
 				return Forbid();
 
-			if (current.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
+			if (current.PrimaryPort == current.SecondaryPort)
+				return BadRequest(new ErrorMessage { Message = "Primary port and secondary port cannot be the same!" });
 
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 
