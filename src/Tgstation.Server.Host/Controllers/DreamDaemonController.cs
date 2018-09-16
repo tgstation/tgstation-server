@@ -119,6 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 				result.SecurityLevel = settings.SecurityLevel;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
+				result.StartupTimeout = settings.StartupTimeout;
 			};
 
 			if (revision)
