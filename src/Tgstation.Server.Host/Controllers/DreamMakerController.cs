@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
@@ -85,9 +86,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.Compile)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Create([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
-			var job = new Job
+			var job = new Models.Job
 			{
 				Description = "Compile active repository code",
 				StartedBy = AuthenticationContext.User,
@@ -101,8 +102,11 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.DreamMaker model, CancellationToken cancellationToken)
+		public override async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
+			if (model.ApiValidationPort == 0)
+				return BadRequest(new ErrorMessage { Message = "API Validation port cannot be 0!" });
+
 			var hostModel = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (hostModel == null)
 				return StatusCode((int)HttpStatusCode.Gone);
