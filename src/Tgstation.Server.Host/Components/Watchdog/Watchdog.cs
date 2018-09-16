@@ -765,6 +765,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		public async Task ResetRebootState(CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				if (!Running)
+					return;
+				var toClear = AlphaIsActive ? alphaServer : bravoServer;
+				if (toClear != null)
+					toClear.ResetRebootState();
+			}
+		}
+
+		/// <inheritdoc />
 		public async Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -784,12 +797,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return result;
 				}
 				var toReboot = AlphaIsActive ? alphaServer : bravoServer;
-				var other = AlphaIsActive ? bravoServer : alphaServer;
 				if (toReboot != null)
 				{
 					if (!await toReboot.SetRebootState(Components.Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false))
 						logger.LogWarning("Unable to send reboot state change event!");
-
 				}
 				return null;
 			}
