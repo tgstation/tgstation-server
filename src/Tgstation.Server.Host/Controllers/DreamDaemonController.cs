@@ -192,13 +192,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			//run these in parallel because they are equally as important
 			await Task.WhenAll(DatabaseContext.Save(cancellationToken), wd.ChangeSettings(current, cancellationToken)).ConfigureAwait(false);
-
-			//soft shutdown/restart can't be cancelled because of how many things rely on them
-			//They can be alternated though
+			
 			if (!oldSoftRestart.Value && current.SoftRestart.Value)
 				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
 			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
 				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
+			else if ((oldSoftRestart.Value && !current.SoftRestart.Value) || (oldSoftShutdown.Value && !current.SoftShutdown.Value))
+				await wd.ResetRebootState(cancellationToken).ConfigureAwait(false);
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
 		}
