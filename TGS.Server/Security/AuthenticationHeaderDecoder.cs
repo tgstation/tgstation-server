@@ -31,6 +31,9 @@ namespace TGS.Server.Security
 		/// <returns>A <see cref="ReadOnlyCollection{T}"/> of <see cref="IAuthorizationPolicy"/>s. Either <paramref name="authPolicy"/> or one containing a single <see cref="WindowsAuthorizationPolicy"/> if this function successfully creates one</returns>
 		public override ReadOnlyCollection<IAuthorizationPolicy> Authenticate(ReadOnlyCollection<IAuthorizationPolicy> authPolicy, Uri listenUri, ref Message message)
 		{
+			//local logins will have the windentity set already
+			if (OperationContext.Current.ServiceSecurityContext?.WindowsIdentity?.ImpersonationLevel == TokenImpersonationLevel.Impersonation)
+				return authPolicy;
 			try
 			{
 				var userPosition = message.Headers.FindHeader("Username", "http://tempuri.org");
