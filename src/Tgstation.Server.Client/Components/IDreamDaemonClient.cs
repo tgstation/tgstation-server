@@ -21,7 +21,7 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
-		Task<DreamDaemon> Start(CancellationToken cancellationToken);
+		Task<Job> Start(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Shutdown <see cref="DreamDaemon"/>
