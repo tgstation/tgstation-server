@@ -129,9 +129,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7fded5c4b8aeb291ad5b1797a25eee14"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a7fded5c4b8aeb291ad5b1797a25eee14">Terminate</a> (bool graceful, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a7fded5c4b8aeb291ad5b1797a25eee14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the watchdog  <a href="#a7fded5c4b8aeb291ad5b1797a25eee14">More...</a><br /></td></tr>
 <tr class="separator:a7fded5c4b8aeb291ad5b1797a25eee14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2859725d1805d6655be14566f9edcf00"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a2859725d1805d6655be14566f9edcf00">ResetRebootState</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2859725d1805d6655be14566f9edcf00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels pending graceful actions  <a href="#a2859725d1805d6655be14566f9edcf00">More...</a><br /></td></tr>
-<tr class="separator:a2859725d1805d6655be14566f9edcf00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html">Tgstation.Server.Host.Components.IEventConsumer</a></td></tr>
 <tr class="memitem:a112febc1b1043ed890f9ed781bc3751c inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html#a112febc1b1043ed890f9ed781bc3751c">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381">EventType</a> eventType, IEnumerable&lt; string &gt; parameters, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a112febc1b1043ed890f9ed781bc3751c inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em>   <a href="#a112febc1b1043ed890f9ed781bc3751c">More...</a><br /></td></tr>
@@ -228,33 +225,6 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_launch_result.html" title="Launch results for a IWatchdog ">WatchdogLaunchResult</a> or  if it was already running</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#a861822962d41bb582a660d9d935f898c">Tgstation.Server.Host.Components.Watchdog.Watchdog</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2859725d1805d6655be14566f9edcf00"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Components.Watchdog.IWatchdog.ResetRebootState </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Cancels pending graceful actions </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog.html#a673a8910c2bcc3d71bccb53114922a5f">Tgstation.Server.Host.Components.Watchdog.Watchdog</a>.</p>
 
 </div>
 </div>
