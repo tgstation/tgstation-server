@@ -217,6 +217,9 @@ namespace Tgstation.Server.Client
 		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, cancellationToken);
 
 		/// <inheritdoc />
+		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), new HttpMethod("PATCH"), instanceId, cancellationToken);
+
+		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));
 	}
 }

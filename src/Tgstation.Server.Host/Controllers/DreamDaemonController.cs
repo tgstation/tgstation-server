@@ -209,5 +209,29 @@ namespace Tgstation.Server.Host.Controllers
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <summary>
+		/// Handle a HTTP PATCH to the <see cref="DreamDaemonController"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		[HttpPatch]
+		[TgsAuthorize(DreamDaemonRights.Restart)]
+		public async Task<IActionResult> Restart(CancellationToken cancellationToken)
+		{
+			var job = new Models.Job
+			{
+				Instance = Instance,
+				CancelRightsType = RightsType.DreamDaemon,
+				CancelRight = (ulong)DreamDaemonRights.Shutdown,
+				StartedBy = AuthenticationContext.User,
+				Description = "Restart Watchdog"
+			};
+
+			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
+
+			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
+			return Accepted(job.ToApi());
+		}
 	}
 }
