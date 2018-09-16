@@ -53,7 +53,7 @@ namespace TGS.Server.Security
 				}
 			}
 			catch { }
-			return authPolicy;
+			return new ReadOnlyCollection<IAuthorizationPolicy>(new List<IAuthorizationPolicy>());
 		}
 	}
 }

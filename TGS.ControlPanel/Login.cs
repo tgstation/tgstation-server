@@ -113,15 +113,21 @@ namespace TGS.ControlPanel
 			{
 				Config.RemoteDefault = true;
 
+				var tmp = loginInfo.Password;
 				if (!savePassword)
 					loginInfo.Password = null;
 
 				Config.RemoteLoginInfo = new StringCollection { loginInfo.ToJSON() };
 
+				if (!savePassword)
+					loginInfo.Password = tmp;
+
 				foreach (RemoteLoginInfo info in IPComboBox.Items)
 					if (!info.Equals(loginInfo))
 						Config.RemoteLoginInfo.Add(info.ToJSON());
 			}
+			else
+				currentLoginInfo = null;
 		}
 
 		void LocalLoginButton_Click(object sender, EventArgs e)

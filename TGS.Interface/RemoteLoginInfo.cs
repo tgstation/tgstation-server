@@ -29,7 +29,7 @@ namespace TGS.Interface
 		/// <summary>
 		/// The Windows password for <see cref="Username"/>
 		/// </summary>
-		public string Password { internal get; set; }
+		public string Password { get; set; }
 		/// <summary>
 		/// Check if the <see cref="RemoteLoginInfo"/> has been initialized with a <see cref="Password"/>
 		/// </summary>
@@ -89,7 +89,7 @@ namespace TGS.Interface
 			if (String.IsNullOrWhiteSpace(username))
 				throw new InvalidOperationException("username must be set!");
 			_username = username;
-			if(dic.ContainsKey(nameof(Password)))
+			if(dic.ContainsKey(nameof(Password)) && dic[nameof(Password)] != null)
 				Password = Helpers.DecryptData((string)dic[nameof(Password)], (string)dic[String.Format(EntropyFormatter, nameof(Password))]);
 		}
 
