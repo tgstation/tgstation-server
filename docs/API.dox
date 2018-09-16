@@ -24,7 +24,6 @@ Last off, if anything in this API doesn't seem to hold true when tested against 
 This document will reference the canonical C# models in the @ref Tgstation.Server.Api.Models namespace. Note that these models are built to mirror the JSON requests and responses with a couple caveats.
 
 - The first letter of every field name will/must be lowercase in JSON models
-- Fields in the C# model marked with "DenyWrite = true" cannot be changed using POST requests
 - Fields marked 'Required' should be ignored, this is a semantic for the backing SQL database
 - Id fields must be specified when making POST requests
 - All other fields are optional and may be absent from responses or requests unless otherwise specified
@@ -37,7 +36,7 @@ TGS4 expects this set of headers. Failure to provide them may result in 400 erro
 - Accept: application/json
 - Api: Another product header value representing the version of the API to use. Currently this must be: Tgstation.Server.Api/4.0.0.0
 
-For POST and PUT requests you must also include the content type. Currently only json is supported
+For POST, PATCH, and PUT requests you must also include the content type. Currently only json is supported
 
 - Content-Type: application/json
 
@@ -448,7 +447,11 @@ To start the watchdog use the following request:
 
 I PUT "/DreamDaemon" Empty => @ref Tgstation.Server.Api.Models.Job
 
-The returned job represents the startup process for the watchdog
+To restart the watchdog use the following request:
+
+I PATCH "/DreamDaemon" Empty => @ref Tgstation.Server.Api.Models.Job
+
+The returned jobs represents the startup process for the watchdog
 
 To stop the watchdog use the following request:
 
