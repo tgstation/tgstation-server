@@ -36,6 +36,9 @@ namespace Tgstation.Server.Client.Components
 		public Task<Job> Start(CancellationToken cancellationToken) => apiClient.Create<Job>(Routes.DreamDaemon, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
+		public Task<Job> Restart(CancellationToken cancellationToken) => apiClient.Patch<Job>(Routes.DreamDaemon, instance.Id, cancellationToken);
+
+		/// <inheritdoc />
 		public Task<DreamDaemon> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemon>(Routes.DreamDaemon, instance.Id, cancellationToken);
 
 		/// <inheritdoc />

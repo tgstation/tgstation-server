@@ -20,8 +20,15 @@ namespace Tgstation.Server.Client.Components
 		/// Start <see cref="DreamDaemon"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Job"/> of the running operation</returns>
 		Task<Job> Start(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Restart <see cref="DreamDaemon"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Job"/> of the running operation</returns>
+		Task<Job> Restart(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Shutdown <see cref="DreamDaemon"/>
