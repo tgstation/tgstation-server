@@ -713,7 +713,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						if (startMonitor)
 						{
-							await StopMonitor().ConfigureAwait(false);
 							monitorCts = new CancellationTokenSource();
 							monitorTask = MonitorLifetimes(monitorCts.Token);
 						}
