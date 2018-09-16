@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['patch_3c_20tresult_20_3e',['Patch&lt; TResult &gt;',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a2c706947515724ff353a3b1422815ff8',1,'Tgstation.Server.Client.ApiClient.Patch&lt; TResult &gt;()'],['../interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a28294924cb1336289469fbfa5de2f61f',1,'Tgstation.Server.Client.IApiClient.Patch&lt; TResult &gt;()']]],
   ['pathcontainsparentaccess',['PathContainsParentAccess',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#aa2dfcb05f73420f251547ae0108b3222',1,'Tgstation.Server.Host.IO.DefaultIOManager.PathContainsParentAccess()'],['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855',1,'Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess()']]],
   ['populateapi',['PopulateApi',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a169541f29e0361eaba0bf8ba85624f10',1,'Tgstation::Server::Host::Controllers::RepositoryController']]],
   ['posixbyondinstaller',['PosixByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a50d25ab6f657fb56ceb74831d6656c60',1,'Tgstation::Server::Host::Components::Byond::PosixByondInstaller']]],

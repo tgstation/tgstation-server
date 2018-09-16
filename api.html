@@ -127,7 +127,6 @@ Interpreting C# Models</h2>
 <p>This document will reference the canonical C# models in the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html">Tgstation.Server.Api.Models</a> namespace. Note that these models are built to mirror the JSON requests and responses with a couple caveats.</p>
 <ul>
 <li>The first letter of every field name will/must be lowercase in JSON models</li>
-<li>Fields in the C# model marked with "DenyWrite = true" cannot be changed using POST requests</li>
 <li>Fields marked 'Required' should be ignored, this is a semantic for the backing SQL database</li>
 <li>Id fields must be specified when making POST requests</li>
 <li>All other fields are optional and may be absent from responses or requests unless otherwise specified</li>
@@ -140,7 +139,7 @@ Headers</h1>
 <li>Accept: application/json</li>
 <li>Api: Another product header value representing the version of the API to use. Currently this must be: <a class="el" href="namespace_tgstation_1_1_server_1_1_api.html">Tgstation.Server.Api</a>/4.0.0.0</li>
 </ul>
-<p>For POST and PUT requests you must also include the content type. Currently only json is supported</p>
+<p>For POST, PATCH, and PUT requests you must also include the content type. Currently only json is supported</p>
 <ul>
 <li>Content-Type: application/json</li>
 </ul>
@@ -346,7 +345,9 @@ Watchdog</h2>
 <p>Note that soft restart/shutdown operations cannot be cancelled via this method, they can be changed from one to another however.</p>
 <p>To start the watchdog use the following request:</p>
 <p>I PUT "/DreamDaemon" Empty =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
-<p>The returned job represents the startup process for the watchdog</p>
+<p>To restart the watchdog use the following request:</p>
+<p>I PATCH "/DreamDaemon" Empty =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
+<p>The returned jobs represents the startup process for the watchdog</p>
 <p>To stop the watchdog use the following request:</p>
 <p>I DELETE "/DreamDaemon" =&gt; OK </p>
 </div></div><!-- contents -->
