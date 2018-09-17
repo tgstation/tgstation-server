@@ -48,7 +48,7 @@
 /datum/tgs_api/v4/ApiVersion()
 	return "4.0.0.0"
 
-/datum/tgs_api/v4/OnWorldNew(datum/tgs_event_handler/event_handler)
+/datum/tgs_api/v4/OnWorldNew(datum/tgs_event_handler/event_handler, minimum_required_security_level)
 	json_path = world.params[TGS4_PARAM_INFO_JSON]
 	if(!json_path)
 		TGS_ERROR_LOG("Missing [TGS4_PARAM_INFO_JSON] world parameter!")
@@ -68,7 +68,7 @@
 
 	if(cached_json["apiValidateOnly"])
 		TGS_INFO_LOG("Validating API and exiting...")
-		Export(TGS4_COMM_VALIDATE)
+		Export(TGS4_COMM_VALIDATE, list(TGS4_PARAMETER_DATA = minimum_required_security_level))
 		del(world)
 
 	chat_channels_json_path = cached_json["chatChannelsJson"]
@@ -187,7 +187,7 @@
 
 		//request a new port
 		export_lock = FALSE
-		var/list/new_port_json = Export(TGS4_COMM_NEW_PORT, list("current_port" = "[world.port]"))	//stringify this on purpose
+		var/list/new_port_json = Export(TGS4_COMM_NEW_PORT, list(TGS4_PARAMETER_DATA = "[world.port]"))	//stringify this on purpose
 		
 		if(!new_port_json)
 			TGS_ERROR_LOG("No new port response from server![TGS4_PORT_CRITFAIL_MESSAGE]")
