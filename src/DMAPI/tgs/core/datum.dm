@@ -42,7 +42,7 @@ TGS_PROTECT_DATUM(/datum/tgs_api)
 
 /datum/tgs_api/proc/ChatTargetedBroadcast(message, admin_only)
 	return TGS_UNIMPLEMENTED
-	
+
 /datum/tgs_api/proc/ChatPrivateMessage(message, admin_only)
 	return TGS_UNIMPLEMENTED
 
