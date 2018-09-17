@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Core
 
 					await databaseContext.Save(default).ConfigureAwait(false);
 
-					bool JobErroredOrCancelled() => job.ExceptionDetails != null || job.Cancelled.Value;
+					bool JobErroredOrCancelled() => job.ExceptionDetails != null || job.Cancelled == true;
 
 					//ok so, now it's time for the post commit step if it exists
 					if (!JobErroredOrCancelled() && job.PostComplete != null)
