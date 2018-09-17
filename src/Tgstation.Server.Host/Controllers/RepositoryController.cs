@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			var uiOrigin = model.Origin.ToUpperInvariant();
 			var uiBad = BadGitHubUrl.ToUpperInvariant();
 			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
-			if (uiOrigin.Contains(uiBad))
+			if (uiOrigin.Contains(uiBad, StringComparison.Ordinal))
 				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
 
 			currentModel.AccessToken = model.AccessToken;
@@ -403,7 +403,7 @@ namespace Tgstation.Server.Host.Controllers
 					description != null ? String.Format(CultureInfo.InvariantCulture, "{0} and t", description) : "T",
 					String.Join(", ", model.NewTestMerges.Select(x => 
 					String.Format(CultureInfo.InvariantCulture, "#{0}{1}", x.Number, 
-					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, "at {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
+					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, " at {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
 					description != null ? String.Empty : " in repository");
 
 			if (description == null)

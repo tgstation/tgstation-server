@@ -226,12 +226,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 			for (var I = 0; I < dmeLines.Count; ++I)
 			{
 				var line = dmeLines[I];
-				if (line.Contains("BEGIN_INCLUDE") && dmeModifications.HeadIncludeLine != null)
+				if (line.Contains("BEGIN_INCLUDE", StringComparison.Ordinal) && dmeModifications.HeadIncludeLine != null)
 				{
 					dmeLines.Insert(I + 1, dmeModifications.HeadIncludeLine);
 					++I;
 				}
-				else if (line.Contains("END_INCLUDE") && dmeModifications.TailIncludeLine != null)
+				else if (line.Contains("END_INCLUDE", StringComparison.Ordinal) && dmeModifications.TailIncludeLine != null)
 				{
 					dmeLines.Insert(I, dmeModifications.TailIncludeLine);
 					break;

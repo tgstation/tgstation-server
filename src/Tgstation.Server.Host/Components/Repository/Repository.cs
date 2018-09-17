@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
-			IsGitHubRepository = Origin.ToUpperInvariant().Contains(GitHubUrl.ToUpperInvariant());
+			IsGitHubRepository = Origin.Contains(GitHubUrl, StringComparison.InvariantCultureIgnoreCase);
 			if (IsGitHubRepository)
 			{
 				GetRepositoryOwnerName(Origin, out var owner, out var name);
