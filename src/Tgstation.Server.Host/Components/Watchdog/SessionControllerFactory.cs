@@ -200,7 +200,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ChatChannelsJson = interopInfo.ChatChannelsJson,
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
 								ServerCommandsJson = interopInfo.ServerCommandsJson,
-							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.StartupTimeout);
+							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.SecurityLevel, launchParameters.StartupTimeout);
 						}
 						catch
 						{
@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 						try
 						{
-							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null);
+							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
 						}
 						catch
 						{

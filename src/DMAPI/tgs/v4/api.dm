@@ -68,7 +68,7 @@
 
 	if(cached_json["apiValidateOnly"])
 		TGS_INFO_LOG("Validating API and exiting...")
-		Export(TGS4_COMM_VALIDATE, list(TGS4_PARAMETER_DATA = minimum_required_security_level))
+		Export(TGS4_COMM_VALIDATE, list(TGS4_PARAMETER_DATA = "[minimum_required_security_level]"))
 		del(world)
 
 	chat_channels_json_path = cached_json["chatChannelsJson"]

@@ -25,9 +25,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool TerminationWasRequested { get; }
 
 		/// <summary>
-		/// If the DMAPI was validated. This field may only be access once <see cref="IProcessBase.Lifetime"/> completes
+		/// The DMAPI <see cref="Components.Watchdog.ApiValidationStatus"/>
 		/// </summary>
-		bool ApiValidated { get; }
+		ApiValidationStatus ApiValidationStatus { get; }
 
 		/// <summary>
 		/// The <see cref="IDmbProvider"/> being used
