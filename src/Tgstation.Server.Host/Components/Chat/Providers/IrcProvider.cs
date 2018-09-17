@@ -258,9 +258,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						var recievedPlus = false;
 						client.OnReadLine += (sender, e) =>
 						{
-							if (e.Line.Contains("ACK :sasl"))
+							if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
 								recievedAck = true;
-							else if (e.Line.Contains("AUTHENTICATE +"))
+							else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
 								recievedPlus = true;
 						};
 

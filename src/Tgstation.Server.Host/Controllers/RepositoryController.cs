@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			var uiOrigin = model.Origin.ToUpperInvariant();
 			var uiBad = BadGitHubUrl.ToUpperInvariant();
 			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
-			if (uiOrigin.Contains(uiBad))
+			if (uiOrigin.Contains(uiBad, StringComparison.Ordinal))
 				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
 
 			currentModel.AccessToken = model.AccessToken;
