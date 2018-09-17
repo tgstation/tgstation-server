@@ -133,11 +133,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);   //can't wait to see that query
-
-			if (finalCompileJob == null)
-				//lol git fucked
-				return;
+				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);   //can't wait to see that query
 
 			var newProvider = await FromCompileJob(finalCompileJob, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
