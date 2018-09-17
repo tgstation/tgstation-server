@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Watchdog
 			Directory.Delete(assemblyStoragePath, true);
 			Directory.CreateDirectory(defaultAssemblyPath);
 
-			var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.0";
+			var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.1";
 			foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 				Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
 
