@@ -125,6 +125,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
 
+			logger.LogTrace("Loading compile job {0}...", job.Id);
+
 			CompileJob finalCompileJob = null;
 			//now load the entire compile job tree
 			await databaseContextFactory.UseContext(async db => finalCompileJob = await db.CompileJobs.Where(x => x.Id == job.Id)
