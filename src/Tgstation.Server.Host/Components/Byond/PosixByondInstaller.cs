@@ -103,8 +103,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			//need to add $ORIGIN to LD_LIBRARY_PATH
 			const string StandardScript = "#!/bin/sh\nexport LD_LIBRARY_PATH=\"\\$ORIGIN:$LD_LIBRARY_PATH\"\nBASEDIR=$(dirname \"$0\")\nexec \"$BASEDIR/{0}\" \"$@\"\n";
 
-			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, "DreamDaemon");
-			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, "DreamMaker");
+			const string DreamDaemonExecutableName = "DreamDaemon";
+			const string DreamMakerExecutableName = "DreamMaker";
+
+			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamDaemonExecutableName);
+			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamMakerExecutableName);
 
 			async Task WriteAndMakeExecutable(string fullPath, string script)
 			{
@@ -114,7 +117,12 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var basePath = ioManager.ConcatPath(path, ByondManager.BinPath);
 
-			return Task.WhenAll(WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamDaemonName), dreamDaemonScript), WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamMakerName), dreamMakerScript));
+			var task = Task.WhenAll(WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamDaemonName), dreamDaemonScript), WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamMakerName), dreamMakerScript));
+
+			postWriteHandler.HandleWrite(ioManager.ConcatPath(basePath, DreamDaemonExecutableName));
+			postWriteHandler.HandleWrite(ioManager.ConcatPath(basePath, DreamMakerExecutableName));
+
+			return task;
 		}
 	}
 }
