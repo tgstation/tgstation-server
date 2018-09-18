@@ -112,6 +112,8 @@ namespace Tgstation.Server.Host.Models
 
 			modelBuilder.Entity<CompileJob>().HasIndex(x => x.DirectoryName);
 
+			modelBuilder.Entity<Job>().HasOne<CompileJob>().WithOne(x => x.Job).OnDelete(DeleteBehavior.Restrict);
+
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
