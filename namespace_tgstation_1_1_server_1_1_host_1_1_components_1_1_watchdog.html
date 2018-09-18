@@ -140,6 +140,18 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:af7163ca98f9f5e5c731043ecdace3745"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745">ApiValidationStatus</a> { <br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a48849e38346e47a569371c42b698fe36">ApiValidationStatus.NeverValidated</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a4b42bf5b19925da0a8866a1dfdc33ffd">ApiValidationStatus.UnaskedValidationRequest</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a18d2471b9e1234b2d15002cbafa2adc2">ApiValidationStatus.BadValidationRequest</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745aa664657b234543e1fc6702e00b784325">ApiValidationStatus.RequiresSafe</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a2cb40d93bedc4fe88f33d0fd49c87563">ApiValidationStatus.RequiresTrusted</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a6125188ea908d44694f8cdff0eef43f4">ApiValidationStatus.RequiresUltrasafe</a>
+<br />
+ }<tr class="memdesc:af7163ca98f9f5e5c731043ecdace3745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status of DMAPI validation  <a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:af7163ca98f9f5e5c731043ecdace3745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97c1a4a168451bd7e3be23c467aa2812"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812">MonitorAction</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812aa0bfb8e59e6c13fc8d990781f77694fe">MonitorAction.Continue</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812a51cfbcff36da74a9fc47f3a5140f99f2">MonitorAction.Restart</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812ae4c38d6d45baf080943d323dd51a2ce8">MonitorAction.Break</a>, 
@@ -167,6 +179,56 @@ Enumerations</h2></td></tr>
 <tr class="separator:a3b33ca95a6257e0c719adc7b54444ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Status of DMAPI validation </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745a48849e38346e47a569371c42b698fe36"></a>NeverValidated&#160;</td><td class="fielddoc">
+<p>The DMAPI never contacted the server for validation </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745a4b42bf5b19925da0a8866a1dfdc33ffd"></a>UnaskedValidationRequest&#160;</td><td class="fielddoc">
+<p>The server was contacted for validation but it was never requested </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745a18d2471b9e1234b2d15002cbafa2adc2"></a>BadValidationRequest&#160;</td><td class="fielddoc">
+<p>The validation request was malformed </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745aa664657b234543e1fc6702e00b784325"></a>RequiresSafe&#160;</td><td class="fielddoc">
+<p>Valid API. The game must be run with a minimum security level of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac6eea0560cd6f377e78dff2c85cc9122" title="Server will not be able to run shell commands or access files outside it&#39;s working directory ...">Api.Models.DreamDaemonSecurity.Safe</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745a2cb40d93bedc4fe88f33d0fd49c87563"></a>RequiresTrusted&#160;</td><td class="fielddoc">
+<p>Valid API. The game must be run with a security level of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac0405d71f21e769c787a10b9620f11ea" title="Server is unrestricted in terms of file access and shell commands ">Api.Models.DreamDaemonSecurity.Trusted</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="af7163ca98f9f5e5c731043ecdace3745a6125188ea908d44694f8cdff0eef43f4"></a>RequiresUltrasafe&#160;</td><td class="fielddoc">
+<p>Valid API. The game must be run with a minimum security level of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5a380d297f2cbdccba869676c96bd38bc1" title="Server will not be able to run shell commands or access anything but temporary files. Currently unsupported! ">Api.Models.DreamDaemonSecurity.Ultrasafe</a> </p>
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="_api_validation_status_8cs_source.html#l00006">6</a> of file <a class="el" href="_api_validation_status_8cs_source.html">ApiValidationStatus.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a48849e38346e47a569371c42b698fe36">NeverValidated</a>,</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a4b42bf5b19925da0a8866a1dfdc33ffd">UnaskedValidationRequest</a>,</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a18d2471b9e1234b2d15002cbafa2adc2">BadValidationRequest</a>,</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745aa664657b234543e1fc6702e00b784325">RequiresSafe</a>,</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a2cb40d93bedc4fe88f33d0fd49c87563">RequiresTrusted</a>,</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a6125188ea908d44694f8cdff0eef43f4">RequiresUltrasafe</a></div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div><div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_html_af7163ca98f9f5e5c731043ecdace3745a48849e38346e47a569371c42b698fe36"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a48849e38346e47a569371c42b698fe36">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus.NeverValidated</a></div><div class="ttdoc">The DMAPI never contacted the server for validation </div></div>
+<div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_html_af7163ca98f9f5e5c731043ecdace3745a4b42bf5b19925da0a8866a1dfdc33ffd"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a4b42bf5b19925da0a8866a1dfdc33ffd">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus.UnaskedValidationRequest</a></div><div class="ttdoc">The server was contacted for validation but it was never requested </div></div>
+<div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_html_af7163ca98f9f5e5c731043ecdace3745a6125188ea908d44694f8cdff0eef43f4"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a6125188ea908d44694f8cdff0eef43f4">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus.RequiresUltrasafe</a></div><div class="ttdoc">Valid API. The game must be run with a minimum security level of Api.Models.DreamDaemonSecurity.Ultrasafe </div></div>
+<div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_html_af7163ca98f9f5e5c731043ecdace3745a18d2471b9e1234b2d15002cbafa2adc2"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a18d2471b9e1234b2d15002cbafa2adc2">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus.BadValidationRequest</a></div><div class="ttdoc">The validation request was malformed </div></div>
+<div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_html_af7163ca98f9f5e5c731043ecdace3745aa664657b234543e1fc6702e00b784325"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745aa664657b234543e1fc6702e00b784325">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus.RequiresSafe</a></div><div class="ttdoc">Valid API. The game must be run with a minimum security level of Api.Models.DreamDaemonSecurity.Safe </div></div>
+<div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_html_af7163ca98f9f5e5c731043ecdace3745a2cb40d93bedc4fe88f33d0fd49c87563"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745a2cb40d93bedc4fe88f33d0fd49c87563">Tgstation.Server.Host.Components.Watchdog.ApiValidationStatus.RequiresTrusted</a></div><div class="ttdoc">Valid API. The game must be run with a security level of Api.Models.DreamDaemonSecurity.Trusted </div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a97c1a4a168451bd7e3be23c467aa2812"></a>
 <div class="memitem">
 <div class="memproto">

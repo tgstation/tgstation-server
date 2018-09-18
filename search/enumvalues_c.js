@@ -13,6 +13,7 @@ var searchData=
   ['setports',['SetPorts',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a81a46f4105078d5ddae4991343644468',1,'Tgstation::Server::Api::Rights']]],
   ['setreference',['SetReference',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39a177459d00b7f29a44b87c9a5e1cb1f11',1,'Tgstation::Server::Api::Rights']]],
   ['setsecurity',['SetSecurity',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ad01c76a7263a2d3af037a139b8563b5a',1,'Tgstation::Server::Api::Rights']]],
+  ['setsecuritylevel',['SetSecurityLevel',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5dab49667168f82f3007e86f44c40e6322c',1,'Tgstation::Server::Api::Rights']]],
   ['setsha',['SetSha',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39ad8c2d7ddc75692573d20ed5254fcd06a',1,'Tgstation::Server::Api::Rights']]],
   ['setstartuptimeout',['SetStartupTimeout',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae34541119c09d49ca1ba51be76c98aa1',1,'Tgstation::Server::Api::Rights']]],
   ['setwebclient',['SetWebClient',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49aba69275e93f440b20e7bebe7be6f8a7c',1,'Tgstation::Server::Api::Rights']]],

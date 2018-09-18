@@ -182,7 +182,7 @@ Public Member Functions</h2></td></tr>
 <p>Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> from a freshly launch DreamDaemon instance </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">launchParameters</td><td>The DreamDaemonLaunchParameters to use</td></tr>
+    <tr><td class="paramname">launchParameters</td><td>The DreamDaemonLaunchParameters to use. DreamDaemonLaunchParameters.SecurityLevel will be updated with the minumum required security level for the launch</td></tr>
     <tr><td class="paramname">dmbProvider</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> to use</td></tr>
     <tr><td class="paramname">currentByondLock</td><td>The current IByondExecutableLock if any</td></tr>
     <tr><td class="paramname">primaryPort</td><td>If the DreamDaemonLaunchParameters.PrimaryPort of <em>launchParameters</em>  should be used</td></tr>
