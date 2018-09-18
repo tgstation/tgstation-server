@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Database representation of <see cref="Components.Watchdog.WatchdogReattachInformation"/>
@@ -13,6 +9,11 @@ namespace Tgstation.Server.Host.Models
 		/// The row Id
 		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// The <see cref="Api.Models.Instance.Id"/> of the <see cref="Instance"/> the <see cref="WatchdogReattachInformation"/> belongs to
+		/// </summary>
+		public long InstanceId { get; set; }
 
 		/// <summary>
 		/// The <see cref="ReattachInformation"/> for the Alpha server
