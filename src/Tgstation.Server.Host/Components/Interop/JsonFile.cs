@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		public string ServerCommandsJson { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevisionInformation"/> of the launch
+		/// The <see cref="Api.Models.Internal.RevisionInformation"/> of the launch
 		/// </summary>
 		public Api.Models.Internal.RevisionInformation Revision { get; set; }
 
