@@ -127,6 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3>Database Configuration</h3>
 <p>If using MySQL, our provider library <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset">recommends you set 'utf8mb4' as your default charset</a> disregard at your own risk.</p>
 <p>The user created for the application will need the privilege to create databases on the first run. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations</p>
+<p>Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.</p>
 <h3>Starting</h3>
 <p>For the Windows service version start the <code>tgstation-server-4</code> service</p>
 <p>For the console version run <code>dotnet Tgstation.Server.Host.Console.dll</code> in the installation directory. The <code>tgs.bat</code> and <code>tgs.sh</code> shell scripts are shortcuts for this</p>

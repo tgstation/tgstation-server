@@ -7,5 +7,9 @@ var searchData=
   ['20180918020726_5fmyaddminimumsecurity_2ecs',['20180918020726_MYAddMinimumSecurity.cs',['../20180918020726___m_y_add_minimum_security_8cs.html',1,'']]],
   ['20180918020726_5fmyaddminimumsecurity_2edesigner_2ecs',['20180918020726_MYAddMinimumSecurity.Designer.cs',['../20180918020726___m_y_add_minimum_security_8_designer_8cs.html',1,'']]],
   ['20180918021228_5fmsaddminimumsecurity_2ecs',['20180918021228_MSAddMinimumSecurity.cs',['../20180918021228___m_s_add_minimum_security_8cs.html',1,'']]],
-  ['20180918021228_5fmsaddminimumsecurity_2edesigner_2ecs',['20180918021228_MSAddMinimumSecurity.Designer.cs',['../20180918021228___m_s_add_minimum_security_8_designer_8cs.html',1,'']]]
+  ['20180918021228_5fmsaddminimumsecurity_2edesigner_2ecs',['20180918021228_MSAddMinimumSecurity.Designer.cs',['../20180918021228___m_s_add_minimum_security_8_designer_8cs.html',1,'']]],
+  ['20180918204520_5fmynullableandforeignkeycleanup_2ecs',['20180918204520_MYNullableAndForeignKeyCleanup.cs',['../20180918204520___m_y_nullable_and_foreign_key_cleanup_8cs.html',1,'']]],
+  ['20180918204520_5fmynullableandforeignkeycleanup_2edesigner_2ecs',['20180918204520_MYNullableAndForeignKeyCleanup.Designer.cs',['../20180918204520___m_y_nullable_and_foreign_key_cleanup_8_designer_8cs.html',1,'']]],
+  ['20180918205224_5fmsnullableandforeignkeycleanup_2ecs',['20180918205224_MSNullableAndForeignKeyCleanup.cs',['../20180918205224___m_s_nullable_and_foreign_key_cleanup_8cs.html',1,'']]],
+  ['20180918205224_5fmsnullableandforeignkeycleanup_2edesigner_2ecs',['20180918205224_MSNullableAndForeignKeyCleanup.Designer.cs',['../20180918205224___m_s_nullable_and_foreign_key_cleanup_8_designer_8cs.html',1,'']]]
 ];
