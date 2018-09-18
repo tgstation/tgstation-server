@@ -476,7 +476,7 @@ namespace Tgstation.Server.Host.Controllers
 								if (fastForward.Value)
 								{
 									lastRevisionInfo.OriginCommitSha = repo.Head;
-									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
+									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, true, ct).ConfigureAwait(false);
 								}
 							}
 						}
@@ -502,7 +502,7 @@ namespace Tgstation.Server.Host.Controllers
 								if (!repo.Tracking)
 									throw new JobException("Checked out reference does not track a remote object!");
 								await repo.ResetToOrigin(ct).ConfigureAwait(false);
-								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
+								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
 								//repo head is on origin so force this
 								//will update the db if necessary
@@ -695,7 +695,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						if (startSha != repo.Head)
 						{
-							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, false, ct).ConfigureAwait(false);
+							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
 						}
 						await databaseContext.Save(ct).ConfigureAwait(false);
