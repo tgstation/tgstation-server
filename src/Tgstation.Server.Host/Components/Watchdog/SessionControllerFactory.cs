@@ -131,6 +131,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//i changed this back from guids, hopefully i don't regret that
 			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
+			var securityLevelToUse = launchParameters.SecurityLevel.Value;
+			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
+			{
+				case DreamDaemonSecurity.Ultrasafe:
+					break;
+				case DreamDaemonSecurity.Safe:
+					if (securityLevelToUse == DreamDaemonSecurity.Ultrasafe)
+						securityLevelToUse = DreamDaemonSecurity.Safe;
+					break;
+				case DreamDaemonSecurity.Trusted:
+					securityLevelToUse = DreamDaemonSecurity.Trusted;
+					break;
+				default:
+					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
+			}
+
 			//setup interop files
 			var interopInfo = new JsonFile
 			{
@@ -140,6 +156,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ChatCommandsJson = JsonFile("chat_commands"),
 				ServerCommandsJson = JsonFile("server_commands"),
 				InstanceName = instance.Name,
+				SecurityLevel = securityLevelToUse,
 				Revision = new Api.Models.Internal.RevisionInformation
 				{
 					CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
@@ -176,22 +193,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//set command line options
 						//more sanitization here cause it uses the same scheme
 						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
-
-						var securityLevelToUse = launchParameters.SecurityLevel.Value;
-						switch (dmbProvider.CompileJob.MinimumSecurityLevel)
-						{
-							case DreamDaemonSecurity.Ultrasafe:
-								break;
-							case DreamDaemonSecurity.Safe:
-								if (securityLevelToUse == DreamDaemonSecurity.Ultrasafe)
-									securityLevelToUse = DreamDaemonSecurity.Safe;
-								break;
-							case DreamDaemonSecurity.Trusted:
-								securityLevelToUse = DreamDaemonSecurity.Trusted;
-								break;
-							default:
-								throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
-						}
 
 						//important to run on all ports to allow port changing
 						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -verbose -public -params \"{4}\"",

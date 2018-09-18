@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Interop
@@ -41,7 +42,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The <see cref="RevisionInformation"/> of the launch
 		/// </summary>
-		public RevisionInformation Revision { get; set; }
+		public Api.Models.Internal.RevisionInformation Revision { get; set; }
+
+		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level of the launch
+		/// </summary>
+		public DreamDaemonSecurity SecurityLevel { get; set; }
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s in the launch
