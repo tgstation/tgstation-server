@@ -393,8 +393,8 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			await Task.Factory.StartNew(() =>
 			{
-				repository.Config.Set("name", committerName);
-				repository.Config.Set("email", committerEmail);
+				repository.Config.Set("user.name", committerName);
+				repository.Config.Set("user.email", committerEmail);
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
 			if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
