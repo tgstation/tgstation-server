@@ -156,7 +156,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 					cancellationToken.ThrowIfCancellationRequested();
 				}
 
-				if (!controller.Lifetime.IsCompleted)
+				if (controller.Lifetime.IsCompleted)
 				{
 					var validationStatus = controller.ApiValidationStatus;
 					logger.LogTrace("API validation status: {0}", validationStatus);
