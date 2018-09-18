@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Models.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -98,6 +98,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 
                     b.Property<long?>("JobId");
 
+                    b.Property<int>("MinimumSecurityLevel");
+
                     b.Property<string>("Output");
 
                     b.Property<long>("RevisionInformationId");
@@ -160,6 +162,8 @@ namespace Tgstation.Server.Host.Models.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ApiValidationPort");
+
+                    b.Property<int>("ApiValidationSecurityLevel");
 
                     b.Property<long>("InstanceId");
 
