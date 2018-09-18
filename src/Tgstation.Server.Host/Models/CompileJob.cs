@@ -9,7 +9,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.Job"/>
 		/// </summary>
-		[Required]
 		public Job Job { get; set; }
 
 		/// <summary>
