@@ -23,7 +23,7 @@ namespace Tgstation.Server.Api.Models
 		public bool? Running { get; set; }
 
 		/// <summary>
-		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>
+		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>. May be downgraded due to requirements of <see cref="ActiveCompileJob"/>
 		/// </summary>
 		public DreamDaemonSecurity? CurrentSecurity { get; set; }
 

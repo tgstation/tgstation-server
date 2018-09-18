@@ -196,10 +196,11 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage { Message = "Primary port and secondary port cannot be the same!" });
 
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
-
-			//run these in parallel because they are equally as important
-			await Task.WhenAll(DatabaseContext.Save(cancellationToken), wd.ChangeSettings(current, cancellationToken)).ConfigureAwait(false);
 			
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			//run this second because current may be modified by it
+			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+
 			if (!oldSoftRestart.Value && current.SoftRestart.Value)
 				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
 			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)

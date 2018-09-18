@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						try
 						{
 							//return the session controller for it
-							return new SessionController(new ReattachInformation
+							var result = new SessionController(new ReattachInformation
 							{
 								AccessIdentifier = accessIdentifier,
 								Dmb = dmbProvider,
@@ -217,6 +217,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
 								ServerCommandsJson = interopInfo.ServerCommandsJson,
 							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.SecurityLevel, launchParameters.StartupTimeout);
+
+							//writeback launch parameter's fixed security level
+							launchParameters.SecurityLevel = securityLevelToUse;
+
+							return result;
 						}
 						catch
 						{

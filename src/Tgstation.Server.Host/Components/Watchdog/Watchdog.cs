@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/></param>
+		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
 		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerControl serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
