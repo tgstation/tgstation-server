@@ -3,9 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Models.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
 	[Migration("20180918020726_MYAddMinimumSecurity")]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Models.Migrations
 {
 	/// <summary>
 	/// Add the <see cref="Api.Models.Internal.CompileJob.MinimumSecurityLevel"/> and <see cref="DreamMaker.ApiValidationSecurityLevel"/> columns for MSSQL

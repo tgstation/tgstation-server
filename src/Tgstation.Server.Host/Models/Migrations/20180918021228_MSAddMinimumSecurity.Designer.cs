@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Models.Migrations
 {
 	[DbContext(typeof(SqlServerDatabaseContext))]
 	[Migration("20180918021228_MSAddMinimumSecurity")]
