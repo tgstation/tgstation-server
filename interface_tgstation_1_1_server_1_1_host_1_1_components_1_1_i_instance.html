@@ -125,9 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a579c48046b16d1e8af0670c89c35d016"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#a579c48046b16d1e8af0670c89c35d016">SetAutoUpdateInterval</a> (uint newInterval)</td></tr>
 <tr class="memdesc:a579c48046b16d1e8af0670c89c35d016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a940005c299f5ed5a82fc5f4fe26c190d" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables ...">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a>  <a href="#a579c48046b16d1e8af0670c89c35d016">More...</a><br /></td></tr>
 <tr class="separator:a579c48046b16d1e8af0670c89c35d016"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb2511119964a5d817c937472fbc3933"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#afb2511119964a5d817c937472fbc3933">CompileProcess</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, IServiceProvider serviceProvider, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:afb2511119964a5d817c937472fbc3933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the compile job and insert it into the database. Meant to be called by a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html" title="Manages the runtime of Jobs ">Core.IJobManager</a>  <a href="#afb2511119964a5d817c937472fbc3933">More...</a><br /></td></tr>
-<tr class="separator:afb2511119964a5d817c937472fbc3933"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf2c616c3ac6205bdfea350d2bbea222"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abf2c616c3ac6205bdfea350d2bbea222">CompileProcess</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abf2c616c3ac6205bdfea350d2bbea222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the compile job and insert it into the database. Meant to be called by a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html" title="Manages the runtime of Jobs ">Core.IJobManager</a>  <a href="#abf2c616c3ac6205bdfea350d2bbea222">More...</a><br /></td></tr>
+<tr class="separator:abf2c616c3ac6205bdfea350d2bbea222"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -150,9 +150,9 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For interacting with the instance services </p>
 
-<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="afb2511119964a5d817c937472fbc3933"></a>
+<a class="anchor" id="abf2c616c3ac6205bdfea350d2bbea222"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -165,8 +165,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">IServiceProvider&#160;</td>
-          <td class="paramname"><em>serviceProvider</em>, </td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html">IDatabaseContext</a>&#160;</td>
+          <td class="paramname"><em>databaseContext</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -192,7 +192,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The running Job</td></tr>
-    <tr><td class="paramname">serviceProvider</td><td>The IServiceProvider for the operation</td></tr>
+    <tr><td class="paramname">databaseContext</td><td>The IDatabaseContext for the operation</td></tr>
     <tr><td class="paramname">progressReporter</td><td>The Action&lt;T1&gt; to report compilation progress</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
@@ -200,7 +200,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a671f95c449b028d8714a0d8cd05f10bd">Tgstation.Server.Host.Components.Instance</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#abbd348ec39811a75b5b29d59f7b0c837">Tgstation.Server.Host.Components.Instance</a>.</p>
 
 </div>
 </div>
@@ -298,7 +298,7 @@ Properties</h2></td></tr>
 
 <p>The IByondManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
 
-<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00027">27</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 
 </div>
 </div>
@@ -322,7 +322,7 @@ Properties</h2></td></tr>
 
 <p>The IChat for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
 
-<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00038">38</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00037">37</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 
 </div>
 </div>
@@ -346,7 +346,7 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory ">StaticFiles.IConfiguration</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
 
-<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00043">43</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00042">42</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 
 </div>
 </div>
@@ -370,7 +370,7 @@ Properties</h2></td></tr>
 
 <p>The IRepositoryManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
 
-<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 
 </div>
 </div>
@@ -394,7 +394,7 @@ Properties</h2></td></tr>
 
 <p>The IWatchdog for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services ">IInstance</a> </p>
 
-<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00033">33</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_instance_8cs_source.html#l00032">32</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 
 </div>
 </div>

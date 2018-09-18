@@ -13,6 +13,7 @@ var searchData=
   ['ichat_2ecs',['IChat.cs',['../_i_chat_8cs.html',1,'']]],
   ['ichatbotsclient_2ecs',['IChatBotsClient.cs',['../_i_chat_bots_client_8cs.html',1,'']]],
   ['ichatfactory_2ecs',['IChatFactory.cs',['../_i_chat_factory_8cs.html',1,'']]],
+  ['iclaimsinjector_2ecs',['IClaimsInjector.cs',['../_i_claims_injector_8cs.html',1,'']]],
   ['icommand_2ecs',['ICommand.cs',['../_i_command_8cs.html',1,'']]],
   ['icommandfactory_2ecs',['ICommandFactory.cs',['../_i_command_factory_8cs.html',1,'']]],
   ['icommcontext_2ecs',['ICommContext.cs',['../_i_comm_context_8cs.html',1,'']]],
@@ -90,8 +91,8 @@ var searchData=
   ['isystemidentityfactory_2ecs',['ISystemIdentityFactory.cs',['../_i_system_identity_factory_8cs.html',1,'']]],
   ['itokenfactory_2ecs',['ITokenFactory.cs',['../_i_token_factory_8cs.html',1,'']]],
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
+  ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
   ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
 ];

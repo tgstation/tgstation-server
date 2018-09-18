@@ -8,6 +8,5 @@ var searchData=
   ['onmodelcreating',['OnModelCreating',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#abe2f492adf2ca108188e6f14a3c8c512',1,'Tgstation::Server::Host::Models::DatabaseContext']]],
   ['onstart',['OnStart',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a40bef17d85eb30f2cbad7ed81ef9c774',1,'Tgstation::Server::Host::Service::ServerService']]],
   ['onstop',['OnStop',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a6e54a00e5d8fc3f0629277f2bb7274ba',1,'Tgstation::Server::Host::Service::ServerService']]],
-  ['ontokenvalidated',['OnTokenValidated',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ad0f6ca918a923e5c357be4e39bc8963e',1,'Tgstation::Server::Host::Controllers::ApiController']]],
   ['openwritestream',['OpenWriteStream',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a888245bfe6d20d98807cec9257289a03',1,'Tgstation::Server::Host::IO::DefaultIOManager']]]
 ];

@@ -160,7 +160,7 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>if <em>rightsType</em>  is an instance right,  otherwise</dd></dl>
 
-<p>Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00062">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00065">Tgstation.Server.Host.Controllers.ApiController.OnTokenValidated()</a>.</p>
+<p>Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00062">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_claims_injector_8cs_source.html#l00041">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>.</p>
 
 </div>
 </div>
@@ -195,7 +195,7 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Enum Type of the given <em>rightsType</em> </dd></dl>
 
-<p>Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00062">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_api_controller_8cs_source.html#l00065">Tgstation.Server.Host.Controllers.ApiController.OnTokenValidated()</a>, and <a class="el" href="_test_rights_8cs_source.html#l00014">Tgstation.Server.Api.Rights.Tests.TestRights.TestAllPowerOfTwo()</a>.</p>
+<p>Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00062">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_claims_injector_8cs_source.html#l00041">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>, and <a class="el" href="_test_rights_8cs_source.html#l00014">Tgstation.Server.Api.Rights.Tests.TestRights.TestAllPowerOfTwo()</a>.</p>
 
 </div>
 </div>
@@ -243,7 +243,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00061">61</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_api_controller_8cs_source.html#l00065">Tgstation.Server.Host.Controllers.ApiController.OnTokenValidated()</a>.</p>
+<p>Referenced by <a class="el" href="_claims_injector_8cs_source.html#l00041">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            var enumType = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a20c17012e5284a3b787315725fcd0a8f">typeMap</a>[rightsType];</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> String.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, Enum.GetName(enumType, right));</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a20c17012e5284a3b787315725fcd0a8f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a20c17012e5284a3b787315725fcd0a8f">Tgstation.Server.Api.Rights.RightsHelper.typeMap</a></div><div class="ttdeci">static readonly IReadOnlyDictionary&lt; RightsType, Type &gt; typeMap</div><div class="ttdoc">Map of RightsTypes to their respective flag Enums </div><div class="ttdef"><b>Definition:</b> <a href="_rights_helper_8cs_source.html#l00015">RightsHelper.cs:15</a></div></div>
 </div><!-- fragment -->
 </div>
