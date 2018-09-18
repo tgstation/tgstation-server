@@ -35,7 +35,8 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			ByondVersion = Version.Parse(ByondVersion)
+			ByondVersion = Version.Parse(ByondVersion),
+			MinimumSecurityLevel = MinimumSecurityLevel
 		};
 	}
 }
