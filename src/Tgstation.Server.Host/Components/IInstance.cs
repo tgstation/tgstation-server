@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -65,10 +64,10 @@ namespace Tgstation.Server.Host.Components
 		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Core.IJobManager"/>
 		/// </summary>
 		/// <param name="job">The running <see cref="Job"/></param>
-		/// <param name="serviceProvider">The <see cref="IServiceProvider"/> for the operation</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation</param>
 		/// <param name="progressReporter">The <see cref="Action{T1}"/> to report compilation progress</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CompileProcess(Job job, IServiceProvider serviceProvider, Action<int> progressReporter, CancellationToken cancellationToken);
+		Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken);
 	}
 }

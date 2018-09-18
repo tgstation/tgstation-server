@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 				StartedBy = AuthenticationContext.User
 			};
 			await jobManager.RegisterOperation(job,
-			async (paramJob, serviceProvider, progressHandler, innerCt) =>
+			async (paramJob, databaseContext, progressHandler, innerCt) =>
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
 
-			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());
 		}
 	}

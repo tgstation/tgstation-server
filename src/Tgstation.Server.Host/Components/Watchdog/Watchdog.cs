@@ -836,7 +836,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon
 			};
-			await jobManager.RegisterOperation(job, (j, serviceProvider, progressFunction, ct) => Launch(ct), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (j, databaseContext, progressFunction, ct) => Launch(ct), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
