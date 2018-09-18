@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -117,17 +116,15 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task CompileProcess(Job job, IServiceProvider serviceProvider, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 			//DO NOT FOLLOW THE SUGGESTION FOR A THROW EXPRESSION HERE
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (serviceProvider == null)
-				throw new ArgumentNullException(nameof(serviceProvider));
+			if (databaseContext == null)
+				throw new ArgumentNullException(nameof(databaseContext));
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
-
-			var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
 
 			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
 			{
@@ -205,10 +202,9 @@ namespace Tgstation.Server.Host.Components
 						};
 
 						var noRepo = false;
-						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, serviceProvider, progressReporter, jobCancellationToken) =>
+						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContext, progressReporter, jobCancellationToken) =>
 						{
-							var db = serviceProvider.GetRequiredService<IDatabaseContext>();
-							var repositorySettingsTask = db.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
+							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
 
 							//assume 5 steps with synchronize
 							const int ProgressSections = 5;

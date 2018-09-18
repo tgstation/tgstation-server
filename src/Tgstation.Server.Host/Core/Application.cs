@@ -101,6 +101,8 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddOptions();
 
+			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+
 			const string scheme = "JwtBearer";
 			services.AddAuthentication((options) =>
 			{
@@ -128,9 +130,11 @@ namespace Tgstation.Server.Host.Core
 				};
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
-					OnTokenValidated = ApiController.OnTokenValidated
+					//Application is our composition root so this monstrosity of a line is okay
+					OnTokenValidated = ctx => ctx.HttpContext.RequestServices.GetRequiredService<IClaimsInjector>().InjectClaimsIntoContext(ctx, ctx.HttpContext.RequestAborted)
 				};
 			});
+
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
 
 			services.AddMvc().AddJsonOptions(options =>

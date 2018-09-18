@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -186,20 +185,19 @@ namespace Tgstation.Server.Host.Controllers
 					Instance = Instance
 				};
 				var api = currentModel.ToApi();
-				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
+				await jobManager.RegisterOperation(job, async (paramJob, databaseContext, progressReporter, ct) =>
 				{
 					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false))
 					{
 						if (repos == null)
 							throw new JobException("Filesystem conflict while cloning repository!");
-						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
 						var instance = new Models.Instance
 						{
 							Id = Instance.Id
 						};
-						db.Instances.Attach(instance);
-						if (await PopulateApi(api, repos, db, instance, ct).ConfigureAwait(false))
-							await db.Save(ct).ConfigureAwait(false);
+						databaseContext.Instances.Attach(instance);
+						if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
+							await databaseContext.Save(ct).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
 
@@ -238,7 +236,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
@@ -419,7 +417,7 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
 			};
 
-			await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
+			await jobManager.RegisterOperation(job, async (paramJob, databaseContext, progressReporter, ct) =>
 			{
 				using (var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false))
 				{
@@ -443,8 +441,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					//get a base line for where we are
 					Models.RevisionInformation lastRevisionInfo = null;
-
-					var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
+					
 					var attachedInstance = new Models.Instance
 					{
 						Id = Instance.Id
