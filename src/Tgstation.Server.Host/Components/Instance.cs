@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Components
 
 								//synch if necessary
 								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
+									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
 
 								progressReporter(5 * ProgressStep);
 							}
