@@ -130,6 +130,7 @@ namespace Tgstation.Server.Host.Models
 			instanceModel.HasMany(x => x.RevisionInformations).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.InstanceUsers).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasOne(x => x.WatchdogReattachInformation).WithOne().OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <inheritdoc />
