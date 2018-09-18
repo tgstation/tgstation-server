@@ -17,5 +17,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public ushort? ApiValidationPort { get; set; }
+
+		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level used to validate the DMAPI
+		/// </summary>
+		[Required]
+		public DreamDaemonSecurity? ApiValidationSecurityLevel { get; set; }
 	}
 }

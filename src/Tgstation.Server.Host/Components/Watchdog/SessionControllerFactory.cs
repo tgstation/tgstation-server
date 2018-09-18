@@ -131,6 +131,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//i changed this back from guids, hopefully i don't regret that
 			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
+			var securityLevelToUse = launchParameters.SecurityLevel.Value;
+			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
+			{
+				case DreamDaemonSecurity.Ultrasafe:
+					break;
+				case DreamDaemonSecurity.Safe:
+					if (securityLevelToUse == DreamDaemonSecurity.Ultrasafe)
+						securityLevelToUse = DreamDaemonSecurity.Safe;
+					break;
+				case DreamDaemonSecurity.Trusted:
+					securityLevelToUse = DreamDaemonSecurity.Trusted;
+					break;
+				default:
+					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
+			}
+
 			//setup interop files
 			var interopInfo = new JsonFile
 			{
@@ -140,6 +156,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ChatCommandsJson = JsonFile("chat_commands"),
 				ServerCommandsJson = JsonFile("server_commands"),
 				InstanceName = instance.Name,
+				SecurityLevel = securityLevelToUse,
 				Revision = new Api.Models.Internal.RevisionInformation
 				{
 					CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
@@ -182,7 +199,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							dmbProvider.DmbName,
 							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
 							launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
-							SecurityWord(launchParameters.SecurityLevel.Value),
+							SecurityWord(securityLevelToUse),
 							parameters);
 
 						//launch dd
@@ -190,7 +207,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						try
 						{
 							//return the session controller for it
-							return new SessionController(new ReattachInformation
+							var result = new SessionController(new ReattachInformation
 							{
 								AccessIdentifier = accessIdentifier,
 								Dmb = dmbProvider,
@@ -200,7 +217,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ChatChannelsJson = interopInfo.ChatChannelsJson,
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
 								ServerCommandsJson = interopInfo.ServerCommandsJson,
-							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.StartupTimeout);
+							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.SecurityLevel, launchParameters.StartupTimeout);
+
+							//writeback launch parameter's fixed security level
+							launchParameters.SecurityLevel = securityLevelToUse;
+
+							return result;
 						}
 						catch
 						{
@@ -247,7 +269,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 						try
 						{
-							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null);
+							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
 						}
 						catch
 						{

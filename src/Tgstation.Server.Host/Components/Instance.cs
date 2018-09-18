@@ -132,7 +132,6 @@ namespace Tgstation.Server.Host.Components
 			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
 			{
 				StartupTimeout = x.StartupTimeout,
-				SecurityLevel = x.SecurityLevel
 			}).FirstOrDefaultAsync(cancellationToken);
 
 			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
@@ -167,7 +166,7 @@ namespace Tgstation.Server.Host.Components
 					databaseContext.Instances.Attach(revInfo.Instance);
 				}
 
-				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.SecurityLevel.Value, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
 			}
 
 			compileJob.Job = job;

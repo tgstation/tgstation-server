@@ -2,13 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Migrations
 {
     [DbContext(typeof(MySqlDatabaseContext))]
-    partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+    [Migration("20180918020726_MYAddMinimumSecurity")]
+    partial class MYAddMinimumSecurity
+	{
+		/// <summary>
+		/// Builds the target model
+		/// </summary>
+		/// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use</param>
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

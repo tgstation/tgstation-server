@@ -101,11 +101,14 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort)]
+		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
 		public override async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
 			if (model.ApiValidationPort == 0)
 				return BadRequest(new ErrorMessage { Message = "API Validation port cannot be 0!" });
+
+			if (model.ApiValidationSecurityLevel == DreamDaemonSecurity.Ultrasafe)
+				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
 
 			var hostModel = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (hostModel == null)
@@ -126,6 +129,13 @@ namespace Tgstation.Server.Host.Controllers
 				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationPort))
 					return Forbid();
 				hostModel.ApiValidationPort = model.ApiValidationPort;
+			}
+
+			if (model.ApiValidationSecurityLevel.HasValue)
+			{
+				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
+					return Forbid();
+				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);

@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently <see cref="Running"/> triggers a graceful restart
 		/// </summary>
-		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/></param>
+		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/>. May be modified</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
