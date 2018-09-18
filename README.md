@@ -81,6 +81,8 @@ If using MySQL, our provider library [recommends you set 'utf8mb4' as your defau
 
 The user created for the application will need the privilege to create databases on the first run. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
 
+Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.
+
 ### Starting
 
 For the Windows service version start the `tgstation-server-4` service
