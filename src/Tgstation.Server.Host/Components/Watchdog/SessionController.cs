@@ -336,13 +336,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							switch (minimumSecurityLevel)
 							{
 								case DreamDaemonSecurity.Safe:
-									apiValidationStatus = launchSecurityLevel == DreamDaemonSecurity.Ultrasafe ? ApiValidationStatus.RequiresSafe : ApiValidationStatus.Validated;
+									apiValidationStatus = ApiValidationStatus.RequiresSafe;
 									break;
 								case DreamDaemonSecurity.Ultrasafe:
-									apiValidationStatus = ApiValidationStatus.Validated;
+									apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
 									break;
 								case DreamDaemonSecurity.Trusted:
-									apiValidationStatus = launchSecurityLevel == DreamDaemonSecurity.Trusted ? ApiValidationStatus.Validated : ApiValidationStatus.RequiresTrusted;
+									apiValidationStatus = ApiValidationStatus.RequiresTrusted;
 									break;
 								default:
 									throw new InvalidOperationException("Enum.TryParse failed to validate the DreamDaemonSecurity range!");

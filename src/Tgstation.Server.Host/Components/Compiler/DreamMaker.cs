@@ -160,22 +160,29 @@ namespace Tgstation.Server.Host.Components.Compiler
 					logger.LogTrace("API validation status: {0}", validationStatus);
 					switch (validationStatus)
 					{
-						case ApiValidationStatus.Validated:
+						case ApiValidationStatus.RequiresUltrasafe:
+							job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+							return;
+						case ApiValidationStatus.RequiresSafe:
+							if (securityLevel == DreamDaemonSecurity.Ultrasafe)
+								throw new JobException("This game must be run with at least the 'Safe' DreamDaemon security level!");
+							job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
+							return;
+						case ApiValidationStatus.RequiresTrusted:
+							if (securityLevel != DreamDaemonSecurity.Trusted)
+								throw new JobException("This game must be run with at least the 'Trusted' DreamDaemon security level!");
+							job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
 							return;
 						case ApiValidationStatus.NeverValidated:
 							break;
 						case ApiValidationStatus.BadValidationRequest:
 							throw new JobException("Recieved an unrecognized API validation request from DreamDaemon!");
-						case ApiValidationStatus.RequiresSafe:
-							throw new JobException("This game must be run with at least the 'Safe' DreamDaemon security level!");
-						case ApiValidationStatus.RequiresTrusted:
-							throw new JobException("This game must be run with at least the 'Trusted' DreamDaemon security level!");
 						case ApiValidationStatus.UnaskedValidationRequest:
 						default:
 							throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Session controller returned unexpected ApiValidationStatus: {0}", validationStatus));
 					}
 				}
-
+				
 				throw new JobException("DMAPI validation timed out!");
 			}
 		}
@@ -257,7 +264,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, Api.Models.DreamMaker dreamMakerSettings, DreamDaemonSecurity securityLevel, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, Api.Models.DreamMaker dreamMakerSettings, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
 		{
 			if (revisionInformation == null)
 				throw new ArgumentNullException(nameof(revisionInformation));
@@ -268,8 +275,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 			if (repository == null)
 				throw new ArgumentNullException(nameof(repository));
 
-			if (securityLevel == DreamDaemonSecurity.Ultrasafe)
-				throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, "Cannot compile with ultrasafe security!");
+			if (dreamMakerSettings.ApiValidationSecurityLevel == DreamDaemonSecurity.Ultrasafe)
+				throw new ArgumentOutOfRangeException(nameof(dreamMakerSettings), dreamMakerSettings, "Cannot compile with ultrasafe security!");
 
 			logger.LogTrace("Begin Compile");
 
@@ -375,7 +382,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 							if (exitCode != 0)
 								throw new JobException(String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}{2}", exitCode, Environment.NewLine, job.Output));
 
-							await VerifyApi(apiValidateTimeout, securityLevel, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+							await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
 						}
 						catch (JobException)
 						{

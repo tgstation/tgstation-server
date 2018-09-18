@@ -14,20 +14,20 @@
 		/// </summary>
 		UnaskedValidationRequest,
 		/// <summary>
-		/// The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Safe"/>
-		/// </summary>
-		RequiresSafe,
-		/// <summary>
-		/// The game must be run with a security level of <see cref="Api.Models.DreamDaemonSecurity.Trusted"/>
-		/// </summary>
-		RequiresTrusted,
-		/// <summary>
 		/// The validation request was malformed
 		/// </summary>
 		BadValidationRequest,
 		/// <summary>
-		/// The DMAPI validated successfully
+		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Safe"/>
 		/// </summary>
-		Validated
+		RequiresSafe,
+		/// <summary>
+		/// Valid API. The game must be run with a security level of <see cref="Api.Models.DreamDaemonSecurity.Trusted"/>
+		/// </summary>
+		RequiresTrusted,
+		/// <summary>
+		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Ultrasafe"/>
+		/// </summary>
+		RequiresUltrasafe
 	}
 }

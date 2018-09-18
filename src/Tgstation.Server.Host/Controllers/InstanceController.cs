@@ -136,7 +136,8 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
-					ApiValidationPort = 1339
+					ApiValidationPort = 1339,
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe
 				},
 				Name = model.Name,
 				Online = false,

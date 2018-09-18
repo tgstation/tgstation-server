@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -26,5 +27,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The Game folder the results were compiled into
 		/// </summary>
 		public Guid? DirectoryName { get; set; }
+
+		/// <summary>
+		/// The minimum <see cref="DreamDaemonSecurity"/> required to run the <see cref="CompileJob"/>'s output
+		/// </summary>
+		[Required]
+		public DreamDaemonSecurity? MinimumSecurityLevel { get; set; }
 	}
 }
