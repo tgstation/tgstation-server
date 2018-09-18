@@ -32,6 +32,7 @@
 	var/chat_commands_json_path
 	var/server_commands_json_path
 	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
+	var/security_level
 	
 	var/list/intercepted_message_queue
 	
@@ -63,7 +64,6 @@
 		return
 
 	access_identifier = cached_json["accessIdentifier"]
-	instance_name = text2num(cached_json["instanceName"])
 	server_commands_json_path = cached_json["serverCommandsJson"]
 
 	if(cached_json["apiValidateOnly"])
@@ -71,6 +71,7 @@
 		Export(TGS4_COMM_VALIDATE, list(TGS4_PARAMETER_DATA = "[minimum_required_security_level]"))
 		del(world)
 
+	security_level = cached_json["securityLevel"]
 	chat_channels_json_path = cached_json["chatChannelsJson"]
 	chat_commands_json_path = cached_json["chatCommandsJson"]
 	src.event_handler = event_handler
@@ -294,6 +295,9 @@
 	channel.is_private_channel = channel_json["isPrivateChannel"]
 	channel.custom_tag = channel_json["tag"]
 	return channel
+
+/datum/tgs_api/v4/SecurityLevel()
+	return security_level
 
 /*
 The MIT License
