@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Components
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 			try
 			{
-				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer);
+				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
 				try
 				{
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());

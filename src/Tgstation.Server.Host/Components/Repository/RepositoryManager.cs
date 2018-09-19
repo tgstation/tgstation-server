@@ -1,4 +1,5 @@
 ﻿using LibGit2Sharp;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,16 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> created <see cref="Repository"/>s
+		/// </summary>
+		readonly ILogger<Repository> repositoryLogger;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly ILogger<RepositoryManager> logger;
+
+		/// <summary>
 		/// The <see cref="RepositorySettings"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
 		readonly RepositorySettings repositorySettings;
@@ -43,7 +54,9 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="repositorySettings">The value of <see cref="repositorySettings"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		public RepositoryManager(RepositorySettings repositorySettings, IIOManager ioManager, IEventConsumer eventConsumer)
+		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public RepositoryManager(RepositorySettings repositorySettings, IIOManager ioManager, IEventConsumer eventConsumer, ILogger<Repository> repositoryLogger, ILogger<RepositoryManager> logger)
 		{
 			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -139,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return null;
 			}
 			var localSemaphore = semaphore;
-			return new Repository(repo, ioManager, eventConsumer, () =>
+			return new Repository(repo, ioManager, eventConsumer, repositoryLogger, () =>
 			{
 				localSemaphore?.Release();
 				localSemaphore = null;

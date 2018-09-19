@@ -1,4 +1,5 @@
 ﻿using LibGit2Sharp;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -67,6 +68,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Repository"/>
+		/// </summary>
+		readonly ILogger<Repository> logger;
+
+		/// <summary>
 		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called
 		/// </summary>
 		readonly Action onDispose;
@@ -90,12 +96,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="repository">The value of <see cref="repository"/></param>
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
-		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger, IEventConsumer eventConsumer, Action onDispose)
+		public Repository(LibGit2Sharp.IRepository repository, IIOManager ioMananger, IEventConsumer eventConsumer, ILogger<Repository> logger, Action onDispose)
 		{
 			this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			IsGitHubRepository = Origin.Contains(GitHubUrl, StringComparison.InvariantCultureIgnoreCase);
 			if (IsGitHubRepository)
