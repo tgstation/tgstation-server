@@ -31,6 +31,7 @@ var searchData=
   ['configurationtype_2ecs',['ConfigurationType.cs',['../_configuration_type_8cs.html',1,'']]],
   ['conflictexception_2ecs',['ConflictException.cs',['../_conflict_exception_8cs.html',1,'']]],
   ['constants_2ecs',['Constants.cs',['../_constants_8cs.html',1,'']]],
+  ['credentialsprovider_2ecs',['CredentialsProvider.cs',['../_credentials_provider_8cs.html',1,'']]],
   ['cryptographysuite_2ecs',['CryptographySuite.cs',['../_cryptography_suite_8cs.html',1,'']]],
   ['customcommand_2ecs',['CustomCommand.cs',['../_custom_command_8cs.html',1,'']]]
 ];

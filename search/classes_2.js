@@ -28,6 +28,7 @@ var searchData=
   ['conflictexception',['ConflictException',['../class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html',1,'Tgstation::Server::Client']]],
   ['constants',['Constants',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_constants.html',1,'Tgstation::Server::Host::Components::Interop']]],
   ['controller',['Controller',['../class_controller.html',1,'']]],
+  ['credentialsprovider',['CredentialsProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_credentials_provider.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['cryptographysuite',['CryptographySuite',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html',1,'Tgstation::Server::Host::Security']]],
   ['customcommand',['CustomCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]
 ];

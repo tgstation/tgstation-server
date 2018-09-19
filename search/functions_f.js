@@ -10,5 +10,5 @@ var searchData=
   ['provider',['Provider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a5e04da11d3a242b4d32ad95c4cf2bb75',1,'Tgstation::Server::Host::Components::Chat::Providers::Provider']]],
   ['providerfactory',['ProviderFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_provider_factory.html#af1870eda7d8f43b719941e15376a912f',1,'Tgstation::Server::Host::Components::Chat::ProviderFactory']]],
   ['pullrequestscommand',['PullRequestsCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#a96ba3e78b38424740cda93576b897bf6',1,'Tgstation::Server::Host::Components::Chat::Commands::PullRequestsCommand']]],
-  ['pushheadtotemporarybranch',['PushHeadToTemporaryBranch',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a90b8f59de0d04b237d2bc96df2a9c3f3',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
+  ['pushheadtotemporarybranch',['PushHeadToTemporaryBranch',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a96553d378f9b7d9cfc4eb169f12bdba7',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
 ];
