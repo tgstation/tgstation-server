@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="ICredentialsProvider"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly ICredentialsProvider credentialsProvider;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> created <see cref="Repository"/>s
 		/// </summary>
 		readonly ILogger<Repository> repositoryLogger;
@@ -54,20 +59,24 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="repositorySettings">The value of <see cref="repositorySettings"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public RepositoryManager(RepositorySettings repositorySettings, IIOManager ioManager, IEventConsumer eventConsumer, ILogger<Repository> repositoryLogger, ILogger<RepositoryManager> logger)
+		public RepositoryManager(RepositorySettings repositorySettings, IIOManager ioManager, IEventConsumer eventConsumer, ICredentialsProvider credentialsProvider, ILogger<Repository> repositoryLogger, ILogger<RepositoryManager> logger)
 		{
 			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
+			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			semaphore = new SemaphoreSlim(1);
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			logger.LogTrace("Disposed");
+			logger.LogTrace("Disposing...");
 			semaphore.Dispose();
 		}
 
@@ -112,31 +121,7 @@ namespace Tgstation.Server.Host.Components.Repository
 										OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 										RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
 										BranchName = initialBranch,
-										CredentialsProvider = (a, b, supportedCredentialTypes) =>
-										{
-											var hasCreds = username != null;
-											var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);
-											var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);
-
-											logger.LogTrace("Credentials requested. Present: {0}. Supports anonymous: {1}. Supports user/pass: {2}", hasCreds, supportsAnonymous, supportsUserPass);
-											if (supportsUserPass)
-											{
-												if (hasCreds)
-													return new UsernamePasswordCredentials
-													{
-														Username = username,
-														Password = password
-													};
-											}
-
-											if (supportsAnonymous)
-												return new DefaultCredentials();
-
-											if (hasCreds)
-												throw new JobException("Remote does not support anonymous authentication!");
-
-											throw new JobException("Server does not support anonymous or username/password authentication!");
-										}
+										CredentialsProvider = credentialsProvider.GenerateHandler(username, password)
 									});
 								}
 								catch (UserCancelledException) { }
@@ -203,7 +188,11 @@ namespace Tgstation.Server.Host.Components.Repository
 				semaphore.Release();
 				return null;
 			}
-			return new Repository(repo, ioManager, eventConsumer, repositoryLogger, () => semaphore.Release());
+			return new Repository(repo, ioManager, eventConsumer, credentialsProvider, repositoryLogger, () =>
+			{
+				logger.LogTrace("Releasing semaphore due to Repository disposal...");
+				semaphore.Release();
+			});
 		}
 
 		/// <inheritdoc />

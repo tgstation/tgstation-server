@@ -434,10 +434,19 @@ namespace Tgstation.Server.Host.Controllers
 
 					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
 
-					var numFetches = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0);
-					var doneFetches = 0;
-					if (numFetches > 0)
-						progressReporter(0);
+					var hardResettingToOriginReference = model.UpdateFromOrigin == true && model.Reference != null;
+
+					var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
+					var doneSteps = 0;
+
+					Action<int> NextProgressReporter()
+					{
+						var tmpDoneSteps = doneSteps;
+						++doneSteps;
+						return progress => progressReporter((progress + 100 * tmpDoneSteps) / numSteps);
+					};
+
+					progressReporter(0);
 
 					//get a base line for where we are
 					Models.RevisionInformation lastRevisionInfo = null;
@@ -465,19 +474,21 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							if (!repo.Tracking)
 								throw new JobException("Not on an updatable reference!");
-							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, x => progressReporter(x / numFetches), ct).ConfigureAwait(false);
-							doneFetches = 1;
+							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
+							doneSteps = 1;
 							if (!modelHasShaOrReference)
 							{
-								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, ct).ConfigureAwait(false);
+								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(false);
 								if (!fastForward.HasValue)
 									throw new JobException("Merge conflict occurred during origin update!");
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
 								{
 									lastRevisionInfo.OriginCommitSha = repo.Head;
-									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, true, ct).ConfigureAwait(false);
+									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								}
+								else
+									NextProgressReporter()(100);
 							}
 						}
 
@@ -493,16 +504,18 @@ namespace Tgstation.Server.Host.Controllers
 								if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 									throw new JobException("Attempted to checkout a SHA or reference that was actually the opposite!");
 
-								await repo.CheckoutObject(committish, ct).ConfigureAwait(false);
+								await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);  //we've either seen origin before or what we're checking out is on origin
 							}
+							else
+								NextProgressReporter()(100);
 
-							if (model.UpdateFromOrigin == true && model.Reference != null)
+							if (hardResettingToOriginReference)
 							{
 								if (!repo.Tracking)
 									throw new JobException("Checked out reference does not track a remote object!");
-								await repo.ResetToOrigin(ct).ConfigureAwait(false);
-								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, true, ct).ConfigureAwait(false);
+								await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
+								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
 								//repo head is on origin so force this
 								//will update the db if necessary
@@ -619,7 +632,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (revInfoWereLookingFor != null)
 							{
 								//goteem
-								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, cancellationToken).ConfigureAwait(false);
+								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken).ConfigureAwait(false);
 								lastRevisionInfo = revInfoWereLookingFor;
 							}
 
@@ -660,12 +673,12 @@ namespace Tgstation.Server.Host.Controllers
 									if (I.PullRequestRevision == null && pr != null)
 										I.PullRequestRevision = pr.Head.Sha;
 
-									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), ct).ConfigureAwait(false);
+									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
 
 									if (!mergeResult.HasValue)  //conflict, we don't care, dd already knows
 										continue;
 
-									++doneFetches;
+									++doneSteps;
 
 									var revInfoUpdateTask = UpdateRevInfo();
 
@@ -695,17 +708,21 @@ namespace Tgstation.Server.Host.Controllers
 
 						if (startSha != repo.Head)
 						{
-							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, false, ct).ConfigureAwait(false);
+							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
 						}
 						await databaseContext.Save(ct).ConfigureAwait(false);
 					}
 					catch
 					{
+						doneSteps = 0;
+						numSteps = 2;
 						//the stuff didn't make it into the db, forget what we've done and abort
-						await repo.CheckoutObject(startReference ?? startSha, default).ConfigureAwait(false);
+						await repo.CheckoutObject(startReference ?? startSha, NextProgressReporter(), default).ConfigureAwait(false);
 						if (startReference != null && repo.Head != startSha)
-							await repo.ResetToSha(startSha, default).ConfigureAwait(false);
+							await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
+						else
+							progressReporter(100);
 						throw;
 					}
 				}

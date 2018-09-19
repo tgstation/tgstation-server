@@ -207,9 +207,19 @@ namespace Tgstation.Server.Host.Components
 							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
 
 							//assume 5 steps with synchronize
-							const int ProgressSections = 5;
+							const int ProgressSections = 7;
 							const int ProgressStep = 100 / ProgressSections;
-							progressReporter(0 * ProgressStep);
+
+
+							const int NumSteps = 3;
+							var doneSteps = 0;
+
+							Action<int> NextProgressReporter()
+							{
+								var tmpDoneSteps = doneSteps;
+								++doneSteps;
+								return progress => progressReporter((progress + 100 * tmpDoneSteps) / NumSteps);
+							};
 
 							using (var repo = await RepositoryManager.LoadRepository(jobCancellationToken).ConfigureAwait(false))
 							{
@@ -219,17 +229,11 @@ namespace Tgstation.Server.Host.Components
 									noRepo = true;
 									return;
 								}
-								progressReporter(1 * ProgressStep);
 
 								var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
-
-								const int SecondStepProgress = 2 * ProgressStep;
-								progressReporter(SecondStepProgress);
-
+								
 								//the main point of auto update is to pull the remote
-								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, x => progressReporter(SecondStepProgress + (x / ProgressSections)), jobCancellationToken).ConfigureAwait(false);
-
-								progressReporter(3 * ProgressStep);
+								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 
 								var startSha = repo.Head;
 
@@ -237,21 +241,20 @@ namespace Tgstation.Server.Host.Components
 								bool shouldSyncTracked;
 								if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
 								{
-									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, jobCancellationToken).ConfigureAwait(false);
+									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 									if (!result.HasValue)
 										return;
 									shouldSyncTracked = result.Value;
 								}
 								else
 								{
-									await repo.ResetToOrigin(jobCancellationToken).ConfigureAwait(false);
+									await repo.ResetToOrigin(NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 									shouldSyncTracked = true;
 								}
-								progressReporter(4 * ProgressStep);
 
 								//synch if necessary
 								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
+									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
 
 								progressReporter(5 * ProgressStep);
 							}

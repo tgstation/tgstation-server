@@ -57,9 +57,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Checks out a given <paramref name="committish"/>
 		/// </summary>
 		/// <param name="committish">The sha or reference to checkout</param>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CheckoutObject(string committish, CancellationToken cancellationToken);
+		Task CheckoutObject(string committish, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to merge a GitHub pull request into HEAD
@@ -70,7 +71,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="username">The username to fetch from the origin repository</param>
 		/// <param name="password">The password to fetch from the origin repository</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <param name="progressReporter">Optional function to report 0-100 progress of the clone</param>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a merge, <see langword="null"/> on a conflict</returns>
 		Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken);
 
@@ -79,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="username">The username to fetch from the origin repository</param>
 		/// <param name="password">The password to fetch from the origin repository</param>
-		/// <param name="progressReporter">Optional function to report 0-100 progress of the clone</param>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task FetchOrigin(string username, string password, Action<int> progressReporter, CancellationToken cancellationToken);
@@ -87,26 +88,29 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository
 		/// </summary>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD</returns>
-		Task ResetToOrigin(CancellationToken cancellationToken);
+		Task ResetToOrigin(Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Requires the current HEAD to be a reference. Hard resets the reference to the given sha
 		/// </summary>
 		/// <param name="sha">The sha hash to reset to</param>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD</returns>
-		Task ResetToSha(string sha, CancellationToken cancellationToken);
+		Task ResetToSha(string sha, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository
 		/// </summary>
 		/// <param name="committerName">The name of the merge committer</param>
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward, <see langword="false"/> on a merge or up to date, <see langword="null"/> on a conflict</returns>
-		Task<bool?> MergeOrigin(string committerName, string committerEmail, CancellationToken cancellationToken);
+		Task<bool?> MergeOrigin(string committerName, string committerEmail, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Runs the synchronize event script and attempts to push any changes made to the <see cref="IRepository"/> if on a tracked branch
@@ -116,9 +120,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerName">The name of the potential committer</param>
 		/// <param name="committerEmail">The e-mail of the potential committer</param>
 		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch</param>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Sychronize(string username, string password, string committerName, string committerEmail, bool synchronizeTrackedBranch, CancellationToken cancellationToken);
+		Task Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Copies the current working directory to a given <paramref name="path"/>
