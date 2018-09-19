@@ -550,6 +550,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					repository.Network.Push(repository.Head, GeneratePushOptions(progressReporter, username, password, cancellationToken));
 				}
+				catch (NonFastForwardException)
+				{
+					logger.LogInformation("Synchronize aborted, non-fast forward!");
+				}
 				catch (UserCancelledException)
 				{
 					cancellationToken.ThrowIfCancellationRequested();
