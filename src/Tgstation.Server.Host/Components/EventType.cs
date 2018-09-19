@@ -22,7 +22,7 @@
 		/// </summary>
 		RepoMergePullRequest = 3,
 		/// <summary>
-		/// Parameters: Absolute path to repository root, committer name, committer email
+		/// Parameters: Absolute path to repository root
 		/// </summary>
 		RepoPreSynchronize = 4,
 
