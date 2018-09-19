@@ -428,6 +428,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					var startReference = repo.Reference;
 					var startSha = repo.Head;
+					string postUpdateSha = null;
 
 					if (newTestMerges && !repo.IsGitHubRepository)
 						throw new JobException("Cannot test merge on a non GitHub based repository!");
@@ -486,6 +487,7 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									lastRevisionInfo.OriginCommitSha = repo.Head;
 									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
+									postUpdateSha = repo.Head;
 								}
 								else
 									NextProgressReporter()(100);
@@ -706,7 +708,8 @@ namespace Tgstation.Server.Host.Controllers
 							}
 						}
 
-						if (startSha != repo.Head)
+						var currentHead = repo.Head;
+						if (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead))
 						{
 							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
