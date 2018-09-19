@@ -51,11 +51,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var instance = instanceManager.GetInstance(Instance);
 			var dreamMakerSettings = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			return Json(new DreamMaker
-			{
-				ProjectName = dreamMakerSettings.ProjectName,
-				ApiValidationPort = dreamMakerSettings.ApiValidationPort
-			});
+			return Json(dreamMakerSettings.ToApi());
 		}
 
 		/// <inheritdoc />
