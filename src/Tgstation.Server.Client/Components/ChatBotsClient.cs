@@ -41,5 +41,8 @@ namespace Tgstation.Server.Client.Components
 
 		/// <inheritdoc />
 		public Task<ChatBot> Update(ChatBot settings, CancellationToken cancellationToken) => apiClient.Update<ChatBot, ChatBot>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<ChatBot> GetId(ChatBot settings, CancellationToken cancellationToken) => apiClient.Read<ChatBot>(Routes.SetID(Routes.Chat, (settings ?? throw new ArgumentNullException(nameof(settings))).Id), instance.Id, cancellationToken);
 	}
 }
