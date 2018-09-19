@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.Controllers
 			string description = null;
 			if (model.UpdateFromOrigin == true)
 				if (model.Reference != null)
-					description = String.Format(CultureInfo.InvariantCulture, "Fetch and hard reset repsitory to origin/{0}", model.Reference);
+					description = String.Format(CultureInfo.InvariantCulture, "Fetch and hard reset repository to origin/{0}", model.Reference);
 				else if (model.CheckoutSha != null)
 					description = String.Format(CultureInfo.InvariantCulture, "Fetch and checkout {0} in repository", model.CheckoutSha);
 				else
