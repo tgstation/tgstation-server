@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
@@ -183,6 +184,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
 
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 
