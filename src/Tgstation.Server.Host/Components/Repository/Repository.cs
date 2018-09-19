@@ -524,13 +524,23 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 			finally
 			{
-				logger.LogTrace("Cleaning untracked files...");
-				await Task.Factory.StartNew(repository.RemoveUntrackedFiles, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				logger.LogTrace("Resetting and cleaning untracked files...");
+				await Task.Factory.StartNew(() =>
+				{
+					repository.RemoveUntrackedFiles();
+					cancellationToken.ThrowIfCancellationRequested();
+					repository.Reset(ResetMode.Hard, repository.Head.Tip, new CheckoutOptions
+					{
+						OnCheckoutProgress = CheckoutProgressHandler(progress => progressReporter(progress / 10))
+					});
+				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			}
+
+			void FinalReporter(int progress) => progressReporter((int)(((float)progress) / 100 * 90));
 
 			if (!synchronizeTrackedBranch)
 			{
-				await PushHeadToTemporaryBranch(username, password, progressReporter, cancellationToken).ConfigureAwait(false);
+				await PushHeadToTemporaryBranch(username, password, FinalReporter, cancellationToken).ConfigureAwait(false);
 				return;
 			}
 
@@ -548,7 +558,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				var remote = repository.Network.Remotes.First();
 				try
 				{
-					repository.Network.Push(repository.Head, GeneratePushOptions(progressReporter, username, password, cancellationToken));
+					repository.Network.Push(repository.Head, GeneratePushOptions(FinalReporter, username, password, cancellationToken));
 				}
 				catch (NonFastForwardException)
 				{
