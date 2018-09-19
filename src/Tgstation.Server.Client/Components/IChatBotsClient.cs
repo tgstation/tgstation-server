@@ -11,7 +11,7 @@ namespace Tgstation.Server.Client.Components
 	public interface IChatBotsClient
 	{
 		/// <summary>
-		/// List the <see cref="ChatBot"/>
+		/// List the <see cref="ChatBot"/>s
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of the <see cref="ChatBot"/> of the server</returns>
@@ -26,12 +26,20 @@ namespace Tgstation.Server.Client.Components
 		Task<ChatBot> Create(ChatBot settings, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Updates a <see cref="ChatBot"/> setttings
+		/// Updates a <see cref="ChatBot"/>'s setttings
 		/// </summary>
 		/// <param name="settings">The <see cref="ChatBot"/> to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ChatBot"/></returns>
 		Task<ChatBot> Update(ChatBot settings, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get a <see cref="ChatBot"/>'s setttings
+		/// </summary>
+		/// <param name="settings">The <see cref="ChatBot"/> to get</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ChatBot"/></returns>
+		Task<ChatBot> GetId(ChatBot settings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Delete a <see cref="ChatBot"/>
