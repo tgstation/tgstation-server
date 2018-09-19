@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (revision)
 			{
-				result.ActiveCompileJob = dd.ActiveCompileJob?.ToApi();
+				result.ActiveCompileJob = (dd.ActiveCompileJob ?? instance.LatestCompileJob())?.ToApi();
 				var compileJob = instance.LatestCompileJob();
 				result.StagedCompileJob = compileJob?.ToApi();
 			}
