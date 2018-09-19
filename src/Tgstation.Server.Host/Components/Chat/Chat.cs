@@ -269,15 +269,15 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				var commandHandler = await GetCommand(command).ConfigureAwait(false);
 
-				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
-				{
-					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
-					return;
-				}
-
 				if (commandHandler == default)
 				{
 					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					return;
+				}
+
+				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
+				{
+					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 					return;
 				}
 
