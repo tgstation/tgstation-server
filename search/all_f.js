@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['octokitexception',['OctokitException',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aae91f209dda2b1d6a356a3cc3700750e',1,'Tgstation::Server::Host::Controllers::AdministrationController']]],
   ['offline',['Offline',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a358f54d77ecd35adb4be872af559eb23a8d9da4bc0e49a50e09ac9f7e56789d39',1,'Tgstation::Server::Api::Models']]],
   ['offlineinstance',['OfflineInstance',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ad749e8ae302cb4f361be8e6641d8504f',1,'Tgstation.Server.Host.Components.IInstanceManager.OfflineInstance()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a77615fe1970391e6ebe643dc3033156f',1,'Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()']]],
   ['onactionexecutionasync',['OnActionExecutionAsync',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242',1,'Tgstation::Server::Host::Controllers::ApiController']]],
