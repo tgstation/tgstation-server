@@ -397,8 +397,15 @@ namespace Tgstation.Server.Host.Components.Repository
 				repository.Config.Set("user.email", committerEmail);
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
-			if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
-				return;
+			try
+			{
+				if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
+					return;
+			}
+			finally
+			{
+				await Task.Factory.StartNew(repository.RemoveUntrackedFiles, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}
 
 			if (!synchronizeTrackedBranch)
 			{
