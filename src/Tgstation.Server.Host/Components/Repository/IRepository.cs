@@ -113,10 +113,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="username">The username to fetch from the origin repository</param>
 		/// <param name="password">The password to fetch from the origin repository</param>
+		/// <param name="committerName">The name of the potential committer</param>
+		/// <param name="committerEmail">The e-mail of the potential committer</param>
 		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Sychronize(string username, string password, bool synchronizeTrackedBranch, CancellationToken cancellationToken);
+		Task Sychronize(string username, string password, string committerName, string committerEmail, bool synchronizeTrackedBranch, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Copies the current working directory to a given <paramref name="path"/>

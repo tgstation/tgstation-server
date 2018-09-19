@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task Sychronize(string username, string password, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
+		public async Task Sychronize(string username, string password, string committerName, string committerEmail, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
 		{
 			if (username == null && password == null)
 				return;
@@ -384,8 +384,18 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(username));
 			if (password == null)
 				throw new ArgumentNullException(nameof(password));
+			if (committerName == null)
+				throw new ArgumentNullException(nameof(committerName));
+			if (committerEmail == null)
+				throw new ArgumentNullException(nameof(committerEmail));
 
 			var startHead = Head;
+
+			await Task.Factory.StartNew(() =>
+			{
+				repository.Config.Set("user.name", committerName);
+				repository.Config.Set("user.email", committerEmail);
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 
 			if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
 				return;
