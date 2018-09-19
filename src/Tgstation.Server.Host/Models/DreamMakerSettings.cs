@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <summary>
-		/// Convert the <see cref="DreamMaker"/> to it's API form
+		/// Convert the <see cref="DreamDaemonSettings"/> to it's API form
 		/// </summary>
 		/// <returns>A new <see cref="Api.Models.DreamMaker"/></returns>
 		public Api.Models.DreamMaker ToApi() => new Api.Models.DreamMaker
