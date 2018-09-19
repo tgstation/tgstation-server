@@ -65,11 +65,21 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => semaphore.Dispose();
+		public void Dispose()
+		{
+			logger.LogTrace("Disposed");
+			semaphore.Dispose();
+		}
 
 		/// <inheritdoc />
 		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
+			if (url == null)
+				throw new ArgumentNullException(nameof(url));
+			if (progressReporter == null)
+				throw new ArgumentNullException(nameof(progressReporter));
+
+			logger.LogInformation("Begin clone {0} (Branch: {1})", url, initialBranch);
 			lock (this)
 			{
 				if (CloneInProgress)
@@ -79,6 +89,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			try
 			{
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				{
+					logger.LogTrace("Semaphore acquired");
 					if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
 						try
 						{
@@ -100,11 +112,31 @@ namespace Tgstation.Server.Host.Components.Repository
 										OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 										RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
 										BranchName = initialBranch,
-										CredentialsProvider = (a, b, c) => username != null ? (Credentials)new UsernamePasswordCredentials
+										CredentialsProvider = (a, b, supportedCredentialTypes) =>
 										{
-											Username = username,
-											Password = password
-										} : new DefaultCredentials()
+											var hasCreds = username != null;
+											var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);
+											var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);
+
+											logger.LogTrace("Credentials requested. Present: {0}. Supports anonymous: {1}. Supports user/pass: {2}", hasCreds, supportsAnonymous, supportsUserPass);
+											if (supportsUserPass)
+											{
+												if (hasCreds)
+													return new UsernamePasswordCredentials
+													{
+														Username = username,
+														Password = password
+													};
+											}
+
+											if (supportsAnonymous)
+												return new DefaultCredentials();
+
+											if (hasCreds)
+												throw new JobException("Remote does not support anonymous authentication!");
+
+											throw new JobException("Server does not support anonymous or username/password authentication!");
+										}
 									});
 								}
 								catch (UserCancelledException) { }
@@ -115,13 +147,22 @@ namespace Tgstation.Server.Host.Components.Repository
 						{
 							try
 							{
+								logger.LogTrace("Deleting partially cloned repository...");
 								await ioManager.DeleteDirectory(".", default).ConfigureAwait(false);
 							}
-							catch { }
+							catch (Exception e)
+							{
+								logger.LogDebug("Error deleting partially cloned repository! Exception: {0}", e);
+							}
 							throw;
 						}
 					else
+					{
+						logger.LogDebug("Repository exists, clone aborted!");
 						return null;
+					}
+				}
+				logger.LogInformation("Clone complete!");
 			}
 			finally
 			{
@@ -133,6 +174,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task<IRepository> LoadRepository(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin LoadRepository...");
 			lock (this)
 				if (CloneInProgress)
 					throw new InvalidOperationException("The repository is being cloned!");
@@ -142,28 +184,37 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				try
 				{
+					logger.LogTrace("Creating LibGit2Sharp.Repository...");
 					repo = new LibGit2Sharp.Repository(ioManager.ResolvePath("."));
 				}
-				catch (RepositoryNotFoundException) { }
+				catch (RepositoryNotFoundException e)
+				{
+					logger.LogDebug("Repository not found!");
+					logger.LogTrace("Exception: {0}", e);
+				}
+				catch
+				{
+					semaphore.Release();
+					throw;
+				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			if (repo == null)
 			{
 				semaphore.Release();
 				return null;
 			}
-			var localSemaphore = semaphore;
-			return new Repository(repo, ioManager, eventConsumer, repositoryLogger, () =>
-			{
-				localSemaphore?.Release();
-				localSemaphore = null;
-			});
+			return new Repository(repo, ioManager, eventConsumer, repositoryLogger, () => semaphore.Release());
 		}
 
 		/// <inheritdoc />
 		public async Task DeleteRepository(CancellationToken cancellationToken)
 		{
+			logger.LogInformation("Deleting repository...");
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			{
+				logger.LogTrace("Semaphore acquired, deleting Repository directory...");
 				await ioManager.DeleteDirectory(".", cancellationToken).ConfigureAwait(false);
+			}
 		}
 	}
 }
