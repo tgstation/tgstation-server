@@ -533,7 +533,11 @@ namespace Tgstation.Server.Host.Controllers
 							foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
 								I.PullRequestRevision = null;
 
-							var gitHubClient = String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? (currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient()) : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
+							var gitHubClient = currentModel.AccessToken != null 
+							? gitHubClientFactory.CreateClient(currentModel.AccessToken) 
+							: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
+							? gitHubClientFactory.CreateClient() 
+							: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
 
 							var repoOwner = repo.GitHubOwner;
 							var repoName = repo.GitHubRepoName;
@@ -664,6 +668,10 @@ namespace Tgstation.Server.Host.Controllers
 									{
 										//you look at your anonymous access and sigh
 										errorMessage = "P.R.E. RATE LIMITED";
+									}
+									catch (Octokit.AuthorizationException)
+									{
+										errorMessage = "P.R.E. BAD CREDENTIALS";
 									}
 									catch (Octokit.NotFoundException)
 									{
