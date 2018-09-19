@@ -20,5 +20,16 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
+
+		/// <summary>
+		/// Convert the <see cref="DreamMaker"/> to it's API form
+		/// </summary>
+		/// <returns>A new <see cref="Api.Models.DreamMaker"/></returns>
+		public Api.Models.DreamMaker ToApi() => new Api.Models.DreamMaker
+		{
+			ProjectName = ProjectName,
+			ApiValidationPort = ApiValidationPort,
+			ApiValidationSecurityLevel = ApiValidationSecurityLevel
+		};
 	}
 }
