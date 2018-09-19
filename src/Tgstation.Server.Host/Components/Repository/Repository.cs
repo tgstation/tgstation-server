@@ -203,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({4}) by <{2} ({3})>", testMergeParameters.Number, testMergeParameters.PullRequestRevision?.Substring(0, 7), committerName, committerEmail, testMergeParameters.Comment);
 
 			if (!IsGitHubRepository)
-				throw new JobException("Test merging is only available on GitHub hosted origin repositories!");
+				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");
 
 			var commitMessage = String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", testMergeParameters.Number.Value, testMergeParameters.Comment != null ? Environment.NewLine : String.Empty, testMergeParameters.Comment ?? String.Empty);
 
@@ -549,6 +549,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				try
 				{
 					repository.Network.Push(repository.Head, GeneratePushOptions(progressReporter, username, password, cancellationToken));
+				}
+				catch (NonFastForwardException)
+				{
+					logger.LogInformation("Synchronize aborted, non-fast forward!");
 				}
 				catch (UserCancelledException)
 				{

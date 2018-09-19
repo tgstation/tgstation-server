@@ -146,6 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (OperationCanceledException e)
 			{
 				Logger.LogDebug("Request cancelled! Exception: {0}", e);
+				throw;
 			}
 		}
 	}

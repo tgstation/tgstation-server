@@ -30,6 +30,8 @@ namespace Tgstation.Server.Host.Controllers
 	{
 		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
 
+		const string OctokitException = "Bad GitHub API response, check configuration! Exception: {0}";
+
 		/// <summary>
 		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>
 		/// </summary>
@@ -128,6 +130,11 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return RateLimit(e);
 			}
+			catch (ApiException e)
+			{
+				Logger.LogWarning(OctokitException, e);
+				return StatusCode((int)HttpStatusCode.FailedDependency);
+			}
 		}
 
 		/// <inheritdoc />
@@ -153,6 +160,11 @@ namespace Tgstation.Server.Host.Controllers
 			catch (RateLimitExceededException e)
 			{
 				return RateLimit(e);
+			}
+			catch (ApiException e)
+			{
+				Logger.LogWarning(OctokitException, e);
+				return StatusCode((int)HttpStatusCode.FailedDependency);
 			}
 
 			Logger.LogTrace("Release query complete!");
