@@ -176,21 +176,48 @@ Once complete, test that your configuration worked by visiting your proxy site f
 8. You may get a prompt about enabling proxy functionality. Click `OK`
 9. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `http://localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
 
-### Nginx (Reccommended for Linux)
+### Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)
 
-TODO
+1. Setup a basic website configuration. Instructions on how to do so are out of scope.
+2. In your Caddyfile, under a server entry, add the following (replace 8080 with the port TGS is hosted on):
+```
+proxy /tgs localhost:8080 {
+	transparent
+}
+```
+
+See https://caddyserver.com/docs/proxy
+
+### NGINX (Reccommended for Linux)
+
+1. Setup a basic website configuration. Instructions on how to do so are out of scope.
+2. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure NGINX to use it.
+3. Setup a path under a server like the following (replace 8080 with the port TGS is hosted on):
+```
+location /tgs {
+	proxy_pass http://127.0.0.1:8080;
+	break;
+}
+```
 
 See https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
 
 ### Apache
 
-TODO
+1. Ensure the `mod_proxy` extension is installed. 
+2. Setup a basic website configuration. Instructions on how to do so are out of scope.
+3. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure Apache to use it.
+4. Under a VirtualHost entry, setup the following (replace 8080 with the port TGS is hosted on):
+```
+ProxyPass / http://127.0.0.1:8080
+ProxyPassReverse / http://127.0.0.1:8080
+```
 
 See https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html
 
 ## Usage
 
-tgstation-sever v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server.
+tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server.
 
 ### Users
 
