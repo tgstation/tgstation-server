@@ -369,7 +369,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				var remote = repository.Network.Remotes.First();
 				try
 				{
-					repository.Network.Push(remote, String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName), GeneratePushOptions(progressReporter, username, password, cancellationToken));
+					var forcePushString = String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName);
+					repository.Network.Push(remote,forcePushString, GeneratePushOptions(progress => progressReporter((int)(0.9f * progress)), username, password, cancellationToken));
+					var removalString = String.Format(CultureInfo.InvariantCulture, ":{0}", branch.CanonicalName);
+					repository.Network.Push(remote, removalString, GeneratePushOptions(progress => progressReporter(90 + (int)(0.1f * progress)), username, password, cancellationToken));
 				}
 				catch (UserCancelledException)
 				{
