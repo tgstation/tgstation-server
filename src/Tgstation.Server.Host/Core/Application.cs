@@ -54,6 +54,12 @@ namespace Tgstation.Server.Host.Core
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
 		readonly TaskCompletionSource<object> startupTcs;
+		static LogLevel GetMinimumLogLevel(string stringLevel)
+		{
+			if (String.IsNullOrWhiteSpace(stringLevel) || !Enum.TryParse<LogLevel>(stringLevel, out var minimumLevel))
+				minimumLevel = LogLevel.Information;
+			return minimumLevel;
+		}
 
 		/// <summary>
 		/// Construct an <see cref="Application"/>
@@ -94,7 +100,8 @@ namespace Tgstation.Server.Host.Core
 			if (generalConfiguration?.DisableFileLogging != true)
 			{
 				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
-				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log")));
+
+				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log"), GetMinimumLogLevel(generalConfiguration?.LogFileLevel)));
 			}
 
 			services.AddOptions();

@@ -16,6 +16,11 @@
 		public string LogFileDirectory { get; set; }
 
 		/// <summary>
+		/// The stringified <see cref="Microsoft.Extensions.Logging.LogLevel"/> for file logging
+		/// </summary>
+		public string LogFileLevel { get; set; }
+
+		/// <summary>
 		/// If file logging is disabled
 		/// </summary>
 		public bool DisableFileLogging { get; set; }
