@@ -441,11 +441,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
-					monitorState.InactiveServerHasStagedDmb = true;
-					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);   //next case does same thing
-					break;
+					monitorState.InactiveServerHasStagedDmb = true; 
+					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
-					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
+					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 			}
 		}
