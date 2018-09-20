@@ -107,6 +107,52 @@ A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integ
 
 The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the `TGS_EXTERNAL_CONFIGURATION` is recommended in order to make the process as easy as replacing `tgs.dm` and the `tgs` folder with a new version
 
+### Example
+
+Here is a bare minimum example project that implements the essential code changes for integrating the DMAPI
+
+Before `tgs.dm`:
+```
+//Remember, every codebase is different, you probably have better methods for these defines than the ones given here
+#define TGS_EXTERNAL_CONFIGURATION
+#define TGS_DEFINE_AND_SET_GLOBAL(Name, Value) var/global/##Name = ##Value
+#define TGS_READ_GLOBAL(Name) global.##Name
+#define TGS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value
+#define TGS_WORLD_ANNOUNCE(message) world << ##message
+#define TGS_INFO_LOG(message) world.log << "TGS Info: [##message]"
+#define TGS_ERROR_LOG(message) world.log << "TGS Error: [##message]"
+#define TGS_NOTIFY_ADMINS(event) world.log << "TGS Admin Message: [##event]"
+#define TGS_CLIENT_COUNT global.client_cout
+#define TGS_PROTECT_DATUM(Path) // Leave blank if your codebase doesn't give administrators code reflection capabilities
+```
+
+Anywhere else:
+```dm
+var/global/client_count = 0
+
+/world/New()
+	..()
+	TgsNew()
+	TgsInitializationsComplete()
+
+/world/Reboot()
+	TgsReboot()
+	..()
+
+/world/Topic()
+	TGS_TOPIC
+	..()
+
+/client/New()
+	..()
+	++global.client_count
+
+/client/Del()
+	..()
+	--global.client_count
+
+```
+
 ## Remote Access
 
 tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration JSON. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
