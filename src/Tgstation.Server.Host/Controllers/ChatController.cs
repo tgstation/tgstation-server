@@ -210,6 +210,8 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			};
 
+			var oldProvider = current.Provider;
+
 			if (CheckModified(x => x.ConnectionString, ChatBotRights.WriteConnectionString)
 				|| CheckModified(x => x.Enabled, ChatBotRights.WriteEnabled)
 				|| CheckModified(x => x.Name, ChatBotRights.WriteName)
@@ -217,12 +219,18 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.Channels != null && !userRights.HasFlag(ChatBotRights.WriteChannels)))
 				return Forbid();
 
-			if (model.Channels != null)
+			var hasChannels = model.Channels != null;
+			if (hasChannels || (model.Provider.HasValue && model.Provider != oldProvider))
 			{
 				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
-				var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
-				DatabaseContext.ChatChannels.AddRange(dbChannels);
-				current.Channels = dbChannels;
+				if (hasChannels)
+				{
+					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
+					DatabaseContext.ChatChannels.AddRange(dbChannels);
+					current.Channels = dbChannels;
+				}
+				else
+					current.Channels.Clear();
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
