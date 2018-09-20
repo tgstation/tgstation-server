@@ -25,7 +25,6 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -47,7 +46,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
 		/// </summary>
-		readonly Microsoft.Extensions.Configuration.IConfiguration configuration;
+		readonly IConfiguration configuration;
 
 		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
@@ -61,7 +60,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public Application(Microsoft.Extensions.Configuration.IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+		public Application(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
@@ -76,9 +75,7 @@ namespace Tgstation.Server.Host.Core
 		/// Configure dependency injected services
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-#pragma warning disable CA1822 // Mark members as static
 		public void ConfigureServices(IServiceCollection services)
-#pragma warning restore CA1822 // Mark members as static
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
@@ -266,12 +263,15 @@ namespace Tgstation.Server.Host.Core
 		///<inheritdoc />
 		public void Ready(Exception initializationError)
 		{
-			if (startupTcs.Task.IsCompleted)
-				throw new InvalidOperationException("Ready has already been called!");
-			if (initializationError == null)
-				startupTcs.SetResult(null);
-			else
-				startupTcs.SetException(initializationError);
+			lock (startupTcs)
+			{
+				if (startupTcs.Task.IsCompleted)
+					throw new InvalidOperationException("Ready has already been called!");
+				if (initializationError == null)
+					startupTcs.SetResult(null);
+				else
+					startupTcs.SetException(initializationError);
+			}
 		}
 	}
 }
