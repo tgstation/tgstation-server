@@ -165,14 +165,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>You may get a prompt about enabling proxy functionality. Click <code>OK</code></li>
 <li>In the window that appears set the <code>Inbound Rules</code> textbox to the URL of your tgstation-server i.e. <code><a href="http://localhost:5000">http://localhost:5000</a></code>. Ensure <code>Enable SSL Offloading</code> is checked, then click <code>OK</code></li>
 </ol>
-<h3>Nginx (Reccommended for Linux)</h3>
-<p>TODO</p>
+<h3>Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)</h3>
+<ol type="1">
+<li>Setup a basic website configuration. Instructions on how to do so are out of scope.</li>
+<li>In your Caddyfile, under a server entry, add the following (replace 8080 with the port TGS is hosted on): <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;proxy /tgs localhost:8080 {</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    transparent</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;}</div></div><!-- fragment --></li>
+</ol>
+<p>See <a href="https://caddyserver.com/docs/proxy">https://caddyserver.com/docs/proxy</a></p>
+<h3>NGINX (Reccommended for Linux)</h3>
+<ol type="1">
+<li>Setup a basic website configuration. Instructions on how to do so are out of scope.</li>
+<li>Acquire an HTTPS certificate, likely via Let's Encrypt, and configure NGINX to use it.</li>
+<li>Setup a path under a server like the following (replace 8080 with the port TGS is hosted on): <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;location /tgs {</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    proxy_pass http://127.0.0.1:8080;</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    break;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;}</div></div><!-- fragment --></li>
+</ol>
 <p>See <a href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/">https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/</a></p>
 <h3>Apache</h3>
-<p>TODO</p>
+<ol type="1">
+<li>Ensure the <code>mod_proxy</code> extension is installed.</li>
+<li>Setup a basic website configuration. Instructions on how to do so are out of scope.</li>
+<li>Acquire an HTTPS certificate, likely via Let's Encrypt, and configure Apache to use it.</li>
+<li>Under a VirtualHost entry, setup the following (replace 8080 with the port TGS is hosted on): <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ProxyPass / http://127.0.0.1:8080</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;ProxyPassReverse / http://127.0.0.1:8080</div></div><!-- fragment --></li>
+</ol>
 <p>See <a href="https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html">https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html</a></p>
 <h2>Usage</h2>
-<p>tgstation-sever v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server.</p>
+<p>tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server.</p>
 <h3>Users</h3>
 <p>All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found <a href="https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Api/Models/User.cs">here</a>. If access to all users is lost, the default user can be reset using the <code>Database:ResetAdminPassword</code> configuration setting. Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be <em>database based</em> or <em>system based</em>. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.</p>
 <h3>Instances</h3>
