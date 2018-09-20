@@ -617,6 +617,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
+				if (launchParameters.Match(ActiveLaunchParameters))
+					return;
 				ActiveLaunchParameters = launchParameters;
 				if (Running)
 					//queue an update
@@ -780,6 +782,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!graceful || !Running)

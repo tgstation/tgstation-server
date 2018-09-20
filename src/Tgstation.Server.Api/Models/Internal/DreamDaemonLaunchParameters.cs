@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -36,5 +37,17 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public uint? StartupTimeout { get; set; }
+
+		/// <summary>
+		/// Check if we match a given set of <paramref name="otherParameters"/>
+		/// </summary>
+		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against</param>
+		/// <returns><see langword="true"/> if they match, <see langword="false"/> otherwise</returns>
+		public bool Match(DreamDaemonLaunchParameters otherParameters) =>
+			AllowWebClient == otherParameters.AllowWebClient
+				&& SecurityLevel == otherParameters.SecurityLevel
+				&& PrimaryPort == otherParameters.PrimaryPort
+				&& SecondaryPort == otherParameters.SecondaryPort
+				&& StartupTimeout == otherParameters.StartupTimeout;
 	}
 }
