@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -113,6 +114,12 @@ Inheritance diagram for Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchPa
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:acf0f8c66b9e3cfa5af8240d0efac2e36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#acf0f8c66b9e3cfa5af8240d0efac2e36">Match</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">DreamDaemonLaunchParameters</a> otherParameters)</td></tr>
+<tr class="memdesc:acf0f8c66b9e3cfa5af8240d0efac2e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if we match a given set of <em>otherParameters</em>   <a href="#acf0f8c66b9e3cfa5af8240d0efac2e36">More...</a><br /></td></tr>
+<tr class="separator:acf0f8c66b9e3cfa5af8240d0efac2e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a4f0501a51f5c7b8d0e7e619fd7b549a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a4f0501a51f5c7b8d0e7e619fd7b549a1">AllowWebClient</a><code> [get, set]</code></td></tr>
@@ -134,8 +141,36 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Launch settings for <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...">DreamDaemon</a> </p>
 
-<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00008">8</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-</div><h2 class="groupheader">Property Documentation</h2>
+<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00009">9</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="acf0f8c66b9e3cfa5af8240d0efac2e36"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Match </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">DreamDaemonLaunchParameters</a>&#160;</td>
+          <td class="paramname"><em>otherParameters</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if we match a given set of <em>otherParameters</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">otherParameters</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon ">DreamDaemonLaunchParameters</a> to compare against</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if they match,  otherwise</dd></dl>
+
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00615">Tgstation.Server.Host.Components.Watchdog.Watchdog.ChangeSettings()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
 <a class="anchor" id="a4f0501a51f5c7b8d0e7e619fd7b549a1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -156,7 +191,7 @@ Properties</h2></td></tr>
 
 <p>If the BYOND web client can be used to connect to the game server </p>
 
-<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00014">14</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00015">15</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00116">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.LaunchNew()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00090">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>.</p>
 
@@ -182,7 +217,7 @@ Properties</h2></td></tr>
 
 <p>The first port <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...">DreamDaemon</a> uses. This should be the publically advertised port </p>
 
-<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00026">26</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00027">27</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00116">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.LaunchNew()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00090">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>.</p>
 
@@ -208,7 +243,7 @@ Properties</h2></td></tr>
 
 <p>The second port <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...">DreamDaemon</a> uses </p>
 
-<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00032">32</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00033">33</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00116">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.LaunchNew()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00090">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>.</p>
 
@@ -234,7 +269,7 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5" title="DreamDaemon&#39;s security level ">DreamDaemonSecurity</a> level of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...">DreamDaemon</a> </p>
 
-<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00020">20</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00021">21</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00116">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.LaunchNew()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00090">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>.</p>
 
@@ -260,7 +295,7 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...">DreamDaemon</a> startup timeout in seconds </p>
 
-<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00038">38</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00039">39</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_instance_8cs_source.html#l00119">Tgstation.Server.Host.Components.Instance.CompileProcess()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00116">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.LaunchNew()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00090">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>.</p>
 
