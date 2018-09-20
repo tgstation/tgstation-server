@@ -20,7 +20,7 @@ WORKDIR /src/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
-EXPOSE 5000
+EXPOSE 80
 
 #needed for byond
 RUN apt-get update \
@@ -32,9 +32,8 @@ WORKDIR /app
 
 COPY --from=build /app .
 COPY --from=build /src/build/tgs.docker.sh tgs.sh
-COPY --from=build /src/src/Tgstation.Server.Host/appsettings.Docker.json .
 
-RUN mkdir /config_data && mv appsettings.Docker.json /config_data/appsettings.Production.json
+RUN mkdir /config_data
 VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
 
 ENTRYPOINT ["./tgs.sh"]

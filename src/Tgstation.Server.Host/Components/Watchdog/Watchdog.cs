@@ -441,11 +441,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
-					monitorState.InactiveServerHasStagedDmb = true;
-					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);   //next case does same thing
-					break;
+					monitorState.InactiveServerHasStagedDmb = true; 
+					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
-					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
+					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 			}
 		}
@@ -617,6 +616,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
+				if (launchParameters.Match(ActiveLaunchParameters))
+					return;
 				ActiveLaunchParameters = launchParameters;
 				if (Running)
 					//queue an update
@@ -780,6 +781,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!graceful || !Running)

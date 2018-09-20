@@ -65,9 +65,9 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
-- `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
+- `General:LogFileLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 
-- `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web.
+- `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 
 - `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
 
@@ -106,6 +106,52 @@ A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integ
 3. Follow the instructions in `tgs.dm` to integrate the API with your codebase.
 
 The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the `TGS_EXTERNAL_CONFIGURATION` is recommended in order to make the process as easy as replacing `tgs.dm` and the `tgs` folder with a new version
+
+### Example
+
+Here is a bare minimum example project that implements the essential code changes for integrating the DMAPI
+
+Before `tgs.dm`:
+```
+//Remember, every codebase is different, you probably have better methods for these defines than the ones given here
+#define TGS_EXTERNAL_CONFIGURATION
+#define TGS_DEFINE_AND_SET_GLOBAL(Name, Value) var/global/##Name = ##Value
+#define TGS_READ_GLOBAL(Name) global.##Name
+#define TGS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value
+#define TGS_WORLD_ANNOUNCE(message) world << ##message
+#define TGS_INFO_LOG(message) world.log << "TGS Info: [##message]"
+#define TGS_ERROR_LOG(message) world.log << "TGS Error: [##message]"
+#define TGS_NOTIFY_ADMINS(event) world.log << "TGS Admin Message: [##event]"
+#define TGS_CLIENT_COUNT global.client_cout
+#define TGS_PROTECT_DATUM(Path) // Leave blank if your codebase doesn't give administrators code reflection capabilities
+```
+
+Anywhere else:
+```dm
+var/global/client_count = 0
+
+/world/New()
+	..()
+	TgsNew()
+	TgsInitializationsComplete()
+
+/world/Reboot()
+	TgsReboot()
+	..()
+
+/world/Topic()
+	TGS_TOPIC
+	..()
+
+/client/New()
+	..()
+	++global.client_count
+
+/client/Del()
+	..()
+	--global.client_count
+
+```
 
 ## Remote Access
 
