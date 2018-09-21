@@ -685,8 +685,8 @@ namespace Tgstation.Server.Host.Controllers
 
 									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
 
-									if (!mergeResult.HasValue)  //conflict, we don't care, dd already knows
-										continue;
+									if (!mergeResult.HasValue)
+										throw new JobException(String.Format(CultureInfo.InvariantCulture, "Merge of PR #{0} at {1} conflicted!", I.Number, I.PullRequestRevision.Substring(0, 7)));
 
 									++doneSteps;
 
