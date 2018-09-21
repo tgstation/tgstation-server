@@ -81,11 +81,10 @@ namespace Tgstation.Server.Host.Controllers
 					return BadRequest(new ErrorMessage { Message = "Invalid provider!" });
 			}
 
-			if (!model.Enabled.HasValue)
-				return BadRequest(new ErrorMessage { Message = "enabled cannot be null!" });
-
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
+
+			model.Enabled = model.Enabled ?? false;
 
 			//try to update das db first
 			var dbModel = new Models.ChatBot

@@ -232,26 +232,26 @@ I DELETE "/Job/{JobId}" => OK
 
 @subsection api_chat Chat Bots
 
-Each chat bot is represented by a @ref Tgstation.Server.Api.Models.ChatSettings object
+Each chat bot is represented by a @ref Tgstation.Server.Api.Models.ChatBot object
 
 Chat bots can be created/updated/deleted with the following requests respectively
 
-I PUT "/Chat" @ref Tgstation.Server.Api.Models.ChatSettings => Tgstation.Server.Api.Models.ChatSettings
-I POST "/Chat" @ref Tgstation.Server.Api.Models.ChatSettings => Tgstation.Server.Api.Models.ChatSettings
-I DELETE "/Chat/{ChatSettingsId}" => OK
+I PUT "/Chat" @ref Tgstation.Server.Api.Models.ChatBot => Tgstation.Server.Api.Models.ChatBot
+I POST "/Chat" @ref Tgstation.Server.Api.Models.ChatBot => Tgstation.Server.Api.Models.ChatBot
+I DELETE "/Chat/{ChatBotId}" => OK
 
-The @ref Tgstation.Server.Api.Models.Internal.ChatSettings.ConnectionString must differ based on what kind of chat bot you wish to create
+The @ref Tgstation.Server.Api.Models.Internal.ChatBot.ConnectionString must differ based on what kind of chat bot you wish to create. Each @ref Tgstation.Server.Api.Models.ChatProvider has a @ref Tgstation.Server.Api.Models.Internal.ChatConnectionStringBuilder that dictates how to form it
 
-For IRC chat bots it should be in the following format:
-`"<Server URL or IP address>;<Server Port>;<Bot nickname>;<1 to use SSL, 0 otherwise>[;<`The @ref Tgstation.Server.Api.Models.IrcPasswordType`;<The password>]"`
+For IRC chat bots see @ref Tgstation.Server.Api.Models.IrcConnectionStringBuilder
+For Discord chat bots see @ref Tgstation.Server.Api.Models.DiscordConnectionStringBuilder
 
 For Discord chat bots it should be the <a href="https://discordapp.com/developers/docs/topics/oauth2#bots">bot's Token</a>
 
 A specific bot's settings may be retrieved with:
 
-I GET "/Chat/{ChatSettingsId}" => @ref Tgstation.Server.Api.Models.ChatSettings
+I GET "/Chat/{ChatBotId}" => @ref Tgstation.Server.Api.Models.ChatBot
 
-Also note that if the @ref Tgstation.Server.Api.Models.ChatSettings.Channels is present in a POST request, the list will fully replace any active channels
+Also note that if the @ref Tgstation.Server.Api.Models.ChatBot.Channels is present in a POST request, the list will fully replace any active channels
 
 @subsection api_byond Byond Version Management
 
