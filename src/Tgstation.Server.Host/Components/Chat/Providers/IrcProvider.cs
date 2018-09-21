@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					return true;
 				}))
 				{
-					resultId = ++channelIdCounter;
+					resultId = channelIdCounter++;
 					dicToCheck.Add(resultId.Value, channelName);
 					if (dicToCheck == queryChannelIdMap)
 						channelIdMap.Add(resultId.Value, null);
@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				return (IReadOnlyList<Channel>)channels.Select(x =>
 				{
-					var id = channelIdCounter;
+					ulong? id = null;
 					if (!channelIdMap.Any(y =>
 					{
 						if (y.Value != x.IrcChannel)
@@ -368,15 +368,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return true;
 					}))
 					{
-						channelIdMap.Add(id, x.IrcChannel);
-						++channelIdCounter;
+						id = channelIdCounter++;
+						channelIdMap.Add(id.Value, x.IrcChannel);
 					}
 					return new Channel
 					{
-						RealId = id,
+						RealId = id.Value,
 						IsAdmin = x.IsAdminChannel == true,
 						ConnectionName = address,
-						FriendlyName = channelIdMap[id],
+						FriendlyName = channelIdMap[id.Value],
 						IsPrivate = false,
 						Tag = x.Tag
 					};
