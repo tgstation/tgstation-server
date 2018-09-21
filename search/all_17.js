@@ -9,7 +9,7 @@ var searchData=
   ['watchdog_2ecs',['Watchdog.cs',['../_components_2_watchdog_2_watchdog_8cs.html',1,'']]],
   ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]],
-  ['watchdogfactory',['watchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ab5bda9a81248be0498e668f2b148aa82',1,'Tgstation.Server.Host.Components.InstanceFactory.watchdogFactory()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac4ed52994dc3856183ab532ab81fff01',1,'Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.WatchdogFactory()']]],
+  ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac4ed52994dc3856183ab532ab81fff01',1,'Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.WatchdogFactory()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ab5bda9a81248be0498e668f2b148aa82',1,'Tgstation.Server.Host.Components.InstanceFactory.watchdogFactory()']]],
   ['watchdogfactory_2ecs',['WatchdogFactory.cs',['../_components_2_watchdog_2_watchdog_factory_8cs.html',1,'']]],
   ['watchdogfactory_2ecs',['WatchdogFactory.cs',['../_watchdog_2_watchdog_factory_8cs.html',1,'']]],
   ['watchdoglaunchresult',['WatchdogLaunchResult',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_launch_result.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
