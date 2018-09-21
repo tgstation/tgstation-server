@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Core;
@@ -30,6 +32,11 @@ namespace Tgstation.Server.Host
 		/// The absolute path to install updates to
 		/// </summary>
 		readonly string updatePath;
+		
+		/// <summary>
+		/// The <see cref="IRestartHandler"/>s to run when the <see cref="Server"/> restarts
+		/// </summary>
+		readonly List<IRestartHandler> restartHandlers;
 
 		/// <summary>
 		/// If a server update has been applied
@@ -51,6 +58,7 @@ namespace Tgstation.Server.Host
 			this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
 			this.updatePath = updatePath;
 
+			restartHandlers = new List<IRestartHandler>();
 			semaphore = new SemaphoreSlim(1);
 			updated = false;
 			RestartRequested = false;
@@ -85,8 +93,15 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken)
+		public async Task<bool> ApplyUpdate(Version version, byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken)
 		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+			if (updateZipData == null)
+				throw new ArgumentNullException(nameof(updateZipData));
+			if (ioManager == null)
+				throw new ArgumentNullException(nameof(ioManager));
+
 			if (updatePath == null)
 				return false;
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -98,44 +113,82 @@ namespace Tgstation.Server.Host
 				{
 					await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken).ConfigureAwait(false);
 				}
-				catch
+				catch (Exception e)
 				{
+					updated = false;
 					try
 					{
 						//important to not leave this directory around if possible
 						await ioManager.DeleteDirectory(updatePath, default).ConfigureAwait(false);
 					}
-					catch { }
-					updated = false;
+					catch (Exception e2)
+					{
+						throw new AggregateException(e, e2);
+					}
 					throw;
 				}
-				Restart();
+				await Restart(version).ConfigureAwait(false);
 				return true;
 			}
 		}
 
 		/// <inheritdoc />
-		public void RegisterForRestart(Action action)
+		public IRestartRegistration RegisterForRestart(IRestartHandler handler)
 		{
-			if (action == null)
-				throw new ArgumentNullException(nameof(action));
+			if (handler == null)
+				throw new ArgumentNullException(nameof(handler));
 			if (cancellationTokenSource == null)
 				throw new InvalidOperationException("Tried to register an update action on a non-running Server!");
-			cancellationTokenSource.Token.Register(() =>
-			{
-				if (RestartRequested)
-					action();
-			});
+			lock (this)
+				if (!RestartRequested)
+				{
+					restartHandlers.Add(handler);
+					return new RestartRegistration(() =>
+					{
+						lock (this)
+							if(!RestartRequested)
+								restartHandlers.Remove(handler);
+					});
+				}
+			return new RestartRegistration(() => { });
 		}
 
 		/// <inheritdoc />
-		public bool Restart()
+		public Task<bool> Restart() => Restart(null);
+
+		/// <summary>
+		/// Implements <see cref="Restart()"/>
+		/// </summary>
+		/// <param name="newVersion">The <see cref="Version"/> of any potential updates being applied</param>
+		/// <returns></returns>
+		async Task<bool> Restart(Version newVersion)
 		{
 			if (updatePath == null)
 				return false;
 			if (cancellationTokenSource == null)
 				throw new InvalidOperationException("Tried to restart a non-running Server!");
-			RestartRequested = true;
+			lock (this)
+			{
+				if (RestartRequested)
+					return true;
+				RestartRequested = true;
+			}
+
+			using (var cts = new CancellationTokenSource())
+			{
+				var cancellationToken = cts.Token;
+				var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)));
+				//YA GOT 10 SECONDS
+				var expiryTask = Task.Delay(TimeSpan.FromSeconds(10));
+				await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
+				cts.Cancel();
+				try
+				{
+					await eventsTask.ConfigureAwait(false);
+				}
+				catch (OperationCanceledException) { }
+			}
+
 			cancellationTokenSource.Cancel();
 			return true;
 		}

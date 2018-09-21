@@ -44,11 +44,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="IServerControl"/> for the <see cref="InstanceFactory"/>
-		/// </summary>
-		readonly IServerControl serverUpdater;
-
-		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
@@ -71,7 +66,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The <see cref="IProviderFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly IProviderFactory providerFactory;
+		readonly IChatFactory chatFactory;
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="InstanceFactory"/>
@@ -106,30 +101,28 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
-		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
-		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
+		/// <param name="chatFactory">The value of <see cref="chatFactory"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, IServerControl serverUpdater, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IProviderFactory providerFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider)
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
-			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
+			this.chatFactory = chatFactory ?? throw new ArgumentNullException(nameof(chatFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
@@ -161,9 +154,8 @@ namespace Tgstation.Server.Host.Components
 					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
 
 					var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
-					var chatFactory = new ChatFactory(instanceIoManager, loggerFactory, commandFactory, providerFactory);
 
-					var chat = chatFactory.CreateChat(metadata.ChatSettings);
+					var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
 					try
 					{
 						var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, loggerFactory, metadata.CloneMetadata());

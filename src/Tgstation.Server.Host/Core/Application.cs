@@ -215,6 +215,7 @@ namespace Tgstation.Server.Host.Core
 				SendTimeout = 5000
 			});
 
+			services.AddSingleton<IChatFactory, ChatFactory>();
 			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 

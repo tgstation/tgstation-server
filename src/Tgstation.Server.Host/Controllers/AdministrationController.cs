@@ -180,7 +180,7 @@ namespace Tgstation.Server.Host.Controllers
 					try
 					{
 						Logger.LogDebug("Extracting server update...");
-						if (!await serverUpdater.ApplyUpdate(assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
+						if (!await serverUpdater.ApplyUpdate(version, assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
 							return UnprocessableEntity(new ErrorMessage
 							{
 								Message = RestartNotSupportedException
@@ -201,23 +201,23 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
-		public Task<IActionResult> Delete()
+		public async Task<IActionResult> Delete()
 		{
 			try
 			{
-				var result = serverUpdater.Restart();
+				var result = await serverUpdater.Restart().ConfigureAwait(false);
 				if (result)
 					Logger.LogInformation("Restarting host by request...");
 				else
 					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
-				return Task.FromResult(result ? (IActionResult)Ok() : UnprocessableEntity(new ErrorMessage
+				return result ? (IActionResult)Ok() : UnprocessableEntity(new ErrorMessage
 				{
 					Message = RestartNotSupportedException
-				}));
+				});
 			}
 			catch (InvalidOperationException)
 			{
-				return Task.FromResult<IActionResult>(StatusCode((int)HttpStatusCode.ServiceUnavailable));
+				return StatusCode((int)HttpStatusCode.ServiceUnavailable);
 			}
 		}
 	}

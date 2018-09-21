@@ -50,16 +50,6 @@ namespace Tgstation.Server.Host.Components
 		readonly Dictionary<long, IInstance> instances;
 
 		/// <summary>
-		/// <see cref="List{T}"/> of <see cref="Task"/>s to finish in <see cref="StopAsync(CancellationToken)"/>
-		/// </summary>
-		readonly List<Task> shutdownTasks;
-
-		/// <summary>
-		/// Used as a temporary <see cref="CancellationTokenSource"/> for <see cref="shutdownTasks"/>
-		/// </summary>
-		readonly CancellationTokenSource shutdownCancellationTokenSource;
-
-		/// <summary>
 		/// Construct an <see cref="InstanceManager"/>
 		/// </summary>
 		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/></param>
@@ -67,31 +57,17 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="InstanceManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
-
-			shutdownCancellationTokenSource = new CancellationTokenSource();
-			var cancellationToken = shutdownCancellationTokenSource.Token;
-			serverControl.RegisterForRestart(() =>
-			{
-				lock (this)
-					shutdownTasks.AddRange(instances.Select(x => x.Value.Chat.SendBroadcast("TGS: Restart requested...", cancellationToken)));
-			});
-
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			instances = new Dictionary<long, IInstance>();
-			shutdownTasks = new List<Task>();
 		}
 
 		/// <inheritdoc />
@@ -99,7 +75,6 @@ namespace Tgstation.Server.Host.Components
 		{
 			foreach (var I in instances)
 				I.Value.Dispose();
-			shutdownCancellationTokenSource.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -237,11 +212,7 @@ namespace Tgstation.Server.Host.Components
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
 			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
-
-			using (cancellationToken.Register(() => shutdownCancellationTokenSource.Cancel()))
-				await Task.WhenAll(shutdownTasks).ConfigureAwait(false);
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
-
 			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
 		}
 	}
