@@ -20,7 +20,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class Watchdog : IWatchdog, ICustomCommandHandler
+	sealed class Watchdog : IWatchdog, ICustomCommandHandler, IRestartHandler
 	{
 		/// <summary>
 		/// The time in seconds to wait from starting <see cref="alphaServer"/> to start <see cref="bravoServer"/>. Does not take responsiveness into account
@@ -94,6 +94,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="IRestartRegistration"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IRestartRegistration restartRegistration;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -143,17 +148,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		/// <param name="serverUpdater">The <see cref="IServerControl"/> for the <see cref="Watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IServerControl serverUpdater, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, IServerControl serverControl, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -167,10 +172,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
-			if (serverUpdater == null)
-				throw new ArgumentNullException(nameof(serverUpdater));
+			if (serverControl == null)
+				throw new ArgumentNullException(nameof(serverControl));
 
-			serverUpdater.RegisterForRestart(() => releaseServers = true);
+			restartRegistration = serverControl.RegisterForRestart(this);
 
 			chat.RegisterCommandHandler(this);
 
@@ -186,6 +191,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			DisposeAndNullControllers();
 			semaphore.Dispose();
+			restartRegistration.Dispose();
 		}
 
 		/// <summary>
@@ -641,7 +647,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (startMonitor && await StopMonitor().ConfigureAwait(false))
 					chatTask = chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", cancellationToken);
 				else if (announce)
-					chatTask = chat.SendWatchdogMessage("Starting...", cancellationToken);
+					chatTask = chat.SendWatchdogMessage(doReattach ? "Reattaching..." : "Starting...", cancellationToken);
 				else
 					chatTask = Task.CompletedTask;
 				//start both servers
@@ -924,6 +930,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";
 			}
+		}
+
+		/// <inheritdoc />
+		public async Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
+		{
+			releaseServers = true;
+			if (Running)
+				await chat.SendWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

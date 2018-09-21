@@ -76,14 +76,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task SendUpdateMessage(string message, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Send a chat to all channels
-		/// </summary>
-		/// <param name="message">The message being sent</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendBroadcast(string message, CancellationToken cancellationToken);
-
-		/// <summary>
 		/// Start tracking json files for commands and channels
 		/// </summary>
 		/// <param name="basePath">The base path of the .jsons</param>

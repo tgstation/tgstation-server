@@ -13,22 +13,24 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s
 		/// </summary>
+		/// <param name="version">The <see cref="Version"/> the <see cref="IServerControl"/> is updating to</param>
 		/// <param name="updateZipData">The <see cref="byte"/>s of the .zip file that contains the new <see cref="Host"/> assembly</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if live updates are supported, <see langword="false"/> otherwise</returns>
-		Task<bool> ApplyUpdate(byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken);
+		Task<bool> ApplyUpdate(Version version, byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Register a given <paramref name="action"/> to run before stopping the server for a restart
+		/// Register a given <paramref name="handler"/> to run before stopping the server for a restart
 		/// </summary>
-		/// <param name="action">The <see cref="Action"/> to run</param>
-		void RegisterForRestart(Action action);
+		/// <param name="handler">The <see cref="IRestartHandler"/> to register</param>
+		/// <returns>A new <see cref="IRestartRegistration"/> representing the scope of the registration</returns>
+		IRestartRegistration RegisterForRestart(IRestartHandler handler);
 
 		/// <summary>
 		/// Restarts the <see cref="Host"/>
 		/// </summary>
-		/// <returns><see langword="true"/> if live restarts are supported, <see langword="false"/> otherwise</returns>
-		bool Restart();
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if live restarts are supported, <see langword="false"/> otherwise</returns>
+		Task<bool> Restart();
 	}
 }
