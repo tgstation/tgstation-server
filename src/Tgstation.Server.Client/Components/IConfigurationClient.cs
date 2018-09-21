@@ -47,7 +47,7 @@ namespace Tgstation.Server.Client.Components
 		/// </summary>
 		/// <param name="directory">The <see cref="ConfigurationFile"/> representing the directory to create</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ConfigurationFile"/></returns>
+		Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken);
 	}
 }

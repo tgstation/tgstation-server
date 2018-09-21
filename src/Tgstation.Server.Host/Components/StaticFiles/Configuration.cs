@@ -159,6 +159,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
+			if (configurationRelativePath == null)
+				configurationRelativePath = "/";
+
 			List<ConfigurationFile> result = new List<ConfigurationFile>();
 
 			void ListImpl()
