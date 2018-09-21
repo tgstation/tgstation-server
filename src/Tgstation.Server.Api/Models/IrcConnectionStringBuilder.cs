@@ -74,8 +74,8 @@ namespace Tgstation.Server.Api.Models
 			if (splits.Length < 4)
 				return;
 
-			if (Boolean.TryParse(splits[3], out var useSsl))
-				UseSsl = useSsl;
+			if (Int32.TryParse(splits[3], out var intSsl))
+				UseSsl = Convert.ToBoolean(intSsl);
 
 			if (splits.Length < 5)
 				return;
