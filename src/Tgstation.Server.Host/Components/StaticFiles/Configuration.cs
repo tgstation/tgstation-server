@@ -169,7 +169,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					result.AddRange(enumerator.Select(x => new ConfigurationFile
 					{
 						IsDirectory = true,
-						Path = ioManager.ConcatPath(path, x),
+						Path = ioManager.ConcatPath(configurationRelativePath, x),
 					}));
 				}
 				catch (IOException e)
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				result.AddRange(enumerator.Select(x => new ConfigurationFile
 				{
 					IsDirectory = false,
-					Path = ioManager.ConcatPath(path, x),
+					Path = ioManager.ConcatPath(configurationRelativePath, x),
 				}));
 			}
 
