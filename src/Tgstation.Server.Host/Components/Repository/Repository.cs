@@ -287,7 +287,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (result.Status == MergeStatus.Conflicts)
 			{
 				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, testMergeParameters.PullRequestRevision, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
-				return false;
+				return null;
 			}
 
 			if (commitMessage != null && result.Status != MergeStatus.UpToDate)
@@ -299,7 +299,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
-			return true;
+			return result.Status != MergeStatus.NonFastForward;
 		}
 
 		/// <inheritdoc />
