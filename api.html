@@ -260,15 +260,15 @@ Jobs</h2>
 <p>I DELETE "/Job/{JobId}" =&gt; OK</p>
 <h2><a class="anchor" id="api_chat"></a>
 Chat Bots</h2>
-<p>Each chat bot is represented by a Tgstation.Server.Api.Models.ChatSettings object</p>
+<p>Each chat bot is represented by a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a> object</p>
 <p>Chat bots can be created/updated/deleted with the following requests respectively</p>
-<p>I PUT "/Chat" Tgstation.Server.Api.Models.ChatSettings =&gt; Tgstation.Server.Api.Models.ChatSettings I POST "/Chat" Tgstation.Server.Api.Models.ChatSettings =&gt; Tgstation.Server.Api.Models.ChatSettings I DELETE "/Chat/{ChatSettingsId}" =&gt; OK</p>
-<p>The Tgstation.Server.Api.Models.Internal.ChatSettings.ConnectionString must differ based on what kind of chat bot you wish to create</p>
-<p>For IRC chat bots it should be in the following format: <code>"\&lt;Server URL or IP address\&gt;;\&lt;Server Port\&gt;;\&lt;Bot nickname\&gt;;\&lt;1 to use SSL, 0 otherwise\&gt;[;\&lt;&lt;/tt&gt;The @ref Tgstation.Server.Api.Models.IrcPasswordType&lt;tt&gt;;\&lt;The password\&gt;]"</code></p>
+<p>I PUT "/Chat" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a> I POST "/Chat" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a> I DELETE "/Chat/{ChatBotId}" =&gt; OK</p>
+<p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a21674d47d37f627eb1058f47c0018f7b">Tgstation.Server.Api.Models.Internal.ChatBot.ConnectionString</a> must differ based on what kind of chat bot you wish to create. Each <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cc">Tgstation.Server.Api.Models.ChatProvider</a> has a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html">Tgstation.Server.Api.Models.Internal.ChatConnectionStringBuilder</a> that dictates how to form it</p>
+<p>For IRC chat bots see <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html">Tgstation.Server.Api.Models.IrcConnectionStringBuilder</a> For Discord chat bots see <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder</a></p>
 <p>For Discord chat bots it should be the <a href="https://discordapp.com/developers/docs/topics/oauth2#bots">bot's Token</a></p>
 <p>A specific bot's settings may be retrieved with:</p>
-<p>I GET "/Chat/{ChatSettingsId}" =&gt; Tgstation.Server.Api.Models.ChatSettings</p>
-<p>Also note that if the Tgstation.Server.Api.Models.ChatSettings.Channels is present in a POST request, the list will fully replace any active channels</p>
+<p>I GET "/Chat/{ChatBotId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a></p>
+<p>Also note that if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ab7b0c6f09a83ff00c65b668b19d7992e">Tgstation.Server.Api.Models.ChatBot.Channels</a> is present in a POST request, the list will fully replace any active channels</p>
 <h2><a class="anchor" id="api_byond"></a>
 Byond Version Management</h2>
 <p>To get the Byond version used for new compilations use the following request:</p>

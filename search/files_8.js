@@ -72,6 +72,7 @@ var searchData=
   ['iprocessexecutor_2ecs',['IProcessExecutor.cs',['../_i_process_executor_8cs.html',1,'']]],
   ['iprovider_2ecs',['IProvider.cs',['../_i_provider_8cs.html',1,'']]],
   ['iproviderfactory_2ecs',['IProviderFactory.cs',['../_i_provider_factory_8cs.html',1,'']]],
+  ['ircconnectionstringbuilder_2ecs',['IrcConnectionStringBuilder.cs',['../_irc_connection_string_builder_8cs.html',1,'']]],
   ['ircpasswordtype_2ecs',['IrcPasswordType.cs',['../_irc_password_type_8cs.html',1,'']]],
   ['ircprovider_2ecs',['IrcProvider.cs',['../_irc_provider_8cs.html',1,'']]],
   ['ireattachinfohandler_2ecs',['IReattachInfoHandler.cs',['../_i_reattach_info_handler_8cs.html',1,'']]],
@@ -92,8 +93,8 @@ var searchData=
   ['isystemidentityfactory_2ecs',['ISystemIdentityFactory.cs',['../_i_system_identity_factory_8cs.html',1,'']]],
   ['itokenfactory_2ecs',['ITokenFactory.cs',['../_i_token_factory_8cs.html',1,'']]],
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
+  ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
 ];

@@ -1,8 +1,8 @@
 var searchData=
 [
   ['safe',['Safe',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac6eea0560cd6f377e78dff2c85cc9122',1,'Tgstation::Server::Api::Models']]],
-  ['sasl',['Sasl',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#aa6a291d730bfb74d51734d8e84bf20b3a722a094110489086589ef2ca86d2a516',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
-  ['server',['Server',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#aa6a291d730bfb74d51734d8e84bf20b3a9aa1b03934893d7134a660af4204f2a9',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
+  ['sasl',['Sasl',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545ba722a094110489086589ef2ca86d2a516',1,'Tgstation::Server::Api::Models']]],
+  ['server',['Server',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9',1,'Tgstation::Server::Api::Models']]],
   ['setapivalidationport',['SetApiValidationPort',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5da926d34b9044ba920f715e8e2f6a72c62',1,'Tgstation::Server::Api::Rights']]],
   ['setautostart',['SetAutoStart',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ac73c1c7e96a1b68753840b8502528ab0',1,'Tgstation::Server::Api::Rights']]],
   ['setautoupdate',['SetAutoUpdate',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81',1,'Tgstation::Server::Api::Rights']]],
