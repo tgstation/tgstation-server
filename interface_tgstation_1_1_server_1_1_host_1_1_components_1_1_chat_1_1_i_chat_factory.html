@@ -113,25 +113,41 @@ Inheritance diagram for Tgstation.Server.Host.Components.Chat.IChatFactory:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae05ca334adcb6af14e4ab2ac8344edb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html">IChat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_factory.html#ae05ca334adcb6af14e4ab2ac8344edb8">CreateChat</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> &gt; initialChatBots)</td></tr>
-<tr class="memdesc:ae05ca334adcb6af14e4ab2ac8344edb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a>  <a href="#ae05ca334adcb6af14e4ab2ac8344edb8">More...</a><br /></td></tr>
-<tr class="separator:ae05ca334adcb6af14e4ab2ac8344edb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a931511f281ecbb0ec05c825c1643514e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html">IChat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_factory.html#a931511f281ecbb0ec05c825c1643514e">CreateChat</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html">ICommandFactory</a> commandFactory, IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> &gt; initialChatBots)</td></tr>
+<tr class="memdesc:a931511f281ecbb0ec05c825c1643514e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a>  <a href="#a931511f281ecbb0ec05c825c1643514e">More...</a><br /></td></tr>
+<tr class="separator:a931511f281ecbb0ec05c825c1643514e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For creating <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a>s </p>
 
-<p>Definition at line <a class="el" href="_i_chat_factory_8cs_source.html#l00008">8</a> of file <a class="el" href="_i_chat_factory_8cs_source.html">IChatFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_chat_factory_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_chat_factory_8cs_source.html">IChatFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae05ca334adcb6af14e4ab2ac8344edb8"></a>
+<a class="anchor" id="a931511f281ecbb0ec05c825c1643514e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html">IChat</a> Tgstation.Server.Host.Components.Chat.IChatFactory.CreateChat </td>
           <td>(</td>
-          <td class="paramtype">IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> &gt;&#160;</td>
-          <td class="paramname"><em>initialChatBots</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&#160;</td>
+          <td class="paramname"><em>ioManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html">ICommandFactory</a>&#160;</td>
+          <td class="paramname"><em>commandFactory</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> &gt;&#160;</td>
+          <td class="paramname"><em>initialChatBots</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -139,13 +155,15 @@ Public Member Functions</h2></td></tr>
 <p>Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">ioManager</td><td>The IIOManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a></td></tr>
+    <tr><td class="paramname">commandFactory</td><td>The ICommandFactory for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a></td></tr>
     <tr><td class="paramname">initialChatBots</td><td>The initial <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a></td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html" title="For managing connected chat services ">IChat</a></dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_factory.html#a834632b6fcd5cbdd2ea54cdbe8a08ada">Tgstation.Server.Host.Components.Chat.ChatFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_factory.html#af6247bee1404c3167c5df0534e164930">Tgstation.Server.Host.Components.Chat.ChatFactory</a>.</p>
 
 </div>
 </div>

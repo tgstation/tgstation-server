@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>tgstation-server: tests/Tgstation.Server.Host.Console.Tests/obj/Release/netcoreapp2.1 Directory Reference</title>
+<title>tgstation-server: src/Tgstation.Server.Host/Core/IRestartHandler.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li class="current"><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -84,23 +84,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_59425e443f801f1f2fd8bbe4959a3ccf.html">tests</a></li><li class="navelem"><a class="el" href="dir_e9975c2f0de13509bd9fb4e31ae732ab.html">Tgstation.Server.Host.Console.Tests</a></li><li class="navelem"><a class="el" href="dir_b524b00ec2259c3c83b44909fd47f6e3.html">obj</a></li><li class="navelem"><a class="el" href="dir_40138fd4849573e743490d583f6d06d6.html">Release</a></li><li class="navelem"><a class="el" href="dir_b2c89c850c962495793d09ea3a2ee385.html">netcoreapp2.1</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_34761767c1c3cd212f9d2f80ea0828a8.html">Tgstation.Server.Host</a></li><li class="navelem"><a class="el" href="dir_0de875c2ee7edd4009e892c5045f7b3a.html">Core</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">netcoreapp2.1 Directory Reference</div>  </div>
+<div class="title">IRestartHandler.cs</div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:_tgstation_8_server_8_host_8_console_8_tests_8_assembly_info_8cs"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_tgstation_8_server_8_host_8_console_8_tests_8_assembly_info_8cs.html">Tgstation.Server.Host.Console.Tests.AssemblyInfo.cs</a> <a href="_tgstation_8_server_8_host_8_console_8_tests_8_assembly_info_8cs_source.html">[code]</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:_tgstation_8_server_8_host_8_console_8_tests_8_program_8cs"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_tgstation_8_server_8_host_8_console_8_tests_8_program_8cs.html">Tgstation.Server.Host.Console.Tests.Program.cs</a> <a href="_tgstation_8_server_8_host_8_console_8_tests_8_program_8cs_source.html">[code]</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+<a href="_i_restart_handler_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>;</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Threading;</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Threading.Tasks;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_tgstation.html">Tgstation</a>.<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9">Server</a>.Host.Core</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div><div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html">   10</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">interface </span><a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html">IRestartHandler</a></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        Task HandleRestart(Version updateVersion, CancellationToken cancellationToken);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div><div class="ttc" id="namespace_tgstation_1_1_server_1_1_api_1_1_models_html_a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9">Tgstation.Server.Api.Models.IrcPasswordType.Server</a></div><div class="ttdoc">Use server authentication </div></div>
+<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
+<div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html">Tgstation.Server.Host.Core.IRestartHandler</a></div><div class="ttdoc">Handler for server restarts </div><div class="ttdef"><b>Definition:</b> <a href="_i_restart_handler_8cs_source.html#l00010">IRestartHandler.cs:10</a></div></div>
+<div class="ttc" id="namespace_tgstation_html"><div class="ttname"><a href="namespace_tgstation.html">Tgstation</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

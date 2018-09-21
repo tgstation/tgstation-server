@@ -80,6 +80,8 @@ var searchData=
   ['irepositoryclient_2ecs',['IRepositoryClient.cs',['../_i_repository_client_8cs.html',1,'']]],
   ['irepositorymanager_2ecs',['IRepositoryManager.cs',['../_i_repository_manager_8cs.html',1,'']]],
   ['irequestlogger_2ecs',['IRequestLogger.cs',['../_i_request_logger_8cs.html',1,'']]],
+  ['irestarthandler_2ecs',['IRestartHandler.cs',['../_i_restart_handler_8cs.html',1,'']]],
+  ['irestartregistration_2ecs',['IRestartRegistration.cs',['../_i_restart_registration_8cs.html',1,'']]],
   ['iserver_2ecs',['IServer.cs',['../_i_server_8cs.html',1,'']]],
   ['iserverclient_2ecs',['IServerClient.cs',['../_i_server_client_8cs.html',1,'']]],
   ['iserverclientfactory_2ecs',['IServerClientFactory.cs',['../_i_server_client_factory_8cs.html',1,'']]],
@@ -95,6 +97,6 @@ var searchData=
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
 ];

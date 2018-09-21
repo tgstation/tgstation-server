@@ -18,6 +18,7 @@ var searchData=
   ['requesttimeoutexception_2ecs',['RequestTimeoutException.cs',['../_request_timeout_exception_8cs.html',1,'']]],
   ['resolvingiomanager_2ecs',['ResolvingIOManager.cs',['../_resolving_i_o_manager_8cs.html',1,'']]],
   ['response_2ecs',['Response.cs',['../_response_8cs.html',1,'']]],
+  ['restartregistration_2ecs',['RestartRegistration.cs',['../_restart_registration_8cs.html',1,'']]],
   ['revinfotestmerge_2ecs',['RevInfoTestMerge.cs',['../_rev_info_test_merge_8cs.html',1,'']]],
   ['revisioncommand_2ecs',['RevisionCommand.cs',['../_revision_command_8cs.html',1,'']]],
   ['revisioninformation_2ecs',['RevisionInformation.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs.html',1,'']]],
