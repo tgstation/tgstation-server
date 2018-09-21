@@ -21,9 +21,9 @@ namespace Tgstation.Server.Api.Models
 			switch (Provider)
 			{
 				case ChatProvider.Discord:
-					return Channels.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x);
+					return Channels?.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x) ?? true;
 				case ChatProvider.Irc:
-					return Channels.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x);
+					return Channels?.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x) ?? true;
 				default:
 					throw new InvalidOperationException("Invalid provider type!");
 			}
