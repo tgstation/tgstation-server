@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Channel = new Channel
 					{
 						RealId = e.Channel.Id,
-						IsPrivate = true,
+						IsPrivate = pm,
 						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
 						//isAdmin and Tag populated by manager
