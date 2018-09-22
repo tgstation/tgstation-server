@@ -295,6 +295,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
+			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval.Value;
 			var originalOnline = originalModel.Online.Value;
 			var renamed = model.Name != null && originalModel.Name != model.Name;
 
@@ -355,6 +356,9 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
 				api.MoveJob = job.ToApi();
 			}
+
+			if (originalModel.Online.Value && model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
+				await instanceManager.GetInstance(originalModel).SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 
 			return Json(api);
 		}

@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="data">The data to write. If <see langword="null"/>, the file is deleted</param>
 		/// <param name="previousHash">The hash any existing file must match in order for the write to succeed</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ConfigurationFile"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ConfigurationFile"/> or <see langword="null"/> if the write failed due to <see cref="ConfigurationFile.LastReadHash"/> conflicts</returns>
 		Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, string previousHash, CancellationToken cancellationToken);
 	}
 }
