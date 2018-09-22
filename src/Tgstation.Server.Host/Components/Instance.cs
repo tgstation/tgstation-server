@@ -198,7 +198,8 @@ namespace Tgstation.Server.Host.Components
 							},
 							Description = "Scheduled repository update",
 							CancelRightsType = RightsType.Repository,
-							CancelRight = (ulong)RepositoryRights.CancelPendingChanges
+							CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
+							StartedBy = user
 						};
 
 						var noRepo = false;
