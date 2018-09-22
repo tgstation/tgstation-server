@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (newFile == null)
 					return Conflict(new ErrorMessage
 					{
-						Message = ""
+						Message = "This file has been updated since you last viewed it!"
 					});
 
 				newFile.Content = null;
@@ -171,6 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
+				model.IsDirectory = true;
 				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
 			}
 			catch (NotImplementedException)
