@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Components
 					throw new JobException("Missing Repository!");
 
 				var repoSha = repo.Head;
-				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
+				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
 
 				if (revInfo == default)
 				{
