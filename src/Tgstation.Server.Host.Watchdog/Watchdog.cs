@@ -35,77 +35,77 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			logger.LogInformation("Host watchdog starting...");
 
-			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-			var paths = enviromentPath.Split(';');
-			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-			var exeName = "dotnet";
-			IEnumerable<string> enumerator;
-			if (isWindows)
-			{
-				exeName += ".exe";
-				enumerator = paths;
-			}
-			else
-				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
-
-			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
-
-			var dotnetPath = enumerator
-							   .Where(x =>
-							   {
-								   logger.LogTrace("Checking for dotnet at {0}", x);
-								   return File.Exists(x);
-							   })
-							   .FirstOrDefault();
-
-			if (dotnetPath == default)
-			{
-				logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
-				return;
-			}
-			logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
-
-			var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-			var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
-			var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
-#if DEBUG
-			//just copy the shit where it belongs
-			Directory.Delete(assemblyStoragePath, true);
-			Directory.CreateDirectory(defaultAssemblyPath);
-
-			var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.1";
-			foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
-				Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
-
-			foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
-				File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
-
-			const string AppSettingsJson = "appsettings.json";
-			var rootJson = Path.Combine(rootLocation, AppSettingsJson);
-			File.Delete(rootJson);
-			File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
-#endif
-
-			var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
-			var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
-
-			if (assemblyPath.Contains("\""))
-			{
-				logger.LogCritical("Running from paths with \"'s in the name is not supported!");
-				return;
-			}
-
-			if (!File.Exists(assemblyPath))
-			{
-				logger.LogCritical("Unable to locate host assembly!");
-				return;
-			}
-
 			string updateDirectory = null;
 			try
 			{
+				var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+				var paths = enviromentPath.Split(';');
+				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+				var exeName = "dotnet";
+				IEnumerable<string> enumerator;
+				if (isWindows)
+				{
+					exeName += ".exe";
+					enumerator = paths;
+				}
+				else
+					enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
+
+				enumerator = enumerator.Select(x => Path.Combine(x, exeName));
+
+				var dotnetPath = enumerator
+								   .Where(x =>
+								   {
+									   logger.LogTrace("Checking for dotnet at {0}", x);
+									   return File.Exists(x);
+								   })
+								   .FirstOrDefault();
+
+				if (dotnetPath == default)
+				{
+					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
+					return;
+				}
+				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
+
+				var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+				var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
+				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
+#if DEBUG
+				//just copy the shit where it belongs
+				Directory.Delete(assemblyStoragePath, true);
+				Directory.CreateDirectory(defaultAssemblyPath);
+
+				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.1";
+				foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+					Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+
+				foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+					File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+
+				const string AppSettingsJson = "appsettings.json";
+				var rootJson = Path.Combine(rootLocation, AppSettingsJson);
+				File.Delete(rootJson);
+				File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
+#endif
+
+				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
+				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
+
+				if (assemblyPath.Contains("\""))
+				{
+					logger.LogCritical("Running from paths with \"'s in the name is not supported!");
+					return;
+				}
+
+				if (!File.Exists(assemblyPath))
+				{
+					logger.LogCritical("Unable to locate host assembly!");
+					return;
+				}
+
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
 					{
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Watchdog
 							var arguments = new List<string>
 							{
 								'"' + assemblyPath + '"',
-								updateDirectory
+								'"' + updateDirectory + '"'
 							};
 							if (Debugger.IsAttached)
 								arguments.Add("--attach-debugger");
