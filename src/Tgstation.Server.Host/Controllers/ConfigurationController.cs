@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (newFile == null)
 					return Conflict(new ErrorMessage
 					{
-						Message = ""
+						Message = "This file has been updated since you last viewed it!"
 					});
 
 				newFile.Content = null;
