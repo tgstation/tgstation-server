@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var channelsAvailable = new TaskCompletionSource<object>();
 				client.Ready += () =>
 				{
-					channelsAvailable.SetResult(null);
+					channelsAvailable.TrySetResult(null);
 					return Task.CompletedTask;
 				};
 				using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
