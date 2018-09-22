@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Channel = new Channel
 					{
 						RealId = e.Channel.Id,
-						IsPrivate = true,
+						IsPrivate = pm,
 						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
 						//isAdmin and Tag populated by manager
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				};
 			};
 
-			var enumerator = channels.Select(x => GetChannelForChatChannel(x)).Where(x => x != null);
+			var enumerator = channels.Select(x => GetChannelForChatChannel(x)).Where(x => x != null).ToList();
 
 			lock (this)
 			{
@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
 			}
 
-			return Task.FromResult<IReadOnlyList<Channel>>(enumerator.ToList());
+			return Task.FromResult<IReadOnlyList<Channel>>(enumerator);
 		}
 
 		/// <inheritdoc />
