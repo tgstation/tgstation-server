@@ -53,7 +53,8 @@ namespace Tgstation.Server.Host.Controllers
 			IrcChannel = api.IrcChannel,
 			IsAdminChannel = api.IsAdminChannel ?? false,
 			IsWatchdogChannel = api.IsWatchdogChannel ?? false,
-			IsUpdatesChannel = api.IsUpdatesChannel ?? false
+			IsUpdatesChannel = api.IsUpdatesChannel ?? false,
+			Tag = api.Tag
 		};
 
 		/// <inheritdoc />
