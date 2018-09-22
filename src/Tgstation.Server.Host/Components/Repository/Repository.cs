@@ -442,6 +442,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			Branch trackedBranch = null;
 
 			var oldHead = repository.Head;
+			var oldTip = oldHead.Tip;
 
 			await Task.Factory.StartNew(() =>
 			{
@@ -468,7 +469,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (result.Status == MergeStatus.Conflicts)
 				{
 					logger.LogDebug("Merge conflict, aborting and reverting to {0}", oldHead.FriendlyName);
-					RawCheckout(oldHead.CanonicalName, progressReporter, cancellationToken);
+					repository.Reset(ResetMode.Hard, oldTip, new CheckoutOptions
+					{
+						OnCheckoutProgress = CheckoutProgressHandler(progressReporter)
+					});
 					cancellationToken.ThrowIfCancellationRequested();
 				}
 
@@ -477,7 +481,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldHead.Tip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldTip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken).ConfigureAwait(false);
 				return null;
 			}
 
