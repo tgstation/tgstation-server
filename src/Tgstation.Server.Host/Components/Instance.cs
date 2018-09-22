@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Components
 							StartedBy = user
 						};
 
-						var repositoryUpdateSuccess = false;
+						string deploySha = null;
 						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContext, progressReporter, jobCancellationToken) =>
 						{
 							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
@@ -259,15 +259,21 @@ namespace Tgstation.Server.Host.Components
 									await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
 
 								progressReporter(5 * ProgressStep);
+								deploySha = repo.Head;
 							}
-							repositoryUpdateSuccess = true;
 						}, cancellationToken).ConfigureAwait(false);
 
 						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);
 
-						if (!repositoryUpdateSuccess)
+						if (deploySha == null)
 						{
 							logger.LogTrace("Aborting auto update, repository error!");
+							continue;
+						}
+
+						if(deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
+						{
+							logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
 							continue;
 						}
 
