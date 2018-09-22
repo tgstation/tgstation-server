@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpGet("File/{*filePath}")]
+		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{

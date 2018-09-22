@@ -58,7 +58,7 @@ namespace Tgstation.Server.Client.Components
 		{
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
-			return apiClient.Read<ConfigurationFile>(Routes.Configuration + SanitizeGetPath(file.Path), instance.Id, cancellationToken);
+			return apiClient.Read<ConfigurationFile>(Routes.ConfigurationFile + SanitizeGetPath(file.Path), instance.Id, cancellationToken);
 		}
 
 		/// <inheritdoc />
