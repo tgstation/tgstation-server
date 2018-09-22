@@ -184,8 +184,8 @@ namespace Tgstation.Server.Host.Components
 			while (true)
 				try
 				{
-					await Task.Delay(new TimeSpan(0, minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes, 0), cancellationToken).ConfigureAwait(false);
-
+					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes), cancellationToken).ConfigureAwait(false);
+					logger.LogDebug("Beginning auto update...");
 					try
 					{
 						Models.User user = null;
@@ -198,10 +198,11 @@ namespace Tgstation.Server.Host.Components
 							},
 							Description = "Scheduled repository update",
 							CancelRightsType = RightsType.Repository,
-							CancelRight = (ulong)RepositoryRights.CancelPendingChanges
+							CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
+							StartedBy = user
 						};
 
-						var noRepo = false;
+						var repositoryUpdateSuccess = false;
 						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContext, progressReporter, jobCancellationToken) =>
 						{
 							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
@@ -225,8 +226,7 @@ namespace Tgstation.Server.Host.Components
 							{
 								if (repo == null)
 								{
-									//no repo, no auto updates
-									noRepo = true;
+									logger.LogTrace("Aborting repo update, no repository!");
 									return;
 								}
 
@@ -241,13 +241,15 @@ namespace Tgstation.Server.Host.Components
 								bool shouldSyncTracked;
 								if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
 								{
+									logger.LogTrace("Preserving test merges...");
 									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 									if (!result.HasValue)
-										return;
+										throw new JobException("Merge conflict while preserving test merges!");
 									shouldSyncTracked = result.Value;
 								}
 								else
 								{
+									logger.LogTrace("Not preserving test merges...");
 									await repo.ResetToOrigin(NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 									shouldSyncTracked = true;
 								}
@@ -258,12 +260,16 @@ namespace Tgstation.Server.Host.Components
 
 								progressReporter(5 * ProgressStep);
 							}
+							repositoryUpdateSuccess = true;
 						}, cancellationToken).ConfigureAwait(false);
 
 						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);
 
-						if (noRepo)
+						if (!repositoryUpdateSuccess)
+						{
+							logger.LogTrace("Aborting auto update, repository error!");
 							continue;
+						}
 
 						//finally set up the job
 						var compileProcessJob = new Job
