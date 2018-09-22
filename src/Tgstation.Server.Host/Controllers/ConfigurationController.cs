@@ -171,6 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
+				model.IsDirectory = true;
 				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
 			}
 			catch (NotImplementedException)
