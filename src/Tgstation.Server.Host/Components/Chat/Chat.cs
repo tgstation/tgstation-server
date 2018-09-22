@@ -207,6 +207,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					//need to add tag and isAdminChannel
 					var mapping = enumerable.First().Value;
+					message.User.Channel.Id = mapping.Channel.Id;
 					message.User.Channel.Tag = mapping.Channel.Tag;
 					message.User.Channel.IsAdmin = mapping.Channel.IsAdmin;
 				}
