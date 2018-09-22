@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Components
 			while (true)
 				try
 				{
-					await Task.Delay(new TimeSpan(0, minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes, 0), cancellationToken).ConfigureAwait(false);
+					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes), cancellationToken).ConfigureAwait(false);
 
 					try
 					{
