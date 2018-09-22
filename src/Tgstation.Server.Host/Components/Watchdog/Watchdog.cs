@@ -713,9 +713,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
 
-						//both servers are now running, alpha is the active server, huzzah
+						//both servers are now running, alpha is the active server(unless reattach), huzzah
 						AlphaIsActive = doReattach ? reattachInfo?.AlphaIsActive ?? true : true;
 						LastLaunchResult = alphaLrt.Result;
+						(AlphaIsActive ? alphaServer : bravoServer).ClosePortOnReboot = true;
+
 						logger.LogInformation("Launched servers successfully");
 						Running = true;
 
