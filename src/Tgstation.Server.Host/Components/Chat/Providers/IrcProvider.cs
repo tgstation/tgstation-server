@@ -291,16 +291,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					listenTask = Task.Factory.StartNew(() =>
 					{
-						while (!disconnecting && client.IsConnected)
+						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
 						{
 							client.ListenOnce(true);
 							if (disconnecting || !client.IsConnected)
 								break;
 							client.Listen(false);
 							//ensure we have the correct nick
-							if (client.Nickname != nickname && client.GetIrcUser(nickname) == null)
+							if (client.GetIrcUser(nickname) == null)
 								client.RfcNick(nickname);
 						}
+						client.Listen();
 					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
 				catch (Exception e)

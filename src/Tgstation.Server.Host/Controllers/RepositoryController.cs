@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);  //search every rev info because LOL SHA COLLISIONS
 
 			if (revisionInfo == default)
-				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha).FirstOrDefault();
+				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id).FirstOrDefault();
 
 			var needsDbUpdate = revisionInfo == default;
 			if (needsDbUpdate)

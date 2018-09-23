@@ -30,7 +30,8 @@ namespace Tgstation.Server.Host.Models
 			IsAdminChannel = IsAdminChannel,
 			IsWatchdogChannel = IsWatchdogChannel,
 			IsUpdatesChannel = IsUpdatesChannel,
-			IrcChannel = IrcChannel
+			IrcChannel = IrcChannel,
+			Tag = Tag
 		};
 	}
 }

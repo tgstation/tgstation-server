@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Watchdog
 				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
 
 				var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
+				
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
 				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 #if DEBUG
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Watchdog
 						using (var process = new Process())
 						{
 							process.StartInfo.FileName = dotnetPath;
-							process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;  //for appsettings
+							process.StartInfo.WorkingDirectory = rootLocation;  //for appsettings
 
 							var arguments = new List<string>
 							{
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Watchdog
 
 							logger.LogInformation("Launching host...");
 
-							var iShotTheSheriff = false;
+							var killedHostProcess = false;
 							try
 							{
 								process.Start();
@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Watchdog
 								{
 									if (!process.HasExited)
 									{
-										iShotTheSheriff = true;
+										killedHostProcess = true;
 										process.Kill();
 										process.WaitForExit();
 									}
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									throw new Exception(String.Format(CultureInfo.InvariantCulture, "Host propagated exception: {0}", data));
 								default:
-									if (iShotTheSheriff)
+									if (killedHostProcess)
 									{
 										logger.LogWarning("Watchdog forced to kill host process!");
 										cancellationToken.ThrowIfCancellationRequested();

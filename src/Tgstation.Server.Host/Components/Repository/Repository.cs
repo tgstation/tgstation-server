@@ -489,7 +489,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
+		public async Task<bool> Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
 		{
 			if (committerName == null)
 				throw new ArgumentNullException(nameof(committerName));
@@ -501,7 +501,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (username == null && password == null)
 			{
 				logger.LogTrace("Not synchronizing due to lack of credentials!");
-				return;
+				return false;
 			}
 			logger.LogTrace("Begin Synchronize...");
 
@@ -526,7 +526,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
 				{
 					logger.LogDebug("Aborted synchronize due to event handler response!");
-					return;
+					return false;
 				}
 			}
 			finally
@@ -548,32 +548,35 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (!synchronizeTrackedBranch)
 			{
 				await PushHeadToTemporaryBranch(username, password, FinalReporter, cancellationToken).ConfigureAwait(false);
-				return;
+				return false;
 			}
 
 			var sameHead = Head == startHead;
 			if (sameHead || !Tracking)
 			{
 				logger.LogTrace("Aborted synchronize due to {0}!", sameHead ? "lack of changes" : "not being on tracked reference");
-				return;
+				return false;
 			}
 
 			logger.LogInformation("Synchronizing with origin...");
 
-			await Task.Factory.StartNew(() =>
+			return await Task.Factory.StartNew(() =>
 			{
 				var remote = repository.Network.Remotes.First();
 				try
 				{
 					repository.Network.Push(repository.Head, GeneratePushOptions(FinalReporter, username, password, cancellationToken));
+					return true;
 				}
 				catch (NonFastForwardException)
 				{
 					logger.LogInformation("Synchronize aborted, non-fast forward!");
+					return false;
 				}
-				catch (UserCancelledException)
+				catch (UserCancelledException e)
 				{
 					cancellationToken.ThrowIfCancellationRequested();
+					throw new InvalidOperationException("Caught UserCancelledException without cancellationToken triggering", e);
 				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 		}

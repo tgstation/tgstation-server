@@ -122,8 +122,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise</returns>
+		Task<bool> Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Copies the current working directory to a given <paramref name="path"/>
