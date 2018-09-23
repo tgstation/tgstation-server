@@ -136,9 +136,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2911d39fd36e857c0d77503fc5c41a94"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a2911d39fd36e857c0d77503fc5c41a94">MergeOrigin</a> (string committerName, string committerEmail, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a2911d39fd36e857c0d77503fc5c41a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository  <a href="#a2911d39fd36e857c0d77503fc5c41a94">More...</a><br /></td></tr>
 <tr class="separator:a2911d39fd36e857c0d77503fc5c41a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24c5bd362bba9762b3024340d0394fb7"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a24c5bd362bba9762b3024340d0394fb7">Sychronize</a> (string username, string password, string committerName, string committerEmail, Action&lt; int &gt; progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a24c5bd362bba9762b3024340d0394fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if on a tracked branch  <a href="#a24c5bd362bba9762b3024340d0394fb7">More...</a><br /></td></tr>
-<tr class="separator:a24c5bd362bba9762b3024340d0394fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f8ea07e50eb3d5d272b956a6e2543b5"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a5f8ea07e50eb3d5d272b956a6e2543b5">Sychronize</a> (string username, string password, string committerName, string committerEmail, Action&lt; int &gt; progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5f8ea07e50eb3d5d272b956a6e2543b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository ">IRepository</a> if on a tracked branch  <a href="#a5f8ea07e50eb3d5d272b956a6e2543b5">More...</a><br /></td></tr>
+<tr class="separator:a5f8ea07e50eb3d5d272b956a6e2543b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada48f9615977d839874139999fdd69ef"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ada48f9615977d839874139999fdd69ef">CopyTo</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ada48f9615977d839874139999fdd69ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the current working directory to a given <em>path</em>   <a href="#ada48f9615977d839874139999fdd69ef">More...</a><br /></td></tr>
 <tr class="separator:ada48f9615977d839874139999fdd69ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -555,12 +555,12 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a24c5bd362bba9762b3024340d0394fb7"></a>
+<a class="anchor" id="a5f8ea07e50eb3d5d272b956a6e2543b5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Components.Repository.IRepository.Sychronize </td>
+          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Components.Repository.IRepository.Sychronize </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>username</em>, </td>
@@ -622,9 +622,9 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if commits were pushed to the tracked origin reference,  otherwise</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#adad464a589403fb769922671431c8200">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afd7c7599794e9541d6134a30d5d7e683">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
