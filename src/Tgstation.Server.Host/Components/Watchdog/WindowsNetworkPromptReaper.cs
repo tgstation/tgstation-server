@@ -13,7 +13,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class NetworkPromptReaper : IHostedService, INetworkPromptReaper, IDisposable
+	sealed class WindowsNetworkPromptReaper : IHostedService, INetworkPromptReaper, IDisposable
 	{
 		/// <summary>
 		/// Number of times to send the button click message. Should be at least 2 or it may fail to focus the window
@@ -26,12 +26,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		const int RecheckDelayMs = 250;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="NetworkPromptReaper"/>
+		/// The <see cref="ILogger"/> for the <see cref="WindowsNetworkPromptReaper"/>
 		/// </summary>
-		readonly ILogger<NetworkPromptReaper> logger;
+		readonly ILogger<WindowsNetworkPromptReaper> logger;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the <see cref="NetworkPromptReaper"/>
+		/// The <see cref="CancellationTokenSource"/> for the <see cref="WindowsNetworkPromptReaper"/>
 		/// </summary>
 		readonly CancellationTokenSource cancellationTokenSource;
 
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly List<IProcess> registeredProcesses;
 
 		/// <summary>
-		/// The <see cref="Task"/> representing the lifetime of the <see cref="NetworkPromptReaper"/>
+		/// The <see cref="Task"/> representing the lifetime of the <see cref="WindowsNetworkPromptReaper"/>
 		/// </summary>
 		Task runTask;
 
@@ -79,10 +79,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Construct a <see cref="NetworkPromptReaper"/>
+		/// Construct a <see cref="WindowsNetworkPromptReaper"/>
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public NetworkPromptReaper(ILogger<NetworkPromptReaper> logger)
+		public WindowsNetworkPromptReaper(ILogger<WindowsNetworkPromptReaper> logger)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
