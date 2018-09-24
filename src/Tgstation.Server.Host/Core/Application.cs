@@ -198,6 +198,10 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
+
+				services.AddSingleton<NetworkPromptReaper>();
+				services.AddSingleton<INetworkPromptReaper>(x => x.GetRequiredService<NetworkPromptReaper>());
+				services.AddSingleton<IHostedService>(x => x.GetRequiredService<NetworkPromptReaper>());
 			}
 			else
 			{
