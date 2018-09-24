@@ -16,6 +16,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class NetworkPromptReaper : IHostedService, INetworkPromptReaper, IDisposable
 	{
 		/// <summary>
+		/// Number of times to send the button click message. Should be at least 2 or it may fail to focus the window
+		/// </summary>
+		const int SendMessageCount = 5;
+		
+		/// <summary>
+		/// Check for prompts each time this amount of milliseconds pass
+		/// </summary>
+		const int RecheckDelayMs = 250;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="NetworkPromptReaper"/>
 		/// </summary>
 		readonly ILogger<NetworkPromptReaper> logger;
@@ -90,8 +100,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				while(!cancellationToken.IsCancellationRequested)
 				{
-					//check every quarter second
-					await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken).ConfigureAwait(false);
+					await Task.Delay(TimeSpan.FromMilliseconds(RecheckDelayMs), cancellationToken).ConfigureAwait(false);
 
 					IntPtr window;
 					int processId;
@@ -128,9 +137,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (windowText == "Yes")
 						{
 							//smash_button_meme.jpg
-							//yes send it five times for good measure
 							logger.LogTrace("Sending \"Yes\" button clicks...");
-							for (var J = 0; J < 5; ++J)
+							for (var J = 0; J < SendMessageCount; ++J)
 							{
 								const int BM_CLICK = 0x00F5;
 								var result = NativeMethods.SendMessage(I, BM_CLICK, IntPtr.Zero, IntPtr.Zero);
