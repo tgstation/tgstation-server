@@ -278,6 +278,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			object content;
 			Action postRespond = null;
+			ushort? overrideResponsePort = null;
 			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
 			{
 				content = new object();
@@ -310,6 +311,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								//if it fails it'll kill itself
 								content = new Dictionary<string, ushort> { { Constants.DMParameterData, nextPort.Value } };
 								reattachInformation.Port = nextPort.Value;
+								overrideResponsePort = currentPort;
 								nextPort = null;
 
 								//we'll also get here from SetPort so complete that task
@@ -367,7 +369,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				content = new ErrorMessage { Message = "Missing command parameter!" };
 
 			var json = JsonConvert.SerializeObject(content);
-			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken).ConfigureAwait(false);
+			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), overrideResponsePort, cancellationToken).ConfigureAwait(false);
 
 			if (response != Constants.DMResponseSuccess)
 				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
@@ -399,7 +401,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<string> SendCommand(string command, CancellationToken cancellationToken)
+		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => SendCommand(command, null, cancellationToken);
+
+		async Task<string> SendCommand(string command, ushort? overridePort, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -411,10 +415,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					//intentionally don't sanitize command, that's up to the caller
 					command);
 
-				logger.LogTrace("Export to :{0}. Query: {1}", reattachInformation.Port, commandString);
+				var targetPort = overridePort ?? reattachInformation.Port;
+				logger.LogTrace("Export to :{0}. Query: {1}", targetPort, commandString);
 
 				return await byondTopicSender.SendTopic(
-					new IPEndPoint(IPAddress.Loopback, reattachInformation.Port),
+					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
 					cancellationToken).ConfigureAwait(false);
 			}
