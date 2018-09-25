@@ -93,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Tgstation.Server.Host.Components.Chat.IJsonTrackingContext Interface Reference</div>  </div>
@@ -120,6 +121,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac408c1fd7c02c5a3e38e8dd61d81a4bd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html#ac408c1fd7c02c5a3e38e8dd61d81a4bd">SetChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel.html">Channel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac408c1fd7c02c5a3e38e8dd61d81a4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes information about connected <em>channels</em>  to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html" title="Represents a tracking of dynamic chat json files ">IJsonTrackingContext</a>  <a href="#ac408c1fd7c02c5a3e38e8dd61d81a4bd">More...</a><br /></td></tr>
 <tr class="separator:ac408c1fd7c02c5a3e38e8dd61d81a4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a95e3032dfe80bf9b43319cd748e92f43"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html#a95e3032dfe80bf9b43319cd748e92f43">Active</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a95e3032dfe80bf9b43319cd748e92f43"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html" title="Represents a tracking of dynamic chat json files ">IJsonTrackingContext</a> should be used for <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html#a4c767f16648c5d7e61e393871eff1847" title="Read CustomCommands from the IJsonTrackingContext ">GetCustomCommands(CancellationToken)</a>  <a href="#a95e3032dfe80bf9b43319cd748e92f43">More...</a><br /></td></tr>
+<tr class="separator:a95e3032dfe80bf9b43319cd748e92f43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a tracking of dynamic chat json files </p>
@@ -188,6 +195,33 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#af8929ecaca85cb7ad4ccf7c9eab75cca">Tgstation.Server.Host.Components.Chat.JsonTrackingContext</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="a95e3032dfe80bf9b43319cd748e92f43"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Chat.IJsonTrackingContext.Active</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html" title="Represents a tracking of dynamic chat json files ">IJsonTrackingContext</a> should be used for <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html#a4c767f16648c5d7e61e393871eff1847" title="Read CustomCommands from the IJsonTrackingContext ">GetCustomCommands(CancellationToken)</a> </p>
+
+<p>Definition at line <a class="el" href="_i_json_tracking_context_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_json_tracking_context_8cs_source.html">IJsonTrackingContext.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_session_controller_8cs_source.html#l00181">Tgstation.Server.Host.Components.Watchdog.SessionController.SessionController()</a>.</p>
 
 </div>
 </div>
