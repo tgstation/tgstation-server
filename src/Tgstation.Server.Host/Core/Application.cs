@@ -13,6 +13,9 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -54,12 +57,6 @@ namespace Tgstation.Server.Host.Core
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
 		readonly TaskCompletionSource<object> startupTcs;
-		static LogLevel GetMinimumLogLevel(string stringLevel)
-		{
-			if (String.IsNullOrWhiteSpace(stringLevel) || !Enum.TryParse<LogLevel>(stringLevel, out var minimumLevel))
-				minimumLevel = LogLevel.Information;
-			return minimumLevel;
-		}
 
 		/// <summary>
 		/// Construct an <see cref="Application"/>
@@ -89,19 +86,69 @@ namespace Tgstation.Server.Host.Core
 			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
 			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
 			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
-			var generalConfigurationSection = configuration.GetSection(GeneralConfiguration.Section);
-			services.Configure<GeneralConfiguration>(generalConfigurationSection);
+			services.Configure<GeneralConfiguration>(configuration.GetSection(GeneralConfiguration.Section));
 
-			//remember, anything you .Get manually can be null if the config is missing
-			var generalConfiguration = generalConfigurationSection.Get<GeneralConfiguration>();
 			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 			var ioManager = new DefaultIOManager();
 
-			if (generalConfiguration?.DisableFileLogging != true)
+			//remember, anything you .Get manually can be null if the config is missing
+			var fileLoggingConfigurationSection = configuration.GetSection(FileLoggingConfiguration.Section);
+			var fileLoggingConfiguration = fileLoggingConfigurationSection.Get<FileLoggingConfiguration>();
+			if (fileLoggingConfiguration?.Disable != true)
 			{
-				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
+				var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration?.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
 
-				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log"), GetMinimumLogLevel(generalConfiguration?.LogFileLevel)));
+				logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
+
+				services.AddLogging(builder =>
+				{
+					LogLevel GetMinimumLogLevel(string stringLevel)
+					{
+						if (String.IsNullOrWhiteSpace(stringLevel) || !Enum.TryParse<LogLevel>(stringLevel, out var minimumLevel))
+							minimumLevel = LogLevel.Information;
+						return minimumLevel;
+					}
+
+					LogEventLevel? ConvertLogLevel(LogLevel logLevel)
+					{
+						switch (logLevel)
+						{
+							case LogLevel.Critical:
+								return LogEventLevel.Fatal;
+							case LogLevel.Debug:
+								return LogEventLevel.Debug;
+							case LogLevel.Error:
+								return LogEventLevel.Error;
+							case LogLevel.Information:
+								return LogEventLevel.Information;
+							case LogLevel.Trace:
+								return LogEventLevel.Verbose;
+							case LogLevel.Warning:
+								return LogEventLevel.Warning;
+							case LogLevel.None:
+								return null;
+							default:
+								throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel));
+						}
+					};
+
+					var logEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration?.LogLevel));
+					var microsoftEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration?.MicrosoftLogLevel));
+
+					var formatter = new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}", null);
+
+					var configuration = new LoggerConfiguration()
+					.Enrich.FromLogContext()
+					.WriteTo.Async(w => w.RollingFile(formatter, logPath, shared: true, flushToDiskInterval: TimeSpan.FromSeconds(2)));
+
+					if (logEventLevel.HasValue)
+						configuration.MinimumLevel.Is(logEventLevel.Value);
+
+					if (microsoftEventLevel.HasValue)
+						configuration.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+
+					builder.AddSerilog(configuration.CreateLogger(), true);
+				});
 			}
 
 			services.AddOptions();
