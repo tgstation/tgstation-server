@@ -5,6 +5,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -209,8 +210,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							SecurityWord(securityLevelToUse),
 							parameters);
 
+						//See #719
+						var noShellExecute = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 						//launch dd
-						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: true);
+						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
 						try
 						{
 							networkPromptReaper.RegisterProcess(process);
