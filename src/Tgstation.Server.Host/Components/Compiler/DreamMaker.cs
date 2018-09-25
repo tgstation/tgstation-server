@@ -221,10 +221,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-			var dmePath = ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension));
+			var dmeFileName = String.Join('.', job.DmeName, DmeExtension);
+			var dmePath = ioManager.ConcatPath(dirA, dmeFileName);
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
-			var dmeModificationsTask = configuration.CopyDMFilesTo(dmePath, ioManager.ResolvePath(dirA), cancellationToken);
+			var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(dirA), cancellationToken);
 
 			var dmeBytes = await dmeReadTask.ConfigureAwait(false);
 			var dme = Encoding.UTF8.GetString(dmeBytes);
