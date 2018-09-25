@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,20 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <inheritdoc />
 	sealed class JsonTrackingContext : IJsonTrackingContext
 	{
+		/// <inheritdoc />
+		public bool Active
+		{
+			get => active;
+			set
+			{
+				active = true;
+				logger.LogDebug("Tracking {0}activated", !active ? "de" : String.Empty);
+			}
+		}
+
 		readonly IIOManager ioManager;
 		readonly ICustomCommandHandler customCommandHandler;
+		readonly ILogger<JsonTrackingContext> logger;
 		readonly Action onDispose;
 
 		readonly string commandsPath;
@@ -23,52 +36,71 @@ namespace Tgstation.Server.Host.Components.Chat
 
 		readonly SemaphoreSlim channelsSemaphore;
 
-		public JsonTrackingContext(IIOManager ioManager, ICustomCommandHandler customCommandHandler, Action onDispose, string commandsPath, string channelsPath)
+		bool active;
+
+		public JsonTrackingContext(IIOManager ioManager, ICustomCommandHandler customCommandHandler, ILogger<JsonTrackingContext> logger, Action onDispose, string commandsPath, string channelsPath)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.customCommandHandler = customCommandHandler ?? throw new ArgumentNullException(nameof(customCommandHandler));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			this.commandsPath = commandsPath ?? throw new ArgumentNullException(nameof(commandsPath));
 			this.channelsPath = channelsPath ?? throw new ArgumentNullException(nameof(channelsPath));
 
 			channelsSemaphore = new SemaphoreSlim(1);
+			active = false;
+
+			logger.LogTrace("Created tracking context for {0} and {1}", commandsPath, channelsPath);
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => onDispose();
+		public void Dispose()
+		{
+			logger.LogTrace("Disposing...");
+			onDispose();
+		}
 
 		/// <inheritdoc />
 		public async Task<IReadOnlyList<CustomCommand>> GetCustomCommands(CancellationToken cancellationToken)
 		{
 			try
 			{
-				var resultBytes = await ioManager.ReadAllBytes(commandsPath, cancellationToken).ConfigureAwait(false);
-				var resultJson = Encoding.UTF8.GetString(resultBytes);
-				var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson, new JsonSerializerSettings
+				if (Active && await ioManager.FileExists(commandsPath, cancellationToken).ConfigureAwait(false))
 				{
-					ContractResolver = new DefaultContractResolver
+					var resultBytes = await ioManager.ReadAllBytes(commandsPath, cancellationToken).ConfigureAwait(false);
+					var resultJson = Encoding.UTF8.GetString(resultBytes);
+					logger.LogTrace("Read commands JSON: {0}", resultJson);
+					var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson, new JsonSerializerSettings
 					{
-						NamingStrategy = new SnakeCaseNamingStrategy()
-					}
-				});
-				foreach (var I in result)
-					I.SetHandler(customCommandHandler);
-				return result;
+						ContractResolver = new DefaultContractResolver
+						{
+							NamingStrategy = new SnakeCaseNamingStrategy()
+						}
+					});
+					foreach (var I in result)
+						I.SetHandler(customCommandHandler);
+					return result;
+				}
 			}
-			catch
+			catch (Exception e)
 			{
-				return new List<CustomCommand>();
+				logger.LogWarning("Error retrieving custom commands! Exception: {0}", e);
 			}
+			return new List<CustomCommand>();
 		}
 
 		/// <inheritdoc />
 		public async Task SetChannels(IEnumerable<Channel> channels, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(channelsSemaphore, cancellationToken).ConfigureAwait(false))
-				await ioManager.WriteAllBytes(channelsPath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(channels, Formatting.Indented, new JsonSerializerSettings
+			{
+				var json = JsonConvert.SerializeObject(channels, new JsonSerializerSettings
 				{
 					ContractResolver = new CamelCasePropertyNamesContractResolver()
-				})), cancellationToken).ConfigureAwait(false);
+				});
+				logger.LogTrace("Writing channels JSON: {0}", json);
+				await ioManager.WriteAllBytes(channelsPath, Encoding.UTF8.GetBytes(json), cancellationToken).ConfigureAwait(false);
+			}
 		}
 	}
 }

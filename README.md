@@ -57,15 +57,15 @@ Note although `/app/lib` is specified as a volume mount point in the `Dockerfile
 
 ### Configuring
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts: 
-
-- `General:LogFileDirectory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
+Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Note these are all case-sensitive: 
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
 - `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
-- `General:LogFileLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
+- `FileLogging:Directory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
+
+- `FileLogging:LogLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 
 - `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 

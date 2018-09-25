@@ -12,6 +12,11 @@ namespace Tgstation.Server.Host.Components.Chat
 	public interface IJsonTrackingContext : IDisposable
 	{
 		/// <summary>
+		/// If the <see cref="IJsonTrackingContext"/> should be used for <see cref="GetCustomCommands(CancellationToken)"/>
+		/// </summary>
+		bool Active { get; set; }
+
+		/// <summary>
 		/// Read <see cref="CustomCommand"/>s from the <see cref="IJsonTrackingContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

@@ -201,15 +201,13 @@ namespace Tgstation.Server.Host.Core
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 
-			void ConfigureDatabase(DbContextOptionsBuilder builder)
-			{
-				if (hostingEnvironment.IsDevelopment())
-					builder.EnableSensitiveDataLogging();
-			};
-
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
-				services.AddDbContext<TContext>(ConfigureDatabase);
+				services.AddDbContext<TContext>(builder =>
+				{
+					if (hostingEnvironment.IsDevelopment())
+						builder.EnableSensitiveDataLogging();
+				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
 
@@ -297,6 +295,8 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(applicationBuilder));
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
+			if (serverControl == null)
+				throw new ArgumentNullException(nameof(serverControl));
 
 			logger.LogInformation(VersionString);
 			
