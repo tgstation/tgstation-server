@@ -22,7 +22,7 @@
 
 	TGS_WRITE_GLOBAL(tgs, new_api)
 
-	var/result = new_api.OnWorldNew(event_handler ? event_handler : new /datum/tgs_event_handler/tgs_default, minimum_required_security_level)
+	var/result = new_api.OnWorldNew(event_handler, minimum_required_security_level)
 	if(!result || result == TGS_UNIMPLEMENTED)
 		TGS_WRITE_GLOBAL(tgs, null)
 		TGS_ERROR_LOG("Failed to activate API!")
