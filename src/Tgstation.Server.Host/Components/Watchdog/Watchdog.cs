@@ -603,6 +603,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Monitor crashed, this should NEVER happen! Please report this, full details in logs! Restarting monitor... Error: {0}", e.Message), cancellationToken).ConfigureAwait(false);
 				}
 			}
+			logger.LogTrace("Monitor exiting...");
 		}
 
 		async Task<bool> StopMonitor()
