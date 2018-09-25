@@ -663,7 +663,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
 					var reattachInfo = await reattachInfoTask.ConfigureAwait(false);
-					var doesntNeedNewDmb = doReattach && reattachInfo.Alpha != null && reattachInfo.Bravo != null;
+					var doesntNeedNewDmb = doReattach && reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
 					try
