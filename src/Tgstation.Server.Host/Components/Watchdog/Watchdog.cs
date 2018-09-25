@@ -448,7 +448,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
-					monitorState.InactiveServerHasStagedDmb = true; 
+					monitorState.InactiveServerHasStagedDmb = true;
 					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
@@ -573,7 +573,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							WatchdogLaunchResult result;
 							using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 							{
-								result = await LaunchNoLock(false, false, false, cancellationToken).ConfigureAwait(false);
+								result = await LaunchNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
 								if (Running)
 								{
 									logger.LogDebug("Relaunch successful, resetting monitor state...");
@@ -633,7 +633,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
-		async Task<WatchdogLaunchResult> LaunchNoLock(bool startMonitor, bool announce, bool doReattach, CancellationToken cancellationToken)
+		async Task<WatchdogLaunchResult> LaunchNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LaunchNoLock");
 			using (var alphaStartCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
@@ -644,16 +644,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return null;
 				}
 
-				var reattachInfoTask = doReattach ? reattachInfoHandler.Load(cancellationToken) : Task.FromResult<WatchdogReattachInformation>(null);
 				Task chatTask;
 				//this is necessary, the monitor could be in it's sleep loop trying to restart
 				if (startMonitor && await StopMonitor().ConfigureAwait(false))
 					chatTask = chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", cancellationToken);
 				else if (announce)
-				{
-					var info = await reattachInfoTask.ConfigureAwait(false);
-					chatTask = chat.SendWatchdogMessage(info == null ? "Starting..." : "Reattaching...", cancellationToken);
-				}
+					chatTask = chat.SendWatchdogMessage(reattachInfo == null ? "Starting..." : "Reattaching...", cancellationToken);
 				else
 					chatTask = Task.CompletedTask;
 				//start both servers
@@ -664,8 +660,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (alphaServer != null || bravoServer != null)
 						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
 
-					var reattachInfo = await reattachInfoTask.ConfigureAwait(false);
-					var doesntNeedNewDmb = doReattach && reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
+					var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
 					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
 
 					try
@@ -720,7 +715,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken.ThrowIfCancellationRequested();
 
 						//both servers are now running, alpha is the active server(unless reattach), huzzah
-						AlphaIsActive = doReattach ? reattachInfo?.AlphaIsActive ?? true : true;
+						AlphaIsActive = reattachInfo?.AlphaIsActive ?? true;
 						LastLaunchResult = alphaLrt.Result;
 
 						var activeServer = AlphaIsActive ? alphaServer : bravoServer;
@@ -779,7 +774,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public async Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-				return await LaunchNoLock(true, true, false, cancellationToken).ConfigureAwait(false);
+				return await LaunchNoLock(true, true, null, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -811,7 +806,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 					else
 						chatTask = Task.CompletedTask;
-					var result = await LaunchNoLock(true, !Running, false, cancellationToken).ConfigureAwait(false);
+					var result = await LaunchNoLock(true, !Running, null, cancellationToken).ConfigureAwait(false);
 					await chatTask.ConfigureAwait(false);
 					return result;
 				}
@@ -835,7 +830,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			if (!autoStart)
+			var reattachInfo = await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false);
+			if (!autoStart && reattachInfo == null)
 				return;
 
 			long? adminUserId = null;
@@ -855,7 +851,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon
 			};
-			await jobManager.RegisterOperation(job, (j, databaseContext, progressFunction, ct) => Launch(ct), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, async (j, databaseContext, progressFunction, ct) =>
+			{
+				using (await SemaphoreSlimContext.Lock(semaphore, ct).ConfigureAwait(false))
+					await LaunchNoLock(true, true, reattachInfo, ct).ConfigureAwait(false);
+			}, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
