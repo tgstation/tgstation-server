@@ -250,6 +250,8 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(applicationBuilder));
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
+			if (serverControl == null)
+				throw new ArgumentNullException(nameof(serverControl));
 
 			logger.LogInformation(VersionString);
 			
