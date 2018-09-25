@@ -270,7 +270,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (splits.Count == 0)
 					{
 						var allCommands = builtinCommands.Select(x => x.Value).ToList();
-						var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken));
+						var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken)).ToList();
 						await Task.WhenAll(tasks).ConfigureAwait(false);
 						allCommands.AddRange(tasks.SelectMany(x => x.Result));
 						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
