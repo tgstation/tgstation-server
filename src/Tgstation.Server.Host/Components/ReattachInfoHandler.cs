@@ -98,8 +98,8 @@ namespace Tgstation.Server.Host.Components
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				var instance = await db.Instances.Where(x => x.Id == metadata.Id)
-					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha)
-					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo)
+					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha).ThenInclude(x => x.CompileJob)
+					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo).ThenInclude(x => x.CompileJob)
 					.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 				result = instance.WatchdogReattachInformation;
 				if (result == default)
