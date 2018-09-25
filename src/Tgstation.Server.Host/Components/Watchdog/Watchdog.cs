@@ -275,6 +275,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				monitorState.ActiveServer = monitorState.InactiveServer;
 				monitorState.InactiveServer = tmp;
 				AlphaIsActive = !AlphaIsActive;
+				monitorState.ActiveServer.EnableCustomChatCommands();
 				return true;
 			}
 
@@ -716,7 +717,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//both servers are now running, alpha is the active server(unless reattach), huzzah
 						AlphaIsActive = doReattach ? reattachInfo?.AlphaIsActive ?? true : true;
 						LastLaunchResult = alphaLrt.Result;
-						(AlphaIsActive ? alphaServer : bravoServer).ClosePortOnReboot = true;
+
+						var activeServer = AlphaIsActive ? alphaServer : bravoServer;
+						activeServer.EnableCustomChatCommands();
+						activeServer.ClosePortOnReboot = true;
 
 						logger.LogInformation("Launched servers successfully");
 						Running = true;
