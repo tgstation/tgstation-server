@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Components
 			{
 				var instance = await db.Instances.Where(x => x.Id == metadata.Id)
 					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha)
-					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha)
+					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo)
 					.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 				result = instance.WatchdogReattachInformation;
 				if (result == default)
