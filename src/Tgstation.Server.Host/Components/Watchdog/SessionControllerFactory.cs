@@ -58,6 +58,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IChat chat;
 
 		/// <summary>
+		/// The <see cref="INetworkPromptReaper"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly INetworkPromptReaper networkPromptReaper;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -98,8 +103,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
+		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Api.Models.Instance instance)
+		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, INetworkPromptReaper networkPromptReaper, ILoggerFactory loggerFactory, Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -109,6 +115,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
@@ -206,6 +213,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: true);
 						try
 						{
+							networkPromptReaper.RegisterProcess(process);
+
 							//return the session controller for it
 							var result = new SessionController(new ReattachInformation
 							{
@@ -269,6 +278,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 						try
 						{
+							networkPromptReaper.RegisterProcess(process);
 							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
 						}
 						catch
