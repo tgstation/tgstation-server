@@ -200,6 +200,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			rebootTcs = new TaskCompletionSource<object>();
 
+			process.Lifetime.ContinueWith(x => chatJsonTrackingContext.Active = false, TaskScheduler.Current);
+
 			async Task<LaunchResult> GetLaunchResult()
 			{
 				var startTime = DateTimeOffset.Now;
@@ -353,6 +355,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case Constants.DMCommandWorldReboot:
 						if (ClosePortOnReboot)
 						{
+							chatJsonTrackingContext.Active = false;
 							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
 							portClosedForReboot = true;
 						}
@@ -385,6 +388,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (disposed)
 				throw new ObjectDisposedException(nameof(SessionController));
 		}
+
+		/// <inheritdoc />
+		public void EnableCustomChatCommands() => chatJsonTrackingContext.Active = true;
 
 		/// <inheritdoc />
 		public ReattachInformation Release()
