@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			logger.LogDebug("Starting network prompt reaper...");
 			try
 			{
-				while(!cancellationToken.IsCancellationRequested)
+				while (!cancellationToken.IsCancellationRequested)
 				{
 					await Task.Delay(TimeSpan.FromMilliseconds(RecheckDelayMs), cancellationToken).ConfigureAwait(false);
 
@@ -122,12 +122,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					logger.LogTrace("Identified \"Network Accessibility\" window in owned process {0}", processId);
 
 					var found = false;
-					foreach(var I in GetAllChildHandles(window))
+					foreach (var I in GetAllChildHandles(window))
 					{
 						const int MaxLength = 10;
 						var stringBuilder = new StringBuilder(MaxLength + 1);
 
-						if(NativeMethods.GetWindowText(I, stringBuilder, MaxLength) == 0)
+						if (NativeMethods.GetWindowText(I, stringBuilder, MaxLength) == 0)
 						{
 							logger.LogWarning("Error calling GetWindowText! Exception: {0}", new Win32Exception(Marshal.GetLastWin32Error()));
 							continue;
@@ -152,6 +152,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						logger.LogDebug("Unable to find \"Yes\" button for \"Network Accessibility\" window in owned process {0}!", processId);
 				}
 			}
+			catch (OperationCanceledException) { }
 			finally
 			{
 				logger.LogDebug("Exiting network prompt reaper...");
