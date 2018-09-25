@@ -9,7 +9,13 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.Job"/>
 		/// </summary>
+		[Required]
 		public Job Job { get; set; }
+
+		/// <summary>
+		/// The <see cref="Api.Models.Internal.Job.Id"/> of <see cref="Job"/>
+		/// </summary>
+		public long JobId { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.RevisionInformation"/>
@@ -35,7 +41,8 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			ByondVersion = Version.Parse(ByondVersion)
+			ByondVersion = Version.Parse(ByondVersion),
+			MinimumSecurityLevel = MinimumSecurityLevel
 		};
 	}
 }

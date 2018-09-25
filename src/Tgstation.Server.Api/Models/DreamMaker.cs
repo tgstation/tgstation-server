@@ -1,15 +1,27 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile
 	/// </summary>
-	public sealed class DreamMaker : DreamMakerSettings
+	public class DreamMaker
 	{
 		/// <summary>
-		/// The <see cref="CompilerStatus"/> of the compiler
+		/// The .dme file <see cref="DreamMaker"/> tries to compile with without the extension
 		/// </summary>
-		public CompilerStatus Status { get; set; }
+		public string ProjectName { get; set; }
+
+		/// <summary>
+		/// The port used during compilation to validate the DMAPI
+		/// </summary>
+		[Required]
+		public ushort? ApiValidationPort { get; set; }
+
+		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level used to validate the DMAPI
+		/// </summary>
+		[Required]
+		public DreamDaemonSecurity? ApiValidationSecurityLevel { get; set; }
 	}
 }

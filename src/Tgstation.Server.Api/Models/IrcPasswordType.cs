@@ -1,9 +1,9 @@
-﻿namespace Tgstation.Server.Host.Components.Chat.Providers
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Represents the type of a password passed to the constructor of <see cref="IrcProvider"/>
+	/// Represents the type of a password for a <see cref="ChatProvider.Irc"/>
 	/// </summary>
-	enum IrcPasswordType
+	public enum IrcPasswordType
 	{
 		/// <summary>
 		/// Use server authentication

@@ -24,7 +24,6 @@ Last off, if anything in this API doesn't seem to hold true when tested against 
 This document will reference the canonical C# models in the @ref Tgstation.Server.Api.Models namespace. Note that these models are built to mirror the JSON requests and responses with a couple caveats.
 
 - The first letter of every field name will/must be lowercase in JSON models
-- Fields in the C# model marked with "DenyWrite = true" cannot be changed using POST requests
 - Fields marked 'Required' should be ignored, this is a semantic for the backing SQL database
 - Id fields must be specified when making POST requests
 - All other fields are optional and may be absent from responses or requests unless otherwise specified
@@ -37,7 +36,7 @@ TGS4 expects this set of headers. Failure to provide them may result in 400 erro
 - Accept: application/json
 - Api: Another product header value representing the version of the API to use. Currently this must be: Tgstation.Server.Api/4.0.0.0
 
-For POST and PUT requests you must also include the content type. Currently only json is supported
+For POST, PATCH, and PUT requests you must also include the content type. Currently only json is supported
 
 - Content-Type: application/json
 
@@ -63,6 +62,7 @@ TGS will only every return the response codes listed here
 - 409: Conflict. Documented in the requests that use them
 - 410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is
 - 422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the @ref Tgstation.Server.Host.Watchdog not being present in the deployment. Blame MSO. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
+- 424: Failed Dependency: When a request that depends on the GitHub API fails for a reason other than rate limiting. Check server logs, usually this indicates a bad access token.
 - 426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
 - 429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header
 - 500: Server error. Please report the request and response body to the code repository
@@ -232,26 +232,26 @@ I DELETE "/Job/{JobId}" => OK
 
 @subsection api_chat Chat Bots
 
-Each chat bot is represented by a @ref Tgstation.Server.Api.Models.ChatSettings object
+Each chat bot is represented by a @ref Tgstation.Server.Api.Models.ChatBot object
 
 Chat bots can be created/updated/deleted with the following requests respectively
 
-I PUT "/Chat" @ref Tgstation.Server.Api.Models.ChatSettings => Tgstation.Server.Api.Models.ChatSettings
-I POST "/Chat" @ref Tgstation.Server.Api.Models.ChatSettings => Tgstation.Server.Api.Models.ChatSettings
-I DELETE "/Chat/{ChatSettingsId}" => OK
+I PUT "/Chat" @ref Tgstation.Server.Api.Models.ChatBot => Tgstation.Server.Api.Models.ChatBot
+I POST "/Chat" @ref Tgstation.Server.Api.Models.ChatBot => Tgstation.Server.Api.Models.ChatBot
+I DELETE "/Chat/{ChatBotId}" => OK
 
-The @ref Tgstation.Server.Api.Models.Internal.ChatSettings.ConnectionString must differ based on what kind of chat bot you wish to create
+The @ref Tgstation.Server.Api.Models.Internal.ChatBot.ConnectionString must differ based on what kind of chat bot you wish to create. Each @ref Tgstation.Server.Api.Models.ChatProvider has a @ref Tgstation.Server.Api.Models.Internal.ChatConnectionStringBuilder that dictates how to form it
 
-For IRC chat bots it should be in the following format:
-`"<Server URL or IP address>;<Server Port>;<Bot nickname>;<1 to use SSL, 0 otherwise>[;<`The @ref Tgstation.Server.Api.Models.IrcPasswordType`;<The password>]"`
+For IRC chat bots see @ref Tgstation.Server.Api.Models.IrcConnectionStringBuilder
+For Discord chat bots see @ref Tgstation.Server.Api.Models.DiscordConnectionStringBuilder
 
 For Discord chat bots it should be the <a href="https://discordapp.com/developers/docs/topics/oauth2#bots">bot's Token</a>
 
 A specific bot's settings may be retrieved with:
 
-I GET "/Chat/{ChatSettingsId}" => @ref Tgstation.Server.Api.Models.ChatSettings
+I GET "/Chat/{ChatBotId}" => @ref Tgstation.Server.Api.Models.ChatBot
 
-Also note that if the @ref Tgstation.Server.Api.Models.ChatSettings.Channels is present in a POST request, the list will fully replace any active channels
+Also note that if the @ref Tgstation.Server.Api.Models.ChatBot.Channels is present in a POST request, the list will fully replace any active channels
 
 @subsection api_byond Byond Version Management
 
@@ -287,7 +287,7 @@ Modifications to the repository are done with the following request:
 
 I POST "/Repository" => @ref Tgstation.Server.Api.Models.Repository => @ref Tgstation.Server.Api.Models.Repository
 
-Each update creates a job specified in the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field jobs will be queued in succession. See below for post examples.
+Each update that requires git changes creates a job specified in the @ref Tgstation.Server.Api.Models.Repository.ActiveJob field jobs will be queued in succession. See below for POST examples.
 
 @subsubsection api_repopost Repository Commands for Git Aliases
 
@@ -448,7 +448,11 @@ To start the watchdog use the following request:
 
 I PUT "/DreamDaemon" Empty => @ref Tgstation.Server.Api.Models.Job
 
-The returned job represents the startup process for the watchdog
+To restart the watchdog use the following request:
+
+I PATCH "/DreamDaemon" Empty => @ref Tgstation.Server.Api.Models.Job
+
+The returned jobs represents the startup process for the watchdog
 
 To stop the watchdog use the following request:
 

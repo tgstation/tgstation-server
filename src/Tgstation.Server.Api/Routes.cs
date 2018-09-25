@@ -49,6 +49,16 @@ namespace Tgstation.Server.Api
 		public const string Configuration = Root + "Config";
 
 		/// <summary>
+		/// To be paired with <see cref="Configuration"/> for accessing <see cref="Models.ConfigurationFile"/>s
+		/// </summary>
+		public const string File = "File";
+
+		/// <summary>
+		/// Full combination of <see cref="Configuration"/> and <see cref="File"/>
+		/// </summary>
+		public const string ConfigurationFile = Configuration + "/" + File;
+
+		/// <summary>
 		/// The <see cref="Models.InstanceUser"/> controller
 		/// </summary>
 		public const string InstanceUser = Root + nameof(Models.InstanceUser);

@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Components.StaticFiles
+﻿namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
 	/// <see cref="IPostWriteHandler"/> for Windows systems

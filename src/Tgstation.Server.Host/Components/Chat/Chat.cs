@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc />
-	sealed class Chat : IChat
+	sealed class Chat : IChat, IRestartHandler
 	{
 		const string CommonMention = "!tgs";
 
@@ -32,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// The <see cref="ICommandFactory"/> for the <see cref="Chat"/>
 		/// </summary>
 		readonly ICommandFactory commandFactory;
+
+		/// <summary>
+		/// The <see cref="IRestartRegistration"/> for the <see cref="Chat"/>
+		/// </summary>
+		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Chat"/>
@@ -100,14 +106,19 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatBots"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+			if (serverControl == null)
+				throw new ArgumentNullException(nameof(serverControl));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.initialChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
+
+			restartRegistration = serverControl.RegisterForRestart(this);
 
 			builtinCommands = new Dictionary<string, ICommand>();
 			providers = new Dictionary<long, IProvider>();
@@ -121,6 +132,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			restartRegistration.Dispose();
 			handlerCts.Dispose();
 			foreach (var I in providers)
 				I.Value.Dispose();
@@ -195,6 +207,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					//need to add tag and isAdminChannel
 					var mapping = enumerable.First().Value;
+					message.User.Channel.Id = mapping.Channel.Id;
 					message.User.Channel.Tag = mapping.Channel.Tag;
 					message.User.Channel.IsAdmin = mapping.Channel.IsAdmin;
 				}
@@ -269,15 +282,15 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				var commandHandler = await GetCommand(command).ConfigureAwait(false);
 
-				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
-				{
-					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
-					return;
-				}
-
 				if (commandHandler == default)
 				{
 					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					return;
+				}
+
+				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
+				{
+					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 					return;
 				}
 
@@ -563,8 +576,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task SendBroadcast(string message, CancellationToken cancellationToken)
+		public Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
 		{
+			var message = updateVersion == null ? "TGS: Restart requested..." : String.Format(CultureInfo.InvariantCulture, "TGS: Updating to version {0}...", updateVersion);
 			List<ulong> wdChannels;
 			lock (mappedChannels)   //so it doesn't change while we're using it
 				wdChannels = mappedChannels.Select(x => x.Key).ToList();

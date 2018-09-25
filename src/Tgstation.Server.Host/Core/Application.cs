@@ -3,15 +3,16 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,9 +22,9 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.StaticFiles;
+using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -45,7 +46,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
 		/// </summary>
-		readonly Microsoft.Extensions.Configuration.IConfiguration configuration;
+		readonly IConfiguration configuration;
 
 		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
@@ -53,13 +54,19 @@ namespace Tgstation.Server.Host.Core
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
 		readonly TaskCompletionSource<object> startupTcs;
+		static LogLevel GetMinimumLogLevel(string stringLevel)
+		{
+			if (String.IsNullOrWhiteSpace(stringLevel) || !Enum.TryParse<LogLevel>(stringLevel, out var minimumLevel))
+				minimumLevel = LogLevel.Information;
+			return minimumLevel;
+		}
 
 		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public Application(Microsoft.Extensions.Configuration.IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+		public Application(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
@@ -74,9 +81,7 @@ namespace Tgstation.Server.Host.Core
 		/// Configure dependency injected services
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-#pragma warning disable CA1822 // Mark members as static
 		public void ConfigureServices(IServiceCollection services)
-#pragma warning restore CA1822 // Mark members as static
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
@@ -95,10 +100,13 @@ namespace Tgstation.Server.Host.Core
 			if (generalConfiguration?.DisableFileLogging != true)
 			{
 				var logPath = !String.IsNullOrEmpty(generalConfiguration?.LogFileDirectory) ? generalConfiguration.LogFileDirectory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
-				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log")));
+
+				services.AddLogging(builder => builder.AddFile(ioManager.ConcatPath(logPath, "tgs-{Date}.log"), GetMinimumLogLevel(generalConfiguration?.LogFileLevel)));
 			}
 
 			services.AddOptions();
+
+			services.AddScoped<IClaimsInjector, ClaimsInjector>();
 
 			const string scheme = "JwtBearer";
 			services.AddAuthentication((options) =>
@@ -127,9 +135,11 @@ namespace Tgstation.Server.Host.Core
 				};
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
-					OnTokenValidated = ApiController.OnTokenValidated
+					//Application is our composition root so this monstrosity of a line is okay
+					OnTokenValidated = ctx => ctx.HttpContext.RequestServices.GetRequiredService<IClaimsInjector>().InjectClaimsIntoContext(ctx, ctx.HttpContext.RequestAborted)
 				};
 			});
+
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
 
 			services.AddMvc().AddJsonOptions(options =>
@@ -139,6 +149,7 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.CheckAdditionalContent = true;
 				options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
 
 			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
@@ -149,17 +160,21 @@ namespace Tgstation.Server.Host.Core
 					builder.EnableSensitiveDataLogging();
 			};
 
+			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
+			{
+				services.AddDbContext<TContext>(ConfigureDatabase);
+				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
+			}
+
 			var dbType = databaseConfiguration?.DatabaseType;
-			switch (dbType)
+			switch (databaseConfiguration?.DatabaseType)
 			{
 				case DatabaseType.MySql:
 				case DatabaseType.MariaDB:
-					services.AddDbContext<MySqlDatabaseContext>(ConfigureDatabase);
-					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<MySqlDatabaseContext>());
+					AddTypedContext<MySqlDatabaseContext>();
 					break;
 				case DatabaseType.SqlServer:
-					services.AddDbContext<SqlServerDatabaseContext>(ConfigureDatabase);
-					services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<SqlServerDatabaseContext>());
+					AddTypedContext<SqlServerDatabaseContext>();
 					break;
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
@@ -173,9 +188,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
 
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			services.AddSingleton(x => x.GetRequiredService<IGitHubClientFactory>().CreateClient());
 
 			if (isWindows)
 			{
@@ -183,6 +198,10 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
+
+				services.AddSingleton<WindowsNetworkPromptReaper>();
+				services.AddSingleton<INetworkPromptReaper>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
+				services.AddSingleton<IHostedService>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
 			}
 			else
 			{
@@ -190,6 +209,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
+				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
@@ -200,8 +220,10 @@ namespace Tgstation.Server.Host.Core
 				SendTimeout = 5000
 			});
 
-			services.AddSingleton<InstanceFactory>();
-			services.AddSingleton<IInstanceFactory>(x => x.GetRequiredService<InstanceFactory>());
+			services.AddSingleton<IChatFactory, ChatFactory>();
+			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
@@ -221,7 +243,8 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Application"/></param>
-		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger)
+		/// <param name="serverControl">The <see cref="IServerControl"/> for the application</param>
+		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger, IServerControl serverControl)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
@@ -229,6 +252,9 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
+			
+			//attempt to restart the server if the configuration changes
+			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			applicationBuilder.UseDeveloperExceptionPage(); //it is not worth it to limit this, you should only ever get it if you're an authorized user
 
@@ -250,12 +276,15 @@ namespace Tgstation.Server.Host.Core
 		///<inheritdoc />
 		public void Ready(Exception initializationError)
 		{
-			if (startupTcs.Task.IsCompleted)
-				throw new InvalidOperationException("Ready has already been called!");
-			if (initializationError == null)
-				startupTcs.SetResult(null);
-			else
-				startupTcs.SetException(initializationError);
+			lock (startupTcs)
+			{
+				if (startupTcs.Task.IsCompleted)
+					throw new InvalidOperationException("Ready has already been called!");
+				if (initializationError == null)
+					startupTcs.SetResult(null);
+				else
+					startupTcs.SetException(initializationError);
+			}
 		}
 	}
 }

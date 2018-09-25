@@ -15,6 +15,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with
 		/// </summary>
+		[Required]
 		public RevisionInformation PrimaryRevisionInformation { get; set; }
 
 		/// <summary>

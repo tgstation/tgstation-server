@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +15,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -43,6 +44,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="RepositoryController"/>
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="RepositoryController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -51,14 +57,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
-		static async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
+		async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
 		{
 			var repoSha = repository.Head;
 
@@ -70,7 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);  //search every rev info because LOL SHA COLLISIONS
 
 			if (revisionInfo == default)
-				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha).FirstOrDefault();
+				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id).FirstOrDefault();
 
 			var needsDbUpdate = revisionInfo == default;
 			if (needsDbUpdate)
@@ -87,14 +95,23 @@ namespace Tgstation.Server.Host.Controllers
 				lock (databaseContext)  //cleaner this way
 					databaseContext.RevisionInformations.Add(revisionInfo);
 			}
-			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha ?? repository.Head;
+			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha;
+			if (revisionInfo.OriginCommitSha == null)
+			{
+				revisionInfo.OriginCommitSha = repoSha;
+				Logger.LogWarning(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+			}
 			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
 		}
 
-		static async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
+		async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
-			model.IsGitHub = repository.IsGitHubRepository;
+			if (repository.IsGitHubRepository)
+			{
+				model.GitHubOwner = repository.GitHubOwner;
+				model.GitHubName = repository.GitHubRepoName;
+			}
 			model.Origin = repository.Origin;
 			model.Reference = repository.Reference;
 
@@ -128,7 +145,7 @@ namespace Tgstation.Server.Host.Controllers
 			var uiOrigin = model.Origin.ToUpperInvariant();
 			var uiBad = BadGitHubUrl.ToUpperInvariant();
 			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
-			if (uiOrigin.Contains(uiBad))
+			if (uiOrigin.Contains(uiBad, StringComparison.Ordinal))
 				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
 
 			currentModel.AccessToken = model.AccessToken;
@@ -168,26 +185,24 @@ namespace Tgstation.Server.Host.Controllers
 					Instance = Instance
 				};
 				var api = currentModel.ToApi();
-				await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
+				await jobManager.RegisterOperation(job, async (paramJob, databaseContext, progressReporter, ct) =>
 				{
 					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false))
 					{
 						if (repos == null)
 							throw new JobException("Filesystem conflict while cloning repository!");
-						var db = serviceProvider.GetRequiredService<IDatabaseContext>();
 						var instance = new Models.Instance
 						{
 							Id = Instance.Id
 						};
-						db.Instances.Attach(instance);
-						if (await PopulateApi(api, repos, db, instance, ct).ConfigureAwait(false))
-							await db.Save(ct).ConfigureAwait(false);
+						databaseContext.Instances.Attach(instance);
+						if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
+							await databaseContext.Save(ct).ConfigureAwait(false);
 					}
 				}, cancellationToken).ConfigureAwait(false);
 
 				api.Origin = model.Origin;
 				api.Reference = model.Reference;
-				api.IsGitHub = model.Origin.ToUpperInvariant().Contains(uiGitHub);
 				api.ActiveJob = job.ToApi();
 
 				return StatusCode((int)HttpStatusCode.Created, api);
@@ -221,7 +236,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
@@ -286,6 +301,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
 				return BadRequest(new ErrorMessage { Message = "Cannot test merge the same PR twice in one job!" });
+
+			if (model.CommitterName?.Length == 0)
+				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer name!" });
+
+			if (model.CommitterEmail?.Length == 0)
+				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer e=mail!" });
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
@@ -363,16 +384,40 @@ namespace Tgstation.Server.Host.Controllers
 			//this is just db stuf so stow it away
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
+			//format the job description
+			string description = null;
+			if (model.UpdateFromOrigin == true)
+				if (model.Reference != null)
+					description = String.Format(CultureInfo.InvariantCulture, "Fetch and hard reset repository to origin/{0}", model.Reference);
+				else if (model.CheckoutSha != null)
+					description = String.Format(CultureInfo.InvariantCulture, "Fetch and checkout {0} in repository", model.CheckoutSha);
+				else
+					description = "Pull current repository reference";
+			else if (model.Reference != null || model.CheckoutSha != null)
+				description = String.Format(CultureInfo.InvariantCulture, "Checkout repository {0} {1}", model.Reference != null ? "reference" : "SHA", model.Reference ?? model.CheckoutSha);
+
+			if (newTestMerges)
+				description = String.Format(CultureInfo.InvariantCulture, "{0}est merge pull request(s) {1}{2}", 
+					description != null ? String.Format(CultureInfo.InvariantCulture, "{0} and t", description) : "T",
+					String.Join(", ", model.NewTestMerges.Select(x => 
+					String.Format(CultureInfo.InvariantCulture, "#{0}{1}", x.Number, 
+					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, " at {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
+					description != null ? String.Empty : " in repository");
+
+			if (description == null)
+				//no git changes
+				return Json(api);
+
 			var job = new Models.Job
 			{
-				Description = "Apply repository changes",
+				Description = description,
 				StartedBy = AuthenticationContext.User,
 				Instance = Instance,
 				CancelRightsType = RightsType.Repository,
 				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
 			};
 
-			await jobManager.RegisterOperation(job, async (paramJob, serviceProvider, progressReporter, ct) =>
+			await jobManager.RegisterOperation(job, async (paramJob, databaseContext, progressReporter, ct) =>
 			{
 				using (var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false))
 				{
@@ -383,21 +428,30 @@ namespace Tgstation.Server.Host.Controllers
 
 					var startReference = repo.Reference;
 					var startSha = repo.Head;
+					string postUpdateSha = null;
 
 					if (newTestMerges && !repo.IsGitHubRepository)
 						throw new JobException("Cannot test merge on a non GitHub based repository!");
 
 					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
 
-					var numFetches = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0);
-					var doneFetches = 0;
-					if (numFetches > 0)
-						progressReporter(0);
+					var hardResettingToOriginReference = model.UpdateFromOrigin == true && model.Reference != null;
+
+					var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
+					var doneSteps = 0;
+
+					Action<int> NextProgressReporter()
+					{
+						var tmpDoneSteps = doneSteps;
+						++doneSteps;
+						return progress => progressReporter((progress + 100 * tmpDoneSteps) / numSteps);
+					};
+
+					progressReporter(0);
 
 					//get a base line for where we are
 					Models.RevisionInformation lastRevisionInfo = null;
-
-					var databaseContext = serviceProvider.GetRequiredService<IDatabaseContext>();
+					
 					var attachedInstance = new Models.Instance
 					{
 						Id = Instance.Id
@@ -421,19 +475,22 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							if (!repo.Tracking)
 								throw new JobException("Not on an updatable reference!");
-							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, x => progressReporter(x / numFetches), ct).ConfigureAwait(false);
-							doneFetches = 1;
+							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
+							doneSteps = 1;
 							if (!modelHasShaOrReference)
 							{
-								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, ct).ConfigureAwait(false);
+								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(false);
 								if (!fastForward.HasValue)
 									throw new JobException("Merge conflict occurred during origin update!");
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
 								{
 									lastRevisionInfo.OriginCommitSha = repo.Head;
-									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
+									await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
+									postUpdateSha = repo.Head;
 								}
+								else
+									NextProgressReporter()(100);
 							}
 						}
 
@@ -449,16 +506,18 @@ namespace Tgstation.Server.Host.Controllers
 								if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 									throw new JobException("Attempted to checkout a SHA or reference that was actually the opposite!");
 
-								await repo.CheckoutObject(committish, ct).ConfigureAwait(false);
+								await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);  //we've either seen origin before or what we're checking out is on origin
 							}
+							else
+								NextProgressReporter()(100);
 
-							if (model.UpdateFromOrigin == true && model.Reference != null)
+							if (hardResettingToOriginReference)
 							{
 								if (!repo.Tracking)
 									throw new JobException("Checked out reference does not track a remote object!");
-								await repo.ResetToOrigin(ct).ConfigureAwait(false);
-								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, true, ct).ConfigureAwait(false);
+								await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
+								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
 								//repo head is on origin so force this
 								//will update the db if necessary
@@ -474,7 +533,11 @@ namespace Tgstation.Server.Host.Controllers
 							foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
 								I.PullRequestRevision = null;
 
-							var gitHubClient = currentModel.AccessToken != null ? gitHubClientFactory.CreateClient(currentModel.AccessToken) : gitHubClientFactory.CreateClient();
+							var gitHubClient = currentModel.AccessToken != null 
+							? gitHubClientFactory.CreateClient(currentModel.AccessToken) 
+							: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
+							? gitHubClientFactory.CreateClient() 
+							: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
 
 							var repoOwner = repo.GitHubOwner;
 							var repoName = repo.GitHubRepoName;
@@ -575,7 +638,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (revInfoWereLookingFor != null)
 							{
 								//goteem
-								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, cancellationToken).ConfigureAwait(false);
+								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken).ConfigureAwait(false);
 								lastRevisionInfo = revInfoWereLookingFor;
 							}
 
@@ -591,6 +654,10 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									Octokit.PullRequest pr = null;
 									string errorMessage = null;
+
+									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number.Value))
+										throw new JobException("Cannot test merge the same PR twice in one HEAD!");
+
 									try
 									{
 										//load from cache if possible
@@ -602,6 +669,10 @@ namespace Tgstation.Server.Host.Controllers
 										//you look at your anonymous access and sigh
 										errorMessage = "P.R.E. RATE LIMITED";
 									}
+									catch (Octokit.AuthorizationException)
+									{
+										errorMessage = "P.R.E. BAD CREDENTIALS";
+									}
 									catch (Octokit.NotFoundException)
 									{
 										//you look at your shithub and sigh
@@ -612,12 +683,12 @@ namespace Tgstation.Server.Host.Controllers
 									if (I.PullRequestRevision == null && pr != null)
 										I.PullRequestRevision = pr.Head.Sha;
 
-									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, x => progressReporter((x + 100 * doneFetches) / numFetches), ct).ConfigureAwait(false);
+									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
 
-									if (!mergeResult.HasValue)  //conflict, we don't care, dd already knows
-										continue;
+									if (!mergeResult.HasValue)
+										throw new JobException(String.Format(CultureInfo.InvariantCulture, "Merge of PR #{0} at {1} conflicted!", I.Number, I.PullRequestRevision.Substring(0, 7)));
 
-									++doneFetches;
+									++doneSteps;
 
 									var revInfoUpdateTask = UpdateRevInfo();
 
@@ -645,19 +716,24 @@ namespace Tgstation.Server.Host.Controllers
 							}
 						}
 
-						if (startSha != repo.Head)
+						var currentHead = repo.Head;
+						if (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead))
 						{
-							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, false, ct).ConfigureAwait(false);
+							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
 						}
 						await databaseContext.Save(ct).ConfigureAwait(false);
 					}
 					catch
 					{
+						doneSteps = 0;
+						numSteps = 2;
 						//the stuff didn't make it into the db, forget what we've done and abort
-						await repo.CheckoutObject(startReference ?? startSha, default).ConfigureAwait(false);
+						await repo.CheckoutObject(startReference ?? startSha, NextProgressReporter(), default).ConfigureAwait(false);
 						if (startReference != null && repo.Head != startSha)
-							await repo.ResetToSha(startSha, default).ConfigureAwait(false);
+							await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
+						else
+							progressReporter(100);
 						throw;
 					}
 				}

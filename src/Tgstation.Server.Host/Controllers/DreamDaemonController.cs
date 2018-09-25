@@ -67,11 +67,11 @@ namespace Tgstation.Server.Host.Controllers
 				StartedBy = AuthenticationContext.User
 			};
 			await jobManager.RegisterOperation(job,
-			async (paramJob, serviceProvider, progressHandler, innerCt) =>
+			async (paramJob, databaseContext, progressHandler, innerCt) =>
 			{
 				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
 				if (result == null)
-					throw new InvalidOperationException("Watchdog already running!");
+					throw new JobException("Watchdog already running!");
 			},
 			cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());
@@ -119,13 +119,15 @@ namespace Tgstation.Server.Host.Controllers
 				result.SecurityLevel = settings.SecurityLevel;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
+				result.StartupTimeout = settings.StartupTimeout;
 			};
 
 			if (revision)
 			{
-				result.ActiveCompileJob = dd.ActiveCompileJob?.ToApi();
-				var compileJob = instance.LatestCompileJob();
-				result.StagedCompileJob = compileJob?.ToApi();
+				var latestCompileJob = instance.LatestCompileJob();
+				result.ActiveCompileJob = (dd.ActiveCompileJob ?? latestCompileJob)?.ToApi();
+				if (latestCompileJob?.Id != result.ActiveCompileJob?.Id)
+					result.StagedCompileJob = latestCompileJob?.ToApi();
 			}
 
 			return Json(result);
@@ -148,6 +150,12 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
+
+			if (model.PrimaryPort == 0)
+				return BadRequest(new ErrorMessage { Message = "Primary port cannot be 0!" });
+
+			if (model.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
+				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
 
 			//alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -185,22 +193,47 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
 				return Forbid();
 
-			if (current.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
+			if (current.PrimaryPort == current.SecondaryPort)
+				return BadRequest(new ErrorMessage { Message = "Primary port and secondary port cannot be the same!" });
 
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
+			
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			//run this second because current may be modified by it
+			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			//run these in parallel because they are equally as important
-			await Task.WhenAll(DatabaseContext.Save(cancellationToken), wd.ChangeSettings(current, cancellationToken)).ConfigureAwait(false);
-
-			//soft shutdown/restart can't be cancelled because of how many things rely on them
-			//They can be alternated though
 			if (!oldSoftRestart.Value && current.SoftRestart.Value)
 				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
 			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
 				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
+			else if ((oldSoftRestart.Value && !current.SoftRestart.Value) || (oldSoftShutdown.Value && !current.SoftShutdown.Value))
+				await wd.ResetRebootState(cancellationToken).ConfigureAwait(false);
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Handle a HTTP PATCH to the <see cref="DreamDaemonController"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		[HttpPatch]
+		[TgsAuthorize(DreamDaemonRights.Restart)]
+		public async Task<IActionResult> Restart(CancellationToken cancellationToken)
+		{
+			var job = new Models.Job
+			{
+				Instance = Instance,
+				CancelRightsType = RightsType.DreamDaemon,
+				CancelRight = (ulong)DreamDaemonRights.Shutdown,
+				StartedBy = AuthenticationContext.User,
+				Description = "Restart Watchdog"
+			};
+
+			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
+
+			await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
+			return Accepted(job.ToApi());
 		}
 	}
 }

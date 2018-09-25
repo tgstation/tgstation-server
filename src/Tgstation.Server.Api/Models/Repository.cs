@@ -23,9 +23,14 @@ namespace Tgstation.Server.Api.Models
 		public RevisionInformation RevisionInformation { get; set; }
 
 		/// <summary>
-		/// If the repository was cloned from GitHub.com. If <see langword="true"/> this enables test merge functionality
+		/// If the repository was cloned from GitHub.com this will be set with the owner of the repository
 		/// </summary>
-		public bool? IsGitHub { get; set; }
+		public string GitHubOwner { get; set; }
+
+		/// <summary>
+		/// If the repository was cloned from GitHub.com this will be set with the name of the repository
+		/// </summary>
+		public string GitHubName { get; set; }
 
 		/// <summary>
 		/// The <see cref="Job"/> started by the <see cref="Repository"/> if any

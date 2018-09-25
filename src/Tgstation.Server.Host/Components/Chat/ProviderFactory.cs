@@ -37,52 +37,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			if (settings == null)
 				throw new ArgumentNullException(nameof(settings));
+			var builder = settings.ConnectionStringBuilder;
+			if (builder == null || !builder.Valid)
+				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 			switch (settings.Provider)
 			{
 				case ChatProvider.Irc:
-					//Connection string semicolon delimited until the password field
-					if (settings.ConnectionString == null)
-						throw new InvalidOperationException("ConnectionString cannot be null!");
-					var splits = settings.ConnectionString.Split(';');
-					if (splits.Length < 4)
-						throw new InvalidOperationException("Invalid connection string!");
-
-					var address = splits[0];
-					if (!UInt16.TryParse(splits[1], out var port))
-						throw new InvalidOperationException("Unable to parse port!");
-					var nick = splits[2];
-					if (!Int32.TryParse(splits[3], out var intSsl))
-						throw new InvalidOperationException("Unable to parse ssl option!");
-
-					IrcPasswordType? passwordType = null;
-					string password = null;
-					if (splits.Length > 4)
-					{
-						if (splits.Length < 6)
-							throw new InvalidOperationException("Invalid connection string!");
-						if (!Int32.TryParse(splits[4], out var intPasswordType))
-							throw new InvalidOperationException("Unable to parse password type!");
-
-						passwordType = (IrcPasswordType)intPasswordType;
-						switch (passwordType)
-						{
-							case IrcPasswordType.NickServ:
-							case IrcPasswordType.Sasl:
-							case IrcPasswordType.Server:
-								break;
-							default:
-								throw new InvalidOperationException("Invalid password type!");
-						}
-
-						var rest = new List<string>(splits);
-						rest.RemoveRange(0, 5);
-						password = String.Join(";", rest);
-					}
-
-					return new IrcProvider(loggerFactory.CreateLogger<IrcProvider>(), application, address, port, nick, password, passwordType, intSsl != 0);
+					var ircBuilder = (IrcConnectionStringBuilder)builder;
+					return new IrcProvider(loggerFactory.CreateLogger<IrcProvider>(), application, ircBuilder.Address, ircBuilder.Port.Value, ircBuilder.Nickname, ircBuilder.Password, ircBuilder.PasswordType, ircBuilder.UseSsl.Value);
 				case ChatProvider.Discord:
-					//discord is just the bot token
-					return new DiscordProvider(loggerFactory.CreateLogger<DiscordProvider>(), settings.ConnectionString);
+					var discordBuilder = (DiscordConnectionStringBuilder)builder;
+					return new DiscordProvider(loggerFactory.CreateLogger<DiscordProvider>(), discordBuilder.BotToken);
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider));
 			}

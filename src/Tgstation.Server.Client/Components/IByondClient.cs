@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 
@@ -10,11 +11,18 @@ namespace Tgstation.Server.Client.Components
 	public interface IByondClient
 	{
 		/// <summary>
-		/// Get the <see cref="Byond"/> information
+		/// Get the <see cref="Byond"/> active <see cref="System.Version"/> information
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Byond"/> information</returns>
-		Task<Byond> Read(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Byond"/> active <see cref="System.Version"/> information</returns>
+		Task<Byond> ActiveVersion(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get all installed <see cref="Byond"/> <see cref="System.Version"/>s
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IReadOnlyList{T}"/> of installed <see cref="Byond"/> <see cref="System.Version"/>s</returns>
+		Task<IReadOnlyList<Byond>> InstalledVersions(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Updates the <see cref="Byond"/> information
@@ -22,6 +30,6 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="byond">The <see cref="Byond"/> information to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="Byond"/> information</returns>
-		Task<Byond> Update(Byond byond, CancellationToken cancellationToken);
+		Task<Byond> SetActiveVersion(Byond byond, CancellationToken cancellationToken);
 	}
 }

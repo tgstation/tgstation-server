@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="HttpClient"/> for the <see cref="ApiClient"/>
 		/// </summary>
-		readonly HttpClient httpClient;
+		readonly IHttpClient httpClient;
 
 		/// <summary>
 		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>
@@ -42,14 +43,15 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="ApiClient"/>
 		/// </summary>
+		/// <param name="httpClient">The value of <see cref="httpClient"/></param>
 		/// <param name="url">The value of <see cref="Url"/></param>
 		/// <param name="apiHeaders">The value of <see cref="ApiHeaders"/></param>
-		public ApiClient(Uri url, ApiHeaders apiHeaders)
+		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders)
 		{
+			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
 			Headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
-
-			httpClient = new HttpClient();
+			
 			requestLoggers = new List<IRequestLogger>();
 		}
 
@@ -80,7 +82,8 @@ namespace Tgstation.Server.Client
 
 			var serializerSettings = new JsonSerializerSettings
 			{
-				ContractResolver = new CamelCasePropertyNamesContractResolver()
+				ContractResolver = new CamelCasePropertyNamesContractResolver(),
+				Converters = new[] { new VersionConverter() }
 			};
 
 			if (body != null)
@@ -161,7 +164,14 @@ namespace Tgstation.Server.Client
 			if (String.IsNullOrWhiteSpace(json))
 				json = JsonConvert.SerializeObject(new object());
 
-			return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+			try
+			{
+				return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+			}
+			catch (JsonException)
+			{
+				throw new UnrecognizedResponseException(json, response.StatusCode);
+			}
 		}
 
 		/// <inheritdoc />
@@ -205,6 +215,9 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), new HttpMethod("PATCH"), instanceId, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));

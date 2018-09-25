@@ -53,7 +53,8 @@ namespace Tgstation.Server.Host.Controllers
 			IrcChannel = api.IrcChannel,
 			IsAdminChannel = api.IsAdminChannel ?? false,
 			IsWatchdogChannel = api.IsWatchdogChannel ?? false,
-			IsUpdatesChannel = api.IsUpdatesChannel ?? false
+			IsUpdatesChannel = api.IsUpdatesChannel ?? false,
+			Tag = api.Tag
 		};
 
 		/// <inheritdoc />
@@ -81,11 +82,10 @@ namespace Tgstation.Server.Host.Controllers
 					return BadRequest(new ErrorMessage { Message = "Invalid provider!" });
 			}
 
-			if (!model.Enabled.HasValue)
-				return BadRequest(new ErrorMessage { Message = "enabled cannot be null!" });
-
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
+
+			model.Enabled = model.Enabled ?? false;
 
 			//try to update das db first
 			var dbModel = new Models.ChatBot
@@ -210,6 +210,8 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			};
 
+			var oldProvider = current.Provider;
+
 			if (CheckModified(x => x.ConnectionString, ChatBotRights.WriteConnectionString)
 				|| CheckModified(x => x.Enabled, ChatBotRights.WriteEnabled)
 				|| CheckModified(x => x.Name, ChatBotRights.WriteName)
@@ -217,12 +219,18 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.Channels != null && !userRights.HasFlag(ChatBotRights.WriteChannels)))
 				return Forbid();
 
-			if (model.Channels != null)
+			var hasChannels = model.Channels != null;
+			if (hasChannels || (model.Provider.HasValue && model.Provider != oldProvider))
 			{
 				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
-				var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
-				DatabaseContext.ChatChannels.AddRange(dbChannels);
-				current.Channels = dbChannels;
+				if (hasChannels)
+				{
+					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
+					DatabaseContext.ChatChannels.AddRange(dbChannels);
+					current.Channels = dbChannels;
+				}
+				else
+					current.Channels.Clear();
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);

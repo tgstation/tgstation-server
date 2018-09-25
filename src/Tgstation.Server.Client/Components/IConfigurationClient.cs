@@ -41,5 +41,13 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task DeleteEmptyDirectory(ConfigurationFile directory, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Creates an empty <paramref name="directory"/>
+		/// </summary>
+		/// <param name="directory">The <see cref="ConfigurationFile"/> representing the directory to create</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ConfigurationFile"/></returns>
+		Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken);
 	}
 }

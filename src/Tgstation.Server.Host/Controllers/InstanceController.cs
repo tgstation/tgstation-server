@@ -136,7 +136,8 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
-					ApiValidationPort = 1339
+					ApiValidationPort = 1339,
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe
 				},
 				Name = model.Name,
 				Online = false,
@@ -294,7 +295,9 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
+			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval.Value;
 			var originalOnline = originalModel.Online.Value;
+			var renamed = model.Name != null && originalModel.Name != model.Name;
 
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
 				|| CheckModified(x => x.ConfigurationType, InstanceManagerRights.SetConfiguration)
@@ -310,6 +313,9 @@ namespace Tgstation.Server.Host.Controllers
 				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			if (renamed)
+				instanceManager.GetInstance(originalModel).Rename(originalModel.Name);
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
@@ -347,9 +353,12 @@ namespace Tgstation.Server.Host.Controllers
 					StartedBy = AuthenticationContext.User
 				};
 
-				await jobManager.RegisterOperation(job, (paramJob, serviceProvider, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
 				api.MoveJob = job.ToApi();
 			}
+
+			if (originalModel.Online.Value && model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
+				await instanceManager.GetInstance(originalModel).SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 
 			return Json(api);
 		}

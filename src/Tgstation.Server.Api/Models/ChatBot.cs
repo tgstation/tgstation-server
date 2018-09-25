@@ -15,15 +15,15 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Validates <see cref="Channels"/> are correct for the <see cref="Internal.ChatBot.Provider"/>
 		/// </summary>
-		/// <returns></returns>
+		/// <returns><see langword="true"/> if the <see cref="Channels"/> are valid for the <see cref="Internal.ChatBot.Provider"/>, <see langword="false"/> otherwise</returns>
 		public bool ValidateProviderChannelTypes()
 		{
 			switch (Provider)
 			{
 				case ChatProvider.Discord:
-					return Channels.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x);
+					return Channels?.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x) ?? true;
 				case ChatProvider.Irc:
-					return Channels.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x);
+					return Channels?.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x) ?? true;
 				default:
 					throw new InvalidOperationException("Invalid provider type!");
 			}

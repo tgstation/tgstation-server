@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -15,16 +16,25 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The .dme file used for compilation
 		/// </summary>
+		[Required]
 		public string DmeName { get; set; }
 
 		/// <summary>
 		/// Textual output of DM
 		/// </summary>
+		[Required]
 		public string Output { get; set; }
 
 		/// <summary>
 		/// The Game folder the results were compiled into
 		/// </summary>
+		[Required]
 		public Guid? DirectoryName { get; set; }
+
+		/// <summary>
+		/// The minimum <see cref="DreamDaemonSecurity"/> required to run the <see cref="CompileJob"/>'s output
+		/// </summary>
+		[Required]
+		public DreamDaemonSecurity? MinimumSecurityLevel { get; set; }
 	}
 }

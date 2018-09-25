@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					return true;
 				}))
 				{
-					resultId = ++channelIdCounter;
+					resultId = channelIdCounter++;
 					dicToCheck.Add(resultId.Value, channelName);
 					if (dicToCheck == queryChannelIdMap)
 						channelIdMap.Add(resultId.Value, null);
@@ -258,9 +258,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						var recievedPlus = false;
 						client.OnReadLine += (sender, e) =>
 						{
-							if (e.Line.Contains("ACK :sasl"))
+							if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
 								recievedAck = true;
-							else if (e.Line.Contains("AUTHENTICATE +"))
+							else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
 								recievedPlus = true;
 						};
 
@@ -291,16 +291,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					listenTask = Task.Factory.StartNew(() =>
 					{
-						while (!disconnecting && client.IsConnected)
+						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
 						{
 							client.ListenOnce(true);
 							if (disconnecting || !client.IsConnected)
 								break;
 							client.Listen(false);
 							//ensure we have the correct nick
-							if (client.Nickname != nickname && client.GetIrcUser(nickname) == null)
+							if (client.GetIrcUser(nickname) == null)
 								client.RfcNick(nickname);
 						}
+						client.Listen();
 					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
 				catch (Exception e)
@@ -359,7 +360,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				return (IReadOnlyList<Channel>)channels.Select(x =>
 				{
-					var id = channelIdCounter;
+					ulong? id = null;
 					if (!channelIdMap.Any(y =>
 					{
 						if (y.Value != x.IrcChannel)
@@ -368,15 +369,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return true;
 					}))
 					{
-						channelIdMap.Add(id, x.IrcChannel);
-						++channelIdCounter;
+						id = channelIdCounter++;
+						channelIdMap.Add(id.Value, x.IrcChannel);
 					}
 					return new Channel
 					{
-						RealId = id,
+						RealId = id.Value,
 						IsAdmin = x.IsAdminChannel == true,
 						ConnectionName = address,
-						FriendlyName = channelIdMap[id],
+						FriendlyName = channelIdMap[id.Value],
 						IsPrivate = false,
 						Tag = x.Tag
 					};

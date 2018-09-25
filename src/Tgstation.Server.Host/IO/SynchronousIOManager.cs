@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.IO
 		{
 			foreach (var I in Directory.EnumerateDirectories(path))
 			{
-				yield return I;
+				yield return Path.GetFileName(I);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.IO
 		{
 			foreach (var I in Directory.EnumerateFiles(path))
 			{
-				yield return I;
+				yield return Path.GetFileName(I);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}

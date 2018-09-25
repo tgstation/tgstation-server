@@ -35,36 +35,39 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			logger.LogInformation("Host watchdog starting...");
 
-			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-			var paths = enviromentPath.Split(';');
-			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-			var exeName = "dotnet";
-			IEnumerable<string> enumerator;
-			if (isWindows)
+			string updateDirectory = null;
+			try
 			{
-				exeName += ".exe";
-				enumerator = paths;
-			}
-			else
-				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
+				var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+				var paths = enviromentPath.Split(';');
+				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
+				var exeName = "dotnet";
+				IEnumerable<string> enumerator;
+				if (isWindows)
+				{
+					exeName += ".exe";
+					enumerator = paths;
+				}
+				else
+					enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
 
-			var dotnetPath = enumerator
-							   .Where(x =>
-							   {
-								   logger.LogTrace("Checking for dotnet at {0}", x);
-								   return File.Exists(x);
-							   })
-							   .FirstOrDefault();
+				enumerator = enumerator.Select(x => Path.Combine(x, exeName));
 
-			if (dotnetPath == default)
-			{
-				logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
-				return;
-			}
-			logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
+				var dotnetPath = enumerator
+								   .Where(x =>
+								   {
+									   logger.LogTrace("Checking for dotnet at {0}", x);
+									   return File.Exists(x);
+								   })
+								   .FirstOrDefault();
+
+				if (dotnetPath == default)
+				{
+					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
+					return;
+				}
+				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
 
 			var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -74,41 +77,38 @@ namespace Tgstation.Server.Host.Watchdog
 #endif
 			var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 #if DEBUG
-			//just copy the shit where it belongs
-			Directory.Delete(assemblyStoragePath, true);
-			Directory.CreateDirectory(defaultAssemblyPath);
+				//just copy the shit where it belongs
+				Directory.Delete(assemblyStoragePath, true);
+				Directory.CreateDirectory(defaultAssemblyPath);
 
-			var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.0";
-			foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
-				Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.1";
+				foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+					Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
 
-			foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
-				File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+				foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+					File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
 
-			const string AppSettingsJson = "appsettings.json";
-			var rootJson = Path.Combine(rootLocation, AppSettingsJson);
-			File.Delete(rootJson);
-			File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
+				const string AppSettingsJson = "appsettings.json";
+				var rootJson = Path.Combine(rootLocation, AppSettingsJson);
+				File.Delete(rootJson);
+				File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
 #endif
 
-			var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
-			var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
+				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
+				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
 
-			if (assemblyPath.Contains("\""))
-			{
-				logger.LogCritical("Running from paths with \"'s in the name is not supported!");
-				return;
-			}
+				if (assemblyPath.Contains("\""))
+				{
+					logger.LogCritical("Running from paths with \"'s in the name is not supported!");
+					return;
+				}
 
-			if (!File.Exists(assemblyPath))
-			{
-				logger.LogCritical("Unable to locate host assembly!");
-				return;
-			}
+				if (!File.Exists(assemblyPath))
+				{
+					logger.LogCritical("Unable to locate host assembly!");
+					return;
+				}
 
-			string updateDirectory = null;
-			try
-			{
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
 					{
@@ -117,12 +117,12 @@ namespace Tgstation.Server.Host.Watchdog
 						using (var process = new Process())
 						{
 							process.StartInfo.FileName = dotnetPath;
-							process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;  //for appsettings
+							process.StartInfo.WorkingDirectory = rootLocation;  //for appsettings
 
 							var arguments = new List<string>
 							{
 								'"' + assemblyPath + '"',
-								updateDirectory
+								'"' + updateDirectory + '"'
 							};
 
 							if (Environment.GetCommandLineArgs().Any(x => x == "--attach-host-debugger"))
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Host.Watchdog
 
 							logger.LogInformation("Launching host...");
 
-							var iShotTheSheriff = false;
+							var killedHostProcess = false;
 							try
 							{
 								process.Start();
@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Watchdog
 								{
 									if (!process.HasExited)
 									{
-										iShotTheSheriff = true;
+										killedHostProcess = true;
 										process.Kill();
 										process.WaitForExit();
 									}
@@ -210,7 +210,7 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									throw new Exception(String.Format(CultureInfo.InvariantCulture, "Host propagated exception: {0}", data));
 								default:
-									if (iShotTheSheriff)
+									if (killedHostProcess)
 									{
 										logger.LogWarning("Watchdog forced to kill host process!");
 										cancellationToken.ThrowIfCancellationRequested();

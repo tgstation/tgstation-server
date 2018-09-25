@@ -16,6 +16,11 @@
 		public string LogFileDirectory { get; set; }
 
 		/// <summary>
+		/// The stringified <see cref="Microsoft.Extensions.Logging.LogLevel"/> for file logging
+		/// </summary>
+		public string LogFileLevel { get; set; }
+
+		/// <summary>
 		/// If file logging is disabled
 		/// </summary>
 		public bool DisableFileLogging { get; set; }
@@ -24,5 +29,10 @@
 		/// Minimum length of database user passwords
 		/// </summary>
 		public uint MinimumPasswordLength { get; set; }
+
+		/// <summary>
+		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes
+		/// </summary>
+		public string GitHubAccessToken { get; set; }
 	}
 }

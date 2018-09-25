@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Directory to byond installation configuration
 		/// </summary>
-		const string ByondConfigDir = "byond/config";
+		const string ByondConfigDir = "byond/cfg";
 		/// <summary>
 		/// BYOND's DreamDaemon config file
 		/// </summary>

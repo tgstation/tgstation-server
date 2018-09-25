@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Host.Models;
+﻿using System;
+using System.Globalization;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -35,5 +37,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (copy.Bravo != null)
 				Bravo = new ReattachInformation(copy.Bravo, dmbBravo);
 		}
+
+		/// <inheritdoc />
+		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Alpha: {0}, Bravo {1}", Alpha, Bravo);
 	}
 }

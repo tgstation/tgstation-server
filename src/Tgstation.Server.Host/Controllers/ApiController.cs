@@ -1,20 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -56,64 +50,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// If <see cref="IAuthenticationContext.InstanceUser"/> permissions are required to access the <see cref="ApiController"/>
 		/// </summary>
 		readonly bool requireInstance;
-
-		/// <summary>
-		/// Runs after a <see cref="Token"/> has been validated. Creates the <see cref="IAuthenticationContext"/> for the <see cref="ControllerBase.Request"/>
-		/// </summary>
-		/// <param name="context">The <see cref="TokenValidatedContext"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		public static async Task OnTokenValidated(TokenValidatedContext context)
-		{
-			var databaseContext = context.HttpContext.RequestServices.GetRequiredService<IDatabaseContext>();
-			var authenticationContextFactory = context.HttpContext.RequestServices.GetRequiredService<IAuthenticationContextFactory>();
-
-			var userIdClaim = context.Principal.FindFirst(JwtRegisteredClaimNames.Sub);
-
-			if (userIdClaim == default(Claim))
-				throw new InvalidOperationException("Missing required claim!");
-
-			long userId;
-			try
-			{
-				userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
-			}
-			catch (Exception e)
-			{
-				throw new InvalidOperationException("Failed to parse user ID!", e);
-			}
-
-			ApiHeaders apiHeaders;
-			try
-			{
-				apiHeaders = new ApiHeaders(context.HttpContext.Request.GetTypedHeaders());
-			}
-			catch
-			{
-				//let OnActionExecutionAsync handle the reponse
-				return;
-			}
-
-			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, context.SecurityToken.ValidFrom, context.HttpContext.RequestAborted).ConfigureAwait(false);
-
-			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
-
-			var enumerator = Enum.GetValues(typeof(RightsType));
-			var claims = new List<Claim>();
-			foreach (RightsType I in enumerator)
-			{
-				//if there's no instance user, do a weird thing and add all the instance roles
-				//we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
-				//if user is null that means they got the token with an expired password
-				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0U : authenticationContext.GetRight(I);
-				var rightEnum = RightsHelper.RightToType(I);
-				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
-				foreach (Enum J in Enum.GetValues(rightEnum))
-					if (right.HasFlag(J))
-						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));
-			}
-
-			context.Principal.AddIdentity(new ClaimsIdentity(claims));
-		}
 
 		/// <summary>
 		/// Construct an <see cref="ApiController"/>
@@ -210,6 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (OperationCanceledException e)
 			{
 				Logger.LogDebug("Request cancelled! Exception: {0}", e);
+				throw;
 			}
 		}
 	}

@@ -25,13 +25,35 @@ Generally, updates force a live tracking of the configured git repo, resetting l
 3. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
 4. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
 
+#### Linux
+
+[We recommend using Docker for Linux installations](https://github.com/tgstation/tgstation-server#docker). The content of this parent section may be skipped if you choose to do so
+
+The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
+
+- gcc-multilib (on 64-bit systems for running BYOND)
+
+Note that tgstation-server has only ever been tested on Linux via it's [docker environment](https://github.com/tgstation/tgstation-server/blob/master/build/Dockerfile#L22). If you are having trouble with something, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
+
 #### Docker
 
-tgstation-server supports running in a docker container on linux systems and is the preferred deployment method to avoid [native dependency hell with libgit2](https://github.com/libgit2/libgit2sharp/issues/1533). The official image repository is located at https://hub.docker.com/r/tgstation/server it can be built locally, however, by running `docker build . -f build/Dockerfile` in the repository root.
+tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems due being the only tested environment. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
 
-To create a container run `docker create --restart=always -p <public port>:80 -v /path/to/your/appsettings.Production.json:/config_data -v path/to/your/log/folder:/tgs_logs tgstation/server` with any additional options you desire (i.e. You'll have to expose more ports in order to actually host servers, add a volume to create instances on, and create a volume for the SQLite database if that is what you're using).
+To create a container run
+```
+docker create \
+	--restart=always \ #if you want maximum uptime
+	--network="host" \ #if your sql server is on the same machine
+	-p <tgs port>:80 \
+	-p 0.0.0.0:<public game port>:<internal game port> \
+	-v /path/to/store/instances:/tgs4_instances \
+	-v /path/to/your/appsettings.Production.json:/config_data \
+	-v path/to/your/log/folder:/tgs_logs \
+	tgstation/server
+```
+with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
-Note that due to the nature of docker. If the container restarts, you will be sent back to the version of TGS you installed with the initial command. Server updates will have to be reapplied. For this reason it is NOT RECOMMENDED to use the live update feature with a docker host.
+Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
 ### Configuring
 
@@ -41,7 +63,11 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
-- `Logging:LogLevel:Default`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
+- `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
+
+- `General:LogFileLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
+
+- `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 
 - `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
 
@@ -54,6 +80,8 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 If using MySQL, our provider library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
 
 The user created for the application will need the privilege to create databases on the first run. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
+
+Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.
 
 ### Starting
 
@@ -79,9 +107,117 @@ A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integ
 
 The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the `TGS_EXTERNAL_CONFIGURATION` is recommended in order to make the process as easy as replacing `tgs.dm` and the `tgs` folder with a new version
 
+### Example
+
+Here is a bare minimum example project that implements the essential code changes for integrating the DMAPI
+
+Before `tgs.dm`:
+```
+//Remember, every codebase is different, you probably have better methods for these defines than the ones given here
+#define TGS_EXTERNAL_CONFIGURATION
+#define TGS_DEFINE_AND_SET_GLOBAL(Name, Value) var/global/##Name = ##Value
+#define TGS_READ_GLOBAL(Name) global.##Name
+#define TGS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value
+#define TGS_WORLD_ANNOUNCE(message) world << ##message
+#define TGS_INFO_LOG(message) world.log << "TGS Info: [##message]"
+#define TGS_ERROR_LOG(message) world.log << "TGS Error: [##message]"
+#define TGS_NOTIFY_ADMINS(event) world.log << "TGS Admin Message: [##event]"
+#define TGS_CLIENT_COUNT global.client_cout
+#define TGS_PROTECT_DATUM(Path) // Leave blank if your codebase doesn't give administrators code reflection capabilities
+```
+
+Anywhere else:
+```dm
+var/global/client_count = 0
+
+/world/New()
+	..()
+	TgsNew()
+	TgsInitializationsComplete()
+
+/world/Reboot()
+	TgsReboot()
+	..()
+
+/world/Topic()
+	TGS_TOPIC
+	..()
+
+/client/New()
+	..()
+	++global.client_count
+
+/client/Del()
+	..()
+	--global.client_count
+
+```
+
+## Remote Access
+
+tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration JSON. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
+
+Exposing the builtin kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.
+
+System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.
+
+Once complete, test that your configuration worked by visiting your proxy site from a different computer. You should recieve a 401 Unauthorized response.
+
+### IIS (Reccommended for Windows)
+
+1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
+2. Install the [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx)
+3. Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module
+4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix.
+5. Close and reopen the IIS Manager
+5. Open the site and navigate to the `URL Rewrite` module
+6. In the `Actions` Pane on the right click `Add Rule(s)...`
+7. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
+8. You may get a prompt about enabling proxy functionality. Click `OK`
+9. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `http://localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
+
+### Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)
+
+1. Setup a basic website configuration. Instructions on how to do so are out of scope.
+2. In your Caddyfile, under a server entry, add the following (replace 8080 with the port TGS is hosted on):
+```
+proxy /tgs localhost:8080 {
+	transparent
+}
+```
+
+See https://caddyserver.com/docs/proxy
+
+### NGINX (Reccommended for Linux)
+
+1. Setup a basic website configuration. Instructions on how to do so are out of scope.
+2. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure NGINX to use it.
+3. Setup a path under a server like the following (replace 8080 with the port TGS is hosted on):
+```
+location /tgs {
+	proxy_pass http://127.0.0.1:8080;
+	break;
+}
+```
+
+See https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+
+### Apache
+
+1. Ensure the `mod_proxy` extension is installed. 
+2. Setup a basic website configuration. Instructions on how to do so are out of scope.
+3. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure Apache to use it.
+4. Under a VirtualHost entry, setup the following (replace 8080 with the port TGS is hosted on):
+```
+ProxyPass / http://127.0.0.1:8080
+ProxyPassReverse / http://127.0.0.1:8080
+```
+
+See https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html
+
 ## Usage
 
-tgstation-sever v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server.
+tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server.
 
 ### Users
 

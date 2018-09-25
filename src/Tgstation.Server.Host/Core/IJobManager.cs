@@ -20,10 +20,22 @@ namespace Tgstation.Server.Host.Core
 		/// Registers a given <see cref="Job"/> and begins running it
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/></param>
-		/// <param name="operation">The operation to run taking the started <see cref="Job"/>, a <see cref="IServiceProvider"/> progress reporter <see cref="Action{T1}"/> and a <see cref="CancellationToken"/></param>
+		/// <param name="operation">The operation to run taking the started <see cref="Job"/>, a <see cref="IDatabaseContext"/>, progress reporter <see cref="Action{T1}"/> and a <see cref="CancellationToken"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing a running operation</returns>
-		Task RegisterOperation(Job job, Func<Job, IServiceProvider, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken);
+		Task RegisterOperation(Job job, Func<Job, IDatabaseContext, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Wait for a given <paramref name="job"/> to complete
+		/// </summary>
+		/// <param name="job">The <see cref="Job"/> to wait for </param>
+		/// <param name="canceller">The <see cref="User"/> to cancel the <paramref name="job"/></param>
+		/// <param name="jobCancellationToken">A <see cref="CancellationToken"/> that will cancel the <paramref name="job"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the <see cref="Job"/></returns>
+#pragma warning disable CA1068 // CancellationToken parameters must come last https://github.com/dotnet/roslyn-analyzers/issues/1816
+		Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
+#pragma warning restore CA1068 // CancellationToken parameters must come last
 
 		/// <summary>
 		/// Cancels a give <paramref name="job"/>

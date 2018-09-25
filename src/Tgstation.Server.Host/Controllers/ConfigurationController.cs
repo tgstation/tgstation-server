@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (newFile == null)
 					return Conflict(new ErrorMessage
 					{
-						Message = ""
+						Message = "This file has been updated since you last viewed it!"
 					});
 
 				newFile.Content = null;
@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpGet("File/{*filePath}")]
+		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
@@ -171,6 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
+				model.IsDirectory = true;
 				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
 			}
 			catch (NotImplementedException)

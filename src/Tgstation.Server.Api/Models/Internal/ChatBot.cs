@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -33,5 +35,33 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public string ConnectionString { get; set; }
+
+		/// <summary>
+		/// The <see cref="ChatConnectionStringBuilder"/> which maps to the <see cref="ConnectionString"/>
+		/// </summary>
+		[NotMapped]
+		public ChatConnectionStringBuilder ConnectionStringBuilder
+		{
+			get
+			{
+				if (ConnectionString == null)
+					return null;
+				switch (Provider)
+				{
+					case ChatProvider.Discord:
+						return new DiscordConnectionStringBuilder(ConnectionString);
+					case ChatProvider.Irc:
+						return new IrcConnectionStringBuilder(ConnectionString);
+					default:
+						throw new InvalidOperationException("Invalid Provider!");
+				}
+			}
+			set
+			{
+				if (value?.Valid == false)
+					throw new InvalidOperationException("Cannot set invalid ChatConnectionStringBuilder!");
+				ConnectionString = value?.ToString();
+			}
+		}
 	}
 }

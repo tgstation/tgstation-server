@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -25,12 +25,7 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IByondManager"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IByondManager ByondManager { get; }
-
-		/// <summary>
-		/// The <see cref="IDreamMaker"/> for the <see cref="IInstance"/>
-		/// </summary>
-		IDreamMaker DreamMaker { get; }
-
+		
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="IInstance"/>
 		/// </summary>
@@ -40,11 +35,6 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IChat"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IChat Chat { get; }
-
-		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for the <see cref="IInstance"/>
-		/// </summary>
-		ICompileJobConsumer CompileJobConsumer { get; }
 
 		/// <summary>
 		/// The <see cref="StaticFiles.IConfiguration"/> for the <see cref="IInstance"/>
@@ -58,12 +48,6 @@ namespace Tgstation.Server.Host.Components
 		CompileJob LatestCompileJob();
 
 		/// <summary>
-		/// Get the <see cref="Api.Models.Instance"/> associated with the <see cref="IInstance"/>
-		/// </summary>
-		/// <returns>The <see cref="Api.Models.Instance"/> associated with the <see cref="IInstance"/></returns>
-		Api.Models.Instance GetMetadata();
-
-		/// <summary>
 		/// Rename the <see cref="IInstance"/>
 		/// </summary>
 		/// <param name="newName">The new name for the <see cref="IInstance"/></param>
@@ -75,5 +59,15 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="newInterval">The new auto update inteval</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SetAutoUpdateInterval(uint newInterval);
+
+		/// <summary>
+		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Core.IJobManager"/>
+		/// </summary>
+		/// <param name="job">The running <see cref="Job"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation</param>
+		/// <param name="progressReporter">The <see cref="Action{T1}"/> to report compilation progress</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken);
 	}
 }

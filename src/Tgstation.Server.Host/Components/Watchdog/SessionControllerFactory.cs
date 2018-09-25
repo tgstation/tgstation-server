@@ -58,6 +58,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IChat chat;
 
 		/// <summary>
+		/// The <see cref="INetworkPromptReaper"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly INetworkPromptReaper networkPromptReaper;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -98,8 +103,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
+		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, ILoggerFactory loggerFactory, Api.Models.Instance instance)
+		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, INetworkPromptReaper networkPromptReaper, ILoggerFactory loggerFactory, Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -109,6 +115,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
@@ -131,6 +138,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			//i changed this back from guids, hopefully i don't regret that
 			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
+			var securityLevelToUse = launchParameters.SecurityLevel.Value;
+			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
+			{
+				case DreamDaemonSecurity.Ultrasafe:
+					break;
+				case DreamDaemonSecurity.Safe:
+					if (securityLevelToUse == DreamDaemonSecurity.Ultrasafe)
+						securityLevelToUse = DreamDaemonSecurity.Safe;
+					break;
+				case DreamDaemonSecurity.Trusted:
+					securityLevelToUse = DreamDaemonSecurity.Trusted;
+					break;
+				default:
+					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
+			}
+
 			//setup interop files
 			var interopInfo = new JsonFile
 			{
@@ -140,6 +163,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ChatCommandsJson = JsonFile("chat_commands"),
 				ServerCommandsJson = JsonFile("server_commands"),
 				InstanceName = instance.Name,
+				SecurityLevel = securityLevelToUse,
 				Revision = new Api.Models.Internal.RevisionInformation
 				{
 					CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
@@ -182,15 +206,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							dmbProvider.DmbName,
 							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
 							launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
-							SecurityWord(launchParameters.SecurityLevel.Value),
+							SecurityWord(securityLevelToUse),
 							parameters);
 
 						//launch dd
-						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments);
+						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: true);
 						try
 						{
+							networkPromptReaper.RegisterProcess(process);
+
 							//return the session controller for it
-							return new SessionController(new ReattachInformation
+							var result = new SessionController(new ReattachInformation
 							{
 								AccessIdentifier = accessIdentifier,
 								Dmb = dmbProvider,
@@ -200,7 +226,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ChatChannelsJson = interopInfo.ChatChannelsJson,
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
 								ServerCommandsJson = interopInfo.ServerCommandsJson,
-							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.StartupTimeout);
+							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.SecurityLevel, launchParameters.StartupTimeout);
+
+							//writeback launch parameter's fixed security level
+							launchParameters.SecurityLevel = securityLevelToUse;
+
+							return result;
 						}
 						catch
 						{
@@ -247,7 +278,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 						try
 						{
-							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null);
+							networkPromptReaper.RegisterProcess(process);
+							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
 						}
 						catch
 						{

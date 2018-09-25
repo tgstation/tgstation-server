@@ -29,13 +29,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public bool ApiValidated
+		public ApiValidationStatus ApiValidationStatus
 		{
 			get
 			{
 				if (!Lifetime.IsCompleted)
 					throw new InvalidOperationException("ApiValidated cannot be checked while Lifetime is incomplete!");
-				return apiValidated;
+				return apiValidationStatus;
 			}
 		}
 
@@ -127,6 +127,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ILogger<SessionController> logger;
 
 		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level the <see cref="process"/> was launched with
+		/// </summary>
+		readonly DreamDaemonSecurity? launchSecurityLevel;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
@@ -151,9 +156,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool disposed;
 
 		/// <summary>
-		/// If the DMAPI was validated
+		/// The <see cref="ApiValidationStatus"/> for the <see cref="SessionController"/>
 		/// </summary>
-		bool apiValidated;
+		ApiValidationStatus apiValidationStatus;
 
 		/// <summary>
 		/// If <see cref="process"/> should be kept alive instead
@@ -171,8 +176,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="launchSecurityLevel">The value of <see cref="launchSecurityLevel"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
-		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger, uint? startupTimeout)
+		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger, DreamDaemonSecurity? launchSecurityLevel, uint? startupTimeout)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
@@ -183,11 +189,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			this.launchSecurityLevel = launchSecurityLevel;
+
 			interopContext.RegisterHandler(this);
 
 			portClosedForReboot = false;
 			disposed = false;
-			apiValidated = false;
+			apiValidationStatus = ApiValidationStatus.NeverValidated;
 			released = false;
 
 			rebootTcs = new TaskCompletionSource<object>();
@@ -270,6 +278,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			object content;
 			Action postRespond = null;
+			ushort? overrideResponsePort = null;
 			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
 			{
 				content = new object();
@@ -289,6 +298,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
+								content = new ErrorMessage { Message = "Missing stringified port as data parameter!" };
 								break;
 							}
 
@@ -301,6 +311,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								//if it fails it'll kill itself
 								content = new Dictionary<string, ushort> { { Constants.DMParameterData, nextPort.Value } };
 								reattachInformation.Port = nextPort.Value;
+								overrideResponsePort = currentPort;
 								nextPort = null;
 
 								//we'll also get here from SetPort so complete that task
@@ -314,7 +325,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						}
 						break;
 					case Constants.DMCommandApiValidate:
-						apiValidated = true;
+						if (!launchSecurityLevel.HasValue)
+						{
+							logger.LogWarning("DreamDaemon requested API validation but no intial security level was passed to the session controller!");
+							apiValidationStatus = ApiValidationStatus.UnaskedValidationRequest;
+							content = new ErrorMessage { Message = "Invalid API validation request!" };
+							break;
+						}
+						if (!query.TryGetValue(Constants.DMParameterData, out var stringMinimumSecurityLevel) || !Enum.TryParse<DreamDaemonSecurity>(stringMinimumSecurityLevel, out var minimumSecurityLevel))
+							apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+						else
+							switch (minimumSecurityLevel)
+							{
+								case DreamDaemonSecurity.Safe:
+									apiValidationStatus = ApiValidationStatus.RequiresSafe;
+									break;
+								case DreamDaemonSecurity.Ultrasafe:
+									apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
+									break;
+								case DreamDaemonSecurity.Trusted:
+									apiValidationStatus = ApiValidationStatus.RequiresTrusted;
+									break;
+								default:
+									throw new InvalidOperationException("Enum.TryParse failed to validate the DreamDaemonSecurity range!");
+							}
 						break;
 					case Constants.DMCommandWorldReboot:
 						if (ClosePortOnReboot)
@@ -335,7 +369,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				content = new ErrorMessage { Message = "Missing command parameter!" };
 
 			var json = JsonConvert.SerializeObject(content);
-			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), cancellationToken).ConfigureAwait(false);
+			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), overrideResponsePort, cancellationToken).ConfigureAwait(false);
 
 			if (response != Constants.DMResponseSuccess)
 				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
@@ -367,7 +401,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<string> SendCommand(string command, CancellationToken cancellationToken)
+		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => SendCommand(command, null, cancellationToken);
+
+		async Task<string> SendCommand(string command, ushort? overridePort, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -379,10 +415,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					//intentionally don't sanitize command, that's up to the caller
 					command);
 
-				logger.LogTrace("Export to :{0}. Query: {1}", reattachInformation.Port, commandString);
+				var targetPort = overridePort ?? reattachInformation.Port;
+				logger.LogTrace("Export to :{0}. Query: {1}", targetPort, commandString);
 
 				return await byondTopicSender.SendTopic(
-					new IPEndPoint(IPAddress.Loopback, reattachInformation.Port),
+					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
 					cancellationToken).ConfigureAwait(false);
 			}

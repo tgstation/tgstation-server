@@ -25,16 +25,20 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		CancelCompile = 4,
 		/// <summary>
-		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ProjectName"/>
+		/// User may modify <see cref="Models.DreamMaker.ProjectName"/>
 		/// </summary>
 		SetDme = 8,
 		/// <summary>
-		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationPort"/>
+		/// User may modify <see cref="Models.DreamMaker.ApiValidationPort"/>
 		/// </summary>
 		SetApiValidationPort = 16,
 		/// <summary>
 		/// User may list and read all <see cref="Models.CompileJob"/>s
 		/// </summary>
-		CompileJobs = 32
+		CompileJobs = 32,
+		/// <summary>
+		/// User may modify <see cref="Models.DreamMaker.ApiValidationSecurityLevel"/>
+		/// </summary>
+		SetSecurityLevel = 64
 	}
 }

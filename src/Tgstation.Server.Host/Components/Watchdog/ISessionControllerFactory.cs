@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Create a <see cref="ISessionController"/> from a freshly launch DreamDaemon instance
 		/// </summary>
-		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use</param>
+		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use. <see cref="DreamDaemonLaunchParameters.SecurityLevel"/> will be updated with the minumum required security level for the launch</param>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> to use</param>
 		/// <param name="currentByondLock">The current <see cref="IByondExecutableLock"/> if any</param>
 		/// <param name="primaryPort">If the <see cref="DreamDaemonLaunchParameters.PrimaryPort"/> of <paramref name="launchParameters"/> should be used</param>
