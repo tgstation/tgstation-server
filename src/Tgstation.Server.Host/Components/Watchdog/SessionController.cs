@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), overrideResponsePort, cancellationToken).ConfigureAwait(false);
 
 			if (response != Constants.DMResponseSuccess)
-				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
+				logger.LogWarning("Received error response while responding to interop: {0}", response);
 
 			postRespond?.Invoke();
 		}
