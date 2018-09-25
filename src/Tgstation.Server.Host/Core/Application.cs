@@ -289,7 +289,7 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <see cref="Application"/>
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Application"/></param>
+		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the application</param>
 		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger, IServerControl serverControl)
 		{
