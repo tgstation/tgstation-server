@@ -88,5 +88,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Changes <see cref="RebootState"/> to <see cref="Components.Watchdog.RebootState.Normal"/> without telling the DMAPI
 		/// </summary>
 		void ResetRebootState();
+
+		/// <summary>
+		/// Enables the reading of custom chat commands from the <see cref="ISessionController"/>
+		/// </summary>
+		void EnableCustomChatCommands();
 	}
 }

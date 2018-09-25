@@ -275,6 +275,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				monitorState.ActiveServer = monitorState.InactiveServer;
 				monitorState.InactiveServer = tmp;
 				AlphaIsActive = !AlphaIsActive;
+				monitorState.ActiveServer.EnableCustomChatCommands();
 				return true;
 			}
 
@@ -598,10 +599,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception e)
 				{
-					logger.LogError("Monitor crashed! Iteration: {0}, State: {1}", iteration, JsonConvert.SerializeObject(monitorState));
+					logger.LogError("Monitor crashed! Iteration: {0}, State: {1}, Exception: {2}", iteration, JsonConvert.SerializeObject(monitorState), e);
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Monitor crashed, this should NEVER happen! Please report this, full details in logs! Restarting monitor... Error: {0}", e.Message), cancellationToken).ConfigureAwait(false);
 				}
 			}
+			logger.LogTrace("Monitor exiting...");
 		}
 
 		async Task<bool> StopMonitor()
@@ -716,7 +718,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//both servers are now running, alpha is the active server(unless reattach), huzzah
 						AlphaIsActive = doReattach ? reattachInfo?.AlphaIsActive ?? true : true;
 						LastLaunchResult = alphaLrt.Result;
-						(AlphaIsActive ? alphaServer : bravoServer).ClosePortOnReboot = true;
+
+						var activeServer = AlphaIsActive ? alphaServer : bravoServer;
+						activeServer.EnableCustomChatCommands();
+						activeServer.ClosePortOnReboot = true;
 
 						logger.LogInformation("Launched servers successfully");
 						Running = true;

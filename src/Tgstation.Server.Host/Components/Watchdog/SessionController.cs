@@ -200,6 +200,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			rebootTcs = new TaskCompletionSource<object>();
 
+			process.Lifetime.ContinueWith(x => chatJsonTrackingContext.Active = false, TaskScheduler.Current);
+
 			async Task<LaunchResult> GetLaunchResult()
 			{
 				var startTime = DateTimeOffset.Now;
@@ -353,6 +355,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case Constants.DMCommandWorldReboot:
 						if (ClosePortOnReboot)
 						{
+							chatJsonTrackingContext.Active = false;
 							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
 							portClosedForReboot = true;
 						}
@@ -372,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), overrideResponsePort, cancellationToken).ConfigureAwait(false);
 
 			if (response != Constants.DMResponseSuccess)
-				logger.LogWarning("Recieved error response while responding to interop: {0}", response);
+				logger.LogWarning("Received error response while responding to interop: {0}", response);
 
 			postRespond?.Invoke();
 		}
@@ -385,6 +388,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (disposed)
 				throw new ObjectDisposedException(nameof(SessionController));
 		}
+
+		/// <inheritdoc />
+		public void EnableCustomChatCommands() => chatJsonTrackingContext.Active = true;
 
 		/// <inheritdoc />
 		public ReattachInformation Release()

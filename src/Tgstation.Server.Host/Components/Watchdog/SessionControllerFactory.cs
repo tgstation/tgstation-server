@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var interopJsonFile = JsonFile("interop");
 
-			var interopJson = JsonConvert.SerializeObject(interopInfo, Formatting.Indented, new JsonSerializerSettings
+			var interopJson = JsonConvert.SerializeObject(interopInfo, new JsonSerializerSettings
 			{
 				ContractResolver = new CamelCasePropertyNamesContractResolver(),
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
