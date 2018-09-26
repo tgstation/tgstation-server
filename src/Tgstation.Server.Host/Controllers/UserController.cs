@@ -156,7 +156,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return Json(originalUser.ToApi(true));
+			return Json(model.Id == originalUser.Id || (AuthenticationContext.GetRight(RightsType.Administration) & (ulong)AdministrationRights.ReadUsers) != 0 ? originalUser.ToApi(true) : new Api.Models.User
+			{
+				Id = originalUser.Id
+			});
 		}
 
 		/// <inheritdoc />

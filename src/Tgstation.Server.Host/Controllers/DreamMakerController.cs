@@ -135,6 +135,10 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			if ((AuthenticationContext.GetRight(RightsType.DreamMaker) & (ulong)DreamMakerRights.Read) == 0)
+				return Ok();
+
 			return await Read(cancellationToken).ConfigureAwait(false);
 		}
 	}

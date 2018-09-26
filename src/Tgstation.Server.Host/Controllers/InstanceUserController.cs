@@ -92,7 +92,10 @@ namespace Tgstation.Server.Host.Controllers
 			originalUser.DreamMakerRights = model.DreamMakerRights ?? originalUser.DreamMakerRights;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			return Json(originalUser.ToApi());
+			return Json(originalUser.UserId == AuthenticationContext.User.Id || (AuthenticationContext.GetRight(RightsType.InstanceUser) & (ulong)InstanceUserRights.ReadUsers) != 0 ? originalUser.ToApi() : new Api.Models.InstanceUser
+			{
+				UserId = originalUser.UserId
+			});
 		}
 
 		/// <inheritdoc />
