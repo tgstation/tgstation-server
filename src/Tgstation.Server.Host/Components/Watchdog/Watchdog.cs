@@ -518,10 +518,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Entered MonitorLifetimes");
+
+			//this function is responsible for calling HandlerMonitorWakeup when necessary and manitaining the MonitorState
+
 			var iteration = 1;
 			for (var monitorState = new MonitorState(); monitorState.NextAction != MonitorAction.Exit; ++iteration)
 			{
+				//always start out with continue
 				monitorState.NextAction = MonitorAction.Continue;
+
+				//dump some info to the logs
 				logger.LogDebug("Iteration {0} of monitor loop", iteration);
 				try
 				{
@@ -535,6 +541,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (monitorState.RebootingInactiveServer)
 						logger.LogDebug("Inactive server is rebooting");
 
+					//update the monitor state with the inactive/active servers
 					monitorState.ActiveServer = AlphaIsActive ? alphaServer : bravoServer;
 					monitorState.InactiveServer = AlphaIsActive ? bravoServer : alphaServer;
 
@@ -543,6 +550,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (monitorState.InactiveServer.ClosePortOnReboot)
 						logger.LogDebug("Inactive server will close port on reboot");
 
+					//load the activation tasks into local variables
 					var activeServerLifetime = monitorState.ActiveServer.Lifetime;
 					var inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
 					var activeServerReboot = monitorState.ActiveServer.OnReboot;
@@ -551,12 +559,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var activeLaunchParametersChanged = activeParametersUpdated.Task;
 					var newDmbAvailable = dmbFactory.OnNewerDmb;
 
+					//cancel waiting if requested
 					var cancelTcs = new TaskCompletionSource<object>();
 					using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 					{
 						var toWaitOn = Task.WhenAny(activeServerLifetime, inactiveServerLifetime, activeServerReboot, inactiveServerReboot, newDmbAvailable, cancelTcs.Task, activeLaunchParametersChanged);
 						if (monitorState.RebootingInactiveServer)
 							toWaitOn = Task.WhenAny(toWaitOn, inactiveServerStartup);
+						//wait for something to happen
 						await toWaitOn.ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
 					}
@@ -564,10 +574,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var chatTask = Task.CompletedTask;
 					using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 					{
-						MonitorActivationReason activationReason = default;
+						//always run HandleMonitorWakeup from the context of the semaphore lock
 						//multiple things may have happened, handle them one at a time
 						for (var moreActivationsToProcess = true; moreActivationsToProcess && monitorState.NextAction == MonitorAction.Continue;)
 						{
+							MonitorActivationReason activationReason = default; //this will always be assigned before being used
+
+							//process the tasks in this order and call HandlerMonitorWakup for each
+
 							if (activeServerLifetime?.IsCompleted == true)
 							{
 								activationReason = MonitorActivationReason.ActiveServerCrashed;
@@ -610,7 +624,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						}
 
-						//writeback alphaServer and bravoServer
+						//writeback alphaServer and bravoServer from monitor state in case they changesd
 						alphaServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 						bravoServer = !AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 					}
@@ -628,11 +642,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 								try
 								{
+									//use LaunchImplNoLock without announcements or restarting the monitor
 									await LaunchImplNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
 									if (Running)
 									{
 										logger.LogDebug("Relaunch successful, resetting monitor state...");
-										monitorState = new MonitorState();  //clean the slate
+										monitorState = new MonitorState();  //clean the slate and continue
 									}
 								}
 								catch (Exception e)
@@ -644,10 +659,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							if (!Running)
 							{
 								if (launchException == null)
-									logger.LogWarning("Failed to automatically restart the watchdog!");
+									logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}", retryAttempts);
 								else
-									logger.LogWarning("Failed to automatically restart the watchdog! Exception: {0}", launchException);
-								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour
+									logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
+								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour, increasing by a power of 2 each time
 								chatTask = chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Failed to restart watchdog (Attempt: {0}), retrying in {1} seconds...", retryAttempts, retryDelay), cancellationToken);
 								await Task.WhenAll(Task.Delay((int)retryDelay, cancellationToken), chatTask).ConfigureAwait(false);
 							}
@@ -661,6 +676,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception e)
 				{
+					//really, this should NEVER happen
 					logger.LogError("Monitor crashed! Iteration: {0}, State: {1}, Exception: {2}", iteration, JsonConvert.SerializeObject(monitorState), e);
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Monitor crashed, this should NEVER happen! Please report this, full details in logs! Restarting monitor... Error: {0}", e.Message), cancellationToken).ConfigureAwait(false);
 				}
