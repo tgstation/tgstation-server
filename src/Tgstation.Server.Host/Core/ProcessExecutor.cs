@@ -58,7 +58,16 @@ namespace Tgstation.Server.Host.Core
 		public IProcess GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {0}...", id);
-			var handle = System.Diagnostics.Process.GetProcessById(id);
+			System.Diagnostics.Process handle;
+			try
+			{
+				handle = System.Diagnostics.Process.GetProcessById(id);
+			}
+			catch(Exception e)
+			{
+				logger.LogWarning("Unable to get process {0}! Exception: {1}", id, e);
+				return null;
+			}
 			try
 			{
 				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>(), true);

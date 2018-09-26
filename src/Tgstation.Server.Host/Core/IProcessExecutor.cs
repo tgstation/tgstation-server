@@ -21,7 +21,7 @@
 		/// Get a <see cref="IProcess"/> by <paramref name="id"/>
 		/// </summary>
 		/// <param name="id">The <see cref="IProcess.Id"/></param>
-		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/></returns>
+		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/> on success, <see langword="null"/> on failure</returns>
 		IProcess GetProcess(int id);
 	}
 }
