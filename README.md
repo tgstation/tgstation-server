@@ -57,7 +57,7 @@ Note although `/app/lib` is specified as a volume mount point in the `Dockerfile
 
 ### Configuring
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Note these are all case-sensitive: 
+Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive: 
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
