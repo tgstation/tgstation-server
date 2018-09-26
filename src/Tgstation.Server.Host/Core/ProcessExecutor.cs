@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Core
 			var handle = System.Diagnostics.Process.GetProcessById(id);
 			try
 			{
-				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>());
+				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>(), true);
 			}
 			catch
 			{
@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Core
 				}
 				catch (InvalidOperationException) { }
 
-				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder, loggerFactory.CreateLogger<Process>());
+				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder, loggerFactory.CreateLogger<Process>(), false);
 			}
 			catch
 			{

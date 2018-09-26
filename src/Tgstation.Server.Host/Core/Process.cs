@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		readonly ILogger<Process> logger;
 
-		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder, ILogger<Process> logger)
+		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder, ILogger<Process> logger, bool preExisting)
 		{
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 			Lifetime = lifetime ?? throw new ArgumentNullException(nameof(lifetime));
@@ -40,6 +40,13 @@ namespace Tgstation.Server.Host.Core
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			Id = handle.Id;
+
+			if (preExisting)
+			{
+				Startup = Task.CompletedTask;
+				return;
+			}
+
 			Startup = Task.Factory.StartNew(() =>
 			{
 				try
