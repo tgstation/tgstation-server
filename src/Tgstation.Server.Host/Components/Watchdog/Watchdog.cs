@@ -222,6 +222,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
+
+			//merely set the reboot state
 			var toKill = AlphaIsActive ? alphaServer : bravoServer;
 			var other = AlphaIsActive ? bravoServer : alphaServer;
 			if (toKill != null)
@@ -239,7 +241,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			logger.LogDebug("Monitor activation. Reason: {0}", activationReason);
 
+			//this is where the bulk of the watchdog handling code lives and is fraught with lambdas, sorry not sorry
+			//I'll do my best to walk you through it
+
 			//returns true if the inactive server can't be used immediately
+			//also sets monitor to restart if the above holds
 			bool FullRestartDeadInactive()
 			{
 				if (monitorState.RebootingInactiveServer || monitorState.InactiveServerCritFail)
@@ -251,8 +257,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return false;
 			};
 
-			//trys to set inactive server's port to the public port
+			//trys to set inactive server's port to the public game port
 			//doesn't handle closing active server's port
+			//returns true on success and swaps inactiveserver and activeserver also sets LastLaunchParameters to ActiveLaunchParameters
+			//on failure, sets monitor to restart
 			async Task<bool> MakeInactiveActive()
 			{
 				logger.LogDebug("Setting inactive server to port {0}...", ActiveLaunchParameters.PrimaryPort.Value);
@@ -276,7 +284,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return true;
 			}
 
-			// Tries to load inactive server with latest dmb, falling back to current dmb on failure. Requires a lock on <see cref="semaphore"/>
+			// Tries to launch inactive server with the latest dmb
+			// Doesn't handle stopping it
+			// falls back to current dmb on failure
+			// Sets critfail on inactive server failing that
+			// returns false if the backup dmb was used successfully, true otherwise
 			async Task<bool> RestartInactiveServer()
 			{
 				logger.LogInformation("Rebooting inactive server...");
@@ -331,6 +343,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return usedMostRecentDmb;
 			}
 
+			//kills inactive server and tries to relaunch it with the latest dmb
 			async Task UpdateAndRestartInactiveServer(bool breakAfter)
 			{
 				//replace the notification tcs here so that the next loop will read a fresh one
@@ -356,29 +369,43 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveServerCrashed:
 					if (monitorState.ActiveServer.RebootState == Components.Watchdog.RebootState.Shutdown)
 					{
+						//the time for graceful shutdown is now
 						await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Exiting due to graceful termination request...", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
+						DisposeAndNullControllers();
 						monitorState.NextAction = MonitorAction.Exit;
 						break;
 					}
 
 					if (FullRestartDeadInactive())
 					{
+						//tell chat about it and go ahead
 						await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Inactive server unable to online!", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
+						//we've already been set to restart
 						break;
 					}
 
+					//tell chat about it
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Onlining inactive server...", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
+
+					//try to active the inactive server
 					if (!await MakeInactiveActive().ConfigureAwait(false))
+						//failing that, we've already been set to restart
 						break;
 
+					//bring up another inactive server
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.InactiveServerCrashed:
+					//just announce and try to bring it back
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Inactive server {0}! Rebooting...", ExitWord(monitorState.InactiveServer)), cancellationToken).ConfigureAwait(false);
 					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
+					//ideal goal: active server just closed its port
+					//tell inactive server to open it's port and that's now the active server
+
 					if (FullRestartDeadInactive())
+						//full restart if the inactive server is being fucky
 						break;
 
 					//what matters here is the RebootState
@@ -389,67 +416,95 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					switch (rebootState)
 					{
 						case Components.Watchdog.RebootState.Normal:
+							//life as normal
 							break;
 						case Components.Watchdog.RebootState.Restart:
+							//reboot the current active server once the inactive one activates
 							restartOnceSwapped = true;
 							break;
 						case Components.Watchdog.RebootState.Shutdown:
+							//graceful shutdown time
 							await chat.SendWatchdogMessage("Active server rebooted! Exiting due to graceful termination request...", cancellationToken).ConfigureAwait(false);
 							DisposeAndNullControllers();
 							monitorState.NextAction = MonitorAction.Exit;
 							return;
 					}
 
+					//are both servers now running the same CompileJob?
 					var sameCompileJob = monitorState.InactiveServer.Dmb.CompileJob.Id == monitorState.ActiveServer.Dmb.CompileJob.Id;
+					
 					if (sameCompileJob && monitorState.InactiveServerHasStagedDmb)
-						//both servers up to date
+						//both servers now up to date
 						monitorState.InactiveServerHasStagedDmb = false;
+					
 					if (!sameCompileJob || ActiveLaunchParameters != LastLaunchParameters)
-						//need a new launch in ActiveServer
+						//need a new launch to update either settings or compile job
 						restartOnceSwapped = true;
 
 					if (restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot)
 						//we need to manually restart active server
-						//it won't listen to us right now so just kill it
+						//it won't listen to us right now because it's port is closed so just kill it
 						monitorState.ActiveServer.Dispose();
 
-					if ((!restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot) || !await MakeInactiveActive().ConfigureAwait(false))
+					var activeServerStillHasPortOpen = !restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot;
+
+					if (activeServerStillHasPortOpen)
+						//we didn't want active server to swap for some reason and it still has it's port open
+						//just continue as normal
+						break;
+					
+					if (!await MakeInactiveActive().ConfigureAwait(false))
+						//monitor will restart
 						break;
 
+					//servers now swapped
+
+					//enable this now
 					monitorState.ActiveServer.ClosePortOnReboot = true;
 
 					if (!restartOnceSwapped)
 					{
+						//inactive server still valid
+
+						//disable this
 						monitorState.InactiveServer.ClosePortOnReboot = false;
-						//try to reopen inactive server on the private port so it's not pinging all the time
+
+						//now try to reopen it on the private port
 						//failing that, just reboot it
 						restartOnceSwapped = !await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.SecondaryPort.Value, cancellationToken).ConfigureAwait(false);
 					}
 
-					if (restartOnceSwapped) //for one reason or another
-						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);   //break because worse case, active server is still booting
+					//break either way because any issues past this point would be solved by the reboot
+					//TODO handle that elegantly somehow
+					if (restartOnceSwapped) 
+						//for one reason or another
+						//update and reboot
+						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					else
-					{
-						monitorState.InactiveServer.ClosePortOnReboot = false;
+						//the one odd case would be getting NewDmbAvailable at this exact moment
+						//in which case, we have the issue that it will never actually deploy until the watchdog restarts completely
+						//TODO: Come up with some way to gracefully handle that
 						monitorState.NextAction = MonitorAction.Break;
-					}
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
+					//just don't let the active server close it's port if the inactive server isn't ready
 					monitorState.RebootingInactiveServer = true;
 					monitorState.InactiveServer.ResetRebootState();
 					monitorState.ActiveServer.ClosePortOnReboot = false;
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.InactiveServerStartupComplete:
-					//eziest case of my life
+					//opposite of above case
 					monitorState.RebootingInactiveServer = false;
 					monitorState.ActiveServer.ClosePortOnReboot = true;
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
+					//set this and then its the same a settings change
 					monitorState.InactiveServerHasStagedDmb = true;
 					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
+					//just reload the inactive server and wait for a swap to apply the changes
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 			}
@@ -613,6 +668,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			logger.LogTrace("Monitor exiting...");
 		}
 
+		/// <summary>
+		/// Stops <see cref="MonitorLifetimes(CancellationToken)"/>. Doesn't kill the servers
+		/// </summary>
+		/// <returns><see langword="true"/> if the monitor was running, <see langword="false"/> otherwise</returns>
 		async Task<bool> StopMonitor()
 		{
 			logger.LogTrace("StopMonitor");
