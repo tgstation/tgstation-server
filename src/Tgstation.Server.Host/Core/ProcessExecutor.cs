@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			catch(Exception e)
 			{
-				logger.LogWarning("Unable to get process {0}! Exception: {1}", id, e);
+				logger.LogDebug("Unable to get process {0}! Exception: {1}", id, e);
 				return null;
 			}
 			try
