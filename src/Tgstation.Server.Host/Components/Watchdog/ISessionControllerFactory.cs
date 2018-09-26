@@ -30,5 +30,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/> on success or <see langword="null"/> on failure to reattach</returns>
 		Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Creates a <see cref="ISessionController"/> that appears to have started and died with exit code -1
+		/// </summary>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> for the <see cref="ISessionController"/></param>
+		/// <returns>A dead <see cref="ISessionController"/></returns>
+		ISessionController CreateDeadSession(IDmbProvider dmbProvider);
 	}
 }

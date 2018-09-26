@@ -312,5 +312,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			return result;
 		}
+
+		/// <inheritdoc />
+		public ISessionController CreateDeadSession(IDmbProvider dmbProvider) => new DeadSessionController(dmbProvider);
 	}
 }
