@@ -5,6 +5,7 @@ var searchData=
   ['databasecontextfactory_2ecs',['DatabaseContextFactory.cs',['../_database_context_factory_8cs.html',1,'']]],
   ['databaseseeder_2ecs',['DatabaseSeeder.cs',['../_database_seeder_8cs.html',1,'']]],
   ['databasetype_2ecs',['DatabaseType.cs',['../_database_type_8cs.html',1,'']]],
+  ['deadsessioncontroller_2ecs',['DeadSessionController.cs',['../_dead_session_controller_8cs.html',1,'']]],
   ['defaultiomanager_2ecs',['DefaultIOManager.cs',['../_default_i_o_manager_8cs.html',1,'']]],
   ['designtimedbcontextfactoryhelpers_2ecs',['DesignTimeDbContextFactoryHelpers.cs',['../_design_time_db_context_factory_helpers_8cs.html',1,'']]],
   ['discordconnectionstringbuilder_2ecs',['DiscordConnectionStringBuilder.cs',['../_discord_connection_string_builder_8cs.html',1,'']]],

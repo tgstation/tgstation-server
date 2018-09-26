@@ -108,9 +108,10 @@ Inheritance diagram for Tgstation.Server.Host.Components.Watchdog.ISessionContro
  <div class="center">
   <img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.png" usemap="#Tgstation.Server.Host.Components.Watchdog.ISessionController_map" alt=""/>
   <map id="Tgstation.Server.Host.Components.Watchdog.ISessionController_map" name="Tgstation.Server.Host.Components.Watchdog.ISessionController_map">
-<area href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html" title="Represents process lifetime " alt="Tgstation.Server.Host.Core.IProcessBase" shape="rect" coords="0,56,374,80"/>
-<area href="class_i_disposable.html" alt="IDisposable" shape="rect" coords="0,0,374,24"/>
-<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html" alt="Tgstation.Server.Host.Components.Watchdog.SessionController" shape="rect" coords="0,168,374,192"/>
+<area href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html" title="Represents process lifetime " alt="Tgstation.Server.Host.Core.IProcessBase" shape="rect" coords="205,56,606,80"/>
+<area href="class_i_disposable.html" alt="IDisposable" shape="rect" coords="205,0,606,24"/>
+<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="Tgstation.Server.Host.Components.Watchdog.DeadSessionController" shape="rect" coords="0,168,401,192"/>
+<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html" alt="Tgstation.Server.Host.Components.Watchdog.SessionController" shape="rect" coords="411,168,812,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -193,9 +194,9 @@ Properties</h2></td></tr>
 
 <p>Enables the reading of custom chat commands from the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a403bf639776b8c18994b3588df150acd">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a403bf639776b8c18994b3588df150acd">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#aaa719b3d931db6811b3056569a6aa2dc">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00636">Tgstation.Server.Host.Components.Watchdog.Watchdog.LaunchNoLock()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00643">Tgstation.Server.Host.Components.Watchdog.Watchdog.LaunchImplNoLock()</a>.</p>
 
 </div>
 </div>
@@ -215,9 +216,9 @@ Properties</h2></td></tr>
 <p>Releases the IProcess without terminating it. Also calls System.IDisposable.Dispose </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session ">ReattachInformation</a> which can be used to create a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> similar to this one</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a275f0854e7df3126d0d3a3fe390b1a13">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a275f0854e7df3126d0d3a3fe390b1a13">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a1c7d96b5137c4bcf94803b4807e2c062">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00858">Tgstation.Server.Host.Components.Watchdog.Watchdog.StopAsync()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00893">Tgstation.Server.Host.Components.Watchdog.Watchdog.StopAsync()</a>.</p>
 
 </div>
 </div>
@@ -236,9 +237,9 @@ Properties</h2></td></tr>
 
 <p>Changes <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState ">RebootState</a> to <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8a960b44c579bc2f6818d2daaf9e4c16f0" title="Run DreamDaemon&#39;s normal reboot process ">Components.Watchdog.RebootState.Normal</a> without telling the DMAPI </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a10030d2d9fd76e199bc1ea38627c7422">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a10030d2d9fd76e199bc1ea38627c7422">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a8644c6835b2bff2ec93f7f7609b9fecd">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00782">Tgstation.Server.Host.Components.Watchdog.Watchdog.ResetRebootState()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00814">Tgstation.Server.Host.Components.Watchdog.Watchdog.ResetRebootState()</a>.</p>
 
 </div>
 </div>
@@ -276,9 +277,9 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the result of /world/Topic()</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a89bda875f426c81f2770f2bfc75c0b32">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a89bda875f426c81f2770f2bfc75c0b32">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#aa98e6de498a01067af07754cb5822ecf">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00916">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleChatCommand()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00874">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleEvent()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00953">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleChatCommand()</a>, and <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00911">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandleEvent()</a>.</p>
 
 </div>
 </div>
@@ -316,9 +317,9 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if the operation succeeded,  otherwise</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a25f0b56359996842163f348a227734b9">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a25f0b56359996842163f348a227734b9">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a96e0eb1ff216d40c57e2c2ceb4690c54">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -356,9 +357,9 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if the operation succeeded,  otherwise</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a1076b12f9e7bfa7b7bf89f97d20c6c4e">Tgstation.Server.Host.Components.Watchdog.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a1076b12f9e7bfa7b7bf89f97d20c6c4e">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#af1b9377a045c1a882e04a513c053e6a4">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00215">Tgstation.Server.Host.Components.Watchdog.Watchdog.TerminateNoLock()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00212">Tgstation.Server.Host.Components.Watchdog.Watchdog.TerminateNoLock()</a>.</p>
 
 </div>
 </div>
@@ -409,7 +410,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00045">45</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -435,7 +436,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -461,7 +462,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -487,7 +488,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00636">Tgstation.Server.Host.Components.Watchdog.Watchdog.LaunchNoLock()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00643">Tgstation.Server.Host.Components.Watchdog.Watchdog.LaunchImplNoLock()</a>.</p>
 
 </div>
 </div>
@@ -561,7 +562,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00050">50</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -587,7 +588,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00025">25</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00241">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
+<p>Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_8cs_source.html#l00238">Tgstation.Server.Host.Components.Watchdog.Watchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>

@@ -119,12 +119,42 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac777b68fbfe9c7f37eb054cb1bbe3f42"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html">ISessionController</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller_factory.html#ac777b68fbfe9c7f37eb054cb1bbe3f42">Reattach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_reattach_information.html">ReattachInformation</a> reattachInformation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac777b68fbfe9c7f37eb054cb1bbe3f42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> from an existing DreamDaemon instance  <a href="#ac777b68fbfe9c7f37eb054cb1bbe3f42">More...</a><br /></td></tr>
 <tr class="separator:ac777b68fbfe9c7f37eb054cb1bbe3f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af66f5557aadefc4d380b878a60d59239"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html">ISessionController</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller_factory.html#af66f5557aadefc4d380b878a60d59239">CreateDeadSession</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> dmbProvider)</td></tr>
+<tr class="memdesc:af66f5557aadefc4d380b878a60d59239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> that appears to have started and died with exit code -1  <a href="#af66f5557aadefc4d380b878a60d59239">More...</a><br /></td></tr>
+<tr class="separator:af66f5557aadefc4d380b878a60d59239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a>s </p>
 
 <p>Definition at line <a class="el" href="_i_session_controller_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_session_controller_factory_8cs_source.html">ISessionControllerFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af66f5557aadefc4d380b878a60d59239"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html">ISessionController</a> Tgstation.Server.Host.Components.Watchdog.ISessionControllerFactory.CreateDeadSession </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td>
+          <td class="paramname"><em>dmbProvider</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> that appears to have started and died with exit code -1 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dmbProvider</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A dead <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a></dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#a4e4a17d6fa2269f86f0da6cce942244d">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a81e24e064947e945f32e3c480c9dfba9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -230,7 +260,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess ">ISessionController</a> on success or  on failure to reattach</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#afc88772088200c0924fdfb2373a5a6c8">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory</a>.</p>
 

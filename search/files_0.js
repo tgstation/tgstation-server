@@ -11,5 +11,9 @@ var searchData=
   ['20180918204520_5fmynullableandforeignkeycleanup_2ecs',['20180918204520_MYNullableAndForeignKeyCleanup.cs',['../20180918204520___m_y_nullable_and_foreign_key_cleanup_8cs.html',1,'']]],
   ['20180918204520_5fmynullableandforeignkeycleanup_2edesigner_2ecs',['20180918204520_MYNullableAndForeignKeyCleanup.Designer.cs',['../20180918204520___m_y_nullable_and_foreign_key_cleanup_8_designer_8cs.html',1,'']]],
   ['20180918205224_5fmsnullableandforeignkeycleanup_2ecs',['20180918205224_MSNullableAndForeignKeyCleanup.cs',['../20180918205224___m_s_nullable_and_foreign_key_cleanup_8cs.html',1,'']]],
-  ['20180918205224_5fmsnullableandforeignkeycleanup_2edesigner_2ecs',['20180918205224_MSNullableAndForeignKeyCleanup.Designer.cs',['../20180918205224___m_s_nullable_and_foreign_key_cleanup_8_designer_8cs.html',1,'']]]
+  ['20180918205224_5fmsnullableandforeignkeycleanup_2edesigner_2ecs',['20180918205224_MSNullableAndForeignKeyCleanup.Designer.cs',['../20180918205224___m_s_nullable_and_foreign_key_cleanup_8_designer_8cs.html',1,'']]],
+  ['20180926033145_5fmsreattachcompilejobrequired_2ecs',['20180926033145_MSReattachCompileJobRequired.cs',['../20180926033145___m_s_reattach_compile_job_required_8cs.html',1,'']]],
+  ['20180926033145_5fmsreattachcompilejobrequired_2edesigner_2ecs',['20180926033145_MSReattachCompileJobRequired.Designer.cs',['../20180926033145___m_s_reattach_compile_job_required_8_designer_8cs.html',1,'']]],
+  ['20180926034014_5fmyreattachcompilejobrequired_2ecs',['20180926034014_MYReattachCompileJobRequired.cs',['../20180926034014___m_y_reattach_compile_job_required_8cs.html',1,'']]],
+  ['20180926034014_5fmyreattachcompilejobrequired_2edesigner_2ecs',['20180926034014_MYReattachCompileJobRequired.Designer.cs',['../20180926034014___m_y_reattach_compile_job_required_8_designer_8cs.html',1,'']]]
 ];
