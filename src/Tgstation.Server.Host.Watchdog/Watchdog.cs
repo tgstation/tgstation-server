@@ -70,8 +70,11 @@ namespace Tgstation.Server.Host.Watchdog
 				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
 
 				var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-				
+
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
+#if DEBUG
+				Directory.CreateDirectory(assemblyStoragePath);
+#endif
 				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 #if DEBUG
 				//just copy the shit where it belongs
@@ -121,7 +124,8 @@ namespace Tgstation.Server.Host.Watchdog
 								'"' + assemblyPath + '"',
 								'"' + updateDirectory + '"'
 							};
-							if (Debugger.IsAttached)
+
+							if (Environment.GetCommandLineArgs().Any(x => x == "--attach-host-debugger"))
 								arguments.Add("--attach-debugger");
 							arguments.AddRange(args);
 

@@ -268,6 +268,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
+			SessionController result = null;
 			var basePath = reattachInformation.IsPrimary ? reattachInformation.Dmb.PrimaryDirectory : reattachInformation.Dmb.SecondaryDirectory;
 			var chatJsonTrackingContext = await chat.TrackJsons(basePath, reattachInformation.ChatChannelsJson, reattachInformation.ChatCommandsJson, cancellationToken).ConfigureAwait(false);
 			try
@@ -279,34 +280,40 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					try
 					{
 						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
-						try
-						{
-							networkPromptReaper.RegisterProcess(process);
-							return new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
-						}
-						catch
-						{
-							process.Dispose();
-							throw;
-						}
+
+						if (process != null)
+							try
+							{
+								networkPromptReaper.RegisterProcess(process);
+								result = new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
+							}
+							finally
+							{
+								if (result == null)
+									process.Dispose();
+							}
 					}
-					catch
+					finally
 					{
-						context.Dispose();
-						throw;
+						if (result == null)
+							context.Dispose();
 					}
 				}
-				catch
+				finally
 				{
-					byondLock.Dispose();
-					throw;
+					if (result == null)
+						byondLock.Dispose();
 				}
 			}
-			catch
+			finally
 			{
-				chatJsonTrackingContext.Dispose();
-				throw;
+				if (result == null)
+					chatJsonTrackingContext.Dispose();
 			}
+			return result;
 		}
+
+		/// <inheritdoc />
+		public ISessionController CreateDeadSession(IDmbProvider dmbProvider) => new DeadSessionController(dmbProvider);
 	}
 }

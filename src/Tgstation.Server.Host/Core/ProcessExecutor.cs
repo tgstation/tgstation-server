@@ -58,10 +58,19 @@ namespace Tgstation.Server.Host.Core
 		public IProcess GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {0}...", id);
-			var handle = System.Diagnostics.Process.GetProcessById(id);
+			System.Diagnostics.Process handle;
 			try
 			{
-				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>());
+				handle = System.Diagnostics.Process.GetProcessById(id);
+			}
+			catch(Exception e)
+			{
+				logger.LogDebug("Unable to get process {0}! Exception: {1}", id, e);
+				return null;
+			}
+			try
+			{
+				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>(), true);
 			}
 			catch
 			{
@@ -129,7 +138,7 @@ namespace Tgstation.Server.Host.Core
 				}
 				catch (InvalidOperationException) { }
 
-				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder, loggerFactory.CreateLogger<Process>());
+				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder, loggerFactory.CreateLogger<Process>(), false);
 			}
 			catch
 			{

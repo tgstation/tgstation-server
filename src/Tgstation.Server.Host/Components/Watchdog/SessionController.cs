@@ -401,7 +401,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			reattachInformation.Dmb = null;
 			released = true;
 			Dispose();
-			Dmb.KeepAlive();
+			tmpProvider.KeepAlive();
 			reattachInformation.Dmb = tmpProvider;
 			return reattachInformation;
 		}

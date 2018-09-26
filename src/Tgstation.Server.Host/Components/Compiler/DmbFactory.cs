@@ -186,6 +186,8 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <inheritdoc />
 		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
+			if (compileJob == null)
+				throw new ArgumentNullException(nameof(compileJob));
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			var providerSubmitted = false;
 			var newProvider = new DmbProvider(compileJob, ioManager, () =>

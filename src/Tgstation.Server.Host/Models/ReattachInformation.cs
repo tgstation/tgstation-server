@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Database representation of <see cref="Components.Watchdog.ReattachInformation"/>
@@ -13,6 +15,7 @@
 		/// <summary>
 		/// The <see cref="Models.CompileJob"/> for the <see cref="Components.Watchdog.ReattachInformation.Dmb"/>
 		/// </summary>
+		[Required]
 		public CompileJob CompileJob { get; set; }
 	}
 }

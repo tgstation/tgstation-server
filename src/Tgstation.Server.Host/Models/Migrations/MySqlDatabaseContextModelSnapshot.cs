@@ -290,7 +290,7 @@ namespace Tgstation.Server.Host.Models.Migrations
                     b.Property<string>("ChatCommandsJson")
                         .IsRequired();
 
-                    b.Property<long?>("CompileJobId");
+                    b.Property<long>("CompileJobId");
 
                     b.Property<bool>("IsPrimary");
 
@@ -575,7 +575,8 @@ namespace Tgstation.Server.Host.Models.Migrations
                 {
                     b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
                         .WithMany()
-                        .HasForeignKey("CompileJobId");
+                        .HasForeignKey("CompileJobId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>

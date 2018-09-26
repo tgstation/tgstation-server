@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -56,6 +57,8 @@ namespace Tgstation.Server.Host.Components
 
 			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
 
+			var deleteTask = db.WatchdogReattachInformations.Where(x => x.InstanceId == metadata.Id).DeleteAsync(cancellationToken);
+
 			var instance = new Models.Instance { Id = metadata.Id };
 			db.Instances.Attach(instance);
 
@@ -84,6 +87,7 @@ namespace Tgstation.Server.Host.Components
 				Bravo = ConvertReattachInfo(reattachInformation.Bravo),
 				AlphaIsActive = reattachInformation.AlphaIsActive,
 			};
+			await deleteTask.ConfigureAwait(false);
 			await db.Save(cancellationToken).ConfigureAwait(false);
 		});
 
@@ -92,8 +96,18 @@ namespace Tgstation.Server.Host.Components
 		{
 			Models.WatchdogReattachInformation result = null;
 			await databaseContextFactory.UseContext(async (db) =>
-				result = await db.Instances.Where(x => x.Id == metadata.Id).Select(x => x.WatchdogReattachInformation).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)
-			).ConfigureAwait(false);
+			{
+				var instance = await db.Instances.Where(x => x.Id == metadata.Id)
+					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha).ThenInclude(x => x.CompileJob)
+					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo).ThenInclude(x => x.CompileJob)
+					.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				result = instance.WatchdogReattachInformation;
+				if (result == default)
+					return;
+				instance.WatchdogReattachInformation = null;
+				db.WatchdogReattachInformations.Remove(result);
+				await db.Save(cancellationToken).ConfigureAwait(false);
+			}).ConfigureAwait(false);
 
 			if (result == default)
 			{
