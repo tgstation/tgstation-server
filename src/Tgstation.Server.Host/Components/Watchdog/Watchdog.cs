@@ -37,9 +37,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public Models.CompileJob ActiveCompileJob => (AlphaIsActive ? alphaServer : bravoServer)?.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		public LaunchResult LastLaunchResult { get; private set; }
-
-		/// <inheritdoc />
 		public DreamDaemonLaunchParameters ActiveLaunchParameters { get; private set; }
 
 		/// <inheritdoc />
@@ -109,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly Api.Models.Instance instance;
 
 		/// <summary>
-		/// If the <see cref="Watchdog"/> should <see cref="LaunchNoLock(bool, bool, bool, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
+		/// If the <see cref="Watchdog"/> should <see cref="LaunchNoLock(bool, bool, WatchdogReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
 		/// </summary>
 		readonly bool autoStart;
 
@@ -570,21 +567,29 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						for (var retryAttempts = 1; monitorState.NextAction == MonitorAction.Restart; ++retryAttempts)
 						{
-							WatchdogLaunchResult result;
+							Exception launchException = null;
 							using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-							{
-								result = await LaunchNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
-								if (Running)
+								try
 								{
-									logger.LogDebug("Relaunch successful, resetting monitor state...");
-									monitorState = new MonitorState();  //clean the slate
+									await LaunchNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
+									if (Running)
+									{
+										logger.LogDebug("Relaunch successful, resetting monitor state...");
+										monitorState = new MonitorState();  //clean the slate
+									}
 								}
-							}
+								catch (Exception e)
+								{
+									launchException = e;
+								}
 
 							await chatTask.ConfigureAwait(false);
 							if (!Running)
 							{
-								logger.LogWarning("Failed to automatically restart the watchdog! Alpha: {0}; Bravo: {1}", result.Alpha.ToString(), result.Bravo.ToString());
+								if (launchException == null)
+									logger.LogWarning("Failed to automatically restart the watchdog!");
+								else
+									logger.LogWarning("Failed to automatically restart the watchdog! Exception: {0}", launchException);
 								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour
 								chatTask = chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Failed to restart watchdog (Attempt: {0}), retrying in {1} seconds...", retryAttempts, retryDelay), cancellationToken);
 								await Task.WhenAll(Task.Delay((int)retryDelay, cancellationToken), chatTask).ConfigureAwait(false);
@@ -633,16 +638,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
-		async Task<WatchdogLaunchResult> LaunchNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
+		async Task LaunchNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LaunchNoLock");
 			using (var alphaStartCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
 				if (Running)
-				{
-					logger.LogTrace("Aborted due to already running!");
-					return null;
-				}
+					throw new JobException("Watchdog already running!");
 
 				Task chatTask;
 				//this is necessary, the monitor could be in it's sleep loop trying to restart
@@ -716,7 +718,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						//both servers are now running, alpha is the active server(unless reattach), huzzah
 						AlphaIsActive = reattachInfo?.AlphaIsActive ?? true;
-						LastLaunchResult = alphaLrt.Result;
 
 						var activeServer = AlphaIsActive ? alphaServer : bravoServer;
 						activeServer.EnableCustomChatCommands();
@@ -730,11 +731,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							monitorCts = new CancellationTokenSource();
 							monitorTask = MonitorLifetimes(monitorCts.Token);
 						}
-						return new WatchdogLaunchResult
-						{
-							Alpha = alphaLrt.Result,
-							Bravo = bravoLrt.Result
-						};
 					}
 					catch
 					{
@@ -771,10 +767,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken)
+		public async Task Launch(CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-				return await LaunchNoLock(true, true, null, cancellationToken).ConfigureAwait(false);
+				await LaunchNoLock(true, true, null, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -791,7 +787,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken)
+		public async Task Restart(bool graceful, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -806,9 +802,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 					else
 						chatTask = Task.CompletedTask;
-					var result = await LaunchNoLock(true, !Running, null, cancellationToken).ConfigureAwait(false);
+					await LaunchNoLock(true, !Running, null, cancellationToken).ConfigureAwait(false);
 					await chatTask.ConfigureAwait(false);
-					return result;
 				}
 				var toReboot = AlphaIsActive ? alphaServer : bravoServer;
 				if (toReboot != null)
@@ -816,7 +811,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (!await toReboot.SetRebootState(Components.Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false))
 						logger.LogWarning("Unable to send reboot state change event!");
 				}
-				return null;
 			}
 		}
 

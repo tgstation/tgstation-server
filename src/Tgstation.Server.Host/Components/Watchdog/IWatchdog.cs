@@ -27,11 +27,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Models.CompileJob ActiveCompileJob { get; }
 
 		/// <summary>
-		/// The latest <see cref="LaunchResult"/> of the twin servers
-		/// </summary>
-		LaunchResult LastLaunchResult { get; }
-
-		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using
 		/// </summary>
 		DreamDaemonLaunchParameters ActiveLaunchParameters { get; }
@@ -50,8 +45,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Start the <see cref="IWatchdog"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="WatchdogLaunchResult"/> or <see langword="null"/> if it was already running</returns>
-		Task<WatchdogLaunchResult> Launch(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Launch(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently <see cref="Running"/> triggers a graceful restart
@@ -66,8 +61,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="graceful">If <see langword="true"/> the restart will be delayed until a reboot is detected in the active server's DMAPI and this function will retrun immediately</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="WatchdogLaunchResult"/> or <see langword="null"/> if it was already running or <paramref name="graceful"/> is <see langword="true"/> and <see cref="Running"/> is <see langword="false"/></returns>
-		Task<WatchdogLaunchResult> Restart(bool graceful, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Restart(bool graceful, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Stops the watchdog

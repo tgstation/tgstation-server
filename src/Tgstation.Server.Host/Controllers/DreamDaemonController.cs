@@ -66,14 +66,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance,
 				StartedBy = AuthenticationContext.User
 			};
-			await jobManager.RegisterOperation(job,
-			async (paramJob, databaseContext, progressHandler, innerCt) =>
-			{
-				var result = await instance.Watchdog.Launch(innerCt).ConfigureAwait(false);
-				if (result == null)
-					throw new JobException("Watchdog already running!");
-			},
-			cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, innerCt) => instance.Watchdog.Launch(innerCt), cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());
 		}
 
