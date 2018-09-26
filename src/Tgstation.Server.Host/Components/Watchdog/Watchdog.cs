@@ -222,6 +222,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
+
+			//merely set the reboot state
 			var toKill = AlphaIsActive ? alphaServer : bravoServer;
 			var other = AlphaIsActive ? bravoServer : alphaServer;
 			if (toKill != null)
@@ -239,7 +241,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			logger.LogDebug("Monitor activation. Reason: {0}", activationReason);
 
+			//this is where the bulk of the watchdog handling code lives and is fraught with lambdas, sorry not sorry
+			//I'll do my best to walk you through it
+
 			//returns true if the inactive server can't be used immediately
+			//also sets monitor to restart if the above holds
 			bool FullRestartDeadInactive()
 			{
 				if (monitorState.RebootingInactiveServer || monitorState.InactiveServerCritFail)
@@ -251,8 +257,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return false;
 			};
 
-			//trys to set inactive server's port to the public port
+			//trys to set inactive server's port to the public game port
 			//doesn't handle closing active server's port
+			//returns true on success and swaps inactiveserver and activeserver also sets LastLaunchParameters to ActiveLaunchParameters
+			//on failure, sets monitor to restart
 			async Task<bool> MakeInactiveActive()
 			{
 				logger.LogDebug("Setting inactive server to port {0}...", ActiveLaunchParameters.PrimaryPort.Value);
@@ -276,7 +284,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return true;
 			}
 
-			// Tries to load inactive server with latest dmb, falling back to current dmb on failure. Requires a lock on <see cref="semaphore"/>
+			// Tries to launch inactive server with the latest dmb
+			// Doesn't handle stopping it
+			// falls back to current dmb on failure
+			// Sets critfail on inactive server failing that
+			// returns false if the backup dmb was used successfully, true otherwise
 			async Task<bool> RestartInactiveServer()
 			{
 				logger.LogInformation("Rebooting inactive server...");
@@ -331,6 +343,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return usedMostRecentDmb;
 			}
 
+			//kills inactive server and tries to relaunch it with the latest dmb
 			async Task UpdateAndRestartInactiveServer(bool breakAfter)
 			{
 				//replace the notification tcs here so that the next loop will read a fresh one
@@ -356,29 +369,43 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveServerCrashed:
 					if (monitorState.ActiveServer.RebootState == Components.Watchdog.RebootState.Shutdown)
 					{
+						//the time for graceful shutdown is now
 						await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Exiting due to graceful termination request...", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
+						DisposeAndNullControllers();
 						monitorState.NextAction = MonitorAction.Exit;
 						break;
 					}
 
 					if (FullRestartDeadInactive())
 					{
+						//tell chat about it and go ahead
 						await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Inactive server unable to online!", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
+						//we've already been set to restart
 						break;
 					}
 
+					//tell chat about it
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Active server {0}! Onlining inactive server...", ExitWord(monitorState.ActiveServer)), cancellationToken).ConfigureAwait(false);
+
+					//try to active the inactive server
 					if (!await MakeInactiveActive().ConfigureAwait(false))
+						//failing that, we've already been set to restart
 						break;
 
+					//bring up another inactive server
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.InactiveServerCrashed:
+					//just announce and try to bring it back
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Inactive server {0}! Rebooting...", ExitWord(monitorState.InactiveServer)), cancellationToken).ConfigureAwait(false);
 					await UpdateAndRestartInactiveServer(false).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
+					//ideal goal: active server just closed its port
+					//tell inactive server to open it's port and that's now the active server
+
 					if (FullRestartDeadInactive())
+						//full restart if the inactive server is being fucky
 						break;
 
 					//what matters here is the RebootState
@@ -389,67 +416,94 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					switch (rebootState)
 					{
 						case Components.Watchdog.RebootState.Normal:
+							//life as normal
 							break;
 						case Components.Watchdog.RebootState.Restart:
+							//reboot the current active server once the inactive one activates
 							restartOnceSwapped = true;
 							break;
 						case Components.Watchdog.RebootState.Shutdown:
+							//graceful shutdown time
 							await chat.SendWatchdogMessage("Active server rebooted! Exiting due to graceful termination request...", cancellationToken).ConfigureAwait(false);
 							DisposeAndNullControllers();
 							monitorState.NextAction = MonitorAction.Exit;
 							return;
 					}
 
+					//are both servers now running the same CompileJob?
 					var sameCompileJob = monitorState.InactiveServer.Dmb.CompileJob.Id == monitorState.ActiveServer.Dmb.CompileJob.Id;
+					
 					if (sameCompileJob && monitorState.InactiveServerHasStagedDmb)
-						//both servers up to date
+						//both servers now up to date
 						monitorState.InactiveServerHasStagedDmb = false;
+					
 					if (!sameCompileJob || ActiveLaunchParameters != LastLaunchParameters)
-						//need a new launch in ActiveServer
+						//need a new launch to update either settings or compile job
 						restartOnceSwapped = true;
 
 					if (restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot)
 						//we need to manually restart active server
-						//it won't listen to us right now so just kill it
+						//it won't listen to us right now because it's port is closed so just kill it
 						monitorState.ActiveServer.Dispose();
 
-					if ((!restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot) || !await MakeInactiveActive().ConfigureAwait(false))
+					var activeServerStillHasPortOpen = !restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot;
+
+					if (activeServerStillHasPortOpen)
+						//we didn't want active server to swap for some reason and it still has it's port open
+						//just continue as normal
+						break;
+					
+					if (!await MakeInactiveActive().ConfigureAwait(false))
+						//monitor will restart
 						break;
 
+					//servers now swapped
+
+					//enable this now
 					monitorState.ActiveServer.ClosePortOnReboot = true;
 
 					if (!restartOnceSwapped)
 					{
+						//inactive server still valid
+
+						//disable this
 						monitorState.InactiveServer.ClosePortOnReboot = false;
-						//try to reopen inactive server on the private port so it's not pinging all the time
+
+						//now try to reopen it on the private port
 						//failing that, just reboot it
 						restartOnceSwapped = !await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.SecondaryPort.Value, cancellationToken).ConfigureAwait(false);
 					}
 
-					if (restartOnceSwapped) //for one reason or another
-						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);   //break because worse case, active server is still booting
+					//break either way because any issues past this point would be solved by the reboot
+					if (restartOnceSwapped) 
+						//for one reason or another
+						//update and reboot
+						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					else
-					{
-						monitorState.InactiveServer.ClosePortOnReboot = false;
+						//the one odd case would be getting NewDmbAvailable at this exact moment
+						//in which case, we have the issue that it will never actually deploy until the watchdog restarts completely
+						//TODO: Come up with some way to gracefully handle that
 						monitorState.NextAction = MonitorAction.Break;
-					}
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
+					//just don't let the active server close it's port if the inactive server isn't ready
 					monitorState.RebootingInactiveServer = true;
 					monitorState.InactiveServer.ResetRebootState();
 					monitorState.ActiveServer.ClosePortOnReboot = false;
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.InactiveServerStartupComplete:
-					//eziest case of my life
+					//opposite of above case
 					monitorState.RebootingInactiveServer = false;
 					monitorState.ActiveServer.ClosePortOnReboot = true;
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
+					//set this and then its the same a settings change
 					monitorState.InactiveServerHasStagedDmb = true;
 					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
+					//just reload the inactive server and wait for a swap to apply the changes
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					break;
 			}
@@ -463,10 +517,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Entered MonitorLifetimes");
+
+			//this function is responsible for calling HandlerMonitorWakeup when necessary and manitaining the MonitorState
+
 			var iteration = 1;
 			for (var monitorState = new MonitorState(); monitorState.NextAction != MonitorAction.Exit; ++iteration)
 			{
+				//always start out with continue
 				monitorState.NextAction = MonitorAction.Continue;
+
+				//dump some info to the logs
 				logger.LogDebug("Iteration {0} of monitor loop", iteration);
 				try
 				{
@@ -480,6 +540,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (monitorState.RebootingInactiveServer)
 						logger.LogDebug("Inactive server is rebooting");
 
+					//update the monitor state with the inactive/active servers
 					monitorState.ActiveServer = AlphaIsActive ? alphaServer : bravoServer;
 					monitorState.InactiveServer = AlphaIsActive ? bravoServer : alphaServer;
 
@@ -488,6 +549,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (monitorState.InactiveServer.ClosePortOnReboot)
 						logger.LogDebug("Inactive server will close port on reboot");
 
+					//load the activation tasks into local variables
 					var activeServerLifetime = monitorState.ActiveServer.Lifetime;
 					var inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
 					var activeServerReboot = monitorState.ActiveServer.OnReboot;
@@ -496,12 +558,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var activeLaunchParametersChanged = activeParametersUpdated.Task;
 					var newDmbAvailable = dmbFactory.OnNewerDmb;
 
+					//cancel waiting if requested
 					var cancelTcs = new TaskCompletionSource<object>();
 					using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 					{
 						var toWaitOn = Task.WhenAny(activeServerLifetime, inactiveServerLifetime, activeServerReboot, inactiveServerReboot, newDmbAvailable, cancelTcs.Task, activeLaunchParametersChanged);
 						if (monitorState.RebootingInactiveServer)
 							toWaitOn = Task.WhenAny(toWaitOn, inactiveServerStartup);
+						//wait for something to happen
 						await toWaitOn.ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
 					}
@@ -509,10 +573,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var chatTask = Task.CompletedTask;
 					using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 					{
-						MonitorActivationReason activationReason = default;
+						//always run HandleMonitorWakeup from the context of the semaphore lock
 						//multiple things may have happened, handle them one at a time
 						for (var moreActivationsToProcess = true; moreActivationsToProcess && monitorState.NextAction == MonitorAction.Continue;)
 						{
+							MonitorActivationReason activationReason = default; //this will always be assigned before being used
+
+							//process the tasks in this order and call HandlerMonitorWakup for each
+
 							if (activeServerLifetime?.IsCompleted == true)
 							{
 								activationReason = MonitorActivationReason.ActiveServerCrashed;
@@ -555,7 +623,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						}
 
-						//writeback alphaServer and bravoServer
+						//writeback alphaServer and bravoServer from monitor state in case they changesd
 						alphaServer = AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 						bravoServer = !AlphaIsActive ? monitorState.ActiveServer : monitorState.InactiveServer;
 					}
@@ -573,11 +641,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 								try
 								{
+									//use LaunchImplNoLock without announcements or restarting the monitor
 									await LaunchImplNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
 									if (Running)
 									{
 										logger.LogDebug("Relaunch successful, resetting monitor state...");
-										monitorState = new MonitorState();  //clean the slate
+										monitorState = new MonitorState();  //clean the slate and continue
 									}
 								}
 								catch (Exception e)
@@ -589,10 +658,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							if (!Running)
 							{
 								if (launchException == null)
-									logger.LogWarning("Failed to automatically restart the watchdog!");
+									logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}", retryAttempts);
 								else
-									logger.LogWarning("Failed to automatically restart the watchdog! Exception: {0}", launchException);
-								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour
+									logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
+								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour, increasing by a power of 2 each time
 								chatTask = chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Failed to restart watchdog (Attempt: {0}), retrying in {1} seconds...", retryAttempts, retryDelay), cancellationToken);
 								await Task.WhenAll(Task.Delay((int)retryDelay, cancellationToken), chatTask).ConfigureAwait(false);
 							}
@@ -606,6 +675,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception e)
 				{
+					//really, this should NEVER happen
 					logger.LogError("Monitor crashed! Iteration: {0}, State: {1}, Exception: {2}", iteration, JsonConvert.SerializeObject(monitorState), e);
 					await chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Monitor crashed, this should NEVER happen! Please report this, full details in logs! Restarting monitor... Error: {0}", e.Message), cancellationToken).ConfigureAwait(false);
 				}
@@ -613,6 +683,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			logger.LogTrace("Monitor exiting...");
 		}
 
+		/// <summary>
+		/// Stops <see cref="MonitorLifetimes(CancellationToken)"/>. Doesn't kill the servers
+		/// </summary>
+		/// <returns><see langword="true"/> if the monitor was running, <see langword="false"/> otherwise</returns>
 		async Task<bool> StopMonitor()
 		{
 			logger.LogTrace("StopMonitor");
@@ -640,166 +714,205 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 		}
 
+		/// <summary>
+		/// Launches the <see cref="Watchdog"/>
+		/// </summary>
+		/// <param name="startMonitor">If <see cref="MonitorLifetimes(CancellationToken)"/> should be started by this function</param>
+		/// <param name="announce">If the launch should be announced to chat by this function</param>
+		/// <param name="reattachInfo"><see cref="WatchdogReattachInformation"/> to use, if any</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task LaunchImplNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LaunchNoLock");
-			using (var alphaStartCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			{
-				if (Running)
-					throw new JobException("Watchdog already running!");
 
-				Task chatTask;
-				//this is necessary, the monitor could be in it's sleep loop trying to restart
-				if (startMonitor && await StopMonitor().ConfigureAwait(false))
-					chatTask = chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", cancellationToken);
-				else if (announce)
-					chatTask = chat.SendWatchdogMessage(reattachInfo == null ? "Starting..." : "Reattaching...", cancellationToken);
-				else
-					chatTask = Task.CompletedTask;
-				//start both servers
-				LastLaunchParameters = ActiveLaunchParameters;
-				var ignoreNestedException = false;
+			if (Running)
+				throw new JobException("Watchdog already running!");
+
+			Task chatTask;
+			//this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
+			if (startMonitor && await StopMonitor().ConfigureAwait(false))
+				chatTask = chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", cancellationToken);
+			else if (announce)
+				//simple announce
+				chatTask = chat.SendWatchdogMessage(reattachInfo == null ? "Starting..." : "Reattaching...", cancellationToken);
+			else
+				//no announce
+				chatTask = Task.CompletedTask;
+			
+			//since neither server is running, this is safe to do
+			LastLaunchParameters = ActiveLaunchParameters;
+
+			//for when we call ourself and want to not catch thrown exceptions
+			var ignoreNestedException = false;
+			try
+			{
+				//good ole sanity, should never fucking trigger but i don't trust myself even though I should
+				if (alphaServer != null || bravoServer != null)
+					throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
+				
+				//don't need a new dmb if reattaching
+				var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
+				var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
+
+				//if this try catches something, both servers are killed
 				try
 				{
-					//good ole sanity
-					if (alphaServer != null || bravoServer != null)
-						throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
+					//start the alpha server task, either by launch a new process or attaching to an existing one
+					//The tasks returned are mainly for writing interop files to the directories among other things and should generally never fail
+					//The tasks pertaining to server startup times are in the ISessionControllers
+					Task<ISessionController> alphaServerTask;
+					if (!doesntNeedNewDmb)
+						alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, cancellationToken);
+					else
+						alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
 
-					var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
-					var dmbToUse = doesntNeedNewDmb ? null : dmbFactory.LockNextDmb(2);
+					//retrieve the session controller
+					var startTime = DateTimeOffset.Now;
+					alphaServer = await alphaServerTask.ConfigureAwait(false);
+					//failed reattaches will return null
+					alphaServer?.SetHighPriority();
 
-					try
-					{
-						Task<ISessionController> alphaServerTask;
-						if (!doesntNeedNewDmb)
-							alphaServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, alphaStartCts.Token);
-						else
-							alphaServerTask = sessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
+					//extra delay for total ordering
+					var now = DateTimeOffset.Now;
+					var delay = now - startTime;
 
-						//wait until this boy officially starts so as not to confuse the servers as to who came first
-						var startTime = DateTimeOffset.Now;
-						alphaServer = await alphaServerTask.ConfigureAwait(false);
-						alphaServer?.SetHighPriority();
+					//definitely not if reattaching though
+					if (reattachInfo == null && delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
+						await Task.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
 
-						//extra delay for total ordering
-						var now = DateTimeOffset.Now;
-						var delay = now - startTime;
+					//now bring bravo up
+					if (!doesntNeedNewDmb)
+						bravoServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken).ConfigureAwait(false);
+					else
+						bravoServer = await sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken).ConfigureAwait(false);
+					//failed reattaches will return null
+					bravoServer?.SetHighPriority();
 
-						if (reattachInfo == null && delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
-							await Task.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
-
-						Task<ISessionController> bravoServerTask;
-						if (!doesntNeedNewDmb)
-							bravoServerTask = sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken);
-						else
-							bravoServerTask = sessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken);
-
-						bravoServer = await bravoServerTask.ConfigureAwait(false);
-						bravoServer?.SetHighPriority();
-
-						//possiblity of null servers due to failed reattaches
-						if (alphaServer == null || bravoServer == null)
-						{
-							await chatTask.ConfigureAwait(false);
-							var bothServersDead = alphaServer == null && bravoServer == null;
-							if (bothServersDead
-								|| (alphaServer == null && reattachInfo.AlphaIsActive) 
-								|| (bravoServer == null && !reattachInfo.AlphaIsActive))
-							{
-								//we lost the active server, just restart
-								DisposeAndNullControllers();
-								const string FailReattachMessage = "Unable to properly reattach to active server! Restarting...";
-								logger.LogWarning(FailReattachMessage);
-								logger.LogDebug(bothServersDead ? "Also could not reattach to inactive server!" : "Inactive server was reattached successfully!");
-								chatTask = chat.SendWatchdogMessage(FailReattachMessage, cancellationToken);
-								ignoreNestedException = true;
-								await LaunchImplNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
-								return;
-							}
-
-							const string InactiveReattachFailureMessage = "Unable to reattach to inactive server. Leaving for monitor to reboot...";
-							chatTask = chat.SendWatchdogMessage(InactiveReattachFailureMessage, cancellationToken);
-							logger.LogWarning(InactiveReattachFailureMessage);
-
-							//we still have the active server but the other one is dead to us, hand it off to the monitor to restart
-							if (reattachInfo.AlphaIsActive)
-								bravoServer = sessionControllerFactory.CreateDeadSession(reattachInfo.Bravo.Dmb);
-							else
-								alphaServer = sessionControllerFactory.CreateDeadSession(reattachInfo.Alpha.Dmb);
-						}
-
-						async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
-						{
-							var launch = await controller.LaunchResult.ConfigureAwait(false);
-							if (launch.ExitCode.HasValue)
-								//you killed us ray...
-								throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
-							if (!launch.StartupTime.HasValue)
-								throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server timed out on startup: {0}s", launch.ToString(), ActiveLaunchParameters.StartupTimeout.Value));
-							return launch;
-						}
-
-						var alphaLrt = CheckLaunch(alphaServer, "Alpha");
-						var bravoLrt = CheckLaunch(bravoServer, "Bravo");
-						//now we have two booting servers, get them up and running
-						var allTask = Task.WhenAll(alphaLrt, bravoLrt);
-
-						//don't forget about the cancelationToken
-						var cancelTcs = new TaskCompletionSource<object>();
-						using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-							await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
-						cancellationToken.ThrowIfCancellationRequested();
-
-						//both servers are now running, alpha is the active server(unless reattach), huzzah
-						AlphaIsActive = reattachInfo?.AlphaIsActive ?? true;
-
-						var activeServer = AlphaIsActive ? alphaServer : bravoServer;
-						activeServer.EnableCustomChatCommands();
-						activeServer.ClosePortOnReboot = true;
-
-						logger.LogInformation("Launched servers successfully");
-						Running = true;
-
-						if (startMonitor)
-						{
-							monitorCts = new CancellationTokenSource();
-							monitorTask = MonitorLifetimes(monitorCts.Token);
-						}
-					}
-					catch
-					{
-						if (!doesntNeedNewDmb && (alphaServer == null && bravoServer == null))
-						{
-							dmbToUse.Dispose(); //guaranteed to not be null here
-							dmbToUse.Dispose(); //yes, dispose it twice. See the definition of IDmbFactory.LockNextDmb(), we called it with 2 locks
-						}
-						DisposeAndNullControllers();
-						throw;
-					}
-				}
-				catch (Exception e)
-				{
-					if (!ignoreNestedException && !cancellationToken.IsCancellationRequested)
-					{
-						var originalChatTask = chatTask;
-						async Task ChainChatTaskWithErrorMessage()
-						{
-							await originalChatTask.ConfigureAwait(false);
-							await chat.SendWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
-						}
-						chatTask = ChainChatTaskWithErrorMessage();
-						logger.LogWarning("Failed to start watchdog: {0}", e.ToString());
-					}
-					throw;
-				}
-				finally
-				{
-					try
+					//possiblity of null servers due to failed reattaches
+					if (alphaServer == null || bravoServer == null)
 					{
 						await chatTask.ConfigureAwait(false);
+						var bothServersDead = alphaServer == null && bravoServer == null;
+						if (bothServersDead
+							|| (alphaServer == null && reattachInfo.AlphaIsActive)
+							|| (bravoServer == null && !reattachInfo.AlphaIsActive))
+						{
+							//we lost the active server, just restart entirely
+							DisposeAndNullControllers();
+							const string FailReattachMessage = "Unable to properly reattach to active server! Restarting...";
+							logger.LogWarning(FailReattachMessage);
+							logger.LogDebug(bothServersDead ? "Also could not reattach to inactive server!" : "Inactive server was reattached successfully!");
+							chatTask = chat.SendWatchdogMessage(FailReattachMessage, cancellationToken);
+							ignoreNestedException = true;
+							await LaunchImplNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
+							return;
+						}
+
+						//we still have the active server but the other one is dead to us, hand it off to the monitor to restart
+						const string InactiveReattachFailureMessage = "Unable to reattach to inactive server. Leaving for monitor to reboot...";
+						chatTask = chat.SendWatchdogMessage(InactiveReattachFailureMessage, cancellationToken);
+						logger.LogWarning(InactiveReattachFailureMessage);
+
+						if (reattachInfo.AlphaIsActive)
+							bravoServer = sessionControllerFactory.CreateDeadSession(reattachInfo.Bravo.Dmb);
+						else
+							alphaServer = sessionControllerFactory.CreateDeadSession(reattachInfo.Alpha.Dmb);
 					}
-					catch (OperationCanceledException) { }
+
+					//throws a JobException if something went wrong with a launch
+					//Dead sessions won't trigger this
+					async Task<LaunchResult> CheckLaunch(ISessionController controller, string serverName)
+					{
+						var launch = await controller.LaunchResult.ConfigureAwait(false);
+						if (launch.ExitCode.HasValue)
+							//you killed us ray...
+							throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server failed to start: {0}", launch.ToString(), serverName));
+						if (!launch.StartupTime.HasValue)
+							throw new JobException(String.Format(CultureInfo.InvariantCulture, "{1} server timed out on startup: {0}s", launch.ToString(), ActiveLaunchParameters.StartupTimeout.Value));
+						return launch;
+					}
+
+					var alphaLrt = CheckLaunch(alphaServer, "Alpha");
+					var bravoLrt = CheckLaunch(bravoServer, "Bravo");
+					//this task completes when both serers have finished booting
+					var allTask = Task.WhenAll(alphaLrt, bravoLrt);
+
+					//don't forget about the cancellationToken
+					var cancelTcs = new TaskCompletionSource<object>();
+					using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
+						await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
+
+					//both servers are now running, alpha is the active server(unless reattach), huzzah
+					AlphaIsActive = reattachInfo?.AlphaIsActive ?? true;
+
+					var activeServer = AlphaIsActive ? alphaServer : bravoServer;
+					activeServer.EnableCustomChatCommands();
+					activeServer.ClosePortOnReboot = true;
+
+					logger.LogInformation("Launched servers successfully");
+					Running = true;
+
+					if (startMonitor)
+					{
+						monitorCts = new CancellationTokenSource();
+						monitorTask = MonitorLifetimes(monitorCts.Token);
+					}
 				}
+				catch
+				{
+					if (dmbToUse != null)
+					{
+						//we locked 2 dmbs
+						if (bravoServer == null)
+						{
+							//bravo didn't get control of his
+							dmbToUse.Dispose();
+							if (alphaServer == null)
+								//alpha didn't get control of his
+								dmbToUse.Dispose();
+						}
+					}
+					else if (doesntNeedNewDmb)
+						//we have reattachInfo
+						if (bravoServer == null)
+						{
+							//bravo didn't get control of his
+							reattachInfo.Bravo?.Dmb.Dispose();
+							if (alphaServer == null)
+								//alpha didn't get control of his
+								reattachInfo.Alpha?.Dmb.Dispose();
+						}
+					//kill the controllers
+					DisposeAndNullControllers();
+					throw;
+				}
+			}
+			catch (Exception e)
+			{
+				//don't try to send chat tasks or warning logs if were suppressing exceptions or cancelled
+				if (!ignoreNestedException && !cancellationToken.IsCancellationRequested)
+				{
+					var originalChatTask = chatTask;
+					async Task ChainChatTaskWithErrorMessage()
+					{
+						await originalChatTask.ConfigureAwait(false);
+						await chat.SendWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
+					}
+					chatTask = ChainChatTaskWithErrorMessage();
+					logger.LogWarning("Failed to start watchdog: {0}", e.ToString());
+				}
+				throw;
+			}
+			finally
+			{
+				//finish the chat task that's in flight
+				try
+				{
+					await chatTask.ConfigureAwait(false);
+				}
+				catch (OperationCanceledException) { }
 			}
 		}
 
