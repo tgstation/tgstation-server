@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public bool IsPrimary => false;
 
 		/// <inheritdoc />
-		public bool TerminationWasRequested => true;
+		public bool TerminationWasRequested => false;
 
 		/// <inheritdoc />
 		public ApiValidationStatus ApiValidationStatus => throw new NotSupportedException();
