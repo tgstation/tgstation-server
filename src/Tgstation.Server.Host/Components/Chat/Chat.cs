@@ -546,7 +546,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				trackingContexts.Add(context);
 				lock (mappedChannels)
-					task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
+					task = context.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken);
 			}
 			await task.ConfigureAwait(false);
 			return context;
