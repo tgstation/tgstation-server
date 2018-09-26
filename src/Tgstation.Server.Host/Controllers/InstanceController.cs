@@ -341,7 +341,10 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 
-			var api = originalModel.ToApi();
+			var api = (AuthenticationContext.GetRight(RightsType.InstanceManager) & (ulong)InstanceManagerRights.Read) != 0 ? originalModel.ToApi() : new Api.Models.Instance
+			{
+				Id = originalModel.Id
+			};
 			if (originalModelPath != null)
 			{
 				var job = new Models.Job

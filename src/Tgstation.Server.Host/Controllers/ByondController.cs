@@ -98,7 +98,8 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, ct) => byondManager.ChangeVersion(installingVersion, ct), cancellationToken).ConfigureAwait(false);
 				result.InstallJob = job.ToApi();
 			}
-			result.Version = byondManager.ActiveVersion;
+			if ((AuthenticationContext.GetRight(RightsType.Byond) & (ulong)ByondRights.ReadActive) != 0)
+				result.Version = byondManager.ActiveVersion;
 			return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
 		}
 	}
