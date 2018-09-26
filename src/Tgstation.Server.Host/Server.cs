@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host
 			using (var cts = new CancellationTokenSource())
 			{
 				var cancellationToken = cts.Token;
-				var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)));
+				var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)).ToList());
 				//YA GOT 10 SECONDS
 				var expiryTask = Task.Delay(TimeSpan.FromSeconds(10));
 				await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
