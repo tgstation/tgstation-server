@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="reattachInformation">The <see cref="ReattachInformation"/> to use</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/> on success or <see langword="null"/> on failure to reattach</returns>
 		Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken);
 	}
 }
