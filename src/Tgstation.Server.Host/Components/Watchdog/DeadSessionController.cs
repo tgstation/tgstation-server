@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public bool ClosePortOnReboot
 		{
-			get => throw new NotSupportedException();
+			get => false;
 			set => throw new NotSupportedException();
 		}
 
