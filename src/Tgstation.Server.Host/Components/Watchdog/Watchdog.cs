@@ -680,7 +680,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var now = DateTimeOffset.Now;
 						var delay = now - startTime;
 
-						if (delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
+						if (reattachInfo == null && delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
 							await Task.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
 
 						Task<ISessionController> bravoServerTask;
