@@ -475,7 +475,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					//break either way because any issues past this point would be solved by the reboot
-					//TODO handle that elegantly somehow
 					if (restartOnceSwapped) 
 						//for one reason or another
 						//update and reboot
