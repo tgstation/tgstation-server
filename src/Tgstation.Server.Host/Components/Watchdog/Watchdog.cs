@@ -863,7 +863,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (releaseServers && Running)
 			{
-				var chatTask = chat.SendWatchdogMessage("Detaching...", cancellationToken);
 				await StopMonitor().ConfigureAwait(false);
 
 				var reattachInformation = new WatchdogReattachInformation
@@ -873,7 +872,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				reattachInformation.Alpha = alphaServer?.Release();
 				reattachInformation.Bravo = bravoServer?.Release();
 				await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
-				await chatTask.ConfigureAwait(false);
 			}
 			await Terminate(false, cancellationToken).ConfigureAwait(false);
 		}
