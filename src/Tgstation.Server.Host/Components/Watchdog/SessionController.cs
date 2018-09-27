@@ -401,6 +401,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			reattachInformation.Dmb = null;
 			released = true;
 			Dispose();
+			byondLock.DoNotDeleteThisSession();
 			tmpProvider.KeepAlive();
 			reattachInformation.Dmb = tmpProvider;
 			return reattachInformation;
