@@ -18,7 +18,7 @@
 		/// </summary>
 		RepoFetch = 2,
 		/// <summary>
-		/// Parameters: Pull request number, pull request sha, merger name, merger message
+		/// Parameters: Pull request number, pull request sha, merger message
 		/// </summary>
 		RepoMergePullRequest = 3,
 		/// <summary>
@@ -27,17 +27,17 @@
 		RepoPreSynchronize = 4,
 
 		/// <summary>
-		/// Parameters: Current version, new version
+		/// Parameters: Version being installed
 		/// </summary>
-		ByondChangeStart = 5,
+		ByondInstallStart = 5,
 		/// <summary>
 		/// Parameters: Error string
 		/// </summary>
-		ByondFail = 6,
+		ByondInstallFail = 6,
 		/// <summary>
-		/// No parameters
+		/// Parameters: Old active version, new active version
 		/// </summary>
-		ByondChangeComplete = 7,
+		ByondActiveVersionChange = 7,
 		/// <summary>
 		/// Parameters: Game directory path, origin commit sha
 		/// </summary>
@@ -56,22 +56,13 @@
 		CompileComplete = 11,
 
 		/// <summary>
-		/// Parameters: Exit code
-		/// </summary>
-		DDOtherCrash = 12,
-		/// <summary>
 		/// No parameters
 		/// </summary>
-		DDOtherExit = 13,
-
-		/// <summary>
-		/// No parameters
-		/// </summary>
-		InstanceAutoUpdateStart = 14,
+		InstanceAutoUpdateStart = 12,
 
 		/// <summary>
 		/// Parameters: Base sha, target sha, base reference, target reference
 		/// </summary>
-		RepoMergeConflict = 15,
+		RepoMergeConflict = 13,
 	}
 }

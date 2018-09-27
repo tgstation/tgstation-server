@@ -299,6 +299,8 @@ namespace Tgstation.Server.Host.Components.Repository
 				}), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
+			await eventConsumer.HandleEvent(EventType.RepoMergePullRequest, new List<string> { testMergeParameters.Number.ToString(), testMergeParameters.PullRequestRevision, testMergeParameters.Comment }, cancellationToken).ConfigureAwait(false);
+
 			return result.Status != MergeStatus.NonFastForward;
 		}
 

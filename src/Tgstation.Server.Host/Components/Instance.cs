@@ -56,6 +56,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly ILogger<Instance> logger;
@@ -88,8 +93,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, IJobManager jobManager, ILogger<Instance> logger)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, IJobManager jobManager, IEventConsumer eventConsumer, ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -102,6 +108,7 @@ namespace Tgstation.Server.Host.Components
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -187,6 +194,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes), cancellationToken).ConfigureAwait(false);
 					logger.LogDebug("Beginning auto update...");
+					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
 						Models.User user = null;
