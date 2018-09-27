@@ -83,7 +83,7 @@ Note that the ratio of application installations to databases is 1:1. Do not att
 
 ### Starting
 
-For the Windows service version start the `tgstation-server-4` service
+For the Windows service version start the `tgstation-server-4` service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server-4 for errors.
 
 For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows and you wish to install byond versions >= 512.1427 you must do this as admin to give the server permission to install the required DirectX dependency
 
