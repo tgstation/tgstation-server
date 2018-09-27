@@ -349,16 +349,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				//replace the notification tcs here so that the next loop will read a fresh one
 				activeParametersUpdated = new TaskCompletionSource<object>();
 				monitorState.InactiveServer.Dispose();  //kill or recycle it
-				monitorState.NextAction = breakAfter ? MonitorAction.Break : MonitorAction.Continue;
+				var desiredNextAction = breakAfter ? MonitorAction.Break : MonitorAction.Continue;
+				monitorState.NextAction = desiredNextAction;
 
-				var usedLatestDmb = await RestartInactiveServer().ConfigureAwait(false);
+				await RestartInactiveServer().ConfigureAwait(false);
 
-				if (monitorState.NextAction == (breakAfter ? MonitorAction.Break : MonitorAction.Continue))
-				{
+				if (monitorState.NextAction == desiredNextAction)
 					monitorState.ActiveServer.ClosePortOnReboot = false;
-					if (monitorState.InactiveServerHasStagedDmb && !usedLatestDmb)
-						monitorState.InactiveServerHasStagedDmb = false;    //don't try to load it again though
-				}
 			};
 
 			string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
@@ -433,10 +430,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					//are both servers now running the same CompileJob?
 					var sameCompileJob = monitorState.InactiveServer.Dmb.CompileJob.Id == monitorState.ActiveServer.Dmb.CompileJob.Id;
 					
-					if (sameCompileJob && monitorState.InactiveServerHasStagedDmb)
-						//both servers now up to date
-						monitorState.InactiveServerHasStagedDmb = false;
-					
 					if (!sameCompileJob || ActiveLaunchParameters != LastLaunchParameters)
 						//need a new launch to update either settings or compile job
 						restartOnceSwapped = true;
@@ -499,9 +492,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
-					//set this and then its the same a settings change
-					monitorState.InactiveServerHasStagedDmb = true;
-					goto case MonitorActivationReason.ActiveLaunchParametersUpdated;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					//just reload the inactive server and wait for a swap to apply the changes
 					await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
@@ -534,9 +524,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						logger.LogDebug("Alpha is the active server");
 					else
 						logger.LogDebug("Bravo is the active server");
-
-					if (monitorState.InactiveServerHasStagedDmb)
-						logger.LogDebug("Inactive server has staged .dmb");
+					
+					
 					if (monitorState.RebootingInactiveServer)
 						logger.LogDebug("Inactive server is rebooting");
 
@@ -548,6 +537,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						logger.LogDebug("Active server will close port on reboot");
 					if (monitorState.InactiveServer.ClosePortOnReboot)
 						logger.LogDebug("Inactive server will close port on reboot");
+
+					logger.LogDebug("Active server Compile Job ID: {0}", monitorState.ActiveServer.Dmb.CompileJob.Id);
+					logger.LogDebug("Inactive server Compile Job ID: {0}", monitorState.InactiveServer.Dmb.CompileJob.Id);
 
 					//load the activation tasks into local variables
 					var activeServerLifetime = monitorState.ActiveServer.Lifetime;

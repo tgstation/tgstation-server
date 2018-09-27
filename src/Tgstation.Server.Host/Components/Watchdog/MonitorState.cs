@@ -13,11 +13,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public bool RebootingInactiveServer { get; set; }
 
 		/// <summary>
-		/// If the inactive server has a .dmb and needs to be swapped in
-		/// </summary>
-		public bool InactiveServerHasStagedDmb { get; set; }
-
-		/// <summary>
 		/// If the inactive server is in an unrecoverable state
 		/// </summary>
 		public bool InactiveServerCritFail { get; set; }
