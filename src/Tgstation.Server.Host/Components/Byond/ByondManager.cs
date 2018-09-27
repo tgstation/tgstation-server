@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);
-				await eventConsumer.HandleEvent(EventType.ByondActiveVersionChange, new List<string> { VersionKey(ActiveVersion), versionKey }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.ByondActiveVersionChange, new List<string> { ActiveVersion != null ? VersionKey(ActiveVersion) : null, versionKey }, cancellationToken).ConfigureAwait(false);
 				ActiveVersion = version;
 			}
 		}
