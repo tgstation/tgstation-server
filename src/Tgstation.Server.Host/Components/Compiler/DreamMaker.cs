@@ -267,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, Api.Models.DreamMaker dreamMakerSettings, uint apiValidateTimeout, IRepository repository, CancellationToken cancellationToken)
+		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, Api.Models.DreamMaker dreamMakerSettings, uint apiValidateTimeout, IRepository repository, Action<int> progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
 			if (revisionInformation == null)
 				throw new ArgumentNullException(nameof(revisionInformation));
@@ -277,6 +277,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 			if (repository == null)
 				throw new ArgumentNullException(nameof(repository));
+
+			if (progressReporter == null)
+				throw new ArgumentNullException(nameof(progressReporter));
 
 			if (dreamMakerSettings.ApiValidationSecurityLevel == DreamDaemonSecurity.Ultrasafe)
 				throw new ArgumentOutOfRangeException(nameof(dreamMakerSettings), dreamMakerSettings, "Cannot compile with ultrasafe security!");
@@ -299,137 +302,165 @@ namespace Tgstation.Server.Host.Components.Compiler
 				compiling = true;
 			}
 
-			try
+			using (var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
-				var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
-				string remoteCommitInsert;
-				if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+				async Task ProgressTask()
 				{
-					commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
-					remoteCommitInsert = String.Empty;
-				}
-				else
-					remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
+					if (!estimatedDuration.HasValue)
+						return;
 
-				var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
-					String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
-					{
-						var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
-						if (x.Comment != null)
-							result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
-						return result;
-					})));
-
-				using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
-				{
-					await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
-
-					async Task CleanupFailedCompile(bool cancelled)
-					{
-						logger.LogTrace("Cleaning compile directory...");
-						var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
-						try
-						{
-							await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
-						}
-						catch (Exception e)
-						{
-							logger.LogWarning("Error cleaning up compile directory {0}! Exception: {1}", ioManager.ResolvePath(job.DirectoryName.ToString()), e);
-						}
-
-						await chatTask.ConfigureAwait(false);
-					};
+					progressReporter(0);
+					var ct = progressCts.Token;
+					var sleepInterval = estimatedDuration.Value / 100;
 
 					try
 					{
-						await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
-
-						var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
-						var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
-
-						logger.LogTrace("Copying repository to game directory...");
-						//copy the repository
-						var fullDirA = ioManager.ResolvePath(dirA);
-						var repoOrigin = repository.Origin;
-						using (repository)
-							await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
-
-						//run precompile scripts
-						var resolvedGameDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
-						await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedGameDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
-
-						//determine the dme
-						if (job.DmeName == null)
+						for (var I = 0; I < 99; ++I)
 						{
-							logger.LogTrace("Searching for available .dmes...");
-							var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
-							if (path == default)
-								throw new JobException("Unable to find any .dme!");
-							var dmeWithExtension = ioManager.GetFileName(path);
-							job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
+							await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(false);
+							progressReporter(I + 1);
 						}
-						else if (!await ioManager.FileExists(ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension)), cancellationToken).ConfigureAwait(false))
-							throw new JobException("Unable to locate specified .dme!");
+					}
+					catch (OperationCanceledException) { }
+				}
 
-						logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
+				var progressTask = ProgressTask();
+				try
+				{
 
-						await ModifyDme(job, cancellationToken).ConfigureAwait(false);
 
-						//run compiler, verify api
-						job.ByondVersion = byondLock.Version.ToString();
+					var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+					string remoteCommitInsert;
+					if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+					{
+						commitInsert = String.Format(CultureInfo.InvariantCulture, "^{0}", commitInsert);
+						remoteCommitInsert = String.Empty;
+					}
+					else
+						remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
-						var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+					var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
+						String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+						{
+							var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
+							if (x.Comment != null)
+								result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+							return result;
+						})));
+
+					using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
+					{
+						await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+
+						async Task CleanupFailedCompile(bool cancelled)
+						{
+							logger.LogTrace("Cleaning compile directory...");
+							var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
+							try
+							{
+								await ioManager.DeleteDirectory(job.DirectoryName.ToString(), CancellationToken.None).ConfigureAwait(false);
+							}
+							catch (Exception e)
+							{
+								logger.LogWarning("Error cleaning up compile directory {0}! Exception: {1}", ioManager.ResolvePath(job.DirectoryName.ToString()), e);
+							}
+
+							await chatTask.ConfigureAwait(false);
+						};
 
 						try
 						{
-							if (exitCode != 0)
-								throw new JobException(String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}{2}", exitCode, Environment.NewLine, job.Output));
+							await ioManager.CreateDirectory(job.DirectoryName.ToString(), cancellationToken).ConfigureAwait(false);
 
-							await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+							var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
+							var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
+
+							logger.LogTrace("Copying repository to game directory...");
+							//copy the repository
+							var fullDirA = ioManager.ResolvePath(dirA);
+							var repoOrigin = repository.Origin;
+							using (repository)
+								await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
+
+							//run precompile scripts
+							var resolvedGameDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
+							await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedGameDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
+
+							//determine the dme
+							if (job.DmeName == null)
+							{
+								logger.LogTrace("Searching for available .dmes...");
+								var path = (await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false)).FirstOrDefault();
+								if (path == default)
+									throw new JobException("Unable to find any .dme!");
+								var dmeWithExtension = ioManager.GetFileName(path);
+								job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
+							}
+							else if (!await ioManager.FileExists(ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension)), cancellationToken).ConfigureAwait(false))
+								throw new JobException("Unable to locate specified .dme!");
+
+							logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
+
+							await ModifyDme(job, cancellationToken).ConfigureAwait(false);
+
+							//run compiler, verify api
+							job.ByondVersion = byondLock.Version.ToString();
+
+							var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+
+							try
+							{
+								if (exitCode != 0)
+									throw new JobException(String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}{2}", exitCode, Environment.NewLine, job.Output));
+
+								await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+							}
+							catch (JobException)
+							{
+								//server never validated or compile failed
+								await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+								throw;
+							}
+
+							logger.LogTrace("Running post compile event...");
+							await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)) }, cancellationToken).ConfigureAwait(false);
+
+							logger.LogTrace("Duplicating compiled game...");
+
+							//duplicate the dmb et al
+							await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
+
+							logger.LogTrace("Applying static game file symlinks...");
+
+							//symlink in the static data
+							var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
+							var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
+
+							await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
+
+							await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
+
+							logger.LogDebug("Compile complete!");
+							return job;
 						}
-						catch (JobException)
+						catch (Exception e)
 						{
-							//server never validated or compile failed
-							await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+							await CleanupFailedCompile(e is OperationCanceledException).ConfigureAwait(false);
 							throw;
 						}
-
-						logger.LogTrace("Running post compile event...");
-						await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)) }, cancellationToken).ConfigureAwait(false);
-
-						logger.LogTrace("Duplicating compiled game...");
-
-						//duplicate the dmb et al
-						await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
-
-						logger.LogTrace("Applying static game file symlinks...");
-
-						//symlink in the static data
-						var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
-						var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
-
-						await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
-
-						await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
-
-						logger.LogDebug("Compile complete!");
-						return job;
-					}
-					catch (Exception e)
-					{
-						await CleanupFailedCompile(e is OperationCanceledException).ConfigureAwait(false);
-						throw;
 					}
 				}
-			}
-			catch (OperationCanceledException)
-			{
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
-				throw;
-			}
-			finally
-			{
-				compiling = false;
+				catch (OperationCanceledException)
+				{
+					await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+					throw;
+				}
+				finally
+				{
+					compiling = false;
+					progressCts.Cancel();
+					await progressTask.ConfigureAwait(false);
+				}
 			}
 		}
 	}

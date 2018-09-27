@@ -132,6 +132,14 @@ namespace Tgstation.Server.Host.Components
 				StartupTimeout = x.StartupTimeout,
 			}).FirstOrDefaultAsync(cancellationToken);
 
+			var compileJobsTask = databaseContext.CompileJobs
+				.Where(x => x.Job.Instance.Id == metadata.Id)
+				.OrderByDescending(x => x.Job.StoppedAt)
+				.Include(x => x.Job)
+				.Select(x => x.Job.StoppedAt.Value - x.Job.StartedAt.Value)
+				.Take(10)
+				.ToListAsync(cancellationToken);
+
 			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (dreamMakerSettings == default)
 				throw new JobException("Missing DreamMakerSettings in DB!");
@@ -163,8 +171,18 @@ namespace Tgstation.Server.Host.Components
 					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 					databaseContext.Instances.Attach(revInfo.Instance);
 				}
+				
+				TimeSpan? averageSpan = null;
+				var previousCompileJobs = await compileJobsTask.ConfigureAwait(false);
+				if(previousCompileJobs.Count != 0)
+				{
+					var totalSpan = TimeSpan.Zero;
+					foreach (var I in previousCompileJobs)
+						totalSpan += I;
+					averageSpan = totalSpan / previousCompileJobs.Count;
+				}
 
-				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, cancellationToken).ConfigureAwait(false);
+				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
 			}
 
 			compileJob.Job = job;
