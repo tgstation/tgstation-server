@@ -11,6 +11,12 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	sealed class WindowsSystemIdentity : ISystemIdentity
 	{
+		/// <inheritdoc />
+		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
+
+		/// <inheritdoc />
+		public string Username => userPrincipal?.Name ?? identity.Name;
+
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>
 		/// </summary>
@@ -51,12 +57,6 @@ namespace Tgstation.Server.Host.Security
 				context.Dispose();
 			}
 		}
-
-		/// <inheritdoc />
-		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
-
-		/// <inheritdoc />
-		public string Username => userPrincipal?.Name ?? identity.Name;
 
 		/// <inheritdoc />
 		public ISystemIdentity Clone()
