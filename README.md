@@ -11,13 +11,14 @@
 This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests locally.  
 
 ### Legacy Servers
+
 * Older server versions can be found in the V# branches of this repository
 
 ## Setup
 
 ### Installation
 
-1. Download and install the [.NET Core Runtime (>= v2.1)](https://www.microsoft.com/net/download) for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). Enusre that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
+1. Download and install the [.NET Core Runtime (>= v2.1)](https://www.microsoft.com/net/download) for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
 2. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
 3. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
 4. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
