@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						Models.User user = null;
-						await databaseContextFactory.UseContext(async (db) => user = await db.Users.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+						await databaseContextFactory.UseContext(async (db) => user = await db.Users.Where(x => x.CanonicalName == Api.Models.User.AdminName.ToUpperInvariant()).FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
 						var repositoryUpdateJob = new Job
 						{
 							Instance = new Models.Instance
