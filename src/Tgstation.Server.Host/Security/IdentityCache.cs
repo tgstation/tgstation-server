@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using Tgstation.Server.Host.Models;
 
@@ -7,16 +8,30 @@ namespace Tgstation.Server.Host.Security
 	/// <inheritdoc />
 	sealed class IdentityCache : IIdentityCache, IDisposable
 	{
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="IdentityCache"/>
+		/// </summary>
+		readonly ILogger<IdentityCache> logger;
+
+		/// <summary>
+		/// The map of <see cref="Api.Models.Internal.User.Id"/>s to <see cref="IdentityCacheObject"/>s
+		/// </summary>
 		readonly Dictionary<long, IdentityCacheObject> cachedIdentities;
 
-		public IdentityCache()
+		/// <summary>
+		/// Construct an <see cref="IdentityCache"/>
+		/// </summary>
+		public IdentityCache(ILogger<IdentityCache> logger)
 		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
 			cachedIdentities = new Dictionary<long, IdentityCacheObject>();
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			logger.LogTrace("Disposing...");
 			foreach (var I in cachedIdentities)
 				I.Value.Dispose();
 		}
@@ -30,10 +45,16 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(systemIdentity));
 			lock (cachedIdentities)
 			{
+				logger.LogDebug("Caching system identity {0} of user {1}", systemIdentity.Uid, user.Id);
+
 				if (cachedIdentities.TryGetValue(user.Id, out var identCache))
+				{
+					logger.LogTrace("Expiring previously cached identity...");
 					identCache.Dispose();   //also clears it out
+				}
 				identCache = new IdentityCacheObject(systemIdentity.Clone(), () =>
 				{
+					logger.LogDebug("Expiring system identity cache for user {1}", systemIdentity.Uid, user.Id);
 					lock (cachedIdentities)
 						cachedIdentities.Remove(user.Id);
 				}, expiry);
