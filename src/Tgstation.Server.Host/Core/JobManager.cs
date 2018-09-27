@@ -76,6 +76,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					async Task HandleExceptions(Task task)
 					{
+						void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails); 
 						try
 						{
 							await task.ConfigureAwait(false);
@@ -85,10 +86,17 @@ namespace Tgstation.Server.Host.Core
 							logger.LogDebug("Job {0} cancelled!", job.Id);
 							job.Cancelled = true;
 						}
+						catch (JobException e)
+						{
+							job.ExceptionDetails = e.Message;
+							LogRegularException();
+							if (e.InnerException != null)
+								logger.LogDebug("Inner exception for job {0}: {1}", job.Id, e.InnerException);
+						}
 						catch (Exception e)
 						{
-							job.ExceptionDetails = e is JobException ? e.Message : e.ToString();
-							logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+							job.ExceptionDetails = e.ToString();
+							LogRegularException();
 						}
 						finally
 						{
