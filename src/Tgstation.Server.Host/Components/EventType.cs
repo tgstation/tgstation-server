@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// Types of events 
+	/// Types of events. Mirror in tgs.dm
 	/// </summary>
 	public enum EventType
 	{
