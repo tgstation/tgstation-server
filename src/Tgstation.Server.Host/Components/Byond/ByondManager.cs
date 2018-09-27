@@ -20,7 +20,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		public const string BinPath = "byond/bin";
 
+		/// <summary>
+		/// The file in which we store the <see cref="VersionKey(Version)"/> for installations
+		/// </summary>
 		const string VersionFileName = "Version.txt";
+		/// <summary>
+		/// The file in which we store the <see cref="VersionKey(Version)"/> for the active installation
+		/// </summary>
 		const string ActiveVersionFileName = "ActiveVersion.txt";
 
 		/// <inheritdoc />
@@ -61,6 +67,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
 
+		/// <summary>
+		/// Converts a BYOND <paramref name="version"/> to a <see cref="string"/>
+		/// </summary>
+		/// <param name="version">The <see cref="Version"/> to convert</param>
+		/// <returns>The <see cref="string"/> representation of <paramref name="version"/></returns>
 		static string VersionKey(Version version) => new Version(version.Major, version.Minor).ToString();
 
 		/// <summary>
@@ -108,11 +119,11 @@ namespace Tgstation.Server.Host.Components.Byond
 					cancellationToken.ThrowIfCancellationRequested();
 					return;
 				}
+			//okay up to us to install it then
 			try
 			{
 				var downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
 
-				//okay up to us to install it then
 				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
