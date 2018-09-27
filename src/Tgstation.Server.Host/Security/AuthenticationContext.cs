@@ -56,9 +56,6 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose() => SystemIdentity?.Dispose();
 
 		/// <inheritdoc />
-		public IAuthenticationContext Clone() => new AuthenticationContext(SystemIdentity.Clone(), User, InstanceUser);
-
-		/// <inheritdoc />
 		public ulong GetRight(RightsType rightsType)
 		{
 			var isInstance = RightsHelper.IsInstanceRight(rightsType);
