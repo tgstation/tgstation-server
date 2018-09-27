@@ -34,6 +34,18 @@ namespace Tgstation.Server.Host.Service
 		public bool Install { get; set; }
 
 		/// <summary>
+		/// The --trace or -t option. Enables trace logs
+		/// </summary>
+		[Option(ShortName = "t")]
+		public bool Trace { get; set; }
+
+		/// <summary>
+		/// The --debug or -d option. Enables debug logs
+		/// </summary>
+		[Option(ShortName = "d")]
+		public bool Debug { get; set; }
+
+		/// <summary>
 		/// Check if the running user is a system administrator
 		/// </summary>
 		/// <returns><see langword="true"/> if the running user is a system administrator, <see langword="false"/> otherwise</returns>
@@ -109,7 +121,7 @@ namespace Tgstation.Server.Host.Service
 				}
 			else
 				using (var loggerFactory = new LoggerFactory())
-					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory));
+					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 		}
 
 		/// <summary>
