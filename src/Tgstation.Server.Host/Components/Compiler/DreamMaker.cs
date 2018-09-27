@@ -317,7 +317,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 					{
 						for (var I = 0; I < 99; ++I)
 						{
-							await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(false);
+							await Task.Delay(sleepInterval, progressCts.Token).ConfigureAwait(false);
 							progressReporter(I + 1);
 						}
 					}
