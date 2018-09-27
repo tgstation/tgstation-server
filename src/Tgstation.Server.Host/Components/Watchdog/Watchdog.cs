@@ -590,7 +590,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
 								|| CheckActivationReason(ref inactiveServerReboot, MonitorActivationReason.InactiveServerRebooted)
 								|| CheckActivationReason(ref inactiveServerStartup, MonitorActivationReason.InactiveServerStartupComplete)
-								|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.ActiveServerRebooted)
+								|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 								|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated))
 								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 							else
