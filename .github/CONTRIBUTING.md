@@ -143,6 +143,8 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 * If your pull request is accepted, the code you add no longer belongs exclusively to you but to everyone; everyone is free to work on it, but you are also free to support or object to any changes being made, which will likely hold more weight, as you're the one who added the feature. It is a shame this has to be explicitly said, but there have been cases where this would've saved some trouble.
 
+* Your submission must be tested with 100% code coverage with both unit and integration tests
+
 * Please explain why you are submitting the pull request, and how you think your change will be beneficial to the server. Failure to do so will be grounds for rejecting the PR.
 
 * Commits MUST be properly titled and commented as we only use merge commits for the pull request process
