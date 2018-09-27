@@ -49,8 +49,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// If a <see cref="ForbidResult"/> should be returned from actions due to conflicts with one or both of the <see cref="Api.Models.Instance.ConfigurationType"/> or the <see cref="IAuthenticationContext.SystemIdentity"/> or a given <paramref name="path"/> tries to access parent directories
 		/// </summary>
 		/// <param name="path">The path to validate if any</param>
+		/// <param name="systemIdentityToUse">The <see cref="ISystemIdentity"/> to use when calling into <see cref="Components.StaticFiles.IConfiguration"/></param>
 		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise</returns>
-		bool ForbidDueToModeConflicts(string path) => Instance.ConfigurationType == ConfigurationType.Disallowed || (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null) || (path != null && ioManager.PathContainsParentAccess(path));
+		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
+		{
+			if (!(Instance.ConfigurationType == ConfigurationType.Disallowed || (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null) || (path != null && ioManager.PathContainsParentAccess(path))))
+			{
+				systemIdentityToUse = null;
+				return false;
+			}
+			systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : null;
+			return true;
+		}
 
 		/// <inheritdoc />
 		[TgsAuthorize(ConfigurationRights.Write)]
@@ -58,13 +68,13 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
-			if (ForbidDueToModeConflicts(model.Path))
+			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
 
 			var config = instanceManager.GetInstance(Instance).Configuration;
 			try
 			{
-				var newFile = await config.Write(model.Path, AuthenticationContext.SystemIdentity, model.Content, model.LastReadHash, cancellationToken).ConfigureAwait(false);
+				var newFile = await config.Write(model.Path, systemIdentity, model.Content, model.LastReadHash, cancellationToken).ConfigureAwait(false);
 				if (newFile == null)
 					return Conflict(new ErrorMessage
 					{
@@ -99,12 +109,12 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.Read)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
-			if (ForbidDueToModeConflicts(filePath))
+			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
 				return Forbid();
 
 			try
 			{
-				var result = await instanceManager.GetInstance(Instance).Configuration.Read(filePath, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
+				var result = await instanceManager.GetInstance(Instance).Configuration.Read(filePath, systemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null)
 					return StatusCode((int)HttpStatusCode.Gone);
 
@@ -134,12 +144,12 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.List)]
 		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
 		{
-			if (ForbidDueToModeConflicts(directoryPath))
+			if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
 				return Forbid();
 
 			try
 			{
-				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(directoryPath, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false);
+				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(directoryPath, systemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null)
 					return StatusCode((int)HttpStatusCode.Gone);
 
@@ -166,13 +176,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (ForbidDueToModeConflicts(model.Path))
+			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
 
 			try
 			{
 				model.IsDirectory = true;
-				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
+				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
 			}
 			catch (NotImplementedException)
 			{
@@ -197,12 +207,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (directory == null)
 				throw new ArgumentNullException(nameof(directory));
 
-			if (ForbidDueToModeConflicts(directory.Path))
+			if (ForbidDueToModeConflicts(directory.Path, out var systemIdentity))
 				return Forbid();
 
 			try
 			{
-				return await instanceManager.GetInstance(Instance).Configuration.DeleteDirectory(directory.Path, AuthenticationContext.SystemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Ok() : Conflict(new ErrorMessage
+				return await instanceManager.GetInstance(Instance).Configuration.DeleteDirectory(directory.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Ok() : Conflict(new ErrorMessage
 				{
 					Message = "Directory not empty!"
 				});
