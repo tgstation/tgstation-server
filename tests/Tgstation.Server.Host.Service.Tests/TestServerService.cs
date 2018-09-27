@@ -18,11 +18,11 @@ namespace Tgstation.Server.Host.Service.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, default));
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
 			var mockLoggerFactory = new LoggerFactory();
-			new ServerService(mockWatchdogFactory.Object, mockLoggerFactory).Dispose();
+			new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default).Dispose();
 		}
 
 		[TestMethod]
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Service.Tests
 			var mockLoggerFactory = new LoggerFactory();
 			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
 
-			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory))
+			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
 			{
 				onStart.Invoke(service, new object[] { args });
 
