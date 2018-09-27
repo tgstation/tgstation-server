@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.DirectoryServices.AccountManagement;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +13,13 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	sealed class WindowsSystemIdentityFactory : ISystemIdentityFactory
 	{
+		static void GetUserAndDomainName(string input, out string username, out string domainName)
+		{
+			var splits = input.Split('\\');
+			username = splits.Length > 1 ? splits[1] : splits[0];
+			domainName = splits.Length > 1 ? splits[0] : null;
+		}
+
 		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
@@ -55,9 +61,11 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(username));
 			if (password == null)
 				throw new ArgumentNullException(nameof(password));
-			var splits = username.Split('\\');
 
-			var res = NativeMethods.LogonUser(splits.Length > 1 ? splits[1] : splits[0], splits.Length > 1 ? splits[0] : null, password, 3 /*LOGON32_LOGON_NETWORK*/, 0 /*LOGON32_PROVIDER_DEFAULT*/, out var token);
+			var originalUsername = username;
+			GetUserAndDomainName(originalUsername, out username, out var domainName);
+
+			var res = NativeMethods.LogonUser(username, domainName, password, 3 /*LOGON32_LOGON_NETWORK*/, 0 /*LOGON32_PROVIDER_DEFAULT*/, out var token);
 			if (!res)
 				return null;
 
