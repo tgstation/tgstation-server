@@ -53,13 +53,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise</returns>
 		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
 		{
-			if (!(Instance.ConfigurationType == ConfigurationType.Disallowed || (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null) || (path != null && ioManager.PathContainsParentAccess(path))))
+			if (Instance.ConfigurationType == ConfigurationType.Disallowed || (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null) || (path != null && ioManager.PathContainsParentAccess(path)))
 			{
 				systemIdentityToUse = null;
-				return false;
+				return true;
 			}
 			systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : null;
-			return true;
+			return false;
 		}
 
 		/// <inheritdoc />
