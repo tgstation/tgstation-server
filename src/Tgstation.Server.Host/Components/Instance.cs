@@ -142,7 +142,6 @@ namespace Tgstation.Server.Host.Components
 			var compileJobsTask = databaseContext.CompileJobs
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
-				.Include(x => x.Job)
 				.Select(x => x.Job.StoppedAt.Value - x.Job.StartedAt.Value)
 				.Take(10)
 				.ToListAsync(cancellationToken);
