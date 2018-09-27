@@ -542,12 +542,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					logger.LogDebug("Inactive server Compile Job ID: {0}", monitorState.InactiveServer.Dmb.CompileJob.Id);
 
 					//load the activation tasks into local variables
-					var activeServerLifetime = monitorState.ActiveServer.Lifetime;
-					var inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
+					Task activeServerLifetime = monitorState.ActiveServer.Lifetime;
+					Task inactiveServerLifetime = monitorState.InactiveServer.Lifetime;
 					var activeServerReboot = monitorState.ActiveServer.OnReboot;
 					var inactiveServerReboot = monitorState.InactiveServer.OnReboot;
-					var inactiveServerStartup = monitorState.RebootingInactiveServer ? monitorState.InactiveServer.LaunchResult : null;
-					var activeLaunchParametersChanged = activeParametersUpdated.Task;
+					Task inactiveServerStartup = monitorState.RebootingInactiveServer ? monitorState.InactiveServer.LaunchResult : null;
+					Task activeLaunchParametersChanged = activeParametersUpdated.Task;
 					var newDmbAvailable = dmbFactory.OnNewerDmb;
 
 					//cancel waiting if requested
@@ -573,46 +573,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							//process the tasks in this order and call HandlerMonitorWakup for each
 
-							if (activeServerLifetime?.IsCompleted == true)
+							bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
 							{
-								activationReason = MonitorActivationReason.ActiveServerCrashed;
-								activeServerLifetime = null;
-							}
-							else if (inactiveServerLifetime?.IsCompleted == true)
-							{
-								activationReason = MonitorActivationReason.InactiveServerCrashed;
-								inactiveServerLifetime = null;
-							}
-							else if (activeServerReboot?.IsCompleted == true)
-							{
-								activationReason = MonitorActivationReason.ActiveServerRebooted;
-								activeServerReboot = null;
-							}
-							else if (inactiveServerReboot?.IsCompleted == true)
-							{
-								activationReason = MonitorActivationReason.InactiveServerRebooted;
-								inactiveServerReboot = null;
-							}
-							else if (inactiveServerStartup?.IsCompleted == true)
-							{
-								activationReason = MonitorActivationReason.InactiveServerStartupComplete;
-								inactiveServerStartup = null;
-							}
-							else if (newDmbAvailable?.IsCompleted == true)
-							{
-								activationReason = MonitorActivationReason.NewDmbAvailable;
-								newDmbAvailable = null;
-							}
-							else if (activeLaunchParametersChanged?.IsCompleted == true)
-							{
-								activationReason = MonitorActivationReason.ActiveLaunchParametersUpdated;
-								activeLaunchParametersChanged = null;
-							}
+								if (task?.IsCompleted != true)
+									return false;
+								activationReason = testActivationReason;
+								task = null;
+								return true;
+							};
+
+							if (CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
+								|| CheckActivationReason(ref inactiveServerLifetime, MonitorActivationReason.InactiveServerCrashed)
+								|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
+								|| CheckActivationReason(ref inactiveServerReboot, MonitorActivationReason.InactiveServerRebooted)
+								|| CheckActivationReason(ref inactiveServerStartup, MonitorActivationReason.InactiveServerStartupComplete)
+								|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.ActiveServerRebooted)
+								|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated))
+								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 							else
 								moreActivationsToProcess = false;
-
-							if (moreActivationsToProcess)
-								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
 						}
 
 						//writeback alphaServer and bravoServer from monitor state in case they changesd
