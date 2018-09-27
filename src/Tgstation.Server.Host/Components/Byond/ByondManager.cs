@@ -84,6 +84,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public ByondManager(IIOManager ioManager, IByondInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<ByondManager> logger)
 		{

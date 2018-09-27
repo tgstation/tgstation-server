@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		/// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for <paramref name="watchdogFactory"/></param>
-		/// <param name="minumumLogLevel">The minimum <see cref="LogLevel"/> to record in the event log</param>
+		/// <param name="minumumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log</param>
 		public ServerService(IWatchdogFactory watchdogFactory, ILoggerFactory loggerFactory, LogLevel minumumLogLevel)
 		{
 			if (watchdogFactory == null)
