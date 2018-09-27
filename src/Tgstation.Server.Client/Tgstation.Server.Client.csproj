@@ -16,7 +16,8 @@
     <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/build/tgs.ico</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Prototype release</PackageReleaseNotes>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <Copyright>2018</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
