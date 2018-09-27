@@ -473,10 +473,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//update and reboot
 						await UpdateAndRestartInactiveServer(true).ConfigureAwait(false);
 					else
-						//the one odd case would be getting NewDmbAvailable at this exact moment
-						//in which case, we have the issue that it will never actually deploy until the watchdog restarts completely
-						//TODO: Come up with some way to gracefully handle that
-						monitorState.NextAction = MonitorAction.Break;
+						//only skip checking inactive server rebooted, it's guaranteed InactiveServerStartup complete wouldn't fire this iteration
+						monitorState.NextAction = MonitorAction.Skip;
 					break;
 				case MonitorActivationReason.InactiveServerRebooted:
 					//just don't let the active server close it's port if the inactive server isn't ready
@@ -567,7 +565,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						//always run HandleMonitorWakeup from the context of the semaphore lock
 						//multiple things may have happened, handle them one at a time
-						for (var moreActivationsToProcess = true; moreActivationsToProcess && monitorState.NextAction == MonitorAction.Continue;)
+						for (var moreActivationsToProcess = true; moreActivationsToProcess && (monitorState.NextAction == MonitorAction.Continue || monitorState.NextAction == MonitorAction.Skip);)
 						{
 							MonitorActivationReason activationReason = default; //this will always be assigned before being used
 
@@ -575,11 +573,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
 							{
-								if (task?.IsCompleted != true)
-									return false;
-								activationReason = testActivationReason;
+								var taskCompleted = task?.IsCompleted == true;
 								task = null;
-								return true;
+								if (monitorState.NextAction == MonitorAction.Skip)
+									monitorState.NextAction = MonitorAction.Continue;
+								else if (taskCompleted)
+								{
+									activationReason = testActivationReason;
+									return true;
+								}
+								return false; 
 							};
 
 							if (CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)

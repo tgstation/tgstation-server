@@ -10,6 +10,10 @@
 		/// </summary>
 		Continue,
 		/// <summary>
+		/// Skips the next call to HandleMonitorWakeup action 
+		/// </summary>
+		Skip,
+		/// <summary>
 		/// The monitor should kill and restart both servers
 		/// </summary>
 		Restart,
