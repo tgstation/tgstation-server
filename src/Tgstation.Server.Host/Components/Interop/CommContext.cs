@@ -121,6 +121,7 @@ namespace Tgstation.Server.Host.Components.Interop
 
 				await (handler?.HandleInterop(command, cancellationToken) ?? Task.CompletedTask).ConfigureAwait(false);
 			}
+			catch (OperationCanceledException) { }
 			catch (Exception ex)
 			{
 				logger.LogDebug("Exception while trying to handle command json write: {0}", ex);

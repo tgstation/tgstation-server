@@ -62,6 +62,10 @@ namespace Tgstation.Server.Host.Security
 					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 
 				}
+				catch (OperationCanceledException)
+				{
+					throw;
+				}
 				catch (Exception e)
 				{
 					logger.LogWarning("Error loading user for context type {0}! Exception: {1}", contextType, e);

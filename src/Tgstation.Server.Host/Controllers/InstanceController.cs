@@ -332,7 +332,8 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (Exception e)
 			{
-				Logger.LogError("Error changing instance online state! Exception: {0}", e);
+				if(!(e is OperationCanceledException))
+					Logger.LogError("Error changing instance online state! Exception: {0}", e);
 				originalModel.Online = originalOnline;
 				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
 				if (originalModelPath != null)

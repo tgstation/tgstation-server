@@ -65,6 +65,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			{
 				await ioManager.DeleteDirectory(ByondCachePath, cancellationToken).ConfigureAwait(false);
 			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);

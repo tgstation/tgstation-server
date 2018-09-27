@@ -623,6 +623,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										monitorState = new MonitorState();  //clean the slate and continue
 									}
 								}
+								catch (OperationCanceledException)
+								{
+									throw;
+								}
 								catch (Exception e)
 								{
 									launchException = e;

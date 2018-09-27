@@ -429,6 +429,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					commandString,
 					cancellationToken).ConfigureAwait(false);
 			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				logger.LogInformation("Send command exception:{0}{1}", Environment.NewLine, e.Message);

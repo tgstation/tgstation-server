@@ -305,6 +305,10 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (result != null)
 					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				//error bc custom commands should reply about why it failed

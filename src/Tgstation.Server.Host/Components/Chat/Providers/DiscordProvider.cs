@@ -128,6 +128,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
 					await channelsAvailable.Task.ConfigureAwait(false);
 			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				logger.LogWarning("Error connecting to Discord: {0}", e);
@@ -147,6 +151,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				await client.StopAsync().ConfigureAwait(false);
 				cancellationToken.ThrowIfCancellationRequested();
 				await client.LogoutAsync().ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{
@@ -203,6 +211,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					CancelToken = cancellationToken
 				}) ?? Task.CompletedTask).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{
