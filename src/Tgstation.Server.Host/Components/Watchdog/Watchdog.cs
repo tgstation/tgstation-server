@@ -1011,13 +1011,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return true;
 
 				var builder = new StringBuilder(Constants.DMTopicEvent);
-				builder.Append("&");
+				builder.Append('&');
 				var notification = new EventNotification
 				{
 					Type = eventType,
 					Parameters = parameters
 				};
 				var json = JsonConvert.SerializeObject(notification);
+				builder.Append(byondTopicSender.SanitizeString(Constants.DMParameterData));
+				builder.Append('=');
 				builder.Append(byondTopicSender.SanitizeString(json));
 
 				var activeServer = AlphaIsActive ? alphaServer : bravoServer;
