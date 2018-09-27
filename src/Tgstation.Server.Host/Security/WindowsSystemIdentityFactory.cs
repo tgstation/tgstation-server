@@ -60,7 +60,6 @@ namespace Tgstation.Server.Host.Security
 					pc = new PrincipalContext(contextType);
 					cancellationToken.ThrowIfCancellationRequested();
 					principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
-
 				}
 				catch (OperationCanceledException)
 				{

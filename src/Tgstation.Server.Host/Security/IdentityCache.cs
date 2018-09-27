@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -32,8 +33,8 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose()
 		{
 			logger.LogTrace("Disposing...");
-			foreach (var I in cachedIdentities)
-				I.Value.Dispose();
+			foreach (var I in cachedIdentities.Select(x => x.Value).ToList())
+				I.Dispose();
 		}
 
 		/// <inheritdoc />
