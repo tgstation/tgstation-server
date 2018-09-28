@@ -46,6 +46,8 @@ The database is exposed as a series of DbSet<T> objects through @ref Tgstation.S
 
 @section arch_controllers Controllers
 
+The webserver operates in an MVC style. All requests are routed through the @ref Tgstation.Server.Host.Controllers . If a route doesn't exist as an action in a controller, a 404 response will be returned. Controllers interact with components via injecting the @ref Tgstation.Server.Host.Components.IInstanceManager interface, access the database with the @ref Tgstation.Server.Host.Controllers.ApiController.DatabaseContext property, and start jobs by injecting the @ref Tgstation.Server.Host.Core.IJobManager interface.
+
 @section arch_security Security
 
 The authentication process begins in @ref Tgstation.Server.Host.Controllers.HomeController.CreateToken . This is where users log in. They must supply their username and password via correct @ref Tgstation.Server.Api.ApiHeaders . The server first attempts to use these credentials to login to the system. If that succeeds it checks if the system user's UID is registered in the database. Failing either of the previous two, it tries to match the username and password to an entry in the database. If either of these methods succeeds the user is considered authenticated and a token is generated and sent back to the user. If the user is a system user, the context of their login is kept for the amount of time until their token expires + 1 minute.
@@ -62,15 +64,51 @@ Long running operations create @ref Tgstation.Server.Host.Models.Job objects whi
 
 @section arch_instance Instances
 
-Instances exist in two forms: Their database metadata and their actual class. The class only exists if the instance is set to be @ref Tgstation.Server.Api.Models.Instance.Online . This is where all the actual server management code lives.
+Instances exist in two forms: Their database metadata and their actual class. The class only exists if the instance is set to be @ref Tgstation.Server.Api.Models.Instance.Online . This is where all the actual server management code lives. A single instance is made up of individual components that work with each other through their intefaces
 
 @subsection arch_ifactory Instance Factory
 
-This is responsible for creating the @ref Tgstation.Server.Host.Components.IInstance objects
+This is responsible for creating the components and weaving them into the final @ref Tgstation.Server.Host.Components.Instance. This happens automatically at server startup if an instance is configured to be online
+
+@section arch_repository Repository Manager
+
+The @ref Tgstation.Server.Host.Components.Repository.IRepositoryManager is the gatekeeper for cloning and accessing a @ref Tgstation.Server.Host.Components.Repository.IRepository . Only one instance of a repository can be in use at a time (due to the single-threaded nature of libgit2), so the repository manager contains a semaphore wait queue which hands out the repository to only one client at a time. All repository operations (aside from cloning and deleting) are performed by the actual repository object. This includes fetching, hard resets, checkouts, synchronizing, etc. Most state put into the @ref Tgstation.Server.Api.Models.Repository object is read directly from libgit2, exceptions being credentials and boolean settings.
+
+@section arch_byond Byond
+
+The BYOND installation setup is largely decoupled from the database. When a byond version is downloaded and installed by the @ref Tgstation.Server.Host.Components.Byond.IByondManager it is extracted to a directory titled with it's version in the `BYOND` folder acompanied by a text document stating which version it is. Platform specific installation steps are handled by specific implementations of @ref Tgstation.Server.Host.Components.Byond.IByondInstaller . When it comes time to use an executable, the manager provides a @ref Tgstation.Server.Host.Components.Byond.IByondExecutableLock which contains absolute paths to the DreamMaker and DreamDaemon executables
+
+@section arch_deployment Compiler and Deployment
+
+The compilation process is a distinct series of steps:
+
+1. Retrieve necessary information from the database in @ref Tgstation.Server.Host.Components.IInstance.CompileProcess
+2. Choose a uniquely named folder in the `Game` directory for deployment
+3. Acquire a @ref Tgstation.Server.Host.Components.Byond.IByondExecutableLock
+4. Build the initial @ref Tgstation.Server.Host.Models.CompileJob object from available data (Byond version, Revision, directory, etc)
+5. Announce the deployment through the chat bot system
+6. Create and copy the repository to the `<target folder>/A` directory
+7. Run the PreCompile hook
+8. Auto detect or check if the configured .dme is present
+9. Copy and apply static code modifications to the environment
+10. Run DreamMaker on the .dme
+11. Start a DreamDaemon instance to validate the DMAPI
+12. Run the PostCompile hook
+13. Copy `<target folder>/A` to `<target folder>/B`
+14. Symlink all `GameStaticFiles` to both the A and B directories
+15. Commit the @ref Tgstation.Server.Host.Models.CompileJob to the database
+
+If any of the above steps fail, the target directory is deleted and the deployment is considered a bust. If all went well, after the @ref Tgstation.Server.Host.Models.Job completes the new CompileJob is loaded into the instance's @ref Tgstation.Server.Host.Components.Compiler.IDmbFactory . 
+
+The DmbFactory is where the @ref arch_watchdog gets the @ref Tgstation.Server.Host.Components.Compiler.IDmbProvider instances to run. Each CompileJob loaded into it is given a lock count. The latest CompileJob holds 1 lock and every DreamDaemon instance running that CompileJob holds another. Loading a new CompileJob releases the initial lock, and when all other locks are released the CompileJob's directory is deleted. Any directories in the `Game` folder not in use are also deleted when the Instance starts. 
+
+@section arch_chat Chat Bot System
+
+@section arch_static Static File Management
 
 @section arch_watchdog Watchdog
 
-@subsection Communication
+@subsection arch_comms Communication
 
 @section arch_update Host Update Process
 
