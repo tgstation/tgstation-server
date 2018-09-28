@@ -93,9 +93,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Older server versions can be found in the V# branches of this repository</li>
 </ul>
 <h2>Setup</h2>
+<h3>Pre-Requisites</h3>
+<ul>
+<li><a href="https://www.microsoft.com/net/download">.NET Core Runtime (&gt;= v2.1)</a> If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.1 (Download can be found on same page). On Windows, ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or the user's that will be running the server).</li>
+<li>A <a href="https://downloads.mariadb.org/">MariaDB</a>, MySQL, or <a href="https://www.microsoft.com/en-us/download/details.aspx?id=55994">Microsoft SQL Server</a> database engine is required</li>
+</ul>
 <h3>Installation</h3>
 <ol type="1">
-<li>Download and install the <a href="https://www.microsoft.com/net/download">.NET Core Runtime (&gt;= v2.1)</a> for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.1 (Download can be found on same page). On Windows, ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or the user's that will be running the server).</li>
 <li><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest V4 release .zip</a>. The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.</li>
 <li>Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the <code>lib</code> subdirectory.</li>
 <li>If using the ServerService package, run <code>Tgstation.Server.Host.Service.exe</code>. It should prompt you to install the service. Click <code>Yes</code> and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.</li>
