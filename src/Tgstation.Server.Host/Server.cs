@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -68,7 +67,6 @@ namespace Tgstation.Server.Host
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		[ExcludeFromCodeCoverage]
 		public async Task RunAsync(CancellationToken cancellationToken)
 		{
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))

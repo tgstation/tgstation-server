@@ -4,7 +4,6 @@ using System;
 using System.Collections.Specialized;
 using System.Configuration.Install;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -18,7 +17,6 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Contains the entrypoint for the application
 	/// </summary>
-	[ExcludeFromCodeCoverage]
 	class Program
 	{
 		/// <summary>
