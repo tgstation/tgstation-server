@@ -310,7 +310,11 @@ namespace Tgstation.Server.Host.Controllers
 			//ensure the current user has write privilege on the instance
 			var usersInstanceUser = await usersInstanceUserTask.ConfigureAwait(false);
 			if (usersInstanceUser == default)
-				originalModel.InstanceUsers.Add(InstanceAdminUser());
+			{
+				var instanceAdminUser = InstanceAdminUser();
+				instanceAdminUser.InstanceId = originalModel.Id;
+				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
+			}
 			else
 				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
 

@@ -16,12 +16,16 @@ This is a toolset to manage production BYOND servers. It includes the ability to
 
 ## Setup
 
+### Pre-Requisites
+
+- [.NET Core Runtime (>= v2.1)](https://www.microsoft.com/net/download) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
+- A [MariaDB](https://downloads.mariadb.org/), MySQL, or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+
 ### Installation
 
-1. Download and install the [.NET Core Runtime (>= v2.1)](https://www.microsoft.com/net/download) for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
-2. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
-3. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
-4. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
+1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
+2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
+3. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
 
 #### Linux
 

@@ -93,6 +93,19 @@ namespace Tgstation.Server.Tests
 			var testSuite1 = new InstanceTest(instanceManagerClient.CreateClient(firstTest));
 			await testSuite1.RunTests(cancellationToken).ConfigureAwait(false);
 
+			//can regain permissions on instance without instance user
+			var instanceClient = instanceManagerClient.CreateClient(firstTest);
+			var ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
+			await instanceClient.Users.Delete(ourInstanceUser, cancellationToken).ConfigureAwait(false);
+
+			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.Users.Read(cancellationToken)).ConfigureAwait(false);
+
+			await instanceManagerClient.Update(new Api.Models.Instance
+			{
+				Id = firstTest.Id
+			}, cancellationToken).ConfigureAwait(false);
+			ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
+
 			//can't detach online instance
 			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken)).ConfigureAwait(false);
 
