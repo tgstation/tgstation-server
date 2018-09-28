@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Contains the entrypoint for the application
 	/// </summary>
-	class Program
+	sealed class Program
 	{
 		/// <summary>
 		/// The --uninstall or -u option
