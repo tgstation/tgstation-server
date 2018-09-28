@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Watchdog
 		public async Task RunAsync(string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
-
+			logger.LogDebug("PID: {0}", Process.GetCurrentProcess().Id);
 			string updateDirectory = null;
 			try
 			{
