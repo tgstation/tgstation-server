@@ -241,36 +241,40 @@ namespace TGS.Server
 				var major = Convert.ToInt32(vi[0]);
 				var minor = Convert.ToInt32(vi[1]);
 				var rrdp = RelativePath(RevisionDownloadPath);
-				using (var client = new WebClient())
+
+				if (major != 0 || minor != 0)
 				{
-					SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
-
-					//DOWNLOADING
-
-					try
+					using (var client = new WebClient())
 					{
-						client.DownloadFile(String.Format(ByondRevisionsURL, major, minor), rrdp);
-					}
-					catch
-					{
-						SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
-						lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", major, minor);
-						WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
-						lock (ByondLock)
+						SendMessage(String.Format("BYOND: Updating to version {0}.{1}...", major, minor), MessageType.DeveloperInfo);
+
+						//DOWNLOADING
+
+						try
 						{
-							updateStat = ByondStatus.Idle;
+							client.DownloadFile(String.Format(ByondRevisionsURL, major, minor), rrdp);
 						}
-						return;
+						catch
+						{
+							SendMessage("BYOND: Update download failed. Does the specified version exist?", MessageType.DeveloperInfo);
+							lastError = String.Format("Download of BYOND version {0}.{1} failed! Does it exist?", major, minor);
+							WriteWarning(String.Format("Failed to update BYOND to version {0}.{1}!", major, minor), EventID.BYONDUpdateFail);
+							lock (ByondLock)
+							{
+								updateStat = ByondStatus.Idle;
+							}
+							return;
+						}
 					}
-				}
-				lock (ByondLock)
-				{
-					updateStat = ByondStatus.Staging;
-				}
+					lock (ByondLock)
+					{
+						updateStat = ByondStatus.Staging;
+					}
 
-				//STAGING
-				
-				ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
+					//STAGING
+
+					ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
+				}
 				File.Delete(rrdp);
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
 				Directory.CreateDirectory(RelativePath(ByondConfigDir));
