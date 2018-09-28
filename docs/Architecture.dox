@@ -42,15 +42,31 @@ The first thing this function does is call @ref Tgstation.Server.Host.Models.Dat
 
 @section arch_db Database and Context
 
-@section arch_security Security
+The database is exposed as a series of DbSet<T> objects through @ref Tgstation.Server.Host.Models.IDatabaseContext . Queries are performed via async LINQ expressions. Inserts, updates, and deletes are done via modifiying the DbSet<T>s and then calling @ref Tgstation.Server.Host.Models.IDatabaseContext.Save . Do some reading on Entity Framework Core for a deeper understanding.
 
 @section arch_controllers Controllers
 
+@section arch_security Security
+
+The authentication process begins in @ref Tgstation.Server.Host.Controllers.HomeController.CreateToken . This is where users log in. They must supply their username and password via correct @ref Tgstation.Server.Api.ApiHeaders . The server first attempts to use these credentials to login to the system. If that succeeds it checks if the system user's UID is registered in the database. Failing either of the previous two, it tries to match the username and password to an entry in the database. If either of these methods succeeds the user is considered authenticated and a token is generated and sent back to the user. If the user is a system user, the context of their login is kept for the amount of time until their token expires + 1 minute.
+
+The password hashing used for database users is the standard provided by ASP.Net Core. It utilizes PBKDF2 with HMAC-SHA256, 128-bit salt, 256-bit subkey, with 10000 iterations. Read about it here: https://andrewlock.net/exploring-the-asp-net-core-identity-passwordhasher/
+
+When this token is supplied in the `Authorization` header of a subsequent request, it is first cryptographically validated that it was sent by the current server. The token contain's the user's ID, and, using it, the user's info is retrieved from the database and put into an @ref Tgstation.Server.Host.Security.IAuthenticationContext
+
+Nearly all exposed controller actions are decorated with a @ref Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute . This attribute does 2 things. 1. It ensures the @ref Tgstation.Server.Host.Security.IAuthenticationContext is valid for the request before running the action. 2. If it contains a permission flag specification, it will 403 the request if the user doesn't have one of the listed permissions.
+
 @section arch_jobs Jobs
+
+Long running operations create @ref Tgstation.Server.Host.Models.Job objects which represent information about long running tasks. These objects can be queried to find out who started them, if they've been completed, canceled, who cancelled them, their error message if any, and get their progress percentage in some cases. The job will be created and supplied by the request that started it, but active/all jobs may also be queried.
 
 @section arch_instance Instances
 
+Instances exist in two forms: Their database metadata and their actual class. The class only exists if the instance is set to be @ref Tgstation.Server.Api.Models.Instance.Online . This is where all the actual server management code lives.
+
 @subsection arch_ifactory Instance Factory
+
+This is responsible for creating the @ref Tgstation.Server.Host.Components.IInstance objects
 
 @section arch_watchdog Watchdog
 
