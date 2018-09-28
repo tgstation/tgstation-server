@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Watchdog
 		public async Task RunAsync(string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
-
+			logger.LogDebug("PID: {0}", Process.GetCurrentProcess().Id);
 			string updateDirectory = null;
 			try
 			{
@@ -228,7 +228,7 @@ namespace Tgstation.Server.Host.Watchdog
 							if (isWindows)
 							{
 								//windows dick sucking resource unlocking
-								GC.Collect();
+								GC.Collect(Int32.MaxValue, GCCollectionMode.Default, true);
 								await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 							}
 							var tempPath = Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString());

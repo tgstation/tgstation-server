@@ -11,6 +11,12 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	sealed class WindowsSystemIdentity : ISystemIdentity
 	{
+		/// <inheritdoc />
+		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
+
+		/// <inheritdoc />
+		public string Username => userPrincipal?.Name ?? identity.Name;
+
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>
 		/// </summary>
@@ -53,16 +59,16 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
-
-		/// <inheritdoc />
-		public string Username => userPrincipal?.Name ?? identity.Name;
-
-		/// <inheritdoc />
 		public ISystemIdentity Clone()
 		{
 			if (identity != null)
-				return new WindowsSystemIdentity((WindowsIdentity)identity.Clone());
+			{
+				//var newIdentity = (WindowsIdentity)identity.Clone();	//doesn't work because of https://github.com/dotnet/corefx/issues/31841
+
+				var newIdentity = new WindowsIdentity(identity.Token);	//the handle is cloned internally
+
+				return new WindowsSystemIdentity(newIdentity);
+			}
 			//can't clone a UP, shouldn't be trying to anyway, cloning is for impersonation
 			throw new InvalidOperationException("Cannot clone a UserPrincipal based WindowsSystemIdentity!");
 		}

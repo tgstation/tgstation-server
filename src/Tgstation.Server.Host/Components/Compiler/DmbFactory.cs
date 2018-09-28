@@ -264,6 +264,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 					++deleting;
 					await ioManager.DeleteDirectory(x, cancellationToken).ConfigureAwait(false);
 				}
+				catch (OperationCanceledException)
+				{
+					throw;
+				}
 				catch (Exception e)
 				{
 					logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);

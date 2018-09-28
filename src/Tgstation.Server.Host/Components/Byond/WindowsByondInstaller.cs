@@ -92,6 +92,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			{
 				await ioManager.DeleteDirectory(ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken).ConfigureAwait(false);
 			}
+			catch(OperationCanceledException)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
@@ -121,16 +125,26 @@ namespace Tgstation.Server.Host.Components.Byond
 			//after this version lummox made DD depend of directx lol
 			if (version.Major >= 512 && version.Minor >= 1427 && !installedDirectX)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+					//check again because race conditions
 					if (!installedDirectX)
 					{
 						//always install it, it's pretty fast and will do better redundancy checking than us
 						var rbdx = ioManager.ConcatPath(path, ByondDXDir);
 						//noShellExecute because we aren't doing runas shennanigans
-						using (var p = processExecutor.LaunchProcess(ioManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent", noShellExecute: true))
+						IProcess directXInstaller;
+						try
+						{
+							directXInstaller = processExecutor.LaunchProcess(ioManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent", noShellExecute: true);
+						}
+						catch (Exception e)
+						{
+							throw new JobException("Unable to start DirectX installer process! Is the server running with admin privileges?", e);
+						}
+						using (directXInstaller)
 						{
 							int exitCode;
-							using (cancellationToken.Register(() => p.Terminate()))
-								exitCode = await p.Lifetime.ConfigureAwait(false);
+							using (cancellationToken.Register(() => directXInstaller.Terminate()))
+								exitCode = await directXInstaller.Lifetime.ConfigureAwait(false);
 							cancellationToken.ThrowIfCancellationRequested();
 
 							if (exitCode != 0)

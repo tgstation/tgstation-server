@@ -8,19 +8,17 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com)
 
-
-This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for fixing errors and merging GitHub Pull Requests locally.
-  
-Generally, updates force a live tracking of the configured git repo, resetting local modifications. If you plan to make modifications, set up a new git repo to store your version of the code in, and point this script to that in the config (explained below). This can be on GitHub or a local repo using file:/// urls.
+This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests locally.  
 
 ### Legacy Servers
+
 * Older server versions can be found in the V# branches of this repository
 
 ## Setup
 
 ### Installation
 
-1. Download and install the [.NET Core Runtime (>= v2.1)](https://www.microsoft.com/net/download) for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). Enusre that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
+1. Download and install the [.NET Core Runtime (>= v2.1)](https://www.microsoft.com/net/download) for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
 2. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
 3. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
 4. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
@@ -37,13 +35,14 @@ Note that tgstation-server has only ever been tested on Linux via it's [docker e
 
 #### Docker
 
-tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems due being the only tested environment. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
+tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems due being the only robustly tested environment. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
 
 To create a container run
-```
+```sh
 docker create \
 	--restart=always \ #if you want maximum uptime
 	--network="host" \ #if your sql server is on the same machine
+	--name="tgs" \ #or whatever else you wanna call it
 	-p <tgs port>:80 \
 	-p 0.0.0.0:<public game port>:<internal game port> \
 	-v /path/to/store/instances:/tgs4_instances \
@@ -54,6 +53,8 @@ docker create \
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
+
+Before starting your container make sure the aforemention `appsettings.Production.json` is configured properly. See below
 
 ### Configuring
 
@@ -79,15 +80,17 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 If using MySQL, our provider library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
 
-The user created for the application will need the privilege to create databases on the first run. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
+The user created for the application will need the privilege to create databases on the first run, do not create the database for it. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
 
-Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.
+Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations. (We know SQLite would be perfect for this, but it does not handle the high level of concurrency the server uses)
 
 ### Starting
 
-For the Windows service version start the `tgstation-server-4` service
+For the Windows service version start the `tgstation-server-4` service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server-4 for errors.
 
-For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this
+For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows and you wish to install byond versions >= 512.1427 you must do this as admin to give the server permission to install the required DirectX dependency
+
+For the docker version run `docker start tgs`
 
 ### Stopping
 
@@ -97,11 +100,13 @@ For the Windows service version stop the `tgstation-server-4` service
 
 For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
 
+For the docker version run `docker stop tgs`
+
 ## Integrating
 
 A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.
 
-1. Copy the [DMAPI] files anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
+1. Copy the [DMAPI](https://github.com/tgstation/tgstation-server/tree/master/src/DMAPI) files anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
 2. Modify your `.dme`(s) to include the `tgs.dm` and `tgs/includes.dm` files (ORDER OF APPEARANCE IS MANDATORY)
 3. Follow the instructions in `tgs.dm` to integrate the API with your codebase.
 
@@ -155,13 +160,13 @@ var/global/client_count = 0
 
 ## Remote Access
 
-tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration JSON. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
+tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) app based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration JSON. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
 
-Exposing the builtin kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.
+Exposing the builtin Kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.
 
 System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.
 
-Once complete, test that your configuration worked by visiting your proxy site from a different computer. You should recieve a 401 Unauthorized response.
+Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should recieve a 401 Unauthorized response.
 
 ### IIS (Reccommended for Windows)
 
@@ -221,13 +226,15 @@ tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on 
 
 ### Users
 
-All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Api/Models/User.cs). If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting. Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be _database based_ or _system based_. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.
+All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the system. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting. 
+
+Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be _database based_ or _system based_. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.
 
 ### Instances
 
 A TGS deployment is made up with a set of instances, which each represent a production BYOND server. As many instances as desired can be created. Be aware, however, due to the nature of BYOND, this will quickly result in system resource exhaustion.
 
-An instance is stored in a single folder anywhere on a system and is made up of several components: The source code git repository, BYOND, the compiler, the watchdog, chat bots, and static file management systems.
+An instance is stored in a single folder anywhere on a system and is made up of several components: The source code git repository, the BYOND installations, the compiler, the watchdog, chat bots, and static file management systems.
 
 ##### Instance Users
 
@@ -243,7 +250,7 @@ Manual operations on the repository while an instance is running may lead to git
 
 #### Byond
 
-The `Byond` folder contains installations of [BYOND](https://secure.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
+The `Byond` folder contains installations of [BYOND](https://secure.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
 
 #### Compiler
 
@@ -264,20 +271,20 @@ TGS supports creating infinite chat bots for notifying staff or players of thing
 
 More can be added by providing a new implementation of the [IProvider](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs) interface
 
-Bots have a set of built-in commands that can be triggered via `!tgs` mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the `/datum/tgs_chat_command` type (See `tgs.dm` for details). Invocation for custom commands can be restricted to certain channels.
+Bots have a set of built-in commands that can be triggered via `!tgs`, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the `/datum/tgs_chat_command` type (See `tgs.dm` for details). Invocation for custom commands can be restricted to certain channels.
 
 #### Static Files
 
 All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.
 
-The `StaticFiles` folder contains 3 root folders
+The `StaticFiles` folder contains 3 root folders which cannot be deleted and operate under special rules
 	- `CodeModifications`
 	- `EventScripts`
 	- `GameStaticFiles`
 
 These files can be modified either in host mode or system user mode. In host mode, TGS itself is responsible for reading and writing the files. In system user mode read and write actions are performed using the system account of the logged on User, enabling the use of ACLs to control access to files. Database users will not be able to use the static file system if this mode is configured for an instance.
 
-This folder may be freely modified manually just beware this may cause deployments to error if done simulatenously on Windows systems.
+This folder may be freely modified manually just beware this may cause in-progress deployments to error if done on Windows systems.
 
 #### CodeModifications
 
@@ -293,7 +300,7 @@ This folder can contain anything. But, when certain events occur in the instance
 
 #### GameStaticFiles
 
-Any files and folders contained in this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND `.sav`s or code configuration files for example) to persist across all deployments.
+Any files and folders contained in this root level of this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND `.sav`s or code configuration files for example) to persist across all deployments.
 
 ### Updating
 
@@ -320,8 +327,8 @@ Feel free to ask for help at the coderbus discord: https://discord.gg/Vh8TJp9. C
 
 ## Licensing
 
-* The DM API for the project is licensed under the MIT license.
+* The DMAPI for the project is licensed under the MIT license.
 * The /tg/station 13 icon is licensed under [Creative Commons 3.0 BY-SA](http://creativecommons.org/licenses/by-sa/3.0/).
 * The remainder of the project is licensed under [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html)
 
-See the /src/DMAPI tree for the MIT license
+See the files in the /src/DMAPI tree for the MIT license

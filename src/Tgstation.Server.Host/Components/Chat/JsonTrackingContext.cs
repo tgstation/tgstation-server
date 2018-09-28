@@ -82,6 +82,10 @@ namespace Tgstation.Server.Host.Components.Chat
 					return result;
 				}
 			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				logger.LogWarning("Error retrieving custom commands! Exception: {0}", e);

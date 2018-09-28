@@ -304,9 +304,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						client.Listen();
 					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
+				catch (OperationCanceledException)
+				{
+					throw;
+				}
 				catch (Exception e)
 				{
 					logger.LogWarning("Unable to connect to IRC: {0}", e);
+					return false;
 				}
 			return true;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
@@ -331,6 +336,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 				Dispose();
 				await listenTask.ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{

@@ -112,29 +112,21 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
+				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
 
-				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask).ConfigureAwait(false);
+				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask).ConfigureAwait(false);
 
 				if (!dmeExistsTask.Result && !headFileExistsTask.Result && !tailFileExistsTask.Result)
 					return null;
 
-				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
-
 				if (dmeExistsTask.Result)
-				{
-					await copyTask.ConfigureAwait(false);
 					return new ServerSideModifications(null, null, true);
-				}
 
 				if (!headFileExistsTask.Result && !tailFileExistsTask.Result)
-				{
-					await copyTask.ConfigureAwait(false);
 					return null;
-				}
 
 				string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
-
-				await copyTask.ConfigureAwait(false);
+			
 				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 			}
 		}

@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Models
 		{
 			AdministrationRights = showDetails ? AdministrationRights : null,
 			CreatedAt = CreatedAt,
-			CreatedBy = recursive ? CreatedBy?.ToApi(false, showDetails) : null,
+			CreatedBy = recursive ? CreatedBy?.ToApi(false, false) : null,
 			Enabled = Enabled,
 			Id = Id,
 			InstanceManagerRights = showDetails ? InstanceManagerRights : null,

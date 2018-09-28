@@ -20,7 +20,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		public const string BinPath = "byond/bin";
 
+		/// <summary>
+		/// The file in which we store the <see cref="VersionKey(Version)"/> for installations
+		/// </summary>
 		const string VersionFileName = "Version.txt";
+		/// <summary>
+		/// The file in which we store the <see cref="VersionKey(Version)"/> for the active installation
+		/// </summary>
 		const string ActiveVersionFileName = "ActiveVersion.txt";
 
 		/// <inheritdoc />
@@ -47,6 +53,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="ByondManager"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ByondManager"/>
 		/// </summary>
 		readonly ILogger<ByondManager> logger;
@@ -61,6 +72,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
 
+		/// <summary>
+		/// Converts a BYOND <paramref name="version"/> to a <see cref="string"/>
+		/// </summary>
+		/// <param name="version">The <see cref="Version"/> to convert</param>
+		/// <returns>The <see cref="string"/> representation of <paramref name="version"/></returns>
 		static string VersionKey(Version version) => new Version(version.Major, version.Minor).ToString();
 
 		/// <summary>
@@ -68,11 +84,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public ByondManager(IIOManager ioManager, IByondInstaller byondInstaller, ILogger<ByondManager> logger)
+		public ByondManager(IIOManager ioManager, IByondInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<ByondManager> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			installedVersions = new Dictionary<string, Task>();
@@ -108,11 +126,12 @@ namespace Tgstation.Server.Host.Components.Byond
 					cancellationToken.ThrowIfCancellationRequested();
 					return;
 				}
+			//okay up to us to install it then
 			try
 			{
+				await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionKey }, cancellationToken).ConfigureAwait(false);
 				var downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
 
-				//okay up to us to install it then
 				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
@@ -144,6 +163,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 			catch (Exception e)
 			{
+				if (!(e is OperationCanceledException))
+					await eventConsumer.HandleEvent(EventType.ByondInstallFail, new List<string> { e.Message }, cancellationToken).ConfigureAwait(false);
 				lock (installedVersions)
 					installedVersions.Remove(versionKey);
 				ourTcs.SetException(e);
@@ -154,10 +175,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task ChangeVersion(Version version, CancellationToken cancellationToken)
 		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+			var versionKey = VersionKey(version);
 			await InstallVersion(version, cancellationToken).ConfigureAwait(false);
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
-				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.ByondActiveVersionChange, new List<string> { ActiveVersion != null ? VersionKey(ActiveVersion) : null, versionKey }, cancellationToken).ConfigureAwait(false);
 				ActiveVersion = version;
 			}
 		}

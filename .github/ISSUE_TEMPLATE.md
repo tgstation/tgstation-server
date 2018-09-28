@@ -4,4 +4,4 @@ Please include:
 
 - Reproduction steps for the issue if possible
 
-- Relevent stack traces, error details, and screenshots if possible
+- Relevent server logs, and screenshots if possible

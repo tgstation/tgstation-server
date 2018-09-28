@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Components
 				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, credentialsProvider, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
 				try
 				{
-					var byond = new ByondManager(byondIOManager, byondInstaller, loggerFactory.CreateLogger<ByondManager>());
+					var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
 
 					var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
 
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Components
 						{
 							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, loggerFactory.CreateLogger<Instance>());
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, loggerFactory.CreateLogger<Instance>());
 						}
 						catch
 						{

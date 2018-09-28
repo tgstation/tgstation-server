@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			return new List<ICommand>
 			{
 				new VersionCommand(application),
-				new ByondCommand(byondManager),
+				new ByondCommand(byondManager, watchdog),
 				new RevisionCommand(watchdog, repositoryManager, instance),
 				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, instance),
 				new KekCommand()

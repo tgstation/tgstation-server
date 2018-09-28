@@ -24,11 +24,15 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string ByondCachePath = "~/.byond/cache";
 
-		/// <inheritdoc />
-		public string DreamDaemonName => "DreamDaemon.sh";
+		const string DreamDaemonExecutableName = "DreamDaemon";
+		const string DreamMakerExecutableName = "DreamMaker";
+		const string ShellScriptExtension = ".sh";
 
 		/// <inheritdoc />
-		public string DreamMakerName => "DreamMaker.sh";
+		public string DreamDaemonName => DreamDaemonExecutableName + ShellScriptExtension;
+
+		/// <inheritdoc />
+		public string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="PosixByondInstaller"/>
@@ -64,6 +68,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			try
 			{
 				await ioManager.DeleteDirectory(ByondCachePath, cancellationToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{
@@ -102,9 +110,6 @@ namespace Tgstation.Server.Host.Components.Byond
 			//write the scripts for running the ting
 			//need to add $ORIGIN to LD_LIBRARY_PATH
 			const string StandardScript = "#!/bin/sh\nexport LD_LIBRARY_PATH=\"\\$ORIGIN:$LD_LIBRARY_PATH\"\nBASEDIR=$(dirname \"$0\")\nexec \"$BASEDIR/{0}\" \"$@\"\n";
-
-			const string DreamDaemonExecutableName = "DreamDaemon";
-			const string DreamMakerExecutableName = "DreamMaker";
 
 			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamDaemonExecutableName);
 			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamMakerExecutableName);

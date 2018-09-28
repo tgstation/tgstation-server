@@ -236,7 +236,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await instanceQuery
 				.SelectMany(x => x.Jobs).
-				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix, StringComparison.Ordinal))
+#pragma warning disable CA1307 // Specify StringComparison
+				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
+#pragma warning restore CA1307 // Specify StringComparison
 				.Select(x => new Models.Job
 				{
 					Id = x.Id
@@ -332,7 +334,8 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (Exception e)
 			{
-				Logger.LogError("Error changing instance online state! Exception: {0}", e);
+				if(!(e is OperationCanceledException))
+					Logger.LogError("Error changing instance online state! Exception: {0}", e);
 				originalModel.Online = originalOnline;
 				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
 				if (originalModelPath != null)
@@ -376,7 +379,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobTasks = query
 				.SelectMany(x => x.Jobs)
-				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix, StringComparison.Ordinal))
+#pragma warning disable CA1307 // Specify StringComparison
+				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
+#pragma warning restore CA1307 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken);
@@ -400,7 +405,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobTask = query
 				.SelectMany(x => x.Jobs)
-				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix, StringComparison.Ordinal))
+#pragma warning disable CA1307 // Specify StringComparison
+				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
+#pragma warning restore CA1307 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken);
 			var instance = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);

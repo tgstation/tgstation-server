@@ -120,6 +120,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
+				//HACK
 				//do some fuckery to remove RequiredAttribute errors
 				for (var I = 0; I < errorMessages.Count; ++I)
 				{

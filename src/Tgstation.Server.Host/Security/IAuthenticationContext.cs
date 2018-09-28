@@ -30,11 +30,5 @@ namespace Tgstation.Server.Host.Security
 		/// The <see cref="ISystemIdentity"/> of <see cref="User"/> if applicable
 		/// </summary>
 		ISystemIdentity SystemIdentity { get; }
-
-		/// <summary>
-		/// Creates a copy of the <see cref="IAuthenticationContext"/>
-		/// </summary>
-		/// <returns>A new <see cref="IAuthenticationContext"/></returns>
-		IAuthenticationContext Clone();
 	}
 }

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Specialized;
 using System.Configuration.Install;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -18,8 +17,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Contains the entrypoint for the application
 	/// </summary>
-	[ExcludeFromCodeCoverage]
-	class Program
+	sealed class Program
 	{
 		/// <summary>
 		/// The --uninstall or -u option
@@ -32,6 +30,18 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		[Option(ShortName = "i")]
 		public bool Install { get; set; }
+
+		/// <summary>
+		/// The --trace or -t option. Enables trace logs
+		/// </summary>
+		[Option(ShortName = "t")]
+		public bool Trace { get; set; }
+
+		/// <summary>
+		/// The --debug or -d option. Enables debug logs
+		/// </summary>
+		[Option(ShortName = "d")]
+		public bool Debug { get; set; }
 
 		/// <summary>
 		/// Check if the running user is a system administrator
@@ -49,32 +59,29 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		public void OnExecute()
 		{
-			if (Environment.UserInteractive)
+			if (Environment.UserInteractive && !IsAdministrator())
 			{
-				if (!IsAdministrator())
+				if (!Install && !Uninstall)
 				{
-					if (!(Install || Uninstall))
-					{
-						var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
-						if (result == DialogResult.No)
-							return;
-						Install = true;
-					}
-
-					//try to restart as admin
-					//its windows, first arg is .exe name guaranteed
-					var exe = Environment.GetCommandLineArgs().First();
-					var startInfo = new ProcessStartInfo
-					{
-						UseShellExecute = true,
-						Verb = "runas",
-						Arguments = Install ? "-i" : "-u",
-						FileName = exe,
-						WorkingDirectory = Environment.CurrentDirectory,
-					};
-					using (Process.Start(startInfo))
+					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
+					if (result != DialogResult.Yes)
 						return;
+					Install = true;
 				}
+
+				//try to restart as admin
+				//its windows, first arg is .exe name guaranteed
+				var exe = Environment.GetCommandLineArgs().First();
+				var startInfo = new ProcessStartInfo
+				{
+					UseShellExecute = true,
+					Verb = "runas",
+					Arguments = Install ? "-i" : "-u",
+					FileName = exe,
+					WorkingDirectory = Environment.CurrentDirectory,
+				};
+				using (Process.Start(startInfo))
+					return;
 			}
 
 			if (Install)
@@ -109,7 +116,7 @@ namespace Tgstation.Server.Host.Service
 				}
 			else
 				using (var loggerFactory = new LoggerFactory())
-					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory));
+					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 		}
 
 		/// <summary>

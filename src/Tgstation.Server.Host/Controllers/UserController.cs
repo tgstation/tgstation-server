@@ -130,7 +130,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var passwordEditOnly = !AuthenticationContext.User.AdministrationRights.Value.HasFlag(AdministrationRights.WriteUsers);
 
-			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id)
+				.Include(x => x.CreatedBy)
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == default)
 				return NotFound();
 
@@ -170,7 +172,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var users = await DatabaseContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);
+			var users = await DatabaseContext.Users
+				.Include(x => x.CreatedBy)
+				.ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi(true)));
 		}
 
@@ -184,7 +188,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
 				return Forbid();
 
-			var user = await DatabaseContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var user = await DatabaseContext.Users
+				.Where(x => x.Id == id)
+				.Include(x => x.CreatedBy)
+				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
 			return Json(user.ToApi(true));
