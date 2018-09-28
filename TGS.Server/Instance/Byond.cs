@@ -266,15 +266,15 @@ namespace TGS.Server
 							return;
 						}
 					}
-					lock (ByondLock)
-					{
-						updateStat = ByondStatus.Staging;
-					}
-
-					//STAGING
-
-					ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
 				}
+				lock (ByondLock)
+				{
+					updateStat = ByondStatus.Staging;
+				}
+
+				//STAGING
+
+				ZipFile.ExtractToDirectory(rrdp, RelativePath(StagingDirectory));
 				File.Delete(rrdp);
 				//IMPORTANT: SET THE BYOND CONFIG TO NOT PROMPT FOR TRUSTED MODE REEE
 				Directory.CreateDirectory(RelativePath(ByondConfigDir));
