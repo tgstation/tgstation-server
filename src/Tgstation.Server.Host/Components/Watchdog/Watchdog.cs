@@ -284,21 +284,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return true;
 			}
 
-			// Tries to launch inactive server with the latest dmb
-			// Doesn't handle stopping it
+			// Kills and tries to launch inactive server with the latest dmb
 			// falls back to current dmb on failure
 			// Sets critfail on inactive server failing that
 			// returns false if the backup dmb was used successfully, true otherwise
-			async Task<bool> RestartInactiveServer()
+			async Task UpdateAndRestartInactiveServer(bool breakAfter)
 			{
+				activeParametersUpdated = new TaskCompletionSource<object>();
+				monitorState.InactiveServer.Dispose();  //kill or recycle it
+				var desiredNextAction = breakAfter ? MonitorAction.Break : MonitorAction.Continue;
+				monitorState.NextAction = desiredNextAction;
+
 				logger.LogInformation("Rebooting inactive server...");
 				var newDmb = dmbFactory.LockNextDmb(1);
-				bool usedMostRecentDmb;
 				try
 				{
 					monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, newDmb, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
 					monitorState.InactiveServer.SetHighPriority();
-					usedMostRecentDmb = true;
 				}
 				catch (OperationCanceledException)
 				{
@@ -321,7 +323,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						monitorState.InactiveServer = await sessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbBackup, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
 						monitorState.InactiveServer.SetHighPriority();
-						usedMostRecentDmb = false;
 						await chat.SendWatchdogMessage("Staging newest DMB on inactive server failed: {0} Falling back to previous dmb...", cancellationToken).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
@@ -334,29 +335,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						logger.LogError("Backup strategy failed! Monitor will restart when active server reboots! Exception: {0}", e2.ToString());
 						monitorState.InactiveServerCritFail = true;
 						await chat.SendWatchdogMessage("Attempted reboot of inactive server failed. Watchdog will reset when active server fails or exits", cancellationToken).ConfigureAwait(false);
-						return true;    //we didn't use the old dmb
+						return;
 					}
 				}
 
 				logger.LogInformation("Successfully relaunched inactive server!");
 				monitorState.RebootingInactiveServer = true;
-				return usedMostRecentDmb;
 			}
-
-			//kills inactive server and tries to relaunch it with the latest dmb
-			async Task UpdateAndRestartInactiveServer(bool breakAfter)
-			{
-				//replace the notification tcs here so that the next loop will read a fresh one
-				activeParametersUpdated = new TaskCompletionSource<object>();
-				monitorState.InactiveServer.Dispose();  //kill or recycle it
-				var desiredNextAction = breakAfter ? MonitorAction.Break : MonitorAction.Continue;
-				monitorState.NextAction = desiredNextAction;
-
-				await RestartInactiveServer().ConfigureAwait(false);
-
-				if (monitorState.NextAction == desiredNextAction)
-					monitorState.ActiveServer.ClosePortOnReboot = false;
-			};
 
 			string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
 
@@ -400,15 +385,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveServerRebooted:
 					//ideal goal: active server just closed its port
 					//tell inactive server to open it's port and that's now the active server
+					var rebootState = monitorState.ActiveServer.RebootState;
+					monitorState.ActiveServer.ResetRebootState();   //the DMAPI has already done this internally
 
-					if (FullRestartDeadInactive())
+					if (FullRestartDeadInactive() && rebootState != Components.Watchdog.RebootState.Shutdown)
 						//full restart if the inactive server is being fucky
 						break;
 
 					//what matters here is the RebootState
-					bool restartOnceSwapped = false;
-					var rebootState = monitorState.ActiveServer.RebootState;
-					monitorState.ActiveServer.ResetRebootState();   //the DMAPI has already done this internally
+					var restartOnceSwapped = false;
 
 					switch (rebootState)
 					{
@@ -434,9 +419,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						//need a new launch to update either settings or compile job
 						restartOnceSwapped = true;
 
-					if (restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot)
+					if (restartOnceSwapped)
 						//we need to manually restart active server
-						//it won't listen to us right now because it's port is closed so just kill it
+						//just kill it here, easier that way
 						monitorState.ActiveServer.Dispose();
 
 					var activeServerStillHasPortOpen = !restartOnceSwapped && !monitorState.ActiveServer.ClosePortOnReboot;
