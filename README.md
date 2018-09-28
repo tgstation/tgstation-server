@@ -38,10 +38,11 @@ Note that tgstation-server has only ever been tested on Linux via it's [docker e
 tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems due being the only robustly tested environment. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
 
 To create a container run
-```
+```sh
 docker create \
 	--restart=always \ #if you want maximum uptime
 	--network="host" \ #if your sql server is on the same machine
+	--name="tgs" \ #or whatever else you wanna call it
 	-p <tgs port>:80 \
 	-p 0.0.0.0:<public game port>:<internal game port> \
 	-v /path/to/store/instances:/tgs4_instances \
@@ -52,6 +53,8 @@ docker create \
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
+
+Before starting your container make sure the aforemention `appsettings.Production.json` is configured properly. See below
 
 ### Configuring
 
@@ -87,6 +90,8 @@ For the Windows service version start the `tgstation-server-4` service. If it fa
 
 For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows and you wish to install byond versions >= 512.1427 you must do this as admin to give the server permission to install the required DirectX dependency
 
+For the docker version run `docker start tgs`
+
 ### Stopping
 
 Note that the live detach for DreamDaemon servers is only supported for updates or restarts via the API at this time. Stopping tgstation-server will TERMINATE ALL CHILD DREAMDAEMON SERVERS.
@@ -94,6 +99,8 @@ Note that the live detach for DreamDaemon servers is only supported for updates 
 For the Windows service version stop the `tgstation-server-4` service
 
 For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
+
+For the docker version run `docker stop tgs`
 
 ## Integrating
 
