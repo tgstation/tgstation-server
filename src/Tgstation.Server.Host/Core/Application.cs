@@ -304,6 +304,8 @@ namespace Tgstation.Server.Host.Core
 			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			applicationBuilder.UseDeveloperExceptionPage(); //it is not worth it to limit this, you should only ever get it if you're an authorized user
+			
+			applicationBuilder.UseCancelledRequestSuppression();
 
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
 			{
@@ -314,8 +316,6 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseAuthentication();
 
 			applicationBuilder.UseDbConflictHandling();
-
-			applicationBuilder.UseCancelledRequestSuppression();
 
 			applicationBuilder.UseMvc();
 		}
