@@ -86,6 +86,8 @@ namespace Tgstation.Server.Host.Controllers
 				return StatusCode((int)HttpStatusCode.Gone);
 
 			originalUser.ByondRights = model.ByondRights ?? originalUser.ByondRights;
+			originalUser.RepositoryRights = model.RepositoryRights ?? originalUser.RepositoryRights;
+			originalUser.InstanceUserRights = model.InstanceUserRights ?? originalUser.InstanceUserRights;
 			originalUser.ChatBotRights = model.ChatBotRights ?? originalUser.ChatBotRights;
 			originalUser.ConfigurationRights = model.ConfigurationRights ?? originalUser.ConfigurationRights;
 			originalUser.DreamDaemonRights = model.DreamDaemonRights ?? originalUser.DreamDaemonRights;
