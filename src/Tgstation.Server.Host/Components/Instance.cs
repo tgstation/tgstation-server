@@ -142,7 +142,13 @@ namespace Tgstation.Server.Host.Components
 			var compileJobsTask = databaseContext.CompileJobs
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
-				.Select(x => x.Job.StoppedAt.Value - x.Job.StartedAt.Value)
+				//TODO: Replace with this select when the issues linked in https://github.com/tgstation/tgstation-server/issues/737 are fixed
+				//.Select(x => x.Job.StoppedAt.Value - x.Job.StartedAt.Value)
+				.Select(x => new Job
+				{
+					StoppedAt = x.Job.StoppedAt,
+					StartedAt = x.Job.StartedAt
+				})
 				.Take(10)
 				.ToListAsync(cancellationToken);
 
@@ -184,7 +190,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					var totalSpan = TimeSpan.Zero;
 					foreach (var I in previousCompileJobs)
-						totalSpan += I;
+						totalSpan += I.StoppedAt.Value - I.StartedAt.Value;
 					averageSpan = totalSpan / previousCompileJobs.Count;
 				}
 
