@@ -125,15 +125,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
 
-			CompileJob finalCompileJob = null;
-			//now load the entire compile job tree
-			await databaseContextFactory.UseContext(async db => finalCompileJob = await db.CompileJobs.Where(x => x.Id == job.Id)
-				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
-				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);   //can't wait to see that query
-
-			var newProvider = await FromCompileJob(finalCompileJob, cancellationToken).ConfigureAwait(false);
+			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
 				return;
 			lock (this)
@@ -188,6 +180,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 		{
 			if (compileJob == null)
 				throw new ArgumentNullException(nameof(compileJob));
+
+			//ensure we have the entire compile job tree
+			await databaseContextFactory.UseContext(async db => compileJob = await db.CompileJobs.Where(x => x.Id == compileJob.Id)
+				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);   //can't wait to see that query
+
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			var providerSubmitted = false;
 			var newProvider = new DmbProvider(compileJob, ioManager, () =>
