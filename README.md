@@ -47,6 +47,7 @@ docker create \
 	--restart=always \ #if you want maximum uptime
 	--network="host" \ #if your sql server is on the same machine
 	--name="tgs" \ #or whatever else you wanna call it
+	--cap-add=sys_nice \ #allows tgs to schedule DreamDaemon as a higher priority process
 	-p <tgs port>:80 \
 	-p 0.0.0.0:<public game port>:<internal game port> \
 	-v /path/to/store/instances:/tgs4_instances \
