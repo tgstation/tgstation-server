@@ -61,8 +61,8 @@ namespace Tgstation.Server.Host.Controllers
 			var compileJob = await DatabaseContext.CompileJobs
 				.Where(x => x.Id == id && x.Job.Instance.Id == Instance.Id)
 				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
+				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (compileJob == default)
 				return NotFound();

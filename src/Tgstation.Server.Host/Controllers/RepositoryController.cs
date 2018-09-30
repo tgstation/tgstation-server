@@ -70,12 +70,12 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var repoSha = repository.Head;
 
-			IQueryable<Models.RevisionInformation> queryTarget = databaseContext.RevisionInformations;
-
-			var revisionInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
+			IQueryable<Models.RevisionInformation> ApplyQuery(IQueryable<Models.RevisionInformation> query) => query
+				.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
 				.Include(x => x.CompileJobs)
-				.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge) //minimal info, they can query the rest if they're allowed
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);  //search every rev info because LOL SHA COLLISIONS
+				.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy);
+
+			var revisionInfo = await ApplyQuery(databaseContext.RevisionInformations).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (revisionInfo == default)
 				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id).FirstOrDefault();

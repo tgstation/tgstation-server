@@ -158,9 +158,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		{
 			//where complete clause not necessary, only successful COMPILEjobs get in the db
 			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id)
-				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
 				.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (cj == default(CompileJob))
 				return;
