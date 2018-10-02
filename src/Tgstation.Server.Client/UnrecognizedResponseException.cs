@@ -5,6 +5,9 @@ using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
 {
+	/// <summary>
+	/// Occurs when a response is received that did not deserialize to one of the expected <see cref="Api.Models"/>
+	/// </summary>
 	sealed class UnrecognizedResponseException : ClientException
 	{
 		/// <summary>

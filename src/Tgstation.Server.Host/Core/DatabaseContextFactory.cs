@@ -28,6 +28,9 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task UseContext(Func<IDatabaseContext, Task> operation)
 		{
+			if (operation == null)
+				throw new ArgumentNullException(nameof(operation));
+
 			using (var scope = scopeFactory.CreateScope())
 				await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>()).ConfigureAwait(false);
 		}

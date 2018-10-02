@@ -1,7 +1,7 @@
 ﻿using Mono.Unix;
 using Mono.Unix.Native;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
 	/// <see cref="IPostWriteHandler"/> for POSIX systems
