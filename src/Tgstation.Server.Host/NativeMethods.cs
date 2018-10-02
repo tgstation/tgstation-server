@@ -10,6 +10,17 @@ namespace Tgstation.Server.Host
 	static class NativeMethods
 	{
 		/// <summary>
+		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinka#parameters
+		/// </summary>
+		[Flags]
+		public enum CreateSymbolicLinkFlags : int
+		{
+			None = 0,
+			Directory = 1,
+			AllowUnprivilegedCreate = 2
+		}
+
+		/// <summary>
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getwindowthreadprocessid
 		/// </summary>
 		[DllImport("user32.dll")]
@@ -54,6 +65,6 @@ namespace Tgstation.Server.Host
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw
 		/// </summary>
 		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+		public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, CreateSymbolicLinkFlags dwFlags);
 	}
 }

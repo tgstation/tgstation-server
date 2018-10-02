@@ -21,11 +21,23 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(linkPath));
 
 			//check if its not a file
-			var flags = File.Exists(targetPath) ? 2 : 3; //SYMBOLIC_LINK_FLAG_DIRECTORY and SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE on win10 1607+ developer mode
+			var flags = File.Exists(targetPath) ? NativeMethods.CreateSymbolicLinkFlags.None : NativeMethods.CreateSymbolicLinkFlags.Directory;
+
+			flags |= NativeMethods.CreateSymbolicLinkFlags.AllowUnprivilegedCreate;
 
 			cancellationToken.ThrowIfCancellationRequested();
 			if (!NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))
-				throw new Win32Exception(Marshal.GetLastWin32Error());
+			{
+				var error = Marshal.GetLastWin32Error();
+				if (error == 87) //INVALID_PARAMETER, SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE isn't supported
+				{
+					flags &= ~NativeMethods.CreateSymbolicLinkFlags.AllowUnprivilegedCreate;
+					if (NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))
+						return;
+					error = Marshal.GetLastWin32Error();
+				}
+				throw new Win32Exception(error);
+			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }
