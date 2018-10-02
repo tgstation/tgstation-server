@@ -171,16 +171,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
-
-			restartRegistration = serverControl.RegisterForRestart(this);
-
+			
 			chat.RegisterCommandHandler(this);
 
 			AlphaIsActive = true;
 			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
-			semaphore = new SemaphoreSlim(1);
 			activeParametersUpdated = new TaskCompletionSource<object>();
+
+			restartRegistration = serverControl.RegisterForRestart(this);
+			try
+			{
+				semaphore = new SemaphoreSlim(1);
+			}
+			catch
+			{
+				restartRegistration.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
