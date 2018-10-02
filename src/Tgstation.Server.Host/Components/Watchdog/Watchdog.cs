@@ -166,6 +166,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
