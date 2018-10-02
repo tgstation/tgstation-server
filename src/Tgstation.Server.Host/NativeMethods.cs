@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-enumchildwindows
 		/// </summary>
-		[DllImport("user32")]
+		[DllImport("user32.dll")]
 		public static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr lParam);
 
 		/// <summary>
