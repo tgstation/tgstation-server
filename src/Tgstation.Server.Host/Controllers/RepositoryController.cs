@@ -654,6 +654,8 @@ namespace Tgstation.Server.Host.Controllers
 									};
 									databaseContext.Users.Attach(contextUser);
 								}
+								else
+									Logger.LogTrace("Skipping attaching the user to the database context as it is already loaded!");
 
 								foreach (var I in model.NewTestMerges)
 								{
