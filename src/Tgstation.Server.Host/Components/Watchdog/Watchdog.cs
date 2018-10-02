@@ -166,21 +166,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
 
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
-
-			restartRegistration = serverControl.RegisterForRestart(this);
-
+			
 			chat.RegisterCommandHandler(this);
 
 			AlphaIsActive = true;
 			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
-			semaphore = new SemaphoreSlim(1);
 			activeParametersUpdated = new TaskCompletionSource<object>();
+
+			restartRegistration = serverControl.RegisterForRestart(this);
+			try
+			{
+				semaphore = new SemaphoreSlim(1);
+			}
+			catch
+			{
+				restartRegistration.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
@@ -806,6 +815,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 						await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
+
+					await allTask.ConfigureAwait(false);
 
 					//both servers are now running, alpha is the active server(unless reattach), huzzah
 					AlphaIsActive = reattachInfo?.AlphaIsActive ?? true;
