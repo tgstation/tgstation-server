@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -14,6 +15,11 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
+			if (targetPath == null)
+				throw new ArgumentNullException(nameof(targetPath));
+			if (linkPath == null)
+				throw new ArgumentNullException(nameof(linkPath));
+
 			//check if its not a file
 			var flags = File.Exists(targetPath) ? 0 : 3; //SYMBOLIC_LINK_FLAG_DIRECTORY | SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE on win10 1607+ developer mode
 
