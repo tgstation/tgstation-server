@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Core
+﻿namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
 	/// <see cref="IPostWriteHandler"/> for Windows systems
