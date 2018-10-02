@@ -1,8 +1,8 @@
 var searchData=
 [
+  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html',1,'Tgstation::Server::Api::Models']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html',1,'Tgstation::Server::Host::Models']]],
-  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html#afe93454d04d57732c948c207cc6d21cb',1,'Tgstation.Server.Api.Models.CompileJob.Job()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c',1,'Tgstation.Server.Host.Models.CompileJob.Job()']]],
   ['job_2ecs',['Job.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs.html',1,'']]],
   ['job_2ecs',['Job.cs',['../_tgstation_8_server_8_api_2_models_2_job_8cs.html',1,'']]],
@@ -10,8 +10,8 @@ var searchData=
   ['jobcontroller',['JobController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['jobcontroller',['JobController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#adfbadb3527c89cc59339223bd0e3c5d8',1,'Tgstation::Server::Host::Controllers::JobController']]],
   ['jobcontroller_2ecs',['JobController.cs',['../_job_controller_8cs.html',1,'']]],
-  ['jobexception',['JobException',['../class_tgstation_1_1_server_1_1_host_1_1_job_exception.html',1,'Tgstation::Server::Host']]],
-  ['jobexception',['JobException',['../class_tgstation_1_1_server_1_1_host_1_1_job_exception.html#aa5fceee5b27358b697fdc9f7b8199611',1,'Tgstation.Server.Host.JobException.JobException()'],['../class_tgstation_1_1_server_1_1_host_1_1_job_exception.html#abd83b6c93038e29ba7ac2f960fe18ccd',1,'Tgstation.Server.Host.JobException.JobException(string message)'],['../class_tgstation_1_1_server_1_1_host_1_1_job_exception.html#a0e0556e24b129dbb3d7d6fab064a3cb7',1,'Tgstation.Server.Host.JobException.JobException(string message, Exception innerException)']]],
+  ['jobexception',['JobException',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_exception.html',1,'Tgstation::Server::Host::Core']]],
+  ['jobexception',['JobException',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_exception.html#a7e2640b446286941b31c2f061cbbe4bb',1,'Tgstation.Server.Host.Core.JobException.JobException()'],['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_exception.html#a2e11923797181822e8eef7b617fe715f',1,'Tgstation.Server.Host.Core.JobException.JobException(string message)'],['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_exception.html#af296136e4c2ac489cfa9b0de5aa8e7cf',1,'Tgstation.Server.Host.Core.JobException.JobException(string message, Exception innerException)']]],
   ['jobexception_2ecs',['JobException.cs',['../_job_exception_8cs.html',1,'']]],
   ['jobhandler',['JobHandler',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_handler.html',1,'Tgstation::Server::Host::Core']]],
   ['jobhandler',['JobHandler',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_handler.html#a904665c9a62383c99415a411198309a0',1,'Tgstation::Server::Host::Core::JobHandler']]],

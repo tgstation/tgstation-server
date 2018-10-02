@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_native_methods-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -102,6 +103,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Native methods used by the code  
  <a href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:afecbde132584de6ed7e41c8c7535f556"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556">CreateSymbolicLinkFlags</a> : int { <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556a6adf97f83acf6453d4a6a4b1070f3754">CreateSymbolicLinkFlags.None</a> = 0, 
+<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556ae73cda510e8bb947f7e61089e5581494">CreateSymbolicLinkFlags.Directory</a> = 1, 
+<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556aa5039b48592e4eb0e0bcc4bebf94bdf8">CreateSymbolicLinkFlags.AllowUnprivilegedCreate</a> = 2
+ }<tr class="memdesc:afecbde132584de6ed7e41c8c7535f556"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinka#parameters">https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinka#parameters</a>  <a href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:afecbde132584de6ed7e41c8c7535f556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a346862e4a517dcfe04a256ec49e7ecea"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a346862e4a517dcfe04a256ec49e7ecea">GetWindowThreadProcessId</a> (IntPtr hWnd, out int lpdwProcessId)</td></tr>
@@ -125,16 +135,50 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1dfa561b475b805169687e321251038c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a1dfa561b475b805169687e321251038c">LogonUser</a> (string lpszUsername, string lpszDomain, string lpszPassword, int dwLogonType, int dwLogonProvider, out IntPtr phToken)</td></tr>
 <tr class="memdesc:a1dfa561b475b805169687e321251038c"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa378184(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/aa378184(v=vs.85).aspx</a>  <a href="#a1dfa561b475b805169687e321251038c">More...</a><br /></td></tr>
 <tr class="separator:a1dfa561b475b805169687e321251038c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19e457267ba471a347a570584513da4d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a19e457267ba471a347a570584513da4d">CreateSymbolicLink</a> (string lpSymlinkFileName, string lpTargetFileName, int dwFlags)</td></tr>
-<tr class="memdesc:a19e457267ba471a347a570584513da4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw">https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw</a>  <a href="#a19e457267ba471a347a570584513da4d">More...</a><br /></td></tr>
-<tr class="separator:a19e457267ba471a347a570584513da4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a668c437c860fb2eafcee04a1a2a613c9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a668c437c860fb2eafcee04a1a2a613c9">CreateSymbolicLink</a> (string lpSymlinkFileName, string lpTargetFileName, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556">CreateSymbolicLinkFlags</a> dwFlags)</td></tr>
+<tr class="memdesc:a668c437c860fb2eafcee04a1a2a613c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw">https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw</a>  <a href="#a668c437c860fb2eafcee04a1a2a613c9">More...</a><br /></td></tr>
+<tr class="separator:a668c437c860fb2eafcee04a1a2a613c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Native methods used by the code </p>
 
 <p>Definition at line <a class="el" href="_native_methods_8cs_source.html#l00010">10</a> of file <a class="el" href="_native_methods_8cs_source.html">NativeMethods.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a19e457267ba471a347a570584513da4d"></a>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a class="anchor" id="afecbde132584de6ed7e41c8c7535f556"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556">Tgstation.Server.Host.NativeMethods.CreateSymbolicLinkFlags</a> : int</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinka#parameters">https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinka#parameters</a> </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="afecbde132584de6ed7e41c8c7535f556a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="afecbde132584de6ed7e41c8c7535f556ae73cda510e8bb947f7e61089e5581494"></a>Directory&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="afecbde132584de6ed7e41c8c7535f556aa5039b48592e4eb0e0bcc4bebf94bdf8"></a>AllowUnprivilegedCreate&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="_native_methods_8cs_source.html#l00016">16</a> of file <a class="el" href="_native_methods_8cs_source.html">NativeMethods.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                                            : <span class="keywordtype">int</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6adf97f83acf6453d4a6a4b1070f3754">None</a> = 0,</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            Directory = 1,</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            AllowUnprivilegedCreate = 2</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div><div class="ttc" id="namespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21a6adf97f83acf6453d4a6a4b1070f3754"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6adf97f83acf6453d4a6a4b1070f3754">Tgstation.Server.Api.Rights.AdministrationRights.None</a></div><div class="ttdoc">User has no rights </div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a668c437c860fb2eafcee04a1a2a613c9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -153,7 +197,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#afecbde132584de6ed7e41c8c7535f556">CreateSymbolicLinkFlags</a>&#160;</td>
           <td class="paramname"><em>dwFlags</em>&#160;</td>
         </tr>
         <tr>
@@ -260,7 +304,7 @@ Public Member Functions</h2></td></tr>
 
 <p>See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-findwindoww">https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-findwindoww</a> </p>
 
-<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00096">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00093">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
 
 </div>
 </div>
@@ -296,7 +340,7 @@ Public Member Functions</h2></td></tr>
 
 <p>See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getwindowtextw">https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getwindowtextw</a> </p>
 
-<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00096">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00093">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
 
 </div>
 </div>
@@ -326,7 +370,7 @@ Public Member Functions</h2></td></tr>
 
 <p>See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getwindowthreadprocessid">https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getwindowthreadprocessid</a> </p>
 
-<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00096">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00093">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
 
 </div>
 </div>
@@ -422,7 +466,7 @@ Public Member Functions</h2></td></tr>
 
 <p>See <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-sendmessage">https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-sendmessage</a> </p>
 
-<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00096">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00093">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper.Run()</a>.</p>
 
 </div>
 </div>
