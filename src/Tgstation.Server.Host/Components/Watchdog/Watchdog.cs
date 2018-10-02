@@ -816,6 +816,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await Task.WhenAny(allTask, cancelTcs.Task).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
 
+					await allTask.ConfigureAwait(false);
+
 					//both servers are now running, alpha is the active server(unless reattach), huzzah
 					AlphaIsActive = reattachInfo?.AlphaIsActive ?? true;
 
