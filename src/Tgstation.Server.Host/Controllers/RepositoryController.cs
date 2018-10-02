@@ -644,11 +644,18 @@ namespace Tgstation.Server.Host.Controllers
 
 							if (needToApplyRemainingPrs)
 							{
-								var contextUser = new Models.User
+								//an invocation of LoadRevisionInformation could have already loaded this user
+								var contextUser = databaseContext.Users.Local.Where(x => x.Id == AuthenticationContext.User.Id).FirstOrDefault();
+								if (contextUser == default)
 								{
-									Id = AuthenticationContext.User.Id
-								};
-								databaseContext.Users.Attach(contextUser);
+									contextUser = new Models.User
+									{
+										Id = AuthenticationContext.User.Id
+									};
+									databaseContext.Users.Attach(contextUser);
+								}
+								else
+									Logger.LogTrace("Skipping attaching the user to the database context as it is already loaded!");
 
 								foreach (var I in model.NewTestMerges)
 								{
