@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using BetterWin32Errors;
+using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,15 +27,13 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken.ThrowIfCancellationRequested();
 			if (!NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))
 			{
-				var error = Marshal.GetLastWin32Error();
-				if (error == 87) //INVALID_PARAMETER, SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE isn't supported
+				if (Win32Exception.GetLastWin32Error() ==  Win32Error.ERROR_INVALID_PARAMETER) //SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE isn't supported
 				{
 					flags &= ~NativeMethods.CreateSymbolicLinkFlags.AllowUnprivilegedCreate;
 					if (NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))
 						return;
-					error = Marshal.GetLastWin32Error();
 				}
-				throw new Win32Exception(error);
+				throw new Win32Exception();
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}

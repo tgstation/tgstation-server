@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using BetterWin32Errors;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -49,10 +49,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			var gcChildhandlesList = GCHandle.FromIntPtr(lParam);
 
-			if (gcChildhandlesList == null || gcChildhandlesList.Target == null)
+			if (gcChildhandlesList.Target == null)
 				return false;
 
-			var childHandles = (List <IntPtr>)gcChildhandlesList.Target;
+			var childHandles = (List<IntPtr>)gcChildhandlesList.Target;
 			childHandles.Add(hWnd);
 
 			return true;
@@ -61,12 +61,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		static List<IntPtr> GetAllChildHandles(IntPtr main)
 		{
 			var childHandles = new List<IntPtr>();
-
 			var gcChildhandlesList = GCHandle.Alloc(childHandles);
-			var pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
-
 			try
 			{
+				var pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
 				NativeMethods.EnumWindowProc childProc = new NativeMethods.EnumWindowProc(EnumWindow);
 				NativeMethods.EnumChildWindows(main, childProc, pointerChildHandlesList);
 			}
@@ -74,7 +72,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				gcChildhandlesList.Free();
 			}
-
 			return childHandles;
 		}
 
@@ -129,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						if (NativeMethods.GetWindowText(I, stringBuilder, MaxLength) == 0)
 						{
-							logger.LogWarning("Error calling GetWindowText! Exception: {0}", new Win32Exception(Marshal.GetLastWin32Error()));
+							logger.LogWarning("Error calling GetWindowText! Exception: {0}", new Win32Exception());
 							continue;
 						}
 
@@ -152,7 +149,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						logger.LogDebug("Unable to find \"Yes\" button for \"Network Accessibility\" window in owned process {0}!", processId);
 				}
 			}
-			catch (OperationCanceledException) { }
+			catch (OperationCanceledException)
+			{
+				logger.LogTrace("Cancelled!");
+			}
 			finally
 			{
 				logger.LogDebug("Exiting network prompt reaper...");
