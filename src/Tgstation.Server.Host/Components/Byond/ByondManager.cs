@@ -197,12 +197,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var versionKey = VersionKey(versionToUse);
 
-			return new ByondExecutableLock
-			{
-				DreamDaemonPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)),
-				DreamMakerPath = ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)),
-				Version = versionToUse
-			};
+			return new ByondExecutableLock(versionToUse, ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)), ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)));
 		}
 
 		/// <inheritdoc />
