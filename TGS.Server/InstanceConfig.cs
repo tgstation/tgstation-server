@@ -107,6 +107,11 @@ namespace TGS.Server
 		/// The auto update interval for the <see cref="Instance"/>
 		/// </summary>
 		ulong AutoUpdateInterval { get; set; }
+		
+		/// <summary>
+		/// For auto updates and test merges
+		/// </summary>
+		bool AutoUpdateKeepsPullRequests { get; set; }
 
 		/// <summary>
 		/// Whether or not testmerge commits are published to a temporary remote branch
@@ -137,7 +142,7 @@ namespace TGS.Server
 		/// The current version of the config
 		/// </summary>
 		[JsonIgnore]
-		protected const ulong CurrentVersion = 1;   //Literally any time you add/deprecated a field, this number needs to be bumped
+		protected const ulong CurrentVersion = 2;   //Literally any time you add/deprecated a field, this number needs to be bumped
 
 		/// <inheritdoc />
 		[JsonIgnore]
@@ -151,6 +156,9 @@ namespace TGS.Server
 
 		/// <inheritdoc />
 		public bool Enabled { get; set; } = true;
+
+		/// <inheritdoc />
+		public bool AutoUpdateKeepsPullRequests { get; set; } = true;
 
 		/// <inheritdoc />
 		public string ProjectName { get; set; } = "tgstation";

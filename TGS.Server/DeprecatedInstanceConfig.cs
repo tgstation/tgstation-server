@@ -41,9 +41,13 @@ namespace TGS.Server
 		{
 			switch (Version)
 			{
-				//add this field
 				case 0:
+					//add this field
 					ServerStartupTimeout = 60;
+					break;
+				case 1:
+					//preserve past behaviour
+					AutoUpdateKeepsPullRequests = false;
 					break;
 			}
 		}

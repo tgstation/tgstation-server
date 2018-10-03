@@ -70,6 +70,7 @@
 			this.AdminModeSpecial = new System.Windows.Forms.RadioButton();
 			this.AdminModeNormal = new System.Windows.Forms.RadioButton();
 			this.ServerPanel = new System.Windows.Forms.TabPage();
+			this.createMinidump = new System.Windows.Forms.Button();
 			this.AutoUpdateMLabel = new System.Windows.Forms.Label();
 			this.AutoUpdateInterval = new System.Windows.Forms.NumericUpDown();
 			this.AutoUpdateCheckbox = new System.Windows.Forms.CheckBox();
@@ -152,7 +153,7 @@
 			this.StaticFileCreateButton = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.StaticFileListBox = new System.Windows.Forms.ListBox();
-			this.createMinidump = new System.Windows.Forms.Button();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.ChatPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChatPortSelector)).BeginInit();
 			this.ChatProviderSelectorPanel.SuspendLayout();
@@ -663,6 +664,17 @@
 			this.ServerPanel.Size = new System.Drawing.Size(868, 366);
 			this.ServerPanel.TabIndex = 2;
 			this.ServerPanel.Text = "Server";
+			// 
+			// createMinidump
+			// 
+			this.createMinidump.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.createMinidump.Location = new System.Drawing.Point(59, 94);
+			this.createMinidump.Name = "createMinidump";
+			this.createMinidump.Size = new System.Drawing.Size(118, 28);
+			this.createMinidump.TabIndex = 48;
+			this.createMinidump.Text = "Create Minidump";
+			this.createMinidump.UseVisualStyleBackColor = true;
+			this.createMinidump.Click += new System.EventHandler(this.createMinidump_Click);
 			// 
 			// AutoUpdateMLabel
 			// 
@@ -1249,6 +1261,7 @@
 			// RepoPanel
 			// 
 			this.RepoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(40)))), ((int)(((byte)(34)))));
+			this.RepoPanel.Controls.Add(this.checkBox1);
 			this.RepoPanel.Controls.Add(this.SyncCommitsCheckBox);
 			this.RepoPanel.Controls.Add(this.TGSJsonUpdate);
 			this.RepoPanel.Controls.Add(this.RepoRefreshButton);
@@ -1286,7 +1299,7 @@
 			this.SyncCommitsCheckBox.AutoSize = true;
 			this.SyncCommitsCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
 			this.SyncCommitsCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
-			this.SyncCommitsCheckBox.Location = new System.Drawing.Point(574, 16);
+			this.SyncCommitsCheckBox.Location = new System.Drawing.Point(574, 18);
 			this.SyncCommitsCheckBox.Name = "SyncCommitsCheckBox";
 			this.SyncCommitsCheckBox.Size = new System.Drawing.Size(142, 22);
 			this.SyncCommitsCheckBox.TabIndex = 46;
@@ -1721,16 +1734,20 @@
 			this.StaticFileListBox.TabIndex = 0;
 			this.StaticFileListBox.SelectedIndexChanged += new System.EventHandler(this.StaticFileListBox_SelectedIndexChanged);
 			// 
-			// createMinidump
+			// checkBox1
 			// 
-			this.createMinidump.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.createMinidump.Location = new System.Drawing.Point(59, 94);
-			this.createMinidump.Name = "createMinidump";
-			this.createMinidump.Size = new System.Drawing.Size(118, 28);
-			this.createMinidump.TabIndex = 48;
-			this.createMinidump.Text = "Create Minidump";
-			this.createMinidump.UseVisualStyleBackColor = true;
-			this.createMinidump.Click += new System.EventHandler(this.createMinidump_Click);
+			this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Font = new System.Drawing.Font("Verdana", 12F);
+			this.checkBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(242)))));
+			this.checkBox1.Location = new System.Drawing.Point(530, 0);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(186, 22);
+			this.checkBox1.TabIndex = 47;
+			this.checkBox1.Text = "Auto Ups Keep TMs";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			this.checkBox1.Visible = false;
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
 			// ControlPanel
 			// 
@@ -1892,5 +1909,6 @@
 		private System.Windows.Forms.TextBox projectNameText;
 		private System.Windows.Forms.CheckBox SyncCommitsCheckBox;
 		private System.Windows.Forms.Button createMinidump;
+		private System.Windows.Forms.CheckBox checkBox1;
 	}
 }
