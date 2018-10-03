@@ -23,8 +23,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		public ByondExecutableLock(Version version, string dreamDaemonPath, string dreamMakerPath)
 		{
 			Version = version ?? throw new ArgumentNullException(nameof(version));
-			dreamDaemonPath = dreamDaemonPath ?? throw new ArgumentNullException(nameof(dreamDaemonPath));
-			dreamMakerPath = dreamMakerPath ?? throw new ArgumentNullException(nameof(dreamMakerPath));
+			DreamDaemonPath = dreamDaemonPath ?? throw new ArgumentNullException(nameof(dreamDaemonPath));
+			DreamMakerPath = dreamMakerPath ?? throw new ArgumentNullException(nameof(dreamMakerPath));
 		}
 
 		//at one point in design, byond versions were to delete themselves if they werent the active version
