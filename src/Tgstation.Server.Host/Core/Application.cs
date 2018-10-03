@@ -273,7 +273,7 @@ namespace Tgstation.Server.Host.Core
 						ConnectionString = csb.ConnectionString
 					};
 					csb.Database = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString.Replace(";User Id=", ";uid=", StringComparison.Ordinal).Replace(";Password=", ";Pwd=", StringComparison.Ordinal);	//stupidity
+					databaseConfiguration.ConnectionString = csb.ConnectionString;
 				}
 
 				try
@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Core
 			Console.WriteLine();
 			Console.WriteLine("Enter a GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)");
 			Console.Write("GitHub personal access token: ");
-			generalConfiguration.GitHubAccessToken = Console.ReadLine();
+			generalConfiguration.GitHubAccessToken = GetPassword();
 			if (String.IsNullOrWhiteSpace(generalConfiguration.GitHubAccessToken))
 				generalConfiguration.GitHubAccessToken = null;
 
@@ -403,6 +403,9 @@ namespace Tgstation.Server.Host.Core
 				Console.ReadKey();
 				throw new OperationCanceledException();
 			}
+
+			Console.WriteLine("Waiting for configuration changes to reload...");
+			Task.Delay(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
 
 			return true;
 		}
