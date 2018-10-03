@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Core
 			ushort? port = null;
 			do
 			{
-				Console.Write("Port (leave blank for default of 5000): ");
+				Console.Write("API Port (leave blank for default): ");
 				var portString = Console.ReadLine();
 				if (String.IsNullOrWhiteSpace(portString))
 					break;
