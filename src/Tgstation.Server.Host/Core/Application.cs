@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -55,6 +56,9 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
+		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> used for determining when the <see cref="Application"/> is <see cref="Ready(Exception)"/>
+		/// </summary>
 		readonly TaskCompletionSource<object> startupTcs;
 
 		/// <summary>
@@ -71,6 +75,8 @@ namespace Tgstation.Server.Host.Core
 
 			Version = Assembly.GetExecutingAssembly().GetName().Version;
 			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
+
+			logger.LogInformation(VersionString);
 		}
 
 		/// <summary>
@@ -83,19 +89,28 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(services));
 
 			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
-			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
-			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
+			services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseConfiguration.Section));
 			services.Configure<GeneralConfiguration>(configuration.GetSection(GeneralConfiguration.Section));
+			services.Configure<FileLoggingConfiguration>(configuration.GetSection(FileLoggingConfiguration.Section));
 
-			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+			services.AddOptions();
+
+			DatabaseConfiguration databaseConfiguration;
+			FileLoggingConfiguration fileLoggingConfiguration;
+			using (var provider = services.BuildServiceProvider())
+			{
+				var dbOptions = provider.GetRequiredService<IOptions<DatabaseConfiguration>>();
+				databaseConfiguration = dbOptions.Value;
+
+				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
+				fileLoggingConfiguration = loggingOptions.Value;
+			}
+
 			var ioManager = new DefaultIOManager();
 
-			//remember, anything you .Get manually can be null if the config is missing
-			var fileLoggingConfigurationSection = configuration.GetSection(FileLoggingConfiguration.Section);
-			var fileLoggingConfiguration = fileLoggingConfigurationSection.Get<FileLoggingConfiguration>();
-			if (fileLoggingConfiguration?.Disable != true)
+			if (!fileLoggingConfiguration.Disable)
 			{
-				var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration?.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
+				var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
 
 				logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
 
@@ -131,8 +146,8 @@ namespace Tgstation.Server.Host.Core
 						}
 					};
 
-					var logEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration?.LogLevel));
-					var microsoftEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration?.MicrosoftLogLevel));
+					var logEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration.LogLevel));
+					var microsoftEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration.MicrosoftLogLevel));
 
 					var formatter = new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}", null);
 
@@ -149,8 +164,6 @@ namespace Tgstation.Server.Host.Core
 					builder.AddSerilog(configuration.CreateLogger(), true);
 				});
 			}
-
-			services.AddOptions();
 
 			services.AddScoped<IClaimsInjector, ClaimsInjector>();
 
@@ -198,7 +211,6 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
 
-			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
@@ -210,8 +222,8 @@ namespace Tgstation.Server.Host.Core
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
 
-			var dbType = databaseConfiguration?.DatabaseType;
-			switch (databaseConfiguration?.DatabaseType)
+			var dbType = databaseConfiguration.DatabaseType;
+			switch (dbType)
 			{
 				case DatabaseType.MySql:
 				case DatabaseType.MariaDB:
@@ -236,7 +248,7 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 
-			if (isWindows)
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
@@ -298,7 +310,7 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(serverControl));
 
 			logger.LogInformation(VersionString);
-			
+
 			//attempt to restart the server if the configuration changes
 			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
