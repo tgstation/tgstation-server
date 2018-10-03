@@ -58,6 +58,9 @@
     <StartupObject>Tgstation.Server.Host.Service.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>../../build/tgs.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
