@@ -19,5 +19,10 @@
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes
 		/// </summary>
 		public string GitHubAccessToken { get; set; }
+
+		/// <summary>
+		/// If the <see cref="Core.Application"/> should just check if <see cref="FirstTimeConfiguration"/> needs to be run and then exit
+		/// </summary>
+		public bool ConfigCheckOnly { get; set; }
 	}
 }
