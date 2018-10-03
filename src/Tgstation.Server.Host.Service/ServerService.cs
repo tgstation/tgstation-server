@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Service
 		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(string[], CancellationToken)"/> of <see cref="watchdog"/>
+		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>
 		/// </summary>
 		Task watchdogTask;
 
@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Service
 		{
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
-			watchdogTask = watchdog.RunAsync(args, cancellationTokenSource.Token);
+			watchdogTask = watchdog.RunAsync(false, args, cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />

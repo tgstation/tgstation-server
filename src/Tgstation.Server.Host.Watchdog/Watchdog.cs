@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task RunAsync(string[] args, CancellationToken cancellationToken)
+		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
 			logger.LogDebug("PID: {0}", Process.GetCurrentProcess().Id);
@@ -127,6 +127,13 @@ namespace Tgstation.Server.Host.Watchdog
 
 							if (Environment.GetCommandLineArgs().Any(x => x == "--attach-host-debugger"))
 								arguments.Add("--attach-debugger");
+
+							if (runConfigure)
+							{
+								logger.LogInformation("Running configuration check and wizard if necessary...");
+								arguments.Add("General:ConfigCheckOnly=true");
+							}
+
 							arguments.AddRange(args);
 
 							process.StartInfo.Arguments = String.Join(" ", arguments);
@@ -183,6 +190,12 @@ namespace Tgstation.Server.Host.Watchdog
 								}
 								catch (InvalidOperationException) { }
 								logger.LogInformation("Host exited!");
+							}
+
+							if (runConfigure)
+							{
+								logger.LogInformation("Exiting due to configuration check...");
+								return;
 							}
 
 							switch (process.ExitCode)

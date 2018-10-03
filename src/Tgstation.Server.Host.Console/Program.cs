@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Console
 							b.Cancel = true;
 							cts.Cancel();
 						};
-						await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(arguments.ToArray(), cts.Token).ConfigureAwait(false);
+						await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(false, arguments.ToArray(), cts.Token).ConfigureAwait(false);
 					}
 					finally
 					{

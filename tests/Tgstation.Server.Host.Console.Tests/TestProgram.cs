@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Console.Tests
 		{
 			var mockServer = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
-			mockServer.Setup(x => x.RunAsync(args, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
+			mockServer.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 			var mockServerFactory = new Mock<IWatchdogFactory>();
 			mockServerFactory.Setup(x => x.CreateWatchdog(It.IsAny<ILoggerFactory>())).Returns(mockServer.Object).Verifiable();
 			Program.WatchdogFactory = mockServerFactory.Object;

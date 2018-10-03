@@ -21,7 +21,7 @@
 		public string GitHubAccessToken { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Core.Application"/> should just check if <see cref="FirstTimeConfiguration"/> needs to be run and then exit
+		/// If the <see cref="Core.Application"/> should just check if the configuration wizard needs to be run and then exit
 		/// </summary>
 		public bool ConfigCheckOnly { get; set; }
 	}

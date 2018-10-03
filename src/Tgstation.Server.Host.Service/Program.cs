@@ -32,6 +32,12 @@ namespace Tgstation.Server.Host.Service
 		public bool Install { get; set; }
 
 		/// <summary>
+		/// The --configure or -c option
+		/// </summary>
+		[Option(ShortName = "c")]
+		public bool Configure { get; set; }
+
+		/// <summary>
 		/// The --trace or -t option. Enables trace logs
 		/// </summary>
 		[Option(ShortName = "t")]
@@ -42,6 +48,8 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		[Option(ShortName = "d")]
 		public bool Debug { get; set; }
+
+		static readonly IWatchdogFactory watchdogFactory = new WatchdogFactory();
 
 		/// <summary>
 		/// Check if the running user is a system administrator
@@ -63,7 +71,7 @@ namespace Tgstation.Server.Host.Service
 			{
 				if (!Install && !Uninstall)
 				{
-					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
+					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
 					if (result != DialogResult.Yes)
 						return;
 					Install = true;
@@ -76,7 +84,7 @@ namespace Tgstation.Server.Host.Service
 				{
 					UseShellExecute = true,
 					Verb = "runas",
-					Arguments = Install ? "-i" : "-u",
+					Arguments = Install ? "-i -c" : "-u",
 					FileName = exe,
 					WorkingDirectory = Environment.CurrentDirectory,
 				};
@@ -84,39 +92,44 @@ namespace Tgstation.Server.Host.Service
 					return;
 			}
 
-			if (Install)
+			using (var loggerFactory = new LoggerFactory())
 			{
-				if (Uninstall)
-					//oh no, it's retarded...
-					return;
-				using (var processInstaller = new ServiceProcessInstaller())
-				using (var installer = new ServiceInstaller())
+				if (Configure)
+					watchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default);
+
+				if (Install)
 				{
-					processInstaller.Account = ServiceAccount.LocalSystem;
+					if (Uninstall)
+						//oh no, it's retarded...
+						return;
+					using (var processInstaller = new ServiceProcessInstaller())
+					using (var installer = new ServiceInstaller())
+					{
+						processInstaller.Account = ServiceAccount.LocalSystem;
 
-					installer.Context = new InstallContext("tgs-4-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-					installer.Description = "/tg/station 13 server v4 running as a windows service";
-					installer.DisplayName = "/tg/station server 4";
-					installer.DelayedAutoStart = true;
-					installer.StartType = ServiceStartMode.Automatic;
-					installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-					installer.ServiceName = ServerService.Name;
-					installer.Parent = processInstaller;
+						installer.Context = new InstallContext("tgs-4-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
+						installer.Description = "/tg/station 13 server v4 running as a windows service";
+						installer.DisplayName = "/tg/station server 4";
+						installer.DelayedAutoStart = true;
+						installer.StartType = ServiceStartMode.Automatic;
+						installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+						installer.ServiceName = ServerService.Name;
+						installer.Parent = processInstaller;
 
-					var state = new ListDictionary();
-					installer.Install(state);
+						var state = new ListDictionary();
+						installer.Install(state);
+					}
 				}
+				else if (Uninstall)
+					using (var installer = new ServiceInstaller())
+					{
+						installer.Context = new InstallContext("tgs-4-uninstall.log", null);
+						installer.ServiceName = ServerService.Name;
+						installer.Uninstall(null);
+					}
+				else if(!Configure)
+					ServiceBase.Run(new ServerService(watchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 			}
-			else if (Uninstall)
-				using (var installer = new ServiceInstaller())
-				{
-					installer.Context = new InstallContext("tgs-4-uninstall.log", null);
-					installer.ServiceName = ServerService.Name;
-					installer.Uninstall(null);
-				}
-			else
-				using (var loggerFactory = new LoggerFactory())
-					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 		}
 
 		/// <summary>
