@@ -587,8 +587,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public Task<bool> IsSha(string committish, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			var gitObject = repository.Lookup(committish, ObjectType.Commit);
-			return gitObject != null;
+			//check if it's a tag
+			var gitObject = repository.Lookup(committish, ObjectType.Tag);
+			if (gitObject != null)
+				return false;
+			cancellationToken.ThrowIfCancellationRequested();
+			//check if it's a branch
+			if (repository.Branches[committish] != null)
+				return false;
+			cancellationToken.ThrowIfCancellationRequested();
+			//err on the side of references, if we can't look it up, assume its a reference
+			if (repository.Lookup<Commit>(committish) != null)
+				return true;
+			return false;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }
