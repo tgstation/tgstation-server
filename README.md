@@ -43,7 +43,8 @@ tgstation-server supports running in a docker container and is the recommended d
 
 To create a container run
 ```sh
-docker create \
+docker run \
+	-ti \ #start interactive for manual configuration
 	--restart=always \ #if you want maximum uptime
 	--network="host" \ #if your sql server is on the same machine
 	--name="tgs" \ #or whatever else you wanna call it
@@ -51,7 +52,7 @@ docker create \
 	-p <tgs port>:80 \
 	-p 0.0.0.0:<public game port>:<internal game port> \
 	-v /path/to/store/instances:/tgs4_instances \
-	-v /path/to/your/appsettings.Production.json:/config_data \
+	-v /path/to/your/appsettings.Production.json:/config_data \ #only if you want to use manual configuration
 	-v path/to/your/log/folder:/tgs_logs \
 	tgstation/server
 ```
@@ -59,9 +60,17 @@ with any additional options you desire (i.e. You'll have to expose more game por
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
-Before starting your container make sure the aforemention `appsettings.Production.json` is configured properly. See below
+If using manual configuration, before starting your container make sure the aforemention `appsettings.Production.json` is setup properly. See below
 
 ### Configuring
+
+The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json 
+
+![](https://user-images.githubusercontent.com/8171642/46436355-99ee0e00-c726-11e8-82fa-6626b2503a6c.png)
+
+This wizard will run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
+
+#### Manual Configuration
 
 Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive: 
 
