@@ -75,8 +75,6 @@ namespace Tgstation.Server.Host.Core
 
 			Version = Assembly.GetExecutingAssembly().GetName().Version;
 			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
-
-			logger.LogInformation(VersionString);
 		}
 
 		/// <summary>
