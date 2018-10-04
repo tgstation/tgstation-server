@@ -101,6 +101,7 @@ namespace Tgstation.Server.Host.Core
 			//setup stuff for setup wizard
 			services.AddSingleton<IIOManager, DefaultIOManager>();
 			services.AddSingleton<IConsole, IO.Console>();
+			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
 
 			//needed here for JWT configuration

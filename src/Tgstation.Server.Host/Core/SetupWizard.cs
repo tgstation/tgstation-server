@@ -41,6 +41,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IApplication application;
 
 		/// <summary>
+		/// The <see cref="IDBConnectionFactory"/> for the <see cref="SetupWizard"/>
+		/// </summary>
+		readonly IDBConnectionFactory dbConnectionFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SetupWizard"/>
 		/// </summary>
 		readonly ILogger<SetupWizard> logger;
@@ -56,14 +61,16 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -189,7 +196,13 @@ namespace Tgstation.Server.Host.Core
 					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				}
 
+
 				DbConnection testConnection;
+				void CreateTestConnection(string connectionString)
+				{
+					testConnection = dbConnectionFactory.CreateConnection(connectionString, databaseConfiguration.DatabaseType);
+				}
+
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 				{
 					var csb = new SqlConnectionStringBuilder
@@ -204,11 +217,8 @@ namespace Tgstation.Server.Host.Core
 						csb.UserID = username;
 						csb.Password = password;
 					}
-					testConnection = new SqlConnection
-					{
-						ConnectionString = csb.ConnectionString
-					};
 
+					CreateTestConnection(csb.ConnectionString);
 					csb.InitialCatalog = databaseName;
 					databaseConfiguration.ConnectionString = csb.ConnectionString;
 				}
@@ -220,10 +230,8 @@ namespace Tgstation.Server.Host.Core
 						UserID = username,
 						Password = password
 					};
-					testConnection = new MySqlConnection
-					{
-						ConnectionString = csb.ConnectionString
-					};
+
+					CreateTestConnection(csb.ConnectionString);
 					csb.Database = databaseName;
 					databaseConfiguration.ConnectionString = csb.ConnectionString;
 				}
