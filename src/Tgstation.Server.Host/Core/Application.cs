@@ -193,11 +193,7 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			//configure bearer token validation
-			services.AddAuthentication((options) =>
-			{
-				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
 			{
 				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
 				jwtBearerOptions.Events = new JwtBearerEvents
