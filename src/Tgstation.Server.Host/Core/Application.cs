@@ -97,22 +97,21 @@ namespace Tgstation.Server.Host.Core
 
 			//enable options which give us config reloading
 			services.AddOptions();
-
-			//need this instance for later configuration
-			var ioManager = new DefaultIOManager();
-
+					
 			//setup stuff for setup wizard
-			services.AddSingleton<IIOManager>(ioManager);
+			services.AddSingleton<IIOManager, DefaultIOManager>();
 			services.AddSingleton<IConsole, IO.Console>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
 
 			//needed here for JWT configuration
-			services.AddSingleton<ITokenFactory, TokenFactory>();
+			//we use a manually instatiated token factory to prevent it from regenerating the signing key after we configure it
+			services.AddSingleton<ITokenFactory>(new TokenFactory());
 
 			GeneralConfiguration generalConfiguration;
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
 			ITokenFactory tokenFactory;
+			IIOManager ioManager;
 
 			//temporarily build the service provider in it's current state
 			//do it here so we can run the setup wizard if necessary
@@ -140,6 +139,7 @@ namespace Tgstation.Server.Host.Core
 				fileLoggingConfiguration = loggingOptions.Value;
 
 				tokenFactory = provider.GetRequiredService<ITokenFactory>();
+				ioManager = provider.GetRequiredService<IIOManager>();
 			}
 
 			//setup file logging via serilog
@@ -193,7 +193,11 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			//configure bearer token validation
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
+			services.AddAuthentication((options) =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
 			{
 				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
 				jwtBearerOptions.Events = new JwtBearerEvents
@@ -201,9 +205,10 @@ namespace Tgstation.Server.Host.Core
 					//Application is our composition root so this monstrosity of a line is okay
 					OnTokenValidated = ctx => ctx.HttpContext.RequestServices.GetRequiredService<IClaimsInjector>().InjectClaimsIntoContext(ctx, ctx.HttpContext.RequestAborted)
 				};
-
-				JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
 			});
+			//fucking converts 'sub' to M$ bs
+			//can't be done in the above lambda, that's too late
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 			//add mvc, configure the json serializer settings
 			services.AddMvc().AddJsonOptions(options =>
