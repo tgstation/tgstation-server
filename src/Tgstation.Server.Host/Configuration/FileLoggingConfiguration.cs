@@ -1,4 +1,8 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// File logging configuration options
@@ -23,12 +27,14 @@
 		/// <summary>
 		/// The <see cref="string"/>ified minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs
 		/// </summary>
-		public string LogLevel { get; set; }
+		[JsonConverter(typeof(StringEnumConverter))]
+		public LogLevel LogLevel { get; set; }
 
 
 		/// <summary>
 		/// The <see cref="string"/>ified minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs for Microsoft library sources
 		/// </summary>
-		public string MicrosoftLogLevel { get; set; }
+		[JsonConverter(typeof(StringEnumConverter))]
+		public LogLevel MicrosoftLogLevel { get; set; }
 	}
 }

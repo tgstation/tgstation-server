@@ -459,13 +459,6 @@ namespace Tgstation.Server.Host.Core
 
 				services.AddLogging(builder =>
 				{
-					LogLevel GetMinimumLogLevel(string stringLevel)
-					{
-						if (String.IsNullOrWhiteSpace(stringLevel) || !Enum.TryParse<LogLevel>(stringLevel, out var minimumLevel))
-							minimumLevel = LogLevel.Information;
-						return minimumLevel;
-					}
-
 					LogEventLevel? ConvertLogLevel(LogLevel logLevel)
 					{
 						switch (logLevel)
@@ -489,8 +482,8 @@ namespace Tgstation.Server.Host.Core
 						}
 					};
 
-					var logEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration.LogLevel));
-					var microsoftEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration.MicrosoftLogLevel));
+					var logEventLevel = ConvertLogLevel(fileLoggingConfiguration.LogLevel);
+					var microsoftEventLevel = ConvertLogLevel(fileLoggingConfiguration.MicrosoftLogLevel);
 
 					var formatter = new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}", null);
 
