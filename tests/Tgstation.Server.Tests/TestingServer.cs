@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host;
+using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Tests
 {
@@ -42,7 +43,8 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
-				"Database:DropDatabase=true"
+				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
+				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never)
 			};
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
