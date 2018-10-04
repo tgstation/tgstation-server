@@ -157,25 +157,7 @@ namespace Tgstation.Server.Host.Core
 				await console.WriteAsync("Enter the database name (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
 				var databaseName = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 
-				bool dbExists;
-				do
-				{
-					await console.WriteAsync("Does this database already exist? (y/n): ", false, cancellationToken).ConfigureAwait(false);
-					var responseString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-					var upperResponse = responseString.ToUpperInvariant();
-					if (upperResponse == "Y" || upperResponse == "YES")
-					{
-						dbExists = true;
-						break;
-					}
-					else if (upperResponse == "N" || upperResponse == "NO")
-					{
-						dbExists = false;
-						break;
-					}
-					await console.WriteAsync("Invalid response!", true, cancellationToken).ConfigureAwait(false);
-				}
-				while (true);
+				var dbExists = await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
 
 				bool? useWinAuth;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
