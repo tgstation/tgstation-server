@@ -1,4 +1,7 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// General configuration options
@@ -11,9 +14,19 @@
 		public const string Section = "General";
 
 		/// <summary>
+		/// The default value for <see cref="MinimumPasswordLength"/>
+		/// </summary>
+		const uint DefaultMinimumPasswordLength = 15;
+
+		/// <summary>
+		/// The default value for <see cref="ByondTopicTimeout"/>
+		/// </summary>
+		const int DefaultByondTopicTimeout = 5000;
+
+		/// <summary>
 		/// Minimum length of database user passwords
 		/// </summary>
-		public uint MinimumPasswordLength { get; set; }
+		public uint MinimumPasswordLength { get; set; } = DefaultMinimumPasswordLength;
 
 		/// <summary>
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes
@@ -21,8 +34,14 @@
 		public string GitHubAccessToken { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Core.Application"/> should just check if the configuration wizard needs to be run and then exit
+		/// The <see cref="SetupWizardMode"/>
 		/// </summary>
-		public bool ConfigCheckOnly { get; set; }
+		[JsonConverter(typeof(StringEnumConverter))]
+		public SetupWizardMode SetupWizardMode { get; set; }
+
+		/// <summary>
+		/// The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value
+		/// </summary>
+		public int ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
 	}
 }

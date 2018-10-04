@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -8,6 +8,11 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	public interface ITokenFactory
 	{
+		/// <summary>
+		/// The <see cref="TokenValidationParameters"/> for the <see cref="ITokenFactory"/>
+		/// </summary>
+		TokenValidationParameters ValidationParameters { get; }
+
 		/// <summary>
 		/// Create a <see cref="Token"/> for a given <paramref name="user"/>
 		/// </summary>

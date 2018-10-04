@@ -10,22 +10,16 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
@@ -82,383 +76,81 @@ namespace Tgstation.Server.Host.Core
 			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
 		}
 
-		bool CheckRunSetupWizard(IIOManager ioManager)
-		{
-			if (!Environment.UserInteractive)
-				return false;
-			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.json", hostingEnvironment.EnvironmentName);
-			var existenceTask = ioManager.FileExists(userConfigFileName, default);
-			var exists = existenceTask.GetAwaiter().GetResult();
-
-			if (exists)
-			{
-				var readTask = ioManager.ReadAllBytes(userConfigFileName, default);
-				var bytes = readTask.GetAwaiter().GetResult();
-				var contents = Encoding.UTF8.GetString(bytes);
-				if (!String.IsNullOrWhiteSpace(contents))
-					return false;
-			}
-
-			//non-present or empty config json
-			//make our own with blackjack and hookers
-
-			Console.WriteLine("Welcome to tgstation-server 4!");
-			Console.WriteLine("This wizard will help you configure your server.");
-			Console.WriteLine();
-			Console.WriteLine("What port would you like to connect to TGS on?");
-			Console.WriteLine("Note: If this is a docker container with the default port already mapped, use the default.");
-
-			ushort? port = null;
-			do
-			{
-				Console.Write("API Port (leave blank for default): ");
-				var portString = Console.ReadLine();
-				if (String.IsNullOrWhiteSpace(portString))
-					break;
-				if (UInt16.TryParse(portString, out var concretePort) && concretePort != 0)
-				{
-					port = concretePort;
-					break;
-				}
-				Console.WriteLine("Invalid port! Please enter a value between 1 and 65535");
-			}
-			while (true);
-
-
-			string GetPassword()
-			{
-				var pwd = new StringBuilder();
-				do
-				{
-					var i = Console.ReadKey(true);
-					if (i.Key == ConsoleKey.Enter)
-						break;
-					else if (i.Key == ConsoleKey.Backspace)
-					{
-						if (pwd.Length > 0)
-						{
-							--pwd.Length;
-							Console.Write("\b \b");
-						}
-					}
-					else if (i.KeyChar != '\u0000') // KeyChar == '\u0000' if the key pressed does not correspond to a printable character, e.g. F1, Pause-Break, etc
-					{
-						pwd.Append(i.KeyChar);
-						Console.Write("*");
-					}
-				}
-				while (true);
-				Console.WriteLine();
-				return pwd.ToString();
-			}
-
-			DatabaseConfiguration databaseConfiguration;
-			do
-			{
-				Console.WriteLine();
-				Console.WriteLine("What SQL database type will you be using?");
-
-				databaseConfiguration = new DatabaseConfiguration();
-				do
-				{
-					Console.Write(String.Format(CultureInfo.InvariantCulture, "Please enter one of {0}, {1}, or {2}: ", DatabaseType.MariaDB, DatabaseType.SqlServer, DatabaseType.MySql));
-					var databaseTypeString = Console.ReadLine();
-					if (Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
-					{
-						databaseConfiguration.DatabaseType = databaseType;
-						break;
-					}
-					Console.WriteLine("Invalid database type!");
-				}
-				while (true);
-
-				Console.WriteLine();
-				Console.Write("Enter the server's address and port (blank for local): ");
-				var serverAddress = Console.ReadLine();
-				if (String.IsNullOrWhiteSpace(serverAddress))
-					serverAddress = null;
-
-				Console.WriteLine();
-				Console.Write("Enter the database name (Can be from previous installation. Otherwise, should not exist): ");
-				var databaseName = Console.ReadLine();
-
-				bool dbExists;
-				do
-				{
-					Console.Write("Does this database already exist? (y/n): ");
-					var responseString = Console.ReadLine();
-					var upperResponse = responseString.ToUpperInvariant();
-					if (upperResponse == "Y" || upperResponse == "YES")
-					{
-						dbExists = true;
-						break;
-					}
-					else if (upperResponse == "N" || upperResponse == "NO")
-					{
-						dbExists = false;
-						break;
-					}
-					Console.WriteLine("Invalid response!");
-				}
-				while (true);
-
-				bool? useWinAuth;
-				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-					do
-					{
-						Console.Write("Use Windows Authentication? (y/n): ");
-						var responseString = Console.ReadLine();
-						var upperResponse = responseString.ToUpperInvariant();
-						if (upperResponse == "Y" || upperResponse == "YES")
-						{
-							useWinAuth = true;
-							break;
-						}
-						else if (upperResponse == "N" || upperResponse == "NO")
-						{
-							useWinAuth = false;
-							break;
-						}
-						Console.WriteLine("Invalid response!");
-					}
-					while (true);
-				else
-					useWinAuth = null;
-
-				Console.WriteLine();
-
-				string username = null;
-				string password = null;
-				if (useWinAuth != true)
-				{
-					Console.Write("Enter username: ");
-					username = Console.ReadLine();
-					Console.Write("Enter password: ");
-					password = GetPassword();
-					Console.WriteLine();
-				}
-
-				IDbConnection testConnection;
-				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
-				{
-					var csb = new SqlConnectionStringBuilder
-					{
-						ApplicationName = VersionPrefix,
-						DataSource = serverAddress ?? "(local)"
-					};
-					if (useWinAuth.Value)
-						csb.IntegratedSecurity = true;
-					else
-					{
-						csb.UserID = username;
-						csb.Password = password;
-					}
-					testConnection = new SqlConnection
-					{
-						ConnectionString = csb.ConnectionString
-					};
-					csb.InitialCatalog = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
-				}
-				else
-				{
-					var csb = new MySqlConnectionStringBuilder
-					{
-						Server = serverAddress ?? "127.0.0.1",
-						UserID = username,
-						Password = password
-					};
-					testConnection = new MySqlConnection
-					{
-						ConnectionString = csb.ConnectionString
-					};
-					csb.Database = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
-				}
-
-				try
-				{
-					using (testConnection)
-					{
-						Console.WriteLine("Testing connection...");
-						testConnection.Open();
-						Console.WriteLine("Connection successful!");
-
-						if (databaseConfiguration.DatabaseType != DatabaseType.SqlServer)
-						{
-							Console.WriteLine("Checking MySQL/MariaDB version...");
-							using (var command = testConnection.CreateCommand())
-							{
-								command.CommandText = "SELECT VERSION()";
-								var fullVersion = (string)command.ExecuteScalar();
-								Console.WriteLine(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion));
-								var splits = fullVersion.Split('-');
-								databaseConfiguration.MySqlServerVersion = splits[0];
-							}
-						}
-
-						if (!dbExists)
-						{
-							Console.WriteLine("Testing create DB permission...");
-							using (var command = testConnection.CreateCommand())
-							{
-								command.CommandText = String.Format(CultureInfo.InvariantCulture, "CREATE DATABASE {0}", databaseName);
-								command.ExecuteNonQuery();
-							}
-							Console.WriteLine("Success!");
-							Console.WriteLine("Dropping test database...");
-							using (var command = testConnection.CreateCommand())
-							{
-								command.CommandText = String.Format(CultureInfo.InvariantCulture, "DROP DATABASE {0}", databaseName);
-								try
-								{
-									command.ExecuteNonQuery();
-								}
-								catch (Exception e)
-								{
-									Console.WriteLine(e.Message);
-									Console.WriteLine();
-									Console.WriteLine("This should be okay, but you may want to manually drop the database before continuing!");
-									Console.WriteLine("Press any key to continue...");
-									Console.ReadKey();
-								}
-							}
-						}
-					}
-
-					break;
-				}
-				catch (Exception e)
-				{
-					Console.WriteLine(e.Message);
-					Console.WriteLine();
-					Console.WriteLine("Retrying database configuration...");
-				}
-			} while (true);
-
-			var generalConfiguration = new GeneralConfiguration
-			{
-				MinimumPasswordLength = 15
-			};
-			do
-			{
-				Console.WriteLine();
-				Console.Write("Minimum database user password length (leave blank for default of 15): ");
-				var passwordLengthString = Console.ReadLine();
-				if (String.IsNullOrWhiteSpace(passwordLengthString))
-					break;
-				if (UInt32.TryParse(passwordLengthString, out var passwordLength))
-				{
-					generalConfiguration.MinimumPasswordLength = passwordLength;
-					break;
-				}
-				Console.WriteLine("Please enter a positive integer!");
-			}
-			while (true);
-
-			Console.WriteLine();
-			Console.WriteLine("Enter a GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)");
-			Console.Write("GitHub personal access token: ");
-			generalConfiguration.GitHubAccessToken = GetPassword();
-			if (String.IsNullOrWhiteSpace(generalConfiguration.GitHubAccessToken))
-				generalConfiguration.GitHubAccessToken = null;
-
-			Console.WriteLine();
-			Console.WriteLine(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName));
-
-			var map = new Dictionary<string, object>()
-			{
-				{ DatabaseConfiguration.Section, databaseConfiguration },
-				{ GeneralConfiguration.Section, generalConfiguration }
-			};
-
-			if (port.HasValue)
-				map.Add("Kestrel", new {
-					EndPoints = new
-					{
-						Http = new
-						{
-							Url = String.Format(CultureInfo.InvariantCulture, "http://0.0.0.0:{0}", port)
-						}
-					}
-				});
-
-			var json = JsonConvert.SerializeObject(map, Formatting.Indented);
-			var configBytes = Encoding.UTF8.GetBytes(json);
-
-			var writeTask = ioManager.WriteAllBytes(userConfigFileName, configBytes, default);
-			try
-			{
-				writeTask.GetAwaiter().GetResult();
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-				Console.WriteLine();
-				Console.WriteLine("For your convienence, here's the text we tried to write out:");
-				Console.WriteLine();
-				Console.WriteLine(json);
-				Console.WriteLine();
-				Console.WriteLine("Press any key to exit...");
-				Console.ReadKey();
-				throw new OperationCanceledException();
-			}
-
-			Console.WriteLine("Waiting for configuration changes to reload...");
-			Task.Delay(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
-
-			return true;
-		}
-
 		/// <summary>
 		/// Configure dependency injected services
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
+		/// <param name="applicationLifetime">The <see cref="Microsoft.AspNetCore.Hosting.IApplicationLifetime"/> representing the lifetime of the <see cref="Application"/></param>
 		public void ConfigureServices(IServiceCollection services)
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
+			//needful
+			services.AddSingleton<IApplication>(this);
+
+			//configure configuration
 			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
 			services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseConfiguration.Section));
 			services.Configure<GeneralConfiguration>(configuration.GetSection(GeneralConfiguration.Section));
 			services.Configure<FileLoggingConfiguration>(configuration.GetSection(FileLoggingConfiguration.Section));
 
+			//enable options which give us config reloading
 			services.AddOptions();
 
+			//need this instance for later configuration
 			var ioManager = new DefaultIOManager();
-			var ranWizard = CheckRunSetupWizard(ioManager);
+
+			//setup stuff for setup wizard
+			services.AddSingleton<IIOManager>(ioManager);
+			services.AddSingleton<IConsole, IO.Console>();
+			services.AddSingleton<ISetupWizard, SetupWizard>();
+
+			//needed here for JWT configuration
+			services.AddSingleton<ITokenFactory, TokenFactory>();
 
 			GeneralConfiguration generalConfiguration;
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
+			ITokenFactory tokenFactory;
+
+			//temporarily build the service provider in it's current state
+			//do it here so we can run the setup wizard if necessary
+			//also allows us to get some options and other services we need for continued configuration
 			using (var provider = services.BuildServiceProvider())
 			{
+				//run the wizard if necessary
+				var setupWizard = provider.GetRequiredService<ISetupWizard>();
+				var applicationLifetime = provider.GetRequiredService<Microsoft.AspNetCore.Hosting.IApplicationLifetime>();
+				var setupWizardRan = setupWizard.CheckRunWizard(applicationLifetime.ApplicationStopping).GetAwaiter().GetResult();
+
+				//load the configuration options we need
 				var generalOptions = provider.GetRequiredService<IOptions<GeneralConfiguration>>();
 				generalConfiguration = generalOptions.Value;
 
-				if (generalConfiguration.ConfigCheckOnly)
-					throw new OperationCanceledException("Configuration check complete!");
-
-				if (ranWizard)
-					Console.WriteLine("Now launching TGS...");
+				//unless this is set, in which case, we leave
+				if (setupWizardRan && generalConfiguration.SetupWizardMode == SetupWizardMode.Only)
+					//we don't inject a logger in the constuctor to log this because it's not yet configured
+					throw new OperationCanceledException("Exiting due to SetupWizardMode configuration!");
 
 				var dbOptions = provider.GetRequiredService<IOptions<DatabaseConfiguration>>();
 				databaseConfiguration = dbOptions.Value;
 
 				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
 				fileLoggingConfiguration = loggingOptions.Value;
+
+				tokenFactory = provider.GetRequiredService<ITokenFactory>();
 			}
 
-
+			//setup file logging via serilog
 			if (!fileLoggingConfiguration.Disable)
-			{
-				var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
-
-				logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
-
 				services.AddLogging(builder =>
 				{
+					//common app data is C:/ProgramData on windows, else /usr/shar
+					var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
+
+					logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
+
 					LogEventLevel? ConvertLogLevel(LogLevel logLevel)
 					{
 						switch (logLevel)
@@ -499,44 +191,21 @@ namespace Tgstation.Server.Host.Core
 
 					builder.AddSerilog(configuration.CreateLogger(), true);
 				});
-			}
 
-			services.AddScoped<IClaimsInjector, ClaimsInjector>();
-
-			const string scheme = "JwtBearer";
-			services.AddAuthentication((options) =>
+			//configure bearer token validation
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
 			{
-				options.DefaultAuthenticateScheme = scheme;
-				options.DefaultChallengeScheme = scheme;
-			}).AddJwtBearer(scheme, jwtBearerOptions =>
-			{
-				jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(TokenFactory.TokenSigningKey),
-
-					ValidateIssuer = true,
-					ValidIssuer = TokenFactory.TokenIssuer,
-
-					ValidateLifetime = true,
-					ValidateAudience = true,
-					ValidAudience = TokenFactory.TokenAudience,
-
-					ClockSkew = TimeSpan.FromMinutes(1),
-
-					RequireSignedTokens = true,
-
-					RequireExpirationTime = true
-				};
+				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
 					//Application is our composition root so this monstrosity of a line is okay
 					OnTokenValidated = ctx => ctx.HttpContext.RequestServices.GetRequiredService<IClaimsInjector>().InjectClaimsIntoContext(ctx, ctx.HttpContext.RequestAborted)
 				};
+
+				JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
 			});
 
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
-
+			//add mvc, configure the json serializer settings
 			services.AddMvc().AddJsonOptions(options =>
 			{
 				options.AllowInputFormatterExceptionMessages = true;
@@ -546,7 +215,6 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
-
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
@@ -558,6 +226,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
 
+			//add the correct database context type
 			var dbType = databaseConfiguration.DatabaseType;
 			switch (dbType)
 			{
@@ -572,18 +241,18 @@ namespace Tgstation.Server.Host.Core
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
 			}
 
-			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
-			services.AddSingleton<IIdentityCache, IdentityCache>();
-
-			services.AddSingleton<ICryptographySuite, CryptographySuite>();
+			//configure other database services
+			services.AddSingleton<IDatabaseContextFactory, DatabaseContextFactory>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
+
+			//configure security services
+			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
+			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			services.AddSingleton<IIdentityCache, IdentityCache>();
+			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
-			services.AddSingleton<ITokenFactory, TokenFactory>();
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
 
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-
+			//configure platform specific services
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
@@ -604,30 +273,29 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
+			//configure misc services
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
-			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
-				ReceiveTimeout = 5000,
-				SendTimeout = 5000
+				ReceiveTimeout = generalConfiguration.ByondTopicTimeout,
+				SendTimeout = generalConfiguration.ByondTopicTimeout
 			});
 
+			//configure component services
+			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
+			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatFactory, ChatFactory>();
 			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
+			//configure root services
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 
 			services.AddSingleton<IJobManager, JobManager>();
-
-			services.AddSingleton<IIOManager>(ioManager);
-
-			services.AddSingleton<DatabaseContextFactory>();
-			services.AddSingleton<IDatabaseContextFactory>(x => x.GetRequiredService<DatabaseContextFactory>());
-
-			services.AddSingleton<IApplication>(this);
 		}
 
 		/// <summary>
@@ -650,21 +318,31 @@ namespace Tgstation.Server.Host.Core
 			//attempt to restart the server if the configuration changes
 			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
+			//now setup the HTTP request pipeline
+
+			//should anything after this throw an exception, catch it and display a detailed html page
 			applicationBuilder.UseDeveloperExceptionPage(); //it is not worth it to limit this, you should only ever get it if you're an authorized user
 			
+			//suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
+			//Do not service requests until Ready is called, this will return 503 until that point
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
 			{
 				using (cancellationToken.Register(() => startupTcs.SetCanceled()))
 					await startupTcs.Task.ConfigureAwait(false);
 			});
 
+			//authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
+			//suppress and log database exceptions
 			applicationBuilder.UseDbConflictHandling();
 
+			//majority of handling is done in the controllers
 			applicationBuilder.UseMvc();
+
+			//404 anything that gets this far
 		}
 
 		///<inheritdoc />
