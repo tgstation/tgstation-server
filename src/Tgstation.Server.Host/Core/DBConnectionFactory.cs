@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Core
 						ConnectionString = connectionString
 					};
 				default:
-					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid database type ({0})!", databaseType));
+					throw new ArgumentOutOfRangeException(nameof(databaseType), databaseType, "Invalid DatabaseType!");
 			}
 		}
 	}

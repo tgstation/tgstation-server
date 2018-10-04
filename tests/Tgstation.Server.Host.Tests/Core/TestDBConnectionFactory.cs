@@ -7,14 +7,14 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Core.Tests
 {
 	[TestClass]
-	public sealed class DBConnectionFactoryTests
+	public sealed class TestDBConnectionFactory
 	{
 		[TestMethod]
 		public void TestBadParameters()
 		{
 			var factory = new DBConnectionFactory();
 			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateConnection(null, default));
-			Assert.ThrowsException<InvalidOperationException>(() => factory.CreateConnection(String.Empty, (DatabaseType)42));
+			Assert.ThrowsException<ArgumentOutOfRangeException>(() => factory.CreateConnection(String.Empty, (DatabaseType)42));
 		}
 
 		[TestMethod]

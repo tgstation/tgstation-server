@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.IO
 		public bool Available => Environment.UserInteractive;
 
 		/// <inheritdoc />
-		public Task PressAnyKeyAsync(CancellationToken cancellationToken) => Task.Factory.StartNew(() => System.Console.ReadKey(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		public Task PressAnyKeyAsync(CancellationToken cancellationToken) => Task.Factory.StartNew(() => System.Console.Read(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<string> ReadLineAsync(bool usePasswordChar, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -50,7 +50,13 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			if (newLine)
+			if (text == null)
+			{
+				if (!newLine)
+					throw new InvalidOperationException("Cannot write null text without a new line!");
+				System.Console.WriteLine();
+			}
+			else if (newLine)
 				System.Console.WriteLine(text);
 			else
 				System.Console.Write(text);
