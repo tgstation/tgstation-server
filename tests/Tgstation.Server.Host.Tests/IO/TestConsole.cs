@@ -14,8 +14,15 @@ namespace Tgstation.Server.Host.IO.Tests
 		{
 			var console = new Console();
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => console.WriteAsync(null, false, default)).ConfigureAwait(false);
-			await console.WriteAsync(null, true, default).ConfigureAwait(false);
-			await console.WriteAsync(String.Empty, false, default).ConfigureAwait(true);
+			try
+			{
+				await console.WriteAsync(null, true, default).ConfigureAwait(false);
+				await console.WriteAsync(String.Empty, false, default).ConfigureAwait(true);
+			}
+			catch(InvalidOperationException)
+			{
+				Assert.IsFalse(console.Available);
+			}
 		}
 
 		[TestMethod]

@@ -11,13 +11,24 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool Available => Environment.UserInteractive;
 
+		void CheckAvailable()
+		{
+			if (!Available)
+				throw new InvalidOperationException("Console unavailable");
+		}
+
 		/// <inheritdoc />
-		public Task PressAnyKeyAsync(CancellationToken cancellationToken) => Task.Factory.StartNew(() => System.Console.Read(), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		public Task PressAnyKeyAsync(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			CheckAvailable();
+			System.Console.Read();
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<string> ReadLineAsync(bool usePasswordChar, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			//TODO Make this better: https://stackoverflow.com/questions/9479573/how-to-interrupt-console-readline
+			CheckAvailable();
 			if (!usePasswordChar)
 				return System.Console.ReadLine();
 
@@ -50,6 +61,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
+			CheckAvailable();
 			if (text == null)
 			{
 				if (!newLine)
