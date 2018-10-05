@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Moq.Protected;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -35,13 +36,10 @@ namespace Tgstation.Server.Host.Core.Tests
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockLogger.Object, null));
 		}
-
-		//TODO
+		
 		[TestMethod]
-		public async Task WIPTestWithUserStupiditiy()
+		public async Task TestWithUserStupiditiy()
 		{
-			Assert.Inconclusive();
-
 			var mockIOManager = new Mock<IIOManager>();
 			var mockConsole = new Mock<IConsole>();
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
@@ -64,38 +62,39 @@ namespace Tgstation.Server.Host.Core.Tests
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => wizard.CheckRunWizard(default)).ConfigureAwait(false);
 
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Only;
-			mockConsole.SetupGet(x => x.Available).Returns(true).Verifiable();
-			Assert.IsFalse(await wizard.CheckRunWizard(default).ConfigureAwait(false));
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => wizard.CheckRunWizard(default)).ConfigureAwait(false);
 
+			mockConsole.SetupGet(x => x.Available).Returns(true).Verifiable();
 			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true)).Verifiable();
 			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes("cucked"))).Verifiable();
 			mockIOManager.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 			
-			var mockGoodDbConnection = new Mock<DbConnection>();
-			mockGoodDbConnection.Setup(x => x.OpenAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
-
-			var mockBadDbConnection = new Mock<DbConnection>();
-			mockGoodDbConnection.Setup(x => x.OpenAsync(It.IsAny<CancellationToken>())).Throws(new Exception()).Verifiable();
-
-			void AddVersionReturn(Mock<DbCommand> mock) => mock.Setup(x => x.ExecuteScalarAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult<object>("1.2.3")).Verifiable();
 			var mockSuccessCommand = new Mock<DbCommand>();
 			mockSuccessCommand.Setup(x => x.ExecuteNonQueryAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(0)).Verifiable();
-			AddVersionReturn(mockSuccessCommand);
+			mockSuccessCommand.Setup(x => x.ExecuteScalarAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult<object>("1.2.3")).Verifiable();
 			var mockFailCommand = new Mock<DbCommand>();
 			mockFailCommand.Setup(x => x.ExecuteNonQueryAsync(It.IsAny<CancellationToken>())).Throws(new Exception()).Verifiable();
-			AddVersionReturn(mockFailCommand);
-			var secondTime = false;
+
+			void SetDbCommandCreator(Mock<DbConnection> mock, Func<DbCommand> creator) => mock.Protected().Setup<DbCommand>("CreateDbCommand").Returns(creator).Verifiable();
+
+			var mockGoodDbConnection = new Mock<DbConnection>();
+			mockGoodDbConnection.Setup(x => x.OpenAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
+			SetDbCommandCreator(mockGoodDbConnection, () => mockSuccessCommand.Object);
+
+			var mockBadDbConnection = new Mock<DbConnection>();
+			mockBadDbConnection.Setup(x => x.OpenAsync(It.IsAny<CancellationToken>())).Throws(new Exception()).Verifiable();
+			var invokeTimes = 0;
 			var mockUglyDbConnection = new Mock<DbConnection>();
-			mockUglyDbConnection.Setup(x => x.CreateCommand()).Returns(() =>
+			SetDbCommandCreator(mockUglyDbConnection, () =>
 			{
-				if (!secondTime)
+				if (invokeTimes < 2)
 				{
-					secondTime = true;
+					++invokeTimes;
 					return mockSuccessCommand.Object;
 				}
 				else
 					return mockFailCommand.Object;
-			}).Verifiable();
+			});
 
 			mockDBConnectionFactory.Setup(x => x.CreateConnection(It.IsAny<string>(), DatabaseType.SqlServer)).Returns(mockBadDbConnection.Object).Verifiable();
 			mockDBConnectionFactory.Setup(x => x.CreateConnection(It.IsAny<string>(), DatabaseType.MariaDB)).Returns(mockGoodDbConnection.Object).Verifiable();
@@ -132,6 +131,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				nameof(DatabaseType.MariaDB),
 				"bleh",
 				"blah",
+				"NO",
 				"user",
 				"pass",
 				//general config
@@ -144,21 +144,47 @@ namespace Tgstation.Server.Host.Core.Tests
 				"fake token",
 				//saved, now for second run
 				//this time use defaults amap
-
-				//TODO
+				String.Empty,
+				//test MySQL errors
+				nameof(DatabaseType.MySql),
+				String.Empty,
+				String.Empty,
+				"DbName",
+				"n",
+				"user",
+				"pass",
+				//general config
+				String.Empty,
+				String.Empty,
+				String.Empty,
+				//third run, we already hit all the code coverage so just get through it
+				String.Empty,
+				nameof(DatabaseType.MariaDB),
+				String.Empty,
+				"dbname",
+				"y",
+				"user",
+				"pass",
+				String.Empty,
+				String.Empty,
+				String.Empty
 			});
 
 			var inputPos = 0;
+
+			mockApplication.SetupGet(x => x.VersionPrefix).Returns("sumfuk").Verifiable();
 
 			mockConsole.Setup(x => x.PressAnyKeyAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 			mockConsole.Setup(x => x.ReadLineAsync(It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(() =>
 			{
 				if (inputPos == finalInputSequence.Count)
 					Assert.Fail("Exhausted input sequence!");
-				return Task.FromResult(finalInputSequence[inputPos++]);
+				var res = finalInputSequence[inputPos++];
+				return Task.FromResult(res);
 			}).Verifiable();
 			mockConsole.Setup(x => x.WriteAsync(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 
+			Assert.IsFalse(await wizard.CheckRunWizard(default).ConfigureAwait(false));
 			//first real run
 			Assert.IsTrue(await wizard.CheckRunWizard(default).ConfigureAwait(false));
 
@@ -169,15 +195,19 @@ namespace Tgstation.Server.Host.Core.Tests
 			//third run
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Autodetect;
 			mockIOManager.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>())).Throws(new Exception()).Verifiable();
-			await Assert.ThrowsExceptionAsync<Exception>(() => wizard.CheckRunWizard(default)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => wizard.CheckRunWizard(default)).ConfigureAwait(false);
 
+			Assert.AreEqual(finalInputSequence.Count, inputPos);
 			mockFailCommand.VerifyAll();
 			mockSuccessCommand.VerifyAll();
 			mockIOManager.VerifyAll();
 			mockGeneralConfigurationOptions.VerifyAll();
 			mockConsole.VerifyAll();
 			mockGoodDbConnection.VerifyAll();
+			mockBadDbConnection.VerifyAll();
+			mockUglyDbConnection.VerifyAll();
 			mockDBConnectionFactory.VerifyAll();
+			mockApplication.VerifyAll();
 		}
 	}
 }

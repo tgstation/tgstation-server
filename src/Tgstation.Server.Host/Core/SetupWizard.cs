@@ -155,21 +155,30 @@ namespace Tgstation.Server.Host.Core
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("Enter the database name (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
-				var databaseName = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+				string databaseName;
+				
+				do
+				{
+					databaseName = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (!String.IsNullOrWhiteSpace(databaseName))
+						break;
+					await console.WriteAsync("Invalid database name!", true, cancellationToken).ConfigureAwait(false);
+				}
+				while (true);
 
 				var dbExists = await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
 
-				bool? useWinAuth;
+				bool useWinAuth;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 					useWinAuth = await PromptYesNo("Use Windows Authentication? (y/n): ", cancellationToken).ConfigureAwait(false);
 				else
-					useWinAuth = null;
+					useWinAuth = false;
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
 				string username = null;
 				string password = null;
-				if (useWinAuth != true)
+				if (!useWinAuth)
 				{
 					await console.WriteAsync("Enter username: ", false, cancellationToken).ConfigureAwait(false);
 					username = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
@@ -192,7 +201,7 @@ namespace Tgstation.Server.Host.Core
 						ApplicationName = application.VersionPrefix,
 						DataSource = serverAddress ?? "(local)"
 					};
-					if (useWinAuth.Value)
+					if (useWinAuth)
 						csb.IntegratedSecurity = true;
 					else
 					{
@@ -421,14 +430,12 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.json", hostingEnvironment.EnvironmentName);
-			var existenceTask = ioManager.FileExists(userConfigFileName, default);
-			var exists = existenceTask.GetAwaiter().GetResult();
+			var exists = await ioManager.FileExists(userConfigFileName, cancellationToken).ConfigureAwait(false);
 
 			bool shouldRunBasedOnAutodetect;
 			if (exists)
 			{
-				var readTask = ioManager.ReadAllBytes(userConfigFileName, default);
-				var bytes = readTask.GetAwaiter().GetResult();
+				var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken).ConfigureAwait(false);
 				var contents = Encoding.UTF8.GetString(bytes);
 				var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents);
 				logger.LogTrace("Configuration json detected. Empty: {0}", existingConfigIsEmpty);
