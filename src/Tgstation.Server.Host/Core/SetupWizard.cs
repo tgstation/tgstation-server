@@ -185,9 +185,14 @@ namespace Tgstation.Server.Host.Core
 					username = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 					await console.WriteAsync("Enter password: ", false, cancellationToken).ConfigureAwait(false);
 					password = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
-					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				}
-
+				else
+				{
+					await console.WriteAsync("IMPORTANT: If using the service runner, ensure this computer's LocalSystem account has CREATE DATABASE permissions on the target server!", true, cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync("The account it uses in MSSQL is usually \"NT AUTHORITY\\SYSTEM\" and the role it needs is usually \"dbcreator\".", true, cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync("We'll run a sanity test here, but it won't be indicative of the service's permissions if that is the case", true, cancellationToken).ConfigureAwait(false);
+				}
+				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
 				DbConnection testConnection;
 				void CreateTestConnection(string connectionString)
@@ -266,6 +271,10 @@ namespace Tgstation.Server.Host.Core
 								{
 									await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 								}
+								catch (OperationCanceledException)
+								{
+									throw;
+								}
 								catch (Exception e)
 								{
 									await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
@@ -279,6 +288,10 @@ namespace Tgstation.Server.Host.Core
 					}
 
 					return databaseConfiguration;
+				}
+				catch (OperationCanceledException)
+				{
+					throw;
 				}
 				catch (Exception e)
 				{
@@ -296,17 +309,20 @@ namespace Tgstation.Server.Host.Core
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="GeneralConfiguration"/></returns>
 		async Task<GeneralConfiguration> ConfigureGeneral(CancellationToken cancellationToken)
 		{
-			var generalConfiguration = new GeneralConfiguration();
+			var newGeneralConfiguration = new GeneralConfiguration
+			{
+				SetupWizardMode = SetupWizardMode.Never
+			};
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Minimum database user password length (leave blank for default of {0}): ", generalConfiguration.MinimumPasswordLength), false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Minimum database user password length (leave blank for default of {0}): ", newGeneralConfiguration.MinimumPasswordLength), false, cancellationToken).ConfigureAwait(false);
 				var passwordLengthString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(passwordLengthString))
 					break;
 				if (UInt32.TryParse(passwordLengthString, out var passwordLength) && passwordLength >= 0)
 				{
-					generalConfiguration.MinimumPasswordLength = passwordLength;
+					newGeneralConfiguration.MinimumPasswordLength = passwordLength;
 					break;
 				}
 				await console.WriteAsync("Please enter a positive integer!", true, cancellationToken).ConfigureAwait(false);
@@ -316,13 +332,13 @@ namespace Tgstation.Server.Host.Core
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", generalConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
 				var topicTimeoutString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(topicTimeoutString))
 					break;
 				if (Int32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
 				{
-					generalConfiguration.ByondTopicTimeout = topicTimeout;
+					newGeneralConfiguration.ByondTopicTimeout = topicTimeout;
 					break;
 				}
 				await console.WriteAsync("Please enter a positive integer!", true, cancellationToken).ConfigureAwait(false);
@@ -332,10 +348,93 @@ namespace Tgstation.Server.Host.Core
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("Enter a GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)", true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("GitHub personal access token: ", false, cancellationToken).ConfigureAwait(false);
-			generalConfiguration.GitHubAccessToken = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
-			if (String.IsNullOrWhiteSpace(generalConfiguration.GitHubAccessToken))
-				generalConfiguration.GitHubAccessToken = null;
-			return generalConfiguration;
+			newGeneralConfiguration.GitHubAccessToken = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
+			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
+				newGeneralConfiguration.GitHubAccessToken = null;
+			return newGeneralConfiguration;
+		}
+
+		/// <summary>
+		/// Prompts the user to create a <see cref="FileLoggingConfiguration"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="FileLoggingConfiguration"/></returns>
+		async Task<FileLoggingConfiguration> ConfigureLogging(CancellationToken cancellationToken)
+		{
+			var fileLoggingConfiguration = new FileLoggingConfiguration();
+			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+			fileLoggingConfiguration.Disable = !await PromptYesNo("Enable file logging? (y/n): ", cancellationToken).ConfigureAwait(false);
+
+			if (!fileLoggingConfiguration.Disable)
+			{
+				do
+				{
+					await console.WriteAsync("Log file directory path (leave blank for default): ", false, cancellationToken).ConfigureAwait(false);
+					fileLoggingConfiguration.Directory = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (String.IsNullOrWhiteSpace(fileLoggingConfiguration.Directory))
+					{
+						fileLoggingConfiguration.Directory = null;
+						break;
+					}
+					else
+					{
+						//test a write of it
+						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync("Testing directory access...", true, cancellationToken).ConfigureAwait(false);
+						try
+						{
+							await ioManager.CreateDirectory(fileLoggingConfiguration.Directory, cancellationToken).ConfigureAwait(false);
+							var testFile = ioManager.ConcatPath(fileLoggingConfiguration.Directory, String.Format(CultureInfo.InvariantCulture, "WizardAccesTest.{0}.deleteme", Guid.NewGuid()));
+							await ioManager.WriteAllBytes(testFile, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+							try
+							{
+								await ioManager.DeleteFile(testFile, cancellationToken).ConfigureAwait(false);
+							}
+							catch (OperationCanceledException)
+							{
+								throw;
+							}
+							catch (Exception e)
+							{
+								await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Error deleting test log file: {0}", testFile), true, cancellationToken).ConfigureAwait(false);
+								await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
+								await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+							}
+							break;
+						}
+						catch (OperationCanceledException)
+						{
+							throw;
+						}
+						catch (Exception e)
+						{
+							await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
+							await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+							await console.WriteAsync("Please verify the path is valid and you have access to it!", true, cancellationToken).ConfigureAwait(false);
+						}
+					}
+				} while (true);
+
+				async Task<LogLevel?> PromptLogLevel(string question)
+				{
+					do
+					{
+						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync(question, true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): ",nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), false, cancellationToken).ConfigureAwait(false);
+						var responseString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+						if (String.IsNullOrWhiteSpace(responseString))
+							return null;
+						if (Enum.TryParse<LogLevel>(responseString, out var logLevel) && logLevel != LogLevel.None)
+							return logLevel;
+						await console.WriteAsync("Invalid log level!", true, cancellationToken).ConfigureAwait(false);
+					} while (true);
+				}
+
+				fileLoggingConfiguration.LogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, "Enter the level limit for normal logs (default {0}).", fileLoggingConfiguration.LogLevel)).ConfigureAwait(false) ?? fileLoggingConfiguration.LogLevel;
+				fileLoggingConfiguration.MicrosoftLogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, "Enter the level limit for Microsoft logs (VERY verbose, default {0}).", fileLoggingConfiguration.MicrosoftLogLevel)).ConfigureAwait(false) ?? fileLoggingConfiguration.MicrosoftLogLevel;
+			}
+			return fileLoggingConfiguration;
 		}
 
 		/// <summary>
@@ -344,17 +443,19 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to</param>
 		/// <param name="hostingPort">The hosting port to save</param>
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save</param>
-		/// <param name="generalConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
+		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
+		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration generalConfiguration, CancellationToken cancellationToken)
+		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
 			var map = new Dictionary<string, object>()
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },
-				{ GeneralConfiguration.Section, generalConfiguration }
+				{ GeneralConfiguration.Section, newGeneralConfiguration },
+				{ FileLoggingConfiguration.Section, fileLoggingConfiguration }
 			};
 
 			if (hostingPort.HasValue)
@@ -375,6 +476,10 @@ namespace Tgstation.Server.Host.Core
 			try
 			{
 				await ioManager.WriteAllBytes(userConfigFileName, configBytes, cancellationToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{
@@ -404,6 +509,7 @@ namespace Tgstation.Server.Host.Core
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			//welcome message
+			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("Welcome to tgstation-server 4!", true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken).ConfigureAwait(false);
 
@@ -411,11 +517,13 @@ namespace Tgstation.Server.Host.Core
 
 			var databaseConfiguration = await ConfigureDatabase(cancellationToken).ConfigureAwait(false);
 
-			var generalConfiguration = await ConfigureGeneral(cancellationToken).ConfigureAwait(false);
+			var newGeneralConfiguration = await ConfigureGeneral(cancellationToken).ConfigureAwait(false);
+
+			var fileLoggingConfiguration = await ConfigureLogging(cancellationToken).ConfigureAwait(false);
 
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
-			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, generalConfiguration, cancellationToken).ConfigureAwait(false);
+			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, newGeneralConfiguration, fileLoggingConfiguration, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
