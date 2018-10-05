@@ -1413,7 +1413,10 @@ namespace TGS.Server
 		{
 			var oldValue = Config.AutoUpdateKeepsPullRequests;
 			if (newValue.HasValue)
+			{
 				Config.AutoUpdateKeepsPullRequests = newValue.Value;
+				Config.Save();
+			}
 			return oldValue;
 		}
 
