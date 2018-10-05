@@ -16,9 +16,33 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		const int TokenExpiryMinutes = 15;
 
-		public static readonly string TokenAudience = typeof(Token).Assembly.GetName().Name;
-		public static readonly string TokenIssuer = Assembly.GetExecutingAssembly().GetName().Name;
-		public static readonly byte[] TokenSigningKey = CryptographySuite.GetSecureBytes(256);
+		/// <inheritdoc />
+		public TokenValidationParameters ValidationParameters { get; }
+
+		/// <summary>
+		/// Construct a <see cref="TokenFactory"/>
+		/// </summary>
+		public TokenFactory()
+		{
+			ValidationParameters = new TokenValidationParameters
+			{
+				ValidateIssuerSigningKey = true,
+				IssuerSigningKey = new SymmetricSecurityKey(CryptographySuite.GetSecureBytes(256)),
+
+				ValidateIssuer = true,
+				ValidIssuer = Assembly.GetExecutingAssembly().GetName().Name,
+
+				ValidateLifetime = true,
+				ValidateAudience = true,
+				ValidAudience = typeof(Token).Assembly.GetName().Name,
+
+				ClockSkew = TimeSpan.FromMinutes(1),
+
+				RequireSignedTokens = true,
+
+				RequireExpirationTime = true
+			};
+		}
 
 		/// <inheritdoc />
 		public Token CreateToken(Models.User user)
@@ -32,13 +56,11 @@ namespace Tgstation.Server.Host.Security
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Exp, $"{expiry.ToUnixTimeSeconds()}"),
 				new Claim(JwtRegisteredClaimNames.Nbf, $"{DateTimeOffset.Now.ToUnixTimeSeconds()}"),
-				new Claim(JwtRegisteredClaimNames.Iss, TokenIssuer),
-				new Claim(JwtRegisteredClaimNames.Aud, TokenAudience)
+				new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer),
+				new Claim(JwtRegisteredClaimNames.Aud, ValidationParameters.ValidAudience)
 			};
 
-			var key = new SymmetricSecurityKey(TokenSigningKey);
-
-			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
+			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(ValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
 			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token), ExpiresAt = expiry };
 		}
 	}

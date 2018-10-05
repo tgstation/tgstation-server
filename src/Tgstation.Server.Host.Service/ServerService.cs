@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging.EventLog.Internal;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Tgstation.Server.Host.Service
 		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(string[], CancellationToken)"/> of <see cref="watchdog"/>
+		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>
 		/// </summary>
 		Task watchdogTask;
 
@@ -65,6 +66,31 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		public void WriteEntry(string message, EventLogEntryType type, int eventID, short category) => EventLog.WriteEntry(message, type, eventID, category);
 
+		/// <summary>
+		/// Executes the <see cref="watchdog"/>, stopping the service if it exits
+		/// </summary>
+		/// <param name="args">The arguments for the <see cref="watchdog"/></param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
+		{
+			await watchdog.RunAsync(false, args, cancellationTokenSource.Token).ConfigureAwait(false);
+
+			void StopServiceAsync()
+			{
+				try
+				{
+					Task.Run(Stop, cancellationToken);
+				}
+				catch (OperationCanceledException) { }
+				catch (Exception e)
+				{
+					EventLog.WriteEntry(String.Format(CultureInfo.InvariantCulture, "Error stopping service! Exception: {0}", e));
+				}
+			}
+			StopServiceAsync();
+		}
+
 		/// <inheritdoc />
 		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
 		protected override void Dispose(bool disposing)
@@ -78,7 +104,7 @@ namespace Tgstation.Server.Host.Service
 		{
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
-			watchdogTask = watchdog.RunAsync(args, cancellationTokenSource.Token);
+			watchdogTask = RunWatchdog(args, cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />

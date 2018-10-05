@@ -1,4 +1,7 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// Configuration options for the <see cref="Models.DatabaseContext{TParentContext}"/>
@@ -13,6 +16,7 @@
 		/// <summary>
 		/// The <see cref="Configuration.DatabaseType"/> to create
 		/// </summary>
+		[JsonConverter(typeof(StringEnumConverter))]
 		public DatabaseType DatabaseType { get; set; }
 
 		/// <summary>

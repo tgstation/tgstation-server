@@ -11,9 +11,10 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <summary>
 		/// Run the <see cref="IWatchdog"/>
 		/// </summary>
+		/// <param name="runConfigure">If the <see cref="IWatchdog"/> should just run the host configuration wizard and exit</param>
 		/// <param name="args">The arguments for the <see cref="IWatchdog"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task RunAsync(string[] args, CancellationToken cancellationToken);
+		Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken);
 	}
 }

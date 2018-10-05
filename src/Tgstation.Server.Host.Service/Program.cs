@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tgstation.Server.Host.Watchdog;
 
@@ -32,6 +33,12 @@ namespace Tgstation.Server.Host.Service
 		public bool Install { get; set; }
 
 		/// <summary>
+		/// The --configure or -c option
+		/// </summary>
+		[Option(ShortName = "c")]
+		public bool Configure { get; set; }
+
+		/// <summary>
 		/// The --trace or -t option. Enables trace logs
 		/// </summary>
 		[Option(ShortName = "t")]
@@ -42,6 +49,8 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		[Option(ShortName = "d")]
 		public bool Debug { get; set; }
+
+		static readonly IWatchdogFactory watchdogFactory = new WatchdogFactory();
 
 		/// <summary>
 		/// Check if the running user is a system administrator
@@ -57,72 +66,80 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Command line handler, always runs
 		/// </summary>
-		public void OnExecute()
+		public async Task OnExecuteAsync()
 		{
-			if (Environment.UserInteractive && !IsAdministrator())
+			if (Environment.UserInteractive)
 			{
-				if (!Install && !Uninstall)
+				if (!Install && !Uninstall && !Configure)
 				{
-					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
+					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
 					if (result != DialogResult.Yes)
 						return;
 					Install = true;
+					Configure = true;
 				}
 
-				//try to restart as admin
-				//its windows, first arg is .exe name guaranteed
-				var exe = Environment.GetCommandLineArgs().First();
-				var startInfo = new ProcessStartInfo
+				if (!IsAdministrator())
 				{
-					UseShellExecute = true,
-					Verb = "runas",
-					Arguments = Install ? "-i" : "-u",
-					FileName = exe,
-					WorkingDirectory = Environment.CurrentDirectory,
-				};
-				using (Process.Start(startInfo))
-					return;
+					//try to restart as admin
+					//its windows, first arg is .exe name guaranteed
+					var exe = Environment.GetCommandLineArgs().First();
+					var startInfo = new ProcessStartInfo
+					{
+						UseShellExecute = true,
+						Verb = "runas",
+						Arguments = String.Format(CultureInfo.InvariantCulture, "{0} {1}", Install ? "-i" : Uninstall ? "-u" : String.Empty, Configure ? "-c" : String.Empty),
+						FileName = exe,
+						WorkingDirectory = Environment.CurrentDirectory,
+					};
+					using (Process.Start(startInfo))
+						return;
+				}
 			}
 
-			if (Install)
+			using (var loggerFactory = new LoggerFactory())
 			{
-				if (Uninstall)
-					//oh no, it's retarded...
-					return;
-				using (var processInstaller = new ServiceProcessInstaller())
-				using (var installer = new ServiceInstaller())
+				if (Configure)
+					await watchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
+
+				if (Install)
 				{
-					processInstaller.Account = ServiceAccount.LocalSystem;
+					if (Uninstall)
+						//oh no, it's retarded...
+						return;
+					using (var processInstaller = new ServiceProcessInstaller())
+					using (var installer = new ServiceInstaller())
+					{
+						processInstaller.Account = ServiceAccount.LocalSystem;
 
-					installer.Context = new InstallContext("tgs-4-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-					installer.Description = "/tg/station 13 server v4 running as a windows service";
-					installer.DisplayName = "/tg/station server 4";
-					installer.DelayedAutoStart = true;
-					installer.StartType = ServiceStartMode.Automatic;
-					installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-					installer.ServiceName = ServerService.Name;
-					installer.Parent = processInstaller;
+						installer.Context = new InstallContext("tgs-4-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
+						installer.Description = "/tg/station 13 server v4 running as a windows service";
+						installer.DisplayName = "/tg/station server 4";
+						installer.DelayedAutoStart = true;
+						installer.StartType = ServiceStartMode.Automatic;
+						installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+						installer.ServiceName = ServerService.Name;
+						installer.Parent = processInstaller;
 
-					var state = new ListDictionary();
-					installer.Install(state);
+						var state = new ListDictionary();
+						installer.Install(state);
+					}
 				}
+				else if (Uninstall)
+					using (var installer = new ServiceInstaller())
+					{
+						installer.Context = new InstallContext("tgs-4-uninstall.log", null);
+						installer.ServiceName = ServerService.Name;
+						installer.Uninstall(null);
+					}
+				else if(!Configure)
+					ServiceBase.Run(new ServerService(watchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 			}
-			else if (Uninstall)
-				using (var installer = new ServiceInstaller())
-				{
-					installer.Context = new InstallContext("tgs-4-uninstall.log", null);
-					installer.ServiceName = ServerService.Name;
-					installer.Uninstall(null);
-				}
-			else
-				using (var loggerFactory = new LoggerFactory())
-					ServiceBase.Run(new ServerService(new WatchdogFactory(), loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 		}
 
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
-		[STAThread]
-		static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
+		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 	}
 }

@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
@@ -56,6 +55,9 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
 
+		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> used for determining when the <see cref="Application"/> is <see cref="Ready(Exception)"/>
+		/// </summary>
 		readonly TaskCompletionSource<object> startupTcs;
 
 		/// <summary>
@@ -83,31 +85,71 @@ namespace Tgstation.Server.Host.Core
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
+			//needful
+			services.AddSingleton<IApplication>(this);
+
+			//configure configuration
 			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
-			var databaseConfigurationSection = configuration.GetSection(DatabaseConfiguration.Section);
-			services.Configure<DatabaseConfiguration>(databaseConfigurationSection);
+			services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseConfiguration.Section));
 			services.Configure<GeneralConfiguration>(configuration.GetSection(GeneralConfiguration.Section));
+			services.Configure<FileLoggingConfiguration>(configuration.GetSection(FileLoggingConfiguration.Section));
 
-			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-			var ioManager = new DefaultIOManager();
+			//enable options which give us config reloading
+			services.AddOptions();
+					
+			//setup stuff for setup wizard
+			services.AddSingleton<IIOManager, DefaultIOManager>();
+			services.AddSingleton<IConsole, IO.Console>();
+			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
+			services.AddSingleton<ISetupWizard, SetupWizard>();
 
-			//remember, anything you .Get manually can be null if the config is missing
-			var fileLoggingConfigurationSection = configuration.GetSection(FileLoggingConfiguration.Section);
-			var fileLoggingConfiguration = fileLoggingConfigurationSection.Get<FileLoggingConfiguration>();
-			if (fileLoggingConfiguration?.Disable != true)
+			//needed here for JWT configuration
+			//we use a manually instatiated token factory to prevent it from regenerating the signing key after we configure it
+			services.AddSingleton<ITokenFactory>(new TokenFactory());
+
+			GeneralConfiguration generalConfiguration;
+			DatabaseConfiguration databaseConfiguration;
+			FileLoggingConfiguration fileLoggingConfiguration;
+			ITokenFactory tokenFactory;
+			IIOManager ioManager;
+
+			//temporarily build the service provider in it's current state
+			//do it here so we can run the setup wizard if necessary
+			//also allows us to get some options and other services we need for continued configuration
+			using (var provider = services.BuildServiceProvider())
 			{
-				var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration?.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
+				//run the wizard if necessary
+				var setupWizard = provider.GetRequiredService<ISetupWizard>();
+				var applicationLifetime = provider.GetRequiredService<Microsoft.AspNetCore.Hosting.IApplicationLifetime>();
+				var setupWizardRan = setupWizard.CheckRunWizard(applicationLifetime.ApplicationStopping).GetAwaiter().GetResult();
 
-				logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
+				//load the configuration options we need
+				var generalOptions = provider.GetRequiredService<IOptions<GeneralConfiguration>>();
+				generalConfiguration = generalOptions.Value;
 
+				//unless this is set, in which case, we leave
+				if (setupWizardRan && generalConfiguration.SetupWizardMode == SetupWizardMode.Only)
+					//we don't inject a logger in the constuctor to log this because it's not yet configured
+					throw new OperationCanceledException("Exiting due to SetupWizardMode configuration!");
+
+				var dbOptions = provider.GetRequiredService<IOptions<DatabaseConfiguration>>();
+				databaseConfiguration = dbOptions.Value;
+
+				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
+				fileLoggingConfiguration = loggingOptions.Value;
+
+				tokenFactory = provider.GetRequiredService<ITokenFactory>();
+				ioManager = provider.GetRequiredService<IIOManager>();
+			}
+
+			//setup file logging via serilog
+			if (!fileLoggingConfiguration.Disable)
 				services.AddLogging(builder =>
 				{
-					LogLevel GetMinimumLogLevel(string stringLevel)
-					{
-						if (String.IsNullOrWhiteSpace(stringLevel) || !Enum.TryParse<LogLevel>(stringLevel, out var minimumLevel))
-							minimumLevel = LogLevel.Information;
-						return minimumLevel;
-					}
+					//common app data is C:/ProgramData on windows, else /usr/shar
+					var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
+
+					logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
 
 					LogEventLevel? ConvertLogLevel(LogLevel logLevel)
 					{
@@ -132,8 +174,8 @@ namespace Tgstation.Server.Host.Core
 						}
 					};
 
-					var logEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration?.LogLevel));
-					var microsoftEventLevel = ConvertLogLevel(GetMinimumLogLevel(fileLoggingConfiguration?.MicrosoftLogLevel));
+					var logEventLevel = ConvertLogLevel(fileLoggingConfiguration.LogLevel);
+					var microsoftEventLevel = ConvertLogLevel(fileLoggingConfiguration.MicrosoftLogLevel);
 
 					var formatter = new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}", null);
 
@@ -149,46 +191,22 @@ namespace Tgstation.Server.Host.Core
 
 					builder.AddSerilog(configuration.CreateLogger(), true);
 				});
-			}
 
-			services.AddOptions();
-
-			services.AddScoped<IClaimsInjector, ClaimsInjector>();
-
-			const string scheme = "JwtBearer";
-			services.AddAuthentication((options) =>
+			//configure bearer token validation
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
 			{
-				options.DefaultAuthenticateScheme = scheme;
-				options.DefaultChallengeScheme = scheme;
-			}).AddJwtBearer(scheme, jwtBearerOptions =>
-			{
-				jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(TokenFactory.TokenSigningKey),
-
-					ValidateIssuer = true,
-					ValidIssuer = TokenFactory.TokenIssuer,
-
-					ValidateLifetime = true,
-					ValidateAudience = true,
-					ValidAudience = TokenFactory.TokenAudience,
-
-					ClockSkew = TimeSpan.FromMinutes(1),
-
-					RequireSignedTokens = true,
-
-					RequireExpirationTime = true
-				};
+				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
 					//Application is our composition root so this monstrosity of a line is okay
 					OnTokenValidated = ctx => ctx.HttpContext.RequestServices.GetRequiredService<IClaimsInjector>().InjectClaimsIntoContext(ctx, ctx.HttpContext.RequestAborted)
 				};
 			});
+			//fucking converts 'sub' to M$ bs
+			//can't be done in the above lambda, that's too late
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //fucking converts 'sub' to M$ bs
-
+			//add mvc, configure the json serializer settings
 			services.AddMvc().AddJsonOptions(options =>
 			{
 				options.AllowInputFormatterExceptionMessages = true;
@@ -198,8 +216,6 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
-
-			var databaseConfiguration = databaseConfigurationSection.Get<DatabaseConfiguration>();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
@@ -211,8 +227,9 @@ namespace Tgstation.Server.Host.Core
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
 
-			var dbType = databaseConfiguration?.DatabaseType;
-			switch (databaseConfiguration?.DatabaseType)
+			//add the correct database context type
+			var dbType = databaseConfiguration.DatabaseType;
+			switch (dbType)
 			{
 				case DatabaseType.MySql:
 				case DatabaseType.MariaDB:
@@ -225,19 +242,19 @@ namespace Tgstation.Server.Host.Core
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
 			}
 
-			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
-			services.AddSingleton<IIdentityCache, IdentityCache>();
-
-			services.AddSingleton<ICryptographySuite, CryptographySuite>();
+			//configure other database services
+			services.AddSingleton<IDatabaseContextFactory, DatabaseContextFactory>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
+
+			//configure security services
+			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
+			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			services.AddSingleton<IIdentityCache, IdentityCache>();
+			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
-			services.AddSingleton<ITokenFactory, TokenFactory>();
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
 
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-
-			if (isWindows)
+			//configure platform specific services
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
@@ -257,30 +274,29 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
+			//configure misc services
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
-			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
-				ReceiveTimeout = 5000,
-				SendTimeout = 5000
+				ReceiveTimeout = generalConfiguration.ByondTopicTimeout,
+				SendTimeout = generalConfiguration.ByondTopicTimeout
 			});
 
+			//configure component services
+			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
+			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatFactory, ChatFactory>();
 			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
+			//configure root services
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 
 			services.AddSingleton<IJobManager, JobManager>();
-
-			services.AddSingleton<IIOManager>(ioManager);
-
-			services.AddSingleton<DatabaseContextFactory>();
-			services.AddSingleton<IDatabaseContextFactory>(x => x.GetRequiredService<DatabaseContextFactory>());
-
-			services.AddSingleton<IApplication>(this);
 		}
 
 		/// <summary>
@@ -299,25 +315,35 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(serverControl));
 
 			logger.LogInformation(VersionString);
-			
+
 			//attempt to restart the server if the configuration changes
 			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
+			//now setup the HTTP request pipeline
+
+			//should anything after this throw an exception, catch it and display a detailed html page
 			applicationBuilder.UseDeveloperExceptionPage(); //it is not worth it to limit this, you should only ever get it if you're an authorized user
 			
+			//suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
+			//Do not service requests until Ready is called, this will return 503 until that point
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
 			{
 				using (cancellationToken.Register(() => startupTcs.SetCanceled()))
 					await startupTcs.Task.ConfigureAwait(false);
 			});
 
+			//authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
+			//suppress and log database exceptions
 			applicationBuilder.UseDbConflictHandling();
 
+			//majority of handling is done in the controllers
 			applicationBuilder.UseMvc();
+
+			//404 anything that gets this far
 		}
 
 		///<inheritdoc />
